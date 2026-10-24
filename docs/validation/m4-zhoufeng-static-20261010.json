@@ -1,0 +1,516 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-zhoufeng14-static-source-validation",
+  "date": "2026-10-10",
+  "baseRevision": "04f0895334daeb3f2bcbf54c206e5a08f226b774",
+  "scope": "Original standard LIB only; independent curse14/SPE39 wiring with existing QIMEN39 art. Source checks only.",
+  "sourceChecks": true,
+  "actual14Accepted": false,
+  "hdAccepted": false,
+  "actualRuntimePending": true,
+  "newNativeBuild": false,
+  "nativeContract": {
+    "skillId": 14,
+    "skillRowIndex": 13,
+    "target": "enemy",
+    "mp": 15,
+    "state": 2,
+    "power": 0,
+    "destroy": 0,
+    "speId": 39,
+    "resourceIndex": 0,
+    "kind": 2,
+    "startFrm": 0,
+    "endFrm": 7,
+    "count": 8,
+    "picmax": 2,
+    "fingerprint": "fnv1a32:6b0ebc5a:1084",
+    "window": {
+      "x": 48,
+      "y": 16,
+      "width": 64,
+      "height": 64
+    },
+    "units": "Eight alternating opaque64-square units; clear/next delay25. Current and displayed controlled-copy tickets remain independent.",
+    "result": "Transient native SKILL movie ARMS_LOSS1/value0. No NUM15/label/digits/numeric postlude or50tick numeric hold.",
+    "marker": {
+      "zhoufengVersion": 1,
+      "opaqueCoverageVersion": 1,
+      "skillId": 14
+    }
+  },
+  "implementation": {
+    "appliedV3Files": [
+      {
+        "working": {
+          "path": "js/bridge.js",
+          "bytes": 144883,
+          "sha256": "b41e70e8552bd98ea75c1c1ee7d5b4c9289598d820865e1f0c5afe15659799a4"
+        },
+        "draft": {
+          "path": "build/r29-zhoufeng14-product/after-v3/js/bridge.js",
+          "bytes": 142206,
+          "sha256": "716b2858328a4409c38b2c96184c4779aaf11ad6563be1b86bf628c3c3781071"
+        },
+        "rawByteEqual": false,
+        "lfNormalizedEqual": true
+      },
+      {
+        "working": {
+          "path": "js/hd-spe.js",
+          "bytes": 90052,
+          "sha256": "10042adadaec6897da4343aa30fdda0f03cb96ecd9c55804794ccf7cd70efd2a"
+        },
+        "draft": {
+          "path": "build/r29-zhoufeng14-product/after-v3/js/hd-spe.js",
+          "bytes": 88793,
+          "sha256": "da5f5002ec89f7ba424d7965ad75d0d13715b2a5cc5d517b9bd0469a6081fdb6"
+        },
+        "rawByteEqual": false,
+        "lfNormalizedEqual": true
+      },
+      {
+        "working": {
+          "path": "scripts/specs/hd-spe-zhoufeng.json",
+          "bytes": 906,
+          "sha256": "ddb55f282880710148873dc421f4b3a9e842c33ee78a2b5cefcea45921783ee2"
+        },
+        "draft": {
+          "path": "build/r29-zhoufeng14-product/after-v3/scripts/specs/hd-spe-zhoufeng.json",
+          "bytes": 882,
+          "sha256": "26f31d3cbfd176d9bd9bad96a49927087d95568fe3589a2d3a110ec900db0460"
+        },
+        "rawByteEqual": false,
+        "lfNormalizedEqual": true
+      },
+      {
+        "working": {
+          "path": "scripts/generate-hd-spe-zhoufeng-entry.mjs",
+          "bytes": 4991,
+          "sha256": "f02433516a3dd4027073c7c6d675e619e5583fbb97ff06614cb774ca5ef59435"
+        },
+        "draft": {
+          "path": "build/r29-zhoufeng14-product/after-v3/scripts/generate-hd-spe-zhoufeng-entry.mjs",
+          "bytes": 4959,
+          "sha256": "0faabe15079d39fd5566149c14df6286f0b373879af750e1e29a469eaeb4aca2"
+        },
+        "rawByteEqual": false,
+        "lfNormalizedEqual": true
+      },
+      {
+        "working": {
+          "path": "assets/hd-spe/manifest.json",
+          "bytes": 584656,
+          "sha256": "4c5a7afc1e8a823583057159bde2c610b75c8835a92fd24e1cf900010c8483a3"
+        },
+        "draft": {
+          "path": "build/r29-zhoufeng14-product/after-v3/assets/hd-spe/manifest.json",
+          "bytes": 584656,
+          "sha256": "4c5a7afc1e8a823583057159bde2c610b75c8835a92fd24e1cf900010c8483a3"
+        },
+        "rawByteEqual": true,
+        "lfNormalizedEqual": true
+      },
+      {
+        "working": {
+          "path": "scripts/test-hd-zhoufeng-bridge.mjs",
+          "bytes": 11712,
+          "sha256": "c8bcd549dba0a019414738e49b172a06909323d494f08428414181255dfa63b2"
+        },
+        "draft": {
+          "path": "build/r29-zhoufeng14-product/after-v3/scripts/test-hd-zhoufeng-bridge.mjs",
+          "bytes": 11540,
+          "sha256": "2666033c9048fd5c3b447eab8e648f186802aae0682e935f1226938e6f5cb0c3"
+        },
+        "rawByteEqual": false,
+        "lfNormalizedEqual": true
+      },
+      {
+        "working": {
+          "path": "scripts/test-hd-spe.mjs",
+          "bytes": 161276,
+          "sha256": "73b1e21fcc9d0aa6ebaabece570632c2e91055954538156cd0e1780404b56502"
+        },
+        "draft": {
+          "path": "build/r29-zhoufeng14-product/after-v3/scripts/test-hd-spe.mjs",
+          "bytes": 159296,
+          "sha256": "71442d61bbe57c52507ee0b5bca83a576416211ea29f5e484e0d76a2226c02a4"
+        },
+        "rawByteEqual": false,
+        "lfNormalizedEqual": true
+      }
+    ],
+    "allSevenLfNormalizedExactV3": true,
+    "rawByteEqualV3Files": 1,
+    "lineEndingBoundary": "Current working CRLF bytes are separately preserved by the executed regression snapshots. Drafts are LF. No universal rawbyte equality between applied working files and drafts is claimed.",
+    "matching": "Context14 selects dedicated39 entry before legacy first-match; missing/invalid14 marker and unknown/15 context use fullLCD.20 current and numeric paths retain the old entry.",
+    "old50EntriesDeepEqual": true,
+    "oldManifest": {
+      "source": "git:04f0895334daeb3f2bcbf54c206e5a08f226b774:assets/hd-spe/manifest.json",
+      "bytes": 582873,
+      "sha256": "45444d4d4c7afcf868c15473a8370f373782020c5f896d19fb41b9e1450fd3f3"
+    },
+    "manifest": {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 584656,
+      "sha256": "4c5a7afc1e8a823583057159bde2c610b75c8835a92fd24e1cf900010c8483a3"
+    },
+    "manifestTopFieldsDeepEqual": true,
+    "machineReproduction": {
+      "files": [
+        {
+          "path": "build/r29-root-reproduced-manifest-v1.json",
+          "bytes": 584656,
+          "sha256": "4c5a7afc1e8a823583057159bde2c610b75c8835a92fd24e1cf900010c8483a3"
+        },
+        {
+          "path": "build/r29-zhoufeng-machine-manifest-v2.json",
+          "bytes": 584656,
+          "sha256": "4c5a7afc1e8a823583057159bde2c610b75c8835a92fd24e1cf900010c8483a3"
+        }
+      ],
+      "productionByteExact": true
+    },
+    "cache": "Seven existing HTML entries use bridge suffix e; PC hd-spe uses suffix e; package registers52 modules."
+  },
+  "fullRegression": {
+    "report": {
+      "path": "build/r29-zhoufeng-full-source-tests-v1-execution.json",
+      "bytes": 3680,
+      "sha256": "2cdc5b911d1f3fce54bcad70d108094eba5b211515e8d15d744c2968ba309d92"
+    },
+    "startedAt": "2026-10-10T14:47:47.409Z",
+    "finishedAt": "2026-10-10T14:48:12.885Z",
+    "moduleCount": 52,
+    "summary": {
+      "tests": 1228,
+      "pass": 1228,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "exitCode": 0,
+    "executedOnce": true,
+    "sourceSnapshotCount": 472,
+    "sourcePre": {
+      "path": "build/r29-zhoufeng-full-source-tests-v1-sources-pre.json",
+      "bytes": 77810,
+      "sha256": "1b63c0435c6f148359f187f38a147052d98165324cbc77d720426e7101bf6e28"
+    },
+    "sourcePost": {
+      "path": "build/r29-zhoufeng-full-source-tests-v1-sources-post.json",
+      "bytes": 77810,
+      "sha256": "1b63c0435c6f148359f187f38a147052d98165324cbc77d720426e7101bf6e28"
+    },
+    "drift": 0,
+    "added": 0,
+    "currentAll472RawMatch": true,
+    "coverage": "Current52 offline JS VM and compiled C fixture modules.472 enumerated sources, not every repository asset. No browser/actual skill14."
+  },
+  "peerReview": {
+    "file": {
+      "path": "build/r29-zhoufeng14-product-readonly-peer-v1.json",
+      "bytes": 4837,
+      "sha256": "7eaae97879db5102b65752669a26beb54e545eb2c8f9a2c9eadb6da0027d2d25"
+    },
+    "sourceOnly": true,
+    "reviewedInitialDraft": true,
+    "finalProductFiveFilesLfNormalizedEqualReviewed": true,
+    "finalTestDifference": "Two asynchronous test premises corrected; old20 numeric regression added; title corrected to state2/MP15. The full applied52-module execution is final test evidence.",
+    "titleCorrection": {
+      "path": "build/r29-zhoufeng14-title-only-delta-v3.json",
+      "bytes": 2313,
+      "sha256": "fbfe01e0850d9629db966ae49ff22af0d93f0251432f81051ac423e8e2242270"
+    }
+  },
+  "preservation": {
+    "library": {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "byteExactBase": true
+    },
+    "engine": {
+      "declaredEngineSourceSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+      "sourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+      "sourceModifiedAtHistoricalBuild": true,
+      "quartet": [
+        {
+          "path": "js/baye.js",
+          "bytes": 192446,
+          "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643",
+          "byteExactBase": true
+        },
+        {
+          "path": "js/baye.wasm",
+          "bytes": 4535346,
+          "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e",
+          "byteExactBase": true
+        },
+        {
+          "path": "js/baye.wasm.map",
+          "bytes": 29983,
+          "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e",
+          "byteExactBase": true
+        },
+        {
+          "path": "js/baye.build.json",
+          "bytes": 16650,
+          "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a",
+          "byteExactBase": true
+        }
+      ],
+      "notRebuiltThisRound": true
+    },
+    "native": {
+      "baseTrackedFilesCompared": 118,
+      "rawByteEqualFiles": 102,
+      "lfNormalizedEqualFiles": 118,
+      "lineEndingOnlyFiles": 16,
+      "lineEndingDifferences": [
+        {
+          "path": "vendor/iBaye/src/CMakeLists.txt",
+          "working": {
+            "bytes": 3097,
+            "sha256": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774"
+          },
+          "gitBlob": {
+            "bytes": 3104,
+            "sha256": "d845597089d96040dec7180a298d1e4990e3189a7650b67aabd80a07a5bd96cf"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/FgtPkAi.c",
+          "working": {
+            "bytes": 44229,
+            "sha256": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953"
+          },
+          "gitBlob": {
+            "bytes": 44358,
+            "sha256": "2487fb711f3068f2a8a8fc31d6196fbb5a09a21c650f698c521b3fd3513c27ac"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/FightSub.c",
+          "working": {
+            "bytes": 36284,
+            "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+          },
+          "gitBlob": {
+            "bytes": 37357,
+            "sha256": "52c5b6b8481cac4adca7caa766be8435076f3b465bb278099cee5c78c67e3c61"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/PublicFun.c",
+          "working": {
+            "bytes": 33782,
+            "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+          },
+          "gitBlob": {
+            "bytes": 34737,
+            "sha256": "854c8e6a842d2de57ababe038c42d7669ca89867b1422602c05c9ec527df4c70"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/baye/script.h",
+          "working": {
+            "bytes": 873,
+            "sha256": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8"
+          },
+          "gitBlob": {
+            "bytes": 885,
+            "sha256": "dcda1d71c72458d54c6d1f3714bb93d73ce7152f03b9a07b2c6968379aca587d"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/bind-objects.c",
+          "working": {
+            "bytes": 17734,
+            "sha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0"
+          },
+          "gitBlob": {
+            "bytes": 18323,
+            "sha256": "e439347b9b2f8d330192c662deb4a46afc924cb6267d30ff0b93e395fe779f4f"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/cityedit.c",
+          "working": {
+            "bytes": 41528,
+            "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+          },
+          "gitBlob": {
+            "bytes": 41556,
+            "sha256": "bf85248097d6448e4197e3ad19992c417081a85f1c082aca8ce2759718115500"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/convert_to_c.py",
+          "working": {
+            "bytes": 294,
+            "sha256": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e"
+          },
+          "gitBlob": {
+            "bytes": 312,
+            "sha256": "f5798a1ec66584c125c484d02556bd14b71832feb2ea236661bbcc1bf32d4ab5"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/gamEng.c",
+          "working": {
+            "bytes": 47517,
+            "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+          },
+          "gitBlob": {
+            "bytes": 47529,
+            "sha256": "8be6c9733c69db035e207607b3f4a2e854896c874c8a8fe1755faf7a4eae2feb"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/genver.py",
+          "working": {
+            "bytes": 416,
+            "sha256": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff"
+          },
+          "gitBlob": {
+            "bytes": 425,
+            "sha256": "41d40713c4632f4572b8570666e8445392c54aed74e8bc0748365b8e8e286d8f"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/hd-bridge.c",
+          "working": {
+            "bytes": 187342,
+            "sha256": "1070c0a62747dc2aeb646afba4d1b7561565ec547658b72af6324fede8f9439f"
+          },
+          "gitBlob": {
+            "bytes": 191510,
+            "sha256": "15e3c2a71c21337efba56d254444a46229f66c2ca05a4bf8c0506b2d40c7eea6"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/hd-bridge.h",
+          "working": {
+            "bytes": 17241,
+            "sha256": "b758208d11ed1edaf59f69b05500cf52dcd9e323918721d9414af0028c0ad4d9"
+          },
+          "gitBlob": {
+            "bytes": 17662,
+            "sha256": "41f32a4003feeb474b63b41d65ab8dc0f70bc437b0afada5cd31827ce31681f5"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/platform/common/sys.c",
+          "working": {
+            "bytes": 15103,
+            "sha256": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c"
+          },
+          "gitBlob": {
+            "bytes": 15865,
+            "sha256": "4ecefcd130f308692a412d61942f57efa85bd45fe6bbaa6e25e62754670b09f3"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/exportjs.c",
+          "working": {
+            "bytes": 9789,
+            "sha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279"
+          },
+          "gitBlob": {
+            "bytes": 10288,
+            "sha256": "0e021ad6c6817fce4d3709377c202c768d908fa39e07e3cf823058b251520374"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/platform/js/script.c",
+          "working": {
+            "bytes": 7078,
+            "sha256": "b5f67e6918048f8418fac117307c76d7fd01699a3249cef3b4dc2ebf74455759"
+          },
+          "gitBlob": {
+            "bytes": 7098,
+            "sha256": "269dbe35aa7453cd3d7f0a5cc44b13c62be526f528b831a76d79d33ca4c4d4f4"
+          },
+          "lfNormalizedEqual": true
+        },
+        {
+          "path": "vendor/iBaye/src/showface.c",
+          "working": {
+            "bytes": 42650,
+            "sha256": "c686d600d6cef87f4f3b2f64440200237ca8c4e011483067a2d7f7c4945b729a"
+          },
+          "gitBlob": {
+            "bytes": 44002,
+            "sha256": "41b6721d407f0ade4c3266ebe9f135402d2cfb1973d54e5bb1ff06ac0bc94b62"
+          },
+          "lfNormalizedEqual": true
+        }
+      ],
+      "gitDiffEmpty": true,
+      "regressionSnapshotNativeCount": 118,
+      "prePostAndCurrentRawExact": true,
+      "boundary": "16 native working files differ from04f Git blobs only in CRLF/LF. No universal rawbyte equality or recomputed historical128-file aggregate is claimed."
+    },
+    "images": {
+      "files": [
+        {
+          "path": "assets/hd-spe/qimen-39/picture-0.png",
+          "bytes": 2458901,
+          "sha256": "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882"
+        },
+        {
+          "path": "assets/hd-spe/qimen-39/picture-1.png",
+          "bytes": 2485449,
+          "sha256": "8851ef77671c7de2da944d625e0ac0765ce42e8768ddd2b216c1f971c50db4d2"
+        }
+      ],
+      "reusedFrom": "assets/hd-spe/GENERATED-QIMEN.json",
+      "newImages": false,
+      "copiedIntoArchive": false,
+      "boundary": "Static existing-art reuse, not extension of prior QIMEN20 gameplay acceptance to14."
+    }
+  },
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-zhoufeng-static-20261010/runtime-index.json",
+      "bytes": 10186,
+      "sha256": "1fe1d514cb81b6129648f4ee15a76aaa3a81148ab2be2b193317bb39a3a2dc62"
+    },
+    "logicalRawFiles": 16,
+    "physicalGzipFiles": 14,
+    "allRoundtripsVerified": true,
+    "notArchived": [
+      "Existing QIMEN PNGs/generation chain stay at tracked paths.",
+      "Engine quartet/LIB stay in Git; only unchanged hashes are recorded.",
+      "Unselected old drafts/failure logs remain in build; not a complete old-draft archive."
+    ],
+    "lineEndings": "Raw gzip preserves source bytes; new canonical/index UTF8 LF."
+  },
+  "pendingAcceptance": [
+    "Legal enemy AIM/native hit and actualMP-15/state2/report",
+    "All8 native callbacks and fullLCD/HD physical pixels",
+    "Zero extra movie/result keys, late retirement, independent classic/missing scopes",
+    "Private source freeze/cleanup/user service isolation"
+  ],
+  "limitations": [
+    "Static wiring only; actual14/HD accepted remains false.",
+    "No Mod/mobile actual acceptance.",
+    "R28 stack diagnosis remains separate, never relabeled as curse14 casting."
+  ]
+}

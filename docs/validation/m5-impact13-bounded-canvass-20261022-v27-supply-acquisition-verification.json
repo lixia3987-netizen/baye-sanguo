@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-21T21:42:18.6807514Z",
+  "accepted": true,
+  "rootActualTerminal": {
+    "sessionId": 30731,
+    "chunkId": "5edf2a",
+    "exitCode": 0
+  },
+  "rootIndependentTerminal": {
+    "sessionId": 82326,
+    "chunkId": "67aa4f",
+    "exitCode": 0
+  },
+  "rootArchiveWriterTerminal": {
+    "sessionId": 50009,
+    "chunkId": "540784",
+    "exitCode": 0
+  },
+  "rootArchiveReaderTerminal": {
+    "sessionId": null,
+    "chunkId": "d27ee5",
+    "exitCode": 0
+  },
+  "rootFormalTestsTerminal": {
+    "sessionId": null,
+    "chunkId": "456778",
+    "exitCode": 0
+  },
+  "receipt": {
+    "path": "build/impact-skill-20261014/impact13-battle-v27-terminal-receipt-v1.json",
+    "bytes": 384729,
+    "sha256": "6f1f64e59b3e05c075844e48936dc2bd877c7275593b09963c328a7be5435c2f"
+  },
+  "independentVerifier": {
+    "path": "build/impact-skill-20261014/verify-impact13-battle-v27-acquisition-terminal-draft-v3.mjs",
+    "bytes": 72869,
+    "sha256": "c73aa7b2664af272cb57e6b522a2a7ff769ba6d245699fed90217ef55b60aca6"
+  },
+  "latestWorld": {
+    "path": "build/impact-skill-20261014/impact13-battle-v27-latest-genuine-saved-world-v1.json",
+    "bytes": 77909,
+    "sha256": "97b769e882b4f292dcd0ebb18b5baeec8eed0a7d3baaa56f9077ba4f683d5309"
+  },
+  "latestPair": [
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v27/native-impact13-129-v27-month3-policy-settled-sango0.sav",
+      "bytes": 8221,
+      "sha256": "03b94ca4ff4e2ce6030cd5c5cd5ffbd5065803ba7d383a62c133d2555121ed00"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v27/native-impact13-129-v27-month3-policy-settled-sango1.sav",
+      "bytes": 4840,
+      "sha256": "7c65a10d7b657a58d265e620c68613f4f67311aac4fd2100974eade9927618ea"
+    }
+  ],
+  "archiveBuilder": {
+    "path": "build/impact-skill-20261014/build-impact13-v27-supply-acquisition-archive-v1.mjs",
+    "bytes": 18290,
+    "sha256": "5d7aed1dc1f45a58700bb557c2dfc01aaa1af08e9bd25824941cb38aee344643"
+  },
+  "archiveReader": {
+    "path": "build/impact-skill-20261014/verify-impact13-v27-supply-acquisition-archive-v1.mjs",
+    "bytes": 12459,
+    "sha256": "5d07d22cded3d24200838950a40bfed3cf57dc63949ca8a9e0c876167d159c6e"
+  },
+  "archiveWriterLog": {
+    "path": "build/impact-skill-20261014/impact13-supply-publication-write-root-v2.log",
+    "bytes": 2360,
+    "sha256": "da2baf55047e0ddbabbbce4606ed91f412758c2ca218c4298309b6ad30364b1e"
+  },
+  "archiveReaderLog": {
+    "path": "build/impact-skill-20261014/impact13-supply-publication-read-root-v2.log",
+    "bytes": 638,
+    "sha256": "91a366a13abfe0e36c9f86259000d7093d12aac10bd09e6581a652e3daa07663"
+  },
+  "outputs": [
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive-part001.json",
+      "bytes": 27132548,
+      "sha256": "9470269658bf2a9f30c1b1164591b02ec409b00f7e839f313e99161ee3942157"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive-part002.json",
+      "bytes": 25853338,
+      "sha256": "576c7fdfd6a0e006e690849eb18468d61cb095b8666fb4da9b0a7a39c090fd7f"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive-part003.json",
+      "bytes": 28651630,
+      "sha256": "0d605ac020e857e57409ebbc27a0791ca390a563c6e67e71b913771de0b79fa1"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive-part004.json",
+      "bytes": 28905567,
+      "sha256": "3da4e80414bcae96cce45efa8d2eda365cf77bfbd70f60d8a3ab674798c97e5c"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive-part005.json",
+      "bytes": 28947131,
+      "sha256": "b59cf4e065732ab4b1a828052ea47c87914e437ac6f8ad67db9be0052e5d6a5e"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive-part006.json",
+      "bytes": 7002256,
+      "sha256": "40d5f00f57afb1620f200c1d578544d9895069eb2f303511fd972c771800be00"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition-archive.json",
+      "bytes": 146935,
+      "sha256": "2f1c2dc1ddf28d65517c921d9d63ea5c3691c16e4a15f68b4ce5515292d62f4e"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition.md",
+      "bytes": 5764,
+      "sha256": "067b684dd57d822ddccac66b2d2c9cd310b40b8f854da9d2f0ca97303c52e51b"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition.json",
+      "bytes": 1298932,
+      "sha256": "37efecb53ab5b69228fefdbc56d6901e4015c3f22e4d89d1221e3eca20476c45"
+    }
+  ],
+  "closure": {
+    "ok": true,
+    "canonical": {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v27-supply-acquisition.json",
+      "bytes": 1298932,
+      "sha256": "37efecb53ab5b69228fefdbc56d6901e4015c3f22e4d89d1221e3eca20476c45"
+    },
+    "namedFiles": 432,
+    "uniqueBlobs": 353,
+    "parts": 6,
+    "allRawRoundtripsExact": true,
+    "allNamedBlobsClosed": true,
+    "noUnreferencedBlobs": true,
+    "rawResultsEmbeddedOnce": [
+      {
+        "id": "v27",
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v27/result.json",
+        "bytes": 84584,
+        "sha256": "42a71e52ddd7fbdf44cbd44c4ca1af71eb00450d13f884fe8feee647d83bddaa"
+      }
+    ],
+    "latestPairsPackedAccepted": true,
+    "currentNamedDiskReopened": true,
+    "portableClosedArchive": false
+  },
+  "newPaidCanvasses": 21,
+  "naturalFailureReturns": 21,
+  "newBuyCount": 2,
+  "newPayments": 23,
+  "normalMonths": 3,
+  "newPlunders": 1,
+  "publicSavePairs": 28,
+  "existingControlledCasesRerun": 332,
+  "currentScopedControlledCasesExecuted": 158,
+  "reusedOrExistingGateCases": 109,
+  "newDirectedCaseVariants": 49,
+  "formalRerunSameCases": 158,
+  "formalAdditionalDistinctCases": 0,
+  "sourceRunAccepted": true,
+  "actualBuyDispatchAccepted": true,
+  "actualBuyNaturalReturnsAccepted": true,
+  "actualAcquisitionAccepted": false,
+  "actualPreparationAccepted": false,
+  "actualCastAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "portableClosedArchive": false,
+  "historicalFullSuiteRerun": false,
+  "scope": "Independent receipt preserved exactly; each compressed raw blob and every named current byte reopened, including all genuine packed SAVE pairs. V26 eleven committed documents remain exact external dependencies. Registration maps historical BEFORE source configuration to current AFTER snapshots; controlled cases and V28 source advice add no acquisition/cast/HD acceptance."
+}

@@ -1,0 +1,475 @@
+{
+  "schemaVersion": 1,
+  "localDate": "2026-10-09",
+  "resourceId": 42,
+  "itemIndex": 0,
+  "nativeSkill": {
+    "id": 23,
+    "name": "石阵",
+    "state": 6,
+    "useMp": 20,
+    "power": 0,
+    "destroy": 0,
+    "movement": "unchanged by STATE_SZ6; STATE_DS3 alone sets NO_MOV1"
+  },
+  "library": {
+    "path": "F:\\project\\baye-sanguo\\libs\\dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "native": {
+    "resourceId": 42,
+    "itemIndex": 0,
+    "resourceOffset": 78995,
+    "itemOffset": 79009,
+    "resourceHeader": {
+      "resLen": 1098,
+      "resId": 42,
+      "itemCount": 1,
+      "itemLength": 1084,
+      "resKey": 0,
+      "reserved": 0
+    },
+    "payloadSha256": "ecbf3084928176976d1752a10d02a506bc33fa165d1271991a86f1d63943e771",
+    "fingerprint": "fnv1a32:0e6f8d97:1084",
+    "payloadBytes": 1084,
+    "type": 0,
+    "headerIndex": 13,
+    "count": 8,
+    "picmax": 2,
+    "start": 0,
+    "end": 7,
+    "parsedBytes": 1084,
+    "tailBytes": 0,
+    "units": [
+      {
+        "frame": 0,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 1,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 2,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 3,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 4,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 5,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 6,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 7,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      }
+    ],
+    "pictures": [
+      {
+        "picIndex": 0,
+        "payloadOffset": 46,
+        "rawBytes": 519,
+        "rawSlotSha256": "3a78219027f0c3c40e82ca7e34aa7bd6008bd440454525e61dc2f82c1e176a0f",
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "rowStride": 8,
+        "blackPixelCount": 2261,
+        "blackBoundingBox": [
+          0,
+          0,
+          64,
+          64
+        ],
+        "nativePng": {
+          "path": "F:\\project\\baye-sanguo\\build\\r12-stone-native\\STONE42-picture-0.png",
+          "bytes": 806,
+          "sha256": "b28584fe8c188d136a10fba644c92c92068603e7d507ee6b0db26a317026a674",
+          "dimensions": [
+            64,
+            64
+          ],
+          "mode": "L",
+          "format": "PNG"
+        },
+        "diagnosticPng": {
+          "path": "F:\\project\\baye-sanguo\\build\\r12-stone-native\\STONE42-picture-0-packed-cells-x16.png",
+          "bytes": 4617,
+          "sha256": "05d883aea2af975f1c79646f4700cff68577bc576c2b441ac1ab3f8a5a541747",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "mode": "L",
+          "format": "PNG",
+          "integerCellScale": 16,
+          "method": "Fresh packed-bitmap per-bit cells; no reference-PNG resize"
+        },
+        "pixelProof": {
+          "pngReopenMatchesDecodedBits": true,
+          "diagnosticReopenMatchesEveryExpandedPackedBit": true,
+          "bitPolarity": "MSB-first bit1 black0; bit0 opaque white255",
+          "decodedPixelSha256": "83d4c7158cf45be648e4299adb4f14fc82409c22c390aacaa7dd559e0a6df4c7"
+        },
+        "diagnosticPngX8": {
+          "path": "F:\\project\\baye-sanguo\\build\\r12-stone-native\\STONE42-picture-0-packed-cells-x8.png",
+          "bytes": 2598,
+          "sha256": "629dcf4a5d1c0f7d280077b3b655c7221092b23d768fbabb049688583e358d50",
+          "dimensions": [
+            512,
+            512
+          ],
+          "mode": "L",
+          "integerCellScale": 8,
+          "method": "Fresh packed-bitmap per-bit cells; no PNG resize"
+        }
+      },
+      {
+        "picIndex": 1,
+        "payloadOffset": 565,
+        "rawBytes": 519,
+        "rawSlotSha256": "c03fc9e40d16dde09f6501df5db9ebf47a824c165ae1cd40f1a7865be909a750",
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "rowStride": 8,
+        "blackPixelCount": 2266,
+        "blackBoundingBox": [
+          0,
+          0,
+          64,
+          64
+        ],
+        "nativePng": {
+          "path": "F:\\project\\baye-sanguo\\build\\r12-stone-native\\STONE42-picture-1.png",
+          "bytes": 805,
+          "sha256": "9b96a7c53735d8db24d4b31ef7314f29a7abe578ed9edd631afa02cc28ba864e",
+          "dimensions": [
+            64,
+            64
+          ],
+          "mode": "L",
+          "format": "PNG"
+        },
+        "diagnosticPng": {
+          "path": "F:\\project\\baye-sanguo\\build\\r12-stone-native\\STONE42-picture-1-packed-cells-x16.png",
+          "bytes": 4632,
+          "sha256": "8b58952b2d1dd3a72f59599463fbc1e40ac56cad4a5db1badbc73eddb99783a5",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "mode": "L",
+          "format": "PNG",
+          "integerCellScale": 16,
+          "method": "Fresh packed-bitmap per-bit cells; no reference-PNG resize"
+        },
+        "pixelProof": {
+          "pngReopenMatchesDecodedBits": true,
+          "diagnosticReopenMatchesEveryExpandedPackedBit": true,
+          "bitPolarity": "MSB-first bit1 black0; bit0 opaque white255",
+          "decodedPixelSha256": "7c485f3a123c5a65e1445fcdb4f5d3c56d5b77f9a1e90846daf1db11c39762a4"
+        },
+        "diagnosticPngX8": {
+          "path": "F:\\project\\baye-sanguo\\build\\r12-stone-native\\STONE42-picture-1-packed-cells-x8.png",
+          "bytes": 2594,
+          "sha256": "0a581abd5f9913efae4d0bda602c435a532b9829a9a5b4eaef9ad450ba1f22db",
+          "dimensions": [
+            512,
+            512
+          ],
+          "mode": "L",
+          "integerCellScale": 8,
+          "method": "Fresh packed-bitmap per-bit cells; no PNG resize"
+        }
+      }
+    ],
+    "visualObservation": "Both complete opaque pictures show dense clustered stones, one helmeted human figure center-left and a long diagonal pale implement/shape on the right; two pictures chiefly vary the head region. Small native outlines do not justify a named weapon, magical architecture, falling boulders or additional characters.",
+    "pictureDifference": {
+      "changedDecodedPixels": 179,
+      "changedBounds": [
+        6,
+        20,
+        52,
+        51
+      ],
+      "interpretation": "Most changes in head/upper figure region x6..29,y20..40; two small additional changed regions y34 nearx51 and y50 x29..30. Full picture1 reference remains authority, not a presumed head-only edit."
+    },
+    "independentVisualReview": {
+      "agent": "validation_audit",
+      "reference": "Both fresh native packed-cells-x8 PNGs",
+      "observation": "One foreground human center-left among block/stone shapes, rightward-rising long diagonal contour; p1 head bright region contracts and shifts slightly right. No verified second troop or magic. Weapon identity remains indeterminate."
+    }
+  },
+  "provenance": {
+    "pendingLedger": "build/r12-stone-art-pending.json",
+    "pendingLedgerSha256": "af2ce24ebecff9b76a67bbae822c189edbf9f03bdeb8f0d0b6eba22a695db6f1",
+    "decoderContract": {
+      "resourceHeadBytes": 14,
+      "resourceIndexBytes": 8,
+      "speHeaderBytes": 6,
+      "speUnitBytes": 5,
+      "pictureHeadBytes": 7,
+      "nativeSources": [
+        "vendor/iBaye/src/baye/datman.h",
+        "vendor/iBaye/src/datman.c",
+        "vendor/iBaye/src/PublicFun.c"
+      ],
+      "freshPayloadComparedToPriorMetadata": true,
+      "mask0Opaque": true
+    },
+    "sourceMetadata": {
+      "path": "F:\\project\\baye-sanguo\\build\\r11-other-spe-native-metadata.json",
+      "bytes": 26472,
+      "sha256": "1cc4ab1375b257eddfc97abf99bba0dd296ea4f44da1786b6eec6901fbf9c9cd"
+    }
+  },
+  "art": {
+    "calls": [
+      {
+        "picIndex": 0,
+        "attempt": 1,
+        "status": "generated-accepted",
+        "tool": "builtin image_gen",
+        "transparentBackground": false,
+        "exactPrompt": "Use case: historical-scene\nAsset type: one opaque square game effect picture, STONE_SPE resource 42 / item 0 / picture 0, to replace a complete logical 64 by 64 pixel native window. Make one original high resolution PNG illustration, preferably square 1280 by 1280. It is NOT a sprite sheet, icon, standalone cutout, poster or portrait.\nReference roles: Image 1 is the exact original 64x64 native bitmap of this specific picture 0, PRIMARY authority for every object, placement, pose and silhouette. Image 2 is the same packed bits freshly drawn at eight pixels per original bit, PRIMARY readable geometry reference; black/white squares are diagnostic encoding, not a request for pixel art. Image 3 is an accepted game material/palette reference ONLY: restrained hand-painted realism, charcoal green and aged bronze. Do not copy its border, empty background layout or ornamental motifs.\nPrimary request: faithfully reinterpret the entire native picture 0 as a detailed painted historical game animation frame. Keep the one small helmeted human figure in the center-left among the dense irregular stone forms. Preserve the figure's head position, facial direction and bent/occluded body silhouette as shown in picture 0. Preserve the long pale diagonal implement/shape on the right, angled from lower-left toward upper-right exactly like the original silhouette; keep its scale and endpoints. Do not replace an ambiguous native implement with a bow, spear, firearm or exaggerated fantasy weapon. Preserve the dense clustered stones behind the figure across the upper left, upper middle and right, and the diagonally arranged foreground forms crossing the lower picture. The native bitmap alone determines occlusion and all scene content.\nComposition: match Image 2 over the full square from edge to edge, including its narrow clear strip across the very top and stone masses at the edges. One person only; the body remains partly hidden by the same foreground forms. Do not zoom into a portrait, pull objects apart, add a second person, or invent visible lower limbs where the native stones conceal them. Readable small-scale silhouette takes precedence over decorative detail.\nStyle: restrained realistic hand-painted Three Kingdoms game art, subtly textured cool gray stones, charcoal green recesses, muted aged bronze on existing clothing/equipment details. Natural soft directional light, no fiery glow, no colored magic, no dramatic cinematic location. The entire 64x64 logical scene is opaque; a quiet dark charcoal-green ground fills all gaps.\nConstraints: opaque PNG with NO alpha transparency; single complete frame; no text, digits, damage numbers, UI, glyphs, labels, title, border, extra logo, watermark, invented troops, scenery, flags, mounts, ships, flames or effect trails. Preserve picture 0 geometry rather than drawing a generic stone spell. No black-and-white pixel-grid look in the final painted image.",
+        "references": [
+          {
+            "path": "F:/project/baye-sanguo/build/r12-stone-native/STONE42-picture-0.png",
+            "role": "primary exact native picture0 geometry",
+            "sha256": "b28584fe8c188d136a10fba644c92c92068603e7d507ee6b0db26a317026a674",
+            "bytes": 806,
+            "dimensions": [
+              64,
+              64
+            ],
+            "mode": "L",
+            "viewedBeforeGeneration": true
+          },
+          {
+            "path": "F:/project/baye-sanguo/build/r12-stone-native/STONE42-picture-0-packed-cells-x8.png",
+            "role": "primary per-bit x8 diagnostic geometry, not style",
+            "sha256": "629dcf4a5d1c0f7d280077b3b655c7221092b23d768fbabb049688583e358d50",
+            "bytes": 2598,
+            "dimensions": [
+              512,
+              512
+            ],
+            "mode": "L",
+            "viewedBeforeGeneration": true
+          },
+          {
+            "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+            "role": "secondary accepted charcoal green / bronze hand-painted palette only; no content transfer",
+            "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+            "bytes": 1262711,
+            "dimensions": [
+              1787,
+              880
+            ],
+            "mode": "RGB",
+            "viewedBeforeGeneration": true
+          }
+        ],
+        "originalSource": {
+          "path": "C:\\Users\\75112\\.codex\\generated_images\\01a116e3-623c-7513-a5e0-580eb72033be\\exec-46466680-53f2-41d2-a5d7-f394cf5f0161.png",
+          "bytes": 2914976,
+          "sha256": "c074fa8e3afcdb1f7c73e8947ab63ee2ee09feb14a9d5c409a16e3c419848ea8",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "mode": "RGB",
+          "format": "PNG",
+          "alphaMin": 255,
+          "alphaMax": 255,
+          "alpha255Count": 1572516,
+          "alphaTransparentCount": 0
+        },
+        "pendingPath": "F:\\project\\baye-sanguo\\build\\r12-stone-art-pending\\STONE42-picture-0.png",
+        "pendingByteExact": true,
+        "viewedOriginal": true,
+        "visualCheck": {
+          "person": "One small helmeted human figure center-left, body partly obscured by foreground forms. No invented troops or lord identity.",
+          "head": "Picture0 face direction follows native broad head region, gazing toward the right.",
+          "stones": "Dense stacked irregular stones occupy upper and side regions with crossed lower foreground forms; native footprint preserved.",
+          "rightDiagonal": "Long pale diagonal outline rises toward the right upper edge, rendered as a stone-like form rather than a named weapon; source is semantically ambiguous.",
+          "style": "Muted charcoal-green recesses, restrained gray stone and aged bronze on existing equipment, no inherited ornate frame.",
+          "opaque": "RGB opaque original PNG, every alpha255 when inspected via RGBA conversion.",
+          "content": "No text/digits/UI/fire/magic/additional figures.",
+          "limits": "Art-only visual acceptance; native runtime/composition and exact pixel correspondence are not asserted. Native edge stone clusters intentionally meet frame edges."
+        },
+        "productionPath": "assets/hd-spe/stone-42/picture-0.png",
+        "productionCopyByteExact": true
+      },
+      {
+        "picIndex": 1,
+        "attempt": 1,
+        "status": "generated-accepted",
+        "tool": "builtin image_gen",
+        "transparentBackground": false,
+        "exactPrompt": "Use case: historical-scene\nAsset type: one opaque square game effect picture, STONE_SPE resource 42 / item 0 / picture 1, complete logical 64 by 64 window. Generate one original high resolution PNG illustration, preferably square 1280 by 1280. This is the second alternating movie picture, not a sprite sheet or a new scene.\nReference roles: Image 1 is this exact original native picture 1, PRIMARY authority for all content, positions and figure pose. Image 2 is picture 1's freshly decoded packed bits drawn as eight-pixel cells, PRIMARY readable geometry; do not paint the pixel grid. Image 3 is the accepted high resolution picture 0 from this same effect, SECONDARY continuity reference for stone surfaces, the same one soldier's identity/clothing and muted charcoal-green / aged-bronze painting style. Image 3 must not override this picture 1's head/upper figure outline.\nPrimary request: faithfully reinterpret the entire picture 1 bitmap using the same materials and broad composition as the previous painted picture. Keep the one helmeted person center-left, mostly hidden among dense irregular stones and intersecting foreground forms. In this picture 1 the bright head/face silhouette is more compact and slightly shifted right relative to picture 0, with the changed helmet and upper-body outlines determined by Images 1 and 2. Preserve these visible differences while keeping the same character, equipment and scale. Keep the dense upper and side stone masses, narrow quiet strip at the top, and the long pale diagonal form on the right from lower-left to upper-right in its same native position. It is a semantically ambiguous native implement/form, not evidence for a bow, spear, giant sword, magic staff or a new object. Match the native occlusions and full-frame scene layout.\nContinuity: same lens, same light direction, same charcoal-green recesses, cool gray stone surfaces and restrained aged-bronze clothing details as Image 3. Do not change the location, rock arrangement, camera distance, character identity or scene population. Keep the human figure small and partly concealed; no portrait enlargement, no extra feet or limbs revealed behind the native stones. Only the native picture 1 outline changes should drive the differing pose; do not reuse picture 0 unchanged.\nStyle: detailed realistic hand-painted historical Three Kingdoms game art with a clear small-scale silhouette. All gaps and background are opaque quiet dark charcoal green, no flame or magical glow.\nConstraints: original opaque PNG, NO transparency, one complete square movie picture. No text, numbers, damage indicators, UI, logo, border, watermark, colorful glyphs, particles, trails, invented troops, new weapons, horses, ships, scenery or narrative additions. No black-white pixel-grid rendering in the final illustration. Do not render a generic falling-stone spell based on its name; the provided actual native picture 1 governs the result.",
+        "references": [
+          {
+            "path": "F:/project/baye-sanguo/build/r12-stone-native/STONE42-picture-1.png",
+            "role": "primary exact native picture1 content and pose",
+            "sha256": "9b96a7c53735d8db24d4b31ef7314f29a7abe578ed9edd631afa02cc28ba864e",
+            "bytes": 805,
+            "dimensions": [
+              64,
+              64
+            ],
+            "mode": "L",
+            "viewedBeforeGeneration": true
+          },
+          {
+            "path": "F:/project/baye-sanguo/build/r12-stone-native/STONE42-picture-1-packed-cells-x8.png",
+            "role": "primary per-bit x8 diagnostic geometry, not style",
+            "sha256": "0a581abd5f9913efae4d0bda602c435a532b9829a9a5b4eaef9ad450ba1f22db",
+            "bytes": 2594,
+            "dimensions": [
+              512,
+              512
+            ],
+            "mode": "L",
+            "viewedBeforeGeneration": true
+          },
+          {
+            "path": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-46466680-53f2-41d2-a5d7-f394cf5f0161.png",
+            "role": "secondary accepted picture0 character/material/layout continuity only; native picture1 geometry overrides",
+            "sha256": "c074fa8e3afcdb1f7c73e8947ab63ee2ee09feb14a9d5c409a16e3c419848ea8",
+            "bytes": 2914976,
+            "dimensions": [
+              1254,
+              1254
+            ],
+            "mode": "RGB",
+            "viewedBeforeGeneration": true
+          }
+        ],
+        "originalSource": {
+          "path": "C:\\Users\\75112\\.codex\\generated_images\\01a116e3-623c-7513-a5e0-580eb72033be\\exec-5fc53709-e9a3-4862-a70d-669a7f6cc236.png",
+          "bytes": 2801968,
+          "sha256": "c2b96ca68161bd441d4ed445fa70e6c4cdc57567154234be33763e1ab14c6026",
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "mode": "RGB",
+          "format": "PNG",
+          "alphaMin": 255,
+          "alphaMax": 255,
+          "alpha255Count": 1572516,
+          "alphaTransparentCount": 0
+        },
+        "pendingPath": "F:\\project\\baye-sanguo\\build\\r12-stone-art-pending\\STONE42-picture-1.png",
+        "pendingByteExact": true,
+        "viewedOriginal": true,
+        "visualCheck": {
+          "person": "Same single small helmeted person center-left among the same occluding stones. Head/helmet shifts right and the bright face region contracts as the alternate native slot indicates.",
+          "continuity": "Same stone clusters, diagonal right form, charcoal-green recesses, armor materials and soft lighting; no camera or scene change.",
+          "opaque": "Original RGB PNG; all inspected alpha255.",
+          "content": "No text/digits/UI/fire/magic/extra persons/mounts.",
+          "limits": "Two original pictures are visual art candidates; no actual skill runtime/display/composition coverage claimed. Dense stones meet native frame edges. Long native right diagonal contour remains semantically ambiguous."
+        },
+        "productionPath": "assets/hd-spe/stone-42/picture-1.png",
+        "productionCopyByteExact": true
+      }
+    ],
+    "acceptedSlots": [
+      {
+        "picIndex": 0,
+        "callIndex": 0,
+        "path": "assets/hd-spe/stone-42/picture-0.png",
+        "bytes": 2914976,
+        "sha256": "c074fa8e3afcdb1f7c73e8947ab63ee2ee09feb14a9d5c409a16e3c419848ea8"
+      },
+      {
+        "picIndex": 1,
+        "callIndex": 1,
+        "path": "assets/hd-spe/stone-42/picture-1.png",
+        "bytes": 2801968,
+        "sha256": "c2b96ca68161bd441d4ed445fa70e6c4cdc57567154234be33763e1ab14c6026"
+      }
+    ],
+    "rejectedCalls": [],
+    "errors": [],
+    "summary": {
+      "targetSlots": 2,
+      "builtinCalls": 2,
+      "accepted": 2,
+      "rejected": 0,
+      "failed": 0,
+      "publishedProduction": 2
+    }
+  },
+  "constraints": {
+    "originalBuiltinPngBytes": true,
+    "noCropResizeReencodeOrComposite": true,
+    "opaqueMask0": true,
+    "noInventedDamageNumbers": true,
+    "ordinary51LedgerUnchanged": true
+  },
+  "presentation": {
+    "kind": 2,
+    "startFrm": 0,
+    "endFrm": 7,
+    "window": {
+      "x": 48,
+      "y": 16,
+      "width": 64,
+      "height": 64
+    },
+    "skillResultVersion": 1,
+    "skillNumber": "Actual NUM15 metadata retained solely to validate/prewarm the existing kind2 presenter. Native 石阵 has power0/destroy0 and does not execute NUM15 or FIRE damage wait. A state report follows the movie."
+  },
+  "acceptance": {
+    "artOnly": true,
+    "runtime": "See docs/validation/m4-stone-20261009.json for separately verified real-game results; source-image acceptance alone is not gameplay acceptance."
+  }
+}

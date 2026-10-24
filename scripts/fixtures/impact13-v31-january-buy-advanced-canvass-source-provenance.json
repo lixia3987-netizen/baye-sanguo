@@ -1,0 +1,666 @@
+{
+  "schemaVersion": 1,
+  "kind": "V31 January immediate Buy and broad convertible advanced Canvass source proposals",
+  "sourceOnlyAccepted": true,
+  "actualCreditGranted": false,
+  "fixture": {
+    "pin": {
+      "path": "build/impact-skill-20261014/hd-impact-v31-january-acquisition-world-v1.json",
+      "bytes": 77857,
+      "sha256": "23e00049404839b4835296767fcab3e04e9cadceeae86f7fc4fac0c54d9bfbd1"
+    },
+    "source": {
+      "path": "build/impact-skill-20261014/impact13-battle-v30-latest-genuine-saved-world-v1.json",
+      "bytes": 77857,
+      "sha256": "23e00049404839b4835296767fcab3e04e9cadceeae86f7fc4fac0c54d9bfbd1"
+    },
+    "byteidentical": true,
+    "date": [
+      239,
+      1
+    ],
+    "scope": "Genuine current V30 SAVED world only. All after-worlds/tickets/callbacks in tests are CONTROLLED, never a new actual run or restored unsaved state."
+  },
+  "adopted": {
+    "policy": {
+      "path": "build/impact-skill-20261014/hd-impact-v31-acquisition-policy-v2.mjs",
+      "bytes": 21173,
+      "sha256": "fe4e5a495b4947f45554457e4be24ae40fcc6872d7207c63139f5e9d7c875b8d"
+    },
+    "make": {
+      "path": "build/impact-skill-20261014/hd-impact-v31-canvass16-make-oracle-v1.mjs",
+      "bytes": 24395,
+      "sha256": "8b25b2b63e00d5aca505ac67ff055a0c3b22656ac900c10fcc54c410d37089f4"
+    },
+    "naturalReturn": {
+      "path": "build/impact-skill-20261014/hd-impact-v31-canvass16-natural-return-v1.mjs",
+      "bytes": 13976,
+      "sha256": "c399882f3c584c7077722aa8362c64bd1e2bea2b647c74fea852b5f8e717c471"
+    },
+    "tests": [
+      {
+        "path": "build/impact-skill-20261014/test-hd-impact-v31-acquisition-policy-v2.mjs",
+        "bytes": 10226,
+        "sha256": "41f6944be234ba7ed5098d4186d6e9ded83124bf010a11b84386348711c85c61"
+      },
+      {
+        "path": "build/impact-skill-20261014/test-hd-impact-v31-canvass16-make-oracle-v1.mjs",
+        "bytes": 15044,
+        "sha256": "de86c5e2e0a240ba938d6e002d5ca3be902177de1f46b6174a523581d0ad9d2e"
+      },
+      {
+        "path": "build/impact-skill-20261014/test-hd-impact-v31-canvass16-natural-return-v2.mjs",
+        "bytes": 12133,
+        "sha256": "8cd960415fe2bf069048d648b4cf6456f45eb22ae4fbeeb684d92d643bcfca55"
+      }
+    ]
+  },
+  "parentSources": {
+    "policy": {
+      "path": "build/impact-skill-20261014/hd-impact-v29-acquisition-policy-v1.mjs",
+      "bytes": 13778,
+      "sha256": "19c58cdb0f66d1cf89366664d00455b7fda9ef66a079312557120d90434478f3"
+    },
+    "make": {
+      "path": "build/impact-skill-20261014/hd-impact-v27-canvass16-make-oracle-v1.mjs",
+      "bytes": 24282,
+      "sha256": "93aa6b083e57753cc714257c35729ce7920b19901ec05cc0017b5b185faf23c5"
+    },
+    "naturalReturn": {
+      "path": "build/impact-skill-20261014/hd-impact-v27-canvass16-natural-return-v1.mjs",
+      "bytes": 13971,
+      "sha256": "b2fa868e41b33fb171ddec01a9b3df6a21ad0b23ba3fb0e28eb3a7f1b073931c"
+    },
+    "controlledFixtureBuilders": [
+      {
+        "path": "build/impact-skill-20261014/test-hd-impact-v27-canvass16-make-oracle-v2.mjs",
+        "scope": "Reuse ROM name packing and full ACTOR/TARGET/DONE ticket plus independent original DelPerson fixture builder only, not old test execution or results."
+      },
+      {
+        "path": "build/impact-skill-20261014/test-hd-impact-v27-canvass16-natural-return-v1.mjs",
+        "scope": "Reuse independent controlled AddPerson/DelPerson/readonly sample builders only. No native callback/RNG/SAVE is run by author."
+      }
+    ],
+    "formalBuyDependency": {
+      "path": "scripts/hd-impact-v26-raw-buy11-oracle.mjs",
+      "scope": "Reuse original full raw Buy plan/dispatch and adjacent natural return logic, not a new implementation of its native business formula."
+    }
+  },
+  "nativeLibrary": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "nativeSources": [
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/tactic.c",
+      "bytes": 45067,
+      "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/gamEng.c",
+      "bytes": 47517,
+      "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+    }
+  ],
+  "sourceFacts": {
+    "immediateBuy": {
+      "make": "vendor/iBaye/src/citycmdc.c:123-135",
+      "costAndOrder": "citycmdc.c:169-175",
+      "naturalReturn": "citycmd.c:459-462",
+      "facts": "Quantity confirmation credits Food immediately and deducts quantity*5 Money, then costs12 Thew and createsOrder11/Time0/DelPerson. ExchangeDrv only AddPerson; never credit Food twice."
+    },
+    "monthOrder": {
+      "source": "tactic.c:754-766;citycmd.c:1256-1265;infdeal.c:89-132",
+      "facts": "ComputerTactic first, then PolicyExec iterates slots ascending and OrderExec/DelOrder, then ConditionUpdate consumes actual returned resident+reserve food. Current actual Food gate remains required before END; no speculative Plunder income used."
+    },
+    "canvass": {
+      "make": "citycmdc.c:666-741",
+      "driver": "citycmd.c:684-722,751-752",
+      "directory": "cityedit.c:696-711,790-816",
+      "firstRawCity": "cityedit.c:665-680",
+      "facts": "Whole original lists/names stay unfiltered including raw duplicates. Current planner applies an explicit41-ID subset, lower-IQ subset, cap2 each, cumulative cash>=500, at most10. Three random gates precede GetPersonCity; target255 is not proof of which random gates ran. Native full adjacent success/failure and repeated own target behavior unchanged."
+    },
+    "mp": {
+      "source": "FightSub.c:988 and original navy skill row",
+      "formula": "floor((floor(IQ*80/100)+(floor(sqrt(Force))>>1)+Level)*Thew/100)&255",
+      "skills": [
+        12,
+        13,
+        11
+      ],
+      "maxLevel": 20,
+      "firstLevelContaining13": 7,
+      "impact13UseMp": 30,
+      "facts": "Level/MP arithmetic is eligibility only. A nonnavy person still needs a real public Give and fresh effective native type/MP before any skill attempt; source does not perform Give."
+    }
+  },
+  "freshFacts": {
+    "city20": {
+      "food": 227,
+      "money": 1277,
+      "ownedArmy": 13339,
+      "requiredFood": 267,
+      "shortage": 40,
+      "buyActor50": {
+        "person": {
+          "OldBelong": 0,
+          "Belong": 1,
+          "Level": 1,
+          "Force": 46,
+          "IQ": 72,
+          "Devotion": 100,
+          "Character": 0,
+          "Experience": 0,
+          "Thew": 100,
+          "ArmsType": 1,
+          "Arms": 0,
+          "Tool1": 0,
+          "Tool2": 0,
+          "Age": 62
+        },
+        "globalRawOccurrences": 1
+      },
+      "expectedSourceBuy": {
+        "quantity": 40,
+        "foodAfter": 267,
+        "moneyAfter": 1077,
+        "thewAfter": 88,
+        "orderSlot": 0
+      },
+      "futureFoodCredited": false,
+      "originalPopulationOrGuardChanged": false
+    },
+    "all17ThewEnoughForOneCanvass": true,
+    "necessaryTreatCount": 0,
+    "authorizedPlunderCount": 0,
+    "maximumBuys": 1,
+    "maximumCanvasses": 10,
+    "maximumNaturalMonths": 1,
+    "ship": {
+      "city": 6,
+      "rawId": 32,
+      "discoveredToken": 32800,
+      "alreadyFoundAtPriorActualRun": true,
+      "givePerformedByThisProposal": false
+    },
+    "current129": {
+      "OldBelong": 1,
+      "Belong": 2,
+      "Level": 7,
+      "Force": 39,
+      "IQ": 72,
+      "Devotion": 71,
+      "Character": 2,
+      "Experience": 6,
+      "Thew": 100,
+      "ArmsType": 3,
+      "Arms": 0,
+      "Tool1": 0,
+      "Tool2": 0,
+      "Age": 65
+    },
+    "target129NoLongerArtificiallyExcluded": true,
+    "staticScope41": [
+      4,
+      26,
+      64,
+      77,
+      86,
+      91,
+      104,
+      105,
+      106,
+      107,
+      109,
+      110,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      135,
+      136,
+      137,
+      138,
+      148,
+      149,
+      162,
+      168
+    ],
+    "navy15": [
+      77,
+      86,
+      104,
+      106,
+      107,
+      109,
+      113,
+      117,
+      119,
+      121,
+      128,
+      129,
+      132,
+      133,
+      135
+    ],
+    "nonnavy26": [
+      4,
+      26,
+      64,
+      91,
+      105,
+      110,
+      112,
+      114,
+      115,
+      116,
+      118,
+      120,
+      123,
+      124,
+      125,
+      126,
+      127,
+      130,
+      131,
+      136,
+      137,
+      138,
+      148,
+      149,
+      162,
+      168
+    ],
+    "candidateExamples": [
+      {
+        "actor": 36,
+        "origin": 6,
+        "target": 114,
+        "mpAfterNavyConversion": 47,
+        "sourceResidueCounts": [
+          100,
+          28,
+          41
+        ],
+        "sourceScore": 114800
+      },
+      {
+        "actor": 5,
+        "origin": 6,
+        "target": 125,
+        "mpAfterNavyConversion": 43,
+        "sourceResidueCounts": [
+          100,
+          42,
+          21
+        ],
+        "sourceScore": 88200
+      },
+      {
+        "actor": 51,
+        "origin": 6,
+        "target": 26,
+        "mpAfterNavyConversion": 70,
+        "sourceResidueCounts": [
+          100,
+          30,
+          21
+        ],
+        "sourceScore": 63000
+      }
+    ],
+    "examplesAreNotExecutedPlanOrSuccessGuarantee": true
+  },
+  "policyChanges": {
+    "stopOnAdvancedControllablePersonSeparateFromBaseCaster": true,
+    "v23BaseCastersStillMeansEffectiveNativeNavy": true,
+    "nonnavyTargetMustHaveOriginalEmptyBothGearSlots": true,
+    "sourceScoreTotalPrimary": true,
+    "city6EnvoyCountSecondaryOnly": true,
+    "deterministicRankTertiary": true,
+    "scoreMultiplier": 262144,
+    "nonCity6TieCost": 16384,
+    "maximumTenTieCostsBelowSourceUnit": true,
+    "uniformTargetCap2": true,
+    "pendingTargetsAndOrdersCounted": true,
+    "noWorldMutationForFiltering": true,
+    "allOldV23V27AliasesRetained": true,
+    "noUiProtocolInvented": true
+  },
+  "oracleExactScopeChanges": {
+    "make": [
+      {
+        "old": "version:4",
+        "new": "version:5"
+      },
+      {
+        "oldTargets": [
+          77,
+          86,
+          95,
+          104,
+          106,
+          107,
+          109,
+          113,
+          117,
+          119,
+          121,
+          128,
+          129,
+          132,
+          133,
+          135
+        ],
+        "newTargets": [
+          4,
+          26,
+          64,
+          77,
+          86,
+          91,
+          104,
+          105,
+          106,
+          107,
+          109,
+          110,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          135,
+          136,
+          137,
+          138,
+          148,
+          149,
+          162,
+          168
+        ]
+      },
+      {
+        "scopeHeaderOnly": true
+      }
+    ],
+    "makeBusinessBodyOtherwiseUnchanged": true,
+    "naturalReturn": [
+      {
+        "oldImport": "./hd-impact-v27-canvass16-make-oracle-v1.mjs",
+        "newImport": "./hd-impact-v31-canvass16-make-oracle-v1.mjs"
+      },
+      {
+        "scopeHeaderOnly": true
+      }
+    ],
+    "naturalReturnBusinessBodyOtherwiseUnchanged": true,
+    "unchanged": [
+      "all native bounds and unknown field shapes",
+      "full original candidate IDs and full/packed names",
+      "single current owner/ACK/library identity/data generation",
+      "50Money20Thew/currentactor/nonking/nonSatrap",
+      "four opaque newly sampled fields only",
+      "original first200DelPerson/AddPerson without dedup",
+      "tail200..1999 preservation",
+      "all callbacks readonly/context/32async/-1",
+      "immediate higher-slot adjacent full success/failure",
+      "own target revisits and indeterminate branch handling"
+    ]
+  },
+  "controlledTests": {
+    "authorsExecuted": 0,
+    "plannedCaseExecutions": 103,
+    "groups": [
+      {
+        "id": "january-supply-and-planner",
+        "count": 33,
+        "orderedCaseNames": [
+          "January gap40 and zero required Treat from fresh17 envoys",
+          "Immediate Buy40 forecasts267 and1077 without granting current food or END",
+          "Measured controlled Buy full delta closes actual food arithmetic",
+          "END model rejects old227 and accepts actual measured267",
+          "Fresh228 recomputes39 and safe267 suppresses duplicateBuy",
+          "Fresh Buy scope rejects food226",
+          "Fresh Buy scope rejects cash699",
+          "Fresh Buy scope rejects Thew11",
+          "Fresh Buy scope rejects Satrap50",
+          "Fresh Buy scope rejects guardArmy1",
+          "Fresh Buy scope rejects actorLost",
+          "Fresh Buy scope rejects duplicateActor",
+          "Fresh Buy scope rejects otherUnsafeCity",
+          "Fresh Buy scope rejects wrongDate",
+          "Cash700 leaves exact500 actual reserve",
+          "Future Plunder cannot fund current600 cash or justify unsafe END",
+          "Pending actor cannot buy again in another slot",
+          "Full measured Buy rejects foodNotApplied",
+          "Full measured Buy rejects doubleFood",
+          "Full measured Buy rejects money",
+          "Full measured Buy rejects guard",
+          "Full measured Buy rejects tail1999",
+          "Full measured Buy rejects unknownOrder",
+          "Full unknown fields and queue200tail preserved by Buy",
+          "Current41 advanced include26 nonnavy but not captive95",
+          "Native MP47/43/70 is source conversion math not actual Give",
+          "Fresh maxweight planning has ten cap and common two per target",
+          "Controlled Dev100 target129 naturally has score0 no special ban",
+          "Paid target2 and total10 caps include pending originalorders",
+          "No ship or insufficient MP or changed gear does not invent conversion",
+          "Advanced own nonnavy stops spend without claiming basecaster",
+          "Neutral150IQ world records remain valid native U8 shape",
+          "Planning leaves every world and unknown field unchanged"
+        ],
+        "classification": "33 focused scenarios for current repair/policy; reuses formal Buy/native guards and original scoring formulas. Not33 new game features."
+      },
+      {
+        "id": "advanced-make-owner-and-world",
+        "count": 37,
+        "orderedCaseNames": [
+          "January genuine fixture is unchanged and all41 advanced scope IDs are explicit",
+          "January new advanced target full original MAKE 6/36→114",
+          "January new advanced target full original MAKE 6/5→125",
+          "January new advanced target full original MAKE 6/51→26",
+          "January new advanced target full original MAKE 7/28→168",
+          "January new advanced target full original MAKE 13/43→131",
+          "January new advanced target full original MAKE 16/40→64",
+          "Native January disaster state retained 0",
+          "Native January disaster state retained 1",
+          "Native January disaster state retained 2",
+          "Native January disaster state retained 3",
+          "Native January disaster state retained 4",
+          "Original enemy candidate list and full names remain unfiltered by advanced scope",
+          "Repeated target rows are not deduplicated by new41 policy",
+          "Unknown world and preexisting unknown order values remain byte semantic exact",
+          "Actors still need actual lower IQ and cannot use target125 with actor36",
+          "The new advanced scope never makes captive95 targetable",
+          "Buy-only actor50 remains outside envoy allowlist",
+          "Fresh satrap protection is not removed by target expansion",
+          "No exhausted actor may receive unmeasured Thew repair",
+          "Full native or unknown field tamper rejects money",
+          "Full native or unknown field tamper rejects thew",
+          "Full native or unknown field tamper rejects targetArmy",
+          "Full native or unknown field tamper rejects otherCityFood",
+          "Full native or unknown field tamper rejects tail200",
+          "Full native or unknown field tamper rejects tail1999",
+          "Full native or unknown field tamper rejects queue199",
+          "Full native or unknown field tamper rejects goodsUnknownTail",
+          "Full native or unknown field tamper rejects initializedTimeCount",
+          "Full native or unknown field tamper rejects unknownOrderKey",
+          "Complete owner ticket tamper rejects fullName",
+          "Complete owner ticket tamper rejects packedName",
+          "Complete owner ticket tamper rejects menuGeneration",
+          "Complete owner ticket tamper rejects session",
+          "Complete owner ticket tamper rejects identity",
+          "Complete owner ticket tamper rejects nativeDataToken",
+          "Complete owner ticket tamper rejects oneEnterACK"
+        ],
+        "newTargetScopeVariants": 7,
+        "inheritedRuleCurrentWorldVariants": 30
+      },
+      {
+        "id": "advanced-adjacent-native-return",
+        "count": 33,
+        "orderedCaseNames": [
+          "Adjacent original failure advanced target 6/36→114",
+          "Adjacent original success advanced target 6/36→114",
+          "Adjacent original failure advanced target 6/5→125",
+          "Adjacent original success advanced target 6/5→125",
+          "Adjacent original failure advanced target 6/51→26",
+          "Adjacent original success advanced target 6/51→26",
+          "Adjacent original failure advanced target 7/28→168",
+          "Adjacent original success advanced target 7/28→168",
+          "Adjacent original failure advanced target 13/43→131",
+          "Adjacent original success advanced target 13/43→131",
+          "Already acquired nonnavy target can be revisited by later queued original order",
+          "Same-origin already acquired target may be observationally indeterminate",
+          "Missing later callback never substitutes final target ownership",
+          "Target absent at actual driver is failed not an RNG prediction",
+          "Complete callback fence rejects returnMinusOne",
+          "Complete callback fence rejects readonlyAequalsB",
+          "Complete callback fence rejects context",
+          "Complete callback fence rejects async32",
+          "Complete callback fence rejects asyncAfter",
+          "Complete callback fence rejects identity",
+          "Complete callback fence rejects hook",
+          "Complete callback fence rejects uniqueSlot",
+          "Whole adjacent world rejects opaqueOrder",
+          "Whole adjacent world rejects unknownWorld",
+          "Whole adjacent world rejects targetArmy",
+          "Whole adjacent world rejects actorArmy",
+          "Whole adjacent world rejects unrelatedFood",
+          "Whole adjacent world rejects queueTail200",
+          "Whole adjacent world rejects goodsTail",
+          "Whole adjacent world rejects date",
+          "Supply-first later Canvass slot remains explicit 1",
+          "Supply-first later Canvass slot remains explicit 9",
+          "Supply-first later Canvass slot remains explicit 169"
+        ],
+        "newTargetOutcomeVariants": 10,
+        "inheritedRuleCurrentWorldVariants": 23
+      }
+    ],
+    "inheritedVariantCountsNotAdditiveToGlobalDistinctCoverage": true,
+    "existing792RerunByRootNotByAuthor": true,
+    "formalRerunIsFutureAndAddsNoNewDistinctCasesByRepetition": true,
+    "controlledTicketsAndAfterWorldsAreNotActualCredit": true
+  },
+  "history": [
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v31-acquisition-policy-v1.mjs",
+      "meaning": "Unexecuted prior source kept historical129 cap0; ROOT requesteduniformcap2, adoptedV2 removes this policy-only exclusion."
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v31-acquisition-policy-v1.mjs",
+      "meaning": "Authoring string closure wrote fixture prefix only/0test declarations. Not adopted/executed; V2 explicitly contains33 declared tests."
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v31-canvass16-natural-return-v1.mjs",
+      "meaning": "Unexecuted first assertions used two mistaken property names. V2 uses actual orderSlot and targetFirstRawCityBeforeDriver fields; business source unchanged."
+    }
+  ],
+  "authoring": {
+    "filesystemOnly": true,
+    "repoModulesImported": 0,
+    "repoModulesExecuted": 0,
+    "testsExecuted": 0,
+    "cliOrGit": 0,
+    "gameOrBrowserOrProcess": 0,
+    "syntaxConstructorsOnly": true,
+    "formalFilesModified": 0,
+    "oldFrozenFilesModified": 0
+  },
+  "requiredRuntimeAndIndependentEvidence": [
+    "Exact new January binder public LOAD",
+    "Actual Buy original owner/quantity and complete full-world raw before genuine SAVE",
+    "Fresh actual current food/cash accepted before END, never a forecast",
+    "Every Canvass raw current owner/complete original list/pay/order then SAVE",
+    "One genuine original END only and immutable raw policy/settled worlds first",
+    "Buy slot0 adjacent return before every current Order27/DEF full resident/Arms/food guard",
+    "Every original Canvass full adjacent readonly natural outcome, no success from final affiliation",
+    "Latest genuine saved world only, stop new payments when a current controllable advanced target is acquired",
+    "Optional Give only separately lawful/current city/item/equipment and independently qualified, no cast/HD credit"
+  ],
+  "actualAcquisitionAccepted": false,
+  "actualGiveAccepted": false,
+  "actualCastAccepted": false,
+  "actualMovieAccepted": false,
+  "actualPixelAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false
+}

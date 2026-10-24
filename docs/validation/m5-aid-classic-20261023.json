@@ -1,0 +1,451 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-23T13:33:30.339Z",
+  "status": "accepted-original-PC1080-classic-only",
+  "accepted": true,
+  "actualCastAccepted": true,
+  "classicNegativeAccepted": true,
+  "hdAccepted": false,
+  "wholeHdAccepted": false,
+  "globalHdComplete": false,
+  "portableClosedArchive": false,
+  "scope": "Two independent original P3/player9 public native LOAD/31→32 battle matrix cases for AID41 skill17 and29; current installed PC1920×1080 explicit classic movie/NUM/HOLD and actual visible LCD proof.",
+  "activity": {
+    "period": 3,
+    "playerKing": 9,
+    "belong": 10,
+    "date": {
+      "year": 212,
+      "month": 8
+    },
+    "identity": "v1:414390:1d36da77:1e9c0477",
+    "casterPersonIndex": 188,
+    "allyPersonIndex": 144,
+    "mainImpactP4Player0Touched": false,
+    "preparationCanonical": "m4-aid-runtime-20261010.json",
+    "tag": "caster188-owned",
+    "inputFiles": [
+      {
+        "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+        "bytes": 8221,
+        "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d"
+      },
+      {
+        "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+        "bytes": 4840,
+        "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97"
+      }
+    ],
+    "boundary": "Accepted frozen independent AID validation input. Each run uses unchanged public import and a fresh real native LOAD; no main impact SAVE rollback, native-world/level/terrain/RNG setter, or paid media call."
+  },
+  "runs": [
+    {
+      "id": 17,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "classicNegativeAccepted": true,
+      "hdAccepted": false,
+      "result": {
+        "path": "build/aid-classic-20261023/classic-17-v1/result.json",
+        "bytes": 27743133,
+        "sha256": "86a98229fbda7dafeb2bfeddf755001e010d5dd2e6319990c226aadfc367cc04"
+      },
+      "tool": {
+        "source": "scripts/test-hd-aid-runtime.mjs",
+        "bytes": 113444,
+        "sha256": "2d9190c63d8345646cb9f18daf52b2014c3cdaea2565e639d541d3929024113d"
+      },
+      "loadedAbi": {
+        "period": 3,
+        "count": 200,
+        "king": 9,
+        "year": 212,
+        "month": 8
+      },
+      "sources": {
+        "count": 1229,
+        "physical": 1225,
+        "drift": 0,
+        "added": 0,
+        "native128": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d"
+      },
+      "mp": {
+        "before": 146,
+        "after": 131,
+        "cost": 15
+      },
+      "arms": {
+        "before": 100,
+        "after": 900,
+        "gain": 800,
+        "capacity": 1470
+      },
+      "movieReadbacks": 8,
+      "postReadbacks": 22,
+      "holds": 1,
+      "readbacks": 30,
+      "logicalPixels": 460800,
+      "hdReadbacks": 0,
+      "actualLcdCallbacks": 29,
+      "cleanup": {
+        "recorded": 8,
+        "treeExited": true,
+        "httpClosed": true,
+        "profilesRetained": true,
+        "freshOs": {
+          "atUtc": "2026-10-23T13:31:21.8709883Z",
+          "processes": [],
+          "ports": []
+        }
+      },
+      "phase2Input": {
+        "tag": "caster188-owned",
+        "approvedSourceProfile": "approved-v5",
+        "files": [
+          {
+            "key": "baye//data//sango0.sav",
+            "lib": "libs/dat-mod.lib",
+            "name": "三国霸业-词典原版",
+            "identity": "v1:414390:1d36da77:1e9c0477",
+            "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+            "bytes": 8221,
+            "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d",
+            "scope": "Exact bytes read from original public native save, never edited/re-encoded as a new world"
+          },
+          {
+            "key": "baye//data//sango1.sav",
+            "lib": "libs/dat-mod.lib",
+            "name": "三国霸业-词典原版",
+            "identity": "v1:414390:1d36da77:1e9c0477",
+            "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+            "bytes": 4840,
+            "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97",
+            "scope": "Exact bytes read from original public native save, never edited/re-encoded as a new world"
+          }
+        ],
+        "result": {
+          "bytes": 48322439,
+          "sha256": "e467cecf81eca3c997b6afd4168aec2037e92ebaf1c24fe6e384ed64b55cf782"
+        },
+        "byteProofAccepted": true
+      },
+      "oracle": {
+        "ok": true,
+        "accepted": true,
+        "classicNegativeAccepted": true,
+        "hdAccepted": false,
+        "verifiedReadbacks": 30,
+        "families": [
+          {
+            "skillId": 17,
+            "numericPublication": {
+              "firstAt": 45154.69999999553,
+              "firstPhase": "numbers",
+              "value": 800,
+              "readbacks": 22,
+              "unpublishedMovie": [
+                {
+                  "at": 40126.39999999851,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 40749.09999999404,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 41488.29999999702,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 42052.79999999702,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 42759.19999999553,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 43364.79999999702,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 44016.39999999851,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 44608.39999999851,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                }
+              ]
+            },
+            "appliedGain": 800,
+            "capacityBefore": 1470,
+            "movieReadbacks": 8,
+            "postReadbacks": 22,
+            "labels": 22,
+            "numbers": 21,
+            "holds": 1,
+            "hdReadbacks": 0,
+            "observedWidths": [
+              64
+            ],
+            "actualLcdCallbacks": 29
+          }
+        ],
+        "eventCount": 1,
+        "keyCountDuringSelectedMovieOrResult": 0
+      }
+    },
+    {
+      "id": 29,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "classicNegativeAccepted": true,
+      "hdAccepted": false,
+      "result": {
+        "path": "build/aid-classic-20261023/classic-29-v1/result.json",
+        "bytes": 29816229,
+        "sha256": "7a65a96a12458a4f638a37feba72b5642eee427acea3e0ffda223af3b65efc61"
+      },
+      "tool": {
+        "source": "scripts/test-hd-aid-runtime.mjs",
+        "bytes": 113444,
+        "sha256": "2d9190c63d8345646cb9f18daf52b2014c3cdaea2565e639d541d3929024113d"
+      },
+      "loadedAbi": {
+        "period": 3,
+        "count": 200,
+        "king": 9,
+        "year": 212,
+        "month": 8
+      },
+      "sources": {
+        "count": 1229,
+        "physical": 1225,
+        "drift": 0,
+        "added": 0,
+        "native128": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d"
+      },
+      "mp": {
+        "before": 146,
+        "after": 116,
+        "cost": 30
+      },
+      "arms": {
+        "before": 100,
+        "after": 1470,
+        "gain": 1370,
+        "capacity": 1470
+      },
+      "movieReadbacks": 8,
+      "postReadbacks": 25,
+      "holds": 1,
+      "readbacks": 33,
+      "logicalPixels": 506880,
+      "hdReadbacks": 0,
+      "actualLcdCallbacks": 32,
+      "cleanup": {
+        "recorded": 8,
+        "treeExited": true,
+        "httpClosed": true,
+        "profilesRetained": true,
+        "freshOs": {
+          "atUtc": "2026-10-23T13:31:25.3379641Z",
+          "processes": [],
+          "ports": []
+        }
+      },
+      "phase2Input": {
+        "tag": "caster188-owned",
+        "approvedSourceProfile": "approved-v5",
+        "files": [
+          {
+            "key": "baye//data//sango0.sav",
+            "lib": "libs/dat-mod.lib",
+            "name": "三国霸业-词典原版",
+            "identity": "v1:414390:1d36da77:1e9c0477",
+            "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+            "bytes": 8221,
+            "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d",
+            "scope": "Exact bytes read from original public native save, never edited/re-encoded as a new world"
+          },
+          {
+            "key": "baye//data//sango1.sav",
+            "lib": "libs/dat-mod.lib",
+            "name": "三国霸业-词典原版",
+            "identity": "v1:414390:1d36da77:1e9c0477",
+            "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+            "bytes": 4840,
+            "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97",
+            "scope": "Exact bytes read from original public native save, never edited/re-encoded as a new world"
+          }
+        ],
+        "result": {
+          "bytes": 48322439,
+          "sha256": "e467cecf81eca3c997b6afd4168aec2037e92ebaf1c24fe6e384ed64b55cf782"
+        },
+        "byteProofAccepted": true
+      },
+      "oracle": {
+        "ok": true,
+        "accepted": true,
+        "classicNegativeAccepted": true,
+        "hdAccepted": false,
+        "verifiedReadbacks": 33,
+        "families": [
+          {
+            "skillId": 29,
+            "numericPublication": {
+              "firstAt": 44162.70000000298,
+              "firstPhase": "numbers",
+              "value": 1370,
+              "readbacks": 25,
+              "unpublishedMovie": [
+                {
+                  "at": 40118.40000000596,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 40839.90000000596,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 41307.60000000149,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 41676.20000000298,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 42281.10000000149,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 42842.20000000298,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 43227,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                },
+                {
+                  "at": 43757.20000000298,
+                  "phase": "movie",
+                  "value": 0,
+                  "session": 1
+                }
+              ]
+            },
+            "appliedGain": 1370,
+            "capacityBefore": 1470,
+            "movieReadbacks": 8,
+            "postReadbacks": 25,
+            "labels": 25,
+            "numbers": 24,
+            "holds": 1,
+            "hdReadbacks": 0,
+            "observedWidths": [
+              64
+            ],
+            "actualLcdCallbacks": 32
+          }
+        ],
+        "eventCount": 1,
+        "keyCountDuringSelectedMovieOrResult": 0
+      }
+    }
+  ],
+  "totals": {
+    "readbacks": 63,
+    "logicalPixelComparisons": 967680,
+    "movieLcdCallbacks": 16,
+    "totalSelectedLcdCallbacks": 61,
+    "completedHoldReadbacks": 2,
+    "hdReadbacks": 0,
+    "sourcesPerRun": 1229,
+    "sourceDrift": 0,
+    "sourceAdded": 0,
+    "exactChromeIdentitiesExitedPerRun": 8
+  },
+  "controlledRegression": {
+    "command": "node --test scripts/test-hd-aid-runtime-oracle.mjs",
+    "pass": 18,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "log": {
+      "path": "build/aid-classic-20261023/oracle-tests-v1.log",
+      "bytes": 1222,
+      "sha256": "ae20f4c356608617bc93f6ed29fe8edcb037739a49b53b2f280bb784b9ca805a"
+    },
+    "scope": "Current bridge controlled fixtures plus original LIB/font/PNG oracle corruption guards; separate from actual browser acceptance."
+  },
+  "sourceBoundary": {
+    "runtimeTool": {
+      "path": "scripts/test-hd-aid-runtime.mjs",
+      "bytes": 113444,
+      "sha256": "2d9190c63d8345646cb9f18daf52b2014c3cdaea2565e639d541d3929024113d"
+    },
+    "oracle": {
+      "path": "scripts/hd-aid-runtime-oracle.mjs",
+      "bytes": 50408,
+      "sha256": "d2a59079417b5af056bab796385165a2bf9231ed393f95c0b9a80fdd89b22cda"
+    },
+    "test": {
+      "path": "scripts/test-hd-aid-runtime-oracle.mjs",
+      "bytes": 9130,
+      "sha256": "3ce34769e70e3a7fa88b06859ea2d71c412120a2cae0d1342dbbaaa2c66f5ca8"
+    },
+    "native128": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+    "engineRebuilt": false,
+    "productChanged": false,
+    "scope": "Current classic-only executions. Historical installed1080/staged720/exact-missing HD cases remain at their original sources and scope, without current full-matrix credit."
+  },
+  "archive": {
+    "index": "docs/validation/m5-aid-classic-20261023/runtime-index.json",
+    "files": 186,
+    "uniqueObjects": 85,
+    "selectedMovieNumHoldPngClosed": true,
+    "rawMachineEvidenceClosed": true,
+    "allSupplementaryCheckpointPngClosed": false,
+    "omittedCheckpointPng": 10,
+    "portableClosedArchive": false
+  },
+  "remaining": [
+    "AID installed current720 HD, visibility/resize, mobile/real devices, performance and all original HD completion remain unaccepted here.",
+    "The historical two HD modes and precise missing-image run remain their existing source-specific evidence; no full current matrix claim.",
+    "No whole-campaign victory, RNG restoration/continuity or physical refresh-frame coverage."
+  ]
+}

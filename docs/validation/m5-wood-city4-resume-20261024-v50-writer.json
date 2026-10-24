@@ -1,0 +1,646 @@
+{
+  "schemaVersion": 1,
+  "accepted": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood-city4-resume-20261024-v50.json",
+    "bytes": 294013,
+    "sha256": "ac9e0d1f0f98997d5d8106ca328d2cbea132189643a95898f8f990c2df279c9a"
+  },
+  "published": [
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-archive-part001.json",
+      "bytes": 6489796,
+      "sha256": "44b56dafb58b129372943516e48b5dc8edf83224807678cb7927678818164192"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-archive-part002.json",
+      "bytes": 5214694,
+      "sha256": "77e9ab7a53bd29d166fb5da3819ea6420465a1670be9947423c8a56889dd5fce"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-archive-part003.json",
+      "bytes": 6893751,
+      "sha256": "c6fa846052b10bfe4c380dd213f40acbd26c8775902cb59950ed9b7c5568907f"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-archive.json",
+      "bytes": 77104,
+      "sha256": "5549aa7b4a10f2aa75a4a342b31543eb612f94df191e1851c4478f1452c170bb"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-verify.mjs",
+      "bytes": 54612,
+      "sha256": "b963e822a4c41a78ae16ac20c5b9de6477e7abb13e4d6ec1ff442d81c856db31"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-latest-world.json",
+      "bytes": 148013,
+      "sha256": "a8d672af8b0876eb3818bab1ace9fb013c51c422a915f5325f14eacf3f3c52af"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-sango0.sav",
+      "bytes": 8221,
+      "sha256": "a181b0c56938d39eba4ff3afcf44fae1448f1bf3f47f25a7b54014ea1ffa7e23"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-sango1.sav",
+      "bytes": 4840,
+      "sha256": "62f150e47967dd63be435d2eed40e579ac329e2d644f2899d4a0f0920201d1c0"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50.json",
+      "bytes": 294013,
+      "sha256": "ac9e0d1f0f98997d5d8106ca328d2cbea132189643a95898f8f990c2df279c9a"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50.md",
+      "bytes": 2382,
+      "sha256": "0478ddd9f5aadd426b538ed4a9e62d23c20f9380a238f64a54c9657c23c4c867"
+    }
+  ],
+  "stats": {
+    "logicalFiles": 204,
+    "uniqueBlobs": 190,
+    "parts": 3,
+    "serializedPartBytes": 18598241,
+    "rawNamedBytes": 95190330,
+    "uniqueRawBytes": 91776659,
+    "currentSources": 1408,
+    "exactIgnored": 86,
+    "ordinaryPngsDecoded": 3
+  },
+  "privateVerified": {
+    "accepted": true,
+    "logicalFiles": 204,
+    "uniqueBlobs": 190,
+    "ordinaryPngsDecoded": 3,
+    "sourceBinding": {
+      "presentStrict": 1408,
+      "missingExactFallbacks": 0
+    },
+    "facts": {
+      "schemaVersion": 1,
+      "savedBaseline": {
+        "publication": {
+          "path": "docs/validation/m5-wood-city4-preparation-20261024-v49.json",
+          "bytes": 294631,
+          "sha256": "1e6b6cbf48c1a568875f83e31e26a7b2595f3d0c32b7a4238a59b912dd8e0dc5"
+        },
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-preparation-root-full-v3.json",
+          "bytes": 56311,
+          "sha256": "cbea68c701acf79a556cdc40979423499b8fc7225e596b2410866d1024836b8d"
+        },
+        "stdout": {
+          "path": "build/impact-skill-20261014/city4-preparation-root-full-v3.stdout.log",
+          "bytes": 658656,
+          "sha256": "534eb838cb258bb25a0581d2439dc62fb29d5823948405411c0acea2f556b9cb"
+        },
+        "tests": 7821,
+        "pass": 7821,
+        "registeredFiles": 143,
+        "sourceCount": 291,
+        "sourceStableAtOriginalRun": true,
+        "recordKind": "SAVED original P49 F3, not a V50 rerun",
+        "newDefaultTestExecutions": 0
+      },
+      "controls": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-resume-source-controls-v2.json",
+          "bytes": 17330,
+          "sha256": "aede7ae11d5758e81767e4474674b9f4db20e9532d1ba12884bfb6c4ff5d3499"
+        },
+        "tests": 19,
+        "pass": 19,
+        "sourceCount": 37,
+        "defaultCasesAdded": 0,
+        "originalFailure": {
+          "receipt": {
+            "path": "build/impact-skill-20261014/city4-resume-source-controls-v1.json",
+            "bytes": 17292,
+            "sha256": "34da52d5c2b60d051905f6f9efec443321f5fce560551c0128bdd07dbe1c7dc2"
+          },
+          "accepted": false,
+          "status": null,
+          "signal": "SIGTERM",
+          "finalSummaryPresent": false,
+          "rawStdout": {
+            "path": "build/impact-skill-20261014/city4-resume-source-controls-v1/stdout.tap",
+            "bytes": 8454144,
+            "sha256": "e2540728184776ce9ba738cf9fb0f030e43cc358afd6d26cc276b3d4ad6ee401"
+          },
+          "currentSourceClaim": false
+        }
+      },
+      "terminal": {
+        "closed": true,
+        "sessionId": 45681,
+        "initialChunk": "3f8814",
+        "terminalChunk": "d38d1e",
+        "exitCode": 1
+      },
+      "actual": {
+        "schemaVersion": 1,
+        "verifierScope": "One declared N3 public P49 partial1 resume; only current Distribute33 and genuine SAVE, then STOP",
+        "sourceCount": 1145,
+        "servedCount": 72,
+        "moduleCount": 24,
+        "executedCopies": 36,
+        "historicalCompletedRepairs": 1,
+        "newDistributions": 1,
+        "completedRepairs": 2,
+        "resumeEpochEstablished": true,
+        "historicalReferencesComparedAcrossProcesses": false,
+        "oldKeysOrStockReferencesRewritten": false,
+        "mayRepeatCompletedAction": false,
+        "completePreparationProof": true,
+        "worldGuard600": true,
+        "residentGuardArms": 600,
+        "reserveArms": 0,
+        "nextAction": {
+          "kind": "plunder",
+          "city": 20,
+          "personId": 44,
+          "orderIndex": 0
+        },
+        "nextPlunderIsOnlySourceDeclaration": true,
+        "plunderAuthorizedByThisController": false,
+        "originalFlags": {
+          "resultOk": false,
+          "scenarioOk": true,
+          "acceptedForPreparationClosure": false,
+          "actualPreparationAccepted": true,
+          "scenarioActualPreparationAccepted": true,
+          "cleanupTreeExited": false,
+          "hdAccepted": false,
+          "actualAccepted": false
+        },
+        "lifecycleClosed": false,
+        "savedWorldProofIndependentOfOriginalLifecycle": true,
+        "supplementalReadOnlyClosureAccepted": true,
+        "rawFlagsRewritten": false,
+        "independentPairCount": 41,
+        "actualTicketReads": 82,
+        "contentAddressedFullTickets": 20,
+        "nativeKeys": 22,
+        "bootNativeKeys": 23,
+        "quantityConfirmations": 1,
+        "publicSaves": [
+          {
+            "tag": "wood67-131-v50-city4-resume",
+            "pairPins": [
+              {
+                "path": "native-wood67-131-v50-city4-resume-sango0.sav",
+                "bytes": 8221,
+                "sha256": "1741d671a01aa68ecb30eecc9fbf2fe25c3b868b832679945210b61e0e646c55"
+              },
+              {
+                "path": "native-wood67-131-v50-city4-resume-sango1.sav",
+                "bytes": 4840,
+                "sha256": "3424914672c728b56f44ed5ad25036e8d017f3325df52dca4bc5f932ff11bbfa"
+              }
+            ],
+            "worldSha256": "1e6fd68f83fd25077c98a4ab55cdb903124311ec5c4831000a1f8432c9e0855d",
+            "keysBefore": 3,
+            "keysAfter": 7
+          },
+          {
+            "tag": "wood67-131-v49-city4-distribute33",
+            "pairPins": [
+              {
+                "path": "native-wood67-131-v49-city4-distribute33-sango0.sav",
+                "bytes": 8221,
+                "sha256": "a181b0c56938d39eba4ff3afcf44fae1448f1bf3f47f25a7b54014ea1ffa7e23"
+              },
+              {
+                "path": "native-wood67-131-v49-city4-distribute33-sango1.sav",
+                "bytes": 4840,
+                "sha256": "62f150e47967dd63be435d2eed40e579ac329e2d644f2899d4a0f0920201d1c0"
+              }
+            ],
+            "worldSha256": "ef28ddc919cf05b914be896dcc51b62db8b4e14873f2072bc5779f01736b7102",
+            "keysBefore": 18,
+            "keysAfter": 22
+          }
+        ],
+        "completeWorldCheckpoints": 3,
+        "extraFinalWorld": true,
+        "finalPairMatchesActualWorld": true,
+        "seedFingerprint": "34fb0701ff747bcbfac9dcd3e8399bd97d48140376486efb250fb95ff71dc656",
+        "historicalSeedCompared": false,
+        "lastVerifiedWorldSha256": "ef28ddc919cf05b914be896dcc51b62db8b4e14873f2072bc5779f01736b7102",
+        "latestSavedPrefixTag": "wood67-131-v49-city4-distribute33",
+        "latestPairPins": [
+          {
+            "path": "native-wood67-131-v49-city4-distribute33-sango0.sav",
+            "bytes": 8221,
+            "sha256": "a181b0c56938d39eba4ff3afcf44fae1448f1bf3f47f25a7b54014ea1ffa7e23"
+          },
+          {
+            "path": "native-wood67-131-v49-city4-distribute33-sango1.sav",
+            "bytes": 4840,
+            "sha256": "62f150e47967dd63be435d2eed40e579ac329e2d644f2899d4a0f0920201d1c0"
+          }
+        ],
+        "newBuy": 0,
+        "newPayments": 0,
+        "newPlunder": 0,
+        "newMarch": 0,
+        "newEnd": 0,
+        "newBattle": 0,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "profileExistenceNewOsCheck": false
+      },
+      "currentSources": {
+        "count": 1408,
+        "ignoredAllowed": 86,
+        "attributesEvolution": {
+          "before": {
+            "path": ".gitattributes",
+            "bytes": 29796,
+            "sha256": "7ad990b222eb4a594d28cd1ac24707df401f29d9c8abbc7c596da5df03fdd1af"
+          },
+          "after": {
+            "path": ".gitattributes",
+            "bytes": 30301,
+            "sha256": "2be23a566a4c6b37835d31bccaa5c1745ac1087ee5cbc1f47166c7e6e4ef4623"
+          },
+          "change": "Only exact P50 archive byte attributes appended after the actual closed"
+        }
+      },
+      "main": {
+        "lastSaveTag": "wood67-131-v49-city4-distribute33",
+        "world": {
+          "path": "docs/validation/m5-wood-city4-resume-20261024-v50-latest-world.json",
+          "bytes": 148013,
+          "sha256": "a8d672af8b0876eb3818bab1ace9fb013c51c422a915f5325f14eacf3f3c52af"
+        },
+        "pair": [
+          {
+            "path": "docs/validation/m5-wood-city4-resume-20261024-v50-sango0.sav",
+            "bytes": 8221,
+            "sha256": "a181b0c56938d39eba4ff3afcf44fae1448f1bf3f47f25a7b54014ea1ffa7e23"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-resume-20261024-v50-sango1.sav",
+            "bytes": 4840,
+            "sha256": "62f150e47967dd63be435d2eed40e579ac329e2d644f2899d4a0f0920201d1c0"
+          }
+        ],
+        "historicalCompletedRepairs": 1,
+        "newDistributions": 1,
+        "completedRepairs": 2,
+        "nextAction": {
+          "kind": "plunder",
+          "city": 20,
+          "personId": 44,
+          "orderIndex": 0
+        },
+        "plunderIsOnlySourceDeclaration": true,
+        "ordinaryEndAccepted": false,
+        "city20Food": 1,
+        "nextStrictFood": 267,
+        "nextFoodGap": 266
+      },
+      "supplementalClosure": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/v50-post-exit-audit-v1.json",
+          "bytes": 1293,
+          "sha256": "c9eea50f28795e02fec4dc8c092337a5b87e6d2a3e8a855b601fb63860270ee6"
+        },
+        "twoReadOnlySamples": [
+          {
+            "path": "build/impact-skill-20261014/v50-post-exit-sample-1.json",
+            "bytes": 5817,
+            "sha256": "3d1fbf25dcb3874c618c91c7b986bfd10bb66d28d718bdf9dcfb235d36298dbc"
+          },
+          {
+            "path": "build/impact-skill-20261014/v50-post-exit-sample-2.json",
+            "bytes": 5817,
+            "sha256": "4cb317df03f100089ff8cbd94de3dc29f5d54064171f94549fd84d7c8a22b2fc"
+          }
+        ],
+        "acceptedForSupplementalReadOnlyClosure": true,
+        "originalTreeExited": false,
+        "originalWrapperOk": false,
+        "originalFlagsRewritten": false
+      },
+      "scope": {
+        "newBrowserRunsByReader": 0,
+        "newNativeInputsByReader": 0,
+        "actualFlagsRewritten": false,
+        "newDefaultTestsRunHere": 0,
+        "formalSourcesChangedByThisBatch": false,
+        "sourceBudgetIsActualIncome": false,
+        "newPlunder": 0,
+        "newMarch": 0,
+        "newEND": 0,
+        "newBattle": 0,
+        "activeWoodVisibilityResizeAccepted": false,
+        "classicMovieAccepted": false,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "matchingGitCheckoutRequired": true,
+        "previousNineTrackedInputsRequired": true,
+        "oldArchivePartsRepackaged": false
+      }
+    },
+    "newBrowserRuns": 0,
+    "newGameInputs": 0,
+    "newDefaultTestExecutions": 0,
+    "actualFlagsRewritten": false
+  },
+  "diskVerified": {
+    "accepted": true,
+    "logicalFiles": 204,
+    "uniqueBlobs": 190,
+    "ordinaryPngsDecoded": 3,
+    "sourceBinding": {
+      "presentStrict": 1408,
+      "missingExactFallbacks": 0
+    },
+    "facts": {
+      "schemaVersion": 1,
+      "savedBaseline": {
+        "publication": {
+          "path": "docs/validation/m5-wood-city4-preparation-20261024-v49.json",
+          "bytes": 294631,
+          "sha256": "1e6b6cbf48c1a568875f83e31e26a7b2595f3d0c32b7a4238a59b912dd8e0dc5"
+        },
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-preparation-root-full-v3.json",
+          "bytes": 56311,
+          "sha256": "cbea68c701acf79a556cdc40979423499b8fc7225e596b2410866d1024836b8d"
+        },
+        "stdout": {
+          "path": "build/impact-skill-20261014/city4-preparation-root-full-v3.stdout.log",
+          "bytes": 658656,
+          "sha256": "534eb838cb258bb25a0581d2439dc62fb29d5823948405411c0acea2f556b9cb"
+        },
+        "tests": 7821,
+        "pass": 7821,
+        "registeredFiles": 143,
+        "sourceCount": 291,
+        "sourceStableAtOriginalRun": true,
+        "recordKind": "SAVED original P49 F3, not a V50 rerun",
+        "newDefaultTestExecutions": 0
+      },
+      "controls": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/city4-resume-source-controls-v2.json",
+          "bytes": 17330,
+          "sha256": "aede7ae11d5758e81767e4474674b9f4db20e9532d1ba12884bfb6c4ff5d3499"
+        },
+        "tests": 19,
+        "pass": 19,
+        "sourceCount": 37,
+        "defaultCasesAdded": 0,
+        "originalFailure": {
+          "receipt": {
+            "path": "build/impact-skill-20261014/city4-resume-source-controls-v1.json",
+            "bytes": 17292,
+            "sha256": "34da52d5c2b60d051905f6f9efec443321f5fce560551c0128bdd07dbe1c7dc2"
+          },
+          "accepted": false,
+          "status": null,
+          "signal": "SIGTERM",
+          "finalSummaryPresent": false,
+          "rawStdout": {
+            "path": "build/impact-skill-20261014/city4-resume-source-controls-v1/stdout.tap",
+            "bytes": 8454144,
+            "sha256": "e2540728184776ce9ba738cf9fb0f030e43cc358afd6d26cc276b3d4ad6ee401"
+          },
+          "currentSourceClaim": false
+        }
+      },
+      "terminal": {
+        "closed": true,
+        "sessionId": 45681,
+        "initialChunk": "3f8814",
+        "terminalChunk": "d38d1e",
+        "exitCode": 1
+      },
+      "actual": {
+        "schemaVersion": 1,
+        "verifierScope": "One declared N3 public P49 partial1 resume; only current Distribute33 and genuine SAVE, then STOP",
+        "sourceCount": 1145,
+        "servedCount": 72,
+        "moduleCount": 24,
+        "executedCopies": 36,
+        "historicalCompletedRepairs": 1,
+        "newDistributions": 1,
+        "completedRepairs": 2,
+        "resumeEpochEstablished": true,
+        "historicalReferencesComparedAcrossProcesses": false,
+        "oldKeysOrStockReferencesRewritten": false,
+        "mayRepeatCompletedAction": false,
+        "completePreparationProof": true,
+        "worldGuard600": true,
+        "residentGuardArms": 600,
+        "reserveArms": 0,
+        "nextAction": {
+          "kind": "plunder",
+          "city": 20,
+          "personId": 44,
+          "orderIndex": 0
+        },
+        "nextPlunderIsOnlySourceDeclaration": true,
+        "plunderAuthorizedByThisController": false,
+        "originalFlags": {
+          "resultOk": false,
+          "scenarioOk": true,
+          "acceptedForPreparationClosure": false,
+          "actualPreparationAccepted": true,
+          "scenarioActualPreparationAccepted": true,
+          "cleanupTreeExited": false,
+          "hdAccepted": false,
+          "actualAccepted": false
+        },
+        "lifecycleClosed": false,
+        "savedWorldProofIndependentOfOriginalLifecycle": true,
+        "supplementalReadOnlyClosureAccepted": true,
+        "rawFlagsRewritten": false,
+        "independentPairCount": 41,
+        "actualTicketReads": 82,
+        "contentAddressedFullTickets": 20,
+        "nativeKeys": 22,
+        "bootNativeKeys": 23,
+        "quantityConfirmations": 1,
+        "publicSaves": [
+          {
+            "tag": "wood67-131-v50-city4-resume",
+            "pairPins": [
+              {
+                "path": "native-wood67-131-v50-city4-resume-sango0.sav",
+                "bytes": 8221,
+                "sha256": "1741d671a01aa68ecb30eecc9fbf2fe25c3b868b832679945210b61e0e646c55"
+              },
+              {
+                "path": "native-wood67-131-v50-city4-resume-sango1.sav",
+                "bytes": 4840,
+                "sha256": "3424914672c728b56f44ed5ad25036e8d017f3325df52dca4bc5f932ff11bbfa"
+              }
+            ],
+            "worldSha256": "1e6fd68f83fd25077c98a4ab55cdb903124311ec5c4831000a1f8432c9e0855d",
+            "keysBefore": 3,
+            "keysAfter": 7
+          },
+          {
+            "tag": "wood67-131-v49-city4-distribute33",
+            "pairPins": [
+              {
+                "path": "native-wood67-131-v49-city4-distribute33-sango0.sav",
+                "bytes": 8221,
+                "sha256": "a181b0c56938d39eba4ff3afcf44fae1448f1bf3f47f25a7b54014ea1ffa7e23"
+              },
+              {
+                "path": "native-wood67-131-v49-city4-distribute33-sango1.sav",
+                "bytes": 4840,
+                "sha256": "62f150e47967dd63be435d2eed40e579ac329e2d644f2899d4a0f0920201d1c0"
+              }
+            ],
+            "worldSha256": "ef28ddc919cf05b914be896dcc51b62db8b4e14873f2072bc5779f01736b7102",
+            "keysBefore": 18,
+            "keysAfter": 22
+          }
+        ],
+        "completeWorldCheckpoints": 3,
+        "extraFinalWorld": true,
+        "finalPairMatchesActualWorld": true,
+        "seedFingerprint": "34fb0701ff747bcbfac9dcd3e8399bd97d48140376486efb250fb95ff71dc656",
+        "historicalSeedCompared": false,
+        "lastVerifiedWorldSha256": "ef28ddc919cf05b914be896dcc51b62db8b4e14873f2072bc5779f01736b7102",
+        "latestSavedPrefixTag": "wood67-131-v49-city4-distribute33",
+        "latestPairPins": [
+          {
+            "path": "native-wood67-131-v49-city4-distribute33-sango0.sav",
+            "bytes": 8221,
+            "sha256": "a181b0c56938d39eba4ff3afcf44fae1448f1bf3f47f25a7b54014ea1ffa7e23"
+          },
+          {
+            "path": "native-wood67-131-v49-city4-distribute33-sango1.sav",
+            "bytes": 4840,
+            "sha256": "62f150e47967dd63be435d2eed40e579ac329e2d644f2899d4a0f0920201d1c0"
+          }
+        ],
+        "newBuy": 0,
+        "newPayments": 0,
+        "newPlunder": 0,
+        "newMarch": 0,
+        "newEnd": 0,
+        "newBattle": 0,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "profileExistenceNewOsCheck": false
+      },
+      "currentSources": {
+        "count": 1408,
+        "ignoredAllowed": 86,
+        "attributesEvolution": {
+          "before": {
+            "path": ".gitattributes",
+            "bytes": 29796,
+            "sha256": "7ad990b222eb4a594d28cd1ac24707df401f29d9c8abbc7c596da5df03fdd1af"
+          },
+          "after": {
+            "path": ".gitattributes",
+            "bytes": 30301,
+            "sha256": "2be23a566a4c6b37835d31bccaa5c1745ac1087ee5cbc1f47166c7e6e4ef4623"
+          },
+          "change": "Only exact P50 archive byte attributes appended after the actual closed"
+        }
+      },
+      "main": {
+        "lastSaveTag": "wood67-131-v49-city4-distribute33",
+        "world": {
+          "path": "docs/validation/m5-wood-city4-resume-20261024-v50-latest-world.json",
+          "bytes": 148013,
+          "sha256": "a8d672af8b0876eb3818bab1ace9fb013c51c422a915f5325f14eacf3f3c52af"
+        },
+        "pair": [
+          {
+            "path": "docs/validation/m5-wood-city4-resume-20261024-v50-sango0.sav",
+            "bytes": 8221,
+            "sha256": "a181b0c56938d39eba4ff3afcf44fae1448f1bf3f47f25a7b54014ea1ffa7e23"
+          },
+          {
+            "path": "docs/validation/m5-wood-city4-resume-20261024-v50-sango1.sav",
+            "bytes": 4840,
+            "sha256": "62f150e47967dd63be435d2eed40e579ac329e2d644f2899d4a0f0920201d1c0"
+          }
+        ],
+        "historicalCompletedRepairs": 1,
+        "newDistributions": 1,
+        "completedRepairs": 2,
+        "nextAction": {
+          "kind": "plunder",
+          "city": 20,
+          "personId": 44,
+          "orderIndex": 0
+        },
+        "plunderIsOnlySourceDeclaration": true,
+        "ordinaryEndAccepted": false,
+        "city20Food": 1,
+        "nextStrictFood": 267,
+        "nextFoodGap": 266
+      },
+      "supplementalClosure": {
+        "receipt": {
+          "path": "build/impact-skill-20261014/v50-post-exit-audit-v1.json",
+          "bytes": 1293,
+          "sha256": "c9eea50f28795e02fec4dc8c092337a5b87e6d2a3e8a855b601fb63860270ee6"
+        },
+        "twoReadOnlySamples": [
+          {
+            "path": "build/impact-skill-20261014/v50-post-exit-sample-1.json",
+            "bytes": 5817,
+            "sha256": "3d1fbf25dcb3874c618c91c7b986bfd10bb66d28d718bdf9dcfb235d36298dbc"
+          },
+          {
+            "path": "build/impact-skill-20261014/v50-post-exit-sample-2.json",
+            "bytes": 5817,
+            "sha256": "4cb317df03f100089ff8cbd94de3dc29f5d54064171f94549fd84d7c8a22b2fc"
+          }
+        ],
+        "acceptedForSupplementalReadOnlyClosure": true,
+        "originalTreeExited": false,
+        "originalWrapperOk": false,
+        "originalFlagsRewritten": false
+      },
+      "scope": {
+        "newBrowserRunsByReader": 0,
+        "newNativeInputsByReader": 0,
+        "actualFlagsRewritten": false,
+        "newDefaultTestsRunHere": 0,
+        "formalSourcesChangedByThisBatch": false,
+        "sourceBudgetIsActualIncome": false,
+        "newPlunder": 0,
+        "newMarch": 0,
+        "newEND": 0,
+        "newBattle": 0,
+        "activeWoodVisibilityResizeAccepted": false,
+        "classicMovieAccepted": false,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "rngContinuityAccepted": false,
+        "matchingGitCheckoutRequired": true,
+        "previousNineTrackedInputsRequired": true,
+        "oldArchivePartsRepackaged": false
+      }
+    },
+    "newBrowserRuns": 0,
+    "newGameInputs": 0,
+    "newDefaultTestExecutions": 0,
+    "actualFlagsRewritten": false
+  },
+  "sourceFilesModified": false,
+  "newBrowserRuns": 0,
+  "newNativeInputs": 0,
+  "newTargetExecutions": 0,
+  "newFullExecutions": 0,
+  "originalFlagsRewritten": false
+}

@@ -1,0 +1,392 @@
+{
+  "schemaVersion": 1,
+  "kind": "v28-source-only-controlled-acquisition-planning",
+  "accepted": false,
+  "sourceOnly": true,
+  "rootExecutionRequired": true,
+  "module": {
+    "path": "build/impact-skill-20261014/hd-impact-v28-acquisition-plan-v1.mjs",
+    "bytes": 12982,
+    "sha256": "ea831faaeaf072313eb151b3548589fbdbcd8af57d727b4d10bdeba1ff1b0109"
+  },
+  "tests": {
+    "path": "build/impact-skill-20261014/test-hd-impact-v28-acquisition-plan-v1.mjs",
+    "bytes": 12510,
+    "sha256": "817713d4b2dc643990a7266f493664cb5a6e9aa9c3186da1bb7ae200b2afa14b"
+  },
+  "fixture": {
+    "path": "build/impact-skill-20261014/hd-impact-v28-canvass16-august-input-v1.json",
+    "bytes": 77909,
+    "sha256": "97b769e882b4f292dcd0ebb18b5baeec8eed0a7d3baaa56f9077ba4f683d5309"
+  },
+  "fixtureOriginal": {
+    "path": "build/impact-skill-20261014/impact13-battle-v27-latest-genuine-saved-world-v1.json",
+    "bytes": 77909,
+    "sha256": "97b769e882b4f292dcd0ebb18b5baeec8eed0a7d3baaa56f9077ba4f683d5309"
+  },
+  "inputDate": [
+    238,
+    8
+  ],
+  "inputAuthority": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/impact13-battle-v27-terminal-receipt-v1.json",
+      "bytes": 384729,
+      "sha256": "6f1f64e59b3e05c075844e48936dc2bd877c7275593b09963c328a7be5435c2f"
+    },
+    "actualTerminal": {
+      "sessionId": 30731,
+      "chunkId": "5edf2a",
+      "exitCode": 0
+    },
+    "independentTerminal": {
+      "sessionId": 82326,
+      "chunkId": "67aa4f",
+      "exitCode": 0
+    }
+  },
+  "sources": [
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/tactic.c",
+      "bytes": 45067,
+      "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v27-acquisition-plan-v2.mjs",
+      "bytes": 9595,
+      "sha256": "33460da7a99354632d69fc6e6999d4b94e8e2635c7cffb038c5ed322fa9cd02f"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v27-canvass16-make-oracle-v1.mjs",
+      "bytes": 24282,
+      "sha256": "93aa6b083e57753cc714257c35729ce7920b19901ec05cc0017b5b185faf23c5"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v27-canvass16-natural-return-v1.mjs",
+      "bytes": 13971,
+      "sha256": "b2fa868e41b33fb171ddec01a9b3df6a21ad0b23ba3fb0e28eb3a7f1b073931c"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-v27-terminal-receipt-v1.json",
+      "bytes": 384729,
+      "sha256": "6f1f64e59b3e05c075844e48936dc2bd877c7275593b09963c328a7be5435c2f"
+    }
+  ],
+  "sourceRanges": {
+    "canvassMake": {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "start": 666,
+      "end": 741
+    },
+    "canvassDriver": {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "start": 673,
+      "end": 753
+    },
+    "counterDriver": {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "start": 769,
+      "end": 847
+    },
+    "induceDriver": {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "start": 881,
+      "end": 968
+    },
+    "characterConstants": {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "start": 31,
+      "end": 64
+    }
+  },
+  "nativeSemantics": {
+    "person129ZeroBased": 129,
+    "city12SatrapIdOneBased": 130,
+    "satrapConversion": "130-1=129",
+    "canvassFirstGate": "U8 difference=(actor.IQ-target.IQ)&255; accepted iff residue<=difference; g1=min(100,difference+1)",
+    "canvassSecondGate": "residue>=target.Devotion; g2=100-Devotion for original allowed0..100",
+    "canvassThirdGate": "residue<=[15,40,30,20,5][Character]; g3=threshold+1",
+    "sourceScore": "g1*g2*g3 integer source-admissible residue triples only",
+    "notAProbabilityPrediction": true,
+    "randomValuesObserved": false,
+    "aiBeforePolicyCanChangeTarget": true,
+    "targetLocationAndAffiliationMustBeFresh": true,
+    "lowerIqSubsetRetainedForExistingMakeOracle": true,
+    "sourceResidualExamples": [
+      {
+        "target": 129,
+        "character": 2,
+        "devotion": 71,
+        "lowerIqCounts": [
+          100,
+          29,
+          31
+        ],
+        "sourceScore": 89900
+      },
+      {
+        "target": 113,
+        "character": 0,
+        "devotion": 80,
+        "lowerIqCounts": [
+          100,
+          20,
+          16
+        ],
+        "sourceScore": 32000
+      },
+      {
+        "target": 107,
+        "character": 0,
+        "devotion": 81,
+        "lowerIqCounts": [
+          100,
+          19,
+          16
+        ],
+        "sourceScore": 30400
+      }
+    ]
+  },
+  "planningChanges": {
+    "actorPool17Unchanged": true,
+    "targetPool16Unchanged": true,
+    "primaryTarget": 129,
+    "maximumPrimaryTargetPerMonth": 6,
+    "maximumOtherTargetPerMonth": 2,
+    "maximumPerMonth": 10,
+    "maximumMonths": 3,
+    "maximumInRun": 30,
+    "pendingPaidOrdersCountTowardAllMonthlyCaps": true,
+    "minimumCashAfterPlannedDebits": 500,
+    "method": "deterministic bounded maximum-weight residual-network assignment; source score primary, rank-only tie costs; one actor once; city cash and target capacities",
+    "tieCostScale": 4096,
+    "tieCostMaximumTenEdgesExclusive": 2720,
+    "initialBuysAllowed": 0,
+    "maximumNecessaryPlunders": 1,
+    "guardAndFoodAndPlunderBodiesNameNormalizedByteExactToV27": true,
+    "all17EnvoyAnd16TargetAndOwnedAndCapitalGuardScopesUnchanged": true,
+    "notReservedFromFutureIncome": true
+  },
+  "currentSourceFacts": {
+    "eligibleEnvoys": [
+      37,
+      33,
+      59,
+      7,
+      25,
+      27,
+      39,
+      40
+    ],
+    "lowerIq129Envoys": [
+      37,
+      33,
+      59,
+      7
+    ],
+    "restingOriginalEnvoysThew16": [
+      43,
+      60,
+      5,
+      36,
+      51,
+      28,
+      6,
+      48,
+      68
+    ],
+    "futureRenewalNotAssumed": true,
+    "capital52NotAdded": true,
+    "city16": {
+      "food": 709,
+      "money": 6085
+    },
+    "city20": {
+      "food": 267,
+      "money": 761,
+      "defaultMonthlyFloor": 266
+    },
+    "plunderActor44": {
+      "thew": 28,
+      "sourceFoodGain": 645,
+      "sourceCashGain": 258
+    },
+    "plunderIncomeIsOnlyForecastUntilAdjacentNativeReturn": true
+  },
+  "controlledCaseClassification": {
+    "caseCount": 32,
+    "inheritedInvariantScenariosRetestedOnAugustFixture": 17,
+    "newV28DirectedScenarios": 15,
+    "formalRerunAdditionalDistinctCases": 0,
+    "rootExecutedTestsAtWriting": 0,
+    "fullSuiteAccepted": false,
+    "cases": [
+      {
+        "name": "N01 actual August2388 is the immutable input; no current own base and no orders",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N02 native U8 IQ residue counts preserve underflow, equality and positive difference",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N03 all five native Character constants map to threshold-plus-one exactly",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N04 fresh129/113/107 ranking uses source residues, never a predicted random value",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N05 original target set16 retained; only target129 monthly policy changes to6",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N06 actual August plans all eight currently eligible actors with four lower-IQ129 envoys",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N07 controlled recovery can fill primary cap6 while every other target remains cap2",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N08 residual assignment reallocates the flexible low-IQ envoy instead of losing a scarce edge",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N09 existing primary orders consume six-cap and monthly ten-cap together",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N10 ten already paid Canvass orders cause an empty replan without another debit",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N11 pending secondary count2 never permits another secondary order",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N12 each paid prefix preserves cap and total accounting during fresh replan",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N13 matching output is deterministic and score sorted for a complete unchanged snapshot",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N14 actual August food709 and267 are fresh facts, not old May Buy inputs",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "N15 conditional Plunder forecast never becomes actual income or a month acceptance",
+        "classification": "new-v28-directed"
+      },
+      {
+        "name": "R01 scope17 and old API aliases remain identical references",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R02 cash reserved cumulatively keeps city5 at500 after actual debits",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R03 every selected city has sufficient cumulative cash under controlled recovery",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R04 selected envoy must have one raw occurrence and the origin Satrap retained",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R05 current Satrap, active order and Thew19 each exclude an otherwise eligible envoy",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R06 first raw target location must itself be a current matching enemy city",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R07 fresh native target requirements reject owned captive king and unqualified target",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R08 lower-IQ subset retained for every edge rather than widening the adopted MAKE oracle",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R09 a real owned raw base even with zero army stops all further paid acquisition",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R10 only first170 native order slots are available before AI battle space",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R11 food keeps reserve and duplicate raw resident army rather than deduplicating",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R12 battle guard keeps current real residents and exact arms",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R13 malformed native state, live physical overlap and changed owned set fail closed",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R14 no input world, unknown token or queue tail is modified by planning APIs",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R15 unrelated native neutral IQ150/Force150 retains original U8 scope",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R16 an empty city raw queue pointer does not invent physical overlap",
+        "classification": "inherited-invariant-on-new-fixture"
+      },
+      {
+        "name": "R17 rest below20 never becomes assumed renewal or future eligibility",
+        "classification": "inherited-invariant-on-new-fixture"
+      }
+    ]
+  },
+  "execution": {
+    "cliExecutedByAuthor": false,
+    "moduleExecutedByAuthor": false,
+    "testsExecutedByAuthor": false,
+    "gameExecutedByAuthor": false,
+    "newActualInputOrPaidOrders": false
+  },
+  "actualAcquisitionAccepted": false,
+  "actualCastAccepted": false,
+  "actualMovieAccepted": false,
+  "actualPixelAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hd720VisualAccepted": false,
+  "hd1080VisualAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false
+}

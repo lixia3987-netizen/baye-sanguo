@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-23T14:28:44.550Z",
+  "kind": "append-root-strict-pixel-revalidation",
+  "parentIndexUnmodified": {
+    "path": "docs/validation/m5-aid-installed720-20261023/runtime-index.json",
+    "bytes": 106693,
+    "sha256": "1e1bdcb7e7d684645c6dbf1323f4a169eab60e940cbaaaa1e6f7208b632563ae"
+  },
+  "parentSummaryUnmodified": {
+    "path": "docs/validation/m5-aid-installed720-20261023.json",
+    "bytes": 17476,
+    "sha256": "e5c9276c622eb5681c62082e23f9d0384e4c383a7a27a3a99cf25061a6fde6d7"
+  },
+  "files": [
+    {
+      "original": "build/review-aid-hd720-root-v1.mjs",
+      "bytes": 2130,
+      "sha256": "4ec37bb3a3456a8bdda7e3abd42e7f73668575e3f30dd8625c1f600228b0ce2c",
+      "encoding": "gzip-original-bytes",
+      "archive": "raw/4ec37bb3a3456a8bdda7e3abd42e7f73668575e3f30dd8625c1f600228b0ce2c.gz",
+      "archiveBytes": 1046,
+      "archiveSha256": "f15dfb93296ddb50861ec3bf97363abe3b5bc63bb450b30e134cfc7a113fe481"
+    },
+    {
+      "original": "build/review-aid-hd720-root-v2.mjs",
+      "bytes": 2236,
+      "sha256": "eca4cc11b60c9516d1401bc9454bd8e56d2aabc5740c00b4f4af8dacbc24c4db",
+      "encoding": "gzip-original-bytes",
+      "archive": "raw/eca4cc11b60c9516d1401bc9454bd8e56d2aabc5740c00b4f4af8dacbc24c4db.gz",
+      "archiveBytes": 1065,
+      "archiveSha256": "dfa93b04ea1c0223c452fa951a56a60020dbc9f1849ace004a2947e5f5519dbb"
+    },
+    {
+      "original": "build/aid-hd720-20261023/root-pixel-revalidation-v1.json",
+      "bytes": 71170,
+      "sha256": "0ac12dc5da93b9aaffdd84f1134708f9aa20063c080c4475a3b863aeae94bcda",
+      "encoding": "gzip-original-bytes",
+      "archive": "raw/0ac12dc5da93b9aaffdd84f1134708f9aa20063c080c4475a3b863aeae94bcda.gz",
+      "archiveBytes": 8472,
+      "archiveSha256": "2eedd063515ff80ad93359c9a6079c2762811608e9b8d70b59344532476899c4"
+    }
+  ],
+  "accepted": true,
+  "readbacks": 49,
+  "newBrowserRuns": 0,
+  "newGameInputs": 0,
+  "coverageExpanded": false,
+  "rootReportedTerminal": {
+    "session": 20416,
+    "terminalChunk": "fa6559",
+    "exitCode": 0
+  },
+  "failureSourcePreserved": {
+    "path": "build/review-aid-hd720-root-v1.mjs",
+    "reason": "Offline asset Map omitted mandatory pstring.h; no runtime/game input. v2 supplies the actual pinned pstring.h and passes."
+  },
+  "scope": "Root independently reran strict oracle over the same two original real records. The original archive and summary remain unchanged; this supplement adds corroboration, not another real cast."
+}

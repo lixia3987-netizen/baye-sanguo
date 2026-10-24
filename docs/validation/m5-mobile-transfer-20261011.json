@@ -1,0 +1,1161 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "accepted": true,
+  "scope": "Original mobile transportation13 and MOVE14 in Chrome mobile emulation, era1 Dong Zhuo ChangAn10 to LuoYang15; staged844 and identical installed844/667 artifacts",
+  "globalHdComplete": false,
+  "realDeviceAccepted": false,
+  "monthArrivalAccepted": false,
+  "wholeNativeAbiAccepted": false,
+  "defaultParallelSuiteAccepted": false,
+  "implementation": {
+    "nativeProtocol": {
+      "version": 1,
+      "publicApi": "baye.hd.transfer()",
+      "fields": [
+        "g_hdTransferProtocolVersion",
+        "g_hdTransferActive",
+        "g_hdTransferCommand",
+        "g_hdTransferSession",
+        "g_hdTransferInputSeq",
+        "g_hdTransferPhase",
+        "g_hdTransferOrigin",
+        "g_hdTransferTarget",
+        "g_hdTransferPerson",
+        "g_hdTransferFood",
+        "g_hdTransferMoney",
+        "g_hdTransferArms",
+        "g_hdTransferDistance",
+        "g_hdTransferCommitSeq",
+        "g_hdTransferCommitResult"
+      ],
+      "commands": {
+        "transportation": 13,
+        "move": 14
+      },
+      "phases": {
+        "idle": 0,
+        "person": 1,
+        "food": 2,
+        "money": 3,
+        "arms": 4,
+        "targetTip": 5,
+        "targetPick": 6,
+        "reject": 7,
+        "departureReport": 8,
+        "done": 9
+      },
+      "owner": "independent U32 session/inputSeq; zero skipped; detail-generation reset invalidates suspended publishers",
+      "values": "only actual returned person/amount/target values; 255 city/distance and 65535 person mean not yet known",
+      "departure": "report8 observes native Thew/cargo debits before the original single AddOrderHead and DelPerson",
+      "commit": "monotonic CommitSeq; result1 actual AddOrderHead success, result2 actual rejection/full queue; no rollback added",
+      "retirement": "DONE inactive retains last receipt; next begin clears values/result; reset retires the session",
+      "input": "read-only; existing menu, quantity, report and map-input receipts remain authoritative"
+    },
+    "nativeBusinessChanged": false,
+    "originalLibrary": {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    "targetSelection": "Independent transfer-target owner; preview and pan emit zero native input; explicit confirm advances each native cursor ACK",
+    "cancellation": "Food to PERSON; Money to Food; Arms to Money; transport target to Arms; move target and final PERSON to MAP",
+    "reportTiming": "Thew and transport cargo already deducted during departure report; AddOrderHead and DelPerson run only after actual report returns"
+  },
+  "tests": {
+    "fullList": {
+      "modules": 80,
+      "testConcurrency": 1,
+      "nodeVersion": "v24.14.0",
+      "log": {
+        "path": "build/mobile-transfer-prebuild-20261011/full-suite-serial-v3.log",
+        "bytes": 303430,
+        "sha256": "d1263b071d3dd1c0658b8b51d249ad85cd2a2574fb15f3c5c3c0c49daa9b7b6c"
+      },
+      "tests": 3210,
+      "pass": 3210,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "duration_ms": 70252.2585
+    },
+    "firstFullList": {
+      "log": {
+        "path": "build/mobile-transfer-prebuild-20261011/full-suite-serial-v1.log",
+        "bytes": 389941,
+        "sha256": "49d4b42d0e8318f3e72905eef08e692426c0bf9abd439e17257435c87c28f5b9"
+      },
+      "tests": 3210,
+      "pass": 3147,
+      "fail": 63,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "duration_ms": 69692.1267
+    },
+    "secondFullList": {
+      "log": {
+        "path": "build/mobile-transfer-prebuild-20261011/full-suite-serial-v2.log",
+        "bytes": 304219,
+        "sha256": "5b287e6dce7d788b493f12913337d63fc070e20b8218ab2e95225d8a50998821"
+      },
+      "tests": 3210,
+      "pass": 3209,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "duration_ms": 75538.9495
+    },
+    "firstFailure": "63 compile failures from three old fixtures omitting actual transfer_retire dependency; test wiring fixed without production changes",
+    "secondFailure": "One existing AID41 image request assertion observed 0 instead of2; first cause unproved, unchanged80-module list passed on complete rerun",
+    "nativeTransfer": {
+      "pass": 30,
+      "fail": 0,
+      "log": {
+        "path": "build/mobile-transfer-prebuild-20261011/native-engine.log",
+        "bytes": 3060,
+        "sha256": "29dc5972b7a7aa8f6d248e19e11d1e69728ff917492f48d8767abeee505a989c"
+      }
+    },
+    "pureOracle": {
+      "pass": 95,
+      "fail": 0,
+      "log": {
+        "path": "build/mobile-transfer-prebuild-20261011/transfer-oracle.log",
+        "bytes": 5558,
+        "sha256": "a288145eccd59bdfefe09169fc7eb038770d99cd7a17c6c58a62f617a227f224"
+      }
+    },
+    "frontendFocused": {
+      "pass": 697,
+      "fail": 0,
+      "log": {
+        "path": "build/mobile-transfer-prebuild-20261011/history-mobile-transfer-focused-v4-20261011.log",
+        "bytes": 62775,
+        "sha256": "713e5475410a5b90accb6e077462c3e59ce7f67be2dbd8238566f157f9c13904"
+      }
+    }
+  },
+  "engine": {
+    "sourceRevision": "5b8345b1adaf4d00467e69a867d97be6ad960d00",
+    "engineSourceModified": true,
+    "engineSourceSha256": "9db61759be19881d93e5b88661c7cd062b50a565d6eb212e365d44ee99a5e706",
+    "nativeFiles": 128,
+    "sameStageBytesInstalled": true,
+    "files": [
+      {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "8fce68b52564c0f481ead756dcd33882d3a6a47910032ca28b3dd12b8e02a5f7"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4544706,
+        "sha256": "7f20502ebbd2c7a81ae2b58eed1b3dfc85ed933b5dbc3c692ef71be45363536e"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29983,
+        "sha256": "43292f0c13dfc35bf49c6394a3f59a11f74ef9aefd2d42a9e68e51bae64e831d"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 18655,
+        "sha256": "fc6a8a7612fb90392e23e1167026f0d91fac36ce5371450268a7fd8f873c53d1"
+      }
+    ]
+  },
+  "runtime": [
+    {
+      "directory": "build/mobile-transfer-staged-844-v1-20261011",
+      "ok": false,
+      "accepted": false,
+      "staged": true,
+      "viewport": [
+        844,
+        390
+      ],
+      "phases": 7,
+      "nativeKeys": 65,
+      "nativeTouches": 0,
+      "sources": 198,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "result": {
+        "path": "build/mobile-transfer-staged-844-v1-20261011/result.json",
+        "bytes": 32062155,
+        "sha256": "7b3e6d592d1544756d2150aee5c99245b7c1c736bdfc10883609457a612cda5c"
+      },
+      "error": "Error: Timed out current visible transfer control\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:244:78)\n    at async visible (file:///F:/project/baye-sanguo/scripts/hd-mobile-transfer-runtime-checks.mjs:21:20)\n    at async noInput (file:///F:/project/baye-sanguo/scripts/hd-mobile-transfer-runtime-checks.mjs:25:71)\n    at async runMobileTransferChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-transfer-runtime-checks.mjs:112:138)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:552:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:809:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:850:86",
+      "checks": [
+        {
+          "accepted": false,
+          "origin": 10,
+          "target": 15,
+          "cancellations": 3,
+          "actions": 23,
+          "panCount": 0,
+          "operations": []
+        }
+      ]
+    },
+    {
+      "directory": "build/mobile-transfer-staged-844-v2-20261011",
+      "ok": true,
+      "accepted": true,
+      "staged": true,
+      "viewport": [
+        844,
+        390
+      ],
+      "phases": 15,
+      "nativeKeys": 121,
+      "nativeTouches": 0,
+      "sources": 199,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "result": {
+        "path": "build/mobile-transfer-staged-844-v2-20261011/result.json",
+        "bytes": 53209718,
+        "sha256": "d22379f48b615ceec992596dd4369bb6861a61bb5ac7ccce4fffa4ee02a23511"
+      },
+      "checks": [
+        {
+          "accepted": true,
+          "origin": 10,
+          "target": 15,
+          "cancellations": 6,
+          "actions": 40,
+          "panCount": 2,
+          "operations": [
+            {
+              "operation": "transport",
+              "actor": 25,
+              "order": {
+                "OrderId": 13,
+                "Person": 25,
+                "City": 10,
+                "Object": 15,
+                "TimeCount": 3,
+                "Food": 2,
+                "Money": 2,
+                "Arms": 2
+              },
+              "route": {
+                "cityIndex": 10,
+                "targetCityIndex": 15,
+                "sourceCursor": {
+                  "x": 5,
+                  "y": 2
+                },
+                "targetCursor": {
+                  "x": 7,
+                  "y": 3
+                },
+                "timeCount": 3,
+                "connectedCities": [
+                  10,
+                  15,
+                  20
+                ],
+                "measuredCursorAccepted": true
+              },
+              "thew": {
+                "before": 100,
+                "after": 92,
+                "guardCost": 8,
+                "cost": 8
+              },
+              "sourceResources": {
+                "before": {
+                  "food": 1097,
+                  "money": 479,
+                  "arms": 979
+                },
+                "during": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                },
+                "after": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                }
+              },
+              "oracle": {
+                "ok": true,
+                "accepted": true,
+                "phase": "queued",
+                "operation": "transport",
+                "cityIndex": 10,
+                "targetCityIndex": 15,
+                "personId": 25,
+                "route": {
+                  "cityIndex": 10,
+                  "targetCityIndex": 15,
+                  "sourceCursor": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "targetCursor": {
+                    "x": 7,
+                    "y": 3
+                  },
+                  "timeCount": 3,
+                  "connectedCities": [
+                    10,
+                    15,
+                    20
+                  ],
+                  "measuredCursorAccepted": true
+                },
+                "thew": {
+                  "before": 100,
+                  "after": 92,
+                  "guardCost": 8,
+                  "cost": 8
+                },
+                "fixThewOverFlow": 0,
+                "fixOverFlow16": 0,
+                "checked": {
+                  "people": 200,
+                  "cities": 38,
+                  "queue": 2000,
+                  "orders": 200,
+                  "fighters": 600,
+                  "fighterIndex": 30
+                },
+                "publicInputAccepted": false,
+                "monthReturnAccepted": false,
+                "wholeNativeAbiAccepted": false,
+                "fullHdAccepted": false,
+                "limits": [
+                  "Only recorded fields; no RNG, month arrival or whole native ABI acceptance",
+                  "Caller proves original engine/no hooks, current owner, trusted input and report retirement",
+                  "TimeCount is Manhattan metadata; current PolicyExec does not decrement it before execution",
+                  "Unknown new-order stack bytes are recorded only within the declared field mask"
+                ],
+                "dispatchAccepted": true,
+                "partialMutationAccepted": false,
+                "orderIndex": 1,
+                "queueIndex": 56,
+                "order": {
+                  "OrderId": 13,
+                  "Person": 25,
+                  "City": 10,
+                  "Object": 15,
+                  "TimeCount": 3,
+                  "Food": 2,
+                  "Money": 2,
+                  "Arms": 2
+                },
+                "uninitializedOrderMask": {
+                  "orderIndex": 1,
+                  "fields": [
+                    "Consume"
+                  ],
+                  "actual": {
+                    "Consume": 0
+                  },
+                  "semanticAcceptance": false
+                }
+              }
+            },
+            {
+              "operation": "move",
+              "actor": 24,
+              "order": {
+                "OrderId": 14,
+                "Person": 24,
+                "City": 10,
+                "Object": 15,
+                "TimeCount": 3
+              },
+              "route": {
+                "cityIndex": 10,
+                "targetCityIndex": 15,
+                "sourceCursor": {
+                  "x": 5,
+                  "y": 2
+                },
+                "targetCursor": {
+                  "x": 7,
+                  "y": 3
+                },
+                "timeCount": 3,
+                "connectedCities": [
+                  10,
+                  15,
+                  20
+                ],
+                "measuredCursorAccepted": true
+              },
+              "thew": {
+                "before": 100,
+                "after": 92,
+                "guardCost": 0,
+                "cost": 8
+              },
+              "sourceResources": {
+                "before": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                },
+                "during": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                },
+                "after": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                }
+              },
+              "oracle": {
+                "ok": true,
+                "accepted": true,
+                "phase": "queued",
+                "operation": "move",
+                "cityIndex": 10,
+                "targetCityIndex": 15,
+                "personId": 24,
+                "route": {
+                  "cityIndex": 10,
+                  "targetCityIndex": 15,
+                  "sourceCursor": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "targetCursor": {
+                    "x": 7,
+                    "y": 3
+                  },
+                  "timeCount": 3,
+                  "connectedCities": [
+                    10,
+                    15,
+                    20
+                  ],
+                  "measuredCursorAccepted": true
+                },
+                "thew": {
+                  "before": 100,
+                  "after": 92,
+                  "guardCost": 0,
+                  "cost": 8
+                },
+                "fixThewOverFlow": 0,
+                "fixOverFlow16": 0,
+                "checked": {
+                  "people": 200,
+                  "cities": 38,
+                  "queue": 2000,
+                  "orders": 200,
+                  "fighters": 600,
+                  "fighterIndex": 30
+                },
+                "publicInputAccepted": false,
+                "monthReturnAccepted": false,
+                "wholeNativeAbiAccepted": false,
+                "fullHdAccepted": false,
+                "limits": [
+                  "Only recorded fields; no RNG, month arrival or whole native ABI acceptance",
+                  "Caller proves original engine/no hooks, current owner, trusted input and report retirement",
+                  "TimeCount is Manhattan metadata; current PolicyExec does not decrement it before execution",
+                  "Unknown new-order stack bytes are recorded only within the declared field mask"
+                ],
+                "dispatchAccepted": true,
+                "partialMutationAccepted": false,
+                "orderIndex": 2,
+                "queueIndex": 55,
+                "order": {
+                  "OrderId": 14,
+                  "Person": 24,
+                  "City": 10,
+                  "Object": 15,
+                  "TimeCount": 3
+                },
+                "uninitializedOrderMask": {
+                  "orderIndex": 2,
+                  "fields": [
+                    "Arms",
+                    "Food",
+                    "Money",
+                    "Consume"
+                  ],
+                  "actual": {
+                    "Arms": 27704,
+                    "Food": 51,
+                    "Money": 1034,
+                    "Consume": 0
+                  },
+                  "semanticAcceptance": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "directory": "build/mobile-transfer-installed-844-v1-20261011",
+      "ok": true,
+      "accepted": true,
+      "staged": false,
+      "viewport": [
+        844,
+        390
+      ],
+      "phases": 15,
+      "nativeKeys": 121,
+      "nativeTouches": 0,
+      "sources": 199,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "result": {
+        "path": "build/mobile-transfer-installed-844-v1-20261011/result.json",
+        "bytes": 52755937,
+        "sha256": "3cab932d53beae49cd2e70f1a61dd8ee888e42f8c1867dedbf304ee3d1cb7a6c"
+      },
+      "checks": [
+        {
+          "accepted": true,
+          "origin": 10,
+          "target": 15,
+          "cancellations": 6,
+          "actions": 40,
+          "panCount": 2,
+          "operations": [
+            {
+              "operation": "transport",
+              "actor": 25,
+              "order": {
+                "OrderId": 13,
+                "Person": 25,
+                "City": 10,
+                "Object": 15,
+                "TimeCount": 3,
+                "Food": 2,
+                "Money": 2,
+                "Arms": 2
+              },
+              "route": {
+                "cityIndex": 10,
+                "targetCityIndex": 15,
+                "sourceCursor": {
+                  "x": 5,
+                  "y": 2
+                },
+                "targetCursor": {
+                  "x": 7,
+                  "y": 3
+                },
+                "timeCount": 3,
+                "connectedCities": [
+                  10,
+                  15,
+                  20
+                ],
+                "measuredCursorAccepted": true
+              },
+              "thew": {
+                "before": 100,
+                "after": 92,
+                "guardCost": 8,
+                "cost": 8
+              },
+              "sourceResources": {
+                "before": {
+                  "food": 1097,
+                  "money": 479,
+                  "arms": 979
+                },
+                "during": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                },
+                "after": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                }
+              },
+              "oracle": {
+                "ok": true,
+                "accepted": true,
+                "phase": "queued",
+                "operation": "transport",
+                "cityIndex": 10,
+                "targetCityIndex": 15,
+                "personId": 25,
+                "route": {
+                  "cityIndex": 10,
+                  "targetCityIndex": 15,
+                  "sourceCursor": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "targetCursor": {
+                    "x": 7,
+                    "y": 3
+                  },
+                  "timeCount": 3,
+                  "connectedCities": [
+                    10,
+                    15,
+                    20
+                  ],
+                  "measuredCursorAccepted": true
+                },
+                "thew": {
+                  "before": 100,
+                  "after": 92,
+                  "guardCost": 8,
+                  "cost": 8
+                },
+                "fixThewOverFlow": 0,
+                "fixOverFlow16": 0,
+                "checked": {
+                  "people": 200,
+                  "cities": 38,
+                  "queue": 2000,
+                  "orders": 200,
+                  "fighters": 600,
+                  "fighterIndex": 30
+                },
+                "publicInputAccepted": false,
+                "monthReturnAccepted": false,
+                "wholeNativeAbiAccepted": false,
+                "fullHdAccepted": false,
+                "limits": [
+                  "Only recorded fields; no RNG, month arrival or whole native ABI acceptance",
+                  "Caller proves original engine/no hooks, current owner, trusted input and report retirement",
+                  "TimeCount is Manhattan metadata; current PolicyExec does not decrement it before execution",
+                  "Unknown new-order stack bytes are recorded only within the declared field mask"
+                ],
+                "dispatchAccepted": true,
+                "partialMutationAccepted": false,
+                "orderIndex": 1,
+                "queueIndex": 56,
+                "order": {
+                  "OrderId": 13,
+                  "Person": 25,
+                  "City": 10,
+                  "Object": 15,
+                  "TimeCount": 3,
+                  "Food": 2,
+                  "Money": 2,
+                  "Arms": 2
+                },
+                "uninitializedOrderMask": {
+                  "orderIndex": 1,
+                  "fields": [
+                    "Consume"
+                  ],
+                  "actual": {
+                    "Consume": 0
+                  },
+                  "semanticAcceptance": false
+                }
+              }
+            },
+            {
+              "operation": "move",
+              "actor": 24,
+              "order": {
+                "OrderId": 14,
+                "Person": 24,
+                "City": 10,
+                "Object": 15,
+                "TimeCount": 3
+              },
+              "route": {
+                "cityIndex": 10,
+                "targetCityIndex": 15,
+                "sourceCursor": {
+                  "x": 5,
+                  "y": 2
+                },
+                "targetCursor": {
+                  "x": 7,
+                  "y": 3
+                },
+                "timeCount": 3,
+                "connectedCities": [
+                  10,
+                  15,
+                  20
+                ],
+                "measuredCursorAccepted": true
+              },
+              "thew": {
+                "before": 100,
+                "after": 92,
+                "guardCost": 0,
+                "cost": 8
+              },
+              "sourceResources": {
+                "before": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                },
+                "during": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                },
+                "after": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                }
+              },
+              "oracle": {
+                "ok": true,
+                "accepted": true,
+                "phase": "queued",
+                "operation": "move",
+                "cityIndex": 10,
+                "targetCityIndex": 15,
+                "personId": 24,
+                "route": {
+                  "cityIndex": 10,
+                  "targetCityIndex": 15,
+                  "sourceCursor": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "targetCursor": {
+                    "x": 7,
+                    "y": 3
+                  },
+                  "timeCount": 3,
+                  "connectedCities": [
+                    10,
+                    15,
+                    20
+                  ],
+                  "measuredCursorAccepted": true
+                },
+                "thew": {
+                  "before": 100,
+                  "after": 92,
+                  "guardCost": 0,
+                  "cost": 8
+                },
+                "fixThewOverFlow": 0,
+                "fixOverFlow16": 0,
+                "checked": {
+                  "people": 200,
+                  "cities": 38,
+                  "queue": 2000,
+                  "orders": 200,
+                  "fighters": 600,
+                  "fighterIndex": 30
+                },
+                "publicInputAccepted": false,
+                "monthReturnAccepted": false,
+                "wholeNativeAbiAccepted": false,
+                "fullHdAccepted": false,
+                "limits": [
+                  "Only recorded fields; no RNG, month arrival or whole native ABI acceptance",
+                  "Caller proves original engine/no hooks, current owner, trusted input and report retirement",
+                  "TimeCount is Manhattan metadata; current PolicyExec does not decrement it before execution",
+                  "Unknown new-order stack bytes are recorded only within the declared field mask"
+                ],
+                "dispatchAccepted": true,
+                "partialMutationAccepted": false,
+                "orderIndex": 2,
+                "queueIndex": 55,
+                "order": {
+                  "OrderId": 14,
+                  "Person": 24,
+                  "City": 10,
+                  "Object": 15,
+                  "TimeCount": 3
+                },
+                "uninitializedOrderMask": {
+                  "orderIndex": 2,
+                  "fields": [
+                    "Arms",
+                    "Food",
+                    "Money",
+                    "Consume"
+                  ],
+                  "actual": {
+                    "Arms": 27704,
+                    "Food": 51,
+                    "Money": 1034,
+                    "Consume": 0
+                  },
+                  "semanticAcceptance": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "directory": "build/mobile-transfer-installed-667-v1-20261011",
+      "ok": true,
+      "accepted": true,
+      "staged": false,
+      "viewport": [
+        667,
+        375
+      ],
+      "phases": 15,
+      "nativeKeys": 121,
+      "nativeTouches": 0,
+      "sources": 199,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "result": {
+        "path": "build/mobile-transfer-installed-667-v1-20261011/result.json",
+        "bytes": 53214319,
+        "sha256": "ceca87bb69b25f938b5ccb27d0862d58796456eb4a8b9b7c4ffdf17cd6dca754"
+      },
+      "checks": [
+        {
+          "accepted": true,
+          "origin": 10,
+          "target": 15,
+          "cancellations": 6,
+          "actions": 40,
+          "panCount": 2,
+          "operations": [
+            {
+              "operation": "transport",
+              "actor": 25,
+              "order": {
+                "OrderId": 13,
+                "Person": 25,
+                "City": 10,
+                "Object": 15,
+                "TimeCount": 3,
+                "Food": 2,
+                "Money": 2,
+                "Arms": 2
+              },
+              "route": {
+                "cityIndex": 10,
+                "targetCityIndex": 15,
+                "sourceCursor": {
+                  "x": 5,
+                  "y": 2
+                },
+                "targetCursor": {
+                  "x": 7,
+                  "y": 3
+                },
+                "timeCount": 3,
+                "connectedCities": [
+                  10,
+                  15,
+                  20
+                ],
+                "measuredCursorAccepted": true
+              },
+              "thew": {
+                "before": 100,
+                "after": 92,
+                "guardCost": 8,
+                "cost": 8
+              },
+              "sourceResources": {
+                "before": {
+                  "food": 1097,
+                  "money": 479,
+                  "arms": 979
+                },
+                "during": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                },
+                "after": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                }
+              },
+              "oracle": {
+                "ok": true,
+                "accepted": true,
+                "phase": "queued",
+                "operation": "transport",
+                "cityIndex": 10,
+                "targetCityIndex": 15,
+                "personId": 25,
+                "route": {
+                  "cityIndex": 10,
+                  "targetCityIndex": 15,
+                  "sourceCursor": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "targetCursor": {
+                    "x": 7,
+                    "y": 3
+                  },
+                  "timeCount": 3,
+                  "connectedCities": [
+                    10,
+                    15,
+                    20
+                  ],
+                  "measuredCursorAccepted": true
+                },
+                "thew": {
+                  "before": 100,
+                  "after": 92,
+                  "guardCost": 8,
+                  "cost": 8
+                },
+                "fixThewOverFlow": 0,
+                "fixOverFlow16": 0,
+                "checked": {
+                  "people": 200,
+                  "cities": 38,
+                  "queue": 2000,
+                  "orders": 200,
+                  "fighters": 600,
+                  "fighterIndex": 30
+                },
+                "publicInputAccepted": false,
+                "monthReturnAccepted": false,
+                "wholeNativeAbiAccepted": false,
+                "fullHdAccepted": false,
+                "limits": [
+                  "Only recorded fields; no RNG, month arrival or whole native ABI acceptance",
+                  "Caller proves original engine/no hooks, current owner, trusted input and report retirement",
+                  "TimeCount is Manhattan metadata; current PolicyExec does not decrement it before execution",
+                  "Unknown new-order stack bytes are recorded only within the declared field mask"
+                ],
+                "dispatchAccepted": true,
+                "partialMutationAccepted": false,
+                "orderIndex": 1,
+                "queueIndex": 56,
+                "order": {
+                  "OrderId": 13,
+                  "Person": 25,
+                  "City": 10,
+                  "Object": 15,
+                  "TimeCount": 3,
+                  "Food": 2,
+                  "Money": 2,
+                  "Arms": 2
+                },
+                "uninitializedOrderMask": {
+                  "orderIndex": 1,
+                  "fields": [
+                    "Consume"
+                  ],
+                  "actual": {
+                    "Consume": 0
+                  },
+                  "semanticAcceptance": false
+                }
+              }
+            },
+            {
+              "operation": "move",
+              "actor": 24,
+              "order": {
+                "OrderId": 14,
+                "Person": 24,
+                "City": 10,
+                "Object": 15,
+                "TimeCount": 3
+              },
+              "route": {
+                "cityIndex": 10,
+                "targetCityIndex": 15,
+                "sourceCursor": {
+                  "x": 5,
+                  "y": 2
+                },
+                "targetCursor": {
+                  "x": 7,
+                  "y": 3
+                },
+                "timeCount": 3,
+                "connectedCities": [
+                  10,
+                  15,
+                  20
+                ],
+                "measuredCursorAccepted": true
+              },
+              "thew": {
+                "before": 100,
+                "after": 92,
+                "guardCost": 0,
+                "cost": 8
+              },
+              "sourceResources": {
+                "before": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                },
+                "during": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                },
+                "after": {
+                  "food": 1095,
+                  "money": 477,
+                  "arms": 977
+                }
+              },
+              "oracle": {
+                "ok": true,
+                "accepted": true,
+                "phase": "queued",
+                "operation": "move",
+                "cityIndex": 10,
+                "targetCityIndex": 15,
+                "personId": 24,
+                "route": {
+                  "cityIndex": 10,
+                  "targetCityIndex": 15,
+                  "sourceCursor": {
+                    "x": 5,
+                    "y": 2
+                  },
+                  "targetCursor": {
+                    "x": 7,
+                    "y": 3
+                  },
+                  "timeCount": 3,
+                  "connectedCities": [
+                    10,
+                    15,
+                    20
+                  ],
+                  "measuredCursorAccepted": true
+                },
+                "thew": {
+                  "before": 100,
+                  "after": 92,
+                  "guardCost": 0,
+                  "cost": 8
+                },
+                "fixThewOverFlow": 0,
+                "fixOverFlow16": 0,
+                "checked": {
+                  "people": 200,
+                  "cities": 38,
+                  "queue": 2000,
+                  "orders": 200,
+                  "fighters": 600,
+                  "fighterIndex": 30
+                },
+                "publicInputAccepted": false,
+                "monthReturnAccepted": false,
+                "wholeNativeAbiAccepted": false,
+                "fullHdAccepted": false,
+                "limits": [
+                  "Only recorded fields; no RNG, month arrival or whole native ABI acceptance",
+                  "Caller proves original engine/no hooks, current owner, trusted input and report retirement",
+                  "TimeCount is Manhattan metadata; current PolicyExec does not decrement it before execution",
+                  "Unknown new-order stack bytes are recorded only within the declared field mask"
+                ],
+                "dispatchAccepted": true,
+                "partialMutationAccepted": false,
+                "orderIndex": 2,
+                "queueIndex": 55,
+                "order": {
+                  "OrderId": 14,
+                  "Person": 24,
+                  "City": 10,
+                  "Object": 15,
+                  "TimeCount": 3
+                },
+                "uninitializedOrderMask": {
+                  "orderIndex": 2,
+                  "fields": [
+                    "Arms",
+                    "Food",
+                    "Money",
+                    "Consume"
+                  ],
+                  "actual": {
+                    "Arms": 27704,
+                    "Food": 51,
+                    "Money": 1034,
+                    "Consume": 0
+                  },
+                  "semanticAcceptance": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "installedSourcesByteEqual": true,
+  "cleanup": {
+    "at": "2026-10-11T06:39:42.0916812+00:00",
+    "runs": [
+      "build/mobile-transfer-staged-844-v1-20261011",
+      "build/mobile-transfer-staged-844-v2-20261011",
+      "build/mobile-transfer-installed-844-v1-20261011",
+      "build/mobile-transfer-installed-667-v1-20261011"
+    ],
+    "recordedIdentities": 45,
+    "survivingRecorded": [],
+    "pidReusedByOtherProcess": [],
+    "privateListeners": [],
+    "allRuntimeCleanupPassed": true,
+    "user8080Before": {
+      "at": "2026-10-11T06:15:10.132249Z",
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.279718Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    },
+    "user8080After": {
+      "at": "2026-10-11T06:39:41.9869384+00:00",
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.2797180Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    },
+    "user8080Unchanged": true
+  },
+  "archive": {
+    "manifest": "m5-mobile-transfer-20261011-archive.json",
+    "logicalFiles": 1013,
+    "uniqueGzipFiles": 395,
+    "gzipBytes": 55117619,
+    "roundTripExact": true,
+    "portableClosedArchive": false
+  },
+  "limits": [
+    "Actual acceptance excludes monthly arrival/return, other lords/cities/periods, browser full-order and rejection matrix, complete native ABI/RNG, cloud accounts, real Android/iOS and fixed-device performance",
+    "Full-order partial native costs, MOVE guard0/deduction8 and U8 wrap preserved and compiled-tested only",
+    "TimeCount3 is Manhattan metadata, not a proved travel duration; PolicyExec does not currently decrement it",
+    "Unknown new-order stack bytes are recorded under explicit masks without cargo semantics",
+    "Full HD remains partial"
+  ]
+}

@@ -1,0 +1,991 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-one-month-canvass-acquisition-checkpoint",
+  "publicationDate": "2026-10-21",
+  "publicationTimezone": "Asia/Shanghai",
+  "status": "partial-qualified-navy129-actually-acquired-preparation-and-cast-pending",
+  "originalOnly": true,
+  "noNewNativeBuild": true,
+  "runtimeSourceChangesIncluded": false,
+  "formalToolingChangesIncluded": false,
+  "canvassMonthAccepted": true,
+  "actualAcquisitionAccepted": true,
+  "actualPreparationAccepted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false,
+  "fullHdAccepted": false,
+  "globalHdComplete": false,
+  "originalLibrary": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "dependencies": {
+    "baseCommit": "546f64d",
+    "committedExternalReferences": [
+      {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v10/result.json",
+        "bytes": 39830852,
+        "sha256": "aac81245f8093e7185a2da8066253bfe6f8c62d4397bc5536b8f4ca11b64e98b"
+      },
+      {
+        "path": "build/impact-skill-20261014/prepare-capital-food-actual-v8/result.json",
+        "bytes": 12817277,
+        "sha256": "addbdd51ce810b12045dd6f452d8d17e5fd0c15f82eae5f487c3133efa22df83"
+      }
+    ],
+    "scope": "Previous names/food/January archives and historic product/source inputs are retained dependencies. Only explicitly named new files are closed here; full runtime1330/product/historical portability is not claimed. Earlier large result/archive parts and240 prior formal frozen blobs are not duplicated."
+  },
+  "priorPublisherAttempt": {
+    "files": [
+      {
+        "path": "build/impact-skill-20261014/publish-impact-canvass-acquisition-checkpoint-v1.mjs",
+        "bytes": 58006,
+        "sha256": "12234513e442c13b7174ef890f45973136823a0015ca1805997e723b214e8e0c"
+      },
+      {
+        "path": "build/impact-skill-20261014/publish-impact-canvass-acquisition-inputs-v1.json",
+        "bytes": 26160,
+        "sha256": "71abae417bf18c2c2241d45314d44dd7d91d103c537e69a1269ca115aa4b563d"
+      },
+      {
+        "path": "build/impact-skill-20261014/publish-impact-canvass-acquisition-checkpoint-review-v1.md",
+        "bytes": 4320,
+        "sha256": "e3ee8e3e3335414886cf6c15922ba467d80186f7af455c5bd8327444e7857752"
+      },
+      {
+        "path": "build/impact-skill-20261014/publish-impact-canvass-acquisition-freeze-v1.json",
+        "bytes": 1850,
+        "sha256": "94c6d06143ef56f3c5093a3063c13be46ee49d6b6fbb662363240f8cbf7ea5b4"
+      },
+      {
+        "path": "build/impact-skill-20261014/publish-impact-canvass-acquisition-dry-v1.log",
+        "bytes": 2110,
+        "sha256": "2635554be22ef0095991a526d0653f414e3e38007fa7caaf38fd72ed62923afa"
+      }
+    ],
+    "syntax": {
+      "terminalChunkId": "e113b4",
+      "exitCode": 0
+    },
+    "dry": {
+      "terminalChunkId": "216711",
+      "exitCode": 1,
+      "failedLine": 333,
+      "failedColumn": 63,
+      "error": "TypeError meta(undefined): v11 line delta uses parent, not baseline"
+    },
+    "officialArchiveWritten": false,
+    "officialDocsWritten": false,
+    "sourceAndInputWereFrozenBeforeRootExecution": true,
+    "reason": "Publisher metadata schema bug after recorded-v11 verification and before packing/output writes. Not a gameplay failure; v11 actual/root proof unchanged.",
+    "v2Fix": "Read exact delta.parent; assert exact schema, 11 zero-based hunks and complete forward/inverse source bytes; bind freeze.codeParent/candidate/delta/review. All v1 originals and failure log retained."
+  },
+  "actualExecution": {
+    "result": {
+      "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/result.json",
+      "bytes": 391098903,
+      "sha256": "f9f0e7c3ed29cee10d543265e9f504aea0c4cce6a64c824c5cff46e8ed8b421a"
+    },
+    "terminal": {
+      "path": "build/impact-skill-20261014/canvass-v11-terminal-receipt-v1.json",
+      "bytes": 23040,
+      "sha256": "53c0bb93781fd8cb4422851c1b4396abe5aa3ef61ec25e33eec2c44c17f55430"
+    },
+    "verifier": {
+      "path": "build/impact-skill-20261014/verify-canvass-v11-actual-v1.mjs",
+      "bytes": 38218,
+      "sha256": "be4b7683c6feef60b52364199d54801a2b06a5fff01ada6e3baf3a0d5a83b463"
+    },
+    "audit": {
+      "path": "build/impact-skill-20261014/canvass-v11-independent-audit-v1.md",
+      "bytes": 5488,
+      "sha256": "c3be7484a5cf05bda6ba0b67436308a3e234e1006e57c1d76843eb4aa01d30b4"
+    },
+    "tool": {
+      "path": "build/impact-induce-candidate-v11.mjs",
+      "bytes": 482251,
+      "sha256": "68afc5284a927f52f2db7699898d6dc8ecc638994167390b9d1c22a24886e1c6"
+    },
+    "startedAt": "2026-10-20T16:56:13.194Z",
+    "finishedAt": "2026-10-20T17:00:38.173Z",
+    "sessionId": 69158,
+    "terminalChunkId": "ecd476",
+    "exitCode": 0,
+    "ok": true,
+    "newIsolatedAttempt": true,
+    "priorUnsavedV10OrderClaimedRestored": false,
+    "rngContinuityAccepted": false
+  },
+  "dispatches": [
+    {
+      "number": 1,
+      "cityIndex": 7,
+      "personId": 28,
+      "targetId": 129,
+      "orderIndex": 2,
+      "queueIndex": 23,
+      "moneyCost": 50,
+      "thewCost": 20,
+      "completeRawDeltaExact": true,
+      "precommitRecomputed": true,
+      "threeTicketObservationIndices": [
+        12,
+        133,
+        136
+      ],
+      "rawFile": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/canvass-raw-observation-001.json",
+        "bytes": 626656,
+        "sha256": "040c9cd3314455a77c3ea1dce9436694800ae3c307a39f8940e107e99daf2b14"
+      },
+      "savedTag": "impact-canvass-order-001",
+      "saveBeforeBusinessByFrozenSource": true,
+      "opaqueOrder": {
+        "fields": [
+          "Arms",
+          "Food",
+          "Money",
+          "Consume"
+        ],
+        "values": {
+          "Arms": 48232,
+          "Food": 57,
+          "Money": 48216,
+          "Consume": 57
+        },
+        "semanticAcceptance": false
+      }
+    },
+    {
+      "number": 2,
+      "cityIndex": 7,
+      "personId": 6,
+      "targetId": 129,
+      "orderIndex": 3,
+      "queueIndex": 25,
+      "moneyCost": 50,
+      "thewCost": 20,
+      "completeRawDeltaExact": true,
+      "precommitRecomputed": true,
+      "threeTicketObservationIndices": [
+        148,
+        269,
+        272
+      ],
+      "rawFile": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/canvass-raw-observation-002.json",
+        "bytes": 626886,
+        "sha256": "cd00e70f714884830a1929af20f54330dbdd2d9e279267b14de6dac2a4eaafd7"
+      },
+      "savedTag": "impact-canvass-order-002",
+      "saveBeforeBusinessByFrozenSource": true,
+      "opaqueOrder": {
+        "fields": [
+          "Arms",
+          "Food",
+          "Money",
+          "Consume"
+        ],
+        "values": {
+          "Arms": 48232,
+          "Food": 57,
+          "Money": 48216,
+          "Consume": 57
+        },
+        "semanticAcceptance": false
+      }
+    },
+    {
+      "number": 3,
+      "cityIndex": 7,
+      "personId": 48,
+      "targetId": 129,
+      "orderIndex": 4,
+      "queueIndex": 24,
+      "moneyCost": 50,
+      "thewCost": 20,
+      "completeRawDeltaExact": true,
+      "precommitRecomputed": true,
+      "threeTicketObservationIndices": [
+        282,
+        403,
+        406
+      ],
+      "rawFile": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/canvass-raw-observation-003.json",
+        "bytes": 626557,
+        "sha256": "fa37401f95801c060fada4286e464f64c435bcff59c2462cd1d636a84ef98531"
+      },
+      "savedTag": "impact-canvass-order-003",
+      "saveBeforeBusinessByFrozenSource": true,
+      "opaqueOrder": {
+        "fields": [
+          "Arms",
+          "Food",
+          "Money",
+          "Consume"
+        ],
+        "values": {
+          "Arms": 48232,
+          "Food": 57,
+          "Money": 48216,
+          "Consume": 57
+        },
+        "semanticAcceptance": false
+      }
+    },
+    {
+      "number": 4,
+      "cityIndex": 7,
+      "personId": 68,
+      "targetId": 129,
+      "orderIndex": 5,
+      "queueIndex": 26,
+      "moneyCost": 50,
+      "thewCost": 20,
+      "completeRawDeltaExact": true,
+      "precommitRecomputed": true,
+      "threeTicketObservationIndices": [
+        420,
+        541,
+        544
+      ],
+      "rawFile": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/canvass-raw-observation-004.json",
+        "bytes": 627066,
+        "sha256": "8b4770e39186139696b961fc2c9a4e4aa7eb340c8bd93574268f93556c44305d"
+      },
+      "savedTag": "impact-canvass-order-004",
+      "saveBeforeBusinessByFrozenSource": true,
+      "opaqueOrder": {
+        "fields": [
+          "Arms",
+          "Food",
+          "Money",
+          "Consume"
+        ],
+        "values": {
+          "Arms": 48232,
+          "Food": 57,
+          "Money": 48216,
+          "Consume": 57
+        },
+        "semanticAcceptance": false
+      }
+    },
+    {
+      "number": 5,
+      "cityIndex": 13,
+      "personId": 37,
+      "targetId": 129,
+      "orderIndex": 6,
+      "queueIndex": 52,
+      "moneyCost": 50,
+      "thewCost": 20,
+      "completeRawDeltaExact": true,
+      "precommitRecomputed": true,
+      "threeTicketObservationIndices": [
+        551,
+        673,
+        676
+      ],
+      "rawFile": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/canvass-raw-observation-005.json",
+        "bytes": 626275,
+        "sha256": "4d0e1898d33731c589f26356fbe5b751c9172c9414d3360b6e049bc53cf87f99"
+      },
+      "savedTag": "impact-canvass-order-005",
+      "saveBeforeBusinessByFrozenSource": true,
+      "opaqueOrder": {
+        "fields": [
+          "Arms",
+          "Food",
+          "Money",
+          "Consume"
+        ],
+        "values": {
+          "Arms": 48232,
+          "Food": 57,
+          "Money": 48216,
+          "Consume": 57
+        },
+        "semanticAcceptance": false
+      }
+    },
+    {
+      "number": 6,
+      "cityIndex": 13,
+      "personId": 43,
+      "targetId": 129,
+      "orderIndex": 7,
+      "queueIndex": 54,
+      "moneyCost": 50,
+      "thewCost": 20,
+      "completeRawDeltaExact": true,
+      "precommitRecomputed": true,
+      "threeTicketObservationIndices": [
+        688,
+        809,
+        812
+      ],
+      "rawFile": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/canvass-raw-observation-006.json",
+        "bytes": 626814,
+        "sha256": "94861cd4ababf9ab54561d4dcdd8d5de6ff6f3f6a09f6881c062cbb6359d1f34"
+      },
+      "savedTag": "impact-canvass-order-006",
+      "saveBeforeBusinessByFrozenSource": true,
+      "opaqueOrder": {
+        "fields": [
+          "Arms",
+          "Food",
+          "Money",
+          "Consume"
+        ],
+        "values": {
+          "Arms": 48232,
+          "Food": 57,
+          "Money": 48216,
+          "Consume": 57
+        },
+        "semanticAcceptance": false
+      }
+    },
+    {
+      "number": 7,
+      "cityIndex": 13,
+      "personId": 60,
+      "targetId": 129,
+      "orderIndex": 8,
+      "queueIndex": 54,
+      "moneyCost": 50,
+      "thewCost": 20,
+      "completeRawDeltaExact": true,
+      "precommitRecomputed": true,
+      "threeTicketObservationIndices": [
+        824,
+        945,
+        948
+      ],
+      "rawFile": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/canvass-raw-observation-007.json",
+        "bytes": 626775,
+        "sha256": "905a283ace925a952ba73111164d6704a4a753673ca54ff4b6abec50f09d7308"
+      },
+      "savedTag": "impact-canvass-order-007",
+      "saveBeforeBusinessByFrozenSource": true,
+      "opaqueOrder": {
+        "fields": [
+          "Arms",
+          "Food",
+          "Money",
+          "Consume"
+        ],
+        "values": {
+          "Arms": 48232,
+          "Food": 57,
+          "Money": 48216,
+          "Consume": 57
+        },
+        "semanticAcceptance": false
+      }
+    },
+    {
+      "number": 8,
+      "cityIndex": 6,
+      "personId": 5,
+      "targetId": 129,
+      "orderIndex": 9,
+      "queueIndex": 18,
+      "moneyCost": 50,
+      "thewCost": 20,
+      "completeRawDeltaExact": true,
+      "precommitRecomputed": true,
+      "threeTicketObservationIndices": [
+        955,
+        1077,
+        1080
+      ],
+      "rawFile": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/canvass-raw-observation-008.json",
+        "bytes": 626270,
+        "sha256": "c6c8e70646e2f29a1681c626a46f97893a370327bedf7cc556f087645456272f"
+      },
+      "savedTag": "impact-canvass-order-008",
+      "saveBeforeBusinessByFrozenSource": true,
+      "opaqueOrder": {
+        "fields": [
+          "Arms",
+          "Food",
+          "Money",
+          "Consume"
+        ],
+        "values": {
+          "Arms": 48232,
+          "Food": 57,
+          "Money": 48216,
+          "Consume": 57
+        },
+        "semanticAcceptance": false
+      }
+    },
+    {
+      "number": 9,
+      "cityIndex": 6,
+      "personId": 36,
+      "targetId": 129,
+      "orderIndex": 10,
+      "queueIndex": 19,
+      "moneyCost": 50,
+      "thewCost": 20,
+      "completeRawDeltaExact": true,
+      "precommitRecomputed": true,
+      "threeTicketObservationIndices": [
+        1090,
+        1211,
+        1214
+      ],
+      "rawFile": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/canvass-raw-observation-009.json",
+        "bytes": 626526,
+        "sha256": "f65d826a179aa8366c1977ad64b47a51f96cf794469ae1df95fe6ec69e55e27f"
+      },
+      "savedTag": "impact-canvass-order-009",
+      "saveBeforeBusinessByFrozenSource": true,
+      "opaqueOrder": {
+        "fields": [
+          "Arms",
+          "Food",
+          "Money",
+          "Consume"
+        ],
+        "values": {
+          "Arms": 48232,
+          "Food": 57,
+          "Money": 48216,
+          "Consume": 57
+        },
+        "semanticAcceptance": false
+      }
+    },
+    {
+      "number": 10,
+      "cityIndex": 6,
+      "personId": 51,
+      "targetId": 129,
+      "orderIndex": 11,
+      "queueIndex": 19,
+      "moneyCost": 50,
+      "thewCost": 20,
+      "completeRawDeltaExact": true,
+      "precommitRecomputed": true,
+      "threeTicketObservationIndices": [
+        1224,
+        1345,
+        1348
+      ],
+      "rawFile": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/canvass-raw-observation-010.json",
+        "bytes": 626485,
+        "sha256": "06251b651f7c896e4ad3bea77663fd0ae6a845af95733499b6b625392f3a2a94"
+      },
+      "savedTag": "impact-canvass-order-010",
+      "saveBeforeBusinessByFrozenSource": true,
+      "opaqueOrder": {
+        "fields": [
+          "Arms",
+          "Food",
+          "Money",
+          "Consume"
+        ],
+        "values": {
+          "Arms": 48232,
+          "Food": 57,
+          "Money": 48216,
+          "Consume": 57
+        },
+        "semanticAcceptance": false
+      }
+    }
+  ],
+  "totalPaid": {
+    "money": 500,
+    "thew": 200
+  },
+  "rawEvidence": {
+    "files": 10,
+    "completeTicketsReopened": 30,
+    "rawFilesDeepEqualReport": true,
+    "allActualPerKeySlicesReopened": true,
+    "rawWxThenSaveBeforeBusinessByFrozenSource": true,
+    "onlyFourNewOrderOpaqueFields": true,
+    "oldGovTradeAllRawFieldsPreservedBeforeMonth": true
+  },
+  "publicSaves": [
+    {
+      "index": 0,
+      "tag": "impact-canvass-paid-input",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-paid-input-sango0.sav",
+          "bytes": 8221,
+          "sha256": "ec9364bfcdb9ddd2680b2cd034a8d4eca04c1cebe63392452ea53c820db40d97"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-paid-input-sango1.sav",
+          "bytes": 4840,
+          "sha256": "2cc7db3c9a7e717f1907c5ac717bbe6bee23c1373eadf77bcdc796f278f0272b"
+        }
+      ],
+      "worldJsonSha256": "c8b91230177eabec63f441264b092b19dfd95930e639df6a96d4904acbb404f8"
+    },
+    {
+      "index": 1,
+      "tag": "impact-canvass-order-001",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-001-sango0.sav",
+          "bytes": 8221,
+          "sha256": "84845e6555185c4f96753b6b38057c5c437528e8cb64310465273ff03ecc2c66"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-001-sango1.sav",
+          "bytes": 4840,
+          "sha256": "adde6996437bcfeba5dcebd24a95c3ddeef8e8f6c24414d8b711768d3fb8cbff"
+        }
+      ],
+      "worldJsonSha256": "0a5b615cff0102ba5703c05288319bc06048ce23790b27276b8dca6b946f20ad"
+    },
+    {
+      "index": 2,
+      "tag": "impact-canvass-order-002",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-002-sango0.sav",
+          "bytes": 8221,
+          "sha256": "af495bdecf71f15acf8a1607a02baad2383d153366d7ab655df04f3bedd1c25e"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-002-sango1.sav",
+          "bytes": 4840,
+          "sha256": "5c3024cf7853aa1b847a7289719a20bf53a358ccb899d93289ee3620b419a660"
+        }
+      ],
+      "worldJsonSha256": "b6d1d24985ab79dec2f61317dc763378308829c6c325fd69e7ae877064942548"
+    },
+    {
+      "index": 3,
+      "tag": "impact-canvass-order-003",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-003-sango0.sav",
+          "bytes": 8221,
+          "sha256": "ad63167edd3916b3bf7901578ecb9647998d3f5efdb4ffaeb656428d3fa415f6"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-003-sango1.sav",
+          "bytes": 4840,
+          "sha256": "eeb40d28d6c8829d37cc5e46ae5186c05770413cb00223dd95171c82e747eb3d"
+        }
+      ],
+      "worldJsonSha256": "ae0d6cf9d02bd1642d3b064cb1a1f828ab7afdac949aa4f92d653c8beab71bd7"
+    },
+    {
+      "index": 4,
+      "tag": "impact-canvass-order-004",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-004-sango0.sav",
+          "bytes": 8221,
+          "sha256": "44b7a8bddf169233c5f79fa06e2c8a344d0a6990b524fd5f3950a38122764252"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-004-sango1.sav",
+          "bytes": 4840,
+          "sha256": "1dcf2589b993d8121ba4446a37643e186554381fc539be9f781e66074c929308"
+        }
+      ],
+      "worldJsonSha256": "3feb08df5e989f9e904c34823aae336503685b558fbb6f5b4e73d9c1329bd1d2"
+    },
+    {
+      "index": 5,
+      "tag": "impact-canvass-order-005",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-005-sango0.sav",
+          "bytes": 8221,
+          "sha256": "8864d231445f8dd47b48cbab5385baead11b7b87a7cf5e0f8988e5caf7765990"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-005-sango1.sav",
+          "bytes": 4840,
+          "sha256": "aa5e82d75ec94f0403f0bb8a9301c0496d151145771ebd6bf958a0086b056b36"
+        }
+      ],
+      "worldJsonSha256": "35246a7e52aa1a2344b8c73576f06a4b229a3e27fc635edfd06a3fa44332e0fa"
+    },
+    {
+      "index": 6,
+      "tag": "impact-canvass-order-006",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-006-sango0.sav",
+          "bytes": 8221,
+          "sha256": "765004db6fc3f531decbe70afdf83d8785f83a22798c5c61898502daaf1b4944"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-006-sango1.sav",
+          "bytes": 4840,
+          "sha256": "f4d619812fc05329e5081eb88e1586e19685d0e08f6bf54b16c61490b03f7f80"
+        }
+      ],
+      "worldJsonSha256": "f523a2e79d023b4e26a58e75a1c2f6b8bfec13fa3f878748ebabd0a731b8eee3"
+    },
+    {
+      "index": 7,
+      "tag": "impact-canvass-order-007",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-007-sango0.sav",
+          "bytes": 8221,
+          "sha256": "b78790702670419908c99ff7b4b41cb852970af86dd88233e9934b43cff903c5"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-007-sango1.sav",
+          "bytes": 4840,
+          "sha256": "52c43a08418a7a587cfdb931f07b02e9e8c856edf1be5f89a49c0a72a4805a18"
+        }
+      ],
+      "worldJsonSha256": "516d794146a2f641afc08287545670842182a5d86ac39229a6cc8cb9b0f5c373"
+    },
+    {
+      "index": 8,
+      "tag": "impact-canvass-order-008",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-008-sango0.sav",
+          "bytes": 8221,
+          "sha256": "fb6f102af2541ea0ee5f0f4459dc647373040bdbb6201afc37c536c22f2126c7"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-008-sango1.sav",
+          "bytes": 4840,
+          "sha256": "26585c20180b010879ee4a434b514e051adacc4ba7bff7ec2abb460dc6d60325"
+        }
+      ],
+      "worldJsonSha256": "a37e5b870a935f2367435f718cdce6d20f93f08b1715ea67a7fa678ac4f3c3b4"
+    },
+    {
+      "index": 9,
+      "tag": "impact-canvass-order-009",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-009-sango0.sav",
+          "bytes": 8221,
+          "sha256": "e1b2b0d1e1dcfaac60bde005aa041ddd4afc1fc11f11437445ffd0b437c32352"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-009-sango1.sav",
+          "bytes": 4840,
+          "sha256": "1c16a6190cabaed6d88021d9e58fdd43dcb4175d3f3cb2cd47ecb048f688ad4a"
+        }
+      ],
+      "worldJsonSha256": "f796c260100acfda78501fd8c933b3466a47eaf619f06a56a266e6cd186052c1"
+    },
+    {
+      "index": 10,
+      "tag": "impact-canvass-order-010",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-010-sango0.sav",
+          "bytes": 8221,
+          "sha256": "f4aae18fba763a268c8ff8790353a5e816ae35724208639978d31d75c1a85e62"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-order-010-sango1.sav",
+          "bytes": 4840,
+          "sha256": "5d13f1c10d6c90c17065b0b50db01bb879ebd1ff86211c8ac49c18010d116ec3"
+        }
+      ],
+      "worldJsonSha256": "d535308aa35c6937a3fb6d1d9def02c1435bb583bd3e8a890d33ab39340ec312"
+    },
+    {
+      "index": 11,
+      "tag": "impact-canvass-month-001",
+      "date": [
+        237,
+        2
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-month-001-sango0.sav",
+          "bytes": 8221,
+          "sha256": "f6af79ff649de9a6243eae505cf3a7e5f895752a93538540124eb2b7ff94af02"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-month-001-sango1.sav",
+          "bytes": 4840,
+          "sha256": "3767a87b5f53c1633600850dd81eb29da770aede3df963434c2d8795c3f5669b"
+        }
+      ],
+      "worldJsonSha256": "7e79a02418820ed9f4a11000584c48ca9ba4181e53d4e2be0041222e13c943a2"
+    }
+  ],
+  "month": {
+    "normalMonths": 1,
+    "before": [
+      237,
+      1
+    ],
+    "after": [
+      237,
+      2
+    ],
+    "wholeNativeKeys": [
+      40,
+      39
+    ],
+    "strategyConfirmationKeys": [
+      39
+    ],
+    "allTenActorsActuallyReturned": true,
+    "activeOrders": 0,
+    "oldGovAndTradeNaturallyRetired": true,
+    "guard40ReturnedAtMonthEnd": true,
+    "gov20ReturnedAtMonthEnd": true,
+    "noDefenseObserved": true,
+    "guardReturnBeforeCombatObserved": false,
+    "particularOrderAcquisitionCauseAccepted": false
+  },
+  "currentQualifiedNavy": [
+    {
+      "personId": 129,
+      "effectiveArmType": 3,
+      "cityIndex": 6,
+      "person": {
+        "OldBelong": 0,
+        "Belong": 1,
+        "Level": 7,
+        "Force": 39,
+        "IQ": 72,
+        "Devotion": 71,
+        "Character": 2,
+        "Experience": 0,
+        "Thew": 100,
+        "ArmsType": 3,
+        "Arms": 1810,
+        "Tool1": 0,
+        "Tool2": 0,
+        "Age": 63
+      },
+      "name": "潘浚"
+    }
+  ],
+  "latestGenuineSave": {
+    "tag": "impact-canvass-month-001",
+    "date": [
+      237,
+      2
+    ],
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-month-001-sango0.sav",
+        "bytes": 8221,
+        "sha256": "f6af79ff649de9a6243eae505cf3a7e5f895752a93538540124eb2b7ff94af02"
+      },
+      {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/native-impact-canvass-month-001-sango1.sav",
+        "bytes": 4840,
+        "sha256": "3767a87b5f53c1633600850dd81eb29da770aede3df963434c2d8795c3f5669b"
+      }
+    ],
+    "worldJsonSha256": "7e79a02418820ed9f4a11000584c48ca9ba4181e53d4e2be0041222e13c943a2",
+    "worldExcerpt": {
+      "path": "build/impact-skill-20261014/impact-canvass-v11-latest-saved-world-v1.json",
+      "bytes": 78029,
+      "sha256": "7e79a02418820ed9f4a11000584c48ca9ba4181e53d4e2be0041222e13c943a2"
+    },
+    "allMeasuredPersistedFieldsAccepted": true,
+    "equalsActualPostMonthAndReadonlyQualificationWorld": true,
+    "newRestoreDescriptorNotCreatedByPublisher": true
+  },
+  "sources": {
+    "runtime": {
+      "sourceVerification": {
+        "path": "build/impact-skill-20261014/prepare-canvass-actual-v11/source-verification.json",
+        "bytes": 479057,
+        "sha256": "7f4107da0d17c9b884346e4244df88f44577959b110efd5bc1dd1416b7aa40ed"
+      },
+      "logical": 1330,
+      "normalizedPhysical": 1326,
+      "allCurrentExact": true,
+      "driftExceptions": [],
+      "nativeFiles": 128,
+      "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d"
+    },
+    "candidateDelta": {
+      "path": "build/impact-skill-20261014/impact-induce-candidate-v11-delta.json",
+      "bytes": 38114,
+      "sha256": "6e99597c13067c194b814de155aa5980c7e5f7b9a5f121e91d1bca839d2358e3"
+    },
+    "forwardInverseByteExact": true
+  },
+  "tests": {
+    "rerunForPublisher": false,
+    "previousFormalRecord": {
+      "result": {
+        "path": "build/impact-skill-20261014/impact-verifier-full-suite-v2/result.json",
+        "bytes": 69575,
+        "sha256": "712e535c1008d5d02024e5f09723329fcec244eb8b533fc89f151698d8b2d16f"
+      },
+      "terminal": {
+        "path": "build/impact-skill-20261014/impact-verifier-full-suite-terminal-v2.json",
+        "bytes": 1434,
+        "sha256": "c406242972104ab7f3d20a9ddd01c5c4c826f176443483d1a12441e158f686f2"
+      },
+      "sourceFreeze": {
+        "path": "build/impact-skill-20261014/impact-verifier-full-suite-v2/source-freeze.json",
+        "bytes": 62084,
+        "sha256": "e7a6c7e98f7efa2a058ce525c09d37db6b8e652a4ffd65473b4c4c4990588658"
+      },
+      "modules": 91,
+      "sourceCount": 241,
+      "executionConcurrency": 1,
+      "counts": {
+        "tests": 5130,
+        "suites": 0,
+        "pass": 5130,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "current241RecheckClaimed": false
+    },
+    "previousBuild208Receipt": {
+      "path": "build/impact-skill-20261014/impact-raw-canvass-tests-root-proof-v2.json",
+      "bytes": 2602,
+      "sha256": "7a6f535db6d0f9cbe52b05fcf997172d516120487b03fb1bcbe5f7e9b2fea478"
+    },
+    "countsMustNotBeSummed": true
+  },
+  "oldFormalManifestSnapshots": {
+    "manifest": {
+      "path": "build/impact-skill-20261014/pre-canvass-formalization-sources-v1/manifest.json",
+      "bytes": 941,
+      "sha256": "8ccf58028600e7efa65a00e483cc44eab9d55fd364e70d085c3a0f215b1fce18"
+    },
+    "files": [
+      {
+        "source": "package.json",
+        "path": "build/impact-skill-20261014/pre-canvass-formalization-sources-v1/package.json",
+        "bytes": 14165,
+        "sha256": "ce91c7955ad9a868ba807c9fb501463bc1efea5866c73e6d9164ea06f29185a0"
+      },
+      {
+        "source": ".gitattributes",
+        "path": "build/impact-skill-20261014/pre-canvass-formalization-sources-v1/gitattributes.original",
+        "bytes": 4563,
+        "sha256": "b02da58daaf949cb2d1c376b0f591e66e07e9004fcf2320e07bdd27d99963975"
+      }
+    ],
+    "generator": {
+      "path": "build/impact-skill-20261014/freeze-pre-canvass-manifests-v1.mjs",
+      "bytes": 1108,
+      "sha256": "6847b5cdd7517e8482ec46a018de17f0d8bbf6af323c5966db8c6c78c227c39b"
+    },
+    "belongsTo": "historical-formal241",
+    "partOfRuntime1330": false,
+    "runtimeDriftException": false
+  },
+  "isolation": {
+    "external": {
+      "path": "build/impact-skill-20261014/canvass-v11-external-cleanup-v1.json",
+      "bytes": 4359,
+      "sha256": "5d02c93365e7868c46c973c3ba29dd1f6c909fda200d440a5b0968ee46bfc458"
+    },
+    "exactHistoricalIdentityCount": 15,
+    "matchingIdentities": 0,
+    "privateListeners": 0,
+    "user8080Unchanged": true,
+    "profileRetained": true,
+    "directoriesDeleted": false,
+    "publisherPerformedOsQuery": false
+  },
+  "plannedDocumentation": {
+    "patch": {
+      "path": "build/impact-skill-20261014/canvass-acquisition-planning-docs-patch-v1.json",
+      "bytes": 8415,
+      "sha256": "477ad3b66b87ab255510c23db9aae48a7210f6ff4043c1c75aad67b86c9440f6"
+    },
+    "officialDocsWrittenByPublisher": false
+  },
+  "archive": {
+    "path": "docs/validation/m5-impact-plunder-preparation-20261020-canvass-acquisition-20261021-archive.json",
+    "bytes": 26488,
+    "sha256": "f991332134da56b84ee63493bb57e14c2c6676a978c5ad41753064cf874a9145",
+    "namedFiles": 111,
+    "uniqueBlobs": 109,
+    "parts": 3,
+    "namedFileArchiveClosed": true,
+    "portableClosedArchive": false
+  },
+  "limits": [
+    "Actual acquisition and single-month sub-scopes are accepted. Full preparation, MP/menu13, dual-water/battle positions, player/AI skill13 casting and HD/fallback/global/fullHD remainfalse.",
+    "This was a new isolated v11 retest from the latest real v10 persisted pre-dispatch SAVE, not continuation, restoration or credit for the old unsaved28→129 action. No RNG continuity or seed write.",
+    "Ten different original native Canvass dispatches were individually paid50Money/20Thew, rawWX files then genuineSAVE before business validation. All30 full tickets/per-key source slices and complete raw formula are reopened, with onlyfour actual opaque fields masked in each newly copied slot; no semantic-zero assumption.",
+    "One complete natural month changed ownership and returned actors. It does not isolate which same-target order or random/AI branch caused acquisition. No probability or deterministic result guarantee is derived.",
+    "No defense occurred. Guard40/Gov20 month-end return is observed, but guardReturnBeforeCombatObserved=false and no defensive survival/return-before-combat witness is accepted.",
+    "All12 genuine pairedSAVE measured people19B/city37B/order14B/residentprefix200/goods2000/fighters600/flags30 and measured header/date fields match rawworld. Unsaved resident tail/config, unmeasured header/cursor/custom meanings, seed behavior and wholeABI/RNG are outside restoration acceptance.",
+    "Runtime1330 is rehashed strictly with zero exceptions. package.json/.gitattributes are absent from that list. Their preserved pre-formal copies belong only to the older formal241 historical record; they cannot excuse any runtime drift.",
+    "Prior91modules/5130 and prior188/208build tests are existing separate root CLI records, not rerun by this publisher or summed into a new test count. No formal registration/source candidate is published in this batch.",
+    "The standalone saved-world JSON is an exact unmodified JSON.stringify excerpt of final genuineSAVE measured world, retaining original key order. It is not a new SAVE, complete source substitute or accepted cast input by itself.",
+    "Only the explicit named file list is archive-closed. Prior source/product/history and old large artifacts remain dependencies on546f64d/history; portableClosedArchive=false.",
+    "Root cleanup receipts prove15 complete historical identities/0live/0privateports/8080same/profilekept. Publisher reads them and does not query OS, stop processes, delete profiles, launch servers/browser/game input or alter the four existing planning docs."
+  ]
+}

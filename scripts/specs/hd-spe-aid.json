@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "kind": "aid-spe-entry-source-spec",
+  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+  "speId": 41,
+  "resourceIndex": 0,
+  "kindId": 2,
+  "startFrm": 0,
+  "endFrm": 7,
+  "aidVersion": 1,
+  "opaqueCoverageVersion": 1,
+  "skillResultVersion": 1,
+  "skillIds": [
+    17,
+    29
+  ],
+  "nativeFingerprint": "fnv1a32:1d4637e9:1084",
+  "nativeLength": 1084,
+  "pictureSources": [
+    "assets/hd-spe/aid-41/picture-0.png",
+    "assets/hd-spe/aid-41/picture-1.png"
+  ],
+  "number": {
+    "id": 15,
+    "index": 0,
+    "fingerprint": "fnv1a32:b37d7407:327"
+  },
+  "purpose": "Persistent machine source for the one shared AID entry, distinct from human protocol documentation. Regenerator must parse actual LIB/header/units/pictures and actual PNG sizes; preserve every unrelated entry object, never infer fields from a label.",
+  "pictureSha256": [
+    "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57",
+    "3d3d7353f870fcffb85e54fe767c3d37f48fb53ed65ecd59eb907992e2f616ed"
+  ]
+}

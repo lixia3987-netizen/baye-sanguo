@@ -1,0 +1,130 @@
+{
+  "version": 1,
+  "sourceOnly": true,
+  "authorExecutedTests": false,
+  "authorStartedGame": false,
+  "exports": [
+    "planV31WaterTokenGive",
+    "verifyV31WaterTokenGiveWorld",
+    "verifyV31WaterTokenGiveTwoStage",
+    "v31GiveCandidateInfo"
+  ],
+  "runtimeEntry": "v31MaybeGive(cdp)",
+  "plannedControlledTests": 40,
+  "pins": [
+    {
+      "path": "scripts/hd-impact-v30-search3-world-oracle.mjs",
+      "bytes": 13453,
+      "sha256": "59fadef331b5fa635e4bb1a1d9e11deb2c4ee4020682031635d90b625a10cc1a"
+    },
+    {
+      "path": "scripts/hd-mobile-equipment-runtime-oracle.mjs",
+      "bytes": 12249,
+      "sha256": "7dd275a6e76a464ead894078b38789698acc4a2233045341af1b335afbe822bb"
+    },
+    {
+      "path": "scripts/hd-mobile-equipment-runtime-checks.mjs",
+      "bytes": 14305,
+      "sha256": "7d7b257d6cf27971461842026f9b46c263ccf18823a3bfa2929484122ed8ce75"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "bytes": 34493,
+      "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/comOut.c",
+      "bytes": 21378,
+      "sha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f"
+    },
+    {
+      "path": "vendor/iBaye/src/showface.c",
+      "bytes": 42650,
+      "sha256": "c686d600d6cef87f4f3b2f64440200237ca8c4e011483067a2d7f7c4945b729a"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "build/impact13-runtime-candidate-v30b.mjs",
+      "bytes": 500258,
+      "sha256": "25e009245fffec1c63738a3fa54602a94cbe677f33122e521d44d3176d19bfa3"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v31-acquisition-policy-v2.mjs",
+      "bytes": 21173,
+      "sha256": "fe4e5a495b4947f45554457e4be24ae40fcc6872d7207c63139f5e9d7c875b8d"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v31-water-token-give-oracle-v1.mjs",
+      "bytes": 11181,
+      "sha256": "94aa5abe7310499b0fa69bae27200816856c9f61372c6d7a2764a83b79975881"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v31-water-token-give-oracle-v1.mjs",
+      "bytes": 6152,
+      "sha256": "f79faa5e6fe7670198b603264f5f2e74a012aa928b732f27da9a4c1d2636ddf3"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-v31-water-token-give-runtime-fragment-v1.js.txt",
+      "bytes": 10093,
+      "sha256": "b9393059bcc6a90862f6e20cd0c5e159477815d504a6bcfcf273b0bd0b9cf396"
+    }
+  ],
+  "shapeReuse": {
+    "source": "scripts/hd-impact-v30-search3-world-oracle.mjs",
+    "startMarker": "const PERSON=",
+    "endBeforeMarker": "function originalLibrary(",
+    "byteExact": true,
+    "reason": "Whole JSON-safe native world shape without false global PID uniqueness; preserves all unknown fields"
+  },
+  "nativeContract": [
+    "citycmdb.c1093-1203: Largess raw discovered GetCityPGoods, raw GOODS32 then full owned PERSON, both equipment slots empty in narrower approved scope",
+    "infdeal.c462-517 AddGoodsPerson useflag1 arm1 changes ArmsType3; exact original at0 iq0; consumes no equipment slot",
+    "cityedit.c206-248 DelGoods compacts through1998, retains1999, city Tools-1 and all later ToolQueue-1",
+    "citycmdb.c1176-1191 DelGoods before nonking ShowGReport, Devotion+8 U8 then capped100 after report",
+    "infdeal.c644-669 ShowGReport kind2 naturally GamDelay300/2; no ACK required",
+    "infdeal.c567-580 ShowConstStrMsg and comOut.c176-209 GamMsgBox kind1 naturally GamDelay200/2",
+    "showface.c288-386 GOODS kind4 IDs raw zero-based; resource73 names packed into7 data bytes of8-byte slot"
+  ],
+  "runtimeProof": {
+    "before": "Complete actual February239-2 ordinary MAP after settled public SAVE",
+    "causality": "Only fresh successful adjacent Canvass target acquired directly to6; pure model is not independent execution proof",
+    "menu": "Full raw GOODS IDs and native packed names then full owned PERSON IDs/names",
+    "confirm": "One recipient Enter only, every arrow full current fence",
+    "reports": "Two current stable complete native report tickets: kind2 recipient then kind1/person65535/城中无道具; zero ACKs",
+    "business": "Raw before public SAVE, actual paired public SAVE before full model acceptance",
+    "final": "Same causal PID native effective ArmsType3 double read and complete world fence; source MP only",
+    "failure": "No retry/replay/guessed owner; readonly natural wait15sec, safe original MAP preservation only"
+  },
+  "limits": [
+    "Controlled tests grant no real Give/Canvass/input/SAVE/RNG/battle/HD credit",
+    "One last city6 token only; other inventories require new source/controller scope",
+    "Both gear slots empty narrower than native at-least-one empty, matching approved current nonnavy pool",
+    "Original water skill source-MP arithmetic is not a measured battle MP value"
+  ],
+  "actualGiveExecutionAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualPreparationAccepted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false
+}

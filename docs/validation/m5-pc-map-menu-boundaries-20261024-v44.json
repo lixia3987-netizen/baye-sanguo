@@ -1,0 +1,466 @@
+{
+  "schemaVersion": 1,
+  "kind": "Original PC ordinary MAP/FunctionMenu viewport and short real visibility evidence",
+  "acceptedForPublicationClosure": true,
+  "terminal": {
+    "session": 69382,
+    "initialChunk": "0eefc6",
+    "finalChunk": "4929e7",
+    "exitCode": 0,
+    "provenance": "Root supplied genuine closed tool metadata"
+  },
+  "originalControllerFlags": {
+    "ok": true,
+    "acceptedForObservationClosure": true,
+    "actualAccepted": false,
+    "hdAccepted": false,
+    "metricsAndBackingContractSatisfied": true,
+    "realVisibilityContractSatisfied": true,
+    "cssVisualLayoutAccepted": false,
+    "activeWoodAidAccepted": false,
+    "performanceBaselineAccepted": false,
+    "globalHdComplete": false
+  },
+  "scope": {
+    "publicOriginalLoadAccepted": true,
+    "metricsAndBackingContractSatisfied": true,
+    "visibleMapBackingOnly": true,
+    "functionMenuHiddenMapBackingDiagnosticOnly": true,
+    "oneShortRealHiddenVisiblePairObserved": true,
+    "observedHiddenDurationMs": 30.900000005960464,
+    "independentHiddenFullWorldProof": false,
+    "executionTimeHiddenFullWorldSeedPairAssertionsPassed": true,
+    "longBackgroundOrThrottlingRecoveryAccepted": false,
+    "cssVisualLayoutAccepted": false,
+    "nativeMoviePixelAccepted": false,
+    "activeWoodAidAccepted": false,
+    "performanceAccepted": false,
+    "physicalDprOrRealDeviceAccepted": false,
+    "globalHdComplete": false,
+    "newEnd": 0,
+    "newBuy": 0,
+    "newBattle": 0,
+    "newNativeSave": 0,
+    "uniqueMainUpdated": false
+  },
+  "counts": {
+    "actualFlatFiles": 51,
+    "actualFlatBytes": 27143004,
+    "ordinaryPngs": 11,
+    "decodedPngColor": "RGB8",
+    "criticalExecutedCopies": 12,
+    "executionSources": 1118,
+    "servedSources": 72,
+    "mapMetricCases": 4,
+    "functionMenuMetricCases": 4,
+    "completeCheckpointWorlds": 11,
+    "extraFinalWorldCopy": true,
+    "geometryProbeKeys": 7,
+    "allBootNativeKeys": 8
+  },
+  "input": {
+    "mainRemains": "docs/validation/m5-wood67-classic-20261024-v42",
+    "pins": [
+      {
+        "path": "docs/validation/m5-wood67-classic-20261024-v42.json",
+        "bytes": 14720,
+        "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217"
+      },
+      {
+        "path": "docs/validation/m5-wood67-classic-20261024-v42-latest-world.json",
+        "bytes": 148013,
+        "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75"
+      },
+      {
+        "path": "docs/validation/m5-wood67-classic-20261024-v42-sango0.sav",
+        "bytes": 8221,
+        "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6"
+      },
+      {
+        "path": "docs/validation/m5-wood67-classic-20261024-v42-sango1.sav",
+        "bytes": 4840,
+        "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028"
+      }
+    ],
+    "current": {
+      "date": [
+        239,
+        10
+      ],
+      "caster131Arms": 2242,
+      "caster131Experience": 16,
+      "city20Food": 1,
+      "city20Money": 886,
+      "nextStrictFood": 267,
+      "nextFoodGap": 266,
+      "noNextEndAuthorization": true,
+      "mainInputChanged": false
+    },
+    "publicLoadKeys": [
+      35,
+      39,
+      39
+    ],
+    "postLoadMenuKeys": [
+      40,
+      35,
+      34,
+      40
+    ],
+    "savedSeedApplicationAccepted": false
+  },
+  "geometry": [
+    {
+      "owner": "map",
+      "label": "pc1080-dpr1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "outerWidth": 1920,
+        "outerHeight": 1080,
+        "dpr": 1,
+        "visual": {
+          "width": 1920,
+          "height": 1080,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        }
+      },
+      "backing": {
+        "width": 1920,
+        "height": 1080
+      },
+      "backingAccepted": true,
+      "backgroundBackingDiagnosticOnly": false,
+      "png": {
+        "bytes": 3079848,
+        "sha256": "1c90fcf375290068fd929c0dc3f566501c2c1e6209243d2c18feaba46b0eeda1",
+        "width": 1920,
+        "height": 1080
+      },
+      "nativeKeys": 0
+    },
+    {
+      "owner": "map",
+      "label": "pc720-dpr1",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "outerWidth": 1920,
+        "outerHeight": 1080,
+        "dpr": 1,
+        "visual": {
+          "width": 1280,
+          "height": 720,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        }
+      },
+      "backing": {
+        "width": 1920,
+        "height": 1080
+      },
+      "backingAccepted": true,
+      "backgroundBackingDiagnosticOnly": false,
+      "png": {
+        "bytes": 1491792,
+        "sha256": "94867dc6fe97ca2c2dc10cba416a4c70a9c89c2f2e342bd88d42b31245790bfc",
+        "width": 1280,
+        "height": 720
+      },
+      "nativeKeys": 0
+    },
+    {
+      "owner": "map",
+      "label": "pc720-dpr2",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "outerWidth": 1920,
+        "outerHeight": 1080,
+        "dpr": 2,
+        "visual": {
+          "width": 1280,
+          "height": 720,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        }
+      },
+      "backing": {
+        "width": 3840,
+        "height": 2160
+      },
+      "backingAccepted": true,
+      "backgroundBackingDiagnosticOnly": false,
+      "png": {
+        "bytes": 4590589,
+        "sha256": "61082aa262bed2a6b53713e83a96ee350fab7f520ac4a064c1e1876420e2dda9",
+        "width": 2560,
+        "height": 1440
+      },
+      "nativeKeys": 0
+    },
+    {
+      "owner": "map",
+      "label": "restore-pc1080-dpr1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "outerWidth": 1920,
+        "outerHeight": 1080,
+        "dpr": 1,
+        "visual": {
+          "width": 1920,
+          "height": 1080,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        }
+      },
+      "backing": {
+        "width": 1920,
+        "height": 1080
+      },
+      "backingAccepted": true,
+      "backgroundBackingDiagnosticOnly": false,
+      "png": {
+        "bytes": 3079623,
+        "sha256": "fa571711f084307b3590f5575e021f77a5ccbb1e338b7df5fd9a2a0b045cc37b",
+        "width": 1920,
+        "height": 1080
+      },
+      "nativeKeys": 0
+    },
+    {
+      "owner": "function-menu",
+      "label": "pc1080-dpr1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "outerWidth": 1920,
+        "outerHeight": 1080,
+        "dpr": 1,
+        "visual": {
+          "width": 1920,
+          "height": 1080,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        }
+      },
+      "backing": {
+        "width": 1920,
+        "height": 1080
+      },
+      "backingAccepted": false,
+      "backgroundBackingDiagnosticOnly": true,
+      "png": {
+        "bytes": 72232,
+        "sha256": "c2ca94411fbb07d80c2c0d7398cd0e3cfb9b544d5561723d066f6bf387fefa43",
+        "width": 1920,
+        "height": 1080
+      },
+      "nativeKeys": 0
+    },
+    {
+      "owner": "function-menu",
+      "label": "pc720-dpr1",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "outerWidth": 1920,
+        "outerHeight": 1080,
+        "dpr": 1,
+        "visual": {
+          "width": 1280,
+          "height": 720,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        }
+      },
+      "backing": {
+        "width": 1920,
+        "height": 1080
+      },
+      "backingAccepted": false,
+      "backgroundBackingDiagnosticOnly": true,
+      "png": {
+        "bytes": 59390,
+        "sha256": "dfb3ef0b7b48545c8324402fe12d78a9b07d38eb0b692b1a614b9ab9e68b6afc",
+        "width": 1280,
+        "height": 720
+      },
+      "nativeKeys": 0
+    },
+    {
+      "owner": "function-menu",
+      "label": "pc720-dpr2",
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "outerWidth": 1920,
+        "outerHeight": 1080,
+        "dpr": 2,
+        "visual": {
+          "width": 1280,
+          "height": 720,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        }
+      },
+      "backing": {
+        "width": 3840,
+        "height": 2160
+      },
+      "backingAccepted": false,
+      "backgroundBackingDiagnosticOnly": true,
+      "png": {
+        "bytes": 134711,
+        "sha256": "69dd54d69bcaa6ac96866d2ff2cbc822993f2d83fcc56a5eefb477c9cdc41807",
+        "width": 2560,
+        "height": 1440
+      },
+      "nativeKeys": 0
+    },
+    {
+      "owner": "function-menu",
+      "label": "restore-pc1080-dpr1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "outerWidth": 1920,
+        "outerHeight": 1080,
+        "dpr": 1,
+        "visual": {
+          "width": 1920,
+          "height": 1080,
+          "scale": 1,
+          "offsetLeft": 0,
+          "offsetTop": 0
+        }
+      },
+      "backing": {
+        "width": 1920,
+        "height": 1080
+      },
+      "backingAccepted": false,
+      "backgroundBackingDiagnosticOnly": true,
+      "png": {
+        "bytes": 65433,
+        "sha256": "a0bf0f46643f0b6de2f46dc8b002d24e701f912e69c04cb390380ce5c3d69940",
+        "width": 1920,
+        "height": 1080
+      },
+      "nativeKeys": 0
+    }
+  ],
+  "visibility": {
+    "nativePrototypeGetterDescriptors": true,
+    "trustedHiddenEvents": 1,
+    "trustedVisibleEvents": 1,
+    "hiddenAt": 10240.20000000298,
+    "visibleAt": 10271.10000000894,
+    "observedDurationMs": 30.900000005960464,
+    "keyCount": 7,
+    "nativeOwnersStable": true,
+    "rawHiddenStateHasFullWorld": false,
+    "independentHiddenFullWorldProof": false,
+    "executionTimeHiddenFullWorldSeedPairAssertionsPassed": true,
+    "longBackgroundOrThrottlingRecoveryAccepted": false
+  },
+  "reviews": {
+    "closed": {
+      "path": "build/impact-skill-20261014/october-geometry-closed-independent-v1/review.json",
+      "bytes": 41743,
+      "sha256": "bb6dffdfc8a91d8e8d20b411a2ae56c104b49895303d1c29336b7e9ed591a4b5"
+    },
+    "visibleDom": {
+      "path": "build/impact-skill-20261014/viewport-october-visible-dom-independent-v1.json",
+      "bytes": 32216,
+      "sha256": "ded2c4bafbad24c20ef73f51c001029c6295c90530ac003f93bb2325b6f2a19c"
+    },
+    "scope": "11 ordinary RGB8 screenshot provenance; partial MAP/menu DOM facts, not total CSS layout acceptance"
+  },
+  "savedRegression": {
+    "tests": 7701,
+    "registeredFiles": 141,
+    "newDefaultCases": 0,
+    "newFullRun": false,
+    "unchangedTestedSources": 205,
+    "receipt": {
+      "path": "build/impact-skill-20261014/viewport-spe-return-root-full-v1.json",
+      "bytes": 38349,
+      "sha256": "38d2467459a58becb1e59a357a642f655e01893526a5238d7fa110d337114c00"
+    },
+    "before": {
+      "path": "build/impact-skill-20261014/viewport-spe-return-root-full-v1-before.json",
+      "bytes": 37384,
+      "sha256": "b8417df5c877b8711226534aaaa1b9726ed95354981f131d860d18c88b8967da"
+    },
+    "metadataContinuity": {
+      "path": "build/impact-skill-20261014/october-v44-regression-source-continuity-v1.json",
+      "bytes": 932,
+      "sha256": "457b77e1db595c99a56b5b6593022db9f573ebc34ecd9193aa8708b6df41e5e3"
+    },
+    "publishedV43FullGzip": {
+      "path": "docs/validation/m5-spe-return-boundary-20261024-v43-full-test.log.gz",
+      "bytes": 168374,
+      "sha256": "7e82210d274ce5df890fb52d094487644b2f22e94d6f1a2cb731aeb5700b29dd"
+    },
+    "rawLogRepacked": false
+  },
+  "transport": {
+    "parts": 5,
+    "logicalFiles": 92,
+    "physicalBlobs": 88,
+    "namedRawBytes": 27725469,
+    "physicalRawBytes": 27661659,
+    "serializedPartBytes": 29916665,
+    "partLimit": 8388608,
+    "totalSerializedLimit": 67108864,
+    "totalPhysicalRawLimit": 67108864
+  },
+  "archive": {
+    "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-archive.json",
+    "bytes": 36532,
+    "sha256": "f200a3ccaaeb6fb92865ce359c4ca133f2000ecd4ec87b8b47e910a491aa74c9"
+  },
+  "reader": {
+    "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-verify.mjs",
+    "bytes": 31894,
+    "sha256": "f807c548ea7dab9204d52c2da01b16bb6903462fe1a14d02b458389ac2635510"
+  },
+  "boundary": {
+    "matchingExecutionCheckoutRequired": true,
+    "runtimeSource1118HasNoMetadataException": true,
+    "portableClosedSourceArchive": false,
+    "exactArchivedIgnoredToolPaths": [
+      "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-geometry-v3.mjs",
+      "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v3.mjs",
+      "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v2.mjs",
+      "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v2.mjs",
+      "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-full-v1.mjs"
+    ],
+    "profileRetentionIsOriginalClosedEvidenceNotNewOsCheck": true,
+    "privateProfileArchived": false,
+    "oldArchiveTraversed": false,
+    "sourceOnlyRejectedDraftsAreNotFailedGames": true,
+    "originalRawOrFlagsChanged": false
+  },
+  "readme": {
+    "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44.md",
+    "bytes": 2211,
+    "sha256": "6f27d0b76186d085f5afeeb92869bd7126e04a4f706309c6a2bdd6ea29778cab"
+  },
+  "publicationRecoveryPending": false,
+  "readerRecovery": {
+    "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-reader-recovery.json",
+    "bytes": 4695,
+    "sha256": "ff6c7c43ca45e4b421941e93348b62d9717ef88cf3117db7c8cde01784f9222f"
+  }
+}

@@ -1,0 +1,889 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-10T14:12:41.841Z",
+  "status": "liuyan16-original-installed1080-only-accepted-other-modes-pending",
+  "accepted": true,
+  "actualCastAccepted": true,
+  "hdAccepted": true,
+  "wholeHdAccepted": false,
+  "archiveClosed": false,
+  "portableClosedArchive": false,
+  "scope": "Original caster188 actual public LOAD/march31 to32, fresh enemy skill16 MP20/natural confusion state1, SPE40 eight movie frames and report retirement in installed1080 HD only.720 HD and missing-picture fallback remain pending after three rejected attempts.",
+  "boundaries": [
+    "All actual PNG/JSON/raw artifacts are gzipped unchanged; this is an evidence archive, not a complete portable browser/profile replay package.",
+    "No NUM, digits, result hold or50tick wait exists for this skill; transient SKILL movie/value0 is not numeric publication.",
+    "HD replaces only the authenticated48,16/64x64 window; outside stays the actual callback LCD. Native full160x96 and physical HD outside are independently audited.",
+    "720 HD, missing-picture LCD fallback, Classic, other skills/campaigns, Mod, performance/mobile/cloud and whole-game HD remain unaccepted.",
+    "Offline first errors and old static/AID history are preserved, not relabeled as new actual game failures or new regressions."
+  ],
+  "actualModes": [
+    {
+      "mode": "installed-hd1080",
+      "installed": true,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "result": {
+        "path": "build/r27-liuyan-actual-v1-installed1080/result.json",
+        "bytes": 19164917,
+        "sha256": "c1611e1f2f24999089955240e7645685923a5c85ed1e8230c3382990acc4b1ee"
+      },
+      "execution": {
+        "path": "build/r27-liuyan-actual-v1-installed1080-execution-root-v1.json",
+        "bytes": 1572,
+        "sha256": "7c57f512d622e81f4cfb4c5d33ec422c0a3814ac336d238187d8df51942bac77"
+      },
+      "terminalLog": {
+        "path": "build/r27-liuyan-actual-v1-installed1080-terminal.log",
+        "bytes": 669,
+        "sha256": "5c64c59ad85744aa29f88bd1ad5df08bf2447e2043024580acfbc160643be32c"
+      },
+      "rootBaseline": {
+        "path": "build/r27-user-service-before-actual-v1.json",
+        "bytes": 365,
+        "sha256": "ea5120965ec794aeb6696f5e92f744605d53c5ad7b32dbe71e8a3e653fe7b842"
+      },
+      "independentAudit": {
+        "path": "build/r27-liuyan-installed1080-terminal-independent-audit-v1.json",
+        "bytes": 25719,
+        "sha256": "15562d1426177953c538d3d07347b7b76c461edcfe47647c8c3e3f7f390b3f62"
+      },
+      "sourceCount": 1222,
+      "sourceDrift": 0,
+      "sourceAdded": 0,
+      "native128": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+      "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+      "engineSourceModified": true,
+      "sourceRevision": {
+        "revision": "31a640250052a880c198cb4ebf037bc01e27615a",
+        "modified": false,
+        "compiledParent": "a71b0836dc538dcefbb01950c31b46461f8b5726"
+      },
+      "families": [
+        {
+          "skillId": 16,
+          "eventId": 6,
+          "actorIndex": 0,
+          "targetIndex": 15,
+          "nativeCallbacks": 8,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "hdReadbacks": 8,
+          "mpCost": 20,
+          "targetStateBefore": 0,
+          "targetStateAfter": 1,
+          "reportedText": "许褚 陷入了 混乱 状态",
+          "statusReports": 1,
+          "reportAcknowledgements": 1,
+          "numericReadbacks": 0,
+          "holdReadbacks": 0
+        }
+      ],
+      "attempts": [
+        {
+          "actor": {
+            "i": 0,
+            "id": 189,
+            "personIndex": 188,
+            "name": "南方小鬼",
+            "side": "player",
+            "x": 5,
+            "y": 16,
+            "hp": 185,
+            "mp": 146,
+            "move": 3,
+            "active": 0,
+            "state": 0,
+            "belong": 10,
+            "arms": 100,
+            "iq": 150,
+            "level": 20,
+            "armType": 5,
+            "terrain": 1
+          },
+          "target": {
+            "i": 15,
+            "id": 46,
+            "personIndex": 45,
+            "name": "许褚",
+            "side": "enemy",
+            "x": 7,
+            "y": 16,
+            "state": 0,
+            "belong": 5,
+            "arms": 700,
+            "terrain": 1,
+            "armType": 1
+          },
+          "skillId": 16,
+          "movieEvents": [
+            6
+          ],
+          "keys": [
+            {
+              "code": 37,
+              "at": 309979.200000003,
+              "phase": "battle",
+              "generation": 3,
+              "eventId": 0,
+              "kind": 0,
+              "speId": 0,
+              "speActive": 0,
+              "resultActive": false,
+              "resultSession": 0,
+              "resultPhase": null,
+              "resultSpeId": 0
+            },
+            {
+              "code": 37,
+              "at": 310102.6000000015,
+              "phase": "battle",
+              "generation": 3,
+              "eventId": 0,
+              "kind": 0,
+              "speId": 0,
+              "speActive": 0,
+              "resultActive": false,
+              "resultSession": 0,
+              "resultPhase": null,
+              "resultSpeId": 0
+            },
+            {
+              "code": 39,
+              "at": 310238.6000000015,
+              "phase": "battle",
+              "generation": 3,
+              "eventId": 0,
+              "kind": 0,
+              "speId": 0,
+              "speActive": 0,
+              "resultActive": false,
+              "resultSession": 0,
+              "resultPhase": null,
+              "resultSpeId": 0
+            }
+          ]
+        }
+      ],
+      "sourceAndPixelsRecomputedByIndependentAudit": true,
+      "cleanup": {
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignal": "SIGTERM",
+        "httpClosed": true
+      },
+      "userService": {
+        "baseline": "build/r27-user-service-before-actual-v1.json",
+        "status": 200,
+        "listeners": [
+          {
+            "address": "::",
+            "port": 8080,
+            "pid": 57860,
+            "name": "node",
+            "startedAt": "2026-10-10T11:26:04.2797180Z"
+          }
+        ],
+        "touched": false
+      },
+      "finishedAt": "2026-10-10T13:58:16.663Z"
+    }
+  ],
+  "failedRuns": [
+    {
+      "directory": "build/r27-liuyan-actual-v2-installed720",
+      "result": {
+        "path": "build/r27-liuyan-actual-v2-installed720/result.json",
+        "bytes": 3024620,
+        "sha256": "778d1f36d0771392dc26dad2d6dd90e3464e609587ec34f79fdc60f58effd51b"
+      },
+      "execution": {
+        "path": "build/r27-liuyan-actual-v2-installed720-execution-root-v1.json",
+        "bytes": 1638,
+        "sha256": "2bedbe9376cbff5848c2cd3842ef43025d53420980cd3a36674672721cb3a2c3"
+      },
+      "terminalLog": {
+        "path": "build/r27-liuyan-actual-v2-installed720-terminal.log",
+        "bytes": 679,
+        "sha256": "0a5c50760f1ec037d3353b04c68afa0d61ed86ba4f4d02170604ea287e4c148f"
+      },
+      "supplementalCleanup": null,
+      "independentAudit": null,
+      "accepted": false,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "originalOk": false,
+      "originalCleaned": true,
+      "error": "Error: CDP timeout: Runtime.evaluate\n    at Timeout._onTimeout (file:///F:/project/baye-sanguo/build/r27-test-hd-liuyan-runtime-candidate-v1.mjs:136:77)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)",
+      "boundary": "Original Runtime.evaluate timeout is retained. Two concurrent and one serial attempts failed; neither concurrency nor OOM is a proven cause. No LIUYAN acceptance or product defect is inferred. Separate later cleanup evidence does not rewrite original cleanedfalse."
+    },
+    {
+      "directory": "build/r27-liuyan-actual-v3-missing1080",
+      "result": {
+        "path": "build/r27-liuyan-actual-v3-missing1080/result.json",
+        "bytes": 3015523,
+        "sha256": "7594214b8e5357045e07f9a5bdf1709bb5b5acc532a65cf118cb0fc7e6c46dee"
+      },
+      "execution": {
+        "path": "build/r27-liuyan-actual-v3-missing1080-execution-root-v1.json",
+        "bytes": 1637,
+        "sha256": "589bcbbad3b446cdcefb8958ddbb6fa39fe7f8f798fa9d9b929b4200c4d17d31"
+      },
+      "terminalLog": {
+        "path": "build/r27-liuyan-actual-v3-missing1080-terminal.log",
+        "bytes": 678,
+        "sha256": "da08b4a6a19b3a473be3c120b83d725f11c451da0899204e02936457b6e50d79"
+      },
+      "supplementalCleanup": {
+        "path": "build/r27-liuyan-actual-v3-missing1080-execution-root-v1.json",
+        "bytes": 1637,
+        "sha256": "589bcbbad3b446cdcefb8958ddbb6fa39fe7f8f798fa9d9b929b4200c4d17d31"
+      },
+      "independentAudit": null,
+      "accepted": false,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "originalOk": false,
+      "originalCleaned": false,
+      "error": "Error: CDP timeout: Runtime.evaluate\n    at Timeout._onTimeout (file:///F:/project/baye-sanguo/build/r27-test-hd-liuyan-runtime-candidate-v1.mjs:136:77)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)",
+      "boundary": "Original Runtime.evaluate timeout is retained. Two concurrent and one serial attempts failed; neither concurrency nor OOM is a proven cause. No LIUYAN acceptance or product defect is inferred. Separate later cleanup evidence does not rewrite original cleanedfalse."
+    },
+    {
+      "directory": "build/r27-liuyan-actual-v4-installed720",
+      "result": {
+        "path": "build/r27-liuyan-actual-v4-installed720/result.json",
+        "bytes": 3024839,
+        "sha256": "b17a51005244d0bc185c2ea1034e8a61cdc0c29cb7703a5cc2031b424bffd15d"
+      },
+      "execution": {
+        "path": "build/r27-liuyan-actual-v4-installed720-execution-root-v1.json",
+        "bytes": 1433,
+        "sha256": "90e38b6249c5231eff87c958b0b088c9c3c13816e1a3748dacc411ec6b41c5ef"
+      },
+      "terminalLog": {
+        "path": "build/r27-liuyan-actual-v4-installed720-terminal.log",
+        "bytes": 679,
+        "sha256": "04c6cbc30cccaf314f93364f4e2dba943ef20c02d7d9ad07ab00bbbb822a8504"
+      },
+      "supplementalCleanup": {
+        "path": "build/r27-liuyan-v4-orphan-renderer-cleanup-root-v1.json",
+        "bytes": 448,
+        "sha256": "5dcf2e8cbc6ce404c06b80ea2aede515b603d9770aa136ca8dedeb38d007818f"
+      },
+      "independentAudit": null,
+      "accepted": false,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "originalOk": false,
+      "originalCleaned": false,
+      "error": "Error: CDP timeout: Runtime.evaluate\n    at Timeout._onTimeout (file:///F:/project/baye-sanguo/build/r27-test-hd-liuyan-runtime-candidate-v1.mjs:136:77)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)",
+      "boundary": "Original Runtime.evaluate timeout is retained. Two concurrent and one serial attempts failed; neither concurrency nor OOM is a proven cause. No LIUYAN acceptance or product defect is inferred. Separate later cleanup evidence does not rewrite original cleanedfalse."
+    }
+  ],
+  "pending": [
+    "720 HD",
+    "Exact missing-picture LCD fallback1080",
+    "Classic",
+    "Other skills and campaigns",
+    "Performance/mobile/cloud",
+    "Whole-game HD"
+  ],
+  "runtimeSources": {
+    "executedSources": [
+      {
+        "path": "build/r27-test-hd-liuyan-runtime-candidate-v1.mjs",
+        "bytes": 107560,
+        "sha256": "da5694b86b169d9ec01175556d24f3d4fd73d67f940b5914ee626bffb87ccd8e"
+      },
+      {
+        "path": "build/r27-liuyan-runtime-oracle-v2.mjs",
+        "bytes": 23066,
+        "sha256": "6b03e5a5fa6903881a19d4ec2ef6593795c929f35e988269ab9020337088ac5b"
+      },
+      {
+        "path": "build/r27-liuyan-observer-v1.mjs",
+        "bytes": 13079,
+        "sha256": "6b4ae3daf1059897f84643cc6838416fba0b32f8ac9b5d2e1415319cdcba1d0c"
+      },
+      {
+        "path": "build/r27-liuyan-pixels-v1.mjs",
+        "bytes": 10695,
+        "sha256": "9bb3ffe63d87c9252fd7fc7ba29b89812038a6a9965a4d5a2b45794cc1303229"
+      }
+    ],
+    "writer": {
+      "path": "build/r21-write-large-json-v2.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833"
+    },
+    "freeze": {
+      "path": "build/r27-liuyan-runtime-final-freeze-root-v1.json",
+      "bytes": 1545,
+      "sha256": "99015dd1f6cf48fb6b82b009138c054ea549099907d496ab1dbf53907169d672"
+    }
+  },
+  "preparation": {
+    "phase2AcceptedOnly": true,
+    "audit": {
+      "path": "build/r22-aid-phase2-v5-terminal-independent-audit.json",
+      "bytes": 38502,
+      "sha256": "d3fd102be74c234053c7522c838301ec537a2bda5b5a36388902f2341e539ec9"
+    },
+    "result": {
+      "path": "build/r22-aid-phase2-actual-v5/result.json",
+      "bytes": 48322439,
+      "sha256": "e467cecf81eca3c997b6afd4168aec2037e92ebaf1c24fe6e384ed64b55cf782"
+    },
+    "originalPair": [
+      {
+        "path": "build\\r22-aid-phase2-actual-v5\\native-caster188-owned-sango0.sav",
+        "bytes": 8221,
+        "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d"
+      },
+      {
+        "path": "build\\r22-aid-phase2-actual-v5\\native-caster188-owned-sango1.sav",
+        "bytes": 4840,
+        "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97"
+      }
+    ]
+  },
+  "installedEngine": {
+    "quartet": [
+      {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4535346,
+        "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29983,
+        "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 16650,
+        "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a"
+      }
+    ],
+    "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+    "engineSourceModified": true,
+    "provenanceRewritten": false
+  },
+  "offline": {
+    "checkCount": 40,
+    "proof": {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-proof-v2.json",
+      "bytes": 6223,
+      "sha256": "929685625aa67652b0457ef23caa4d4738bd38c43fa807f7a833d471c430bd0e"
+    },
+    "history": [
+      {
+        "path": "build/r27-test-hd-liuyan-runtime-assembly-draft-v1.mjs",
+        "bytes": 107305,
+        "sha256": "41d5ae6650d5af05275d14f5ace48834894431256149813aa257e1f94c32eed3"
+      },
+      {
+        "path": "build/r27-test-hd-liuyan-runtime-prefinal-root-v1.mjs",
+        "bytes": 107380,
+        "sha256": "fbf16252996ebb7f8733242875fc2a735e7399c9111b60c2d1791573b201371d"
+      },
+      {
+        "path": "build/r27-liuyan-runtime-oracle-prefinal-v1.mjs",
+        "bytes": 22414,
+        "sha256": "45d741d445f3803f5fb8f4d8d2f781b89218c7088967f97ad45025969c126617"
+      },
+      {
+        "path": "build/r27-liuyan-observer-prefinal-v1.mjs",
+        "bytes": 12914,
+        "sha256": "92069cad9c86e814154d9d06fe43022470f4fbad1f761582224040b68e0c145d"
+      },
+      {
+        "path": "build/r27-liuyan-runtime-oracle-selftests-proof-v1.json",
+        "bytes": 5430,
+        "sha256": "8a21fc4e1152ab1e13218ac87b680768b36ed25358796c651c3400867f4d9cb6"
+      },
+      {
+        "path": "build/r27-liuyan-runtime-oracle-selftests-final-proof-v1.json",
+        "bytes": 5742,
+        "sha256": "12f25e6c6af7815970a1bcda711a6847d13c24d87133011719968934296c7470"
+      },
+      {
+        "path": "build/r27-liuyan-runtime-oracle-selftests-v1-first.log",
+        "bytes": 128,
+        "sha256": "3524fb5f2ecdc3f5db165f93fb7140937fc5071f5497961c67c38b704c5bb16a"
+      },
+      {
+        "path": "build/r27-liuyan-runtime-oracle-selftests-v1-final.log",
+        "bytes": 134,
+        "sha256": "78cab335cf0794a716b8f94b37ba56cfb4386c2e7563235a003af2651b9b2932"
+      },
+      {
+        "path": "build/r27-liuyan-runtime-oracle-v1.mjs",
+        "bytes": 22732,
+        "sha256": "f778fdb7429b4f1386a0df2100d94635b3f890010204ab96e0dc323f96a3a153"
+      },
+      {
+        "path": "build/r27-liuyan-oracle-v2-delta.json",
+        "bytes": 7032,
+        "sha256": "1f862450d5ee0692f48d32d591f9cce98c6bc1bbcb0526eb931b222f98cd266c"
+      },
+      {
+        "path": "build/r27-liuyan-runtime-oracle-selftests-proof-v2.json",
+        "bytes": 6223,
+        "sha256": "929685625aa67652b0457ef23caa4d4738bd38c43fa807f7a833d471c430bd0e"
+      },
+      {
+        "path": "build/r27-liuyan-runtime-oracle-selftests-v2-first.log",
+        "bytes": 128,
+        "sha256": "6b75809b94b2c428bdd3207472784b222b613e4dbd01d4c9cadfa465ad79e162"
+      }
+    ],
+    "actualBrowserCoverage": false
+  },
+  "priorRecords": [
+    {
+      "path": "docs/validation/m4-liuyan-static-20261010.json",
+      "bytes": 31996,
+      "sha256": "4e8ac42ac54be978300e8e0a8721e203ac77a6f77f0e4870407cded233be385d"
+    },
+    {
+      "path": "docs/validation/m4-liuyan-static-20261010/runtime-index.json",
+      "bytes": 29217,
+      "sha256": "30381377eed6fed3a7492bbf20c06b9173b2eff4c074764651e9df14490e3fc8"
+    },
+    {
+      "path": "docs/validation/m4-aid-runtime-20261010.json",
+      "bytes": 67539,
+      "sha256": "b052f46a45581f8204d083e8b24a65b32e3e89cdf73c16ef3e7a52f1cbbf9c9e"
+    },
+    {
+      "path": "docs/validation/m4-aid-runtime-20261010/runtime-index.json",
+      "bytes": 71156,
+      "sha256": "b7f06c85d1d136dd99e036ef2f7d746e52b0c2f9372986ab382fac67df763d32"
+    }
+  ],
+  "provenance": [
+    {
+      "path": "build/r27-assemble-liuyan-runtime-v1.mjs",
+      "bytes": 10546,
+      "sha256": "a1b3f96bab74bc7108a3ef3d06b41f0c602ea931bc34d9ac8d6a88484ca6cad6"
+    },
+    {
+      "path": "build/r27-audit-liuyan-installed1080-v1.mjs",
+      "bytes": 12368,
+      "sha256": "bd8cdc2adae99cf8f64bfaccf08d3d46e5d0b4988ce7219041a80250c2afe955"
+    },
+    {
+      "path": "build/r27-audit-liuyan-installed1080-v2.mjs",
+      "bytes": 12655,
+      "sha256": "fc80bdbaf82f20afd0f04725201dd8b594b9efd058953449ffe78bcbcc6e860b"
+    },
+    {
+      "path": "build/r27-audit-liuyan-installed1080-v3.log",
+      "bytes": 648,
+      "sha256": "f4ff17ce59b92b3bfdef041e71aa3e94eb7fc577c52335acfec347d38dc794ef"
+    },
+    {
+      "path": "build/r27-audit-liuyan-installed1080-v3.mjs",
+      "bytes": 15049,
+      "sha256": "f06a670b66180b446db1601f6b86d38c0fb21addd4489faeb1e92a63d00baef0"
+    },
+    {
+      "path": "build/r27-audit-liuyan-reader-v1-memory-failure.json",
+      "bytes": 393,
+      "sha256": "4063a244f76bdc0e0a12377322eafb7b51d84dc24435c4585ce1b7c1ca8edf50"
+    },
+    {
+      "path": "build/r27-finalize-liuyan-oracle-v1.mjs",
+      "bytes": 3655,
+      "sha256": "47177a61b1f9257f43375557ae6d6d6bdaba9f56893700aa3f50deabee3a9111"
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080-execution-root-v1.json",
+      "bytes": 1572,
+      "sha256": "7c57f512d622e81f4cfb4c5d33ec422c0a3814ac336d238187d8df51942bac77"
+    },
+    {
+      "path": "build/r27-liuyan-actual-v1-installed1080-terminal.log",
+      "bytes": 669,
+      "sha256": "5c64c59ad85744aa29f88bd1ad5df08bf2447e2043024580acfbc160643be32c"
+    },
+    {
+      "path": "build/r27-liuyan-actual-v2-installed720-execution-root-v1.json",
+      "bytes": 1638,
+      "sha256": "2bedbe9376cbff5848c2cd3842ef43025d53420980cd3a36674672721cb3a2c3"
+    },
+    {
+      "path": "build/r27-liuyan-actual-v2-installed720-terminal.log",
+      "bytes": 679,
+      "sha256": "0a5c50760f1ec037d3353b04c68afa0d61ed86ba4f4d02170604ea287e4c148f"
+    },
+    {
+      "path": "build/r27-liuyan-actual-v3-missing1080-execution-root-v1.json",
+      "bytes": 1637,
+      "sha256": "589bcbbad3b446cdcefb8958ddbb6fa39fe7f8f798fa9d9b929b4200c4d17d31"
+    },
+    {
+      "path": "build/r27-liuyan-actual-v3-missing1080-terminal.log",
+      "bytes": 678,
+      "sha256": "da08b4a6a19b3a473be3c120b83d725f11c451da0899204e02936457b6e50d79"
+    },
+    {
+      "path": "build/r27-liuyan-actual-v4-installed720-execution-root-v1.json",
+      "bytes": 1433,
+      "sha256": "90e38b6249c5231eff87c958b0b088c9c3c13816e1a3748dacc411ec6b41c5ef"
+    },
+    {
+      "path": "build/r27-liuyan-actual-v4-installed720-terminal.log",
+      "bytes": 679,
+      "sha256": "04c6cbc30cccaf314f93364f4e2dba943ef20c02d7d9ad07ab00bbbb822a8504"
+    },
+    {
+      "path": "build/r27-liuyan-archive-generator-freeze-v1.json",
+      "bytes": 1505,
+      "sha256": "d6e1ab037cb859d63ae4400e3a4a857f4e12e1b744847fd80bd7c84516574058"
+    },
+    {
+      "path": "build/r27-liuyan-archive-generator-freeze-v2.json",
+      "bytes": 1284,
+      "sha256": "0feadf89298ea06988eb699361157b0d2b55b56f449c9a73699682a974289b1d"
+    },
+    {
+      "path": "build/r27-liuyan-archive-generator-v2-delta.json",
+      "bytes": 4222,
+      "sha256": "9573e60496e051c9da9ecf015433349e6cdbf13d9b6f45d2260cef7f7225f8b3"
+    },
+    {
+      "path": "build/r27-liuyan-candidate-assembly-proof-v1.json",
+      "bytes": 3071,
+      "sha256": "c432332e6e2b93b5f000eaa80cc7d8471b36b0a78e9ba530f12b6cde53bc3de8"
+    },
+    {
+      "path": "build/r27-liuyan-draft-source-independent-review-v1.json",
+      "bytes": 3748,
+      "sha256": "8722411da5fd04940b8b4502567a33c7bebb210932494cd61fedbbe79bf97150"
+    },
+    {
+      "path": "build/r27-liuyan-final-source-independent-review-v2.json",
+      "bytes": 4586,
+      "sha256": "42f684858d8c2a345a8b614a1a11c1590a88c987b6515d099ec32700f20d49c5"
+    },
+    {
+      "path": "build/r27-liuyan-installed1080-terminal-independent-audit-v1.json",
+      "bytes": 25719,
+      "sha256": "15562d1426177953c538d3d07347b7b76c461edcfe47647c8c3e3f7f390b3f62"
+    },
+    {
+      "path": "build/r27-liuyan-observer-prefinal-v1.mjs",
+      "bytes": 12914,
+      "sha256": "92069cad9c86e814154d9d06fe43022470f4fbad1f761582224040b68e0c145d"
+    },
+    {
+      "path": "build/r27-liuyan-observer-v1.mjs",
+      "bytes": 13079,
+      "sha256": "6b4ae3daf1059897f84643cc6838416fba0b32f8ac9b5d2e1415319cdcba1d0c"
+    },
+    {
+      "path": "build/r27-liuyan-oracle-delta-v1.json",
+      "bytes": 11893,
+      "sha256": "3b76449332a29357156caf8a78282407842b14acfa980e3984ba82703195761e"
+    },
+    {
+      "path": "build/r27-liuyan-oracle-final-delta-v1.json",
+      "bytes": 4219,
+      "sha256": "7f564963d889ed2ad56a61ca848f7c8f54441ed315d910e20bedf3a975027084"
+    },
+    {
+      "path": "build/r27-liuyan-oracle-freeze-v1.json",
+      "bytes": 4115,
+      "sha256": "83742223b4009ad74a18eece85bfdaa0592e4cb48f38adc79cb95f498761ea46"
+    },
+    {
+      "path": "build/r27-liuyan-oracle-freeze-v2.json",
+      "bytes": 3330,
+      "sha256": "783df10d2238e4859b03a41ef95e17b82872a6f5bf9bcba549cb436a6e6ac46c"
+    },
+    {
+      "path": "build/r27-liuyan-oracle-v2-delta.json",
+      "bytes": 7032,
+      "sha256": "1f862450d5ee0692f48d32d591f9cce98c6bc1bbcb0526eb931b222f98cd266c"
+    },
+    {
+      "path": "build/r27-liuyan-pixels-v1.mjs",
+      "bytes": 10695,
+      "sha256": "9bb3ffe63d87c9252fd7fc7ba29b89812038a6a9965a4d5a2b45794cc1303229"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-archive-plan-v1.json",
+      "bytes": 14441,
+      "sha256": "ff0d8e1a75ac79d9ae3f2bbda8440593b14ee79a8e0824034a47a07cf566d9bd"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-final-freeze-root-v1.json",
+      "bytes": 1545,
+      "sha256": "99015dd1f6cf48fb6b82b009138c054ea549099907d496ab1dbf53907169d672"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-prefinal-v1.mjs",
+      "bytes": 22414,
+      "sha256": "45d741d445f3803f5fb8f4d8d2f781b89218c7088967f97ad45025969c126617"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-final-proof-v1.json",
+      "bytes": 5742,
+      "sha256": "12f25e6c6af7815970a1bcda711a6847d13c24d87133011719968934296c7470"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-prefinal-v1.mjs",
+      "bytes": 16048,
+      "sha256": "c936be4da02550f88eb4b7450bcc149a46942c6b404c07bcefe06eff6af31f07"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-proof-v1.json",
+      "bytes": 5430,
+      "sha256": "8a21fc4e1152ab1e13218ac87b680768b36ed25358796c651c3400867f4d9cb6"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-proof-v2.json",
+      "bytes": 6223,
+      "sha256": "929685625aa67652b0457ef23caa4d4738bd38c43fa807f7a833d471c430bd0e"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-v1-final.log",
+      "bytes": 134,
+      "sha256": "78cab335cf0794a716b8f94b37ba56cfb4386c2e7563235a003af2651b9b2932"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-v1-first.log",
+      "bytes": 128,
+      "sha256": "3524fb5f2ecdc3f5db165f93fb7140937fc5071f5497961c67c38b704c5bb16a"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-v1.mjs",
+      "bytes": 16476,
+      "sha256": "0760bb1185956b800a8e9c775735bc45894b8b9447eab71b2fe8b37322e30171"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-v2-first.log",
+      "bytes": 128,
+      "sha256": "6b75809b94b2c428bdd3207472784b222b613e4dbd01d4c9cadfa465ad79e162"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-selftests-v2.mjs",
+      "bytes": 20706,
+      "sha256": "a86a3b9436b1952f521d471aa5920369379ed8816d76be85618a0730505ce7c7"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-v1.mjs",
+      "bytes": 22732,
+      "sha256": "f778fdb7429b4f1386a0df2100d94635b3f890010204ab96e0dc323f96a3a153"
+    },
+    {
+      "path": "build/r27-liuyan-runtime-oracle-v2.mjs",
+      "bytes": 23066,
+      "sha256": "6b03e5a5fa6903881a19d4ec2ef6593795c929f35e988269ab9020337088ac5b"
+    },
+    {
+      "path": "build/r27-liuyan-source-preflight-fragment-v1.mjs",
+      "bytes": 4841,
+      "sha256": "8c61933b034aa25b3f94a7016939cfff462ddb4261e323b77120b3f02a3c6c51"
+    },
+    {
+      "path": "build/r27-liuyan-v4-orphan-renderer-cleanup-root-v1.json",
+      "bytes": 448,
+      "sha256": "5dcf2e8cbc6ce404c06b80ea2aede515b603d9770aa136ca8dedeb38d007818f"
+    },
+    {
+      "path": "build/r27-make-archive-inputs-root-v1.mjs",
+      "bytes": 3838,
+      "sha256": "c3fa0571cd81f2de3887d9ac6adaf211a6572801788257c19c54c81f9418e8ae"
+    },
+    {
+      "path": "build/r27-make-liuyan-oracle-v1.mjs",
+      "bytes": 10970,
+      "sha256": "06424f1cf8f6efab69cbcfe19d99c0f4dd9ff86e3dab50da492e12301e29c9fc"
+    },
+    {
+      "path": "build/r27-make-liuyan-oracle-v2.mjs",
+      "bytes": 6890,
+      "sha256": "985804a6ab5ecb34e983054b55cae63e8b8a87f4a1e9f1a22882e7b60c598552"
+    },
+    {
+      "path": "build/r27-next-original-spe-family-plan-v1.json",
+      "bytes": 74104,
+      "sha256": "021eba54c08796eae38a7ad3d73fc2ba3ae44ce9bdc83540e556fcc1b70794f2"
+    },
+    {
+      "path": "build/r27-next-original-spe-family-plan-v1.mjs",
+      "bytes": 12365,
+      "sha256": "4891ca2e9e699c12206fb207dc95c4425a2bf20d5c6f1c68911e805b386d0253"
+    },
+    {
+      "path": "build/r27-test-hd-liuyan-runtime-assembly-draft-v1.mjs",
+      "bytes": 107305,
+      "sha256": "41d5ae6650d5af05275d14f5ace48834894431256149813aa257e1f94c32eed3"
+    },
+    {
+      "path": "build/r27-test-hd-liuyan-runtime-candidate-v1.mjs",
+      "bytes": 107560,
+      "sha256": "da5694b86b169d9ec01175556d24f3d4fd73d67f940b5914ee626bffb87ccd8e"
+    },
+    {
+      "path": "build/r27-test-hd-liuyan-runtime-prefinal-root-v1.mjs",
+      "bytes": 107380,
+      "sha256": "fbf16252996ebb7f8733242875fc2a735e7399c9111b60c2d1791573b201371d"
+    },
+    {
+      "path": "build/r27-user-service-before-actual-v1.json",
+      "bytes": 365,
+      "sha256": "ea5120965ec794aeb6696f5e92f744605d53c5ad7b32dbe71e8a3e653fe7b842"
+    },
+    {
+      "path": "build/r27-user-service-before-v1.json",
+      "bytes": 361,
+      "sha256": "7d57d9e6235d8035dfd4277f8feddeb17fc08dd89da19f657b4c66988c93cbfb"
+    },
+    {
+      "path": "build/r27-write-liuyan-runtime-archive-v1.mjs",
+      "bytes": 20782,
+      "sha256": "708f85511dfda38e5190b3a4db242cb93b68f5e79b7a41e7c85fffa6fe481f54"
+    },
+    {
+      "path": "build/r27-write-liuyan-runtime-archive-v2.mjs",
+      "bytes": 21049,
+      "sha256": "036439fe7dd5994e66e01ff664f4a4b7552ee76eb131a7586730dbaebda4fd49"
+    },
+    {
+      "path": "build/r26-liuyan-runtime-plan-v1.json",
+      "bytes": 27340,
+      "sha256": "4bf9c2747703ca3419396de05d939575ea7a175b7194567c5fc4cb561d4b4aa5"
+    },
+    {
+      "path": "build/r26-liuyan-runtime-draft-freeze-v1.json",
+      "bytes": 3217,
+      "sha256": "639a9e10fc60013a05d04c487e31ea8f0f30ba53a60fdf4eb500ed9b3f7da508"
+    },
+    {
+      "path": "build/r22-aid-phase2-driver-v5-final-v2.mjs",
+      "bytes": 138744,
+      "sha256": "6734d992f05c9cdb687469fba73d481676330f101f9fd1046964619c47ca6746"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 582873,
+      "sha256": "45444d4d4c7afcf868c15473a8370f373782020c5f896d19fb41b9e1450fd3f3"
+    },
+    {
+      "path": "assets/hd-spe/liuyan-40/picture-0.png",
+      "bytes": 2737107,
+      "sha256": "42d31384a20fa9117743930161109659e627ca8d5ea7ef1e40d3cbab8d4a7fab"
+    },
+    {
+      "path": "assets/hd-spe/liuyan-40/picture-1.png",
+      "bytes": 2664650,
+      "sha256": "99cff3c830e53031a7aee0cc09c8e33fcba3337147c6d4c3e8d17004e3b27a3d"
+    },
+    {
+      "path": "assets/hd-spe/GENERATED-LIUYAN.json",
+      "bytes": 24437,
+      "sha256": "09de715d12e5a438764a4037f00d8e588fdb1e1818d6bd4e669f063651589719"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 141211,
+      "sha256": "31f3adf490fa79d08c4fe56d6910a2cf6ec3c748f793cf8a37252b5350b0830a"
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 84222,
+      "sha256": "60c78056e05100fcd360c266c19da22c5fdb00022a9dc0cb3f0ce4b844d8ec87"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 29890,
+      "sha256": "e29b9b73580d2228814cc08ddd38daa288c37047adc7f7ec66cadffa7e6b572d"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 27413,
+      "sha256": "ac7a9bdf525c506886f86e26c602ebfe3d6736e67d69fc0de2ac825f0430c28a"
+    },
+    {
+      "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+      "bytes": 8261128,
+      "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 187342,
+      "sha256": "1070c0a62747dc2aeb646afba4d1b7561565ec547658b72af6324fede8f9439f"
+    },
+    {
+      "path": "vendor/iBaye/src/gamEng.c",
+      "bytes": 47517,
+      "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+    },
+    {
+      "path": "vendor/iBaye/src/comOut.c",
+      "bytes": 21378,
+      "sha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f"
+    },
+    {
+      "path": "vendor/iBaye/src/data/pstring.h",
+      "bytes": 1524,
+      "sha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df"
+    }
+  ],
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-liuyan-runtime-20261010/runtime-index.json",
+      "bytes": 88140,
+      "sha256": "7d8fff73edfbccc0cff1bc36d4f3d744ab4f0ec32f92b4cd41c63d7262fc7504"
+    },
+    "originalPngInventory": {
+      "path": "docs/validation/m4-liuyan-runtime-20261010/original-png-inventory.json",
+      "bytes": 28751,
+      "sha256": "90012f5cd9a1bdceb5259f669f67a31cbf486b29ecc2ffa1c02aa5979f5fd5c3"
+    },
+    "counts": {
+      "logicalRaw": 153,
+      "physicalGzip": 129,
+      "originalPng": 49,
+      "logicalRepresentativePng": 6,
+      "physicalRepresentativePng": 6
+    },
+    "allOriginalArtifactsGzipped": true,
+    "allGzipInflatedAndByteEqual": true,
+    "allPreviewCopiesByteEqual": true,
+    "originalsDeleted": false,
+    "portableClosedArchive": false
+  }
+}

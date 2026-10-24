@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "scope": "Selected static raw evidence; original bytes content-addressed and gzipped. No PNG or engine binaries copied.",
+  "logicalRawFiles": 16,
+  "physicalGzipFiles": 14,
+  "logicalSourceBytes": 1729016,
+  "physicalGzipBytes": 122843,
+  "entries": [
+    {
+      "sourcePath": "build/r29-zhoufeng-full-source-tests-v1-execution.json",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-zhoufeng-full-source-tests-v1-execution.json",
+      "sourceBytes": 3680,
+      "sourceSha256": "2cdc5b911d1f3fce54bcad70d108094eba5b211515e8d15d744c2968ba309d92",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/2cdc5b911d1f3fce54bcad70d108094eba5b211515e8d15d744c2968ba309d92.gz",
+      "encoding": "gzip",
+      "gzipBytes": 1139,
+      "gzipSha256": "c778493abb5fabd692f7ce3600f9c215f71acf972bf20dc3189b630aed689698",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "build/r29-zhoufeng-full-source-tests-v1.log",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-zhoufeng-full-source-tests-v1.log",
+      "sourceBytes": 313501,
+      "sourceSha256": "c6fc6f4bc1f5bf2148d64e5b9f81ebaced7c8b4acfe4827fb96e927d0445564b",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/c6fc6f4bc1f5bf2148d64e5b9f81ebaced7c8b4acfe4827fb96e927d0445564b.gz",
+      "encoding": "gzip",
+      "gzipBytes": 55761,
+      "gzipSha256": "b2a34cbb7b81b8f19ff2879dda5e6de696a0c5a40ab0ca4ea8673e61a108e45b",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "build/r29-zhoufeng-full-source-tests-v1-sources-pre.json",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-zhoufeng-full-source-tests-v1-sources-pre.json",
+      "sourceBytes": 77810,
+      "sourceSha256": "1b63c0435c6f148359f187f38a147052d98165324cbc77d720426e7101bf6e28",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/1b63c0435c6f148359f187f38a147052d98165324cbc77d720426e7101bf6e28.gz",
+      "encoding": "gzip",
+      "gzipBytes": 25102,
+      "gzipSha256": "0bc3febe7226ba0cd3de795a5b9b6af5a8fa627c893ac24c5b36e3386e4b1738",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "build/r29-zhoufeng-full-source-tests-v1-sources-post.json",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-zhoufeng-full-source-tests-v1-sources-post.json",
+      "sourceBytes": 77810,
+      "sourceSha256": "1b63c0435c6f148359f187f38a147052d98165324cbc77d720426e7101bf6e28",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/1b63c0435c6f148359f187f38a147052d98165324cbc77d720426e7101bf6e28.gz",
+      "encoding": "gzip",
+      "gzipBytes": 25102,
+      "gzipSha256": "0bc3febe7226ba0cd3de795a5b9b6af5a8fa627c893ac24c5b36e3386e4b1738",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "build/r29-run-source-tests-root-v1.mjs",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-run-source-tests-root-v1.mjs",
+      "sourceBytes": 3404,
+      "sourceSha256": "098f904c8dfd4972df9fda9f2fdec51fed6e047aef7f813cdd06f285c5fda566",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/098f904c8dfd4972df9fda9f2fdec51fed6e047aef7f813cdd06f285c5fda566.gz",
+      "encoding": "gzip",
+      "gzipBytes": 1560,
+      "gzipSha256": "5e1c413f2faa302d8ec58335ad2a404ee5f392c2d7a7648fcf333e4b8e5810cb",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "build/r29-zhoufeng14-product-draft-freeze-final-v3.json",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-zhoufeng14-product-draft-freeze-final-v3.json",
+      "sourceBytes": 4772,
+      "sourceSha256": "f5250a00d3a8d20cd73012c6c657559bcfc124b9ded1f741edebd236644cdb48",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/f5250a00d3a8d20cd73012c6c657559bcfc124b9ded1f741edebd236644cdb48.gz",
+      "encoding": "gzip",
+      "gzipBytes": 1906,
+      "gzipSha256": "812ad6eb26078b1a7322193a00e2ab9a75983cc9e118da3215daaadf36688827",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "build/r29-zhoufeng14-title-only-delta-v3.json",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-zhoufeng14-title-only-delta-v3.json",
+      "sourceBytes": 2313,
+      "sourceSha256": "fbfe01e0850d9629db966ae49ff22af0d93f0251432f81051ac423e8e2242270",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/fbfe01e0850d9629db966ae49ff22af0d93f0251432f81051ac423e8e2242270.gz",
+      "encoding": "gzip",
+      "gzipBytes": 823,
+      "gzipSha256": "2750fdc94cc804a69b67a3a77e182b2e43e0c2ec755dfb01e5e070995be819e5",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "build/r29-zhoufeng14-product-readonly-peer-v1.json",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-zhoufeng14-product-readonly-peer-v1.json",
+      "sourceBytes": 4837,
+      "sourceSha256": "7eaae97879db5102b65752669a26beb54e545eb2c8f9a2c9eadb6da0027d2d25",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/7eaae97879db5102b65752669a26beb54e545eb2c8f9a2c9eadb6da0027d2d25.gz",
+      "encoding": "gzip",
+      "gzipBytes": 2111,
+      "gzipSha256": "2ce2424a5827e7f03e291d3b96972ba88065c0bec553d21b5db364fb5edd02e1",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "build/r29-zhoufeng14-product-v3.patch",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-zhoufeng14-product-v3.patch",
+      "sourceBytes": 48358,
+      "sourceSha256": "d41c56a0b3a2d599dab94bd1af09615839578d880e5d33868856d0f24d98523a",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/d41c56a0b3a2d599dab94bd1af09615839578d880e5d33868856d0f24d98523a.gz",
+      "encoding": "gzip",
+      "gzipBytes": 12195,
+      "gzipSha256": "01e909e19fd18101bf6868af8da68e587c17e5bd6091509337805cfe470851f3",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "scripts/specs/hd-spe-zhoufeng.json",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\scripts\\specs\\hd-spe-zhoufeng.json",
+      "sourceBytes": 906,
+      "sourceSha256": "ddb55f282880710148873dc421f4b3a9e842c33ee78a2b5cefcea45921783ee2",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/ddb55f282880710148873dc421f4b3a9e842c33ee78a2b5cefcea45921783ee2.gz",
+      "encoding": "gzip",
+      "gzipBytes": 559,
+      "gzipSha256": "ca19adfdd0cbc957d873558702dcf1aebaa9258720ecb5ff47d2926ecb546398",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "scripts/generate-hd-spe-zhoufeng-entry.mjs",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\scripts\\generate-hd-spe-zhoufeng-entry.mjs",
+      "sourceBytes": 4991,
+      "sourceSha256": "f02433516a3dd4027073c7c6d675e619e5583fbb97ff06614cb774ca5ef59435",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/f02433516a3dd4027073c7c6d675e619e5583fbb97ff06614cb774ca5ef59435.gz",
+      "encoding": "gzip",
+      "gzipBytes": 2158,
+      "gzipSha256": "3cdcbe1df6fd81923a50103f01c25381b7aec85255f6e77c14111ae530799419",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "scripts/test-hd-zhoufeng-bridge.mjs",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\scripts\\test-hd-zhoufeng-bridge.mjs",
+      "sourceBytes": 11712,
+      "sourceSha256": "c8bcd549dba0a019414738e49b172a06909323d494f08428414181255dfa63b2",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/c8bcd549dba0a019414738e49b172a06909323d494f08428414181255dfa63b2.gz",
+      "encoding": "gzip",
+      "gzipBytes": 3218,
+      "gzipSha256": "084c01a5ced5bed545a76284806e46bdb5c96f218294ab9edb319f4c54ba58f3",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "build/r29-root-reproduced-manifest-v1.json",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-root-reproduced-manifest-v1.json",
+      "sourceBytes": 584656,
+      "sourceSha256": "4c5a7afc1e8a823583057159bde2c610b75c8835a92fd24e1cf900010c8483a3",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/4c5a7afc1e8a823583057159bde2c610b75c8835a92fd24e1cf900010c8483a3.gz",
+      "encoding": "gzip",
+      "gzipBytes": 14413,
+      "gzipSha256": "5d13ddc28ab95b299a05dae7599d839d5cc4d363926bb4a353641c3a730ee47f",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "build/r29-zhoufeng-machine-manifest-v2.json",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-zhoufeng-machine-manifest-v2.json",
+      "sourceBytes": 584656,
+      "sourceSha256": "4c5a7afc1e8a823583057159bde2c610b75c8835a92fd24e1cf900010c8483a3",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/4c5a7afc1e8a823583057159bde2c610b75c8835a92fd24e1cf900010c8483a3.gz",
+      "encoding": "gzip",
+      "gzipBytes": 14413,
+      "gzipSha256": "5d13ddc28ab95b299a05dae7599d839d5cc4d363926bb4a353641c3a730ee47f",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "build/r29-zhoufeng-bridge-offline-final-v3.log",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-zhoufeng-bridge-offline-final-v3.log",
+      "sourceBytes": 4037,
+      "sourceSha256": "eb6eb346e750b7fe9e512ed8424e3c03003e26c69fa72354ac299dcc7aba483a",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/eb6eb346e750b7fe9e512ed8424e3c03003e26c69fa72354ac299dcc7aba483a.gz",
+      "encoding": "gzip",
+      "gzipBytes": 1099,
+      "gzipSha256": "c64493d4a5619e72665b7bee2f26bf30798c82a08a309265d48bd4d57eaddf18",
+      "roundtripVerified": true
+    },
+    {
+      "sourcePath": "build/r29-zhoufeng-spe-offline-final-v2.log",
+      "absoluteSourcePath": "F:\\project\\baye-sanguo\\build\\r29-zhoufeng-spe-offline-final-v2.log",
+      "sourceBytes": 1573,
+      "sourceSha256": "21f33b65f67d6aa3ab6a04796b66763f1e89664d9e35f5241843c10442eb786d",
+      "preservedPath": "docs/validation/m4-zhoufeng-static-20261010/raw/21f33b65f67d6aa3ab6a04796b66763f1e89664d9e35f5241843c10442eb786d.gz",
+      "encoding": "gzip",
+      "gzipBytes": 799,
+      "gzipSha256": "ef90b346dd4bc74ad7a922404952ef8e71c5201ea14a4fb79f4f55e3af4a4b01",
+      "roundtripVerified": true
+    }
+  ],
+  "allRoundtripsVerified": true
+}

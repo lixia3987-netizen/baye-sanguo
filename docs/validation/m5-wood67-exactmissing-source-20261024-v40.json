@@ -1,0 +1,389 @@
+{
+  "schemaVersion": 1,
+  "kind": "WOOD6/7 exact required-art source-test matrix; actual missing-image acceptance remains pending",
+  "sourcePreparationAccepted": true,
+  "sourceOnly": true,
+  "productionChanged": false,
+  "formalChanged": {
+    "test": {
+      "path": "scripts/test-hd-spe.mjs",
+      "bytes": 303084,
+      "sha256": "b05cb961cd891d56a3e9cd85977839c7285c0fe4660a1f8f3d48beb8ef51a09b"
+    },
+    "productionFiles": 0,
+    "packageRegistrationChanged": false
+  },
+  "differentNewRegisteredCases": 9,
+  "differentCases": {
+    "requiredImagePhaseCombinations": 7,
+    "unusedSkill7Numbers": 1,
+    "authenticatedBackpicRejectionLoopingBothSkills": 1
+  },
+  "probeCasesNotAddedToFormalTotal": 14,
+  "previousFormalPass": 7177,
+  "fullRegression": {
+    "schemaVersion": 1,
+    "accepted": true,
+    "checkedAt": "2026-10-23T18:53:45.159Z",
+    "terminal": {
+      "sessionId": 40158,
+      "chunkId": "410bbe",
+      "exitCode": 0
+    },
+    "command": "npm.cmd test",
+    "environment": {
+      "CC": "F:\\project\\baye-sanguo\\build\\toolchain\\emsdk\\upstream\\bin\\clang.exe"
+    },
+    "registeredFiles": 133,
+    "tests": 7186,
+    "pass": 7186,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 169737.4773,
+    "previousPass": 7177,
+    "newDifferentTests": 9,
+    "newDifferentComponents": {
+      "woodRequiredPictureFallback": 7,
+      "wood7UnusedPictureNumbers": 1,
+      "woodRejectInventedBackground": 1
+    },
+    "targetedReceipt": {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-formal-tests-v1/receipt.json",
+      "bytes": 6087,
+      "sha256": "1a89eef2b0f5f4a138d3b8baa3694203199ce597a92b5022f71135af1ab82a42"
+    },
+    "previousFullReceipt": {
+      "path": "build/impact-skill-20261014/wood67-v39-root-full-regression-v1.json",
+      "bytes": 2031,
+      "sha256": "1c8073be2a89f9558bced70ef241ef7505aa28ddbb6aa2ac0154b3a9c377c602"
+    },
+    "log": {
+      "path": "build/hd-full-suite-20261024-v40.log",
+      "bytes": 614320,
+      "sha256": "ddb0f15faac1075f2f6bc579631da980e7c86999e1170cf319ce366875cfd8da"
+    },
+    "sources": [
+      {
+        "path": "scripts/test-hd-spe.mjs",
+        "bytes": 303084,
+        "sha256": "b05cb961cd891d56a3e9cd85977839c7285c0fe4660a1f8f3d48beb8ef51a09b"
+      },
+      {
+        "path": "js/hd-battle.js",
+        "bytes": 80899,
+        "sha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2"
+      },
+      {
+        "path": "js/hd-spe.js",
+        "bytes": 133919,
+        "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f"
+      },
+      {
+        "path": "assets/hd-spe/manifest.json",
+        "bytes": 711999,
+        "sha256": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "vendor/iBaye/src/FightSub.c",
+        "bytes": 36284,
+        "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+      },
+      {
+        "path": "vendor/iBaye/src/PublicFun.c",
+        "bytes": 33782,
+        "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+      },
+      {
+        "path": "vendor/iBaye/src/data/pconst.h",
+        "bytes": 1761,
+        "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+      },
+      {
+        "path": "vendor/iBaye/src/datman.c",
+        "bytes": 9424,
+        "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/consdef.h",
+        "bytes": 6048,
+        "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+      },
+      {
+        "path": "scripts/hd-wood-runtime-oracle.mjs",
+        "bytes": 49408,
+        "sha256": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e"
+      },
+      {
+        "path": "scripts/hd-wood-evidence-contract.mjs",
+        "bytes": 10750,
+        "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4"
+      },
+      {
+        "path": "scripts/hd-wood-supplied-continuation.mjs",
+        "bytes": 26600,
+        "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f"
+      },
+      {
+        "path": "scripts/test-hd-wood-supplied-continuation.mjs",
+        "bytes": 22834,
+        "sha256": "dd11b1eb06332a0045cd2b986c0afbfeec47fae3c76c804347d6819ae9e9fa14"
+      },
+      {
+        "path": "scripts/hd-wood-classic-presentation.mjs",
+        "bytes": 1965,
+        "sha256": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986"
+      },
+      {
+        "path": "scripts/test-hd-wood-classic-presentation.mjs",
+        "bytes": 6847,
+        "sha256": "447ac822361e3a24863e1f0deceb12c892f48e44248ac0e3444a8863047cc3b2"
+      },
+      {
+        "path": "package.json",
+        "bytes": 19484,
+        "sha256": "d89619c574dff11db482f7cbcd2d9ae376f45046379de451d79251f602fe970d"
+      }
+    ],
+    "gameExecutedByThisCheck": false,
+    "actual404Observed": false,
+    "actualFallbackAccepted": false,
+    "actualClassicAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "receipt": {
+      "path": "build/impact-skill-20261014/wood67-v40-root-full-regression-v1.json",
+      "bytes": 4273,
+      "sha256": "4d62bd52e2955b7761727164ebbc56c5e22221d777eb9201a5669f85ea6933a9"
+    }
+  },
+  "fullLogFormat": "Node spec original bytes",
+  "targetedLogFormat": "Node TAP original bytes",
+  "targeted": {
+    "before": 298,
+    "after": 307,
+    "receipt": {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-formal-tests-v1/receipt.json",
+      "bytes": 6087,
+      "sha256": "1a89eef2b0f5f4a138d3b8baa3694203199ce597a92b5022f71135af1ab82a42"
+    },
+    "beforeLog": {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-formal-tests-v1/before-stdout.txt",
+      "bytes": 76258,
+      "sha256": "dc11795709b7287dc31a6089498c2dcce037393576064e60d5d58fdf61ebaa29"
+    },
+    "afterLog": {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-formal-tests-v1/after-stdout.txt",
+      "bytes": 78461,
+      "sha256": "cb9ffe20f6551d81876f50a536b2bb475690946a2422877630a94afd81eb9b73"
+    }
+  },
+  "independentReview": {
+    "path": "build/impact-skill-20261014/wood67-exactmissing-formal-independent-v1.json",
+    "bytes": 5192,
+    "sha256": "0e3f973c285f5b61d2340ae87f6f9390b09f44cfaeb57ead4cc13829ed33a8a2"
+  },
+  "unchangedProduction": [
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 80899,
+      "sha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2"
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 133919,
+      "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f"
+    },
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 711999,
+      "sha256": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 33782,
+      "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+    },
+    {
+      "path": "vendor/iBaye/src/data/pconst.h",
+      "bytes": 1761,
+      "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+    },
+    {
+      "path": "vendor/iBaye/src/datman.c",
+      "bytes": 9424,
+      "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+    },
+    {
+      "path": "scripts/hd-wood-runtime-oracle.mjs",
+      "bytes": 49408,
+      "sha256": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e"
+    },
+    {
+      "path": "scripts/hd-wood-evidence-contract.mjs",
+      "bytes": 10750,
+      "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4"
+    }
+  ],
+  "package": {
+    "path": "package.json",
+    "bytes": 19484,
+    "sha256": "d89619c574dff11db482f7cbcd2d9ae376f45046379de451d79251f602fe970d"
+  },
+  "currentAugustInput": [
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39.json",
+      "bytes": 16564,
+      "sha256": "79883e209c4be66a0ec253a1617ffb6e0601cd44b4ff225c9618c95462a0b650"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-latest-world.json",
+      "bytes": 147947,
+      "sha256": "22f5aebeb64c34bb384c3aa471b5e024dccebbb28d5a1625c60e261de1cd186b"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-sango0.sav",
+      "bytes": 8221,
+      "sha256": "b09b2d6c5ffe776f4fe210a7413bc4a050d8b9b2f0d99ded450fe810cf9891a1"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-sango1.sav",
+      "bytes": 4840,
+      "sha256": "4867fd2aa7fce30cd81eb8640d69ff267196ffe6442279cb069d9dbb58c6b49e"
+    }
+  ],
+  "currentActualState": {
+    "date": [
+      239,
+      8
+    ],
+    "caster131": {
+      "belong": 1,
+      "city": 7,
+      "arms": 0,
+      "experience": 8,
+      "level": 17
+    },
+    "worker44Thew": 16,
+    "city20": {
+      "food": 493,
+      "money": 1086,
+      "strictCurrentRequired": 267
+    },
+    "classicAccepted": false,
+    "exactMissingAccepted": false,
+    "anotherCastQualified": false,
+    "anotherENDAuthorized": false
+  },
+  "coverage": {
+    "requiredImages": [
+      {
+        "skillId": 6,
+        "slot": 0,
+        "phases": [
+          "movie",
+          "numbers",
+          "hold"
+        ]
+      },
+      {
+        "skillId": 6,
+        "slot": 1,
+        "phases": [
+          "numbers"
+        ]
+      },
+      {
+        "skillId": 7,
+        "slot": 0,
+        "phases": [
+          "movie",
+          "numbers",
+          "hold"
+        ]
+      }
+    ],
+    "oldSkill6WideMovieHoldCasePreserved": true,
+    "unused7Wide": {
+      "addedPhase": "numbers",
+      "previousPhases": [
+        "movie",
+        "hold"
+      ]
+    },
+    "background": {
+      "skills": [
+        6,
+        7
+      ],
+      "addedNodeTests": 1,
+      "phase": "movie",
+      "source": "Authenticated BACKPIC16 current manifest identity is still forbidden for WOOD"
+    },
+    "sourceAssertions": [
+      "Actually requested required image fails through Image.onerror",
+      "Complete160x96 LCD draw replaces HD artwork",
+      "Late onload cannot revive failed cache",
+      "Partial NUM fourth of eight last-digit steps",
+      "Unused skill7 wide slot never requested",
+      "Invented BACKPIC does not request another Image",
+      "No keys or native writes"
+    ]
+  },
+  "unexecutedNextMissingScope": {
+    "exactRequiredUrl": "assets/hd-spe/wood-37/picture-0.png",
+    "privateHttp404Required": true,
+    "battleMode": "hd",
+    "fullNativeLcdMovieNumHoldBothFamiliesRequired": true,
+    "allowLcdOptionAloneIsAcceptance": false,
+    "sourceArmRecoveryRequired": true
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-exactmissing-source-20261024-v40-archive.json",
+    "bytes": 15678,
+    "sha256": "38d4659377219e43add38054d98af032f4ac76522ba2f32fc873662e543973af"
+  },
+  "boundaries": {
+    "newBrowserRuns": 0,
+    "newNativeInputs": 0,
+    "newHTTPServers": 0,
+    "newPayment": 0,
+    "newEND": 0,
+    "newPublicSave": 0,
+    "actual404Observed": false,
+    "actualFallbackAccepted": false,
+    "actualCastAccepted": false,
+    "actualClassicAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "rngContinuityAccepted": false,
+    "matchingCheckoutRequired": true,
+    "portableClosedRuntimeArchive": false
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-exactmissing-source-20261024-v40-verify.mjs",
+    "bytes": 5121,
+    "sha256": "6a1bae6159e6640cb7e2e044a93ab8340f300954dd4bd445f542693baffb705a"
+  }
+}

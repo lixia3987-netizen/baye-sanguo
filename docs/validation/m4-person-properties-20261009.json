@@ -1,0 +1,1946 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-09T01:22:10.367Z",
+  "milestone": "R18 native selected-person properties, explicit paging, mode restore and custom semantics",
+  "globalHdComplete": false,
+  "outcome": "Current standard13 and genuine sc-mod12 property browsing accepted in private desktop sessions; timely commit milestone, remaining HD goal active.",
+  "changes": [
+    "Native version1 observer captures original selected-row/title draws with temporary owner/paint tickets and full U16 IDs; no property hook replay or world-rule edits.",
+    "Strict atomic bridge validates current menu/person/generation, raw GBK and bounded NUL strings, per-title/value flags and current revisions; actual empty values remain valid.",
+    "UI distinguishes current, previously read and unread native fields, uses one manual LEFT/RIGHT with real native ACK, and retires stale gestures across paint, overlays, identity and mode changes.",
+    "Classic/HD restoration recovers the same normal PERSON menu locally without reopening the native menu or sending input; existing march restore remains.",
+    "Current verified custom native fields replace fixed fifteen standard meanings in the visible core; name/portrait position preserved, raw fifteen retained in debug. Genuine sc-mod Age7 is native shield infantry rather than age.",
+    "Seven current engine entries share cache20261009y and preserve Module callbacks; no mobile HD implementation claim."
+  ],
+  "tests": {
+    "full": {
+      "path": "build/r18-final-full-suite-proof.json",
+      "bytes": 513,
+      "sha256": "e0b0d46f099a713798baaa9eeb3e1e6b1dec832c674e1ce4af502ad2f9851fac",
+      "preserved": "docs/validation/m4-person-properties-20261009/raw/e0b0d46f099a713798baaa9eeb3e1e6b1dec832c674e1ce4af502ad2f9851fac.gz",
+      "encoding": "gzip"
+    },
+    "passed": 813,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "hudPassed": 129,
+    "bridgePassed": 28,
+    "nativeAndRelatedPassed": 91,
+    "kind": "Full automated suite includes real compiled native fixtures and JS/DOM mocks. Actual private browser checks are separately recorded.",
+    "intermediateLogClarification": {
+      "path": "build/r18-final-suite-log-clarification.json",
+      "bytes": 689,
+      "sha256": "51394da88cc794d7baa0cf7b775fd1e7eac8b9121140121fe8495324513090a7",
+      "preserved": "docs/validation/m4-person-properties-20261009/raw/51394da88cc794d7baa0cf7b775fd1e7eac8b9121140121fe8495324513090a7.gz",
+      "encoding": "gzip"
+    },
+    "intermediate774": "Observed earlier only; original raw was overwritten by a later809 execution. Identical v1/v2 final809 logs represent one execution, not two."
+  },
+  "build": {
+    "manifest": {
+      "schemaVersion": 1,
+      "sourceRevision": "79c2cc00a3ffacdedaa015f3d57020f2e86c1af1",
+      "engineSourceSha256": "9b5e3a1178ec18034ea46b4115234db32b653540152ff356ba42410f85463148",
+      "engineSourceModified": true,
+      "emscriptenVersion": "3.1.51",
+      "cmakeVersion": "cmake version 3.31.6",
+      "sourceDateEpoch": 1791503723,
+      "hdMenuProtocol": {
+        "nativeFallback": 254,
+        "controlField": "g_hdFightMenuControl"
+      },
+      "hdInputProtocol": {
+        "version": 3,
+        "fight": [
+          "g_hdFightInputKind",
+          "g_hdFightInputSeq",
+          "g_hdFightActor"
+        ],
+        "menu": [
+          "g_hdMenuActive",
+          "g_hdMenuContext",
+          "g_hdMenuKind",
+          "g_hdMenuSeq"
+        ],
+        "march": [
+          "g_hdMarchPhase",
+          "g_hdMarchSession",
+          "g_hdMarchOrigin",
+          "g_hdMarchSelected",
+          "g_hdMarchInputSeq",
+          "g_hdMapInputSeq"
+        ],
+        "report": [
+          "g_hdReportActive",
+          "g_hdReportInputSeq"
+        ],
+        "record": [
+          "g_hdRecordActive",
+          "g_hdRecordMode",
+          "g_hdRecordIndex",
+          "g_hdRecordCount",
+          "g_hdRecordSeq"
+        ],
+        "qty": [
+          "g_hdQtyActive",
+          "g_hdQtySession",
+          "g_hdQtyInputSeq",
+          "g_hdQtyLastKey",
+          "g_hdQtyCursor",
+          "g_hdQtyStep",
+          "g_hdQtyReady"
+        ]
+      },
+      "hdSpeProtocol": {
+        "version": 2,
+        "event": [
+          "g_hdSpeGeneration",
+          "g_hdSpeEventId",
+          "g_hdSpeParentEventId",
+          "g_hdSpeDepth"
+        ],
+        "frames": [
+          "g_hdSpeFrameIndex",
+          "g_hdSpeFrameValid",
+          "g_hdSpeCommitSeq",
+          "g_hdSpeVisibleFrames"
+        ],
+        "resourceFingerprint": "fnv1a32:payload:resourceLength",
+        "displayedCommit": "SysCopyScreen snapshot published by timed_flush_lcd before lcdFlushBuffer",
+        "skipEligible": "keyflag === 1"
+      },
+      "hdDetailProtocol": {
+        "version": 1,
+        "generation": "g_hdDetailGeneration",
+        "menuIds": [
+          "g_hdMenuIds",
+          "g_hdMenuIdsCount",
+          "g_hdMenuIdsKind",
+          "g_hdMenuIdsSeq",
+          "g_hdMenuIdsGeneration"
+        ],
+        "goods": [
+          "g_hdGoodsGeneration",
+          "g_hdGoodsMenuSeq",
+          "g_hdGoodsIndex",
+          "g_hdGoodsTool",
+          "g_hdGoodsPropertyCount",
+          "g_hdGoodsPropertyFlags",
+          "g_hdGoodsPageStart",
+          "g_hdGoodsPageEnd"
+        ],
+        "help": [
+          "g_hdHelpProtocolVersion",
+          "g_hdHelpGeneration",
+          "g_hdHelpInputSeq",
+          "g_hdHelpKind",
+          "g_hdHelpComplete",
+          "g_hdHelpPerson",
+          "g_hdHelpSlot",
+          "g_hdHelpFields"
+        ],
+        "toolAccess": [
+          "bayeHdGetToolCount",
+          "bayeHdGetToolField",
+          "bayeHdGetArmType"
+        ]
+      },
+      "hdPersonPropertiesProtocol": {
+        "version": 1,
+        "publicApi": "baye.hd.personProperties()",
+        "protocolField": "g_hdPersonPropertiesProtocolVersion",
+        "owner": [
+          "g_hdPersonPropertiesActive",
+          "g_hdPersonPropertiesGeneration",
+          "g_hdPersonPropertiesMenuSeq",
+          "g_hdPersonPropertiesIndex",
+          "g_hdPersonPropertiesPerson"
+        ],
+        "menuOwner": [
+          "g_hdDetailGeneration",
+          "g_hdMenuActive",
+          "g_hdMenuContext",
+          "g_hdMenuKind",
+          "g_hdMenuSeq",
+          "g_hdMenuIndex",
+          "g_hdMenuIds",
+          "g_hdMenuIdsGeneration",
+          "g_hdMenuIdsSeq",
+          "g_hdMenuIdsKind",
+          "g_hdMenuIdsCount"
+        ],
+        "identity": "U16 zero-based person ID and selected row; full native IDs match before publication, never name matching",
+        "paint": [
+          "g_hdPersonPropertiesPaintSeq",
+          "g_hdPersonPropertiesTitlePaintSeq",
+          "g_hdPersonPropertiesValuePaintSeq"
+        ],
+        "publication": "temporary selected-row paint ticket; publish only after original set_menu and full menu_ids confirm owner and index",
+        "page": [
+          "g_hdPersonPropertiesPropertyCount",
+          "g_hdPersonPropertiesPageIndex",
+          "g_hdPersonPropertiesPageStart",
+          "g_hdPersonPropertiesPageEnd"
+        ],
+        "pageRange": "actual native spc and exclusive end; propertyCount 0..255 and pageIndex 0..254, no inferred page size",
+        "completeness": {
+          "cumulative": "g_hdPersonPropertiesComplete: every property has a captured title and value; prior paint revisions remain explicit",
+          "currentPage": "g_hdPersonPropertiesPageComplete: nonempty selected name and all current-page title/value revisions match PaintSeq"
+        },
+        "flags": {
+          "field": "g_hdPersonPropertiesPropertyFlags",
+          "titleCaptured": 1,
+          "valueCaptured": 2
+        },
+        "text": {
+          "name": "g_hdPersonPropertiesNameGbk",
+          "nameBytes": 32,
+          "titles": "g_hdPersonPropertiesPropertyTitles",
+          "values": "g_hdPersonPropertiesPropertyValues",
+          "slotBytes": 128,
+          "slots": 256,
+          "encoding": "bounded NUL-terminated raw GBK final native strings; nonempty titles, empty values allowed"
+        },
+        "custom": "g_hdPersonPropertiesCustom: observed only in the existing title/value hook branches; no added hook/getter/draw calls",
+        "retirement": "menu owner, selected row or full IDs change; report/help/qty takeover or native reset invalidates the paint ticket and captured source",
+        "input": "read-only observer adds no keys or game writes; explicit player LEFT/RIGHT follows original native paging and boundary behavior"
+      },
+      "hdOverviewProtocol": {
+        "version": 1,
+        "view": [
+          "g_hdViewSeq",
+          "g_hdViewGeneration",
+          "g_hdViewInputSeq",
+          "g_hdViewForce",
+          "g_hdViewPageStart",
+          "g_hdViewPageSize",
+          "g_hdViewFoodKnown",
+          "g_hdViewRowPersons",
+          "g_hdViewPointPersons"
+        ],
+        "miniMap": [
+          "g_hdMiniMapSeq",
+          "g_hdMiniMapGeneration",
+          "g_hdMiniMapInputSeq",
+          "g_hdMiniMapDefaultDraw",
+          "g_hdMiniMapCustom",
+          "g_hdMiniMapResourceId"
+        ]
+      },
+      "hdMakerProtocol": {
+        "version": 1,
+        "owner": [
+          "g_hdMakerGeneration",
+          "g_hdMakerSession",
+          "g_hdMakerInputSeq",
+          "g_hdMakerPhase"
+        ],
+        "phases": {
+          "scroll": 1,
+          "hold": 2
+        },
+        "input": "original GamDelay(5000, 2), one function key or touch-up returns",
+        "holdSource": "last actual SysCopyScreen snapshot of the matching MAKER child; public LCD display must match",
+        "retirement": "GamMakerInf return, native reset, or held LCD dirty/copy interference",
+        "custom": "same observed showAbout invocation; custom default branch retains LCD"
+      },
+      "hdSpeCompositionProtocol": {
+        "version": 1,
+        "source": "actual ordinary picture draw observed before its matching native attack child",
+        "background": "g_hdSpeBg and g_hdSpeDisplayBg complete resource identity and signed origin",
+        "clears": [
+          "g_hdSpeClearFrames",
+          "g_hdSpeDisplayClearFrames"
+        ],
+        "displayedCommit": "actual SysCopyScreen composition snapshot published by timed_flush_lcd",
+        "retirement": "uncontrolled virtual or LCD writes, nested events, unsupported drawing state, native reset"
+      },
+      "hdAttackProtocol": {
+        "version": 1,
+        "owner": [
+          "g_hdAttackGeneration",
+          "g_hdAttackSession",
+          "g_hdAttackPhase"
+        ],
+        "phases": {
+          "movie": 1,
+          "numbers": 2,
+          "hold": 3
+        },
+        "hurt": "actual CountPlusSub result captured by the unchanged FgtAtkAction",
+        "display": "g_hdAttackDisplay copied scene and cumulative actual digit poses, published only at timed LCD flush",
+        "digits": [
+          "DigitIndex",
+          "DigitX",
+          "DigitY",
+          "DigitFirstY",
+          "DigitDrawCount"
+        ],
+        "input": "no added skip or return; original numeric and final delays retain native input behavior",
+        "custom": "same single observed willShowPKAnimation invocation; custom presence always retires HD source"
+      },
+      "hdSkillResultProtocol": {
+        "version": 1,
+        "owner": [
+          "g_hdSkillResultGeneration",
+          "g_hdSkillResultSession",
+          "g_hdSkillResultPhase"
+        ],
+        "nativeStack": [
+          "g_hdResultOwnerKind",
+          "g_hdResultOwnerValid",
+          "g_hdResultOwnerGeneration",
+          "g_hdResultOwnerSession"
+        ],
+        "phases": {
+          "movie": 1,
+          "numbers": 2,
+          "hold": 3
+        },
+        "value": "exact unchanged FgtAtvShowNum argument; per-target arms result or original pre-clamp provender amount",
+        "label": "actual complete consumed GBK bytes and native coordinates; 64-byte source and separate displayed buffer",
+        "scene": "owned BACKPIC or verified equal opaque movie rectangle; no unknown full-arena background inferred",
+        "display": "controlled actual movie, label and numeric writes snapshot published at timed LCD flush",
+        "input": "no added skip or return; original movie, number and result waiting lifecycle",
+        "custom": "presence captured in original showSkill and single willShowPKAnimation invocation",
+        "retirement": "uncontrolled drawing, nested owner, malformed source, custom hook, reset; parent source never revived"
+      },
+      "saveProtocol": {
+        "version": 149,
+        "legacyVersions": [
+          144,
+          145,
+          146,
+          147,
+          148
+        ],
+        "filesPerSlot": 2,
+        "fightersBytes": 600,
+        "goodsQueueBytes": 4000
+      },
+      "artifacts": {
+        "baye.js": {
+          "bytes": 192446,
+          "sha256": "83b679df318fdd2beb83fa16858da5c2f4c3855c2277f816df90303391ebb18f"
+        },
+        "baye.wasm": {
+          "bytes": 4458255,
+          "sha256": "1e2434069d38aa9710f576c22c87c1e7df3bc454c9edc9d01d59bea13c18bb03"
+        },
+        "baye.wasm.map": {
+          "bytes": 29983,
+          "sha256": "960b11cf14e5c6d031464223a6864a9854bd4a3ee0fa6da48994081467aa6757"
+        }
+      }
+    },
+    "install": {
+      "path": "build/r18-install-quartet-proof.json",
+      "bytes": 1685,
+      "sha256": "02a6fc505515fc126fac2b7a5d1f46865a4a347c1e7cd36b9e4c815725e71987",
+      "preserved": "docs/validation/m4-person-properties-20261009/raw/02a6fc505515fc126fac2b7a5d1f46865a4a347c1e7cd36b9e4c815725e71987.gz",
+      "encoding": "gzip"
+    },
+    "buildLog": {
+      "path": "build/r18-wasm-staged-build-v1.log",
+      "bytes": 3177,
+      "sha256": "5ff64ea8065433298efb0ec6af5f75ecbf855a5802d628c92032e43e08a795d8",
+      "preserved": "docs/validation/m4-person-properties-20261009/raw/5ff64ea8065433298efb0ec6af5f75ecbf855a5802d628c92032e43e08a795d8.gz",
+      "encoding": "gzip"
+    },
+    "sourceRevisionPolicy": "Actual compilation sourceRevision79c2cc00 and modified=true are preserved, not relabelled to the later publishing commit."
+  },
+  "currentProducer": {
+    "ui": {
+      "path": "js/hd-city-menu.js",
+      "bytes": 290442,
+      "sha256": "aa5222159364aebd62daa9e11184d6d55585d59abdc79e1bdfce0e623410d05b"
+    },
+    "runner": {
+      "path": "scripts/test-hd-person-properties-runtime.mjs",
+      "bytes": 51938,
+      "sha256": "df525595c6cfba72a38697173c923e0c1ef8564992e6a79945508eef4014a186"
+    },
+    "exactExecuted": {
+      "path": "build/r18-runtime-executed-final-v7.mjs",
+      "bytes": 51938,
+      "sha256": "df525595c6cfba72a38697173c923e0c1ef8564992e6a79945508eef4014a186",
+      "preserved": "docs/validation/m4-person-properties-20261009/raw/df525595c6cfba72a38697173c923e0c1ef8564992e6a79945508eef4014a186.gz",
+      "encoding": "gzip"
+    },
+    "sourceSnapshot": {
+      "path": "build/r18-final-source-snapshot-proof.json",
+      "bytes": 7557,
+      "sha256": "92423512c2f81071196d78507b49069120e67e10859c6819b6895e68689ab0fc",
+      "preserved": "docs/validation/m4-person-properties-20261009/raw/92423512c2f81071196d78507b49069120e67e10859c6819b6895e68689ab0fc.gz",
+      "encoding": "gzip"
+    }
+  },
+  "actualFinalRuns": [
+    {
+      "name": "mod-staged-v7",
+      "raw": {
+        "path": "build/r18-person-properties-mod-staged-v7/result.json",
+        "bytes": 31242745,
+        "sha256": "937366ad83ae1b60ef140522ff5e87641d25d2b3d744cd45ae1f8d2a05daa8fc",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/937366ad83ae1b60ef140522ff5e87641d25d2b3d744cd45ae1f8d2a05daa8fc.gz",
+        "encoding": "gzip"
+      },
+      "library": "sc-mod",
+      "staged": true,
+      "acceptedForCurrentProducer": true,
+      "compiledRevision": "79c2cc00a3ffacdedaa015f3d57020f2e86c1af1",
+      "modified": true,
+      "nativeSourceSha256": "9b5e3a1178ec18034ea46b4115234db32b653540152ff356ba42410f85463148",
+      "actualLib": {
+        "stage": "finished-person-properties",
+        "sha256": "58de2ee328aef937aff6890424eca63690419c94afadf65bb665397457119e9c",
+        "bytes": 3047694,
+        "nativeGeneration": 3,
+        "identityGeneration": 2
+      },
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 51938,
+        "sha256": "df525595c6cfba72a38697173c923e0c1ef8564992e6a79945508eef4014a186"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 290442,
+        "sha256": "aa5222159364aebd62daa9e11184d6d55585d59abdc79e1bdfce0e623410d05b"
+      },
+      "viewports": [
+        {
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "checkpoints": 5,
+      "personTours": [
+        {
+          "label": "03-person-properties-1080p",
+          "id": 56,
+          "index": 0,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 7,
+              "paint": 32
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 33
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 34
+            }
+          ]
+        },
+        {
+          "label": "03-person-properties-1080p",
+          "id": 60,
+          "index": 2,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 7,
+              "paint": 40
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 41
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 42
+            }
+          ]
+        },
+        {
+          "label": "03-person-properties-1080p",
+          "id": 64,
+          "index": 3,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 7,
+              "paint": 46
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 47
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 48
+            }
+          ]
+        },
+        {
+          "label": "04-person-properties-720p",
+          "id": 56,
+          "index": 0,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 7,
+              "paint": 56
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 57
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 58
+            }
+          ]
+        },
+        {
+          "label": "04-person-properties-720p",
+          "id": 60,
+          "index": 2,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 7,
+              "paint": 64
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 65
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 66
+            }
+          ]
+        },
+        {
+          "label": "04-person-properties-720p",
+          "id": 64,
+          "index": 3,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 7,
+              "paint": 70
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 71
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 72
+            }
+          ]
+        }
+      ],
+      "pageChecks": 18,
+      "currentVisibleCells": 72,
+      "manualPageButtons": 18,
+      "standardCoreVisibleFields": 0,
+      "rawDebugFields": 15,
+      "staleChecks": 18,
+      "staleScope": "Each of six tours tests disabled final next, held trusted pointer across a real keyboard LEFT/new paint, and held trusted pointer across classic/HD restoration; these are distinct checks.",
+      "originalPropertyHookCalls": 800,
+      "nativeKeys": 46,
+      "returnedWithOneBack": {
+        "keys": [
+          40
+        ],
+        "observedWorldUnchanged": true,
+        "noDelayedExtraInputs": true
+      },
+      "worldObservationCount": 173,
+      "worldScope": "Compared all actual person fields/names/derived arm used by the runner, current city money/food/reserve and person queue, active orders selected fields, year/month, map cursor, and SPE generation. This is not every Mod custom field or save byte.",
+      "font": {
+        "faces": [
+          {
+            "family": "BayeUI",
+            "status": "loaded"
+          }
+        ],
+        "status": "loaded",
+        "check": true,
+        "source": {
+          "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+          "bytes": 8261128,
+          "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+        },
+        "requests": [
+          {
+            "url": "/fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "status": 200,
+            "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "bytes": 8261128,
+            "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+          }
+        ],
+        "keysBefore": 0,
+        "keysAfter": 0
+      },
+      "exceptions": 0,
+      "unexpectedDialogs": 0,
+      "httpErrors": 0,
+      "sourceCount": 1154,
+      "sourceDrift": 0,
+      "sourceAdded": 0,
+      "cleanup": {
+        "httpPort": 13116,
+        "debugPort": 13117,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-person-properties-runtime-KfosQ8",
+        "chromePid": 176332,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      },
+      "modUiActivation": {
+        "method": "Production public BayeHdCityMenu.open after one real native Enter into owned CITY/root; no fabricated owner or engine writes by runner",
+        "notClaimed": "Classic Mod city entry does not automatically adopt the HD shell; this run explicitly invokes the existing UI API. Full Mod journey remains separate.",
+        "keysBefore": 6,
+        "keysAfter": 6
+      },
+      "modOrdinarySearchChoice": {
+        "names": [
+          "一键搜寻",
+          "普通搜寻"
+        ],
+        "keys": [
+          35,
+          39
+        ]
+      },
+      "openingProgress": {
+        "method": "Wait for the original opening to finish naturally; no opening skip input or transient end-ACK dependency",
+        "keysBefore": 0,
+        "keysAfter": 0
+      }
+    },
+    {
+      "name": "standard-installed-v7",
+      "raw": {
+        "path": "build/r18-person-properties-standard-installed-v7/result.json",
+        "bytes": 43891705,
+        "sha256": "2b7cc118be6ca3c861f244d1162766285d9c768492e9e8628d0ef3b46a54d09c",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/2b7cc118be6ca3c861f244d1162766285d9c768492e9e8628d0ef3b46a54d09c.gz",
+        "encoding": "gzip"
+      },
+      "library": "standard",
+      "staged": false,
+      "acceptedForCurrentProducer": true,
+      "compiledRevision": "79c2cc00a3ffacdedaa015f3d57020f2e86c1af1",
+      "modified": true,
+      "nativeSourceSha256": "9b5e3a1178ec18034ea46b4115234db32b653540152ff356ba42410f85463148",
+      "actualLib": {
+        "stage": "finished-person-properties",
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+        "bytes": 207195,
+        "nativeGeneration": 3,
+        "identityGeneration": 2
+      },
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 51938,
+        "sha256": "df525595c6cfba72a38697173c923e0c1ef8564992e6a79945508eef4014a186"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 290442,
+        "sha256": "aa5222159364aebd62daa9e11184d6d55585d59abdc79e1bdfce0e623410d05b"
+      },
+      "viewports": [
+        {
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "checkpoints": 5,
+      "personTours": [
+        {
+          "label": "03-person-properties-1080p",
+          "id": 12,
+          "index": 0,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 1,
+              "paint": 37
+            },
+            {
+              "start": 1,
+              "end": 3,
+              "paint": 38
+            },
+            {
+              "start": 3,
+              "end": 7,
+              "paint": 39
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 40
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 41
+            },
+            {
+              "start": 12,
+              "end": 13,
+              "paint": 42
+            }
+          ]
+        },
+        {
+          "label": "03-person-properties-1080p",
+          "id": 114,
+          "index": 5,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 1,
+              "paint": 57
+            },
+            {
+              "start": 1,
+              "end": 3,
+              "paint": 58
+            },
+            {
+              "start": 3,
+              "end": 7,
+              "paint": 59
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 60
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 61
+            },
+            {
+              "start": 12,
+              "end": 13,
+              "paint": 62
+            }
+          ]
+        },
+        {
+          "label": "03-person-properties-1080p",
+          "id": 123,
+          "index": 10,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 1,
+              "paint": 77
+            },
+            {
+              "start": 1,
+              "end": 3,
+              "paint": 78
+            },
+            {
+              "start": 3,
+              "end": 7,
+              "paint": 79
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 80
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 81
+            },
+            {
+              "start": 12,
+              "end": 13,
+              "paint": 82
+            }
+          ]
+        },
+        {
+          "label": "04-person-properties-720p",
+          "id": 12,
+          "index": 0,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 1,
+              "paint": 107
+            },
+            {
+              "start": 1,
+              "end": 3,
+              "paint": 108
+            },
+            {
+              "start": 3,
+              "end": 7,
+              "paint": 109
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 110
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 111
+            },
+            {
+              "start": 12,
+              "end": 13,
+              "paint": 112
+            }
+          ]
+        },
+        {
+          "label": "04-person-properties-720p",
+          "id": 114,
+          "index": 5,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 1,
+              "paint": 127
+            },
+            {
+              "start": 1,
+              "end": 3,
+              "paint": 128
+            },
+            {
+              "start": 3,
+              "end": 7,
+              "paint": 129
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 130
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 131
+            },
+            {
+              "start": 12,
+              "end": 13,
+              "paint": 132
+            }
+          ]
+        },
+        {
+          "label": "04-person-properties-720p",
+          "id": 123,
+          "index": 10,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 1,
+              "paint": 147
+            },
+            {
+              "start": 1,
+              "end": 3,
+              "paint": 148
+            },
+            {
+              "start": 3,
+              "end": 7,
+              "paint": 149
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 150
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 151
+            },
+            {
+              "start": 12,
+              "end": 13,
+              "paint": 152
+            }
+          ]
+        }
+      ],
+      "pageChecks": 36,
+      "currentVisibleCells": 78,
+      "manualPageButtons": 54,
+      "standardCoreVisibleFields": 15,
+      "rawDebugFields": 15,
+      "staleChecks": 18,
+      "staleScope": "Each of six tours tests disabled final next, held trusted pointer across a real keyboard LEFT/new paint, and held trusted pointer across classic/HD restoration; these are distinct checks.",
+      "originalPropertyHookCalls": 0,
+      "nativeKeys": 113,
+      "returnedWithOneBack": {
+        "keys": [
+          40
+        ],
+        "observedWorldUnchanged": true,
+        "noDelayedExtraInputs": true
+      },
+      "worldObservationCount": 320,
+      "worldScope": "Compared all actual person fields/names/derived arm used by the runner, current city money/food/reserve and person queue, active orders selected fields, year/month, map cursor, and SPE generation. This is not every Mod custom field or save byte.",
+      "font": {
+        "faces": [
+          {
+            "family": "BayeUI",
+            "status": "loaded"
+          }
+        ],
+        "status": "loaded",
+        "check": true,
+        "source": {
+          "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+          "bytes": 8261128,
+          "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+        },
+        "requests": [
+          {
+            "url": "/fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "status": 200,
+            "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "bytes": 8261128,
+            "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+          }
+        ],
+        "keysBefore": 0,
+        "keysAfter": 0
+      },
+      "exceptions": 0,
+      "unexpectedDialogs": 0,
+      "httpErrors": 0,
+      "sourceCount": 1154,
+      "sourceDrift": 0,
+      "sourceAdded": 0,
+      "cleanup": {
+        "httpPort": 14297,
+        "debugPort": 14298,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-person-properties-runtime-5mWspH",
+        "chromePid": 179288,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      },
+      "modUiActivation": null,
+      "modOrdinarySearchChoice": null,
+      "openingProgress": {
+        "method": "Wait for the original opening to finish naturally; no opening skip input or transient end-ACK dependency",
+        "keysBefore": 0,
+        "keysAfter": 0
+      }
+    },
+    {
+      "name": "mod-installed-v7",
+      "raw": {
+        "path": "build/r18-person-properties-mod-installed-v7/result.json",
+        "bytes": 31242667,
+        "sha256": "9e1b4437a072fbdf5418bb7765e92efc3f1c8512fa02410a3b74da73a92ff6ab",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/9e1b4437a072fbdf5418bb7765e92efc3f1c8512fa02410a3b74da73a92ff6ab.gz",
+        "encoding": "gzip"
+      },
+      "library": "sc-mod",
+      "staged": false,
+      "acceptedForCurrentProducer": true,
+      "compiledRevision": "79c2cc00a3ffacdedaa015f3d57020f2e86c1af1",
+      "modified": true,
+      "nativeSourceSha256": "9b5e3a1178ec18034ea46b4115234db32b653540152ff356ba42410f85463148",
+      "actualLib": {
+        "stage": "finished-person-properties",
+        "sha256": "58de2ee328aef937aff6890424eca63690419c94afadf65bb665397457119e9c",
+        "bytes": 3047694,
+        "nativeGeneration": 3,
+        "identityGeneration": 2
+      },
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 51938,
+        "sha256": "df525595c6cfba72a38697173c923e0c1ef8564992e6a79945508eef4014a186"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 290442,
+        "sha256": "aa5222159364aebd62daa9e11184d6d55585d59abdc79e1bdfce0e623410d05b"
+      },
+      "viewports": [
+        {
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "checkpoints": 5,
+      "personTours": [
+        {
+          "label": "03-person-properties-1080p",
+          "id": 56,
+          "index": 0,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 7,
+              "paint": 32
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 33
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 34
+            }
+          ]
+        },
+        {
+          "label": "03-person-properties-1080p",
+          "id": 60,
+          "index": 2,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 7,
+              "paint": 40
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 41
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 42
+            }
+          ]
+        },
+        {
+          "label": "03-person-properties-1080p",
+          "id": 64,
+          "index": 3,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 7,
+              "paint": 46
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 47
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 48
+            }
+          ]
+        },
+        {
+          "label": "04-person-properties-720p",
+          "id": 56,
+          "index": 0,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 7,
+              "paint": 56
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 57
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 58
+            }
+          ]
+        },
+        {
+          "label": "04-person-properties-720p",
+          "id": 60,
+          "index": 2,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 7,
+              "paint": 64
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 65
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 66
+            }
+          ]
+        },
+        {
+          "label": "04-person-properties-720p",
+          "id": 64,
+          "index": 3,
+          "actualPageRanges": [
+            {
+              "start": 0,
+              "end": 7,
+              "paint": 70
+            },
+            {
+              "start": 7,
+              "end": 10,
+              "paint": 71
+            },
+            {
+              "start": 10,
+              "end": 12,
+              "paint": 72
+            }
+          ]
+        }
+      ],
+      "pageChecks": 18,
+      "currentVisibleCells": 72,
+      "manualPageButtons": 18,
+      "standardCoreVisibleFields": 0,
+      "rawDebugFields": 15,
+      "staleChecks": 18,
+      "staleScope": "Each of six tours tests disabled final next, held trusted pointer across a real keyboard LEFT/new paint, and held trusted pointer across classic/HD restoration; these are distinct checks.",
+      "originalPropertyHookCalls": 800,
+      "nativeKeys": 46,
+      "returnedWithOneBack": {
+        "keys": [
+          40
+        ],
+        "observedWorldUnchanged": true,
+        "noDelayedExtraInputs": true
+      },
+      "worldObservationCount": 173,
+      "worldScope": "Compared all actual person fields/names/derived arm used by the runner, current city money/food/reserve and person queue, active orders selected fields, year/month, map cursor, and SPE generation. This is not every Mod custom field or save byte.",
+      "font": {
+        "faces": [
+          {
+            "family": "BayeUI",
+            "status": "loaded"
+          }
+        ],
+        "status": "loaded",
+        "check": true,
+        "source": {
+          "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+          "bytes": 8261128,
+          "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+        },
+        "requests": [
+          {
+            "url": "/fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "status": 200,
+            "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "bytes": 8261128,
+            "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+          }
+        ],
+        "keysBefore": 0,
+        "keysAfter": 0
+      },
+      "exceptions": 0,
+      "unexpectedDialogs": 0,
+      "httpErrors": 0,
+      "sourceCount": 1154,
+      "sourceDrift": 0,
+      "sourceAdded": 0,
+      "cleanup": {
+        "httpPort": 14301,
+        "debugPort": 14302,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-person-properties-runtime-wyUcjG",
+        "chromePid": 183004,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      },
+      "modUiActivation": {
+        "method": "Production public BayeHdCityMenu.open after one real native Enter into owned CITY/root; no fabricated owner or engine writes by runner",
+        "notClaimed": "Classic Mod city entry does not automatically adopt the HD shell; this run explicitly invokes the existing UI API. Full Mod journey remains separate.",
+        "keysBefore": 6,
+        "keysAfter": 6
+      },
+      "modOrdinarySearchChoice": {
+        "names": [
+          "一键搜寻",
+          "普通搜寻"
+        ],
+        "keys": [
+          35,
+          39
+        ]
+      },
+      "openingProgress": {
+        "method": "Wait for the original opening to finish naturally; no opening skip input or transient end-ACK dependency",
+        "keysBefore": 0,
+        "keysAfter": 0
+      }
+    }
+  ],
+  "installedTotals": {
+    "personPageChecks": 54,
+    "currentVisibleCells": 150,
+    "manualPageButtons": 72,
+    "personTours": 12,
+    "staleChecks": 36
+  },
+  "finalInstalledCore": {
+    "raw": {
+      "path": "build/r18-baseline-installed-v3/result.json",
+      "bytes": 766404,
+      "sha256": "f4bbc2f7e38cf3a1b4bd49b552d1e286eff9d4b5b6cb861f67f83bebfd9e029b",
+      "preserved": "docs/validation/m4-person-properties-20261009/raw/f4bbc2f7e38cf3a1b4bd49b552d1e286eff9d4b5b6cb861f67f83bebfd9e029b.gz",
+      "encoding": "gzip"
+    },
+    "proof": {
+      "path": "build/r18-baseline-installed-v3/independent-run-proof.json",
+      "bytes": 11672,
+      "sha256": "aa66324b58fb1025facf6231734f4dedcf2444283199c11200b9cf3002f767b8",
+      "preserved": "docs/validation/m4-person-properties-20261009/raw/aa66324b58fb1025facf6231734f4dedcf2444283199c11200b9cf3002f767b8.gz",
+      "encoding": "gzip"
+    },
+    "checkpoints": 14,
+    "sourceCount": 29,
+    "scope": "Existing core regression only; final person-specific and Mod acceptance is recorded above."
+  },
+  "regressionHistory": {
+    "stagedCoreV2AndBattleV2": {
+      "path": "build/r18-staged-regression-audit.json",
+      "bytes": 57232,
+      "sha256": "37a410653c41fea07cf0dc870e6423327702c8cde2ceb31794011007e7c86b5e",
+      "preserved": "docs/validation/m4-person-properties-20261009/raw/37a410653c41fea07cf0dc870e6423327702c8cde2ceb31794011007e7c86b5e.gz",
+      "encoding": "gzip"
+    },
+    "coreCheckpoints": 14,
+    "battleCheckpoints": 68,
+    "scope": "Same final native quartet; UI before the final custom-core display guard. These runs are historical source-qualified evidence, not final-current-UI byte acceptance."
+  },
+  "independentAudit": {
+    "path": "build/r18-final-acceptance-audit.json",
+    "bytes": 179974,
+    "sha256": "d65560378e01345aef6fb646874e9d6e8e01cf212b395cb643e4f4712b6a433f",
+    "preserved": "docs/validation/m4-person-properties-20261009/raw/d65560378e01345aef6fb646874e9d6e8e01cf212b395cb643e4f4712b6a433f.gz",
+    "encoding": "gzip"
+  },
+  "history": [
+    {
+      "name": "r18-baseline-installed-v3-prelaunch-env-failure",
+      "raw": {
+        "path": "build/r18-baseline-installed-v3-prelaunch-env-failure/result.json",
+        "bytes": 16198,
+        "sha256": "5a9847f0658f352555a30e882d7d296639b8d4a77e6080d1e5a4eb6c5a2ac740",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/5a9847f0658f352555a30e882d7d296639b8d4a77e6080d1e5a4eb6c5a2ac740.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": false,
+      "reportedHdAccepted": null,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": false,
+      "checkpoints": 0,
+      "pageChecks": 0,
+      "tool": null,
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 290442,
+        "sha256": "aa5222159364aebd62daa9e11184d6d55585d59abdc79e1bdfce0e623410d05b"
+      },
+      "error": "AssertionError [ERR_ASSERTION]: Set CHROME to a Chromium/Chrome executable\n    at main (file:///F:/project/baye-sanguo/scripts/test-hd-runtime.mjs:1064:16)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+      "classification": "FAILED_ATTEMPT_NOT_ACCEPTED",
+      "cleanup": null
+    },
+    {
+      "name": "r18-baseline-staged",
+      "raw": {
+        "path": "build/r18-baseline-staged/result.json",
+        "bytes": 766300,
+        "sha256": "6b247973b0d965b3923e01d144523c2f5a765c11968bf9040c24818305a71c53",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/6b247973b0d965b3923e01d144523c2f5a765c11968bf9040c24818305a71c53.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": true,
+      "reportedHdAccepted": null,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": false,
+      "checkpoints": 14,
+      "pageChecks": 0,
+      "tool": null,
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 282455,
+        "sha256": "3b8d7dd50a6dc3e962a12f072903001a90ab75b4b8abbc513230ce67a1b5dcef"
+      },
+      "error": null,
+      "classification": "HISTORICAL_PASS_DIFFERENT_PRODUCER_OR_SCOPE",
+      "cleanup": null
+    },
+    {
+      "name": "r18-baseline-staged-v2",
+      "raw": {
+        "path": "build/r18-baseline-staged-v2/result.json",
+        "bytes": 766300,
+        "sha256": "b021f01b048dd70ccbc8eb2ae4385826de7f55cd1ba725ff0195d5afc0499915",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/b021f01b048dd70ccbc8eb2ae4385826de7f55cd1ba725ff0195d5afc0499915.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": true,
+      "reportedHdAccepted": null,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": false,
+      "checkpoints": 14,
+      "pageChecks": 0,
+      "tool": null,
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 289179,
+        "sha256": "799097b00efff3fb3f3dbe79c8f27fd68b089115cadee5a6c7dca29f1b2f7e3a"
+      },
+      "error": null,
+      "classification": "HISTORICAL_PASS_DIFFERENT_PRODUCER_OR_SCOPE",
+      "cleanup": null
+    },
+    {
+      "name": "r18-battle-staged-v2",
+      "raw": {
+        "path": "build/r18-battle-staged-v2/result.json",
+        "bytes": 6822992,
+        "sha256": "5fecf96d4899e2358618f9f6f6485cfbd58da35b6637c6398503864e17ac5296",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/5fecf96d4899e2358618f9f6f6485cfbd58da35b6637c6398503864e17ac5296.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": true,
+      "reportedHdAccepted": null,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": false,
+      "checkpoints": 68,
+      "pageChecks": 0,
+      "tool": null,
+      "ui": null,
+      "error": null,
+      "classification": "HISTORICAL_PASS_DIFFERENT_PRODUCER_OR_SCOPE",
+      "cleanup": null
+    },
+    {
+      "name": "r18-person-properties-mod-staged-v3",
+      "raw": {
+        "path": "build/r18-person-properties-mod-staged-v3/result.json",
+        "bytes": 838002,
+        "sha256": "d115e53e0ec7eb7f16331d2010548ed425e6211edc62985dcc7e0262a02332fd",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/d115e53e0ec7eb7f16331d2010548ed425e6211edc62985dcc7e0262a02332fd.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": false,
+      "reportedHdAccepted": false,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": false,
+      "checkpoints": 1,
+      "pageChecks": 0,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 48444,
+        "sha256": "6b91a982aeb7921f97eabfacd6d5ba744f81a52ab543cd886672bfa0efb9891a"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 289179,
+        "sha256": "799097b00efff3fb3f3dbe79c8f27fd68b089115cadee5a6c7dca29f1b2f7e3a"
+      },
+      "error": "Error: Timed out waiting for actual Mod owned city root\n    at waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:128:11)\n    at async boot (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:198:77)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:275:24)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:296:65)",
+      "classification": "FAILED_ATTEMPT_NOT_ACCEPTED",
+      "cleanup": {
+        "httpPort": 1362,
+        "debugPort": 1363,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-person-properties-runtime-Fy97sw",
+        "chromePid": 171032,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      }
+    },
+    {
+      "name": "r18-person-properties-mod-staged-v4",
+      "raw": {
+        "path": "build/r18-person-properties-mod-staged-v4/result.json",
+        "bytes": 1692941,
+        "sha256": "5b711476583bd7e0d937f08486a01b6b074ede2e1f44be5fb0c7868b62588bc7",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/5b711476583bd7e0d937f08486a01b6b074ede2e1f44be5fb0c7868b62588bc7.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": false,
+      "reportedHdAccepted": false,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": false,
+      "checkpoints": 1,
+      "pageChecks": 0,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 49802,
+        "sha256": "26db6cc3b98aa10f066eda3b311418d5718e08b0fa42cb6edd610b5865204d5e"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 289179,
+        "sha256": "799097b00efff3fb3f3dbe79c8f27fd68b089115cadee5a6c7dca29f1b2f7e3a"
+      },
+      "error": "Error: Timed out waiting for actual current PERSON IDs and property paint\n    at waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:128:11)\n    at async boot (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:202:182)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:275:24)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:296:65)",
+      "classification": "FAILED_ATTEMPT_NOT_ACCEPTED",
+      "cleanup": {
+        "httpPort": 2193,
+        "debugPort": 2194,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-person-properties-runtime-QlwqJR",
+        "chromePid": 168076,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      }
+    },
+    {
+      "name": "r18-person-properties-mod-staged-v5",
+      "raw": {
+        "path": "build/r18-person-properties-mod-staged-v5/result.json",
+        "bytes": 31210132,
+        "sha256": "455224c7710ca62ae3ea7529ce44613cf2908453580b3d90bbd997fb7543d92a",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/455224c7710ca62ae3ea7529ce44613cf2908453580b3d90bbd997fb7543d92a.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": true,
+      "reportedHdAccepted": true,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": false,
+      "checkpoints": 5,
+      "pageChecks": 18,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 51010,
+        "sha256": "aa525ea229a8e0883d665c4b6a27e5cd471f21d890a73046b96c697c662734b1"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 289179,
+        "sha256": "799097b00efff3fb3f3dbe79c8f27fd68b089115cadee5a6c7dca29f1b2f7e3a"
+      },
+      "error": null,
+      "classification": "HISTORICAL_PASS_DIFFERENT_PRODUCER_OR_SCOPE",
+      "cleanup": {
+        "httpPort": 2096,
+        "debugPort": 2097,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-person-properties-runtime-GvrLEn",
+        "chromePid": 140764,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      }
+    },
+    {
+      "name": "r18-person-properties-mod-staged-v6",
+      "raw": {
+        "path": "build/r18-person-properties-mod-staged-v6/result.json",
+        "bytes": 786927,
+        "sha256": "9bc0911bb0180bbae2524a74ba9cd28d1041fd4057f8bb3e664f05a436ff6b0a",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/9bc0911bb0180bbae2524a74ba9cd28d1041fd4057f8bb3e664f05a436ff6b0a.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": false,
+      "reportedHdAccepted": false,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": false,
+      "checkpoints": 0,
+      "pageChecks": 0,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 52029,
+        "sha256": "cc0bb6875e84fe49165d5717ba1cd7c5d66f8de249531e1795a839aee619d594"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 290442,
+        "sha256": "aa5222159364aebd62daa9e11184d6d55585d59abdc79e1bdfce0e623410d05b"
+      },
+      "error": "Error: Timed out waiting for real opening Enter ACK\n    at waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:128:11)\n    at async boot (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:193:192)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:278:24)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:299:65)",
+      "classification": "FAILED_ATTEMPT_NOT_ACCEPTED",
+      "cleanup": {
+        "httpPort": 14484,
+        "debugPort": 14485,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-person-properties-runtime-j8q9B1",
+        "chromePid": 169212,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      }
+    },
+    {
+      "name": "r18-person-properties-preflight-final-v3",
+      "raw": {
+        "path": "build/r18-person-properties-preflight-final-v3/result.json",
+        "bytes": 747412,
+        "sha256": "4961562006a36956ecf312d005921534496cc2b2b2397ac83afb0da44f598959",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/4961562006a36956ecf312d005921534496cc2b2b2397ac83afb0da44f598959.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": true,
+      "reportedHdAccepted": false,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": true,
+      "checkpoints": 0,
+      "pageChecks": 0,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 48444,
+        "sha256": "6b91a982aeb7921f97eabfacd6d5ba744f81a52ab543cd886672bfa0efb9891a"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 289179,
+        "sha256": "799097b00efff3fb3f3dbe79c8f27fd68b089115cadee5a6c7dca29f1b2f7e3a"
+      },
+      "error": null,
+      "classification": "STATIC_ONLY",
+      "cleanup": {
+        "profile": null,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": null,
+        "httpClosed": true,
+        "user8080Touched": false
+      }
+    },
+    {
+      "name": "r18-person-properties-preflight-mod-v2",
+      "raw": {
+        "path": "build/r18-person-properties-preflight-mod-v2/result.json",
+        "bytes": 747281,
+        "sha256": "81b56cda97d7a5a6ad08ee889436af1d490f949de6c460cd18029fe02fb31d7c",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/81b56cda97d7a5a6ad08ee889436af1d490f949de6c460cd18029fe02fb31d7c.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": true,
+      "reportedHdAccepted": false,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": true,
+      "checkpoints": 0,
+      "pageChecks": 0,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 55491,
+        "sha256": "99a0584f1cd08bb57d8f0437b733220eb759e78a5f9c740749379b2fd9c0580d"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 282455,
+        "sha256": "3b8d7dd50a6dc3e962a12f072903001a90ab75b4b8abbc513230ce67a1b5dcef"
+      },
+      "error": null,
+      "classification": "STATIC_ONLY",
+      "cleanup": {
+        "profile": null,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": null,
+        "httpClosed": true,
+        "user8080Touched": false
+      }
+    },
+    {
+      "name": "r18-person-properties-preflight-mod-v4",
+      "raw": {
+        "path": "build/r18-person-properties-preflight-mod-v4/result.json",
+        "bytes": 747414,
+        "sha256": "738c9dbe4da3c60b21a01ef413f0c9ae5a82aa487db95c22cbd543eed19933a5",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/738c9dbe4da3c60b21a01ef413f0c9ae5a82aa487db95c22cbd543eed19933a5.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": true,
+      "reportedHdAccepted": false,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": true,
+      "checkpoints": 0,
+      "pageChecks": 0,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 49802,
+        "sha256": "26db6cc3b98aa10f066eda3b311418d5718e08b0fa42cb6edd610b5865204d5e"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 289179,
+        "sha256": "799097b00efff3fb3f3dbe79c8f27fd68b089115cadee5a6c7dca29f1b2f7e3a"
+      },
+      "error": null,
+      "classification": "STATIC_ONLY",
+      "cleanup": {
+        "profile": null,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": null,
+        "httpClosed": true,
+        "user8080Touched": false
+      }
+    },
+    {
+      "name": "r18-person-properties-preflight-mod-v5",
+      "raw": {
+        "path": "build/r18-person-properties-preflight-mod-v5/result.json",
+        "bytes": 747414,
+        "sha256": "2d68f2ed7148f6977777c750d0b793c115ef6d2b8ff75b9a85a08a2d47488938",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/2d68f2ed7148f6977777c750d0b793c115ef6d2b8ff75b9a85a08a2d47488938.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": true,
+      "reportedHdAccepted": false,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": true,
+      "checkpoints": 0,
+      "pageChecks": 0,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 51010,
+        "sha256": "aa525ea229a8e0883d665c4b6a27e5cd471f21d890a73046b96c697c662734b1"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 289179,
+        "sha256": "799097b00efff3fb3f3dbe79c8f27fd68b089115cadee5a6c7dca29f1b2f7e3a"
+      },
+      "error": null,
+      "classification": "STATIC_ONLY",
+      "cleanup": {
+        "profile": null,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": null,
+        "httpClosed": true,
+        "user8080Touched": false
+      }
+    },
+    {
+      "name": "r18-person-properties-preflight-mod-v6",
+      "raw": {
+        "path": "build/r18-person-properties-preflight-mod-v6/result.json",
+        "bytes": 747414,
+        "sha256": "9f918bcb67978382d2b501c6bc50b71592ec24acc00ed3e5d6c3d9a2988a2754",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/9f918bcb67978382d2b501c6bc50b71592ec24acc00ed3e5d6c3d9a2988a2754.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": true,
+      "reportedHdAccepted": false,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": true,
+      "checkpoints": 0,
+      "pageChecks": 0,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 52029,
+        "sha256": "cc0bb6875e84fe49165d5717ba1cd7c5d66f8de249531e1795a839aee619d594"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 290442,
+        "sha256": "aa5222159364aebd62daa9e11184d6d55585d59abdc79e1bdfce0e623410d05b"
+      },
+      "error": null,
+      "classification": "STATIC_ONLY",
+      "cleanup": {
+        "profile": null,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": null,
+        "httpClosed": true,
+        "user8080Touched": false
+      }
+    },
+    {
+      "name": "r18-person-properties-preflight-mod-v7",
+      "raw": {
+        "path": "build/r18-person-properties-preflight-mod-v7/result.json",
+        "bytes": 747414,
+        "sha256": "ccd4b1848fa5e4fad5c19c26418a3a2e89779c63e8af054e205e8b4a7838fd6a",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/ccd4b1848fa5e4fad5c19c26418a3a2e89779c63e8af054e205e8b4a7838fd6a.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": true,
+      "reportedHdAccepted": false,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": true,
+      "checkpoints": 0,
+      "pageChecks": 0,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 51938,
+        "sha256": "df525595c6cfba72a38697173c923e0c1ef8564992e6a79945508eef4014a186"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 290442,
+        "sha256": "aa5222159364aebd62daa9e11184d6d55585d59abdc79e1bdfce0e623410d05b"
+      },
+      "error": null,
+      "classification": "STATIC_ONLY",
+      "cleanup": {
+        "profile": null,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": null,
+        "httpClosed": true,
+        "user8080Touched": false
+      }
+    },
+    {
+      "name": "r18-person-properties-preflight-standard-v1",
+      "raw": {
+        "path": "build/r18-person-properties-preflight-standard-v1/result.json",
+        "bytes": 746360,
+        "sha256": "41aa1f080e89a9b477398c8ae707e03d5ff0645d5abe2684e5f8563ebca8ff27",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/41aa1f080e89a9b477398c8ae707e03d5ff0645d5abe2684e5f8563ebca8ff27.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": false,
+      "reportedHdAccepted": false,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": true,
+      "checkpoints": 0,
+      "pageChecks": 0,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 55389,
+        "sha256": "42b2d8c6f5f342da37a65e35259d71020d5d2c798e89e8bd14e50c7cfcf91a0a"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 282455,
+        "sha256": "3b8d7dd50a6dc3e962a12f072903001a90ab75b4b8abbc513230ce67a1b5dcef"
+      },
+      "error": "SyntaxError: Unexpected token '/', ...\"          // 定义人物表格表\"... is not valid JSON\n    at JSON.parse (<anonymous>)\n    at prepareServedAssets (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:61:112)\n    at main (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:312:9)\n    at file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:338:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)",
+      "classification": "STATIC_ONLY",
+      "cleanup": {
+        "profile": null,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": null,
+        "httpClosed": true,
+        "user8080Touched": false
+      }
+    },
+    {
+      "name": "r18-person-properties-preflight-standard-v2",
+      "raw": {
+        "path": "build/r18-person-properties-preflight-standard-v2/result.json",
+        "bytes": 747279,
+        "sha256": "502d2d87d88d5a96525815076dc7caafc36d137de3129cc0c2912656c4c9f003",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/502d2d87d88d5a96525815076dc7caafc36d137de3129cc0c2912656c4c9f003.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": true,
+      "reportedHdAccepted": false,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": true,
+      "checkpoints": 0,
+      "pageChecks": 0,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 55491,
+        "sha256": "99a0584f1cd08bb57d8f0437b733220eb759e78a5f9c740749379b2fd9c0580d"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 282455,
+        "sha256": "3b8d7dd50a6dc3e962a12f072903001a90ab75b4b8abbc513230ce67a1b5dcef"
+      },
+      "error": null,
+      "classification": "STATIC_ONLY",
+      "cleanup": {
+        "profile": null,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": null,
+        "httpClosed": true,
+        "user8080Touched": false
+      }
+    },
+    {
+      "name": "r18-person-properties-standard-staged-v2",
+      "raw": {
+        "path": "build/r18-person-properties-standard-staged-v2/result.json",
+        "bytes": 6980584,
+        "sha256": "da5c0806eb2f3d84eb783f1099a922c3df4c233137400e16d8a3d1033fe74578",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/da5c0806eb2f3d84eb783f1099a922c3df4c233137400e16d8a3d1033fe74578.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": false,
+      "reportedHdAccepted": false,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": false,
+      "checkpoints": 2,
+      "pageChecks": 6,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 55491,
+        "sha256": "99a0584f1cd08bb57d8f0437b733220eb759e78a5f9c740749379b2fd9c0580d"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 282455,
+        "sha256": "3b8d7dd50a6dc3e962a12f072903001a90ab75b4b8abbc513230ce67a1b5dcef"
+      },
+      "error": "Error: Timed out waiting for actual current PERSON IDs and property paint\n    at waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:128:11)\n    at async currentPaint (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:172:18)\n    at async classicRetirement (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:278:71)\n    at async tour (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:294:9)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:303:68)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-person-properties-runtime.mjs:324:65)",
+      "classification": "FAILED_ATTEMPT_NOT_ACCEPTED",
+      "cleanup": {
+        "httpPort": 13753,
+        "debugPort": 13754,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-person-properties-runtime-s02MRG",
+        "chromePid": 164284,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      }
+    },
+    {
+      "name": "r18-person-properties-standard-staged-v3",
+      "raw": {
+        "path": "build/r18-person-properties-standard-staged-v3/result.json",
+        "bytes": 43819870,
+        "sha256": "3e5cdc6efc799710669dfbdfb1866edb4de2269c789335a0ce134cd50f6af505",
+        "preserved": "docs/validation/m4-person-properties-20261009/raw/3e5cdc6efc799710669dfbdfb1866edb4de2269c789335a0ce134cd50f6af505.gz",
+        "encoding": "gzip"
+      },
+      "reportedOk": true,
+      "reportedHdAccepted": true,
+      "acceptedForFinalProducer": false,
+      "preflightOnly": false,
+      "checkpoints": 5,
+      "pageChecks": 36,
+      "tool": {
+        "source": "scripts\\test-hd-person-properties-runtime.mjs",
+        "bytes": 48444,
+        "sha256": "6b91a982aeb7921f97eabfacd6d5ba744f81a52ab543cd886672bfa0efb9891a"
+      },
+      "ui": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 289179,
+        "sha256": "799097b00efff3fb3f3dbe79c8f27fd68b089115cadee5a6c7dca29f1b2f7e3a"
+      },
+      "error": null,
+      "classification": "HISTORICAL_PASS_DIFFERENT_PRODUCER_OR_SCOPE",
+      "cleanup": {
+        "httpPort": 14468,
+        "debugPort": 14469,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-person-properties-runtime-fl9CeG",
+        "chromePid": 178192,
+        "user8080Touched": false,
+        "cleaned": true,
+        "chromeExited": true,
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "httpClosed": true
+      }
+    }
+  ],
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-person-properties-20261009/runtime-index.json",
+      "bytes": 298385,
+      "sha256": "33d500f64f9b519b9ead150ef0da1356442ac8d7a593a789ce0393c98dd14ca7"
+    },
+    "counts": {
+      "logicalSources": 299,
+      "archivedLogical": 299,
+      "excludedLogical": 0,
+      "pngLogical": 143,
+      "rawLogical": 156,
+      "pngPhysical": 109,
+      "rawPhysical": 134,
+      "originalBytes": 322622026,
+      "preservedPhysicalBytes": 113518010
+    },
+    "policy": "Every build/r18* closed original is indexed; PNG kept without editing, other original bytes gzip archived by content hash. Exclusions, if any, are explicit. Archive itself does not infer test acceptance."
+  },
+  "boundaries": [
+    "Mod city HD shell explicitly opened through the existing production API after classic native city entry. The native one-click/ordinary search choice retains LCD; this run chooses ordinary search with DOWN35+ENTER39.",
+    "No execution of months, search orders, battle or save/load in person runs. No complete Mod custom-data/world/save equivalence or full campaign/Mod battle acceptance.",
+    "No new HD portraits or SPE artwork in this batch; unrelated attacks, skills/status, complete HUD styling, river crossing artwork, succession, full four-period/Mod save journeys, performance, mobile and cloud-account acceptance remain.",
+    "Native fixtures and static preflights do not count as actual browser or device acceptance. Genuine desktop resizing is not real mobile testing.",
+    "User page/server/storage were not navigated/reloaded/restarted; user8080 PID105848 retained. All actual test sessions use fresh private profiles and independent ports."
+  ],
+  "next": "Continue remaining native skill and status presentation in a separate bounded batch."
+}

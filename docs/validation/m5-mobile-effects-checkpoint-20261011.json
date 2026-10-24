@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "baseCommit": "35a4caeca09132c0b6f073c829a1f12597df5a0f",
+  "status": "implementation checkpoint; overall mobile effects not accepted",
+  "fullHdAccepted": false,
+  "realDeviceAccepted": false,
+  "staticRegression": {
+    "modules": 68,
+    "tests": 2029,
+    "passed": 2029,
+    "failed": 0,
+    "skipped": 0,
+    "clang": "build/toolchain/emsdk/upstream/bin/clang.exe",
+    "concurrency": 4,
+    "newMobileSpeTests": 28
+  },
+  "runtime": {
+    "artifacts": "build/mobile-battle-effects-first-20261011",
+    "ok": false,
+    "accepted": false,
+    "effectsAccepted": false,
+    "error": "Error: Actual battle settlement did not return to strategy map\n    at runMobileBattleEffectsChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-battle-effects-runtime-checks.mjs:152:23)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:576:124)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:602:86",
+    "spyVerdict": {
+      "ok": true,
+      "accepted": true,
+      "skillEffectAccepted": true,
+      "skillId": 30,
+      "actorIndex": 0,
+      "personId": 5,
+      "outcome": "failure",
+      "naturalOutcome": "failure",
+      "mp": {
+        "before": 41,
+        "after": 31,
+        "cost": 10
+      },
+      "active": {
+        "before": 0,
+        "after": 1
+      },
+      "enemyGrain": {
+        "before": 0,
+        "after": 0,
+        "actualEnemy": 1384
+      },
+      "experience": {
+        "award": 0,
+        "before": 0,
+        "after": 0
+      },
+      "level": {
+        "before": 1,
+        "after": 1,
+        "max": 20
+      },
+      "statusTransitions": [],
+      "report": {
+        "observedOwners": 0,
+        "spyReportObserved": false,
+        "recordedAcknowledgements": 0,
+        "keyDelta": 1,
+        "touchDelta": 0,
+        "retired": true
+      },
+      "battleBout": 2,
+      "hdAccepted": false,
+      "battleCompletionAccepted": false,
+      "naturalReleaseAccepted": false,
+      "checked": {
+        "people": 200,
+        "cities": 38,
+        "queue": 2000,
+        "orderRows": 200,
+        "fighterBytes": 600,
+        "fighterFlags": 30
+      },
+      "scope": "One real same-bout skill30 command through SKILL -> BUSY -> fresh PICK; success or failure, exact measured world only",
+      "limits": [
+        "RNG state is neither read nor written; source/trusted-input evidence must establish no forced outcome",
+        "Only measured worldSource fields; unobserved OrderType Arms/Money/Consume are not byte-exact",
+        "Input counters bound acknowledgements; exact trusted key/touch codes and owner timing remain caller evidence",
+        "No attack damage, ordinary skill movie/NUM, battle victory, strategy return, or whole mobile HD acceptance"
+      ]
+    },
+    "attackVerdict": {
+      "accepted": true,
+      "actorIndex": 3,
+      "targetIndex": 11,
+      "session": 1,
+      "generation": 3,
+      "hurt": 34,
+      "targetArms": [
+        800,
+        766
+      ],
+      "experience": {
+        "before": 0,
+        "after": 3,
+        "gain": 3
+      },
+      "nativeDisplays": 15,
+      "actualDevice": false,
+      "hdDisplays": 15,
+      "nativePhases": [
+        "movie",
+        "numbers",
+        "hold"
+      ],
+      "hdPhases": [
+        "movie",
+        "numbers",
+        "hold"
+      ],
+      "fullFramesAccepted": false
+    },
+    "sourceCount": 136,
+    "sourceDrift": [],
+    "exceptions": [],
+    "serverClosed": true,
+    "cleanupTreeExited": false,
+    "cleanupOriginalPreserved": true,
+    "limits": [
+      "One nonlethal attack, not all attacks or full frame/pixel acceptance",
+      "Spy30 natural failure, not success/report/movie acceptance",
+      "Retreat strategy-map restoration failed; native fight retired but mobile map/HUD rejected the terminal march phase7",
+      "Final synchronous mode retirement has 28 controlled VM checks but no new browser run",
+      "Controlled HD-missing runtime case added but not run",
+      "Android/iOS actual devices, full campaigns and performance pending"
+    ]
+  },
+  "pureReplay": {
+    "spyAccepted": true,
+    "attackAccepted": true,
+    "overallAccepted": false,
+    "note": "Replays preserved samples with actual LIB bytes; no new browser run"
+  },
+  "postRunSourceChanges": [
+    "js/hd-mobile-battle.js synchronous mode retirement",
+    "scripts/test-hd-mobile-spe.mjs two added mode tests",
+    "package.json test command registration"
+  ],
+  "supplementaryProcessObservation": "raw/mobile-effects-checkpoint-process-observation-v2-20261011.json.gz",
+  "sources": [
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 17474,
+      "sha256": "0fc7064a4da1feb78d4d5a9a7ed2c7ad96599c64455a9321ba7c1cb77bec51d0"
+    },
+    {
+      "path": "js/hd-mobile-battle.js",
+      "bytes": 27805,
+      "sha256": "d10f271a4771ea05d1acb4ad1dd70ec3b4509870870215806f7b97cb4d8467d8"
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 102411,
+      "sha256": "83b462cd8ec0ce5e3e73abf722f3aa696ae6ac5b38428ec01ac69104f8788252"
+    },
+    {
+      "path": "m.html",
+      "bytes": 15271,
+      "sha256": "33f2f45c62e085b8b563efc186e70065e81e089c9d5ac3b2c16cd2cd85ab96d3"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 27413,
+      "sha256": "bb15b18a385111051ec33c12c69a5fbab415711fed06ad08cda99adf3b74f8f2"
+    },
+    {
+      "path": "package.json",
+      "bytes": 10133,
+      "sha256": "12f517cec65ec4d8f173e02ea58e664670415f356db284b466ba9902cd1699d7"
+    },
+    {
+      "path": "scripts/hd-mobile-battle-runtime-checks.mjs",
+      "bytes": 21506,
+      "sha256": "6104d316284591087855fc05bde2bb4bd1288bb8d606964ba412b92b9f18e832"
+    },
+    {
+      "path": "scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 67908,
+      "sha256": "3610a20fc31060778f0c5629ab4caca7a37fd944ce0abd1aa99c2f7292084605"
+    },
+    {
+      "path": "scripts/hd-mobile-battle-attack-oracle.mjs",
+      "bytes": 3524,
+      "sha256": "3d1e4b8beffc089a0a293ac165da6e3447c931be0d5a54c9dea83b31999ef740"
+    },
+    {
+      "path": "scripts/hd-mobile-battle-effects-runtime-checks.mjs",
+      "bytes": 16032,
+      "sha256": "4e7009a90a6836192ef15336e438dba24a77c84e6a6020dee4e7e55b341905c4"
+    },
+    {
+      "path": "scripts/hd-mobile-battle-skill-oracle.mjs",
+      "bytes": 17498,
+      "sha256": "56f2d4be65f2bcf0083c192a64760b359e2d7c71edd28f9bfecbfc988447760d"
+    },
+    {
+      "path": "scripts/test-hd-mobile-spe.mjs",
+      "bytes": 18808,
+      "sha256": "4f8acc1b77858172cb302414099e670942259638842283d02cc62b01a61ca7d0"
+    }
+  ],
+  "archive": [
+    {
+      "input": "build/mobile-battle-effects-first-20261011/result.json",
+      "file": "raw/result.json.gz",
+      "bytes": 6266257,
+      "sha256": "daf118e1dd83e73638bd2c13a46b11efcb74833b418f6c7da269bba3de7b767f",
+      "gzipBytes": 475064,
+      "gzipSha256": "19e8e0b6b97ee4b1ba85ebfa0cae7a23ba7f240edc5d62b90a891f4359d64b68"
+    },
+    {
+      "input": "build/mobile-battle-effects-first-20261011/source-verification.json",
+      "file": "raw/source-verification.json.gz",
+      "bytes": 26105,
+      "sha256": "76e590c8cc3f36f535290ac53648b37a4de3f824751df48f04c10cb62aef54e0",
+      "gzipBytes": 8796,
+      "gzipSha256": "d83cdcfda962602e6920b79153dcdd982cab57bb8b711503aa980559486e5afe"
+    },
+    {
+      "input": "build/mobile-battle-effects-first-20261011/executed-tool.mjs",
+      "file": "raw/executed-tool.mjs.gz",
+      "bytes": 67908,
+      "sha256": "3610a20fc31060778f0c5629ab4caca7a37fd944ce0abd1aa99c2f7292084605",
+      "gzipBytes": 20509,
+      "gzipSha256": "399da26ef8a60ee38eb3ee4480b370d44045ec3f62a7c1c9ddafd2bccaa7204c"
+    },
+    {
+      "input": "build/mobile-battle-effects-first-20261011/owned-process-samples.jsonl",
+      "file": "raw/owned-process-samples.jsonl.gz",
+      "bytes": 207680,
+      "sha256": "23e19e54f7102aae35ce71aadbdff1f3bb6820551f77309b17ad1e33a1cf2bc2",
+      "gzipBytes": 4433,
+      "gzipSha256": "0ec47437697775762a66a72f9c6a8e717edaeb315a086ad7b5456f057a130596"
+    },
+    {
+      "input": "build/mobile-battle-effects-first-20261011/battle-effects-player-attack-display.png",
+      "file": "raw/battle-effects-player-attack-display.png.gz",
+      "bytes": 180261,
+      "sha256": "58d21047a3297a1d2cfd0f1c47df862b66d9fc532a77677d59b89136f1990bbe",
+      "gzipBytes": 180160,
+      "gzipSha256": "730fcd074e437f329d8ca45f212b5f5cc2311df181c472fba6f77d7099812c78"
+    },
+    {
+      "input": "build/mobile-battle-effects-first-20261011/failure.png",
+      "file": "raw/failure.png.gz",
+      "bytes": 26541,
+      "sha256": "12ddb5c9777c65db41c637ae9f92b198f055c76430226d1f3af65979070aca01",
+      "gzipBytes": 25205,
+      "gzipSha256": "a1ae6dea50480902bee24daa9211c3d6159f8dd67dd05acb124de42c6c970abd"
+    },
+    {
+      "input": "build/mobile-spe-source-freeze-v2.json",
+      "file": "raw/mobile-spe-source-freeze-v2.json.gz",
+      "bytes": 5826,
+      "sha256": "85ea8ecd5a6cc5389bb1dedceede98e9b4f94e0afa23fe7d177389e69223f548",
+      "gzipBytes": 1970,
+      "gzipSha256": "08a6a260a34491cb3456efa75e177a3328dac2be33a25131b4eaa40498dcc0f9"
+    },
+    {
+      "input": "build/mobile-effects-checkpoint-tests-20261011.log",
+      "file": "raw/mobile-effects-checkpoint-tests-20261011.log.gz",
+      "bytes": 210921,
+      "sha256": "7518cc6ec804f58775d93edefffbedf1afd7edf845b6cd390e442912ffc21382",
+      "gzipBytes": 59777,
+      "gzipSha256": "036647fa416eb1e07db9098308adac23ead7c0c936feae456333995d192969d1"
+    },
+    {
+      "input": "build/mobile-effects-checkpoint-process-observation-v2-20261011.json",
+      "file": "raw/mobile-effects-checkpoint-process-observation-v2-20261011.json.gz",
+      "bytes": 658,
+      "sha256": "dd236b01724cde8a67e246b496fb5bd21ba3a28c62c116e3d91b372b9e943248",
+      "gzipBytes": 431,
+      "gzipSha256": "b6321efd8f1b64e56d8398e0128b20fb8882693ecccec9dba8a90dc85fb24553"
+    },
+    {
+      "input": "build/mobile-effects-checkpoint-oracle-replay-20261011.json",
+      "file": "raw/mobile-effects-checkpoint-oracle-replay-20261011.json.gz",
+      "bytes": 2133,
+      "sha256": "c0d58dd36b31fd01d59820d044c802c056db861988a95ec172ff7e351e6bef4c",
+      "gzipBytes": 916,
+      "gzipSha256": "ce1a7c21ef21504e0030ba3799d689da9340ead4874a7bb8aa69ba3e559c8cfe"
+    }
+  ],
+  "portableClosedArchive": false,
+  "archiveScope": "Selected failed-run originals and final static log; private profile, other PNGs and complete frozen source tree remain external local evidence"
+}

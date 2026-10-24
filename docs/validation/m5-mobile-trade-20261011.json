@@ -1,0 +1,1483 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "accepted": true,
+  "scope": "Original mobile trade selection, cancellation and ordinary buy/sell confirmations in Chrome mobile emulation; staged 844x390 and identical installed artifacts at 844x390 and 667x375",
+  "globalHdComplete": false,
+  "fullHdAccepted": false,
+  "realDeviceAccepted": false,
+  "monthReturnAccepted": false,
+  "wholeNativeAbiAccepted": false,
+  "defaultParallelSuiteAccepted": false,
+  "implementation": {
+    "native": "ExchangeMake actual PlcSplMenu publishes context CITY=1 / kind EXCHANGE=5 only; original business unchanged",
+    "frontend": "Certified original mobile SUB trade -> PERSON -> EXCHANGE -> existing quantity ACK; resources and selected actor shown from matching native owner",
+    "runtimeFixes": [
+      "Exchange page no longer requires the PERSON attribute presentation ticket; PERSON still does",
+      "Expected MAP receipt waits for actual dialog retirement within the existing deadline before closing the old CITY shell; wrong owner or stale receipt is rejected"
+    ],
+    "originalLibrary": {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    "pcTradePathChanged": false,
+    "modCertificationExpanded": false
+  },
+  "tests": {
+    "fullList": {
+      "modules": 78,
+      "testConcurrency": 1,
+      "nodeVersion": "v24.14.0",
+      "compiler": "F:\\project\\baye-sanguo\\build\\toolchain\\emsdk\\upstream\\bin\\clang.exe",
+      "tests": 2996,
+      "pass": 2996,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "durationMs": 63586.6418,
+      "command": {
+        "source": "build/mobile-trade-prebuild-20261011/full-test-serial-command.json",
+        "bytes": 3689,
+        "sha256": "e4cdca075e7c1a07d747ba4555071ca095ab7174b66714642beb4b30abfcd1ed",
+        "archive": "m5-mobile-trade-20261011/raw/e4cdca075e7c1a07-full-test-serial-command.json.gz",
+        "gzipBytes": 744,
+        "gzipSha256": "0f3cdc2e7cca30de63f0e8a109f71932ba17f37d2c4ca8f5755a0dbc6d2a0650"
+      },
+      "testSources": {
+        "source": "build/mobile-trade-prebuild-20261011/full-test-source-manifest.json",
+        "bytes": 21859,
+        "sha256": "c48de3b9e5f28384741f8ff7bd5e056a3d6f42b35189b23856392e90d3faccaf",
+        "archive": "m5-mobile-trade-20261011/raw/c48de3b9e5f28384-full-test-source-manifest.json.gz",
+        "gzipBytes": 4539,
+        "gzipSha256": "a59fac67632252d45ee65f4a7b634d89f4de00ff63852342a59117d32f27344a"
+      },
+      "log": {
+        "source": "build/mobile-trade-prebuild-20261011/full-test-serial-final.log",
+        "bytes": 288080,
+        "sha256": "f6cf7e40609785518d0492e3468fa67fd660986980cf81058e6b508e24c1741b",
+        "archive": "m5-mobile-trade-20261011/raw/f6cf7e4060978551-full-test-serial-final.log.gz",
+        "gzipBytes": 77853,
+        "gzipSha256": "1338e0692ea45ce9d1c2d78f53ff15f80f376650b8fed2b653e09475c5d03b26"
+      }
+    },
+    "firstDefaultParallelAttempt": {
+      "accepted": false,
+      "tests": 2593,
+      "pass": 2588,
+      "fail": 5,
+      "durationMs": 19095,
+      "completeListFinished": false,
+      "causeProven": false,
+      "failures": [
+        "AID fixed async asset wait assertion",
+        "campaign engine clang compile process failure",
+        "CITY mobile host V8 process failure",
+        "mobile portraits VM parseInt error",
+        "overworld environment file-level failure"
+      ],
+      "log": {
+        "source": "build/mobile-trade-prebuild-20261011/full-test-final.log",
+        "bytes": 278886,
+        "sha256": "4e0c4885111a4496ffcc121877694c8d856902bd781d7200762dd40851efaf81",
+        "archive": "m5-mobile-trade-20261011/raw/4e0c4885111a4496-full-test-final.log.gz",
+        "gzipBytes": 77296,
+        "gzipSha256": "d6ff731c4c45e2ba7399b5753faa10770b422551dfec56f4b896fcfad78b15fa"
+      }
+    },
+    "failedModulesSerialRecheck": {
+      "modules": 5,
+      "tests": 524,
+      "pass": 524,
+      "fail": 0,
+      "log": {
+        "source": "build/mobile-trade-prebuild-20261011/failed-files-serial-recheck.log",
+        "bytes": 47893,
+        "sha256": "5bd6c0d4ab5b8bcc562d126fa184f35fb7a5600cfef8dbf059ab6adf6c3a1ef3",
+        "archive": "m5-mobile-trade-20261011/raw/5bd6c0d4ab5b8bcc-failed-files-serial-recheck.log.gz",
+        "gzipBytes": 11118,
+        "gzipSha256": "4ae6694269b54fc2a477793107c28ed52e8c13381c3b5bd1a38bc288d43dbc62"
+      }
+    },
+    "nativeTrade": {
+      "tests": 12,
+      "pass": 12,
+      "fail": 0,
+      "realTouchAcceptance": false,
+      "log": {
+        "source": "build/mobile-trade-prebuild-20261011/trade-engine.log",
+        "bytes": 1316,
+        "sha256": "dc6409b0614e321ff2813cad14299f8a1026f244bff49b403563d566b55889d5",
+        "archive": "m5-mobile-trade-20261011/raw/dc6409b0614e321f-trade-engine.log.gz",
+        "gzipBytes": 670,
+        "gzipSha256": "91dead7816791e74cff357dbc129fa1faa22cff62ab3368b88d567c228c21d9e"
+      }
+    },
+    "pureTradeOracle": {
+      "tests": 86,
+      "pass": 86,
+      "fail": 0,
+      "realTouchAcceptance": false,
+      "log": {
+        "source": "build/mobile-trade-prebuild-20261011/trade-oracle.log",
+        "bytes": 4719,
+        "sha256": "73eae979a033c5e55b9d2eb86f0f4a539d1bc55a3a99291456e5de8b2d5518e5",
+        "archive": "m5-mobile-trade-20261011/raw/73eae979a033c5e5-trade-oracle.log.gz",
+        "gzipBytes": 1808,
+        "gzipSha256": "d44dd86e17fb04da9bc3b1afcb8292ab3f30ccbbab42faeff0d76f8977d4c286"
+      }
+    },
+    "finalFrontend": {
+      "modules": 3,
+      "tests": 513,
+      "pass": 513,
+      "fail": 0,
+      "log": {
+        "source": "build/mobile-trade-prebuild-20261011/frontend-map-retirement-v3.log",
+        "bytes": 46663,
+        "sha256": "aa8fb6da7d3c7116520bb446b7e8ff2cb8946eff2325b21b81610d33bb06e9bf",
+        "archive": "m5-mobile-trade-20261011/raw/aa8fb6da7d3c7116-frontend-map-retirement-v3.log.gz",
+        "gzipBytes": 11165,
+        "gzipSha256": "9f05e88c857c4dd61f0946130b14a9dd4adf049940b340eaa479701615e8b777"
+      }
+    },
+    "entryCache": {
+      "tests": 41,
+      "pass": 41,
+      "fail": 0,
+      "log": {
+        "source": "build/mobile-trade-prebuild-20261011/entry-cache.log",
+        "bytes": 4365,
+        "sha256": "dfa8942dc898811340bbc8f0170677626e36328246286cbfb422311913f7f46d",
+        "archive": "m5-mobile-trade-20261011/raw/dfa8942dc8988113-entry-cache.log.gz",
+        "gzipBytes": 1660,
+        "gzipSha256": "e30565ae1ad1037588825c46858a95e77f3ac662d7739719bab9d2bdc6872a9c"
+      }
+    },
+    "oldSourceNegativeControls": [
+      {
+        "source": "frozen actual staged v1 frontend",
+        "expectedFailures": 2,
+        "pass": 0,
+        "log": {
+          "source": "build/mobile-trade-prebuild-20261011/frontend-exchange-presentation-old-v1-negative.log",
+          "bytes": 2019,
+          "sha256": "7d29f131e15f8d4147f6a6767d033959a0897eaf6f6a451e8fb0bd14a76e6b08",
+          "archive": "m5-mobile-trade-20261011/raw/7d29f131e15f8d41-frontend-exchange-presentation-old-v1-negative.log.gz",
+          "gzipBytes": 612,
+          "gzipSha256": "cf4a7306ed4c3bb4e0582fb3cc8fa0bfd7c4c0cd7f02d5dca2ba1756b3eb4c17"
+        }
+      },
+      {
+        "source": "frozen actual staged v2 frontend",
+        "expectedFailures": 2,
+        "pass": 0,
+        "log": {
+          "source": "build/mobile-trade-prebuild-20261011/frontend-map-retirement-old-v2-negative.log",
+          "bytes": 2035,
+          "sha256": "c30b4f06ba83f11533e5780aa5e27f2fe11e95b4ffe5e5b52a252ca4fdad738f",
+          "archive": "m5-mobile-trade-20261011/raw/c30b4f06ba83f115-frontend-map-retirement-old-v2-negative.log.gz",
+          "gzipBytes": 612,
+          "gzipSha256": "5058c25b88c49d8c533146aa49ce671509d0316132cd0bbd0a14ce89c80e0f21"
+        }
+      }
+    ]
+  },
+  "runs": [
+    {
+      "directory": "build/mobile-trade-staged-844-v1-20261011",
+      "current": false,
+      "staged": true,
+      "accepted": false,
+      "tradeAccepted": false,
+      "width": 844,
+      "checkpoints": 3,
+      "nativeKeys": 27,
+      "nativeTouches": 0,
+      "sourceFiles": 196,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "profileRetained": true,
+      "user8080Accessed": false,
+      "error": "Error: Timed out visible unobstructed mobile control #hd-city-menu-deep [data-hd-deep=\"0\"][data-hd-menu-kind=\"5\"]\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:239:78)\n    at async buttonPoint (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:274:16)\n    at async controlPoint (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:317:15)\n    at async noInput (file:///F:/project/baye-sanguo/scripts/hd-mobile-trade-runtime-checks.mjs:55:38)\n    at async runMobileTradeChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-trade-runtime-checks.mjs:103:21)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:546:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:790:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:831:86",
+      "operations": [],
+      "cancellations": [],
+      "result": {
+        "source": "build/mobile-trade-staged-844-v1-20261011/result.json",
+        "bytes": 4071281,
+        "sha256": "fb584714eefeac65ec269b12e82ef1646a94aa8869fa1be7fb781206adc7e882",
+        "archive": "m5-mobile-trade-20261011/raw/fb584714eefeac65-result.json.gz",
+        "gzipBytes": 206055,
+        "gzipSha256": "16faaf480582b2085956029e3c42f9203c850d9495c81283d48ea31ce5807aed"
+      },
+      "sourceVerification": {
+        "source": "build/mobile-trade-staged-844-v1-20261011/source-verification.json",
+        "bytes": 52988,
+        "sha256": "d4a41df60c36da32c1417f45e4c8b2ce620c44ac6e4b1980b31ea1d8ee71334d",
+        "archive": "m5-mobile-trade-20261011/raw/d4a41df60c36da32-source-verification.json.gz",
+        "gzipBytes": 11156,
+        "gzipSha256": "63418aae41410270b7887313c6a7961c9f9a8d1a03c54a875be311c4d96377db"
+      },
+      "ownedProcessSamples": {
+        "source": "build/mobile-trade-staged-844-v1-20261011/owned-process-samples.jsonl",
+        "bytes": 56057,
+        "sha256": "750254b2ebb84ca6d88e30ac1a319a5cdad41083732b4d3c9f4f5aa944c9aea4",
+        "archive": "m5-mobile-trade-20261011/raw/750254b2ebb84ca6-owned-process-samples.jsonl.gz",
+        "gzipBytes": 2166,
+        "gzipSha256": "c4e5ca5cc75cbc61e54d9657d51b342360cdcc4e7ff680c6e4e79c1a3802864f"
+      },
+      "executedTool": {
+        "source": "build/mobile-trade-staged-844-v1-20261011/executed-tool.mjs",
+        "bytes": 97836,
+        "sha256": "491cb6e7c9103d729c0cd9e026d9da168f8b3b47d72386d6d1d880c23efe725c",
+        "archive": "m5-mobile-trade-20261011/raw/491cb6e7c9103d72-executed-tool.mjs.gz",
+        "gzipBytes": 26707,
+        "gzipSha256": "78d5f3e0d01a8d8e71fc2e3a82831a1f64dc4877285b095c8289766e8db771e5"
+      }
+    },
+    {
+      "directory": "build/mobile-trade-staged-844-v2-20261011",
+      "current": false,
+      "staged": true,
+      "accepted": false,
+      "tradeAccepted": false,
+      "width": 844,
+      "checkpoints": 5,
+      "nativeKeys": 38,
+      "nativeTouches": 0,
+      "sourceFiles": 196,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "profileRetained": true,
+      "user8080Accessed": false,
+      "error": "Error: Timed out trade command finished actual current map\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:239:78)\n    at async currentMap (file:///F:/project/baye-sanguo/scripts/hd-mobile-trade-runtime-checks.mjs:27:5)\n    at async commit (file:///F:/project/baye-sanguo/scripts/hd-mobile-trade-runtime-checks.mjs:95:17)\n    at async runMobileTradeChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-trade-runtime-checks.mjs:104:84)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:546:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:790:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:831:86",
+      "operations": [],
+      "cancellations": [
+        {
+          "kind": "type",
+          "side": null,
+          "keys": [
+            {
+              "code": 40,
+              "at": 10904.199999988079
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "tradeAccepted": false,
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "limits": [
+              "Caller proves actual cancellation and fresh returned owner",
+              "Only recorded world fields; no RNG or whole native ABI claim"
+            ]
+          }
+        },
+        {
+          "kind": "quantity",
+          "side": "buy",
+          "keys": [
+            {
+              "code": 40,
+              "at": 14153
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "tradeAccepted": false,
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "limits": [
+              "Caller proves actual cancellation and fresh returned owner",
+              "Only recorded world fields; no RNG or whole native ABI claim"
+            ]
+          }
+        }
+      ],
+      "result": {
+        "source": "build/mobile-trade-staged-844-v2-20261011/result.json",
+        "bytes": 13355285,
+        "sha256": "4cd8eefac87e90180750bbb1ebdd69fb147d76337e5fbeef407f35bca1fde0e0",
+        "archive": "m5-mobile-trade-20261011/raw/4cd8eefac87e9018-result.json.gz",
+        "gzipBytes": 606216,
+        "gzipSha256": "180012ff686d7eee16e5406861fabea8d5f2968740cdda1be24dba09215df248"
+      },
+      "sourceVerification": {
+        "source": "build/mobile-trade-staged-844-v2-20261011/source-verification.json",
+        "bytes": 52988,
+        "sha256": "f18b5650366eb43ec86b4f0be5e17ae09ee7b0d39f40965f81a6dfd4ca2b4e85",
+        "archive": "m5-mobile-trade-20261011/raw/f18b5650366eb43e-source-verification.json.gz",
+        "gzipBytes": 11155,
+        "gzipSha256": "90e7721e3a96985d64e6957ec9e57741eed1eab74386bf4b151460318c50026b"
+      },
+      "ownedProcessSamples": {
+        "source": "build/mobile-trade-staged-844-v2-20261011/owned-process-samples.jsonl",
+        "bytes": 73920,
+        "sha256": "bbc81c6ff77b4381eb637227d4b8f52cec04d0f1c772317d37078411b2df5bc6",
+        "archive": "m5-mobile-trade-20261011/raw/bbc81c6ff77b4381-owned-process-samples.jsonl.gz",
+        "gzipBytes": 2365,
+        "gzipSha256": "39963f24d94ee37595d875cf6b8fa6185383e155c6da7ee655c5eff40d946ecd"
+      },
+      "executedTool": {
+        "source": "build/mobile-trade-staged-844-v2-20261011/executed-tool.mjs",
+        "bytes": 97848,
+        "sha256": "9d1aa0e1eb948ddc408765a563b7d1caeba718df0b4dd994be0c130389f6c1f4",
+        "archive": "m5-mobile-trade-20261011/raw/9d1aa0e1eb948ddc-executed-tool.mjs.gz",
+        "gzipBytes": 26710,
+        "gzipSha256": "18ca7246abfa4a9a37cb7e16ad798a23b544d6b101601cefccdd69e40378784d"
+      }
+    },
+    {
+      "directory": "build/mobile-trade-staged-844-v3-20261011",
+      "current": true,
+      "staged": true,
+      "accepted": true,
+      "tradeAccepted": true,
+      "width": 844,
+      "checkpoints": 10,
+      "nativeKeys": 75,
+      "nativeTouches": 0,
+      "sourceFiles": 197,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "profileRetained": true,
+      "user8080Accessed": false,
+      "error": null,
+      "operations": [
+        {
+          "side": "buy",
+          "actor": 24,
+          "keys": [
+            {
+              "code": 39,
+              "at": 19742.60000000894
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "tradeAccepted": true,
+            "scope": "One ordinary original ExchangeMake buy/sell confirmation, before another command or strategy month; recorded system worldSource fields only",
+            "side": "buy",
+            "cityIndex": 10,
+            "personId": 24,
+            "quantity": 2,
+            "minimum": 1,
+            "maximum": 115,
+            "initialValue": 115,
+            "maximumConfirmable": 115,
+            "orderIndex": 0,
+            "queueIndex": 56,
+            "order": {
+              "OrderId": 11,
+              "Person": 24,
+              "City": 10,
+              "TimeCount": 0
+            },
+            "fixOverFlow16": false,
+            "food": {
+              "before": 1097,
+              "after": 1099,
+              "delta": 2
+            },
+            "money": {
+              "before": 576,
+              "after": 566,
+              "delta": -10,
+              "exchangedU16": 10,
+              "intermediateU16": 566
+            },
+            "thew": {
+              "before": 100,
+              "after": 88,
+              "cost": 12
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 0,
+              "fields": [
+                "Object",
+                "Food"
+              ],
+              "actual": {
+                "Object": 51899,
+                "Food": 0
+              },
+              "semanticAcceptance": false
+            },
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "limits": [
+              "Only recorded world fields; no RNG or unobserved native ABI acceptance",
+              "Caller proves standard native execution, no hook/debug bypass, trusted input and completed business timing",
+              "GetFood initial value is a source contract, not an observed input claim",
+              "New order stack fields are recorded without cargo or other business meaning",
+              "Zero-resource and full-order partial-mutation paths are unsupported"
+            ]
+          }
+        },
+        {
+          "side": "sell",
+          "actor": 23,
+          "keys": [
+            {
+              "code": 39,
+              "at": 32407.79999999702
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "tradeAccepted": true,
+            "scope": "One ordinary original ExchangeMake buy/sell confirmation, before another command or strategy month; recorded system worldSource fields only",
+            "side": "sell",
+            "cityIndex": 10,
+            "personId": 23,
+            "quantity": 2,
+            "minimum": 1,
+            "maximum": 1099,
+            "initialValue": 1099,
+            "maximumConfirmable": 1099,
+            "orderIndex": 1,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 11,
+              "Person": 23,
+              "City": 10,
+              "TimeCount": 0
+            },
+            "fixOverFlow16": false,
+            "food": {
+              "before": 1099,
+              "after": 1097,
+              "delta": -2
+            },
+            "money": {
+              "before": 566,
+              "after": 570,
+              "delta": 4,
+              "exchangedU16": 4,
+              "intermediateU16": 570
+            },
+            "thew": {
+              "before": 100,
+              "after": 88,
+              "cost": 12
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 1,
+              "fields": [
+                "Object",
+                "Food"
+              ],
+              "actual": {
+                "Object": 51899,
+                "Food": 0
+              },
+              "semanticAcceptance": false
+            },
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "limits": [
+              "Only recorded world fields; no RNG or unobserved native ABI acceptance",
+              "Caller proves standard native execution, no hook/debug bypass, trusted input and completed business timing",
+              "GetFood initial value is a source contract, not an observed input claim",
+              "New order stack fields are recorded without cargo or other business meaning",
+              "Zero-resource and full-order partial-mutation paths are unsupported"
+            ]
+          }
+        }
+      ],
+      "cancellations": [
+        {
+          "kind": "type",
+          "side": null,
+          "keys": [
+            {
+              "code": 40,
+              "at": 10692.29999999702
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "tradeAccepted": false,
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "limits": [
+              "Caller proves actual cancellation and fresh returned owner",
+              "Only recorded world fields; no RNG or whole native ABI claim"
+            ]
+          }
+        },
+        {
+          "kind": "quantity",
+          "side": "buy",
+          "keys": [
+            {
+              "code": 40,
+              "at": 13941.70000000298
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "tradeAccepted": false,
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "limits": [
+              "Caller proves actual cancellation and fresh returned owner",
+              "Only recorded world fields; no RNG or whole native ABI claim"
+            ]
+          }
+        },
+        {
+          "kind": "quantity",
+          "side": "sell",
+          "keys": [
+            {
+              "code": 40,
+              "at": 26708.29999999702
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "tradeAccepted": false,
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "limits": [
+              "Caller proves actual cancellation and fresh returned owner",
+              "Only recorded world fields; no RNG or whole native ABI claim"
+            ]
+          }
+        },
+        {
+          "kind": "person",
+          "side": null,
+          "keys": [
+            {
+              "code": 40,
+              "at": 37805.5
+            }
+          ],
+          "oracle": null
+        }
+      ],
+      "result": {
+        "source": "build/mobile-trade-staged-844-v3-20261011/result.json",
+        "bytes": 27965607,
+        "sha256": "cc20cbee1ca6ab2b7fc3a2fd0c582b9d11efceb52b48b6c157c3865c5e740d0b",
+        "archive": "m5-mobile-trade-20261011/raw/cc20cbee1ca6ab2b-result.json.gz",
+        "gzipBytes": 1248554,
+        "gzipSha256": "be6a743ff1fdc855b429f137c6aaaa1059f54e90c5b4b1371a7bdaa7882eeded"
+      },
+      "sourceVerification": {
+        "source": "build/mobile-trade-staged-844-v3-20261011/source-verification.json",
+        "bytes": 53276,
+        "sha256": "f3275289e8ac6679a0f061cae1c89441cb7bcc051b7398858d137281fc3045c2",
+        "archive": "m5-mobile-trade-20261011/raw/f3275289e8ac6679-source-verification.json.gz",
+        "gzipBytes": 11219,
+        "gzipSha256": "205b5fe43e580a97faafa16ac1bc119a459de7000e0ef6d0a198f09ca1a22548"
+      },
+      "ownedProcessSamples": {
+        "source": "build/mobile-trade-staged-844-v3-20261011/owned-process-samples.jsonl",
+        "bytes": 123246,
+        "sha256": "6d9a6ced465cdd9234e0ec488be69205e45ad07ec1cd38b97256739fdb32ca82",
+        "archive": "m5-mobile-trade-20261011/raw/6d9a6ced465cdd92-owned-process-samples.jsonl.gz",
+        "gzipBytes": 3113,
+        "gzipSha256": "ed4d9e4f32ab9924ecc34a2038f4ea8220e074dd3a8c7986795f28ad914bfa83"
+      },
+      "executedTool": {
+        "source": "build/mobile-trade-staged-844-v3-20261011/executed-tool.mjs",
+        "bytes": 97848,
+        "sha256": "9d1aa0e1eb948ddc408765a563b7d1caeba718df0b4dd994be0c130389f6c1f4",
+        "archive": "m5-mobile-trade-20261011/raw/9d1aa0e1eb948ddc-executed-tool.mjs.gz",
+        "gzipBytes": 26710,
+        "gzipSha256": "18ca7246abfa4a9a37cb7e16ad798a23b544d6b101601cefccdd69e40378784d"
+      }
+    },
+    {
+      "directory": "build/mobile-trade-installed-844-v3-20261011",
+      "current": true,
+      "staged": false,
+      "accepted": true,
+      "tradeAccepted": true,
+      "width": 844,
+      "checkpoints": 10,
+      "nativeKeys": 75,
+      "nativeTouches": 0,
+      "sourceFiles": 197,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "profileRetained": true,
+      "user8080Accessed": false,
+      "error": null,
+      "operations": [
+        {
+          "side": "buy",
+          "actor": 24,
+          "keys": [
+            {
+              "code": 39,
+              "at": 19171.39999999106
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "tradeAccepted": true,
+            "scope": "One ordinary original ExchangeMake buy/sell confirmation, before another command or strategy month; recorded system worldSource fields only",
+            "side": "buy",
+            "cityIndex": 10,
+            "personId": 24,
+            "quantity": 2,
+            "minimum": 1,
+            "maximum": 115,
+            "initialValue": 115,
+            "maximumConfirmable": 115,
+            "orderIndex": 0,
+            "queueIndex": 56,
+            "order": {
+              "OrderId": 11,
+              "Person": 24,
+              "City": 10,
+              "TimeCount": 0
+            },
+            "fixOverFlow16": false,
+            "food": {
+              "before": 1097,
+              "after": 1099,
+              "delta": 2
+            },
+            "money": {
+              "before": 576,
+              "after": 566,
+              "delta": -10,
+              "exchangedU16": 10,
+              "intermediateU16": 566
+            },
+            "thew": {
+              "before": 100,
+              "after": 88,
+              "cost": 12
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 0,
+              "fields": [
+                "Object",
+                "Food"
+              ],
+              "actual": {
+                "Object": 51899,
+                "Food": 0
+              },
+              "semanticAcceptance": false
+            },
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "limits": [
+              "Only recorded world fields; no RNG or unobserved native ABI acceptance",
+              "Caller proves standard native execution, no hook/debug bypass, trusted input and completed business timing",
+              "GetFood initial value is a source contract, not an observed input claim",
+              "New order stack fields are recorded without cargo or other business meaning",
+              "Zero-resource and full-order partial-mutation paths are unsupported"
+            ]
+          }
+        },
+        {
+          "side": "sell",
+          "actor": 23,
+          "keys": [
+            {
+              "code": 39,
+              "at": 31754.39999999106
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "tradeAccepted": true,
+            "scope": "One ordinary original ExchangeMake buy/sell confirmation, before another command or strategy month; recorded system worldSource fields only",
+            "side": "sell",
+            "cityIndex": 10,
+            "personId": 23,
+            "quantity": 2,
+            "minimum": 1,
+            "maximum": 1099,
+            "initialValue": 1099,
+            "maximumConfirmable": 1099,
+            "orderIndex": 1,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 11,
+              "Person": 23,
+              "City": 10,
+              "TimeCount": 0
+            },
+            "fixOverFlow16": false,
+            "food": {
+              "before": 1099,
+              "after": 1097,
+              "delta": -2
+            },
+            "money": {
+              "before": 566,
+              "after": 570,
+              "delta": 4,
+              "exchangedU16": 4,
+              "intermediateU16": 570
+            },
+            "thew": {
+              "before": 100,
+              "after": 88,
+              "cost": 12
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 1,
+              "fields": [
+                "Object",
+                "Food"
+              ],
+              "actual": {
+                "Object": 51899,
+                "Food": 0
+              },
+              "semanticAcceptance": false
+            },
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "limits": [
+              "Only recorded world fields; no RNG or unobserved native ABI acceptance",
+              "Caller proves standard native execution, no hook/debug bypass, trusted input and completed business timing",
+              "GetFood initial value is a source contract, not an observed input claim",
+              "New order stack fields are recorded without cargo or other business meaning",
+              "Zero-resource and full-order partial-mutation paths are unsupported"
+            ]
+          }
+        }
+      ],
+      "cancellations": [
+        {
+          "kind": "type",
+          "side": null,
+          "keys": [
+            {
+              "code": 40,
+              "at": 10505.39999999106
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "tradeAccepted": false,
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "limits": [
+              "Caller proves actual cancellation and fresh returned owner",
+              "Only recorded world fields; no RNG or whole native ABI claim"
+            ]
+          }
+        },
+        {
+          "kind": "quantity",
+          "side": "buy",
+          "keys": [
+            {
+              "code": 40,
+              "at": 13522.199999988079
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "tradeAccepted": false,
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "limits": [
+              "Caller proves actual cancellation and fresh returned owner",
+              "Only recorded world fields; no RNG or whole native ABI claim"
+            ]
+          }
+        },
+        {
+          "kind": "quantity",
+          "side": "sell",
+          "keys": [
+            {
+              "code": 40,
+              "at": 26071.59999999404
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "tradeAccepted": false,
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "limits": [
+              "Caller proves actual cancellation and fresh returned owner",
+              "Only recorded world fields; no RNG or whole native ABI claim"
+            ]
+          }
+        },
+        {
+          "kind": "person",
+          "side": null,
+          "keys": [
+            {
+              "code": 40,
+              "at": 37137.69999998808
+            }
+          ],
+          "oracle": null
+        }
+      ],
+      "result": {
+        "source": "build/mobile-trade-installed-844-v3-20261011/result.json",
+        "bytes": 27961093,
+        "sha256": "5906c24cc498b5e3dfa749353f8b22f46de03641b35051268a6ddff2b8409ff0",
+        "archive": "m5-mobile-trade-20261011/raw/5906c24cc498b5e3-result.json.gz",
+        "gzipBytes": 1248512,
+        "gzipSha256": "33e4675db4cd6a3c57be2d438456d933d468a0b698d29443ae46a3469f956a92"
+      },
+      "sourceVerification": {
+        "source": "build/mobile-trade-installed-844-v3-20261011/source-verification.json",
+        "bytes": 53228,
+        "sha256": "2352f4c1879abf758cafba5925deb7010ef4680b707032802be554617b6d2238",
+        "archive": "m5-mobile-trade-20261011/raw/2352f4c1879abf75-source-verification.json.gz",
+        "gzipBytes": 11217,
+        "gzipSha256": "4e7deb7dc1c8a808a994b613c01286815fdb6691acfe4419cd92fd6d08ae9684"
+      },
+      "ownedProcessSamples": {
+        "source": "build/mobile-trade-installed-844-v3-20261011/owned-process-samples.jsonl",
+        "bytes": 122019,
+        "sha256": "56b2e8e5adba40f07feb92185ada706a3d09a107732c57495a531843c55f1066",
+        "archive": "m5-mobile-trade-20261011/raw/56b2e8e5adba40f0-owned-process-samples.jsonl.gz",
+        "gzipBytes": 2849,
+        "gzipSha256": "d4fcc74c587f54aa2857a036860dab2f39a2d3b993382ffc1fb2b22b2e80d5e9"
+      },
+      "executedTool": {
+        "source": "build/mobile-trade-installed-844-v3-20261011/executed-tool.mjs",
+        "bytes": 97848,
+        "sha256": "9d1aa0e1eb948ddc408765a563b7d1caeba718df0b4dd994be0c130389f6c1f4",
+        "archive": "m5-mobile-trade-20261011/raw/9d1aa0e1eb948ddc-executed-tool.mjs.gz",
+        "gzipBytes": 26710,
+        "gzipSha256": "18ca7246abfa4a9a37cb7e16ad798a23b544d6b101601cefccdd69e40378784d"
+      }
+    },
+    {
+      "directory": "build/mobile-trade-installed-667-v3-20261011",
+      "current": true,
+      "staged": false,
+      "accepted": true,
+      "tradeAccepted": true,
+      "width": 667,
+      "checkpoints": 10,
+      "nativeKeys": 75,
+      "nativeTouches": 0,
+      "sourceFiles": 197,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "profileRetained": true,
+      "user8080Accessed": false,
+      "error": null,
+      "operations": [
+        {
+          "side": "buy",
+          "actor": 24,
+          "keys": [
+            {
+              "code": 39,
+              "at": 20302.19999998808
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "tradeAccepted": true,
+            "scope": "One ordinary original ExchangeMake buy/sell confirmation, before another command or strategy month; recorded system worldSource fields only",
+            "side": "buy",
+            "cityIndex": 10,
+            "personId": 24,
+            "quantity": 2,
+            "minimum": 1,
+            "maximum": 115,
+            "initialValue": 115,
+            "maximumConfirmable": 115,
+            "orderIndex": 0,
+            "queueIndex": 56,
+            "order": {
+              "OrderId": 11,
+              "Person": 24,
+              "City": 10,
+              "TimeCount": 0
+            },
+            "fixOverFlow16": false,
+            "food": {
+              "before": 1097,
+              "after": 1099,
+              "delta": 2
+            },
+            "money": {
+              "before": 576,
+              "after": 566,
+              "delta": -10,
+              "exchangedU16": 10,
+              "intermediateU16": 566
+            },
+            "thew": {
+              "before": 100,
+              "after": 88,
+              "cost": 12
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 0,
+              "fields": [
+                "Object",
+                "Food"
+              ],
+              "actual": {
+                "Object": 51899,
+                "Food": 0
+              },
+              "semanticAcceptance": false
+            },
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "limits": [
+              "Only recorded world fields; no RNG or unobserved native ABI acceptance",
+              "Caller proves standard native execution, no hook/debug bypass, trusted input and completed business timing",
+              "GetFood initial value is a source contract, not an observed input claim",
+              "New order stack fields are recorded without cargo or other business meaning",
+              "Zero-resource and full-order partial-mutation paths are unsupported"
+            ]
+          }
+        },
+        {
+          "side": "sell",
+          "actor": 23,
+          "keys": [
+            {
+              "code": 39,
+              "at": 32652.79999999702
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "tradeAccepted": true,
+            "scope": "One ordinary original ExchangeMake buy/sell confirmation, before another command or strategy month; recorded system worldSource fields only",
+            "side": "sell",
+            "cityIndex": 10,
+            "personId": 23,
+            "quantity": 2,
+            "minimum": 1,
+            "maximum": 1099,
+            "initialValue": 1099,
+            "maximumConfirmable": 1099,
+            "orderIndex": 1,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 11,
+              "Person": 23,
+              "City": 10,
+              "TimeCount": 0
+            },
+            "fixOverFlow16": false,
+            "food": {
+              "before": 1099,
+              "after": 1097,
+              "delta": -2
+            },
+            "money": {
+              "before": 566,
+              "after": 570,
+              "delta": 4,
+              "exchangedU16": 4,
+              "intermediateU16": 570
+            },
+            "thew": {
+              "before": 100,
+              "after": 88,
+              "cost": 12
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 1,
+              "fields": [
+                "Object",
+                "Food"
+              ],
+              "actual": {
+                "Object": 51899,
+                "Food": 0
+              },
+              "semanticAcceptance": false
+            },
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "limits": [
+              "Only recorded world fields; no RNG or unobserved native ABI acceptance",
+              "Caller proves standard native execution, no hook/debug bypass, trusted input and completed business timing",
+              "GetFood initial value is a source contract, not an observed input claim",
+              "New order stack fields are recorded without cargo or other business meaning",
+              "Zero-resource and full-order partial-mutation paths are unsupported"
+            ]
+          }
+        }
+      ],
+      "cancellations": [
+        {
+          "kind": "type",
+          "side": null,
+          "keys": [
+            {
+              "code": 40,
+              "at": 11553.699999988079
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "tradeAccepted": false,
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "limits": [
+              "Caller proves actual cancellation and fresh returned owner",
+              "Only recorded world fields; no RNG or whole native ABI claim"
+            ]
+          }
+        },
+        {
+          "kind": "quantity",
+          "side": "buy",
+          "keys": [
+            {
+              "code": 40,
+              "at": 14635.59999999404
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "tradeAccepted": false,
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "limits": [
+              "Caller proves actual cancellation and fresh returned owner",
+              "Only recorded world fields; no RNG or whole native ABI claim"
+            ]
+          }
+        },
+        {
+          "kind": "quantity",
+          "side": "sell",
+          "keys": [
+            {
+              "code": 40,
+              "at": 27102
+            }
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "tradeAccepted": false,
+            "publicInputAccepted": false,
+            "monthReturnAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "limits": [
+              "Caller proves actual cancellation and fresh returned owner",
+              "Only recorded world fields; no RNG or whole native ABI claim"
+            ]
+          }
+        },
+        {
+          "kind": "person",
+          "side": null,
+          "keys": [
+            {
+              "code": 40,
+              "at": 37933.89999999106
+            }
+          ],
+          "oracle": null
+        }
+      ],
+      "result": {
+        "source": "build/mobile-trade-installed-667-v3-20261011/result.json",
+        "bytes": 28200547,
+        "sha256": "f5fdd7fea50333c5736488143cc71d4d0981da0f73182a93bfb6eb13515ba1fb",
+        "archive": "m5-mobile-trade-20261011/raw/f5fdd7fea50333c5-result.json.gz",
+        "gzipBytes": 1273071,
+        "gzipSha256": "62abdd6b544260ba8b3acc5d44e42e5739d3692c6bd02ec23b54b686666ae9a2"
+      },
+      "sourceVerification": {
+        "source": "build/mobile-trade-installed-667-v3-20261011/source-verification.json",
+        "bytes": 53228,
+        "sha256": "9f0c9cf7a5a133da9bdec6a817d7f4ac580acde7bc31394948533f319862a8b7",
+        "archive": "m5-mobile-trade-20261011/raw/9f0c9cf7a5a133da-source-verification.json.gz",
+        "gzipBytes": 11215,
+        "gzipSha256": "25542842f74b676e2b830c4e0b2414d1ad2c1d2c752037f4fab629b03a09debc"
+      },
+      "ownedProcessSamples": {
+        "source": "build/mobile-trade-installed-667-v3-20261011/owned-process-samples.jsonl",
+        "bytes": 121852,
+        "sha256": "f796398057865d8afe16ab63cc3a72c0acd68b30ec88d27c3985b226d2d9c0a8",
+        "archive": "m5-mobile-trade-20261011/raw/f796398057865d8a-owned-process-samples.jsonl.gz",
+        "gzipBytes": 2858,
+        "gzipSha256": "fe93ecbaaf369e5cea3f01b18bd8c59674918369a9b65e1a4bcac05bcd3a3791"
+      },
+      "executedTool": {
+        "source": "build/mobile-trade-installed-667-v3-20261011/executed-tool.mjs",
+        "bytes": 97848,
+        "sha256": "9d1aa0e1eb948ddc408765a563b7d1caeba718df0b4dd994be0c130389f6c1f4",
+        "archive": "m5-mobile-trade-20261011/raw/9d1aa0e1eb948ddc-executed-tool.mjs.gz",
+        "gzipBytes": 26710,
+        "gzipSha256": "18ca7246abfa4a9a37cb7e16ad798a23b544d6b101601cefccdd69e40378784d"
+      }
+    }
+  ],
+  "failedV2OfflineBusinessProof": {
+    "runtimeAccepted": false,
+    "note": "Buy quantity 2 business state matched the pure oracle, but CITY shell retirement failed; this is not an accepted runtime",
+    "proof": {
+      "source": "build/mobile-trade-prebuild-20261011/staged-v2-offline-business-proof.json",
+      "bytes": 3822,
+      "sha256": "82e39b45d0e0a247353f170de84e55cae70c08327ca5343e5f74b27463c1cfb0",
+      "archive": "m5-mobile-trade-20261011/raw/82e39b45d0e0a247-staged-v2-offline-business-proof.json.gz",
+      "gzipBytes": 1188,
+      "gzipSha256": "ce6586d1b543f4697e592df063f5d00896262110369a2bbda5ee32b0d2af9077"
+    }
+  },
+  "nativeBuild": {
+    "sourceRevision": "1082e79567df75fc6efe7c620b433f753f2a9ddf",
+    "engineSourceModified": true,
+    "engineSourceSha256": "df32b2f147e11ebbdc17c3dff1447f41c65762dad40951f221606b1164580066",
+    "sourceFiles": 128,
+    "emscriptenVersion": "3.1.51",
+    "cmakeVersion": "cmake version 3.31.6",
+    "sameStagedBytes": true,
+    "artifacts": [
+      {
+        "name": "baye.js",
+        "bytes": 192446,
+        "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643",
+        "equal": true
+      },
+      {
+        "name": "baye.wasm",
+        "bytes": 4535460,
+        "sha256": "af63a7b55015f2d58d8170f9cfcbd087c74026cd435b849406d6d0f3606a0806",
+        "equal": true
+      },
+      {
+        "name": "baye.wasm.map",
+        "bytes": 29983,
+        "sha256": "94ab2af9eaeaa24d237c1e4670a6638a1f6027309a2000471f851926538c2ea1",
+        "equal": true
+      },
+      {
+        "name": "baye.build.json",
+        "bytes": 16650,
+        "sha256": "c70d7522b5a2490090afefb3464f7c0b3f8f3914e10b5cbc6c85e3181efc7fdb",
+        "equal": true
+      }
+    ],
+    "stageLog": {
+      "source": "build/mobile-trade-prebuild-20261011/stage-build.log",
+      "bytes": 3000,
+      "sha256": "720b91de878f89453d31d08a325eb2cb866124398e1dc2871ea723224bcb4342",
+      "archive": "m5-mobile-trade-20261011/raw/720b91de878f8945-stage-build.log.gz",
+      "gzipBytes": 970,
+      "gzipSha256": "60603fba90c02360d85e8807e9a74317a54b3e10cadd4c4f5f1837ad99e1cc7e"
+    },
+    "stageVerification": {
+      "source": "build/mobile-trade-prebuild-20261011/stage-verification.json",
+      "bytes": 726,
+      "sha256": "dccc568fa8d2218ce469641410fa895d42438113014532e597bc3246664d0879",
+      "archive": "m5-mobile-trade-20261011/raw/dccc568fa8d2218c-stage-verification.json.gz",
+      "gzipBytes": 412,
+      "gzipSha256": "76f465fb8627d9ea3102e19433fc97d3989eccbed0153f95e78ed62bb9c31c61"
+    },
+    "installationVerification": {
+      "source": "build/mobile-trade-prebuild-20261011/installation-verification.json",
+      "bytes": 762,
+      "sha256": "67b694282a761676811dc4e79187a9e60569386f68016516941e27c367ee68a2",
+      "archive": "m5-mobile-trade-20261011/raw/67b694282a761676-installation-verification.json.gz",
+      "gzipBytes": 365,
+      "gzipSha256": "24ebabcb1fcff2a798ac714c3e05ccfb780678431d563badbbc88d8ec2bbc9f9"
+    },
+    "sourceRevisionIsBuildBaseNotCommitLabel": true
+  },
+  "cleanup": {
+    "at": "2026-10-11T05:57:22.8747492+00:00",
+    "runs": [
+      "build/mobile-trade-staged-844-v1-20261011",
+      "build/mobile-trade-staged-844-v2-20261011",
+      "build/mobile-trade-staged-844-v3-20261011",
+      "build/mobile-trade-installed-844-v3-20261011",
+      "build/mobile-trade-installed-667-v3-20261011"
+    ],
+    "recordedIdentities": 59,
+    "survivingRecorded": [],
+    "pidReusedByOtherProcess": [],
+    "privateListeners": [],
+    "allRuntimeCleanupPassed": true,
+    "user8080Before": {
+      "at": "2026-10-11T13:37:35.738233+08:00",
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.279718Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    },
+    "user8080After": {
+      "at": "2026-10-11T05:57:22.8080071+00:00",
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.2797180Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    },
+    "user8080Unchanged": true,
+    "evidence": {
+      "source": "build/mobile-trade-prebuild-20261011/cleanup-user8080-verification.json",
+      "bytes": 938,
+      "sha256": "863a3d885753856b4dd780c0411f66d02e18348e9d2fd136ebb951a16a7a51f9",
+      "archive": "m5-mobile-trade-20261011/raw/863a3d885753856b-cleanup-user8080-verification.json.gz",
+      "gzipBytes": 385,
+      "gzipSha256": "591aef1b94dd9c1b20a44dcbe5d87be6430570dd0160c62a6dec4e47dc42c745"
+    }
+  },
+  "archive": {
+    "manifest": "m5-mobile-trade-20261011-archive.json",
+    "logicalFiles": 1155,
+    "uniqueGzipFiles": 354,
+    "gzipBytes": 39507413,
+    "roundTripExact": true,
+    "portableClosedArchive": false,
+    "exclusions": [
+      "Private Chrome profiles",
+      "SDK and host runtime",
+      "Unrelated earlier batch artifacts"
+    ],
+    "frozenServedAndNativeSources": true
+  },
+  "limits": [
+    "Only original era 1 Dong Zhuo at ChangAn city index 10; no other period/city acceptance",
+    "Each successful runtime covers ordinary buy 2 by GuoSi person 24 and sell 2 by LiJue person 23, before strategy month advance",
+    "World checks cover recorded people/cities/person queue/orders/fighters/fighter flags/goods queue/tools; no whole native ABI or RNG acceptance",
+    "New order Object/Food and optional Arms/Money/Consume stack fields have no asserted cargo/business meaning",
+    "Zero-resource/full-order legacy mutations and exhausted actor are compiled native cases only, not actual browser acceptance",
+    "No month-end actor return, complete save/load matrix, cloud account, real Android/iOS or fixed-device performance acceptance",
+    "Default parallel npm test failed; same complete 78-module list passed serially; root cause of first failures remains unproved",
+    "Full original HD and other city commands remain partial"
+  ]
+}

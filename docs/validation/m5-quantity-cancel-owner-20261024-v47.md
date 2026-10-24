@@ -1,0 +1,15 @@
+# 原版数量取消退休与新选人界面第二次Escape（V47）
+
+同一十月主输入、同一冻结脚本的真实PC对照：旧源首次Escape已收到原生数量取消ACK并进入新kind3选人界面，但旧数量Dialog仍开，第二次可信非重复Escape被旧弹层吞掉。原控制器exit1／okfalse保持；原观察先封存，再单独授权一次物理CityBack回MAP，清理不把失败改成成功。
+
+修订只在City委托取消后退休同data／viewEpoch／数量会话且本地输入已封闭的旧PC数量presentation。AFTER第一次native40调用栈后的微任务仍见qty.active=1、本地closed=true而Dialog已关闭；随后真实同会话inactive40及新picker序列另行确认，第二次物理Escape实际派发40返回MAP，零CityBack清理。原AFTER标签inconclusive-window-not-observed和cancelOwnerBoundaryAccepted=false原样保留：旧缺陷窗口未再出现，不能改写成该残留窗口接受。
+
+两批总键数同为25（开场1＋场景24），但旧批最后40来自清理点击，新批来自第二次Escape，读取器逐事件区分。每批四份完整世界检查点另加wrapper final，原观察文件只是部分metadata；完整世界、双档和各自种子指纹保持。原生本地封输入marker不等于C ACK，真实C取消票单独绑定同session、下一inputSeq、last40与新kind3序列及完整ID名单。首Escape到弹层关闭读观察为150.5→1.5ms，仅一对样本；捕获微任务不假称晚于所有listener，dispatch-stack与MutationObserver均不等于物理呈现、固定80ms或稳定p95。
+
+1126项运行来源中仅DialogJS和PC缓存query两处变化，23份执行副本逐批绑定；served为73／72，唯一额外请求是旧批人物50头像。两批精确进程退出、私端口空、8080未动及profile保留。全部平面原件、8张普通PNG、首草稿观察器传播顺序拒收、原始控测TAP及完整全套日志按原字节有界归档；不递归profile或旧大档案。需matching Git checkout，只有明列的24个ignored路径在文件缺失时允许精确归档fallback；现存源始终严格匹配。
+
+新增6项不同正式回归，旧源两个真实行为正例失败、候选6／6及正式routing/input184／184通过；17个source-only控制器检查和重复定向不再加计。141登记文件全套7721／7721通过，失败／取消／跳过／todo0，实际Clang参与，221项选定源及十月四输入前后逐字节一致；7715为历史关闭基线。
+
+唯一主活动输入仍为V42十月双档，城20粮1／钱886、严格需267、缺266，零新数量确认39、付款、MAKE、END或SAVE，本批不授权下一END。只接受本条PC数量取消presentation与新picker键归属；物理呈现、其它owner、长后台、活动WOOD／AID、完整CSS、真机及整体HD仍待。
+
+只读核验：`node docs/validation/m5-quantity-cancel-owner-20261024-v47-verify.mjs`。

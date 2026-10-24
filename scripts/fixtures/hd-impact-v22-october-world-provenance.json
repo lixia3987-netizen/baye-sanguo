@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "fixture": {
+    "path": "scripts/fixtures/hd-impact-v22-october-world.json",
+    "bytes": 77934,
+    "sha256": "6efb117806f8123bf3e8cb10abe19644e74caf6f99cf70c4c3d4c94a6e3bcf3b"
+  },
+  "source": {
+    "path": "build/impact-skill-20261014/impact13-battle-v21-latest-genuine-saved-world-v1.json",
+    "bytes": 77934,
+    "sha256": "6efb117806f8123bf3e8cb10abe19644e74caf6f99cf70c4c3d4c94a6e3bcf3b"
+  },
+  "sourceTerminal": {
+    "sessionId": 62078,
+    "chunkId": "84211d",
+    "exitCode": 0
+  },
+  "genuineHistoricalSavedWorld": true,
+  "latestCampaignInput": false,
+  "controlledTestsOnly": true,
+  "syntheticTestsNeverAuthorizeGameInput": true,
+  "sourceArchive": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-puyang-exactmissing-20261021.json",
+  "actualV22OutcomeAccepted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false
+}

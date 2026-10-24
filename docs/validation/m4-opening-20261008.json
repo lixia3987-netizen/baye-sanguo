@@ -1,0 +1,3411 @@
+{
+  "date": "2026-10-08",
+  "baseCommit": "90661b2c1854274f701d28ad56e6eb43a6bd23b1",
+  "scope": "R02 MAIN_SPE=3: complete seven native picture slots and all nine time units. Original generated artwork, VM/unit tests, actual native displayed commits and pixel reconstruction are separate evidence layers.",
+  "generated": {
+    "tool": "image_gen.imagegen",
+    "calls": 9,
+    "accepted": 7,
+    "rejected": 2,
+    "postProcessing": false,
+    "document": "assets/hd-spe/GENERATED-OPENING.md",
+    "assets": [
+      {
+        "picIndex": 0,
+        "source": "C:\\Users\\75112\\.codex\\generated_images\\01a116e2-c940-7931-9e13-0a495970c85f\\exec-c154f3ef-cd0d-48cf-b510-f654870e26f7.png",
+        "path": "assets/hd-spe/opening-3/picture-0.png",
+        "width": 1619,
+        "height": 971,
+        "bytes": 3126376,
+        "sha256": "ca8e3fdaa7d00c699ee5a78baf9767b281b4bd802880b17bdd04b2c7360c712c",
+        "originalBytesPreserved": true,
+        "mode": "RGB",
+        "alphaZero": 0,
+        "alphaNonZero": 1572049
+      },
+      {
+        "picIndex": 1,
+        "source": "C:\\Users\\75112\\.codex\\generated_images\\01a116e3-623c-7513-a5e0-580eb72033be\\exec-a326bd04-b265-4dce-8aea-fd8bdc31aeb7.png",
+        "path": "assets/hd-spe/opening-3/picture-1.png",
+        "width": 1619,
+        "height": 971,
+        "bytes": 2925930,
+        "sha256": "950b18583e143b30d446b1ee696c5159eca8e0a5ce32661c0c2a668cfda3ca30",
+        "originalBytesPreserved": true,
+        "mode": "RGB",
+        "alphaZero": 0,
+        "alphaNonZero": 1572049
+      },
+      {
+        "picIndex": 2,
+        "source": "C:\\Users\\75112\\.codex\\generated_images\\01a116e3-623c-7513-a5e0-580eb72033be\\exec-d3a401ad-104d-4767-8173-1860cf74272e.png",
+        "path": "assets/hd-spe/opening-3/picture-2.png",
+        "width": 1619,
+        "height": 972,
+        "bytes": 3137328,
+        "sha256": "c71a06decb6083f01e32c5316a9705d3d86fed1218ccc8fe326141c9647ee799",
+        "originalBytesPreserved": true,
+        "mode": "RGB",
+        "alphaZero": 0,
+        "alphaNonZero": 1573668
+      },
+      {
+        "picIndex": 3,
+        "source": "C:\\Users\\75112\\.codex\\generated_images\\01a116e3-623c-7513-a5e0-580eb72033be\\exec-26c040ed-b5cc-4335-b944-e1c2d99817d5.png",
+        "path": "assets/hd-spe/opening-3/picture-3.png",
+        "width": 1619,
+        "height": 971,
+        "bytes": 3222163,
+        "sha256": "c5e54eab9d28dbf35352e424053c0ce1eaff0f98dd39b08309e43f4e2f3d7b12",
+        "originalBytesPreserved": true,
+        "mode": "RGB",
+        "alphaZero": 0,
+        "alphaNonZero": 1572049
+      },
+      {
+        "picIndex": 4,
+        "source": "C:\\Users\\75112\\.codex\\generated_images\\01a116e3-623c-7513-a5e0-580eb72033be\\exec-a50d2959-1ebf-4242-a987-53df7f9822d6.png",
+        "path": "assets/hd-spe/opening-3/picture-4.png",
+        "width": 1619,
+        "height": 971,
+        "bytes": 3336598,
+        "sha256": "495e09b718b1fefe1db8fbe5c77d7c5de1af4518c837a38b2f3f6161b15eeb66",
+        "originalBytesPreserved": true,
+        "mode": "RGB",
+        "alphaZero": 0,
+        "alphaNonZero": 1572049
+      },
+      {
+        "picIndex": 5,
+        "source": "C:\\Users\\75112\\.codex\\generated_images\\01a116e2-c940-7931-9e13-0a495970c85f\\exec-c2e2b90b-95ac-40b5-b879-8ff49db26c8c.png",
+        "path": "assets/hd-spe/opening-3/picture-5.png",
+        "width": 1131,
+        "height": 1391,
+        "bytes": 2121734,
+        "sha256": "938cb75bcf92012e5f4ea4ba3f83d9dae86e1836c0680862ae3c4a4f7ede6781",
+        "originalBytesPreserved": true,
+        "mode": "RGBA",
+        "alphaZero": 874998,
+        "alphaNonZero": 698223
+      },
+      {
+        "picIndex": 6,
+        "source": "C:\\Users\\75112\\.codex\\generated_images\\01a116e2-c940-7931-9e13-0a495970c85f\\exec-87a9a874-cac7-41ee-a042-bbee16c242dc.png",
+        "path": "assets/hd-spe/opening-3/picture-6.png",
+        "width": 1376,
+        "height": 1143,
+        "bytes": 1588240,
+        "sha256": "abba246ea46c5294fe13793a0e2f5ef0e08cf997d2970452b62bc7ef34b36295",
+        "originalBytesPreserved": true,
+        "mode": "RGBA",
+        "alphaZero": 1019823,
+        "alphaNonZero": 552945
+      }
+    ]
+  },
+  "nativeResource": {
+    "speId": 3,
+    "resourceIndex": 0,
+    "kind": 1,
+    "count": 9,
+    "picmax": 7,
+    "startFrm": 0,
+    "endFrm": 8,
+    "resourceLength": 11380,
+    "resourceFingerprint": "fnv1a32:a5a91c68:11380",
+    "units": [
+      {
+        "frame": 0,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 1,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 2,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 2
+      },
+      {
+        "frame": 3,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 3
+      },
+      {
+        "frame": 4,
+        "x": 0,
+        "y": 0,
+        "cdelay": 80,
+        "ndelay": 80,
+        "picIndex": 4
+      },
+      {
+        "frame": 5,
+        "x": 0,
+        "y": 0,
+        "cdelay": 60,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 6,
+        "x": 20,
+        "y": 15,
+        "cdelay": 40,
+        "ndelay": 1,
+        "picIndex": 5
+      },
+      {
+        "frame": 7,
+        "x": 90,
+        "y": 25,
+        "cdelay": 30,
+        "ndelay": 30,
+        "picIndex": 6
+      },
+      {
+        "frame": 8,
+        "x": 90,
+        "y": 25,
+        "cdelay": 1,
+        "ndelay": 1,
+        "picIndex": 6
+      }
+    ],
+    "pictures": [
+      {
+        "picIndex": 0,
+        "width": 160,
+        "height": 96,
+        "mask": 0,
+        "stride": 20,
+        "payloadOffset": 51,
+        "bytes": 1920,
+        "file": "native-reference/MAIN3-picture-0.png",
+        "sha256": "88fcfa52f6a6f44070be21450dc6c77803034e776651ae6121829db844d81ebd"
+      },
+      {
+        "picIndex": 1,
+        "width": 160,
+        "height": 96,
+        "mask": 0,
+        "stride": 20,
+        "payloadOffset": 1978,
+        "bytes": 1920,
+        "file": "native-reference/MAIN3-picture-1.png",
+        "sha256": "ebfe1a08b2a4336b570e1ff64407f64f7297829e30cb06d66128f129303ca764"
+      },
+      {
+        "picIndex": 2,
+        "width": 160,
+        "height": 96,
+        "mask": 0,
+        "stride": 20,
+        "payloadOffset": 3905,
+        "bytes": 1920,
+        "file": "native-reference/MAIN3-picture-2.png",
+        "sha256": "f9112d1327d7838f06c8a9223048ebdd270b081e158ea7edfeecc1cad0e7598f"
+      },
+      {
+        "picIndex": 3,
+        "width": 160,
+        "height": 96,
+        "mask": 0,
+        "stride": 20,
+        "payloadOffset": 5832,
+        "bytes": 1920,
+        "file": "native-reference/MAIN3-picture-3.png",
+        "sha256": "b074f8b86ae971fe96c4db3a107e07ebcbb1480ad72539b43b5d6536d5593282"
+      },
+      {
+        "picIndex": 4,
+        "width": 160,
+        "height": 96,
+        "mask": 0,
+        "stride": 20,
+        "payloadOffset": 7759,
+        "bytes": 1920,
+        "file": "native-reference/MAIN3-picture-4.png",
+        "sha256": "c2c2dfcff317e411017d35617c18e38c0f54f2f89c9215434ac76a6b6d02cca8"
+      },
+      {
+        "picIndex": 5,
+        "width": 52,
+        "height": 64,
+        "mask": 1,
+        "stride": 7,
+        "payloadOffset": 9686,
+        "bytes": 896,
+        "file": "native-reference/MAIN3-picture-5.png",
+        "sha256": "a6dd8435e3fba0eb6cb46d3740be65924115d57f3232bb4c0bf4677bf4067387"
+      },
+      {
+        "picIndex": 6,
+        "width": 59,
+        "height": 49,
+        "mask": 1,
+        "stride": 8,
+        "payloadOffset": 10589,
+        "bytes": 784,
+        "file": "native-reference/MAIN3-picture-6.png",
+        "sha256": "1eac26153dba652a6d89e572389bad2e6e4eeb1a17f30a1b75e7c6d46cc99b59"
+      }
+    ],
+    "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "engineManifest": {
+    "schemaVersion": 1,
+    "sourceRevision": "9aeb796af21c75a7a2cf540dde0e3d461e52034d",
+    "engineSourceSha256": "870ab9cb425c3b92d3af96fa4de64751794dcf277feb59ce17ef3d1faad16621",
+    "engineSourceModified": true,
+    "emscriptenVersion": "3.1.51",
+    "cmakeVersion": "cmake version 3.31.6",
+    "sourceDateEpoch": 1791425490,
+    "hdMenuProtocol": {
+      "nativeFallback": 254,
+      "controlField": "g_hdFightMenuControl"
+    },
+    "hdInputProtocol": {
+      "version": 3,
+      "fight": [
+        "g_hdFightInputKind",
+        "g_hdFightInputSeq",
+        "g_hdFightActor"
+      ],
+      "menu": [
+        "g_hdMenuActive",
+        "g_hdMenuContext",
+        "g_hdMenuKind",
+        "g_hdMenuSeq"
+      ],
+      "march": [
+        "g_hdMarchPhase",
+        "g_hdMarchSession",
+        "g_hdMarchOrigin",
+        "g_hdMarchSelected",
+        "g_hdMarchInputSeq",
+        "g_hdMapInputSeq"
+      ],
+      "report": [
+        "g_hdReportActive",
+        "g_hdReportInputSeq"
+      ],
+      "record": [
+        "g_hdRecordActive",
+        "g_hdRecordMode",
+        "g_hdRecordIndex",
+        "g_hdRecordCount",
+        "g_hdRecordSeq"
+      ],
+      "qty": [
+        "g_hdQtyActive",
+        "g_hdQtySession",
+        "g_hdQtyInputSeq",
+        "g_hdQtyLastKey",
+        "g_hdQtyCursor",
+        "g_hdQtyStep",
+        "g_hdQtyReady"
+      ]
+    },
+    "hdSpeProtocol": {
+      "version": 2,
+      "event": [
+        "g_hdSpeGeneration",
+        "g_hdSpeEventId",
+        "g_hdSpeParentEventId",
+        "g_hdSpeDepth"
+      ],
+      "frames": [
+        "g_hdSpeFrameIndex",
+        "g_hdSpeFrameValid",
+        "g_hdSpeCommitSeq",
+        "g_hdSpeVisibleFrames"
+      ],
+      "resourceFingerprint": "fnv1a32:payload:resourceLength",
+      "displayedCommit": "SysCopyScreen snapshot published by timed_flush_lcd before lcdFlushBuffer",
+      "skipEligible": "keyflag === 1"
+    },
+    "hdDetailProtocol": {
+      "version": 1,
+      "generation": "g_hdDetailGeneration",
+      "menuIds": [
+        "g_hdMenuIds",
+        "g_hdMenuIdsCount",
+        "g_hdMenuIdsKind",
+        "g_hdMenuIdsSeq",
+        "g_hdMenuIdsGeneration"
+      ],
+      "goods": [
+        "g_hdGoodsGeneration",
+        "g_hdGoodsMenuSeq",
+        "g_hdGoodsIndex",
+        "g_hdGoodsTool",
+        "g_hdGoodsPropertyCount",
+        "g_hdGoodsPropertyFlags",
+        "g_hdGoodsPageStart",
+        "g_hdGoodsPageEnd"
+      ],
+      "help": [
+        "g_hdHelpProtocolVersion",
+        "g_hdHelpGeneration",
+        "g_hdHelpInputSeq",
+        "g_hdHelpKind",
+        "g_hdHelpComplete",
+        "g_hdHelpPerson",
+        "g_hdHelpSlot",
+        "g_hdHelpFields"
+      ],
+      "toolAccess": [
+        "bayeHdGetToolCount",
+        "bayeHdGetToolField",
+        "bayeHdGetArmType"
+      ]
+    },
+    "hdOverviewProtocol": {
+      "version": 1,
+      "view": [
+        "g_hdViewSeq",
+        "g_hdViewGeneration",
+        "g_hdViewInputSeq",
+        "g_hdViewForce",
+        "g_hdViewPageStart",
+        "g_hdViewPageSize",
+        "g_hdViewFoodKnown",
+        "g_hdViewRowPersons",
+        "g_hdViewPointPersons"
+      ],
+      "miniMap": [
+        "g_hdMiniMapSeq",
+        "g_hdMiniMapGeneration",
+        "g_hdMiniMapInputSeq",
+        "g_hdMiniMapDefaultDraw",
+        "g_hdMiniMapCustom",
+        "g_hdMiniMapResourceId"
+      ]
+    },
+    "saveProtocol": {
+      "version": 149,
+      "legacyVersions": [
+        144,
+        145,
+        146,
+        147,
+        148
+      ],
+      "filesPerSlot": 2,
+      "fightersBytes": 600,
+      "goodsQueueBytes": 4000
+    },
+    "artifacts": {
+      "baye.js": {
+        "bytes": 192329,
+        "sha256": "90198b0f94f33ba38c3a8dc1164b25a7dd5fcea65f3ad794088570c8c627f9ed"
+      },
+      "baye.wasm": {
+        "bytes": 4332180,
+        "sha256": "dcc2fd86f25b98d9432f5b3f931bb11e2aee6c93d49c64341759e41723721a22"
+      },
+      "baye.wasm.map": {
+        "bytes": 29805,
+        "sha256": "76d249cfc99515556d04e31c3cf150608428a4d33710025091ad95eeb08939ab"
+      }
+    }
+  },
+  "rawRuns": [
+    {
+      "name": "opening-final.json.gz",
+      "source": "build/r07-opening-final/result.json",
+      "scope": "Default strict native HD acceptance",
+      "rawBytes": 1303616,
+      "rawSha256": "7da864e7d24be8357a0afdd39f4bdc32dc2e8226665b8b5a313082e641cc86b7",
+      "gzipBytes": 89431,
+      "gzipSha256": "19cacdaa940f989e799d21a16399c40fda2da22de45d870f37c3040899adb7e0"
+    },
+    {
+      "name": "opening-final-source-verification.json.gz",
+      "source": "build/r07-opening-final/source-verification.json",
+      "scope": "Exact frozen source bytes",
+      "rawBytes": 251203,
+      "rawSha256": "fef22f6a589de799dbdd3e24f81eb77f8f4784508ef5a6ee546676cd97533072",
+      "gzipBytes": 47569,
+      "gzipSha256": "ea26c31964ba02f6036b46b48798c740f6e47c51674a6ef6baa333ee78ff579c"
+    },
+    {
+      "name": "portrait-regression.json.gz",
+      "source": "build/r07-portrait-regression/result.json",
+      "scope": "Final source full39 asset decoding and genuine four-period representatives",
+      "rawBytes": 1139494,
+      "rawSha256": "8932879a57a969838ad710f2e1ff2c6ae2e2b0f29ee507f485ae3faff8c52878",
+      "gzipBytes": 114060,
+      "gzipSha256": "2a99c3901a94cf1e38cc6cb5f0b5eeea939992f88b5019d0e9fdfafb36c2536a"
+    },
+    {
+      "name": "portrait-regression-source-verification.json.gz",
+      "source": "build/r07-portrait-regression/source-verification.json",
+      "scope": "Exact frozen source bytes",
+      "rawBytes": 311884,
+      "rawSha256": "c86993c6280ff5405de4171ccd70503672428879c78b7451f6e0f21049481db9",
+      "gzipBytes": 51741,
+      "gzipSha256": "4b768564f5fd7d4b989f8259b7d19a2cc438bafa74c44a6071a70342fa63e0a9"
+    },
+    {
+      "name": "combat-regression.json.gz",
+      "source": "build/r07-spe-regression/result.json",
+      "scope": "Real native attack and actual FIRE35; bounded opening sample is not full MAIN acceptance",
+      "rawBytes": 3230366,
+      "rawSha256": "73b6efd94a26b80d174b2c7e28585d8a17d9c983c6bab558b0b848ea1e74c3f5",
+      "gzipBytes": 147813,
+      "gzipSha256": "2b43284eac5738623400750e6daa53f6942ec73070f59092518aac084895d097"
+    },
+    {
+      "name": "unit-tests.log.gz",
+      "source": "build/r07-opening-final-tests/unit-tests.log",
+      "scope": "Original full494 test log bytes; compiled C tests use verified MSVC/clang environment",
+      "rawBytes": 67107,
+      "rawSha256": "dab34842daa9a3db5210a391f09f0e6707a36476acda16ff2935b2114c1bb3fe",
+      "gzipBytes": 22787,
+      "gzipSha256": "efaa6b65da733e597f2a7e9338fd0256d89fbc9dac54095ad19651bd2b474dc5"
+    },
+    {
+      "name": "spe-unit-tests.log.gz",
+      "source": "build/r07-spe-final-unit.log",
+      "scope": "Full24 frontend/resource/PNG tests",
+      "rawBytes": 3136,
+      "rawSha256": "71d0fa23a1619f19a79be88c89b01b04bbf2d3c5804ee3a48126fd0f38d0d794",
+      "gzipBytes": 1488,
+      "gzipSha256": "f19779259743d04a9c0c369b9f0e4ecea2e7b65711995aeb9f25933ab8f260dd"
+    },
+    {
+      "name": "opening-lcd-baseline.json.gz",
+      "source": "build/r07-opening-baseline/result.json",
+      "scope": "Earlier actual native only development baseline; hdAccepted=false",
+      "rawBytes": 510090,
+      "rawSha256": "78cee0a22d6c758695373064f434a851f9db6978a9c445edad8e3186b64c0506",
+      "gzipBytes": 60614,
+      "gzipSha256": "ecd5ba4cceddfe905b34cd39138ba0e72b03042096593e4da1a574d44ac37c30"
+    },
+    {
+      "name": "opening-lcd-baseline-sources.json.gz",
+      "source": "build/r07-opening-baseline/source-verification.json",
+      "scope": "Earlier939 frozen files; no current-source equivalence claim",
+      "rawBytes": 249172,
+      "rawSha256": "3406e00877e6b801068a9c24f4c0725e50e550d0cd35aef624dd94a59bb0a854",
+      "gzipBytes": 47126,
+      "gzipSha256": "a52034e33bfc3733afac2693a7f36a863221dc3099f04e0f6ba60aedc8e49a9e"
+    },
+    {
+      "name": "opening-lifecycle-baseline.json.gz",
+      "source": "build/r07-opening-lifecycle-prep/result.json",
+      "scope": "Earlier native-only actual visibility/mode preparation",
+      "rawBytes": 758253,
+      "rawSha256": "9c90d10e89837f64570a7e31ca3ce244c801b9b9a18cc431a647f50d1ff07268",
+      "gzipBytes": 67674,
+      "gzipSha256": "50378ceafaa0ffa702efbdbbee1f85c213baf778f4761bdee98c92aa185bc70e"
+    },
+    {
+      "name": "opening-mod-baseline.json.gz",
+      "source": "build/r07-opening-unknown-prep/result.json",
+      "scope": "Earlier actual unknown LIB opening/title fallback",
+      "rawBytes": 341787,
+      "rawSha256": "7a9b23c5e85f2fd9c404c81b7b7741061d78e1ad6a6da9b59aaa50f87236466a",
+      "gzipBytes": 56087,
+      "gzipSha256": "0d79be8a3e8a028f92f889fa53db402b08e14cb2b310e8fa81c6ba664703da81"
+    },
+    {
+      "name": "archived-native-pixel-oracle.json.gz",
+      "source": "build/r07-opening-pixel-oracle-prep-v2/result.json",
+      "scope": "Offline17 original baseline LCD pixel checks; not HD/native game execution",
+      "rawBytes": 20012,
+      "rawSha256": "5e80ecc34ea21aeab02a188842aecead044a51e06833432f3efecb7b0b568ef4",
+      "gzipBytes": 1415,
+      "gzipSha256": "a02aefe22b2257d88f16cd61babc2f2c426490f30d53644081d2b3a5c8e3cd43"
+    },
+    {
+      "name": "native-resource-audit.json.gz",
+      "source": "build/r07-spe-resource-audit.json",
+      "scope": "Actual standard LIB decoding:122 native slots+9 explicitly offline MAIN replay images",
+      "rawBytes": 523522,
+      "rawSha256": "18c9d8c46a362a5f7a19e245f54e24dffadad67e91ca68cf1eb82b3d2414ee09",
+      "gzipBytes": 46416,
+      "gzipSha256": "850b9db39785e4238bf51efcfe559208b12195176a41cf7bebb78f6fae2b39c1"
+    },
+    {
+      "name": "art-integrity.json.gz",
+      "source": "build/r07-opening-final-tests/art-integrity.json",
+      "scope": "Independent actual decode, alpha and builtin raw-byte equivalence",
+      "rawBytes": 7876,
+      "rawSha256": "c218a25e17c9c0d86b4504118d9bfbebaf4481a7f35d0c30758451cb2eac8ff0",
+      "gzipBytes": 1826,
+      "gzipSha256": "efaf687914447a8ff1899638e1ff2ed721cbc9a7cf1dc2f10347699b042c7b19"
+    },
+    {
+      "name": "unit-source-freeze.json.gz",
+      "source": "build/r07-opening-final-tests/final-verification.json",
+      "scope": "Independent14-file test execution freeze",
+      "rawBytes": 3074,
+      "rawSha256": "a26cf3875328308469075e7e70a65475915066620216a0a3cb1963996ab0b63a",
+      "gzipBytes": 1049,
+      "gzipSha256": "9bf10eff9c12462a396d0d6d6d58567a02dfc92316e5b7cf31a56b2bcb08ae50"
+    },
+    {
+      "name": "preservation.json.gz",
+      "source": "build/r07-preservation.json",
+      "scope": "Raw asset/LIB/engine byte comparisons and Git-clean native source comparisons against base HEAD",
+      "rawBytes": 355806,
+      "rawSha256": "dd0c1c42b288ce89f69c604d05c5d54476134c7b8be0ddab688a0622f8e64a2b",
+      "gzipBytes": 55965,
+      "gzipSha256": "8e90711d2b0fc715d515f4f4365188a33c77975f92c32b283a0f204bf405dd15"
+    }
+  ],
+  "imageStore": [
+    {
+      "logicalPath": "01-cold-main-1080p-titles.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/d4f14accdcfcd64bf562bc43ded2129c0609863e0b4f9f46539277fd9a01f4cc.png",
+      "bytes": 2428237,
+      "sha256": "d4f14accdcfcd64bf562bc43ded2129c0609863e0b4f9f46539277fd9a01f4cc"
+    },
+    {
+      "logicalPath": "02-cold-main-1080p-completed.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "bytes": 88734,
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572"
+    },
+    {
+      "logicalPath": "03-cold-main-720p-titles.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/8364bf26f190aa9696efab5c4d034a9de0d874dfc2320ee3f707024b150d2b45.png",
+      "bytes": 1031871,
+      "sha256": "8364bf26f190aa9696efab5c4d034a9de0d874dfc2320ee3f707024b150d2b45"
+    },
+    {
+      "logicalPath": "04-cold-main-720p-completed.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/524a48eb86a22bb202a640ffe5a412cefe49752323d27148938dc7f0918d8481.png",
+      "bytes": 75186,
+      "sha256": "524a48eb86a22bb202a640ffe5a412cefe49752323d27148938dc7f0918d8481"
+    },
+    {
+      "logicalPath": "05-720p-skip-button.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/407be6ecd62480c3ddc120d4d4a1a2e6fd2ca84fb1fea1b8971430b8449c8255.png",
+      "bytes": 982675,
+      "sha256": "407be6ecd62480c3ddc120d4d4a1a2e6fd2ca84fb1fea1b8971430b8449c8255"
+    },
+    {
+      "logicalPath": "06-one-skip-retired.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/524a48eb86a22bb202a640ffe5a412cefe49752323d27148938dc7f0918d8481.png",
+      "bytes": 75186,
+      "sha256": "524a48eb86a22bb202a640ffe5a412cefe49752323d27148938dc7f0918d8481"
+    },
+    {
+      "logicalPath": "07-720p-classic-opening.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/d6e2d4b4dfd1d33ec0f6691db4562b50388eb39c6d5295d8427a5e21e98d6cda.png",
+      "bytes": 56548,
+      "sha256": "d6e2d4b4dfd1d33ec0f6691db4562b50388eb39c6d5295d8427a5e21e98d6cda"
+    },
+    {
+      "logicalPath": "08-mode-resize-complete.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "bytes": 88734,
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572"
+    },
+    {
+      "logicalPath": "09-720p-hidden-restored.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/e3c4765b0a49dc34761088e3504dfeba7b91e8e72529325e0b1a09fa38c0e3c1.png",
+      "bytes": 974938,
+      "sha256": "e3c4765b0a49dc34761088e3504dfeba7b91e8e72529325e0b1a09fa38c0e3c1"
+    },
+    {
+      "logicalPath": "10-hidden-restore-complete.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/524a48eb86a22bb202a640ffe5a412cefe49752323d27148938dc7f0918d8481.png",
+      "bytes": 75186,
+      "sha256": "524a48eb86a22bb202a640ffe5a412cefe49752323d27148938dc7f0918d8481"
+    },
+    {
+      "logicalPath": "11-missing-png-native-completed.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/ce52b541f6725be3e3b14cc27a4241998c82a72c0ec84eca59f72cdb0bc6c154.png",
+      "bytes": 93818,
+      "sha256": "ce52b541f6725be3e3b14cc27a4241998c82a72c0ec84eca59f72cdb0bc6c154"
+    },
+    {
+      "logicalPath": "12-delayed-png-native-completed.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "bytes": 88734,
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572"
+    },
+    {
+      "logicalPath": "13-actual-unknown-lib-native-period.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/d25ec7743a552794af1134f1f682cc77fba45dd4c5c012b67ce0739223b334b0.png",
+      "bytes": 81307,
+      "sha256": "d25ec7743a552794af1134f1f682cc77fba45dd4c5c012b67ce0739223b334b0"
+    },
+    {
+      "logicalPath": "14-standard-restored-titles.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/8364bf26f190aa9696efab5c4d034a9de0d874dfc2320ee3f707024b150d2b45.png",
+      "bytes": 1031871,
+      "sha256": "8364bf26f190aa9696efab5c4d034a9de0d874dfc2320ee3f707024b150d2b45"
+    },
+    {
+      "logicalPath": "15-standard-restored-completed.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/524a48eb86a22bb202a640ffe5a412cefe49752323d27148938dc7f0918d8481.png",
+      "bytes": 75186,
+      "sha256": "524a48eb86a22bb202a640ffe5a412cefe49752323d27148938dc7f0918d8481"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/001-commit-1-frame-0-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/fd27266a9eec76e90171d1a18a232a857488a3ab7cd12b0708a02a0a7c06d819.png",
+      "bytes": 44853,
+      "sha256": "fd27266a9eec76e90171d1a18a232a857488a3ab7cd12b0708a02a0a7c06d819"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/001-commit-1-frame-0-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/e2c69fddb8e225a037b7db02035d15885edca4fd9a93c7e9063693760fe5168b.png",
+      "bytes": 19165,
+      "sha256": "e2c69fddb8e225a037b7db02035d15885edca4fd9a93c7e9063693760fe5168b"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/002-commit-2-frame-1-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/14165c7c52fa3d9b41ceecadd2e429b361f3cae67875bffc0c1f28a161aa267c.png",
+      "bytes": 42571,
+      "sha256": "14165c7c52fa3d9b41ceecadd2e429b361f3cae67875bffc0c1f28a161aa267c"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/002-commit-2-frame-1-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/f2af1a9e0cf7df1aac0cc27a7af211f1264faaa23ef11d752252cf279c4be93a.png",
+      "bytes": 17490,
+      "sha256": "f2af1a9e0cf7df1aac0cc27a7af211f1264faaa23ef11d752252cf279c4be93a"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/003-commit-3-frame-2-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/f5d6efdd087eaf7e57fbd4e483af1f4ae11b5207244896869114b6a323b0d3cb.png",
+      "bytes": 47771,
+      "sha256": "f5d6efdd087eaf7e57fbd4e483af1f4ae11b5207244896869114b6a323b0d3cb"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/003-commit-3-frame-2-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/37b9a3c08a7f7e3517cd3634e6d13749fee82d27271403910a4e6c0aa60f7a13.png",
+      "bytes": 20431,
+      "sha256": "37b9a3c08a7f7e3517cd3634e6d13749fee82d27271403910a4e6c0aa60f7a13"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/004-commit-4-frame-3-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/c6edddd5ece246f414f9a5948c2f229ac54adcdae72f9f103f591d6499ac1ec4.png",
+      "bytes": 48110,
+      "sha256": "c6edddd5ece246f414f9a5948c2f229ac54adcdae72f9f103f591d6499ac1ec4"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/004-commit-4-frame-3-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/d4cb914f985a676411ca3e0feff277a8a3335c9ffdeac3f03b321f9a8168138c.png",
+      "bytes": 21546,
+      "sha256": "d4cb914f985a676411ca3e0feff277a8a3335c9ffdeac3f03b321f9a8168138c"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/005-commit-5-frame-4-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/b98fc348269708c9ebbb608d6c1d39af311d3b35c2247e5f194c52bcacb8f678.png",
+      "bytes": 52586,
+      "sha256": "b98fc348269708c9ebbb608d6c1d39af311d3b35c2247e5f194c52bcacb8f678"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/005-commit-5-frame-4-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/cb4129d98d1bf760b68340d7b89c07b1d24aa3c96b6370c97a4dd9fc558bcc45.png",
+      "bytes": 24251,
+      "sha256": "cb4129d98d1bf760b68340d7b89c07b1d24aa3c96b6370c97a4dd9fc558bcc45"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/006-commit-6-frame-5-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/fd27266a9eec76e90171d1a18a232a857488a3ab7cd12b0708a02a0a7c06d819.png",
+      "bytes": 44853,
+      "sha256": "fd27266a9eec76e90171d1a18a232a857488a3ab7cd12b0708a02a0a7c06d819"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/006-commit-6-frame-5-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/e2c69fddb8e225a037b7db02035d15885edca4fd9a93c7e9063693760fe5168b.png",
+      "bytes": 19165,
+      "sha256": "e2c69fddb8e225a037b7db02035d15885edca4fd9a93c7e9063693760fe5168b"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/007-commit-7-frame-7-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/3853e7a662afd4ccae654789640774c448f2815d8d10c1b7260de7dfc6c5587d.png",
+      "bytes": 46405,
+      "sha256": "3853e7a662afd4ccae654789640774c448f2815d8d10c1b7260de7dfc6c5587d"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/007-commit-7-frame-7-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/b40ef32e8e0a0229bf4c50568e2ec81e51dde295a3a899de80ae97c3223adece.png",
+      "bytes": 20958,
+      "sha256": "b40ef32e8e0a0229bf4c50568e2ec81e51dde295a3a899de80ae97c3223adece"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/008-commit-8-frame-8-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/11aee72977af3a51183a820db061061c3f4800ccb586c6868eec6300bda09a59.png",
+      "bytes": 45832,
+      "sha256": "11aee72977af3a51183a820db061061c3f4800ccb586c6868eec6300bda09a59"
+    },
+    {
+      "logicalPath": "actual-unknown-lib/008-commit-8-frame-8-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/9e27ec15c68f54465749da71ea9c542a4544043321052f704bb217aac120cde2.png",
+      "bytes": 20336,
+      "sha256": "9e27ec15c68f54465749da71ea9c542a4544043321052f704bb217aac120cde2"
+    },
+    {
+      "logicalPath": "cold-main-1080p/001-commit-1-frame-0-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837.png",
+      "bytes": 4128210,
+      "sha256": "eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837"
+    },
+    {
+      "logicalPath": "cold-main-1080p/001-commit-1-frame-0-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "cold-main-1080p/002-commit-2-frame-1-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/a35f9b41bfc6f4d190329a5104a702a8869980b22fe54c23345e493b5e7732f6.png",
+      "bytes": 3961171,
+      "sha256": "a35f9b41bfc6f4d190329a5104a702a8869980b22fe54c23345e493b5e7732f6"
+    },
+    {
+      "logicalPath": "cold-main-1080p/002-commit-2-frame-1-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66.png",
+      "bytes": 3274,
+      "sha256": "157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66"
+    },
+    {
+      "logicalPath": "cold-main-1080p/003-commit-3-frame-2-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/58f99924c20d71b1a46c7da78fd00061d1f93bde46e9571fd191e2f3a5d76686.png",
+      "bytes": 4201248,
+      "sha256": "58f99924c20d71b1a46c7da78fd00061d1f93bde46e9571fd191e2f3a5d76686"
+    },
+    {
+      "logicalPath": "cold-main-1080p/003-commit-3-frame-2-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6.png",
+      "bytes": 4929,
+      "sha256": "52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6"
+    },
+    {
+      "logicalPath": "cold-main-1080p/004-commit-4-frame-3-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/d79569e20f1bf36620cb5b00ae64dfc6adeed2295f6826f7d8be9d2462ba25e8.png",
+      "bytes": 4332609,
+      "sha256": "d79569e20f1bf36620cb5b00ae64dfc6adeed2295f6826f7d8be9d2462ba25e8"
+    },
+    {
+      "logicalPath": "cold-main-1080p/004-commit-4-frame-3-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4.png",
+      "bytes": 5496,
+      "sha256": "4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4"
+    },
+    {
+      "logicalPath": "cold-main-1080p/005-commit-5-frame-4-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/65299142e422e4b01f51054c268ddd19850392e711d67615a30b6f3fbf319795.png",
+      "bytes": 4518455,
+      "sha256": "65299142e422e4b01f51054c268ddd19850392e711d67615a30b6f3fbf319795"
+    },
+    {
+      "logicalPath": "cold-main-1080p/005-commit-5-frame-4-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2.png",
+      "bytes": 6813,
+      "sha256": "cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2"
+    },
+    {
+      "logicalPath": "cold-main-1080p/006-commit-6-frame-5-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837.png",
+      "bytes": 4128210,
+      "sha256": "eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837"
+    },
+    {
+      "logicalPath": "cold-main-1080p/006-commit-6-frame-5-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "cold-main-1080p/007-commit-7-frame-7-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/831d73e5bc1586df017c3735afc88e757d5e0abf9e886c796df8eacedd70b774.png",
+      "bytes": 4373858,
+      "sha256": "831d73e5bc1586df017c3735afc88e757d5e0abf9e886c796df8eacedd70b774"
+    },
+    {
+      "logicalPath": "cold-main-1080p/007-commit-7-frame-7-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16.png",
+      "bytes": 4837,
+      "sha256": "780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16"
+    },
+    {
+      "logicalPath": "cold-main-1080p/008-commit-8-frame-8-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/4629c47f4335c030423478f418e35ae7b8e5d99f9a19a057614ed7d63fae4074.png",
+      "bytes": 4302579,
+      "sha256": "4629c47f4335c030423478f418e35ae7b8e5d99f9a19a057614ed7d63fae4074"
+    },
+    {
+      "logicalPath": "cold-main-1080p/008-commit-8-frame-8-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627.png",
+      "bytes": 4791,
+      "sha256": "6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627"
+    },
+    {
+      "logicalPath": "cold-main-720p/001-commit-1-frame-0-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837.png",
+      "bytes": 4128210,
+      "sha256": "eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837"
+    },
+    {
+      "logicalPath": "cold-main-720p/001-commit-1-frame-0-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "cold-main-720p/002-commit-2-frame-1-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/a35f9b41bfc6f4d190329a5104a702a8869980b22fe54c23345e493b5e7732f6.png",
+      "bytes": 3961171,
+      "sha256": "a35f9b41bfc6f4d190329a5104a702a8869980b22fe54c23345e493b5e7732f6"
+    },
+    {
+      "logicalPath": "cold-main-720p/002-commit-2-frame-1-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66.png",
+      "bytes": 3274,
+      "sha256": "157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66"
+    },
+    {
+      "logicalPath": "cold-main-720p/003-commit-3-frame-2-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/58f99924c20d71b1a46c7da78fd00061d1f93bde46e9571fd191e2f3a5d76686.png",
+      "bytes": 4201248,
+      "sha256": "58f99924c20d71b1a46c7da78fd00061d1f93bde46e9571fd191e2f3a5d76686"
+    },
+    {
+      "logicalPath": "cold-main-720p/003-commit-3-frame-2-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6.png",
+      "bytes": 4929,
+      "sha256": "52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6"
+    },
+    {
+      "logicalPath": "cold-main-720p/004-commit-4-frame-3-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/d79569e20f1bf36620cb5b00ae64dfc6adeed2295f6826f7d8be9d2462ba25e8.png",
+      "bytes": 4332609,
+      "sha256": "d79569e20f1bf36620cb5b00ae64dfc6adeed2295f6826f7d8be9d2462ba25e8"
+    },
+    {
+      "logicalPath": "cold-main-720p/004-commit-4-frame-3-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4.png",
+      "bytes": 5496,
+      "sha256": "4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4"
+    },
+    {
+      "logicalPath": "cold-main-720p/005-commit-5-frame-4-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/65299142e422e4b01f51054c268ddd19850392e711d67615a30b6f3fbf319795.png",
+      "bytes": 4518455,
+      "sha256": "65299142e422e4b01f51054c268ddd19850392e711d67615a30b6f3fbf319795"
+    },
+    {
+      "logicalPath": "cold-main-720p/005-commit-5-frame-4-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2.png",
+      "bytes": 6813,
+      "sha256": "cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2"
+    },
+    {
+      "logicalPath": "cold-main-720p/006-commit-6-frame-5-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837.png",
+      "bytes": 4128210,
+      "sha256": "eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837"
+    },
+    {
+      "logicalPath": "cold-main-720p/006-commit-6-frame-5-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "cold-main-720p/007-commit-7-frame-7-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/831d73e5bc1586df017c3735afc88e757d5e0abf9e886c796df8eacedd70b774.png",
+      "bytes": 4373858,
+      "sha256": "831d73e5bc1586df017c3735afc88e757d5e0abf9e886c796df8eacedd70b774"
+    },
+    {
+      "logicalPath": "cold-main-720p/007-commit-7-frame-7-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16.png",
+      "bytes": 4837,
+      "sha256": "780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16"
+    },
+    {
+      "logicalPath": "cold-main-720p/008-commit-8-frame-8-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/4629c47f4335c030423478f418e35ae7b8e5d99f9a19a057614ed7d63fae4074.png",
+      "bytes": 4302579,
+      "sha256": "4629c47f4335c030423478f418e35ae7b8e5d99f9a19a057614ed7d63fae4074"
+    },
+    {
+      "logicalPath": "cold-main-720p/008-commit-8-frame-8-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627.png",
+      "bytes": 4791,
+      "sha256": "6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627"
+    },
+    {
+      "logicalPath": "delayed-png/001-commit-1-frame-0-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/5d8302382e6ca23882cc11723e6745fb4e7637dd71ea188a59e7e3fe9491a78a.png",
+      "bytes": 47617,
+      "sha256": "5d8302382e6ca23882cc11723e6745fb4e7637dd71ea188a59e7e3fe9491a78a"
+    },
+    {
+      "logicalPath": "delayed-png/001-commit-1-frame-0-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "delayed-png/002-commit-2-frame-1-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/aaec68b4272cd8584571d9d54350298536b4387b2599a39997cad53ae36d4622.png",
+      "bytes": 45667,
+      "sha256": "aaec68b4272cd8584571d9d54350298536b4387b2599a39997cad53ae36d4622"
+    },
+    {
+      "logicalPath": "delayed-png/002-commit-2-frame-1-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66.png",
+      "bytes": 3274,
+      "sha256": "157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66"
+    },
+    {
+      "logicalPath": "delayed-png/003-commit-3-frame-2-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/9f32a1a123fdc148a13262849f33a3d6cb8ca144355d3062ff251372fdca3daa.png",
+      "bytes": 49887,
+      "sha256": "9f32a1a123fdc148a13262849f33a3d6cb8ca144355d3062ff251372fdca3daa"
+    },
+    {
+      "logicalPath": "delayed-png/003-commit-3-frame-2-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6.png",
+      "bytes": 4929,
+      "sha256": "52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6"
+    },
+    {
+      "logicalPath": "delayed-png/004-commit-4-frame-3-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/3567b9a5c475dd5fa9e4fd622336ed30bab1f8ee536775e5ecce20b5936eeea3.png",
+      "bytes": 50561,
+      "sha256": "3567b9a5c475dd5fa9e4fd622336ed30bab1f8ee536775e5ecce20b5936eeea3"
+    },
+    {
+      "logicalPath": "delayed-png/004-commit-4-frame-3-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4.png",
+      "bytes": 5496,
+      "sha256": "4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4"
+    },
+    {
+      "logicalPath": "delayed-png/005-commit-5-frame-4-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/9f749b4f6b722a467d02580c6d686514078430d12b5db3ec7fb8919c5bd89e3a.png",
+      "bytes": 53799,
+      "sha256": "9f749b4f6b722a467d02580c6d686514078430d12b5db3ec7fb8919c5bd89e3a"
+    },
+    {
+      "logicalPath": "delayed-png/005-commit-5-frame-4-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2.png",
+      "bytes": 6813,
+      "sha256": "cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2"
+    },
+    {
+      "logicalPath": "delayed-png/006-commit-6-frame-5-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/5d8302382e6ca23882cc11723e6745fb4e7637dd71ea188a59e7e3fe9491a78a.png",
+      "bytes": 47617,
+      "sha256": "5d8302382e6ca23882cc11723e6745fb4e7637dd71ea188a59e7e3fe9491a78a"
+    },
+    {
+      "logicalPath": "delayed-png/006-commit-6-frame-5-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "delayed-png/007-commit-7-frame-7-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/0e002eb4a7b3ea10908c2c163d1f61f0ab6c73f6ba85fe94b748cdcaf283a228.png",
+      "bytes": 48229,
+      "sha256": "0e002eb4a7b3ea10908c2c163d1f61f0ab6c73f6ba85fe94b748cdcaf283a228"
+    },
+    {
+      "logicalPath": "delayed-png/007-commit-7-frame-7-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16.png",
+      "bytes": 4837,
+      "sha256": "780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16"
+    },
+    {
+      "logicalPath": "delayed-png/008-commit-8-frame-8-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/d242b05f7c52b450edd1c77a3074a9eb8e5da5ff6b09256483636684829a1a09.png",
+      "bytes": 48183,
+      "sha256": "d242b05f7c52b450edd1c77a3074a9eb8e5da5ff6b09256483636684829a1a09"
+    },
+    {
+      "logicalPath": "delayed-png/008-commit-8-frame-8-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627.png",
+      "bytes": 4791,
+      "sha256": "6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627"
+    },
+    {
+      "logicalPath": "hidden-restore/001-commit-1-frame-0-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837.png",
+      "bytes": 4128210,
+      "sha256": "eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837"
+    },
+    {
+      "logicalPath": "hidden-restore/001-commit-1-frame-0-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "hidden-restore/002-commit-2-frame-1-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/a35f9b41bfc6f4d190329a5104a702a8869980b22fe54c23345e493b5e7732f6.png",
+      "bytes": 3961171,
+      "sha256": "a35f9b41bfc6f4d190329a5104a702a8869980b22fe54c23345e493b5e7732f6"
+    },
+    {
+      "logicalPath": "hidden-restore/002-commit-2-frame-1-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66.png",
+      "bytes": 3274,
+      "sha256": "157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66"
+    },
+    {
+      "logicalPath": "hidden-restore/003-commit-3-frame-2-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/58f99924c20d71b1a46c7da78fd00061d1f93bde46e9571fd191e2f3a5d76686.png",
+      "bytes": 4201248,
+      "sha256": "58f99924c20d71b1a46c7da78fd00061d1f93bde46e9571fd191e2f3a5d76686"
+    },
+    {
+      "logicalPath": "hidden-restore/003-commit-3-frame-2-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6.png",
+      "bytes": 4929,
+      "sha256": "52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6"
+    },
+    {
+      "logicalPath": "hidden-restore/004-commit-4-frame-3-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/d79569e20f1bf36620cb5b00ae64dfc6adeed2295f6826f7d8be9d2462ba25e8.png",
+      "bytes": 4332609,
+      "sha256": "d79569e20f1bf36620cb5b00ae64dfc6adeed2295f6826f7d8be9d2462ba25e8"
+    },
+    {
+      "logicalPath": "hidden-restore/004-commit-4-frame-3-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4.png",
+      "bytes": 5496,
+      "sha256": "4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4"
+    },
+    {
+      "logicalPath": "hidden-restore/005-commit-5-frame-4-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/65299142e422e4b01f51054c268ddd19850392e711d67615a30b6f3fbf319795.png",
+      "bytes": 4518455,
+      "sha256": "65299142e422e4b01f51054c268ddd19850392e711d67615a30b6f3fbf319795"
+    },
+    {
+      "logicalPath": "hidden-restore/005-commit-5-frame-4-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2.png",
+      "bytes": 6813,
+      "sha256": "cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2"
+    },
+    {
+      "logicalPath": "hidden-restore/006-commit-6-frame-5-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837.png",
+      "bytes": 4128210,
+      "sha256": "eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837"
+    },
+    {
+      "logicalPath": "hidden-restore/006-commit-6-frame-5-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "hidden-restore/007-commit-7-frame-7-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/831d73e5bc1586df017c3735afc88e757d5e0abf9e886c796df8eacedd70b774.png",
+      "bytes": 4373858,
+      "sha256": "831d73e5bc1586df017c3735afc88e757d5e0abf9e886c796df8eacedd70b774"
+    },
+    {
+      "logicalPath": "hidden-restore/007-commit-7-frame-7-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16.png",
+      "bytes": 4837,
+      "sha256": "780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16"
+    },
+    {
+      "logicalPath": "hidden-restore/008-commit-8-frame-8-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/4629c47f4335c030423478f418e35ae7b8e5d99f9a19a057614ed7d63fae4074.png",
+      "bytes": 4302579,
+      "sha256": "4629c47f4335c030423478f418e35ae7b8e5d99f9a19a057614ed7d63fae4074"
+    },
+    {
+      "logicalPath": "hidden-restore/008-commit-8-frame-8-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627.png",
+      "bytes": 4791,
+      "sha256": "6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627"
+    },
+    {
+      "logicalPath": "missing-png/001-commit-1-frame-0-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/5d8302382e6ca23882cc11723e6745fb4e7637dd71ea188a59e7e3fe9491a78a.png",
+      "bytes": 47617,
+      "sha256": "5d8302382e6ca23882cc11723e6745fb4e7637dd71ea188a59e7e3fe9491a78a"
+    },
+    {
+      "logicalPath": "missing-png/001-commit-1-frame-0-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "missing-png/002-commit-2-frame-1-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/aaec68b4272cd8584571d9d54350298536b4387b2599a39997cad53ae36d4622.png",
+      "bytes": 45667,
+      "sha256": "aaec68b4272cd8584571d9d54350298536b4387b2599a39997cad53ae36d4622"
+    },
+    {
+      "logicalPath": "missing-png/002-commit-2-frame-1-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66.png",
+      "bytes": 3274,
+      "sha256": "157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66"
+    },
+    {
+      "logicalPath": "missing-png/003-commit-3-frame-2-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/9f32a1a123fdc148a13262849f33a3d6cb8ca144355d3062ff251372fdca3daa.png",
+      "bytes": 49887,
+      "sha256": "9f32a1a123fdc148a13262849f33a3d6cb8ca144355d3062ff251372fdca3daa"
+    },
+    {
+      "logicalPath": "missing-png/003-commit-3-frame-2-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6.png",
+      "bytes": 4929,
+      "sha256": "52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6"
+    },
+    {
+      "logicalPath": "missing-png/004-commit-4-frame-3-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/3567b9a5c475dd5fa9e4fd622336ed30bab1f8ee536775e5ecce20b5936eeea3.png",
+      "bytes": 50561,
+      "sha256": "3567b9a5c475dd5fa9e4fd622336ed30bab1f8ee536775e5ecce20b5936eeea3"
+    },
+    {
+      "logicalPath": "missing-png/004-commit-4-frame-3-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4.png",
+      "bytes": 5496,
+      "sha256": "4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4"
+    },
+    {
+      "logicalPath": "missing-png/005-commit-5-frame-4-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/9f749b4f6b722a467d02580c6d686514078430d12b5db3ec7fb8919c5bd89e3a.png",
+      "bytes": 53799,
+      "sha256": "9f749b4f6b722a467d02580c6d686514078430d12b5db3ec7fb8919c5bd89e3a"
+    },
+    {
+      "logicalPath": "missing-png/005-commit-5-frame-4-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2.png",
+      "bytes": 6813,
+      "sha256": "cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2"
+    },
+    {
+      "logicalPath": "missing-png/006-commit-6-frame-5-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/5d8302382e6ca23882cc11723e6745fb4e7637dd71ea188a59e7e3fe9491a78a.png",
+      "bytes": 47617,
+      "sha256": "5d8302382e6ca23882cc11723e6745fb4e7637dd71ea188a59e7e3fe9491a78a"
+    },
+    {
+      "logicalPath": "missing-png/006-commit-6-frame-5-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "missing-png/007-commit-7-frame-7-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/0e002eb4a7b3ea10908c2c163d1f61f0ab6c73f6ba85fe94b748cdcaf283a228.png",
+      "bytes": 48229,
+      "sha256": "0e002eb4a7b3ea10908c2c163d1f61f0ab6c73f6ba85fe94b748cdcaf283a228"
+    },
+    {
+      "logicalPath": "missing-png/007-commit-7-frame-7-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16.png",
+      "bytes": 4837,
+      "sha256": "780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16"
+    },
+    {
+      "logicalPath": "missing-png/008-commit-8-frame-8-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/d242b05f7c52b450edd1c77a3074a9eb8e5da5ff6b09256483636684829a1a09.png",
+      "bytes": 48183,
+      "sha256": "d242b05f7c52b450edd1c77a3074a9eb8e5da5ff6b09256483636684829a1a09"
+    },
+    {
+      "logicalPath": "missing-png/008-commit-8-frame-8-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627.png",
+      "bytes": 4791,
+      "sha256": "6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627"
+    },
+    {
+      "logicalPath": "mode-resize/001-commit-1-frame-0-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837.png",
+      "bytes": 4128210,
+      "sha256": "eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837"
+    },
+    {
+      "logicalPath": "mode-resize/001-commit-1-frame-0-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "mode-resize/002-commit-2-frame-1-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/a35f9b41bfc6f4d190329a5104a702a8869980b22fe54c23345e493b5e7732f6.png",
+      "bytes": 3961171,
+      "sha256": "a35f9b41bfc6f4d190329a5104a702a8869980b22fe54c23345e493b5e7732f6"
+    },
+    {
+      "logicalPath": "mode-resize/002-commit-2-frame-1-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66.png",
+      "bytes": 3274,
+      "sha256": "157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66"
+    },
+    {
+      "logicalPath": "mode-resize/003-commit-3-frame-2-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/58f99924c20d71b1a46c7da78fd00061d1f93bde46e9571fd191e2f3a5d76686.png",
+      "bytes": 4201248,
+      "sha256": "58f99924c20d71b1a46c7da78fd00061d1f93bde46e9571fd191e2f3a5d76686"
+    },
+    {
+      "logicalPath": "mode-resize/003-commit-3-frame-2-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6.png",
+      "bytes": 4929,
+      "sha256": "52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6"
+    },
+    {
+      "logicalPath": "mode-resize/004-commit-4-frame-3-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/d79569e20f1bf36620cb5b00ae64dfc6adeed2295f6826f7d8be9d2462ba25e8.png",
+      "bytes": 4332609,
+      "sha256": "d79569e20f1bf36620cb5b00ae64dfc6adeed2295f6826f7d8be9d2462ba25e8"
+    },
+    {
+      "logicalPath": "mode-resize/004-commit-4-frame-3-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4.png",
+      "bytes": 5496,
+      "sha256": "4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4"
+    },
+    {
+      "logicalPath": "mode-resize/005-commit-5-frame-4-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/65299142e422e4b01f51054c268ddd19850392e711d67615a30b6f3fbf319795.png",
+      "bytes": 4518455,
+      "sha256": "65299142e422e4b01f51054c268ddd19850392e711d67615a30b6f3fbf319795"
+    },
+    {
+      "logicalPath": "mode-resize/005-commit-5-frame-4-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2.png",
+      "bytes": 6813,
+      "sha256": "cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2"
+    },
+    {
+      "logicalPath": "mode-resize/006-commit-6-frame-5-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837.png",
+      "bytes": 4128210,
+      "sha256": "eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837"
+    },
+    {
+      "logicalPath": "mode-resize/006-commit-6-frame-5-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "mode-resize/007-commit-7-frame-7-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/831d73e5bc1586df017c3735afc88e757d5e0abf9e886c796df8eacedd70b774.png",
+      "bytes": 4373858,
+      "sha256": "831d73e5bc1586df017c3735afc88e757d5e0abf9e886c796df8eacedd70b774"
+    },
+    {
+      "logicalPath": "mode-resize/007-commit-7-frame-7-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16.png",
+      "bytes": 4837,
+      "sha256": "780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16"
+    },
+    {
+      "logicalPath": "mode-resize/008-commit-8-frame-8-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/4629c47f4335c030423478f418e35ae7b8e5d99f9a19a057614ed7d63fae4074.png",
+      "bytes": 4302579,
+      "sha256": "4629c47f4335c030423478f418e35ae7b8e5d99f9a19a057614ed7d63fae4074"
+    },
+    {
+      "logicalPath": "mode-resize/008-commit-8-frame-8-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627.png",
+      "bytes": 4791,
+      "sha256": "6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627"
+    },
+    {
+      "logicalPath": "native-reference/MAIN3-picture-0.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/88fcfa52f6a6f44070be21450dc6c77803034e776651ae6121829db844d81ebd.png",
+      "bytes": 2044,
+      "sha256": "88fcfa52f6a6f44070be21450dc6c77803034e776651ae6121829db844d81ebd"
+    },
+    {
+      "logicalPath": "native-reference/MAIN3-picture-1.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/ebfe1a08b2a4336b570e1ff64407f64f7297829e30cb06d66128f129303ca764.png",
+      "bytes": 1793,
+      "sha256": "ebfe1a08b2a4336b570e1ff64407f64f7297829e30cb06d66128f129303ca764"
+    },
+    {
+      "logicalPath": "native-reference/MAIN3-picture-2.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/f9112d1327d7838f06c8a9223048ebdd270b081e158ea7edfeecc1cad0e7598f.png",
+      "bytes": 2726,
+      "sha256": "f9112d1327d7838f06c8a9223048ebdd270b081e158ea7edfeecc1cad0e7598f"
+    },
+    {
+      "logicalPath": "native-reference/MAIN3-picture-3.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/b074f8b86ae971fe96c4db3a107e07ebcbb1480ad72539b43b5d6536d5593282.png",
+      "bytes": 2771,
+      "sha256": "b074f8b86ae971fe96c4db3a107e07ebcbb1480ad72539b43b5d6536d5593282"
+    },
+    {
+      "logicalPath": "native-reference/MAIN3-picture-4.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/c2c2dfcff317e411017d35617c18e38c0f54f2f89c9215434ac76a6b6d02cca8.png",
+      "bytes": 3211,
+      "sha256": "c2c2dfcff317e411017d35617c18e38c0f54f2f89c9215434ac76a6b6d02cca8"
+    },
+    {
+      "logicalPath": "native-reference/MAIN3-picture-5.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/a6dd8435e3fba0eb6cb46d3740be65924115d57f3232bb4c0bf4677bf4067387.png",
+      "bytes": 656,
+      "sha256": "a6dd8435e3fba0eb6cb46d3740be65924115d57f3232bb4c0bf4677bf4067387"
+    },
+    {
+      "logicalPath": "native-reference/MAIN3-picture-6.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/1eac26153dba652a6d89e572389bad2e6e4eeb1a17f30a1b75e7c6d46cc99b59.png",
+      "bytes": 440,
+      "sha256": "1eac26153dba652a6d89e572389bad2e6e4eeb1a17f30a1b75e7c6d46cc99b59"
+    },
+    {
+      "logicalPath": "one-skip/001-commit-1-frame-0-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837.png",
+      "bytes": 4128210,
+      "sha256": "eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837"
+    },
+    {
+      "logicalPath": "one-skip/001-commit-1-frame-0-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "standard-restored/001-commit-1-frame-0-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837.png",
+      "bytes": 4128210,
+      "sha256": "eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837"
+    },
+    {
+      "logicalPath": "standard-restored/001-commit-1-frame-0-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "standard-restored/002-commit-2-frame-1-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/a35f9b41bfc6f4d190329a5104a702a8869980b22fe54c23345e493b5e7732f6.png",
+      "bytes": 3961171,
+      "sha256": "a35f9b41bfc6f4d190329a5104a702a8869980b22fe54c23345e493b5e7732f6"
+    },
+    {
+      "logicalPath": "standard-restored/002-commit-2-frame-1-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66.png",
+      "bytes": 3274,
+      "sha256": "157c75c84ea85a4336430b735e0817b73334dd40c12e2af94e003cd925071e66"
+    },
+    {
+      "logicalPath": "standard-restored/003-commit-3-frame-2-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/58f99924c20d71b1a46c7da78fd00061d1f93bde46e9571fd191e2f3a5d76686.png",
+      "bytes": 4201248,
+      "sha256": "58f99924c20d71b1a46c7da78fd00061d1f93bde46e9571fd191e2f3a5d76686"
+    },
+    {
+      "logicalPath": "standard-restored/003-commit-3-frame-2-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6.png",
+      "bytes": 4929,
+      "sha256": "52fde9d99408bdc96417aa35f18d8472175dee9c119317863dd0b7e3febc36c6"
+    },
+    {
+      "logicalPath": "standard-restored/004-commit-4-frame-3-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/d79569e20f1bf36620cb5b00ae64dfc6adeed2295f6826f7d8be9d2462ba25e8.png",
+      "bytes": 4332609,
+      "sha256": "d79569e20f1bf36620cb5b00ae64dfc6adeed2295f6826f7d8be9d2462ba25e8"
+    },
+    {
+      "logicalPath": "standard-restored/004-commit-4-frame-3-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4.png",
+      "bytes": 5496,
+      "sha256": "4c53c165c5e4c5e05b94960fa242620008fdeb0a1325ae16b9dea3ba653462e4"
+    },
+    {
+      "logicalPath": "standard-restored/005-commit-5-frame-4-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/65299142e422e4b01f51054c268ddd19850392e711d67615a30b6f3fbf319795.png",
+      "bytes": 4518455,
+      "sha256": "65299142e422e4b01f51054c268ddd19850392e711d67615a30b6f3fbf319795"
+    },
+    {
+      "logicalPath": "standard-restored/005-commit-5-frame-4-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2.png",
+      "bytes": 6813,
+      "sha256": "cad0d5549c95155fbb0499b83b71f02021bde062e75214072dabb048128f2ac2"
+    },
+    {
+      "logicalPath": "standard-restored/006-commit-6-frame-5-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837.png",
+      "bytes": 4128210,
+      "sha256": "eb808cd306031a640943e50466d6e1c9917240a8ff8c26c1ef00c66fd4b1f837"
+    },
+    {
+      "logicalPath": "standard-restored/006-commit-6-frame-5-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c.png",
+      "bytes": 4454,
+      "sha256": "302c6e2e56f07b37a1e5fed1029d65effe3a0962a9437934c0cc4a900b1b672c"
+    },
+    {
+      "logicalPath": "standard-restored/007-commit-7-frame-7-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/831d73e5bc1586df017c3735afc88e757d5e0abf9e886c796df8eacedd70b774.png",
+      "bytes": 4373858,
+      "sha256": "831d73e5bc1586df017c3735afc88e757d5e0abf9e886c796df8eacedd70b774"
+    },
+    {
+      "logicalPath": "standard-restored/007-commit-7-frame-7-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16.png",
+      "bytes": 4837,
+      "sha256": "780443015c52f30bf1936aef7eb5aa112d48b1372830ed85c6a2caffeaf03f16"
+    },
+    {
+      "logicalPath": "standard-restored/008-commit-8-frame-8-hd.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/4629c47f4335c030423478f418e35ae7b8e5d99f9a19a057614ed7d63fae4074.png",
+      "bytes": 4302579,
+      "sha256": "4629c47f4335c030423478f418e35ae7b8e5d99f9a19a057614ed7d63fae4074"
+    },
+    {
+      "logicalPath": "standard-restored/008-commit-8-frame-8-native.png",
+      "scope": "Final actual opening native/HD callback PNG, screenshot or actual resource reference",
+      "blob": "m4-opening-20261008/png/6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627.png",
+      "bytes": 4791,
+      "sha256": "6da551e9ab469a07839c1089626abad26e2f50ef17a6100473d1476a8a421627"
+    },
+    {
+      "logicalPath": "combat/fire-35-native-frame-1-0.png",
+      "scope": "Actual continuous native FIRE35 HD canvas; independently viewed",
+      "blob": "m4-opening-20261008/png/72f54253774cbe3c92c28e3370f55c77b019c9bc6878c9d01896a80cf00a48b8.png",
+      "bytes": 1160638,
+      "sha256": "72f54253774cbe3c92c28e3370f55c77b019c9bc6878c9d01896a80cf00a48b8"
+    },
+    {
+      "logicalPath": "combat/fire-35-native-frame-2-1.png",
+      "scope": "Actual continuous native FIRE35 HD canvas; independently viewed",
+      "blob": "m4-opening-20261008/png/d537ce0a03413a091f82bf0794e741d224e69c468dd18472e1ac6313340c276b.png",
+      "bytes": 1108547,
+      "sha256": "d537ce0a03413a091f82bf0794e741d224e69c468dd18472e1ac6313340c276b"
+    },
+    {
+      "logicalPath": "generation-inputs/picture-0.png",
+      "scope": "Exact viewed source bitmap used in generation; decoded from actual LIB, never an HD asset",
+      "blob": "m4-opening-20261008/png/fd436faf4c7132cbacc6563564c86decdda42bd32e2c35dc376984754d037adb.png",
+      "bytes": 2549,
+      "sha256": "fd436faf4c7132cbacc6563564c86decdda42bd32e2c35dc376984754d037adb"
+    },
+    {
+      "logicalPath": "generation-inputs/picture-1.png",
+      "scope": "Exact viewed source bitmap used in generation; decoded from actual LIB, never an HD asset",
+      "blob": "m4-opening-20261008/png/4b00d9a976264116d70cc7f9c442216cab1b67d9a5c9c3dc7cff8e84cb392181.png",
+      "bytes": 1786,
+      "sha256": "4b00d9a976264116d70cc7f9c442216cab1b67d9a5c9c3dc7cff8e84cb392181"
+    },
+    {
+      "logicalPath": "generation-inputs/picture-2.png",
+      "scope": "Exact viewed source bitmap used in generation; decoded from actual LIB, never an HD asset",
+      "blob": "m4-opening-20261008/png/a1a60745b2ff55a3ef602bbf7f4cb5f8f8c740665a4fabee3eeaadf549e0fbf6.png",
+      "bytes": 2972,
+      "sha256": "a1a60745b2ff55a3ef602bbf7f4cb5f8f8c740665a4fabee3eeaadf549e0fbf6"
+    },
+    {
+      "logicalPath": "generation-inputs/picture-3.png",
+      "scope": "Exact viewed source bitmap used in generation; decoded from actual LIB, never an HD asset",
+      "blob": "m4-opening-20261008/png/c8d373741395b45b7c396e6f85bffac73617ea39cb560c12178fd93cd8be802a.png",
+      "bytes": 3167,
+      "sha256": "c8d373741395b45b7c396e6f85bffac73617ea39cb560c12178fd93cd8be802a"
+    },
+    {
+      "logicalPath": "generation-inputs/picture-4.png",
+      "scope": "Exact viewed source bitmap used in generation; decoded from actual LIB, never an HD asset",
+      "blob": "m4-opening-20261008/png/add22ee674913ee4b46f1c36149db702de5d4de639e7cf88a9f9f3ff05ce6d78.png",
+      "bytes": 3824,
+      "sha256": "add22ee674913ee4b46f1c36149db702de5d4de639e7cf88a9f9f3ff05ce6d78"
+    },
+    {
+      "logicalPath": "generation-inputs/picture-5.png",
+      "scope": "Exact viewed source bitmap used in generation; decoded from actual LIB, never an HD asset",
+      "blob": "m4-opening-20261008/png/c5dfc2860b11d1d010bbc84406df7acc34df348bde3c92f9e1fea5714131c1df.png",
+      "bytes": 837,
+      "sha256": "c5dfc2860b11d1d010bbc84406df7acc34df348bde3c92f9e1fea5714131c1df"
+    },
+    {
+      "logicalPath": "generation-inputs/picture-6.png",
+      "scope": "Exact viewed source bitmap used in generation; decoded from actual LIB, never an HD asset",
+      "blob": "m4-opening-20261008/png/1761548c19c96a9dc40ea3007d6ba2e50981cf7c8d76975b8fdb8fb0f95d72ad.png",
+      "bytes": 619,
+      "sha256": "1761548c19c96a9dc40ea3007d6ba2e50981cf7c8d76975b8fdb8fb0f95d72ad"
+    }
+  ],
+  "sources": {
+    "js/hd-spe.js": {
+      "path": "js/hd-spe.js",
+      "bytes": 24181,
+      "sha256": "db431393bed6532139c2823ac2d1af31898d071e8076fd8630a7a9cfb484d468"
+    },
+    "js/lcd.js": {
+      "path": "js/lcd.js",
+      "bytes": 29192,
+      "sha256": "6e659407d5b0aaab50fa0ad7f79f3e2f1a42d676368f1198f9d85cd6beb0f005"
+    },
+    "pc.html": {
+      "path": "pc.html",
+      "bytes": 25619,
+      "sha256": "f45e98402be8e43bea1af0de130fa0c2dc5d75c83fda5fe258198409e117525e"
+    },
+    "package.json": {
+      "path": "package.json",
+      "bytes": 4559,
+      "sha256": "895dc5f078b0c32312aa0434984855a47336037d6183c82fda48e768771196c8"
+    },
+    "scripts/test-hd-spe.mjs": {
+      "path": "scripts/test-hd-spe.mjs",
+      "bytes": 47404,
+      "sha256": "03e0558071d6830240620229ef3bbe85e9dda145d45d42028eda734c2b30a9de"
+    },
+    "scripts/test-hd-opening-runtime.mjs": {
+      "path": "scripts/test-hd-opening-runtime.mjs",
+      "bytes": 51431,
+      "sha256": "adbd321948f1c8a62a382a0e5c5e3d382207915a863a9d18141c4654317cc7e6"
+    },
+    "assets/hd-spe/manifest.json": {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 5371,
+      "sha256": "c6f89139f3100a3f7ce6ac5233cce2846cb308fdde55cace8338cb7f12e5f8e5"
+    },
+    "assets/hd-spe/README.md": {
+      "path": "assets/hd-spe/README.md",
+      "bytes": 3447,
+      "sha256": "e24ba3deb5f39d87099b4af91509289b5aa62787691213284f66934d1aee1eab"
+    },
+    "assets/hd-spe/GENERATED-OPENING.md": {
+      "path": "assets/hd-spe/GENERATED-OPENING.md",
+      "bytes": 47220,
+      "sha256": "a5403218dd5f7974db5906dfad144d5b9d0d3efbc998ce219f119823ee740aca"
+    },
+    "js/baye.js": {
+      "path": "js/baye.js",
+      "bytes": 192329,
+      "sha256": "90198b0f94f33ba38c3a8dc1164b25a7dd5fcea65f3ad794088570c8c627f9ed"
+    },
+    "js/baye.wasm": {
+      "path": "js/baye.wasm",
+      "bytes": 4332180,
+      "sha256": "dcc2fd86f25b98d9432f5b3f931bb11e2aee6c93d49c64341759e41723721a22"
+    },
+    "js/baye.wasm.map": {
+      "path": "js/baye.wasm.map",
+      "bytes": 29805,
+      "sha256": "76d249cfc99515556d04e31c3cf150608428a4d33710025091ad95eeb08939ab"
+    },
+    "js/baye.build.json": {
+      "path": "js/baye.build.json",
+      "bytes": 3688,
+      "sha256": "0c759cfedb03a4026b8d23925addc4f861b3aae4b48f54674a83ffab55c0dc03"
+    }
+  },
+  "tests": {
+    "full": {
+      "passed": 494,
+      "failed": 0,
+      "skipped": 0
+    },
+    "spe": {
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "opening": {
+    "browser": {
+      "protocolVersion": "1.3",
+      "product": "Chrome/154.0.8037.98",
+      "revision": "@b859317bf11f6be47f9b7799ec690a0a42a1fb33",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "jsVersion": "15.4.80.20"
+    },
+    "runner": {
+      "bytes": 51431,
+      "sha256": "adbd321948f1c8a62a382a0e5c5e3d382207915a863a9d18141c4654317cc7e6"
+    },
+    "startedAt": "2026-10-08T06:44:14.815Z",
+    "finishedAt": "2026-10-08T06:44:56.803Z",
+    "checkpoints": 15,
+    "actualLcdCaptures": 65,
+    "hdCommits": 41,
+    "lcdCommits": 24,
+    "actualImgDraws": 56,
+    "nativePixelChecks": 57,
+    "beforeAfterStampMatches": 65,
+    "sessions": [
+      {
+        "name": "cold-main-1080p",
+        "summary": {
+          "owner": {
+            "generation": 2,
+            "eventId": 1
+          },
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "actualLib": {
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "identity": {
+              "status": "ready",
+              "generation": 2,
+              "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+              "byteLength": 207195,
+              "reason": ""
+            }
+          },
+          "ended": {
+            "eventId": 1,
+            "reason": "complete",
+            "key": 255
+          },
+          "displayedCommits": 8,
+          "logicalFrames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            7,
+            8
+          ],
+          "picturesSeen": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "firstSource": "hd-assets",
+          "hdCommits": 8,
+          "compositeCommit": 7,
+          "layout": {
+            "width": 1920,
+            "height": 1080,
+            "canvas": {
+              "left": 201.671875,
+              "top": 75.5,
+              "right": 1718.328125,
+              "bottom": 985.5,
+              "width": 1516.65625,
+              "height": 910,
+              "visible": true,
+              "hit": false
+            },
+            "stage": {
+              "left": 16,
+              "top": 26.5,
+              "right": 1904,
+              "bottom": 1053.5,
+              "width": 1888,
+              "height": 1027,
+              "visible": true,
+              "hit": true
+            },
+            "skip": {
+              "left": 36,
+              "top": 993.5,
+              "right": 164,
+              "bottom": 1041.5,
+              "width": 128,
+              "height": 48,
+              "visible": true,
+              "hit": true
+            },
+            "classic": {
+              "left": 174,
+              "top": 993.5,
+              "right": 288.6875,
+              "bottom": 1041.5,
+              "width": 114.6875,
+              "height": 48,
+              "visible": true,
+              "hit": true
+            },
+            "lcd": {
+              "left": 720,
+              "top": 8,
+              "right": 1200,
+              "bottom": 296,
+              "width": 480,
+              "height": 288,
+              "visible": false,
+              "hit": false
+            }
+          }
+        },
+        "preparations": [
+          {
+            "at": 180,
+            "keysBefore": 0,
+            "continuations": [
+              {
+                "at": 252,
+                "keysBefore": 0,
+                "result": {
+                  "ready": true,
+                  "reason": "assets-ready",
+                  "elapsedMs": 72,
+                  "slots": 7,
+                  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+                  "libGeneration": 2,
+                  "manifestGeneration": 1
+                }
+              }
+            ]
+          }
+        ],
+        "nativeKeys": [],
+        "actualCaptures": 8
+      },
+      {
+        "name": "cold-main-720p",
+        "summary": {
+          "owner": {
+            "generation": 2,
+            "eventId": 1
+          },
+          "width": 1280,
+          "height": 720,
+          "dpr": 1,
+          "actualLib": {
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "identity": {
+              "status": "ready",
+              "generation": 2,
+              "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+              "byteLength": 207195,
+              "reason": ""
+            }
+          },
+          "ended": {
+            "eventId": 1,
+            "reason": "complete",
+            "key": 255
+          },
+          "displayedCommits": 8,
+          "logicalFrames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            7,
+            8
+          ],
+          "picturesSeen": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "firstSource": "hd-assets",
+          "hdCommits": 8,
+          "compositeCommit": 7,
+          "layout": {
+            "width": 1280,
+            "height": 720,
+            "canvas": {
+              "left": 181.671875,
+              "top": 75.5,
+              "right": 1098.328125,
+              "bottom": 625.5,
+              "width": 916.65625,
+              "height": 550,
+              "visible": true,
+              "hit": false
+            },
+            "stage": {
+              "left": 16,
+              "top": 26.5,
+              "right": 1264,
+              "bottom": 693.5,
+              "width": 1248,
+              "height": 667,
+              "visible": true,
+              "hit": true
+            },
+            "skip": {
+              "left": 36,
+              "top": 633.5,
+              "right": 164,
+              "bottom": 681.5,
+              "width": 128,
+              "height": 48,
+              "visible": true,
+              "hit": true
+            },
+            "classic": {
+              "left": 174,
+              "top": 633.5,
+              "right": 288.6875,
+              "bottom": 681.5,
+              "width": 114.6875,
+              "height": 48,
+              "visible": true,
+              "hit": true
+            },
+            "lcd": {
+              "left": 400,
+              "top": 8,
+              "right": 880,
+              "bottom": 296,
+              "width": 480,
+              "height": 288,
+              "visible": false,
+              "hit": false
+            }
+          }
+        },
+        "preparations": [
+          {
+            "at": 68.40000000596046,
+            "keysBefore": 0,
+            "continuations": [
+              {
+                "at": 140.5,
+                "keysBefore": 0,
+                "result": {
+                  "ready": true,
+                  "reason": "assets-ready",
+                  "elapsedMs": 72,
+                  "slots": 7,
+                  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+                  "libGeneration": 2,
+                  "manifestGeneration": 1
+                }
+              }
+            ]
+          }
+        ],
+        "nativeKeys": [],
+        "actualCaptures": 8
+      },
+      {
+        "name": "one-skip",
+        "summary": {
+          "owner": {
+            "generation": 2,
+            "eventId": 1
+          },
+          "button": {
+            "x": 100,
+            "y": 657.5,
+            "width": 128,
+            "height": 48,
+            "visible": true,
+            "hit": true
+          },
+          "ended": {
+            "eventId": 1,
+            "reason": "key",
+            "key": 39
+          }
+        },
+        "preparations": [
+          {
+            "at": 67.5,
+            "keysBefore": 0,
+            "continuations": [
+              {
+                "at": 141,
+                "keysBefore": 0,
+                "result": {
+                  "ready": true,
+                  "reason": "assets-ready",
+                  "elapsedMs": 73,
+                  "slots": 7,
+                  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+                  "libGeneration": 2,
+                  "manifestGeneration": 1
+                }
+              }
+            ]
+          }
+        ],
+        "nativeKeys": [
+          {
+            "code": 39,
+            "at": 410.20000000298023,
+            "spe": {
+              "active": 1,
+              "id": 3,
+              "kind": 1,
+              "x": 0,
+              "y": 0,
+              "startFrm": 0,
+              "endFrm": 8,
+              "seq": 2,
+              "protocolVersion": 2,
+              "generation": 2,
+              "eventId": 1,
+              "parentEventId": 0,
+              "depth": 1,
+              "resourceIndex": 0,
+              "count": 9,
+              "picmax": 7,
+              "resourceLength": 11380,
+              "resourceFingerprint": "fnv1a32:a5a91c68:11380",
+              "frameIndex": 0,
+              "frameValid": true,
+              "protocolValid": true,
+              "commitSeq": 1,
+              "keyflag": 1,
+              "skipEligible": true,
+              "visibleFrames": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "contextKnown": false,
+              "skillId": null,
+              "actorIndex": null,
+              "targetIndex": null,
+              "lastEnd": {
+                "eventId": 0,
+                "reason": null,
+                "key": 255
+              },
+              "display": {
+                "generation": 2,
+                "eventId": 1,
+                "commitSeq": 1,
+                "frameIndex": 0,
+                "frameValid": true,
+                "visibleFrames": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            }
+          }
+        ],
+        "actualCaptures": 1
+      },
+      {
+        "name": "mode-resize",
+        "summary": {
+          "owner": {
+            "generation": 2,
+            "eventId": 1
+          },
+          "before": {
+            "generation": 2,
+            "eventId": 1,
+            "commitSeq": 1,
+            "frameIndex": 0,
+            "frameValid": true,
+            "visibleFrames": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "classic": {
+            "generation": 2,
+            "eventId": 1,
+            "commitSeq": 1,
+            "frameIndex": 0,
+            "frameValid": true,
+            "visibleFrames": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "restored": {
+            "generation": 2,
+            "eventId": 1,
+            "commitSeq": 1,
+            "frameIndex": 0,
+            "frameValid": true,
+            "visibleFrames": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "resized": {
+            "generation": 2,
+            "eventId": 1,
+            "commitSeq": 1,
+            "frameIndex": 0,
+            "frameValid": true,
+            "visibleFrames": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "classicLcd": {
+            "left": 400,
+            "top": 8,
+            "right": 880,
+            "bottom": 296,
+            "width": 480,
+            "height": 288,
+            "visible": true,
+            "hit": true
+          },
+          "ended": {
+            "eventId": 1,
+            "reason": "complete",
+            "key": 255
+          },
+          "zeroNativeKeys": true
+        },
+        "preparations": [
+          {
+            "at": 64.40000000596046,
+            "keysBefore": 0,
+            "continuations": [
+              {
+                "at": 140.29999999701977,
+                "keysBefore": 0,
+                "result": {
+                  "ready": true,
+                  "reason": "assets-ready",
+                  "elapsedMs": 75,
+                  "slots": 7,
+                  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+                  "libGeneration": 2,
+                  "manifestGeneration": 1
+                }
+              }
+            ]
+          }
+        ],
+        "nativeKeys": [],
+        "actualCaptures": 8
+      },
+      {
+        "name": "hidden-restore",
+        "summary": {
+          "owner": {
+            "generation": 2,
+            "eventId": 1
+          },
+          "visibilityMethod": "actual-tab-activation",
+          "actualFreezeActive": true,
+          "hiddenCapturedCommits": 0,
+          "ended": {
+            "eventId": 1,
+            "reason": "complete",
+            "key": 255
+          },
+          "zeroNativeKeys": true
+        },
+        "preparations": [
+          {
+            "at": 58,
+            "keysBefore": 0,
+            "continuations": [
+              {
+                "at": 132.29999999701977,
+                "keysBefore": 0,
+                "result": {
+                  "ready": true,
+                  "reason": "assets-ready",
+                  "elapsedMs": 74,
+                  "slots": 7,
+                  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+                  "libGeneration": 2,
+                  "manifestGeneration": 1
+                }
+              }
+            ]
+          }
+        ],
+        "nativeKeys": [],
+        "actualCaptures": 8
+      },
+      {
+        "name": "missing-png",
+        "summary": {
+          "owner": {
+            "generation": 2,
+            "eventId": 1
+          },
+          "kind": "missing",
+          "path": "assets/hd-spe/opening-3/picture-4.png",
+          "ended": {
+            "eventId": 1,
+            "reason": "complete",
+            "key": 255
+          },
+          "fallbackOnly": true,
+          "hdAccepted": false,
+          "finalOwner": 2
+        },
+        "preparations": [
+          {
+            "at": 65,
+            "keysBefore": 0,
+            "continuations": [
+              {
+                "at": 117.90000000596046,
+                "keysBefore": 0,
+                "result": {
+                  "ready": false,
+                  "reason": "asset-load-failed",
+                  "elapsedMs": 53,
+                  "slots": 7,
+                  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+                  "libGeneration": 2,
+                  "manifestGeneration": 1
+                }
+              }
+            ]
+          }
+        ],
+        "nativeKeys": [],
+        "actualCaptures": 8
+      },
+      {
+        "name": "delayed-png",
+        "summary": {
+          "owner": {
+            "generation": 2,
+            "eventId": 1
+          },
+          "kind": "delayed",
+          "path": "assets/hd-spe/opening-3/picture-4.png",
+          "ended": {
+            "eventId": 1,
+            "reason": "complete",
+            "key": 255
+          },
+          "fallbackOnly": true,
+          "hdAccepted": false,
+          "finalOwner": 2
+        },
+        "preparations": [
+          {
+            "at": 69.70000000298023,
+            "keysBefore": 0,
+            "continuations": [
+              {
+                "at": 5074.4000000059605,
+                "keysBefore": 0,
+                "result": {
+                  "ready": false,
+                  "reason": "timeout",
+                  "elapsedMs": 5004,
+                  "slots": 7,
+                  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+                  "libGeneration": 2,
+                  "manifestGeneration": 1
+                }
+              }
+            ]
+          }
+        ],
+        "nativeKeys": [],
+        "actualCaptures": 8
+      },
+      {
+        "name": "actual-unknown-lib",
+        "summary": {
+          "identity": {
+            "status": "ready",
+            "generation": 2,
+            "sha256": "58de2ee328aef937aff6890424eca63690419c94afadf65bb665397457119e9c",
+            "byteLength": 3047694,
+            "reason": ""
+          },
+          "owner": {
+            "eventId": 1,
+            "generation": 2
+          },
+          "ended": {
+            "eventId": 1,
+            "reason": "complete",
+            "key": 255
+          },
+          "openingAndNativeTitleOnly": true,
+          "fullModNewGame": false,
+          "fullModBattle": false
+        },
+        "preparations": [
+          {
+            "at": 297.59999999403954,
+            "keysBefore": 0,
+            "continuations": [
+              {
+                "at": 398.29999999701977,
+                "keysBefore": 0,
+                "result": {
+                  "ready": false,
+                  "reason": "unknown-lib",
+                  "elapsedMs": 101,
+                  "slots": 0,
+                  "libSha256": "58de2ee328aef937aff6890424eca63690419c94afadf65bb665397457119e9c",
+                  "libGeneration": 2,
+                  "manifestGeneration": 1
+                }
+              }
+            ]
+          }
+        ],
+        "nativeKeys": [],
+        "actualCaptures": 8
+      },
+      {
+        "name": "standard-restored",
+        "summary": {
+          "owner": {
+            "generation": 2,
+            "eventId": 1
+          },
+          "width": 1280,
+          "height": 720,
+          "dpr": 1,
+          "actualLib": {
+            "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+            "byteLength": 207195,
+            "identity": {
+              "status": "ready",
+              "generation": 2,
+              "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+              "byteLength": 207195,
+              "reason": ""
+            }
+          },
+          "ended": {
+            "eventId": 1,
+            "reason": "complete",
+            "key": 255
+          },
+          "displayedCommits": 8,
+          "logicalFrames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            7,
+            8
+          ],
+          "picturesSeen": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "firstSource": "hd-assets",
+          "hdCommits": 8,
+          "compositeCommit": 7,
+          "layout": {
+            "width": 1280,
+            "height": 720,
+            "canvas": {
+              "left": 181.671875,
+              "top": 75.5,
+              "right": 1098.328125,
+              "bottom": 625.5,
+              "width": 916.65625,
+              "height": 550,
+              "visible": true,
+              "hit": false
+            },
+            "stage": {
+              "left": 16,
+              "top": 26.5,
+              "right": 1264,
+              "bottom": 693.5,
+              "width": 1248,
+              "height": 667,
+              "visible": true,
+              "hit": true
+            },
+            "skip": {
+              "left": 36,
+              "top": 633.5,
+              "right": 164,
+              "bottom": 681.5,
+              "width": 128,
+              "height": 48,
+              "visible": true,
+              "hit": true
+            },
+            "classic": {
+              "left": 174,
+              "top": 633.5,
+              "right": 288.6875,
+              "bottom": 681.5,
+              "width": 114.6875,
+              "height": 48,
+              "visible": true,
+              "hit": true
+            },
+            "lcd": {
+              "left": 400,
+              "top": 8,
+              "right": 880,
+              "bottom": 296,
+              "width": 480,
+              "height": 288,
+              "visible": false,
+              "hit": false
+            }
+          }
+        },
+        "preparations": [
+          {
+            "at": 77.1000000089407,
+            "keysBefore": 0,
+            "continuations": [
+              {
+                "at": 151.40000000596046,
+                "keysBefore": 0,
+                "result": {
+                  "ready": true,
+                  "reason": "assets-ready",
+                  "elapsedMs": 74,
+                  "slots": 7,
+                  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+                  "libGeneration": 2,
+                  "manifestGeneration": 1
+                }
+              }
+            ]
+          }
+        ],
+        "nativeKeys": [],
+        "actualCaptures": 8
+      }
+    ],
+    "sourceVerification": {
+      "ok": true,
+      "count": 947,
+      "runnerMatch": true,
+      "added": [],
+      "drift": []
+    },
+    "isolation": {
+      "httpPort": 12288,
+      "unknownHttpPort": 12289,
+      "debugPort": 12290,
+      "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-opening-runtime-ceo6UQ",
+      "chromePid": 128104,
+      "user8080Touched": false,
+      "cleaned": true
+    },
+    "uncaughtExceptions": 0,
+    "unexpectedDialogs": 0,
+    "controlled404": [
+      {
+        "path": "/assets/hd-spe/opening-3/picture-4.png",
+        "status": 404,
+        "controlled": true,
+        "delayed": false,
+        "source": "assets/hd-spe/opening-3/picture-4.png",
+        "bytes": 3336598,
+        "sha256": "495e09b718b1fefe1db8fbe5c77d7c5de1af4518c837a38b2f3f6161b15eeb66"
+      }
+    ],
+    "other404": []
+  },
+  "regressions": {
+    "portraits": {
+      "checkpoints": 39,
+      "coverage": {
+        "realHdPngDecoded": 39,
+        "manualPreviewOnly": true,
+        "realPeriods": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "nativeMapLords": 6,
+        "nativeCitySelections": 10,
+        "nativeBattleActors": 4,
+        "lateImages": 5,
+        "controlledMissingFixtures": 2,
+        "nonPilotRef": true,
+        "all39ActuallyInBattle": false,
+        "unknownActualLib": true
+      },
+      "sourceDrift": [],
+      "nativeDialogs": [
+        {
+          "type": "prompt",
+          "message": "来将可留姓名？",
+          "defaultPrompt": "常山赵子龙",
+          "response": "测试玩家"
+        }
+      ],
+      "unexpectedDialogs": 0,
+      "uncaughtExceptions": 0
+    },
+    "combat": {
+      "checkpoints": 22,
+      "attackSpe": {
+        "eventId": 5,
+        "actorIndex": 3,
+        "targetIndex": 11,
+        "actorSide": "player",
+        "playerTroopCostVerified": true,
+        "displayedCommits": 5,
+        "source": [
+          "lcd"
+        ]
+      },
+      "fireCoverage": {
+        "observed": true,
+        "hdAssetsObserved": true,
+        "displayedCommits": 8,
+        "events": [
+          14
+        ],
+        "hdVisibleFrames": [
+          {
+            "eventId": 14,
+            "commitSeq": 2,
+            "frames": [
+              1
+            ]
+          },
+          {
+            "eventId": 14,
+            "commitSeq": 3,
+            "frames": [
+              2
+            ]
+          },
+          {
+            "eventId": 14,
+            "commitSeq": 4,
+            "frames": [
+              3
+            ]
+          },
+          {
+            "eventId": 14,
+            "commitSeq": 5,
+            "frames": [
+              4
+            ]
+          },
+          {
+            "eventId": 14,
+            "commitSeq": 6,
+            "frames": [
+              5
+            ]
+          },
+          {
+            "eventId": 14,
+            "commitSeq": 7,
+            "frames": [
+              6
+            ]
+          },
+          {
+            "eventId": 14,
+            "commitSeq": 8,
+            "frames": [
+              7
+            ]
+          }
+        ],
+        "reason": "actual-native-fire-displays"
+      },
+      "attack": {
+        "actor": 3,
+        "target": 11,
+        "enemyArmsBefore": 800,
+        "enemyArmsAfter": 786
+      },
+      "fireAttempts": [
+        {
+          "actor": {
+            "i": 2,
+            "id": 61,
+            "name": "程银",
+            "side": "player",
+            "x": 9,
+            "y": 18,
+            "hp": 75,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          "skill": {
+            "id": 5,
+            "index": 0,
+            "name": "火攻",
+            "speId": 35,
+            "aim": 0,
+            "state": 0,
+            "power": 400,
+            "destroy": 0,
+            "useMp": 15,
+            "eland": [
+              60,
+              60,
+              0,
+              100,
+              100,
+              100,
+              100,
+              0
+            ],
+            "earm": [
+              100,
+              100,
+              100,
+              100,
+              80,
+              100
+            ],
+            "available": true
+          },
+          "target": {
+            "i": 10,
+            "id": 86,
+            "name": "方悦",
+            "side": "enemy",
+            "x": 14,
+            "y": 17,
+            "arms": 800,
+            "terrain": 5,
+            "armType": 0
+          },
+          "before": [
+            {
+              "slot": 0,
+              "mp": 41
+            },
+            {
+              "slot": 1,
+              "mp": 21
+            },
+            {
+              "slot": 2,
+              "mp": 37
+            },
+            {
+              "slot": 3,
+              "mp": 44
+            },
+            {
+              "slot": 4,
+              "mp": 37
+            },
+            {
+              "slot": 5,
+              "mp": 28
+            },
+            {
+              "slot": 10,
+              "mp": 32
+            },
+            {
+              "slot": 11,
+              "mp": 41
+            }
+          ],
+          "after": [
+            {
+              "slot": 0,
+              "mp": 41
+            },
+            {
+              "slot": 1,
+              "mp": 21
+            },
+            {
+              "slot": 2,
+              "mp": 22
+            },
+            {
+              "slot": 3,
+              "mp": 44
+            },
+            {
+              "slot": 4,
+              "mp": 37
+            },
+            {
+              "slot": 5,
+              "mp": 28
+            },
+            {
+              "slot": 10,
+              "mp": 32
+            },
+            {
+              "slot": 11,
+              "mp": 41
+            }
+          ]
+        },
+        {
+          "actor": {
+            "i": 5,
+            "id": 64,
+            "name": "梁兴",
+            "side": "player",
+            "x": 14,
+            "y": 15,
+            "hp": 65,
+            "mp": 28,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          "skill": {
+            "id": 5,
+            "index": 0,
+            "name": "火攻",
+            "speId": 35,
+            "aim": 0,
+            "state": 0,
+            "power": 400,
+            "destroy": 0,
+            "useMp": 15,
+            "eland": [
+              60,
+              60,
+              0,
+              100,
+              100,
+              100,
+              100,
+              0
+            ],
+            "earm": [
+              100,
+              100,
+              100,
+              100,
+              80,
+              100
+            ],
+            "available": true
+          },
+          "target": {
+            "i": 10,
+            "id": 86,
+            "name": "方悦",
+            "side": "enemy",
+            "x": 14,
+            "y": 17,
+            "arms": 800,
+            "terrain": 5,
+            "armType": 0
+          },
+          "before": [
+            {
+              "slot": 0,
+              "mp": 41
+            },
+            {
+              "slot": 1,
+              "mp": 21
+            },
+            {
+              "slot": 2,
+              "mp": 22
+            },
+            {
+              "slot": 3,
+              "mp": 44
+            },
+            {
+              "slot": 4,
+              "mp": 37
+            },
+            {
+              "slot": 5,
+              "mp": 28
+            },
+            {
+              "slot": 10,
+              "mp": 32
+            },
+            {
+              "slot": 11,
+              "mp": 41
+            }
+          ],
+          "after": [
+            {
+              "slot": 0,
+              "mp": 41
+            },
+            {
+              "slot": 1,
+              "mp": 21
+            },
+            {
+              "slot": 2,
+              "mp": 22
+            },
+            {
+              "slot": 3,
+              "mp": 44
+            },
+            {
+              "slot": 4,
+              "mp": 37
+            },
+            {
+              "slot": 5,
+              "mp": 13
+            },
+            {
+              "slot": 10,
+              "mp": 32
+            },
+            {
+              "slot": 11,
+              "mp": 41
+            }
+          ]
+        },
+        {
+          "actor": {
+            "i": 2,
+            "id": 61,
+            "name": "程银",
+            "side": "player",
+            "x": 11,
+            "y": 17,
+            "hp": 75,
+            "mp": 22,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          "skill": {
+            "id": 5,
+            "index": 0,
+            "name": "火攻",
+            "speId": 35,
+            "aim": 0,
+            "state": 0,
+            "power": 400,
+            "destroy": 0,
+            "useMp": 15,
+            "eland": [
+              60,
+              60,
+              0,
+              100,
+              100,
+              100,
+              100,
+              0
+            ],
+            "earm": [
+              100,
+              100,
+              100,
+              100,
+              80,
+              100
+            ],
+            "available": true
+          },
+          "target": {
+            "i": 10,
+            "id": 86,
+            "name": "方悦",
+            "side": "enemy",
+            "x": 14,
+            "y": 17,
+            "arms": 800,
+            "terrain": 5,
+            "armType": 0
+          },
+          "before": [
+            {
+              "slot": 0,
+              "mp": 41
+            },
+            {
+              "slot": 1,
+              "mp": 21
+            },
+            {
+              "slot": 2,
+              "mp": 22
+            },
+            {
+              "slot": 3,
+              "mp": 44
+            },
+            {
+              "slot": 4,
+              "mp": 37
+            },
+            {
+              "slot": 5,
+              "mp": 13
+            },
+            {
+              "slot": 10,
+              "mp": 32
+            },
+            {
+              "slot": 11,
+              "mp": 41
+            }
+          ],
+          "after": [
+            {
+              "slot": 0,
+              "mp": 41
+            },
+            {
+              "slot": 1,
+              "mp": 21
+            },
+            {
+              "slot": 2,
+              "mp": 7
+            },
+            {
+              "slot": 3,
+              "mp": 44
+            },
+            {
+              "slot": 4,
+              "mp": 37
+            },
+            {
+              "slot": 5,
+              "mp": 13
+            },
+            {
+              "slot": 10,
+              "mp": 32
+            },
+            {
+              "slot": 11,
+              "mp": 41
+            }
+          ]
+        },
+        {
+          "actor": {
+            "i": 4,
+            "id": 63,
+            "name": "张横",
+            "side": "player",
+            "x": 11,
+            "y": 16,
+            "hp": 79,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          "skill": {
+            "id": 5,
+            "index": 0,
+            "name": "火攻",
+            "speId": 35,
+            "aim": 0,
+            "state": 0,
+            "power": 400,
+            "destroy": 0,
+            "useMp": 15,
+            "eland": [
+              60,
+              60,
+              0,
+              100,
+              100,
+              100,
+              100,
+              0
+            ],
+            "earm": [
+              100,
+              100,
+              100,
+              100,
+              80,
+              100
+            ],
+            "available": true
+          },
+          "target": {
+            "i": 10,
+            "id": 86,
+            "name": "方悦",
+            "side": "enemy",
+            "x": 14,
+            "y": 17,
+            "arms": 800,
+            "terrain": 5,
+            "armType": 0
+          },
+          "before": [
+            {
+              "slot": 0,
+              "mp": 41
+            },
+            {
+              "slot": 1,
+              "mp": 21
+            },
+            {
+              "slot": 2,
+              "mp": 7
+            },
+            {
+              "slot": 3,
+              "mp": 44
+            },
+            {
+              "slot": 4,
+              "mp": 37
+            },
+            {
+              "slot": 5,
+              "mp": 13
+            },
+            {
+              "slot": 10,
+              "mp": 32
+            },
+            {
+              "slot": 11,
+              "mp": 41
+            }
+          ],
+          "after": [
+            {
+              "slot": 0,
+              "mp": 41
+            },
+            {
+              "slot": 1,
+              "mp": 21
+            },
+            {
+              "slot": 2,
+              "mp": 7
+            },
+            {
+              "slot": 3,
+              "mp": 44
+            },
+            {
+              "slot": 4,
+              "mp": 22
+            },
+            {
+              "slot": 5,
+              "mp": 13
+            },
+            {
+              "slot": 10,
+              "mp": 32
+            },
+            {
+              "slot": 11,
+              "mp": 41
+            }
+          ]
+        }
+      ],
+      "uncaughtExceptions": 0,
+      "unexpectedDialogs": 0,
+      "sourceHashesMatchFinal": true
+    }
+  },
+  "limits": [
+    "MAIN artwork reinterprets native panel/cloud/dragon motifs; ornament detail is not a pixel copy. All native placement/time units and HD draw mapping are exact.",
+    "The native timer merged unit6 into unit7. Actual complete visible frontier is0,1,2,3,4,5,7,8; all seven picture slots appeared. No invented ninth display or substitute logical frame is counted.",
+    "Real tab activation produced document.hidden true/false and native freeze/active. This run captured zero hidden LCD commits; no background IMG draw was observed. It does not prove long-duration background commits or device power use.",
+    "Unknown sc-mod.lib in the opening suite covers actual opening, complete LCD fallback and one native title input, not a full Mod game or battle. Portrait regression separately covers a genuine Mod new game/city and standard restore.",
+    "Local preloading elapsed times are observations, not the R12 device performance benchmark.",
+    "MAKER6 static post-scroll hold, ordinary attack composition/SPE_BACKPIC16, other schemes and status art remain pending.",
+    "No native C changes or new WASM build. No full four-period campaign/succession, real mobile or cloud-account acceptance is claimed."
+  ],
+  "imageStorage": {
+    "method": "Content-addressed exact-byte copies; identical PNG files share one blob. No resize/re-encode/edit.",
+    "logicalFiles": 161,
+    "uniqueFiles": 60,
+    "fullOpeningLogicalPngs": 152
+  },
+  "preservation": {
+    "files": 1022,
+    "nativeFiles": 128,
+    "nativeCleanFilteredFiles": 112,
+    "otherTextCleanFilteredFiles": 15,
+    "assetsLibAndEngineRawEqualBase": true,
+    "allGitContentEqualBase": true,
+    "nativeGitContentEqualBase": true,
+    "fireEntryUnchanged": true,
+    "engineRebuilt": false,
+    "comparison": "All existing portraits/references, manifest/index, LIB binaries and four engine artifacts compare raw bytes. Native files and old portrait/library text compare Git content through existing clean filters where Windows line endings differ; no raw-byte equivalence is claimed for filtered text."
+  }
+}

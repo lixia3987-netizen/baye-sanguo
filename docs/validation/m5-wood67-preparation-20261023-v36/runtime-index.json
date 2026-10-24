@@ -1,0 +1,791 @@
+{
+  "schemaVersion": 1,
+  "scope": "Only these exact listed files. No recursive old prep, history, profiles, toolchain or full product archive.",
+  "portableClosedArchive": false,
+  "records": [
+    {
+      "original": {
+        "path": "build/hd-full-suite-20261023-v36.log",
+        "bytes": 594304,
+        "sha256": "e8ba7f5a5f97c70ab2afecbd5493e8d3271918e2ba0c4071de6782a14791b092"
+      },
+      "archive": {
+        "path": "objects/e8ba7f5a5f97c70ab2afecbd5493e8d3271918e2ba0c4071de6782a14791b092.gz",
+        "bytes": 151640,
+        "sha256": "a1bb6b11961c34b4c64a533aeb6d1026bb1e781291d3aade0c8b4595d29d5fc6",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/hd-full-suite-20261023-v36b.log",
+        "bytes": 594320,
+        "sha256": "e305ac478fe8ece8a24c248cacbc398bafb832b28eb49d820e6a0ab784ec997f"
+      },
+      "archive": {
+        "path": "full-regression.log.gz",
+        "bytes": 151571,
+        "sha256": "42d81939c471824c2a84f6af31ad8f44dec7d40d210600a4489ecc7bd3ea22dc",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "full-regression-original-log"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/hd-impact-v36-conditional-plunder-prefix-v1.mjs",
+        "bytes": 21507,
+        "sha256": "169d31f2f59f886657fc0194f2787aa685dd5d8e74f7a3255b351438399b70aa"
+      },
+      "archive": {
+        "path": "objects/169d31f2f59f886657fc0194f2787aa685dd5d8e74f7a3255b351438399b70aa.gz",
+        "bytes": 7594,
+        "sha256": "102cd16d6db130fe42ee3793a066a4b09ebf2ef6486da25963ce85fcbba18b2b",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/hd-impact-v36-wood-march-oracle-v1.mjs",
+        "bytes": 6530,
+        "sha256": "e0753234ca634e687b71878348d36a8e023cf77b17ebd9c38994247f5cd32c9d"
+      },
+      "archive": {
+        "path": "objects/e0753234ca634e687b71878348d36a8e023cf77b17ebd9c38994247f5cd32c9d.gz",
+        "bytes": 2653,
+        "sha256": "ccdd1d3d46eb147855294c3fd42ac1c2bdee0ab61f01b3ab91c25bb355ad3542",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/hd-impact-v36-wood-route-fence-v1.mjs",
+        "bytes": 16744,
+        "sha256": "49b75f755a9d5c79921f6c9f27b6bf42ade627f7a54560b11b8e7a4af900c659"
+      },
+      "archive": {
+        "path": "objects/49b75f755a9d5c79921f6c9f27b6bf42ade627f7a54560b11b8e7a4af900c659.gz",
+        "bytes": 5979,
+        "sha256": "eae5f88a7a81026655acbf8a115203d722064c10a55eb6e6c0e0c72850dfd24f",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/test-hd-impact-v36-conditional-plunder-prefix-v1.mjs",
+        "bytes": 16335,
+        "sha256": "47fc7e9b67d080134f4bfa90d90c194613c6a7cb284490648c9284d3a5db8d50"
+      },
+      "archive": {
+        "path": "objects/47fc7e9b67d080134f4bfa90d90c194613c6a7cb284490648c9284d3a5db8d50.gz",
+        "bytes": 5487,
+        "sha256": "6bee0db41004466453a96e865b2f36290aec98dc15afe45d53663a6ccc486fb6",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/test-hd-impact-v36-wood-march-oracle-v1.mjs",
+        "bytes": 5199,
+        "sha256": "6751cdc84793e20898828aabffae33193530c190ca605190608cf4f7d02041b4"
+      },
+      "archive": {
+        "path": "objects/6751cdc84793e20898828aabffae33193530c190ca605190608cf4f7d02041b4.gz",
+        "bytes": 2134,
+        "sha256": "b151a553a24959f2009dcb726dd071c2911c117ae3cbb4fd917cb1e1409df9b6",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/test-hd-impact-v36-wood-route-fence-v1.mjs",
+        "bytes": 16692,
+        "sha256": "4f40e47a58cdde129142c51cdf380989b8d0867cd70d07bf7224714522eef375"
+      },
+      "archive": {
+        "path": "objects/4f40e47a58cdde129142c51cdf380989b8d0867cd70d07bf7224714522eef375.gz",
+        "bytes": 5480,
+        "sha256": "43f778674264155fdddaa95bab8cb655526c462c6b195d703733ca942d546e9a",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/v36-conditional-plunder-prefix-readiness-v1.json",
+        "bytes": 11546,
+        "sha256": "34b594831097fbf81fbb2f0c60a91c4ae2dadd8da51906ab827b8494954d733f"
+      },
+      "archive": {
+        "path": "objects/34b594831097fbf81fbb2f0c60a91c4ae2dadd8da51906ab827b8494954d733f.gz",
+        "bytes": 2550,
+        "sha256": "f0a35c41b7db308da8f12d68fe85d28b7cfb9af339156313c4c8f2072608a0a0",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/v36-conditional-plunder-prefix-tests-v1.txt",
+        "bytes": 4699,
+        "sha256": "9136ce577184cf65981a1f8f125b305f768a1427f8f4397707f48afaaa24fa62"
+      },
+      "archive": {
+        "path": "objects/9136ce577184cf65981a1f8f125b305f768a1427f8f4397707f48afaaa24fa62.gz",
+        "bytes": 1793,
+        "sha256": "c73651ac6d8dfadace55c56a33c44a43dbc60fead971f069407098879be5b000",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/v36-wood-fence-controlled-v1/final-controlled-receipt.json",
+        "bytes": 1113,
+        "sha256": "3a0d3e711122aa4f1ff61d6d1fda24b849edd21dfd23132b8515311f78d3aceb"
+      },
+      "archive": {
+        "path": "objects/3a0d3e711122aa4f1ff61d6d1fda24b849edd21dfd23132b8515311f78d3aceb.gz",
+        "bytes": 537,
+        "sha256": "80860a0e9fbb0db4800fa0b3235cccef3800c0fde264d5aface51b3f392a1cf4",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/v36-wood-fence-controlled-v1/final-controlled-stderr.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "archive": {
+        "path": "objects/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.gz",
+        "bytes": 20,
+        "sha256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/v36-wood-fence-controlled-v1/final-controlled-stdout.txt",
+        "bytes": 3038,
+        "sha256": "fc1abe33d591bca9caac8fea4999ac1e9aa60b2d85e24ff31b86ea35ba5b91ec"
+      },
+      "archive": {
+        "path": "objects/fc1abe33d591bca9caac8fea4999ac1e9aa60b2d85e24ff31b86ea35ba5b91ec.gz",
+        "bytes": 1495,
+        "sha256": "b5e69abf9beb12221d03f105d7bf174b3bf492adcea4d9e90874cf8ee5c010ac",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/v36-wood-fence-controlled-v1/first-observed-failure.json",
+        "bytes": 956,
+        "sha256": "5bb291703220f85f4208f53f2d51bd23d4084612e2b69280d7cdc54bf4e1c453"
+      },
+      "archive": {
+        "path": "objects/5bb291703220f85f4208f53f2d51bd23d4084612e2b69280d7cdc54bf4e1c453.gz",
+        "bytes": 439,
+        "sha256": "ef02f81f8d8f88357df9d570f58a772ac7e11e05f24639f479d85b68be7f6f82",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "first-controlled-failure"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/v36-wood-fence-controlled-v1/first-observed-hd-impact-v36-wood-route-fence-v1.mjs",
+        "bytes": 16310,
+        "sha256": "eaeaaef347713327afb9ca20a29c20c1d8471b28ef5dc6b23e78267749acfb64"
+      },
+      "archive": {
+        "path": "objects/eaeaaef347713327afb9ca20a29c20c1d8471b28ef5dc6b23e78267749acfb64.gz",
+        "bytes": 5831,
+        "sha256": "303bc604178c7ff9b1801876e8b41d2513dc2ffc16d265c7ef58ce44885d1e3e",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "first-controlled-failure"
+    },
+    {
+      "original": {
+        "path": "build/impact-skill-20261014/v36-wood-fence-controlled-v1/first-observed-test-hd-impact-v36-wood-route-fence-v1.mjs",
+        "bytes": 15372,
+        "sha256": "e632552d56ecb6aeda60e959e4b4e3f9660a98a253628d8dc77c566d3e1da252"
+      },
+      "archive": {
+        "path": "objects/e632552d56ecb6aeda60e959e4b4e3f9660a98a253628d8dc77c566d3e1da252.gz",
+        "bytes": 5160,
+        "sha256": "da87a452f400f82802abf3814a051d9a4dfe050ea0544c5c26939393da5e6a20",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "first-controlled-failure"
+    },
+    {
+      "original": {
+        "path": "build/migrate-v36-preparation-v1.mjs",
+        "bytes": 3653,
+        "sha256": "abbb2b3c6c5fc62f7bba7e09c30cd67d8548ca121805d5e19b9b3fdfe1e8a9c6"
+      },
+      "archive": {
+        "path": "objects/abbb2b3c6c5fc62f7bba7e09c30cd67d8548ca121805d5e19b9b3fdfe1e8a9c6.gz",
+        "bytes": 1631,
+        "sha256": "25fb1d564f06626d9d66b621d5e949f0f919944dc6632843c4b9adc9d33ab345",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/publish-wood67-preparation-v36-v1.mjs",
+        "bytes": 24665,
+        "sha256": "7473f31638b4e93a7b7e84092a52f44702916beb70fedc75e4f7ea7b0c442f5b"
+      },
+      "archive": {
+        "path": "objects/7473f31638b4e93a7b7e84092a52f44702916beb70fedc75e4f7ea7b0c442f5b.gz",
+        "bytes": 9832,
+        "sha256": "32d59c1ec1c0efc9731c2aef7594aeb4fd126d1eff2363393a87d5c38619503d",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-formal-independent-targeted-v1.txt",
+        "bytes": 12350,
+        "sha256": "2c5d1f1e7f8c63a2d98f4ac67d50fc1f89f095d82e1cf3d74c7c64794856c560"
+      },
+      "archive": {
+        "path": "objects/2c5d1f1e7f8c63a2d98f4ac67d50fc1f89f095d82e1cf3d74c7c64794856c560.gz",
+        "bytes": 4653,
+        "sha256": "b10c93dfe64c013b3644efa88c6de82443a8b949423c6db143af95cd636ff3c7",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-formal-march-test-before-eof-fix.mjs",
+        "bytes": 4962,
+        "sha256": "5995c576ba79c434fc3f14473e829f4c71195223ef6986c64bfca194968c6cd8"
+      },
+      "archive": {
+        "path": "objects/5995c576ba79c434fc3f14473e829f4c71195223ef6986c64bfca194968c6cd8.gz",
+        "bytes": 2030,
+        "sha256": "3fc59b2f7e7f1f38b46a16ec53dd2b4603f6aba68874063cfbe489771298f919",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-formal-migration-independent-v1.json",
+        "bytes": 7908,
+        "sha256": "42280c3c8069a2ebba0b6acbc1f0a8765ba32759e79cafa2a4a1d68f6253e8cb"
+      },
+      "archive": {
+        "path": "objects/42280c3c8069a2ebba0b6acbc1f0a8765ba32759e79cafa2a4a1d68f6253e8cb.gz",
+        "bytes": 2101,
+        "sha256": "ade68640b1e41d3f19bceb76e40a4c1891c5b855314347d04e43ea253a4dc959",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-formal-migration-independent-v2.json",
+        "bytes": 5217,
+        "sha256": "15f9822e00cbf2f8cf2ceee1e2a4bdb67ec08d65f3ba9aa6228fc176388c5672"
+      },
+      "archive": {
+        "path": "objects/15f9822e00cbf2f8cf2ceee1e2a4bdb67ec08d65f3ba9aa6228fc176388c5672.gz",
+        "bytes": 1712,
+        "sha256": "ed25444fe82bd76a0665d981be7a9aa545ec6dced43b2dd31272c3eb3d27ee9c",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-formal-migration-v1.json",
+        "bytes": 4830,
+        "sha256": "dac9e53f74e2f1aae64d556761db6670e99eaf3ffce444129734b1a7f7e78bbf"
+      },
+      "archive": {
+        "path": "objects/dac9e53f74e2f1aae64d556761db6670e99eaf3ffce444129734b1a7f7e78bbf.gz",
+        "bytes": 1222,
+        "sha256": "a110dcb9fb73c3c35c8b8a92eb7da7b6589887a0a6b7834af55fa0b712b5bd17",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-formal-migration-v2.json",
+        "bytes": 5161,
+        "sha256": "eb01f7a86a823f04c430e8cb2e1aa69ffcb1046ab4fb6e6945eacd1f104a32df"
+      },
+      "archive": {
+        "path": "objects/eb01f7a86a823f04c430e8cb2e1aa69ffcb1046ab4fb6e6945eacd1f104a32df.gz",
+        "bytes": 1352,
+        "sha256": "99a25b12e1ca28b41593fc217f83265ec39319907a526b69c8ea7942285617a6",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-source-publication-before-eof-fix-v1/allowlist.json",
+        "bytes": 27685,
+        "sha256": "e5624f889ff5edc82ee08379126868b49bdc182fb960da4ee4e20b8cd33d0ca3"
+      },
+      "archive": {
+        "path": "objects/e5624f889ff5edc82ee08379126868b49bdc182fb960da4ee4e20b8cd33d0ca3.gz",
+        "bytes": 7889,
+        "sha256": "28db2a0dc4557f472cf3bf34620e1b34d5fb97065b188b7c6b62bc466624841b",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-source-publication-before-eof-fix-v1/publisher.mjs",
+        "bytes": 21565,
+        "sha256": "8ba0470ae3e0d80af68d404b28c20ff10816759746e046baf789db1aeffcf585"
+      },
+      "archive": {
+        "path": "objects/8ba0470ae3e0d80af68d404b28c20ff10816759746e046baf789db1aeffcf585.gz",
+        "bytes": 9011,
+        "sha256": "260110b0f9f13ed8169feb21c443cf89c237d50a8b2ff07525c3f49cd7520547",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-source-publication-before-eof-fix-v1/receipt.json",
+        "bytes": 35166,
+        "sha256": "46b1cd52e69549f98e3423f2659ed6ed774ab1f98696eecd3ef434fc76bcef99"
+      },
+      "archive": {
+        "path": "objects/46b1cd52e69549f98e3423f2659ed6ed774ab1f98696eecd3ef434fc76bcef99.gz",
+        "bytes": 9963,
+        "sha256": "fe3caf52b2a91414fd6ebbc057f5288ed7eedcb167d9d2bed0d1989b3485945a",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-source-publication-before-eof-fix-v1/runtime-index.json",
+        "bytes": 24828,
+        "sha256": "3b4969154e4d065b3ef2cb369c296228237f60900b5fa784de1d980f13e9e779"
+      },
+      "archive": {
+        "path": "objects/3b4969154e4d065b3ef2cb369c296228237f60900b5fa784de1d980f13e9e779.gz",
+        "bytes": 5097,
+        "sha256": "f978618a35fdf369d9784a5a09fafd2cd6ef920c9db9c4c991ca9a379256a789",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-source-publication-before-eof-fix-v1/summary.json",
+        "bytes": 7456,
+        "sha256": "f09e459364debdfb19f0c62840f3e17d124ab6a88bec619c778955c6a8b8a48b"
+      },
+      "archive": {
+        "path": "objects/f09e459364debdfb19f0c62840f3e17d124ab6a88bec619c778955c6a8b8a48b.gz",
+        "bytes": 2851,
+        "sha256": "39e95660fed1b61476bcf6f6b508c766d84ea489dee62300d3fd1ba55af9d5ef",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-source-publication-before-eof-fix-v1/summary.md",
+        "bytes": 4689,
+        "sha256": "7dd996836a8f2c1fab8a2fd1be65f8d9efef5bae10639426ef78344cdf2f2dfb"
+      },
+      "archive": {
+        "path": "objects/7dd996836a8f2c1fab8a2fd1be65f8d9efef5bae10639426ef78344cdf2f2dfb.gz",
+        "bytes": 3031,
+        "sha256": "81e54f947213aaadceea0a357e4c6bf6ed18f8b9fa45d0e17d9cf97ee9c47c30",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/v36-source-publication-before-eof-fix-v1/verify-archive.mjs",
+        "bytes": 2999,
+        "sha256": "bbcf9766c10d250517da66fe36e67390123136095f030ed1d53c8e637b94a095"
+      },
+      "archive": {
+        "path": "objects/bbcf9766c10d250517da66fe36e67390123136095f030ed1d53c8e637b94a095.gz",
+        "bytes": 1207,
+        "sha256": "ee94911d1372d8ed00aaaf6e068c64dd79e55823bb65b5dd58209c2ca55a43be",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/wood-qualification-20261023/audit-readonly-v1.mjs",
+        "bytes": 17365,
+        "sha256": "b6285a3dd98a1e1d65fe88748768503ed1eb476ce1a8cc4a73debe48a6105f26"
+      },
+      "archive": {
+        "path": "objects/b6285a3dd98a1e1d65fe88748768503ed1eb476ce1a8cc4a73debe48a6105f26.gz",
+        "bytes": 6886,
+        "sha256": "93c5a9dd6670ec8d2faa4d09eb20584ba2685b4efd6e6281a06c286f578db9d3",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/wood-qualification-20261023/compare-may-routes-v2.mjs",
+        "bytes": 14291,
+        "sha256": "68d6f248548dba9af1e8439b0130c286dd86450f835750f52c3044ac9a145e86"
+      },
+      "archive": {
+        "path": "objects/68d6f248548dba9af1e8439b0130c286dd86450f835750f52c3044ac9a145e86.gz",
+        "bytes": 5723,
+        "sha256": "62f642551b32b33f36cdcc4bc3e670a9923d3bfe4122dea8fa4ea3b627bce587",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/wood-qualification-20261023/may-route-comparison-v2.json",
+        "bytes": 37147,
+        "sha256": "2ec21925a03b102cdf67f26977c21284311a33ff8b772a00bde07f9a9f3b1eae"
+      },
+      "archive": {
+        "path": "objects/2ec21925a03b102cdf67f26977c21284311a33ff8b772a00bde07f9a9f3b1eae.gz",
+        "bytes": 5323,
+        "sha256": "2f8130d1e8a359cfdeffc3b2395a9325fe0cb515e645093e42cfc743ce02ab40",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/wood-qualification-20261023/README.md",
+        "bytes": 3201,
+        "sha256": "37838eff6cbef8e6321c28be6a0f5a725864a1573360cf557fa43ac301df6976"
+      },
+      "archive": {
+        "path": "objects/37838eff6cbef8e6321c28be6a0f5a725864a1573360cf557fa43ac301df6976.gz",
+        "bytes": 2201,
+        "sha256": "3ad04cf5928753ee4e94b9d9db10c2af9d693b9892fff015aef07e021611b7dd",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/wood-qualification-20261023/readonly-qualification-v1.json",
+        "bytes": 54205,
+        "sha256": "f4da9a93df4356574f6628069b6e607030845625982f8a76ed6834f572daff32"
+      },
+      "archive": {
+        "path": "objects/f4da9a93df4356574f6628069b6e607030845625982f8a76ed6834f572daff32.gz",
+        "bytes": 8008,
+        "sha256": "2c53b51ca630093cc13733fb67e9c55e9c3d2fe3c26c602742d309d9fd1aea8f",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "build/wood-qualification-20261023/v36-march-independent-readonly-review-v1.json",
+        "bytes": 4399,
+        "sha256": "8652510a62fe136abcb9824a6b2e562c5cc7208d74f35f0211039e204656871c"
+      },
+      "archive": {
+        "path": "objects/8652510a62fe136abcb9824a6b2e562c5cc7208d74f35f0211039e204656871c.gz",
+        "bytes": 1923,
+        "sha256": "1b641f5b9b16d9a80e5c9f74058bfdbdbf7b0faabdc4f007caca28a0635914ab",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "docs/validation/m5-impact13-classic-north-20261023-v35-latest-world.json",
+        "bytes": 147927,
+        "sha256": "042d5f1e713fc38a9838a1e596bd417c8613a1624b81b7fc6e1ea1f8aeb3c50a"
+      },
+      "archive": {
+        "path": "objects/042d5f1e713fc38a9838a1e596bd417c8613a1624b81b7fc6e1ea1f8aeb3c50a.gz",
+        "bytes": 6977,
+        "sha256": "729310b019ff4e13dea9fad9849b34c6b25342b6ead93a1e41fa085174e00a74",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "exact-current-May-input"
+    },
+    {
+      "original": {
+        "path": "docs/validation/m5-impact13-classic-north-20261023-v35-sango0.sav",
+        "bytes": 8221,
+        "sha256": "d3d30df00f1733d0917714eed4b87a0b4a022a9d2868632140d433dc42e19fbe"
+      },
+      "archive": {
+        "path": "objects/d3d30df00f1733d0917714eed4b87a0b4a022a9d2868632140d433dc42e19fbe.gz",
+        "bytes": 2080,
+        "sha256": "b435e4e7121c6c05e677a9acc0e31feb459963ba566ad98a6fb06c455a23e39d",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "exact-current-May-input"
+    },
+    {
+      "original": {
+        "path": "docs/validation/m5-impact13-classic-north-20261023-v35-sango1.sav",
+        "bytes": 4840,
+        "sha256": "c47540f42c36db6aa7d20566ab127fb5988f4f2089808e4d8aa722c217b77877"
+      },
+      "archive": {
+        "path": "objects/c47540f42c36db6aa7d20566ab127fb5988f4f2089808e4d8aa722c217b77877.gz",
+        "bytes": 1442,
+        "sha256": "73446bdb54b381757b5a3163d9124870c71c10b4983409bcc0339ecfddf8dce0",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "exact-current-May-input"
+    },
+    {
+      "original": {
+        "path": "docs/validation/m5-impact13-classic-north-20261023-v35.json",
+        "bytes": 277160,
+        "sha256": "b665bbcc23ac74fb4b3bf44e520e23f093092734912c6a1b235aebcf4a161b3f"
+      },
+      "archive": {
+        "path": "objects/b665bbcc23ac74fb4b3bf44e520e23f093092734912c6a1b235aebcf4a161b3f.gz",
+        "bytes": 18142,
+        "sha256": "c66e13892080b0740ecc5da7301eca4f87bd57d2f11ca17890b80eb04b356c31",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "exact-current-May-input"
+    },
+    {
+      "original": {
+        "path": "docs/validation/m5-wood67-preparation-20261023-v36/receipt.json",
+        "bytes": 36912,
+        "sha256": "c21c3dbc99df5885a8679e8e35db1574ee1538f2bd0cd27d1cd4de353ec7ee99"
+      },
+      "archive": {
+        "path": "objects/c21c3dbc99df5885a8679e8e35db1574ee1538f2bd0cd27d1cd4de353ec7ee99.gz",
+        "bytes": 10460,
+        "sha256": "6619f8d8faaa29dab30746718b1c4369bfb6d5966760f5de65032ef2fcca217a",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "docs/validation/m5-wood67-preparation-20261023-v36/verify-archive.mjs",
+        "bytes": 3605,
+        "sha256": "2b8936e3d90592dce0258d6180a5e455f37b25fb83df2c5f4e99538953432386"
+      },
+      "archive": {
+        "path": "objects/2b8936e3d90592dce0258d6180a5e455f37b25fb83df2c5f4e99538953432386.gz",
+        "bytes": 1478,
+        "sha256": "49e0eeb20f454e6f7af9218cf4232f9bc27998926b7668d752a98279ff37d1f9",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "git-diff:f8e85825511ae814fc587c460098a87dfac3680d:wood-generation",
+        "bytes": 4329,
+        "sha256": "50b825b9a4eb70b4562e3133bb655ada1c31abb0fb80b4c7c93a5e9ced890cb1"
+      },
+      "archive": {
+        "path": "objects/50b825b9a4eb70b4562e3133bb655ada1c31abb0fb80b4c7c93a5e9ced890cb1.gz",
+        "bytes": 1531,
+        "sha256": "47be67cc0487896f209bd90284700ad8127cf669b62780788544d264d5620e52",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "generation-exact-source-diff"
+    },
+    {
+      "original": {
+        "path": "git:f8e85825511ae814fc587c460098a87dfac3680d:scripts/hd-wood-evidence-contract.mjs",
+        "bytes": 10453,
+        "sha256": "f96b11f32391a4730d5579302ded169c9de178de86b8d64e7ee9fe900fc4dc65"
+      },
+      "archive": {
+        "path": "objects/f96b11f32391a4730d5579302ded169c9de178de86b8d64e7ee9fe900fc4dc65.gz",
+        "bytes": 3781,
+        "sha256": "928e008b1812a968c3a68d04fb0d69e513b598989bb12f28d3f25cc6213e663a",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "exact-old-generation-source"
+    },
+    {
+      "original": {
+        "path": "git:f8e85825511ae814fc587c460098a87dfac3680d:scripts/test-hd-wood-runtime-oracle.mjs",
+        "bytes": 11775,
+        "sha256": "ecec9a42d240468b163a90280ae02145ca871dce4bed3dd191281ba5f7add95e"
+      },
+      "archive": {
+        "path": "objects/ecec9a42d240468b163a90280ae02145ca871dce4bed3dd191281ba5f7add95e.gz",
+        "bytes": 4125,
+        "sha256": "e8f03e4c298552b232b7f328daee03d1bcc601263342b39a5ed383894a8ec1f8",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "exact-old-generation-source"
+    },
+    {
+      "original": {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      "archive": {
+        "path": "objects/3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e.gz",
+        "bytes": 85983,
+        "sha256": "91b23dccece50c3f83bf0d613622b8b328bb4a128c805fa9f779249d0d61c441",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "package.json",
+        "bytes": 19004,
+        "sha256": "0b645a0a05c5f8bc7ec7f5cba26cfad4f5f80f5846e4add62127803e4c1d1dcf"
+      },
+      "archive": {
+        "path": "objects/0b645a0a05c5f8bc7ec7f5cba26cfad4f5f80f5846e4add62127803e4c1d1dcf.gz",
+        "bytes": 2590,
+        "sha256": "c9b9c66d46dd7de15d72058ebad35b23a2a194241641d1734971966422df5125",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "explicit-source-evidence"
+    },
+    {
+      "original": {
+        "path": "scripts/hd-impact-v36-conditional-plunder-prefix.mjs",
+        "bytes": 21459,
+        "sha256": "03b773f135d759e0c4c789857cccf588b6cd2623ee3e73aeace61eaafef251e9"
+      },
+      "archive": {
+        "path": "objects/03b773f135d759e0c4c789857cccf588b6cd2623ee3e73aeace61eaafef251e9.gz",
+        "bytes": 7585,
+        "sha256": "147ecea35d19c25360a902481ed06edc0b816d29328cffe60fae2b69a6d1ec00",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "formal-source"
+    },
+    {
+      "original": {
+        "path": "scripts/hd-impact-v36-wood-march.mjs",
+        "bytes": 6527,
+        "sha256": "e36012b7e1d870421923a6a1a64c3bbe27a03e7c6ff5a6ba5293dbb2ad136acf"
+      },
+      "archive": {
+        "path": "objects/e36012b7e1d870421923a6a1a64c3bbe27a03e7c6ff5a6ba5293dbb2ad136acf.gz",
+        "bytes": 2651,
+        "sha256": "93d1277daa4ed9fd67feaef6e7d5635c111a4343ea736ddc8e9491fd244f3aee",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "formal-source"
+    },
+    {
+      "original": {
+        "path": "scripts/hd-impact-v36-wood-route.mjs",
+        "bytes": 16732,
+        "sha256": "b17fc01755860be7280247edb67b0501754537d8b1eb6e2e66c0f6d3095caf46"
+      },
+      "archive": {
+        "path": "objects/b17fc01755860be7280247edb67b0501754537d8b1eb6e2e66c0f6d3095caf46.gz",
+        "bytes": 5967,
+        "sha256": "052850bcabfdbb4dc13b1874f95833355d3bd2f460b953fb251be5298d6a63c3",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "formal-source"
+    },
+    {
+      "original": {
+        "path": "scripts/hd-wood-evidence-contract.mjs",
+        "bytes": 10750,
+        "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4"
+      },
+      "archive": {
+        "path": "objects/d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4.gz",
+        "bytes": 3846,
+        "sha256": "66b54682453c161659fe6ee131cbfa9734c59d8a067468f816d8438a09490bdf",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "formal-source"
+    },
+    {
+      "original": {
+        "path": "scripts/test-hd-impact-v36-conditional-plunder-prefix.mjs",
+        "bytes": 16326,
+        "sha256": "e5e4ad062b99f0a6a06935b413b24dff8de8dca20fc7d5a5a83f23fdd81c9075"
+      },
+      "archive": {
+        "path": "objects/e5e4ad062b99f0a6a06935b413b24dff8de8dca20fc7d5a5a83f23fdd81c9075.gz",
+        "bytes": 5481,
+        "sha256": "38c677d57a21c6f92df30b6dd7b0ee0667cdbcf4853a6142065d1ba7ead31848",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "formal-source"
+    },
+    {
+      "original": {
+        "path": "scripts/test-hd-impact-v36-wood-march.mjs",
+        "bytes": 4962,
+        "sha256": "b37c9d8a0ad196cc5ef918b478fc091137aa9d7c66d2e1e5045698b00a3a2909"
+      },
+      "archive": {
+        "path": "objects/b37c9d8a0ad196cc5ef918b478fc091137aa9d7c66d2e1e5045698b00a3a2909.gz",
+        "bytes": 2032,
+        "sha256": "cf213123a813c00fec47ab9b3423a8edfb151bf3546bb507a05e3d8e7be0d892",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "formal-source"
+    },
+    {
+      "original": {
+        "path": "scripts/test-hd-impact-v36-wood-route.mjs",
+        "bytes": 16668,
+        "sha256": "759ade7ea9cb8eb8c97254566d5cb5b7d64753613ce49f92ff51bdf19eb67cdd"
+      },
+      "archive": {
+        "path": "objects/759ade7ea9cb8eb8c97254566d5cb5b7d64753613ce49f92ff51bdf19eb67cdd.gz",
+        "bytes": 5465,
+        "sha256": "f47231a66fed0951f66c5ce07cb035c6c6d272d751faf039b45786a10ebfa15c",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "formal-source"
+    },
+    {
+      "original": {
+        "path": "scripts/test-hd-wood-runtime-oracle.mjs",
+        "bytes": 12401,
+        "sha256": "f1d864b491a82af7cdbfa2154b11a1cac0f597b41a5847fa87140ee69f78b12d"
+      },
+      "archive": {
+        "path": "objects/f1d864b491a82af7cdbfa2154b11a1cac0f597b41a5847fa87140ee69f78b12d.gz",
+        "bytes": 4275,
+        "sha256": "878a363640b750e6706db5cae310d7e71065ca88ccd00f26d0f686fcd7db8be3",
+        "encoding": "gzip-original-bytes"
+      },
+      "category": "formal-source"
+    }
+  ]
+}

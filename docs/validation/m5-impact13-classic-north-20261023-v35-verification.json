@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "accepted": true,
+  "canonical": {
+    "path": "docs/validation/m5-impact13-classic-north-20261023-v35.json",
+    "bytes": 277160,
+    "sha256": "b665bbcc23ac74fb4b3bf44e520e23f093092734912c6a1b235aebcf4a161b3f"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-impact13-classic-north-20261023-v35.md",
+    "bytes": 1872,
+    "sha256": "e89217eec734a6250926bb4b85f723f6e25c369c4d4b6b07e6c232131526f55a"
+  },
+  "archive": {
+    "path": "docs/validation/m5-impact13-classic-north-20261023-v35-archive.json",
+    "bytes": 291369,
+    "sha256": "bc7f4593c559e6b291381450073e450b30aee392c21552fd1b41c93932aefcde"
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-impact13-classic-north-20261023-v35-archive-part001.json",
+      "bytes": 8087662,
+      "sha256": "acb36ebbc623c168948e20791f9535315bf93a0f6559834306d1993258d8168b"
+    },
+    {
+      "path": "docs/validation/m5-impact13-classic-north-20261023-v35-archive-part002.json",
+      "bytes": 5175374,
+      "sha256": "505520c384de80ebaf268db50c546ff0e7ac21cf3debd528c09ac50c4bdc870d"
+    },
+    {
+      "path": "docs/validation/m5-impact13-classic-north-20261023-v35-archive-part003.json",
+      "bytes": 8190181,
+      "sha256": "74210054cb9de9df331df72384d0bd4e5196d85fd6e0c7a10bc4329c8a33b69a"
+    },
+    {
+      "path": "docs/validation/m5-impact13-classic-north-20261023-v35-archive-part004.json",
+      "bytes": 8383533,
+      "sha256": "03be10e48c1ec3324b6890086cc64b9a70912bed5ab9c6cc21e582d38c3fe1d2"
+    },
+    {
+      "path": "docs/validation/m5-impact13-classic-north-20261023-v35-archive-part005.json",
+      "bytes": 180920,
+      "sha256": "6de8d39244162054f7ad959c6b0c387547c84add871b99d87cdd4d47cd9bf773"
+    }
+  ],
+  "uniqueBlobsVerified": 440,
+  "namedPinsVerified": 491,
+  "allPartsReadFromDisk": true,
+  "allBlobsGunzippedAndRehashed": true,
+  "latestWorld": {
+    "path": "docs/validation/m5-impact13-classic-north-20261023-v35-latest-world.json",
+    "bytes": 147927,
+    "sha256": "042d5f1e713fc38a9838a1e596bd417c8613a1624b81b7fc6e1ea1f8aeb3c50a"
+  },
+  "latestPair": [
+    {
+      "path": "docs/validation/m5-impact13-classic-north-20261023-v35-sango0.sav",
+      "bytes": 8221,
+      "sha256": "d3d30df00f1733d0917714eed4b87a0b4a022a9d2868632140d433dc42e19fbe"
+    },
+    {
+      "path": "docs/validation/m5-impact13-classic-north-20261023-v35-sango1.sav",
+      "bytes": 4840,
+      "sha256": "c47540f42c36db6aa7d20566ab127fb5988f4f2089808e4d8aa722c217b77877"
+    }
+  ],
+  "classicDisplayPNGs": [
+    {
+      "path": "docs/validation/m5-impact13-classic-north-20261023-v35-movie.png",
+      "bytes": 3850,
+      "sha256": "95915bd4b186ef768edf1f22ecb6881c18e9f2af3aa6b1ba9d333c2e1594c70b"
+    },
+    {
+      "path": "docs/validation/m5-impact13-classic-north-20261023-v35-numbers.png",
+      "bytes": 3533,
+      "sha256": "7dbb8c62ac17241dfdd6520dd910b2c1e858c430114e5be68d7b549785d9331e"
+    },
+    {
+      "path": "docs/validation/m5-impact13-classic-north-20261023-v35-hold.png",
+      "bytes": 3533,
+      "sha256": "7dbb8c62ac17241dfdd6520dd910b2c1e858c430114e5be68d7b549785d9331e"
+    }
+  ],
+  "actualCastAccepted": true,
+  "classicNativePixelAccepted": true,
+  "safeReturnAccepted": false,
+  "hdAccepted": false
+}

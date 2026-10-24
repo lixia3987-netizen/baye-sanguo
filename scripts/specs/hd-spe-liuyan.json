@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "kind": "liuyan-spe-entry-source-spec",
+  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+  "speId": 40,
+  "resourceIndex": 0,
+  "kindId": 2,
+  "startFrm": 0,
+  "endFrm": 7,
+  "skillId": 16,
+  "liuyanVersion": 1,
+  "opaqueCoverageVersion": 1,
+  "nativeFingerprint": "fnv1a32:bd0140e0:1084",
+  "nativeLength": 1084,
+  "pictureSources": [
+    "assets/hd-spe/liuyan-40/picture-0.png",
+    "assets/hd-spe/liuyan-40/picture-1.png"
+  ],
+  "pictureSha256": [
+    "42d31384a20fa9117743930161109659e627ca8d5ea7ef1e40d3cbab8d4a7fab",
+    "99cff3c830e53031a7aee0cc09c8e33fcba3337147c6d4c3e8d17004e3b27a3d"
+  ],
+  "purpose": "Parse the original LIB and exact selected PNGs for the state-only skill16 movie. No numeric postlude/hold owner, invented background or generic skill authorization. Preserve all unrelated manifest entries."
+}

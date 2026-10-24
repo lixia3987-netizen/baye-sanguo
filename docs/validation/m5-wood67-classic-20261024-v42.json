@@ -1,0 +1,457 @@
+{
+  "schemaVersion": 1,
+  "kind": "Original V42 paid-only continuation and selected WOOD6/7 classic LCD evidence",
+  "acceptedForPublicationClosure": true,
+  "terminal": {
+    "sessionId": 41540,
+    "chunkId": "bcfceb",
+    "exitCode": 0
+  },
+  "originalController": {
+    "wrapperEvidenceComplete": true,
+    "wrapperAccepted": true,
+    "wrapperSourceRunAccepted": true,
+    "wrapperGenericActualCastAccepted": false,
+    "inlineActualCastAccepted": true,
+    "inlineWood6Accepted": true,
+    "inlineWood7Accepted": true,
+    "inlineClassicAccepted": true,
+    "inlineClassicNativePixelAccepted": true,
+    "hdAccepted": false,
+    "rawFlagsChanged": false,
+    "scope": "Generic wrapper.actualCastAccepted remains false; actual inline/classic-specific true flags and independent evidence are distinct original schema layers."
+  },
+  "scope": {
+    "actualPreparationAccepted": true,
+    "actualNativeBuyReturnAccepted": true,
+    "actualMarchAccepted": true,
+    "actualMonthAccepted": true,
+    "actualCastAccepted": true,
+    "actualClassicAccepted": true,
+    "selectedClassicOnly": true,
+    "fullClassicControlsMatrixAccepted": false,
+    "actual404Observed": false,
+    "actualFallbackAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "physicalDeviceAccepted": false,
+    "rngContinuityAccepted": false,
+    "statement": "Only this original-library PC1920x1080 player131 native6/7 movie, full160x96 classic LCD/GBK/NUM/HOLD/retirement with real target confirmations and MP. PICK/MOVE/menu use the visible HD controls; classic starts before native AIM confirmation and remains through retirement. No complete classic controls, new HD, missing-asset or physical-device matrix."
+  },
+  "proofs": {
+    "sourceLock": {
+      "path": "build/impact-skill-20261014/v42-actual-runtime-independent-v1/source-lock.json",
+      "bytes": 185309,
+      "sha256": "879c8f1a37c23868fff803d0f92b344b7ad1d2ec28102895dff0e69b4848734c"
+    },
+    "transport": {
+      "path": "build/impact-skill-20261014/v42-actual-runtime-independent-v1/report-audit.json",
+      "bytes": 54690,
+      "sha256": "79822ff9fd4009102987aa4de3ecef5e705f043c43554eef644d89cf6fc1676e"
+    },
+    "sourceBoundary": {
+      "path": "build/impact-skill-20261014/v42-png-executed-source-boundary-v1.json",
+      "bytes": 6393,
+      "sha256": "2f50e6655e9e04b98b5b7e643224155ec4b9caa4ac227666745eab9867e706e3"
+    },
+    "png": {
+      "path": "build/impact-skill-20261014/v42-png-original-provenance-v1.json",
+      "bytes": 1010855,
+      "sha256": "cd4607582ba2cc81b25b57baef60fa628a5a51940a5d3d66d107bfe27d637b33"
+    },
+    "classic": {
+      "path": "build/impact-skill-20261014/v42-classic-native-oracle-independent-v2.json",
+      "bytes": 97775,
+      "sha256": "4cea7e376fe3377d9ae03d7dc3c353c600402c61e82d11f6cbd184e6ccba40f8"
+    },
+    "economy": {
+      "path": "build/impact-skill-20261014/v42-actual-route-independent-v1/receipt.json",
+      "bytes": 27854,
+      "sha256": "f76e19de66fc243fa7a2814b7f52f3920038733b8405a7f0690be6a1f421c352"
+    },
+    "cleanup": {
+      "path": "build/impact-skill-20261014/wood67-battle-v42-external-cleanup-v3.json",
+      "bytes": 3730,
+      "sha256": "00809bf4ca2f4b26774d456eded2309ea37c09f9873ee68738157e686c23a199"
+    },
+    "ownedUnion": {
+      "path": "build/impact-skill-20261014/wood67-battle-v42-owned-union-v2.json",
+      "bytes": 3522,
+      "sha256": "351c0c386f8ccbf491696dd1781822c34c1507187935ad6fc801fdc8723af58b"
+    },
+    "rootClosed": {
+      "path": "build/impact-skill-20261014/v42-actual-runtime-independent-closed-input-v1.json",
+      "bytes": 666,
+      "sha256": "eaf84c287c7ab5d48ff68bc6b655462035b46b3f30861edf67e880a95bdee897"
+    }
+  },
+  "execution": {
+    "candidate": {
+      "path": "build/wood67-runtime-candidate-v42.mjs",
+      "bytes": 753627,
+      "sha256": "8bf937d2097291b411926e016793cda4bc80188041f49306c7d9ca87ec91f10d"
+    },
+    "logicalSources": 623,
+    "canonicalPhysicalSources": 619,
+    "explicitSources": 616,
+    "criticalCopies": 11,
+    "fullSourceTreeCopied": false,
+    "originalSourceOrNativeDataChanged": false,
+    "old607NotAppliedToThisRun": true
+  },
+  "attempts": [
+    {
+      "ordinal": 1,
+      "skillId": 6,
+      "succeeded": true,
+      "generation": 3,
+      "actorId": 132,
+      "targetId": 146,
+      "actorIndex": 0,
+      "targetIndex": 13,
+      "mpBefore": 84,
+      "mpAfter": 64,
+      "useMp": 20,
+      "appliedArmsLoss": 800,
+      "movieEvents": [
+        7
+      ],
+      "confirmation": {
+        "ok": true,
+        "kind": 5,
+        "inputSeq": 113,
+        "source": "Real native classic LCD AIM CDP keyDown/keyUp"
+      },
+      "allMovieResultKeys": 0
+    },
+    {
+      "ordinal": 2,
+      "skillId": 7,
+      "succeeded": true,
+      "generation": 3,
+      "actorId": 132,
+      "targetId": 146,
+      "actorIndex": 0,
+      "targetIndex": 13,
+      "mpBefore": 65,
+      "mpAfter": 40,
+      "useMp": 25,
+      "appliedArmsLoss": 510,
+      "movieEvents": [
+        18
+      ],
+      "confirmation": {
+        "ok": true,
+        "kind": 5,
+        "inputSeq": 145,
+        "source": "Real native classic LCD AIM CDP keyDown/keyUp"
+      },
+      "allMovieResultKeys": 0
+    }
+  ],
+  "classicFamilies": [
+    {
+      "skillId": 6,
+      "completeCopies": {
+        "skillId": 6,
+        "generation": 3,
+        "eventId": 7,
+        "distinctCopies": 8,
+        "commits": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "widths": [
+          64,
+          66,
+          66,
+          66,
+          66,
+          66,
+          66,
+          66
+        ],
+        "callbackCount": 8
+      },
+      "movieReadbacks": 8,
+      "postReadbacks": 26,
+      "labels": 26,
+      "numbers": 25,
+      "holds": 1,
+      "hdReadbacks": 0,
+      "observedWidths": [
+        64,
+        66
+      ],
+      "actualLcdCallbacks": 33
+    },
+    {
+      "skillId": 7,
+      "completeCopies": {
+        "skillId": 7,
+        "generation": 3,
+        "eventId": 18,
+        "distinctCopies": 1,
+        "commits": [
+          1
+        ],
+        "frames": [
+          0
+        ],
+        "widths": [
+          64
+        ],
+        "callbackCount": 1
+      },
+      "movieReadbacks": 1,
+      "postReadbacks": 26,
+      "labels": 26,
+      "numbers": 25,
+      "holds": 1,
+      "hdReadbacks": 0,
+      "observedWidths": [
+        64
+      ],
+      "actualLcdCallbacks": 26
+    }
+  ],
+  "classicReadbacks": {
+    "allRetainedCaptureRows": 390,
+    "selectedVerifiedRows": 61,
+    "selectedHdReadbacks": 0,
+    "allSelectedMovieResultKeys": 0,
+    "fullNativeLcd": [
+      160,
+      96
+    ],
+    "observedGeneration": 3,
+    "oracleFallbackBooleanMeansExplicitLcdAllowanceOnly": true,
+    "actualMissingPictureFallbackAccepted": false
+  },
+  "allPngEvidence": {
+    "ordinaryScreenshots": 18,
+    "captureRoleFiles": 889,
+    "totalFlatPngFiles": 907,
+    "nativeFiles": 390,
+    "physicalLcdFiles": 390,
+    "retainedHdFiles": 109,
+    "retainedRowModes": {
+      "classic": 78,
+      "hd": 312
+    },
+    "allCaptureRows": 390,
+    "allOriginalPngsDecodedAndShaCrcChecked": true,
+    "allCaptureRgbaReadbacksCompared": true,
+    "normalization": "Only RGB behind alpha0 is normalized, symmetrically; alpha/nonzero-alphaRGB remain exact.",
+    "retainedContextHdRowsGrantHdAcceptance": false,
+    "ordinaryScreenshotsGrantMovieAcceptance": false
+  },
+  "protocol": {
+    "actualPublicSaves": 3,
+    "eachPublicSaveNativeKeys": 4,
+    "originalPaidBuyReplayed": false,
+    "newBuys": 0,
+    "newPayments": 0,
+    "newBuyMoney": 0,
+    "newBuyThew": 0,
+    "historicalBuy": {
+      "money": 200,
+      "thew": 12,
+      "food": 40,
+      "source": "Previous V41 paid+queued prefix"
+    },
+    "order11ReturnedByOriginalAddPersonDelOrder": true,
+    "buyReturnAddsFoodOrMoney": false,
+    "marchSlot": 170,
+    "marchCargo": 481,
+    "marchOrigin": 16,
+    "marchDestination": 12,
+    "nativeWay": 4,
+    "nativeMap": 112,
+    "maximumNaturalMonths": 1,
+    "actualPolicyCallbacks": 31,
+    "ownMarchCallbackOrdinal": 30,
+    "distinctFirstPickTickets": 3,
+    "initialActualMp": 84,
+    "wholeUnknownQueueAndOpaqueOrderFieldsPreserved": true
+  },
+  "transport": {
+    "fieldStreams": 93,
+    "fieldRows": 2695,
+    "otherStreams": 4,
+    "otherRows": 440,
+    "allManifestFieldsRetained": true,
+    "allImmediateFiles": 1074,
+    "allImmediateBytes": 937889063,
+    "allImmediateFilesPacked": true,
+    "sourceLockComplete": true,
+    "allFailurePrefixesRetained": true
+  },
+  "latest": {
+    "tag": "wood67-131-v42-wood-route-settled",
+    "date": [
+      239,
+      10
+    ],
+    "world": {
+      "original": {
+        "path": "build/impact-skill-20261014/v42-actual-route-independent-v1/latest-world.json",
+        "bytes": 148013,
+        "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75"
+      },
+      "published": {
+        "path": "docs/validation/m5-wood67-classic-20261024-v42-latest-world.json",
+        "bytes": 148013,
+        "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75"
+      }
+    },
+    "pair": [
+      {
+        "original": {
+          "path": "build/impact-skill-20261014/wood67-battle-actual-v42/native-wood67-131-v42-wood-route-settled-sango0.sav",
+          "bytes": 8221,
+          "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6"
+        },
+        "published": {
+          "path": "docs/validation/m5-wood67-classic-20261024-v42-sango0.sav",
+          "bytes": 8221,
+          "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6"
+        }
+      },
+      {
+        "original": {
+          "path": "build/impact-skill-20261014/wood67-battle-actual-v42/native-wood67-131-v42-wood-route-settled-sango1.sav",
+          "bytes": 4840,
+          "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028"
+        },
+        "published": {
+          "path": "docs/validation/m5-wood67-classic-20261024-v42-sango1.sav",
+          "bytes": 4840,
+          "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028"
+        }
+      }
+    ],
+    "current": {
+      "casterId": 131,
+      "city": 4,
+      "belong": 1,
+      "arms": 2242,
+      "experience": 16,
+      "level": 17,
+      "actualArmyLoss": 189,
+      "buyer50City": 20,
+      "buyer50Thew": 92,
+      "captured129": true,
+      "allOrdersRetired": true,
+      "allArmyFlagsZero": true,
+      "city20Food": 1,
+      "city20Money": 886,
+      "city20StrictFood": 267,
+      "city20FoodGap": 266,
+      "globalStrictFoodSafe": false
+    },
+    "authoritativeMainInput": true
+  },
+  "nextBoundary": {
+    "anotherENDCurrentlyAuthorized": false,
+    "replaySeptemberPaidOrUnpaidAllowed": false,
+    "repeatingHistoricalBuy40Allowed": false,
+    "permanentBanOnAnyFutureBuy": false,
+    "futureLegalPreparationMustUseOctoberLatest": true,
+    "futureIncomeCredited": false,
+    "nextRouteMenuMpAndTargetNeedFreshEvidence": true,
+    "statement": "Use the genuine current October SAVE. Repair current supply by separately validated legal native preparation before any later END. Do not restore September or repeat its already-paid Buy."
+  },
+  "controlledIssues": {
+    "cleanupV2": {
+      "terminal": "c9bff3/exit1",
+      "reason": "Safe refusal: union.runDir trailing separator compared to a non-trailing spelling. New v3 canonicalizes endpoints, expected identity set unchanged.",
+      "final": "e88cea/exit0"
+    },
+    "sourceLockV1": {
+      "terminal": "1e16b1/exit1",
+      "reason": "All623 source bytes matched; four forward/backslash aliases counted twice. New v2 canonical realpath count619, expected619 unchanged.",
+      "final": "9d359f/exit0"
+    },
+    "independentOracleV1": {
+      "terminal": "55726/03e26a/exit1",
+      "reason": "Maintained full classic oracle completed successfully. An extra new projection incorrectly required stage lcd-flush for every verified row.",
+      "final": "19159/412427/exit0; only stage assumption removed, same at/generation/event/session/phase/commit/modeclassic original identity still required; all390 inputs and maintained oracle unchanged."
+    },
+    "gameOrFrozenSourcesChangedForTheseTools": false,
+    "gameReplayed": false
+  },
+  "boundaries": {
+    "newGameInputsByReviewers": 0,
+    "newPaymentsByReviewers": 0,
+    "rawSourceOrFlagsChanged": false,
+    "profilePreservedButNotArchived": true,
+    "oldArchivesTraversed": false,
+    "matchingCheckoutRequired": true,
+    "portableClosedArchive": false,
+    "fullRuntimeSourceTreeCopied": false,
+    "newFormalTestCasesFromTheseAudits": 0
+  },
+  "readerDependencies": [
+    {
+      "path": "docs/validation/m5-wood67-hd720-20261024-v38-verify.mjs",
+      "bytes": 13083,
+      "sha256": "045568a2cc4dd8fe34253a8c6558a8bb2c78bb6e49e9c1e50e842d18eddd4db5"
+    },
+    {
+      "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe"
+    }
+  ],
+  "archive": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v42-archive.json",
+    "bytes": 513384,
+    "sha256": "5d608ecad70faad4f2aff1136135f214e15f93c52a04ec1442ae903800a33f35"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-classic-20261024-v42-verify.mjs",
+    "bytes": 10776,
+    "sha256": "577aa90d7ca25765763c77677b81e52fb79f7111b30b4621328cbaeb3d272e2b"
+  },
+  "readerProvenanceHardening": {
+    "revision": 2,
+    "scope": "Only exact canonical/verification world and pair pin linkage, and published pair bytes/SHA to original latest pair. No pixel/economic/transport acceptance changes.",
+    "originalReaderTemplatePreservedInExistingArchive": {
+      "path": "build/impact-skill-20261014/v42-classic-publication-reader-template-v1.mjs",
+      "bytes": 10335,
+      "sha256": "c8da73d9bd3b9c5f6b99d57bb31e1abf57f4115d95ea1bd0f627442b7d8766ae"
+    },
+    "beforeSnapshot": {
+      "path": "build/impact-skill-20261014/v42-classic-publication-before-readback-hardening-v1/receipt.json",
+      "bytes": 2477,
+      "sha256": "ded52d9548ef119a10d96da9f334174da48b70d7f18c7e2721fe7f65f8f2af68"
+    },
+    "patchTool": {
+      "path": "build/impact-skill-20261014/v42-classic-publication-readback-hardening-v2.mjs",
+      "bytes": 4107,
+      "sha256": "c8357b9c96148cc2152ce43282283d113e86f9bb55dbaf38c030d6c76b8612a0"
+    },
+    "archiveRepacked": false,
+    "frozenSourceChanges": 0,
+    "actualRawChanges": 0,
+    "newGameInputs": 0,
+    "newFormalCases": 0
+  }
+}

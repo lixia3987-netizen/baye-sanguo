@@ -1,0 +1,562 @@
+# Build provenance hashes the generated artifacts' exact bytes.
+/.gitattributes text eol=lf
+/package.json text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261022*.json text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261022*.md text eol=lf
+/js/baye.js text eol=lf
+/js/baye.wasm.map text eol=lf
+/js/baye.build.json text eol=lf
+/js/baye.wasm -text
+
+# This validation record authenticates its archive index's exact bytes.
+/docs/validation/m4-person-properties-20261009.json text eol=lf
+/docs/validation/m4-person-properties-20261009/runtime-index.json text eol=lf
+
+/docs/validation/m4-ai-target-20261009.json text eol=lf
+/docs/validation/m4-ai-target-20261009/runtime-index.json text eol=lf
+
+/docs/validation/m4-status-effect-20261009.json text eol=lf
+/docs/validation/m4-status-effect-20261009/runtime-index.json text eol=lf
+
+/docs/validation/m4-wood-20261009.json text eol=lf
+/docs/validation/m4-wood-20261009/runtime-index.json text eol=lf
+
+/scripts/specs/hd-wood-runtime-route-plan.json text eol=lf
+
+# Keep the bridge validation record and archive index byte-stable.
+/docs/validation/m4-bridge-crossing-20261010.json text eol=lf
+/docs/validation/m4-bridge-crossing-20261010/runtime-index.json text eol=lf
+
+# Preserve the executed entry runner and its validation archive index.
+/scripts/test-original-game-runtime.mjs text eol=lf
+/docs/validation/m4-original-entry-20261010.json text eol=lf
+/docs/validation/m4-original-entry-20261010/runtime-index.json text eol=lf
+/docs/validation/m4-aid-runtime-20261010.json text eol=lf
+/docs/validation/m4-aid-runtime-20261010/runtime-index.json text eol=lf
+/docs/validation/m4-aid-runtime-20261010/original-png-inventory.json text eol=lf
+/docs/validation/m4-aid-native-20261009.json text eol=lf
+/docs/validation/m4-wood-preparation-pending-20261009.json text eol=lf
+
+# Preserve LIUYAN source artwork and validation byte references across checkouts.
+/assets/hd-spe/manifest.json text eol=lf
+/assets/hd-spe/GENERATED-LIUYAN.json text eol=lf
+/assets/hd-spe/liuyan-40/**/*.json text eol=lf
+/assets/hd-spe/liuyan-40/**/*.txt text eol=lf
+/scripts/specs/hd-spe-liuyan.json text eol=lf
+/docs/validation/m4-liuyan-static-20261010.json text eol=lf
+/docs/validation/m4-liuyan-static-20261010/runtime-index.json text eol=lf
+/docs/validation/m4-liuyan-runtime-20261010.json text eol=lf
+/docs/validation/m4-liuyan-runtime-20261010/*.json text eol=lf
+
+# Preserve the diagnostic and curse static validation index bytes.
+/docs/validation/m4-liuyan-diagnostic-20261010.json text eol=lf
+/docs/validation/m4-liuyan-diagnostic-20261010/*.json text eol=lf
+/docs/validation/m4-zhoufeng-static-20261010.json text eol=lf
+/docs/validation/m4-zhoufeng-static-20261010/*.json text eol=lf
+/scripts/specs/hd-spe-zhoufeng.json text eol=lf
+
+/docs/validation/m4-zhoufeng-runtime-20261010.json text eol=lf
+/docs/validation/m4-zhoufeng-runtime-20261010/*.json text eol=lf
+/scripts/specs/hd-spe-dingshen.json text eol=lf
+
+/docs/validation/m4-dingshen-static-20261010.json text eol=lf
+/docs/validation/m4-dingshen-static-20261010/*.json text eol=lf
+
+/docs/validation/m4-dingshen-runtime-20261010.json text eol=lf
+/docs/validation/m4-dingshen-runtime-20261010/*.json text eol=lf
+
+/docs/validation/m4-liuyan-current-runtime-20261011.json text eol=lf
+/docs/validation/m4-liuyan-current-runtime-20261011/*.json text eol=lf
+
+/docs/validation/m4-wood-runtime-safety-20261011.json text eol=lf
+/docs/validation/m4-wood-runtime-safety-20261011/runtime-index.json text eol=lf
+
+/docs/validation/m4-wood-oracle-20261011.json text eol=lf
+/docs/validation/m4-wood-oracle-20261011/runtime-index.json text eol=lf
+
+/docs/validation/m4-qimen20-static-20261011.json text eol=lf
+/docs/validation/m4-qimen20-static-20261011/runtime-index.json text eol=lf
+/docs/validation/m4-qimen20-runtime-20261011.json text eol=lf
+/docs/validation/m4-qimen20-runtime-20261011/runtime-index.json text eol=lf
+/docs/validation/m4-qimen20-matrix-20261011.json text eol=lf
+/docs/validation/m4-qimen20-matrix-20261011/runtime-index.json text eol=lf
+
+# Preserve byte-pinned original Induce validation sources and fixture.
+/scripts/hd-impact-diplomacy-runtime-oracle.mjs -text
+/scripts/test-hd-impact-diplomacy-runtime-oracle.mjs -text
+/scripts/fixtures/hd-impact-induce-loaded-world.json -text
+/scripts/hd-impact-plunder-runtime-oracle.mjs -text
+/scripts/test-hd-impact-plunder-runtime-oracle.mjs -text
+
+# Keep the impact checkpoint indexes and parts byte-stable across checkouts.
+/docs/validation/m5-impact-skill-source-20261014*.json text eol=lf
+/docs/validation/m5-impact-preparation-load-20261014*.json text eol=lf
+/docs/validation/m5-impact-diplomacy-preparation-20261014*.json text eol=lf
+/docs/validation/m5-impact-plunder-preparation-20261020*.json text eol=lf
+
+# Preserve raw Canvass original-name and recorded fixture byte contracts.
+/scripts/hd-impact-canvass-runtime-oracle.mjs -text
+/scripts/test-hd-impact-canvass-runtime-oracle.mjs -text
+/scripts/fixtures/hd-impact-canvass-january-v6-controlled-world.json -text
+/scripts/fixtures/hd-impact-canvass-v10-native-names.json -text
+/scripts/fixtures/hd-impact-canvass-v10-recorded-provenance.json -text
+/scripts/fixtures/hd-impact-canvass-v11-first-saved-dispatch.json -text
+
+# Preserve complete Impact13 ticket fixtures and validation source bytes.
+/scripts/hd-impact-runtime-ticket.mjs -text
+/scripts/test-hd-impact-runtime-ticket.mjs -text
+/scripts/hd-impact-move-path.mjs -text
+/scripts/test-hd-impact-move-path.mjs -text
+/scripts/test-hd-overworld-native-date.mjs -text
+/scripts/hd-impact-city-entry.mjs -text
+/scripts/test-hd-impact-city-entry.mjs -text
+/scripts/hd-mobile-defender-runtime-oracle.mjs text eol=lf
+/scripts/hd-mobile-defender-settlement-runtime-oracle.mjs text eol=lf
+/scripts/test-hd-mobile-defender-runtime-oracle.mjs text eol=lf
+/scripts/test-hd-mobile-defender-settlement-runtime-oracle.mjs text eol=lf
+/scripts/test-hd-mobile-defender-final-selection.mjs text eol=lf
+/scripts/test-hd-impact-defender-legacy-residents.mjs text eol=lf
+/scripts/fixtures/hd-impact-v13-dispatched-world.json -text
+/scripts/fixtures/hd-impact-v13-dispatched-world-provenance.json -text
+/scripts/hd-impact-river-approach.mjs text eol=lf
+/scripts/test-hd-impact-river-approach.mjs text eol=lf
+/scripts/fixtures/hd-impact-v15-west-river-move.json -text
+/scripts/hd-impact-river-route.mjs text eol=lf
+/scripts/test-hd-impact-river-route.mjs text eol=lf
+/scripts/hd-impact-final-aim.mjs text eol=lf
+/scripts/test-hd-impact-final-aim.mjs text eol=lf
+/scripts/hd-impact-army-runtime-oracle.mjs text eol=lf
+/scripts/test-hd-impact-army-runtime-oracle.mjs text eol=lf
+/scripts/fixtures/hd-impact-v17-june-army-world.json -text
+/scripts/fixtures/hd-impact-v17-june-army-world-provenance.json text eol=lf
+/scripts/hd-impact-route112-final-aim.mjs text eol=lf
+/scripts/test-hd-impact-route112-final-aim.mjs text eol=lf
+
+# Preserve original acquisition validation modules, tests and fixture exact bytes.
+/scripts/hd-impact-v23-acquisition-plan.mjs -text
+/scripts/hd-impact-v23-canvass16-make-oracle.mjs -text
+/scripts/hd-impact-v23-canvass16-natural-return.mjs -text
+/scripts/hd-impact-v23-json-normalize.mjs -text
+/scripts/hd-impact-v23-world-dictionary.mjs -text
+/scripts/hd-impact-v24-final-report-storage.mjs -text
+/scripts/hd-impact-v24-observation-row-stream.mjs -text
+/scripts/test-hd-impact-v23-acquisition-plan.mjs -text
+/scripts/test-hd-impact-v23-canvass16-make-oracle.mjs -text
+/scripts/test-hd-impact-v23-canvass16-natural-return.mjs -text
+/scripts/test-hd-impact-v23-json-normalize.mjs -text
+/scripts/test-hd-impact-v23-world-dictionary.mjs -text
+/scripts/test-hd-impact-v24-final-report-storage.mjs -text
+/scripts/test-hd-impact-v24-observation-row-stream.mjs -text
+/scripts/test-hd-impact-v24-selected-row-terminal-integrity.mjs -text
+/scripts/fixtures/hd-impact-v23-november-input-v1.json -text
+/scripts/hd-impact-v24-month-window.mjs -text
+/scripts/test-hd-impact-v24-month-window.mjs -text
+
+# Preserve pending-only qualification sources and controlled historical fixture bytes.
+/scripts/hd-impact-v25-pending-resume.mjs -text
+/scripts/test-hd-impact-v25-pending-resume.mjs -text
+/scripts/fixtures/hd-impact-v25-january-paid-pending-world.json -text
+/scripts/fixtures/hd-impact-v25-january-original-month-raw.json -text
+/scripts/fixtures/hd-impact-v25-january-pending-provenance.json -text
+
+# Preserve raw Buy11 verification and controlled historical fixture bytes.
+/scripts/hd-impact-v26-raw-buy11-oracle.mjs -text
+/scripts/test-hd-impact-v26-raw-buy11-oracle.mjs -text
+/scripts/fixtures/hd-impact-v26-february-buy11-world.json -text
+
+# Preserve scoped V27 Canvass validators, May fixture and controlled provenance bytes.
+/scripts/hd-impact-v27-acquisition-plan.mjs -text
+/scripts/hd-impact-v27-canvass16-make-oracle.mjs -text
+/scripts/hd-impact-v27-canvass16-natural-return.mjs -text
+/scripts/test-hd-impact-v27-acquisition-plan.mjs -text
+/scripts/test-hd-impact-v27-canvass16-make-oracle.mjs -text
+/scripts/test-hd-impact-v27-canvass16-natural-return.mjs -text
+/scripts/fixtures/hd-impact-v27-may-canvass-world.json -text
+/scripts/fixtures/hd-impact-v27-canvass-provenance.json -text
+
+# Preserve scoped V28 source-residue planner, August fixture and controlled provenance bytes.
+/scripts/hd-impact-v28-acquisition-plan.mjs -text
+/scripts/test-hd-impact-v28-acquisition-plan.mjs -text
+/scripts/fixtures/hd-impact-v28-august-canvass-world.json -text
+/scripts/fixtures/hd-impact-v28-canvass-provenance.json -text
+
+# Preserve scoped V29 Treat, recovery, acquisition policy and historical controlled provenance bytes.
+/scripts/hd-impact-v29-treat12-world-oracle.mjs -text
+/scripts/hd-impact-v29-november-recovery-plan.mjs -text
+/scripts/hd-impact-v29-acquisition-policy.mjs -text
+/scripts/test-hd-impact-v29-treat12-world-oracle.mjs -text
+/scripts/test-hd-impact-v29-november-recovery-plan.mjs -text
+/scripts/test-hd-impact-v29-acquisition-policy.mjs -text
+/scripts/fixtures/hd-impact-v29-treat12-august-world.json -text
+/scripts/fixtures/hd-impact-v29-november-recovery-world.json -text
+/scripts/fixtures/impact13-v29-treat12-world-oracle-source-provenance.json -text
+/scripts/fixtures/impact13-v29-november-recovery-policy-source-provenance.json -text
+
+# Preserve scoped V30 Search3 world/return validation and historical controlled provenance bytes.
+/scripts/hd-impact-v30-search3-world-oracle.mjs -text
+/scripts/hd-impact-v30-search3-natural-return.mjs -text
+/scripts/test-hd-impact-v30-search3-world-oracle.mjs -text
+/scripts/test-hd-impact-v30-search3-natural-return.mjs -text
+/scripts/fixtures/hd-impact-v30-december-search-world.json -text
+/scripts/fixtures/impact13-v30-search3-world-oracle-source-provenance.json -text
+/scripts/fixtures/impact13-v30-search3-natural-return-source-provenance.json -text
+
+# Preserve scoped V31 original Buy/Canvass/Give validation and controlled source provenance bytes.
+/scripts/hd-impact-v31-acquisition-policy.mjs -text
+/scripts/hd-impact-v31-canvass16-make-oracle.mjs -text
+/scripts/hd-impact-v31-canvass16-natural-return.mjs -text
+/scripts/hd-impact-v31-water-token-give-oracle.mjs -text
+/scripts/test-hd-impact-v31-acquisition-policy.mjs -text
+/scripts/test-hd-impact-v31-canvass16-make-oracle.mjs -text
+/scripts/test-hd-impact-v31-canvass16-natural-return.mjs -text
+/scripts/test-hd-impact-v31-water-token-give-oracle.mjs -text
+/scripts/fixtures/hd-impact-v31-january-acquisition-world.json -text
+/scripts/fixtures/impact13-v31-january-buy-advanced-canvass-source-provenance.json -text
+/scripts/fixtures/impact13-v31-canvass-return-necessary-gates-source-provenance.json -text
+/scripts/fixtures/impact13-v31-water-token-give-source-provenance.json -text
+
+# Preserve scoped V32 February Plunder/Canvass/causal Give validation and controlled source provenance bytes.
+/scripts/hd-impact-v32-acquisition-policy.mjs -text
+/scripts/hd-impact-v32-canvass16-make-oracle.mjs -text
+/scripts/hd-impact-v32-canvass16-natural-return.mjs -text
+/scripts/hd-impact-v32-water-token-give-oracle.mjs -text
+/scripts/hd-impact-v32-conditional-plunder-prefix.mjs -text
+/scripts/test-hd-impact-v32-acquisition-policy.mjs -text
+/scripts/test-hd-impact-v32-canvass16-make-oracle.mjs -text
+/scripts/test-hd-impact-v32-canvass16-natural-return.mjs -text
+/scripts/test-hd-impact-v32-water-token-give-oracle.mjs -text
+/scripts/test-hd-impact-v32-conditional-plunder-prefix.mjs -text
+/scripts/fixtures/hd-impact-v32-february-acquisition-world.json -text
+# This original provenance record intentionally retains its CRLF bytes.
+/scripts/fixtures/impact13-v32-acquisition-and-causal-give-source-provenance.json -text whitespace=cr-at-eol
+/scripts/fixtures/impact13-v32-conditional-plunder-prefix-source-provenance.json -text
+/scripts/fixtures/impact13-v32-give-hooks-fence-source-adaptation.json -text
+
+# PC display-settings runtime evidence records these exact LF source bytes.
+/pc.html text eol=lf
+/js/hd-graphics.js text eol=lf
+/js/hd-dialog.js text eol=lf
+/css/hd-graphics.css text eol=lf
+/css/hd-overworld.css text eol=lf
+/scripts/test-hd-overworld-runtime.mjs text eol=lf
+/scripts/test-hd-qimen-runtime.mjs text eol=lf
+/scripts/test-hd-display-settings.mjs text eol=lf
+/docs/validation/m5-display-settings-20261023/*.json text eol=lf
+/docs/validation/m5-display-settings-20261023/*.md text eol=lf
+/docs/validation/m5-display-settings-20261023/*.log -text whitespace=cr-at-eol
+/docs/validation/m5-display-settings-20261023/*.mjs text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261023*.json text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261023*.md text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261023*.sav -text
+
+# Preserve compact V32 saved-evidence publication and latest original checkpoint.
+/docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition*.json text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition.md text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition-sango*.sav -text
+
+# Preserve executed AID evidence and V33 continuation source pins byte for byte.
+/scripts/hd-aid-runtime-oracle.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-aid-runtime.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-aid-runtime-oracle.mjs -text whitespace=cr-at-eol
+/scripts/hd-impact-v33-city6-readiness.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-impact-v33-city6-readiness.mjs -text whitespace=cr-at-eol
+/scripts/hd-impact-v33-water-token-give-oracle.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-impact-v33-water-token-give-oracle.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-aid-classic-20261023*.json -text whitespace=cr-at-eol
+/docs/validation/m5-aid-classic-20261023/*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-city6-20261023-v33*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-city6-20261023-v33*.sav -text
+/docs/validation/m5-impact13-city6-20261023-v33/*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-city6-20261023-v33.md text eol=lf
+/docs/validation/m5-hd-regression-20261023-v33/*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-continuation-20261023-v34-plan.json -text whitespace=cr-at-eol
+
+# Preserve scoped V34 preparation and north-route source provenance.
+/scripts/hd-impact-v34-preparation.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-impact-v34-preparation.mjs -text whitespace=cr-at-eol
+/scripts/hd-impact-v34-north-route.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-impact-v34-north-route.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-v34-source-20261023/*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-v34-paid-20261023*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-v34-paid-20261023*.sav -text
+/docs/validation/m5-impact13-v34-paid-20261023.md text eol=lf
+/docs/validation/m5-aid-installed720-20261023*.json -text whitespace=cr-at-eol
+/docs/validation/m5-aid-installed720-20261023/*.json -text whitespace=cr-at-eol
+/docs/validation/m5-aid-installed720-20261023/*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-aid-installed720-20261023.md text eol=lf
+
+# Preserve the exact V35 closed-run archive, latest SAVE and root PNG supplement.
+/docs/validation/m5-impact13-classic-north-20261023-v35*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-classic-north-20261023-v35*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-classic-north-20261023-v35*.sav -text
+/docs/validation/m5-impact13-classic-north-20261023-v35.md -text whitespace=cr-at-eol
+
+# Keep WOOD source contracts and executed V36 preparation provenance byte-exact.
+/scripts/hd-wood-runtime-oracle.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-original-continuation.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-original-continuation.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-evidence-contract.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-runtime-oracle.mjs -text whitespace=cr-at-eol
+/scripts/hd-impact-v36-*.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-impact-v36-*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-preparation-20261023-v36*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-preparation-20261023-v36.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-preparation-20261023-v36/*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-preparation-20261023-v36/*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-preparation-20261023-v36/*.gz -text
+/docs/validation/m5-wood67-preparation-20261023-v36/objects/*.gz -text
+
+# Preserve stopped V36 raw observations and the newest genuine May save pair.
+/docs/validation/m5-wood67-v36-stopped-20261023*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-v36-stopped-20261023*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-v36-stopped-20261023*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-v36-stopped-20261023*.sav -text
+
+# Keep V37 real WOOD HD reads, repaired-oracle evidence and June saves byte-exact.
+/docs/validation/m5-wood67-hd-20261024-v37*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-hd-20261024-v37*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-hd-20261024-v37*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-hd-20261024-v37*.sav -text
+/docs/validation/m5-wood67-hd-20261024-v37*.png -text
+
+# Source-only no-Plunder continuation records and compressed raw logs.
+/docs/validation/m5-wood67-june-preparation-20261024-v38*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-june-preparation-20261024-v38*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-june-preparation-20261024-v38*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-june-preparation-20261024-v38*.gz -text
+
+# Preserve V38 real WOOD HD720 captures, failed attempt and July saves byte-exact.
+/docs/validation/m5-wood67-hd720-20261024-v38*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-hd720-20261024-v38*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-hd720-20261024-v38*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-hd720-20261024-v38*.sav -text
+/docs/validation/m5-wood67-hd720-20261024-v38*.png -text
+/docs/validation/m5-wood67-hd720-20261024-v38*.gz -text
+
+# Neutral original-WOOD classic presentation contract and controlled cases.
+/scripts/hd-wood-classic-presentation.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-classic-presentation.mjs -text whitespace=cr-at-eol
+
+# Current original supply-before-WOOD contract and source-only July qualification.
+/scripts/hd-wood-supplied-continuation.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-supplied-continuation.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-july-preparation-20261024-v39*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-july-preparation-20261024-v39*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-july-preparation-20261024-v39*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-july-preparation-20261024-v39*.gz -text
+
+# Exact original V39 classic-attempt evidence, including failed casts and August SAVE.
+/docs/validation/m5-wood67-classic-20261024-v39*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v39*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v39*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v39*.sav -text
+/docs/validation/m5-wood67-classic-20261024-v39*.png -text
+
+# Exact source-only WOOD missing-picture test matrix and its validation records.
+/scripts/test-hd-spe.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-exactmissing-source-20261024-v40*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-exactmissing-source-20261024-v40*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-exactmissing-source-20261024-v40*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-exactmissing-source-20261024-v40*.gz -text
+
+# Original recruitment, full readonly-return contracts and their source-only evidence.
+/scripts/hd-wood-recruitment-hooks.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-recruitment-hooks.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-recruitment-preparation.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-recruitment-preparation.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-recruitment-runtime.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-recruitment-runtime.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-recruitment-source-20261024-v40*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-recruitment-source-20261024-v40*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-recruitment-source-20261024-v40*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-recruitment-source-20261024-v40*.gz -text
+
+# Exact required WOOD picture failure evidence and native LCD fallback.
+/scripts/hd-wood-missing-picture.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-missing-picture.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-picture-source-20261024-v40*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-picture-source-20261024-v40*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-picture-source-20261024-v40*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-picture-source-20261024-v40*.gz -text
+/docs/validation/m5-wood67-missing-20261024-v40*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-20261024-v40*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-20261024-v40*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-20261024-v40*.gz -text
+/docs/validation/m5-wood67-missing-20261024-v40*.sav -text
+/docs/validation/m5-wood67-missing-20261024-v40*.png -text
+
+# Complete original March target-walk receipts; no cursor teleport.
+/docs/validation/m5-wood67-target-walk-20261024-v40*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-target-walk-20261024-v40*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-target-walk-20261024-v40*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-target-walk-20261024-v40*.gz -text
+
+# Current original WOOD route/action and Buy continuation evidence, byte exact.
+/scripts/hd-wood-native-route.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-native-route.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-native-action.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-native-action.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-buy-continuation.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-buy-continuation.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-buy-runtime.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-buy-runtime.mjs -text whitespace=cr-at-eol
+/scripts/fixtures/hd-wood-buy-continuation.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-september-source-20261024-v41*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-september-source-20261024-v41*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-september-source-20261024-v41*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-september-source-20261024-v41*.gz -text
+/docs/validation/m5-wood67-september-source-20261024-v41*.sav -text
+/docs/validation/m5-wood67-september-source-20261024-v41*.png -text
+/docs/validation/m5-wood67-classic-20261024-v41*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v41*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v41*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v41*.gz -text
+/docs/validation/m5-wood67-classic-20261024-v41*.sav -text
+/docs/validation/m5-wood67-classic-20261024-v41*.png -text
+
+# Original paid and queued Buy11 prefix, retained after the V41 UI-contract stop.
+/docs/validation/m5-wood67-buy-paid-20261024-v41*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-buy-paid-20261024-v41*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-buy-paid-20261024-v41*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-buy-paid-20261024-v41*.gz -text
+/docs/validation/m5-wood67-buy-paid-20261024-v41*.sav -text
+/docs/validation/m5-wood67-buy-paid-20261024-v41*.png -text
+
+# Corrected direct Buy MAP return and fresh paid-resume evidence.
+/docs/validation/m5-wood67-buy-map-resume-source-20261024-v42*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-buy-map-resume-source-20261024-v42*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-buy-map-resume-source-20261024-v42*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-buy-map-resume-source-20261024-v42*.gz -text
+/docs/validation/m5-wood67-buy-map-resume-source-20261024-v42*.sav -text
+/docs/validation/m5-wood67-buy-map-resume-source-20261024-v42*.png -text
+
+# Corrected direct Buy MAP return and fresh paid-resume evidence.
+/docs/validation/m5-wood67-classic-20261024-v42*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v42*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v42*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v42*.gz -text
+/docs/validation/m5-wood67-classic-20261024-v42*.sav -text
+/docs/validation/m5-wood67-classic-20261024-v42*.png -text
+
+# Maker return pointer cancellation across real page and viewport boundaries.
+/js/hd-spe.js -text whitespace=cr-at-eol
+/docs/validation/m5-spe-return-boundary-20261024-v43*.json -text whitespace=cr-at-eol
+/docs/validation/m5-spe-return-boundary-20261024-v43*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-spe-return-boundary-20261024-v43*.md -text whitespace=cr-at-eol
+/docs/validation/m5-spe-return-boundary-20261024-v43*.gz -text
+/docs/validation/m5-spe-return-boundary-20261024-v43*.png -text
+
+# Keep the measured quantity controller and regression bytes stable on Windows.
+/js/hd-city-menu.js text eol=lf
+/scripts/test-hd-dialog-routing.mjs text eol=lf
+
+# Ordinary PC MAP/menu viewport, emulated DPR and real visibility evidence.
+/docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.json -text whitespace=cr-at-eol
+/docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.md -text whitespace=cr-at-eol
+/docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.gz -text
+/docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.png -text
+
+# Current October quantity ACK refresh, timing observations and replay evidence.
+/docs/validation/m5-quantity-ack-refresh-20261024-v45*.json -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-ack-refresh-20261024-v45*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-ack-refresh-20261024-v45*.md -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-ack-refresh-20261024-v45*.gz -text
+/docs/validation/m5-quantity-ack-refresh-20261024-v45*.png -text
+
+# Current October City quantity summary ACK and real rapid input evidence.
+/docs/validation/m5-city-quantity-rapid-20261024-v46*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city-quantity-rapid-20261024-v46*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city-quantity-rapid-20261024-v46*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city-quantity-rapid-20261024-v46*.gz -text
+/docs/validation/m5-city-quantity-rapid-20261024-v46*.png -text
+
+# Current October quantity cancellation retirement and keyboard owner evidence.
+/docs/validation/m5-quantity-cancel-owner-20261024-v47*.json -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-cancel-owner-20261024-v47*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-cancel-owner-20261024-v47*.md -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-cancel-owner-20261024-v47*.gz -text
+/docs/validation/m5-quantity-cancel-owner-20261024-v47*.png -text
+
+# Current October PC quantity focus evidence and original map111 route contract.
+/docs/validation/m5-quantity-focus-map111-20261024-v48*.json -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-focus-map111-20261024-v48*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-focus-map111-20261024-v48*.md -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-focus-map111-20261024-v48*.gz -text
+/docs/validation/m5-quantity-focus-map111-20261024-v48*.png -text
+
+# Original city4 guard repair, supply and conditional map111 continuation.
+/docs/validation/m5-wood-city4-preparation-20261024-v49*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-preparation-20261024-v49*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-preparation-20261024-v49*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-preparation-20261024-v49*.gz -text
+/docs/validation/m5-wood-city4-preparation-20261024-v49*.png -text
+/docs/validation/m5-wood-city4-preparation-20261024-v49*.sav -text
+
+# Original city4 partial-save resume and completed guard preparation.
+/docs/validation/m5-wood-city4-resume-20261024-v50*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-resume-20261024-v50*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-resume-20261024-v50*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-resume-20261024-v50*.gz -text
+/docs/validation/m5-wood-city4-resume-20261024-v50*.sav -text
+/docs/validation/m5-wood-city4-resume-20261024-v50*.png -text
+
+# Original city20 Plunder preparation and saved queued prefix.
+/docs/validation/m5-wood-city4-plunder-20261024-v51*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-plunder-20261024-v51*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-plunder-20261024-v51*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-plunder-20261024-v51*.gz -text
+/docs/validation/m5-wood-city4-plunder-20261024-v51*.sav -text
+/docs/validation/m5-wood-city4-plunder-20261024-v51*.png -text
+
+# Original city4 March report contract and stopped preflight evidence.
+/docs/validation/m5-wood-city4-march-20261024-v52*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-march-20261024-v52*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-march-20261024-v52*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-march-20261024-v52*.gz -text
+/docs/validation/m5-wood-city4-march-20261024-v52*.sav -text
+/docs/validation/m5-wood-city4-march-20261024-v52*.png -text
+
+# Preserve the exact tested city4 source bytes on Windows checkout.
+/scripts/hd-wood-city4-preparation.mjs text eol=lf
+/scripts/test-hd-wood-city4-preparation.mjs text eol=lf
+/scripts/hd-wood-city4-continuation.mjs text eol=lf
+/scripts/test-hd-wood-city4-continuation.mjs text eol=lf
+
+# Original named keyboard focus and unsaved city4 March evidence.
+/docs/validation/m5-wood-city4-march-20261024-v53*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-march-20261024-v53*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-march-20261024-v53*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-march-20261024-v53*.gz -text
+/docs/validation/m5-wood-city4-march-20261024-v53*.sav -text
+/docs/validation/m5-wood-city4-march-20261024-v53*.png -text
+
+# Keep executed system-menu sources byte-stable across Windows checkouts.
+/m.html text eol=lf
+/css/hd-system-ui.css text eol=lf
+/js/hd-system-ui.js text eol=lf
+/scripts/test-hd-saveload-ui.mjs text eol=lf
+
+# Original PC system UI viewport layout and stable list scrolling.
+/docs/validation/m5-pc-system-layout-20261024-v54*.json -text whitespace=cr-at-eol
+/docs/validation/m5-pc-system-layout-20261024-v54*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-pc-system-layout-20261024-v54*.md -text whitespace=cr-at-eol
+/docs/validation/m5-pc-system-layout-20261024-v54*.gz -text
+/docs/validation/m5-pc-system-layout-20261024-v54*.sav -text
+/docs/validation/m5-pc-system-layout-20261024-v54*.png -text
+
+# Original PC system native ACK and fresh keyboard confirmation.
+/docs/validation/m5-pc-system-ack-20261024-v55*.json -text whitespace=cr-at-eol
+/docs/validation/m5-pc-system-ack-20261024-v55*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-pc-system-ack-20261024-v55*.md -text whitespace=cr-at-eol
+/docs/validation/m5-pc-system-ack-20261024-v55*.gz -text
+/docs/validation/m5-pc-system-ack-20261024-v55*.sav -text
+/docs/validation/m5-pc-system-ack-20261024-v55*.png -text
+
+# Original PC ruler territory preview and classic LCD visibility.
+/docs/validation/m5-pc-king-preview-20261024-v56*.json -text whitespace=cr-at-eol
+/docs/validation/m5-pc-king-preview-20261024-v56*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-pc-king-preview-20261024-v56*.md -text whitespace=cr-at-eol
+/docs/validation/m5-pc-king-preview-20261024-v56*.gz -text
+/docs/validation/m5-pc-king-preview-20261024-v56*.sav -text
+/docs/validation/m5-pc-king-preview-20261024-v56*.png -text

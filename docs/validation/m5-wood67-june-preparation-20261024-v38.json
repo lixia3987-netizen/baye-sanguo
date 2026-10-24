@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "kind": "V38 source-only original no-Plunder WOOD continuation preparation",
+  "scope": "Dynamic original131 infantry city7-to1/map110/Way3 March170 and current actual food gates, qualified from the genuine239-6 four-piece V37 checkpoint. No new LOAD/March/END/cast/browser or720p acceptance is published here.",
+  "sourcePins": [
+    {
+      "path": "scripts/hd-wood-original-continuation.mjs",
+      "bytes": 19876,
+      "sha256": "8c0764ca38b2c3530a72abbc66cb21b5d9f407e36314d5fe95d9f295b33b2c91"
+    },
+    {
+      "path": "scripts/test-hd-wood-original-continuation.mjs",
+      "bytes": 20346,
+      "sha256": "16eeca6e9a11f99dd20561bd69f30d053e10fe84e34c0264fd3579c8f7cffca6"
+    },
+    {
+      "path": "package.json",
+      "bytes": 19098,
+      "sha256": "1870da0ca8959af03ce28b650edb2657029bed4b3e3d184e1928628b22f155d4"
+    }
+  ],
+  "inputPins": [
+    {
+      "path": "docs/validation/m5-wood67-hd-20261024-v37.json",
+      "bytes": 266467,
+      "sha256": "fc482c49065f96b9e2d316eda96353ba0d4a98a9992b173dcf17fa4f2c45f17a"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd-20261024-v37-latest-world.json",
+      "bytes": 147993,
+      "sha256": "0f00f33460c17716c8f97c9494298a52fbb5220240387c46946703fff8a90591"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd-20261024-v37-sango0.sav",
+      "bytes": 8221,
+      "sha256": "5df138519cec70610eb11245fbb3fcb96c0c03d936f6ad4352effb4585ca1ffa"
+    },
+    {
+      "path": "docs/validation/m5-wood67-hd-20261024-v37-sango1.sav",
+      "bytes": 4840,
+      "sha256": "3087891e80242d8627ffb71a9eaae9df332e40841c250da31fbfe6d5b468eec6"
+    }
+  ],
+  "independentFlags": {
+    "sourcePreparationAccepted": true,
+    "fullSourceRegressionAccepted": true,
+    "actualPreparationAccepted": false,
+    "actualCastAccepted": false,
+    "hdAccepted": false,
+    "hd720Accepted": false,
+    "globalHdComplete": false,
+    "rngContinuityAccepted": false
+  },
+  "currentSourceFacts": {
+    "date": [
+      239,
+      6
+    ],
+    "casterPersonId": 131,
+    "casterNativeId": 132,
+    "army": 2736,
+    "experience": 4,
+    "level": 17,
+    "armType": 1,
+    "tools": [
+      0,
+      0
+    ],
+    "rawOriginQueue": 23,
+    "originOwnedIds": [
+      131,
+      68,
+      48,
+      28,
+      6,
+      27,
+      25,
+      12
+    ],
+    "onlyNewOrderIndex": 170,
+    "newPlunderRequired": false,
+    "squareRoot": 52,
+    "dailyRatioRaw": 0,
+    "effectiveDailyRatio": 3,
+    "dailyUse": 17,
+    "full30BoutCargo": 511,
+    "originFoodAfter": 18078,
+    "originGuardArms": 600,
+    "fullReturnArms": 3336,
+    "fullReturnStrictFood": 67,
+    "city20Food": 380,
+    "city20Money": 828,
+    "city20StrictFood": 267,
+    "captured129StillCaptured": true,
+    "actualNewBattleMpObserved": false
+  },
+  "controlledValidation": {
+    "registeredNewCases": 84,
+    "buildFinal": {
+      "chunkId": "bf0ed9",
+      "exitCode": 0,
+      "tests": 84
+    },
+    "formalFinal": {
+      "chunkId": "5c6db6",
+      "exitCode": 0,
+      "tests": 84
+    },
+    "repeatedSameCasesAddDifferentCases": 0,
+    "migrationReceipt": {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/formal-migration-receipt.json",
+      "bytes": 2250,
+      "sha256": "562c72ce4012f6c14e924aea3cf212239948a9ce32c8e184ef983c1964489d3d"
+    },
+    "firstFailure": {
+      "chunkId": "03022f",
+      "tests": 83,
+      "pass": 82,
+      "fail": 1,
+      "reason": "Test changed one real100-arm guard to599 and thus increased the600 total; test corrected to99. First source/test/log/receipt preserved. No model source was loosened."
+    },
+    "intermediate83GreenPreserved": true,
+    "additionalFinalAbiRejectionGroup": 1
+  },
+  "independentReview": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-source-independent-v1.json",
+      "bytes": 9727,
+      "sha256": "42f5c13b2cb32b0f348387ebe1736a8f6223f9c9f1ab30fcec26263eb91969ff"
+    },
+    "scope": "Exact current build/formal non-import equivalence and source/native semantics, with four unregistered caller integration checks on the earlier pinned caller version. The four are not added to7052 and do not certify the later runtime candidate."
+  },
+  "fullRegression": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/wood67-v38-root-full-regression-v1.json",
+      "bytes": 1460,
+      "sha256": "a706b4e1e7152b74efdb7524e879a2bb5d4a4e7a8e9b199d21b011bd5c9c680a"
+    },
+    "terminal": {
+      "sessionId": 70472,
+      "chunkId": "384214",
+      "exitCode": 0
+    },
+    "registeredFiles": 131,
+    "tests": 7052,
+    "pass": 7052,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 166055.2319,
+    "environment": {
+      "CC": "F:\\project\\baye-sanguo\\build\\toolchain\\emsdk\\upstream\\bin\\clang.exe"
+    },
+    "fullLogGzip": {
+      "path": "docs/validation/m5-wood67-june-preparation-20261024-v38-full-suite.log.gz",
+      "bytes": 153926,
+      "sha256": "945460f1241f2ab08950b2e5943aef387a1dc074b2db63d5b886fbe0d6d2d329"
+    }
+  },
+  "requiredRuntimeEvidence": [
+    "Actual original public LOAD and freshly captured initial SAVE with predeclared expectedSaveTag; pure source readiness does not invent a SAVE.",
+    "One actual native March170/army0 with dynamic cargo511, no new Plunder, current full-world and exact native opaque-field delta proof.",
+    "Fresh complete20 native first-PICK A/B reads of Mode1/Way3/map110/City1/cargo511/GenArray/positions and actual MP>=45; real menus and legal MOVE/AIM/generation/confirmation remain mandatory.",
+    "Before-own guards preserve current owned people/raw foreign slices/queue tails while permitting source-observed foreign AI orders; after-own guards use actual casualties/EXP/Belong, not2736 rollback.",
+    "Natural later SAVE must preserve actual data even if its next-END food safety isfalse; final retirement checks known player170 rather than assuming slot0 was Plunder.",
+    "Independent720p HD/native full pixel/NUM/HOLD/generation/cleanup evidence is a future separate run."
+  ],
+  "archive": {
+    "path": "docs/validation/m5-wood67-june-preparation-20261024-v38-archive.json",
+    "bytes": 7066,
+    "sha256": "bf229737c9e4e47bd146fdad9bfb4f2dd332ab06275b19509f2f54dc4aedbb12"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-june-preparation-20261024-v38-reader.mjs",
+    "bytes": 4561,
+    "sha256": "9d552c9d74e079f8a8c1a38b546848d65bbf854e3d0ccedbe81a2cb00bd929b2"
+  },
+  "boundaries": {
+    "sourceOnly": true,
+    "matchingCheckoutRequired": true,
+    "formalSourcesStoredInGit": true,
+    "portableClosedArchive": false,
+    "fullRuntimeSourceTreeEmbedded": false,
+    "toolchainEmbedded": false,
+    "oldArchivesTraversed": false,
+    "V37LargeArchiveOrPngCopied": false,
+    "newGameInputs": 0,
+    "newBrowserRuns": 0,
+    "physicalDevicesVerified": false
+  }
+}

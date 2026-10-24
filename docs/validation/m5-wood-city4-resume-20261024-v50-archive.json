@@ -1,0 +1,1895 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-archive-part001.json",
+      "bytes": 6489796,
+      "sha256": "44b56dafb58b129372943516e48b5dc8edf83224807678cb7927678818164192",
+      "blobs": 12
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-archive-part002.json",
+      "bytes": 5214694,
+      "sha256": "77e9ab7a53bd29d166fb5da3819ea6420465a1670be9947423c8a56889dd5fce",
+      "blobs": 45
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-archive-part003.json",
+      "bytes": 6893751,
+      "sha256": "c6fa846052b10bfe4c380dd213f40acbd26c8775902cb59950ed9b7c5568907f",
+      "blobs": 133
+    }
+  ],
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/attempt-1-before.json",
+      "bytes": 224478,
+      "sha256": "582bb488e747797dc700add1c6832ebecccbe023e201af4b56c2fa374fd52c76",
+      "blob": "582bb488e747797dc700add1c6832ebecccbe023e201af4b56c2fa374fd52c76",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/attempt-1-done-before-exit.json",
+      "bytes": 3023469,
+      "sha256": "1175efa73d359656b404a318cf209a8927ba09be3e3b6ef9abd2f379a291cfdc",
+      "blob": "1175efa73d359656b404a318cf209a8927ba09be3e3b6ef9abd2f379a291cfdc",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/attempt-1-precommit.json",
+      "bytes": 9352504,
+      "sha256": "f780e132cd305b9c20af6cd1b3236056679df651568295ccdcbc1e1c658c8a91",
+      "blob": "f780e132cd305b9c20af6cd1b3236056679df651568295ccdcbc1e1c658c8a91",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/boot-native-inputs.json",
+      "bytes": 2104,
+      "sha256": "ea4d07372be92d397f134e45a790b4f7fdeb383878836df5f92a3d9467df2598",
+      "blob": "ea4d07372be92d397f134e45a790b4f7fdeb383878836df5f92a3d9467df2598",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/city4-resume-epoch-candidate.json",
+      "bytes": 13712149,
+      "sha256": "69c3bb868940121070614e152575dd9b13d0ae96e73fb0f338d76b1a9f44249c",
+      "blob": "69c3bb868940121070614e152575dd9b13d0ae96e73fb0f338d76b1a9f44249c",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/city4-resume-epoch-proof.json",
+      "bytes": 2509906,
+      "sha256": "dc06461e4fc950fd1bab319fcb863c11e7d38bdfcab0be9033fba8bbd25899b9",
+      "blob": "dc06461e4fc950fd1bab319fcb863c11e7d38bdfcab0be9033fba8bbd25899b9",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/city4-resume-ledger-step-2-proof.json",
+      "bytes": 2939286,
+      "sha256": "7241cb812d822eff9c07c027143a65751859ec8901b373e78b9661ac72163f86",
+      "blob": "7241cb812d822eff9c07c027143a65751859ec8901b373e78b9661ac72163f86",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/city4-resume-ledger-step-2.json",
+      "bytes": 20181786,
+      "sha256": "a6d8bc04fd8afc92972e2b987b5cd452ba42a6a99522748c3fe8d8c4734e81fe",
+      "blob": "a6d8bc04fd8afc92972e2b987b5cd452ba42a6a99522748c3fe8d8c4734e81fe",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/city4-resume-saved-map.json",
+      "bytes": 250330,
+      "sha256": "723f84006a2d493a0e0836b7dd2b42b026795ad6bc3ee2c16a90cca5d559f31a",
+      "blob": "723f84006a2d493a0e0836b7dd2b42b026795ad6bc3ee2c16a90cca5d559f31a",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/city4-resume-saved-map.png",
+      "bytes": 3079121,
+      "sha256": "a06cd1177bb179d1b0ffa8c81518af7d888cb68375e468099b29636214fe642d",
+      "blob": "a06cd1177bb179d1b0ffa8c81518af7d888cb68375e468099b29636214fe642d",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/cleanup.json",
+      "bytes": 15184,
+      "sha256": "cd544249d98ffa5079b15409a86628564a5362d23b0d4f64c09df11b3fbdc2aa",
+      "blob": "cd544249d98ffa5079b15409a86628564a5362d23b0d4f64c09df11b3fbdc2aa",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/completed-preparation-proof.json",
+      "bytes": 2939286,
+      "sha256": "7241cb812d822eff9c07c027143a65751859ec8901b373e78b9661ac72163f86",
+      "blob": "7241cb812d822eff9c07c027143a65751859ec8901b373e78b9661ac72163f86",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/distribution-2-saved-map.json",
+      "bytes": 250331,
+      "sha256": "9363a561f3cc104f53c66110355edb64d904a3732d373594049a7fe0bf97c329",
+      "blob": "9363a561f3cc104f53c66110355edb64d904a3732d373594049a7fe0bf97c329",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/distribution-2-saved-map.png",
+      "bytes": 3078981,
+      "sha256": "45a8743553bfe3f03912f57cb22cf561492025169afcb192e34045f4f2d84603",
+      "blob": "45a8743553bfe3f03912f57cb22cf561492025169afcb192e34045f4f2d84603",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-baye.build.json",
+      "bytes": 21284,
+      "sha256": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "blob": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-bridge.js",
+      "bytes": 160484,
+      "sha256": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99",
+      "blob": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-city4-resume-source-controls-v2.json",
+      "bytes": 17330,
+      "sha256": "aede7ae11d5758e81767e4474674b9f4db20e9532d1ba12884bfb6c4ff5d3499",
+      "blob": "aede7ae11d5758e81767e4474674b9f4db20e9532d1ba12884bfb6c4ff5d3499",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-city4-ticket-view-extraction-v1.json",
+      "bytes": 631,
+      "sha256": "818b40a142869f636ac8d6c1165b754e85fff18096d8ae9ab72eeb383ce9fd6c",
+      "blob": "818b40a142869f636ac8d6c1165b754e85fff18096d8ae9ab72eeb383ce9fd6c",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-closure.json",
+      "bytes": 8756,
+      "sha256": "deec54026adec9767073b9a210c2b268b53b050048b9172152bc81c86bc9ec73",
+      "blob": "deec54026adec9767073b9a210c2b268b53b050048b9172152bc81c86bc9ec73",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-hd-city-menu.js",
+      "bytes": 431117,
+      "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "blob": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-hd-dialog.js",
+      "bytes": 136991,
+      "sha256": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "blob": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-hd-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+      "blob": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-hd-spe.js",
+      "bytes": 134571,
+      "sha256": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "blob": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-hd-system-ui.js",
+      "bytes": 55988,
+      "sha256": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+      "blob": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-lcd.js",
+      "bytes": 35113,
+      "sha256": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "blob": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-000-city4-ticket-view-v1.mjs",
+      "bytes": 7118,
+      "sha256": "00647d18fd3d99a8f5d5224504d2ae9f13f82ba57221a144f16ee5d19eae029b",
+      "blob": "00647d18fd3d99a8f5d5224504d2ae9f13f82ba57221a144f16ee5d19eae029b",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-001-city4-ui-predicates-v1.mjs",
+      "bytes": 6341,
+      "sha256": "ed10dd7f31d5345323dace1b3b54849e68f8e1d8e00d27a46286041e046689d2",
+      "blob": "ed10dd7f31d5345323dace1b3b54849e68f8e1d8e00d27a46286041e046689d2",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-002-october-city4-resume-v1.mjs",
+      "bytes": 30585,
+      "sha256": "9934d28ca4ee1195e4ff75d4ba6dd70c9432ee4450af9ae385f9fdea9d7b35f5",
+      "blob": "9934d28ca4ee1195e4ff75d4ba6dd70c9432ee4450af9ae385f9fdea9d7b35f5",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-003-run-october-city4-resume-v1.mjs",
+      "bytes": 28689,
+      "sha256": "5a2bd4255c2b685e6ebb4cd65828d34d954866ff3b3e3253d67c65637c8dad0c",
+      "blob": "5a2bd4255c2b685e6ebb4cd65828d34d954866ff3b3e3253d67c65637c8dad0c",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-004-test-city4-resume-source-v1.mjs",
+      "bytes": 22976,
+      "sha256": "5acb5659502ee56a58fa2e8e17d3548ec884812d6192d44b93602035f6ae8dd3",
+      "blob": "5acb5659502ee56a58fa2e8e17d3548ec884812d6192d44b93602035f6ae8dd3",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-005-city4-resume-input-v1.mjs",
+      "bytes": 6336,
+      "sha256": "f7291aa301a096f5dd064d45b418cb4612bc8366848d45fc9c99597021492d6f",
+      "blob": "f7291aa301a096f5dd064d45b418cb4612bc8366848d45fc9c99597021492d6f",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-006-hd-wood-v39-ticket-observer-v1.mjs",
+      "bytes": 1833,
+      "sha256": "64e0cd4dab788920d164012714457badd487ecf7123aff653e13ab45f592085d",
+      "blob": "64e0cd4dab788920d164012714457badd487ecf7123aff653e13ab45f592085d",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-007-hd-wood-v40-ticket-observer-v1.mjs",
+      "bytes": 893,
+      "sha256": "ce169b4fcde3770c1bda14e31ad34bee9cd707f85bc72b8036e5aa9ee38be71e",
+      "blob": "ce169b4fcde3770c1bda14e31ad34bee9cd707f85bc72b8036e5aa9ee38be71e",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-008-m5-quantity-ack-refresh-20261024-v45-verify.mjs",
+      "bytes": 32262,
+      "sha256": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca",
+      "blob": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-009-hd-impact-move-path.mjs",
+      "bytes": 5572,
+      "sha256": "bc593fb1286538d4bef314326a742f131090481d821233b34ce063e082def4cd",
+      "blob": "bc593fb1286538d4bef314326a742f131090481d821233b34ce063e082def4cd",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-010-hd-impact-plunder-runtime-oracle.mjs",
+      "bytes": 10718,
+      "sha256": "2b21c4194435f5f602a102f976a27d47d2cfa5639cce16269d6a91675fe9a998",
+      "blob": "2b21c4194435f5f602a102f976a27d47d2cfa5639cce16269d6a91675fe9a998",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-011-hd-impact-v26-raw-buy11-oracle.mjs",
+      "bytes": 14276,
+      "sha256": "56e290989b261944b3822b56921d88c8051654d6beb0edade163a9ad8541db9f",
+      "blob": "56e290989b261944b3822b56921d88c8051654d6beb0edade163a9ad8541db9f",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-012-hd-impact-v31-acquisition-policy.mjs",
+      "bytes": 21161,
+      "sha256": "f6555d6e00cdf26a1040749936f9c07e5560873d9b72d657952aae21f60b4d7c",
+      "blob": "f6555d6e00cdf26a1040749936f9c07e5560873d9b72d657952aae21f60b4d7c",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-013-hd-impact-v32-conditional-plunder-prefix.mjs",
+      "bytes": 26243,
+      "sha256": "790c3b5dd1d24e984dd9bf6c0ccef2f6a4e22141cc4171fdf2da04c2c0d28013",
+      "blob": "790c3b5dd1d24e984dd9bf6c0ccef2f6a4e22141cc4171fdf2da04c2c0d28013",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-014-hd-impact-v36-wood-route.mjs",
+      "bytes": 16732,
+      "sha256": "b17fc01755860be7280247edb67b0501754537d8b1eb6e2e66c0f6d3095caf46",
+      "blob": "b17fc01755860be7280247edb67b0501754537d8b1eb6e2e66c0f6d3095caf46",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-015-hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "blob": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-016-hd-runtime-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "blob": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-017-hd-wood-city4-continuation.mjs",
+      "bytes": 50060,
+      "sha256": "7b3652cf71b8f105417a3f2fc094a214141cc19545f9a25dcc97f94c6f773409",
+      "blob": "7b3652cf71b8f105417a3f2fc094a214141cc19545f9a25dcc97f94c6f773409",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-018-hd-wood-city4-preparation.mjs",
+      "bytes": 14136,
+      "sha256": "2142399ba7f6b80b230199b5596eed5557276d2f2677a845755960ef97efd933",
+      "blob": "2142399ba7f6b80b230199b5596eed5557276d2f2677a845755960ef97efd933",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-019-hd-wood-native-route.mjs",
+      "bytes": 6273,
+      "sha256": "e6f899062e58ec289380a6608b477e8e9341cf344bc01b93c0c77162a6933329",
+      "blob": "e6f899062e58ec289380a6608b477e8e9341cf344bc01b93c0c77162a6933329",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-020-hd-wood-original-continuation.mjs",
+      "bytes": 19876,
+      "sha256": "8c0764ca38b2c3530a72abbc66cb21b5d9f407e36314d5fe95d9f295b33b2c91",
+      "blob": "8c0764ca38b2c3530a72abbc66cb21b5d9f407e36314d5fe95d9f295b33b2c91",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-021-hd-wood-recruitment-hooks.mjs",
+      "bytes": 5591,
+      "sha256": "8a663db5c1f775fe5cede82163d4ac79861f6fb2b099634aad718f67f3f4c2fc",
+      "blob": "8a663db5c1f775fe5cede82163d4ac79861f6fb2b099634aad718f67f3f4c2fc",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-022-hd-wood-recruitment-preparation.mjs",
+      "bytes": 30306,
+      "sha256": "8fd0e641949d4c1ebef99507695fe0b4249aeaae6526a49972b05d658277b183",
+      "blob": "8fd0e641949d4c1ebef99507695fe0b4249aeaae6526a49972b05d658277b183",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-module-023-hd-wood-supplied-continuation.mjs",
+      "bytes": 26600,
+      "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f",
+      "blob": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-pc.html",
+      "bytes": 27750,
+      "sha256": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8",
+      "blob": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/executed-save-storage.js",
+      "bytes": 11899,
+      "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+      "blob": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/final-protected-owner.json",
+      "bytes": 250331,
+      "sha256": "9363a561f3cc104f53c66110355edb64d904a3732d373594049a7fe0bf97c329",
+      "blob": "9363a561f3cc104f53c66110355edb64d904a3732d373594049a7fe0bf97c329",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/input-canonical.json",
+      "bytes": 294631,
+      "sha256": "1e6b6cbf48c1a568875f83e31e26a7b2595f3d0c32b7a4238a59b912dd8e0dc5",
+      "blob": "1e6b6cbf48c1a568875f83e31e26a7b2595f3d0c32b7a4238a59b912dd8e0dc5",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/input-history-ledger.json",
+      "bytes": 9495671,
+      "sha256": "4bc15f903f16fd94ea920ac383fa0f06055945006fdd6e6a2ada54054be1da29",
+      "blob": "4bc15f903f16fd94ea920ac383fa0f06055945006fdd6e6a2ada54054be1da29",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/input-history-pins.json",
+      "bytes": 2051,
+      "sha256": "8b918e04a45429592a0b7d33daf19fa77922eb5b422645cd5bcb2d825764da28",
+      "blob": "8b918e04a45429592a0b7d33daf19fa77922eb5b422645cd5bcb2d825764da28",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/input-latest-world.json",
+      "bytes": 148015,
+      "sha256": "0eb2220c9429369e964b4edf1782523e09c210d52aab025169452b7f123dab54",
+      "blob": "0eb2220c9429369e964b4edf1782523e09c210d52aab025169452b7f123dab54",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/input-sango0.sav",
+      "bytes": 8221,
+      "sha256": "1741d671a01aa68ecb30eecc9fbf2fe25c3b868b832679945210b61e0e646c55",
+      "blob": "1741d671a01aa68ecb30eecc9fbf2fe25c3b868b832679945210b61e0e646c55",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/input-sango1.sav",
+      "bytes": 4840,
+      "sha256": "0f885465307973166da5a5765486854ee87ab342c4e5e15745c8ddff6a0143ed",
+      "blob": "0f885465307973166da5a5765486854ee87ab342c4e5e15745c8ddff6a0143ed",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/loaded-city4-partial1-before-resume-save.json",
+      "bytes": 250274,
+      "sha256": "d77a5806d7ebcdd1431346f257886019034eed0bdb9ef5f7a2f82de04df2797f",
+      "blob": "d77a5806d7ebcdd1431346f257886019034eed0bdb9ef5f7a2f82de04df2797f",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/loaded-city4-partial1-before-resume-save.png",
+      "bytes": 3079042,
+      "sha256": "04c03925f68b4b01cffba44c6e229f4bab4e0e3d1d5924ddcc9caa6579a0b4c0",
+      "blob": "04c03925f68b4b01cffba44c6e229f4bab4e0e3d1d5924ddcc9caa6579a0b4c0",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-inputs.json",
+      "bytes": 759096,
+      "sha256": "2efd4341cb0b9e3a71c99cb33cf210c09c78c81835d28fc6d24da2b404382d3e",
+      "blob": "2efd4341cb0b9e3a71c99cb33cf210c09c78c81835d28fc6d24da2b404382d3e",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-197d175bfcb8c09d3202b9a4bec8118ffdeec20acaa70a16a3039b0ff2411798.json",
+      "bytes": 199431,
+      "sha256": "197d175bfcb8c09d3202b9a4bec8118ffdeec20acaa70a16a3039b0ff2411798",
+      "blob": "197d175bfcb8c09d3202b9a4bec8118ffdeec20acaa70a16a3039b0ff2411798",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-2dfd8c9cb51a668d210febc2276903ef86db0887a7f2ce13d1cedfddc6f73f45.json",
+      "bytes": 199460,
+      "sha256": "2dfd8c9cb51a668d210febc2276903ef86db0887a7f2ce13d1cedfddc6f73f45",
+      "blob": "2dfd8c9cb51a668d210febc2276903ef86db0887a7f2ce13d1cedfddc6f73f45",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-306211fda50c6523d5151b851992814d2007aad83b0482cac04229cdcfcde5f8.json",
+      "bytes": 199431,
+      "sha256": "306211fda50c6523d5151b851992814d2007aad83b0482cac04229cdcfcde5f8",
+      "blob": "306211fda50c6523d5151b851992814d2007aad83b0482cac04229cdcfcde5f8",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-48dfcdc5a9a6bcd79c6d0d4a345bd07048128e769d0e638b1cc9dce00186da98.json",
+      "bytes": 199423,
+      "sha256": "48dfcdc5a9a6bcd79c6d0d4a345bd07048128e769d0e638b1cc9dce00186da98",
+      "blob": "48dfcdc5a9a6bcd79c6d0d4a345bd07048128e769d0e638b1cc9dce00186da98",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-4c6765a697361c5001ff423bf44e32f793cda5a5f5c6b2b2f3ed8d92dd5abea1.json",
+      "bytes": 199386,
+      "sha256": "4c6765a697361c5001ff423bf44e32f793cda5a5f5c6b2b2f3ed8d92dd5abea1",
+      "blob": "4c6765a697361c5001ff423bf44e32f793cda5a5f5c6b2b2f3ed8d92dd5abea1",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-4fec594f8adfb11de8dbdd7fd0879464cec30ab7e8ba1bbe1b56545d962f8dfb.json",
+      "bytes": 199415,
+      "sha256": "4fec594f8adfb11de8dbdd7fd0879464cec30ab7e8ba1bbe1b56545d962f8dfb",
+      "blob": "4fec594f8adfb11de8dbdd7fd0879464cec30ab7e8ba1bbe1b56545d962f8dfb",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-525eec89674905b385bd7ff14af01816aa0c7941a6cb8e1a42806b9581dfcaec.json",
+      "bytes": 199354,
+      "sha256": "525eec89674905b385bd7ff14af01816aa0c7941a6cb8e1a42806b9581dfcaec",
+      "blob": "525eec89674905b385bd7ff14af01816aa0c7941a6cb8e1a42806b9581dfcaec",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-52e5bc0cd789fe4a7ff5d5b2b74db34ce0ef6d77367a6690f9a548b0f0d1d03d.json",
+      "bytes": 199424,
+      "sha256": "52e5bc0cd789fe4a7ff5d5b2b74db34ce0ef6d77367a6690f9a548b0f0d1d03d",
+      "blob": "52e5bc0cd789fe4a7ff5d5b2b74db34ce0ef6d77367a6690f9a548b0f0d1d03d",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-53acf77db31cc1b57747b45dc1096321d96617177a6b8749cfe3dd48ea0175a1.json",
+      "bytes": 199415,
+      "sha256": "53acf77db31cc1b57747b45dc1096321d96617177a6b8749cfe3dd48ea0175a1",
+      "blob": "53acf77db31cc1b57747b45dc1096321d96617177a6b8749cfe3dd48ea0175a1",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-748888048c54c46f043e56ed3ade8c830d9ee26e6b06200449a312fbea2ea628.json",
+      "bytes": 199417,
+      "sha256": "748888048c54c46f043e56ed3ade8c830d9ee26e6b06200449a312fbea2ea628",
+      "blob": "748888048c54c46f043e56ed3ade8c830d9ee26e6b06200449a312fbea2ea628",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-97afca4c893cc37d129327798cc0707c28b14dfe61c4628912a6c9a4ab9ee8b2.json",
+      "bytes": 199423,
+      "sha256": "97afca4c893cc37d129327798cc0707c28b14dfe61c4628912a6c9a4ab9ee8b2",
+      "blob": "97afca4c893cc37d129327798cc0707c28b14dfe61c4628912a6c9a4ab9ee8b2",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-9bf7cb0189e84236e4189b8fac8a9c080ad927e598379416a3d7b51e232b4171.json",
+      "bytes": 199404,
+      "sha256": "9bf7cb0189e84236e4189b8fac8a9c080ad927e598379416a3d7b51e232b4171",
+      "blob": "9bf7cb0189e84236e4189b8fac8a9c080ad927e598379416a3d7b51e232b4171",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-a2b440868dc19502370221c06868ff425a8b209c6059194c06a9b8f3cc8e79f9.json",
+      "bytes": 199460,
+      "sha256": "a2b440868dc19502370221c06868ff425a8b209c6059194c06a9b8f3cc8e79f9",
+      "blob": "a2b440868dc19502370221c06868ff425a8b209c6059194c06a9b8f3cc8e79f9",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-a30c047a266d7f0babc3321f54658936270694b5a424bf741f11853564ca2570.json",
+      "bytes": 199417,
+      "sha256": "a30c047a266d7f0babc3321f54658936270694b5a424bf741f11853564ca2570",
+      "blob": "a30c047a266d7f0babc3321f54658936270694b5a424bf741f11853564ca2570",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-b9a7bf370143140fbe56054e459110d42be4fb6089fdb05c27863021fbdb74b8.json",
+      "bytes": 199414,
+      "sha256": "b9a7bf370143140fbe56054e459110d42be4fb6089fdb05c27863021fbdb74b8",
+      "blob": "b9a7bf370143140fbe56054e459110d42be4fb6089fdb05c27863021fbdb74b8",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-bd19ba5fa2f9de28d95de1cba03329634367e5c1cfac105987e940b43f8cf444.json",
+      "bytes": 199379,
+      "sha256": "bd19ba5fa2f9de28d95de1cba03329634367e5c1cfac105987e940b43f8cf444",
+      "blob": "bd19ba5fa2f9de28d95de1cba03329634367e5c1cfac105987e940b43f8cf444",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-ce7d803615f155e83a3dfd619eb88b2e4c28285569baf8faaf212e7d3222cdda.json",
+      "bytes": 199430,
+      "sha256": "ce7d803615f155e83a3dfd619eb88b2e4c28285569baf8faaf212e7d3222cdda",
+      "blob": "ce7d803615f155e83a3dfd619eb88b2e4c28285569baf8faaf212e7d3222cdda",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-dbfb6c0d900cade795a9875868a484ef3a258f794232b918fcf1927714d9e71f.json",
+      "bytes": 199423,
+      "sha256": "dbfb6c0d900cade795a9875868a484ef3a258f794232b918fcf1927714d9e71f",
+      "blob": "dbfb6c0d900cade795a9875868a484ef3a258f794232b918fcf1927714d9e71f",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-de4503025cb18a4dfe457c4cade471213b190b53049285e742852a5b00f08b07.json",
+      "bytes": 199404,
+      "sha256": "de4503025cb18a4dfe457c4cade471213b190b53049285e742852a5b00f08b07",
+      "blob": "de4503025cb18a4dfe457c4cade471213b190b53049285e742852a5b00f08b07",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-ticket-dedf3b088ed40ea52eac187aaebe3eeac0d0e1efb33d959d30cf491d38b1142f.json",
+      "bytes": 199460,
+      "sha256": "dedf3b088ed40ea52eac187aaebe3eeac0d0e1efb33d959d30cf491d38b1142f",
+      "blob": "dedf3b088ed40ea52eac187aaebe3eeac0d0e1efb33d959d30cf491d38b1142f",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-wood67-131-v49-city4-distribute33-sango0.sav",
+      "bytes": 8221,
+      "sha256": "a181b0c56938d39eba4ff3afcf44fae1448f1bf3f47f25a7b54014ea1ffa7e23",
+      "blob": "a181b0c56938d39eba4ff3afcf44fae1448f1bf3f47f25a7b54014ea1ffa7e23",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-wood67-131-v49-city4-distribute33-sango1.sav",
+      "bytes": 4840,
+      "sha256": "62f150e47967dd63be435d2eed40e579ac329e2d644f2899d4a0f0920201d1c0",
+      "blob": "62f150e47967dd63be435d2eed40e579ac329e2d644f2899d4a0f0920201d1c0",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-wood67-131-v50-city4-resume-sango0.sav",
+      "bytes": 8221,
+      "sha256": "1741d671a01aa68ecb30eecc9fbf2fe25c3b868b832679945210b61e0e646c55",
+      "blob": "1741d671a01aa68ecb30eecc9fbf2fe25c3b868b832679945210b61e0e646c55",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/native-wood67-131-v50-city4-resume-sango1.sav",
+      "bytes": 4840,
+      "sha256": "3424914672c728b56f44ed5ad25036e8d017f3325df52dca4bc5f932ff11bbfa",
+      "blob": "3424914672c728b56f44ed5ad25036e8d017f3325df52dca4bc5f932ff11bbfa",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/opening-before.json",
+      "bytes": 5170,
+      "sha256": "1938ce3c41e04c8e26fce39fbc87460094d130444059b771bc1b5e0768d265ba",
+      "blob": "1938ce3c41e04c8e26fce39fbc87460094d130444059b771bc1b5e0768d265ba",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/owned-process-samples.jsonl",
+      "bytes": 76882,
+      "sha256": "c5ae15c04e2ee8e02dcb6f9e59173df74e6290db22095a485bc50d5799d1c372",
+      "blob": "c5ae15c04e2ee8e02dcb6f9e59173df74e6290db22095a485bc50d5799d1c372",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/owned-union.json",
+      "bytes": 11205,
+      "sha256": "17b2efa9e771b625deaed0c6fb43b0079b6e06dffa27f6eb651b095e9f545d73",
+      "blob": "17b2efa9e771b625deaed0c6fb43b0079b6e06dffa27f6eb651b095e9f545d73",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/result.json",
+      "bytes": 118904,
+      "sha256": "d4a4340408420f80a32e251c85d5c14767e2195d1cb26517bbd7b0a9a74ed3e4",
+      "blob": "d4a4340408420f80a32e251c85d5c14767e2195d1cb26517bbd7b0a9a74ed3e4",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/scenario-result.json",
+      "bytes": 68830,
+      "sha256": "5e40e89a35f15f4087c11e2af67ebdc61942e03723f172322d2db91630a768f6",
+      "blob": "5e40e89a35f15f4087c11e2af67ebdc61942e03723f172322d2db91630a768f6",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/served-source-after.json",
+      "bytes": 21649,
+      "sha256": "830e66a5330424e3d8778aa5525f991a8164b585a4b076a899b25ae94d76d9bb",
+      "blob": "830e66a5330424e3d8778aa5525f991a8164b585a4b076a899b25ae94d76d9bb",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/served-source-before.json",
+      "bytes": 11632,
+      "sha256": "acc6b073bb79c0c24cfc55b079fde7f14c229728a34c30e1745182a29229246b",
+      "blob": "acc6b073bb79c0c24cfc55b079fde7f14c229728a34c30e1745182a29229246b",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/source-after.json",
+      "bytes": 366241,
+      "sha256": "54772bd9862e884e797e0b245de4b5aa5b488d094775465df76682fc04c4de42",
+      "blob": "54772bd9862e884e797e0b245de4b5aa5b488d094775465df76682fc04c4de42",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/source-before.json",
+      "bytes": 208452,
+      "sha256": "ea69f3145d214d6aec34529736a11059b37b1baa7c485c007acfb999e962de43",
+      "blob": "ea69f3145d214d6aec34529736a11059b37b1baa7c485c007acfb999e962de43",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-000.json",
+      "bytes": 1102,
+      "sha256": "dbc6488c933f59d8370ddcbe3e31608a8aa14e4f9147d2bf4934f1da53a4eaab",
+      "blob": "dbc6488c933f59d8370ddcbe3e31608a8aa14e4f9147d2bf4934f1da53a4eaab",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-001.json",
+      "bytes": 1122,
+      "sha256": "c6d4bfb9f265cf2510fd0c6015d38b8efbd5058eef6895e4beace4ce97751cfc",
+      "blob": "c6d4bfb9f265cf2510fd0c6015d38b8efbd5058eef6895e4beace4ce97751cfc",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-002.json",
+      "bytes": 1106,
+      "sha256": "ef77454a3a775163ff7f7f0826f05347994dcf24beb9d682479b504132769913",
+      "blob": "ef77454a3a775163ff7f7f0826f05347994dcf24beb9d682479b504132769913",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-003.json",
+      "bytes": 1106,
+      "sha256": "870da267ad3d7b969031bfb3898f546980f074292c1db8765df596adf31e899c",
+      "blob": "870da267ad3d7b969031bfb3898f546980f074292c1db8765df596adf31e899c",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-004.json",
+      "bytes": 1120,
+      "sha256": "74d4a42985c8358812b303adf76fa43e72d17f1a4b8b038f2b7ab13a74a38963",
+      "blob": "74d4a42985c8358812b303adf76fa43e72d17f1a4b8b038f2b7ab13a74a38963",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-005.json",
+      "bytes": 1106,
+      "sha256": "236a7379d2419f87ab6ebe5254f227e2391f91b77266ac89baca2c8d989f2098",
+      "blob": "236a7379d2419f87ab6ebe5254f227e2391f91b77266ac89baca2c8d989f2098",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-006.json",
+      "bytes": 1110,
+      "sha256": "a6aab6a1610069fd6418be6ee85abe4323251fbd3b3ef14cbdd88e3c60cc77e6",
+      "blob": "a6aab6a1610069fd6418be6ee85abe4323251fbd3b3ef14cbdd88e3c60cc77e6",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-007.json",
+      "bytes": 1104,
+      "sha256": "710475489492c2357a19bb5a23a4c22ad214ec37cd12101d3bea2919751c79a1",
+      "blob": "710475489492c2357a19bb5a23a4c22ad214ec37cd12101d3bea2919751c79a1",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-008.json",
+      "bytes": 1113,
+      "sha256": "f04218b040e9334b87716b42ce7d434c0b114a3abdcc89972698b9d7f665f4a8",
+      "blob": "f04218b040e9334b87716b42ce7d434c0b114a3abdcc89972698b9d7f665f4a8",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-009.json",
+      "bytes": 1111,
+      "sha256": "978446e0eb57f8b9edc09c7d24e4d340495596ed3715522db815669a77a04f87",
+      "blob": "978446e0eb57f8b9edc09c7d24e4d340495596ed3715522db815669a77a04f87",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-010.json",
+      "bytes": 1113,
+      "sha256": "dc33f7127ce984b6feacfada953c794ed6b646a5fa2e8fb4b91a39c32f319eac",
+      "blob": "dc33f7127ce984b6feacfada953c794ed6b646a5fa2e8fb4b91a39c32f319eac",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-011.json",
+      "bytes": 1111,
+      "sha256": "306b495d3113eb0762cc8d14c9b59e78645c0766818b26e4c825a364458d76db",
+      "blob": "306b495d3113eb0762cc8d14c9b59e78645c0766818b26e4c825a364458d76db",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-012.json",
+      "bytes": 1114,
+      "sha256": "2ef86dc73a68028282b6c6c4c65c865aa4989e75a1e537a1f6a08e311c0aceaf",
+      "blob": "2ef86dc73a68028282b6c6c4c65c865aa4989e75a1e537a1f6a08e311c0aceaf",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-013.json",
+      "bytes": 1127,
+      "sha256": "b33906d891ff2fa89e58232030304380f3910cfa07db2804adaddc3030f847ba",
+      "blob": "b33906d891ff2fa89e58232030304380f3910cfa07db2804adaddc3030f847ba",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-014.json",
+      "bytes": 1104,
+      "sha256": "598a425977df07b3bfe3623d20c1a5eebcc84ba9b6c8ff856b00e8aa63104cb7",
+      "blob": "598a425977df07b3bfe3623d20c1a5eebcc84ba9b6c8ff856b00e8aa63104cb7",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-015.json",
+      "bytes": 1114,
+      "sha256": "e9f3e0cae302e0d523855d4b682cc87c8fed0f691e5885c9f12e02a80a85a660",
+      "blob": "e9f3e0cae302e0d523855d4b682cc87c8fed0f691e5885c9f12e02a80a85a660",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-016.json",
+      "bytes": 1112,
+      "sha256": "b63ff3ee1a309c744bc8b5830d74b5a9328929ca7963f17522165a1dd9bb208f",
+      "blob": "b63ff3ee1a309c744bc8b5830d74b5a9328929ca7963f17522165a1dd9bb208f",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-017.json",
+      "bytes": 1115,
+      "sha256": "9ded6ffed4be0851503e854ece56d618eadf7834b4016b3a396b5cfcb4c3c69b",
+      "blob": "9ded6ffed4be0851503e854ece56d618eadf7834b4016b3a396b5cfcb4c3c69b",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-018.json",
+      "bytes": 1113,
+      "sha256": "0e96f5487e72f0da1a5884961b813732d1e83f3711ca31d9476a951f3117748f",
+      "blob": "0e96f5487e72f0da1a5884961b813732d1e83f3711ca31d9476a951f3117748f",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-019.json",
+      "bytes": 1116,
+      "sha256": "4c3e55688644352899fa6ed9471ecd4b97f18645e5907193d79a5d99acea6f13",
+      "blob": "4c3e55688644352899fa6ed9471ecd4b97f18645e5907193d79a5d99acea6f13",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-020.json",
+      "bytes": 1128,
+      "sha256": "a3de4754dc7e6cf0d91fd5457aef4f354b67f620cfc9577992829b38ccb8cc81",
+      "blob": "a3de4754dc7e6cf0d91fd5457aef4f354b67f620cfc9577992829b38ccb8cc81",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-021.json",
+      "bytes": 1103,
+      "sha256": "8390738d19985b3b501a444c86bcc37bda610db7ff7b992a48d7f68bade6c5c2",
+      "blob": "8390738d19985b3b501a444c86bcc37bda610db7ff7b992a48d7f68bade6c5c2",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-022.json",
+      "bytes": 1117,
+      "sha256": "f90ef16f890e40c0e9de71ec54c2536b07eb0ffdce33bdf98322bf7c21a43aef",
+      "blob": "f90ef16f890e40c0e9de71ec54c2536b07eb0ffdce33bdf98322bf7c21a43aef",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-023.json",
+      "bytes": 1112,
+      "sha256": "2c0ccedb204f7a198168e6f8aad45d7b1c6b2b9678e8486c59d7df624b1c04e3",
+      "blob": "2c0ccedb204f7a198168e6f8aad45d7b1c6b2b9678e8486c59d7df624b1c04e3",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-024.json",
+      "bytes": 1117,
+      "sha256": "11f157961e0733c17d03778a4aa2d61cc7315a5c5183dbd5455a09a9fd33a321",
+      "blob": "11f157961e0733c17d03778a4aa2d61cc7315a5c5183dbd5455a09a9fd33a321",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-025.json",
+      "bytes": 1129,
+      "sha256": "86a1ab17a273e6d1f95d301d1688bf4e5661ed1d3aa7dad2c6469a679313c434",
+      "blob": "86a1ab17a273e6d1f95d301d1688bf4e5661ed1d3aa7dad2c6469a679313c434",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-026.json",
+      "bytes": 1114,
+      "sha256": "5cefbbf78dec5beb6fc3c9108cbc8d2f0f27b724d7c8f263bc3932cfa7342499",
+      "blob": "5cefbbf78dec5beb6fc3c9108cbc8d2f0f27b724d7c8f263bc3932cfa7342499",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-027.json",
+      "bytes": 1102,
+      "sha256": "d9d695bf921fc8f8c64bc0a234208ceb014f0b01520fe85f036bd6620a20d064",
+      "blob": "d9d695bf921fc8f8c64bc0a234208ceb014f0b01520fe85f036bd6620a20d064",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-028.json",
+      "bytes": 1116,
+      "sha256": "940abba00552077aa010623325caa0b4a620252ed3fd3fac7b74dcecfd9525ae",
+      "blob": "940abba00552077aa010623325caa0b4a620252ed3fd3fac7b74dcecfd9525ae",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-029.json",
+      "bytes": 2911,
+      "sha256": "32867d4adc920101e776e5a951bfd1510578c2ebc4d7421cab834edee12ed50e",
+      "blob": "32867d4adc920101e776e5a951bfd1510578c2ebc4d7421cab834edee12ed50e",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-030.json",
+      "bytes": 1123,
+      "sha256": "3c973d88d9ed5edc78a0c9d9a4286939a05cec061a2cf8a797c5fcfb9cded556",
+      "blob": "3c973d88d9ed5edc78a0c9d9a4286939a05cec061a2cf8a797c5fcfb9cded556",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-031.json",
+      "bytes": 1134,
+      "sha256": "9904fc798fbf1941e7636824d7467720de1e34583c8a4ca8cc80d70f5e20d2a0",
+      "blob": "9904fc798fbf1941e7636824d7467720de1e34583c8a4ca8cc80d70f5e20d2a0",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-032.json",
+      "bytes": 1115,
+      "sha256": "31dde3a7fc52bc85c53d9b964d5e62b7f2ae8be9344debc563a63f510e5705a7",
+      "blob": "31dde3a7fc52bc85c53d9b964d5e62b7f2ae8be9344debc563a63f510e5705a7",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-033.json",
+      "bytes": 1130,
+      "sha256": "9ae7183960142a92c249cc4bc0f3d1d4131619c8f7333957eb6471614d36a00f",
+      "blob": "9ae7183960142a92c249cc4bc0f3d1d4131619c8f7333957eb6471614d36a00f",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-034.json",
+      "bytes": 2883,
+      "sha256": "fd09338b69511db8c1b4dff8f1b34f46be151e798354fee2c9c385d8e6d526b2",
+      "blob": "fd09338b69511db8c1b4dff8f1b34f46be151e798354fee2c9c385d8e6d526b2",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-035.json",
+      "bytes": 1108,
+      "sha256": "2903f6e70ee0652ba3dbe5205dd8c41b1422dbee12d5179b85c20a03c72d3c9c",
+      "blob": "2903f6e70ee0652ba3dbe5205dd8c41b1422dbee12d5179b85c20a03c72d3c9c",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/stable-ticket-036.json",
+      "bytes": 1128,
+      "sha256": "c425292b34c6ee1629ed0d0de3dbb70247b78aa39a1e3e88aeae5c8e71b455ba",
+      "blob": "c425292b34c6ee1629ed0d0de3dbb70247b78aa39a1e3e88aeae5c8e71b455ba",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/user8080-before.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "blob": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/wood67-131-v49-city4-distribute33-public-save.json",
+      "bytes": 1196083,
+      "sha256": "30349865f0aeab3e2d1859565d5a4ef8c7034d7525d92445be6658f5ea76d69f",
+      "blob": "30349865f0aeab3e2d1859565d5a4ef8c7034d7525d92445be6658f5ea76d69f",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-v50/wood67-131-v50-city4-resume-public-save.json",
+      "bytes": 1195998,
+      "sha256": "3b04cef1ca3056aa21e8c37aa7ff65fbdf45fe05b2032f8c47d442a5d2955e38",
+      "blob": "3b04cef1ca3056aa21e8c37aa7ff65fbdf45fe05b2032f8c47d442a5d2955e38",
+      "roles": [
+        "complete-closed-N3-flat-original"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-20261024-source-v1/city4-ui-predicates-v1.mjs",
+      "bytes": 6341,
+      "sha256": "ed10dd7f31d5345323dace1b3b54849e68f8e1d8e00d27a46286041e046689d2",
+      "blob": "ed10dd7f31d5345323dace1b3b54849e68f8e1d8e00d27a46286041e046689d2",
+      "roles": [
+        "exact-executed-N3-controller-and-source-controls",
+        "exact-new-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-20261024-source-v1/city4-ticket-view-v1.mjs",
+      "bytes": 7118,
+      "sha256": "00647d18fd3d99a8f5d5224504d2ae9f13f82ba57221a144f16ee5d19eae029b",
+      "blob": "00647d18fd3d99a8f5d5224504d2ae9f13f82ba57221a144f16ee5d19eae029b",
+      "roles": [
+        "exact-executed-N3-controller-and-source-controls",
+        "exact-new-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-20261024-source-v1/october-city4-resume-v1.mjs",
+      "bytes": 30585,
+      "sha256": "9934d28ca4ee1195e4ff75d4ba6dd70c9432ee4450af9ae385f9fdea9d7b35f5",
+      "blob": "9934d28ca4ee1195e4ff75d4ba6dd70c9432ee4450af9ae385f9fdea9d7b35f5",
+      "roles": [
+        "exact-executed-N3-controller-and-source-controls",
+        "exact-new-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-20261024-source-v1/run-october-city4-resume-v1.mjs",
+      "bytes": 28689,
+      "sha256": "5a2bd4255c2b685e6ebb4cd65828d34d954866ff3b3e3253d67c65637c8dad0c",
+      "blob": "5a2bd4255c2b685e6ebb4cd65828d34d954866ff3b3e3253d67c65637c8dad0c",
+      "roles": [
+        "exact-executed-N3-controller-and-source-controls",
+        "exact-new-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-20261024-source-v1/test-city4-resume-source-v1.mjs",
+      "bytes": 22976,
+      "sha256": "5acb5659502ee56a58fa2e8e17d3548ec884812d6192d44b93602035f6ae8dd3",
+      "blob": "5acb5659502ee56a58fa2e8e17d3548ec884812d6192d44b93602035f6ae8dd3",
+      "roles": [
+        "exact-executed-N3-controller-and-source-controls",
+        "exact-new-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-controls-before-fixture-fix-v1/test-city4-resume-source-v1.mjs",
+      "bytes": 22458,
+      "sha256": "ab009b846318b49e652c3227629f1d2728980d86ed8ab2f55d9e76cfe3e3027e",
+      "blob": "ab009b846318b49e652c3227629f1d2728980d86ed8ab2f55d9e76cfe3e3027e",
+      "roles": [
+        "preserved-first-controls-exact-original-source"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-before-controls-bind-fix-v1/run-october-city4-resume-v1.mjs",
+      "bytes": 28689,
+      "sha256": "d650dec4aafc4a03aef8406fcfe5a3b1dff561d08baa9d27360edb77db4f2eb4",
+      "blob": "d650dec4aafc4a03aef8406fcfe5a3b1dff561d08baa9d27360edb77db4f2eb4",
+      "roles": [
+        "preserved-first-controls-exact-original-source"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-source-controls-v1.json",
+      "bytes": 17292,
+      "sha256": "34da52d5c2b60d051905f6f9efec443321f5fce560551c0128bdd07dbe1c7dc2",
+      "blob": "34da52d5c2b60d051905f6f9efec443321f5fce560551c0128bdd07dbe1c7dc2",
+      "roles": [
+        "source-control-original-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-source-controls-v1/stdout.tap",
+      "bytes": 8454144,
+      "sha256": "e2540728184776ce9ba738cf9fb0f030e43cc358afd6d26cc276b3d4ad6ee401",
+      "blob": "e2540728184776ce9ba738cf9fb0f030e43cc358afd6d26cc276b3d4ad6ee401",
+      "roles": [
+        "source-control-original-stdout-stderr"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-source-controls-v1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "source-control-original-stdout-stderr"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-source-controls-v2.json",
+      "bytes": 17330,
+      "sha256": "aede7ae11d5758e81767e4474674b9f4db20e9532d1ba12884bfb6c4ff5d3499",
+      "blob": "aede7ae11d5758e81767e4474674b9f4db20e9532d1ba12884bfb6c4ff5d3499",
+      "roles": [
+        "exact-new-ignored-source-fallback",
+        "source-control-original-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-source-controls-v2/stdout.tap",
+      "bytes": 5624,
+      "sha256": "41719429f27b45ffdbb7026bbce407f8f08848dcf46b7ea8282b1c5e20615f8d",
+      "blob": "41719429f27b45ffdbb7026bbce407f8f08848dcf46b7ea8282b1c5e20615f8d",
+      "roles": [
+        "source-control-original-stdout-stderr"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-source-controls-v2/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "source-control-original-stdout-stderr"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-resume-source-controls-v1.mjs",
+      "bytes": 3506,
+      "sha256": "0d063043200c3e6ad64e9fa5d3e582d377474c1bf11cbe08f983bf73d6cedc83",
+      "blob": "0d063043200c3e6ad64e9fa5d3e582d377474c1bf11cbe08f983bf73d6cedc83",
+      "roles": [
+        "exact-source-controller-recorder-or-P49-binder",
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-resume-source-controls-v2.mjs",
+      "bytes": 3622,
+      "sha256": "5e331796714f1243862626209f465e5d6e445faf635785c39991b9efb51d3359",
+      "blob": "5e331796714f1243862626209f465e5d6e445faf635785c39991b9efb51d3359",
+      "roles": [
+        "exact-new-ignored-source-fallback",
+        "exact-source-controller-recorder-or-P49-binder"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-input-v1.mjs",
+      "bytes": 6336,
+      "sha256": "f7291aa301a096f5dd064d45b418cb4612bc8366848d45fc9c99597021492d6f",
+      "blob": "f7291aa301a096f5dd064d45b418cb4612bc8366848d45fc9c99597021492d6f",
+      "roles": [
+        "exact-new-ignored-source-fallback",
+        "exact-source-controller-recorder-or-P49-binder"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-post-exit-audit-v1.json",
+      "bytes": 1293,
+      "sha256": "c9eea50f28795e02fec4dc8c092337a5b87e6d2a3e8a855b601fb63860270ee6",
+      "blob": "c9eea50f28795e02fec4dc8c092337a5b87e6d2a3e8a855b601fb63860270ee6",
+      "roles": [
+        "read-only-supplemental-natural-exit-original",
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-post-exit-sample-1.json",
+      "bytes": 5817,
+      "sha256": "3d1fbf25dcb3874c618c91c7b986bfd10bb66d28d718bdf9dcfb235d36298dbc",
+      "blob": "3d1fbf25dcb3874c618c91c7b986bfd10bb66d28d718bdf9dcfb235d36298dbc",
+      "roles": [
+        "read-only-supplemental-natural-exit-original",
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-post-exit-sample-2.json",
+      "bytes": 5817,
+      "sha256": "4cb317df03f100089ff8cbd94de3dc29f5d54064171f94549fd84d7c8a22b2fc",
+      "blob": "4cb317df03f100089ff8cbd94de3dc29f5d54064171f94549fd84d7c8a22b2fc",
+      "roles": [
+        "read-only-supplemental-natural-exit-original",
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/sample-v50-post-exit-v1.ps1",
+      "bytes": 3657,
+      "sha256": "d19ea5b69a142d8a72985dfe623809c38096d2194fdfa9bbcbfff313b904aefa",
+      "blob": "d19ea5b69a142d8a72985dfe623809c38096d2194fdfa9bbcbfff313b904aefa",
+      "roles": [
+        "read-only-supplemental-natural-exit-original",
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-v50-city4-v1.mjs",
+      "bytes": 17738,
+      "sha256": "ab98900b2e7ac5578fec6f7a6479df0edf5222d6b366905a4eee0c74d2e5f556",
+      "blob": "ab98900b2e7ac5578fec6f7a6479df0edf5222d6b366905a4eee0c74d2e5f556",
+      "roles": [
+        "explicit-reviewed-publication-source"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-publication-bindings-v1.json",
+      "bytes": 9319,
+      "sha256": "fd7aae74469fe6ebb80b0ebe8f447874fdc281f9adf1f828ef98ceb63ed588ea",
+      "blob": "fd7aae74469fe6ebb80b0ebe8f447874fdc281f9adf1f828ef98ceb63ed588ea",
+      "roles": [
+        "explicit-reviewed-publication-source"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-public-reader-final-v2.mjs",
+      "bytes": 54612,
+      "sha256": "b963e822a4c41a78ae16ac20c5b9de6477e7abb13e4d6ec1ff442d81c856db31",
+      "blob": "b963e822a4c41a78ae16ac20c5b9de6477e7abb13e4d6ec1ff442d81c856db31",
+      "roles": [
+        "explicit-reviewed-publication-source"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-public-reader-execution-v2.mjs",
+      "bytes": 54632,
+      "sha256": "4cd556db5770fd4b9e296c53befcd6b3d4d8bd4fcc4ddaae68d71c97523afe8b",
+      "blob": "4cd556db5770fd4b9e296c53befcd6b3d4d8bd4fcc4ddaae68d71c97523afe8b",
+      "roles": [
+        "explicit-reviewed-publication-source"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-city4-resume-actual-semantic-v3.mjs",
+      "bytes": 29612,
+      "sha256": "0f5cc0020399f4f3b25e9bd93f777733cdd6545999ab77b0f172def0abb00cc7",
+      "blob": "0f5cc0020399f4f3b25e9bd93f777733cdd6545999ab77b0f172def0abb00cc7",
+      "roles": [
+        "explicit-reviewed-publication-source"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-public-envelope-draft-v2.mjs",
+      "bytes": 18220,
+      "sha256": "6e200176d400254ef682a2853f3617abe2235cfaac571012de1369f08be66d2b",
+      "blob": "6e200176d400254ef682a2853f3617abe2235cfaac571012de1369f08be66d2b",
+      "roles": [
+        "explicit-reviewed-publication-source"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-authoritative-input-bind-v1.json",
+      "bytes": 4461,
+      "sha256": "b54093062d3ed35e059323df392aca6bb243ab47ff58cf8d96524f93b6120743",
+      "blob": "b54093062d3ed35e059323df392aca6bb243ab47ff58cf8d96524f93b6120743",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-saved-suite-baseline-v1.json",
+      "bytes": 55038,
+      "sha256": "4d394cc671319209d8fc36ac8d13385ddd6a6f58b2211baa11c4245e71068214",
+      "blob": "4d394cc671319209d8fc36ac8d13385ddd6a6f58b2211baa11c4245e71068214",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v50-saved-suite-baseline-v1.mjs",
+      "bytes": 2618,
+      "sha256": "1dd165892c17fecadda2c192e56f8bc232815bb9a0a85948334be1f5c2a719ed",
+      "blob": "1dd165892c17fecadda2c192e56f8bc232815bb9a0a85948334be1f5c2a719ed",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-city4-resume-input-independent-v1.json",
+      "bytes": 4072,
+      "sha256": "8ee9278762e993ed8d4da6048b51292355b9f80ff346d9f5e809358ebe6d77b0",
+      "blob": "8ee9278762e993ed8d4da6048b51292355b9f80ff346d9f5e809358ebe6d77b0",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v50-city4-resume-input-v1.mjs",
+      "bytes": 3995,
+      "sha256": "2536fe042887936682acdb5c6431ccc7a16daa79435fc8a27af72ea9146f0bb6",
+      "blob": "2536fe042887936682acdb5c6431ccc7a16daa79435fc8a27af72ea9146f0bb6",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-city4-resume-controller-independent-v2.json",
+      "bytes": 4979,
+      "sha256": "71daf4d90bc2e57c0faa938555bddda8b7a0378c942f5c0edf906f7246b5fb19",
+      "blob": "71daf4d90bc2e57c0faa938555bddda8b7a0378c942f5c0edf906f7246b5fb19",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v50-city4-resume-controller-v1.mjs",
+      "bytes": 5222,
+      "sha256": "8ffd5a048e691472e5523984655f97d471af9965cfd1d3dd29822d8d9316d913",
+      "blob": "8ffd5a048e691472e5523984655f97d471af9965cfd1d3dd29822d8d9316d913",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v50-city4-resume-controller-v2.mjs",
+      "bytes": 6882,
+      "sha256": "53240c463d33406c7604803b6b67dea6098632c42ac908359207be85f0f347e6",
+      "blob": "53240c463d33406c7604803b6b67dea6098632c42ac908359207be85f0f347e6",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-controller-freeze-v1.json",
+      "bytes": 2754,
+      "sha256": "c826877145faf1f73412ec6471268ecc0d7c9dcb2f8a1a30aab4f9258fe7003a",
+      "blob": "c826877145faf1f73412ec6471268ecc0d7c9dcb2f8a1a30aab4f9258fe7003a",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-controller-freeze-v2.json",
+      "bytes": 944,
+      "sha256": "e9ac90794a598d1b394ef7e1d350d80d1ca62c3c5a0a3e3b924a5c4cfdfe4c50",
+      "blob": "e9ac90794a598d1b394ef7e1d350d80d1ca62c3c5a0a3e3b924a5c4cfdfe4c50",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-city4-resume-source-handoff-v1.json",
+      "bytes": 6927,
+      "sha256": "032b4b6d68fd4c9b67258f8a74ea6292344c5510575542e84167963404affe58",
+      "blob": "032b4b6d68fd4c9b67258f8a74ea6292344c5510575542e84167963404affe58",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-resume-actual-preflight-v50-v1.json",
+      "bytes": 10427,
+      "sha256": "37eaa1cadbceb15b577b1c68a0568b8f707cdfab6173072bb3a03af0d364f882",
+      "blob": "37eaa1cadbceb15b577b1c68a0568b8f707cdfab6173072bb3a03af0d364f882",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/preflight-city4-resume-v50-v1.mjs",
+      "bytes": 2420,
+      "sha256": "085bf833a100bc1656ede53b6de80a60a750b9f5bb22c912edef5f75e2340f24",
+      "blob": "085bf833a100bc1656ede53b6de80a60a750b9f5bb22c912edef5f75e2340f24",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-current-main-v1.json",
+      "bytes": 2193,
+      "sha256": "ee89b7a4a7430f71cbbce7f6e2a221a8ac736e697502c5991d6165edf3267a4d",
+      "blob": "ee89b7a4a7430f71cbbce7f6e2a221a8ac736e697502c5991d6165edf3267a4d",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/bind-v50-current-main-v1.mjs",
+      "bytes": 3197,
+      "sha256": "61d2745acd3395614ee3cb1ca2533496c05c8eda7ed303012c5ff7ec6aa9b102",
+      "blob": "61d2745acd3395614ee3cb1ca2533496c05c8eda7ed303012c5ff7ec6aa9b102",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-closed-resume-independent-v1/failure.json",
+      "bytes": 79217,
+      "sha256": "66606338405425a79c4d2949e827df82a3c63fa5597fe46294066c6d06c8e42c",
+      "blob": "66606338405425a79c4d2949e827df82a3c63fa5597fe46294066c6d06c8e42c",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-closed-resume-independent-v1/original-file-pins.json",
+      "bytes": 34874,
+      "sha256": "5b65ec552b32979e55f279559ada51047d279b486ef9686e0896f6a6277351b7",
+      "blob": "5b65ec552b32979e55f279559ada51047d279b486ef9686e0896f6a6277351b7",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v50-closed-resume-whole-v1.mjs",
+      "bytes": 6898,
+      "sha256": "1eea73eed292c25efa1ff5dac9a91b29acc912fe4c263d5753d5c2a39fce0ab2",
+      "blob": "1eea73eed292c25efa1ff5dac9a91b29acc912fe4c263d5753d5c2a39fce0ab2",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-closed-resume-independent-v2/receipt.json",
+      "bytes": 7761,
+      "sha256": "a928bac031c798b4e1f2946f4a68d7e79d269c9b06a3bdab96e29ccf59510956",
+      "blob": "a928bac031c798b4e1f2946f4a68d7e79d269c9b06a3bdab96e29ccf59510956",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-closed-resume-independent-v2/original-file-pins.json",
+      "bytes": 35263,
+      "sha256": "c1c75befa421f622fb5c0c50d0942959d77c48ca47eae7ef9b33706507c0ce92",
+      "blob": "c1c75befa421f622fb5c0c50d0942959d77c48ca47eae7ef9b33706507c0ce92",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-closed-resume-independent-v2/whole-map-result.json",
+      "bytes": 241890,
+      "sha256": "c2bcc465a6530f6689e7edee50396f343ea4c6fa15b8504575b50fcf8809471a",
+      "blob": "c2bcc465a6530f6689e7edee50396f343ea4c6fa15b8504575b50fcf8809471a",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v50-closed-resume-whole-v2.mjs",
+      "bytes": 6990,
+      "sha256": "6c228ea1626c39c39c86e47ed22da5c2cbabcaf089d54b293b58a3154877cf9c",
+      "blob": "6c228ea1626c39c39c86e47ed22da5c2cbabcaf089d54b293b58a3154877cf9c",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-combined-reader-source-independent-v1.json",
+      "bytes": 1903,
+      "sha256": "f8ee63887e45cc355bed6c374b076ee5706e2b358882cca9c364d258dbee00c0",
+      "blob": "f8ee63887e45cc355bed6c374b076ee5706e2b358882cca9c364d258dbee00c0",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v50-combined-reader-source-v1.mjs",
+      "bytes": 2937,
+      "sha256": "62f27b3c4843f8de6f36d46cfa2eebb4457031eefbd858841684d6708ccffea9",
+      "blob": "62f27b3c4843f8de6f36d46cfa2eebb4457031eefbd858841684d6708ccffea9",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-attributes-evolution-v1.json",
+      "bytes": 837,
+      "sha256": "733aaccdf14e5f4d8a1b7c565b9af8cb190e5e84e3740018b4c8bd176774ac86",
+      "blob": "733aaccdf14e5f4d8a1b7c565b9af8cb190e5e84e3740018b4c8bd176774ac86",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/update-v50-plans-v1.mjs",
+      "bytes": 5141,
+      "sha256": "e1b553ce7576a809b563ddc49abc9efbae4ec6e01b14be27429684cf8edac559",
+      "blob": "e1b553ce7576a809b563ddc49abc9efbae4ec6e01b14be27429684cf8edac559",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-city4-resume-actual-semantic-v2.mjs",
+      "bytes": 29289,
+      "sha256": "55f8d642488265c54fd4cd5a82549216538dc81e89267dd69306e10a717ed447",
+      "blob": "55f8d642488265c54fd4cd5a82549216538dc81e89267dd69306e10a717ed447",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-public-reader-final-v1.mjs",
+      "bytes": 54289,
+      "sha256": "4f32d5b37538ac8d493541d83a361d5113196cbf6e1aa4a0df6785dd1e791fd5",
+      "blob": "4f32d5b37538ac8d493541d83a361d5113196cbf6e1aa4a0df6785dd1e791fd5",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-public-reader-execution-v1.mjs",
+      "bytes": 54309,
+      "sha256": "0394eeb8ccb1dc860b61efc97b9e361e8c4e92cf91053d643368e9f436553c3a",
+      "blob": "0394eeb8ccb1dc860b61efc97b9e361e8c4e92cf91053d643368e9f436553c3a",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/build-v50-public-reader-v2.mjs",
+      "bytes": 4134,
+      "sha256": "3c70819d6d9f15b00606c5aaaa705e07a035bcef6e7d83588dcbb8d6d985eba8",
+      "blob": "3c70819d6d9f15b00606c5aaaa705e07a035bcef6e7d83588dcbb8d6d985eba8",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-public-reader-independent-controls-v1.mjs",
+      "bytes": 15392,
+      "sha256": "6fd6b7b897db9f5b5212909bc3d6bdcf8ac881b4b45ad5ee27a5a90395e27046",
+      "blob": "6fd6b7b897db9f5b5212909bc3d6bdcf8ac881b4b45ad5ee27a5a90395e27046",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-v50-publication-bindings-v1.mjs",
+      "bytes": 2748,
+      "sha256": "14ceea359b3a870c8f503142a7f2b2bf1b940fff10189a347d97cd9bd60db5a3",
+      "blob": "14ceea359b3a870c8f503142a7f2b2bf1b940fff10189a347d97cd9bd60db5a3",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v50-publication-source-v1.mjs",
+      "bytes": 3486,
+      "sha256": "142e93a0b521cfaeedefb0cca5fa88b3f1de818e2964682ca86bd42bd720e05b",
+      "blob": "142e93a0b521cfaeedefb0cca5fa88b3f1de818e2964682ca86bd42bd720e05b",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v50-publication-source-independent-v1.json",
+      "bytes": 1707,
+      "sha256": "401433624425e1af66c94b63abc6bf025355f2a0b583b6704eeb311a7fb8f909",
+      "blob": "401433624425e1af66c94b63abc6bf025355f2a0b583b6704eeb311a7fb8f909",
+      "roles": [
+        "root-explicit-pinned-support"
+      ]
+    },
+    {
+      "path": "docs/hd-development-plan.md",
+      "bytes": 193265,
+      "sha256": "0fc4689f8aa59bf38219659f5dc0014a9ef6c31d4643b8e555c60e37cac017c3",
+      "blob": "0fc4689f8aa59bf38219659f5dc0014a9ef6c31d4643b8e555c60e37cac017c3",
+      "roles": [
+        "current-plans-metadata-only"
+      ]
+    },
+    {
+      "path": "docs/hd-remaining-work.md",
+      "bytes": 214874,
+      "sha256": "15d7ad5822d3258037f434fd2715a52d1b6100f46ce17e3376e0b592c3424227",
+      "blob": "15d7ad5822d3258037f434fd2715a52d1b6100f46ce17e3376e0b592c3424227",
+      "roles": [
+        "current-plans-metadata-only"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-city4-preparation.mjs",
+      "bytes": 14136,
+      "sha256": "2142399ba7f6b80b230199b5596eed5557276d2f2677a845755960ef97efd933",
+      "blob": "2142399ba7f6b80b230199b5596eed5557276d2f2677a845755960ef97efd933",
+      "roles": [
+        "selected-current-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-city4-preparation.mjs",
+      "bytes": 15890,
+      "sha256": "a7e2d898835956cf25bed65c56f35fdf8311b0376e90ae418bfe6e0bcb6ae8e0",
+      "blob": "a7e2d898835956cf25bed65c56f35fdf8311b0376e90ae418bfe6e0bcb6ae8e0",
+      "roles": [
+        "selected-current-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-city4-continuation.mjs",
+      "bytes": 50060,
+      "sha256": "7b3652cf71b8f105417a3f2fc094a214141cc19545f9a25dcc97f94c6f773409",
+      "blob": "7b3652cf71b8f105417a3f2fc094a214141cc19545f9a25dcc97f94c6f773409",
+      "roles": [
+        "selected-current-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-city4-continuation.mjs",
+      "bytes": 37455,
+      "sha256": "5314523c7c904e959865fe448aadff9774d7006a41fd1fd4f01d6bc87e5c3ec1",
+      "blob": "5314523c7c904e959865fe448aadff9774d7006a41fd1fd4f01d6bc87e5c3ec1",
+      "roles": [
+        "selected-current-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "blob": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "roles": [
+        "selected-current-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "package.json",
+      "bytes": 20831,
+      "sha256": "2ae8b31d64d5d00e3396f0cf7627ddea123182e7da4169b4d7427019379e23fe",
+      "blob": "2ae8b31d64d5d00e3396f0cf7627ddea123182e7da4169b4d7427019379e23fe",
+      "roles": [
+        "selected-current-matching-checkout-source"
+      ]
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 30301,
+      "sha256": "2be23a566a4c6b37835d31bccaa5c1745ac1087ee5cbc1f47166c7e6e4ef4623",
+      "blob": "2be23a566a4c6b37835d31bccaa5c1745ac1087ee5cbc1f47166c7e6e4ef4623",
+      "roles": [
+        "selected-current-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-verify.mjs",
+      "bytes": 32262,
+      "sha256": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca",
+      "blob": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca",
+      "roles": [
+        "selected-current-matching-checkout-source"
+      ]
+    }
+  ],
+  "logicalFiles": 204,
+  "uniqueBlobs": 190,
+  "rawNamedBytes": 95190330,
+  "uniqueRawBytes": 91776659,
+  "uniqueGzipBytes": 13915713,
+  "serializedPartBytes": 18598241,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

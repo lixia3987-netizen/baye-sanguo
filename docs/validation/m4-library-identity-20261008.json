@@ -1,0 +1,5869 @@
+{
+  "date": "2026-10-08",
+  "branch": "feature/hd-graphics",
+  "goalComplete": false,
+  "scope": "PC actual loaded LIB identity, U16 ownership, city/person details and native renderer integration",
+  "environment": {
+    "host": "Windows PowerShell",
+    "node": "v24.14.0",
+    "chrome": "154.0.8037.98",
+    "viewports": [
+      {
+        "width": 1920,
+        "height": 1080,
+        "dpr": 1
+      },
+      {
+        "width": 1280,
+        "height": 720,
+        "dpr": 1
+      }
+    ],
+    "devices": "desktop headless Chrome; not Android/iOS hardware"
+  },
+  "tests": {
+    "fullSuite": {
+      "passed": 318,
+      "failed": 0,
+      "skipped": 0,
+      "log": "m4-library-identity-20261008/full-tests.log"
+    },
+    "sharedIdentity": 9,
+    "overworldIdentity": 15,
+    "ownership": 12,
+    "cityHud": 19,
+    "portraits": 33,
+    "idbActualModPrototype": 8,
+    "terrain": 17,
+    "speFrontend": 14,
+    "nativeC": {
+      "compiler": "Emscripten LLVM Clang 18 + Visual Studio runtime",
+      "files": [
+        "test-hd-battle-mode.mjs",
+        "test-hd-engine-protocol.mjs",
+        "test-hd-campaign-engine.mjs",
+        "test-hd-save-transaction.mjs",
+        "test-hd-spe-engine.mjs"
+      ],
+      "includedInFullSuite": true,
+      "skipped": 0
+    }
+  },
+  "sources": {
+    "engine": {
+      "baye.js": {
+        "source": "js\\baye.js",
+        "bytes": 191800,
+        "sha256": "8bcba943e2f64be196386386ca7208f19fc5c7cffe03981bd2f4364067167ef7"
+      },
+      "baye.wasm": {
+        "source": "js\\baye.wasm",
+        "bytes": 4237373,
+        "sha256": "270d454af2aebe340fa913cd3ba495ba88931f1c08d02ff3ae3d80b12c1da6f7"
+      },
+      "baye.wasm.map": {
+        "source": "js\\baye.wasm.map",
+        "bytes": 29805,
+        "sha256": "771c74d946af16c33d43577ee8ca83b3f3ce0243ade331e338fdd0d3619e7d37"
+      },
+      "baye.build.json": {
+        "source": "js\\baye.build.json",
+        "bytes": 2375,
+        "sha256": "44504d563a18bbe5dc7de180bdef1dbaf6b1bf0805a9825786dbe142c1f8b6c8"
+      }
+    },
+    "inputs": {
+      "lcd.js": {
+        "source": "js\\lcd.js",
+        "bytes": 28854,
+        "sha256": "5c07100a6cfba25199cb7222d1de79dfc86853eecab2a23febdc63615c845951"
+      },
+      "hd-city-menu.js": {
+        "source": "js\\hd-city-menu.js",
+        "bytes": 241780,
+        "sha256": "a65e4e0afba644974d8b05600d1d72b9dcd46f030f8cfe897646450d8fdb9b52"
+      },
+      "hd-dialog.js": {
+        "source": "js\\hd-dialog.js",
+        "bytes": 70925,
+        "sha256": "6bfc554bc2068d992f8711e7d1f8d002513c0acc372cfb31516fb879c1ccac1a"
+      },
+      "bridge.js": {
+        "source": "js\\bridge.js",
+        "bytes": 55975,
+        "sha256": "b3f60f6b8fdf253118f4b47a4615ac6fcc07306e731d761d4fd6e75cdaa8c970"
+      },
+      "idbkvstore.min.js": {
+        "source": "js\\idbkvstore.min.js",
+        "bytes": 16578,
+        "sha256": "d41e42cb680355a626e536ca8ace12fc4c3eb3d22b3dd581f51e48a1aa3aed60"
+      }
+    },
+    "renderers": {
+      "hd-overworld.js": {
+        "source": "js\\hd-overworld.js",
+        "bytes": 149119,
+        "sha256": "7d6bd4ca1bdc498278041be575d92bea58ee018b47fee29c99da0f5a7489a37e"
+      },
+      "hd-battle.js": {
+        "source": "js\\hd-battle.js",
+        "bytes": 65959,
+        "sha256": "d7be7bc765ccdea8a725a7af4991fed4e016dbda880cf3005333d186ff336a73"
+      },
+      "hd-battle-terrain.js": {
+        "source": "js\\hd-battle-terrain.js",
+        "bytes": 12641,
+        "sha256": "657abe5362c1cf810ddef66583bca90e86432bc3ffe8a5fc5c1c1d5f02885467"
+      },
+      "hd-battle-feedback.js": {
+        "source": "js\\hd-battle-feedback.js",
+        "bytes": 12212,
+        "sha256": "ff9f026ad86b50174b7f2f4e0b5b1b91fa9f2b0800a7a515ce2e8663ac23f90f"
+      }
+    },
+    "identityConsumers": {
+      "hd-lib-identity.js": {
+        "source": "js\\hd-lib-identity.js",
+        "bytes": 5822,
+        "sha256": "b32f1bc26cfe1d41f064fb250b8c6c4978aa8ac7c5c8ad2ecc4ac5df14e42aaf"
+      },
+      "hd-portraits.js": {
+        "source": "js\\hd-portraits.js",
+        "bytes": 28361,
+        "sha256": "f41ab180da93210904609da8acd78b4737162af50e954e2a0d46c83d3087faca"
+      },
+      "hd-spe.js": {
+        "source": "js\\hd-spe.js",
+        "bytes": 19641,
+        "sha256": "55394c651905c1982f303968b5e4b8c0cfe2e573b509070d71f6d3b6202bf453"
+      }
+    },
+    "presentation": {
+      "pc.html": {
+        "source": "pc.html",
+        "bytes": 24385,
+        "sha256": "d24db50ab7bc9e3371d526e678b688be84df6e963f0096f6d2f754729012fedb"
+      },
+      "css/hd-city-menu.css": {
+        "source": "css/hd-city-menu.css",
+        "bytes": 12419,
+        "sha256": "6e89b87f61236278c27e9855e697dc7694e8c34718f36f4502c76c71ac76d04e"
+      },
+      "css/hd-dialog.css": {
+        "source": "css/hd-dialog.css",
+        "bytes": 4010,
+        "sha256": "9401d29ec771af3436af0d5b3f487daf8c28d599eaa50d432cb75492131050c8"
+      },
+      "css/hd-overworld.css": {
+        "source": "css/hd-overworld.css",
+        "bytes": 4893,
+        "sha256": "f73d215b252bbb3fca714d0dea03ba99e6597fb358293d1049e92effe14997d1"
+      },
+      "css/hd-portraits.css": {
+        "source": "css/hd-portraits.css",
+        "bytes": 1468,
+        "sha256": "0f81311067dade4d1e5515db40432d224cfe4071737794e89cd9bf7248b39799"
+      },
+      "assets/hd-overworld/manifest.json": {
+        "source": "assets/hd-overworld/manifest.json",
+        "bytes": 1109,
+        "sha256": "162278b5bae77b72ce48a6b3e630f2f4e24299d74a517bf344cd51fe086f313b"
+      },
+      "assets/hd-overworld/china-lcc-cities.json": {
+        "source": "assets/hd-overworld/china-lcc-cities.json",
+        "bytes": 13172,
+        "sha256": "6c429b8d0009c7c78e0bc478e9ba4539ada4b0c60c87e2d1c56813d56a4de73a"
+      },
+      "assets/hd-overworld/roads/adjacency.json": {
+        "source": "assets/hd-overworld/roads/adjacency.json",
+        "bytes": 925,
+        "sha256": "db0808fcb101d9d0439c54f4dd054325315b07e05713824fb7875ef78f0ddfad"
+      },
+      "assets/hd-portraits/manifest.json": {
+        "source": "assets/hd-portraits/manifest.json",
+        "bytes": 8741,
+        "sha256": "bda8f663852c256f8221fbd63721b5a6ddd27743d1d24a23798e92e9fa6e5894"
+      },
+      "assets/hd-portraits/refs/index.json": {
+        "source": "assets/hd-portraits/refs/index.json",
+        "bytes": 224423,
+        "sha256": "546a3ea06bf14cc0a14729b710ca7cfcca00a8f384e415b23e5a02cec2b3ed6f"
+      },
+      "assets/hd-spe/manifest.json": {
+        "source": "assets/hd-spe/manifest.json",
+        "bytes": 1933,
+        "sha256": "d9a7a75377ac5344376849587519290206644d595b3cb8cf40195b79b0a77e71"
+      },
+      "libs/dat-mod.lib": {
+        "source": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      "libs/sc-mod.lib": {
+        "source": "libs/sc-mod.lib",
+        "bytes": 3047694,
+        "sha256": "58de2ee328aef937aff6890424eca63690419c94afadf65bb665397457119e9c"
+      }
+    }
+  },
+  "engineManifest": {
+    "schemaVersion": 1,
+    "sourceRevision": "2542a65b7990ea8d11400b0cbcb1cde52b739ae6",
+    "engineSourceSha256": "701e3af5275eb50026cd4ba2782a385a24d1f10f28f705912d4a371a22b6592e",
+    "engineSourceModified": true,
+    "emscriptenVersion": "3.1.51",
+    "cmakeVersion": "cmake version 3.31.6",
+    "sourceDateEpoch": 1791414721,
+    "hdMenuProtocol": {
+      "nativeFallback": 254,
+      "controlField": "g_hdFightMenuControl"
+    },
+    "hdInputProtocol": {
+      "version": 3,
+      "fight": [
+        "g_hdFightInputKind",
+        "g_hdFightInputSeq",
+        "g_hdFightActor"
+      ],
+      "menu": [
+        "g_hdMenuActive",
+        "g_hdMenuContext",
+        "g_hdMenuKind",
+        "g_hdMenuSeq"
+      ],
+      "march": [
+        "g_hdMarchPhase",
+        "g_hdMarchSession",
+        "g_hdMarchOrigin",
+        "g_hdMarchSelected",
+        "g_hdMarchInputSeq",
+        "g_hdMapInputSeq"
+      ],
+      "report": [
+        "g_hdReportActive",
+        "g_hdReportInputSeq"
+      ],
+      "record": [
+        "g_hdRecordActive",
+        "g_hdRecordMode",
+        "g_hdRecordIndex",
+        "g_hdRecordCount",
+        "g_hdRecordSeq"
+      ],
+      "qty": [
+        "g_hdQtyActive",
+        "g_hdQtySession",
+        "g_hdQtyInputSeq",
+        "g_hdQtyLastKey",
+        "g_hdQtyCursor",
+        "g_hdQtyStep",
+        "g_hdQtyReady"
+      ]
+    },
+    "hdSpeProtocol": {
+      "version": 2,
+      "event": [
+        "g_hdSpeGeneration",
+        "g_hdSpeEventId",
+        "g_hdSpeParentEventId",
+        "g_hdSpeDepth"
+      ],
+      "frames": [
+        "g_hdSpeFrameIndex",
+        "g_hdSpeFrameValid",
+        "g_hdSpeCommitSeq",
+        "g_hdSpeVisibleFrames"
+      ],
+      "resourceFingerprint": "fnv1a32:payload:resourceLength",
+      "displayedCommit": "SysCopyScreen snapshot published by timed_flush_lcd before lcdFlushBuffer",
+      "skipEligible": "keyflag === 1"
+    },
+    "saveProtocol": {
+      "version": 149,
+      "legacyVersions": [
+        144,
+        145,
+        146,
+        147,
+        148
+      ],
+      "filesPerSlot": 2,
+      "fightersBytes": 600,
+      "goodsQueueBytes": 4000
+    },
+    "artifacts": {
+      "baye.js": {
+        "bytes": 191800,
+        "sha256": "8bcba943e2f64be196386386ca7208f19fc5c7cffe03981bd2f4364067167ef7"
+      },
+      "baye.wasm": {
+        "bytes": 4237373,
+        "sha256": "270d454af2aebe340fa913cd3ba495ba88931f1c08d02ff3ae3d80b12c1da6f7"
+      },
+      "baye.wasm.map": {
+        "bytes": 29805,
+        "sha256": "771c74d946af16c33d43577ee8ca83b3f3ce0243ade331e338fdd0d3619e7d37"
+      }
+    }
+  },
+  "sourceConsistency": {
+    "runtimeFrozenSourcesMatchWorking": true,
+    "runtimeFrozenSourcesMatchGitIndexExceptListedEol": true,
+    "indexConversions": [
+      {
+        "source": "assets/hd-spe/manifest.json",
+        "workingBytes": 1933,
+        "indexBytes": 1841,
+        "indexSha256": "9804f187aafebf807f7ee1977b4b11726cce2f2e4006d674e1086b0825ed3b1d",
+        "reason": "unchanged Windows CRLF checkout of the LF index; semantic JSON identical"
+      }
+    ],
+    "engineFourFilesUnchangedFromPreviousCommit": true,
+    "engineCache": "20261008h",
+    "modifiedFrontendCache": "20261008i",
+    "criticalSpeFrozenSourcesMatchCurrent": [
+      "baye.js",
+      "baye.wasm",
+      "baye.wasm.map",
+      "baye.build.json",
+      "bridge.js",
+      "hd-lib-identity.js",
+      "hd-spe.js",
+      "idbkvstore.min.js",
+      "assets/hd-spe/manifest.json"
+    ],
+    "speScope": "SPE/identity/bridge/native engine frozen bytes match current; city/portrait layout changed during the separate SPE run and are accepted by runtime-final. No claim of one frozen complete UI batch for SPE.",
+    "battleSharedIdentity": "shared identity was unchanged before/during/after this run; battle harness does not itself freeze/report that script. Its final frozen bytes are recorded in runtime sources."
+  },
+  "runtime": {
+    "ok": true,
+    "checkpoints": 27,
+    "uncaughtExceptions": 0,
+    "unexpectedDialogs": 0,
+    "startedAt": "2026-10-08T00:32:58.061Z",
+    "finishedAt": "2026-10-08T00:33:25.197Z",
+    "artifact": "build/m4-library-identity/runtime-final/result.json",
+    "resultSha256": "53254f2eed45d5b33fb279c0bd3f03c9c5ad937a1a6f2a73189e0fcdecd144ba"
+  },
+  "hud": {
+    "city": {
+      "details": {
+        "cityIndex": 12,
+        "name": "濮阳",
+        "groups": [
+          {
+            "title": "归属与城况",
+            "rows": [
+              [
+                "归属",
+                "曹操"
+              ],
+              [
+                "太守",
+                "曹操"
+              ],
+              [
+                "城况",
+                "正常（码 0）"
+              ]
+            ]
+          },
+          {
+            "title": "民生与发展",
+            "rows": [
+              [
+                "农业 / 上限",
+                "1238 / 4424"
+              ],
+              [
+                "商业 / 上限",
+                "1223 / 4892"
+              ],
+              [
+                "人口 / 上限",
+                "64139 / 206902"
+              ],
+              [
+                "民忠",
+                "48"
+              ],
+              [
+                "防灾",
+                "30"
+              ]
+            ]
+          },
+          {
+            "title": "资源与军备",
+            "rows": [
+              [
+                "金钱",
+                "135"
+              ],
+              [
+                "粮食",
+                "309"
+              ],
+              [
+                "预备兵",
+                "0"
+              ],
+              [
+                "城内人物",
+                "11"
+              ],
+              [
+                "城内道具",
+                "2"
+              ]
+            ]
+          }
+        ]
+      },
+      "native": {
+        "name": "濮阳",
+        "owner": {
+          "kind": "owned",
+          "value": 2,
+          "personIndex": 1,
+          "name": "曹操",
+          "label": "曹操"
+        },
+        "Farming": 1238,
+        "FarmingLimit": 4424,
+        "Commerce": 1223,
+        "CommerceLimit": 4892,
+        "Population": 64139,
+        "PopulationLimit": 206902,
+        "PeopleDevotion": 48,
+        "AvoidCalamity": 30,
+        "Money": 135,
+        "Food": 309,
+        "MothballArms": 0,
+        "Persons": 11,
+        "Tools": 2
+      },
+      "screens": [
+        {
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "box": {
+            "left": 502,
+            "right": 1418,
+            "top": 340,
+            "bottom": 776,
+            "width": 916,
+            "height": 436
+          },
+          "stage": {
+            "left": 470,
+            "right": 1450,
+            "top": 220,
+            "bottom": 860,
+            "width": 980,
+            "height": 640
+          },
+          "footer": {
+            "left": 502,
+            "right": 1418,
+            "top": 794,
+            "bottom": 838,
+            "width": 916,
+            "height": 44
+          },
+          "boxWidth": 901,
+          "boxScrollWidth": 901,
+          "boxHeight": 436,
+          "boxScrollHeight": 490,
+          "overflow": "auto",
+          "text": "归属与城况\n归属\n曹操\n太守\n曹操\n城况\n正常（码 0）\n民生与发展\n农业 / 上限\n1238 / 4424\n商业 / 上限\n1223 / 4892\n人口 / 上限\n64139 / 206902\n民忠\n48\n防灾\n30\n资源与军备\n金钱\n135\n粮食\n309\n预备兵\n0\n城内人物\n11\n城内道具\n2",
+          "lcdVisible": false,
+          "portraitDocked": false,
+          "headerUncovered": true
+        },
+        {
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "box": {
+            "left": 182,
+            "right": 1098,
+            "top": 168,
+            "bottom": 588,
+            "width": 916,
+            "height": 420
+          },
+          "stage": {
+            "left": 150,
+            "right": 1130,
+            "top": 48,
+            "bottom": 672,
+            "width": 980,
+            "height": 624
+          },
+          "footer": {
+            "left": 182,
+            "right": 1098,
+            "top": 606,
+            "bottom": 650,
+            "width": 916,
+            "height": 44
+          },
+          "boxWidth": 901,
+          "boxScrollWidth": 901,
+          "boxHeight": 420,
+          "boxScrollHeight": 490,
+          "overflow": "auto",
+          "text": "归属与城况\n归属\n曹操\n太守\n曹操\n城况\n正常（码 0）\n民生与发展\n农业 / 上限\n1238 / 4424\n商业 / 上限\n1223 / 4892\n人口 / 上限\n64139 / 206902\n民忠\n48\n防灾\n30\n资源与军备\n金钱\n135\n粮食\n309\n预备兵\n0\n城内人物\n11\n城内道具\n2",
+          "lcdVisible": false,
+          "portraitDocked": false,
+          "headerUncovered": true
+        }
+      ]
+    },
+    "person": {
+      "details": {
+        "ownerKey": "[4,1,3,13,[\"曹操\",\"夏侯惇\",\"夏侯渊\",\"李典\",\"乐进\",\"曹洪\",\"曹仁\"]]",
+        "context": 1,
+        "kind": 3,
+        "seq": 13,
+        "nativeIndex": 0,
+        "personIndex": 1,
+        "name": "曹操",
+        "ownership": {
+          "kind": "lord",
+          "value": 2,
+          "personIndex": 1,
+          "name": "曹操",
+          "label": "君主 · 曹操"
+        },
+        "groups": [
+          {
+            "title": "身份与经历",
+            "rows": [
+              [
+                "归属",
+                "君主 · 曹操"
+              ],
+              [
+                "原归属",
+                "未记录（0）"
+              ],
+              [
+                "年龄",
+                "35"
+              ],
+              [
+                "性格码",
+                "3（君主：大义）"
+              ]
+            ]
+          },
+          {
+            "title": "能力与状态",
+            "rows": [
+              [
+                "等级",
+                "1"
+              ],
+              [
+                "武力",
+                "84"
+              ],
+              [
+                "智力",
+                "90"
+              ],
+              [
+                "忠诚值",
+                "100"
+              ],
+              [
+                "经验",
+                "0"
+              ],
+              [
+                "体力",
+                "100"
+              ]
+            ]
+          },
+          {
+            "title": "军队与装备",
+            "rows": [
+              [
+                "基础兵种",
+                "骑兵（码 0）"
+              ],
+              [
+                "兵力",
+                "100"
+              ],
+              [
+                "装备一",
+                "无"
+              ],
+              [
+                "装备二",
+                "无"
+              ]
+            ]
+          }
+        ]
+      },
+      "native": {
+        "personIndex": 1,
+        "name": "曹操",
+        "owner": {
+          "kind": "lord",
+          "value": 2,
+          "personIndex": 1,
+          "name": "曹操",
+          "label": "君主 · 曹操"
+        },
+        "menu": {
+          "active": 1,
+          "context": 1,
+          "kind": 3,
+          "seq": 13,
+          "itemLen": 8,
+          "count": 7,
+          "index": 0,
+          "names": [
+            "曹操",
+            "夏侯惇",
+            "夏侯渊",
+            "李典",
+            "乐进",
+            "曹洪",
+            "曹仁"
+          ]
+        },
+        "equipment": [
+          0,
+          0
+        ],
+        "Age": 35,
+        "Level": 1,
+        "Force": 84,
+        "IQ": 90,
+        "Devotion": 100,
+        "Experience": 0,
+        "Thew": 100,
+        "Arms": 100,
+        "ArmsType": 0,
+        "Character": 3
+      },
+      "portrait": {
+        "mode": "hd",
+        "context": "person-info",
+        "personId": "1",
+        "period": "1",
+        "manifest": true,
+        "lib": "libs/dat-mod.lib",
+        "supportedLib": true,
+        "preview": false,
+        "identity": {
+          "status": "ready",
+          "generation": 2,
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "byteLength": 207195,
+          "reason": ""
+        },
+        "referenceCount": 800
+      },
+      "highlight": {
+        "index": 0,
+        "name": "曹操"
+      },
+      "screens": [
+        {
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "box": {
+            "left": 937.671875,
+            "right": 1417.984375,
+            "top": 340,
+            "bottom": 778,
+            "width": 480.3125,
+            "height": 438
+          },
+          "stage": {
+            "left": 470,
+            "right": 1450,
+            "top": 220,
+            "bottom": 860,
+            "width": 980,
+            "height": 640
+          },
+          "footer": {
+            "left": 502,
+            "right": 1418,
+            "top": 794,
+            "bottom": 838,
+            "width": 916,
+            "height": 44
+          },
+          "boxWidth": 465,
+          "boxScrollWidth": 465,
+          "boxHeight": 438,
+          "boxScrollHeight": 1027,
+          "overflow": "auto",
+          "text": "曹操 · 董卓弄权 · HD 立绘\n曹操\n身份与经历\n归属\n君主 · 曹操\n原归属\n未记录（0）\n年龄\n35\n性格码\n3（君主：大义）\n能力与状态\n等级\n1\n武力\n84\n智力\n90\n忠诚值\n100\n经验\n0\n体力\n100\n军队与装备\n基础兵种\n骑兵（码 0）\n兵力\n100\n装备一\n无\n装备二\n无\n\n装备可能改变实际兵种。忠诚值保留原始数值，君主与在野人物不以此判断归属。",
+          "lcdVisible": false,
+          "portraitDocked": true,
+          "headerUncovered": true
+        },
+        {
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "box": {
+            "left": 617.671875,
+            "right": 1097.984375,
+            "top": 168,
+            "bottom": 590,
+            "width": 480.3125,
+            "height": 422
+          },
+          "stage": {
+            "left": 150,
+            "right": 1130,
+            "top": 48,
+            "bottom": 672,
+            "width": 980,
+            "height": 624
+          },
+          "footer": {
+            "left": 182,
+            "right": 1098,
+            "top": 606,
+            "bottom": 650,
+            "width": 916,
+            "height": 44
+          },
+          "boxWidth": 465,
+          "boxScrollWidth": 465,
+          "boxHeight": 422,
+          "boxScrollHeight": 1027,
+          "overflow": "auto",
+          "text": "曹操 · 董卓弄权 · HD 立绘\n曹操\n身份与经历\n归属\n君主 · 曹操\n原归属\n未记录（0）\n年龄\n35\n性格码\n3（君主：大义）\n能力与状态\n等级\n1\n武力\n84\n智力\n90\n忠诚值\n100\n经验\n0\n体力\n100\n军队与装备\n基础兵种\n骑兵（码 0）\n兵力\n100\n装备一\n无\n装备二\n无\n\n装备可能改变实际兵种。忠诚值保留原始数值，君主与在野人物不以此判断归属。",
+          "lcdVisible": false,
+          "portraitDocked": true,
+          "headerUncovered": true
+        }
+      ],
+      "lcdComparison": {
+        "stage": {
+          "left": 24,
+          "right": 912,
+          "top": 48,
+          "bottom": 672
+        },
+        "lcd": {
+          "left": 940,
+          "right": 1260,
+          "top": 508,
+          "bottom": 700
+        },
+        "visible": true,
+        "mode": "on"
+      }
+    }
+  },
+  "quantity": {
+    "city": {
+      "i": 12,
+      "name": "濮阳",
+      "belong": 2
+    },
+    "initial": {
+      "active": 1,
+      "value": 960,
+      "min": 0,
+      "max": 960,
+      "protocol": true,
+      "session": 3,
+      "inputSeq": 0,
+      "lastKey": 65535,
+      "cursor": 2,
+      "step": 1,
+      "ready": 1
+    },
+    "steps": [
+      {
+        "delta": -1,
+        "value": 959
+      },
+      {
+        "delta": -10,
+        "value": 949
+      },
+      {
+        "delta": 1,
+        "value": 950
+      },
+      {
+        "delta": 10,
+        "value": 960
+      }
+    ],
+    "rapidSteps": {
+      "deltas": [
+        -10,
+        10,
+        -10,
+        10
+      ],
+      "before": {
+        "active": 1,
+        "value": 960,
+        "min": 0,
+        "max": 960,
+        "protocol": true,
+        "session": 3,
+        "inputSeq": 8,
+        "lastKey": 37,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      },
+      "after": {
+        "active": 1,
+        "value": 960,
+        "min": 0,
+        "max": 960,
+        "protocol": true,
+        "session": 3,
+        "inputSeq": 20,
+        "lastKey": 37,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      }
+    },
+    "lowerBound": {
+      "before": {
+        "active": 1,
+        "value": 0,
+        "min": 0,
+        "max": 960,
+        "protocol": true,
+        "session": 3,
+        "inputSeq": 21,
+        "lastKey": 38,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      },
+      "after": {
+        "active": 1,
+        "value": 0,
+        "min": 0,
+        "max": 960,
+        "protocol": true,
+        "session": 3,
+        "inputSeq": 21,
+        "lastKey": 38,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      }
+    },
+    "cursorNoop": {
+      "before": {
+        "active": 1,
+        "value": 960,
+        "min": 0,
+        "max": 960,
+        "protocol": true,
+        "session": 3,
+        "inputSeq": 22,
+        "lastKey": 38,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      },
+      "after": {
+        "active": 1,
+        "value": 960,
+        "min": 0,
+        "max": 960,
+        "protocol": true,
+        "session": 3,
+        "inputSeq": 23,
+        "lastKey": 37,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      }
+    },
+    "digitThenSteps": {
+      "digit": 9,
+      "before": {
+        "active": 1,
+        "value": 960,
+        "min": 0,
+        "max": 960,
+        "protocol": true,
+        "session": 3,
+        "inputSeq": 23,
+        "lastKey": 37,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      },
+      "after": {
+        "active": 1,
+        "value": 960,
+        "min": 0,
+        "max": 960,
+        "protocol": true,
+        "session": 3,
+        "inputSeq": 26,
+        "lastKey": 34,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      },
+      "keys": [
+        73,
+        35,
+        34
+      ]
+    },
+    "canceledKeys": [
+      35,
+      36,
+      35,
+      37,
+      34,
+      36,
+      34,
+      37,
+      36,
+      35,
+      37,
+      36,
+      34,
+      37,
+      36,
+      35,
+      37,
+      36,
+      34,
+      37,
+      38,
+      38,
+      37,
+      73,
+      35,
+      34,
+      36,
+      40
+    ],
+    "pendingConfirm": {
+      "nativePicker": {
+        "menu": {
+          "active": 1,
+          "context": 1,
+          "kind": 3,
+          "seq": 15,
+          "itemLen": 8,
+          "count": 7,
+          "index": 0,
+          "names": [
+            "曹操",
+            "夏侯惇",
+            "夏侯渊",
+            "李典",
+            "乐进",
+            "曹洪",
+            "曹仁"
+          ]
+        },
+        "people": [
+          {
+            "personIndex": 1,
+            "name": "曹操"
+          },
+          {
+            "personIndex": 32,
+            "name": "夏侯惇"
+          },
+          {
+            "personIndex": 33,
+            "name": "夏侯渊"
+          },
+          {
+            "personIndex": 34,
+            "name": "李典"
+          },
+          {
+            "personIndex": 35,
+            "name": "乐进"
+          },
+          {
+            "personIndex": 36,
+            "name": "曹洪"
+          },
+          {
+            "personIndex": 37,
+            "name": "曹仁"
+          }
+        ]
+      },
+      "initial": {
+        "active": 1,
+        "value": 960,
+        "min": 0,
+        "max": 960,
+        "protocol": true,
+        "session": 4,
+        "inputSeq": 0,
+        "lastKey": 65535,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      },
+      "quantity": 950,
+      "interaction": {
+        "stepTrusted": true,
+        "confirmTrusted": true,
+        "pendingAtConfirm": true,
+        "atConfirm": {
+          "qty": {
+            "active": 1,
+            "value": 960,
+            "min": 0,
+            "max": 960,
+            "protocol": true,
+            "session": 4,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "queueLen": 2,
+          "sending": true
+        }
+      },
+      "before": {
+        "cityIndex": 12,
+        "personIndex": 1,
+        "money": 135,
+        "reserve": 0,
+        "arms": 100,
+        "thew": 100,
+        "armsPerMoney": 10,
+        "persons": [
+          1,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          110,
+          126,
+          137,
+          174
+        ],
+        "orders": []
+      },
+      "after": {
+        "cityIndex": 12,
+        "personIndex": 1,
+        "money": 40,
+        "reserve": 950,
+        "arms": 100,
+        "thew": 88,
+        "armsPerMoney": 10,
+        "persons": [
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          110,
+          126,
+          137,
+          174
+        ],
+        "orders": [
+          {
+            "OrderId": 24,
+            "City": 12,
+            "Person": 1,
+            "TimeCount": 0
+          }
+        ]
+      },
+      "keys": [
+        36,
+        35,
+        37,
+        39
+      ]
+    }
+  },
+  "libraryIdentity": {
+    "scope": "genuine cached LIB boots and native core menus; full Mod battles remain separate",
+    "setupMenus": [
+      {
+        "label": "identity-real-mod-cache-standard-url",
+        "kind": "difficulty",
+        "menu": {
+          "active": 1,
+          "context": 0,
+          "kind": 0,
+          "seq": 9,
+          "itemLen": 17,
+          "count": 4,
+          "index": 0,
+          "names": [
+            "难度选择-普通版",
+            "难度选择-困难版",
+            "难度选择-炼狱版",
+            "难度选择-地狱版"
+          ]
+        }
+      },
+      {
+        "label": "identity-real-mod-cache-standard-url",
+        "kind": "difficulty-confirmation",
+        "menu": {
+          "active": 1,
+          "context": 0,
+          "kind": 0,
+          "seq": 11,
+          "itemLen": 24,
+          "count": 2,
+          "index": 0,
+          "names": [
+            "确认选择-普通版",
+            "返回难度选择"
+          ]
+        }
+      }
+    ],
+    "nativeDialogs": [
+      {
+        "type": "prompt",
+        "message": "来将可留姓名？",
+        "defaultPrompt": "常山赵子龙",
+        "scenario": "identity-real-mod-cache-standard-url",
+        "response": "测试玩家"
+      }
+    ],
+    "actualModScriptPrompt": {
+      "resource": 77,
+      "offset": 2776431,
+      "resourceLength": 194057,
+      "hook": "didOpenNewGame",
+      "message": "来将可留姓名？",
+      "defaultPrompt": "常山赵子龙",
+      "acceptedExactlyOnce": true
+    },
+    "cases": [
+      {
+        "label": "identity-standard-cache-other-url",
+        "actualFile": "libs/dat-mod.lib",
+        "preferredPath": "libs/sc-mod.lib",
+        "supported": true,
+        "cache": {
+          "source": "libs/dat-mod.lib",
+          "preferred": "libs/sc-mod.lib",
+          "byteLength": 207195,
+          "cacheMatches": true
+        },
+        "identity": {
+          "status": "ready",
+          "generation": 2,
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "byteLength": 207195,
+          "reason": ""
+        },
+        "presentation": {
+          "ready": true,
+          "reason": "",
+          "generation": 4,
+          "cityTotal": 38
+        },
+        "portrait": {
+          "mode": "ref",
+          "url": "assets/hd-portraits/refs/period-1/2-袁绍.png",
+          "entry": {
+            "name": "袁绍",
+            "personId": 2,
+            "period": 1,
+            "ref": "refs/period-1/2-袁绍.png"
+          },
+          "preview": false
+        },
+        "viewport": {
+          "preferred": "libs/sc-mod.lib",
+          "classes": "baye-theme-classic baye-hd-overworld-on baye-hd-overworld-map",
+          "mapHidden": "false",
+          "lcd": {
+            "hasLayout": true,
+            "visibility": "hidden",
+            "display": "inline",
+            "visible": false
+          },
+          "cursor": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      },
+      {
+        "label": "identity-real-mod-cache-standard-url",
+        "actualFile": "libs/sc-mod.lib",
+        "preferredPath": "libs/dat-mod.lib",
+        "supported": false,
+        "cache": {
+          "source": "libs/sc-mod.lib",
+          "preferred": "libs/dat-mod.lib",
+          "byteLength": 3047694,
+          "cacheMatches": true
+        },
+        "identity": {
+          "status": "ready",
+          "generation": 2,
+          "sha256": "58de2ee328aef937aff6890424eca63690419c94afadf65bb665397457119e9c",
+          "byteLength": 3047694,
+          "reason": ""
+        },
+        "presentation": {
+          "ready": false,
+          "reason": "lib-not-supported",
+          "generation": 3,
+          "cityTotal": 0
+        },
+        "portrait": {
+          "mode": "lcd",
+          "url": "",
+          "entry": null
+        },
+        "viewport": {
+          "preferred": "libs/dat-mod.lib",
+          "classes": "baye-theme-classic",
+          "mapHidden": "true",
+          "lcd": {
+            "hasLayout": true,
+            "visibility": "visible",
+            "display": "inline",
+            "visible": true
+          },
+          "cursor": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "guarded": {
+          "accepted": false,
+          "keys": [],
+          "before": {
+            "x": 0,
+            "y": 0
+          },
+          "after": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "nativeCity": {
+          "menu": {
+            "active": 1,
+            "context": 1,
+            "kind": 1,
+            "seq": 13,
+            "itemLen": 4,
+            "count": 4,
+            "index": 0,
+            "names": [
+              "内政",
+              "外交",
+              "军备",
+              "状况"
+            ]
+          },
+          "city": {
+            "pref": "hd",
+            "showHd": true,
+            "open": false,
+            "layer": "root",
+            "subKind": "",
+            "cityIndex": -1,
+            "cityName": "",
+            "titleText": "城池",
+            "idleIndex": 0,
+            "idleKeys": [
+              "index"
+            ],
+            "lastHook": "didShowMainMap",
+            "showLcd": false,
+            "cityLcdMode": "passthrough",
+            "probedCityKeys": [],
+            "deepKind": "",
+            "deepLabel": "",
+            "deepCount": 0,
+            "deepItems": [],
+            "deepMenuOwner": null,
+            "cityDetails": null,
+            "personDetail": null,
+            "pickedPersons": 0,
+            "dismissedObj": false,
+            "marchReady": false,
+            "marching": false,
+            "leftoverAfterFight": false,
+            "sawFightThisMarch": false,
+            "fightEndedThisMarch": false,
+            "campaignPick": false,
+            "battleMake": false,
+            "handoff": false,
+            "handoffAt": 0,
+            "handoffStatus": "",
+            "handoffExitCount": 0,
+            "handoffEnterCount": 0,
+            "lastHandoffExitAt": 0,
+            "lastFuncMenuIdle": 0,
+            "personExitSent": false,
+            "finishPersonsBusy": false,
+            "personExitTries": 0,
+            "lastExit": "",
+            "engineHelpOpen": false,
+            "overlayRetry": 0,
+            "finishVisibleRetry": 0,
+            "pickedPersonNames": [],
+            "leftoverOverlay": {
+              "open": false,
+              "kind": "report",
+              "pe": "none",
+              "help": false,
+              "farm": false,
+              "blocking": false,
+              "engineHelp": false,
+              "qtyActive": 0,
+              "body": "武将总数:192 重复武将数:0 详情查看[武将"
+            },
+            "engineLeftBattleMake": false,
+            "engineStillInPersonPick": false,
+            "liveJunbeiMenu": false,
+            "qtyActive": 0,
+            "lastBlockedExit": "",
+            "lastBlockedEnter": "",
+            "lastPickEnterAt": 0,
+            "holdEnterForFood": false,
+            "queueLen": 0,
+            "sending": false,
+            "enginePersons": 0,
+            "enginePersonNames": [],
+            "enginePersonsAtFinish": 0,
+            "enginePersonsAtPickStart": 0,
+            "marchHint": "",
+            "holdExit": false,
+            "holdMenu": false,
+            "acceptMarchOk": false,
+            "freshMarch": false,
+            "consumedMarchSeq": 0,
+            "sawMarchCleared": false,
+            "walkBusy": false,
+            "pendingTarget": null,
+            "wizardStep": "none",
+            "wizardLabel": "",
+            "sawQtyThisMarch": false,
+            "sawGetFoodUi": false,
+            "foodConfirmed": false,
+            "leftoverPick": false,
+            "liveMarch": false,
+            "stickyBanner": false,
+            "lastBannerLog": null,
+            "battlePick": false,
+            "openedCity": -1,
+            "marchDest": {
+              "city": 0,
+              "obj": 0,
+              "ok": false,
+              "real": false
+            },
+            "leftoverEngineSub": "",
+            "leftoverQty": false,
+            "liveQty": false,
+            "liveGetFood": false,
+            "latentGetFood": false,
+            "realm": {
+              "playerKing": 5,
+              "playerBelong": 6,
+              "playerName": "马腾",
+              "ownedCount": 3,
+              "total": 38,
+              "cities": [
+                {
+                  "i": 0,
+                  "name": "西凉",
+                  "belong": 6,
+                  "owner": "马腾",
+                  "owned": true,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 6,
+                    "personIndex": 5,
+                    "name": "马腾",
+                    "label": "马腾"
+                  }
+                },
+                {
+                  "i": 1,
+                  "name": "北平",
+                  "belong": 17,
+                  "owner": "公孙瓒",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 17,
+                    "personIndex": 16,
+                    "name": "公孙瓒",
+                    "label": "公孙瓒"
+                  }
+                },
+                {
+                  "i": 2,
+                  "name": "襄平",
+                  "belong": 18,
+                  "owner": "公孙度",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 18,
+                    "personIndex": 17,
+                    "name": "公孙度",
+                    "label": "公孙度"
+                  }
+                },
+                {
+                  "i": 3,
+                  "name": "安定",
+                  "belong": 6,
+                  "owner": "马腾",
+                  "owned": true,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 6,
+                    "personIndex": 5,
+                    "name": "马腾",
+                    "label": "马腾"
+                  }
+                },
+                {
+                  "i": 4,
+                  "name": "晋阳",
+                  "belong": 10,
+                  "owner": "张杨",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 10,
+                    "personIndex": 9,
+                    "name": "张杨",
+                    "label": "张杨"
+                  }
+                },
+                {
+                  "i": 5,
+                  "name": "平原",
+                  "belong": 14,
+                  "owner": "刘备",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 14,
+                    "personIndex": 13,
+                    "name": "刘备",
+                    "label": "刘备"
+                  }
+                },
+                {
+                  "i": 6,
+                  "name": "南皮",
+                  "belong": 3,
+                  "owner": "袁绍",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 3,
+                    "personIndex": 2,
+                    "name": "袁绍",
+                    "label": "袁绍"
+                  }
+                },
+                {
+                  "i": 7,
+                  "name": "北海",
+                  "belong": 8,
+                  "owner": "孔融",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 8,
+                    "personIndex": 7,
+                    "name": "孔融",
+                    "label": "孔融"
+                  }
+                },
+                {
+                  "i": 8,
+                  "name": "天水",
+                  "belong": 6,
+                  "owner": "马腾",
+                  "owned": true,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 6,
+                    "personIndex": 5,
+                    "name": "马腾",
+                    "label": "马腾"
+                  }
+                },
+                {
+                  "i": 9,
+                  "name": "河内",
+                  "belong": 12,
+                  "owner": "王匡",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 12,
+                    "personIndex": 11,
+                    "name": "王匡",
+                    "label": "王匡"
+                  }
+                },
+                {
+                  "i": 10,
+                  "name": "长安",
+                  "belong": 1,
+                  "owner": "董卓",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 1,
+                    "personIndex": 0,
+                    "name": "董卓",
+                    "label": "董卓"
+                  }
+                },
+                {
+                  "i": 11,
+                  "name": "邺",
+                  "belong": 11,
+                  "owner": "韩馥",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 11,
+                    "personIndex": 10,
+                    "name": "韩馥",
+                    "label": "韩馥"
+                  }
+                },
+                {
+                  "i": 12,
+                  "name": "濮阳",
+                  "belong": 2,
+                  "owner": "曹操",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 2,
+                    "personIndex": 1,
+                    "name": "曹操",
+                    "label": "曹操"
+                  }
+                },
+                {
+                  "i": 13,
+                  "name": "徐州",
+                  "belong": 7,
+                  "owner": "陶谦",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 7,
+                    "personIndex": 6,
+                    "name": "陶谦",
+                    "label": "陶谦"
+                  }
+                },
+                {
+                  "i": 14,
+                  "name": "汉中",
+                  "belong": 19,
+                  "owner": "张鲁",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 19,
+                    "personIndex": 18,
+                    "name": "张鲁",
+                    "label": "张鲁"
+                  }
+                },
+                {
+                  "i": 15,
+                  "name": "洛阳",
+                  "belong": 1,
+                  "owner": "董卓",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 1,
+                    "personIndex": 0,
+                    "name": "董卓",
+                    "label": "董卓"
+                  }
+                },
+                {
+                  "i": 16,
+                  "name": "许昌",
+                  "belong": 9,
+                  "owner": "刘岱",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 9,
+                    "personIndex": 8,
+                    "name": "刘岱",
+                    "label": "刘岱"
+                  }
+                },
+                {
+                  "i": 17,
+                  "name": "小沛",
+                  "belong": 7,
+                  "owner": "陶谦",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 7,
+                    "personIndex": 6,
+                    "name": "陶谦",
+                    "label": "陶谦"
+                  }
+                },
+                {
+                  "i": 18,
+                  "name": "下邳",
+                  "belong": 7,
+                  "owner": "陶谦",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 7,
+                    "personIndex": 6,
+                    "name": "陶谦",
+                    "label": "陶谦"
+                  }
+                },
+                {
+                  "i": 19,
+                  "name": "梓潼",
+                  "belong": 0,
+                  "owner": "",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "unowned",
+                    "value": 0,
+                    "personIndex": null,
+                    "name": "",
+                    "label": "无主城"
+                  }
+                },
+                {
+                  "i": 20,
+                  "name": "宛城",
+                  "belong": 1,
+                  "owner": "董卓",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 1,
+                    "personIndex": 0,
+                    "name": "董卓",
+                    "label": "董卓"
+                  }
+                },
+                {
+                  "i": 21,
+                  "name": "寿春",
+                  "belong": 4,
+                  "owner": "袁术",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 4,
+                    "personIndex": 3,
+                    "name": "袁术",
+                    "label": "袁术"
+                  }
+                },
+                {
+                  "i": 22,
+                  "name": "建业",
+                  "belong": 221,
+                  "owner": "EB老仙",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 221,
+                    "personIndex": 220,
+                    "name": "EB老仙",
+                    "label": "EB老仙"
+                  }
+                },
+                {
+                  "i": 23,
+                  "name": "吴",
+                  "belong": 0,
+                  "owner": "",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "unowned",
+                    "value": 0,
+                    "personIndex": null,
+                    "name": "",
+                    "label": "无主城"
+                  }
+                },
+                {
+                  "i": 24,
+                  "name": "成都",
+                  "belong": 16,
+                  "owner": "刘焉",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 16,
+                    "personIndex": 15,
+                    "name": "刘焉",
+                    "label": "刘焉"
+                  }
+                },
+                {
+                  "i": 25,
+                  "name": "绵竹",
+                  "belong": 0,
+                  "owner": "",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "unowned",
+                    "value": 0,
+                    "personIndex": null,
+                    "name": "",
+                    "label": "无主城"
+                  }
+                },
+                {
+                  "i": 26,
+                  "name": "襄阳",
+                  "belong": 15,
+                  "owner": "刘表",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 15,
+                    "personIndex": 14,
+                    "name": "刘表",
+                    "label": "刘表"
+                  }
+                },
+                {
+                  "i": 27,
+                  "name": "江夏",
+                  "belong": 15,
+                  "owner": "刘表",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 15,
+                    "personIndex": 14,
+                    "name": "刘表",
+                    "label": "刘表"
+                  }
+                },
+                {
+                  "i": 28,
+                  "name": "庐江",
+                  "belong": 0,
+                  "owner": "",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "unowned",
+                    "value": 0,
+                    "personIndex": null,
+                    "name": "",
+                    "label": "无主城"
+                  }
+                },
+                {
+                  "i": 29,
+                  "name": "会稽",
+                  "belong": 0,
+                  "owner": "",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "unowned",
+                    "value": 0,
+                    "personIndex": null,
+                    "name": "",
+                    "label": "无主城"
+                  }
+                },
+                {
+                  "i": 30,
+                  "name": "云南",
+                  "belong": 0,
+                  "owner": "",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "unowned",
+                    "value": 0,
+                    "personIndex": null,
+                    "name": "",
+                    "label": "无主城"
+                  }
+                },
+                {
+                  "i": 31,
+                  "name": "巴郡",
+                  "belong": 0,
+                  "owner": "",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "unowned",
+                    "value": 0,
+                    "personIndex": null,
+                    "name": "",
+                    "label": "无主城"
+                  }
+                },
+                {
+                  "i": 32,
+                  "name": "武陵",
+                  "belong": 0,
+                  "owner": "",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "unowned",
+                    "value": 0,
+                    "personIndex": null,
+                    "name": "",
+                    "label": "无主城"
+                  }
+                },
+                {
+                  "i": 33,
+                  "name": "长沙",
+                  "belong": 5,
+                  "owner": "孙坚",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 5,
+                    "personIndex": 4,
+                    "name": "孙坚",
+                    "label": "孙坚"
+                  }
+                },
+                {
+                  "i": 34,
+                  "name": "柴桑",
+                  "belong": 0,
+                  "owner": "",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "unowned",
+                    "value": 0,
+                    "personIndex": null,
+                    "name": "",
+                    "label": "无主城"
+                  }
+                },
+                {
+                  "i": 35,
+                  "name": "零陵",
+                  "belong": 0,
+                  "owner": "",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "unowned",
+                    "value": 0,
+                    "personIndex": null,
+                    "name": "",
+                    "label": "无主城"
+                  }
+                },
+                {
+                  "i": 36,
+                  "name": "桂阳",
+                  "belong": 0,
+                  "owner": "",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "unowned",
+                    "value": 0,
+                    "personIndex": null,
+                    "name": "",
+                    "label": "无主城"
+                  }
+                },
+                {
+                  "i": 37,
+                  "name": "建宁",
+                  "belong": 13,
+                  "owner": "张邈",
+                  "owned": false,
+                  "ownership": {
+                    "kind": "owned",
+                    "value": 13,
+                    "personIndex": 12,
+                    "name": "张邈",
+                    "label": "张邈"
+                  }
+                }
+              ]
+            },
+            "waitingGetFood": false,
+            "foodRecovered": false,
+            "foodRecoverEnter": false,
+            "foodRecoverNeeded": false,
+            "foodGaveUp": false,
+            "foodAttempt": 0,
+            "qtyBeforePersonExit": null,
+            "engineInGetCitySet": false,
+            "confirmingTarget": false,
+            "enginePhase": "none",
+            "displayWizard": "none",
+            "mapCity": 0,
+            "debug": "pick=0 battlePick=0 dest=0 mapCity=0(西凉) phase=none qty=0 min=0 max=0 queue=0 pex=0 hold=0 leftoverPick=0 persons=0 lastExit=— help=0/report qtyA=0 ui=none",
+            "qtyDismissed": false,
+            "qtyAckFailed": false,
+            "qtyAckError": "",
+            "reportAtMarchStart": "",
+            "march": {
+              "pick": 0,
+              "battlePick": 0,
+              "mapCity": 1,
+              "mapInputSeq": 1,
+              "ok": 0,
+              "city": 0,
+              "obj": 0,
+              "time": 0,
+              "seq": 0,
+              "phase": 0,
+              "session": 0,
+              "origin": 255,
+              "selected": 0,
+              "inputSeq": 2
+            },
+            "qty": {
+              "active": 0,
+              "value": 0,
+              "min": 0,
+              "max": 0,
+              "protocol": true,
+              "session": 2,
+              "inputSeq": 0,
+              "lastKey": 65535,
+              "cursor": 0,
+              "step": 1,
+              "ready": 0
+            },
+            "lastStep4": {
+              "t": 1791419598227,
+              "ev": "reset-new-game",
+              "skip": "didOpenNewGame",
+              "wizard": "none",
+              "pick": false,
+              "ok": false,
+              "seq": 0,
+              "mapCity": -1,
+              "cursor": {
+                "x": 1,
+                "y": 0
+              },
+              "qtyActive": false,
+              "leftoverQty": false,
+              "liveQty": false,
+              "report": "",
+              "dismissedObj": false,
+              "personExit": false,
+              "walkBusy": false,
+              "pending": null,
+              "token": 2,
+              "phase": "none",
+              "inCitySet": false,
+              "liveFood": false,
+              "origin": -1,
+              "originRetry": null
+            },
+            "step4Trace": [
+              {
+                "t": 1791419598226,
+                "ev": "reset-new-game",
+                "skip": "didOpenNewGame",
+                "wizard": "none",
+                "pick": false,
+                "ok": false,
+                "seq": 0,
+                "mapCity": -1,
+                "cursor": {
+                  "x": 1,
+                  "y": 0
+                },
+                "qtyActive": false,
+                "leftoverQty": false,
+                "liveQty": false,
+                "report": "",
+                "dismissedObj": false,
+                "personExit": false,
+                "walkBusy": false,
+                "pending": null,
+                "token": 1,
+                "phase": "none",
+                "inCitySet": false,
+                "liveFood": false,
+                "origin": -1,
+                "originRetry": null
+              },
+              {
+                "t": 1791419598227,
+                "ev": "reset-new-game",
+                "skip": "didOpenNewGame",
+                "wizard": "none",
+                "pick": false,
+                "ok": false,
+                "seq": 0,
+                "mapCity": -1,
+                "cursor": {
+                  "x": 1,
+                  "y": 0
+                },
+                "qtyActive": false,
+                "leftoverQty": false,
+                "liveQty": false,
+                "report": "",
+                "dismissedObj": false,
+                "personExit": false,
+                "walkBusy": false,
+                "pending": null,
+                "token": 2,
+                "phase": "none",
+                "inCitySet": false,
+                "liveFood": false,
+                "origin": -1,
+                "originRetry": null
+              }
+            ],
+            "marchOriginIndex": null,
+            "originRetryTried": false,
+            "originRetryBusy": false,
+            "originRetryFrom": null,
+            "originRetryTo": null,
+            "preferredOrigin": 8,
+            "originLinks": []
+          },
+          "bodyClass": "baye-theme-classic"
+        }
+      },
+      {
+        "label": "identity-standard-cache-recovered",
+        "actualFile": "libs/dat-mod.lib",
+        "preferredPath": "libs/custom-cache.lib",
+        "supported": true,
+        "cache": {
+          "source": "libs/dat-mod.lib",
+          "preferred": "libs/custom-cache.lib",
+          "byteLength": 207195,
+          "cacheMatches": true
+        },
+        "identity": {
+          "status": "ready",
+          "generation": 2,
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "byteLength": 207195,
+          "reason": ""
+        },
+        "presentation": {
+          "ready": true,
+          "reason": "",
+          "generation": 4,
+          "cityTotal": 38
+        },
+        "portrait": {
+          "mode": "ref",
+          "url": "assets/hd-portraits/refs/period-1/2-袁绍.png",
+          "entry": {
+            "name": "袁绍",
+            "personId": 2,
+            "period": 1,
+            "ref": "refs/period-1/2-袁绍.png"
+          },
+          "preview": false
+        },
+        "viewport": {
+          "preferred": "libs/custom-cache.lib",
+          "classes": "baye-theme-classic baye-hd-overworld-on baye-hd-overworld-map",
+          "mapHidden": "false",
+          "lcd": {
+            "hasLayout": true,
+            "visibility": "hidden",
+            "display": "inline",
+            "visible": false
+          },
+          "cursor": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      }
+    ]
+  },
+  "battle": {
+    "ok": true,
+    "checkpoints": 51,
+    "uncaughtExceptions": 0,
+    "unexpectedDialogs": 0,
+    "startedAt": "2026-10-08T00:29:05.782Z",
+    "finishedAt": "2026-10-08T00:30:21.490Z",
+    "artifact": "build/m4-library-identity/battle-final-rerun/result.json",
+    "resultSha256": "b8f7ff22b824883cb864a5975ee3ea0f459afc3d1e88f86a2a27f2e3f8cb7380",
+    "sources": {
+      "baye.js": {
+        "source": "js\\baye.js",
+        "bytes": 191800,
+        "sha256": "8bcba943e2f64be196386386ca7208f19fc5c7cffe03981bd2f4364067167ef7"
+      },
+      "baye.wasm": {
+        "source": "js\\baye.wasm",
+        "bytes": 4237373,
+        "sha256": "270d454af2aebe340fa913cd3ba495ba88931f1c08d02ff3ae3d80b12c1da6f7"
+      },
+      "baye.wasm.map": {
+        "source": "js\\baye.wasm.map",
+        "bytes": 29805,
+        "sha256": "771c74d946af16c33d43577ee8ca83b3f3ce0243ade331e338fdd0d3619e7d37"
+      },
+      "baye.build.json": {
+        "source": "js\\baye.build.json",
+        "bytes": 2375,
+        "sha256": "44504d563a18bbe5dc7de180bdef1dbaf6b1bf0805a9825786dbe142c1f8b6c8"
+      },
+      "hd-battle.js": {
+        "source": "js\\hd-battle.js",
+        "bytes": 65959,
+        "sha256": "d7be7bc765ccdea8a725a7af4991fed4e016dbda880cf3005333d186ff336a73"
+      },
+      "hd-battle-terrain.js": {
+        "source": "js\\hd-battle-terrain.js",
+        "bytes": 12641,
+        "sha256": "657abe5362c1cf810ddef66583bca90e86432bc3ffe8a5fc5c1c1d5f02885467"
+      },
+      "hd-battle-feedback.js": {
+        "source": "js\\hd-battle-feedback.js",
+        "bytes": 12212,
+        "sha256": "ff9f026ad86b50174b7f2f4e0b5b1b91fa9f2b0800a7a515ce2e8663ac23f90f"
+      }
+    },
+    "nativeTerrain": {
+      "width": 32,
+      "height": 32,
+      "tileCount": 1024
+    },
+    "feedbackChecks": [
+      {
+        "label": "MOVE initial",
+        "kind": "move",
+        "checkedCells": 198,
+        "inRangeCells": 8
+      },
+      {
+        "label": "MOVE blocked focus",
+        "kind": "move",
+        "checkedCells": 252,
+        "inRangeCells": 8
+      },
+      {
+        "label": "MOVE allowed focus",
+        "kind": "move",
+        "checkedCells": 198,
+        "inRangeCells": 8
+      },
+      {
+        "label": "MOVE 720p",
+        "kind": "move",
+        "checkedCells": 198,
+        "inRangeCells": 8
+      },
+      {
+        "label": "canceled MOVE",
+        "active": false,
+        "reason": "not-range-input"
+      },
+      {
+        "label": "HELP overlay",
+        "active": false,
+        "reason": "not-range-input"
+      },
+      {
+        "label": "VIEW overlay",
+        "active": false,
+        "reason": "not-range-input"
+      },
+      {
+        "label": "SYSTEM menu",
+        "active": false,
+        "reason": "native-owner"
+      },
+      {
+        "label": "CLASSIC mode",
+        "active": false,
+        "reason": "not-visible"
+      },
+      {
+        "label": "restored HD SYSTEM menu",
+        "active": false,
+        "reason": "not-visible"
+      },
+      {
+        "label": "ACTION menu after move",
+        "active": false,
+        "reason": "native-owner"
+      },
+      {
+        "label": "SKILL range 践踏",
+        "kind": "skill",
+        "checkedCells": 150,
+        "inRangeCells": 8
+      },
+      {
+        "label": "SKILL range 践踏",
+        "kind": "skill",
+        "checkedCells": 150,
+        "inRangeCells": 8
+      },
+      {
+        "label": "SKILL range 火攻",
+        "kind": "skill",
+        "checkedCells": 150,
+        "inRangeCells": 24
+      },
+      {
+        "label": "SKILL range 飞矢",
+        "kind": "skill",
+        "checkedCells": 150,
+        "inRangeCells": 12
+      },
+      {
+        "label": "SKILL range 火攻",
+        "kind": "skill",
+        "checkedCells": 150,
+        "inRangeCells": 24
+      },
+      {
+        "label": "SKILL range 火攻",
+        "kind": "skill",
+        "checkedCells": 150,
+        "inRangeCells": 24
+      },
+      {
+        "label": "SKILL range 践踏",
+        "kind": "skill",
+        "checkedCells": 140,
+        "inRangeCells": 8
+      },
+      {
+        "label": "29-attack-target-preview",
+        "kind": "attack",
+        "checkedCells": 140,
+        "inRangeCells": 4
+      }
+    ],
+    "comparedCells": 2026,
+    "attack": {
+      "actor": "庞德",
+      "target": "方悦",
+      "before": {
+        "fight": {
+          "active": 1,
+          "over": 0,
+          "wait": 1,
+          "phase": 3,
+          "aimType": 0,
+          "inputKind": 5,
+          "inputSeq": 284,
+          "actorIndex": 1,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 9,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 3,
+          "boutMax": 30,
+          "focusX": 11,
+          "focusY": 16
+        },
+        "units": [
+          {
+            "i": 0,
+            "id": 6,
+            "name": "马腾",
+            "side": "player",
+            "x": 7,
+            "y": 16,
+            "hp": 85,
+            "mp": 21,
+            "move": 5,
+            "active": 1,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 1,
+            "id": 59,
+            "name": "庞德",
+            "side": "player",
+            "x": 11,
+            "y": 16,
+            "hp": 83,
+            "mp": 21,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 2,
+            "id": 61,
+            "name": "程银",
+            "side": "player",
+            "x": 9,
+            "y": 16,
+            "hp": 75,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 3,
+            "id": 62,
+            "name": "李堪",
+            "side": "player",
+            "x": 10,
+            "y": 16,
+            "hp": 52,
+            "mp": 44,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 4,
+            "id": 63,
+            "name": "张横",
+            "side": "player",
+            "x": 10,
+            "y": 15,
+            "hp": 79,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 5,
+            "id": 64,
+            "name": "梁兴",
+            "side": "player",
+            "x": 12,
+            "y": 14,
+            "hp": 65,
+            "mp": 28,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 10,
+            "id": 12,
+            "name": "王匡",
+            "side": "enemy",
+            "x": 14,
+            "y": 17,
+            "hp": 52,
+            "mp": 41,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          },
+          {
+            "i": 11,
+            "id": 86,
+            "name": "方悦",
+            "side": "enemy",
+            "x": 12,
+            "y": 16,
+            "hp": 69,
+            "mp": 32,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          }
+        ],
+        "food": {
+          "player": 489,
+          "enemy": 1372,
+          "knownEnemy": 1372
+        }
+      },
+      "after": {
+        "fight": {
+          "active": 1,
+          "over": 0,
+          "wait": 1,
+          "phase": 1,
+          "aimType": 255,
+          "inputKind": 1,
+          "inputSeq": 286,
+          "actorIndex": 255,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 9,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 3,
+          "boutMax": 30,
+          "focusX": 12,
+          "focusY": 16
+        },
+        "units": [
+          {
+            "i": 0,
+            "id": 6,
+            "name": "马腾",
+            "side": "player",
+            "x": 7,
+            "y": 16,
+            "hp": 85,
+            "mp": 21,
+            "move": 5,
+            "active": 1,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 1,
+            "id": 59,
+            "name": "庞德",
+            "side": "player",
+            "x": 11,
+            "y": 16,
+            "hp": 83,
+            "mp": 21,
+            "move": 5,
+            "active": 1,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 2,
+            "id": 61,
+            "name": "程银",
+            "side": "player",
+            "x": 9,
+            "y": 16,
+            "hp": 75,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 3,
+            "id": 62,
+            "name": "李堪",
+            "side": "player",
+            "x": 10,
+            "y": 16,
+            "hp": 52,
+            "mp": 44,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 4,
+            "id": 63,
+            "name": "张横",
+            "side": "player",
+            "x": 10,
+            "y": 15,
+            "hp": 79,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 5,
+            "id": 64,
+            "name": "梁兴",
+            "side": "player",
+            "x": 12,
+            "y": 14,
+            "hp": 65,
+            "mp": 28,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 10,
+            "id": 12,
+            "name": "王匡",
+            "side": "enemy",
+            "x": 14,
+            "y": 17,
+            "hp": 52,
+            "mp": 41,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          },
+          {
+            "i": 11,
+            "id": 86,
+            "name": "方悦",
+            "side": "enemy",
+            "x": 12,
+            "y": 16,
+            "hp": 69,
+            "mp": 32,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 742
+          }
+        ],
+        "food": {
+          "player": 489,
+          "enemy": 1372,
+          "knownEnemy": 1372
+        }
+      }
+    },
+    "skillCost": {
+      "actor": "马腾",
+      "skill": {
+        "id": 30,
+        "index": 0,
+        "name": "谍报",
+        "aim": 1,
+        "state": 0,
+        "power": 0,
+        "destroy": 0,
+        "useMp": 10,
+        "eland": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "earm": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "available": true
+      },
+      "before": {
+        "fight": {
+          "active": 1,
+          "over": 0,
+          "wait": 0,
+          "phase": 0,
+          "aimType": 1,
+          "inputKind": 4,
+          "inputSeq": 152,
+          "actorIndex": 0,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 9,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 2,
+          "boutMax": 30,
+          "focusX": 6,
+          "focusY": 17
+        },
+        "units": [
+          {
+            "i": 0,
+            "id": 6,
+            "name": "马腾",
+            "side": "player",
+            "x": 6,
+            "y": 17,
+            "hp": 85,
+            "mp": 41,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 1,
+            "id": 59,
+            "name": "庞德",
+            "side": "player",
+            "x": 7,
+            "y": 17,
+            "hp": 83,
+            "mp": 21,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 2,
+            "id": 61,
+            "name": "程银",
+            "side": "player",
+            "x": 6,
+            "y": 16,
+            "hp": 75,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 3,
+            "id": 62,
+            "name": "李堪",
+            "side": "player",
+            "x": 8,
+            "y": 16,
+            "hp": 52,
+            "mp": 44,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 4,
+            "id": 63,
+            "name": "张横",
+            "side": "player",
+            "x": 7,
+            "y": 15,
+            "hp": 79,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 5,
+            "id": 64,
+            "name": "梁兴",
+            "side": "player",
+            "x": 9,
+            "y": 14,
+            "hp": 65,
+            "mp": 28,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 10,
+            "id": 12,
+            "name": "王匡",
+            "side": "enemy",
+            "x": 14,
+            "y": 17,
+            "hp": 52,
+            "mp": 41,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          },
+          {
+            "i": 11,
+            "id": 86,
+            "name": "方悦",
+            "side": "enemy",
+            "x": 14,
+            "y": 16,
+            "hp": 69,
+            "mp": 32,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          }
+        ],
+        "food": {
+          "player": 497,
+          "enemy": 1385,
+          "knownEnemy": 0
+        }
+      },
+      "after": {
+        "fight": {
+          "active": 1,
+          "over": 0,
+          "wait": 1,
+          "phase": 1,
+          "aimType": 255,
+          "inputKind": 1,
+          "inputSeq": 154,
+          "actorIndex": 255,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 9,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 2,
+          "boutMax": 30,
+          "focusX": 6,
+          "focusY": 17
+        },
+        "units": [
+          {
+            "i": 0,
+            "id": 6,
+            "name": "马腾",
+            "side": "player",
+            "x": 6,
+            "y": 17,
+            "hp": 85,
+            "mp": 31,
+            "move": 5,
+            "active": 1,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 1,
+            "id": 59,
+            "name": "庞德",
+            "side": "player",
+            "x": 7,
+            "y": 17,
+            "hp": 83,
+            "mp": 21,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 2,
+            "id": 61,
+            "name": "程银",
+            "side": "player",
+            "x": 6,
+            "y": 16,
+            "hp": 75,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 3,
+            "id": 62,
+            "name": "李堪",
+            "side": "player",
+            "x": 8,
+            "y": 16,
+            "hp": 52,
+            "mp": 44,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 4,
+            "id": 63,
+            "name": "张横",
+            "side": "player",
+            "x": 7,
+            "y": 15,
+            "hp": 79,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 5,
+            "id": 64,
+            "name": "梁兴",
+            "side": "player",
+            "x": 9,
+            "y": 14,
+            "hp": 65,
+            "mp": 28,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 10,
+            "id": 12,
+            "name": "王匡",
+            "side": "enemy",
+            "x": 14,
+            "y": 17,
+            "hp": 52,
+            "mp": 41,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          },
+          {
+            "i": 11,
+            "id": 86,
+            "name": "方悦",
+            "side": "enemy",
+            "x": 14,
+            "y": 16,
+            "hp": 69,
+            "mp": 32,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          }
+        ],
+        "food": {
+          "player": 497,
+          "enemy": 1385,
+          "knownEnemy": 0
+        }
+      }
+    },
+    "skillEffect": {
+      "actor": "马腾",
+      "skill": {
+        "id": 30,
+        "index": 0,
+        "name": "谍报",
+        "aim": 1,
+        "state": 0,
+        "power": 0,
+        "destroy": 0,
+        "useMp": 10,
+        "eland": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "earm": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "available": true
+      },
+      "before": {
+        "fight": {
+          "active": 1,
+          "over": 0,
+          "wait": 0,
+          "phase": 0,
+          "aimType": 1,
+          "inputKind": 4,
+          "inputSeq": 276,
+          "actorIndex": 0,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 9,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 3,
+          "boutMax": 30,
+          "focusX": 7,
+          "focusY": 16
+        },
+        "units": [
+          {
+            "i": 0,
+            "id": 6,
+            "name": "马腾",
+            "side": "player",
+            "x": 7,
+            "y": 16,
+            "hp": 85,
+            "mp": 31,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 1,
+            "id": 59,
+            "name": "庞德",
+            "side": "player",
+            "x": 9,
+            "y": 17,
+            "hp": 83,
+            "mp": 21,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 2,
+            "id": 61,
+            "name": "程银",
+            "side": "player",
+            "x": 9,
+            "y": 16,
+            "hp": 75,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 3,
+            "id": 62,
+            "name": "李堪",
+            "side": "player",
+            "x": 10,
+            "y": 16,
+            "hp": 52,
+            "mp": 44,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 4,
+            "id": 63,
+            "name": "张横",
+            "side": "player",
+            "x": 10,
+            "y": 15,
+            "hp": 79,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 5,
+            "id": 64,
+            "name": "梁兴",
+            "side": "player",
+            "x": 12,
+            "y": 14,
+            "hp": 65,
+            "mp": 28,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 10,
+            "id": 12,
+            "name": "王匡",
+            "side": "enemy",
+            "x": 14,
+            "y": 17,
+            "hp": 52,
+            "mp": 41,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          },
+          {
+            "i": 11,
+            "id": 86,
+            "name": "方悦",
+            "side": "enemy",
+            "x": 12,
+            "y": 16,
+            "hp": 69,
+            "mp": 32,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          }
+        ],
+        "food": {
+          "player": 489,
+          "enemy": 1372,
+          "knownEnemy": 0
+        }
+      },
+      "after": {
+        "fight": {
+          "active": 1,
+          "over": 0,
+          "wait": 1,
+          "phase": 1,
+          "aimType": 255,
+          "inputKind": 1,
+          "inputSeq": 278,
+          "actorIndex": 255,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 9,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 3,
+          "boutMax": 30,
+          "focusX": 7,
+          "focusY": 16
+        },
+        "units": [
+          {
+            "i": 0,
+            "id": 6,
+            "name": "马腾",
+            "side": "player",
+            "x": 7,
+            "y": 16,
+            "hp": 85,
+            "mp": 21,
+            "move": 5,
+            "active": 1,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 1,
+            "id": 59,
+            "name": "庞德",
+            "side": "player",
+            "x": 9,
+            "y": 17,
+            "hp": 83,
+            "mp": 21,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 2,
+            "id": 61,
+            "name": "程银",
+            "side": "player",
+            "x": 9,
+            "y": 16,
+            "hp": 75,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 3,
+            "id": 62,
+            "name": "李堪",
+            "side": "player",
+            "x": 10,
+            "y": 16,
+            "hp": 52,
+            "mp": 44,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 4,
+            "id": 63,
+            "name": "张横",
+            "side": "player",
+            "x": 10,
+            "y": 15,
+            "hp": 79,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 5,
+            "id": 64,
+            "name": "梁兴",
+            "side": "player",
+            "x": 12,
+            "y": 14,
+            "hp": 65,
+            "mp": 28,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 10,
+            "id": 12,
+            "name": "王匡",
+            "side": "enemy",
+            "x": 14,
+            "y": 17,
+            "hp": 52,
+            "mp": 41,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          },
+          {
+            "i": 11,
+            "id": 86,
+            "name": "方悦",
+            "side": "enemy",
+            "x": 12,
+            "y": 16,
+            "hp": 69,
+            "mp": 32,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          }
+        ],
+        "food": {
+          "player": 489,
+          "enemy": 1372,
+          "knownEnemy": 1372
+        }
+      }
+    },
+    "turns": [
+      {
+        "before": {
+          "fight": {
+            "active": 1,
+            "over": 0,
+            "wait": 1,
+            "phase": 1,
+            "aimType": 255,
+            "inputKind": 1,
+            "inputSeq": 130,
+            "actorIndex": 255,
+            "tip": "",
+            "skip": 0,
+            "result": "",
+            "cityIndex": 9,
+            "mapW": 32,
+            "mapH": 32,
+            "bout": 1,
+            "boutMax": 30,
+            "focusX": 9,
+            "focusY": 14
+          },
+          "units": [
+            {
+              "i": 0,
+              "id": 6,
+              "name": "马腾",
+              "side": "player",
+              "x": 4,
+              "y": 16,
+              "hp": 85,
+              "mp": 41,
+              "move": 5,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 1,
+              "id": 59,
+              "name": "庞德",
+              "side": "player",
+              "x": 7,
+              "y": 17,
+              "hp": 83,
+              "mp": 21,
+              "move": 5,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 2,
+              "id": 61,
+              "name": "程银",
+              "side": "player",
+              "x": 6,
+              "y": 16,
+              "hp": 75,
+              "mp": 37,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 3,
+              "id": 62,
+              "name": "李堪",
+              "side": "player",
+              "x": 8,
+              "y": 16,
+              "hp": 52,
+              "mp": 44,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 4,
+              "id": 63,
+              "name": "张横",
+              "side": "player",
+              "x": 7,
+              "y": 15,
+              "hp": 79,
+              "mp": 37,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 5,
+              "id": 64,
+              "name": "梁兴",
+              "side": "player",
+              "x": 9,
+              "y": 14,
+              "hp": 65,
+              "mp": 28,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 10,
+              "id": 12,
+              "name": "王匡",
+              "side": "enemy",
+              "x": 14,
+              "y": 17,
+              "hp": 52,
+              "mp": 41,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 800
+            },
+            {
+              "i": 11,
+              "id": 86,
+              "name": "方悦",
+              "side": "enemy",
+              "x": 14,
+              "y": 18,
+              "hp": 69,
+              "mp": 32,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 800
+            }
+          ],
+          "weather": 5,
+          "food": {
+            "player": 505,
+            "enemy": 1398,
+            "knownEnemy": 0
+          }
+        },
+        "after": {
+          "fight": {
+            "active": 1,
+            "over": 0,
+            "wait": 1,
+            "phase": 1,
+            "aimType": 255,
+            "inputKind": 1,
+            "inputSeq": 136,
+            "actorIndex": 255,
+            "tip": "",
+            "skip": 0,
+            "result": "",
+            "cityIndex": 9,
+            "mapW": 32,
+            "mapH": 32,
+            "bout": 2,
+            "boutMax": 30,
+            "focusX": 4,
+            "focusY": 16
+          },
+          "units": [
+            {
+              "i": 0,
+              "id": 6,
+              "name": "马腾",
+              "side": "player",
+              "x": 4,
+              "y": 16,
+              "hp": 85,
+              "mp": 41,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 1,
+              "id": 59,
+              "name": "庞德",
+              "side": "player",
+              "x": 7,
+              "y": 17,
+              "hp": 83,
+              "mp": 21,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 2,
+              "id": 61,
+              "name": "程银",
+              "side": "player",
+              "x": 6,
+              "y": 16,
+              "hp": 75,
+              "mp": 37,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 3,
+              "id": 62,
+              "name": "李堪",
+              "side": "player",
+              "x": 8,
+              "y": 16,
+              "hp": 52,
+              "mp": 44,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 4,
+              "id": 63,
+              "name": "张横",
+              "side": "player",
+              "x": 7,
+              "y": 15,
+              "hp": 79,
+              "mp": 37,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 5,
+              "id": 64,
+              "name": "梁兴",
+              "side": "player",
+              "x": 9,
+              "y": 14,
+              "hp": 65,
+              "mp": 28,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 10,
+              "id": 12,
+              "name": "王匡",
+              "side": "enemy",
+              "x": 14,
+              "y": 17,
+              "hp": 52,
+              "mp": 41,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 800
+            },
+            {
+              "i": 11,
+              "id": 86,
+              "name": "方悦",
+              "side": "enemy",
+              "x": 14,
+              "y": 16,
+              "hp": 69,
+              "mp": 32,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 800
+            }
+          ],
+          "weather": 2,
+          "food": {
+            "player": 497,
+            "enemy": 1385,
+            "knownEnemy": 0
+          }
+        },
+        "paused": {
+          "fight": {
+            "active": 1,
+            "over": 0,
+            "wait": 1,
+            "phase": 1,
+            "aimType": 255,
+            "inputKind": 1,
+            "inputSeq": 136,
+            "actorIndex": 255,
+            "tip": "",
+            "skip": 0,
+            "result": "",
+            "cityIndex": 9,
+            "mapW": 32,
+            "mapH": 32,
+            "bout": 2,
+            "boutMax": 30,
+            "focusX": 4,
+            "focusY": 16
+          },
+          "units": [
+            {
+              "i": 0,
+              "id": 6,
+              "name": "马腾",
+              "side": "player",
+              "x": 4,
+              "y": 16,
+              "hp": 85,
+              "mp": 41,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 1,
+              "id": 59,
+              "name": "庞德",
+              "side": "player",
+              "x": 7,
+              "y": 17,
+              "hp": 83,
+              "mp": 21,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 2,
+              "id": 61,
+              "name": "程银",
+              "side": "player",
+              "x": 6,
+              "y": 16,
+              "hp": 75,
+              "mp": 37,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 3,
+              "id": 62,
+              "name": "李堪",
+              "side": "player",
+              "x": 8,
+              "y": 16,
+              "hp": 52,
+              "mp": 44,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 4,
+              "id": 63,
+              "name": "张横",
+              "side": "player",
+              "x": 7,
+              "y": 15,
+              "hp": 79,
+              "mp": 37,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 5,
+              "id": 64,
+              "name": "梁兴",
+              "side": "player",
+              "x": 9,
+              "y": 14,
+              "hp": 65,
+              "mp": 28,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 10,
+              "id": 12,
+              "name": "王匡",
+              "side": "enemy",
+              "x": 14,
+              "y": 17,
+              "hp": 52,
+              "mp": 41,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 800
+            },
+            {
+              "i": 11,
+              "id": 86,
+              "name": "方悦",
+              "side": "enemy",
+              "x": 14,
+              "y": 16,
+              "hp": 69,
+              "mp": 32,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 800
+            }
+          ],
+          "weather": 2,
+          "food": {
+            "player": 497,
+            "enemy": 1385,
+            "knownEnemy": 0
+          }
+        }
+      },
+      {
+        "before": {
+          "fight": {
+            "active": 1,
+            "over": 0,
+            "wait": 1,
+            "phase": 1,
+            "aimType": 255,
+            "inputKind": 1,
+            "inputSeq": 254,
+            "actorIndex": 255,
+            "tip": "",
+            "skip": 0,
+            "result": "",
+            "cityIndex": 9,
+            "mapW": 32,
+            "mapH": 32,
+            "bout": 2,
+            "boutMax": 30,
+            "focusX": 12,
+            "focusY": 14
+          },
+          "units": [
+            {
+              "i": 0,
+              "id": 6,
+              "name": "马腾",
+              "side": "player",
+              "x": 6,
+              "y": 17,
+              "hp": 85,
+              "mp": 31,
+              "move": 5,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 1,
+              "id": 59,
+              "name": "庞德",
+              "side": "player",
+              "x": 9,
+              "y": 17,
+              "hp": 83,
+              "mp": 21,
+              "move": 5,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 2,
+              "id": 61,
+              "name": "程银",
+              "side": "player",
+              "x": 9,
+              "y": 16,
+              "hp": 75,
+              "mp": 37,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 3,
+              "id": 62,
+              "name": "李堪",
+              "side": "player",
+              "x": 10,
+              "y": 16,
+              "hp": 52,
+              "mp": 44,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 4,
+              "id": 63,
+              "name": "张横",
+              "side": "player",
+              "x": 10,
+              "y": 15,
+              "hp": 79,
+              "mp": 37,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 5,
+              "id": 64,
+              "name": "梁兴",
+              "side": "player",
+              "x": 12,
+              "y": 14,
+              "hp": 65,
+              "mp": 28,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 10,
+              "id": 12,
+              "name": "王匡",
+              "side": "enemy",
+              "x": 14,
+              "y": 17,
+              "hp": 52,
+              "mp": 41,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 800
+            },
+            {
+              "i": 11,
+              "id": 86,
+              "name": "方悦",
+              "side": "enemy",
+              "x": 14,
+              "y": 16,
+              "hp": 69,
+              "mp": 32,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 800
+            }
+          ],
+          "weather": 2,
+          "food": {
+            "player": 497,
+            "enemy": 1385,
+            "knownEnemy": 0
+          }
+        },
+        "after": {
+          "fight": {
+            "active": 1,
+            "over": 0,
+            "wait": 1,
+            "phase": 1,
+            "aimType": 255,
+            "inputKind": 1,
+            "inputSeq": 260,
+            "actorIndex": 255,
+            "tip": "",
+            "skip": 0,
+            "result": "",
+            "cityIndex": 9,
+            "mapW": 32,
+            "mapH": 32,
+            "bout": 3,
+            "boutMax": 30,
+            "focusX": 6,
+            "focusY": 17
+          },
+          "units": [
+            {
+              "i": 0,
+              "id": 6,
+              "name": "马腾",
+              "side": "player",
+              "x": 6,
+              "y": 17,
+              "hp": 85,
+              "mp": 31,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 1,
+              "id": 59,
+              "name": "庞德",
+              "side": "player",
+              "x": 9,
+              "y": 17,
+              "hp": 83,
+              "mp": 21,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 2,
+              "id": 61,
+              "name": "程银",
+              "side": "player",
+              "x": 9,
+              "y": 16,
+              "hp": 75,
+              "mp": 37,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 3,
+              "id": 62,
+              "name": "李堪",
+              "side": "player",
+              "x": 10,
+              "y": 16,
+              "hp": 52,
+              "mp": 44,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 4,
+              "id": 63,
+              "name": "张横",
+              "side": "player",
+              "x": 10,
+              "y": 15,
+              "hp": 79,
+              "mp": 37,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 5,
+              "id": 64,
+              "name": "梁兴",
+              "side": "player",
+              "x": 12,
+              "y": 14,
+              "hp": 65,
+              "mp": 28,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 10,
+              "id": 12,
+              "name": "王匡",
+              "side": "enemy",
+              "x": 14,
+              "y": 17,
+              "hp": 52,
+              "mp": 41,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 800
+            },
+            {
+              "i": 11,
+              "id": 86,
+              "name": "方悦",
+              "side": "enemy",
+              "x": 12,
+              "y": 16,
+              "hp": 69,
+              "mp": 32,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 800
+            }
+          ],
+          "weather": 3,
+          "food": {
+            "player": 489,
+            "enemy": 1372,
+            "knownEnemy": 0
+          }
+        },
+        "paused": {
+          "fight": {
+            "active": 1,
+            "over": 0,
+            "wait": 1,
+            "phase": 1,
+            "aimType": 255,
+            "inputKind": 1,
+            "inputSeq": 260,
+            "actorIndex": 255,
+            "tip": "",
+            "skip": 0,
+            "result": "",
+            "cityIndex": 9,
+            "mapW": 32,
+            "mapH": 32,
+            "bout": 3,
+            "boutMax": 30,
+            "focusX": 6,
+            "focusY": 17
+          },
+          "units": [
+            {
+              "i": 0,
+              "id": 6,
+              "name": "马腾",
+              "side": "player",
+              "x": 6,
+              "y": 17,
+              "hp": 85,
+              "mp": 31,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 1,
+              "id": 59,
+              "name": "庞德",
+              "side": "player",
+              "x": 9,
+              "y": 17,
+              "hp": 83,
+              "mp": 21,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 2,
+              "id": 61,
+              "name": "程银",
+              "side": "player",
+              "x": 9,
+              "y": 16,
+              "hp": 75,
+              "mp": 37,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 3,
+              "id": 62,
+              "name": "李堪",
+              "side": "player",
+              "x": 10,
+              "y": 16,
+              "hp": 52,
+              "mp": 44,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 4,
+              "id": 63,
+              "name": "张横",
+              "side": "player",
+              "x": 10,
+              "y": 15,
+              "hp": 79,
+              "mp": 37,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 5,
+              "id": 64,
+              "name": "梁兴",
+              "side": "player",
+              "x": 12,
+              "y": 14,
+              "hp": 65,
+              "mp": 28,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 10,
+              "id": 12,
+              "name": "王匡",
+              "side": "enemy",
+              "x": 14,
+              "y": 17,
+              "hp": 52,
+              "mp": 41,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 800
+            },
+            {
+              "i": 11,
+              "id": 86,
+              "name": "方悦",
+              "side": "enemy",
+              "x": 12,
+              "y": 16,
+              "hp": 69,
+              "mp": 32,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 800
+            }
+          ],
+          "weather": 3,
+          "food": {
+            "player": 489,
+            "enemy": 1372,
+            "knownEnemy": 0
+          }
+        }
+      }
+    ],
+    "pause": {
+      "before": {
+        "fight": {
+          "active": 1,
+          "over": 0,
+          "wait": 1,
+          "phase": 1,
+          "aimType": 255,
+          "inputKind": 1,
+          "inputSeq": 5,
+          "actorIndex": 255,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 9,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 1,
+          "boutMax": 30,
+          "focusX": 4,
+          "focusY": 16
+        },
+        "units": [
+          {
+            "i": 0,
+            "id": 6,
+            "name": "马腾",
+            "side": "player",
+            "x": 4,
+            "y": 16,
+            "hp": 85,
+            "mp": 41,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 1,
+            "id": 59,
+            "name": "庞德",
+            "side": "player",
+            "x": 4,
+            "y": 17,
+            "hp": 83,
+            "mp": 21,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 2,
+            "id": 61,
+            "name": "程银",
+            "side": "player",
+            "x": 3,
+            "y": 16,
+            "hp": 75,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 3,
+            "id": 62,
+            "name": "李堪",
+            "side": "player",
+            "x": 5,
+            "y": 16,
+            "hp": 52,
+            "mp": 44,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 4,
+            "id": 63,
+            "name": "张横",
+            "side": "player",
+            "x": 4,
+            "y": 15,
+            "hp": 79,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 5,
+            "id": 64,
+            "name": "梁兴",
+            "side": "player",
+            "x": 6,
+            "y": 14,
+            "hp": 65,
+            "mp": 28,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 10,
+            "id": 12,
+            "name": "王匡",
+            "side": "enemy",
+            "x": 14,
+            "y": 17,
+            "hp": 52,
+            "mp": 41,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          },
+          {
+            "i": 11,
+            "id": 86,
+            "name": "方悦",
+            "side": "enemy",
+            "x": 14,
+            "y": 18,
+            "hp": 69,
+            "mp": 32,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          }
+        ],
+        "weather": 5,
+        "food": {
+          "player": 505,
+          "enemy": 1398,
+          "knownEnemy": 0
+        }
+      },
+      "after": {
+        "fight": {
+          "active": 1,
+          "over": 0,
+          "wait": 1,
+          "phase": 1,
+          "aimType": 255,
+          "inputKind": 1,
+          "inputSeq": 5,
+          "actorIndex": 255,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 9,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 1,
+          "boutMax": 30,
+          "focusX": 4,
+          "focusY": 16
+        },
+        "units": [
+          {
+            "i": 0,
+            "id": 6,
+            "name": "马腾",
+            "side": "player",
+            "x": 4,
+            "y": 16,
+            "hp": 85,
+            "mp": 41,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 1,
+            "id": 59,
+            "name": "庞德",
+            "side": "player",
+            "x": 4,
+            "y": 17,
+            "hp": 83,
+            "mp": 21,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 2,
+            "id": 61,
+            "name": "程银",
+            "side": "player",
+            "x": 3,
+            "y": 16,
+            "hp": 75,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 3,
+            "id": 62,
+            "name": "李堪",
+            "side": "player",
+            "x": 5,
+            "y": 16,
+            "hp": 52,
+            "mp": 44,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 4,
+            "id": 63,
+            "name": "张横",
+            "side": "player",
+            "x": 4,
+            "y": 15,
+            "hp": 79,
+            "mp": 37,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 5,
+            "id": 64,
+            "name": "梁兴",
+            "side": "player",
+            "x": 6,
+            "y": 14,
+            "hp": 65,
+            "mp": 28,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 100
+          },
+          {
+            "i": 10,
+            "id": 12,
+            "name": "王匡",
+            "side": "enemy",
+            "x": 14,
+            "y": 17,
+            "hp": 52,
+            "mp": 41,
+            "move": 4,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          },
+          {
+            "i": 11,
+            "id": 86,
+            "name": "方悦",
+            "side": "enemy",
+            "x": 14,
+            "y": 18,
+            "hp": 69,
+            "mp": 32,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "arms": 800
+          }
+        ],
+        "weather": 5,
+        "food": {
+          "player": 505,
+          "enemy": 1398,
+          "knownEnemy": 0
+        }
+      }
+    }
+  },
+  "spe": {
+    "ok": true,
+    "checkpoints": 18,
+    "uncaughtExceptions": 0,
+    "unexpectedDialogs": 0,
+    "startedAt": "2026-10-08T00:26:46.447Z",
+    "finishedAt": "2026-10-08T00:27:57.728Z",
+    "artifact": "build/m4-library-identity/spe-final/result.json",
+    "resultSha256": "da51b8c02cc748be11c56e27b0f306c2eeb07c89129f2497ae2f7cab4543dcd6",
+    "actualLib": {
+      "preferred": "libs/dat-mod.lib",
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    "opening": {
+      "eventId": 1,
+      "generation": 2,
+      "displayedCommits": 3,
+      "skip": [
+        {
+          "code": 39,
+          "at": 1192.2999999970198,
+          "phase": "opening",
+          "generation": 2,
+          "eventId": 1,
+          "kind": 1,
+          "speActive": 1,
+          "fightKind": 0,
+          "fightSeq": 1
+        }
+      ]
+    },
+    "attackSpe": {
+      "eventId": 5,
+      "actorIndex": 1,
+      "targetIndex": 11,
+      "actorSide": "player",
+      "playerTroopCostVerified": true,
+      "displayedCommits": 9,
+      "source": [
+        "lcd"
+      ]
+    },
+    "fireAttempts": [
+      {
+        "actor": {
+          "i": 2,
+          "id": 61,
+          "name": "程银",
+          "side": "player",
+          "x": 9,
+          "y": 16,
+          "hp": 75,
+          "mp": 37,
+          "move": 4,
+          "active": 0,
+          "state": 0,
+          "arms": 100
+        },
+        "target": {
+          "i": 11,
+          "id": 86,
+          "name": "方悦",
+          "side": "enemy",
+          "x": 12,
+          "y": 16,
+          "arms": 742,
+          "terrain": 1,
+          "armType": 0
+        },
+        "skill": {
+          "id": 5,
+          "index": 0,
+          "name": "火攻",
+          "speId": 35,
+          "aim": 0,
+          "state": 0,
+          "power": 400,
+          "destroy": 0,
+          "useMp": 15,
+          "eland": [
+            60,
+            60,
+            0,
+            100,
+            100,
+            100,
+            100,
+            0
+          ],
+          "earm": [
+            100,
+            100,
+            100,
+            100,
+            80,
+            100
+          ],
+          "available": true
+        },
+        "before": {
+          "fight": {
+            "active": 1,
+            "over": 0,
+            "wait": 0,
+            "phase": 0,
+            "aimType": 255,
+            "inputKind": 4,
+            "inputSeq": 201,
+            "actorIndex": 2,
+            "tip": "",
+            "skip": 0,
+            "result": "",
+            "cityIndex": 9,
+            "mapW": 32,
+            "mapH": 32,
+            "bout": 3,
+            "boutMax": 30,
+            "focusX": 11,
+            "focusY": 15
+          },
+          "units": [
+            {
+              "i": 0,
+              "id": 6,
+              "name": "马腾",
+              "side": "player",
+              "x": 4,
+              "y": 16,
+              "hp": 85,
+              "mp": 41,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 1,
+              "id": 59,
+              "name": "庞德",
+              "side": "player",
+              "x": 11,
+              "y": 16,
+              "hp": 83,
+              "mp": 21,
+              "move": 5,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 2,
+              "id": 61,
+              "name": "程银",
+              "side": "player",
+              "x": 11,
+              "y": 15,
+              "hp": 75,
+              "mp": 37,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 3,
+              "id": 62,
+              "name": "李堪",
+              "side": "player",
+              "x": 10,
+              "y": 16,
+              "hp": 52,
+              "mp": 44,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 4,
+              "id": 63,
+              "name": "张横",
+              "side": "player",
+              "x": 10,
+              "y": 15,
+              "hp": 79,
+              "mp": 37,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 5,
+              "id": 64,
+              "name": "梁兴",
+              "side": "player",
+              "x": 12,
+              "y": 14,
+              "hp": 65,
+              "mp": 28,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 10,
+              "id": 12,
+              "name": "王匡",
+              "side": "enemy",
+              "x": 14,
+              "y": 17,
+              "hp": 52,
+              "mp": 41,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 1040
+            },
+            {
+              "i": 11,
+              "id": 86,
+              "name": "方悦",
+              "side": "enemy",
+              "x": 12,
+              "y": 16,
+              "hp": 69,
+              "mp": 32,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 742
+            }
+          ],
+          "food": {
+            "player": 489,
+            "enemy": 1370,
+            "knownEnemy": 0
+          }
+        },
+        "after": {
+          "fight": {
+            "active": 1,
+            "over": 0,
+            "wait": 1,
+            "phase": 1,
+            "aimType": 255,
+            "inputKind": 1,
+            "inputSeq": 205,
+            "actorIndex": 255,
+            "tip": "",
+            "skip": 0,
+            "result": "",
+            "cityIndex": 9,
+            "mapW": 32,
+            "mapH": 32,
+            "bout": 3,
+            "boutMax": 30,
+            "focusX": 12,
+            "focusY": 16
+          },
+          "units": [
+            {
+              "i": 0,
+              "id": 6,
+              "name": "马腾",
+              "side": "player",
+              "x": 4,
+              "y": 16,
+              "hp": 85,
+              "mp": 41,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 1,
+              "id": 59,
+              "name": "庞德",
+              "side": "player",
+              "x": 11,
+              "y": 16,
+              "hp": 83,
+              "mp": 21,
+              "move": 5,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 2,
+              "id": 61,
+              "name": "程银",
+              "side": "player",
+              "x": 11,
+              "y": 15,
+              "hp": 75,
+              "mp": 22,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 3,
+              "id": 62,
+              "name": "李堪",
+              "side": "player",
+              "x": 10,
+              "y": 16,
+              "hp": 52,
+              "mp": 44,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 4,
+              "id": 63,
+              "name": "张横",
+              "side": "player",
+              "x": 10,
+              "y": 15,
+              "hp": 79,
+              "mp": 37,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 5,
+              "id": 64,
+              "name": "梁兴",
+              "side": "player",
+              "x": 12,
+              "y": 14,
+              "hp": 65,
+              "mp": 28,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 10,
+              "id": 12,
+              "name": "王匡",
+              "side": "enemy",
+              "x": 14,
+              "y": 17,
+              "hp": 52,
+              "mp": 41,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 1040
+            },
+            {
+              "i": 11,
+              "id": 86,
+              "name": "方悦",
+              "side": "enemy",
+              "x": 12,
+              "y": 16,
+              "hp": 69,
+              "mp": 32,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 742
+            }
+          ],
+          "food": {
+            "player": 489,
+            "enemy": 1370,
+            "knownEnemy": 0
+          }
+        }
+      },
+      {
+        "actor": {
+          "i": 4,
+          "id": 63,
+          "name": "张横",
+          "side": "player",
+          "x": 10,
+          "y": 15,
+          "hp": 79,
+          "mp": 37,
+          "move": 4,
+          "active": 0,
+          "state": 0,
+          "arms": 100
+        },
+        "target": {
+          "i": 11,
+          "id": 86,
+          "name": "方悦",
+          "side": "enemy",
+          "x": 12,
+          "y": 16,
+          "arms": 742,
+          "terrain": 1,
+          "armType": 0
+        },
+        "skill": {
+          "id": 5,
+          "index": 0,
+          "name": "火攻",
+          "speId": 35,
+          "aim": 0,
+          "state": 0,
+          "power": 400,
+          "destroy": 0,
+          "useMp": 15,
+          "eland": [
+            60,
+            60,
+            0,
+            100,
+            100,
+            100,
+            100,
+            0
+          ],
+          "earm": [
+            100,
+            100,
+            100,
+            100,
+            80,
+            100
+          ],
+          "available": true
+        },
+        "before": {
+          "fight": {
+            "active": 1,
+            "over": 0,
+            "wait": 0,
+            "phase": 0,
+            "aimType": 255,
+            "inputKind": 4,
+            "inputSeq": 221,
+            "actorIndex": 4,
+            "tip": "",
+            "skip": 0,
+            "result": "",
+            "cityIndex": 9,
+            "mapW": 32,
+            "mapH": 32,
+            "bout": 3,
+            "boutMax": 30,
+            "focusX": 10,
+            "focusY": 16
+          },
+          "units": [
+            {
+              "i": 0,
+              "id": 6,
+              "name": "马腾",
+              "side": "player",
+              "x": 4,
+              "y": 16,
+              "hp": 85,
+              "mp": 41,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 1,
+              "id": 59,
+              "name": "庞德",
+              "side": "player",
+              "x": 11,
+              "y": 16,
+              "hp": 83,
+              "mp": 21,
+              "move": 5,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 2,
+              "id": 61,
+              "name": "程银",
+              "side": "player",
+              "x": 11,
+              "y": 15,
+              "hp": 75,
+              "mp": 22,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 3,
+              "id": 62,
+              "name": "李堪",
+              "side": "player",
+              "x": 12,
+              "y": 15,
+              "hp": 52,
+              "mp": 44,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 4,
+              "id": 63,
+              "name": "张横",
+              "side": "player",
+              "x": 10,
+              "y": 16,
+              "hp": 79,
+              "mp": 37,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 5,
+              "id": 64,
+              "name": "梁兴",
+              "side": "player",
+              "x": 12,
+              "y": 14,
+              "hp": 65,
+              "mp": 28,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 10,
+              "id": 12,
+              "name": "王匡",
+              "side": "enemy",
+              "x": 14,
+              "y": 17,
+              "hp": 52,
+              "mp": 41,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 1040
+            },
+            {
+              "i": 11,
+              "id": 86,
+              "name": "方悦",
+              "side": "enemy",
+              "x": 12,
+              "y": 16,
+              "hp": 69,
+              "mp": 32,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 742
+            }
+          ],
+          "food": {
+            "player": 489,
+            "enemy": 1370,
+            "knownEnemy": 0
+          }
+        },
+        "after": {
+          "fight": {
+            "active": 1,
+            "over": 0,
+            "wait": 1,
+            "phase": 1,
+            "aimType": 255,
+            "inputKind": 1,
+            "inputSeq": 225,
+            "actorIndex": 255,
+            "tip": "",
+            "skip": 0,
+            "result": "",
+            "cityIndex": 9,
+            "mapW": 32,
+            "mapH": 32,
+            "bout": 3,
+            "boutMax": 30,
+            "focusX": 10,
+            "focusY": 16
+          },
+          "units": [
+            {
+              "i": 0,
+              "id": 6,
+              "name": "马腾",
+              "side": "player",
+              "x": 4,
+              "y": 16,
+              "hp": 85,
+              "mp": 41,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 1,
+              "id": 59,
+              "name": "庞德",
+              "side": "player",
+              "x": 11,
+              "y": 16,
+              "hp": 83,
+              "mp": 21,
+              "move": 5,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 2,
+              "id": 61,
+              "name": "程银",
+              "side": "player",
+              "x": 11,
+              "y": 15,
+              "hp": 75,
+              "mp": 22,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 3,
+              "id": 62,
+              "name": "李堪",
+              "side": "player",
+              "x": 12,
+              "y": 15,
+              "hp": 52,
+              "mp": 44,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 4,
+              "id": 63,
+              "name": "张横",
+              "side": "player",
+              "x": 10,
+              "y": 16,
+              "hp": 79,
+              "mp": 22,
+              "move": 4,
+              "active": 1,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 5,
+              "id": 64,
+              "name": "梁兴",
+              "side": "player",
+              "x": 12,
+              "y": 14,
+              "hp": 65,
+              "mp": 28,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 100
+            },
+            {
+              "i": 10,
+              "id": 12,
+              "name": "王匡",
+              "side": "enemy",
+              "x": 14,
+              "y": 17,
+              "hp": 52,
+              "mp": 41,
+              "move": 4,
+              "active": 0,
+              "state": 0,
+              "arms": 1040
+            },
+            {
+              "i": 11,
+              "id": 86,
+              "name": "方悦",
+              "side": "enemy",
+              "x": 12,
+              "y": 16,
+              "hp": 69,
+              "mp": 32,
+              "move": 5,
+              "active": 0,
+              "state": 0,
+              "arms": 502
+            }
+          ],
+          "food": {
+            "player": 489,
+            "enemy": 1370,
+            "knownEnemy": 0
+          }
+        }
+      }
+    ],
+    "fireCoverage": {
+      "observed": true,
+      "hdAssetsObserved": true,
+      "displayedCommits": 8,
+      "events": [
+        6
+      ],
+      "hdVisibleFrames": [
+        {
+          "eventId": 6,
+          "commitSeq": 2,
+          "frames": [
+            1
+          ]
+        },
+        {
+          "eventId": 6,
+          "commitSeq": 3,
+          "frames": [
+            2
+          ]
+        },
+        {
+          "eventId": 6,
+          "commitSeq": 4,
+          "frames": [
+            3
+          ]
+        },
+        {
+          "eventId": 6,
+          "commitSeq": 5,
+          "frames": [
+            4
+          ]
+        },
+        {
+          "eventId": 6,
+          "commitSeq": 6,
+          "frames": [
+            5
+          ]
+        },
+        {
+          "eventId": 6,
+          "commitSeq": 7,
+          "frames": [
+            6
+          ]
+        },
+        {
+          "eventId": 6,
+          "commitSeq": 8,
+          "frames": [
+            7
+          ]
+        }
+      ],
+      "reason": "actual-native-fire-displays"
+    },
+    "fireCanvasImages": [
+      {
+        "file": "fire-35-native-frame-1-0.png",
+        "sha256": "72f54253774cbe3c92c28e3370f55c77b019c9bc6878c9d01896a80cf00a48b8",
+        "before": {
+          "generation": 3,
+          "eventId": 6,
+          "commitSeq": 2,
+          "frameIndex": 1,
+          "frameValid": true,
+          "visibleFrames": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "generation": 3,
+          "eventId": 6,
+          "commitSeq": 2,
+          "frameIndex": 1,
+          "frameValid": true,
+          "visibleFrames": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "spe": {
+          "active": 1,
+          "id": 35,
+          "kind": 2,
+          "x": 48,
+          "y": 16,
+          "startFrm": 0,
+          "endFrm": 7,
+          "seq": 25,
+          "protocolVersion": 2,
+          "generation": 3,
+          "eventId": 6,
+          "parentEventId": 0,
+          "depth": 1,
+          "resourceIndex": 0,
+          "count": 8,
+          "picmax": 2,
+          "resourceLength": 1212,
+          "resourceFingerprint": "fnv1a32:0bf53f74:1212",
+          "frameIndex": 1,
+          "frameValid": true,
+          "protocolValid": true,
+          "commitSeq": 2,
+          "keyflag": 0,
+          "skipEligible": false,
+          "visibleFrames": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "contextKnown": true,
+          "skillId": 5,
+          "actorIndex": 4,
+          "targetIndex": 11,
+          "lastEnd": {
+            "eventId": 5,
+            "reason": "complete",
+            "key": 255
+          },
+          "display": {
+            "generation": 3,
+            "eventId": 6,
+            "commitSeq": 2,
+            "frameIndex": 1,
+            "frameValid": true,
+            "visibleFrames": [
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "ui": {
+          "open": true,
+          "opening": false,
+          "skipVisible": false,
+          "skipped": false,
+          "source": "hd-assets",
+          "fallbackReason": "",
+          "displayedFrames": [
+            1
+          ],
+          "scale": 14,
+          "canvasW": 1820,
+          "canvasH": 896,
+          "flushW": 160,
+          "flushH": 96,
+          "event": "3:6",
+          "flushKey": "3:6:2",
+          "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "spe": {
+            "active": 1,
+            "id": 35,
+            "kind": 2,
+            "x": 48,
+            "y": 16,
+            "startFrm": 0,
+            "endFrm": 7,
+            "seq": 25,
+            "protocolVersion": 2,
+            "generation": 3,
+            "eventId": 6,
+            "parentEventId": 0,
+            "depth": 1,
+            "resourceIndex": 0,
+            "count": 8,
+            "picmax": 2,
+            "resourceLength": 1212,
+            "resourceFingerprint": "fnv1a32:0bf53f74:1212",
+            "frameIndex": 1,
+            "frameValid": true,
+            "protocolValid": true,
+            "commitSeq": 2,
+            "keyflag": 0,
+            "skipEligible": false,
+            "visibleFrames": [
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "contextKnown": true,
+            "skillId": 5,
+            "actorIndex": 4,
+            "targetIndex": 11,
+            "lastEnd": {
+              "eventId": 5,
+              "reason": "complete",
+              "key": 255
+            },
+            "display": {
+              "generation": 3,
+              "eventId": 6,
+              "commitSeq": 2,
+              "frameIndex": 1,
+              "frameValid": true,
+              "visibleFrames": [
+                2,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          }
+        },
+        "baselineArena": {
+          "x": 15,
+          "y": 16,
+          "width": 130,
+          "height": 64
+        },
+        "expectedNativeOriginOnCanvas": {
+          "x": 462,
+          "y": 0
+        }
+      },
+      {
+        "file": "fire-35-native-frame-2-1.png",
+        "sha256": "d537ce0a03413a091f82bf0794e741d224e69c468dd18472e1ac6313340c276b",
+        "before": {
+          "generation": 3,
+          "eventId": 6,
+          "commitSeq": 3,
+          "frameIndex": 2,
+          "frameValid": true,
+          "visibleFrames": [
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "after": {
+          "generation": 3,
+          "eventId": 6,
+          "commitSeq": 3,
+          "frameIndex": 2,
+          "frameValid": true,
+          "visibleFrames": [
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "spe": {
+          "active": 1,
+          "id": 35,
+          "kind": 2,
+          "x": 48,
+          "y": 16,
+          "startFrm": 0,
+          "endFrm": 7,
+          "seq": 26,
+          "protocolVersion": 2,
+          "generation": 3,
+          "eventId": 6,
+          "parentEventId": 0,
+          "depth": 1,
+          "resourceIndex": 0,
+          "count": 8,
+          "picmax": 2,
+          "resourceLength": 1212,
+          "resourceFingerprint": "fnv1a32:0bf53f74:1212",
+          "frameIndex": 2,
+          "frameValid": true,
+          "protocolValid": true,
+          "commitSeq": 3,
+          "keyflag": 0,
+          "skipEligible": false,
+          "visibleFrames": [
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "contextKnown": true,
+          "skillId": 5,
+          "actorIndex": 4,
+          "targetIndex": 11,
+          "lastEnd": {
+            "eventId": 5,
+            "reason": "complete",
+            "key": 255
+          },
+          "display": {
+            "generation": 3,
+            "eventId": 6,
+            "commitSeq": 3,
+            "frameIndex": 2,
+            "frameValid": true,
+            "visibleFrames": [
+              4,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "ui": {
+          "open": true,
+          "opening": false,
+          "skipVisible": false,
+          "skipped": false,
+          "source": "hd-assets",
+          "fallbackReason": "",
+          "displayedFrames": [
+            2
+          ],
+          "scale": 14,
+          "canvasW": 1820,
+          "canvasH": 896,
+          "flushW": 160,
+          "flushH": 96,
+          "event": "3:6",
+          "flushKey": "3:6:3",
+          "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "spe": {
+            "active": 1,
+            "id": 35,
+            "kind": 2,
+            "x": 48,
+            "y": 16,
+            "startFrm": 0,
+            "endFrm": 7,
+            "seq": 26,
+            "protocolVersion": 2,
+            "generation": 3,
+            "eventId": 6,
+            "parentEventId": 0,
+            "depth": 1,
+            "resourceIndex": 0,
+            "count": 8,
+            "picmax": 2,
+            "resourceLength": 1212,
+            "resourceFingerprint": "fnv1a32:0bf53f74:1212",
+            "frameIndex": 2,
+            "frameValid": true,
+            "protocolValid": true,
+            "commitSeq": 3,
+            "keyflag": 0,
+            "skipEligible": false,
+            "visibleFrames": [
+              4,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "contextKnown": true,
+            "skillId": 5,
+            "actorIndex": 4,
+            "targetIndex": 11,
+            "lastEnd": {
+              "eventId": 5,
+              "reason": "complete",
+              "key": 255
+            },
+            "display": {
+              "generation": 3,
+              "eventId": 6,
+              "commitSeq": 3,
+              "frameIndex": 2,
+              "frameValid": true,
+              "visibleFrames": [
+                4,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          }
+        },
+        "baselineArena": {
+          "x": 15,
+          "y": 16,
+          "width": 130,
+          "height": 64
+        },
+        "expectedNativeOriginOnCanvas": {
+          "x": 462,
+          "y": 0
+        }
+      }
+    ]
+  },
+  "images": [
+    {
+      "file": "m4-library-identity-20261008/hud-city-status-1920x1080.png",
+      "bytes": 2174392,
+      "sha256": "68f74f0681b5a5fe8a80302ee5ba0988a7debe7c7b49cf420ac1fc4a4a1d0fd8"
+    },
+    {
+      "file": "m4-library-identity-20261008/hud-city-status-1280x720.png",
+      "bytes": 818893,
+      "sha256": "68f6f9c16ca08eaeff7c7599fe96540143dcc52f0051139c7be43ca366a1cf84"
+    },
+    {
+      "file": "m4-library-identity-20261008/hud-person-details-1920x1080.png",
+      "bytes": 2168168,
+      "sha256": "9b6d9965d86dacd44b906b75e95e7c8c7b455fd5529df80f7ca3c9d5df2dbece"
+    },
+    {
+      "file": "m4-library-identity-20261008/hud-person-details-1280x720.png",
+      "bytes": 816555,
+      "sha256": "453650569b5a02f0bd3f28d1cdabe198df028d51f164a902a5c13f6a272d9d86"
+    },
+    {
+      "file": "m4-library-identity-20261008/hud-person-explicit-lcd-1280x720.png",
+      "bytes": 765520,
+      "sha256": "56d1d836f9e2e6f797cd1567f30854f22e54c618ec0ff05909eefde1f7ae5e1c"
+    },
+    {
+      "file": "m4-library-identity-20261008/identity-real-mod-cache-standard-url-native-city.png",
+      "bytes": 80794,
+      "sha256": "4dc2c25d8fedad0df3fc4617af6c0723d10b22c0a04d32af2f6e468cf2a71e8a"
+    }
+  ],
+  "retainedFailures": [
+    {
+      "artifact": "build/m4-library-identity/runtime-v7/result.json",
+      "reason": "Harness treated the genuine Mod name prompt as unexpected; actual script verified and allowlist narrowed to exact scenario/type/message/default/count."
+    },
+    {
+      "artifact": "build/m4-library-identity/battle-final/result.json",
+      "reason": "Real randomized battle defeated the army before the required spy effect; fresh full rerun passed with no source change or forced win."
+    }
+  ],
+  "remaining": [
+    "25 missing pilot portraits",
+    "Opening, ordinary attack and other SPE HD artwork",
+    "Map forest/city markers and all 38 real clicks",
+    "Held-item details, independent help identity, equipment-derived and Mod attributes",
+    "Complete succession and four-period/full Mod campaigns",
+    "Fixed-device performance and input-tail acceptance",
+    "M5 landscape Android/iOS on actual devices",
+    "Real-account cloud saves"
+  ],
+  "existingLayoutLimit": "Battle 720p canvas legend has a local overlap near bottom toolbar; recorded during this identity-only battle acceptance, remains a HUD follow-up. City/person panels accepted without overlap."
+}

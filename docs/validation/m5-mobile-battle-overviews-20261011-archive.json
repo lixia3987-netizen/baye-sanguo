@@ -1,0 +1,639 @@
+{
+  "at": "2026-10-11T08:07:29.849Z",
+  "compression": "gzip",
+  "roundtripVerified": true,
+  "files": [
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/00-title-844.png",
+      "bytes": 30705,
+      "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+      "file": "raw/ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7.gz",
+      "archiveBytes": 29146,
+      "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/battle-01-fresh-pick-667-hd-mobile-battle-canvas.png",
+      "bytes": 48029,
+      "sha256": "43bd16be5053f1ccb0d66af94a414f5baa8bab32d65d2bbace959fa9f2726470",
+      "file": "raw/e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92.gz",
+      "archiveBytes": 44263,
+      "archiveSha256": "e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/battle-01-fresh-pick-667.png",
+      "bytes": 61859,
+      "sha256": "04ea49b8531d9ba75345973e0e614ad2d7bc78947359b5fcc91ee0c3feb0946f",
+      "file": "raw/0b0f290ccff8cbfc0b4671ad0a2a5d2b5057aee551d6497e1e9f178ff905ea64.gz",
+      "archiveBytes": 60452,
+      "archiveSha256": "0b0f290ccff8cbfc0b4671ad0a2a5d2b5057aee551d6497e1e9f178ff905ea64"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/overview-enemy-bottom-boundary.png",
+      "bytes": 52135,
+      "sha256": "ef2836cb329aaa770a0c4c260878bc945bcdfd926a867f113b22c80ebd247278",
+      "file": "raw/a0d2d1178a4d5b0722c78f56c26f793efd0ccfcd403ba6ff22f6d9c8c2af8fcf.gz",
+      "archiveBytes": 51112,
+      "archiveSha256": "a0d2d1178a4d5b0722c78f56c26f793efd0ccfcd403ba6ff22f6d9c8c2af8fcf"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/overview-enemy-reset.png",
+      "bytes": 50487,
+      "sha256": "f51cdcb0fecaca9b3c6ef4d15cbed0a09cb3d0e071d68a200f4c54aaceb7f918",
+      "file": "raw/f85e286a0a10c8052fd44cd046acdd014614f9f4c32c5e138f977ab0181cdadd.gz",
+      "archiveBytes": 49499,
+      "archiveSha256": "f85e286a0a10c8052fd44cd046acdd014614f9f4c32c5e138f977ab0181cdadd"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/overview-enemy-top-boundary.png",
+      "bytes": 52666,
+      "sha256": "0193e20462806e69e05a8b51c56cc2fafef9c68dfbedccad58a857fef1fdfa4a",
+      "file": "raw/756399f119fe0047b96c22ad5f6597bba3f73661160c2043b3fdb585e37745a1.gz",
+      "archiveBytes": 51823,
+      "archiveSha256": "756399f119fe0047b96c22ad5f6597bba3f73661160c2043b3fdb585e37745a1"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/overview-help-person-0.png",
+      "bytes": 64400,
+      "sha256": "4f1b0be474e721a7514a3a4976ea1491ee8c01f7feebb451f99d6899cafa9f60",
+      "file": "raw/2f244bebfdf097e12d3924af1c95acac0e6e324a18960ff198ef110ab82f9996.gz",
+      "archiveBytes": 63750,
+      "archiveSha256": "2f244bebfdf097e12d3924af1c95acac0e6e324a18960ff198ef110ab82f9996"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/overview-help-person-1.png",
+      "bytes": 62861,
+      "sha256": "53c94da2c6659f8551ad1bc081dd122954ce55fb97eece3f41ce5bbc1b6aecdf",
+      "file": "raw/2f8aaae5133b36cf3a017083d7cb285c166db1eadf6bfe612ec4846e7057df08.gz",
+      "archiveBytes": 62179,
+      "archiveSha256": "2f8aaae5133b36cf3a017083d7cb285c166db1eadf6bfe612ec4846e7057df08"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/overview-help-terrain.png",
+      "bytes": 40145,
+      "sha256": "89ac67f5f98bb2c248a5244924e4ef574f22b51c39a6f7a9e59ce11d174f1b10",
+      "file": "raw/0322a4e2288382d5c41cbcc51b398e0746668cd3f36d5e415ad2bd406593008c.gz",
+      "archiveBytes": 38523,
+      "archiveSha256": "0322a4e2288382d5c41cbcc51b398e0746668cd3f36d5e415ad2bd406593008c"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/overview-player-bottom-boundary.png",
+      "bytes": 53074,
+      "sha256": "f812c5e6853e0b03a1a1ac440af83b0b975ace7b820f215021bc5a114b6fc9f5",
+      "file": "raw/d209af4db28b6d85b70368e43c8a7fdea395e008423d39a295634d7dd0f474a8.gz",
+      "archiveBytes": 52224,
+      "archiveSha256": "d209af4db28b6d85b70368e43c8a7fdea395e008423d39a295634d7dd0f474a8"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/overview-player-first.png",
+      "bytes": 52386,
+      "sha256": "7e7817ccabea69e9a051a600d73951d9881c5e7d4a84d9073ea81393476589ac",
+      "file": "raw/144c137d78087e4b0d591c060966ac59d34ec98fc84e8fa842b06297a2bc8e4d.gz",
+      "archiveBytes": 51583,
+      "archiveSha256": "144c137d78087e4b0d591c060966ac59d34ec98fc84e8fa842b06297a2bc8e4d"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/overview-player-next-0.png",
+      "bytes": 51961,
+      "sha256": "677542aa65c6cbe2a249f54d1fff5470d9ebf69cf04277baf7de91d2e753e4eb",
+      "file": "raw/33392f420bce8cb23f3827cf935fd480a14e6f4908736b99389c76cf9a6d613b.gz",
+      "archiveBytes": 51058,
+      "archiveSha256": "33392f420bce8cb23f3827cf935fd480a14e6f4908736b99389c76cf9a6d613b"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/overview-player-previous-5.png",
+      "bytes": 52386,
+      "sha256": "7e7817ccabea69e9a051a600d73951d9881c5e7d4a84d9073ea81393476589ac",
+      "file": "raw/144c137d78087e4b0d591c060966ac59d34ec98fc84e8fa842b06297a2bc8e4d.gz",
+      "archiveBytes": 51583,
+      "archiveSha256": "144c137d78087e4b0d591c060966ac59d34ec98fc84e8fa842b06297a2bc8e4d"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/overview-player-top-boundary.png",
+      "bytes": 52386,
+      "sha256": "7e7817ccabea69e9a051a600d73951d9881c5e7d4a84d9073ea81393476589ac",
+      "file": "raw/144c137d78087e4b0d591c060966ac59d34ec98fc84e8fa842b06297a2bc8e4d.gz",
+      "archiveBytes": 51583,
+      "archiveSha256": "144c137d78087e4b0d591c060966ac59d34ec98fc84e8fa842b06297a2bc8e4d"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/overview-view-enemy-first.png",
+      "bytes": 51534,
+      "sha256": "a9f61dd7d4b85b2e231e6a2bb32fc570ffa4f7ff2e370946f220659b0bdbfcc2",
+      "file": "raw/1b1944db7228e599ad6d1d6b4cab761d4d81b21e433c6f986ecfb25c73b34434.gz",
+      "archiveBytes": 50498,
+      "archiveSha256": "1b1944db7228e599ad6d1d6b4cab761d4d81b21e433c6f986ecfb25c73b34434"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/owned-process-samples.jsonl",
+      "bytes": 158351,
+      "sha256": "0d52e1f699c7a3c9c22941bb56c88974945ea7f166c5426e767ab9faf51e401c",
+      "file": "raw/99d5a973df52914a25be0d88d3a94a4b07e84ac62f2c17322d03a825f8c2cc4e.gz",
+      "archiveBytes": 3483,
+      "archiveSha256": "99d5a973df52914a25be0d88d3a94a4b07e84ac62f2c17322d03a825f8c2cc4e"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/result.json",
+      "bytes": 51247827,
+      "sha256": "cba68a658ccbfb589fd8fec807555fd1d68770ef89aa173c10adb65db8a30de1",
+      "file": "raw/d0fe5cfe7410707fc04b6ffd84d70f91833556a77566d6da90e1d4e3c2b1e5c5.gz",
+      "archiveBytes": 1658395,
+      "archiveSha256": "d0fe5cfe7410707fc04b6ffd84d70f91833556a77566d6da90e1d4e3c2b1e5c5"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-667-v1/source-verification.json",
+      "bytes": 79344,
+      "sha256": "1975689aeed6ee773a4a36b7dd79c15007383fd26d07f5365de270f0aa5674e6",
+      "file": "raw/c00c9eca001b8d57f36e6b957791933623b68131dbcd248e52f3d224bc270fa2.gz",
+      "archiveBytes": 17392,
+      "archiveSha256": "c00c9eca001b8d57f36e6b957791933623b68131dbcd248e52f3d224bc270fa2"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v1/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v1/failure-hd-overworld-canvas.png",
+      "bytes": 727626,
+      "sha256": "58c00ed4043c645dcbbc2596403fd1fd2365e57f8fd80c61a545cf6c99b31847",
+      "file": "raw/46e4c6b0df79fed8ee374c32950f6b5541b418378b8ef3840e375669a3e6b82c.gz",
+      "archiveBytes": 727869,
+      "archiveSha256": "46e4c6b0df79fed8ee374c32950f6b5541b418378b8ef3840e375669a3e6b82c"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v1/failure.png",
+      "bytes": 578428,
+      "sha256": "2c8f3a803994ba61dc81bbcc3c20a971e740be5a5f8cf789a2cfd184dc59151b",
+      "file": "raw/5946946d5b04c46b040ccadfeddec8a5d2ee293488ffd605ca30e162dffc3d66.gz",
+      "archiveBytes": 578613,
+      "archiveSha256": "5946946d5b04c46b040ccadfeddec8a5d2ee293488ffd605ca30e162dffc3d66"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v1/owned-process-samples.jsonl",
+      "bytes": 47149,
+      "sha256": "c0437e4b355c49e44cef51af92f3913742ad75acb10ada151d4aed9e9ec1c40c",
+      "file": "raw/bc3b682d2a4c8a6888111995fb6dd71bc2760effffe37b530e74dbfa486ef2e0.gz",
+      "archiveBytes": 2052,
+      "archiveSha256": "bc3b682d2a4c8a6888111995fb6dd71bc2760effffe37b530e74dbfa486ef2e0"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v1/result.json",
+      "bytes": 1437734,
+      "sha256": "22b033d1bf6fbaa739245aa4a7c1f3fa425b01fd8df75cc6b8189b6f640cc3ad",
+      "file": "raw/70287c00ecdc6b65b7d6a67e99fcae2edf1c9e36b8a80b2bdf7f65063346c26c.gz",
+      "archiveBytes": 66600,
+      "archiveSha256": "70287c00ecdc6b65b7d6a67e99fcae2edf1c9e36b8a80b2bdf7f65063346c26c"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v1/source-verification.json",
+      "bytes": 54585,
+      "sha256": "5a2122b800168533931650f9d935c3ca0648a999a286a876e10a37f890b099f3",
+      "file": "raw/797312d04ba2ab412e0adb607b2c9d9050c910094f2db45998363a8a2153103a.gz",
+      "archiveBytes": 11465,
+      "archiveSha256": "797312d04ba2ab412e0adb607b2c9d9050c910094f2db45998363a8a2153103a"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v2/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v2/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+      "bytes": 56534,
+      "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf",
+      "file": "raw/45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85.gz",
+      "archiveBytes": 53423,
+      "archiveSha256": "45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v2/battle-01-fresh-pick-844.png",
+      "bytes": 72638,
+      "sha256": "e7df073a165e690e6fdfea44d55517a1949f31f1111c26e0bebd3ef1b8f35331",
+      "file": "raw/12a9d044a35a415640e1809977bb58e4f30b39be3f9c055ad15851e80cf3caf9.gz",
+      "archiveBytes": 70811,
+      "archiveSha256": "12a9d044a35a415640e1809977bb58e4f30b39be3f9c055ad15851e80cf3caf9"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v2/failure-lcd.png",
+      "bytes": 4465,
+      "sha256": "3dda6fa2b12ad9abbd334f37e05fcdc076aaed1c1d8dddc3a125ba0175c52519",
+      "file": "raw/0c7435d879b9a3c7397d1cc6250baf1963802856c7a3e2118dbbda9366d17218.gz",
+      "archiveBytes": 4481,
+      "archiveSha256": "0c7435d879b9a3c7397d1cc6250baf1963802856c7a3e2118dbbda9366d17218"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v2/failure.png",
+      "bytes": 29369,
+      "sha256": "eb3efbffee0c9194753a0bcaa6c2dcf34f4311be0ef14a4c4171a62e3282c4a6",
+      "file": "raw/578159d904142f674090dd0eb24c7226be33346f641a64d243461e0a82ff32fd.gz",
+      "archiveBytes": 27352,
+      "archiveSha256": "578159d904142f674090dd0eb24c7226be33346f641a64d243461e0a82ff32fd"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v2/owned-process-samples.jsonl",
+      "bytes": 56601,
+      "sha256": "344b4bafbdface9e56918333e99c18207ade2ecb668b135907544a3c38dd8ffe",
+      "file": "raw/9c7776ba557457daf99ae18d3e3366e73753a9a3c64223092aeb4c8358b4b738.gz",
+      "archiveBytes": 2197,
+      "archiveSha256": "9c7776ba557457daf99ae18d3e3366e73753a9a3c64223092aeb4c8358b4b738"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v2/result.json",
+      "bytes": 1800154,
+      "sha256": "f55462997fd48b2900c042c6fa3667e6cfc2ff12ee361c790339c660c451fa5e",
+      "file": "raw/0649f896722778dddc7a1afce59ca9093619f6629a5d1037d2d56e47acd2b1b4.gz",
+      "archiveBytes": 106354,
+      "archiveSha256": "0649f896722778dddc7a1afce59ca9093619f6629a5d1037d2d56e47acd2b1b4"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v2/source-verification.json",
+      "bytes": 78766,
+      "sha256": "fe256ca566b235b92ce77192baea33c37db1f9697d73516a3194b779fe49f400",
+      "file": "raw/9970bd0153bda1add94aa6361a3ef54298896bfdc30a1b62fccc44c2d4ef4333.gz",
+      "archiveBytes": 17237,
+      "archiveSha256": "9970bd0153bda1add94aa6361a3ef54298896bfdc30a1b62fccc44c2d4ef4333"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v3/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v3/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+      "bytes": 56534,
+      "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf",
+      "file": "raw/45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85.gz",
+      "archiveBytes": 53423,
+      "archiveSha256": "45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v3/battle-01-fresh-pick-844.png",
+      "bytes": 72638,
+      "sha256": "e7df073a165e690e6fdfea44d55517a1949f31f1111c26e0bebd3ef1b8f35331",
+      "file": "raw/12a9d044a35a415640e1809977bb58e4f30b39be3f9c055ad15851e80cf3caf9.gz",
+      "archiveBytes": 70811,
+      "archiveSha256": "12a9d044a35a415640e1809977bb58e4f30b39be3f9c055ad15851e80cf3caf9"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v3/failure.png",
+      "bytes": 59228,
+      "sha256": "d32c9af697b55b83e09c873ae59788b0f6a04945aec94d7330af2eff916c053c",
+      "file": "raw/67b81527a9d75b6604008744765fb60b5d01ff466448ab6be863cb60873b8efc.gz",
+      "archiveBytes": 57890,
+      "archiveSha256": "67b81527a9d75b6604008744765fb60b5d01ff466448ab6be863cb60873b8efc"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v3/overview-help-person-0.png",
+      "bytes": 72681,
+      "sha256": "4cf92506fb1dc846345075552d22369042b1b152901b653a6499d9ee5b3deb6e",
+      "file": "raw/04fcdf29ec6a6886a5089fa7f8d97ab96ddc90854d946701e70d2dedbe2e3c23.gz",
+      "archiveBytes": 71264,
+      "archiveSha256": "04fcdf29ec6a6886a5089fa7f8d97ab96ddc90854d946701e70d2dedbe2e3c23"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v3/overview-help-person-1.png",
+      "bytes": 71740,
+      "sha256": "7776773b80fa3d8b4fb4773290f74c8592a84ec2f12b697bc111e3e442adeead",
+      "file": "raw/738fcf70ca315cf1cd1a6915b0ed0272c1eb43a6be52125b9a53db973a9f115f.gz",
+      "archiveBytes": 70357,
+      "archiveSha256": "738fcf70ca315cf1cd1a6915b0ed0272c1eb43a6be52125b9a53db973a9f115f"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v3/overview-help-terrain.png",
+      "bytes": 44341,
+      "sha256": "6d5b85a44a7781d6d5156aa2e5cf7d2abd8b43ef48dd42b5356cc388a5302d20",
+      "file": "raw/932ee245d2b9870eac4d3cde51369a73dc7400d672b93bfe082ce5977054c0a1.gz",
+      "archiveBytes": 41791,
+      "archiveSha256": "932ee245d2b9870eac4d3cde51369a73dc7400d672b93bfe082ce5977054c0a1"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v3/owned-process-samples.jsonl",
+      "bytes": 85331,
+      "sha256": "4894bf23e96473b2d706905315ffd7e5fec7bc594d9662583b0a652679e13c94",
+      "file": "raw/ee65e3fac83c69fd6aaa8659d67043476aed3daea83e07c54a16f783112c01c4.gz",
+      "archiveBytes": 2460,
+      "archiveSha256": "ee65e3fac83c69fd6aaa8659d67043476aed3daea83e07c54a16f783112c01c4"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v3/result.json",
+      "bytes": 17281202,
+      "sha256": "b2320dcf795416995122a6421e73bab5981e56b75feabeaf08058843e627e4e1",
+      "file": "raw/5676c01a63794259d3cbf01833482f807f9e1b64b3312668b899008c1247149b.gz",
+      "archiveBytes": 596791,
+      "archiveSha256": "5676c01a63794259d3cbf01833482f807f9e1b64b3312668b899008c1247149b"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v3/source-verification.json",
+      "bytes": 79344,
+      "sha256": "a91edd62e9746fb2bb885776baf2d88e186ffd6f5048eb323ecdbb1bd8826934",
+      "file": "raw/be590e94679c3aa4f6f9c6397fb0e6c39a6c9d7b18aeb4a435d02615fb8807b2.gz",
+      "archiveBytes": 17397,
+      "archiveSha256": "be590e94679c3aa4f6f9c6397fb0e6c39a6c9d7b18aeb4a435d02615fb8807b2"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+      "bytes": 56534,
+      "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf",
+      "file": "raw/45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85.gz",
+      "archiveBytes": 53423,
+      "archiveSha256": "45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/battle-01-fresh-pick-844.png",
+      "bytes": 72639,
+      "sha256": "44ccf147a0f618e01746add7cf444c5d82798d064f70fe8ba28d883bb10463f4",
+      "file": "raw/bb796674e73c6865660ea6bc41a79082ab2be7ecad1e0fce4fb13953cab7e6f4.gz",
+      "archiveBytes": 70812,
+      "archiveSha256": "bb796674e73c6865660ea6bc41a79082ab2be7ecad1e0fce4fb13953cab7e6f4"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/overview-enemy-bottom-boundary.png",
+      "bytes": 55806,
+      "sha256": "b66d422051c2b2843885d4f526e849724c22b44a8cdc788eb26342dadfba3dd8",
+      "file": "raw/990c8c6f8b92af078c9f258e206c94ef2dd3e288073270033db62907e44d154c.gz",
+      "archiveBytes": 54407,
+      "archiveSha256": "990c8c6f8b92af078c9f258e206c94ef2dd3e288073270033db62907e44d154c"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/overview-enemy-reset.png",
+      "bytes": 55267,
+      "sha256": "cada4da3a16704ada0da6d55c0453e3fd4da2ebad34211bdcc5111dc782a9846",
+      "file": "raw/b50bccf714f21039ad93a897cddf59d9078fa3ebe1639fc7191684f146f04f6e.gz",
+      "archiveBytes": 53813,
+      "archiveSha256": "b50bccf714f21039ad93a897cddf59d9078fa3ebe1639fc7191684f146f04f6e"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/overview-enemy-top-boundary.png",
+      "bytes": 56412,
+      "sha256": "c24a59c7c758cf17d8c3c27fc0a736e72c6ba416fcf7fe9acc07fa2f98c4c63a",
+      "file": "raw/212a0f01a1942323a70d1f61226b2631e788f285b326115b39589b0199d1dbf3.gz",
+      "archiveBytes": 55023,
+      "archiveSha256": "212a0f01a1942323a70d1f61226b2631e788f285b326115b39589b0199d1dbf3"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/overview-help-person-0.png",
+      "bytes": 72681,
+      "sha256": "4cf92506fb1dc846345075552d22369042b1b152901b653a6499d9ee5b3deb6e",
+      "file": "raw/04fcdf29ec6a6886a5089fa7f8d97ab96ddc90854d946701e70d2dedbe2e3c23.gz",
+      "archiveBytes": 71264,
+      "archiveSha256": "04fcdf29ec6a6886a5089fa7f8d97ab96ddc90854d946701e70d2dedbe2e3c23"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/overview-help-person-1.png",
+      "bytes": 72493,
+      "sha256": "0585204fd9f824931bb4a967339b5ae61b1b60c76bc4a9364a7e845ef31993ea",
+      "file": "raw/049ee55798f38e5eac6db99cd966dc16b3037eb5df556f2860fcca7041e47c7c.gz",
+      "archiveBytes": 71076,
+      "archiveSha256": "049ee55798f38e5eac6db99cd966dc16b3037eb5df556f2860fcca7041e47c7c"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/overview-help-terrain.png",
+      "bytes": 43794,
+      "sha256": "a1825ce7340342ed9403e36bc2a5a1ecde5092f7b1346a08a7b3d84e71b1dad6",
+      "file": "raw/71e5ad76f2ec47ab6e8fa8fb6f3b1a903365a9c58210bfb9ba27adcec3891bc4.gz",
+      "archiveBytes": 41152,
+      "archiveSha256": "71e5ad76f2ec47ab6e8fa8fb6f3b1a903365a9c58210bfb9ba27adcec3891bc4"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/overview-player-bottom-boundary.png",
+      "bytes": 57490,
+      "sha256": "f7995d022e334a70e06a7338610b4735fdbb737fdf83831be0d8a9ee52de7944",
+      "file": "raw/e2f560a0adbd4383c45e5303cad86e7476383d96b95fbd33b0317e850dc3e3de.gz",
+      "archiveBytes": 56222,
+      "archiveSha256": "e2f560a0adbd4383c45e5303cad86e7476383d96b95fbd33b0317e850dc3e3de"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/overview-player-first.png",
+      "bytes": 56790,
+      "sha256": "63a55c737a3368f6bddfa860382ee5c88fc5f8d8f93e28eadcbca2722ffeb86d",
+      "file": "raw/a68ce67b64383c66403688ae72665bb079be321f7a308cb63582dd94b9791c0b.gz",
+      "archiveBytes": 55590,
+      "archiveSha256": "a68ce67b64383c66403688ae72665bb079be321f7a308cb63582dd94b9791c0b"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/overview-player-next-0.png",
+      "bytes": 57490,
+      "sha256": "f7995d022e334a70e06a7338610b4735fdbb737fdf83831be0d8a9ee52de7944",
+      "file": "raw/e2f560a0adbd4383c45e5303cad86e7476383d96b95fbd33b0317e850dc3e3de.gz",
+      "archiveBytes": 56222,
+      "archiveSha256": "e2f560a0adbd4383c45e5303cad86e7476383d96b95fbd33b0317e850dc3e3de"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/overview-player-previous-5.png",
+      "bytes": 56790,
+      "sha256": "63a55c737a3368f6bddfa860382ee5c88fc5f8d8f93e28eadcbca2722ffeb86d",
+      "file": "raw/a68ce67b64383c66403688ae72665bb079be321f7a308cb63582dd94b9791c0b.gz",
+      "archiveBytes": 55590,
+      "archiveSha256": "a68ce67b64383c66403688ae72665bb079be321f7a308cb63582dd94b9791c0b"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/overview-player-top-boundary.png",
+      "bytes": 56801,
+      "sha256": "9a6dd716dd4c589adbcba8d4bf2879a9f64251ece1fafc12a0965c20334f78e8",
+      "file": "raw/7d43f1b7d5c210be09cbe941488267d55aa85bc742e505b0b079af8ab9eeae47.gz",
+      "archiveBytes": 55567,
+      "archiveSha256": "7d43f1b7d5c210be09cbe941488267d55aa85bc742e505b0b079af8ab9eeae47"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/overview-view-enemy-first.png",
+      "bytes": 56433,
+      "sha256": "db34812fa2eee4ea28af6d7fbdef2835c4c1581e357601ac1f34313f2dd0e265",
+      "file": "raw/99c8402cea5b50e99af2c7f21769fe8b7eaf78030bbc29af0b6a74c58247df45.gz",
+      "archiveBytes": 55049,
+      "archiveSha256": "99c8402cea5b50e99af2c7f21769fe8b7eaf78030bbc29af0b6a74c58247df45"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/owned-process-samples.jsonl",
+      "bytes": 158239,
+      "sha256": "80f66b98b7a1366c04f8094e3bb8e77d6b81b4a1d7e6a49bdcec410738c38547",
+      "file": "raw/04c5544727fadb1bd55a8a199475b6197fe86499694d9a3678f0998552b64fad.gz",
+      "archiveBytes": 3477,
+      "archiveSha256": "04c5544727fadb1bd55a8a199475b6197fe86499694d9a3678f0998552b64fad"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/result.json",
+      "bytes": 52062806,
+      "sha256": "5c9210fe72fd337d5de6ed38a7ec629ad847024c924e0c94e72b23fa11283388",
+      "file": "raw/2f60a3c0618efe55ee1f79519a31b952339595e95d6af1db407efff419f5a7a3.gz",
+      "archiveBytes": 1668718,
+      "archiveSha256": "2f60a3c0618efe55ee1f79519a31b952339595e95d6af1db407efff419f5a7a3"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/installed-844-v4/source-verification.json",
+      "bytes": 79344,
+      "sha256": "01c4bded8780746a72f19677244e0bfd129fa9ae81dbd7b1881248c02ea1f048",
+      "file": "raw/ff58ba84521d3905eac6ed0b4b0f706ba40c8c275b03cf0036b9722a1b09c25d.gz",
+      "archiveBytes": 17393,
+      "archiveSha256": "ff58ba84521d3905eac6ed0b4b0f706ba40c8c275b03cf0036b9722a1b09c25d"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/final-suite-v1/result.json",
+      "bytes": 28165,
+      "sha256": "3fe37448d57cee551482aa1db2f92c13e62a03cc118fdcd19a02a1b2d3411a89",
+      "file": "raw/213150889fbab59d86e1ec854ac541ef8ab0ec88ca48128f6e60ef9b169f8cde.gz",
+      "archiveBytes": 5989,
+      "archiveSha256": "213150889fbab59d86e1ec854ac541ef8ab0ec88ca48128f6e60ef9b169f8cde"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/final-suite-v1/test-output.log",
+      "bytes": 333098,
+      "sha256": "6ac8414e8da2e4fad357d1bde47ea5e70155691c139ef25849990b5a2af49968",
+      "file": "raw/3c46e19411e06ae063322f1113a3a6331d1a85b22ee38892e021f928d6287a93.gz",
+      "archiveBytes": 88733,
+      "archiveSha256": "3c46e19411e06ae063322f1113a3a6331d1a85b22ee38892e021f928d6287a93"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/final-suite-v2/result.json",
+      "bytes": 28165,
+      "sha256": "0f98922485c740dc0253f3d444180b1df4d2946c10ef5d5cb75ac6cedae2cf97",
+      "file": "raw/2a90a1d56c7c8d62d4c8bee66923fb1bbd9ea0476fa1ce690f5b90b8017d5a9b.gz",
+      "archiveBytes": 5988,
+      "archiveSha256": "2a90a1d56c7c8d62d4c8bee66923fb1bbd9ea0476fa1ce690f5b90b8017d5a9b"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/final-suite-v2/test-output.log",
+      "bytes": 331328,
+      "sha256": "d7ffab580b2dcf5c2f71fadfac078fc877095fb4ea6696bbacfe88875ae62762",
+      "file": "raw/944f86968022e3b3ff9a552a5c2baa9c5c2b6045de3d6b82d882b6647aef8265.gz",
+      "archiveBytes": 88293,
+      "archiveSha256": "944f86968022e3b3ff9a552a5c2baa9c5c2b6045de3d6b82d882b6647aef8265"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/final-suite-v3/result.json",
+      "bytes": 28165,
+      "sha256": "396a10e408985a6c65067f045ab083350539f4df047360ae9082f06ccee8aa75",
+      "file": "raw/a76982118e35de2cdc2da3af8bcfc57aded72edd9f0f75f55c92437fd61ee00c.gz",
+      "archiveBytes": 5982,
+      "archiveSha256": "a76982118e35de2cdc2da3af8bcfc57aded72edd9f0f75f55c92437fd61ee00c"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/final-suite-v3/test-output.log",
+      "bytes": 331725,
+      "sha256": "594d1b484903f9ae5f543cf205ed22201d137c463683ad1ca8d3b6bd2cb2bb6c",
+      "file": "raw/030c82d2c54ec63589b2b5f2b441308d44b447a28d3b31b983549744525cd819.gz",
+      "archiveBytes": 88301,
+      "archiveSha256": "030c82d2c54ec63589b2b5f2b441308d44b447a28d3b31b983549744525cd819"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/final-suite-v4/result.json",
+      "bytes": 28165,
+      "sha256": "de30765955d89e9b132f1fde124f1d58a905c94dad255462f7ca13799bc751af",
+      "file": "raw/eaa61f3249f788880153023c0ad787649e2b74141638fc7a35aa61339111e514.gz",
+      "archiveBytes": 5983,
+      "archiveSha256": "eaa61f3249f788880153023c0ad787649e2b74141638fc7a35aa61339111e514"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/final-suite-v4/test-output.log",
+      "bytes": 331814,
+      "sha256": "409f59dfa258e786d661d4cace528437cd2a6a371e7e93b84ad77671e481dfc3",
+      "file": "raw/ef2bae0bbd6cdbf5f8baf0606baed12d79ba954522d501c1fd978732b71cb292.gz",
+      "archiveBytes": 88494,
+      "archiveSha256": "ef2bae0bbd6cdbf5f8baf0606baed12d79ba954522d501c1fd978732b71cb292"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/user8080-before.json",
+      "bytes": 183,
+      "sha256": "856b71fc24de52314e7c39ffefbaf6e1635707638ef939bb214c46aba7471465",
+      "file": "raw/6e8908c2593dca3b32a9a68c05e447048b78a5eb9c974081085cc9bc80580ac1.gz",
+      "archiveBytes": 160,
+      "archiveSha256": "6e8908c2593dca3b32a9a68c05e447048b78a5eb9c974081085cc9bc80580ac1"
+    },
+    {
+      "source": "build/mobile-battle-overviews-validation-20261011/cleanup-user8080-verification.json",
+      "bytes": 1351,
+      "sha256": "ca3753b52d2e6b3b9d25f4ddee6d31e396f45a0cd55a59ffb9642e9462a18777",
+      "file": "raw/9cd0bbc19ec1606904dcd0775662c544048e822e84acb5185fbe4d97d39753a9.gz",
+      "archiveBytes": 475,
+      "archiveSha256": "9cd0bbc19ec1606904dcd0775662c544048e822e84acb5185fbe4d97d39753a9"
+    },
+    {
+      "source": "build/mobile-battle-overviews-dialog-negative-proof-v2-20261011.json",
+      "bytes": 1434,
+      "sha256": "6e838cd2109b9c2c126559dcdc7187ccf0e18bc6fe8d80cec31cca89971a066e",
+      "file": "raw/76b22812372bfb51a2ff6b3d146e17d15dd3ce61fb41f427eb2b28c059a141c2.gz",
+      "archiveBytes": 678,
+      "archiveSha256": "76b22812372bfb51a2ff6b3d146e17d15dd3ce61fb41f427eb2b28c059a141c2"
+    },
+    {
+      "source": "build/mobile-battle-overviews-dialog-negative-v2-20261011.log",
+      "bytes": 2236,
+      "sha256": "fe6b20632ee51fbd99ca152ff1887b840b880ed93c3e0322f4b97e5f1ae7f9ad",
+      "file": "raw/08406b84b6d9d4b56ad41d223c11967210d501f4f977c6684d1ac23e0a5e2000.gz",
+      "archiveBytes": 678,
+      "archiveSha256": "08406b84b6d9d4b56ad41d223c11967210d501f4f977c6684d1ac23e0a5e2000"
+    },
+    {
+      "source": "build/mobile-battle-overviews-focused-v1-20261011.log",
+      "bytes": 29886,
+      "sha256": "7363719f5bf897ce632185bf37d875807775c16f5bf3de5434191fc1cbedd320",
+      "file": "raw/809ee3530fe3f97bd5619ade87d5db79b4fb610602cd9f04a378e804b40728b7.gz",
+      "archiveBytes": 8913,
+      "archiveSha256": "809ee3530fe3f97bd5619ade87d5db79b4fb610602cd9f04a378e804b40728b7"
+    },
+    {
+      "source": "build/mobile-battle-overviews-focused-v2-20261011.log",
+      "bytes": 30287,
+      "sha256": "f653e76676793676514c607ae795802c9e0ae79f0735dcee242953653a921701",
+      "file": "raw/61b935dd3598d32dcc2de1c729f64a2b601725e2345d6cf9124a7e2a6e963425.gz",
+      "archiveBytes": 9012,
+      "archiveSha256": "61b935dd3598d32dcc2de1c729f64a2b601725e2345d6cf9124a7e2a6e963425"
+    },
+    {
+      "source": "build/mobile-battle-overviews-oracle-freeze-v1-20261011.json",
+      "bytes": 6532,
+      "sha256": "b78daaec014e39b490f940989dc5f68cbffd118a2a233aae4ff85fffe50c0976",
+      "file": "raw/bd5d0739b2598954dfd4edad4e49c9a040e2198403ce68b32b609e643a1c29cb.gz",
+      "archiveBytes": 1596,
+      "archiveSha256": "bd5d0739b2598954dfd4edad4e49c9a040e2198403ce68b32b609e643a1c29cb"
+    },
+    {
+      "source": "build/mobile-battle-overviews-oracle-freeze-v2-20261011.json",
+      "bytes": 4288,
+      "sha256": "5c4eba60d8c325d2757cd235d921eeb0d8095678df4c8f569663db9ab033c1dd",
+      "file": "raw/9382c5369523c8e7501e38d5a20461ebf1b6c614ce4a03e98f474442c3b407f2.gz",
+      "archiveBytes": 1300,
+      "archiveSha256": "9382c5369523c8e7501e38d5a20461ebf1b6c614ce4a03e98f474442c3b407f2"
+    },
+    {
+      "source": "build/mobile-battle-overviews-product-freeze-v1-20261011.json",
+      "bytes": 1854,
+      "sha256": "4d43867a80eb6ade0700406052a59476fc2db1fd451a36fa43d41f76ac7d28f8",
+      "file": "raw/13568fe2db10316f799819da5720c0d620e93d484c249e201f8e31bae116f722.gz",
+      "archiveBytes": 858,
+      "archiveSha256": "13568fe2db10316f799819da5720c0d620e93d484c249e201f8e31bae116f722"
+    },
+    {
+      "source": "build/mobile-battle-overviews-product-freeze-v2-20261011.json",
+      "bytes": 2769,
+      "sha256": "9df86c74b0b58ad1e426031039fe3df2a2ed9b17a1c8051456ca1bc34d470e18",
+      "file": "raw/661f997560d82c1cdc9182ecd05f0bbe1c19773e7e986418ca260eeddec9d54b.gz",
+      "archiveBytes": 1213,
+      "archiveSha256": "661f997560d82c1cdc9182ecd05f0bbe1c19773e7e986418ca260eeddec9d54b"
+    },
+    {
+      "source": "build/mobile-battle-overviews-product-freeze-v3-20261011.json",
+      "bytes": 2233,
+      "sha256": "6faa07f7888994ec8e0efe2e58834e09533e4cc5c9da4c97ee06e9ce1bdd5d85",
+      "file": "raw/8f36728423ec3b3b3f6bd0e5866b520a8a6835bc4f3340d4a58732eb8896dfa4.gz",
+      "archiveBytes": 1034,
+      "archiveSha256": "8f36728423ec3b3b3f6bd0e5866b520a8a6835bc4f3340d4a58732eb8896dfa4"
+    }
+  ]
+}

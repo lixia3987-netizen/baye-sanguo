@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "accepted": true,
+  "reader": {
+    "path": "docs/validation/m5-pc-king-preview-20261024-v56-verify.mjs",
+    "bytes": 33420,
+    "sha256": "495fc2417ea90294641ef543e0a39ab147d1e315bb3114651a410fbeaf6e311a"
+  },
+  "canonical": {
+    "path": "docs/validation/m5-pc-king-preview-20261024-v56.json",
+    "bytes": 361220,
+    "sha256": "c8c4008a876dde78c9a16f79c6d7259e6c80c21cb706c4d05f8b8469654af05b"
+  },
+  "published": [
+    {
+      "path": "docs/validation/m5-pc-king-preview-20261024-v56-archive-part001.json",
+      "bytes": 8004139,
+      "sha256": "4d4f1e77d2e4d585c53a1e3cc65b5d11790324fcd309230fc4a948a21fcaa690"
+    },
+    {
+      "path": "docs/validation/m5-pc-king-preview-20261024-v56-archive-index.json",
+      "bytes": 183818,
+      "sha256": "5e1865932059c2d382ad7ad13a88ec51e2b64a8d4cef076ab525bfaefbe825d9"
+    },
+    {
+      "path": "docs/validation/m5-pc-king-preview-20261024-v56-verify.mjs",
+      "bytes": 33420,
+      "sha256": "495fc2417ea90294641ef543e0a39ab147d1e315bb3114651a410fbeaf6e311a"
+    },
+    {
+      "path": "docs/validation/m5-pc-king-preview-20261024-v56.json",
+      "bytes": 361220,
+      "sha256": "c8c4008a876dde78c9a16f79c6d7259e6c80c21cb706c4d05f8b8469654af05b"
+    },
+    {
+      "path": "docs/validation/m5-pc-king-preview-20261024-v56.md",
+      "bytes": 2449,
+      "sha256": "c2a2357b8f868ba9294288d93fa34796bd1888cdd56aded94a2925f3e401983d"
+    }
+  ],
+  "normal": {
+    "accepted": true,
+    "before": {
+      "role": "before",
+      "originalWrapperOk": true,
+      "originalScenarioOk": true,
+      "originalAccepted": false,
+      "originalTerminalExitCode": 0,
+      "observedDefect": true,
+      "acceptedAsCurrentEvidence": false,
+      "highlightSamples": 4,
+      "lcdVisibilityChecks": 8,
+      "layoutSamples": 16,
+      "viewportRestorations": 4,
+      "nativeKeysIncludingOpening": 10,
+      "highlightGesture": "trusted-keyboard-ArrowDown",
+      "firstPointerConfirmations": 0,
+      "periods": [
+        1,
+        2
+      ],
+      "rulerChosen": false,
+      "safeBackToTitle": true,
+      "originalLibraryRecordsRecomputed": true,
+      "seedAndEmptySaveGuards": true,
+      "sourcePins": 1238,
+      "served": 58,
+      "executedCopies": 17,
+      "pngs": 24,
+      "recordedOwned": 11,
+      "samples": 4,
+      "cdpProofs": 3,
+      "originalCleanupTreeExited": true,
+      "profilePreservedAsOriginalEvidence": true,
+      "newOsInspectionByReader": false
+    },
+    "after": {
+      "role": "after",
+      "originalWrapperOk": true,
+      "originalScenarioOk": true,
+      "originalAccepted": true,
+      "originalTerminalExitCode": 0,
+      "observedDefect": false,
+      "acceptedAsCurrentEvidence": true,
+      "highlightSamples": 4,
+      "lcdVisibilityChecks": 8,
+      "layoutSamples": 16,
+      "viewportRestorations": 4,
+      "nativeKeysIncludingOpening": 10,
+      "highlightGesture": "trusted-first-pointer-on-different-row",
+      "firstPointerConfirmations": 0,
+      "periods": [
+        1,
+        2
+      ],
+      "rulerChosen": false,
+      "safeBackToTitle": true,
+      "originalLibraryRecordsRecomputed": true,
+      "seedAndEmptySaveGuards": true,
+      "sourcePins": 1238,
+      "served": 58,
+      "executedCopies": 17,
+      "pngs": 24,
+      "recordedOwned": 11,
+      "samples": 4,
+      "cdpProofs": 3,
+      "originalCleanupTreeExited": true,
+      "profilePreservedAsOriginalEvidence": true,
+      "newOsInspectionByReader": false
+    },
+    "historicalRuns": [
+      {
+        "role": "historical",
+        "originalWrapperOk": false,
+        "originalScenarioOk": false,
+        "originalAccepted": false,
+        "originalTerminalExitCode": 1,
+        "acceptedAsCurrentEvidence": false,
+        "completedHighlights": 1,
+        "lcdChecks": 0,
+        "layouts": 0,
+        "pngs": 2,
+        "recordedOwned": 11,
+        "samples": 4,
+        "cdpProofs": 3,
+        "originalCleanupTreeExited": true,
+        "profilePreservedAsOriginalEvidence": true,
+        "newOsInspectionByReader": false
+      }
+    ],
+    "target": {
+      "nodeTests": 227,
+      "manual": {
+        "baselineCases": 63,
+        "currentCases": 69,
+        "changedExistingCaseNames": [
+          "native king input wins over an old campaign ruler and city ownership",
+          "a real eighteen-lord selector can progress longer than five seconds and confirm once",
+          "real native king and record owners still win with a loaded ruler zero"
+        ],
+        "newCaseNames": [
+          "PC king rows navigate without confirmation and show only the actually acknowledged ruler",
+          "PC king Start confirms the displayed native ruler once and rejects stale data generation and highlight presses",
+          "PC king row presses cannot turn a changed highlight or data epoch into an unintended confirmation",
+          "PC king territory preview binds all native cities and complete names to king zero without inventing a capital",
+          "PC king preview clears stale territories for invalid library or native shape and late second-pass getter changes",
+          "PC king LCD toggle survives polls and scheduled native refreshes and resets its label on a fresh selector"
+        ],
+        "oldBodiesAllUnchanged": false,
+        "harnessModified": true,
+        "oneNodeAggregate": true,
+        "newDefaultAggregateTests": 0
+      },
+      "negativeOldSourceRejected": true,
+      "negativeIntermediateSvgSourceRejected": true
+    },
+    "full": {
+      "tests": 7832,
+      "registeredFiles": 143,
+      "sources": 449,
+      "duration_ms": 711964.6503,
+      "freshRunRecorded": true,
+      "newDefaultAggregateTests": 0
+    },
+    "archive": {
+      "logicalFiles": 506,
+      "physicalBlobs": 422,
+      "parts": 1,
+      "rawNamedBytes": 30606474,
+      "uniqueRawBytes": 28211948
+    },
+    "currentSourcePins": 1642,
+    "pngsDecoded": 50
+  },
+  "currentSourcePoison": {
+    "accepted": false,
+    "rejected": true,
+    "reads": 1,
+    "error": {
+      "name": "AssertionError",
+      "message": "Exact original bytes: js/hd-system-ui.js\n+ actual - expected\n\n  {\n    bytes: 76775,\n    path: 'js/hd-system-ui.js',\n+   sha256: 'b2d9b92c43227204e946ef9400b28e13a0f6b3af459f718b7f3fd740a8b8fecd'\n-   sha256: 'da6f0317ec8eeb9e7beeb49e5d5d94bd540953ccaf5f80f1e78bdb47222543a7'\n  }\n"
+    },
+    "mutatedFile": "js/hd-system-ui.js",
+    "diskUnchanged": true
+  },
+  "disk": {
+    "path": "js/hd-system-ui.js",
+    "bytes": 76775,
+    "sha256": "da6f0317ec8eeb9e7beeb49e5d5d94bd540953ccaf5f80f1e78bdb47222543a7"
+  },
+  "newBrowserRuns": 0,
+  "newNativeInputs": 0,
+  "newFullRuns": 0,
+  "newMainInput": false,
+  "previousUnsavedCampaignRestored": false,
+  "globalHdComplete": false
+}

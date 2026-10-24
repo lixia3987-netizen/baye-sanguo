@@ -1,0 +1,1684 @@
+{
+  "schemaVersion": 1,
+  "kind": "Original V33 city6 native navy acquisition and bounded preparation publication",
+  "publishedAt": "2026-10-23T13:54:11.357Z",
+  "provenance": {
+    "actualTerminal": {
+      "sessionId": 71016,
+      "chunkId": "d599f2",
+      "exitCode": 0
+    },
+    "independentVerificationTerminal": {
+      "sessionId": 32052,
+      "chunkId": "57d12f",
+      "exitCode": 0
+    },
+    "actualGameRuns": 1,
+    "newGameRunsByPublisher": 0,
+    "savedActualDate": "2026-10-23",
+    "sourceFreezeFresh": true,
+    "historicalInputBinderExecuted": false,
+    "historicalArchiveLogicalReadback": false,
+    "oldArchivesTraversed": false,
+    "portableClosedArchive": false
+  },
+  "independentVerification": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/impact13-v33-independent-v2/independent-receipt.json",
+      "bytes": 42084,
+      "sha256": "a7b1bcaa5e47287ce66424715d796a5bb471b754e87bcb96f4811e95d3d9ffeb"
+    },
+    "facts": {
+      "schemaVersion": 1,
+      "kind": "V33 independent original city6 continuation audit",
+      "terminal": {
+        "sessionId": 71016,
+        "chunkId": "d599f2",
+        "exitCode": 0
+      },
+      "tool": {
+        "path": "build/impact-skill-20261014/verify-impact13-v33-terminal-v2.mjs",
+        "bytes": 27085,
+        "sha256": "8d69949cfef983fe0fa59f88aeb8e22c1fc70712974493791e2090693ec75e46"
+      },
+      "sourceRunAccepted": true,
+      "allImplementedChecksPassed": true,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "globalHdComplete": false,
+      "rngContinuityAccepted": false,
+      "stages": [
+        {
+          "name": "closed terminal and complete source report",
+          "accepted": true,
+          "milliseconds": 2,
+          "facts": {
+            "result": {
+              "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/result.json",
+              "bytes": 98994,
+              "sha256": "48360a5eec6a81c6da7f7e884fc6041dc06bf23a0cc4caeee1f9cfaae474442f"
+            },
+            "minimal": {
+              "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/terminal-minimal.json",
+              "bytes": 206339,
+              "sha256": "f0b175a6fc8a8428541957f1848dda250a2ce79d41b2a3e17b894f157c8ca53f"
+            },
+            "sourceControllerBooleans": {
+              "sourceStageOnly": false,
+              "battleSourceStageOnly": false,
+              "partialContinuation": false,
+              "battleOnly": false,
+              "sourceDriverRepairFromBlockedV9": true,
+              "hdTargetPreparationAccepted": false,
+              "classicTargetPreparation": true,
+              "sourceDriverRepairFromFailedV8": true,
+              "sourceDriverRepairFromFrozenV6": true,
+              "sourceDriverRepairFromFailedV7": true,
+              "battleWorkflowAccepted": false,
+              "actualCastOccurred": false,
+              "hd1080VisualAccepted": false,
+              "hd720VisualAccepted": false,
+              "rngContinuityAccepted": false,
+              "prepareRouteEnabled": false,
+              "prepareOnly": false,
+              "treatCaster": false,
+              "prepareOnlyAccepted": false,
+              "actualPaidMaintenanceAccepted": false,
+              "actualPreparationAccepted": false,
+              "tradeOrderReturnObserved": false,
+              "guardReturnBeforeCombatObserved": false,
+              "actualRouteEnabled": false,
+              "boundedPublicSaveStopImplemented": true,
+              "actualCastAccepted": false,
+              "hdAccepted": false,
+              "fallbackAccepted": false,
+              "globalHdComplete": false,
+              "baselineOnly": false,
+              "allowLcd": false,
+              "recruit": false,
+              "staged": false,
+              "classic": false,
+              "missingAssets": false,
+              "preflightOnly": false,
+              "v33AcquisitionRunAccepted": true,
+              "v32AcquisitionRunAccepted": false,
+              "v31AcquisitionRunAccepted": false,
+              "v30SearchRunAccepted": false,
+              "sourceOnlyCandidate": false,
+              "actualDisabledUntilLatestPaidBinder": false,
+              "currentInputQualified": true,
+              "pendingResumeRouteEnabled": false,
+              "acquisitionRouteEnabled": true,
+              "searchRouteEnabled": false,
+              "currentCasterControllable": false,
+              "casterQualifiedForCast": false,
+              "actualAcquisitionAccepted": false,
+              "actualGiveExecutionAccepted": false,
+              "defenseObserverInstalled": true,
+              "evidenceSaved": true,
+              "ok": true,
+              "gracefulBrowserClose": true,
+              "profileRetained": true,
+              "directoriesDeleted": false,
+              "policyDrainAccepted": false,
+              "v22ContinuationAccepted": false,
+              "v25PendingResumeAccepted": false,
+              "v26AcquisitionRunAccepted": false,
+              "v27AcquisitionRunAccepted": false,
+              "v28AcquisitionRunAccepted": false,
+              "v29RecoveryAcquisitionRunAccepted": false,
+              "accepted": true,
+              "baselineAccepted": false
+            },
+            "counts": {
+              "treats": 3,
+              "canvasses": 3,
+              "payments": 6,
+              "gives": 0,
+              "naturalMonths": 1
+            }
+          }
+        },
+        {
+          "name": "bounded current source and historical input boundaries",
+          "accepted": true,
+          "milliseconds": 682,
+          "facts": {
+            "sources": 563,
+            "explicitAllowlist": 552,
+            "input": [
+              {
+                "path": "docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition.json",
+                "bytes": 1549907,
+                "sha256": "52dc204fe316bbb625957c2afa6bffffa2864915a7bdf51777d021ed1ab47fd5"
+              },
+              {
+                "path": "docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition-latest-world.json",
+                "bytes": 77913,
+                "sha256": "71f5f84eeac95e9c372f84f45dbb5e541aba3093e52841b02527a2098751eba3"
+              },
+              {
+                "path": "docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition-sango0.sav",
+                "bytes": 8221,
+                "sha256": "4b90d599951b9e585d2e8405cc2be207bb85826871ee66a78d757a4b8ee5b320"
+              },
+              {
+                "path": "docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition-sango1.sav",
+                "bytes": 4840,
+                "sha256": "6592838867bec41b6ded9a8d0626e2fbd1ad5f9008694f11030ec6ed0622344f"
+              }
+            ],
+            "sourceFreeze": {
+              "path": "build/impact-skill-20261014/impact13-v33-runtime-freeze-v1.json",
+              "bytes": 40685,
+              "sha256": "7a8ad327bfdd6e4711a698e198286909001ff42da6cc2171f8d448c8cfa2ec25"
+            },
+            "historicalBinderExecuted": false,
+            "oldArchivesDecoded": false
+          }
+        },
+        {
+          "name": "every report field and observation row stream preserved",
+          "accepted": true,
+          "milliseconds": 2920,
+          "facts": {
+            "fieldCount": 59,
+            "rowCount": 923,
+            "allLogicalRowDigestsRecomputed": true
+          }
+        },
+        {
+          "name": "all offloaded complete ticket streams preserved",
+          "accepted": true,
+          "milliseconds": 27950,
+          "facts": {
+            "files": 19,
+            "rows": 1277,
+            "allLogicalDigestsRecomputed": true
+          }
+        },
+        {
+          "name": "every genuine public SAVE and every packed field",
+          "accepted": true,
+          "milliseconds": 787,
+          "facts": {
+            "count": 8,
+            "latestTag": "impact13-129-v33-month1-policy-settled",
+            "completePackedPeople": 200,
+            "completePackedCities": 38,
+            "completePackedOrders": 200,
+            "rawFighterBytes": 600,
+            "queuePrefix": 200,
+            "allUnknownSampledFieldsPreserved": true
+          }
+        },
+        {
+          "name": "three Treat payments fresh plan original UI and two native world phases",
+          "accepted": true,
+          "milliseconds": 1794,
+          "facts": {
+            "count": 3,
+            "moneyPaid": 300,
+            "actions": [
+              {
+                "personId": 5,
+                "cityIndex": 6,
+                "raw": {
+                  "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/raw-v33-treat-city6-actor5-n1-before-SAVE.json",
+                  "bytes": 722275,
+                  "sha256": "dc69742f3960e91359341cf180cf98551540940fb5a7769a739add00123a43d6"
+                },
+                "savedTag": "impact13-129-v33-treat-city6-actor5-n1",
+                "reportAckCount": 0,
+                "twoNativeWorldPhasesAccepted": true
+              },
+              {
+                "personId": 36,
+                "cityIndex": 6,
+                "raw": {
+                  "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/raw-v33-treat-city6-actor36-n2-before-SAVE.json",
+                  "bytes": 765591,
+                  "sha256": "5bca4e488f738e7aff3d934fe6fcef5a80648294533d6e22969829a85e2eb833"
+                },
+                "savedTag": "impact13-129-v33-treat-city6-actor36-n2",
+                "reportAckCount": 0,
+                "twoNativeWorldPhasesAccepted": true
+              },
+              {
+                "personId": 51,
+                "cityIndex": 6,
+                "raw": {
+                  "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/raw-v33-treat-city6-actor51-n3-before-SAVE.json",
+                  "bytes": 743059,
+                  "sha256": "0540b45d3a57c518057c9d482bbbe2a12f54a87ecf73cb060b22c7554859f59a"
+                },
+                "savedTag": "impact13-129-v33-treat-city6-actor51-n3",
+                "reportAckCount": 0,
+                "twoNativeWorldPhasesAccepted": true
+              }
+            ]
+          }
+        },
+        {
+          "name": "three fresh planned native Canvass MAKEs original owner slices and SAVE",
+          "accepted": true,
+          "milliseconds": 12370,
+          "facts": {
+            "count": 3,
+            "moneyPaid": 150,
+            "actions": [
+              {
+                "plan": {
+                  "cityIndex": 6,
+                  "personId": 5,
+                  "targetId": 114,
+                  "targetCity": 35,
+                  "sourceAllowedValueCounts": [
+                    100,
+                    28,
+                    41
+                  ],
+                  "sourceScore": 114800,
+                  "requiresTreat": false,
+                  "thewBefore": 64,
+                  "plannedThewBeforeCanvass": 64,
+                  "plannedThewAfterCanvass": 44,
+                  "targetMonthlyOrderCountAfterPlan": 1,
+                  "sourceOnly": true,
+                  "actualTreatExecutionAccepted": false,
+                  "actualCanvassDispatchAccepted": false,
+                  "actualAcquisitionAccepted": false,
+                  "actualGiveExecutionAccepted": false,
+                  "actualPreparationAccepted": false,
+                  "actualCastAccepted": false,
+                  "hdAccepted": false,
+                  "globalHdComplete": false,
+                  "randomValuesObserved": false,
+                  "successForecastAccepted": false,
+                  "plannedCashAfter": 29650,
+                  "kind": "canvass",
+                  "command": 16,
+                  "moneyCost": 50,
+                  "thewCost": 20,
+                  "monthOrdinal": 1,
+                  "commandOrdinal": 1
+                },
+                "orderIndex": 0,
+                "raw": {
+                  "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/raw-v33-month1-canvass-1-city6-actor5-target114-before-SAVE-oracle.json",
+                  "bytes": 5307338,
+                  "sha256": "1973e9ce5fbcee881d8f1bdc42d714571d658030151cb226858884f3e07ed2dd"
+                },
+                "savedTag": "impact13-129-v33-month1-canvass-1-city6-actor5-target114"
+              },
+              {
+                "plan": {
+                  "cityIndex": 6,
+                  "personId": 36,
+                  "targetId": 114,
+                  "targetCity": 35,
+                  "sourceAllowedValueCounts": [
+                    100,
+                    28,
+                    41
+                  ],
+                  "sourceScore": 114800,
+                  "requiresTreat": false,
+                  "thewBefore": 64,
+                  "plannedThewBeforeCanvass": 64,
+                  "plannedThewAfterCanvass": 44,
+                  "targetMonthlyOrderCountAfterPlan": 2,
+                  "sourceOnly": true,
+                  "actualTreatExecutionAccepted": false,
+                  "actualCanvassDispatchAccepted": false,
+                  "actualAcquisitionAccepted": false,
+                  "actualGiveExecutionAccepted": false,
+                  "actualPreparationAccepted": false,
+                  "actualCastAccepted": false,
+                  "hdAccepted": false,
+                  "globalHdComplete": false,
+                  "randomValuesObserved": false,
+                  "successForecastAccepted": false,
+                  "plannedCashAfter": 29600,
+                  "kind": "canvass",
+                  "command": 16,
+                  "moneyCost": 50,
+                  "thewCost": 20,
+                  "monthOrdinal": 1,
+                  "commandOrdinal": 2
+                },
+                "orderIndex": 1,
+                "raw": {
+                  "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/raw-v33-month1-canvass-2-city6-actor36-target114-before-SAVE-oracle.json",
+                  "bytes": 5441370,
+                  "sha256": "dddaa5397e0a5ed2645500306ceff8eb40a366db742a74b71b6e976a97f4e1b3"
+                },
+                "savedTag": "impact13-129-v33-month1-canvass-2-city6-actor36-target114"
+              },
+              {
+                "plan": {
+                  "cityIndex": 6,
+                  "personId": 51,
+                  "targetId": 129,
+                  "targetCity": 12,
+                  "sourceAllowedValueCounts": [
+                    100,
+                    29,
+                    31
+                  ],
+                  "sourceScore": 89900,
+                  "requiresTreat": false,
+                  "thewBefore": 56,
+                  "plannedThewBeforeCanvass": 56,
+                  "plannedThewAfterCanvass": 36,
+                  "targetMonthlyOrderCountAfterPlan": 1,
+                  "sourceOnly": true,
+                  "actualTreatExecutionAccepted": false,
+                  "actualCanvassDispatchAccepted": false,
+                  "actualAcquisitionAccepted": false,
+                  "actualGiveExecutionAccepted": false,
+                  "actualPreparationAccepted": false,
+                  "actualCastAccepted": false,
+                  "hdAccepted": false,
+                  "globalHdComplete": false,
+                  "randomValuesObserved": false,
+                  "successForecastAccepted": false,
+                  "plannedCashAfter": 29550,
+                  "kind": "canvass",
+                  "command": 16,
+                  "moneyCost": 50,
+                  "thewCost": 20,
+                  "monthOrdinal": 1,
+                  "commandOrdinal": 3
+                },
+                "orderIndex": 2,
+                "raw": {
+                  "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/raw-v33-month1-canvass-3-city6-actor51-target129-before-SAVE-oracle.json",
+                  "bytes": 3328674,
+                  "sha256": "0ac2487e9ee716e4db65fd75ae3db3513ebda87f8055f37f9f84f3d68b8842a3"
+                },
+                "savedTag": "impact13-129-v33-month1-canvass-3-city6-actor51-target129"
+              }
+            ]
+          }
+        },
+        {
+          "name": "every original callback full world double read context and all32 async params",
+          "accepted": true,
+          "milliseconds": 1452,
+          "facts": {
+            "count": 32,
+            "raw": {
+              "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/raw-v33-month1-native-policy-before-SAVE.json",
+              "bytes": 3287064,
+              "sha256": "4557534f8184f8531d4df49c7e6976754da67a3ab79459d1b9538b61a4509b59"
+            },
+            "completeReadonlyWorldDoubleReads": true,
+            "all32AsyncParamsPreserved": true,
+            "returnValue": -1,
+            "originalPolicyDate": [
+              239,
+              3
+            ],
+            "allOwnedStateZero": true
+          }
+        },
+        {
+          "name": "observed original AI MAKE gap precedes the actual129 acquisition callback",
+          "accepted": true,
+          "milliseconds": 0,
+          "facts": {
+            "personId": 129,
+            "queued": {
+              "belong": 2,
+              "level": 7,
+              "arms": 0
+            },
+            "firstNativePolicyCallback": {
+              "belong": 2,
+              "level": 8,
+              "arms": 1910
+            },
+            "ownCanvassCallbackOrdinal": 2,
+            "adjacentReturnOrdinal": 3,
+            "afterReturn": {
+              "belong": 1,
+              "level": 8,
+              "arms": 1910,
+              "devotion": 54
+            },
+            "fullUnknownPersonFieldsPreserved": true,
+            "aiMakeGapSource": "ComputerTactic runs before PolicyExec; tactic.c ComputerTacticArm domestic March LevelUp and PlcArmsMax branches are compatible with the observed delta. No AI random choices were reconstructed.",
+            "aiRandomChoiceReconstructed": false,
+            "canvassModelManufacturedArmyOrLevel": false,
+            "nativeSource": {
+              "path": "vendor/iBaye/src/tactic.c",
+              "bytes": 45067,
+              "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+            }
+          }
+        },
+        {
+          "name": "three complete adjacent native Canvass return branches independently recomputed",
+          "accepted": true,
+          "milliseconds": 753,
+          "facts": {
+            "count": 3,
+            "transitions": [
+              {
+                "ok": true,
+                "accepted": true,
+                "completeAdjacentNativeReturnAccepted": true,
+                "allCallbacksReadonly": true,
+                "callbackCount": 32,
+                "orderSlot": 0,
+                "order": {
+                  "OrderId": 16,
+                  "Person": 5,
+                  "City": 6,
+                  "Object": 114,
+                  "Arms": 48232,
+                  "Food": 57,
+                  "Money": 48216,
+                  "Consume": 57,
+                  "TimeCount": 10
+                },
+                "cityIndex": 6,
+                "personId": 5,
+                "targetId": 114,
+                "callbackOrdinal": 0,
+                "nextCallbackOrdinal": 1,
+                "nativeOutcome": "failure",
+                "nativeBranchUniquelyDetermined": true,
+                "completeFailureTransitionMatches": true,
+                "completeSuccessTransitionMatches": false,
+                "nativeSuccessBranchObserved": false,
+                "targetAlreadyOwnedBeforeDriver": false,
+                "targetAcquiredAtNativeReturn": false,
+                "actorReturnedAtNativeReturn": true,
+                "targetFirstRawCityBeforeDriver": 255,
+                "targetDevotionAtReturn": 72,
+                "targetBelongBeforeDriver": 2,
+                "targetBelongAtReturn": 2,
+                "actorBelongAtReturn": 1,
+                "rawOriginIdsAtReturn": [
+                  5,
+                  21
+                ],
+                "staticRandomGates": {
+                  "iqDifferenceU8": 213,
+                  "extraPlus50": false,
+                  "comparison1": "gam_rand()%100 <= U8(actor.IQ-target.IQ)",
+                  "comparison2": "gam_rand()%100 >= target.Devotion",
+                  "comparison3": "gam_rand()%100 <= characterThreshold",
+                  "characterThreshold": 40,
+                  "sourceAllowedValueCountsOutOf100": [
+                    100,
+                    28,
+                    41
+                  ],
+                  "randomValuesObserved": false,
+                  "outcomePredicted": false,
+                  "actualSuccessAccepted": false
+                },
+                "sourceSuccessBranchPossible": true,
+                "sourceNecessaryGatesCheckedAgainstCurrentCallback": true,
+                "nativeRandomValuesReconstructed": false,
+                "unrelatedAiMakeWorldGapPredicted": false,
+                "postMonthAffiliationUsedToInferSuccess": false,
+                "uninitializedOrderFieldsChangedByDriver": false,
+                "queue200to1999Unchanged": true,
+                "actualInputAccepted": false,
+                "sourceFreezeAccepted": false,
+                "wholeNativeAbiRestorationAccepted": false,
+                "nonserializedQueueTailRestorationAccepted": false,
+                "acquisitionAccepted": false,
+                "actualAcquisitionAccepted": false,
+                "actualPreparationAccepted": false,
+                "actualCastAccepted": false,
+                "actualMovieAccepted": false,
+                "actualPixelAccepted": false,
+                "classicNativePixelAccepted": false,
+                "hd720VisualAccepted": false,
+                "hd1080VisualAccepted": false,
+                "hdAccepted": false,
+                "globalHdComplete": false,
+                "scope": "One complete immediate original CanvassDrv then DelOrder transition at an explicit slot in a multi-order batch. Every callback remains readonly/-1. Repeated own target is legal under original C, but does not acquire a person again. If both full branches are observationally equal no success is inferred. No month/SAVE/RNG/classic/cast credit."
+              },
+              {
+                "ok": true,
+                "accepted": true,
+                "completeAdjacentNativeReturnAccepted": true,
+                "allCallbacksReadonly": true,
+                "callbackCount": 32,
+                "orderSlot": 1,
+                "order": {
+                  "OrderId": 16,
+                  "Person": 36,
+                  "City": 6,
+                  "Object": 114,
+                  "Arms": 48232,
+                  "Food": 57,
+                  "Money": 48216,
+                  "Consume": 57,
+                  "TimeCount": 10
+                },
+                "cityIndex": 6,
+                "personId": 36,
+                "targetId": 114,
+                "callbackOrdinal": 1,
+                "nextCallbackOrdinal": 2,
+                "nativeOutcome": "failure",
+                "nativeBranchUniquelyDetermined": true,
+                "completeFailureTransitionMatches": true,
+                "completeSuccessTransitionMatches": false,
+                "nativeSuccessBranchObserved": false,
+                "targetAlreadyOwnedBeforeDriver": false,
+                "targetAcquiredAtNativeReturn": false,
+                "actorReturnedAtNativeReturn": true,
+                "targetFirstRawCityBeforeDriver": 255,
+                "targetDevotionAtReturn": 72,
+                "targetBelongBeforeDriver": 2,
+                "targetBelongAtReturn": 2,
+                "actorBelongAtReturn": 1,
+                "rawOriginIdsAtReturn": [
+                  36,
+                  5,
+                  21
+                ],
+                "staticRandomGates": {
+                  "iqDifferenceU8": 255,
+                  "extraPlus50": false,
+                  "comparison1": "gam_rand()%100 <= U8(actor.IQ-target.IQ)",
+                  "comparison2": "gam_rand()%100 >= target.Devotion",
+                  "comparison3": "gam_rand()%100 <= characterThreshold",
+                  "characterThreshold": 40,
+                  "sourceAllowedValueCountsOutOf100": [
+                    100,
+                    28,
+                    41
+                  ],
+                  "randomValuesObserved": false,
+                  "outcomePredicted": false,
+                  "actualSuccessAccepted": false
+                },
+                "sourceSuccessBranchPossible": true,
+                "sourceNecessaryGatesCheckedAgainstCurrentCallback": true,
+                "nativeRandomValuesReconstructed": false,
+                "unrelatedAiMakeWorldGapPredicted": false,
+                "postMonthAffiliationUsedToInferSuccess": false,
+                "uninitializedOrderFieldsChangedByDriver": false,
+                "queue200to1999Unchanged": true,
+                "actualInputAccepted": false,
+                "sourceFreezeAccepted": false,
+                "wholeNativeAbiRestorationAccepted": false,
+                "nonserializedQueueTailRestorationAccepted": false,
+                "acquisitionAccepted": false,
+                "actualAcquisitionAccepted": false,
+                "actualPreparationAccepted": false,
+                "actualCastAccepted": false,
+                "actualMovieAccepted": false,
+                "actualPixelAccepted": false,
+                "classicNativePixelAccepted": false,
+                "hd720VisualAccepted": false,
+                "hd1080VisualAccepted": false,
+                "hdAccepted": false,
+                "globalHdComplete": false,
+                "scope": "One complete immediate original CanvassDrv then DelOrder transition at an explicit slot in a multi-order batch. Every callback remains readonly/-1. Repeated own target is legal under original C, but does not acquire a person again. If both full branches are observationally equal no success is inferred. No month/SAVE/RNG/classic/cast credit."
+              },
+              {
+                "ok": true,
+                "accepted": true,
+                "completeAdjacentNativeReturnAccepted": true,
+                "allCallbacksReadonly": true,
+                "callbackCount": 32,
+                "orderSlot": 2,
+                "order": {
+                  "OrderId": 16,
+                  "Person": 51,
+                  "City": 6,
+                  "Object": 129,
+                  "Arms": 48232,
+                  "Food": 57,
+                  "Money": 48216,
+                  "Consume": 57,
+                  "TimeCount": 10
+                },
+                "cityIndex": 6,
+                "personId": 51,
+                "targetId": 129,
+                "callbackOrdinal": 2,
+                "nextCallbackOrdinal": 3,
+                "nativeOutcome": "success",
+                "nativeBranchUniquelyDetermined": true,
+                "completeFailureTransitionMatches": false,
+                "completeSuccessTransitionMatches": true,
+                "nativeSuccessBranchObserved": true,
+                "targetAlreadyOwnedBeforeDriver": false,
+                "targetAcquiredAtNativeReturn": true,
+                "actorReturnedAtNativeReturn": true,
+                "targetFirstRawCityBeforeDriver": 12,
+                "targetDevotionAtReturn": 54,
+                "targetBelongBeforeDriver": 2,
+                "targetBelongAtReturn": 1,
+                "actorBelongAtReturn": 1,
+                "rawOriginIdsAtReturn": [
+                  51,
+                  129,
+                  36,
+                  5,
+                  21
+                ],
+                "staticRandomGates": {
+                  "iqDifferenceU8": 244,
+                  "extraPlus50": false,
+                  "comparison1": "gam_rand()%100 <= U8(actor.IQ-target.IQ)",
+                  "comparison2": "gam_rand()%100 >= target.Devotion",
+                  "comparison3": "gam_rand()%100 <= characterThreshold",
+                  "characterThreshold": 30,
+                  "sourceAllowedValueCountsOutOf100": [
+                    100,
+                    29,
+                    31
+                  ],
+                  "randomValuesObserved": false,
+                  "outcomePredicted": false,
+                  "actualSuccessAccepted": false
+                },
+                "sourceSuccessBranchPossible": true,
+                "sourceNecessaryGatesCheckedAgainstCurrentCallback": true,
+                "nativeRandomValuesReconstructed": false,
+                "unrelatedAiMakeWorldGapPredicted": false,
+                "postMonthAffiliationUsedToInferSuccess": false,
+                "uninitializedOrderFieldsChangedByDriver": false,
+                "queue200to1999Unchanged": true,
+                "actualInputAccepted": false,
+                "sourceFreezeAccepted": false,
+                "wholeNativeAbiRestorationAccepted": false,
+                "nonserializedQueueTailRestorationAccepted": false,
+                "acquisitionAccepted": false,
+                "actualAcquisitionAccepted": false,
+                "actualPreparationAccepted": false,
+                "actualCastAccepted": false,
+                "actualMovieAccepted": false,
+                "actualPixelAccepted": false,
+                "classicNativePixelAccepted": false,
+                "hd720VisualAccepted": false,
+                "hd1080VisualAccepted": false,
+                "hdAccepted": false,
+                "globalHdComplete": false,
+                "scope": "One complete immediate original CanvassDrv then DelOrder transition at an explicit slot in a multi-order batch. Every callback remains readonly/-1. Repeated own target is legal under original C, but does not acquire a person again. If both full branches are observationally equal no success is inferred. No month/SAVE/RNG/classic/cast credit."
+              }
+            ],
+            "firstAcquisitions": [
+              {
+                "personId": 129,
+                "cityIndex": 6,
+                "callbackOrdinal": 2
+              }
+            ]
+          }
+        },
+        {
+          "name": "one real natural month current owned roster arms food and complete protected people",
+          "accepted": true,
+          "milliseconds": 521,
+          "facts": {
+            "normalMonths": 1,
+            "callbackDate": [
+              239,
+              3
+            ],
+            "savedDate": [
+              239,
+              4
+            ],
+            "ownedRows": [
+              {
+                "city": 4,
+                "policyState": 0,
+                "settledState": 0,
+                "army": 500,
+                "foodBefore": 6321,
+                "monthly": 10,
+                "foodAfter": 6311,
+                "strictFoodBeforeAnotherEnd": 11,
+                "nextEndDeficit": 0
+              },
+              {
+                "city": 5,
+                "policyState": 0,
+                "settledState": 4,
+                "army": 300,
+                "foodBefore": 2837,
+                "monthly": 6,
+                "foodAfter": 2831,
+                "strictFoodBeforeAnotherEnd": 7,
+                "nextEndDeficit": 0
+              },
+              {
+                "city": 6,
+                "policyState": 0,
+                "settledState": 0,
+                "army": 2310,
+                "foodBefore": 10140,
+                "monthly": 46,
+                "foodAfter": 10094,
+                "strictFoodBeforeAnotherEnd": 47,
+                "nextEndDeficit": 0
+              },
+              {
+                "city": 7,
+                "policyState": 0,
+                "settledState": 0,
+                "army": 3520,
+                "foodBefore": 18617,
+                "monthly": 70,
+                "foodAfter": 18547,
+                "strictFoodBeforeAnotherEnd": 71,
+                "nextEndDeficit": 0
+              },
+              {
+                "city": 13,
+                "policyState": 0,
+                "settledState": 2,
+                "army": 500,
+                "foodBefore": 7840,
+                "monthly": 10,
+                "foodAfter": 7830,
+                "strictFoodBeforeAnotherEnd": 11,
+                "nextEndDeficit": 0
+              },
+              {
+                "city": 16,
+                "policyState": 0,
+                "settledState": 2,
+                "army": 4377,
+                "foodBefore": 721,
+                "monthly": 87,
+                "foodAfter": 634,
+                "strictFoodBeforeAnotherEnd": 88,
+                "nextEndDeficit": 0
+              },
+              {
+                "city": 20,
+                "policyState": 0,
+                "settledState": 3,
+                "army": 13339,
+                "foodBefore": 380,
+                "monthly": 266,
+                "foodAfter": 114,
+                "strictFoodBeforeAnotherEnd": 267,
+                "nextEndDeficit": 153
+              }
+            ],
+            "lastNativeOrder": {
+              "OrderId": 17,
+              "Person": 133,
+              "City": 36,
+              "Object": 62,
+              "Arms": 2,
+              "Food": 0,
+              "Money": 5,
+              "Consume": 0,
+              "TimeCount": 0
+            },
+            "lastNativeCallbackOrdinal": 31,
+            "wholeRandomEnemyMonthModeled": false
+          }
+        },
+        {
+          "name": "optional same-city causal original water-token Give or exact skip",
+          "accepted": true,
+          "milliseconds": 26,
+          "facts": {
+            "performed": false,
+            "reason": "fresh-native-effective-water-caster-already-owned",
+            "readiness": {
+              "sourceReadyNavy": [
+                {
+                  "personId": 129,
+                  "cityIndex": 6,
+                  "arms": 1910,
+                  "battleReady": true,
+                  "requiresActualGive": false,
+                  "alreadyEffectiveNavy": true,
+                  "mpAfterNavyConversion": 68,
+                  "impact13AfterActualNavyConversion": true,
+                  "actualConversionAccepted": false,
+                  "queueIndex": 20,
+                  "rawLocations": [
+                    {
+                      "cityIndex": 6,
+                      "queueIndex": 20
+                    }
+                  ],
+                  "ownedLocations": [
+                    {
+                      "cityIndex": 6,
+                      "queueIndex": 20
+                    }
+                  ],
+                  "sourceMp": 68,
+                  "actualBattleMpObserved": false,
+                  "sourceOnly": true,
+                  "actualTreatExecutionAccepted": false,
+                  "actualCanvassDispatchAccepted": false,
+                  "actualAcquisitionAccepted": false,
+                  "actualGiveExecutionAccepted": false,
+                  "actualPreparationAccepted": false,
+                  "actualCastAccepted": false,
+                  "hdAccepted": false,
+                  "globalHdComplete": false,
+                  "randomValuesObserved": false,
+                  "successForecastAccepted": false
+                }
+              ],
+              "city6GiveCandidates": [],
+              "isolatedAdvancedOwned": [
+                {
+                  "personId": 131,
+                  "cityIndex": 7,
+                  "arms": 2920,
+                  "battleReady": false,
+                  "requiresActualGive": true,
+                  "alreadyEffectiveNavy": false,
+                  "mpAfterNavyConversion": 84,
+                  "impact13AfterActualNavyConversion": true,
+                  "actualConversionAccepted": false,
+                  "queueIndex": 25,
+                  "rawLocations": [
+                    {
+                      "cityIndex": 7,
+                      "queueIndex": 25
+                    }
+                  ],
+                  "ownedLocations": [
+                    {
+                      "cityIndex": 7,
+                      "queueIndex": 25
+                    }
+                  ],
+                  "sourceMp": 84,
+                  "actualBattleMpObserved": false,
+                  "sourceOnly": true,
+                  "actualTreatExecutionAccepted": false,
+                  "actualCanvassDispatchAccepted": false,
+                  "actualAcquisitionAccepted": false,
+                  "actualGiveExecutionAccepted": false,
+                  "actualPreparationAccepted": false,
+                  "actualCastAccepted": false,
+                  "hdAccepted": false,
+                  "globalHdComplete": false,
+                  "randomValuesObserved": false,
+                  "successForecastAccepted": false
+                }
+              ],
+              "allOrdersSettled": true,
+              "acquisitionShouldStop": true,
+              "battleReady": true,
+              "sourceOnly": true,
+              "actualTreatExecutionAccepted": false,
+              "actualCanvassDispatchAccepted": false,
+              "actualAcquisitionAccepted": false,
+              "actualGiveExecutionAccepted": false,
+              "actualPreparationAccepted": false,
+              "actualCastAccepted": false,
+              "hdAccepted": false,
+              "globalHdComplete": false,
+              "randomValuesObserved": false,
+              "successForecastAccepted": false
+            }
+          }
+        },
+        {
+          "name": "final actual saved world readiness and unchanged credit boundaries",
+          "accepted": true,
+          "milliseconds": 21,
+          "facts": {
+            "latestTag": "impact13-129-v33-month1-policy-settled",
+            "date": [
+              239,
+              4
+            ],
+            "currentQualifiedNavy": [
+              {
+                "personId": 129,
+                "cityIndex": 6,
+                "arms": 1910,
+                "battleReady": true,
+                "requiresActualGive": false,
+                "alreadyEffectiveNavy": true,
+                "mpAfterNavyConversion": 68,
+                "impact13AfterActualNavyConversion": true,
+                "actualConversionAccepted": false,
+                "queueIndex": 20,
+                "rawLocations": [
+                  {
+                    "cityIndex": 6,
+                    "queueIndex": 20
+                  }
+                ],
+                "ownedLocations": [
+                  {
+                    "cityIndex": 6,
+                    "queueIndex": 20
+                  }
+                ],
+                "sourceMp": 68,
+                "actualBattleMpObserved": false,
+                "sourceOnly": true,
+                "actualTreatExecutionAccepted": false,
+                "actualCanvassDispatchAccepted": false,
+                "actualAcquisitionAccepted": false,
+                "actualGiveExecutionAccepted": false,
+                "actualPreparationAccepted": false,
+                "actualCastAccepted": false,
+                "hdAccepted": false,
+                "globalHdComplete": false,
+                "randomValuesObserved": false,
+                "successForecastAccepted": false
+              }
+            ],
+            "advancedTargetsAcquired": [
+              129
+            ],
+            "actualAcquisitionAccepted": true,
+            "actualGiveExecutionAccepted": false,
+            "actualBattleMpObserved": false,
+            "actualCastAccepted": false,
+            "hdAccepted": false
+          }
+        },
+        {
+          "name": "exact externally checked owned-process union private listeners and user8080",
+          "accepted": true,
+          "milliseconds": 1,
+          "facts": {
+            "proof": {
+              "path": "build/impact-skill-20261014/impact13-battle-v33-external-cleanup-v1.json",
+              "bytes": 3272,
+              "sha256": "646ecfd2a66344bf5e52f9d324e5aae267f099558c4d4c5c200070ee143f4b16"
+            },
+            "exactIdentities": 11,
+            "privatePorts": [
+              3993,
+              3994
+            ],
+            "user8080Untouched": true,
+            "matchingIdentities": 0,
+            "privateListeners": 0,
+            "profileRetained": true
+          }
+        }
+      ],
+      "legacyMetadataErrors": [
+        {
+          "field": "inlineScalars.freezeScope",
+          "savedValue": "Latest genuine December238-12 no-orders SAVE; one original city6 actor51 Search3,8Thew/0money, pending public SAVE and at most1 natural month. Two exact raw UI/world phases, zero report ACK, current original defender/Arms and food/cash gates, full adjacent read-only Search return. No recruitment/equipment/requested battle/cast/classic/HD/RNG credit.",
+          "error": "Inherited V30 December Search3 description is stale and wrong for this V33 run. The immutable report is retained; exact V33 input pins, public UI/raw transactions, actual terminal and independent recomputation define this run.",
+          "actualScope": "Original239-3 city6; three Treat12, three Canvass16, one natural month to239-4, zero Give/Buy/Plunder/Search/Move/March/cast."
+        }
+      ],
+      "fieldIntegrity": {
+        "fieldCount": 59,
+        "rowCount": 923,
+        "allLogicalRowDigestsRecomputed": true
+      },
+      "callbackRaw": {
+        "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/raw-v33-month1-native-policy-before-SAVE.json",
+        "bytes": 3287064,
+        "sha256": "4557534f8184f8531d4df49c7e6976754da67a3ab79459d1b9538b61a4509b59"
+      },
+      "nativeCallbacks": 32,
+      "actual129NativeCausalChain": {
+        "personId": 129,
+        "queued": {
+          "belong": 2,
+          "level": 7,
+          "arms": 0
+        },
+        "firstNativePolicyCallback": {
+          "belong": 2,
+          "level": 8,
+          "arms": 1910
+        },
+        "ownCanvassCallbackOrdinal": 2,
+        "adjacentReturnOrdinal": 3,
+        "afterReturn": {
+          "belong": 1,
+          "level": 8,
+          "arms": 1910,
+          "devotion": 54
+        },
+        "fullUnknownPersonFieldsPreserved": true,
+        "aiMakeGapSource": "ComputerTactic runs before PolicyExec; tactic.c ComputerTacticArm domestic March LevelUp and PlcArmsMax branches are compatible with the observed delta. No AI random choices were reconstructed.",
+        "aiRandomChoiceReconstructed": false,
+        "canvassModelManufacturedArmyOrLevel": false,
+        "nativeSource": {
+          "path": "vendor/iBaye/src/tactic.c",
+          "bytes": 45067,
+          "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+        }
+      },
+      "monthlyOwnedRows": [
+        {
+          "city": 4,
+          "policyState": 0,
+          "settledState": 0,
+          "army": 500,
+          "foodBefore": 6321,
+          "monthly": 10,
+          "foodAfter": 6311,
+          "strictFoodBeforeAnotherEnd": 11,
+          "nextEndDeficit": 0
+        },
+        {
+          "city": 5,
+          "policyState": 0,
+          "settledState": 4,
+          "army": 300,
+          "foodBefore": 2837,
+          "monthly": 6,
+          "foodAfter": 2831,
+          "strictFoodBeforeAnotherEnd": 7,
+          "nextEndDeficit": 0
+        },
+        {
+          "city": 6,
+          "policyState": 0,
+          "settledState": 0,
+          "army": 2310,
+          "foodBefore": 10140,
+          "monthly": 46,
+          "foodAfter": 10094,
+          "strictFoodBeforeAnotherEnd": 47,
+          "nextEndDeficit": 0
+        },
+        {
+          "city": 7,
+          "policyState": 0,
+          "settledState": 0,
+          "army": 3520,
+          "foodBefore": 18617,
+          "monthly": 70,
+          "foodAfter": 18547,
+          "strictFoodBeforeAnotherEnd": 71,
+          "nextEndDeficit": 0
+        },
+        {
+          "city": 13,
+          "policyState": 0,
+          "settledState": 2,
+          "army": 500,
+          "foodBefore": 7840,
+          "monthly": 10,
+          "foodAfter": 7830,
+          "strictFoodBeforeAnotherEnd": 11,
+          "nextEndDeficit": 0
+        },
+        {
+          "city": 16,
+          "policyState": 0,
+          "settledState": 2,
+          "army": 4377,
+          "foodBefore": 721,
+          "monthly": 87,
+          "foodAfter": 634,
+          "strictFoodBeforeAnotherEnd": 88,
+          "nextEndDeficit": 0
+        },
+        {
+          "city": 20,
+          "policyState": 0,
+          "settledState": 3,
+          "army": 13339,
+          "foodBefore": 380,
+          "monthly": 266,
+          "foodAfter": 114,
+          "strictFoodBeforeAnotherEnd": 267,
+          "nextEndDeficit": 153
+        }
+      ],
+      "actualGiveExecutionAccepted": false,
+      "givePerformed": false,
+      "currentQualifiedNavy": [
+        {
+          "personId": 129,
+          "cityIndex": 6,
+          "arms": 1910,
+          "battleReady": true,
+          "requiresActualGive": false,
+          "alreadyEffectiveNavy": true,
+          "mpAfterNavyConversion": 68,
+          "impact13AfterActualNavyConversion": true,
+          "actualConversionAccepted": false,
+          "queueIndex": 20,
+          "rawLocations": [
+            {
+              "cityIndex": 6,
+              "queueIndex": 20
+            }
+          ],
+          "ownedLocations": [
+            {
+              "cityIndex": 6,
+              "queueIndex": 20
+            }
+          ],
+          "sourceMp": 68,
+          "actualBattleMpObserved": false,
+          "sourceOnly": true,
+          "actualTreatExecutionAccepted": false,
+          "actualCanvassDispatchAccepted": false,
+          "actualAcquisitionAccepted": false,
+          "actualGiveExecutionAccepted": false,
+          "actualPreparationAccepted": false,
+          "actualCastAccepted": false,
+          "hdAccepted": false,
+          "globalHdComplete": false,
+          "randomValuesObserved": false,
+          "successForecastAccepted": false
+        }
+      ],
+      "latestPublicSave": "impact13-129-v33-month1-policy-settled",
+      "latestDate": [
+        239,
+        4
+      ],
+      "latestPair": [
+        {
+          "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/native-impact13-129-v33-month1-policy-settled-sango0.sav",
+          "bytes": 8221,
+          "sha256": "1159340f7541add6342fe48a978b4c32cbd6dd2f5e92fc9173415d31e227bd7f"
+        },
+        {
+          "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/native-impact13-129-v33-month1-policy-settled-sango1.sav",
+          "bytes": 4840,
+          "sha256": "b3d0e56aca29da984f42245eadf85df565df582bbf474f8e7f9f3d2c88492ea1"
+        }
+      ],
+      "actualAdvancedTargetsAcquired": [
+        129
+      ],
+      "actualAcquisitionAccepted": true,
+      "actualPreparationAccepted": false,
+      "externalCleanup": {
+        "path": "build/impact-skill-20261014/impact13-battle-v33-external-cleanup-v1.json",
+        "bytes": 3272,
+        "sha256": "646ecfd2a66344bf5e52f9d324e5aae267f099558c4d4c5c200070ee143f4b16"
+      },
+      "finishedAt": "2026-10-23T13:50:19.780Z",
+      "evidenceBoundary": {
+        "newGameRunsByVerifier": 0,
+        "historicalBinderExecuted": false,
+        "historicalArchiveLogicalReadback": false,
+        "sourceControllerActualAcquisitionAccepted": false,
+        "sourceControllerActualGiveExecutionAccepted": false,
+        "independentNativeAcquisitionAndGiveSeparate": true,
+        "wholeRandomEnemyMonthModeled": false,
+        "actualBattleMpObserved": false
+      },
+      "latestWorldFile": {
+        "path": "build/impact-skill-20261014/impact13-v33-independent-v2/latest-world.json",
+        "bytes": 147981,
+        "sha256": "4ca6cf4eca810f683f209db586b6e7e190e851a05154491915f6580b395fb7bb"
+      }
+    },
+    "tool": {
+      "path": "build/impact-skill-20261014/verify-impact13-v33-terminal-v2.mjs",
+      "bytes": 27085,
+      "sha256": "8d69949cfef983fe0fa59f88aeb8e22c1fc70712974493791e2090693ec75e46"
+    },
+    "failedPredecessor": {
+      "receipt": {
+        "path": "build/impact-skill-20261014/impact13-v33-independent-v1/failed-receipt.json",
+        "bytes": 208281,
+        "sha256": "b900eaa8408579b742ea3162e636957e53289d768a743307aac2e168a57244f6"
+      },
+      "reason": "Twelve business stages passed; final cleanup input check initially demanded an absent optional bytes field beside the exact union path/SHA. V2 repairs verifier input-shape handling and reruns the complete fourteen-stage audit. The actual run was not repeated."
+    }
+  },
+  "additionalRootReview": {
+    "tool": {
+      "path": "build/review-impact13-v33-root-v2.mjs",
+      "bytes": 3145,
+      "sha256": "dde366282b9e6dffa42da2170ff160595a99e23965e1e03273f2221d71fcfb7d"
+    },
+    "receipt": {
+      "path": "build/impact13-v33-root-independent-review-v1.json",
+      "bytes": 178830,
+      "sha256": "17973090d102d00bfc7ef383e6e6ff7ce107f74abf08f300386c6ef58f968c19"
+    },
+    "scope": "Independent root read-only recomputation of actual adjacent Canvass results and full latest native SAVE pair, separate from source-reported credit flags.",
+    "doesNotSubstituteForFourteenStageAudit": true
+  },
+  "counts": {
+    "treats": 3,
+    "canvasses": 3,
+    "payments": 6,
+    "moneyPaid": 450,
+    "gives": 0,
+    "naturalMonths": 1,
+    "publicSaves": 8,
+    "callbacks": 32
+  },
+  "sourceControllerFlags": {
+    "actualAcquisitionAccepted": false,
+    "actualGiveExecutionAccepted": false,
+    "actualPreparationAccepted": false,
+    "actualCastAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false
+  },
+  "independentFlags": {
+    "actualAdvancedTargetAcquired": true,
+    "actualAcquisitionAccepted": true,
+    "actualGiveExecutionAccepted": false,
+    "actualPreparationAccepted": false,
+    "actualBattleMpObserved": false,
+    "actualCastAccepted": false,
+    "classicNativePixelAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "rngContinuityAccepted": false
+  },
+  "legacyMetadataErrors": [
+    {
+      "field": "inlineScalars.freezeScope",
+      "savedValue": "Latest genuine December238-12 no-orders SAVE; one original city6 actor51 Search3,8Thew/0money, pending public SAVE and at most1 natural month. Two exact raw UI/world phases, zero report ACK, current original defender/Arms and food/cash gates, full adjacent read-only Search return. No recruitment/equipment/requested battle/cast/classic/HD/RNG credit.",
+      "error": "Inherited V30 December Search3 description is stale and wrong for this V33 run. The immutable report is retained; exact V33 input pins, public UI/raw transactions, actual terminal and independent recomputation define this run.",
+      "actualScope": "Original239-3 city6; three Treat12, three Canvass16, one natural month to239-4, zero Give/Buy/Plunder/Search/Move/March/cast."
+    }
+  ],
+  "actual129NativeCausalChain": {
+    "personId": 129,
+    "queued": {
+      "belong": 2,
+      "level": 7,
+      "arms": 0
+    },
+    "firstNativePolicyCallback": {
+      "belong": 2,
+      "level": 8,
+      "arms": 1910
+    },
+    "ownCanvassCallbackOrdinal": 2,
+    "adjacentReturnOrdinal": 3,
+    "afterReturn": {
+      "belong": 1,
+      "level": 8,
+      "arms": 1910,
+      "devotion": 54
+    },
+    "fullUnknownPersonFieldsPreserved": true,
+    "aiMakeGapSource": "Current tactic.c ComputerTacticArmament: March with aiLevelUpSpeed0 may LevelUp its selected enemy general; native armament branches assign PlcArmsMax. The exact queued7/0 -> callback8/1910 difference is measured. No AI random choice sequence or intermediate instruction is reconstructed.",
+    "aiRandomChoiceReconstructed": false,
+    "canvassModelManufacturedArmyOrLevel": false,
+    "nativeSource": {
+      "path": "vendor/iBaye/src/tactic.c",
+      "bytes": 45067,
+      "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+    }
+  },
+  "latestSavedCheckpoint": {
+    "tag": "impact13-129-v33-month1-policy-settled",
+    "date": [
+      239,
+      4
+    ],
+    "slot": 0,
+    "world": {
+      "original": {
+        "path": "build/impact-skill-20261014/impact13-v33-independent-v2/latest-world.json",
+        "bytes": 147981,
+        "sha256": "4ca6cf4eca810f683f209db586b6e7e190e851a05154491915f6580b395fb7bb"
+      },
+      "published": {
+        "path": "docs/validation/m5-impact13-city6-20261023-v33-latest-world.json",
+        "bytes": 147981,
+        "sha256": "4ca6cf4eca810f683f209db586b6e7e190e851a05154491915f6580b395fb7bb"
+      }
+    },
+    "pair": [
+      {
+        "original": {
+          "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/native-impact13-129-v33-month1-policy-settled-sango0.sav",
+          "bytes": 8221,
+          "sha256": "1159340f7541add6342fe48a978b4c32cbd6dd2f5e92fc9173415d31e227bd7f"
+        },
+        "published": {
+          "path": "docs/validation/m5-impact13-city6-20261023-v33-sango0.sav",
+          "bytes": 8221,
+          "sha256": "1159340f7541add6342fe48a978b4c32cbd6dd2f5e92fc9173415d31e227bd7f"
+        }
+      },
+      {
+        "original": {
+          "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/native-impact13-129-v33-month1-policy-settled-sango1.sav",
+          "bytes": 4840,
+          "sha256": "b3d0e56aca29da984f42245eadf85df565df582bbf474f8e7f9f3d2c88492ea1"
+        },
+        "published": {
+          "path": "docs/validation/m5-impact13-city6-20261023-v33-sango1.sav",
+          "bytes": 4840,
+          "sha256": "b3d0e56aca29da984f42245eadf85df565df582bbf474f8e7f9f3d2c88492ea1"
+        }
+      }
+    ],
+    "pendingOrders": [],
+    "person129": {
+      "OldBelong": 1,
+      "Belong": 1,
+      "Level": 8,
+      "Force": 39,
+      "IQ": 72,
+      "Devotion": 54,
+      "Character": 2,
+      "Experience": 6,
+      "Thew": 100,
+      "ArmsType": 3,
+      "Arms": 1910,
+      "Tool1": 0,
+      "Tool2": 0,
+      "Age": 65
+    },
+    "currentQualifiedNavy": [
+      {
+        "personId": 129,
+        "cityIndex": 6,
+        "arms": 1910,
+        "battleReady": true,
+        "requiresActualGive": false,
+        "alreadyEffectiveNavy": true,
+        "mpAfterNavyConversion": 68,
+        "impact13AfterActualNavyConversion": true,
+        "actualConversionAccepted": false,
+        "queueIndex": 20,
+        "rawLocations": [
+          {
+            "cityIndex": 6,
+            "queueIndex": 20
+          }
+        ],
+        "ownedLocations": [
+          {
+            "cityIndex": 6,
+            "queueIndex": 20
+          }
+        ],
+        "sourceMp": 68,
+        "actualBattleMpObserved": false,
+        "sourceOnly": true,
+        "actualTreatExecutionAccepted": false,
+        "actualCanvassDispatchAccepted": false,
+        "actualAcquisitionAccepted": false,
+        "actualGiveExecutionAccepted": false,
+        "actualPreparationAccepted": false,
+        "actualCastAccepted": false,
+        "hdAccepted": false,
+        "globalHdComplete": false,
+        "randomValuesObserved": false,
+        "successForecastAccepted": false
+      }
+    ],
+    "sourceMp": 68,
+    "actualBattleMpObserved": false,
+    "nextEndSupply": [
+      {
+        "city": 4,
+        "policyState": 0,
+        "settledState": 0,
+        "army": 500,
+        "foodBefore": 6321,
+        "monthly": 10,
+        "foodAfter": 6311,
+        "strictFoodBeforeAnotherEnd": 11,
+        "nextEndDeficit": 0
+      },
+      {
+        "city": 5,
+        "policyState": 0,
+        "settledState": 4,
+        "army": 300,
+        "foodBefore": 2837,
+        "monthly": 6,
+        "foodAfter": 2831,
+        "strictFoodBeforeAnotherEnd": 7,
+        "nextEndDeficit": 0
+      },
+      {
+        "city": 6,
+        "policyState": 0,
+        "settledState": 0,
+        "army": 2310,
+        "foodBefore": 10140,
+        "monthly": 46,
+        "foodAfter": 10094,
+        "strictFoodBeforeAnotherEnd": 47,
+        "nextEndDeficit": 0
+      },
+      {
+        "city": 7,
+        "policyState": 0,
+        "settledState": 0,
+        "army": 3520,
+        "foodBefore": 18617,
+        "monthly": 70,
+        "foodAfter": 18547,
+        "strictFoodBeforeAnotherEnd": 71,
+        "nextEndDeficit": 0
+      },
+      {
+        "city": 13,
+        "policyState": 0,
+        "settledState": 2,
+        "army": 500,
+        "foodBefore": 7840,
+        "monthly": 10,
+        "foodAfter": 7830,
+        "strictFoodBeforeAnotherEnd": 11,
+        "nextEndDeficit": 0
+      },
+      {
+        "city": 16,
+        "policyState": 0,
+        "settledState": 2,
+        "army": 4377,
+        "foodBefore": 721,
+        "monthly": 87,
+        "foodAfter": 634,
+        "strictFoodBeforeAnotherEnd": 88,
+        "nextEndDeficit": 0
+      },
+      {
+        "city": 20,
+        "policyState": 0,
+        "settledState": 3,
+        "army": 13339,
+        "foodBefore": 380,
+        "monthly": 266,
+        "foodAfter": 114,
+        "strictFoodBeforeAnotherEnd": 267,
+        "nextEndDeficit": 153
+      }
+    ]
+  },
+  "give": {
+    "performed": false,
+    "reason": "The genuine newly acquired129 is already native navy. The unique discovered city6 water token remains unused; no Give was needed or attempted."
+  },
+  "sourceVerification": {
+    "original": {
+      "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/source-verification.json",
+      "bytes": 200057,
+      "sha256": "2e44fa64b593265f7019fc700fabb1a35abc7a421030f5b185a4214984057636"
+    },
+    "sources": 563,
+    "nativeCount": 128,
+    "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+    "installedBuild": {
+      "path": "js/baye.build.json",
+      "bytes": 21284,
+      "sha256": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233"
+    },
+    "allCurrentPinnedSourcesRehashedByIndependentVerifier": true,
+    "all128NativeSourceBytesReaggregatedByPublisher": true,
+    "sourceVerificationAfterPublicationNotRun": true
+  },
+  "cleanup": {
+    "proof": {
+      "path": "build/impact-skill-20261014/impact13-battle-v33-external-cleanup-v1.json",
+      "bytes": 3272,
+      "sha256": "646ecfd2a66344bf5e52f9d324e5aae267f099558c4d4c5c200070ee143f4b16"
+    },
+    "exactOwnedIdentityCount": 11,
+    "matchingIdentities": 0,
+    "privateListeners": 0,
+    "user8080Untouched": true,
+    "profileRetained": true
+  },
+  "archive": {
+    "index": {
+      "path": "docs/validation/m5-impact13-city6-20261023-v33-archive.json",
+      "bytes": 184596,
+      "sha256": "af095dc18a4de0cd573c5a76f4e3ccd32abacbe5417a1debfa6ca3022ce0467d"
+    },
+    "parts": [
+      {
+        "path": "docs/validation/m5-impact13-city6-20261023-v33-archive-part001.json",
+        "bytes": 8376254,
+        "sha256": "e9137b6daa9c702039d25aaa5789dbecf160ee4455a3ce8421397bd398683e6f"
+      },
+      {
+        "path": "docs/validation/m5-impact13-city6-20261023-v33-archive-part002.json",
+        "bytes": 8195364,
+        "sha256": "f6efc5b004a50b2bbe91df181fa877a9e75df35a7101e0b28ffe5d2bec241cf2"
+      },
+      {
+        "path": "docs/validation/m5-impact13-city6-20261023-v33-archive-part003.json",
+        "bytes": 7945609,
+        "sha256": "706c3dc388b895c2552e9201874b6b0bfbd7834ac76a1e7abf84f7a41540af8f"
+      }
+    ],
+    "namedFiles": 396,
+    "uniqueBlobs": 386,
+    "rawBlobBytes": 206780357,
+    "gzipBlobBytes": 18286089,
+    "portableClosedArchive": false
+  },
+  "sourceResult": {
+    "pin": {
+      "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/result.json",
+      "bytes": 98994,
+      "sha256": "48360a5eec6a81c6da7f7e884fc6041dc06bf23a0cc4caeee1f9cfaae474442f"
+    },
+    "allOriginalScalarsRetained": {
+      "sourceStageOnly": false,
+      "battleSourceStageOnly": false,
+      "partialContinuation": false,
+      "battleOnly": false,
+      "candidateVersion": 33,
+      "candidateRevision": "March-city6-three-envoys-one-month",
+      "sourceDriverRepairFromBlockedV9": true,
+      "hdTargetPreparationAccepted": false,
+      "classicTargetPreparation": true,
+      "sourceDriverRepairFromFailedV8": true,
+      "sourceDriverRepairFromFrozenV6": true,
+      "sourceDriverRepairFromFailedV7": true,
+      "battleWorkflowAccepted": false,
+      "actualCastOccurred": false,
+      "hd1080VisualAccepted": false,
+      "hd720VisualAccepted": false,
+      "newTradeCount": 0,
+      "newGovernanceCount": 0,
+      "newTreatCount": 3,
+      "rngContinuityAccepted": false,
+      "prepareRouteEnabled": false,
+      "prepareOnly": false,
+      "treatCaster": false,
+      "prepareOnlyAccepted": false,
+      "actualPaidMaintenanceAccepted": false,
+      "actualPreparationAccepted": false,
+      "normalMonthsExecuted": 1,
+      "tradeOrderReturnObserved": false,
+      "guardReturnBeforeCombatObserved": false,
+      "actualRouteEnabled": false,
+      "boundedPublicSaveStopImplemented": true,
+      "actualCastAccepted": false,
+      "hdAccepted": false,
+      "fallbackAccepted": false,
+      "globalHdComplete": false,
+      "baselineOnly": false,
+      "allowLcd": false,
+      "recruit": false,
+      "recruitArms": 0,
+      "maxTurns": 8,
+      "period": 4,
+      "originCity": 16,
+      "destination": 12,
+      "casterPerson": 129,
+      "skillId": 13,
+      "speId": 38,
+      "fromPreparation": null,
+      "staged": false,
+      "classic": false,
+      "missingAssets": false,
+      "preflightOnly": false,
+      "startedAt": "2026-10-23T13:39:05.884Z",
+      "v33AcquisitionRunAccepted": true,
+      "v32AcquisitionRunAccepted": false,
+      "v31AcquisitionRunAccepted": false,
+      "v30SearchRunAccepted": false,
+      "sourceOnlyCandidate": false,
+      "actualDisabledUntilLatestPaidBinder": false,
+      "currentInputQualified": true,
+      "pendingResumeRouteEnabled": false,
+      "acquisitionRouteEnabled": true,
+      "searchRouteEnabled": false,
+      "maximumNewBuys": 0,
+      "maximumNewCanvasses": 3,
+      "maximumNaturalMonths": 1,
+      "maximumNewGives": 1,
+      "maximumNewTreats": 3,
+      "maximumNewPlunders": 0,
+      "maximumNewSearches": 0,
+      "newPayments": 6,
+      "newBuyCount": 0,
+      "newRecruitments": 0,
+      "newDistributions": 0,
+      "newPlunders": 0,
+      "newMarches": 0,
+      "newCanvassCount": 3,
+      "newSearchCount": 0,
+      "newGiveCount": 0,
+      "newMoves": 0,
+      "v33StrategyEndsStarted": 1,
+      "freezeScope": "Latest genuine December238-12 no-orders SAVE; one original city6 actor51 Search3,8Thew/0money, pending public SAVE and at most1 natural month. Two exact raw UI/world phases, zero report ACK, current original defender/Arms and food/cash gates, full adjacent read-only Search return. No recruitment/equipment/requested battle/cast/classic/HD/RNG credit.",
+      "rootBirth": "2026-10-23T13:39:06.3487350Z",
+      "currentCasterControllable": false,
+      "casterQualifiedForCast": false,
+      "actualAcquisitionAccepted": false,
+      "actualGiveExecutionAccepted": false,
+      "v33InitialSavedTag": "impact13-129-v33-march-input",
+      "defenseObserverInstalled": true,
+      "v33StopReason": "one-city6-three-envoy-natural-month",
+      "evidenceSaved": true,
+      "ok": true,
+      "gracefulBrowserClose": true,
+      "profileRetained": true,
+      "directoriesDeleted": false,
+      "finishedAt": "2026-10-23T13:43:22.198Z",
+      "policyDrainAccepted": false,
+      "v22ContinuationAccepted": false,
+      "v25PendingResumeAccepted": false,
+      "v26AcquisitionRunAccepted": false,
+      "v27AcquisitionRunAccepted": false,
+      "v28AcquisitionRunAccepted": false,
+      "v29RecoveryAcquisitionRunAccepted": false,
+      "accepted": true,
+      "baselineAccepted": false
+    }
+  },
+  "scope": "Actual current city6 original UI/packed SAVE/native return and original navy acquisition only. The queued enemy129 AI stage changes are observed separately from Canvass. Actual battle preparation, MP, skill13 cast, classic LCD movie, HD pixel, RNG continuity and global HD completion remain unaccepted."
+}

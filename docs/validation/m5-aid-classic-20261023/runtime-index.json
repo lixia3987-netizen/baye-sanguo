@@ -1,0 +1,1769 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-23T13:33:30.336Z",
+  "scope": "All current preflight and real classic-run machine records/executed sources, every retained native/visible LCD PNG, exact untouched preparation pair, terminal audit and controlled test log. No browser profile archive or recursive historical preparation archive.",
+  "rawMachineEvidenceClosed": true,
+  "selectedMovieNumHoldPngClosed": true,
+  "allSupplementaryCheckpointPngClosed": false,
+  "portableClosedArchive": false,
+  "files": [
+    {
+      "original": "build/aid-classic-20261023/preflight-17-v1/browser-console.json",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "archive": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8.gz",
+      "archiveBytes": 62,
+      "archiveSha256": "c60d00d2ef6f8356932d247ac3ec484516d01b489f5f78c4e3927fbc9eaa7537",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-17-v1/executed-aid-oracle.mjs",
+      "bytes": 50408,
+      "sha256": "d2a59079417b5af056bab796385165a2bf9231ed393f95c0b9a80fdd89b22cda",
+      "archive": "raw/d2a59079417b5af056bab796385165a2bf9231ed393f95c0b9a80fdd89b22cda.gz",
+      "archiveBytes": 15453,
+      "archiveSha256": "ed08127b006913307b307858e8a4db2bcbe0c68265e534a498e593616f6ccd35",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-17-v1/executed-json-writer.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "archive": "raw/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "archiveBytes": 2550,
+      "archiveSha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-17-v1/executed-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "archive": "raw/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "archiveBytes": 4452,
+      "archiveSha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-17-v1/executed-tool.mjs",
+      "bytes": 113444,
+      "sha256": "2d9190c63d8345646cb9f18daf52b2014c3cdaea2565e639d541d3929024113d",
+      "archive": "raw/2d9190c63d8345646cb9f18daf52b2014c3cdaea2565e639d541d3929024113d.gz",
+      "archiveBytes": 34962,
+      "archiveSha256": "b1b2e7aad474bc7c9dabaa308c092a0e9d2c3d00bf6806ee96b2889e8866ce7e",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-17-v1/result.json",
+      "bytes": 885359,
+      "sha256": "8f202855d58ef743714d44ea828edda3557b1bfddfd5748e9a851b3139d7ea0b",
+      "archive": "raw/8f202855d58ef743714d44ea828edda3557b1bfddfd5748e9a851b3139d7ea0b.gz",
+      "archiveBytes": 150736,
+      "archiveSha256": "0cf6ec19d1c0faa30992eda17b95c587d96367b88463c26dea29b50285703c2b",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-17-v1/source-verification.json",
+      "bytes": 437779,
+      "sha256": "3fee5e9e22231926a75e8dd238479a28097997549a1dc182bcc41f41c5ce8b81",
+      "archive": "raw/3fee5e9e22231926a75e8dd238479a28097997549a1dc182bcc41f41c5ce8b81.gz",
+      "archiveBytes": 70008,
+      "archiveSha256": "36bb55cfc5e09ad7836cc5aa470d5d90e91efb36859d046e7b40ca390d7def0d",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-29-v1/browser-console.json",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "archive": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8.gz",
+      "archiveBytes": 62,
+      "archiveSha256": "c60d00d2ef6f8356932d247ac3ec484516d01b489f5f78c4e3927fbc9eaa7537",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-29-v1/executed-aid-oracle.mjs",
+      "bytes": 50408,
+      "sha256": "d2a59079417b5af056bab796385165a2bf9231ed393f95c0b9a80fdd89b22cda",
+      "archive": "raw/d2a59079417b5af056bab796385165a2bf9231ed393f95c0b9a80fdd89b22cda.gz",
+      "archiveBytes": 15453,
+      "archiveSha256": "ed08127b006913307b307858e8a4db2bcbe0c68265e534a498e593616f6ccd35",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-29-v1/executed-json-writer.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "archive": "raw/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "archiveBytes": 2550,
+      "archiveSha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-29-v1/executed-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "archive": "raw/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "archiveBytes": 4452,
+      "archiveSha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-29-v1/executed-tool.mjs",
+      "bytes": 113444,
+      "sha256": "2d9190c63d8345646cb9f18daf52b2014c3cdaea2565e639d541d3929024113d",
+      "archive": "raw/2d9190c63d8345646cb9f18daf52b2014c3cdaea2565e639d541d3929024113d.gz",
+      "archiveBytes": 34962,
+      "archiveSha256": "b1b2e7aad474bc7c9dabaa308c092a0e9d2c3d00bf6806ee96b2889e8866ce7e",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-29-v1/result.json",
+      "bytes": 885359,
+      "sha256": "4fed755fe8eb833c3a026136b21806bf64a1485e1730c77aa85a5b56b5b05475",
+      "archive": "raw/4fed755fe8eb833c3a026136b21806bf64a1485e1730c77aa85a5b56b5b05475.gz",
+      "archiveBytes": 150737,
+      "archiveSha256": "a57c196eb9b8a447e595ca274d1bdf9e6d85b44788a029429badcf935d85d6cf",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/preflight-29-v1/source-verification.json",
+      "bytes": 437779,
+      "sha256": "3fee5e9e22231926a75e8dd238479a28097997549a1dc182bcc41f41c5ce8b81",
+      "archive": "raw/3fee5e9e22231926a75e8dd238479a28097997549a1dc182bcc41f41c5ce8b81.gz",
+      "archiveBytes": 70008,
+      "archiveSha256": "36bb55cfc5e09ad7836cc5aa470d5d90e91efb36859d046e7b40ca390d7def0d",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/02-public-original-checkpoint-loaded.png",
+      "bytes": 41908,
+      "sha256": "4c41217326cb518442550ffe982af66b89879e0b3b0f64b42782d081e4612cfa",
+      "archive": "png/4c41217326cb518442550ffe982af66b89879e0b3b0f64b42782d081e4612cfa.png",
+      "archiveBytes": 41908,
+      "archiveSha256": "4c41217326cb518442550ffe982af66b89879e0b3b0f64b42782d081e4612cfa",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/04-real-battle-caster.png",
+      "bytes": 181848,
+      "sha256": "9b6c0f7a6e00fb8b1237309e7ebf7c537e7811cd84d2cf8d58e05f0600522165",
+      "archive": "png/9b6c0f7a6e00fb8b1237309e7ebf7c537e7811cd84d2cf8d58e05f0600522165.png",
+      "archiveBytes": 181848,
+      "archiveSha256": "9b6c0f7a6e00fb8b1237309e7ebf7c537e7811cd84d2cf8d58e05f0600522165",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0000-movie-lcd.png",
+      "bytes": 5146,
+      "sha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "archive": "png/89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02.png",
+      "archiveBytes": 5146,
+      "archiveSha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0000-movie-native.png",
+      "bytes": 5146,
+      "sha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "archive": "png/89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02.png",
+      "archiveBytes": 5146,
+      "archiveSha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0001-movie-lcd.png",
+      "bytes": 5117,
+      "sha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "archive": "png/7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c.png",
+      "archiveBytes": 5117,
+      "archiveSha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0001-movie-native.png",
+      "bytes": 5117,
+      "sha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "archive": "png/7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c.png",
+      "archiveBytes": 5117,
+      "archiveSha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0002-movie-lcd.png",
+      "bytes": 5146,
+      "sha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "archive": "png/89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02.png",
+      "archiveBytes": 5146,
+      "archiveSha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0002-movie-native.png",
+      "bytes": 5146,
+      "sha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "archive": "png/89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02.png",
+      "archiveBytes": 5146,
+      "archiveSha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0003-movie-lcd.png",
+      "bytes": 5117,
+      "sha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "archive": "png/7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c.png",
+      "archiveBytes": 5117,
+      "archiveSha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0003-movie-native.png",
+      "bytes": 5117,
+      "sha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "archive": "png/7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c.png",
+      "archiveBytes": 5117,
+      "archiveSha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0004-movie-lcd.png",
+      "bytes": 5146,
+      "sha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "archive": "png/89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02.png",
+      "archiveBytes": 5146,
+      "archiveSha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0004-movie-native.png",
+      "bytes": 5146,
+      "sha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "archive": "png/89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02.png",
+      "archiveBytes": 5146,
+      "archiveSha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0005-movie-lcd.png",
+      "bytes": 5117,
+      "sha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "archive": "png/7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c.png",
+      "archiveBytes": 5117,
+      "archiveSha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0005-movie-native.png",
+      "bytes": 5117,
+      "sha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "archive": "png/7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c.png",
+      "archiveBytes": 5117,
+      "archiveSha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0006-movie-lcd.png",
+      "bytes": 5146,
+      "sha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "archive": "png/89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02.png",
+      "archiveBytes": 5146,
+      "archiveSha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0006-movie-native.png",
+      "bytes": 5146,
+      "sha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "archive": "png/89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02.png",
+      "archiveBytes": 5146,
+      "archiveSha256": "89e0ebe3752ca7c4c208c33ca056cd7c0d9a938c0eb0c1e1dbcfb7157a6f4b02",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0007-movie-lcd.png",
+      "bytes": 5117,
+      "sha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "archive": "png/7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c.png",
+      "archiveBytes": 5117,
+      "archiveSha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0007-movie-native.png",
+      "bytes": 5117,
+      "sha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "archive": "png/7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c.png",
+      "archiveBytes": 5117,
+      "archiveSha256": "7a045e2305a1d065e13e7cb656a1dcaeecc515fd702c73e92fa7a9e8649aa14c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0008-numbers-lcd.png",
+      "bytes": 5295,
+      "sha256": "b5ec76726d968415de9d3aacff8ebc76291643f1fbbf2bb926143c0e0ca5616c",
+      "archive": "png/b5ec76726d968415de9d3aacff8ebc76291643f1fbbf2bb926143c0e0ca5616c.png",
+      "archiveBytes": 5295,
+      "archiveSha256": "b5ec76726d968415de9d3aacff8ebc76291643f1fbbf2bb926143c0e0ca5616c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0008-numbers-native.png",
+      "bytes": 5295,
+      "sha256": "b5ec76726d968415de9d3aacff8ebc76291643f1fbbf2bb926143c0e0ca5616c",
+      "archive": "png/b5ec76726d968415de9d3aacff8ebc76291643f1fbbf2bb926143c0e0ca5616c.png",
+      "archiveBytes": 5295,
+      "archiveSha256": "b5ec76726d968415de9d3aacff8ebc76291643f1fbbf2bb926143c0e0ca5616c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0009-numbers-lcd.png",
+      "bytes": 5276,
+      "sha256": "7753eed88c58ea292501cfe1ff95c26ad486c15151752267770ddaa4f2b62e3b",
+      "archive": "png/7753eed88c58ea292501cfe1ff95c26ad486c15151752267770ddaa4f2b62e3b.png",
+      "archiveBytes": 5276,
+      "archiveSha256": "7753eed88c58ea292501cfe1ff95c26ad486c15151752267770ddaa4f2b62e3b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0009-numbers-native.png",
+      "bytes": 5276,
+      "sha256": "7753eed88c58ea292501cfe1ff95c26ad486c15151752267770ddaa4f2b62e3b",
+      "archive": "png/7753eed88c58ea292501cfe1ff95c26ad486c15151752267770ddaa4f2b62e3b.png",
+      "archiveBytes": 5276,
+      "archiveSha256": "7753eed88c58ea292501cfe1ff95c26ad486c15151752267770ddaa4f2b62e3b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0010-numbers-lcd.png",
+      "bytes": 5261,
+      "sha256": "ddb828bf12e08b049f7a7166dd692218e434845b10a420794aa71370191f490f",
+      "archive": "png/ddb828bf12e08b049f7a7166dd692218e434845b10a420794aa71370191f490f.png",
+      "archiveBytes": 5261,
+      "archiveSha256": "ddb828bf12e08b049f7a7166dd692218e434845b10a420794aa71370191f490f",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0010-numbers-native.png",
+      "bytes": 5261,
+      "sha256": "ddb828bf12e08b049f7a7166dd692218e434845b10a420794aa71370191f490f",
+      "archive": "png/ddb828bf12e08b049f7a7166dd692218e434845b10a420794aa71370191f490f.png",
+      "archiveBytes": 5261,
+      "archiveSha256": "ddb828bf12e08b049f7a7166dd692218e434845b10a420794aa71370191f490f",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0011-numbers-lcd.png",
+      "bytes": 5267,
+      "sha256": "46e8d7649a94bad266a895baad893d717f19e4036a9bcfd26e56a83e387ed2bf",
+      "archive": "png/46e8d7649a94bad266a895baad893d717f19e4036a9bcfd26e56a83e387ed2bf.png",
+      "archiveBytes": 5267,
+      "archiveSha256": "46e8d7649a94bad266a895baad893d717f19e4036a9bcfd26e56a83e387ed2bf",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0011-numbers-native.png",
+      "bytes": 5267,
+      "sha256": "46e8d7649a94bad266a895baad893d717f19e4036a9bcfd26e56a83e387ed2bf",
+      "archive": "png/46e8d7649a94bad266a895baad893d717f19e4036a9bcfd26e56a83e387ed2bf.png",
+      "archiveBytes": 5267,
+      "archiveSha256": "46e8d7649a94bad266a895baad893d717f19e4036a9bcfd26e56a83e387ed2bf",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0012-numbers-lcd.png",
+      "bytes": 5260,
+      "sha256": "2df7eaae8766096a2c95acce7d1aff91ee174ce3a84f337399f25fbb3301de0e",
+      "archive": "png/2df7eaae8766096a2c95acce7d1aff91ee174ce3a84f337399f25fbb3301de0e.png",
+      "archiveBytes": 5260,
+      "archiveSha256": "2df7eaae8766096a2c95acce7d1aff91ee174ce3a84f337399f25fbb3301de0e",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0012-numbers-native.png",
+      "bytes": 5260,
+      "sha256": "2df7eaae8766096a2c95acce7d1aff91ee174ce3a84f337399f25fbb3301de0e",
+      "archive": "png/2df7eaae8766096a2c95acce7d1aff91ee174ce3a84f337399f25fbb3301de0e.png",
+      "archiveBytes": 5260,
+      "archiveSha256": "2df7eaae8766096a2c95acce7d1aff91ee174ce3a84f337399f25fbb3301de0e",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0013-numbers-lcd.png",
+      "bytes": 5255,
+      "sha256": "75d234a799c7403f22245d9204cccdbf0e7b473990d12f3497fc387f309dbd5b",
+      "archive": "png/75d234a799c7403f22245d9204cccdbf0e7b473990d12f3497fc387f309dbd5b.png",
+      "archiveBytes": 5255,
+      "archiveSha256": "75d234a799c7403f22245d9204cccdbf0e7b473990d12f3497fc387f309dbd5b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0013-numbers-native.png",
+      "bytes": 5255,
+      "sha256": "75d234a799c7403f22245d9204cccdbf0e7b473990d12f3497fc387f309dbd5b",
+      "archive": "png/75d234a799c7403f22245d9204cccdbf0e7b473990d12f3497fc387f309dbd5b.png",
+      "archiveBytes": 5255,
+      "archiveSha256": "75d234a799c7403f22245d9204cccdbf0e7b473990d12f3497fc387f309dbd5b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0014-numbers-lcd.png",
+      "bytes": 5248,
+      "sha256": "27e7cf15770a6d47778fa443412204b54a59149b7aad7e9e2e30b1bba051d6c8",
+      "archive": "png/27e7cf15770a6d47778fa443412204b54a59149b7aad7e9e2e30b1bba051d6c8.png",
+      "archiveBytes": 5248,
+      "archiveSha256": "27e7cf15770a6d47778fa443412204b54a59149b7aad7e9e2e30b1bba051d6c8",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0014-numbers-native.png",
+      "bytes": 5248,
+      "sha256": "27e7cf15770a6d47778fa443412204b54a59149b7aad7e9e2e30b1bba051d6c8",
+      "archive": "png/27e7cf15770a6d47778fa443412204b54a59149b7aad7e9e2e30b1bba051d6c8.png",
+      "archiveBytes": 5248,
+      "archiveSha256": "27e7cf15770a6d47778fa443412204b54a59149b7aad7e9e2e30b1bba051d6c8",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0015-numbers-lcd.png",
+      "bytes": 5236,
+      "sha256": "a25ccf936dd1d4a2766cdbc1ae5c1e5ad05efe4b8d1289d6e72d7d476534c062",
+      "archive": "png/a25ccf936dd1d4a2766cdbc1ae5c1e5ad05efe4b8d1289d6e72d7d476534c062.png",
+      "archiveBytes": 5236,
+      "archiveSha256": "a25ccf936dd1d4a2766cdbc1ae5c1e5ad05efe4b8d1289d6e72d7d476534c062",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0015-numbers-native.png",
+      "bytes": 5236,
+      "sha256": "a25ccf936dd1d4a2766cdbc1ae5c1e5ad05efe4b8d1289d6e72d7d476534c062",
+      "archive": "png/a25ccf936dd1d4a2766cdbc1ae5c1e5ad05efe4b8d1289d6e72d7d476534c062.png",
+      "archiveBytes": 5236,
+      "archiveSha256": "a25ccf936dd1d4a2766cdbc1ae5c1e5ad05efe4b8d1289d6e72d7d476534c062",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0016-numbers-lcd.png",
+      "bytes": 5200,
+      "sha256": "6b1c80561f391aa11b2d2e30985cbeb20cae50c17b26ed99901c1b927ecfbdb9",
+      "archive": "png/6b1c80561f391aa11b2d2e30985cbeb20cae50c17b26ed99901c1b927ecfbdb9.png",
+      "archiveBytes": 5200,
+      "archiveSha256": "6b1c80561f391aa11b2d2e30985cbeb20cae50c17b26ed99901c1b927ecfbdb9",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0016-numbers-native.png",
+      "bytes": 5200,
+      "sha256": "6b1c80561f391aa11b2d2e30985cbeb20cae50c17b26ed99901c1b927ecfbdb9",
+      "archive": "png/6b1c80561f391aa11b2d2e30985cbeb20cae50c17b26ed99901c1b927ecfbdb9.png",
+      "archiveBytes": 5200,
+      "archiveSha256": "6b1c80561f391aa11b2d2e30985cbeb20cae50c17b26ed99901c1b927ecfbdb9",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0017-numbers-lcd.png",
+      "bytes": 5202,
+      "sha256": "0dec303e51eb3a60b765810b795372731ffddc44c9beb4bb433b6dc729851ae0",
+      "archive": "png/0dec303e51eb3a60b765810b795372731ffddc44c9beb4bb433b6dc729851ae0.png",
+      "archiveBytes": 5202,
+      "archiveSha256": "0dec303e51eb3a60b765810b795372731ffddc44c9beb4bb433b6dc729851ae0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0017-numbers-native.png",
+      "bytes": 5202,
+      "sha256": "0dec303e51eb3a60b765810b795372731ffddc44c9beb4bb433b6dc729851ae0",
+      "archive": "png/0dec303e51eb3a60b765810b795372731ffddc44c9beb4bb433b6dc729851ae0.png",
+      "archiveBytes": 5202,
+      "archiveSha256": "0dec303e51eb3a60b765810b795372731ffddc44c9beb4bb433b6dc729851ae0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0018-numbers-lcd.png",
+      "bytes": 5189,
+      "sha256": "bed3785e11bd46de5ab2148099bf187c8f3cd85d64ed38fce32ca26d4a6a3a34",
+      "archive": "png/bed3785e11bd46de5ab2148099bf187c8f3cd85d64ed38fce32ca26d4a6a3a34.png",
+      "archiveBytes": 5189,
+      "archiveSha256": "bed3785e11bd46de5ab2148099bf187c8f3cd85d64ed38fce32ca26d4a6a3a34",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0018-numbers-native.png",
+      "bytes": 5189,
+      "sha256": "bed3785e11bd46de5ab2148099bf187c8f3cd85d64ed38fce32ca26d4a6a3a34",
+      "archive": "png/bed3785e11bd46de5ab2148099bf187c8f3cd85d64ed38fce32ca26d4a6a3a34.png",
+      "archiveBytes": 5189,
+      "archiveSha256": "bed3785e11bd46de5ab2148099bf187c8f3cd85d64ed38fce32ca26d4a6a3a34",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0019-numbers-lcd.png",
+      "bytes": 5185,
+      "sha256": "9d6c9c2ece554603210e7eaee6afef57235e5ded814f12f95fa633a1efb09d3a",
+      "archive": "png/9d6c9c2ece554603210e7eaee6afef57235e5ded814f12f95fa633a1efb09d3a.png",
+      "archiveBytes": 5185,
+      "archiveSha256": "9d6c9c2ece554603210e7eaee6afef57235e5ded814f12f95fa633a1efb09d3a",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0019-numbers-native.png",
+      "bytes": 5185,
+      "sha256": "9d6c9c2ece554603210e7eaee6afef57235e5ded814f12f95fa633a1efb09d3a",
+      "archive": "png/9d6c9c2ece554603210e7eaee6afef57235e5ded814f12f95fa633a1efb09d3a.png",
+      "archiveBytes": 5185,
+      "archiveSha256": "9d6c9c2ece554603210e7eaee6afef57235e5ded814f12f95fa633a1efb09d3a",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0020-numbers-lcd.png",
+      "bytes": 5175,
+      "sha256": "5afa6f4c0d051f26d6b58e2dbbf656a2a712408c789e8ab55d530bcbe506c4aa",
+      "archive": "png/5afa6f4c0d051f26d6b58e2dbbf656a2a712408c789e8ab55d530bcbe506c4aa.png",
+      "archiveBytes": 5175,
+      "archiveSha256": "5afa6f4c0d051f26d6b58e2dbbf656a2a712408c789e8ab55d530bcbe506c4aa",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0020-numbers-native.png",
+      "bytes": 5175,
+      "sha256": "5afa6f4c0d051f26d6b58e2dbbf656a2a712408c789e8ab55d530bcbe506c4aa",
+      "archive": "png/5afa6f4c0d051f26d6b58e2dbbf656a2a712408c789e8ab55d530bcbe506c4aa.png",
+      "archiveBytes": 5175,
+      "archiveSha256": "5afa6f4c0d051f26d6b58e2dbbf656a2a712408c789e8ab55d530bcbe506c4aa",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0021-numbers-lcd.png",
+      "bytes": 5169,
+      "sha256": "4b0597c03326d76362421c5b445d56eb08f576c8529d621f0ec725fb844d2cf8",
+      "archive": "png/4b0597c03326d76362421c5b445d56eb08f576c8529d621f0ec725fb844d2cf8.png",
+      "archiveBytes": 5169,
+      "archiveSha256": "4b0597c03326d76362421c5b445d56eb08f576c8529d621f0ec725fb844d2cf8",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0021-numbers-native.png",
+      "bytes": 5169,
+      "sha256": "4b0597c03326d76362421c5b445d56eb08f576c8529d621f0ec725fb844d2cf8",
+      "archive": "png/4b0597c03326d76362421c5b445d56eb08f576c8529d621f0ec725fb844d2cf8.png",
+      "archiveBytes": 5169,
+      "archiveSha256": "4b0597c03326d76362421c5b445d56eb08f576c8529d621f0ec725fb844d2cf8",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0022-numbers-lcd.png",
+      "bytes": 5156,
+      "sha256": "5f4b666b3e428b87c3e92af46d4c4cfb03a96c16213fccc9ba28c071624854d1",
+      "archive": "png/5f4b666b3e428b87c3e92af46d4c4cfb03a96c16213fccc9ba28c071624854d1.png",
+      "archiveBytes": 5156,
+      "archiveSha256": "5f4b666b3e428b87c3e92af46d4c4cfb03a96c16213fccc9ba28c071624854d1",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0022-numbers-native.png",
+      "bytes": 5156,
+      "sha256": "5f4b666b3e428b87c3e92af46d4c4cfb03a96c16213fccc9ba28c071624854d1",
+      "archive": "png/5f4b666b3e428b87c3e92af46d4c4cfb03a96c16213fccc9ba28c071624854d1.png",
+      "archiveBytes": 5156,
+      "archiveSha256": "5f4b666b3e428b87c3e92af46d4c4cfb03a96c16213fccc9ba28c071624854d1",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0023-numbers-lcd.png",
+      "bytes": 5148,
+      "sha256": "a815606766d847bf21ada9cbb83b8a6be81bbeb7a13c21f1352871388f918683",
+      "archive": "png/a815606766d847bf21ada9cbb83b8a6be81bbeb7a13c21f1352871388f918683.png",
+      "archiveBytes": 5148,
+      "archiveSha256": "a815606766d847bf21ada9cbb83b8a6be81bbeb7a13c21f1352871388f918683",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0023-numbers-native.png",
+      "bytes": 5148,
+      "sha256": "a815606766d847bf21ada9cbb83b8a6be81bbeb7a13c21f1352871388f918683",
+      "archive": "png/a815606766d847bf21ada9cbb83b8a6be81bbeb7a13c21f1352871388f918683.png",
+      "archiveBytes": 5148,
+      "archiveSha256": "a815606766d847bf21ada9cbb83b8a6be81bbeb7a13c21f1352871388f918683",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0024-numbers-lcd.png",
+      "bytes": 5155,
+      "sha256": "6571c7f610097f0f61fbbc5414d1634a48a59bb805aa1834434c28ec65720fd6",
+      "archive": "png/6571c7f610097f0f61fbbc5414d1634a48a59bb805aa1834434c28ec65720fd6.png",
+      "archiveBytes": 5155,
+      "archiveSha256": "6571c7f610097f0f61fbbc5414d1634a48a59bb805aa1834434c28ec65720fd6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0024-numbers-native.png",
+      "bytes": 5155,
+      "sha256": "6571c7f610097f0f61fbbc5414d1634a48a59bb805aa1834434c28ec65720fd6",
+      "archive": "png/6571c7f610097f0f61fbbc5414d1634a48a59bb805aa1834434c28ec65720fd6.png",
+      "archiveBytes": 5155,
+      "archiveSha256": "6571c7f610097f0f61fbbc5414d1634a48a59bb805aa1834434c28ec65720fd6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0025-numbers-lcd.png",
+      "bytes": 5145,
+      "sha256": "4f99d2d34168bc23a480bc3be369211d4205a37765d8716c2a2ceb1319c90775",
+      "archive": "png/4f99d2d34168bc23a480bc3be369211d4205a37765d8716c2a2ceb1319c90775.png",
+      "archiveBytes": 5145,
+      "archiveSha256": "4f99d2d34168bc23a480bc3be369211d4205a37765d8716c2a2ceb1319c90775",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0025-numbers-native.png",
+      "bytes": 5145,
+      "sha256": "4f99d2d34168bc23a480bc3be369211d4205a37765d8716c2a2ceb1319c90775",
+      "archive": "png/4f99d2d34168bc23a480bc3be369211d4205a37765d8716c2a2ceb1319c90775.png",
+      "archiveBytes": 5145,
+      "archiveSha256": "4f99d2d34168bc23a480bc3be369211d4205a37765d8716c2a2ceb1319c90775",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0026-numbers-lcd.png",
+      "bytes": 5144,
+      "sha256": "7ab4a2eaf46c27bbaa88765b3e8719f2b7787f010faf08a3b2f822bc1692fef8",
+      "archive": "png/7ab4a2eaf46c27bbaa88765b3e8719f2b7787f010faf08a3b2f822bc1692fef8.png",
+      "archiveBytes": 5144,
+      "archiveSha256": "7ab4a2eaf46c27bbaa88765b3e8719f2b7787f010faf08a3b2f822bc1692fef8",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0026-numbers-native.png",
+      "bytes": 5144,
+      "sha256": "7ab4a2eaf46c27bbaa88765b3e8719f2b7787f010faf08a3b2f822bc1692fef8",
+      "archive": "png/7ab4a2eaf46c27bbaa88765b3e8719f2b7787f010faf08a3b2f822bc1692fef8.png",
+      "archiveBytes": 5144,
+      "archiveSha256": "7ab4a2eaf46c27bbaa88765b3e8719f2b7787f010faf08a3b2f822bc1692fef8",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0027-numbers-lcd.png",
+      "bytes": 5137,
+      "sha256": "a031c69168e5b605f31ab83e13463ce024568155b743ff58067c02f1545dc971",
+      "archive": "png/a031c69168e5b605f31ab83e13463ce024568155b743ff58067c02f1545dc971.png",
+      "archiveBytes": 5137,
+      "archiveSha256": "a031c69168e5b605f31ab83e13463ce024568155b743ff58067c02f1545dc971",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0027-numbers-native.png",
+      "bytes": 5137,
+      "sha256": "a031c69168e5b605f31ab83e13463ce024568155b743ff58067c02f1545dc971",
+      "archive": "png/a031c69168e5b605f31ab83e13463ce024568155b743ff58067c02f1545dc971.png",
+      "archiveBytes": 5137,
+      "archiveSha256": "a031c69168e5b605f31ab83e13463ce024568155b743ff58067c02f1545dc971",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0028-numbers-lcd.png",
+      "bytes": 5118,
+      "sha256": "ddce46beebed9584fb7ee2809eee10fb50ac34076b2901323d454d896ac721f0",
+      "archive": "png/ddce46beebed9584fb7ee2809eee10fb50ac34076b2901323d454d896ac721f0.png",
+      "archiveBytes": 5118,
+      "archiveSha256": "ddce46beebed9584fb7ee2809eee10fb50ac34076b2901323d454d896ac721f0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0028-numbers-native.png",
+      "bytes": 5118,
+      "sha256": "ddce46beebed9584fb7ee2809eee10fb50ac34076b2901323d454d896ac721f0",
+      "archive": "png/ddce46beebed9584fb7ee2809eee10fb50ac34076b2901323d454d896ac721f0.png",
+      "archiveBytes": 5118,
+      "archiveSha256": "ddce46beebed9584fb7ee2809eee10fb50ac34076b2901323d454d896ac721f0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0029-hold-lcd.png",
+      "bytes": 5118,
+      "sha256": "ddce46beebed9584fb7ee2809eee10fb50ac34076b2901323d454d896ac721f0",
+      "archive": "png/ddce46beebed9584fb7ee2809eee10fb50ac34076b2901323d454d896ac721f0.png",
+      "archiveBytes": 5118,
+      "archiveSha256": "ddce46beebed9584fb7ee2809eee10fb50ac34076b2901323d454d896ac721f0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0029-hold-native.png",
+      "bytes": 5118,
+      "sha256": "ddce46beebed9584fb7ee2809eee10fb50ac34076b2901323d454d896ac721f0",
+      "archive": "png/ddce46beebed9584fb7ee2809eee10fb50ac34076b2901323d454d896ac721f0.png",
+      "archiveBytes": 5118,
+      "archiveSha256": "ddce46beebed9584fb7ee2809eee10fb50ac34076b2901323d454d896ac721f0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0030-movie-lcd.png",
+      "bytes": 4410,
+      "sha256": "438ac19cfaea81e286edfa0c22fd3a485c2414c5367d6c6894f3a92790b05444",
+      "archive": "png/438ac19cfaea81e286edfa0c22fd3a485c2414c5367d6c6894f3a92790b05444.png",
+      "archiveBytes": 4410,
+      "archiveSha256": "438ac19cfaea81e286edfa0c22fd3a485c2414c5367d6c6894f3a92790b05444",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0030-movie-native.png",
+      "bytes": 4410,
+      "sha256": "438ac19cfaea81e286edfa0c22fd3a485c2414c5367d6c6894f3a92790b05444",
+      "archive": "png/438ac19cfaea81e286edfa0c22fd3a485c2414c5367d6c6894f3a92790b05444.png",
+      "archiveBytes": 4410,
+      "archiveSha256": "438ac19cfaea81e286edfa0c22fd3a485c2414c5367d6c6894f3a92790b05444",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0031-movie-lcd.png",
+      "bytes": 4406,
+      "sha256": "1506979ba40292aa8f511f14afe4b862ed7e28092dcaa76a2598dbcd15736634",
+      "archive": "png/1506979ba40292aa8f511f14afe4b862ed7e28092dcaa76a2598dbcd15736634.png",
+      "archiveBytes": 4406,
+      "archiveSha256": "1506979ba40292aa8f511f14afe4b862ed7e28092dcaa76a2598dbcd15736634",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0031-movie-native.png",
+      "bytes": 4406,
+      "sha256": "1506979ba40292aa8f511f14afe4b862ed7e28092dcaa76a2598dbcd15736634",
+      "archive": "png/1506979ba40292aa8f511f14afe4b862ed7e28092dcaa76a2598dbcd15736634.png",
+      "archiveBytes": 4406,
+      "archiveSha256": "1506979ba40292aa8f511f14afe4b862ed7e28092dcaa76a2598dbcd15736634",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0032-movie-lcd.png",
+      "bytes": 4400,
+      "sha256": "e2244d620f098b829a6a312d9d06144629e19c236b5178b10bc9e262ab2d77f2",
+      "archive": "png/e2244d620f098b829a6a312d9d06144629e19c236b5178b10bc9e262ab2d77f2.png",
+      "archiveBytes": 4400,
+      "archiveSha256": "e2244d620f098b829a6a312d9d06144629e19c236b5178b10bc9e262ab2d77f2",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/aid-0032-movie-native.png",
+      "bytes": 4400,
+      "sha256": "e2244d620f098b829a6a312d9d06144629e19c236b5178b10bc9e262ab2d77f2",
+      "archive": "png/e2244d620f098b829a6a312d9d06144629e19c236b5178b10bc9e262ab2d77f2.png",
+      "archiveBytes": 4400,
+      "archiveSha256": "e2244d620f098b829a6a312d9d06144629e19c236b5178b10bc9e262ab2d77f2",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/browser-console.json",
+      "bytes": 12549,
+      "sha256": "e3a560f9143bae1a08f612911e985f5b7e6252bd133e4e14c7c453c43b6e380e",
+      "archive": "raw/e3a560f9143bae1a08f612911e985f5b7e6252bd133e4e14c7c453c43b6e380e.gz",
+      "archiveBytes": 1384,
+      "archiveSha256": "d2c6e799735dbb9952d2ffaff459a364e59e03b9d4854ba6ca6fbfbbc618de7f",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/engine-inputs.json",
+      "bytes": 16773,
+      "sha256": "bbcc14098f4139c9c06d57e1a00c51b63dd9c3ec0e37985d46d86cfb82cde81b",
+      "archive": "raw/bbcc14098f4139c9c06d57e1a00c51b63dd9c3ec0e37985d46d86cfb82cde81b.gz",
+      "archiveBytes": 655,
+      "archiveSha256": "67ff9fd20cb07702420a83da530656236dd79e08c75550a9622f27adafe63138",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/executed-aid-oracle.mjs",
+      "bytes": 50408,
+      "sha256": "d2a59079417b5af056bab796385165a2bf9231ed393f95c0b9a80fdd89b22cda",
+      "archive": "raw/d2a59079417b5af056bab796385165a2bf9231ed393f95c0b9a80fdd89b22cda.gz",
+      "archiveBytes": 15453,
+      "archiveSha256": "ed08127b006913307b307858e8a4db2bcbe0c68265e534a498e593616f6ccd35",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/executed-json-writer.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "archive": "raw/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "archiveBytes": 2550,
+      "archiveSha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/executed-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "archive": "raw/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "archiveBytes": 4452,
+      "archiveSha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/executed-tool.mjs",
+      "bytes": 113444,
+      "sha256": "2d9190c63d8345646cb9f18daf52b2014c3cdaea2565e639d541d3929024113d",
+      "archive": "raw/2d9190c63d8345646cb9f18daf52b2014c3cdaea2565e639d541d3929024113d.gz",
+      "archiveBytes": 34962,
+      "archiveSha256": "b1b2e7aad474bc7c9dabaa308c092a0e9d2c3d00bf6806ee96b2889e8866ce7e",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/native-skill-captures.json",
+      "bytes": 18728148,
+      "sha256": "b3f91c0b360bb5ec3d07a807dd3b3650e31d807ae023a0c5cf6ba386020244af",
+      "archive": "raw/b3f91c0b360bb5ec3d07a807dd3b3650e31d807ae023a0c5cf6ba386020244af.gz",
+      "archiveBytes": 667759,
+      "archiveSha256": "626a4209f5063562b08bb18f3f074852b0dc24435fda0d08d0036c86e3065345",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/observer-errors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archive": "raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/owned-process-samples.jsonl",
+      "bytes": 29562,
+      "sha256": "74146f869bf61b1a37fd62709bda607f8d10c921d1b34dbdefa4fd5bc3019d85",
+      "archive": "raw/74146f869bf61b1a37fd62709bda607f8d10c921d1b34dbdefa4fd5bc3019d85.gz",
+      "archiveBytes": 1901,
+      "archiveSha256": "1cb112dc89cd67b5ec1eabb8fd56c662bdc66b4e86b25068141d8e98cd542a72",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/result.json",
+      "bytes": 27743133,
+      "sha256": "86a98229fbda7dafeb2bfeddf755001e010d5dd2e6319990c226aadfc367cc04",
+      "archive": "raw/86a98229fbda7dafeb2bfeddf755001e010d5dd2e6319990c226aadfc367cc04.gz",
+      "archiveBytes": 1053822,
+      "archiveSha256": "e45a2d9bee323194f5a430e65f572ccd981f7572b3124976e6393bba636fbf1f",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/source-verification.json",
+      "bytes": 437779,
+      "sha256": "3fee5e9e22231926a75e8dd238479a28097997549a1dc182bcc41f41c5ce8b81",
+      "archive": "raw/3fee5e9e22231926a75e8dd238479a28097997549a1dc182bcc41f41c5ce8b81.gz",
+      "archiveBytes": 70008,
+      "archiveSha256": "36bb55cfc5e09ad7836cc5aa470d5d90e91efb36859d046e7b40ca390d7def0d",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-17-v1/spe-observations.json",
+      "bytes": 3971173,
+      "sha256": "fd6b9b9177057ecacdb965fc44297a20641aeff8f7190d5404c720715b5b5376",
+      "archive": "raw/fd6b9b9177057ecacdb965fc44297a20641aeff8f7190d5404c720715b5b5376.gz",
+      "archiveBytes": 40403,
+      "archiveSha256": "dd13181d78be9088f7bad14488ee18288e4a271d4ff2b31de5790d98eade465e",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/02-public-original-checkpoint-loaded.png",
+      "bytes": 41908,
+      "sha256": "4c41217326cb518442550ffe982af66b89879e0b3b0f64b42782d081e4612cfa",
+      "archive": "png/4c41217326cb518442550ffe982af66b89879e0b3b0f64b42782d081e4612cfa.png",
+      "archiveBytes": 41908,
+      "archiveSha256": "4c41217326cb518442550ffe982af66b89879e0b3b0f64b42782d081e4612cfa",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/04-real-battle-caster.png",
+      "bytes": 181818,
+      "sha256": "3611e9521dc9e26249594fa5fe2572742fe828590e52027b5f23a6725d0b8726",
+      "archive": "png/3611e9521dc9e26249594fa5fe2572742fe828590e52027b5f23a6725d0b8726.png",
+      "archiveBytes": 181818,
+      "archiveSha256": "3611e9521dc9e26249594fa5fe2572742fe828590e52027b5f23a6725d0b8726",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0000-movie-lcd.png",
+      "bytes": 5997,
+      "sha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "archive": "png/9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95.png",
+      "archiveBytes": 5997,
+      "archiveSha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0000-movie-native.png",
+      "bytes": 5997,
+      "sha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "archive": "png/9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95.png",
+      "archiveBytes": 5997,
+      "archiveSha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0001-movie-lcd.png",
+      "bytes": 5950,
+      "sha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "archive": "png/6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13.png",
+      "archiveBytes": 5950,
+      "archiveSha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0001-movie-native.png",
+      "bytes": 5950,
+      "sha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "archive": "png/6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13.png",
+      "archiveBytes": 5950,
+      "archiveSha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0002-movie-lcd.png",
+      "bytes": 5997,
+      "sha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "archive": "png/9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95.png",
+      "archiveBytes": 5997,
+      "archiveSha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0002-movie-native.png",
+      "bytes": 5997,
+      "sha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "archive": "png/9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95.png",
+      "archiveBytes": 5997,
+      "archiveSha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0003-movie-lcd.png",
+      "bytes": 5950,
+      "sha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "archive": "png/6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13.png",
+      "archiveBytes": 5950,
+      "archiveSha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0003-movie-native.png",
+      "bytes": 5950,
+      "sha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "archive": "png/6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13.png",
+      "archiveBytes": 5950,
+      "archiveSha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0004-movie-lcd.png",
+      "bytes": 5997,
+      "sha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "archive": "png/9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95.png",
+      "archiveBytes": 5997,
+      "archiveSha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0004-movie-native.png",
+      "bytes": 5997,
+      "sha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "archive": "png/9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95.png",
+      "archiveBytes": 5997,
+      "archiveSha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0005-movie-lcd.png",
+      "bytes": 5950,
+      "sha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "archive": "png/6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13.png",
+      "archiveBytes": 5950,
+      "archiveSha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0005-movie-native.png",
+      "bytes": 5950,
+      "sha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "archive": "png/6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13.png",
+      "archiveBytes": 5950,
+      "archiveSha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0006-movie-lcd.png",
+      "bytes": 5997,
+      "sha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "archive": "png/9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95.png",
+      "archiveBytes": 5997,
+      "archiveSha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0006-movie-native.png",
+      "bytes": 5997,
+      "sha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "archive": "png/9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95.png",
+      "archiveBytes": 5997,
+      "archiveSha256": "9883ec91a0c193e4979a58c67501d596770f978f0eaf6ce73d5274ba06573f95",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0007-movie-lcd.png",
+      "bytes": 5950,
+      "sha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "archive": "png/6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13.png",
+      "archiveBytes": 5950,
+      "archiveSha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0007-movie-native.png",
+      "bytes": 5950,
+      "sha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "archive": "png/6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13.png",
+      "archiveBytes": 5950,
+      "archiveSha256": "6e9893454439b00222f3840eac0dc418b46ce36211157733263e230d3dac1b13",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0008-numbers-lcd.png",
+      "bytes": 6157,
+      "sha256": "ac8af9ac4c3d817b29404935cbad381a656b29b86eef62bf20c203b64d19b450",
+      "archive": "png/ac8af9ac4c3d817b29404935cbad381a656b29b86eef62bf20c203b64d19b450.png",
+      "archiveBytes": 6157,
+      "archiveSha256": "ac8af9ac4c3d817b29404935cbad381a656b29b86eef62bf20c203b64d19b450",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0008-numbers-native.png",
+      "bytes": 6157,
+      "sha256": "ac8af9ac4c3d817b29404935cbad381a656b29b86eef62bf20c203b64d19b450",
+      "archive": "png/ac8af9ac4c3d817b29404935cbad381a656b29b86eef62bf20c203b64d19b450.png",
+      "archiveBytes": 6157,
+      "archiveSha256": "ac8af9ac4c3d817b29404935cbad381a656b29b86eef62bf20c203b64d19b450",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0009-numbers-lcd.png",
+      "bytes": 6103,
+      "sha256": "1e05aa63b7bf7237736beebf4a89ad7a32d2d51ebbd6087c00be163b85c56626",
+      "archive": "png/1e05aa63b7bf7237736beebf4a89ad7a32d2d51ebbd6087c00be163b85c56626.png",
+      "archiveBytes": 6103,
+      "archiveSha256": "1e05aa63b7bf7237736beebf4a89ad7a32d2d51ebbd6087c00be163b85c56626",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0009-numbers-native.png",
+      "bytes": 6103,
+      "sha256": "1e05aa63b7bf7237736beebf4a89ad7a32d2d51ebbd6087c00be163b85c56626",
+      "archive": "png/1e05aa63b7bf7237736beebf4a89ad7a32d2d51ebbd6087c00be163b85c56626.png",
+      "archiveBytes": 6103,
+      "archiveSha256": "1e05aa63b7bf7237736beebf4a89ad7a32d2d51ebbd6087c00be163b85c56626",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0010-numbers-lcd.png",
+      "bytes": 6085,
+      "sha256": "f99da385aa18bcb7b451d7d033e3b5d6b89643fa593e9dccaeab4c6c662258af",
+      "archive": "png/f99da385aa18bcb7b451d7d033e3b5d6b89643fa593e9dccaeab4c6c662258af.png",
+      "archiveBytes": 6085,
+      "archiveSha256": "f99da385aa18bcb7b451d7d033e3b5d6b89643fa593e9dccaeab4c6c662258af",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0010-numbers-native.png",
+      "bytes": 6085,
+      "sha256": "f99da385aa18bcb7b451d7d033e3b5d6b89643fa593e9dccaeab4c6c662258af",
+      "archive": "png/f99da385aa18bcb7b451d7d033e3b5d6b89643fa593e9dccaeab4c6c662258af.png",
+      "archiveBytes": 6085,
+      "archiveSha256": "f99da385aa18bcb7b451d7d033e3b5d6b89643fa593e9dccaeab4c6c662258af",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0011-numbers-lcd.png",
+      "bytes": 6082,
+      "sha256": "00e1aef2cbe9c182f20ae1ac3e1174b154fd650c5289e6cb47e9cd2575dca32f",
+      "archive": "png/00e1aef2cbe9c182f20ae1ac3e1174b154fd650c5289e6cb47e9cd2575dca32f.png",
+      "archiveBytes": 6082,
+      "archiveSha256": "00e1aef2cbe9c182f20ae1ac3e1174b154fd650c5289e6cb47e9cd2575dca32f",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0011-numbers-native.png",
+      "bytes": 6082,
+      "sha256": "00e1aef2cbe9c182f20ae1ac3e1174b154fd650c5289e6cb47e9cd2575dca32f",
+      "archive": "png/00e1aef2cbe9c182f20ae1ac3e1174b154fd650c5289e6cb47e9cd2575dca32f.png",
+      "archiveBytes": 6082,
+      "archiveSha256": "00e1aef2cbe9c182f20ae1ac3e1174b154fd650c5289e6cb47e9cd2575dca32f",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0012-numbers-lcd.png",
+      "bytes": 6067,
+      "sha256": "180e87fabf536c71d417c9eba5f4c7880fedfb3e4a0da25ce0fcde509e5244db",
+      "archive": "png/180e87fabf536c71d417c9eba5f4c7880fedfb3e4a0da25ce0fcde509e5244db.png",
+      "archiveBytes": 6067,
+      "archiveSha256": "180e87fabf536c71d417c9eba5f4c7880fedfb3e4a0da25ce0fcde509e5244db",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0012-numbers-native.png",
+      "bytes": 6067,
+      "sha256": "180e87fabf536c71d417c9eba5f4c7880fedfb3e4a0da25ce0fcde509e5244db",
+      "archive": "png/180e87fabf536c71d417c9eba5f4c7880fedfb3e4a0da25ce0fcde509e5244db.png",
+      "archiveBytes": 6067,
+      "archiveSha256": "180e87fabf536c71d417c9eba5f4c7880fedfb3e4a0da25ce0fcde509e5244db",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0013-numbers-lcd.png",
+      "bytes": 6068,
+      "sha256": "bca63653419277fc7090e85d25ed5f0522cecac9ad1e7e40a2ca9499eb4a6506",
+      "archive": "png/bca63653419277fc7090e85d25ed5f0522cecac9ad1e7e40a2ca9499eb4a6506.png",
+      "archiveBytes": 6068,
+      "archiveSha256": "bca63653419277fc7090e85d25ed5f0522cecac9ad1e7e40a2ca9499eb4a6506",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0013-numbers-native.png",
+      "bytes": 6068,
+      "sha256": "bca63653419277fc7090e85d25ed5f0522cecac9ad1e7e40a2ca9499eb4a6506",
+      "archive": "png/bca63653419277fc7090e85d25ed5f0522cecac9ad1e7e40a2ca9499eb4a6506.png",
+      "archiveBytes": 6068,
+      "archiveSha256": "bca63653419277fc7090e85d25ed5f0522cecac9ad1e7e40a2ca9499eb4a6506",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0014-numbers-lcd.png",
+      "bytes": 6059,
+      "sha256": "7f6402ba8aa7193431547ed0cfcd689787224c9ee0654cec67b0efc02076ed22",
+      "archive": "png/7f6402ba8aa7193431547ed0cfcd689787224c9ee0654cec67b0efc02076ed22.png",
+      "archiveBytes": 6059,
+      "archiveSha256": "7f6402ba8aa7193431547ed0cfcd689787224c9ee0654cec67b0efc02076ed22",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0014-numbers-native.png",
+      "bytes": 6059,
+      "sha256": "7f6402ba8aa7193431547ed0cfcd689787224c9ee0654cec67b0efc02076ed22",
+      "archive": "png/7f6402ba8aa7193431547ed0cfcd689787224c9ee0654cec67b0efc02076ed22.png",
+      "archiveBytes": 6059,
+      "archiveSha256": "7f6402ba8aa7193431547ed0cfcd689787224c9ee0654cec67b0efc02076ed22",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0015-numbers-lcd.png",
+      "bytes": 6049,
+      "sha256": "9a8b682f49e7d09b9e7cf31cb147d42b32074ec8bd8dae654dc75d9de21af1d6",
+      "archive": "png/9a8b682f49e7d09b9e7cf31cb147d42b32074ec8bd8dae654dc75d9de21af1d6.png",
+      "archiveBytes": 6049,
+      "archiveSha256": "9a8b682f49e7d09b9e7cf31cb147d42b32074ec8bd8dae654dc75d9de21af1d6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0015-numbers-native.png",
+      "bytes": 6049,
+      "sha256": "9a8b682f49e7d09b9e7cf31cb147d42b32074ec8bd8dae654dc75d9de21af1d6",
+      "archive": "png/9a8b682f49e7d09b9e7cf31cb147d42b32074ec8bd8dae654dc75d9de21af1d6.png",
+      "archiveBytes": 6049,
+      "archiveSha256": "9a8b682f49e7d09b9e7cf31cb147d42b32074ec8bd8dae654dc75d9de21af1d6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0016-numbers-lcd.png",
+      "bytes": 6037,
+      "sha256": "e9ef58e90470ca0ee914ba598612cffea9e6e2cc2e0c60542eadf5af7d4fcff6",
+      "archive": "png/e9ef58e90470ca0ee914ba598612cffea9e6e2cc2e0c60542eadf5af7d4fcff6.png",
+      "archiveBytes": 6037,
+      "archiveSha256": "e9ef58e90470ca0ee914ba598612cffea9e6e2cc2e0c60542eadf5af7d4fcff6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0016-numbers-native.png",
+      "bytes": 6037,
+      "sha256": "e9ef58e90470ca0ee914ba598612cffea9e6e2cc2e0c60542eadf5af7d4fcff6",
+      "archive": "png/e9ef58e90470ca0ee914ba598612cffea9e6e2cc2e0c60542eadf5af7d4fcff6.png",
+      "archiveBytes": 6037,
+      "archiveSha256": "e9ef58e90470ca0ee914ba598612cffea9e6e2cc2e0c60542eadf5af7d4fcff6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0017-numbers-lcd.png",
+      "bytes": 6037,
+      "sha256": "308dfe4d0114c81f66132dcd6a9d64f788a398b4893e3923b4718a54c9d3c54c",
+      "archive": "png/308dfe4d0114c81f66132dcd6a9d64f788a398b4893e3923b4718a54c9d3c54c.png",
+      "archiveBytes": 6037,
+      "archiveSha256": "308dfe4d0114c81f66132dcd6a9d64f788a398b4893e3923b4718a54c9d3c54c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0017-numbers-native.png",
+      "bytes": 6037,
+      "sha256": "308dfe4d0114c81f66132dcd6a9d64f788a398b4893e3923b4718a54c9d3c54c",
+      "archive": "png/308dfe4d0114c81f66132dcd6a9d64f788a398b4893e3923b4718a54c9d3c54c.png",
+      "archiveBytes": 6037,
+      "archiveSha256": "308dfe4d0114c81f66132dcd6a9d64f788a398b4893e3923b4718a54c9d3c54c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0018-numbers-lcd.png",
+      "bytes": 6026,
+      "sha256": "466b467b6206e1a01efa5f4e574a9d3dd676587b0b85a9453063d963cf2a6d0c",
+      "archive": "png/466b467b6206e1a01efa5f4e574a9d3dd676587b0b85a9453063d963cf2a6d0c.png",
+      "archiveBytes": 6026,
+      "archiveSha256": "466b467b6206e1a01efa5f4e574a9d3dd676587b0b85a9453063d963cf2a6d0c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0018-numbers-native.png",
+      "bytes": 6026,
+      "sha256": "466b467b6206e1a01efa5f4e574a9d3dd676587b0b85a9453063d963cf2a6d0c",
+      "archive": "png/466b467b6206e1a01efa5f4e574a9d3dd676587b0b85a9453063d963cf2a6d0c.png",
+      "archiveBytes": 6026,
+      "archiveSha256": "466b467b6206e1a01efa5f4e574a9d3dd676587b0b85a9453063d963cf2a6d0c",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0019-numbers-lcd.png",
+      "bytes": 5985,
+      "sha256": "ff6deaf5cea2abdc81752e6bace308610145f2d9b597b972c490e415ac0ec35a",
+      "archive": "png/ff6deaf5cea2abdc81752e6bace308610145f2d9b597b972c490e415ac0ec35a.png",
+      "archiveBytes": 5985,
+      "archiveSha256": "ff6deaf5cea2abdc81752e6bace308610145f2d9b597b972c490e415ac0ec35a",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0019-numbers-native.png",
+      "bytes": 5985,
+      "sha256": "ff6deaf5cea2abdc81752e6bace308610145f2d9b597b972c490e415ac0ec35a",
+      "archive": "png/ff6deaf5cea2abdc81752e6bace308610145f2d9b597b972c490e415ac0ec35a.png",
+      "archiveBytes": 5985,
+      "archiveSha256": "ff6deaf5cea2abdc81752e6bace308610145f2d9b597b972c490e415ac0ec35a",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0020-numbers-lcd.png",
+      "bytes": 5992,
+      "sha256": "526a7798877c3c28ad36c115b8770665444ee931eac2f60b257e6f7364d3bb75",
+      "archive": "png/526a7798877c3c28ad36c115b8770665444ee931eac2f60b257e6f7364d3bb75.png",
+      "archiveBytes": 5992,
+      "archiveSha256": "526a7798877c3c28ad36c115b8770665444ee931eac2f60b257e6f7364d3bb75",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0020-numbers-native.png",
+      "bytes": 5992,
+      "sha256": "526a7798877c3c28ad36c115b8770665444ee931eac2f60b257e6f7364d3bb75",
+      "archive": "png/526a7798877c3c28ad36c115b8770665444ee931eac2f60b257e6f7364d3bb75.png",
+      "archiveBytes": 5992,
+      "archiveSha256": "526a7798877c3c28ad36c115b8770665444ee931eac2f60b257e6f7364d3bb75",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0021-numbers-lcd.png",
+      "bytes": 5993,
+      "sha256": "7a961e70be9a1b72dc65afce3e6d8df9e59477e50356ae4a86b3f0e995cfb4f8",
+      "archive": "png/7a961e70be9a1b72dc65afce3e6d8df9e59477e50356ae4a86b3f0e995cfb4f8.png",
+      "archiveBytes": 5993,
+      "archiveSha256": "7a961e70be9a1b72dc65afce3e6d8df9e59477e50356ae4a86b3f0e995cfb4f8",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0021-numbers-native.png",
+      "bytes": 5993,
+      "sha256": "7a961e70be9a1b72dc65afce3e6d8df9e59477e50356ae4a86b3f0e995cfb4f8",
+      "archive": "png/7a961e70be9a1b72dc65afce3e6d8df9e59477e50356ae4a86b3f0e995cfb4f8.png",
+      "archiveBytes": 5993,
+      "archiveSha256": "7a961e70be9a1b72dc65afce3e6d8df9e59477e50356ae4a86b3f0e995cfb4f8",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0022-numbers-lcd.png",
+      "bytes": 5993,
+      "sha256": "139db2887ef252ce7252509485337a7db189763786109a17893fefe7a2177a3f",
+      "archive": "png/139db2887ef252ce7252509485337a7db189763786109a17893fefe7a2177a3f.png",
+      "archiveBytes": 5993,
+      "archiveSha256": "139db2887ef252ce7252509485337a7db189763786109a17893fefe7a2177a3f",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0022-numbers-native.png",
+      "bytes": 5993,
+      "sha256": "139db2887ef252ce7252509485337a7db189763786109a17893fefe7a2177a3f",
+      "archive": "png/139db2887ef252ce7252509485337a7db189763786109a17893fefe7a2177a3f.png",
+      "archiveBytes": 5993,
+      "archiveSha256": "139db2887ef252ce7252509485337a7db189763786109a17893fefe7a2177a3f",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0023-numbers-lcd.png",
+      "bytes": 5977,
+      "sha256": "da4f27a48f59ecbd5f2c4e3a9c8228e4f0bba19278e88853c6949ffc80480fe0",
+      "archive": "png/da4f27a48f59ecbd5f2c4e3a9c8228e4f0bba19278e88853c6949ffc80480fe0.png",
+      "archiveBytes": 5977,
+      "archiveSha256": "da4f27a48f59ecbd5f2c4e3a9c8228e4f0bba19278e88853c6949ffc80480fe0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0023-numbers-native.png",
+      "bytes": 5977,
+      "sha256": "da4f27a48f59ecbd5f2c4e3a9c8228e4f0bba19278e88853c6949ffc80480fe0",
+      "archive": "png/da4f27a48f59ecbd5f2c4e3a9c8228e4f0bba19278e88853c6949ffc80480fe0.png",
+      "archiveBytes": 5977,
+      "archiveSha256": "da4f27a48f59ecbd5f2c4e3a9c8228e4f0bba19278e88853c6949ffc80480fe0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0024-numbers-lcd.png",
+      "bytes": 5980,
+      "sha256": "1f2e1c875e6cc7af2723d4f454edd4501fa3c71336c96019bdeb4774d7773f01",
+      "archive": "png/1f2e1c875e6cc7af2723d4f454edd4501fa3c71336c96019bdeb4774d7773f01.png",
+      "archiveBytes": 5980,
+      "archiveSha256": "1f2e1c875e6cc7af2723d4f454edd4501fa3c71336c96019bdeb4774d7773f01",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0024-numbers-native.png",
+      "bytes": 5980,
+      "sha256": "1f2e1c875e6cc7af2723d4f454edd4501fa3c71336c96019bdeb4774d7773f01",
+      "archive": "png/1f2e1c875e6cc7af2723d4f454edd4501fa3c71336c96019bdeb4774d7773f01.png",
+      "archiveBytes": 5980,
+      "archiveSha256": "1f2e1c875e6cc7af2723d4f454edd4501fa3c71336c96019bdeb4774d7773f01",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0025-numbers-lcd.png",
+      "bytes": 5977,
+      "sha256": "ca475221151b30194aa05e6a87116c553b50ece9855b24d035c071602b6cf00d",
+      "archive": "png/ca475221151b30194aa05e6a87116c553b50ece9855b24d035c071602b6cf00d.png",
+      "archiveBytes": 5977,
+      "archiveSha256": "ca475221151b30194aa05e6a87116c553b50ece9855b24d035c071602b6cf00d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0025-numbers-native.png",
+      "bytes": 5977,
+      "sha256": "ca475221151b30194aa05e6a87116c553b50ece9855b24d035c071602b6cf00d",
+      "archive": "png/ca475221151b30194aa05e6a87116c553b50ece9855b24d035c071602b6cf00d.png",
+      "archiveBytes": 5977,
+      "archiveSha256": "ca475221151b30194aa05e6a87116c553b50ece9855b24d035c071602b6cf00d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0026-numbers-lcd.png",
+      "bytes": 5967,
+      "sha256": "5c53b2f0e99004a22c9edf8be177d168351d92c810933acae768423fbc795c28",
+      "archive": "png/5c53b2f0e99004a22c9edf8be177d168351d92c810933acae768423fbc795c28.png",
+      "archiveBytes": 5967,
+      "archiveSha256": "5c53b2f0e99004a22c9edf8be177d168351d92c810933acae768423fbc795c28",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0026-numbers-native.png",
+      "bytes": 5967,
+      "sha256": "5c53b2f0e99004a22c9edf8be177d168351d92c810933acae768423fbc795c28",
+      "archive": "png/5c53b2f0e99004a22c9edf8be177d168351d92c810933acae768423fbc795c28.png",
+      "archiveBytes": 5967,
+      "archiveSha256": "5c53b2f0e99004a22c9edf8be177d168351d92c810933acae768423fbc795c28",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0027-numbers-lcd.png",
+      "bytes": 5955,
+      "sha256": "e97f51eac332316a7096137a6f8e99047b205b33916c4c368dc0be33284901b1",
+      "archive": "png/e97f51eac332316a7096137a6f8e99047b205b33916c4c368dc0be33284901b1.png",
+      "archiveBytes": 5955,
+      "archiveSha256": "e97f51eac332316a7096137a6f8e99047b205b33916c4c368dc0be33284901b1",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0027-numbers-native.png",
+      "bytes": 5955,
+      "sha256": "e97f51eac332316a7096137a6f8e99047b205b33916c4c368dc0be33284901b1",
+      "archive": "png/e97f51eac332316a7096137a6f8e99047b205b33916c4c368dc0be33284901b1.png",
+      "archiveBytes": 5955,
+      "archiveSha256": "e97f51eac332316a7096137a6f8e99047b205b33916c4c368dc0be33284901b1",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0028-numbers-lcd.png",
+      "bytes": 5945,
+      "sha256": "9085d4df774c91a46f85a17ab30b191c5f7a9e8995963a786a7e8981b93e625f",
+      "archive": "png/9085d4df774c91a46f85a17ab30b191c5f7a9e8995963a786a7e8981b93e625f.png",
+      "archiveBytes": 5945,
+      "archiveSha256": "9085d4df774c91a46f85a17ab30b191c5f7a9e8995963a786a7e8981b93e625f",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0028-numbers-native.png",
+      "bytes": 5945,
+      "sha256": "9085d4df774c91a46f85a17ab30b191c5f7a9e8995963a786a7e8981b93e625f",
+      "archive": "png/9085d4df774c91a46f85a17ab30b191c5f7a9e8995963a786a7e8981b93e625f.png",
+      "archiveBytes": 5945,
+      "archiveSha256": "9085d4df774c91a46f85a17ab30b191c5f7a9e8995963a786a7e8981b93e625f",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0029-numbers-lcd.png",
+      "bytes": 5925,
+      "sha256": "1ad8ebead82aba35d38a0a16abd29c330aad4b6523200f8e1ce43eef398bcb83",
+      "archive": "png/1ad8ebead82aba35d38a0a16abd29c330aad4b6523200f8e1ce43eef398bcb83.png",
+      "archiveBytes": 5925,
+      "archiveSha256": "1ad8ebead82aba35d38a0a16abd29c330aad4b6523200f8e1ce43eef398bcb83",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0029-numbers-native.png",
+      "bytes": 5925,
+      "sha256": "1ad8ebead82aba35d38a0a16abd29c330aad4b6523200f8e1ce43eef398bcb83",
+      "archive": "png/1ad8ebead82aba35d38a0a16abd29c330aad4b6523200f8e1ce43eef398bcb83.png",
+      "archiveBytes": 5925,
+      "archiveSha256": "1ad8ebead82aba35d38a0a16abd29c330aad4b6523200f8e1ce43eef398bcb83",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0030-numbers-lcd.png",
+      "bytes": 5917,
+      "sha256": "2948d54d283b2bb5ede81adb3a46aecd787bf22ccb37ad9f484aa6e374c0bdbf",
+      "archive": "png/2948d54d283b2bb5ede81adb3a46aecd787bf22ccb37ad9f484aa6e374c0bdbf.png",
+      "archiveBytes": 5917,
+      "archiveSha256": "2948d54d283b2bb5ede81adb3a46aecd787bf22ccb37ad9f484aa6e374c0bdbf",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0030-numbers-native.png",
+      "bytes": 5917,
+      "sha256": "2948d54d283b2bb5ede81adb3a46aecd787bf22ccb37ad9f484aa6e374c0bdbf",
+      "archive": "png/2948d54d283b2bb5ede81adb3a46aecd787bf22ccb37ad9f484aa6e374c0bdbf.png",
+      "archiveBytes": 5917,
+      "archiveSha256": "2948d54d283b2bb5ede81adb3a46aecd787bf22ccb37ad9f484aa6e374c0bdbf",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0031-hold-lcd.png",
+      "bytes": 5917,
+      "sha256": "2948d54d283b2bb5ede81adb3a46aecd787bf22ccb37ad9f484aa6e374c0bdbf",
+      "archive": "png/2948d54d283b2bb5ede81adb3a46aecd787bf22ccb37ad9f484aa6e374c0bdbf.png",
+      "archiveBytes": 5917,
+      "archiveSha256": "2948d54d283b2bb5ede81adb3a46aecd787bf22ccb37ad9f484aa6e374c0bdbf",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0031-hold-native.png",
+      "bytes": 5917,
+      "sha256": "2948d54d283b2bb5ede81adb3a46aecd787bf22ccb37ad9f484aa6e374c0bdbf",
+      "archive": "png/2948d54d283b2bb5ede81adb3a46aecd787bf22ccb37ad9f484aa6e374c0bdbf.png",
+      "archiveBytes": 5917,
+      "archiveSha256": "2948d54d283b2bb5ede81adb3a46aecd787bf22ccb37ad9f484aa6e374c0bdbf",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0032-hold-lcd.png",
+      "bytes": 5920,
+      "sha256": "25a5afb38f04c4bdb21e0440e8c73e87c4b036e53995fd83851989bc416e344b",
+      "archive": "png/25a5afb38f04c4bdb21e0440e8c73e87c4b036e53995fd83851989bc416e344b.png",
+      "archiveBytes": 5920,
+      "archiveSha256": "25a5afb38f04c4bdb21e0440e8c73e87c4b036e53995fd83851989bc416e344b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0032-hold-native.png",
+      "bytes": 5920,
+      "sha256": "25a5afb38f04c4bdb21e0440e8c73e87c4b036e53995fd83851989bc416e344b",
+      "archive": "png/25a5afb38f04c4bdb21e0440e8c73e87c4b036e53995fd83851989bc416e344b.png",
+      "archiveBytes": 5920,
+      "archiveSha256": "25a5afb38f04c4bdb21e0440e8c73e87c4b036e53995fd83851989bc416e344b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0033-movie-lcd.png",
+      "bytes": 4434,
+      "sha256": "8dbff5a3c43cf08d6cd507898e5fd69719a5b8c089c0edf7fb2c8fa85f1bccf7",
+      "archive": "png/8dbff5a3c43cf08d6cd507898e5fd69719a5b8c089c0edf7fb2c8fa85f1bccf7.png",
+      "archiveBytes": 4434,
+      "archiveSha256": "8dbff5a3c43cf08d6cd507898e5fd69719a5b8c089c0edf7fb2c8fa85f1bccf7",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0033-movie-native.png",
+      "bytes": 4434,
+      "sha256": "8dbff5a3c43cf08d6cd507898e5fd69719a5b8c089c0edf7fb2c8fa85f1bccf7",
+      "archive": "png/8dbff5a3c43cf08d6cd507898e5fd69719a5b8c089c0edf7fb2c8fa85f1bccf7.png",
+      "archiveBytes": 4434,
+      "archiveSha256": "8dbff5a3c43cf08d6cd507898e5fd69719a5b8c089c0edf7fb2c8fa85f1bccf7",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0034-movie-lcd.png",
+      "bytes": 4425,
+      "sha256": "ac7bfb019c8ca86c07053dc05c8f9ff38740c798e53a6466cde827512d844923",
+      "archive": "png/ac7bfb019c8ca86c07053dc05c8f9ff38740c798e53a6466cde827512d844923.png",
+      "archiveBytes": 4425,
+      "archiveSha256": "ac7bfb019c8ca86c07053dc05c8f9ff38740c798e53a6466cde827512d844923",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0034-movie-native.png",
+      "bytes": 4425,
+      "sha256": "ac7bfb019c8ca86c07053dc05c8f9ff38740c798e53a6466cde827512d844923",
+      "archive": "png/ac7bfb019c8ca86c07053dc05c8f9ff38740c798e53a6466cde827512d844923.png",
+      "archiveBytes": 4425,
+      "archiveSha256": "ac7bfb019c8ca86c07053dc05c8f9ff38740c798e53a6466cde827512d844923",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0035-movie-lcd.png",
+      "bytes": 4419,
+      "sha256": "662263f6a37a4ba63070c40fbed44e4394028ae55dfd043098f76e919a99278b",
+      "archive": "png/662263f6a37a4ba63070c40fbed44e4394028ae55dfd043098f76e919a99278b.png",
+      "archiveBytes": 4419,
+      "archiveSha256": "662263f6a37a4ba63070c40fbed44e4394028ae55dfd043098f76e919a99278b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/aid-0035-movie-native.png",
+      "bytes": 4419,
+      "sha256": "662263f6a37a4ba63070c40fbed44e4394028ae55dfd043098f76e919a99278b",
+      "archive": "png/662263f6a37a4ba63070c40fbed44e4394028ae55dfd043098f76e919a99278b.png",
+      "archiveBytes": 4419,
+      "archiveSha256": "662263f6a37a4ba63070c40fbed44e4394028ae55dfd043098f76e919a99278b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/browser-console.json",
+      "bytes": 12549,
+      "sha256": "6bc14db705d349db39999fc9fdd10f602cb37d51258adaf7c264bdb982e73365",
+      "archive": "raw/6bc14db705d349db39999fc9fdd10f602cb37d51258adaf7c264bdb982e73365.gz",
+      "archiveBytes": 1385,
+      "archiveSha256": "ce26d9df7251e62c74622435567d7c0423c7a3de30e92f5ef5a5159e4279e9cf",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/engine-inputs.json",
+      "bytes": 17803,
+      "sha256": "e965c391c601331f5f6eb99e1a4758b2b6fe54c039166621840e7ca0790bf313",
+      "archive": "raw/e965c391c601331f5f6eb99e1a4758b2b6fe54c039166621840e7ca0790bf313.gz",
+      "archiveBytes": 663,
+      "archiveSha256": "8677b0e8d52da386ec7585613d6bc3b226987cdd05ce58aeef5328d38d26b36f",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/executed-aid-oracle.mjs",
+      "bytes": 50408,
+      "sha256": "d2a59079417b5af056bab796385165a2bf9231ed393f95c0b9a80fdd89b22cda",
+      "archive": "raw/d2a59079417b5af056bab796385165a2bf9231ed393f95c0b9a80fdd89b22cda.gz",
+      "archiveBytes": 15453,
+      "archiveSha256": "ed08127b006913307b307858e8a4db2bcbe0c68265e534a498e593616f6ccd35",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/executed-json-writer.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "archive": "raw/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "archiveBytes": 2550,
+      "archiveSha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/executed-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "archive": "raw/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "archiveBytes": 4452,
+      "archiveSha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/executed-tool.mjs",
+      "bytes": 113444,
+      "sha256": "2d9190c63d8345646cb9f18daf52b2014c3cdaea2565e639d541d3929024113d",
+      "archive": "raw/2d9190c63d8345646cb9f18daf52b2014c3cdaea2565e639d541d3929024113d.gz",
+      "archiveBytes": 34962,
+      "archiveSha256": "b1b2e7aad474bc7c9dabaa308c092a0e9d2c3d00bf6806ee96b2889e8866ce7e",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/native-skill-captures.json",
+      "bytes": 20511816,
+      "sha256": "b5e0f3f6773545876eb02f6680c97d99df6f8b179aa0fe32752a01783ed34fcf",
+      "archive": "raw/b5e0f3f6773545876eb02f6680c97d99df6f8b179aa0fe32752a01783ed34fcf.gz",
+      "archiveBytes": 768579,
+      "archiveSha256": "b353f33edf0b4bbe5f8f36441dcdc2b2ff039e7c7427c795b08e4bb02a58d93e",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/observer-errors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archive": "raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/owned-process-samples.jsonl",
+      "bytes": 29585,
+      "sha256": "6d6bdc3097aa567c5c7c5614518bc6eb339cbd42b3fe37cc6478978a62d18f5a",
+      "archive": "raw/6d6bdc3097aa567c5c7c5614518bc6eb339cbd42b3fe37cc6478978a62d18f5a.gz",
+      "archiveBytes": 1904,
+      "archiveSha256": "ff89226f99110cf81b2f58c55ad9691a6990d5a5741794f34ecb6bd476585895",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/result.json",
+      "bytes": 29816229,
+      "sha256": "7a65a96a12458a4f638a37feba72b5642eee427acea3e0ffda223af3b65efc61",
+      "archive": "raw/7a65a96a12458a4f638a37feba72b5642eee427acea3e0ffda223af3b65efc61.gz",
+      "archiveBytes": 1165999,
+      "archiveSha256": "903aa0815dd212c6072c9f7c4551f168eef14a8400a8b5bf93ed2b09c7dfb61e",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/source-verification.json",
+      "bytes": 437779,
+      "sha256": "3fee5e9e22231926a75e8dd238479a28097997549a1dc182bcc41f41c5ce8b81",
+      "archive": "raw/3fee5e9e22231926a75e8dd238479a28097997549a1dc182bcc41f41c5ce8b81.gz",
+      "archiveBytes": 70008,
+      "archiveSha256": "36bb55cfc5e09ad7836cc5aa470d5d90e91efb36859d046e7b40ca390d7def0d",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/classic-29-v1/spe-observations.json",
+      "bytes": 4112220,
+      "sha256": "dcc56305dd8a061d8ad22c26a10100237a87c70986bc82db28e2e59c6fc3b9c0",
+      "archive": "raw/dcc56305dd8a061d8ad22c26a10100237a87c70986bc82db28e2e59c6fc3b9c0.gz",
+      "archiveBytes": 41860,
+      "archiveSha256": "652da9a1f21bb72135c3dc5f611b241d359f57d2163b687ddbb1a676feec36cb",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/terminal-audit-v1.mjs",
+      "bytes": 6842,
+      "sha256": "de0212e83a15c9fb080b8a77194d924dded92e41f48c815d83e6221604ab7a78",
+      "archive": "raw/de0212e83a15c9fb080b8a77194d924dded92e41f48c815d83e6221604ab7a78.gz",
+      "archiveBytes": 2823,
+      "archiveSha256": "b5907790049a58108de46b8541c35c94e61a2374e53cf3fb8f153900af100664",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/terminal-audit-v1.json",
+      "bytes": 318138,
+      "sha256": "78af8bff474b8cdff9714c83e0d594d058846ea37dafd831e9e7544bd341af98",
+      "archive": "raw/78af8bff474b8cdff9714c83e0d594d058846ea37dafd831e9e7544bd341af98.gz",
+      "archiveBytes": 22808,
+      "archiveSha256": "fa6ff0a41b532f78072be20e20328fcc1155e9784a39be5a3b5e97440c848d40",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/oracle-tests-v1.log",
+      "bytes": 1222,
+      "sha256": "ae20f4c356608617bc93f6ed29fe8edcb037739a49b53b2f280bb784b9ca805a",
+      "archive": "raw/ae20f4c356608617bc93f6ed29fe8edcb037739a49b53b2f280bb784b9ca805a.gz",
+      "archiveBytes": 517,
+      "archiveSha256": "83acc9418182490342a9b785c895abc61c1f9067ba0e7d3c313348ce7eb7d3df",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "scripts/test-hd-aid-runtime-oracle.mjs",
+      "bytes": 9130,
+      "sha256": "3ce34769e70e3a7fa88b06859ea2d71c412120a2cae0d1342dbbaaa2c66f5ca8",
+      "archive": "raw/3ce34769e70e3a7fa88b06859ea2d71c412120a2cae0d1342dbbaaa2c66f5ca8.gz",
+      "archiveBytes": 3743,
+      "archiveSha256": "e295c94ff2715e9add0616535492e790f2451c8652efc39c248dd5be8eb6081f",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+      "bytes": 8221,
+      "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d",
+      "archive": "raw/5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d.gz",
+      "archiveBytes": 2183,
+      "archiveSha256": "b0c9c257ff6266b170bb2f9294ab7ba3896027e7bf39cbed93b8de80e934a069",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+      "bytes": 4840,
+      "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97",
+      "archive": "raw/8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97.gz",
+      "archiveBytes": 1591,
+      "archiveSha256": "9ad9a008e3321ed9ea41780c7f1e21e541966db729896fb471e23bb7d597a24f",
+      "encoding": "gzip-original-bytes"
+    }
+  ],
+  "omittedSupplementaryPng": [
+    {
+      "path": "build/aid-classic-20261023/classic-17-v1/02-actual-native-march-persons.png",
+      "bytes": 2245081,
+      "sha256": "b097a21f02e0dc2faef90f4dfe93a98737109265b5e73cf9c86c3fa37921dbdf",
+      "reason": "Supplementary full-page preparation/post-retirement checkpoint; all selected actual movie/NUM/HOLD LCD PNGs and full machine observations are preserved"
+    },
+    {
+      "path": "build/aid-classic-20261023/classic-17-v1/03-original-dispatch-order.png",
+      "bytes": 2357122,
+      "sha256": "1e6acd9b74b25e722486e96d738010f439d764d811026583ededf53dad794b56",
+      "reason": "Supplementary full-page preparation/post-retirement checkpoint; all selected actual movie/NUM/HOLD LCD PNGs and full machine observations are preserved"
+    },
+    {
+      "path": "build/aid-classic-20261023/classic-17-v1/05-two-AID-owners-retired.png",
+      "bytes": 180497,
+      "sha256": "7035541614f20efe920461f79d3d89476dc0d2f2abab5eb0197c043c9337d005",
+      "reason": "Supplementary full-page preparation/post-retirement checkpoint; all selected actual movie/NUM/HOLD LCD PNGs and full machine observations are preserved"
+    },
+    {
+      "path": "build/aid-classic-20261023/classic-17-v1/28-explicit-end-turn-1.png",
+      "bytes": 180944,
+      "sha256": "c3a68dadb44f30c57f9d5f273e81b9afe153ba84edaba9d672cd77a5b0b888be",
+      "reason": "Supplementary full-page preparation/post-retirement checkpoint; all selected actual movie/NUM/HOLD LCD PNGs and full machine observations are preserved"
+    },
+    {
+      "path": "build/aid-classic-20261023/classic-17-v1/skill17-true-player-movie-1.png",
+      "bytes": 3125726,
+      "sha256": "541a6b9664f15310f8c507066fc50bed7df1ab80929eb73cb6e4d9bec1e2b9cf",
+      "reason": "Supplementary full-page preparation/post-retirement checkpoint; all selected actual movie/NUM/HOLD LCD PNGs and full machine observations are preserved"
+    },
+    {
+      "path": "build/aid-classic-20261023/classic-29-v1/02-actual-native-march-persons.png",
+      "bytes": 2245525,
+      "sha256": "5a35e96454a7588cb7a6a464348f9dd3779b81f971a82d0973192ad3895787a0",
+      "reason": "Supplementary full-page preparation/post-retirement checkpoint; all selected actual movie/NUM/HOLD LCD PNGs and full machine observations are preserved"
+    },
+    {
+      "path": "build/aid-classic-20261023/classic-29-v1/03-original-dispatch-order.png",
+      "bytes": 2359092,
+      "sha256": "4590a9e8f59383a587f4cffcaa07bb84650460bf2db45cc263f129e7eba1394c",
+      "reason": "Supplementary full-page preparation/post-retirement checkpoint; all selected actual movie/NUM/HOLD LCD PNGs and full machine observations are preserved"
+    },
+    {
+      "path": "build/aid-classic-20261023/classic-29-v1/05-two-AID-owners-retired.png",
+      "bytes": 181410,
+      "sha256": "c9ec63316f6710c714172a89c9528a7060f7fe7cff334a7d57af18a01513f072",
+      "reason": "Supplementary full-page preparation/post-retirement checkpoint; all selected actual movie/NUM/HOLD LCD PNGs and full machine observations are preserved"
+    },
+    {
+      "path": "build/aid-classic-20261023/classic-29-v1/28-explicit-end-turn-1.png",
+      "bytes": 181827,
+      "sha256": "1d13b89b2ca812dfc533cc578f9b64fc7f5a05c88139c9903b3b31c6291c3ec1",
+      "reason": "Supplementary full-page preparation/post-retirement checkpoint; all selected actual movie/NUM/HOLD LCD PNGs and full machine observations are preserved"
+    },
+    {
+      "path": "build/aid-classic-20261023/classic-29-v1/skill29-true-player-movie-1.png",
+      "bytes": 3125576,
+      "sha256": "c63ce8f1c1590c7d1e511e9ec1e1d2959cb44b259ae5517f0c73f6577ce3865c",
+      "reason": "Supplementary full-page preparation/post-retirement checkpoint; all selected actual movie/NUM/HOLD LCD PNGs and full machine observations are preserved"
+    }
+  ],
+  "dependencies": {
+    "historicalCanonical": {
+      "path": "docs/validation/m4-aid-runtime-20261010.json",
+      "bytes": 67539,
+      "sha256": "b052f46a45581f8204d083e8b24a65b32e3e89cdf73c16ef3e7a52f1cbbf9c9e"
+    },
+    "historicalPhase2Audit": {
+      "path": "build/r22-aid-phase2-v5-terminal-independent-audit.json",
+      "bytes": 38502,
+      "sha256": "d3fd102be74c234053c7522c838301ec537a2bda5b5a36388902f2341e539ec9"
+    },
+    "historicalPhase2Result": {
+      "bytes": 48322439,
+      "sha256": "e467cecf81eca3c997b6afd4168aec2037e92ebaf1c24fe6e384ed64b55cf782"
+    },
+    "historicalPhase2ExecutedSource": {
+      "source": "build/r22-aid-phase2-driver-v5-final-v2.mjs",
+      "bytes": 138744,
+      "sha256": "6734d992f05c9cdb687469fba73d481676330f101f9fd1046964619c47ca6746"
+    },
+    "scope": "Exact earlier dependency hashes; no historical preparation or HD mode is represented as newly executed."
+  }
+}
