@@ -2,8 +2,8 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 const LIB={bytes:207195,sha256:'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'};
-const MAP_SHA={110:'d85fb46a63873b8f86ac10088b7e654e903c96d361813e87c2bc70e27bc46e1c',112:'2becb0f6e54a237b67bda8f5dea3abcfd5f021bfe4afa0f5b2e1d87b4ba22a31'};
-const reviewed=new Set(['7:1','16:15','16:12']);
+const MAP_SHA={110:'d85fb46a63873b8f86ac10088b7e654e903c96d361813e87c2bc70e27bc46e1c',111:'0e2d67577232e7c89f4aa64367e707813ab629719fd87844f9a92dbdb4a7bb2b',112:'2becb0f6e54a237b67bda8f5dea3abcfd5f021bfe4afa0f5b2e1d87b4ba22a31'};
+const reviewed=new Set(['7:1','16:15','16:12','4:10']);
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const uint=(n,max,label)=>assert.ok(Number.isInteger(n)&&n>=0&&n<=max,label);
 function terrain(raw){return raw>15?(raw===41?6:7):raw>5?2:raw===5?3:raw===4?4:raw===3?5:raw===2?0:raw===1?1:255;}
@@ -24,7 +24,7 @@ export function sourceOriginalWoodRoute(options={}){
  uint(origin,37,'Original origin city0..37');uint(destination,37,'Original destination city0..37');assert.notEqual(origin,destination,'Different origin and destination');
  const links=item(b,59),coordinates=item(b,2,5),mapIds=item(b,2,14),positions=item(b,2,4);assert.deepEqual([links.length,coordinates.length,mapIds.length,positions.length],[608,76,38,180]);
  const neighbors=[...links.subarray(origin*16,origin*16+8)].filter(Boolean).map(v=>v-1);assert.ok(neighbors.includes(destination),'Original AttackCityRoad requires direct first8 ROM adjacency');
- const mapId=110+mapIds[destination];assert.ok(Object.hasOwn(MAP_SHA,mapId),'Only reviewed original WOOD maps110/112; other maps need separate evidence');
+ const mapId=110+mapIds[destination];assert.ok(Object.hasOwn(MAP_SHA,mapId),'Only reviewed original WOOD maps110/112 plus111 for reviewed4to10; other maps need separate evidence');
  assert.ok(reviewed.has(origin+':'+destination),'Only the explicitly reviewed original WOOD routes');
  const nativeWay=[...links.subarray(destination*16,destination*16+8)].indexOf(origin+1);assert.ok(nativeWay>=0&&nativeWay<8,'Original GetDirect(destination,origin) reverse edge');
  const originPosition={x:coordinates[origin*2],y:coordinates[origin*2+1]},destinationPosition={x:coordinates[destination*2],y:coordinates[destination*2+1]},timeCount=Math.abs(originPosition.x-destinationPosition.x)+Math.abs(originPosition.y-destinationPosition.y);

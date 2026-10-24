@@ -477,3 +477,10 @@
 /docs/validation/m5-quantity-cancel-owner-20261024-v47*.md -text whitespace=cr-at-eol
 /docs/validation/m5-quantity-cancel-owner-20261024-v47*.gz -text
 /docs/validation/m5-quantity-cancel-owner-20261024-v47*.png -text
+
+# Current October PC quantity focus evidence and original map111 route contract.
+/docs/validation/m5-quantity-focus-map111-20261024-v48*.json -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-focus-map111-20261024-v48*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-focus-map111-20261024-v48*.md -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-focus-map111-20261024-v48*.gz -text
+/docs/validation/m5-quantity-focus-map111-20261024-v48*.png -text
