@@ -508,3 +508,17 @@
 /docs/validation/m5-wood-city4-plunder-20261024-v51*.gz -text
 /docs/validation/m5-wood-city4-plunder-20261024-v51*.sav -text
 /docs/validation/m5-wood-city4-plunder-20261024-v51*.png -text
+
+# Original city4 March report contract and stopped preflight evidence.
+/docs/validation/m5-wood-city4-march-20261024-v52*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-march-20261024-v52*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-march-20261024-v52*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-march-20261024-v52*.gz -text
+/docs/validation/m5-wood-city4-march-20261024-v52*.sav -text
+/docs/validation/m5-wood-city4-march-20261024-v52*.png -text
+
+# Preserve the exact tested city4 source bytes on Windows checkout.
+/scripts/hd-wood-city4-preparation.mjs text eol=lf
+/scripts/test-hd-wood-city4-preparation.mjs text eol=lf
+/scripts/hd-wood-city4-continuation.mjs text eol=lf
+/scripts/test-hd-wood-city4-continuation.mjs text eol=lf
