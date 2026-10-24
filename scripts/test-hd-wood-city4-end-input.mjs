@@ -36,7 +36,7 @@ function endArgs(){
  return{input:i,ledger,observerExpected,hookFence:copy(before.meta.v32HookFence),endReady:{before,first:copy(final),second:copy(final),final,keys:[key(before,40)]}};
 }
 
-test('Only nine exact public P57 inputs bind the fully saved dispatched world and original false flags',()=>{
+test('Eight exact public P57 files and original LIB bind the fully saved dispatched world and original false flags',()=>{
  const seen=[],i=B.readCity4DispatchedInput(root,{readFile:p=>{seen.push(p);return read(p);}});assert.deepEqual(seen,[...B.OCTOBER_INPUT_PINS,...B.CITY4_HISTORY_INPUT_PINS,B.CITY4_END_LIBRARY_PIN].map(p=>p.path));assert.equal(i.historyProof.phase,'dispatched');assert.equal(i.world.cities[4].Food,6334);assert.deepEqual(i.current.activeOrders,[0,170]);assert.equal(i.publication.observations.originalFlags.wrapperOk,false);assert.equal(i.maximumNewMarches,0);assert.equal(i.maximumNewEnd,1);assert.equal(i.ordinaryEndAccepted,false);assert.equal(seen.some(p=>p.includes('city4-march-actual-v53/')||p.includes('private-browser-profile')),false);
 });
 test('P57 input binder rejects one-byte old pair foreign LIB canonical or archive substitution',()=>{
@@ -71,4 +71,42 @@ test('END rejects same-world SYS pollution in complete snapshot qty record curso
 });
 test('END cannot use the old saved epoch missing hook wrong observer or a future declared tag as resume',()=>{
  const a=endArgs();a.hookFence.observer.present=false;assert.throws(()=>B.verifyCity4EndAdmission(a));const b=endArgs();b.observerExpected.functionSource+=' ';assert.throws(()=>B.verifyCity4EndAdmission(b));const c=endArgs();c.endReady.before=copy(input().historyProof.lastTicket);assert.throws(()=>B.verifyCity4EndAdmission(c));const d=resumed();d.resume.expectedSaveTag=input().historyProof.saveTags.failed;assert.throws(()=>B.verifyCity4DispatchedResume({input:input(),ledger:d}));
+});
+
+
+test('Dispatched history rejects a caller-added unknown field even if every semantic proof still matches',()=>{
+ const i=input(),changed={...i,historyLedger:{...i.historyLedger,futureHistoryOrigin:{controlled:true,partOfOriginalArchive:false}}};assert.throws(()=>B.verifyCity4DispatchedHistory(changed));
+});
+test('Every dispatched admission recomputes eight exact raw origins and preserves original false flags',()=>{
+ const i=input(),before=JSON.stringify(B.stripCity4EndRuntime(i.historyLedger)),p=B.verifyCity4DispatchedOrigin(i);assert.equal(p.originAuthenticated,true);assert.equal(p.sourceOnly,true);assert.equal(p.actualMonthAccepted,false);assert.equal(p.hdAccepted,false);assert.deepEqual(Object.keys(i.originBytes).sort(),['final','ledger','library','publicSave','publication','sav0','sav1','world']);assert.equal(JSON.stringify(B.stripCity4EndRuntime(i.historyLedger)),before);assert.equal(i.publication.observations.originalFlags.wrapperOk,false);
+});
+test('Origin authentication rejects a changed byte in each raw file instead of trusting copied pin metadata',()=>{
+ const i=input();for(const name of Object.keys(i.originBytes)){const raw=Buffer.from(i.originBytes[name]);raw[raw.length-1]^=1;assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,originBytes:{...i.originBytes,[name]:raw}}));}
+});
+test('Raw origin capability requires all exact named byte views and never evaluates caller accessors',()=>{
+ const i=input();for(const name of Object.keys(i.originBytes)){const originBytes={...i.originBytes};delete originBytes[name];assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,originBytes}));}
+ assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,originBytes:{...i.originBytes,unclassified:Buffer.from('x')}}));assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,originBytes:{...i.originBytes,library:new Uint8Array(B.CITY4_END_LIBRARY_PIN.bytes+1)}}));let getters=0;const a={...i.originBytes};Object.defineProperty(a,'ledger',{enumerable:true,get(){getters++;return i.originBytes.ledger;}});assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,originBytes:a}));assert.equal(getters,0);
+});
+test('Full historical provenance rejects deep unknown fields and every runtime LIB substitution',()=>{
+ const i=input(),historyLedger=copy(i.historyLedger),nodes=[];for(let a=historyLedger;a;a=a.resume?.history)nodes.push(a);assert.ok(nodes.length>=4);for(const node of nodes){node.futureOriginField={unpublished:true};assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,historyLedger}));delete node.futureOriginField;const original=node.libBytes,bad=Buffer.from(original);bad[bad.length-1]^=1;node.libBytes=bad;assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,historyLedger}));node.libBytes=original;}
+});
+test('Historical origin guards reject values JSON would erase and getters without executing them',()=>{
+ const i=input();for(const value of [undefined,()=>1,NaN,Infinity,new Date(0),Object.create(null),Object.assign([1],{extra:2}),new Array(2)]){const historyLedger={...i.historyLedger,futureOriginValue:value};assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,historyLedger}));}
+ let getters=0;const h={...i.historyLedger};Object.defineProperty(h,'futureAccessor',{enumerable:true,get(){getters++;return 1;}});assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,historyLedger:h}));assert.equal(getters,0);const hidden={...i.historyLedger};Object.defineProperty(hidden,'unpublishedNonEnumerable',{value:1});assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,historyLedger:hidden}));const symbolic={...i.historyLedger,[Symbol('unpublished')]:1};assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,historyLedger:symbolic}));const cyclic={...i.historyLedger};cyclic.unpublishedCycle=cyclic;assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,historyLedger:cyclic}));
+});
+test('Publication world pair final owner and saved packet each remain fully bound to their own original bytes',()=>{
+ const i=input();for(const field of ['publication','world','pair','finalOwner','publicSavePacket'])assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,[field]:{...i[field],futureUnpublishedField:{kept:true}}}));
+});
+test('Structured clone byte views can reauthenticate original history without caller identity or cached proof',()=>{
+ const i=input(),originBytes=copy(i.originBytes);assert.ok(originBytes.ledger instanceof Uint8Array);const p=B.verifyCity4DispatchedOrigin({...i,originBytes});assert.equal(p.originAuthenticated,true);assert.equal(p.hdAccepted,false);
+});
+test('A fresh resume preserves the authenticated budget and entire original runtime history data',()=>{
+ const i=input(),ledger=resumed(),nativeBudget={...i.nativeBudget,dailyRatio:i.nativeBudget.dailyRatio+1};ledger.nativeBudget=nativeBudget;assert.throws(()=>B.verifyCity4DispatchedResume({input:{...i,nativeBudget},ledger}));
+ for(const change of [h=>Object.defineProperty(h,'unpublishedHidden',{value:1}),h=>{const bad=Buffer.from(h.libBytes);bad[bad.length-1]^=1;h.libBytes=bad;}]){const a=resumed();change(a.resume.history);assert.throws(()=>B.verifyCity4DispatchedResume({input:i,ledger:a}));}
+ let getters=0;const a=resumed();Object.defineProperty(a.resume.history,'unpublishedAccessor',{enumerable:true,get(){getters++;return 1;}});assert.throws(()=>B.verifyCity4DispatchedResume({input:i,ledger:a}));assert.equal(getters,0);const b=resumed();Object.defineProperty(b,'unclassifiedHidden',{value:1});assert.throws(()=>B.verifyCity4DispatchedResume({input:i,ledger:b}));
+ let budgetCalls=0;const fresh=resumed(),budgetValue=fresh.nativeBudget.dailyRatio;Object.defineProperty(fresh.nativeBudget,'dailyRatio',{enumerable:true,get(){budgetCalls++;return budgetValue;}});assert.throws(()=>B.verifyCity4DispatchedResume({input:i,ledger:fresh}));assert.equal(budgetCalls,0);
+ let proofCalls=0;const historyProof={...i.historyProof};Object.defineProperty(historyProof,'phase',{enumerable:true,get(){proofCalls++;return i.historyProof.phase;}});assert.throws(()=>B.verifyCity4DispatchedResume({input:{...i,historyProof},ledger:resumed()}));assert.equal(proofCalls,0);
+ let libCalls=0;const runtimeLib=Buffer.from(i.libBytes);Object.defineProperty(runtimeLib,'valueOf',{get(){libCalls++;return function(){return this;};}});assert.throws(()=>B.verifyCity4DispatchedOrigin({...i,libBytes:runtimeLib}));assert.equal(libCalls,0);const freshLibrary=resumed();Object.defineProperty(freshLibrary.libBytes,'valueOf',{get(){libCalls++;return function(){return this;};}});assert.throws(()=>B.verifyCity4DispatchedResume({input:i,ledger:freshLibrary}));assert.equal(libCalls,0);
+ let endCalls=0;const end=endArgs();Object.defineProperty(end.endReady.final.state.qty,'futureAccessor',{enumerable:true,get(){endCalls++;return 1;}});assert.throws(()=>B.verifyCity4EndAdmission(end));assert.equal(endCalls,0);
+
 });

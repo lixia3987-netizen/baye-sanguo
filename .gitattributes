@@ -582,3 +582,11 @@
 /docs/validation/m5-city4-conditional-end-source-20261024-v58*.gz -text
 /docs/validation/m5-city4-conditional-end-source-20261024-v58*.sav -text
 /docs/validation/m5-city4-conditional-end-source-20261024-v58*.png -text
+
+# Complete original city4 history byte authentication.
+/docs/validation/m5-city4-history-origin-20261024-v59*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city4-history-origin-20261024-v59*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city4-history-origin-20261024-v59*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city4-history-origin-20261024-v59*.gz -text
+/docs/validation/m5-city4-history-origin-20261024-v59*.sav -text
+/docs/validation/m5-city4-history-origin-20261024-v59*.png -text
