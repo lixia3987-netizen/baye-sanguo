@@ -1285,7 +1285,29 @@
 
     function cancelQtyDialog() {
         if (global.BayeHdCityMenu && typeof BayeHdCityMenu.cancelQty === 'function') {
+            var canceledOwner = null;
+            try {
+                var data = !mobileHost && state.open && state.kind === 'qty' ? engineData() : null;
+                var quantity = data && readStandaloneQty();
+                if (data && data === engineData() && state.open && state.kind === 'qty' &&
+                    quantity && quantity.protocol === true && quantity.active === 1 &&
+                    Number(quantity.session) === state.qtySession) {
+                    canceledOwner = { data: data, viewEpoch: state.viewEpoch,
+                        protocol: true, active: 1, session: Number(quantity.session) };
+                }
+            } catch (e) {}
             BayeHdCityMenu.cancelQty();
+            // Retire this presentation once the delegated owner closes input.
+            // The native-closed keyboard guard still protects an in-flight EXIT.
+            try {
+                var current = canceledOwner && readStandaloneQty();
+                if (canceledOwner && canceledOwner.data === engineData() &&
+                    canceledOwner.viewEpoch === state.viewEpoch && state.open && state.kind === 'qty' &&
+                    canceledOwner.session === state.qtySession && current && current.protocol === true &&
+                    Number(current.session) === canceledOwner.session && bayeQtyNativeClosed(canceledOwner)) {
+                    closeQtyDialog();
+                }
+            } catch (e) {}
             return;
         }
         if (!state.open || state.kind !== 'qty' || state.qtyInputClosed) { return; }

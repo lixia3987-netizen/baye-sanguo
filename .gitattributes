@@ -470,3 +470,10 @@
 /docs/validation/m5-city-quantity-rapid-20261024-v46*.md -text whitespace=cr-at-eol
 /docs/validation/m5-city-quantity-rapid-20261024-v46*.gz -text
 /docs/validation/m5-city-quantity-rapid-20261024-v46*.png -text
+
+# Current October quantity cancellation retirement and keyboard owner evidence.
+/docs/validation/m5-quantity-cancel-owner-20261024-v47*.json -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-cancel-owner-20261024-v47*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-cancel-owner-20261024-v47*.md -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-cancel-owner-20261024-v47*.gz -text
+/docs/validation/m5-quantity-cancel-owner-20261024-v47*.png -text

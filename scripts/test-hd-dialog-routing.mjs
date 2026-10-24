@@ -1528,3 +1528,96 @@ test('City quantity summary ACK contains getter and text exceptions without bloc
     assert.equal(h.summary.strong.textContent, '177'); assert.match(h.dom().body, /当前 176（1–177）/);
     assert.equal(h.dom().range, '最小 1 · 最大 177 · 当前 176'); assert.deepEqual(h.sent, [35]); assert.deepEqual(h.writes, []);
 });
+
+// Dedicated fixture only: bind actual City keyboard handlers without changing the old base harness.
+// The existing quantity DOM is preseeded; C EXIT/menu/session publication is explicit fixture data.
+function cancelOwnerHarness() {
+    const h = quantityDomHarness(), scheduled = [], set = h.context.setTimeout, clear = h.context.clearTimeout;
+    h.context.setTimeout = (fn, delay = 0) => { const row = { fn, delay, active: true }; row.id = set(fn, delay); scheduled.push(row); return row.id; };
+    h.context.clearTimeout = id => { const row = scheduled.find(r => r.id === id); if (row) row.active = false; clear(id); };
+    h.runCancelTimer = delay => { const row = scheduled.find(r => r.active && r.delay === delay); assert.ok(row, 'Actual original timer delay ' + delay); h.context.clearTimeout(row.id); row.fn(); };
+    h.cancelTimers = () => scheduled.filter(r => r.active).map(r => r.delay);
+    h.context.BayeHdCityMenu.start();
+    Object.assign(h.march, { mapCity: 21, mapInputSeq: 19 });
+    Object.assign(h.menu, { active: 0, context: 1, kind: 5, seq: 103, index: 0, count: 2, names: ['买入', '卖出'], ids: [], idsValid: false });
+    h.publishCancelPicker = () => {
+        assert.equal(h.publish(), 40, 'Consume the actually dispatched quantity EXIT');
+        Object.assign(h.qty, { active: 0, ready: 0 });
+        Object.assign(h.menu, { active: 1, context: 1, kind: 3, seq: 105, index: 0, count: 2, names: ['王粲', '当前闲将'], ids: [50, 44], idsValid: true, detailGeneration: 9 });
+        h.data.g_asyncActionID = 1; h.writes.length = 0;
+    };
+    h.cancelKey = () => { const event = h.key(27, { repeat: false }); assert.equal(event.defaultPrevented, true); assert.deepEqual(h.sent, [40]); return event; };
+    h.writes.length = 0;
+    return h;
+}
+
+test('quantity cancel owner retires its current presentation immediately while active closed keys stay protected', () => {
+    const h = cancelOwnerHarness(), d = h.context.BayeHdDialog;
+    assert.equal(d.isQtyOpen(), true); h.cancelKey();
+    assert.equal(d.isQtyOpen(), false, 'The canceled current quantity presentation must retire without waiting for its timer');
+    assert.equal(h.qty.active, 1); assert.equal(h.context.bayeQtyNativeClosed(h.qty), true);
+    h.key(27, { repeat: false }); h.key(27, { repeat: true });
+    assert.deepEqual(h.sent, [40]); assert.equal(h.cancelTimers().includes(80), true); assert.deepEqual(h.writes, []);
+});
+
+test('quantity cancel owner gives a fresh post-ACK Escape to the actual new City picker before the old timer', () => {
+    const h = cancelOwnerHarness(); h.cancelKey(); h.publishCancelPicker();
+    h.key(27, { repeat: false });
+    assert.equal(h.context.__cityState.layer, 'sub', 'The new picker Escape must reach the actual City back path, not the old modal');
+    h.runCancelTimer(0);
+    assert.deepEqual(h.sent, [40, 40]); assert.equal(h.context.BayeHdDialog.isQtyOpen(), false); assert.deepEqual(h.writes, []);
+    assert.equal(h.cancelTimers().includes(80), true, 'No product timer is shortened to manufacture ownership transfer');
+});
+
+test('quantity cancel owner does not retire a quantity when its delegated input was not closed', () => {
+    const h = cancelOwnerHarness(), d = h.context.BayeHdDialog; let calls = 0;
+    h.context.BayeHdCityMenu.cancelQty = () => { calls++; };
+    h.key(27, { repeat: false });
+    assert.equal(calls, 1); assert.equal(d.isQtyOpen(), true); assert.equal(h.context.bayeQtyNativeClosed(h.qty), false);
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});
+
+test('quantity cancel owner cannot close replaced data views or a newly published quantity session', () => {
+    for (const reason of ['data', 'view', 'session']) {
+        const h = cancelOwnerHarness(), d = h.context.BayeHdDialog, original = h.context.BayeHdCityMenu.cancelQty, epoch = h.snapshot().viewEpoch; let calls = 0;
+        h.context.BayeHdCityMenu.cancelQty = function () {
+            calls++;
+            if (reason === 'view') assert.equal(d.openQty({ min: 1, max: 177, init: 177, body: '新的数量视图' }), true);
+            const result = original.apply(this, arguments);
+            if (reason === 'data') { const replacement = { ...h.data }; h.context.baye.data = replacement; h.context.baye.ensureData = () => replacement; }
+            if (reason === 'session') Object.assign(h.qty, { session: 8, active: 1, ready: 1, inputSeq: 0, lastKey: 65535 });
+            return result;
+        };
+        h.key(27, { repeat: false });
+        assert.equal(calls, 1, reason); assert.deepEqual(h.sent, [40], reason); assert.equal(d.isQtyOpen(), true, reason); assert.deepEqual(h.writes, [], reason);
+        if (reason === 'view') assert.ok(h.snapshot().viewEpoch > epoch);
+        if (reason === 'session') assert.equal(h.qty.session, 8);
+    }
+});
+
+test('quantity cancel owner isolates new UI reads but preserves the original delegate call and throw', () => {
+    for (const reason of ['capture-read', 'after-read', 'close-ui']) {
+        const h = cancelOwnerHarness(), original = h.context.BayeHdCityMenu.cancelQty, realQty = h.context.baye.hd.qty; let calls = 0, after = false, reads = 0;
+        if (reason === 'capture-read') h.context.baye.ensureData = () => { if (++reads === 1) throw Error('controlled owner capture read'); return h.context.baye.data; };
+        if (reason === 'after-read') h.context.baye.hd.qty = () => { if (after) throw Error('controlled post-delegate qty read'); return realQty(); };
+        if (reason === 'close-ui') { const set = h.context.document.documentElement.setAttribute; h.context.document.documentElement.setAttribute = function () { if (after) throw Error('controlled retirement UI'); return set.apply(this, arguments); }; }
+        h.context.BayeHdCityMenu.cancelQty = function () { calls++; const result = original.apply(this, arguments); after = true; return result; };
+        assert.doesNotThrow(() => h.key(27, { repeat: false }), reason);
+        assert.equal(calls, 1, reason); assert.deepEqual(h.sent, [40], reason); assert.deepEqual(h.writes, [], reason);
+    }
+    const h = cancelOwnerHarness(), sentinel = Error('original delegate failure'); let calls = 0;
+    h.context.BayeHdCityMenu.cancelQty = () => { calls++; throw sentinel; };
+    assert.throws(() => h.key(27, { repeat: false }), error => error === sentinel);
+    assert.equal(calls, 1); assert.equal(h.context.BayeHdDialog.isQtyOpen(), true); assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});
+
+test('quantity cancel owner leaves the later native session open across the original timer and ordinary poll', () => {
+    const h = cancelOwnerHarness(), d = h.context.BayeHdDialog; h.cancelKey(); h.publishCancelPicker();
+    Object.assign(h.qty, { session: 8, active: 1, ready: 1, inputSeq: 0, lastKey: 65535 });
+    Object.assign(h.menu, { active: 0, kind: 5, seq: 109 });
+    assert.equal(h.context.BayeHdCityMenu.isQtyLive(), true, 'Adopt the actual fresh native session through the normal owner synchronizer');
+    assert.equal(d.openQty({ min: 1, max: 177, init: 177 }), true);
+    const epoch = h.snapshot().viewEpoch; h.runCancelTimer(80); d.poll();
+    assert.equal(d.isQtyOpen(), true); assert.equal(h.snapshot().viewEpoch, epoch); assert.equal(h.qty.session, 8);
+    assert.deepEqual(h.sent, [40]); assert.deepEqual(h.writes, []);
+});
