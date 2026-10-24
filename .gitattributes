@@ -500,3 +500,11 @@
 /docs/validation/m5-wood-city4-resume-20261024-v50*.gz -text
 /docs/validation/m5-wood-city4-resume-20261024-v50*.sav -text
 /docs/validation/m5-wood-city4-resume-20261024-v50*.png -text
+
+# Original city20 Plunder preparation and saved queued prefix.
+/docs/validation/m5-wood-city4-plunder-20261024-v51*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-plunder-20261024-v51*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-plunder-20261024-v51*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-plunder-20261024-v51*.gz -text
+/docs/validation/m5-wood-city4-plunder-20261024-v51*.sav -text
+/docs/validation/m5-wood-city4-plunder-20261024-v51*.png -text

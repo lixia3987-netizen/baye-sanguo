@@ -144,3 +144,41 @@ test('HD-map repeated person picker follows sampled classic-menu phase and rejec
   assert.throws(()=>M.verifyCity4PreparationLedger(a),/Repeated person picker phase matches the measured public presentation mode/);
  }
 });
+
+
+// Source-derived Plunder44 report: STRING_CONST64/P_SAY_STR27(148), native index147.
+// report_end retires active/inputSeq, retaining person44/kind2/text; SAVE then writes MSGBOX/ffff.
+function retiredPlunderSaveFixture(seq=9){
+ const a=createCity4Fixture({march:false}),r=a.plunder,text=new TextDecoder('gbk',{fatal:true}).decode(libItem(64,147));
+ assert.equal(libItem(64,147).toString('hex'),'ced2cbe4b2bbd4b8c8e7b4cba3acb5abd2b2cac7b2bbb5c3d2d1a1a3');
+ const initial=copy(r.selection.beforeEnter.state.snapshot.report),inputSeq=((initial.inputSeq+1)>>>0)||1;
+ Object.assign(r.duringTicket.state.snapshot.report,{text,seq,kind:2,person:44,active:1,inputSeq});
+ const retired={...r.duringTicket.state.snapshot.report,active:0,inputSeq:((inputSeq+1)>>>0)||1};
+ r.afterTicket.state.snapshot.report=copy(retired);
+ for(const k of['before','beforeChoice','beforeRecord'])r.publicSave[k].state.snapshot.report=copy(retired);
+ r.publicSave.after.state.snapshot.report={...retired,text:'存储中...',seq:((seq+1)&65535)||1,kind:1,person:65535,active:0};
+ return a;
+}
+function verifyPlunderSaveFixture(a){const r=a.plunder;return M.verifyCity4PublicSave({publicSave:r.publicSave,publicPair:r.publicPair,publicKeys:r.publicKeys,world:r.afterTicket.world,expectedSaveTag:a.saveTags.plunder,libBytes,nativeBudget});}
+test('Retired original Plunder44 report changes to the no-person saving note without a SAVE report ACK',()=>{
+ for(const seq of[9,65535]){
+  const a=retiredPlunderSaveFixture(seq),r=a.plunder,p=verifyPlunderSaveFixture(a),ledger=M.verifyCity4PreparationLedger(a);
+  assert.equal(p.wholePackedAndPublicOwnerMeasured,true);assert.equal(ledger.phase,'plunder');assert.deepEqual(ledger.nextAction,{kind:'March',origin:4,destination:10,cargo:451,orderIndex:170});
+  assert.deepEqual([r.publicSave.before.state.snapshot.report.person,r.publicSave.after.state.snapshot.report.person],[44,65535]);
+  assert.equal(r.publicSave.after.state.snapshot.report.inputSeq,r.publicSave.before.state.snapshot.report.inputSeq);
+  assert.equal(r.publicSave.after.state.snapshot.report.seq,seq===65535?1:seq+1);
+  assert.deepEqual(r.publicSave.after.state.snapshot.report.futureReport,r.publicSave.before.state.snapshot.report.futureReport);noActual(p);noActual(ledger);
+ }
+});
+test('Only the exact retired original Plunder44 person kind and LIB text can enter the saving transition',()=>{
+ for(const change of[r=>r.person=43,r=>r.kind=1,r=>r.text='我虽不愿如此，但也是不得已',r=>r.active=1]){
+  const a=retiredPlunderSaveFixture();for(const k of['before','beforeChoice','beforeRecord'])change(a.plunder.publicSave[k].state.snapshot.report);
+  assert.throws(()=>verifyPlunderSaveFixture(a),/Only original retired Plunder44 report/);
+ }
+});
+test('Plunder saving transition preserves report input unknown fields sequence and every unrelated native snapshot',()=>{
+ for(const change of[s=>s.after.state.snapshot.report.inputSeq++,s=>s.after.state.snapshot.report.person=44,s=>s.after.state.snapshot.report.seq++,s=>s.after.state.snapshot.report.futureReport.keep++,s=>s.after.state.snapshot.report.futureUnknown=1,s=>s.beforeRecord.state.snapshot.report.seq++,s=>s.after.state.snapshot.units[19].position.hp++,s=>s.after.state.snapshot.report.active=1]){
+  const a=retiredPlunderSaveFixture();change(a.plunder.publicSave);
+  assert.throws(()=>verifyPlunderSaveFixture(a),/Entire native SAVE snapshot changes only the exact retired saving note|competing native owners/);
+ }
+});
