@@ -484,3 +484,11 @@
 /docs/validation/m5-quantity-focus-map111-20261024-v48*.md -text whitespace=cr-at-eol
 /docs/validation/m5-quantity-focus-map111-20261024-v48*.gz -text
 /docs/validation/m5-quantity-focus-map111-20261024-v48*.png -text
+
+# Original city4 guard repair, supply and conditional map111 continuation.
+/docs/validation/m5-wood-city4-preparation-20261024-v49*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-preparation-20261024-v49*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-preparation-20261024-v49*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-preparation-20261024-v49*.gz -text
+/docs/validation/m5-wood-city4-preparation-20261024-v49*.png -text
+/docs/validation/m5-wood-city4-preparation-20261024-v49*.sav -text
