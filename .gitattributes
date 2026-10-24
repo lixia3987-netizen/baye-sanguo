@@ -530,3 +530,17 @@
 /docs/validation/m5-wood-city4-march-20261024-v53*.gz -text
 /docs/validation/m5-wood-city4-march-20261024-v53*.sav -text
 /docs/validation/m5-wood-city4-march-20261024-v53*.png -text
+
+# Keep executed system-menu sources byte-stable across Windows checkouts.
+/m.html text eol=lf
+/css/hd-system-ui.css text eol=lf
+/js/hd-system-ui.js text eol=lf
+/scripts/test-hd-saveload-ui.mjs text eol=lf
+
+# Original PC system UI viewport layout and stable list scrolling.
+/docs/validation/m5-pc-system-layout-20261024-v54*.json -text whitespace=cr-at-eol
+/docs/validation/m5-pc-system-layout-20261024-v54*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-pc-system-layout-20261024-v54*.md -text whitespace=cr-at-eol
+/docs/validation/m5-pc-system-layout-20261024-v54*.gz -text
+/docs/validation/m5-pc-system-layout-20261024-v54*.sav -text
+/docs/validation/m5-pc-system-layout-20261024-v54*.png -text

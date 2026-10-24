@@ -8,6 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var MOBILE_STORAGE_KEY = 'baye/mobileSystemUiMode';
     var mobileHost = null, mobileMode = 'hd', mobileListSignature = '', mobileListData = null;
+    var pcListCache = null;
     var mobileListTrace = {attempts: 0, cacheHits: 0, rebuilds: 0, last: null, rebuildHistory: []};
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     var TITLE = ['新君登基', '重返沙场', '制作群组', '解甲归田'];
@@ -420,6 +421,7 @@
     }
 
     function invalidateInput() {
+        pcListCache = null;
         state.requestEpoch += 1;
         state.request = null;
         state.queue = [];
@@ -843,11 +845,53 @@
         return JSON.parse(JSON.stringify(mobileListTrace));
     }
 
+    function pcListSnapshot(list, items, initialData) {
+        if (!items.length || !initialData || typeof initialData !== 'object') { return null; }
+        var data = engineData(), owner = inputOwner();
+        if (data !== initialData || !owner || owner.screen !== state.screen || engineData() !== data) { return null; }
+        return { data: data, list: list, count: items.length, signature: JSON.stringify([
+            state.screen, state.recordMode, ownerToken(owner), owner.type, owner.count, owner.index,
+            owner.names || [], state.idleIndex, items, !!state.request, state.confirmedToken,
+            state.exitedToken, state.retiredToken, state.kingProtocolObserved,
+            state.saves.map(function (s) { return [!!s.canLoad, s.error]; })
+        ]) };
+    }
+
+    function pcListMatches(snapshot) {
+        var cache = pcListCache;
+        if (!cache || cache.data !== snapshot.data || cache.list !== snapshot.list ||
+            cache.signature !== snapshot.signature || snapshot.list.children.length !== cache.nodes.length) { return false; }
+        for (var i = 0; i < cache.nodes.length; i++) {
+            var row = cache.nodes[i], node = snapshot.list.children[i];
+            if (node !== row.node || node.parentNode !== snapshot.list || node.tagName !== 'BUTTON' ||
+                node.type !== 'button' || node.className !== row.className || node.textContent !== row.text ||
+                node.disabled !== row.disabled || (node.title || '') !== row.title ||
+                node.getAttribute('data-hd-sys') !== row.index ||
+                node.getAttribute('data-hd-sys-owner') !== row.owner) { return false; }
+        }
+        return true;
+    }
+
+    function rememberPcList(snapshot) {
+        if (snapshot.list.children.length !== snapshot.count) { return; }
+        var nodes = [];
+        for (var i = 0; i < snapshot.count; i++) {
+            var node = snapshot.list.children[i];
+            if (node.parentNode !== snapshot.list || node.tagName !== 'BUTTON' || node.type !== 'button') { return; }
+            nodes.push({ node: node, className: node.className, text: node.textContent, disabled: node.disabled,
+                title: node.title || '', index: node.getAttribute('data-hd-sys'),
+                owner: node.getAttribute('data-hd-sys-owner') });
+        }
+        pcListCache = { data: snapshot.data, list: snapshot.list, signature: snapshot.signature, nodes: nodes };
+    }
+
     function fillList(source) {
         var list = el('hd-system-ui-list');
         if (!list) {
+            pcListCache = null;
             return;
         }
+        var initialPcData = isMobilePage() ? null : engineData();
         var initialMobileTicket = isMobilePage() ? mobileTicket() : null;
         var items = currentItems();
         if (isMobilePage()) {
@@ -869,6 +913,11 @@
             mobileListSignature = signature;
             mobileListData = initialMobileTicket.data;
         }
+        // PC cache hits preserve the actual buttons and the player's scroll.
+        // Mobile ownership, signatures and tracing remain on their own path.
+        var pcSnapshot = !isMobilePage() ? pcListSnapshot(list, items, initialPcData) : null;
+        if (pcSnapshot && pcListMatches(pcSnapshot)) { return; }
+        pcListCache = null;
         list.innerHTML = '';
         var i;
         if (!items.length) {
@@ -903,6 +952,12 @@
             }
             btn.textContent = items[i];
             list.appendChild(btn);
+        }
+        if (pcSnapshot) {
+            var completedPcSnapshot = pcListSnapshot(list, items, initialPcData);
+            if (completedPcSnapshot && completedPcSnapshot.signature === pcSnapshot.signature) {
+                rememberPcList(completedPcSnapshot);
+            }
         }
         var idle = list.querySelector('.hd-system-ui-item.is-idle');
         if (idle && idle.scrollIntoView && !isMobilePage()) {

@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
 const VK = { UP: 0x22, DOWN: 0x23, ENTER: 0x27, EXIT: 0x28 };
-const source = readFileSync(new URL('../js/hd-system-ui.js', import.meta.url), 'utf8');
+const source = readFileSync(process.env.BAYE_SYSTEM_UI_SOURCE || new URL('../js/hd-system-ui.js', import.meta.url), 'utf8');
 const storageSource = readFileSync(new URL('../js/save-storage.js', import.meta.url), 'utf8');
 const bridge = readFileSync(new URL('../js/bridge.js', import.meta.url), 'utf8');
 
@@ -11,10 +11,12 @@ const bridge = readFileSync(new URL('../js/bridge.js', import.meta.url), 'utf8')
 // Native selector fields change only when the simulated engine acknowledges a
 // key; the module cannot advance them or modify the campaign data.
 function harness({ mode = 2, status = {}, native = 'record', acknowledge = true, kingCount = 4 } = {}) {
+    let scrollCalls = 0;
     class Node {
         constructor(tag = 'div') {
             this.tagName = tag.toUpperCase(); this.className = ''; this.attributes = {};
             this.children = []; this.listeners = new Map(); this.textContent = ''; this.disabled = false;
+            this.scrollTop = 0;
             this.classList = {
                 contains: value => this.className.split(/\s+/).includes(value),
                 add: value => { if (!this.classList.contains(value)) this.className += ' ' + value; },
@@ -25,7 +27,10 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
                 }
             };
         }
-        set innerHTML(value) { this.children = []; this.html = value; }
+        set innerHTML(value) {
+            this.children.forEach(child => { child.parentNode = null; child.parentElement = null; });
+            this.children = []; this.html = value; this.scrollTop = 0;
+        }
         get innerHTML() { return this.html || ''; }
         setAttribute(key, value) { this.attributes[key] = String(value); }
         getAttribute(key) { return this.attributes[key] ?? null; }
@@ -33,11 +38,11 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
         querySelector(selector) { return this.children.find(n => selector.split('.').slice(1).every(c => n.classList.contains(c))) || null; }
         querySelectorAll() { return []; }
         addEventListener(type, listener) { this.listeners.set(type, listener); }
-        scrollIntoView() {}
+        scrollIntoView() { scrollCalls++; }
     }
     const ids = new Map(['hd-system-ui', 'hd-system-ui-list', 'hd-system-ui-title',
         'hd-system-ui-sub', 'hd-system-ui-probe'].map(id => [id, new Node()]));
-    const root = ids.get('hd-system-ui'), list = ids.get('hd-system-ui-list'); root.appendChild(list);
+    const root = ids.get('hd-system-ui'); let list = ids.get('hd-system-ui-list'); root.appendChild(list);
     const body = new Node('body'), html = new Node('html'), documentListeners = new Map();
     const document = { body, documentElement: html, getElementById: id => ids.get(id) || null,
         createElement: tag => new Node(tag), addEventListener: (type, fn) => documentListeners.set(type, fn) };
@@ -59,6 +64,7 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
     const data = { g_PlayerKing: native === 'title' ? 0 : 12,
         g_Cities: [{ Belong: native === 'title' ? 0 : 13 }], g_Persons: [], g_hdFightActive: 0, g_hdFightOver: 0 };
     const worldBefore = JSON.stringify(data);
+    let liveData = data;
     const fight = { active: 0, over: 0 };
     const march = { pick: 0, battlePick: 0, phase: 0 };
     const context = vm.createContext({ document, localStorage: storage, console: { log() {}, warn() {} },
@@ -81,7 +87,7 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
             }
             afterKey?.(key);
         },
-        baye: { data, ensureData: () => data, getPersonNameByID: id => id === 13 ? '曹操' : '',
+        baye: { data, ensureData: () => liveData, getPersonNameByID: id => id === 13 ? '曹操' : '',
             hd: { ready: () => true, record: () => record, menuItems: () => menu,
                 fight: () => fight, kings: () => kings, march: () => march, reportText: () => '' } }
     });
@@ -103,7 +109,16 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
     function click(slot, target = button(slot)) { assert.ok(target, 'rendered slot exists'); root.listeners.get('click')(event(target)); }
     function refresh() { api.onEngineHook('onMenuIdle', { index: record.active ? record.index : menu.index }); }
     api.start(); tick(350);
-    return { api, record, menu, kings, slots, data, storage, context, root, list, ids, sent, timers, fight, march,
+    return { api, record, menu, kings, slots, data, storage, context, root, get list() { return list; }, ids, sent, timers, fight, march,
+        get scrollCalls() { return scrollCalls; }, node(tag) { return new Node(tag); },
+        rebindData(next) { liveData = next; context.baye.data = next; },
+        replaceList() {
+            const previous = list, replacement = new Node();
+            root.children[root.children.indexOf(previous)] = replacement;
+            previous.parentNode = null; previous.parentElement = null;
+            replacement.parentNode = root; replacement.parentElement = root;
+            list = replacement; ids.set('hd-system-ui-list', replacement); return previous;
+        },
         click, button, refresh, tick, setAfterKey(fn) { afterKey = fn; },
         poll() { intervals.forEach(fn => fn()); },
         pointer(slot) { root.listeners.get('pointerdown')(event(button(slot))); },
@@ -494,6 +509,115 @@ test('system mode changes immediately retire the SPE pointer presentation withou
     h.context.BayeHdSpe = { blit() { modes.push(h.storage['baye/systemUiMode']); } };
     h.api.setMode('classic'); h.api.setMode('hd');
     assert.deepEqual(modes, ['classic', 'hd']); assert.deepEqual(h.sent, []); h.assertWorldUnchanged();
+});
+
+test('PC stable lists retain actual row identities and user scroll across hooks and polls', () => {
+    for (const options of [{ native: 'king', kingCount: 18 }, { mode: 1 }]) {
+        const h = harness(options), rows = [...h.list.children], calls = h.scrollCalls;
+        h.list.scrollTop = 231;
+        h.poll(); h.refresh(); h.poll();
+        rows.forEach((row, index) => assert.equal(h.list.children[index], row, 'stable rows are not recreated'));
+        assert.equal(h.list.scrollTop, 231); assert.equal(h.scrollCalls, calls, 'stable polls do not re-scroll the native cursor');
+        assert.deepEqual(h.sent, []); h.assertWorldUnchanged();
+    }
+});
+
+test('PC list ownership, cursor, count, native names and screen changes invalidate stable rows', () => {
+    const mutations = [h => { h.menu.index = 1; }, h => { h.menu.seq++; },
+        h => { h.menu.count = 3; }, h => { h.menu.names = ['new native names']; },
+        h => { h.menu.kind = 2; }];
+    for (const mutate of mutations) {
+        const h = harness({ native: 'title' }), previous = h.button(0);
+        mutate(h); h.refresh(); assert.notEqual(h.button(0), previous);
+        assert.equal(h.button(h.menu.index).classList.contains('is-idle'), true);
+        const current = h.button(0); h.poll(); assert.equal(h.button(0), current);
+        assert.deepEqual(h.sent, []); h.assertWorldUnchanged();
+    }
+    const h = harness({ native: 'king' }), old = h.button(0);
+    h.kings.kings[0].name = '新的君主名称'; h.refresh();
+    assert.notEqual(h.button(0), old); assert.equal(h.button(0).textContent, '新的君主名称');
+    assert.deepEqual(h.sent, []); h.assertWorldUnchanged();
+});
+
+test('PC cached rows still follow pending, confirmed, retired and stale-pointer input fences', () => {
+    const h = harness({ mode: 1, acknowledge: false }), original = h.button(0);
+    h.click(2); assert.deepEqual(h.sent, [VK.DOWN]); assert.notEqual(h.button(0), original);
+    assert.ok(h.list.children.every(row => row.disabled));
+    const pending = h.button(0); h.list.scrollTop = 39; h.poll();
+    assert.equal(h.button(0), pending); assert.equal(h.list.scrollTop, 39);
+    h.record.index = 1; h.tick(40); h.record.index = 2; h.tick(40);
+    assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN, VK.ENTER]); assert.notEqual(h.button(0), pending);
+    assert.ok(h.list.children.every(row => row.disabled));
+    const confirmed = h.button(0); h.poll(); h.click(2); assert.equal(h.button(0), confirmed);
+    assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN, VK.ENTER]); h.assertWorldUnchanged();
+    const stalled = harness({ mode: 1, acknowledge: false }); stalled.click(2); stalled.tick(5080);
+    assert.equal(stalled.api.debugSnapshot().pending, false); assert.ok(stalled.list.children.every(row => row.disabled));
+    const retired = stalled.button(0); stalled.poll(); assert.equal(stalled.button(0), retired);
+    stalled.record.seq++; stalled.refresh(); assert.notEqual(stalled.button(0), retired);
+    assert.ok(stalled.list.children.every(row => !row.disabled)); assert.deepEqual(stalled.sent, [VK.DOWN]);
+    const stale = harness({ mode: 1 }); stale.pointer(0); const oldButton = stale.button(0);
+    stale.record.seq++; stale.refresh(); stale.click(0, oldButton); stale.tick(); assert.deepEqual(stale.sent, []);
+    stale.click(0); assert.deepEqual(stale.sent, [VK.ENTER]); stale.assertWorldUnchanged(); stalled.assertWorldUnchanged();
+});
+
+test('PC cached save rows refresh availability, error titles and labels and still recheck storage on click', () => {
+    const h = harness(), empty = h.button(0);
+    h.slots[0].error = '原生存档不可读取'; h.refresh();
+    assert.notEqual(h.button(0), empty); assert.equal(h.button(0).title, '原生存档不可读取');
+    Object.assign(h.slots[0], { status: 'ready', canLoad: true, error: '', king: 12, year: 189 }); h.refresh();
+    const available = h.button(0); assert.equal(available.disabled, false); assert.match(available.textContent, /曹操.*189/);
+    h.slots[0].year = 190; h.refresh(); assert.notEqual(h.button(0), available); assert.match(h.button(0).textContent, /190/);
+    const current = h.button(0); h.poll(); assert.equal(h.button(0), current);
+    h.slots[0].canLoad = false; h.slots[0].error = '存档已被移除'; h.click(0, current); h.tick();
+    assert.equal(h.button(0).disabled, true); assert.equal(h.button(0).title, '存档已被移除');
+    assert.deepEqual(h.sent, []); h.assertWorldUnchanged();
+});
+
+test('PC cache rejects same-value data rebinding, replaced containers, damaged rows and interrupted creation', () => {
+    const h = harness({ native: 'king', kingCount: 18 }), first = h.button(0);
+    const replacementData = JSON.parse(JSON.stringify(h.data)), replacementWorld = JSON.stringify(replacementData);
+    h.rebindData(replacementData); h.refresh(); assert.notEqual(h.button(0), first);
+    const rebound = h.button(0); h.poll(); assert.equal(h.button(0), rebound);
+    h.replaceList(); h.refresh(); assert.notEqual(h.button(0), rebound); const newContainerRow = h.button(0);
+    h.poll(); assert.equal(h.button(0), newContainerRow);
+    const previous = h.button(0), impostor = h.node('button');
+    Object.assign(impostor, { type: 'button', className: previous.className, textContent: previous.textContent,
+        disabled: previous.disabled, title: previous.title, parentNode: h.list, parentElement: h.list });
+    for (const key of ['data-hd-sys', 'data-hd-sys-owner']) impostor.setAttribute(key, previous.getAttribute(key));
+    h.list.children[0] = impostor; previous.parentNode = null; h.refresh();
+    assert.notEqual(h.button(0), impostor, 'same-count foreign node is never a cache hit');
+    for (const damage of [row => { row.textContent = '损坏'; }, row => { row.disabled = true; },
+        row => { row.title = '意外标题'; }, row => { row.setAttribute('data-hd-sys-owner', 'stale'); },
+        row => { row.className = ''; }, row => { row.parentNode = null; }]) {
+        const row = h.button(0); damage(row); h.refresh(); assert.notEqual(h.button(0), row);
+    }
+    h.list.children.pop(); h.refresh(); assert.equal(h.list.children.length, 18);
+    const create = h.context.document.createElement; let creations = 0;
+    h.context.document.createElement = tag => { if (++creations === 2) throw new Error('controlled DOM creation failure'); return create(tag); };
+    h.menu.index = 1; assert.throws(() => h.refresh(), /controlled DOM creation failure/);
+    h.context.document.createElement = create; h.menu.index = 0; h.refresh();
+    assert.equal(h.list.children.length, 18); const restored = h.button(0); h.poll(); assert.equal(h.button(0), restored);
+    assert.equal(JSON.stringify(replacementData), replacementWorld); assert.deepEqual(h.sent, []); h.assertWorldUnchanged();
+});
+
+test('PC closing, mode changes and retirement invalidate cache while ownerless and empty lists stay uncached', () => {
+    const h = harness({ mode: 1 });
+    for (const retire of [() => h.api.close({ silent: true }), () => h.api.retireInteraction('controlled-test'),
+        () => { h.api.setMode('classic'); h.api.setMode('hd'); }]) {
+        const previous = h.button(0); retire(); h.refresh(); assert.notEqual(h.button(0), previous);
+        const fresh = h.button(0); h.poll(); assert.equal(h.button(0), fresh);
+    }
+    h.back(); assert.deepEqual(h.sent, [VK.EXIT]); assert.ok(h.list.children.every(row => row.disabled));
+    const exited = h.button(0); h.poll(); h.back(); assert.equal(h.button(0), exited); assert.deepEqual(h.sent, [VK.EXIT]);
+    const missingData = harness({ native: 'title' }); missingData.context.baye.ensureData = () => null;
+    missingData.refresh(); const noDataRow = missingData.button(0); missingData.poll(); assert.notEqual(missingData.button(0), noDataRow);
+    const legacy = harness({ native: 'none' }); legacy.data.g_PlayerKing = 0; legacy.refresh();
+    assert.equal(legacy.api.debugSnapshot().input, null); const legacyRow = legacy.button(0);
+    legacy.poll(); assert.notEqual(legacy.button(0), legacyRow); assert.deepEqual(legacy.sent, []);
+    const empty = harness({ native: 'function' }); Object.assign(empty.menu, { kind: 2, count: 2, names: [] }); empty.refresh();
+    assert.equal(empty.api.getScreen(), 'insystem-confirm'); assert.equal(empty.list.children[0].className, 'hd-system-ui-empty');
+    const emptyRow = empty.list.children[0]; empty.poll(); assert.notEqual(empty.list.children[0], emptyRow);
+    assert.deepEqual(empty.sent, []); h.assertWorldUnchanged(); missingData.assertWorldUnchanged(); empty.assertWorldUnchanged();
 });
 
 console.log(`${count} HD save/load UI regressions passed`);
