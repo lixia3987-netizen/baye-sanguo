@@ -9,6 +9,7 @@
     var MOBILE_STORAGE_KEY = 'baye/mobileSystemUiMode';
     var mobileHost = null, mobileMode = 'hd', mobileListSignature = '', mobileListData = null;
     var pcListCache = null;
+    var pcCursorDispatchDepth = 0;
     var mobileListTrace = {attempts: 0, cacheHits: 0, rebuilds: 0, last: null, rebuildHistory: []};
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     var TITLE = ['新君登基', '重返沙场', '制作群组', '解甲归田'];
@@ -454,7 +455,45 @@
         return false;
     }
 
+    function pcCursorSnapshot() {
+        try {
+            var data = engineData(), owner = inputOwner();
+            if (!data || !owner || engineData() !== data) { return null; }
+            var detail = readNumber(data, 'g_hdDetailGeneration'), spe = readNumber(data, 'g_hdSpeGeneration');
+            var positive = function (n) { return n > 0 && n <= 0xffffffff && Math.floor(n) === n; };
+            return { data: data, generation: JSON.stringify([detail, spe]), hasGeneration: positive(detail) && positive(spe),
+                owner: owner, key: JSON.stringify([ownerToken(owner), owner.screen, owner.count, owner.names || []]) };
+        } catch (e) { return null; }
+    }
+
+    function currentPcCursor(request, epoch) {
+        if (state.request !== request || state.requestEpoch !== epoch || !state.open || !shouldShowHd()) { return null; }
+        var current = pcCursorSnapshot(), original = request.pcSnapshot;
+        if (!current || !original || current.data !== original.data || current.generation !== original.generation ||
+            current.key !== original.key || current.owner.screen !== state.screen || state.screen !== request.pcScreen) { return null; }
+        var finalSnapshot = pcCursorSnapshot();
+        if (state.request !== request || state.requestEpoch !== epoch || !finalSnapshot || finalSnapshot.data !== current.data ||
+            finalSnapshot.generation !== current.generation || finalSnapshot.key !== current.key || finalSnapshot.owner.index !== current.owner.index) { return null; }
+        return finalSnapshot;
+    }
+
+    function finishPcCursorRequest() {
+        if (isMobilePage() || pcCursorDispatchDepth) { return false; }
+        var request = state.request;
+        if (!request || !request.pcCursorOnly || request.confirm !== false || !request.waiting || !request.pcKeyReturned ||
+            !request.pcSnapshot || !request.pcSnapshot.hasGeneration || Date.now() - request.started > 60000) { return false; }
+        var current = currentPcCursor(request, request.pcEpoch);
+        if (!current || current.owner.index !== request.expected || request.expected !== request.target ||
+            state.request !== request || state.requestEpoch !== request.pcEpoch) { return false; }
+        request.progressAt = Date.now();
+        request.waiting = false;
+        state.idleIndex = current.owner.index;
+        state.request = null;
+        return true;
+    }
+
     function chooseNative(index, confirm, displayedToken) {
+        if (!isMobilePage() && pcCursorDispatchDepth) { return false; }
         var owner = inputOwner();
         if (!shouldShowHd() || !state.open || state.request || !owner || owner.screen !== state.screen ||
             !(index >= 0 && index < owner.count) || state.confirmedToken === ownerToken(owner) ||
@@ -469,10 +508,22 @@
         var now = Date.now();
         var request = { owner: owner, target: index, confirm: confirm, started: now,
             progressAt: now, waiting: false, expected: owner.index };
+        if (!isMobilePage() && confirm === false) {
+            request.pcCursorOnly = true; request.pcSnapshot = pcCursorSnapshot();
+            request.pcScreen = state.screen; request.pcEpoch = epoch; request.pcKeyReturned = false;
+            if (request.pcSnapshot && (request.pcSnapshot.key !== JSON.stringify([ownerToken(owner), owner.screen, owner.count, owner.names || []]) ||
+                request.pcSnapshot.owner.index !== owner.index)) { return false; }
+            if (epoch !== state.requestEpoch || state.request) { return false; }
+        }
         state.request = request;
         function step() {
             if (epoch !== state.requestEpoch || state.request !== request || !shouldShowHd()) { return; }
-            var current = inputOwner();
+            var pcCursor = request.pcCursorOnly ? currentPcCursor(request, epoch) : null;
+            if (request.pcCursorOnly && !pcCursor) {
+                if (epoch === state.requestEpoch && state.request === request) { state.request = null; pcListCache = null; }
+                return;
+            }
+            var current = pcCursor ? pcCursor.owner : inputOwner();
             if (!sameOwner(current, owner)) {
                 state.request = null;
                 refresh();
@@ -513,7 +564,14 @@
             }
             request.expected = current.index + (current.index > index ? -1 : 1);
             request.waiting = true;
-            if (!engineSendKey(current.index > index ? VK.UP : VK.DOWN, current)) {
+            var sent;
+            if (request.pcCursorOnly) {
+                request.pcKeyReturned = false; pcCursorDispatchDepth++;
+                try { sent = engineSendKey(current.index > index ? VK.UP : VK.DOWN, current); request.pcKeyReturned = sent === true; }
+                finally { pcCursorDispatchDepth--; }
+                if (epoch !== state.requestEpoch || state.request !== request) { return; }
+            } else { sent = engineSendKey(current.index > index ? VK.UP : VK.DOWN, current); }
+            if (!sent) {
                 failRequest('当前引擎输入不可用，请返回后重试。', owner);
                 return;
             }
@@ -1269,6 +1327,11 @@
             else { e.preventDefault(); e.stopPropagation(); if (e.stopImmediatePropagation) { e.stopImmediatePropagation(); } }
             if (e.repeat) { return; }
             if (code === VK.EXIT) { back(); return; }
+            if (pcCursorDispatchDepth) { return; }
+            if (state.request) {
+                if (!finishPcCursorRequest()) { return; }
+                owner = inputOwner();
+            }
             if (!owner || state.request) { return; }
             if (code === VK.ENTER) { chooseNative(owner.index, true); return; }
             var target = (owner.index + (code === VK.UP || code === VK.LEFT ? -1 : 1) + owner.count) % owner.count;

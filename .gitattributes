@@ -544,3 +544,11 @@
 /docs/validation/m5-pc-system-layout-20261024-v54*.gz -text
 /docs/validation/m5-pc-system-layout-20261024-v54*.sav -text
 /docs/validation/m5-pc-system-layout-20261024-v54*.png -text
+
+# Original PC system native ACK and fresh keyboard confirmation.
+/docs/validation/m5-pc-system-ack-20261024-v55*.json -text whitespace=cr-at-eol
+/docs/validation/m5-pc-system-ack-20261024-v55*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-pc-system-ack-20261024-v55*.md -text whitespace=cr-at-eol
+/docs/validation/m5-pc-system-ack-20261024-v55*.gz -text
+/docs/validation/m5-pc-system-ack-20261024-v55*.sav -text
+/docs/validation/m5-pc-system-ack-20261024-v55*.png -text

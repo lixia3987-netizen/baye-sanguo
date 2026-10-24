@@ -62,7 +62,8 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
             : native === 'king' ? kingEntries.map(king => king.name) : [] };
     const slots = Array.from({ length: 4 }, (_, slot) => ({ slot, status: 'empty', canLoad: false, bytes: 0, ...status[slot] }));
     const data = { g_PlayerKing: native === 'title' ? 0 : 12,
-        g_Cities: [{ Belong: native === 'title' ? 0 : 13 }], g_Persons: [], g_hdFightActive: 0, g_hdFightOver: 0 };
+        g_Cities: [{ Belong: native === 'title' ? 0 : 13 }], g_Persons: [], g_hdFightActive: 0, g_hdFightOver: 0,
+        g_hdDetailGeneration: 1, g_hdSpeGeneration: 1 };
     const worldBefore = JSON.stringify(data);
     let liveData = data;
     const fight = { active: 0, over: 0 };
@@ -119,7 +120,7 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
             replacement.parentNode = root; replacement.parentElement = root;
             list = replacement; ids.set('hd-system-ui-list', replacement); return previous;
         },
-        click, button, refresh, tick, setAfterKey(fn) { afterKey = fn; },
+        click, button, refresh, tick, setAfterKey(fn) { afterKey = fn; }, elapseWithoutTimers(ms) { clock += ms; },
         poll() { intervals.forEach(fn => fn()); },
         pointer(slot) { root.listeners.get('pointerdown')(event(button(slot))); },
         back() { const node = new Node('button'); node.setAttribute('data-hd-sys-back', ''); root.appendChild(node); root.listeners.get('click')(event(node)); },
@@ -618,6 +619,132 @@ test('PC closing, mode changes and retirement invalidate cache while ownerless a
     assert.equal(empty.api.getScreen(), 'insystem-confirm'); assert.equal(empty.list.children[0].className, 'hd-system-ui-empty');
     const emptyRow = empty.list.children[0]; empty.poll(); assert.notEqual(empty.list.children[0], emptyRow);
     assert.deepEqual(empty.sent, []); h.assertWorldUnchanged(); missingData.assertWorldUnchanged(); empty.assertWorldUnchanged();
+});
+
+test('PC acknowledged cursor accepts a fresh Enter before its old forty-ms callback', () => {
+    for (const options of [{ native: 'period' }, { native: 'function' }, { mode: 1 }]) {
+        const h = harness(options); h.key(40);
+        assert.deepEqual(h.sent, [VK.DOWN]); assert.equal(h.api.debugSnapshot().pending, true);
+        assert.equal((h.record.active ? h.record : h.menu).index, 1);
+        h.key(13); assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER], 'a real returned cursor ACK must not swallow fresh Enter');
+        h.tick(); assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER]); h.assertWorldUnchanged();
+    }
+});
+
+test('PC acknowledged cursor accepts fresh Down Right Up Left and preserves original wrap navigation', () => {
+    for (const key of [40, 39, 38, 37]) {
+        const h = harness({ native: 'period' }); h.key(40); h.key(key);
+        const second = key === 40 || key === 39 ? VK.DOWN : VK.UP;
+        assert.deepEqual(h.sent, [VK.DOWN, second]);
+        h.key(13); assert.deepEqual(h.sent, [VK.DOWN, second, VK.ENTER]);
+        h.tick(); assert.deepEqual(h.sent, [VK.DOWN, second, VK.ENTER]); h.assertWorldUnchanged();
+    }
+    for (const [index, key, movement] of [[3, 40, VK.UP], [0, 38, VK.DOWN]]) {
+        const h = harness({ native: 'period' }); h.menu.index = index; h.refresh(); h.key(key);
+        h.tick(40); h.tick(40);
+        assert.deepEqual(h.sent, [movement, movement, movement], 'wrap still follows the original selector controller');
+        h.key(13); assert.deepEqual(h.sent, [movement, movement, movement, VK.ENTER]);
+        h.tick(); assert.equal(h.sent.length, 4); h.assertWorldUnchanged();
+    }
+});
+
+test('PC missing ACK and repeated events cannot release or queue another cursor request', () => {
+    const h = harness({ native: 'period', acknowledge: false }); h.key(40);
+    for (const key of [13, 40, 39, 38, 37]) { h.key(key); h.key(key, { repeat: true }); }
+    h.tick(40); assert.deepEqual(h.sent, [VK.DOWN]); assert.equal(h.api.debugSnapshot().pending, true);
+    h.menu.index = 1; h.key(13, { repeat: true }); assert.deepEqual(h.sent, [VK.DOWN]);
+    h.key(13); assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER]); h.tick();
+    assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER]); h.assertWorldUnchanged();
+});
+
+test('PC confirm-true click navigation remains timer-owned even when its final cursor ACK is ready', () => {
+    const h = harness({ mode: 1, acknowledge: false }); h.click(2);
+    h.record.index = 1; h.tick(40); h.record.index = 2;
+    for (const key of [13, 40, 38, 39, 37]) h.key(key);
+    assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN]); assert.equal(h.api.debugSnapshot().pending, true);
+    h.tick(40); assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN, VK.ENTER]);
+    h.key(13); h.tick(); assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN, VK.ENTER]); h.assertWorldUnchanged();
+});
+
+test('PC cursor request and old timer retire across data generation owner count names and screen changes', () => {
+    const changes = [h => h.rebindData(JSON.parse(JSON.stringify(h.data))), h => { h.data.g_hdDetailGeneration++; },
+        h => { h.data.g_hdSpeGeneration++; }, h => { h.menu.seq++; }, h => { h.menu.count = 3; },
+        h => { h.menu.names = ['different current native contents']; }, h => { h.menu.kind = 1; }];
+    for (const change of changes) {
+        const h = harness({ native: 'period' }); h.key(40); const oldTimers = [...h.timers.values()].map(t => t.fn);
+        change(h); h.key(13); h.key(40); assert.deepEqual(h.sent, [VK.DOWN]);
+        oldTimers.forEach(fn => fn()); assert.deepEqual(h.sent, [VK.DOWN], 'stale data or owner cannot be entered later by the old timer');
+        assert.equal(h.api.debugSnapshot().pending, false);
+    }
+    const h = harness({ native: 'period' }); h.key(40); const ensure = h.context.baye.ensureData;
+    h.context.baye.ensureData = () => { throw new Error('controlled observer read'); };
+    assert.doesNotThrow(() => h.key(13)); assert.deepEqual(h.sent, [VK.DOWN]);
+    h.context.baye.ensureData = ensure; h.api.close({ silent: true }); h.tick(); assert.deepEqual(h.sent, [VK.DOWN]);
+});
+
+test('PC cursor shortcut preserves missing-ACK five-second and total sixty-second request limits', () => {
+    const waiting = harness({ native: 'period', acknowledge: false }); waiting.key(40);
+    const stalled = [...waiting.timers.values()].map(t => t.fn); waiting.elapseWithoutTimers(5040);
+    waiting.key(13); waiting.key(40); assert.deepEqual(waiting.sent, [VK.DOWN]);
+    stalled.forEach(fn => fn()); assert.equal(waiting.api.debugSnapshot().pending, false); assert.match(waiting.api.debugSnapshot().hint, /尚未确认/);
+    const total = harness({ native: 'period' }); total.key(40); const expired = [...total.timers.values()].map(t => t.fn);
+    total.elapseWithoutTimers(60001); total.key(13); assert.deepEqual(total.sent, [VK.DOWN]);
+    expired.forEach(fn => fn()); assert.equal(total.api.debugSnapshot().pending, false); assert.match(total.api.debugSnapshot().hint, /等待过久/);
+});
+
+test('PC cursor dispatch blocks synchronous reentry and preserves native throw and unavailable-send outcomes', () => {
+    const h = harness({ native: 'period' }); h.setAfterKey(key => { if (key === VK.DOWN) { h.key(13); h.key(40); } });
+    h.key(40); assert.deepEqual(h.sent, [VK.DOWN], 'dispatch has not returned while the native delegate reenters');
+    h.key(13); assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER]); h.tick(); assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER]);
+    const failed = harness({ native: 'period' }), failure = new Error('original native delegate throw');
+    failed.setAfterKey(key => { if (key === VK.DOWN) throw failure; });
+    assert.throws(() => failed.key(40), error => error === failure); failed.key(13); assert.deepEqual(failed.sent, [VK.DOWN]);
+    failed.setAfterKey(null); failed.api.close({ silent: true }); failed.refresh(); failed.key(40);
+    assert.deepEqual(failed.sent, [VK.DOWN, VK.DOWN], 'finally releases only the dispatch lock, never grants the throwing call an ACK');
+    const unavailable = harness({ native: 'period' }); unavailable.context.sendKey = undefined; unavailable.context.baye.sendKey = undefined;
+    unavailable.key(40); unavailable.key(13); assert.deepEqual(unavailable.sent, []); assert.equal(unavailable.api.debugSnapshot().pending, false);
+    const cancel = harness({ native: 'period', acknowledge: false }); cancel.key(40); cancel.key(27); cancel.tick();
+    assert.deepEqual(cancel.sent, [VK.DOWN, VK.EXIT], 'EXIT retains its original immediate back path');
+});
+
+test('PC old timers cannot clear a newer cursor request and mobile keyboard remains separately delegated', () => {
+    const h = harness({ native: 'period' }); h.key(40); const old = [...h.timers.values()].map(t => t.fn);
+    h.setAfterKey(key => { if (key === VK.ENTER) { h.menu.seq++; h.menu.index = 0; } });
+    h.key(13); h.key(40); assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER, VK.DOWN]);
+    old.forEach(fn => fn()); assert.equal(h.api.debugSnapshot().pending, true); assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER, VK.DOWN]);
+    h.key(13); assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER, VK.DOWN, VK.ENTER]); h.tick(); assert.equal(h.sent.length, 4);
+    const reentry = harness({ native: 'period' }); reentry.key(40);
+    const previous = [...reentry.timers.values()].map(t => t.fn), ensure = reentry.context.baye.ensureData; let armed = true;
+    reentry.context.baye.ensureData = () => {
+        if (armed) { armed = false; reentry.api.retireInteraction('observer-reentry'); reentry.menu.seq++; reentry.refresh(); reentry.key(40); }
+        return ensure();
+    };
+    reentry.key(13); assert.deepEqual(reentry.sent, [VK.DOWN, VK.DOWN]);
+    previous.forEach(fn => fn()); assert.equal(reentry.api.debugSnapshot().pending, true);
+    reentry.key(13); assert.deepEqual(reentry.sent, [VK.DOWN, VK.DOWN, VK.ENTER]);
+    const late = harness({ native: 'period', acknowledge: false }); late.key(40);
+    const lateStep = [...late.timers.values()][0].fn, originalMenu = late.context.baye.hd.menuItems; let menuReads = 0, lateReentry = false;
+    late.context.baye.hd.menuItems = () => {
+        if (++menuReads === 3) {
+            lateReentry = true; late.api.retireInteraction('last-owner-read-reentry'); late.menu.seq++; late.menu.index = 0;
+            late.refresh(); late.key(40);
+        }
+        return originalMenu();
+    };
+    lateStep(); late.context.baye.hd.menuItems = originalMenu;
+    assert.equal(late.api.debugSnapshot().pending, true, 'an old cursor callback must not clear a new unacknowledged request');
+    late.key(13); assert.deepEqual(late.sent, lateReentry ? [VK.DOWN, VK.DOWN] : [VK.DOWN], 'an unacknowledged owner never receives Enter');
+    assert.equal(lateReentry, false, 'PC cursor step reuses the owner from its complete fence instead of an unsafe third getter');
+    const rebound = harness({ native: 'period', acknowledge: false }); rebound.key(40);
+    const reboundStep = [...rebound.timers.values()][0].fn, readMenu = rebound.context.baye.hd.menuItems;
+    const sameValue = JSON.parse(JSON.stringify(rebound.data)); let generationReads = 0;
+    rebound.context.baye.hd.menuItems = () => { if (++generationReads === 2) rebound.rebindData(sameValue); return readMenu(); };
+    reboundStep(); rebound.context.baye.hd.menuItems = readMenu;
+    assert.equal(rebound.api.debugSnapshot().pending, false, 'same-token data replacement inside the last complete snapshot retires the old request');
+    assert.deepEqual(rebound.sent, [VK.DOWN]);
+    const m = harness({ mode: 1 }); m.context.document.body.classList.add('hd-mobile-page');
+    for (const key of [13, 40, 39, 38, 37]) { const event = m.key(key); assert.equal(event.defaultPrevented, false); }
+    assert.deepEqual(m.sent, []); m.assertWorldUnchanged();
 });
 
 console.log(`${count} HD save/load UI regressions passed`);
