@@ -10,6 +10,7 @@
     var mobileHost = null, mobileMode = 'hd', mobileListSignature = '', mobileListData = null;
     var pcListCache = null;
     var pcCursorDispatchDepth = 0;
+    var pcKingPreviewPaint = '';
     var mobileListTrace = {attempts: 0, cacheHits: 0, rebuilds: 0, last: null, rebuildHistory: []};
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     var TITLE = ['新君登基', '重返沙场', '制作群组', '解甲归田'];
@@ -769,18 +770,24 @@
         if (document.body) {
             var kingEmpty = show && state.screen === 'king' && !state.kings.length;
             var hasKings = show && state.screen === 'king' && state.kings.length > 0;
-            if (hasKings) {
+            if (hasKings && isMobilePage()) {
                 state.showLcd = false;
             }
             document.body.classList.toggle('baye-hd-system-ui-on', show);
-            document.body.classList.toggle('baye-hd-system-ui-lcd', show && state.showLcd && !hasKings);
+            document.body.classList.toggle('baye-hd-system-ui-lcd', show && state.showLcd && (!hasKings || !isMobilePage()));
+            document.body.classList.toggle('baye-hd-system-ui-king-lcd', show && !isMobilePage() && state.screen === 'king' && state.showLcd);
             document.body.classList.toggle('baye-hd-system-ui-king-empty', kingEmpty);
             document.body.classList.toggle('baye-hd-system-ui-has-kings', hasKings);
         }
         var root = el('hd-system-ui');
         if (root) {
             root.classList.toggle('is-open', show);
+            root.classList.toggle('has-king-preview', show && !isMobilePage() && state.screen === 'king' && state.kingProtocolObserved);
             root.setAttribute('aria-hidden', show ? 'false' : 'true');
+            if (!isMobilePage()) {
+                var lcdToggle = root.querySelector('[data-hd-sys-lcd]');
+                if (lcdToggle) { lcdToggle.textContent = state.showLcd ? '隐藏经典 LCD' : '经典 LCD'; }
+            }
         }
         if (isMobilePage() && mobileHost && typeof mobileHost.onPresentation === 'function') {
             mobileHost.onPresentation(!!show);
@@ -838,7 +845,7 @@
         if (state.hint) { return state.hint; }
         if (state.screen === 'king') {
             return state.kings.length
-                ? '请选择一个势力开始游戏。'
+                ? (isMobilePage() ? '请选择一个势力开始游戏。' : '点击君主查看领城；再次点击当前君主，或点「开始游戏」确认。')
                 : '请在右侧经典画面选择君主：方向键移动，回车确认。';
         }
         if (state.screen === 'saveload') {
@@ -912,7 +919,8 @@
             owner.names || [], state.idleIndex, items, !!state.request, state.confirmedToken,
             state.exitedToken, state.retiredToken, state.kingProtocolObserved,
             state.saves.map(function (s) { return [!!s.canLoad, s.error]; })
-        ]) };
+        ]) + (owner.screen === 'king' ? JSON.stringify([readNumber(data, 'g_hdDetailGeneration'),
+            readNumber(data, 'g_hdSpeGeneration'), state.requestEpoch]) : '') };
     }
 
     function pcListMatches(snapshot) {
@@ -997,6 +1005,11 @@
             if (isMobilePage()) { btn._bayeMobileSystemTicket = initialMobileTicket; }
             var owner = inputOwner();
             if (owner) { btn.setAttribute('data-hd-sys-owner', ownerToken(owner)); }
+            if (!isMobilePage() && owner && owner.screen === 'king') {
+                var kingRow = pcKingGestureSnapshot();
+                btn._bayePcKingRow = kingRow && kingRow.data === initialPcData && kingRow.owner.index === owner.index &&
+                    kingRow.key === JSON.stringify([ownerToken(owner), owner.screen, owner.count, owner.names || []]) ? kingRow : null;
+            }
             var pending = !!state.request || !!(owner &&
                 (state.confirmedToken === ownerToken(owner) || state.exitedToken === ownerToken(owner) ||
                     state.retiredToken === ownerToken(owner)));
@@ -1004,6 +1017,7 @@
                 (!state.saves[i] || !state.saves[i].canLoad);
             btn.disabled = pending || unavailable || (!owner &&
                 (state.screen !== 'king' || state.kingProtocolObserved));
+            if (!isMobilePage() && owner && owner.screen === 'king' && !btn._bayePcKingRow) { btn.disabled = true; }
             if (unavailable) { btn.title = state.saves[i] && state.saves[i].error || '此槽没有可读取的完整存档。'; }
             if (state.idleIndex === i) {
                 btn.classList.add('is-idle');
@@ -1027,8 +1041,115 @@
         }
     }
 
+    // Preview only the live highlighted native king. No selection or world writes.
+    function readPcKingPreview() {
+        if (isMobilePage() || !state.open || state.screen !== 'king' || !shouldShowHd()) { return null; }
+        try {
+            var identityApi = global.BayeHdLibIdentity;
+            if (!identityApi || typeof identityApi.read !== 'function' || typeof identityApi.isCurrent !== 'function') { return null; }
+            function integer(n, min, max) { return typeof n === 'number' && isFinite(n) && Math.floor(n) === n && n >= min && n <= max; }
+            function sample() {
+                var identity = identityApi.read(), data = engineData();
+                if (!identity || identity.status !== 'ready' || identity.sha256 !== '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
+                    identity.byteLength !== 207195 || !integer(identity.generation, 1, 0xffffffff) || !identityApi.isCurrent(identity) ||
+                    !data || data !== baye.data || typeof baye.hdCityLimit !== 'function' || baye.hdCityLimit() !== 38 ||
+                    typeof baye.getCityName !== 'function' || !data.g_Cities || !data.g_CityPositions) { return null; }
+                var detail = readNumber(data, 'g_hdDetailGeneration'), spe = readNumber(data, 'g_hdSpeGeneration'),
+                    period = readNumber(data, 'g_PIdx'), menu = liveMenu(), kings = baye.hd.kings(), owner = inputOwner();
+                if (!integer(detail, 1, 0xffffffff) || !integer(spe, 1, 0xffffffff) || !integer(period, 1, 4) ||
+                    !menu || menu.active !== 1 || menu.context !== 4 || menu.kind !== 3 || !integer(menu.seq, 1, 0xffffffff) ||
+                    menu.generation !== detail || menu.detailGeneration !== detail || !integer(menu.count, 1, 128) ||
+                    !integer(menu.index, 0, menu.count - 1) || !Array.isArray(menu.names) || menu.names.length !== menu.count ||
+                    !kings || kings.count !== menu.count || kings.index !== menu.index || !Array.isArray(kings.kings) || kings.kings.length !== menu.count ||
+                    !owner || owner.type !== 'menu' || owner.screen !== 'king' || owner.seq !== menu.seq || owner.count !== menu.count ||
+                    owner.index !== menu.index || JSON.stringify(owner.names) !== JSON.stringify(menu.names) ||
+                    state.confirmedToken === ownerToken(owner) || state.exitedToken === ownerToken(owner) || state.retiredToken === ownerToken(owner)) { return null; }
+                var ids = {}, entries = [];
+                for (var k = 0; k < kings.kings.length; k++) {
+                    var item = kings.kings[k];
+                    if (!item || !integer(item.id, 0, 65534) || ids[item.id] || typeof item.name !== 'string' || !item.name ||
+                        menu.names[k] !== item.name) { return null; }
+                    ids[item.id] = true; entries.push({id: item.id, name: item.name});
+                }
+                if (kings.currentId !== entries[menu.index].id) { return null; }
+                var menuStamp = JSON.stringify(menu), kingsStamp = JSON.stringify(kings), ownerStamp = JSON.stringify(owner);
+                var cities = [];
+                for (var i = 0; i < 38; i++) {
+                    var city = data.g_Cities[i], position = data.g_CityPositions[i], name = baye.getCityName(i),
+                        belong = readNumber(city, 'Belong'), x = readNumber(position, 'x'), y = readNumber(position, 'y');
+                    if (!integer(belong, 0, 65535) || !integer(x, 0, 255) || !integer(y, 0, 255) || typeof name !== 'string' || !name || name === '-') { return null; }
+                    cities.push({id: i, name: name, x: x, y: y, belong: belong, owned: belong === kings.currentId + 1});
+                }
+                if (engineData() !== data || baye.data !== data || !identityApi.isCurrent(identity) ||
+                    readNumber(data, 'g_hdDetailGeneration') !== detail || readNumber(data, 'g_hdSpeGeneration') !== spe ||
+                    readNumber(data, 'g_PIdx') !== period || JSON.stringify(liveMenu()) !== menuStamp ||
+                    JSON.stringify(baye.hd.kings()) !== kingsStamp || JSON.stringify(inputOwner()) !== ownerStamp ||
+                    engineData() !== data || !identityApi.isCurrent(identity)) { return null; }
+                return {data: data, identity: identity, value: {identityGeneration: identity.generation, detail: detail, spe: spe,
+                    period: period, seq: menu.seq, index: menu.index, count: menu.count, entries: entries,
+                    currentId: kings.currentId, name: entries[menu.index].name, cities: cities}};
+            }
+            var first = sample(), second = sample();
+            if (!first || !second || first.data !== second.data || JSON.stringify(first.value) !== JSON.stringify(second.value) ||
+                !identityApi.isCurrent(first.identity) || !identityApi.isCurrent(second.identity) ||
+                engineData() !== second.data || isMobilePage() || !state.open || state.screen !== 'king' || !shouldShowHd()) { return null; }
+            return second.value;
+        } catch (e) { return null; }
+    }
+
+    function renderKingPreview() {
+        if (isMobilePage()) { return; }
+        var panel = el('hd-system-king-preview'), root = el('hd-system-ui');
+        if (!panel || !root) { return; }
+        var on = state.open && shouldShowHd() && state.screen === 'king' && state.kingProtocolObserved,
+            start = root.querySelector('[data-hd-sys-start]'), owner = on ? inputOwner() : null;
+        panel.hidden = !on;
+        if (start) {
+            start.hidden = !on;
+            start.disabled = !owner || owner.screen !== 'king' || !!state.request ||
+                state.confirmedToken === ownerToken(owner) || state.exitedToken === ownerToken(owner) || state.retiredToken === ownerToken(owner);
+            start.setAttribute('data-hd-sys-owner', owner && owner.screen === 'king' ? ownerToken(owner) : '');
+            start.setAttribute('data-hd-king-index', owner && owner.screen === 'king' ? String(owner.index) : '');
+            start._bayePcKingStart = on && owner && owner.screen === 'king' ? pcKingGestureSnapshot() : null;
+        }
+        var summary = panel.querySelector('[data-hd-king-summary]'), list = panel.querySelector('[data-hd-king-cities]'),
+            map = panel.querySelector('[data-hd-king-map]'), note = panel.querySelector('[data-hd-king-note]');
+        var preview = on ? readPcKingPreview() : null, signature = JSON.stringify(preview);
+        panel.setAttribute('data-ready', preview ? 'true' : 'false');
+        for (var key in {id: 1, index: 1, seq: 1, period: 1, generation: 1}) {
+            var value = preview ? (key === 'id' ? preview.currentId : key === 'generation' ? preview.detail : preview[key]) : '';
+            panel.setAttribute('data-king-' + key, String(value));
+        }
+        if (!summary || !list || !map || !note) { pcKingPreviewPaint = ''; return; }
+        if (pcKingPreviewPaint === signature && (preview ? map.children.length === 38 : !list.children.length && !map.children.length)) { return; }
+        pcKingPreviewPaint = '';
+        list.innerHTML = ''; map.innerHTML = '';
+        if (preview) { map.removeAttribute('hidden'); }
+        else { map.setAttribute('hidden', ''); }
+        summary.setAttribute('data-count', preview ? String(preview.cities.filter(function (c) { return c.owned; }).length) : '');
+        summary.setAttribute('data-king-name', preview ? preview.name : '');
+        if (!preview) { summary.textContent = '领城资料暂不可用'; note.textContent = '请查看经典 LCD 中的势力形势图。'; return; }
+        var owned = preview.cities.filter(function (c) { return c.owned; });
+        summary.textContent = preview.name + ' · 领城 ' + owned.length + ' 座';
+        note.textContent = '金色为当前势力领城。';
+        var xs = preview.cities.map(function (c) { return c.x; }), ys = preview.cities.map(function (c) { return c.y; }),
+            minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs), minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys),
+            scale = Math.min(296 / (maxX - minX || 1), 156 / (maxY - minY || 1));
+        preview.cities.forEach(function (city) {
+            var point = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            point.setAttribute('data-city-id', String(city.id)); point.setAttribute('data-native-x', String(city.x)); point.setAttribute('data-native-y', String(city.y));
+            point.setAttribute('data-owned', String(city.owned));
+            point.setAttribute('cx', (160 + (city.x - (minX + maxX) / 2) * scale).toFixed(3));
+            point.setAttribute('cy', (90 + (city.y - (minY + maxY) / 2) * scale).toFixed(3)); point.setAttribute('r', city.owned ? '4' : '2.5');
+            var title = document.createElementNS('http://www.w3.org/2000/svg', 'title'); title.textContent = city.name; point.appendChild(title); map.appendChild(point);
+            if (city.owned) { var row = document.createElement('li'); row.setAttribute('data-city-id', String(city.id)); row.textContent = city.name; list.appendChild(row); }
+        });
+        pcKingPreviewPaint = signature;
+    }
+
     function render(source) {
         applyChrome();
+        renderKingPreview();
         if (!(state.open && shouldShowHd())) {
             return;
         }
@@ -1074,7 +1195,7 @@
             if (nextKings.length || !state.kings.length) {
                 state.kings = nextKings;
             }
-            if (state.kings.length) {
+            if (state.kings.length && isMobilePage()) {
                 state.showLcd = false;
             }
         }
@@ -1121,7 +1242,7 @@
                 var prevSig = state.kings.map(function (k) { return k.id + ':' + k.name; }).join(',');
                 var nextSig = next.map(function (k) { return k.id + ':' + k.name; }).join(',');
                 state.kings = next.length ? next : state.kings;
-                if (state.kings.length) {
+                if (state.kings.length && isMobilePage()) {
                     state.showLcd = false;
                 }
                 try {
@@ -1146,11 +1267,36 @@
         }
     }
 
-    function choose(index, displayedToken) {
+    function pcKingGestureSnapshot() {
+        var epoch = state.requestEpoch, snapshot = pcCursorSnapshot();
+        if (!snapshot || epoch !== state.requestEpoch) { return null; }
+        snapshot.epoch = epoch;
+        return snapshot;
+    }
+
+    function freshPcKingGesture(displayed) {
+        if (isMobilePage() || !displayed || !displayed.hasGeneration || pcCursorDispatchDepth ||
+            !state.open || state.screen !== 'king' || !shouldShowHd()) { return null; }
+        var current = pcKingGestureSnapshot(), finalSnapshot = pcKingGestureSnapshot();
+        if (!current || !finalSnapshot || !current.hasGeneration || !finalSnapshot.hasGeneration ||
+            displayed.epoch !== state.requestEpoch || current.epoch !== displayed.epoch || finalSnapshot.epoch !== displayed.epoch ||
+            displayed.data !== current.data || current.data !== finalSnapshot.data ||
+            displayed.generation !== current.generation || current.generation !== finalSnapshot.generation ||
+            displayed.key !== current.key || current.key !== finalSnapshot.key ||
+            displayed.owner.index !== current.owner.index || current.owner.index !== finalSnapshot.owner.index ||
+            finalSnapshot.owner.screen !== 'king') { return null; }
+        return finalSnapshot;
+    }
+
+    function choose(index, displayedToken, displayedKing) {
         if (makerActive()) return false;
         if (!state.open || !shouldShowHd()) { return false; }
         var owner = inputOwner();
         if (!owner && legacyInputBlocked()) { closeUi({ silent: true }); return false; }
+        if (!isMobilePage() && owner && owner.screen === 'king' && state.screen === 'king') {
+            var currentKing = freshPcKingGesture(displayedKing);
+            return currentKing ? chooseNative(index, index === currentKing.owner.index, displayedToken) : false;
+        }
         if (state.screen !== 'king' || owner) {
             return chooseNative(index, true, displayedToken);
         }
@@ -1239,7 +1385,7 @@
             if (state.screen === 'king') {
                 state.kings = probeKings();
                 if (state.kings.length) {
-                    state.showLcd = false;
+                    if (isMobilePage()) { state.showLcd = false; }
                     render();
                 }
             }
@@ -1260,14 +1406,16 @@
             return;
         }
         state.bound = true;
-        var pressedOwner = '';
+        var pressedOwner = '', pressedStart = null, pressedKingRow = null;
         root.addEventListener('pointerdown', function (ev) {
             if (isMobilePage()) { return; }
-            pressedOwner = '';
+            pressedOwner = ''; pressedStart = null; pressedKingRow = null;
             var t = ev.target;
             while (t && t !== root) {
-                if (t.getAttribute && t.getAttribute('data-hd-sys') != null) {
+                if (t.getAttribute && (t.getAttribute('data-hd-sys') != null || t.getAttribute('data-hd-sys-start') != null)) {
                     pressedOwner = t.getAttribute('data-hd-sys-owner') || '';
+                    if (t.getAttribute('data-hd-sys-start') != null) { pressedStart = t._bayePcKingStart; }
+                    else { pressedKingRow = t._bayePcKingRow; }
                     return;
                 }
                 t = t.parentNode;
@@ -1283,13 +1431,25 @@
                 if (t.getAttribute && t.getAttribute('data-hd-sys') != null) {
                     ev.preventDefault();
                     var token = pressedOwner || t.getAttribute('data-hd-sys-owner') || '';
-                    pressedOwner = '';
-                    if (!t.disabled) { choose(Number(t.getAttribute('data-hd-sys')), token); }
+                    var displayedRow = pressedKingRow || t._bayePcKingRow;
+                    pressedOwner = ''; pressedKingRow = null; pressedStart = null;
+                    if (!t.disabled) { choose(Number(t.getAttribute('data-hd-sys')), token, displayedRow); }
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-sys-back') != null) {
                     ev.preventDefault();
                     back();
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-sys-start') != null) {
+                    ev.preventDefault();
+                    var startToken = pressedOwner || t.getAttribute('data-hd-sys-owner') || '';
+                    var displayedStart = pressedStart || t._bayePcKingStart;
+                    pressedOwner = ''; pressedStart = null;
+                    var currentStart = freshPcKingGesture(displayedStart);
+                    if (!t.disabled && currentStart && t.getAttribute('data-hd-king-index') === String(currentStart.owner.index)) {
+                        chooseNative(currentStart.owner.index, true, startToken);
+                    }
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-sys-lcd') != null) {

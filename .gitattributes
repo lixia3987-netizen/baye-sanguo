@@ -552,3 +552,11 @@
 /docs/validation/m5-pc-system-ack-20261024-v55*.gz -text
 /docs/validation/m5-pc-system-ack-20261024-v55*.sav -text
 /docs/validation/m5-pc-system-ack-20261024-v55*.png -text
+
+# Original PC ruler territory preview and classic LCD visibility.
+/docs/validation/m5-pc-king-preview-20261024-v56*.json -text whitespace=cr-at-eol
+/docs/validation/m5-pc-king-preview-20261024-v56*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-pc-king-preview-20261024-v56*.md -text whitespace=cr-at-eol
+/docs/validation/m5-pc-king-preview-20261024-v56*.gz -text
+/docs/validation/m5-pc-king-preview-20261024-v56*.sav -text
+/docs/validation/m5-pc-king-preview-20261024-v56*.png -text

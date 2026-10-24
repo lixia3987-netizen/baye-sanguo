@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261023a"/>
     <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261011a"/>
     <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20261008j"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20261024system1"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20261024king1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261008k"/>
     <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261008k"/>
     <link rel="stylesheet" type="text/css" href="css/hd-spe.css?ver=20261010c"/>
@@ -180,9 +180,18 @@
     <div class="hd-system-ui-stage" role="dialog" aria-labelledby="hd-system-ui-title">
         <div id="hd-system-ui-title" class="hd-system-ui-title">三国霸业</div>
         <div id="hd-system-ui-sub" class="hd-system-ui-sub">标题 / 时期 / 君主 / 存档</div>
-        <div id="hd-system-ui-list" class="hd-system-ui-list"></div>
+        <div class="hd-system-ui-content">
+            <div id="hd-system-ui-list" class="hd-system-ui-list"></div>
+            <section id="hd-system-king-preview" class="hd-system-king-preview" aria-label="君主领城" data-ready="false" hidden>
+                <h2 data-hd-king-summary>领城资料暂不可用</h2>
+                <svg data-hd-king-map viewBox="0 0 320 180" role="img" aria-label="领城分布" hidden></svg>
+                <ul data-hd-king-cities aria-label="当前君主领城"></ul>
+                <p data-hd-king-note>请选择名单中的君主查看领城。</p>
+            </section>
+        </div>
         <div class="hd-system-ui-footer">
             <button type="button" data-hd-sys-back>返回</button>
+            <button type="button" data-hd-sys-start hidden>开始游戏</button>
             <button type="button" data-hd-sys-lcd>经典 LCD</button>
         </div>
         <div id="hd-system-ui-probe" class="hd-system-ui-probe"></div>
@@ -318,7 +327,7 @@
     <script src="js/hd-battle-terrain.js?ver=20261008i"></script>
     <script src="js/hd-battle-feedback.js?ver=20261008a"></script>
     <script src="js/hd-battle.js?ver=20261011c"></script>
-    <script src="js/hd-system-ui.js?ver=20261024system3"></script>
+    <script src="js/hd-system-ui.js?ver=20261024king1"></script>
 <script src="js/hd-dialog.js?ver=20261024b"></script>
 <script src="js/hd-battle-scene.js?ver=20261011a"></script>
 <script src="js/hd-spe.js?ver=20261024a"></script>

@@ -10,7 +10,7 @@ const bridge = readFileSync(new URL('../js/bridge.js', import.meta.url), 'utf8')
 // Execute the real module with its actual click, pointer and keyboard handlers.
 // Native selector fields change only when the simulated engine acknowledges a
 // key; the module cannot advance them or modify the campaign data.
-function harness({ mode = 2, status = {}, native = 'record', acknowledge = true, kingCount = 4 } = {}) {
+function harness({ mode = 2, status = {}, native = 'record', acknowledge = true, kingCount = 4, preview = false } = {}) {
     let scrollCalls = 0;
     class Node {
         constructor(tag = 'div') {
@@ -34,9 +34,14 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
         get innerHTML() { return this.html || ''; }
         setAttribute(key, value) { this.attributes[key] = String(value); }
         getAttribute(key) { return this.attributes[key] ?? null; }
+        removeAttribute(key) { delete this.attributes[key]; }
         appendChild(child) { child.parentNode = this; child.parentElement = this; this.children.push(child); }
-        querySelector(selector) { return this.children.find(n => selector.split('.').slice(1).every(c => n.classList.contains(c))) || null; }
-        querySelectorAll() { return []; }
+        querySelector(selector) { return this.querySelectorAll(selector)[0] || null; }
+        querySelectorAll(selector) {
+            const match = n => selector.startsWith('.') ? selector.slice(1).split('.').every(c => n.classList.contains(c))
+                : /^\[([^\]=]+)\]$/.test(selector) ? n.getAttribute(selector.slice(1, -1)) !== null : false;
+            const found = []; const walk = n => { for (const child of n.children) { if (match(child)) found.push(child); walk(child); } }; walk(this); return found;
+        }
         addEventListener(type, listener) { this.listeners.set(type, listener); }
         scrollIntoView() { scrollCalls++; }
     }
@@ -45,7 +50,18 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
     const root = ids.get('hd-system-ui'); let list = ids.get('hd-system-ui-list'); root.appendChild(list);
     const body = new Node('body'), html = new Node('html'), documentListeners = new Map();
     const document = { body, documentElement: html, getElementById: id => ids.get(id) || null,
-        createElement: tag => new Node(tag), addEventListener: (type, fn) => documentListeners.set(type, fn) };
+        createElement: tag => new Node(tag), createElementNS: (ns, tag) => new Node(tag), addEventListener: (type, fn) => documentListeners.set(type, fn) };
+    let previewDom = null;
+    if (preview) {
+        const panel = new Node('section'); panel.hidden = true; panel.setAttribute('data-ready', 'false'); ids.set('hd-system-king-preview', panel); root.appendChild(panel);
+        const part = (tag, attr) => { const n = new Node(tag); n.setAttribute(attr, ''); panel.appendChild(n); return n; };
+        const summary = part('h2', 'data-hd-king-summary'), cities = part('ul', 'data-hd-king-cities'),
+            map = part('svg', 'data-hd-king-map'), note = part('p', 'data-hd-king-note');
+        map.setAttribute('hidden', '');
+        const start = new Node('button'); start.setAttribute('data-hd-sys-start', ''); start.hidden = true; root.appendChild(start);
+        const lcd = new Node('button'); lcd.setAttribute('data-hd-sys-lcd', ''); root.appendChild(lcd);
+        previewDom = {panel, summary, cities, map, note, start, lcd};
+    }
     let clock = 0, timerId = 0, afterKey;
     const timers = new Map(), intervals = [], sent = [];
     const storage = { 'baye/systemUiMode': 'hd', 'baye/overworldMode': 'hd-map',
@@ -64,6 +80,15 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
     const data = { g_PlayerKing: native === 'title' ? 0 : 12,
         g_Cities: [{ Belong: native === 'title' ? 0 : 13 }], g_Persons: [], g_hdFightActive: 0, g_hdFightOver: 0,
         g_hdDetailGeneration: 1, g_hdSpeGeneration: 1 };
+    const identity = {status: 'ready', sha256: '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e', byteLength: 207195, generation: 3};
+    const cityNames = Array.from({length: 38}, (_, i) => '完整城池名称' + i);
+    if (preview) {
+        data.g_PIdx = 1;
+        data.g_Cities = Array.from({length: 38}, (_, i) => ({Belong: [1, 2, 6, 0, 0][i % 5]}));
+        data.g_CityPositions = Array.from({length: 38}, (_, i) => ({x: 4 + i % 10 * 11, y: 5 + Math.floor(i / 10) * 17}));
+        data.g_CityPositions[37] = {...data.g_CityPositions[0]}; // Genuine coordinates may coincide.
+        menu.generation = menu.detailGeneration = 1;
+    }
     const worldBefore = JSON.stringify(data);
     let liveData = data;
     const fight = { active: 0, over: 0 };
@@ -92,6 +117,11 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
             hd: { ready: () => true, record: () => record, menuItems: () => menu,
                 fight: () => fight, kings: () => kings, march: () => march, reportText: () => '' } }
     });
+    if (preview) {
+        context.BayeHdLibIdentity = {read: () => ({...identity}), isCurrent: value => value.generation === identity.generation && identity.status === 'ready'};
+        context.baye.hdCityLimit = () => 38;
+        context.baye.getCityName = i => cityNames[i];
+    }
     context.window = context;
     vm.runInContext(source, context, { filename: 'js/hd-system-ui.js' });
     const api = context.BayeHdSystemUi;
@@ -111,6 +141,7 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
     function refresh() { api.onEngineHook('onMenuIdle', { index: record.active ? record.index : menu.index }); }
     api.start(); tick(350);
     return { api, record, menu, kings, slots, data, storage, context, root, get list() { return list; }, ids, sent, timers, fight, march,
+        preview: previewDom, identity, cityNames,
         get scrollCalls() { return scrollCalls; }, node(tag) { return new Node(tag); },
         rebindData(next) { liveData = next; context.baye.data = next; },
         replaceList() {
@@ -123,6 +154,8 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
         click, button, refresh, tick, setAfterKey(fn) { afterKey = fn; }, elapseWithoutTimers(ms) { clock += ms; },
         poll() { intervals.forEach(fn => fn()); },
         pointer(slot) { root.listeners.get('pointerdown')(event(button(slot))); },
+        pointerNode(target) { root.listeners.get('pointerdown')(event(target)); },
+        clickNode(target) { root.listeners.get('click')(event(target)); },
         back() { const node = new Node('button'); node.setAttribute('data-hd-sys-back', ''); root.appendChild(node); root.listeners.get('click')(event(node)); },
         key(keyCode, extra = {}) { const e = { ...event(body), keyCode, ...extra }; documentListeners.get('keydown')?.(e); return e; },
         assertWorldUnchanged() { assert.equal(JSON.stringify(data), worldBefore); }
@@ -307,7 +340,8 @@ test('native king input wins over an old campaign ruler and city ownership', () 
     assert.equal(h.data.g_PlayerKing, 12); assert.equal(h.data.g_Cities[0].Belong, 13);
     assert.equal(h.api.isOpen(), true); assert.equal(h.api.getScreen(), 'king');
     assert.equal(h.list.children.length, h.menu.count); assert.match(h.button(3).textContent, /马腾/);
-    h.click(3); h.tick(); assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN, VK.DOWN, VK.ENTER]);
+    h.click(3); h.tick(); assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN, VK.DOWN]);
+    h.click(3); assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN, VK.DOWN, VK.ENTER]);
     h.assertWorldUnchanged();
 });
 test('polling reopens the second native king selector after a closed period screen', () => {
@@ -330,7 +364,8 @@ test('a real eighteen-lord selector can progress longer than five seconds and co
         h.tick(960); assert.deepEqual(h.sent, Array(index).fill(VK.DOWN), 'no next key before this item ACK');
         h.menu.index = index; h.tick(40);
     }
-    h.tick(); assert.deepEqual(h.sent, [...Array(8).fill(VK.DOWN), VK.ENTER]);
+    h.tick(); assert.deepEqual(h.sent, Array(8).fill(VK.DOWN));
+    h.key(13); assert.deepEqual(h.sent, [...Array(8).fill(VK.DOWN), VK.ENTER]);
     assert.equal(h.api.debugSnapshot().pending, false); assert.equal(h.api.debugSnapshot().hint, ''); h.assertWorldUnchanged();
 });
 test('one received menu ACK renews the five-second budget but a later stall times out', () => {
@@ -431,7 +466,8 @@ test('real native king and record owners still win with a loaded ruler zero', ()
     const h = harness({ native: 'king' }); h.data.g_PlayerKing = 0; h.data.g_Cities[0].Belong = 1;
     h.refresh(); const world = JSON.stringify(h.data);
     assert.equal(h.api.getScreen(), 'king'); assert.equal(h.api.isOpen(), true);
-    h.click(2); h.tick(); assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN, VK.ENTER]);
+    h.click(2); h.tick(); assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN]);
+    h.key(13); assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN, VK.ENTER]);
     assert.equal(JSON.stringify(h.data), world);
     const r = harness({ mode: 1 }); r.data.g_PlayerKing = 0;
     Object.assign(r.menu, { active: 1, context: 1, kind: 1, seq: 5 });
@@ -745,6 +781,109 @@ test('PC old timers cannot clear a newer cursor request and mobile keyboard rema
     const m = harness({ mode: 1 }); m.context.document.body.classList.add('hd-mobile-page');
     for (const key of [13, 40, 39, 38, 37]) { const event = m.key(key); assert.equal(event.defaultPrevented, false); }
     assert.deepEqual(m.sent, []); m.assertWorldUnchanged();
+});
+
+test('PC king rows navigate without confirmation and show only the actually acknowledged ruler', () => {
+    const h = harness({native: 'king', acknowledge: false, preview: true}), p = h.preview;
+    assert.equal(p.panel.getAttribute('data-ready'), 'true'); assert.equal(p.panel.getAttribute('data-king-id'), '0');
+    h.click(1); h.poll(); assert.deepEqual(h.sent, [VK.DOWN]);
+    assert.equal(p.panel.getAttribute('data-king-id'), '0', 'pending target is not an optimistic preview');
+    h.menu.index = h.kings.index = 1; h.kings.currentId = h.kings.kings[1].id; h.tick(40);
+    assert.deepEqual(h.sent, [VK.DOWN]); assert.equal(p.panel.getAttribute('data-king-id'), '1');
+    assert.equal(p.panel.getAttribute('data-king-index'), '1'); assert.match(p.summary.textContent, /^曹操 · 领城 /);
+    h.click(1); h.tick(); assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER]); h.assertWorldUnchanged();
+});
+
+test('PC king Start confirms the displayed native ruler once and rejects stale data generation and highlight presses', () => {
+    const h = harness({native: 'king', preview: true}); h.clickNode(h.preview.start); h.clickNode(h.preview.start); h.tick();
+    assert.deepEqual(h.sent, [VK.ENTER]); h.assertWorldUnchanged();
+    for (const change of [
+        x => { x.menu.index = x.kings.index = 1; x.kings.currentId = 1; },
+        x => { x.menu.seq++; }, x => { x.data.g_hdDetailGeneration++; }, x => { x.data.g_hdSpeGeneration++; },
+        x => { x.rebindData(JSON.parse(JSON.stringify(x.data))); }, x => { x.api.retireInteraction('start-gesture-epoch'); }
+    ]) {
+        const x = harness({native: 'king', preview: true}), start = x.preview.start;
+        x.pointerNode(start); change(x); x.refresh(); x.clickNode(start); x.tick();
+        assert.deepEqual(x.sent, [], 'a held Start cannot authorize another highlighted ruler or engine epoch');
+    }
+    const pending = harness({native: 'king', acknowledge: false, preview: true}); pending.click(1); pending.clickNode(pending.preview.start);
+    assert.deepEqual(pending.sent, [VK.DOWN]);
+});
+
+test('PC king row presses cannot turn a changed highlight or data epoch into an unintended confirmation', () => {
+    const h = harness({native: 'king', preview: true}), row = h.button(1); h.pointerNode(row);
+    h.key(40); h.tick(40); h.clickNode(row); assert.deepEqual(h.sent, [VK.DOWN], 'pressing a different row before keyboard ACK must not become Enter');
+    h.click(1); assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER], 'a new current-row click remains an explicit confirmation');
+    for (const change of [
+        x => x.rebindData(JSON.parse(JSON.stringify(x.data))), x => { x.data.g_hdDetailGeneration++; },
+        x => { x.data.g_hdSpeGeneration++; }, x => { x.api.retireInteraction('row-gesture-epoch'); }
+    ]) {
+        const x = harness({native: 'king', preview: true}), old = x.button(0); x.pointerNode(old); change(x); x.refresh(); x.clickNode(old); x.tick();
+        assert.deepEqual(x.sent, [], 'same owner token alone cannot revive a stale king-row press');
+        x.click(0); assert.deepEqual(x.sent, [VK.ENTER], 'a fresh rebuilt row remains usable after same-sequence data or epoch changes');
+    }
+});
+
+test('PC king territory preview binds all native cities and complete names to king zero without inventing a capital', () => {
+    const h = harness({native: 'king', preview: true}), p = h.preview;
+    const owned = h.data.g_Cities.map((c, id) => ({...c, id})).filter(c => c.Belong === h.kings.currentId + 1);
+    assert.equal(h.data.g_PlayerKing, 12); assert.equal(p.panel.getAttribute('data-king-id'), '0');
+    assert.equal(p.summary.getAttribute('data-count'), String(owned.length));
+    assert.deepEqual(p.cities.children.map(n => n.textContent), owned.map(c => h.cityNames[c.id]));
+    assert.deepEqual(p.cities.children.map(n => n.getAttribute('data-city-id')), owned.map(c => String(c.id)));
+    assert.equal(p.map.children.length, 38);
+    assert.equal(p.map.getAttribute('hidden'), null, 'valid SVG preview must remove its actual hidden attribute');
+    const xs = h.data.g_CityPositions.map(v => v.x), ys = h.data.g_CityPositions.map(v => v.y),
+        minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys),
+        scale = Math.min(296 / (maxX - minX || 1), 156 / (maxY - minY || 1));
+    for (const [i, point] of p.map.children.entries()) {
+        const pos = h.data.g_CityPositions[i]; assert.equal(point.getAttribute('data-city-id'), String(i));
+        assert.equal(point.getAttribute('data-native-x'), String(pos.x)); assert.equal(point.getAttribute('data-native-y'), String(pos.y));
+        assert.equal(point.getAttribute('data-owned'), String(h.data.g_Cities[i].Belong === 1));
+        assert.ok(Math.abs(Number(point.getAttribute('cx')) - (160 + (pos.x - (minX + maxX) / 2) * scale)) <= .00051);
+        assert.ok(Math.abs(Number(point.getAttribute('cy')) - (90 + (pos.y - (minY + maxY) / 2) * scale)) <= .00051);
+        assert.equal(point.children[0].textContent, h.cityNames[i]);
+    }
+    assert.equal(p.map.children[37].getAttribute('cx'), p.map.children[0].getAttribute('cx'), 'authentic coordinate collisions are retained');
+    assert.deepEqual(h.sent, []); h.assertWorldUnchanged();
+});
+
+test('PC king preview clears stale territories for invalid library or native shape and late second-pass getter changes', () => {
+    for (const change of [
+        x => { x.identity.status = 'pending'; }, x => { x.identity.sha256 = '0'.repeat(64); }, x => { x.identity.byteLength--; },
+        x => { x.identity.generation = 0; }, x => { x.context.BayeHdLibIdentity.isCurrent = () => false; },
+        x => { x.menu.count--; }, x => { x.kings.currentId = 7; }, x => { x.data.g_CityPositions[0].x = 256; },
+        x => { x.data.g_CityPositions[0].y = .5; }, x => { x.context.baye.hdCityLimit = () => 37; }
+    ]) {
+        const x = harness({native: 'king', preview: true}); change(x); x.refresh();
+        assert.equal(x.preview.panel.getAttribute('data-ready'), 'false'); assert.equal(x.preview.panel.getAttribute('data-king-id'), '');
+        assert.equal(x.preview.cities.children.length, 0); assert.equal(x.preview.map.children.length, 0); assert.deepEqual(x.sent, []);
+        assert.equal(x.preview.map.getAttribute('hidden'), '', 'invalid SVG preview retains its actual hidden attribute');
+    }
+    for (const change of [x => { x.menu.seq++; }, x => { x.kings.currentId = 1; },
+        x => { x.data.g_hdDetailGeneration++; }, x => { x.data.g_hdSpeGeneration++; },
+        x => { x.rebindData(JSON.parse(JSON.stringify(x.data))); }]) {
+        const x = harness({native: 'king', preview: true}), original = x.context.baye.getCityName; let reads = 0;
+        x.context.baye.getCityName = i => { if (++reads === 76) change(x); return original(i); };
+        x.refresh(); assert.equal(reads, 76, 'mutation is reached at the final city name of the second full sample');
+        assert.equal(x.preview.panel.getAttribute('data-ready'), 'false', 'late source change must not publish a mixed territory panel');
+        assert.equal(x.preview.cities.children.length, 0); assert.equal(x.preview.map.children.length, 0); assert.deepEqual(x.sent, []);
+    }
+});
+
+test('PC king LCD toggle survives polls and scheduled native refreshes and resets its label on a fresh selector', () => {
+    const h = harness({native: 'king', preview: true}), p = h.preview;
+    h.api.onEngineHook('chooseActor'); h.clickNode(p.lcd);
+    assert.equal(h.context.document.body.classList.contains('baye-hd-system-ui-lcd'), true);
+    assert.equal(h.context.document.body.classList.contains('baye-hd-system-ui-king-lcd'), true);
+    assert.equal(p.lcd.textContent, '隐藏经典 LCD'); h.poll(); h.tick(3300);
+    assert.equal(h.context.document.body.classList.contains('baye-hd-system-ui-lcd'), true);
+    assert.equal(p.lcd.textContent, '隐藏经典 LCD'); assert.equal(p.panel.getAttribute('data-ready'), 'true');
+    h.clickNode(p.lcd); assert.equal(h.context.document.body.classList.contains('baye-hd-system-ui-lcd'), false);
+    assert.equal(p.lcd.textContent, '经典 LCD');
+    h.clickNode(p.lcd); h.api.onEngineHook('chooseActor');
+    assert.equal(h.context.document.body.classList.contains('baye-hd-system-ui-lcd'), false); assert.equal(p.lcd.textContent, '经典 LCD');
+    assert.deepEqual(h.sent, []); h.assertWorldUnchanged();
 });
 
 console.log(`${count} HD save/load UI regressions passed`);

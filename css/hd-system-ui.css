@@ -162,7 +162,102 @@ html[data-baye-system-ui="hd"] body.baye-hd-system-ui-king-empty .container.js-b
     box-shadow: 0 0 0 4px #1b1f27, 0 16px 40px rgba(0, 0, 0, 0.55);
 }
 
-html[data-baye-system-ui="hd"] body.baye-hd-system-ui-has-kings .container.js-baye-pc-lcd {
+html[data-baye-system-ui="hd"] body.hd-mobile-page.baye-hd-system-ui-has-kings .container.js-baye-pc-lcd {
     visibility: hidden !important;
     pointer-events: none;
+}
+
+/* Only the PC native king selector adds a read-only territory preview. */
+.hd-system-ui-content { display: contents; }
+.hd-system-king-preview[hidden],
+.hd-system-king-preview [hidden],
+.hd-system-ui [data-hd-sys-start][hidden] { display: none !important; }
+.hd-system-ui.has-king-preview .hd-system-ui-content {
+    display: grid;
+    grid-template-columns: minmax(150px, .85fr) minmax(0, 1.15fr);
+    gap: 18px;
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 22px 0 16px;
+    overflow: hidden;
+}
+.hd-system-ui.has-king-preview .hd-system-ui-list {
+    grid-template-columns: minmax(0, 1fr);
+    margin: 0;
+}
+.hd-system-king-preview {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    padding: 12px 16px;
+    overflow: auto;
+    border: 1px solid rgba(240, 217, 159, .22);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .035);
+}
+.hd-system-king-preview h2 {
+    flex: 0 0 auto;
+    margin: 0 0 8px;
+    color: #f0d99f;
+    font-size: 22px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+.hd-system-king-preview svg {
+    flex: 0 0 auto;
+    width: 100%;
+    height: clamp(80px, 24vh, 180px);
+    border-radius: 8px;
+    background: #13232b;
+}
+.hd-system-king-preview circle { fill: #627781; }
+.hd-system-king-preview circle[data-owned="true"] { fill: #f0ce72; stroke: #fff2c5; stroke-width: 1; }
+.hd-system-king-preview ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    flex: 0 0 auto;
+    padding: 0;
+    margin: 10px 0 0;
+    list-style: none;
+    font-size: 16px;
+    line-height: 1.5;
+}
+.hd-system-king-preview li { overflow-wrap: anywhere; }
+.hd-system-king-preview p { flex: 0 0 auto; margin: 8px 0 0; color: #bac8d8; font-size: 13px; line-height: 1.4; }
+.hd-system-ui [data-hd-sys-start] { background: #3d6a4a; }
+
+/* The real LCD remains outside this shell; reserve a separate visible area. */
+html[data-baye-system-ui="hd"] body.baye-hd-system-ui-king-lcd .hd-system-ui {
+    justify-content: flex-start;
+    padding-left: 24px;
+}
+html[data-baye-system-ui="hd"] body.baye-hd-system-ui-king-lcd .hd-system-ui-stage {
+    width: min(980px, calc(100vw - 360px));
+}
+@media (max-width: 1000px), (max-height: 600px) {
+    .hd-system-ui.has-king-preview .hd-system-ui-stage { padding: 16px 20px; }
+    .hd-system-ui.has-king-preview .hd-system-ui-title { font-size: 26px; }
+    .hd-system-ui.has-king-preview .hd-system-ui-sub { margin-top: 4px; font-size: 13px; }
+    .hd-system-ui.has-king-preview .hd-system-ui-content { gap: 12px; margin: 12px 0; }
+    .hd-system-ui.has-king-preview .hd-system-ui-item { min-height: 44px; padding: 8px 12px; font-size: 17px; }
+    .hd-system-king-preview { padding: 8px 10px; }
+    .hd-system-king-preview h2 { font-size: 18px; }
+    html[data-baye-system-ui="hd"] body.baye-hd-system-ui-king-lcd .hd-system-ui {
+        align-items: flex-start;
+        justify-content: center;
+        padding: 16px 0 0;
+    }
+    html[data-baye-system-ui="hd"] body.baye-hd-system-ui-king-lcd .hd-system-ui-stage {
+        width: min(980px, calc(100vw - 32px));
+        min-height: 0;
+        max-height: calc(100vh - 144px);
+        max-height: calc(100dvh - 144px);
+    }
+    html[data-baye-system-ui="hd"] body.baye-hd-system-ui-king-lcd .container.js-baye-pc-lcd {
+        right: 20px;
+        bottom: 16px;
+        width: 160px !important;
+    }
 }
