@@ -445,3 +445,10 @@
 /docs/validation/m5-spe-return-boundary-20261024-v43*.md -text whitespace=cr-at-eol
 /docs/validation/m5-spe-return-boundary-20261024-v43*.gz -text
 /docs/validation/m5-spe-return-boundary-20261024-v43*.png -text
+
+# Ordinary PC MAP/menu viewport, emulated DPR and real visibility evidence.
+/docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.json -text whitespace=cr-at-eol
+/docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.md -text whitespace=cr-at-eol
+/docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.gz -text
+/docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.png -text
