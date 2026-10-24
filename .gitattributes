@@ -492,3 +492,11 @@
 /docs/validation/m5-wood-city4-preparation-20261024-v49*.gz -text
 /docs/validation/m5-wood-city4-preparation-20261024-v49*.png -text
 /docs/validation/m5-wood-city4-preparation-20261024-v49*.sav -text
+
+# Original city4 partial-save resume and completed guard preparation.
+/docs/validation/m5-wood-city4-resume-20261024-v50*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-resume-20261024-v50*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-resume-20261024-v50*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-resume-20261024-v50*.gz -text
+/docs/validation/m5-wood-city4-resume-20261024-v50*.sav -text
+/docs/validation/m5-wood-city4-resume-20261024-v50*.png -text
