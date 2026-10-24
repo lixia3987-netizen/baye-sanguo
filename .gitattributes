@@ -560,3 +560,13 @@
 /docs/validation/m5-pc-king-preview-20261024-v56*.gz -text
 /docs/validation/m5-pc-king-preview-20261024-v56*.sav -text
 /docs/validation/m5-pc-king-preview-20261024-v56*.png -text
+
+# Original authorized city4 recovery round and genuine saved March prefix.
+/docs/validation/m5-wood-city4-recovery-20261024-v57*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-recovery-20261024-v57*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-recovery-20261024-v57*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-recovery-20261024-v57*.gz -text
+/docs/validation/m5-wood-city4-recovery-20261024-v57*.sav -text
+/docs/validation/m5-wood-city4-recovery-20261024-v57*.png -text
+/docs/hd-development-plan.md text eol=lf
+/docs/hd-remaining-work.md text eol=lf
