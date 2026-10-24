@@ -237,6 +237,14 @@
         }
         toolbarBound = true;
         toolbar.addEventListener('click', function (event) {
+            var gameFocus = document.getElementById('baye-game-focus');
+            if (gameFocus && gameFocus.tagName === 'SPAN' &&
+                gameFocus.parentNode === toolbar && event.target === gameFocus) {
+                // The nonfocusable surface uses the browser's pointer default.
+                // Closing display settings never focuses a button or sends a game key.
+                setSettingsOpen(false, false);
+                return;
+            }
             var el = event.target;
             var btn = null;
             while (el && el !== toolbar) {

@@ -522,3 +522,11 @@
 /scripts/test-hd-wood-city4-preparation.mjs text eol=lf
 /scripts/hd-wood-city4-continuation.mjs text eol=lf
 /scripts/test-hd-wood-city4-continuation.mjs text eol=lf
+
+# Original named keyboard focus and unsaved city4 March evidence.
+/docs/validation/m5-wood-city4-march-20261024-v53*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-march-20261024-v53*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-march-20261024-v53*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood-city4-march-20261024-v53*.gz -text
+/docs/validation/m5-wood-city4-march-20261024-v53*.sav -text
+/docs/validation/m5-wood-city4-march-20261024-v53*.png -text
