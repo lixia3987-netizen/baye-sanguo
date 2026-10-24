@@ -463,3 +463,10 @@
 /docs/validation/m5-quantity-ack-refresh-20261024-v45*.md -text whitespace=cr-at-eol
 /docs/validation/m5-quantity-ack-refresh-20261024-v45*.gz -text
 /docs/validation/m5-quantity-ack-refresh-20261024-v45*.png -text
+
+# Current October City quantity summary ACK and real rapid input evidence.
+/docs/validation/m5-city-quantity-rapid-20261024-v46*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city-quantity-rapid-20261024-v46*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city-quantity-rapid-20261024-v46*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city-quantity-rapid-20261024-v46*.gz -text
+/docs/validation/m5-city-quantity-rapid-20261024-v46*.png -text

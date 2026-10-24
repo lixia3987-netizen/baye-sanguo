@@ -72,7 +72,7 @@ function harness({ quantitySourceOverrides = false } = {}) {
         hd: { ready: () => true, report: () => report, reportText: () => report.text,
             march: () => march, fight: () => fight, help: () => help, view: () => view, qty: () => qty,
             menuItems: () => menu, movie: () => ({ active: 0 }) } };
-    load('js/hd-city-menu.js', `global.__cityState = state; render = function () {}; scheduleMarchWatch = function () {};`);
+    load('js/hd-city-menu.js', "global.__cityState = state;\nglobal.__quantityCityCalls = { render: 0, fillDeepList: 0 };\nvar quantityOriginalFillDeepList = fillDeepList;\nfillDeepList = function () { global.__quantityCityCalls.fillDeepList++; return quantityOriginalFillDeepList.apply(this, arguments); };\nrender = function () { global.__quantityCityCalls.render++; }; scheduleMarchWatch = function () {};\nglobal.__quantitySummaryProbe = {\n capture: function () { return { data: engineData(), queueEpoch: queueEpoch, qtyEpoch: qtyEpoch }; },\n refresh: function (receipt, token) {\n  if (typeof refreshQuantitySummaryReceipt !== 'function') throw Error('Actual private City quantity summary helper is required');\n  return refreshQuantitySummaryReceipt(receipt, token.data, token.queueEpoch, token.qtyEpoch);\n },\n retireQueue: function () { invalidateMarchWork(); }, retireQuantity: function () { invalidateQtyWork(); }\n};");
     Object.assign(context.__cityState, { battleMake: true, marchSession: 7, marchOriginIndex: 0,
         cityIndex: 0, deepKind: 'person-city', layer: 'deep', open: false });
     load('js/hd-battle.js'); load('js/hd-dialog.js', quantitySourceOverrides ? `
@@ -1375,4 +1375,156 @@ test('mobile HELP portrait rejects a source for another period or a preview iden
     for(const src of [{...helpPortrait,entry:{...helpPortrait.entry,period:2}},{...helpPortrait,preview:true}]){
         const p=await portraitFixture(src);await p.ready();assert.equal(p.d.getBattleLcdPresentation(),'passthrough');assert.deepEqual(p.h.sent,[]);
     }
+});
+
+
+// Existing City DOM is seeded once; this fixture does not parse initial City HTML.
+// Real City pumpQueue/ACK and real Dialog render still run. No interval/poll runs.
+function cityQuantitySummaryHarness() {
+    const h = quantityDomHarness(), list = element(), summary = element('P'), strong = element('STRONG'), controls = element();
+    list.setAttribute('id', 'hd-city-menu-deep'); strong.setAttribute('id', 'hd-city-qty-val'); strong.textContent = '177';
+    const buttons = [-10, -1, 1, 10].map(delta => { const b = element('BUTTON'); b.setAttribute('data-hd-qty', delta); controls.appendChild(b); return b; });
+    summary.appendChild(strong); list.appendChild(summary); list.appendChild(controls); h.nodes['hd-city-menu'].appendChild(list);
+    h.nodes['hd-city-menu-deep'] = list; h.nodes['hd-city-qty-val'] = strong;
+    list.contains = node => { for (let p = node; p; p = p.parentNode) if (p === list) return true; return false; };
+    let htmlWrites = 0, textWrites = 0;
+    const text = Object.getOwnPropertyDescriptor(strong, 'textContent');
+    Object.defineProperty(strong, 'textContent', { configurable: true, get() { return text.get.call(this); }, set(value) {
+        textWrites++; if (h.throwSummaryText) throw Error('controlled existing summary text setter'); text.set.call(this, value);
+    } });
+    Object.defineProperty(list, 'innerHTML', { configurable: true, get() { return ''; }, set() {
+        htmlWrites++; throw Error('Current ACK must not rebuild the existing City list');
+    } });
+    const frontButton = element('BUTTON'); frontButton.setAttribute('data-hd-qty', '-1'); h.nodes['hd-dialog'].appendChild(frontButton);
+    h.context.document.activeElement = frontButton;
+    h.summary = { list, summary, strong, controls, buttons, frontButton };
+    h.summaryCounters = () => ({ htmlWrites, textWrites, ...h.context.__quantityCityCalls });
+    h.summaryDom = () => ({ ...h.dom(), city: strong.textContent });
+    h.assertSummaryNodes = () => {
+        assert.equal(h.nodes['hd-city-menu-deep'], list); assert.equal(h.nodes['hd-city-qty-val'], strong);
+        assert.equal(list.parentNode, h.nodes['hd-city-menu']); assert.equal(summary.parentNode, list); assert.equal(strong.parentNode, summary);
+        assert.equal(list.children.length, 2); assert.equal(list.children[0], summary); assert.equal(list.children[1], controls);
+        assert.equal(controls.children.length, 4); buttons.forEach((b, i) => { assert.equal(controls.children[i], b); assert.equal(b.parentNode, controls); });
+        assert.equal(h.context.document.activeElement, frontButton); assert.equal(frontButton.parentNode, h.nodes['hd-dialog']);
+    };
+    h.directReady = () => {
+        h.context.BayeHdCityMenu.stepQty(-1); assert.deepEqual(h.sent, [35]); h.publish();
+        return { receipt: h.receipt(), token: h.context.__quantitySummaryProbe.capture() };
+    };
+    h.refreshSummary = ({ receipt, token }) => h.context.__quantitySummaryProbe.refresh(receipt, token);
+    return h;
+}
+function assertSummaryRefusal(h, ready, label) {
+    const before = h.summaryDom(), counts = h.summaryCounters(), dialog = h.counts(), sends = [...h.sent];
+    assert.equal(h.refreshSummary(ready), false, label); assert.deepEqual(h.summaryDom(), before, label);
+    assert.deepEqual(h.summaryCounters(), counts, label); assert.deepEqual(h.counts(), dialog, label); assert.deepEqual(h.sent, sends, label);
+    assert.deepEqual(h.writes, [], label);
+}
+
+test('City quantity summary ACK fresh delayed receipt updates existing text without replacing nodes or focus', () => {
+    const h = cityQuantitySummaryHarness(), city = h.summaryCounters(), dialog = h.counts(), epoch = h.snapshot().viewEpoch;
+    h.context.BayeHdCityMenu.stepQty(-1); assert.deepEqual(h.sent, [35]); assert.equal(h.summary.strong.textContent, '177');
+    h.publish(); h.oneTimeout();
+    assert.equal(h.summary.strong.textContent, '176', 'A real successful ACK must refresh the existing City strong');
+    assert.match(h.dom().body, /当前 176（1–177）/); assert.equal(h.dom().range, '最小 1 · 最大 177 · 当前 176');
+    h.assertSummaryNodes(); assert.equal(h.summaryCounters().textWrites, 1); assert.equal(h.summaryCounters().htmlWrites, 0);
+    assert.equal(h.summaryCounters().render, city.render); assert.equal(h.summaryCounters().fillDeepList, city.fillDeepList);
+    assert.equal(h.counts().open, dialog.open); assert.equal(h.counts().poll, dialog.poll); assert.equal(h.snapshot().viewEpoch, epoch);
+    assert.deepEqual(h.sent, [35]); assert.deepEqual(h.writes, []);
+    const same = { receipt: h.receipt(), token: h.context.__quantitySummaryProbe.capture() }, counts = h.summaryCounters();
+    assert.equal(h.refreshSummary(same), true); assert.deepEqual(h.summaryCounters(), counts, 'Same text is not assigned again');
+});
+
+test('City quantity summary ACK FIFO updates each current value and retires canceled old work', () => {
+    const h = cityQuantitySummaryHarness(), city = h.summaryCounters();
+    for (const delta of [-1, -1, 1]) h.context.BayeHdCityMenu.stepQty(delta);
+    assert.deepEqual(h.sent, [35]);
+    for (const value of [176, 175, 176]) { h.publish(); h.oneTimeout(); assert.equal(h.summary.strong.textContent, String(value)); h.assertSummaryNodes(); }
+    assert.deepEqual(h.sent, [35, 35, 34]); assert.equal(h.qty.inputSeq, 3); assert.equal(h.summaryCounters().textWrites, 3);
+    assert.equal(h.summaryCounters().render, city.render); assert.equal(h.summaryCounters().fillDeepList, city.fillDeepList);
+    const canceled = cityQuantitySummaryHarness(); canceled.context.BayeHdCityMenu.stepQty(-1); canceled.context.BayeHdCityMenu.stepQty(1);
+    canceled.context.BayeHdCityMenu.cancelQty(); const before = canceled.summaryDom(), counters = canceled.summaryCounters();
+    canceled.publish(); canceled.oneTimeout(); assert.deepEqual(canceled.summaryDom(), before); assert.deepEqual(canceled.summaryCounters(), counters);
+    assert.deepEqual(canceled.sent, [35, 40]); assert.deepEqual(canceled.writes, []);
+});
+
+test('City quantity summary ACK rejects stale or mismatched complete receipt fields at the private helper', () => {
+    for (const change of [{ protocol: false }, { active: 0 }, { ready: 0 }, { session: 8 }, { inputSeq: 0 }, { inputSeq: 2 },
+        { value: 175 }, { min: 0 }, { max: 178 }, { cursor: 1 }, { step: 10 }, { lastKey: 65535 }, { lastKey: 39 }, { lastKey: 40 }]) {
+        const h = cityQuantitySummaryHarness(), ready = h.directReady();
+        ready.receipt = { ...ready.receipt, ...change }; assertSummaryRefusal(h, ready, JSON.stringify(change)); h.assertSummaryNodes();
+    }
+});
+
+test('City quantity summary ACK rejects persistent replaced data and stale queue or quantity epochs', () => {
+    for (const reason of ['replaced-data', 'queue-epoch', 'qty-epoch', 'persistent-torn-qty', 'data-during-read']) {
+        const h = cityQuantitySummaryHarness(), ready = h.directReady();
+        if (reason === 'replaced-data') { const replacement = { ...h.data }; h.context.baye.data = replacement; h.context.baye.ensureData = () => replacement; }
+        if (reason === 'queue-epoch') h.context.__quantitySummaryProbe.retireQueue();
+        if (reason === 'qty-epoch') h.context.__quantitySummaryProbe.retireQuantity();
+        if (reason === 'persistent-torn-qty' || reason === 'data-during-read') {
+            let reads = 0; const actual = h.context.baye.hd.qty;
+            h.context.baye.hd.qty = () => {
+                if (++reads >= 2) {
+                    if (reason === 'persistent-torn-qty') return { ...h.qty, value: 175 };
+                    const replacement = { ...h.data }; h.context.baye.data = replacement; h.context.baye.ensureData = () => replacement;
+                }
+                return actual();
+            };
+        }
+        assertSummaryRefusal(h, ready, reason); h.assertSummaryNodes();
+    }
+});
+
+test('City quantity summary ACK rejects closed commit hidden classic and retired current owners', () => {
+    for (const reason of ['closed-city', 'non-deep', 'input-closed', 'ack-failed', 'commit', 'hidden', 'classic', 'native-closed', 'wait-key']) {
+        const h = cityQuantitySummaryHarness(), ready = h.directReady(), state = h.context.__cityState;
+        if (reason === 'closed-city') state.open = false;
+        if (reason === 'non-deep') state.layer = 'root';
+        if (reason === 'input-closed') state.qtyInputClosed = true;
+        if (reason === 'ack-failed') state.qtyAckFailed = true;
+        if (reason === 'commit') state.qtyCommitQueued = true;
+        if (reason === 'hidden') h.context.document.hidden = true;
+        if (reason === 'classic') h.context.localStorage.setItem('baye/cityMenuMode', 'classic');
+        if (reason === 'native-closed') h.context.bayeQtyCloseInput(h.qty);
+        if (reason === 'wait-key') state.qtyWaitKey = 'qty:8';
+        assertSummaryRefusal(h, ready, reason); h.assertSummaryNodes();
+    }
+});
+
+test('City quantity summary ACK rejects absent detached and mid-read replaced existing DOM nodes', () => {
+    for (const reason of ['missing-strong', 'missing-list', 'detached', 'node-replaced', 'list-replaced']) {
+        const h = cityQuantitySummaryHarness(), ready = h.directReady(), oldStrong = h.summary.strong;
+        if (reason === 'missing-strong') delete h.nodes['hd-city-qty-val'];
+        if (reason === 'missing-list') delete h.nodes['hd-city-menu-deep'];
+        if (reason === 'detached') oldStrong.parentNode = oldStrong.parentElement = null;
+        if (reason === 'node-replaced' || reason === 'list-replaced') {
+            const oldLookup = h.context.document.getElementById; let reads = 0;
+            const replacement = reason === 'node-replaced' ? element('STRONG') : element(); replacement.textContent = '999';
+            h.context.document.getElementById = id => {
+                const target = reason === 'node-replaced' ? 'hd-city-qty-val' : 'hd-city-menu-deep';
+                if (id === target && ++reads >= 2) return replacement;
+                return oldLookup(id);
+            };
+            h.replacement = replacement;
+        }
+        assertSummaryRefusal(h, ready, reason); assert.equal(oldStrong.textContent, '177');
+        if (h.replacement) assert.equal(h.replacement.textContent, '999');
+    }
+});
+
+test('City quantity summary ACK contains getter and text exceptions without blocking the independent Dialog refresh', () => {
+    for (const reason of ['qty-getter', 'dom-getter', 'text-setter']) {
+        const h = cityQuantitySummaryHarness(), ready = h.directReady(), before = h.summaryDom(), sent = [...h.sent];
+        if (reason === 'qty-getter') h.context.baye.hd.qty = () => { throw Error('controlled qty getter'); };
+        if (reason === 'dom-getter') { const old = h.context.document.getElementById; h.context.document.getElementById = id => {
+            if (id === 'hd-city-qty-val') throw Error('controlled DOM getter'); return old(id);
+        }; }
+        if (reason === 'text-setter') h.throwSummaryText = true;
+        assert.doesNotThrow(() => assert.equal(h.refreshSummary(ready), false, reason));
+        assert.deepEqual(h.summaryDom(), before); assert.deepEqual(h.sent, sent); assert.deepEqual(h.writes, []);
+    }
+    const h = cityQuantitySummaryHarness(); h.throwSummaryText = true; h.context.BayeHdCityMenu.stepQty(-1); h.publish(); h.oneTimeout();
+    assert.equal(h.summary.strong.textContent, '177'); assert.match(h.dom().body, /当前 176（1–177）/);
+    assert.equal(h.dom().range, '最小 1 · 最大 177 · 当前 176'); assert.deepEqual(h.sent, [35]); assert.deepEqual(h.writes, []);
 });

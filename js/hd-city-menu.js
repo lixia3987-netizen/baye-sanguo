@@ -1699,14 +1699,43 @@
                 try {
                     if (code != null && quantityData && epoch === queueEpoch && item.qtyEpoch === qtyEpoch &&
                         quantityData === engineData() && !state.qtyInputClosed &&
-                        !state.qtyAckFailed && !state.qtyCommitQueued && global.BayeHdDialog &&
-                        typeof BayeHdDialog.refreshQuantityReceipt === 'function') {
-                        BayeHdDialog.refreshQuantityReceipt(q);
+                        !state.qtyAckFailed && !state.qtyCommitQueued) {
+                        refreshQuantitySummaryReceipt(q, quantityData, epoch, item.qtyEpoch);
+                        if (global.BayeHdDialog && typeof BayeHdDialog.refreshQuantityReceipt === 'function') {
+                            BayeHdDialog.refreshQuantityReceipt(q);
+                        }
                     }
                 } catch (e) {}
             });
         }
         next();
+    }
+
+    // Update the existing City summary only for this current character receipt.
+    function refreshQuantitySummaryReceipt(receipt, data, epoch, inputEpoch) {
+        try {
+            function currentOwner() {
+                return data && data === engineData() && epoch === queueEpoch && inputEpoch === qtyEpoch &&
+                    !document.hidden && state.open && state.layer === 'deep' && shouldShowHd() &&
+                    !state.qtyInputClosed && !state.qtyAckFailed && !state.qtyCommitQueued;
+            }
+            if (!currentOwner() || !receipt || receipt.protocol !== true || receipt.active !== 1 ||
+                receipt.ready !== 1 || !bayeQtyAckState(receipt) || !receipt.inputSeq ||
+                receipt.lastKey === 0xffff || receipt.lastKey === VK.ENTER || receipt.lastKey === VK.EXIT ||
+                state.qtyWaitKey !== 'qty:' + String(receipt.session)) { return false; }
+            var list = el('hd-city-menu-deep'), node = el('hd-city-qty-val');
+            if (!list || !node || !list.contains(node)) { return false; }
+            var fields = ['protocol', 'active', 'ready', 'session', 'inputSeq', 'lastKey',
+                'value', 'min', 'max', 'cursor', 'step'];
+            function current(q) {
+                return q && fields.every(function (name) { return q[name] === receipt[name]; }) &&
+                    !bayeQtyNativeClosed(q);
+            }
+            if (!current(engineQty()) || !showingQty() || !current(engineQty()) || !currentOwner() ||
+                list !== el('hd-city-menu-deep') || node !== el('hd-city-qty-val') || !list.contains(node)) { return false; }
+            if (node.textContent !== String(receipt.value)) { node.textContent = receipt.value; }
+            return true;
+        } catch (e) { return false; }
     }
 
     function keysToIndex(target) {
