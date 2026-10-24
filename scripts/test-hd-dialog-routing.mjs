@@ -28,7 +28,7 @@ function element(tagName = 'DIV') {
         },
         appendChild(child) { child.parentNode = child.parentElement = this; this.children.push(child); } };
 }
-function harness() {
+function harness({ quantitySourceOverrides = false } = {}) {
     const nodes = { 'hd-dialog': element(), 'hd-city-menu': element(), 'hd-battle': element(),
         'hd-dialog-title': element(), 'hd-dialog-body': element(), 'hd-dialog-caption': element(),
         'hd-dialog-range': element() };
@@ -59,7 +59,10 @@ function harness() {
         $() { return { css() {}, hide() {}, show() {}, removeAttr() {} }; } });
     context.window = context;
     function load(path, expose = '') {
-        let source = readFileSync(new URL('../' + path, import.meta.url), 'utf8');
+        const override = quantitySourceOverrides && (path === 'js/hd-city-menu.js'
+            ? process.env.BAYE_QUANTITY_CITY_SOURCE : path === 'js/hd-dialog.js'
+                ? process.env.BAYE_QUANTITY_DIALOG_SOURCE : null);
+        let source = readFileSync(override || new URL('../' + path, import.meta.url), 'utf8');
         if (expose) source = source.replace(/\}\)\(window\);\s*$/, expose + '\n})(window);');
         vm.runInContext(source, context, { filename: path });
     }
@@ -72,7 +75,13 @@ function harness() {
     load('js/hd-city-menu.js', `global.__cityState = state; render = function () {}; scheduleMarchWatch = function () {};`);
     Object.assign(context.__cityState, { battleMake: true, marchSession: 7, marchOriginIndex: 0,
         cityIndex: 0, deepKind: 'person-city', layer: 'deep', open: false });
-    load('js/hd-battle.js'); load('js/hd-dialog.js');
+    load('js/hd-battle.js'); load('js/hd-dialog.js', quantitySourceOverrides ? `
+        global.__quantityDomCalls = { render: 0, open: 0, poll: 0 };
+        var quantityOriginalRender = render, quantityOriginalOpen = openDialog, quantityOriginalPoll = pollEngine;
+        render = function () { global.__quantityDomCalls.render++; return quantityOriginalRender.apply(this, arguments); };
+        openDialog = function () { global.__quantityDomCalls.open++; return quantityOriginalOpen.apply(this, arguments); };
+        pollEngine = function () { global.__quantityDomCalls.poll++; return quantityOriginalPoll.apply(this, arguments); };
+    ` : '');
     context.BayeHdBattle.start(); context.BayeHdDialog.start();
     document.onkeydown = context.onKeyDown;
     writes.length = 0;
@@ -102,10 +111,133 @@ function harness() {
             if (!event.immediate) document.onkeydown(event);
             return event;
         },
-        timers() { for (let n = 0; timers.size && n < 20; n++) { const pending = [...timers.values()]; timers.clear(); pending.forEach(fn => fn()); } }
+        timers() { for (let n = 0; timers.size && n < 20; n++) { const pending = [...timers.values()]; timers.clear(); pending.forEach(fn => fn()); } },
+        oneTimeout() { const next = timers.entries().next(); assert.equal(next.done, false, 'actual receipt timeout pending'); const [id, fn] = next.value; timers.delete(id); fn(); }
     };
 }
 function native(h) { h.march.phase = 0; h.context.__cityState.battleMake = false; }
+
+// Real CityMenu receipt queue and real Dialog render; C publication is explicit.
+// No interval/poll runs here, so a successful 4ms receipt must update both nodes.
+function quantityDomHarness() {
+    const h = harness({ quantitySourceOverrides: true });
+    native(h); h.context.BayeHdDialog.close({ silent: true });
+    Object.assign(h.march, { session: 0, phase: 0, pick: 0, battlePick: 0, origin: 255, selected: 0, ok: 0, seq: 0 });
+    Object.assign(h.report, { active: 0, text: '', kind: 0 });
+    Object.assign(h.data, { g_asyncActionID: 9, g_hdReportActive: 0 });
+    Object.assign(h.qty, { protocol: true, active: 1, ready: 1, session: 7, inputSeq: 0,
+        lastKey: 65535, min: 1, max: 177, value: 177, cursor: 2, step: 1 });
+    for (const [field, name] of Object.entries({ g_hdQtyActive: 'active', g_hdQtySession: 'session',
+        g_hdQtyInputSeq: 'inputSeq', g_hdQtyLastKey: 'lastKey', g_hdQtyReady: 'ready',
+        g_hdQtyValue: 'value', g_hdQtyMin: 'min', g_hdQtyMax: 'max' })) {
+        Object.defineProperty(h.data, field, { configurable: true, get: () => h.qty[name] });
+    }
+    Object.assign(h.context.__cityState, { open: true, layer: 'deep', deepKind: 'person',
+        deepLabel: '交易', cityIndex: 20, battleMake: false, marchSession: 0, marchOriginIndex: null });
+    assert.equal(h.context.BayeHdDialog.openQty({ min: 1, max: 177, init: 177 }), true);
+    const pending = []; h.onSend(code => pending.push(code));
+    h.publish = () => {
+        assert.ok(pending.length, 'real queued native character'); const code = pending.shift();
+        h.qty.ready = 0;
+        if (code === 35) h.qty.value--;
+        if (code === 34) h.qty.value++;
+        h.qty.inputSeq = h.qty.inputSeq === 0xffffffff ? 1 : h.qty.inputSeq + 1;
+        h.qty.lastKey = code; h.qty.ready = h.qty.active ? 1 : 0;
+        return code;
+    };
+    h.receipt = () => ({ ...h.qty });
+    h.dom = () => ({ body: h.nodes['hd-dialog-body'].textContent, range: h.nodes['hd-dialog-range'].textContent });
+    h.counts = () => ({ ...h.context.__quantityDomCalls });
+    h.publishReadyValue = () => Object.assign(h.qty, { inputSeq: 1, lastKey: 35, value: 176 });
+    h.writes.length = 0;
+    return h;
+}
+
+test('quantity receipt DOM successful delayed City ACK refreshes body and range without interval or reopen', () => {
+    const h = quantityDomHarness(), d = h.context.BayeHdDialog, epoch = h.snapshot().viewEpoch, counts = h.counts();
+    assert.match(h.dom().body, /当前 177（1–177）/); assert.equal(h.dom().range, '最小 1 · 最大 177 · 当前 177');
+    h.context.BayeHdCityMenu.stepQty(-1);
+    assert.deepEqual(h.sent, [35]); assert.equal(h.qty.inputSeq, 0); assert.match(h.dom().body, /当前 177/);
+    h.publish(); h.oneTimeout();
+    assert.match(h.dom().body, /当前 176（1–177）/); assert.equal(h.dom().range, '最小 1 · 最大 177 · 当前 176');
+    assert.equal(h.snapshot().viewEpoch, epoch); assert.equal(h.snapshot().open, true);
+    assert.equal(h.counts().open, counts.open); assert.equal(h.counts().poll, counts.poll);
+    assert.ok(h.counts().render > counts.render); assert.equal(typeof d.refreshQuantityReceipt, 'function');
+    assert.deepEqual(h.sent, [35]); assert.deepEqual(h.writes, []);
+});
+
+test('quantity receipt DOM rejects stale, mismatched and not-ready receipts without repaint or input', () => {
+    for (const change of [{ inputSeq: 0 }, { session: 8 }, { ready: 0 }, { value: 175 },
+        { min: 0 }, { max: 178 }, { cursor: 1 }, { step: 10 }, { lastKey: 40 }, { active: 0 }]) {
+        const h = quantityDomHarness(); h.publishReadyValue(); const before = h.dom(), counts = h.counts(), epoch = h.snapshot().viewEpoch;
+        assert.equal(h.context.BayeHdDialog.refreshQuantityReceipt({ ...h.receipt(), ...change }), false);
+        assert.deepEqual(h.dom(), before); assert.deepEqual(h.counts(), counts); assert.equal(h.snapshot().viewEpoch, epoch);
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('quantity receipt DOM rejects closed, hidden, classic and retired owners and never reopens them', () => {
+    for (const reason of ['closed', 'hidden', 'classic', 'retired', 'unready', 'new-session']) {
+        const h = quantityDomHarness(), d = h.context.BayeHdDialog; h.publishReadyValue();
+        if (reason === 'closed') d.close({ silent: true });
+        if (reason === 'hidden') h.context.document.hidden = true;
+        if (reason === 'classic') h.context.BayeHdCityMenu.setMode('classic');
+        if (reason === 'retired') Object.assign(h.qty, { active: 0, ready: 0 });
+        if (reason === 'unready') h.context.baye.hd.ready = () => false;
+        if (reason === 'new-session') h.qty.session++;
+        const before = h.dom(), counts = h.counts(), snapshot = h.snapshot();
+        assert.equal(d.refreshQuantityReceipt(h.receipt()), false, reason);
+        assert.deepEqual(h.dom(), before); assert.deepEqual(h.counts(), counts); assert.equal(h.snapshot().open, snapshot.open);
+        assert.equal(h.snapshot().viewEpoch, snapshot.viewEpoch); assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('quantity receipt DOM rechecks the current native getter and data identity before rendering', () => {
+    for (const reason of ['torn-value', 'replaced-data']) {
+        const h = quantityDomHarness(); h.publishReadyValue(); const receipt = h.receipt(), realQty = h.context.baye.hd.qty;
+        let reads = 0; h.context.baye.hd.qty = () => {
+            if (++reads >= 2) {
+                if (reason === 'torn-value') return { ...h.qty, value: 175 };
+                const replacement = { ...h.data };
+                h.context.baye.data = replacement; h.context.baye.ensureData = () => replacement;
+            }
+            return realQty();
+        };
+        const before = h.dom(), counts = h.counts();
+        assert.equal(h.context.BayeHdDialog.refreshQuantityReceipt(receipt), false, reason);
+        assert.deepEqual(h.dom(), before); assert.deepEqual(h.counts(), counts); assert.deepEqual(h.sent, []);
+    }
+});
+
+test('quantity receipt DOM successful FIFO edits keep every ACK and final rendered native value', () => {
+    const h = quantityDomHarness(), epoch = h.snapshot().viewEpoch, counts = h.counts();
+    for (const delta of [-1, -1, 1]) h.context.BayeHdCityMenu.stepQty(delta);
+    assert.deepEqual(h.sent, [35]);
+    for (const expected of [176, 175, 176]) { h.publish(); h.oneTimeout(); assert.equal(h.qty.value, expected); }
+    assert.deepEqual(h.sent, [35, 35, 34]); assert.match(h.dom().body, /当前 176（1–177）/);
+    assert.equal(h.dom().range, '最小 1 · 最大 177 · 当前 176'); assert.equal(h.qty.inputSeq, 3);
+    assert.equal(h.snapshot().viewEpoch, epoch); assert.equal(h.counts().open, counts.open); assert.equal(h.counts().poll, counts.poll);
+    assert.deepEqual(h.writes, []);
+});
+
+test('quantity receipt DOM canceled queue cannot refresh or send a delayed confirmation after old ACK', () => {
+    const h = quantityDomHarness(), d = h.context.BayeHdDialog;
+    h.context.BayeHdCityMenu.stepQty(-1); h.context.BayeHdCityMenu.stepQty(1);
+    h.context.BayeHdCityMenu.commitQty();
+    h.context.BayeHdCityMenu.cancelQty(); d.close({ silent: true });
+    const before = h.dom(), counts = h.counts(), epoch = h.snapshot().viewEpoch;
+    h.publish(); h.oneTimeout();
+    assert.deepEqual(h.dom(), before); assert.deepEqual(h.counts(), counts); assert.equal(h.snapshot().viewEpoch, epoch);
+    assert.equal(h.snapshot().open, false); assert.deepEqual(h.sent, [35, 40]); assert.deepEqual(h.writes, []);
+});
+
+test('quantity receipt DOM City ACK cannot refresh an identical numeric owner from replaced native data', () => {
+    const h = quantityDomHarness(); h.context.BayeHdCityMenu.stepQty(-1);
+    const before = h.dom(), counts = h.counts(), replacement = { ...h.data };
+    h.context.baye.data = replacement; h.context.baye.ensureData = () => replacement;
+    h.publish(); h.oneTimeout();
+    assert.deepEqual(h.dom(), before); assert.deepEqual(h.counts(), counts); assert.deepEqual(h.sent, [35]);
+});
 function battleHelp(h, seq = 20) {
     native(h); Object.assign(h.fight, { active: 1, inputKind: 9, inputSeq: seq });
     h.data.g_hdFightActive = 1; h.help.active = 1; h.help.text = '战场将领帮助|兵力与状态';

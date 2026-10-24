@@ -1763,6 +1763,30 @@
         }
     }
 
+    // A successful character ACK may refresh an already visible quantity only.
+    function refreshQuantityReceipt(receipt) {
+        try {
+            if (document.hidden || !hdReady() || !state.open || state.kind !== 'qty' ||
+                !shouldShowHd() || state.qtyInputClosed || state.qtyCommitPending || state.qtyAckFailed ||
+                !receipt || receipt.protocol !== true || receipt.active !== 1 || receipt.ready !== 1 ||
+                !bayeQtyAckState(receipt) || !receipt.inputSeq || receipt.lastKey === 0xffff ||
+                receipt.lastKey === VK.ENTER || receipt.lastKey === VK.EXIT ||
+                receipt.session !== state.qtySession || receipt.session === state.qtyClosedSession) { return false; }
+            var epoch = qtyEpoch, viewEpoch = state.viewEpoch, data = engineData();
+            var fields = ['protocol', 'active', 'ready', 'session', 'inputSeq', 'lastKey',
+                'value', 'min', 'max', 'cursor', 'step'];
+            function current(q) {
+                return q && fields.every(function (name) { return q[name] === receipt[name]; }) &&
+                    !bayeQtyNativeClosed(q);
+            }
+            if (!data || !current(readStandaloneQty()) || cityMenuLeftoverQty() || !cityMenuQty()) { return false; }
+            if (!current(readStandaloneQty()) || data !== engineData() || epoch !== qtyEpoch ||
+                viewEpoch !== state.viewEpoch || document.hidden || !state.open || state.kind !== 'qty' ||
+                !shouldShowHd() || state.qtyInputClosed || state.qtyCommitPending || state.qtyAckFailed) { return false; }
+            render();
+            return true;
+        } catch (e) { return false; }
+    }
     function qtyStep(delta) {
         if (global.BayeHdCityMenu && typeof BayeHdCityMenu.stepQty === 'function') {
             BayeHdCityMenu.stepQty(delta);
@@ -2517,6 +2541,7 @@
         onEngineView: onEngineView,
         onEngineMovie: onEngineMovie,
         poll: pollEngine,
+        refreshQuantityReceipt: refreshQuantityReceipt,
         start: start,
         applyPcPage: start,
         debugSnapshot: function () {

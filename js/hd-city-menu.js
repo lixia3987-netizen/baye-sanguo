@@ -1669,6 +1669,8 @@
             }, 0);
         }
         function waitQuantity(code, owner, item, after) {
+            var quantityData = null;
+            try { quantityData = engineData(); } catch (e) {}
             bayeQtyInputAck(code, owner, {
                 read: engineQty,
                 valid: function () {
@@ -1693,6 +1695,15 @@
                     return;
                 }
                 after(q);
+                // Refresh only the existing presentation after the native queue advances.
+                try {
+                    if (code != null && quantityData && epoch === queueEpoch && item.qtyEpoch === qtyEpoch &&
+                        quantityData === engineData() && !state.qtyInputClosed &&
+                        !state.qtyAckFailed && !state.qtyCommitQueued && global.BayeHdDialog &&
+                        typeof BayeHdDialog.refreshQuantityReceipt === 'function') {
+                        BayeHdDialog.refreshQuantityReceipt(q);
+                    }
+                } catch (e) {}
             });
         }
         next();

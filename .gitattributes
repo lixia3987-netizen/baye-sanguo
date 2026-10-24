@@ -446,9 +446,20 @@
 /docs/validation/m5-spe-return-boundary-20261024-v43*.gz -text
 /docs/validation/m5-spe-return-boundary-20261024-v43*.png -text
 
+# Keep the measured quantity controller and regression bytes stable on Windows.
+/js/hd-city-menu.js text eol=lf
+/scripts/test-hd-dialog-routing.mjs text eol=lf
+
 # Ordinary PC MAP/menu viewport, emulated DPR and real visibility evidence.
 /docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.json -text whitespace=cr-at-eol
 /docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.md -text whitespace=cr-at-eol
 /docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.gz -text
 /docs/validation/m5-pc-map-menu-boundaries-20261024-v44*.png -text
+
+# Current October quantity ACK refresh, timing observations and replay evidence.
+/docs/validation/m5-quantity-ack-refresh-20261024-v45*.json -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-ack-refresh-20261024-v45*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-ack-refresh-20261024-v45*.md -text whitespace=cr-at-eol
+/docs/validation/m5-quantity-ack-refresh-20261024-v45*.gz -text
+/docs/validation/m5-quantity-ack-refresh-20261024-v45*.png -text
