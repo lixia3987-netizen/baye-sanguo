@@ -632,3 +632,24 @@ html[data-baye-city-menu="hd"][data-baye-city-lcd="on"] body.baye-hd-city-menu-o
 .hd-city-menu-person-property-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .hd-city-menu-person-property-controls button { flex: 1 1 136px; min-height: 44px; padding: 10px 12px; font-size: 14px; }
 .hd-city-menu-person-property-controls button:disabled { opacity: 0.45; cursor: default; }
+
+/* Only measured equipment rows receive the decorative label class. */
+.hd-city-menu-equipment-card .hd-city-menu-stat .hd-city-menu-equipment-label {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.375em;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 50%;
+    overflow-wrap: anywhere;
+}
+
+.hd-city-menu-equipment-label .hd-city-menu-equipment-icon {
+    order: -1;
+    flex: 0 0 1em;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.15em;
+    color: #f0c75a;
+    pointer-events: none;
+}

@@ -667,3 +667,15 @@
 /docs/validation/m5-city4-close-diagnostics-20261026-v66*.gz -text
 /docs/validation/m5-city4-close-diagnostics-20261026-v66*.sav -text
 /docs/validation/m5-city4-close-diagnostics-20261026-v66*.png -text
+
+/css/hd-city-menu.css text eol=lf
+/scripts/test-hd-city-hud.mjs text eol=lf
+/scripts/hd-person-equipment-runtime-checks.mjs text eol=lf
+/docs/validation/m5-person-equipment-icons-20261026-v67*.json -text whitespace=cr-at-eol
+/docs/validation/m5-person-equipment-icons-20261026-v67*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-person-equipment-icons-20261026-v67*.md -text whitespace=cr-at-eol
+/docs/validation/m5-person-equipment-icons-20261026-v67*.png -text
+
+# Preserve the renderer LF contract on a fresh Windows checkout.
+/js/hd-overworld-layers.js text eol=lf
+/scripts/test-hd-overworld-layers.mjs text eol=lf

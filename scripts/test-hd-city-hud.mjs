@@ -1845,3 +1845,86 @@ test('a lazy tool name getter cannot replace another equipped slot during the sn
     };
     h.renderEquipment(); assert.equal(changed, true); assertEquipmentAbsent(h);
 });
+
+// R03 decorative equipment coverage. Only the DOM namespace factory/faults are
+// supplied here; every row/icon is produced by the normal person renderer.
+function equipmentSvgDocument(h, mode) {
+    h.svgCalls = [];
+    h.equipmentFieldRewrites = 0;
+    if (mode !== 'no-svg') {
+        h.document.createElementNS = (namespace, tagName) => {
+            h.svgCalls.push({namespace, tagName});
+            if (mode === 'throws') throw Error('Controlled unavailable SVG creation');
+            const node = element(tagName);
+            node.namespaceURI = namespace;
+            return node;
+        };
+    }
+    if (mode === 'unknown-field') {
+        // Change only the DOM field identity at its normal assignment boundary;
+        // the measured native tool, displayed label/value and renderer stay real.
+        const create = h.document.createElement;
+        h.document.createElement = tagName => {
+            const node = create(tagName), set = node.setAttribute;
+            node.setAttribute = function (name, value) {
+                if (name === 'data-hd-equipment-field' && value === 'attack') {
+                    value = 'future-equipment-field';
+                    h.equipmentFieldRewrites++;
+                }
+                return set.call(this, name, value);
+            };
+            return node;
+        };
+    }
+    return h;
+}
+
+test('equipment semantic icons keep all six measured labels and values decorative through normal rendering', () => {
+    const h = equipmentSvgDocument(equipmentHarness([1, 0]), 'available'), before = plain(h.raw);
+    h.renderEquipment();
+    const cards = equipmentCards(h), nodes = visibleEquipmentNodes(h);
+    assert.equal(cards.length, 1); assert.equal(nodes.length, 1);
+    const actual = nodes[0].querySelectorAll('[data-hd-equipment-field]');
+    assert.equal(actual.length, 6);
+    assert.deepEqual(actual.map(row => row.getAttribute('data-hd-equipment-field')),
+        ['useFlag', 'attack', 'iq', 'move', 'arm', 'changeAttackRange']);
+    for (const [index, row] of actual.entries()) {
+        const expected = cards[0].rows[index], label = row.children[0], value = row.children[1];
+        assert.equal(label.textContent, expected.label); assert.equal(value.textContent, expected.value);
+        const icons = label.querySelectorAll('svg'); assert.equal(icons.length, 1);
+        const icon = icons[0];
+        assert.equal(icon.namespaceURI, 'http://www.w3.org/2000/svg');
+        assert.equal(icon.getAttribute('aria-hidden'), 'true'); assert.equal(icon.getAttribute('focusable'), 'false');
+        assert.equal(icon.getAttribute('data-hd-equipment-icon'), expected.field);
+        assert.ok(icon.querySelectorAll('path').some(path => (path.getAttribute('d') || '').trim().length > 0));
+        assert.equal(icon.querySelectorAll('title').length, 0); assert.equal(icon.getAttribute('aria-label'), null);
+        assert.equal(icon.getAttribute('tabindex'), null);
+        assert.ok([icon, ...walk(icon)].every(node => node.listeners.size === 0));
+        for (const tag of ['button', 'input', 'a']) assert.equal(row.querySelectorAll(tag).length, 0);
+    }
+    assert.ok(h.svgCalls.length > 0, 'The production renderer actually requested namespace SVG nodes');
+    assert.deepEqual(plain(h.raw), before); assertNoEquipmentInput(h);
+});
+
+test('equipment semantic icons retain text for unknown DOM fields, missing SVG and throwing SVG creation', () => {
+    for (const mode of ['unknown-field', 'no-svg', 'throws']) {
+        const h = equipmentSvgDocument(equipmentHarness([1, 0]), mode), before = plain(h.raw);
+        assert.doesNotThrow(() => h.renderEquipment(), mode);
+        const cards = equipmentCards(h), nodes = visibleEquipmentNodes(h);
+        assert.equal(cards.length, 1, mode); assert.equal(nodes.length, 1, mode);
+        const actual = nodes[0].querySelectorAll('[data-hd-equipment-field]'); assert.equal(actual.length, 6, mode);
+        for (const [index, row] of actual.entries()) {
+            const expected = cards[0].rows[index], label = row.children[0];
+            assert.equal(label.textContent, expected.label, mode); assert.equal(row.children[1].textContent, expected.value, mode);
+            const unknown = mode === 'unknown-field' && expected.field === 'attack';
+            assert.equal(row.getAttribute('data-hd-equipment-field'), unknown ? 'future-equipment-field' : expected.field);
+            const plainText = unknown || mode !== 'unknown-field';
+            assert.equal(label.querySelectorAll('svg').length, plainText ? 0 : 1, mode);
+            if (plainText) assert.equal(label.classList.contains('hd-city-menu-equipment-label'), false, mode);
+        }
+        if (mode === 'unknown-field') assert.equal(h.equipmentFieldRewrites, 1, 'The unknown identity fault actually reached one row');
+        if (mode === 'no-svg') assert.equal(h.svgCalls.length, 0);
+        else assert.ok(h.svgCalls.length > 0, mode + ' actually exercised the SVG factory');
+        assert.deepEqual(plain(h.raw), before, mode); assertNoEquipmentInput(h);
+    }
+});

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-person-equipment-icons-20261026-v67-mobile-001-archive-part001.json",
+      "bytes": 2234424,
+      "sha256": "b1189922fb2ae92595327f66d834d331c280e99d4dfc84e1ac2c7a36fe69d77c",
+      "blobs": 1
+    }
+  ],
+  "files": [
+    {
+      "path": "build/equipment-icons-20261026-v67/evidence-source-v1/mobile-chunks-v1/chunk-001.raw",
+      "bytes": 33554432,
+      "sha256": "0ab7e85a2223715f230a239cb322c4e14c19a54f22a0c29f98467b8acfd1af75",
+      "blob": "0ab7e85a2223715f230a239cb322c4e14c19a54f22a0c29f98467b8acfd1af75",
+      "roles": [
+        "Exact original equipment mobile-001 bytes; no archived execution"
+      ]
+    }
+  ],
+  "logicalFiles": 1,
+  "uniqueBlobs": 1,
+  "rawNamedBytes": 33554432,
+  "uniqueRawBytes": 33554432,
+  "uniqueGzipBytes": 1675585,
+  "serializedPartBytes": 2234424,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

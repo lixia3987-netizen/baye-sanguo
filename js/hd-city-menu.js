@@ -4917,6 +4917,57 @@
         finally { personEquipmentReading = false; }
     }
 
+    // Decorative only: field identity already belongs to a measured equipment
+    // row. Labels and values remain the original text, including unknown data.
+    function appendPersonEquipmentIcon(row) {
+        var field = row.getAttribute('data-hd-equipment-field'), pathData;
+        switch (field) {
+        case 'useFlag':
+            pathData = 'M8 4h8v3H8z M6 7h12v13H6z M9 11h6 M9 15h6';
+            break;
+        case 'attack':
+            pathData = 'M5 19l4-4 M4 14l6 6 M8 14L18 4l2 2-10 10 M15 5l4 4';
+            break;
+        case 'iq':
+            pathData = 'M9 18h6 M10 21h4 M8.5 14.5a6 6 0 1 1 7 0L15 17H9z';
+            break;
+        case 'move':
+            pathData = 'M4 12h15 M14 6l6 6-6 6 M4 6h5 M4 18h5';
+            break;
+        case 'arm':
+            pathData = 'M5 21V3 M5 4h13l-3 4 3 4H5 M3 21h4';
+            break;
+        case 'changeAttackRange':
+            pathData = 'M4 9V4h5 M15 4h5v5 M20 15v5h-5 M9 20H4v-5 M9 12h6 M12 9v6';
+            break;
+        default:
+            return;
+        }
+        var label = row.children && row.children[0];
+        if (!label || label.tagName !== 'SPAN' || typeof document.createElementNS !== 'function') { return; }
+        try {
+            var ns = 'http://www.w3.org/2000/svg';
+            var icon = document.createElementNS(ns, 'svg');
+            icon.setAttribute('class', 'hd-city-menu-equipment-icon');
+            icon.setAttribute('viewBox', '0 0 24 24');
+            icon.setAttribute('aria-hidden', 'true');
+            icon.setAttribute('focusable', 'false');
+            icon.setAttribute('fill', 'none');
+            icon.setAttribute('stroke', 'currentColor');
+            icon.setAttribute('stroke-width', '1.8');
+            icon.setAttribute('stroke-linecap', 'round');
+            icon.setAttribute('stroke-linejoin', 'round');
+            icon.setAttribute('data-hd-equipment-icon', field);
+            var shape = document.createElementNS(ns, 'path');
+            shape.setAttribute('d', pathData);
+            icon.appendChild(shape);
+            label.appendChild(icon);
+            label.classList.add('hd-city-menu-equipment-label');
+        } catch (e) {
+            // Unsupported decorative SVG must not hide the native text.
+        }
+    }
+
     function appendPersonEquipment(fields, equipment) {
         if (!equipment.length) { return; }
         var grid = document.createElement('div');
@@ -4930,7 +4981,9 @@
             heading.textContent = (tool.slot ? '装备二' : '装备一') + ' · ' + tool.name;
             card.appendChild(heading);
             tool.rows.forEach(function (row) {
-                appendStat(card, row.label, row.value).setAttribute('data-hd-equipment-field', row.field);
+                var stat = appendStat(card, row.label, row.value);
+                stat.setAttribute('data-hd-equipment-field', row.field);
+                appendPersonEquipmentIcon(stat);
             });
             grid.appendChild(card);
         });
