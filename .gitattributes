@@ -635,3 +635,14 @@
 /docs/validation/m5-city4-plunder-save-20261025-v62*.gz -text
 /docs/validation/m5-city4-plunder-save-20261025-v62*.sav -text
 /docs/validation/m5-city4-plunder-save-20261025-v62*.png -text
+
+/scripts/hd-wood-city4-observer-transition.mjs text eol=lf
+/scripts/hd-wood-city4-first-own.mjs text eol=lf
+/scripts/hd-wood-city4-hd-action.mjs text eol=lf
+/scripts/test-hd-wood-city4-hd-action.mjs text eol=lf
+/docs/validation/m5-city4-readonly-flow-20261026-v63*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city4-readonly-flow-20261026-v63*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city4-readonly-flow-20261026-v63*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city4-readonly-flow-20261026-v63*.gz -text
+/docs/validation/m5-city4-readonly-flow-20261026-v63*.sav -text
+/docs/validation/m5-city4-readonly-flow-20261026-v63*.png -text
