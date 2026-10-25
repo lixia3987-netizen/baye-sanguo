@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-impact13-changan-720-archive-independent-verification-supplement",
+  "archiveIndependentValidationAccepted": true,
+  "originalOnly": true,
+  "actualAcceptedAttempt": {
+    "reader": {
+      "path": "build/impact-skill-20261014/verify-impact13-changan-720-archive-v1.mjs",
+      "bytes": 8969,
+      "sha256": "b0f6421360628757fb802a52d1f325d326cd33597d80d79ab051afdebccf9f75"
+    },
+    "log": {
+      "path": "build/impact-skill-20261014/impact13-changan-720-archive-independent-root-v1.log",
+      "bytes": 649,
+      "sha256": "5a2107ac81c394209e4215fb84c4be77f585d4b7f35734e59c66fb6366e2b883"
+    },
+    "rootTerminal": {
+      "sessionId": null,
+      "chunkId": "da7fc6",
+      "exitCode": 0
+    },
+    "accepted": true,
+    "result": {
+      "ok": true,
+      "canonical": {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-changan-720-20261021.json",
+        "bytes": 62825,
+        "sha256": "b382213de840ba1b5ebfff05da5078b64cbd7a6d6487b703e54f9740c150f671"
+      },
+      "namedFiles": 144,
+      "uniqueBlobs": 124,
+      "parts": 2,
+      "allRawRoundtripsExact": true,
+      "allNamedBlobsClosed": true,
+      "noUnreferencedBlobs": true,
+      "rawResultsEmbeddedOnce": [
+        {
+          "id": "v19",
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v19/result.json",
+          "bytes": 468818269,
+          "sha256": "c699890cab322ded898820dd976432d84f91e855539880bbf712375226914abb"
+        }
+      ],
+      "latestPairsPackedAccepted": true,
+      "currentNamedDiskReopened": true,
+      "portableClosedArchive": false
+    }
+  },
+  "primaryArchive": {
+    "canonical": {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-changan-720-20261021.json",
+      "bytes": 62825,
+      "sha256": "b382213de840ba1b5ebfff05da5078b64cbd7a6d6487b703e54f9740c150f671"
+    },
+    "index": {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-changan-720-20261021-archive.json",
+      "bytes": 48639,
+      "sha256": "48dbd0f30c03cf8bcff4530397db698f82119c1e8ede7d678517fbc1a0402954"
+    },
+    "parts": [
+      {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-changan-720-20261021-archive-part001.json",
+        "bytes": 15769708,
+        "sha256": "b52a3de8be0362e54340449b288bc174e0ffd04d85152f64d0b6f9907c7bd04d"
+      },
+      {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-changan-720-20261021-archive-part002.json",
+        "bytes": 23944965,
+        "sha256": "0eefe8bb6fa05448f2e7a22fd596d8991b098b8fc42b7efaacaad741da09c0c4"
+      }
+    ],
+    "namedFiles": 144,
+    "uniqueBlobs": 124,
+    "archiveParts": 2,
+    "unchanged": true
+  },
+  "supplementReader": {
+    "path": "build/impact-skill-20261014/verify-impact13-changan-720-verification-supplement-v1.mjs",
+    "bytes": 3890,
+    "sha256": "ad0871db0a946b52db16c6475884d4574c9eb0ac0f8bc8d986bbbdf34926bc72"
+  },
+  "embeddedFiles": [
+    {
+      "path": "build/impact-skill-20261014/verify-impact13-changan-720-archive-v1.mjs",
+      "bytes": 8969,
+      "sha256": "b0f6421360628757fb802a52d1f325d326cd33597d80d79ab051afdebccf9f75",
+      "encoding": "gzip+base64",
+      "gzipBytes": 3081,
+      "gzipSha256": "bd18744d4a263411e833676f34f522b1e10be07976277d85f678f853fa7fedae",
+      "data": "H4sIAAAAAAACCrUZXVPbuPadX+HO3BvbW8VJIEBJajqUpdvu3C0d2HYfQnZGsY9jbRTJK8mBQPnvdyTbsZwYyt6Z+wLx0TlH50vnQ+r1nE8shgxYDEw55ylmc8yO9/vOt4GTEApdzujaEYBjECMH7nCknBmWcDR0BHSBRTwmbI4cGaWwxN9ASMLZvjOjfCaRE/FlRkGBc3327cLBLHYizDgjEaZOQvFcBntkmXGhHCwlCOUkgi8dl/EYRgWkJ5UgkXLHFWIibaRE1isZVqm9pr/r1YdIAFbwEcv00caKxDpTfAfvl5zdk6yBeU/JzML7QxCFZxTQFeBY/2ggSyUALy30jGRACWvD6mWCL4kES5cHbfuvV//5nX/BqilwLqiFtwJBkvWlIHPCML3GK/iCiagIgqAXBD0ZCZIp2Uvj7pLPtFPlWipYdkXOFFlClwscUQiWf2kJIs6kcq4uL38PtQUDAZLTFXjmIyaC4SV4DfG8QphgCQoHuaC+j4qdXR99PLv6ORz2fxr094fmT7WBTHE4C09rr3iuTPH+4ZHrB3kWYwXezA9iMgepPDeFO9dHGRYSNNWv15efA/PlzQLFr5UgbO65uUreuH4gIKM4Aq/3503+4eLDhx5yXd8f7yU5ixThzJE4AU/r4T8UURbwhafWGfDE0eAwDF1peLqdjgYEFNhcpZ3OK/NFWETzGKTn3ty4fqfzytiGyLOZ5DRXJe8KW2aUKM/tub5FqI3jjwtT4JlsmlobHxkeSACt1ihWpFrEM+mPa9kF0E7nlQAaSIWFkn8QlZo9XhtaCZnf6Qigr8JQQ1skFkB9fyxA5YJpgcaPtbkywrzMNlXW6XzOlzMQAZHXOIFPTMEchJcFs7UC6Xc65a/TsN/p9P6c9LsnuJtMH46Gj//qBUq7NAsKd2+sMAsTGehE84FQuF6zyDNuygItqr/RFv7OMfVmpUdQuREq0ZpYMsXezEfVVhukUs2ZrSRW3gotpP+QcOEVEi0cnjgaVGu+6nQuZ39BpIIUy8tbpml8f7wKV5PFdPxYMl6NH8sox2EmeARSBljMV4GkJAJv33YdLjUJw3D4/bv1ddjp4MlwqmOx2xXAM2BdHROxi9yvEpxut86lb7VepzaoW6jsvE2xTE+dSZPF1N2yFJ70p8i16HcR9psI3eq0VnhLrKLUw5ODKdr2uF8d+ugJJ+PJYOq3OC+a+UhzrGLkPCwOvYZ/Kn/r6DwPsIhSsoJtJp+CRmFC+zvrC8Ji5BqrdOf3JOsKfFvq1i2ZujtEBl2rcFZgnFMuIUZK5LCDq1OjLg8FTkmAEkzlNu5Gi3/Av6Z5dp+9pxSQ1UFq2Vzu6JIz8ncO701xrwks6K72Oh3t7mHA9jE4EwKvdULS/7VWkcoxvcqZzib2Z31ABs2FSX8akFgfl9XgxH2a96cA7hQIhuk5Xy6JUhD/XDZAETHJ6wcYpQSnYR1MMUB2UfrjWVr0o92fEVvg2yuQOVXyYjmDOIb4kkU64svDpf0mQwa3zjUoz0cMIIbYAH7DmeeP68yW6cxmR4H/YCdbSwhTwqTOdtUicr8af5v9YtN1uf64QMNx3MajANmFUPIleHfh6cTNBFlhBd2Z4LcSRDcTXDcXLnIjHKXgTuuieef7DbbalmYp/kik4kKnJROFG/Z3ZuMwDAsJvn+/K0uBAZUFCLk1uZPklDoC3/ZMhDpS4bVTeawRVK96MY/kTW+FKYmxLiE3veCnKmV470ZdzeEmfu2/uwn+kpzVha9Z0AwvssxwpAYH3RlWikK3COvuyns3Ghx+HxzNvg+Ovw/e+Dc9YULgCZYk8Qqvlw6rSmzjUJYYc7CKcFVH/TFQCU6JIi2UGqOqbXKJKf1cB5mOukkQBI3TmlCsdPSJ8HQiAoq1vH9wQeOKrQgE5+qL4DypQEEQVKi6mQ2WOPOy8HQj7NTXKN55QOrR5Te+IvCF3AE1rN5NnlstGU1Hk6lmZhSpzwmSAMz61H783Dxb472ds1RktAc76is6+/T44xrcflpKO7/VnTNyL1Yg1o6mcYpJiK6dGVB+O+z/Rt67VWHUCFY9zLbroF7/QSks+5oFrGWBbmY432q0igS/59S6T1IEU544JS0wJQg0yDcWKdqDtKU3sEymLW+spdPMBY5SfRTNMOnwKMqFdAhzOIPCIHo0bZxJK/Y1g8/cyZmABASwCGKnPJuG33ZNhyr40p2FosG0Ts1ONwrBZhB2dQ/xupiQt/coJwwIYqwwqiaMHV56tbT6v4eoj9zzTZ9XTt7F4sb58/vwfZ4kIAI99XkV/3Yh5vfWwFShoIrmwgz40daGI0eAdrADJhoJM0nPiVIscKRAICfDsVbf4cJRImcRVhA7MUQ8hhYBypCCQBvrfZFVdnq/+b1fYlwXx35MQTks7JdaizRsGx5RlOZsIcPJdIxvMVFONXh71ZxeWEmzt0d9UzBvnWqq9x5uBVHgRQhYhGLOwH9gr8OolH0s0mpKjUzatZJhGX92LmBvh/UE7I8LEYMsl6kmf9TsPX/8+LgdWAxBlXUbcJFuTcapPzZnR2fsFLGnRDKgEqkMmYhrb3mFSLqZcB73HpvtYsGZ3AP69EyvV2NV1YPcg910pDpRlmsmy2zqEl94zZNvwqzoL3Qz4KRYOkTJTTZwG01P/H6tryE2KbvR3pbFY1IkWpTpOWNvp217qrtCjWK2LAqZ90DikQhIXFSqoiI/+n6jLAitbaOPfdjZ1RLeJJaKV9loVZ92itvYaYO7GaNfwn5Tajc7VJAX03/TN04ERINFBXwRF7sLqJhYsE1N02KVRa0I3G0lKtXRbQvabq/RZiOsPLMPEoH5r8WUgQKx1PdpWrLN75cSl07bdd+PCG0bbJvkH7HQXVPNwXzt5le7ZJj7tKIekWTt3fq+Jr/VW/8qOasScPNGoFWALJ9REul7yLp1EBb0nOdMvYhTKfyG0lKohr2c0TXlqmZhvl5q1IZOWHndgR9kmIgtC9dnPzI94Y+Z+VtdZJQZvi/IFNUslrUl4Sc6+8fNbpMFWrW0bSJIcKTkJi3X2xv5J4spWu1MkQ0b/M9yt19jew8Sr/qj3VOtF/W8X+podTRFOZR4NXiKbPA0mQn40S2iZDZyKZnJXoxVd8njQF/9I6JHCaLWI3c1GA0Hw4OT/mgQHxzF+Ph4NICTqD88PnYf/YAvyquaalSiWKqwUUqKMEKlXK2ZThO1JDvLAQtYaxdMXMlzEcFVzs6iCDJl7giLzc6xVJe6dRZbwB1MMyPtQM3QtAsVkGFhpl5rLY2P9/vfiMwxbUCtjznlM0w/xuflw5CLXMHm55wpwnKi1haqxEutUbnW3Gvqk8RrXsSeowWsG01Xc92ydIHZcnczWcB6avukAFgN+BIrEKR8vXLc15rT+LHlFqhgclY4vPIharrUrutmZStNnuorrraFt+FR69XT0xOvrVSw3JqV37Gc0laGmfF+jDMF4trEWIPR7nLFaytJPDuNo7Z9jIezV2Fo+P2fEmID01asOE/G1mhwfHiwxdRGZeZV5tom2H/zQ/yz+VzAHCtA7vHgINkf7h8eHg6Sg2SWHMxOkn7y5mQf9LxycnQyOBpE/eN+NDw6hMHhSTIc7B8lgzgenAyH8UncmIA3zzLVk0xjay6WmJJ7iL+ka6njuRBb33m+CO80HOy/eSHu27AwHElaLGtlqldhaHLlkwZLMKEQX+XsYqUTcLTJUWWOJcmzkR+WIbT1rDP5R1mvLbNNmyKf6/LYfqtfZ8AnELaz4hNorZlyC3c3B/0CLCcMdPJADwrPRyajbHdSSFKu7CXdISHdjTTwdddTVEkLalpUtNUtFghbwEd/vEcS+83r0H/2Vro58rdP/NtzfiKDAk0P/Nfmhb35lPjUoN8y5ttT/jNT+rOvkNuz+s5zZNElcAoB5fPtXvyBL0Y60NHmUmb0oMlG+s0MmW1H0eY5tOA80m9mj6g25Kjtxcca5Uf18G7uMUdbDzeY0it8e8VzFitBMmmuiQqx9B2DycWaT/H2VCww/tW6fCu2MQvtk/boyRG8Dj35BUcL2Jym0i66t2HmSjX+mcjFlXnnhHhkRxlqfR0bmbOj/bn3X3qNgnQJIwAA"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-changan-720-archive-independent-root-v1.log",
+      "bytes": 649,
+      "sha256": "5a2107ac81c394209e4215fb84c4be77f585d4b7f35734e59c66fb6366e2b883",
+      "encoding": "gzip+base64",
+      "gzipBytes": 436,
+      "gzipSha256": "301e8cd7c6641c2e23a0e2d663147f0d23114b74f9936080c3def504f129d9da",
+      "data": "H4sIAAAAAAACCl3QwY7TMBCA4TsSLzHnhNqO49i5LbAcYVWJE+IwtifU1HWC7XRBVd8dtbQs4up/Zix9J5j3MNa8UgMO05yCwwjjCRasOxjBz65sjhiDxxrmtDn0bTgs6Gq7xDV5yu2SacF8ra1gQnEm2G2Gd63bYfqGqR0Eu1f+5nuZEzRgf1UqMCqhRd9A2aHoFYxgOy0E7zxpySxy25Odpon1Hns2aKuks35A5ZXUgx1YR72czCCZ4z2b1MDh3EDCA/kPIV7ucykbWFP4sdLbONvLi5ANLJhrgVE0gDFu8Xk7r8nXHJby+BNdvaNgjB8vx66r7+JcyN9Tmj+nTBNlSu42cE8Zn7dU1ljL48GS9+Q/JUcwfjlB8DDCkRto7sZ2DdFvbqxlH2K8UXG5+QtpsdZILbq6YmyP3Gzy9YP/MKXSmmuhzD+gThmjDXNoOyE8eW20Fsx7MyjZCa/lZDjpvu87ozWzdhq46IZeCGW4RGvh/LWBiJVKfcKQyxO6PfkH52ipLxpuzZlSvWK9D2W/pXmh9NKXOVe0kf4YPmS3C0eCccJY6Pz61W+cWeOLiQIAAA=="
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-impact13-changan-720-verification-supplement-v1.mjs",
+      "bytes": 3890,
+      "sha256": "ad0871db0a946b52db16c6475884d4574c9eb0ac0f8bc8d986bbbdf34926bc72",
+      "encoding": "gzip+base64",
+      "gzipBytes": 1569,
+      "gzipSha256": "ade82856eca1dcf529b6ff3173e71d16821df67ccef04324f7ec9908b0a0436f",
+      "data": "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"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-changan-720-archive-build-root-v1.log",
+      "bytes": 1603,
+      "sha256": "6c827f73bed17f7444753ce8faa53f59ddf1b396894324487d108e14e811ff54",
+      "encoding": "gzip+base64",
+      "gzipBytes": 701,
+      "gzipSha256": "9b146212dcca0d192c9238cbe8e507651071d8da309b5363922d39a060ecec2e",
+      "data": "H4sIAAAAAAACCr2UPY/kNgyG+wD5E6rtW4r6oqa7fHUBDmmDFJQo7SrntR1b3kuw2P8ezGRyN9mkSXHXkpLI5+UrPivZuHZ1qjztZVAfttaLOvXtKIPKy1zbvTo9q5X7gzqpdLRJ7trjyrmP+/s2TSMCeg3aXqPajPmB53uex4Aw8pYf2lMZ27wefR9rm3kan/SbX/dlVoNKf/Syq5NGQGMGtT8wOq9OCiMQGwFDRgfjHZvkIRbDFgNBxZKZohSJKTqLCKR1LtYAap0iAquXQc38WOSHNl0KWDuoY26/HeWbaUmXknZQPDXez3mEQW384aflmKVvbX2bc1l7kb+FmLiXvb/jtu3vOL8v8vrA+XLZj6nv6vTzs2qiTupJRzX8L+US9z6VkXM/LjLFu+3y6Cu5rCfShD7eKJZ9jBQhczKIUoQiEYJIDN4aFLI16kLOOROJIKUaNJrgEH3UllNSL78Mal22zmkq307LXuTtX7P7aI3l6OchXgCvVLLk/e6Jpybc2zLfPbrxirhOxyxlG9etrLxdsldghPE/rXLN6o+eWXnrAP/yigs+BqAb9uSQjRRKBYzH4qyxYG1MSJSyDrZArQJWyGmH1VuB5GuMEHJI57h6Gb4kEb4iQhOtjd7dEEEptVBKvjI4a6liCYxYxUUvFKNOEClRzRZTKJU5M0uwWhhihmy/FNFrY5I3t6a0JEmgGshgcqWUa7XOgIlBko9UCbWOWRcqUoL4QE6HmrJmsIDRfXaMN4/yqXlj4XYFca5ZAGvwnnwmp0lqEhcoF0kEVGyotYYirHNIGhJrdrlm9DFITp+/939K75Hw1kHJEKI+/wp7bi25kmqt4IQdBEre5iSBvXhLIQUwxdkag4WsHVQf9GUfLLW23Hj6/ve29zbff7fk/cdFWm3nzXdZCy9ff/UneGskPUMGAAA="
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-changan-720-verification-supplement-inputs-plan-v1.json",
+      "bytes": 1006,
+      "sha256": "677ed51d1e8da908b80a8917ad9af0b8a988094d6c0bf0eec0bdb0ee718aa8f8",
+      "encoding": "gzip+base64",
+      "gzipBytes": 547,
+      "gzipSha256": "b4c969310166c0eb8bb5d2bbfb178b036ce39ac870d03a8ec4b58fddb556fb60",
+      "data": "H4sIAAAAAAACCqVTu27cMBDs7ysWrCMfRb2vc+EijQvDSIogxZJc3jGmKIGkLrgY/vdAD59twJ1L7oAzw9nh8w6ARXWiHn9QiHbw7AD5t3n6ZL1mB2C2H1GlvMjUCf0RfdYInn2/v3t4zMYhpgyDOtkzZXEaR0c9+ZSNDn12ztnCY6xHZ//RTGbQRVqmMVE/s+tBxf0ZndWY7OD3fZWtgtnoJq8pZGOgEcOCZoKLOueCZ5+a2tBNdwy2x3C5Xe2xA/jJuQVBlSZ0t0rRmEjfpkT9mNgBnncAACwQagrX80yF6TSblZN1er/5i0/WuU0zL/dnCtZcPjf2GtE5v+n/xMXewisviSI7QNvV3XUYTyiqepHjpi5FXtS8Fm1TNUa2XGAldG4KUelC1EoXRdU1uuW66VDyKkejSSplOtNUbKF8WZmZG47vQpjfOQzpkUI/7+cjgls023S3kbC3FT98zOjLCS2YVeuW3zXpQ2LXvIq249voLS3UvG1yLTl2ZS0roWVeq7psqrYtdVk1pepIclTctFK1umtrKaU2RdmJWqpGsOszUWs7G0F310vSegni1+81AjWMc5nY/d1PWKoNavDGHmHw7gJoEgVYCwY9Wg/b7uFvsIkAvQbrNY3kNfkEa9cgTkpRjDewtRWUG+IUCNZNoFcENkJcfwKBCUMP6USvStt9M7m9QetI70cMyaJrBAfj8Bhv2O5l9x/w4L117gMAAA=="
+    },
+    {
+      "path": "build/impact-skill-20261014/build-impact13-changan-720-verification-supplement-v1.mjs",
+      "bytes": 5426,
+      "sha256": "6cb0090c99d212575a29a150ca18d2256d7cdfc97e7aae75e13acac0abdeb1bd",
+      "encoding": "gzip+base64",
+      "gzipBytes": 2209,
+      "gzipSha256": "de3c01b3e71a2a57c139d4d8c6431b9076d969ddf497ba9e4509d63efe361360",
+      "data": "H4sIAAAAAAACCo1YbXPbNhL+7l8Bz9wI5AWCZNdNL1ToTOI6bW6ujsdO0g+KOgOBSwk1CNAA6Nfqv98AJEXqJWm/2MLuYrHYXTy7y9EIvRcShlrJR2SrspRQgHLMPCK4ExkoDujeCAeGorfo4vx3lAvFpHiCDBmt3bAUSkGGuFa5WCBhkYHbShjI6IEoSm0cYtaCcSg3ukBY6QySmjKyzgju8KQVzG1fKLcdp2Ru2ef5dcd95gaYg1+ZXa76Utw8lk735BZPorx+VJwsKtX83NjwJMW8J54LCZ+v/vdJXzK3qbkyEk8OuFbWoauPHz+l3iBqwGp5B1FYZMIoVkC0oSSqVdMCHKOVkXFMMKUjSnHcqrv+dP5bijPN7eiOSZExJ7QaFT8ORVEy7oalrFQGZlgaKJkJ3OHx+Pjl0fh43Mgc/TDkS6YWTA1/Oh633CNM7JKl8/S0c1eE7ZId//gSx7QqM+Ygmsc0EwuwLsJLeOjMKpmx4Df/9/rjBQ2raE6dvnZGqEWEK5f/B8fUQCkZh2j0x9fq/fn79yOCcRxPDvJKcW8qsiyHSMXPdQpQfRO5xxJ0jlSaptgGbXgwUFSCWrjlYHAYvCns27nVsnJ+82BwqKhQXFYZ2Ah//Yprki2lcBEe4bjH9b6NJ/Ul2GacfOSIiolpyZI50dJZPOlsNIOBOUxTr2wwODTUOmac/V24ZTjgRdhvoYz32GvieGLAVUYhNll1njDAsqgkBXtIT8b/Phofn4Q/fdeUg8FFVczBUGGvWQ4flIMFmKik80cHNh4Mml+n6Xj9+3XBHgaD0R/T8fAVG+az55cnq3+NqPMxLWkd77VH5mluqbfEg4B/D1EIUEn9LeK1C+C2YjKaN0EhzUmkEduUsksWzWPSHrUWanwwn6wO1tEwmoO1lJnFHbVScIiO+25nzYFpmp789Vdv9eNgwKYnM58yw2GAJ0zwZwtoOBSqrBx6fQfGCq0gG9bIdNqyhrVZ6HX9/xRNGw0zvHURNh3PCG627TKPO+awfUWtTMEcX0Zs+sOMbAdi/aL4N3zPpkezuO8F3vr9dZckuy7n85j4A9vInqX1I/X0cL+07z8S7L4UKn320Un8oSQENVkfR+pbJV7ravPAM2r5Egr2pfYyOYp3+A4K4rEsnhyIPDqj67JxmKbOVNDP88NgIMEfLs6vPqFSMoU4U0q7uvQgxjmUjikOuL6elkClXkQBjGrQEPlj9JwZlrvEqye6cmXlbDKur5q0F17F8WR1ANLC8wFqsC09o6URBTOPbw1fijsgvPFe/UgpZ0orwZkHbJE9bDKFyuChi1gGUJ4HL9Su5ZTVSsM7aJ28JtYvqXF1R64JK9Kq39UusgePw87SgpVRfRjpa1vF6elechzepHE2nuTaRLUTbpHOUUsPN7vdCqo/cDPsx3skfH1jcwlnUlvIWn/mTFrYkub7Zd+86Xnse8ra8DGenlHGXcXk25AokL11DorSbT1ZTlnDJyED+0jDqe9mPoEpfJ4OBk1V2qJTvqzUzYesV6vinUM2NsCDcGc6AzJuH6bUizT4l3Gfw+Skh/3EgK2ka/JL6sWW9ppN9c3mBbqkaATW+Ur6uduL9o2P9hQzKa/Y/ZWuVOaMKO35A+MOE0+/YAVk76Se29r5mGClPysDORjfFdY8TLBkvrRcMmHsJeM3kLVBwATzyhhQLuj6WdibK9AlKMjwLN5zr+nNLNyL3Oy52bS5mm+qAmLaxlm0UuK2gmBOSwpZPCNTn5DdhhbXPLW/qXtJtcDs24417P4q/LLnxRyyDLKPikPQsJ+1P4D//JF8W3N7m6N/vGM6nlGREXx39Ap/A1B6zsqFyqIyPa3rd5qmPrWBZWDqgk7W6+4pWpC573P3NVR/0wg33du6k6J/aqFCM0e81p1a+Xd9dTBlXd9awxr49cutKudrqCfHK1IKZdPp+nqkeahntJuPrmoOpfSMsiwTvqNjsnV2e/i6ys5InW+pgnv0GyujXeQVysbPIo9qQbpkNrpturCdSDUyC3CtDLmNJ76moYZl1yzPWbXxgcbAEOF0SmnzDugdkxXYKJ6FYnKbnj63/eFtG/72LmH9hs+Tukhs4tfiKW2HrGhOniXcgUxekcKJApLxKiYZcyxdPPUmhzmz8PJkX0J2U1r0rspzMNSPYJFXQdbbYjJve8tnSuktAcV1JtQiwd6SF40c8Yt3IfiLpzb0wdQu/Iun2r7VZNWl9HX6vFH0kiNyI1SWYG3EwkP8/qGrqWBDX71LUBkoN7wDI3LB65mtyyVMGuEPneyX9ejXomnT1TSHflTysabsLXyJdwXjDRyuyGZ3E7gl6d56sh8nexiZbGNmY/Klh81kG0BJpYIvGqtXZPvhJHve0kZu1sY19r6tFuGbhHdHEkBy60JX4PtEB2vuPnhteLW/zph1a89yukts5H7TdwJ2BDeojeSleAC5I7lBJcvsp+PxF2F7AUs43UMly2xDYE1fSD1n8tfsTBelBAcJp9skYrkuIcGX2rp6sum+5PivPAkCX+VRLzPDlxzfmBDUQF7zzQcxlaF6ogrASdGnJSBRFFXwLyqYCK163WCMQqs6CpmAmAHkO3jTxoai95ItLApVCjmvp7NAPqLmawdk6MvRq07pBCmNOohFC1b4bwyPBN0vtYRhaXRWcYe0QVcXvyBuIBOO4q2B5brvxH119nrXj1ttZnBA2geirenjmqhKSnIcv8BfFY79BJL6CegF3nj59E+rFe71nrVnmxGvj6Y9mcPc+lbSOtsNirpy/vvRBdyjetgJ4cXxRORRCF+cWxp+bA6Yfl8zETznki0SfP+AV98frPRNjTb1oFYfl9SlVVeuqar9i/TLav2xYrX5wpONVTPDBGj3KO5nl9uYMLmuqb88iXK3V+1jYA8+r3oteLLVkm9hx+cNqPoedPjJ8WB18H+zjxtmMhUAAA=="
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-changan-720-verification-supplement-inputs-final-v1.json",
+      "bytes": 3333,
+      "sha256": "9f42bcabab161fa597698a7e77a74811de7a62dead95e0454cc690f323618c63",
+      "encoding": "gzip+base64",
+      "gzipBytes": 1237,
+      "gzipSha256": "4b117b2122321be0cd2c7eb2fddebaac8cb4570d04562581840acc086c9ba29c",
+      "data": "H4sIAAAAAAACCsVWS28bRwy++1cMdPba8344Jyct0B4CBGmRS5EDZ8ixNtkXdleK3SL/vRhpbUuxbKBIm54kcLgkv29IfvPXGWOrKa2phQ80TnXfra6YOC/Wz3WHqyu2qtsB0ixUldbQ3UBXOcmroZ/mCsa0rrdUTZthaKilbq5y3UFT1d2wmadqK1a7SDtj/SeVcPO4oZ1xmqkt4bFP0+UWmhphrvvusjXVPmM1NJsOaayGkQYYd6eV5NIKLnl1sqrldEk7jHUL4931vsrVFfvrjDHGVgm6vqsTNA+m4gzz+r8q5+LT1He7mnap4t1M0+qKWemlebBOa5DGlhKi8lIKheQ1jyCioZhz5gbBcOej1SmiA4tWexcdV2R0Dk7zJAzP1onVLuTXfeRV3SHd/iik9y3xDGLtrQonEGuPEXlWPHGVso8pZ20UV8FhtMFnL4UISZAnJIfWeSNcjkkA11wGo48RDzDOJdsfS6J75D8Ie1Xyc/7NrR+wIIyzwXF/cHRw+UZCufpIXFlJRivNtQ5Reh+TcJp4zsg1eiOMzFYjjzaHwF1ysdhXS9Cv5/8revkseqmC1sGak+g5USYfo83AjdY+S3IgZUYTLPoQROTBR5+TltFRBkgA6LRA4CHxpB/Q734/ni08rCDNG2iuU6JhJryeZ2qH+XEjjARI46khiZu6wcuFnelz3TQLYqEvtzTW+e40LfdsbMVF+2l6Ogk+2FODEHm2WgpluZXeGZej5xKMRJGVNKikTaiUCQ49RxcgciMgI8WUcsjOHA9C09/8U0wvgimrZKAOy6If+34u6EqOp5tNnwJnQAruIHmRVNCSB9JSmBy9TjqSc9l4gzq6rIxTmkxI1uZolbUko/fqGFwp4Hca26IthygnmoqM/VrEpts0zUMhab3pPu/MKwSXk32sm27r+U2PRSP4URJYOmYRrod+elS898et892Nszur0370DoT1qJEeiFY+8MX0yDMg905g5BC0jUZiFDZZ7Yz3GrVxOgWKHBIvm9Zj8DbGiFnpIG1MTq4exwaxLoVA83MbCXFHxH6t/ntdtfvw5X4SlqsTDWWTly47FQmFy05r7YxK5DOAUdkExCyiCtYHraTW3qHgnoQmL0TO38jG9wN67uqW19DQQFcQnpZGwbk9BdE5QiNQkEcI3EfPwQfhAANkHj0E73nQaBOPmRMlHjFyIic8gM9+gXjG2Md946Z+KG2+et/3M2uh7thyD0IIUuqyjAJn0CE7mPa9435L7mdn8ftSz2tWVSP1A3VVBy3hhdCa7f5dCqnZCF8u5U6RGTQNG/tNh/NYDxOjW0jzK/ZBhOLE+i7RBXt7UBHbccNgJFa37WaG2NAFW55zVWr6aTMS248odInYTb2liXU96+gLy5umYQc6ds4STPM5a/ttTawfneRsqG+pYWkkrOdXrIGZpvl6c7OZZiXYSAX1xFroEOZ+vLvYPyuLdSnidWmR96cW0dEaclreP3sOt9Ce8fuR/mYHPdWtAvF1oQ/Gu8c8i8fY3l13+Ftpurt3j6Cvj/fX+eE3bwvNP9XTAHNav+R4Ol6GZjr2ewPT/KLD20L9ix7vyoU847FGJ/mHejoQ8icezxzcNH2E5hd807dDQzPdHxeez76e/Q1tGMr9BQ0AAA=="
+    }
+  ],
+  "namedArchiveAugmentation": false,
+  "primaryArchiveRewritten": false,
+  "portableClosedArchive": false,
+  "actualCastAccepted": false,
+  "actualMovieAccepted": false,
+  "actualPixelAccepted": false,
+  "hd720VisualAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "scope": "Post-write evidence only: exact independent root log, reader, writer and input bytes. The immutable main canonical/index/parts are not rewritten. Flags equal the independently validated V19 canonical; no additional gameplay, whole-product or RNG credit."
+}

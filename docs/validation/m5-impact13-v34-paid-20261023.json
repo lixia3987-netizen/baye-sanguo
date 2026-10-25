@@ -1,0 +1,1406 @@
+{
+  "schemaVersion": 1,
+  "kind": "Original239-4 genuine paid Buy153 checkpoint; V34 route failed before dispatch",
+  "publishedAt": "2026-10-23T14:31:55.919Z",
+  "terminal": {
+    "sessionId": 78401,
+    "chunkId": "16bb07",
+    "exitCode": 1
+  },
+  "sourceController": {
+    "ok": false,
+    "accepted": false,
+    "actualMarchAccepted": false,
+    "actualCastAccepted": false,
+    "classicNativePixelAccepted": false,
+    "hdAccepted": false
+  },
+  "independentFlags": {
+    "allImplementedChecksPassed": true,
+    "actualBuyAccepted": true,
+    "actualMarchAccepted": false,
+    "actualBattleMpObserved": false,
+    "actualCastAccepted": false,
+    "classicAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "rngContinuityAccepted": false
+  },
+  "latestSavedCheckpoint": {
+    "tag": "impact13-129-v34-buy153-city20-actor50",
+    "date": [
+      239,
+      4
+    ],
+    "slot": 0,
+    "world": {
+      "original": {
+        "path": "build/impact-skill-20261014/impact13-v34-paid-prefix-independent-v1/latest-paid-world.json",
+        "bytes": 147977,
+        "sha256": "8cf9fbe25b3aac26bc3ff0a2fdc53563eb88ca5bae8f27bfce695f40654f4c6e"
+      },
+      "published": {
+        "path": "docs/validation/m5-impact13-v34-paid-20261023-latest-world.json",
+        "bytes": 147977,
+        "sha256": "8cf9fbe25b3aac26bc3ff0a2fdc53563eb88ca5bae8f27bfce695f40654f4c6e"
+      }
+    },
+    "pair": [
+      {
+        "original": {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v34/native-impact13-129-v34-buy153-city20-actor50-sango0.sav",
+          "bytes": 8221,
+          "sha256": "766743fdf846cf1b0e01f8f259f79dc4913e37de47c75273556c796fce095d61"
+        },
+        "published": {
+          "path": "docs/validation/m5-impact13-v34-paid-20261023-sango0.sav",
+          "bytes": 8221,
+          "sha256": "766743fdf846cf1b0e01f8f259f79dc4913e37de47c75273556c796fce095d61"
+        }
+      },
+      {
+        "original": {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v34/native-impact13-129-v34-buy153-city20-actor50-sango1.sav",
+          "bytes": 4840,
+          "sha256": "0715a520779acb1b897b689baa70875641b430777a9cf830cc4fdc86c99fee99"
+        },
+        "published": {
+          "path": "docs/validation/m5-impact13-v34-paid-20261023-sango1.sav",
+          "bytes": 4840,
+          "sha256": "0715a520779acb1b897b689baa70875641b430777a9cf830cc4fdc86c99fee99"
+        }
+      }
+    ],
+    "pendingOrders": [
+      {
+        "orderIndex": 0,
+        "order": {
+          "OrderId": 11,
+          "Person": 50,
+          "City": 20,
+          "Object": 51899,
+          "Arms": 725,
+          "Food": 0,
+          "Money": 57344,
+          "Consume": 187,
+          "TimeCount": 0
+        }
+      }
+    ],
+    "food20": 267,
+    "money20": 570,
+    "buyer50": {
+      "personId": 50,
+      "thew": 88,
+      "pending": true
+    },
+    "caster129": {
+      "personId": 129,
+      "cityIndex": 6,
+      "level": 8,
+      "arms": 1910,
+      "armsType": 3,
+      "thew": 100
+    },
+    "marchDispatched": false,
+    "food421Debited": false,
+    "naturalMonths": 0
+  },
+  "failure": {
+    "message": "AssertionError [ERR_ASSERTION]: Visible click target: #baye-hd-toolbar [data-hd-overworld=\"classic\"]\n    at click (file:///F:/project/baye-sanguo/build/impact13-runtime-candidate-v34.mjs:781:12)\n    at async v10ClassicTargetLcd (file:///F:/project/baye-sanguo/build/impact13-runtime-candidate-v34.mjs:526:458)\n    at async v6Dispatch (file:///F:/project/baye-sanguo/build/impact13-runtime-candidate-v34.mjs:533:3275)\n    at async v34Workflow (file:///F:/project/baye-sanguo/build/impact13-runtime-candidate-v34.mjs:2959:569)\n    at async smoke (file:///F:/project/baye-sanguo/build/impact13-runtime-candidate-v34.mjs:932:5)\n    at async main (file:///F:/project/baye-sanguo/build/impact13-runtime-candidate-v34.mjs:1565:9)",
+    "phase": "Native March partial, origin6 selected129 and421 quantity accepted, target selection waiting for classic presentation. The hidden old toolbar classic button prevented presentation switching; no target Enter or AddFightOrder, no paid March/END occurred.",
+    "lastSavedWorldIsPartial": false,
+    "uncommittedPartialDiscardedOnlyByFuturePublicLOAD": true
+  },
+  "resume": {
+    "latestPaidInputRequired": true,
+    "repeatBuyForbidden": true,
+    "nextLegalAction": "Reload exact paid-Buy SAVE; skip payment; repeat only uncommitted March UI, then genuine dispatch SAVE.",
+    "maximumAdditionalBuys": 0,
+    "maximumAdditionalMarches": 1,
+    "maximumNaturalMonths": 1,
+    "maximumPlayerBouts": 30,
+    "requiredViewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "requiredPresentation": "classic at current native AIM",
+    "sourceMpIsNotActualBattleMp": true
+  },
+  "independentVerification": {
+    "originalReceipt": {
+      "path": "build/impact-skill-20261014/impact13-v34-paid-prefix-independent-v1/independent-receipt.json",
+      "bytes": 39023,
+      "sha256": "f1ea622b2032ff7617ff28deb86ca53d0212e304370b20df89794e41a058f423"
+    },
+    "facts": {
+      "schemaVersion": 1,
+      "kind": "V34 immutable failed-route and genuine paid-Buy checkpoint audit",
+      "terminal": {
+        "sessionId": 78401,
+        "chunkId": "16bb07",
+        "exitCode": 1
+      },
+      "sourceRunAccepted": false,
+      "allImplementedChecksPassed": true,
+      "actualBuyAccepted": true,
+      "actualMarchAccepted": false,
+      "actualCastAccepted": false,
+      "actualBattleMpObserved": false,
+      "classicAccepted": false,
+      "hdAccepted": false,
+      "rngContinuityAccepted": false,
+      "stages": [
+        {
+          "name": "exact failed route and no false battle credit",
+          "accepted": true,
+          "facts": {
+            "result": {
+              "path": "build/impact-skill-20261014/impact13-battle-actual-v34/result.json",
+              "bytes": 87478,
+              "sha256": "64192bd1896c8fcb944f7d702eee57fbcdd2aa2ed90ecb255011a22e1aac8f95"
+            },
+            "minimal": {
+              "path": "build/impact-skill-20261014/impact13-battle-actual-v34/terminal-minimal.json",
+              "bytes": 207054,
+              "sha256": "4c0cbb6696d51b0e3d198f8949d2b0c2cda6e4a34a53259701f4032f585f5b7b"
+            },
+            "failure": "AssertionError [ERR_ASSERTION]: Visible click target: #baye-hd-toolbar [data-hd-overworld=\"classic\"]\n    at click (file:///F:/project/baye-sanguo/build/impact13-runtime-candidate-v34.mjs:781:12)\n    at async v10ClassicTargetLcd (file:///F:/project/baye-sanguo/build/impact13-runtime-candidate-v34.mjs:526:458)\n    at async v6Dispatch (file:///F:/project/baye-sanguo/build/impact13-runtime-candidate-v34.mjs:533:3275)\n    at async v34Workflow (file:///F:/project/baye-sanguo/build/impact13-runtime-candidate-v34.mjs:2959:569)\n    at async smoke (file:///F:/project/baye-sanguo/build/impact13-runtime-candidate-v34.mjs:932:5)\n    at async main (file:///F:/project/baye-sanguo/build/impact13-runtime-candidate-v34.mjs:1565:9)",
+            "normalMonths": 0,
+            "newPayments": 1,
+            "newMarches": 0
+          }
+        },
+        {
+          "name": "all current sources and exact four-file input",
+          "accepted": true,
+          "facts": {
+            "sources": 564,
+            "sourceFreeze": {
+              "path": "build/impact-skill-20261014/impact13-v34-runtime-freeze-v1.json",
+              "bytes": 41428,
+              "sha256": "783e8e216a3d89ac4785d278f99bc2003d004bdd7cbd2902def5a4b92ec2cdc6"
+            },
+            "inputPins": [
+              {
+                "path": "docs/validation/m5-impact13-city6-20261023-v33.json",
+                "bytes": 63889,
+                "sha256": "ef3658440d10052fb56ce07ec65fe61115c69ea4ceb429f2fac57d4712fb65b6"
+              },
+              {
+                "path": "docs/validation/m5-impact13-city6-20261023-v33-latest-world.json",
+                "bytes": 147981,
+                "sha256": "4ca6cf4eca810f683f209db586b6e7e190e851a05154491915f6580b395fb7bb"
+              },
+              {
+                "path": "docs/validation/m5-impact13-city6-20261023-v33-sango0.sav",
+                "bytes": 8221,
+                "sha256": "1159340f7541add6342fe48a978b4c32cbd6dd2f5e92fc9173415d31e227bd7f"
+              },
+              {
+                "path": "docs/validation/m5-impact13-city6-20261023-v33-sango1.sav",
+                "bytes": 4840,
+                "sha256": "b3d0e56aca29da984f42245eadf85df565df582bbf474f8e7f9f3d2c88492ea1"
+              }
+            ],
+            "historicalBinderExecuted": false,
+            "oldArchivesDecoded": false
+          }
+        },
+        {
+          "name": "every report stream and logical row retained",
+          "accepted": true,
+          "facts": {
+            "fieldCount": 51,
+            "fieldRows": 500,
+            "allLogicalRowDigestsRecomputed": true
+          }
+        },
+        {
+          "name": "all offloaded complete observations preserved",
+          "accepted": true,
+          "facts": {
+            "files": 4,
+            "rows": 280
+          }
+        },
+        {
+          "name": "both genuine public SAVE pairs preserve every measured and packed field",
+          "accepted": true,
+          "facts": {
+            "count": 2,
+            "latest": "impact13-129-v34-buy153-city20-actor50",
+            "pairs": [
+              [
+                {
+                  "path": "native-impact13-129-v34-april-input-sango0.sav",
+                  "bytes": 8221,
+                  "sha256": "1159340f7541add6342fe48a978b4c32cbd6dd2f5e92fc9173415d31e227bd7f",
+                  "lib": "libs/dat-mod.lib",
+                  "identity": "v1:414390:1d36da77:1e9c0477"
+                },
+                {
+                  "path": "native-impact13-129-v34-april-input-sango1.sav",
+                  "bytes": 4840,
+                  "sha256": "229bc0a458182f5d155a4ae0997eded821baed378c7554af76f8bbbfb465cd76",
+                  "lib": "libs/dat-mod.lib",
+                  "identity": "v1:414390:1d36da77:1e9c0477"
+                }
+              ],
+              [
+                {
+                  "path": "native-impact13-129-v34-buy153-city20-actor50-sango0.sav",
+                  "bytes": 8221,
+                  "sha256": "766743fdf846cf1b0e01f8f259f79dc4913e37de47c75273556c796fce095d61",
+                  "lib": "libs/dat-mod.lib",
+                  "identity": "v1:414390:1d36da77:1e9c0477"
+                },
+                {
+                  "path": "native-impact13-129-v34-buy153-city20-actor50-sango1.sav",
+                  "bytes": 4840,
+                  "sha256": "0715a520779acb1b897b689baa70875641b430777a9cf830cc4fdc86c99fee99",
+                  "lib": "libs/dat-mod.lib",
+                  "identity": "v1:414390:1d36da77:1e9c0477"
+                }
+              ]
+            ],
+            "completePeople": 200,
+            "completeCities": 38,
+            "completeOrders": 200,
+            "completeRawQueuePrefix": 200,
+            "completeFighterBytes": 600
+          }
+        },
+        {
+          "name": "actual sole Buy153 independently recomputed after real SAVE",
+          "accepted": true,
+          "facts": {
+            "raw": {
+              "path": "build/impact-skill-20261014/impact13-battle-actual-v34/raw-v34-buy153-before-SAVE-oracle.json",
+              "bytes": 935465,
+              "sha256": "6c673905a3852cd18a115be0435dc54b0268bb32aeb0ab0cc7cfdd582f854243"
+            },
+            "oracle": {
+              "accepted": true,
+              "plan": {
+                "accepted": true,
+                "buy": {
+                  "accepted": true,
+                  "sourceOnlyPlanning": true,
+                  "cityIndex": 20,
+                  "personId": 50,
+                  "quantity": 153,
+                  "minimum": 1,
+                  "maximum": 267,
+                  "initialValue": 267,
+                  "cancelSentinel": 65535,
+                  "orderIndex": 0,
+                  "orderId": 11,
+                  "timeCount": 0,
+                  "actorRawOccurrenceIndices": [
+                    87
+                  ],
+                  "firstRemovedQueueIndex": 87,
+                  "money": {
+                    "before": 1335,
+                    "cost": 765,
+                    "after": 570
+                  },
+                  "food": {
+                    "before": 114,
+                    "after": 267,
+                    "applied": 153,
+                    "fixOverFlow16": 0
+                  },
+                  "thew": {
+                    "before": 100,
+                    "cost": 12,
+                    "after": 88
+                  },
+                  "initializedOrder": {
+                    "OrderId": 11,
+                    "Person": 50,
+                    "City": 20,
+                    "TimeCount": 0
+                  },
+                  "opaqueOrderFields": [
+                    "Object",
+                    "Arms",
+                    "Food",
+                    "Money",
+                    "Consume"
+                  ],
+                  "nativeUsesIsMoney": false,
+                  "positiveBuyOnly": true,
+                  "actualInputAccepted": false,
+                  "actualPaymentAccepted": false,
+                  "actualPreparationAccepted": false,
+                  "actualNativeReturnAccepted": false,
+                  "actualAcquisitionAccepted": false,
+                  "actualCastAccepted": false,
+                  "actualMovieAccepted": false,
+                  "actualPixelAccepted": false,
+                  "classicNativePixelAccepted": false,
+                  "hdAccepted": false,
+                  "globalHdComplete": false,
+                  "rngContinuityAccepted": false,
+                  "wholeMonthAccepted": false,
+                  "wholeNativeAbiAccepted": false
+                },
+                "budget": {
+                  "dailyRatioRaw": 0,
+                  "monthlyRatioRaw": 0,
+                  "boutMax": 30,
+                  "squareRoot": 43,
+                  "daily": 14,
+                  "carryFood": 421,
+                  "sourceOnly": true,
+                  "actualBattleMpObserved": false
+                },
+                "initialFood": {
+                  "accepted": false,
+                  "rows": [
+                    {
+                      "cityIndex": 4,
+                      "residentIds": [
+                        33,
+                        29
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 500,
+                      "requiredFood": 11,
+                      "food": 6311,
+                      "money": 30000,
+                      "actualSafe": true
+                    },
+                    {
+                      "cityIndex": 5,
+                      "residentIds": [
+                        7,
+                        59,
+                        62
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 300,
+                      "requiredFood": 7,
+                      "food": 2831,
+                      "money": 18269,
+                      "actualSafe": true
+                    },
+                    {
+                      "cityIndex": 6,
+                      "residentIds": [
+                        51,
+                        129,
+                        36,
+                        5,
+                        21
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 2310,
+                      "requiredFood": 47,
+                      "food": 10094,
+                      "money": 29550,
+                      "actualSafe": true
+                    },
+                    {
+                      "cityIndex": 7,
+                      "residentIds": [
+                        68,
+                        131,
+                        48,
+                        28,
+                        6,
+                        27,
+                        25,
+                        12
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 3520,
+                      "requiredFood": 71,
+                      "food": 18547,
+                      "money": 30000,
+                      "actualSafe": true
+                    },
+                    {
+                      "cityIndex": 13,
+                      "residentIds": [
+                        60,
+                        43,
+                        37,
+                        39,
+                        23
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 500,
+                      "requiredFood": 11,
+                      "food": 7830,
+                      "money": 30000,
+                      "actualSafe": true
+                    },
+                    {
+                      "cityIndex": 16,
+                      "residentIds": [
+                        40,
+                        20,
+                        0
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 4377,
+                      "requiredFood": 88,
+                      "food": 634,
+                      "money": 10818,
+                      "actualSafe": true
+                    },
+                    {
+                      "cityIndex": 20,
+                      "residentIds": [
+                        44,
+                        50,
+                        52,
+                        38,
+                        10,
+                        11,
+                        70,
+                        69,
+                        17,
+                        8,
+                        30,
+                        45
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 13339,
+                      "requiredFood": 267,
+                      "food": 114,
+                      "money": 1335,
+                      "actualSafe": false
+                    }
+                  ],
+                  "includeReturningArmy": true,
+                  "futureIncomeAccepted": false,
+                  "sourceOnly": true,
+                  "actualBuyAccepted": false,
+                  "actualMarchAccepted": false,
+                  "actualPreparationAccepted": false,
+                  "actualBattleMpObserved": false,
+                  "actualCastAccepted": false,
+                  "classicAccepted": false,
+                  "hdAccepted": false,
+                  "globalHdComplete": false,
+                  "rngContinuityAccepted": false
+                },
+                "nextAction": "original-Buy153-and-public-SAVE",
+                "sourceOnly": true,
+                "actualBuyAccepted": false,
+                "actualMarchAccepted": false,
+                "actualPreparationAccepted": false,
+                "actualBattleMpObserved": false,
+                "actualCastAccepted": false,
+                "classicAccepted": false,
+                "hdAccepted": false,
+                "globalHdComplete": false,
+                "rngContinuityAccepted": false
+              },
+              "delta": {
+                "ok": true,
+                "accepted": true,
+                "buyDispatchDeltaAccepted": true,
+                "wholeMeasuredWorldExact": true,
+                "plan": {
+                  "accepted": true,
+                  "sourceOnlyPlanning": true,
+                  "cityIndex": 20,
+                  "personId": 50,
+                  "quantity": 153,
+                  "minimum": 1,
+                  "maximum": 267,
+                  "initialValue": 267,
+                  "cancelSentinel": 65535,
+                  "orderIndex": 0,
+                  "orderId": 11,
+                  "timeCount": 0,
+                  "actorRawOccurrenceIndices": [
+                    87
+                  ],
+                  "firstRemovedQueueIndex": 87,
+                  "money": {
+                    "before": 1335,
+                    "cost": 765,
+                    "after": 570
+                  },
+                  "food": {
+                    "before": 114,
+                    "after": 267,
+                    "applied": 153,
+                    "fixOverFlow16": 0
+                  },
+                  "thew": {
+                    "before": 100,
+                    "cost": 12,
+                    "after": 88
+                  },
+                  "initializedOrder": {
+                    "OrderId": 11,
+                    "Person": 50,
+                    "City": 20,
+                    "TimeCount": 0
+                  },
+                  "opaqueOrderFields": [
+                    "Object",
+                    "Arms",
+                    "Food",
+                    "Money",
+                    "Consume"
+                  ],
+                  "nativeUsesIsMoney": false,
+                  "positiveBuyOnly": true,
+                  "actualInputAccepted": false,
+                  "actualPaymentAccepted": false,
+                  "actualPreparationAccepted": false,
+                  "actualNativeReturnAccepted": false,
+                  "actualAcquisitionAccepted": false,
+                  "actualCastAccepted": false,
+                  "actualMovieAccepted": false,
+                  "actualPixelAccepted": false,
+                  "classicNativePixelAccepted": false,
+                  "hdAccepted": false,
+                  "globalHdComplete": false,
+                  "rngContinuityAccepted": false,
+                  "wholeMonthAccepted": false,
+                  "wholeNativeAbiAccepted": false
+                },
+                "orderIndex": 0,
+                "order": {
+                  "OrderId": 11,
+                  "Person": 50,
+                  "City": 20,
+                  "Object": 51899,
+                  "Arms": 725,
+                  "Food": 0,
+                  "Money": 57344,
+                  "Consume": 187,
+                  "TimeCount": 0
+                },
+                "opaqueFields": {
+                  "fields": [
+                    "Object",
+                    "Arms",
+                    "Food",
+                    "Money",
+                    "Consume"
+                  ],
+                  "values": {
+                    "Object": 51899,
+                    "Arms": 725,
+                    "Food": 0,
+                    "Money": 57344,
+                    "Consume": 187
+                  },
+                  "semanticCargoAccepted": false
+                },
+                "rawDuplicatesRetained": true,
+                "queue199Unchanged": true,
+                "queue200to1999Unchanged": true,
+                "allOtherStateAndUnknownFieldsUnchanged": true,
+                "foodCreditedAtMake": true,
+                "naturalReturnObservedByThisFunction": false,
+                "actualInputAccepted": false,
+                "actualPaymentAccepted": false,
+                "actualPreparationAccepted": false,
+                "actualNativeReturnAccepted": false,
+                "actualAcquisitionAccepted": false,
+                "actualCastAccepted": false,
+                "actualMovieAccepted": false,
+                "actualPixelAccepted": false,
+                "classicNativePixelAccepted": false,
+                "hdAccepted": false,
+                "globalHdComplete": false,
+                "rngContinuityAccepted": false,
+                "wholeMonthAccepted": false,
+                "wholeNativeAbiAccepted": false
+              },
+              "food": {
+                "accepted": true,
+                "rows": [
+                  {
+                    "cityIndex": 4,
+                    "residentIds": [
+                      33,
+                      29
+                    ],
+                    "pendingIds": [],
+                    "returningArmy": [],
+                    "totalArms": 500,
+                    "requiredFood": 11,
+                    "food": 6311,
+                    "money": 30000,
+                    "actualSafe": true
+                  },
+                  {
+                    "cityIndex": 5,
+                    "residentIds": [
+                      7,
+                      59,
+                      62
+                    ],
+                    "pendingIds": [],
+                    "returningArmy": [],
+                    "totalArms": 300,
+                    "requiredFood": 7,
+                    "food": 2831,
+                    "money": 18269,
+                    "actualSafe": true
+                  },
+                  {
+                    "cityIndex": 6,
+                    "residentIds": [
+                      51,
+                      129,
+                      36,
+                      5,
+                      21
+                    ],
+                    "pendingIds": [],
+                    "returningArmy": [],
+                    "totalArms": 2310,
+                    "requiredFood": 47,
+                    "food": 10094,
+                    "money": 29550,
+                    "actualSafe": true
+                  },
+                  {
+                    "cityIndex": 7,
+                    "residentIds": [
+                      68,
+                      131,
+                      48,
+                      28,
+                      6,
+                      27,
+                      25,
+                      12
+                    ],
+                    "pendingIds": [],
+                    "returningArmy": [],
+                    "totalArms": 3520,
+                    "requiredFood": 71,
+                    "food": 18547,
+                    "money": 30000,
+                    "actualSafe": true
+                  },
+                  {
+                    "cityIndex": 13,
+                    "residentIds": [
+                      60,
+                      43,
+                      37,
+                      39,
+                      23
+                    ],
+                    "pendingIds": [],
+                    "returningArmy": [],
+                    "totalArms": 500,
+                    "requiredFood": 11,
+                    "food": 7830,
+                    "money": 30000,
+                    "actualSafe": true
+                  },
+                  {
+                    "cityIndex": 16,
+                    "residentIds": [
+                      40,
+                      20,
+                      0
+                    ],
+                    "pendingIds": [],
+                    "returningArmy": [],
+                    "totalArms": 4377,
+                    "requiredFood": 88,
+                    "food": 634,
+                    "money": 10818,
+                    "actualSafe": true
+                  },
+                  {
+                    "cityIndex": 20,
+                    "residentIds": [
+                      44,
+                      52,
+                      38,
+                      10,
+                      11,
+                      70,
+                      69,
+                      17,
+                      8,
+                      30,
+                      45
+                    ],
+                    "pendingIds": [
+                      50
+                    ],
+                    "returningArmy": [],
+                    "totalArms": 13339,
+                    "requiredFood": 267,
+                    "food": 267,
+                    "money": 570,
+                    "actualSafe": true
+                  }
+                ],
+                "includeReturningArmy": true,
+                "futureIncomeAccepted": false,
+                "sourceOnly": true,
+                "actualBuyAccepted": false,
+                "actualMarchAccepted": false,
+                "actualPreparationAccepted": false,
+                "actualBattleMpObserved": false,
+                "actualCastAccepted": false,
+                "classicAccepted": false,
+                "hdAccepted": false,
+                "globalHdComplete": false,
+                "rngContinuityAccepted": false
+              },
+              "wholeMeasuredWorldExact": true,
+              "sourceOnly": true,
+              "actualBuyAccepted": false,
+              "actualMarchAccepted": false,
+              "actualPreparationAccepted": false,
+              "actualBattleMpObserved": false,
+              "actualCastAccepted": false,
+              "classicAccepted": false,
+              "hdAccepted": false,
+              "globalHdComplete": false,
+              "rngContinuityAccepted": false
+            },
+            "moneyPaid": 765,
+            "thewPaid": 12,
+            "foodCredited": 153,
+            "pendingBuySlot": 0,
+            "buyerReturned": false,
+            "extraBuyForbidden": true
+          }
+        },
+        {
+          "name": "only uncommitted March partial before inaccessible presentation button",
+          "accepted": true,
+          "facts": {
+            "rawPartial": {
+              "path": "build/impact-skill-20261014/impact13-battle-actual-v34/raw-v34-march-partial-before-oracle.json",
+              "bytes": 438939,
+              "sha256": "00e3a7581ea3d3c962218893deb58f31c9886cf1e8d8a47a7383a99d0bef7256"
+            },
+            "rawFailure": {
+              "path": "build/impact-skill-20261014/impact13-battle-actual-v34/raw-v34-failure-before-finally.json",
+              "bytes": 90358,
+              "sha256": "df153600f7ce47b529d90b9a7e424022ada6317b0b361a126025a38abdc16cd2"
+            },
+            "plan": {
+              "accepted": true,
+              "origin": 6,
+              "destination": 12,
+              "personId": 129,
+              "timeCount": 1,
+              "orderIndex": 170,
+              "fight": 0,
+              "carryFood": 421,
+              "foodAfter": 9673,
+              "moneyCost": 0,
+              "thewCost": 0,
+              "guardIds": [
+                51,
+                36,
+                5,
+                21
+              ],
+              "satrapId": 130,
+              "food": {
+                "accepted": true,
+                "rows": [
+                  {
+                    "cityIndex": 4,
+                    "residentIds": [
+                      33,
+                      29
+                    ],
+                    "pendingIds": [],
+                    "returningArmy": [],
+                    "totalArms": 500,
+                    "requiredFood": 11,
+                    "food": 6311,
+                    "money": 30000,
+                    "actualSafe": true
+                  },
+                  {
+                    "cityIndex": 5,
+                    "residentIds": [
+                      7,
+                      59,
+                      62
+                    ],
+                    "pendingIds": [],
+                    "returningArmy": [],
+                    "totalArms": 300,
+                    "requiredFood": 7,
+                    "food": 2831,
+                    "money": 18269,
+                    "actualSafe": true
+                  },
+                  {
+                    "cityIndex": 6,
+                    "residentIds": [
+                      51,
+                      129,
+                      36,
+                      5,
+                      21
+                    ],
+                    "pendingIds": [],
+                    "returningArmy": [],
+                    "totalArms": 2310,
+                    "requiredFood": 47,
+                    "food": 10094,
+                    "money": 29550,
+                    "actualSafe": true
+                  },
+                  {
+                    "cityIndex": 7,
+                    "residentIds": [
+                      68,
+                      131,
+                      48,
+                      28,
+                      6,
+                      27,
+                      25,
+                      12
+                    ],
+                    "pendingIds": [],
+                    "returningArmy": [],
+                    "totalArms": 3520,
+                    "requiredFood": 71,
+                    "food": 18547,
+                    "money": 30000,
+                    "actualSafe": true
+                  },
+                  {
+                    "cityIndex": 13,
+                    "residentIds": [
+                      60,
+                      43,
+                      37,
+                      39,
+                      23
+                    ],
+                    "pendingIds": [],
+                    "returningArmy": [],
+                    "totalArms": 500,
+                    "requiredFood": 11,
+                    "food": 7830,
+                    "money": 30000,
+                    "actualSafe": true
+                  },
+                  {
+                    "cityIndex": 16,
+                    "residentIds": [
+                      40,
+                      20,
+                      0
+                    ],
+                    "pendingIds": [],
+                    "returningArmy": [],
+                    "totalArms": 4377,
+                    "requiredFood": 88,
+                    "food": 634,
+                    "money": 10818,
+                    "actualSafe": true
+                  },
+                  {
+                    "cityIndex": 20,
+                    "residentIds": [
+                      44,
+                      52,
+                      38,
+                      10,
+                      11,
+                      70,
+                      69,
+                      17,
+                      8,
+                      30,
+                      45
+                    ],
+                    "pendingIds": [
+                      50
+                    ],
+                    "returningArmy": [],
+                    "totalArms": 13339,
+                    "requiredFood": 267,
+                    "food": 267,
+                    "money": 570,
+                    "actualSafe": true
+                  }
+                ],
+                "includeReturningArmy": true,
+                "futureIncomeAccepted": false,
+                "sourceOnly": true,
+                "actualBuyAccepted": false,
+                "actualMarchAccepted": false,
+                "actualPreparationAccepted": false,
+                "actualBattleMpObserved": false,
+                "actualCastAccepted": false,
+                "classicAccepted": false,
+                "hdAccepted": false,
+                "globalHdComplete": false,
+                "rngContinuityAccepted": false
+              },
+              "budget": {
+                "dailyRatioRaw": 0,
+                "monthlyRatioRaw": 0,
+                "boutMax": 30,
+                "squareRoot": 43,
+                "daily": 14,
+                "carryFood": 421,
+                "sourceOnly": true,
+                "actualBattleMpObserved": false
+              },
+              "sourceOnly": true,
+              "actualBuyAccepted": false,
+              "actualMarchAccepted": false,
+              "actualPreparationAccepted": false,
+              "actualBattleMpObserved": false,
+              "actualCastAccepted": false,
+              "classicAccepted": false,
+              "hdAccepted": false,
+              "globalHdComplete": false,
+              "rngContinuityAccepted": false
+            },
+            "partial": {
+              "accepted": true,
+              "plan": {
+                "accepted": true,
+                "origin": 6,
+                "destination": 12,
+                "personId": 129,
+                "timeCount": 1,
+                "orderIndex": 170,
+                "fight": 0,
+                "carryFood": 421,
+                "foodAfter": 9673,
+                "moneyCost": 0,
+                "thewCost": 0,
+                "guardIds": [
+                  51,
+                  36,
+                  5,
+                  21
+                ],
+                "satrapId": 130,
+                "food": {
+                  "accepted": true,
+                  "rows": [
+                    {
+                      "cityIndex": 4,
+                      "residentIds": [
+                        33,
+                        29
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 500,
+                      "requiredFood": 11,
+                      "food": 6311,
+                      "money": 30000,
+                      "actualSafe": true
+                    },
+                    {
+                      "cityIndex": 5,
+                      "residentIds": [
+                        7,
+                        59,
+                        62
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 300,
+                      "requiredFood": 7,
+                      "food": 2831,
+                      "money": 18269,
+                      "actualSafe": true
+                    },
+                    {
+                      "cityIndex": 6,
+                      "residentIds": [
+                        51,
+                        129,
+                        36,
+                        5,
+                        21
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 2310,
+                      "requiredFood": 47,
+                      "food": 10094,
+                      "money": 29550,
+                      "actualSafe": true
+                    },
+                    {
+                      "cityIndex": 7,
+                      "residentIds": [
+                        68,
+                        131,
+                        48,
+                        28,
+                        6,
+                        27,
+                        25,
+                        12
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 3520,
+                      "requiredFood": 71,
+                      "food": 18547,
+                      "money": 30000,
+                      "actualSafe": true
+                    },
+                    {
+                      "cityIndex": 13,
+                      "residentIds": [
+                        60,
+                        43,
+                        37,
+                        39,
+                        23
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 500,
+                      "requiredFood": 11,
+                      "food": 7830,
+                      "money": 30000,
+                      "actualSafe": true
+                    },
+                    {
+                      "cityIndex": 16,
+                      "residentIds": [
+                        40,
+                        20,
+                        0
+                      ],
+                      "pendingIds": [],
+                      "returningArmy": [],
+                      "totalArms": 4377,
+                      "requiredFood": 88,
+                      "food": 634,
+                      "money": 10818,
+                      "actualSafe": true
+                    },
+                    {
+                      "cityIndex": 20,
+                      "residentIds": [
+                        44,
+                        52,
+                        38,
+                        10,
+                        11,
+                        70,
+                        69,
+                        17,
+                        8,
+                        30,
+                        45
+                      ],
+                      "pendingIds": [
+                        50
+                      ],
+                      "returningArmy": [],
+                      "totalArms": 13339,
+                      "requiredFood": 267,
+                      "food": 267,
+                      "money": 570,
+                      "actualSafe": true
+                    }
+                  ],
+                  "includeReturningArmy": true,
+                  "futureIncomeAccepted": false,
+                  "sourceOnly": true,
+                  "actualBuyAccepted": false,
+                  "actualMarchAccepted": false,
+                  "actualPreparationAccepted": false,
+                  "actualBattleMpObserved": false,
+                  "actualCastAccepted": false,
+                  "classicAccepted": false,
+                  "hdAccepted": false,
+                  "globalHdComplete": false,
+                  "rngContinuityAccepted": false
+                },
+                "budget": {
+                  "dailyRatioRaw": 0,
+                  "monthlyRatioRaw": 0,
+                  "boutMax": 30,
+                  "squareRoot": 43,
+                  "daily": 14,
+                  "carryFood": 421,
+                  "sourceOnly": true,
+                  "actualBattleMpObserved": false
+                },
+                "sourceOnly": true,
+                "actualBuyAccepted": false,
+                "actualMarchAccepted": false,
+                "actualPreparationAccepted": false,
+                "actualBattleMpObserved": false,
+                "actualCastAccepted": false,
+                "classicAccepted": false,
+                "hdAccepted": false,
+                "globalHdComplete": false,
+                "rngContinuityAccepted": false
+              },
+              "wholeMeasuredWorldExact": true,
+              "satrap130PendingRetained": true,
+              "sourceOnly": true,
+              "actualBuyAccepted": false,
+              "actualMarchAccepted": false,
+              "actualPreparationAccepted": false,
+              "actualBattleMpObserved": false,
+              "actualCastAccepted": false,
+              "classicAccepted": false,
+              "hdAccepted": false,
+              "globalHdComplete": false,
+              "rngContinuityAccepted": false
+            },
+            "uncommittedPartialSaved": false,
+            "committedMarch": false,
+            "food421Debited": false,
+            "ENDSent": false,
+            "policyCallbackObserved": false,
+            "realBattleObserved": false
+          }
+        },
+        {
+          "name": "authoritative recovery checkpoint is the paid Buy SAVE",
+          "accepted": true,
+          "facts": {
+            "tag": "impact13-129-v34-buy153-city20-actor50",
+            "date": [
+              239,
+              4
+            ],
+            "food": {
+              "accepted": true,
+              "rows": [
+                {
+                  "cityIndex": 4,
+                  "residentIds": [
+                    33,
+                    29
+                  ],
+                  "pendingIds": [],
+                  "returningArmy": [],
+                  "totalArms": 500,
+                  "requiredFood": 11,
+                  "food": 6311,
+                  "money": 30000,
+                  "actualSafe": true
+                },
+                {
+                  "cityIndex": 5,
+                  "residentIds": [
+                    7,
+                    59,
+                    62
+                  ],
+                  "pendingIds": [],
+                  "returningArmy": [],
+                  "totalArms": 300,
+                  "requiredFood": 7,
+                  "food": 2831,
+                  "money": 18269,
+                  "actualSafe": true
+                },
+                {
+                  "cityIndex": 6,
+                  "residentIds": [
+                    51,
+                    129,
+                    36,
+                    5,
+                    21
+                  ],
+                  "pendingIds": [],
+                  "returningArmy": [],
+                  "totalArms": 2310,
+                  "requiredFood": 47,
+                  "food": 10094,
+                  "money": 29550,
+                  "actualSafe": true
+                },
+                {
+                  "cityIndex": 7,
+                  "residentIds": [
+                    68,
+                    131,
+                    48,
+                    28,
+                    6,
+                    27,
+                    25,
+                    12
+                  ],
+                  "pendingIds": [],
+                  "returningArmy": [],
+                  "totalArms": 3520,
+                  "requiredFood": 71,
+                  "food": 18547,
+                  "money": 30000,
+                  "actualSafe": true
+                },
+                {
+                  "cityIndex": 13,
+                  "residentIds": [
+                    60,
+                    43,
+                    37,
+                    39,
+                    23
+                  ],
+                  "pendingIds": [],
+                  "returningArmy": [],
+                  "totalArms": 500,
+                  "requiredFood": 11,
+                  "food": 7830,
+                  "money": 30000,
+                  "actualSafe": true
+                },
+                {
+                  "cityIndex": 16,
+                  "residentIds": [
+                    40,
+                    20,
+                    0
+                  ],
+                  "pendingIds": [],
+                  "returningArmy": [],
+                  "totalArms": 4377,
+                  "requiredFood": 88,
+                  "food": 634,
+                  "money": 10818,
+                  "actualSafe": true
+                },
+                {
+                  "cityIndex": 20,
+                  "residentIds": [
+                    44,
+                    52,
+                    38,
+                    10,
+                    11,
+                    70,
+                    69,
+                    17,
+                    8,
+                    30,
+                    45
+                  ],
+                  "pendingIds": [
+                    50
+                  ],
+                  "returningArmy": [],
+                  "totalArms": 13339,
+                  "requiredFood": 267,
+                  "food": 267,
+                  "money": 570,
+                  "actualSafe": true
+                }
+              ],
+              "includeReturningArmy": true,
+              "futureIncomeAccepted": false,
+              "sourceOnly": true,
+              "actualBuyAccepted": false,
+              "actualMarchAccepted": false,
+              "actualPreparationAccepted": false,
+              "actualBattleMpObserved": false,
+              "actualCastAccepted": false,
+              "classicAccepted": false,
+              "hdAccepted": false,
+              "globalHdComplete": false,
+              "rngContinuityAccepted": false
+            },
+            "buyer50Pending": true,
+            "caster129StillSavedAtCity6": true,
+            "newBuyRequired": false,
+            "paymentReplayForbidden": true
+          }
+        },
+        {
+          "name": "exact external cleanup and unchanged8080",
+          "accepted": true,
+          "facts": {
+            "proof": {
+              "path": "build/impact-skill-20261014/impact13-battle-v34-external-cleanup-v1.json",
+              "bytes": 3271,
+              "sha256": "2d6d5d1e9ac062e4038d9b4770901377712cfc7adf5e23168fd87391c04eefac"
+            },
+            "exactIdentities": 11,
+            "privatePorts": [
+              4548,
+              4549
+            ],
+            "profileRetained": true,
+            "user8080Untouched": true
+          }
+        }
+      ],
+      "latestTag": "impact13-129-v34-buy153-city20-actor50",
+      "latestDate": [
+        239,
+        4
+      ],
+      "latestPair": [
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v34/native-impact13-129-v34-buy153-city20-actor50-sango0.sav",
+          "bytes": 8221,
+          "sha256": "766743fdf846cf1b0e01f8f259f79dc4913e37de47c75273556c796fce095d61"
+        },
+        {
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v34/native-impact13-129-v34-buy153-city20-actor50-sango1.sav",
+          "bytes": 4840,
+          "sha256": "0715a520779acb1b897b689baa70875641b430777a9cf830cc4fdc86c99fee99"
+        }
+      ],
+      "nextLegalAction": "Reload exact paid-Buy SAVE; skip payment; repeat only uncommitted March UI, then genuine dispatch SAVE.",
+      "cleanup": {
+        "path": "build/impact-skill-20261014/impact13-battle-v34-external-cleanup-v1.json",
+        "bytes": 3271,
+        "sha256": "2d6d5d1e9ac062e4038d9b4770901377712cfc7adf5e23168fd87391c04eefac"
+      },
+      "finishedAt": "2026-10-23T14:30:26.810Z",
+      "latestWorldFile": {
+        "path": "build/impact-skill-20261014/impact13-v34-paid-prefix-independent-v1/latest-paid-world.json",
+        "bytes": 147977,
+        "sha256": "8cf9fbe25b3aac26bc3ff0a2fdc53563eb88ca5bae8f27bfce695f40654f4c6e"
+      }
+    }
+  },
+  "evidenceIndex": {
+    "path": "docs/validation/m5-impact13-v34-paid-20261023-evidence-index.json",
+    "bytes": 20525,
+    "sha256": "61ab4abe1ffd13182c6b2d3bf129539af15c40be45583a92e3d5e75fa46c8041"
+  },
+  "evidenceBoundary": {
+    "historicalBinderExecuted": false,
+    "historicalArchivesTraversed": false,
+    "rawUiEvidenceEmbedded": false,
+    "rawUiEvidenceIndexed": true,
+    "portableClosedRawArchive": false,
+    "allPackedFieldsVerified": true,
+    "currentNativeBattleOrCastObserved": false,
+    "sourceGameRunRemainsFailed": true
+  }
+}

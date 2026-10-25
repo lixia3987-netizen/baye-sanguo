@@ -1,0 +1,497 @@
+{
+  "schemaVersion": 1,
+  "status": "accepted-limited-scenarios",
+  "accepted": true,
+  "scope": "Original skill16/SPE40 MP20/state1/move unchanged only, only explicitly listed terminal scenarios",
+  "scenarios": [
+    {
+      "id": "installed1080",
+      "accepted": true,
+      "freeze": {
+        "path": "build/r33-liuyan-runtime-final-freeze-v1.json",
+        "bytes": 4952,
+        "sha256": "4ccee73b0d9693baed9d08a2b7184b7edc62643af51f8f1624d311782e876695"
+      },
+      "scope": "Original installed skill16/SPE40 MP20/state1/move unchanged only",
+      "result": {
+        "path": "build/r33-liuyan-actual-v1-installed1080/result.json",
+        "bytes": 18502944,
+        "sha256": "d87a1a628304aafb8f6a5520e88927ff4dbc525da6bc0d98cc2a94f892793740"
+      },
+      "execution": {
+        "path": "build/r33-liuyan-actual-v1-installed1080-execution.json",
+        "bytes": 4335,
+        "sha256": "bba8b5a229d0cb3cd40ed8fea4c28cebbb0895244fef89e759967e013275e783"
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "staged": false,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "sourceCount": 1223,
+      "effect": {
+        "skillId": 16,
+        "speId": 40,
+        "mpBefore": 146,
+        "mpAfter": 126,
+        "target": {
+          "personIndex": 173,
+          "slot": 19,
+          "name": "陈震",
+          "stateBefore": 0,
+          "stateAfter": 1,
+          "moveBefore": 5,
+          "moveAfter": 5,
+          "hpBefore": 55,
+          "hpAfter": 55,
+          "armsBefore": 176,
+          "armsAfter": 176
+        },
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "reportAcknowledgements": 1,
+        "movieKeys": 0,
+        "noNUM": true,
+        "noHOLD": true,
+        "naturalReleaseAccepted": false,
+        "combinedIndependentAudit": {
+          "ref": {
+            "path": "build/r33-liuyan-installed1080-terminal-independent-audit-v1.json",
+            "bytes": 19542,
+            "sha256": "c4696b473ff01a777f024be3ba431ed32ee4519a81de21ddd93ee72f1fbefbbb"
+          },
+          "combinedAudit": true,
+          "separateSourceAudit": false,
+          "logical": 1223,
+          "physical": 1219,
+          "drift": 0,
+          "added": 0,
+          "nativeCount": 128,
+          "ownedIdentityCount": 11,
+          "historicalJsonlRows": 8,
+          "privacyAllRowsRecomputed": true
+        }
+      },
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r33-liuyan-actual-v1-installed1080-root-after-isolation-v2.json",
+          "bytes": 2621,
+          "sha256": "e435544145055c0d615e3df0d4c8fc265ba8a4009b199f72bafca773b06ae3d8"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r33-liuyan-installed1080-v1-root-historical-exit-v2.json",
+            "bytes": 3710,
+            "sha256": "8bce853b2f4b3558b1e954006a2101cccd536b0bafd4d8d649c1f668b6d138f6"
+          },
+          "union": {
+            "path": "build/r33-liuyan-installed1080-v1-verified-historical-owned-union-root-v2.json",
+            "bytes": 7902,
+            "sha256": "d77fc6344cb6c3171cabacd58c1090e261e7dcdf9577f8b2c48c2a6e045230e8"
+          },
+          "historicalIdentityCount": 11,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "installed720",
+      "accepted": true,
+      "freeze": {
+        "path": "build/r33-liuyan-runtime-final-freeze-v1.json",
+        "bytes": 4952,
+        "sha256": "4ccee73b0d9693baed9d08a2b7184b7edc62643af51f8f1624d311782e876695"
+      },
+      "scope": "Original installed skill16/SPE40 MP20/state1/move unchanged only",
+      "result": {
+        "path": "build/r33-liuyan-actual-v1-installed720/result.json",
+        "bytes": 18628096,
+        "sha256": "1b36e3b41f4257701ebef7dd6aa03708ef4758767f158754a409aee0d7f22f40"
+      },
+      "execution": {
+        "path": "build/r33-liuyan-actual-v1-installed720-execution.json",
+        "bytes": 4348,
+        "sha256": "5340d683ef389917b8d9a7df56365a5f9c354895e4f1530f11f577b76dc1b707"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "staged": false,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "sourceCount": 1223,
+      "effect": {
+        "skillId": 16,
+        "speId": 40,
+        "mpBefore": 146,
+        "mpAfter": 126,
+        "target": {
+          "personIndex": 173,
+          "slot": 19,
+          "name": "陈震",
+          "stateBefore": 0,
+          "stateAfter": 1,
+          "moveBefore": 5,
+          "moveAfter": 5,
+          "hpBefore": 55,
+          "hpAfter": 55,
+          "armsBefore": 176,
+          "armsAfter": 176
+        },
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "reportAcknowledgements": 1,
+        "movieKeys": 0,
+        "noNUM": true,
+        "noHOLD": true,
+        "naturalReleaseAccepted": false,
+        "combinedIndependentAudit": {
+          "ref": {
+            "path": "build/r33-liuyan-installed720-terminal-independent-audit-v1.json",
+            "bytes": 19516,
+            "sha256": "c04cdc79239a1ec46dee36e7675e27227cab39941e3c624a0827a1f605850c41"
+          },
+          "combinedAudit": true,
+          "separateSourceAudit": false,
+          "logical": 1223,
+          "physical": 1219,
+          "drift": 0,
+          "added": 0,
+          "nativeCount": 128,
+          "ownedIdentityCount": 11,
+          "historicalJsonlRows": 8,
+          "privacyAllRowsRecomputed": true
+        }
+      },
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r33-liuyan-actual-v1-installed720-root-after-isolation-v2.json",
+          "bytes": 2621,
+          "sha256": "3e586056342f9b8d9a9c50787d9141ff08ccca92c146319f3593a21d4fdd3499"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r33-liuyan-installed720-v1-root-historical-exit-v2.json",
+            "bytes": 3706,
+            "sha256": "b020ccbe9b0555bb07dfab5b9069077290a8edfc46411c0bf64a766f1447e212"
+          },
+          "union": {
+            "path": "build/r33-liuyan-installed720-v1-verified-historical-owned-union-root-v2.json",
+            "bytes": 7897,
+            "sha256": "dcbd4138db398f75b6c1143436eae814fd073fbfefe63951570d632969c9b25c"
+          },
+          "historicalIdentityCount": 11,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "missing1080",
+      "accepted": true,
+      "freeze": {
+        "path": "build/r33-liuyan-runtime-final-freeze-v1.json",
+        "bytes": 4952,
+        "sha256": "4ccee73b0d9693baed9d08a2b7184b7edc62643af51f8f1624d311782e876695"
+      },
+      "scope": "Original installed skill16/SPE40 MP20/state1/move unchanged only",
+      "result": {
+        "path": "build/r33-liuyan-actual-v1-missing1080/result.json",
+        "bytes": 19645058,
+        "sha256": "f0e9afbcaeafc4d9e7b4ff06706b8cc8cde6afab9ca626050e54f1d6c108be2b"
+      },
+      "execution": {
+        "path": "build/r33-liuyan-actual-v1-missing1080-execution.json",
+        "bytes": 4361,
+        "sha256": "8b22ed9dc714f143391eaa006c2b64fc5d62c57df2ec1a67016f5e23d3ff4e97"
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "staged": false,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "sourceCount": 1223,
+      "effect": {
+        "skillId": 16,
+        "speId": 40,
+        "mpBefore": 146,
+        "mpAfter": 126,
+        "target": {
+          "personIndex": 173,
+          "slot": 19,
+          "name": "陈震",
+          "stateBefore": 0,
+          "stateAfter": 1,
+          "moveBefore": 5,
+          "moveAfter": 5,
+          "hpBefore": 55,
+          "hpAfter": 55,
+          "armsBefore": 176,
+          "armsAfter": 176
+        },
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "reportAcknowledgements": 1,
+        "movieKeys": 0,
+        "noNUM": true,
+        "noHOLD": true,
+        "naturalReleaseAccepted": false,
+        "combinedIndependentAudit": {
+          "ref": {
+            "path": "build/r33-liuyan-missing1080-terminal-independent-audit-v1.json",
+            "bytes": 19440,
+            "sha256": "c1b0049db10b3cf7aae957449aabfc6510a250f18b7e8888553b0ed56cb80fe3"
+          },
+          "combinedAudit": true,
+          "separateSourceAudit": false,
+          "logical": 1223,
+          "physical": 1219,
+          "drift": 0,
+          "added": 0,
+          "nativeCount": 128,
+          "ownedIdentityCount": 11,
+          "historicalJsonlRows": 8,
+          "privacyAllRowsRecomputed": true
+        }
+      },
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r33-liuyan-actual-v1-missing1080-root-after-isolation-v2.json",
+          "bytes": 2618,
+          "sha256": "d9a3b763c141ba292212a5389390226bcc0f35c0d0b45d288f8f73b6f9d811e3"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r33-liuyan-missing1080-v1-root-historical-exit-v2.json",
+            "bytes": 3702,
+            "sha256": "26a80216235a5c8194741ff35bb2380897a64ed8420641b5eb18c97bd8c5467d"
+          },
+          "union": {
+            "path": "build/r33-liuyan-missing1080-v1-verified-historical-owned-union-root-v2.json",
+            "bytes": 7892,
+            "sha256": "54dde21e4e973851c40c76a8a5947816aabd7ee8e188b5f5b0de3c365a0d3ef7"
+          },
+          "historicalIdentityCount": 11,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "classic1080",
+      "accepted": true,
+      "freeze": {
+        "path": "build/r33-liuyan-runtime-final-freeze-v1.json",
+        "bytes": 4952,
+        "sha256": "4ccee73b0d9693baed9d08a2b7184b7edc62643af51f8f1624d311782e876695"
+      },
+      "scope": "Original installed skill16/SPE40 MP20/state1/move unchanged only",
+      "result": {
+        "path": "build/r33-liuyan-actual-v1-classic1080/result.json",
+        "bytes": 17655970,
+        "sha256": "d98db3ec8fb50ee69885f9fbb5d47687aa629711b99571873d299f9da1fa614f"
+      },
+      "execution": {
+        "path": "build/r33-liuyan-actual-v1-classic1080-execution.json",
+        "bytes": 4352,
+        "sha256": "4450d1a02ac0be01d34fd6a9ff84ffd0a41001c30658d2c652e9136e5c488943"
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "staged": false,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "sourceCount": 1223,
+      "effect": {
+        "skillId": 16,
+        "speId": 40,
+        "mpBefore": 146,
+        "mpAfter": 126,
+        "target": {
+          "personIndex": 45,
+          "slot": 15,
+          "name": "许褚",
+          "stateBefore": 0,
+          "stateAfter": 1,
+          "moveBefore": 4,
+          "moveAfter": 4,
+          "hpBefore": 85,
+          "hpAfter": 85,
+          "armsBefore": 700,
+          "armsAfter": 700
+        },
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "reportAcknowledgements": 0,
+        "movieKeys": 0,
+        "noNUM": true,
+        "noHOLD": true,
+        "naturalReleaseAccepted": false,
+        "combinedIndependentAudit": {
+          "ref": {
+            "path": "build/r33-liuyan-classic1080-terminal-independent-audit-v1.json",
+            "bytes": 17014,
+            "sha256": "12d25e1c45e2711e5345b85528828bdbbd9c1c01bd2fada9b16a2f38d00d5b78"
+          },
+          "combinedAudit": true,
+          "separateSourceAudit": false,
+          "logical": 1223,
+          "physical": 1219,
+          "drift": 0,
+          "added": 0,
+          "nativeCount": 128,
+          "ownedIdentityCount": 11,
+          "historicalJsonlRows": 8,
+          "privacyAllRowsRecomputed": true
+        }
+      },
+      "cleanup": {
+        "reported": {
+          "chromeExited": true,
+          "chromeExitCode": 4294967295,
+          "chromeSignal": null,
+          "treeExited": true,
+          "httpClosed": true,
+          "profileIntentionallyRetained": true,
+          "profileExists": true,
+          "directoriesDeleted": false
+        },
+        "rootAfter": {
+          "path": "build/r33-liuyan-actual-v1-classic1080-root-after-isolation-v2.json",
+          "bytes": 2619,
+          "sha256": "7b78e4616cabe8f05a5a66fd50e5cedeaf13adf165ee42a96cfd572784284289"
+        },
+        "historicalExit": {
+          "proof": {
+            "path": "build/r33-liuyan-classic1080-v1-root-historical-exit-v2.json",
+            "bytes": 3702,
+            "sha256": "1b8af83614d7e87dd393b3da50fba604e9c62c28334fe9fc09e4c0712e0de109"
+          },
+          "union": {
+            "path": "build/r33-liuyan-classic1080-v1-verified-historical-owned-union-root-v2.json",
+            "bytes": 7892,
+            "sha256": "1e8a6991b83b6dfeb258e7e658cbccdce14866a06ec2c20b7a1a1f51eae570e0"
+          },
+          "historicalIdentityCount": 11,
+          "allRecordedHistoricalOwnedGone": true,
+          "userServicePreserved": true,
+          "osSampledByThisBuilder": false
+        }
+      },
+      "error": null
+    }
+  ],
+  "failedRuns": [],
+  "regression": {
+    "execution": {
+      "path": "build/r31-dingshen-full-source-tests-v1-execution.json",
+      "bytes": 3697,
+      "sha256": "ad1a56d103dc805946b930f8ba82e7166bc7ec137538862a535fd6f68d3d7fc4"
+    },
+    "summary": {
+      "tests": 1293,
+      "pass": 1293,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "sourceCount": 475,
+    "moduleCount": 53,
+    "scope": "Reused R31 static execution; not a new runtime regression or rerun"
+  },
+  "compiledSourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+  "engineSourceModified": true,
+  "nativeAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-liuyan-current-runtime-20261011/runtime-index.json",
+      "bytes": 281029,
+      "sha256": "e9a6d0d6a2cb5dbb881af8210077266ca5e9e239b52845066fbf0d2613ac7f6b"
+    },
+    "portableClosedArchive": false
+  },
+  "notClaimed": [
+    "Natural解除/recovery or duration; no state reset or immediate move recomputation claim",
+    "Old R27 LIUYAN16 or R30/R32 skill14/15 actual acceptance as current16 evidence",
+    "Other skills and fullHD replacement",
+    "Unlisted classic/720/missing scenarios",
+    "FPS, performance, mobile, timeout cause or timeout repair"
+  ]
+}

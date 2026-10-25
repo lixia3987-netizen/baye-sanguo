@@ -1,0 +1,1535 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-quantity-focus-map111-20261024-v48-archive-part001.json",
+      "bytes": 7253607,
+      "sha256": "4fa334c1d2f5e2d053bd21d10bec9f40898c2eaeb0865befb35c26a569512a04",
+      "blobs": 31
+    },
+    {
+      "path": "docs/validation/m5-quantity-focus-map111-20261024-v48-archive-part002.json",
+      "bytes": 7731068,
+      "sha256": "9107d9d628198cc1d20599e0d2f596739200f79c6ee96885998bb29d37af4522",
+      "blobs": 108
+    }
+  ],
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/cleanup.json",
+      "bytes": 16454,
+      "sha256": "d1500c41ff55d0833c6f30f84508b27ba9853c76df05a6966e8f1ff8e88ed0f1",
+      "blob": "d1500c41ff55d0833c6f30f84508b27ba9853c76df05a6966e8f1ff8e88ed0f1",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-bridge.js",
+      "bytes": 160484,
+      "sha256": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99",
+      "blob": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-campaign-reader.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "blob": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-engine-manifest.json",
+      "bytes": 21284,
+      "sha256": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "blob": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-focus-predicates.mjs",
+      "bytes": 3291,
+      "sha256": "85039dfd95b69daafddbde8bb7dc5a45230ae419fd90332b1d2eacf5118250f1",
+      "blob": "85039dfd95b69daafddbde8bb7dc5a45230ae419fd90332b1d2eacf5118250f1",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-hd-city-menu.js",
+      "bytes": 431117,
+      "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "blob": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-hd-dialog.js",
+      "bytes": 136991,
+      "sha256": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "blob": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-hd-spe.js",
+      "bytes": 134571,
+      "sha256": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "blob": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-lcd.js",
+      "bytes": 35113,
+      "sha256": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "blob": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+      "blob": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "blob": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-packed-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "blob": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-pc.html",
+      "bytes": 27750,
+      "sha256": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8",
+      "blob": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-public-load-helpers.mjs",
+      "bytes": 22493,
+      "sha256": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "blob": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-reused-lifecycle-source.mjs",
+      "bytes": 27783,
+      "sha256": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611",
+      "blob": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-reused-serial-controls.json",
+      "bytes": 3838,
+      "sha256": "64ad61f52132129ef8d28621485e8d7f3e9f93c484165b79ad4dbb8f970c1a2a",
+      "blob": "64ad61f52132129ef8d28621485e8d7f3e9f93c484165b79ad4dbb8f970c1a2a",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-reused-serial-controls.mjs",
+      "bytes": 10138,
+      "sha256": "657afb76705412e2e4f218bd02d676e1ee86a051a46b9e6832ededf902f81185",
+      "blob": "657afb76705412e2e4f218bd02d676e1ee86a051a46b9e6832ededf902f81185",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-reused-serial-helpers.mjs",
+      "bytes": 35256,
+      "sha256": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275",
+      "blob": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-save-storage.js",
+      "bytes": 11899,
+      "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+      "blob": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-scenario.mjs",
+      "bytes": 24379,
+      "sha256": "7923bcea1d2e47a1acdc49fa497d365c6df88d657558e253241ef4306f83ab4d",
+      "blob": "7923bcea1d2e47a1acdc49fa497d365c6df88d657558e253241ef4306f83ab4d",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-source-controls.json",
+      "bytes": 10646,
+      "sha256": "989a26f4c65667aa6d7d0f2f24808ef81e7fd0903e9cc7ec4f93c51e9ca3dd0f",
+      "blob": "989a26f4c65667aa6d7d0f2f24808ef81e7fd0903e9cc7ec4f93c51e9ca3dd0f",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-source-controls.mjs",
+      "bytes": 10703,
+      "sha256": "0a8f57d437224ac123db856486dada97c008833bdcec1457a1f05adf0eac35b8",
+      "blob": "0a8f57d437224ac123db856486dada97c008833bdcec1457a1f05adf0eac35b8",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-system-ui.js",
+      "bytes": 55988,
+      "sha256": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+      "blob": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/executed-tool.mjs",
+      "bytes": 32515,
+      "sha256": "470f1162da5c9593140f14bb61fb90bb9be64b948741d9958b1c4ec7f0103838",
+      "blob": "470f1162da5c9593140f14bb61fb90bb9be64b948741d9958b1c4ec7f0103838",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/final-protected-owner.json",
+      "bytes": 227937,
+      "sha256": "5a376dc4a8a325c32d5e7a2b16579cb698371c1981abf7394c55d3d63ac22b83",
+      "blob": "5a376dc4a8a325c32d5e7a2b16579cb698371c1981abf7394c55d3d63ac22b83",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/focus-blank-stage.json",
+      "bytes": 201961,
+      "sha256": "249322cca6ef0627a46e5c05322f987acb95c8e9be7ed8c7b69e3eb27953adb9",
+      "blob": "249322cca6ef0627a46e5c05322f987acb95c8e9be7ed8c7b69e3eb27953adb9",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/focus-final-map.json",
+      "bytes": 202037,
+      "sha256": "b52743204ef1fec6e2a70c996404f7f5576074e6e6ce7942fdf102d19cb46526",
+      "blob": "b52743204ef1fec6e2a70c996404f7f5576074e6e6ce7942fdf102d19cb46526",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/focus-final-map.png",
+      "bytes": 3323772,
+      "sha256": "81ee2b1ad2e83500d2c54d9295bfd2a6cbaf80b97999db36014dfbd104023cae",
+      "blob": "81ee2b1ad2e83500d2c54d9295bfd2a6cbaf80b97999db36014dfbd104023cae",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/focus-quantity-before.json",
+      "bytes": 201969,
+      "sha256": "fc58e92e1b9dd811b7e129faec7dc1602cae4314efebb2c86fdcf96fd7136b05",
+      "blob": "fc58e92e1b9dd811b7e129faec7dc1602cae4314efebb2c86fdcf96fd7136b05",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/focus-quantity-before.png",
+      "bytes": 1725743,
+      "sha256": "f045b1eb7bcd439965086273a75629a42df38d47670a49f3247c784d99f14870",
+      "blob": "f045b1eb7bcd439965086273a75629a42df38d47670a49f3247c784d99f14870",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/focus-second-character.json",
+      "bytes": 201951,
+      "sha256": "4b84ca9df3cedfdf359581cb3c22827aa2eaeae520653182f5c5d652279c634b",
+      "blob": "4b84ca9df3cedfdf359581cb3c22827aa2eaeae520653182f5c5d652279c634b",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/focus-second-character.png",
+      "bytes": 1731732,
+      "sha256": "ab36361d97a24232629ec242e95432de0cbaa5e0c4ffde3af2fd34ff1e3c1565",
+      "blob": "ab36361d97a24232629ec242e95432de0cbaa5e0c4ffde3af2fd34ff1e3c1565",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/input-canonical.json",
+      "bytes": 14720,
+      "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "blob": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/input-latest-world.json",
+      "bytes": 148013,
+      "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "blob": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/input-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "blob": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/input-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "blob": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/native-inputs.json",
+      "bytes": 2562,
+      "sha256": "4bb122055efa9d7b563d59bad6f106fc7cc9561c951c7f3aec3edc2407886526",
+      "blob": "4bb122055efa9d7b563d59bad6f106fc7cc9561c951c7f3aec3edc2407886526",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/opening-before.json",
+      "bytes": 5170,
+      "sha256": "1938ce3c41e04c8e26fce39fbc87460094d130444059b771bc1b5e0768d265ba",
+      "blob": "1938ce3c41e04c8e26fce39fbc87460094d130444059b771bc1b5e0768d265ba",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/owned-process-samples.jsonl",
+      "bytes": 115963,
+      "sha256": "907912965d62d7d151d96e6f947fcb577f704248d0c36932cc066f897cffbf56",
+      "blob": "907912965d62d7d151d96e6f947fcb577f704248d0c36932cc066f897cffbf56",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/owned-union.json",
+      "bytes": 12248,
+      "sha256": "928aff2aafa713ac359cb4ba06dc6b835fa1924198aecaccf05c78a9034824e2",
+      "blob": "928aff2aafa713ac359cb4ba06dc6b835fa1924198aecaccf05c78a9034824e2",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/quantity-loaded-map-baseline.json",
+      "bytes": 202756,
+      "sha256": "5ec09d2f95e4791a52dff74eff96100b15fceb6c6382cfbfab647cfce8ef4dac",
+      "blob": "5ec09d2f95e4791a52dff74eff96100b15fceb6c6382cfbfab647cfce8ef4dac",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/quantity-loaded-map-baseline.png",
+      "bytes": 3080176,
+      "sha256": "c4c330ac5b609c2a736615aa87ea0dc6e5376d17fb6ad66f20a43b0002eb44af",
+      "blob": "c4c330ac5b609c2a736615aa87ea0dc6e5376d17fb6ad66f20a43b0002eb44af",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/quantity-observer.json",
+      "bytes": 59668,
+      "sha256": "627378e4d7aa02060a7e2a8937c574ee613b8bc3d81d4b615747c9d393941cbf",
+      "blob": "627378e4d7aa02060a7e2a8937c574ee613b8bc3d81d4b615747c9d393941cbf",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/result.json",
+      "bytes": 196144,
+      "sha256": "b2c6ca77bc829f728c621b7a42c1d15b7b3eba9cee09d2540c9d6cf94c103ca6",
+      "blob": "b2c6ca77bc829f728c621b7a42c1d15b7b3eba9cee09d2540c9d6cf94c103ca6",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/served-source-after.json",
+      "bytes": 21649,
+      "sha256": "830e66a5330424e3d8778aa5525f991a8164b585a4b076a899b25ae94d76d9bb",
+      "blob": "830e66a5330424e3d8778aa5525f991a8164b585a4b076a899b25ae94d76d9bb",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/served-source-before.json",
+      "bytes": 11632,
+      "sha256": "acc6b073bb79c0c24cfc55b079fde7f14c229728a34c30e1745182a29229246b",
+      "blob": "acc6b073bb79c0c24cfc55b079fde7f14c229728a34c30e1745182a29229246b",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/source-after.json",
+      "bytes": 360282,
+      "sha256": "d5776ac579c136edde6169cbc40363595e6e44b20b1a07f70fa12e923b394b22",
+      "blob": "d5776ac579c136edde6169cbc40363595e6e44b20b1a07f70fa12e923b394b22",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/source-before.json",
+      "bytes": 205135,
+      "sha256": "f5bfe2692d8dfbf76fab049cdb5479ce0ad3433f83774717fc8c4079e720873f",
+      "blob": "f5bfe2692d8dfbf76fab049cdb5479ce0ad3433f83774717fc8c4079e720873f",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-v1/user8080-before.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "blob": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "roles": [
+        "complete-actual-focus-immediate-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-focus-map111-reader-outer-v1.mjs",
+      "bytes": 14082,
+      "sha256": "af1fc8f366c74ba3cba0a15d13d302681b9d9fbc72733ebe53c90e8b39b83539",
+      "blob": "af1fc8f366c74ba3cba0a15d13d302681b9d9fbc72733ebe53c90e8b39b83539",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/build-v48-focus-map111-reader-v1.mjs",
+      "bytes": 3656,
+      "sha256": "b8248d3b8bbc26f0c10f9210478cd16de65304375f3d3550527aa42d3786bc86",
+      "blob": "b8248d3b8bbc26f0c10f9210478cd16de65304375f3d3550527aa42d3786bc86",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-focus-map111-reader-final-v1.mjs",
+      "bytes": 38442,
+      "sha256": "1ec318e769ab52cef426287c8caaa0814316d28b947d09c3d8a773fdc459bafe",
+      "blob": "1ec318e769ab52cef426287c8caaa0814316d28b947d09c3d8a773fdc459bafe",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-focus-map111-reader-execution-v1.mjs",
+      "bytes": 38462,
+      "sha256": "3c34ac13ab18aee01956c23e802a1fe4c331779c6080f395ffd9af0c13a1b09d",
+      "blob": "3c34ac13ab18aee01956c23e802a1fe4c331779c6080f395ffd9af0c13a1b09d",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-focus-map111-reader-final-v2.mjs",
+      "bytes": 38562,
+      "sha256": "71a546b4b64f235ed87cfe7367af1075734956f30f5d12a8a2b4ac84de4ef5ec",
+      "blob": "71a546b4b64f235ed87cfe7367af1075734956f30f5d12a8a2b4ac84de4ef5ec",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-focus-map111-reader-execution-v2.mjs",
+      "bytes": 38582,
+      "sha256": "7766aebae35186bec6613d671e2263cd7beaa701aa92c9d14dbf6603f863c508",
+      "blob": "7766aebae35186bec6613d671e2263cd7beaa701aa92c9d14dbf6603f863c508",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-v48-focus-map111-v1.mjs",
+      "bytes": 14758,
+      "sha256": "f94d1163615503a66004c0b8ae16144772caf77cdadd7b88390a59d8e7ecb00e",
+      "blob": "f94d1163615503a66004c0b8ae16144772caf77cdadd7b88390a59d8e7ecb00e",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-publication-closed-bindings-v1.json",
+      "bytes": 490,
+      "sha256": "07475ba17d907d08acf126cb38a266bf0e9e59381095fe291c0e7f739da67b6a",
+      "blob": "07475ba17d907d08acf126cb38a266bf0e9e59381095fe291c0e7f739da67b6a",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-actual-archive-semantic-v1.mjs",
+      "bytes": 21651,
+      "sha256": "fb6cd82a7443aefd5fcde3cba8d586e8358d8d381003e2e6c7d9b95446a544f1",
+      "blob": "fb6cd82a7443aefd5fcde3cba8d586e8358d8d381003e2e6c7d9b95446a544f1",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-controls-v1.json",
+      "bytes": 10646,
+      "sha256": "989a26f4c65667aa6d7d0f2f24808ef81e7fd0903e9cc7ec4f93c51e9ca3dd0f",
+      "blob": "989a26f4c65667aa6d7d0f2f24808ef81e7fd0903e9cc7ec4f93c51e9ca3dd0f",
+      "roles": [
+        "exact-ignored-source-fallback",
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-source-independent-review-v1.mjs",
+      "bytes": 10053,
+      "sha256": "365bdfdaaf7806992265e652d2f8974d6f85e232989984b10f84e54182baae9b",
+      "blob": "365bdfdaaf7806992265e652d2f8974d6f85e232989984b10f84e54182baae9b",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-source-independent-review-v1.json",
+      "bytes": 12267,
+      "sha256": "bcb7276594f6471892581351b1df6ab48b6c77e90699343316a2cbe359a3a1e1",
+      "blob": "bcb7276594f6471892581351b1df6ab48b6c77e90699343316a2cbe359a3a1e1",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-frozen-independent-review-v1.json",
+      "bytes": 3803,
+      "sha256": "7e2fab9549c88249664f8100c1604e5cd34a6514b03fe82f2fcd2482324ec753",
+      "blob": "7e2fab9549c88249664f8100c1604e5cd34a6514b03fe82f2fcd2482324ec753",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-quantity-focus-frozen-v1.mjs",
+      "bytes": 4755,
+      "sha256": "e4ffe90cea0d60a332e9b072c3d0531de4287cdf6f5ca08f698f2e7f7544695e",
+      "blob": "e4ffe90cea0d60a332e9b072c3d0531de4287cdf6f5ca08f698f2e7f7544695e",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-map111-root-full-v1.json",
+      "bytes": 43184,
+      "sha256": "730599be032e59995d725a70bf31c1f529264b3ea871561ada35d881f3f9d199",
+      "blob": "730599be032e59995d725a70bf31c1f529264b3ea871561ada35d881f3f9d199",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-map111-root-full-v1-before.json",
+      "bytes": 42203,
+      "sha256": "a77b72f6c0b910b058b162941368f06a5456888aed9af30027b7a3030409d9f9",
+      "blob": "a77b72f6c0b910b058b162941368f06a5456888aed9af30027b7a3030409d9f9",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-map111-root-full-v1.stdout.log",
+      "bytes": 650330,
+      "sha256": "1a65d0b86337539bb2c9da979d27df5cd103604bc574d77bd455263b493c3a7e",
+      "blob": "1a65d0b86337539bb2c9da979d27df5cd103604bc574d77bd455263b493c3a7e",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-map111-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-post-exit-v1.json",
+      "bytes": 24788,
+      "sha256": "9e2852f2b7b41a22ef2cb51fdc1c90538e67a70c735555939f43b75707abb737",
+      "blob": "9e2852f2b7b41a22ef2cb51fdc1c90538e67a70c735555939f43b75707abb737",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-post-exit-v1.mjs",
+      "bytes": 8149,
+      "sha256": "b84b01ebc0787d59919de80e25724f77fbbe4922b0d9fe43cfc1b5952c3f7580",
+      "blob": "b84b01ebc0787d59919de80e25724f77fbbe4922b0d9fe43cfc1b5952c3f7580",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-full-and-plans-independent-review-v2.json",
+      "bytes": 7406,
+      "sha256": "d3b3397418f4aa44841c15b88559a9168790768c2eede7092450d4222bc51f39",
+      "blob": "d3b3397418f4aa44841c15b88559a9168790768c2eede7092450d4222bc51f39",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v48-full-and-plans-v2.mjs",
+      "bytes": 9903,
+      "sha256": "cb6f0f3e00ae02755bcc0345680cbf7a62320b9770ce61b287fe212b63600003",
+      "blob": "cb6f0f3e00ae02755bcc0345680cbf7a62320b9770ce61b287fe212b63600003",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v48-full-and-plans-v1.mjs",
+      "bytes": 9639,
+      "sha256": "9b9e1ed1dfce309e24f69ec5d2b59e7a6226e2775ebea11f608753baf20612bc",
+      "blob": "9b9e1ed1dfce309e24f69ec5d2b59e7a6226e2775ebea11f608753baf20612bc",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-full-plans-review-first-schema-assumption-v1.json",
+      "bytes": 1101,
+      "sha256": "04a9032464a35471fc742ef55bb360580edebdae92a7b1126686a8ba4d478399",
+      "blob": "04a9032464a35471fc742ef55bb360580edebdae92a7b1126686a8ba4d478399",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/next-active-wood-october-source-v1.mjs",
+      "bytes": 7252,
+      "sha256": "6ad75e5462150ceee68756b969f7ac2e84ab088acbc672abca6a76edde0a213a",
+      "blob": "6ad75e5462150ceee68756b969f7ac2e84ab088acbc672abca6a76edde0a213a",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/next-active-wood-october-source-v1.json",
+      "bytes": 20402,
+      "sha256": "3dae8eec86cb3a1a3c8f553f6f7c923ee88a97a1865710d5fcdb741fd83eadc8",
+      "blob": "3dae8eec86cb3a1a3c8f553f6f7c923ee88a97a1865710d5fcdb741fd83eadc8",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/next-active-wood-october-source-v2.mjs",
+      "bytes": 13690,
+      "sha256": "93b8568f0e517147e861093ffdfa157eacac553696c62ca9ae2b86bd666265d4",
+      "blob": "93b8568f0e517147e861093ffdfa157eacac553696c62ca9ae2b86bd666265d4",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/next-active-wood-october-source-v2.json",
+      "bytes": 23583,
+      "sha256": "21b0c51344441caac62f2f308f631870c35d84ae5cb81d071fd16256275f19ad",
+      "blob": "21b0c51344441caac62f2f308f631870c35d84ae5cb81d071fd16256275f19ad",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-publication-support-v1.json",
+      "bytes": 2536,
+      "sha256": "ac3b101ea0a750a2ea4d339ccc575150cfeddf7e9999f6e0842612285666b68c",
+      "blob": "ac3b101ea0a750a2ea4d339ccc575150cfeddf7e9999f6e0842612285666b68c",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-independent-support-v1.json",
+      "bytes": 1779,
+      "sha256": "df3c19283558071251d87884b9926811d33bb2aeb944403fdc8721081372c5bc",
+      "blob": "df3c19283558071251d87884b9926811d33bb2aeb944403fdc8721081372c5bc",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-lock-v1.mjs",
+      "bytes": 5318,
+      "sha256": "82678c4311bdc44ab2844d651453e33b745f64a781fade1e03e82089b58504a9",
+      "blob": "82678c4311bdc44ab2844d651453e33b745f64a781fade1e03e82089b58504a9",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-lock-first-reader-rejection-v1.json",
+      "bytes": 522,
+      "sha256": "cfdc3f7b7317132182c4dfa4ced424ec2b3d96c926caf8adfb7e988d3e7d4040",
+      "blob": "cfdc3f7b7317132182c4dfa4ced424ec2b3d96c926caf8adfb7e988d3e7d4040",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-lock-v2.mjs",
+      "bytes": 5323,
+      "sha256": "01d5a0492476c026bab9a59cfc7092fa66b77273d0bb4ef844f54af351fb6b2c",
+      "blob": "01d5a0492476c026bab9a59cfc7092fa66b77273d0bb4ef844f54af351fb6b2c",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-lock-v2.json",
+      "bytes": 12856,
+      "sha256": "339b92e815f6e1fb16b607d637f6189cb5aa0de069ce5d329054f8d3588fa019",
+      "blob": "339b92e815f6e1fb16b607d637f6189cb5aa0de069ce5d329054f8d3588fa019",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/check-v48-actual-archive-semantic-v1.mjs",
+      "bytes": 1991,
+      "sha256": "d0fc2aeff1841a7fbb7ebcd7df38d9bb3eb5ef414e84a3400a5233b08296c863",
+      "blob": "d0fc2aeff1841a7fbb7ebcd7df38d9bb3eb5ef414e84a3400a5233b08296c863",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-closed-independent-v1.json",
+      "bytes": 17404,
+      "sha256": "e9114ddc2aff72c708debab82bf7d2f4d01d2f89b843ae56a626d0d40a5d97ba",
+      "blob": "e9114ddc2aff72c708debab82bf7d2f4d01d2f89b843ae56a626d0d40a5d97ba",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-v48-publication-support-v1.mjs",
+      "bytes": 1250,
+      "sha256": "2419199d283501aa5db26b93658790086ef74bd5d336efdfcd92a7972771e082",
+      "blob": "2419199d283501aa5db26b93658790086ef74bd5d336efdfcd92a7972771e082",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/update-v48-plans-v1.mjs",
+      "bytes": 6060,
+      "sha256": "e6854485895be8f1f6b2e69b2e680257f805e8abf892736049d6e2d20e236b08",
+      "blob": "e6854485895be8f1f6b2e69b2e680257f805e8abf892736049d6e2d20e236b08",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v48-plan-update-v1.json",
+      "bytes": 1062,
+      "sha256": "f398861cea41e7feb0365b2d553c2bb86db708981add1d96331898dc70dcb206",
+      "blob": "f398861cea41e7feb0365b2d553c2bb86db708981add1d96331898dc70dcb206",
+      "roles": [
+        "explicit-small-source-or-independent-provenance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-native-map111-controlled-v1/receipt.json",
+      "bytes": 8580,
+      "sha256": "62fbc636598af8ddd0a722980295427ad212fbe5f40845f27a2fd9a56ce00977",
+      "blob": "62fbc636598af8ddd0a722980295427ad212fbe5f40845f27a2fd9a56ce00977",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-native-map111-controlled-v1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-native-map111-controlled-v1/stdout.log",
+      "bytes": 5893,
+      "sha256": "9adb75559ac12913f4c373a3ec75a4f644536b787b97d7658fb6904efe9b1f6e",
+      "blob": "9adb75559ac12913f4c373a3ec75a4f644536b787b97d7658fb6904efe9b1f6e",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v1/r12-quantity-focus-source-controls-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v1/r12-quantity-focus-source-controls-v1.stdout.log",
+      "bytes": 4026,
+      "sha256": "23db4d9752f35b9d1ab32b3a671a1cee8392d34461d7e0fb9d88a7921e9f661d",
+      "blob": "23db4d9752f35b9d1ab32b3a671a1cee8392d34461d7e0fb9d88a7921e9f661d",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v1/receipt.json",
+      "bytes": 440,
+      "sha256": "8f31361b484eed04fda033c3012ff548d3204a50b6c16ce28543708701d13137",
+      "blob": "8f31361b484eed04fda033c3012ff548d3204a50b6c16ce28543708701d13137",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v1/run-quantity-focus-source-controls-v1.mjs",
+      "bytes": 3261,
+      "sha256": "e244c86c66a488ac5824372053b3e3ccaba163ef0fa6146ca4922b47632eba2d",
+      "blob": "e244c86c66a488ac5824372053b3e3ccaba163ef0fa6146ca4922b47632eba2d",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v1/test-october-quantity-focus-source-v1.mjs",
+      "bytes": 9662,
+      "sha256": "dbdcd247b028bd943639b49b94cd03d1339c9be13df96d2534beb4d5c7e07244",
+      "blob": "dbdcd247b028bd943639b49b94cd03d1339c9be13df96d2534beb4d5c7e07244",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v2/focus-predicates-v1.mjs",
+      "bytes": 2554,
+      "sha256": "290e5ece903b559e4f3ef0bf8522dfe1acdbd0d9ae9caf9ed1f04178e575707e",
+      "blob": "290e5ece903b559e4f3ef0bf8522dfe1acdbd0d9ae9caf9ed1f04178e575707e",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v2/october-quantity-focus-v1.mjs",
+      "bytes": 24274,
+      "sha256": "3a7cec27a6396b2352d736701085d1d8e627d4b044d5b496baf2af61a9082170",
+      "blob": "3a7cec27a6396b2352d736701085d1d8e627d4b044d5b496baf2af61a9082170",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v2/r12-quantity-focus-source-controls-v1.final.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v2/r12-quantity-focus-source-controls-v1.final.stdout.log",
+      "bytes": 1903,
+      "sha256": "f0dadbfaa69fb7b7dc4ee52102859180af7106abb40d3f8dd1c8760f76419533",
+      "blob": "f0dadbfaa69fb7b7dc4ee52102859180af7106abb40d3f8dd1c8760f76419533",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v2/receipt.json",
+      "bytes": 10637,
+      "sha256": "3a4ff5faaee858455e8d42da0fecb42e90afa994f41bb8e03355cec44abb9d00",
+      "blob": "3a4ff5faaee858455e8d42da0fecb42e90afa994f41bb8e03355cec44abb9d00",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v2/run-october-quantity-focus-v1.mjs",
+      "bytes": 32515,
+      "sha256": "470f1162da5c9593140f14bb61fb90bb9be64b948741d9958b1c4ec7f0103838",
+      "blob": "470f1162da5c9593140f14bb61fb90bb9be64b948741d9958b1c4ec7f0103838",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v2/run-quantity-focus-source-controls-v1.mjs",
+      "bytes": 3293,
+      "sha256": "8e2de582e92fb29b4c4dd1168a93b9bc0975a08bd789a8802b32f72c5a4f94f0",
+      "blob": "8e2de582e92fb29b4c4dd1168a93b9bc0975a08bd789a8802b32f72c5a4f94f0",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-development-controls-v2/test-october-quantity-focus-source-v1.mjs",
+      "bytes": 9832,
+      "sha256": "089591ad1f4bbd42c66b03ee40fed70fab8be189dcbc837441c5dbc4d28d1cf8",
+      "blob": "089591ad1f4bbd42c66b03ee40fed70fab8be189dcbc837441c5dbc4d28d1cf8",
+      "roles": [
+        "controlled-source-originals"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/october-quantity-focus-v1.mjs",
+      "bytes": 24379,
+      "sha256": "7923bcea1d2e47a1acdc49fa497d365c6df88d657558e253241ef4306f83ab4d",
+      "blob": "7923bcea1d2e47a1acdc49fa497d365c6df88d657558e253241ef4306f83ab4d",
+      "roles": [
+        "exact-ignored-source-fallback",
+        "frozen-actual-or-full-tool"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-october-quantity-focus-v1.mjs",
+      "bytes": 32515,
+      "sha256": "470f1162da5c9593140f14bb61fb90bb9be64b948741d9958b1c4ec7f0103838",
+      "blob": "470f1162da5c9593140f14bb61fb90bb9be64b948741d9958b1c4ec7f0103838",
+      "roles": [
+        "exact-ignored-source-fallback",
+        "frozen-actual-or-full-tool"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/focus-predicates-v1.mjs",
+      "bytes": 3291,
+      "sha256": "85039dfd95b69daafddbde8bb7dc5a45230ae419fd90332b1d2eacf5118250f1",
+      "blob": "85039dfd95b69daafddbde8bb7dc5a45230ae419fd90332b1d2eacf5118250f1",
+      "roles": [
+        "exact-ignored-source-fallback",
+        "frozen-actual-or-full-tool"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/test-october-quantity-focus-source-v1.mjs",
+      "bytes": 10703,
+      "sha256": "0a8f57d437224ac123db856486dada97c008833bdcec1457a1f05adf0eac35b8",
+      "blob": "0a8f57d437224ac123db856486dada97c008833bdcec1457a1f05adf0eac35b8",
+      "roles": [
+        "exact-ignored-source-fallback",
+        "frozen-actual-or-full-tool"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-quantity-focus-map111-full-v1.mjs",
+      "bytes": 3730,
+      "sha256": "71e2e5e46b9d8a9186c2249dac9197e413a2b8cb55923d2c551c05d4f830d8ed",
+      "blob": "71e2e5e46b9d8a9186c2249dac9197e413a2b8cb55923d2c551c05d4f830d8ed",
+      "roles": [
+        "exact-ignored-source-fallback",
+        "frozen-actual-or-full-tool"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-native-route.mjs",
+      "bytes": 6273,
+      "sha256": "e6f899062e58ec289380a6608b477e8e9341cf344bc01b93c0c77162a6933329",
+      "blob": "e6f899062e58ec289380a6608b477e8e9341cf344bc01b93c0c77162a6933329",
+      "roles": [
+        "map111-reviewed-current-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-native-route.mjs",
+      "bytes": 10278,
+      "sha256": "6706b4655e00240e433dce00624fb10e73f9fe9158c338d8a6e0895c47fc209c",
+      "blob": "6706b4655e00240e433dce00624fb10e73f9fe9158c338d8a6e0895c47fc209c",
+      "roles": [
+        "map111-reviewed-current-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-native-action.mjs",
+      "bytes": 12494,
+      "sha256": "681064d68f35be8f01937168593c44a696b6df0ceeafd033b6c7b094ba3841a5",
+      "blob": "681064d68f35be8f01937168593c44a696b6df0ceeafd033b6c7b094ba3841a5",
+      "roles": [
+        "map111-reviewed-current-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-native-action.mjs",
+      "bytes": 17143,
+      "sha256": "475fd7ae0fcd477735a52674c69e63785b330d71c25fd0446ba0176cf9a4e9ff",
+      "blob": "475fd7ae0fcd477735a52674c69e63785b330d71c25fd0446ba0176cf9a4e9ff",
+      "roles": [
+        "map111-reviewed-current-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d",
+      "blob": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d",
+      "roles": [
+        "map111-reviewed-current-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e",
+      "blob": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e",
+      "roles": [
+        "map111-reviewed-current-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e",
+      "blob": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e",
+      "roles": [
+        "map111-reviewed-current-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/Fight.c",
+      "bytes": 58254,
+      "sha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e",
+      "blob": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e",
+      "roles": [
+        "map111-reviewed-current-source"
+      ]
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "blob": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "roles": [
+        "map111-reviewed-current-source"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42.json",
+      "bytes": 14720,
+      "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "blob": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "roles": [
+        "map111-reviewed-current-source",
+        "unchanged-authoritative-October-input"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-latest-world.json",
+      "bytes": 148013,
+      "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "blob": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "roles": [
+        "map111-reviewed-current-source",
+        "unchanged-authoritative-October-input"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "blob": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "roles": [
+        "map111-reviewed-current-source",
+        "unchanged-authoritative-October-input"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "blob": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "roles": [
+        "map111-reviewed-current-source",
+        "unchanged-authoritative-October-input"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-native-map111-before-v1/hd-wood-native-route.mjs",
+      "bytes": 6169,
+      "sha256": "61f3856bda25da0b77957330287b598842163a219f0c4a78d53702a4870de586",
+      "blob": "61f3856bda25da0b77957330287b598842163a219f0c4a78d53702a4870de586",
+      "roles": [
+        "map111-old-source-exact-prefix"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-native-map111-before-v1/test-hd-wood-native-route.mjs",
+      "bytes": 6543,
+      "sha256": "39353c0b11daa41e1ee0e3eed8ad91678542c44209233142e45de3936b1863cb",
+      "blob": "39353c0b11daa41e1ee0e3eed8ad91678542c44209233142e45de3936b1863cb",
+      "roles": [
+        "map111-old-source-exact-prefix"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/record-wood-native-map111-controlled-v1.mjs",
+      "bytes": 5080,
+      "sha256": "d1e57db4e74667b3c7f7617f3ff410fe01b477d1f3223f24082d9353b39fe068",
+      "blob": "d1e57db4e74667b3c7f7617f3ff410fe01b477d1f3223f24082d9353b39fe068",
+      "roles": [
+        "map111-target-recorder"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-controls-v1.reviewed.stdout.log",
+      "bytes": 2100,
+      "sha256": "faa21a65e28c51da80345bdacd35dddc421f88cd21c8c318b0dac1113a47ba4b",
+      "blob": "faa21a65e28c51da80345bdacd35dddc421f88cd21c8c318b0dac1113a47ba4b",
+      "roles": [
+        "final21-source-only-controls"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-controls-v1.reviewed.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "final21-source-only-controls"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-quantity-focus-source-controls-v1.mjs",
+      "bytes": 3305,
+      "sha256": "0197e3ad67fed9f8813f655595dfee46fc79564e0c3cb0ea5a8ba47e0e1cffab",
+      "blob": "0197e3ad67fed9f8813f655595dfee46fc79564e0c3cb0ea5a8ba47e0e1cffab",
+      "roles": [
+        "final21-source-only-controls"
+      ]
+    },
+    {
+      "path": "docs/hd-remaining-work.md",
+      "bytes": 210432,
+      "sha256": "336764dfe09f1a7ea947091212f290689ee8af8fa8263769e2e61b90a588bb3a",
+      "blob": "336764dfe09f1a7ea947091212f290689ee8af8fa8263769e2e61b90a588bb3a",
+      "roles": [
+        "current-plans-metadata-only"
+      ]
+    },
+    {
+      "path": "docs/hd-development-plan.md",
+      "bytes": 189845,
+      "sha256": "e82190e77d77bffcb092d9142c512c84eb22bb2adc9902d598d2e9c1410d9644",
+      "blob": "e82190e77d77bffcb092d9142c512c84eb22bb2adc9902d598d2e9c1410d9644",
+      "roles": [
+        "current-plans-metadata-only"
+      ]
+    },
+    {
+      "path": "js/hd-dialog.js",
+      "bytes": 136991,
+      "sha256": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "blob": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 431117,
+      "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "blob": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 35113,
+      "sha256": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "blob": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "pc.html",
+      "bytes": 27750,
+      "sha256": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8",
+      "blob": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-dialog-routing.mjs",
+      "bytes": 108634,
+      "sha256": "fa3cd66fc876e8fa56c52b4e01dd6598de8ba487a04776dcc5ff09a1ebbdd4b4",
+      "blob": "fa3cd66fc876e8fa56c52b4e01dd6598de8ba487a04776dcc5ff09a1ebbdd4b4",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-input.mjs",
+      "bytes": 31206,
+      "sha256": "b2311e1fc944fdd46f5ec6f9c4f21c23df44534092640720ade972c2cb19d1e0",
+      "blob": "b2311e1fc944fdd46f5ec6f9c4f21c23df44534092640720ade972c2cb19d1e0",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "blob": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-runtime-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "blob": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "package.json",
+      "bytes": 20744,
+      "sha256": "d03107205a1c88152b6d82ace7701707b802ce2eda8e6bc776f00074f7486a6e",
+      "blob": "d03107205a1c88152b6d82ace7701707b802ce2eda8e6bc776f00074f7486a6e",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 29256,
+      "sha256": "c61e1a11f40a07071b3e6df7a225110d53fbd1d30220045273e3c22f377e00a2",
+      "blob": "c61e1a11f40a07071b3e6df7a225110d53fbd1d30220045273e3c22f377e00a2",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-verify.mjs",
+      "bytes": 32262,
+      "sha256": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca",
+      "blob": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca",
+      "roles": [
+        "selected-matching-checkout-source"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v41-latest-v40-september-input-v1.mjs",
+      "bytes": 6835,
+      "sha256": "143c6c1acf96b54f0e5807d3d50fc9f0efb81cd2a0be6e3a3490f23243e0eec5",
+      "blob": "143c6c1acf96b54f0e5807d3d50fc9f0efb81cd2a0be6e3a3490f23243e0eec5",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v42-latest-v41-paid-input-v1.mjs",
+      "bytes": 7080,
+      "sha256": "d7d48009d1cbd1447da2878ff289066907297f8e8cdfbf8948e4207b621356e0",
+      "blob": "d7d48009d1cbd1447da2878ff289066907297f8e8cdfbf8948e4207b621356e0",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/cancel-owner-predicates-v1.mjs",
+      "bytes": 2662,
+      "sha256": "6305f25edaf3a42a37743b1d83b7e8308a3965116759f6648cfa4f0fdc522ad1",
+      "blob": "6305f25edaf3a42a37743b1d83b7e8308a3965116759f6648cfa4f0fdc522ad1",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/october-quantity-cancel-owner-v1.mjs",
+      "bytes": 32261,
+      "sha256": "dc92f4aa989173444a9f44e965dad0964452fd0bb812469cfbbf621dbe362351",
+      "blob": "dc92f4aa989173444a9f44e965dad0964452fd0bb812469cfbbf621dbe362351",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 29217,
+      "sha256": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "blob": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-quantity-cancel-owner-full-v1.mjs",
+      "bytes": 3721,
+      "sha256": "33f7a0932e166466bf2b0e41726cbf8e56e136d46a926896ea2067e3b7676aba",
+      "blob": "33f7a0932e166466bf2b0e41726cbf8e56e136d46a926896ea2067e3b7676aba",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/test-october-quantity-cancel-owner-source-v1.mjs",
+      "bytes": 15224,
+      "sha256": "a2431b513c05efd518efa05d4ae16dfbc011c35162ff531d5fc4197814e78cd2",
+      "blob": "a2431b513c05efd518efa05d4ae16dfbc011c35162ff531d5fc4197814e78cd2",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/october-quantity-rapid-v1.mjs",
+      "bytes": 39336,
+      "sha256": "e90a867297c7fa714d900124e31d3e9a5e37a06840743cc62292fa4078ffdbd8",
+      "blob": "e90a867297c7fa714d900124e31d3e9a5e37a06840743cc62292fa4078ffdbd8",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/rapid-predicates-v1.mjs",
+      "bytes": 4823,
+      "sha256": "2b862f490d60f3451b1982355334c55531552a71c182478c21287542db877e57",
+      "blob": "2b862f490d60f3451b1982355334c55531552a71c182478c21287542db877e57",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-city-quantity-full-v1.mjs",
+      "bytes": 3668,
+      "sha256": "71429c14a55bce6fe768a89e588fef80d49380ff943d7071cac4cd8a65bf656e",
+      "blob": "71429c14a55bce6fe768a89e588fef80d49380ff943d7071cac4cd8a65bf656e",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-october-quantity-rapid-v1.mjs",
+      "bytes": 28767,
+      "sha256": "67d246cf05c889b497d6dfe7b88f25d7648a1143bfb9bebeecea8431773d8459",
+      "blob": "67d246cf05c889b497d6dfe7b88f25d7648a1143bfb9bebeecea8431773d8459",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/test-october-quantity-rapid-source-v1.mjs",
+      "bytes": 18209,
+      "sha256": "c05a113719a999e1fb4d5cfe399c3685645d1c16d9bc9f3a01aa27c5feed3c8a",
+      "blob": "c05a113719a999e1fb4d5cfe399c3685645d1c16d9bc9f3a01aa27c5feed3c8a",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-source-controls-v1.json",
+      "bytes": 11547,
+      "sha256": "d9f21352824ef841d5784ae0a8cd0ea92a1e647d340e7a882c1296c8fa8faf40",
+      "blob": "d9f21352824ef841d5784ae0a8cd0ea92a1e647d340e7a882c1296c8fa8faf40",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-latency-source-controls-v4.json",
+      "bytes": 3838,
+      "sha256": "64ad61f52132129ef8d28621485e8d7f3e9f93c484165b79ad4dbb8f970c1a2a",
+      "blob": "64ad61f52132129ef8d28621485e8d7f3e9f93c484165b79ad4dbb8f970c1a2a",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-rapid-source-controls-v1.json",
+      "bytes": 9878,
+      "sha256": "08ab95be39a52bc5404f2da89672f4ddaf5965eef691e3d65f4062326ff65383",
+      "blob": "08ab95be39a52bc5404f2da89672f4ddaf5965eef691e3d65f4062326ff65383",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v2.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "blob": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v3.mjs",
+      "bytes": 22493,
+      "sha256": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "blob": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-quantity-latency-v4.mjs",
+      "bytes": 35256,
+      "sha256": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275",
+      "blob": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-full-v1.mjs",
+      "bytes": 3425,
+      "sha256": "ca51d78b677431e1b49b2361005f0bac4c0de83092b5490be915056368b09401",
+      "blob": "ca51d78b677431e1b49b2361005f0bac4c0de83092b5490be915056368b09401",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v2.mjs",
+      "bytes": 11720,
+      "sha256": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "blob": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-quantity-latency-v4.mjs",
+      "bytes": 27783,
+      "sha256": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611",
+      "blob": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-quantity-full-v1.mjs",
+      "bytes": 3730,
+      "sha256": "e06b47054d580509660bc27b08e51929d6b16030ecc97f71b553ccf80f729613",
+      "blob": "e06b47054d580509660bc27b08e51929d6b16030ecc97f71b553ccf80f729613",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/test-october-quantity-latency-source-v4.mjs",
+      "bytes": 10138,
+      "sha256": "657afb76705412e2e4f218bd02d676e1ee86a051a46b9e6832ededf902f81185",
+      "blob": "657afb76705412e2e4f218bd02d676e1ee86a051a46b9e6832ededf902f81185",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v41-public-ui-helpers-v1.js.txt",
+      "bytes": 13517,
+      "sha256": "07c0253ad3119d82088cf27e1eaab79b886c49c17ab80c1698622aa0c510781a",
+      "blob": "07c0253ad3119d82088cf27e1eaab79b886c49c17ab80c1698622aa0c510781a",
+      "roles": [
+        "exact-ignored-source-fallback"
+      ]
+    }
+  ],
+  "logicalFiles": 165,
+  "uniqueBlobs": 139,
+  "rawNamedBytes": 17300948,
+  "uniqueRawBytes": 16242984,
+  "uniqueGzipBytes": 11214376,
+  "serializedPartBytes": 14984675,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

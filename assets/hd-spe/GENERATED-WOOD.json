@@ -1,0 +1,747 @@
+{
+  "schemaVersion": 1,
+  "localDate": "2026-10-09",
+  "baseRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+  "generator": "Codex built-in imagegen",
+  "resourceId": 37,
+  "itemIndex": 0,
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "byteLength": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "nativeResource": {
+    "id": 37,
+    "item": 0,
+    "resourceAddress": 73274,
+    "resourceSize": 1162,
+    "itemCount": 1,
+    "fixedLength": 1148,
+    "relativeOffset": 14,
+    "absoluteOffset": 73288,
+    "byteLength": 1148,
+    "sha256": "2dc6db9e1144f98c9c288bf634cb2bd57cd2f39436616bc81010bc2d4df4cf02",
+    "fingerprint": "fnv1a32:d38c3c8b:1148",
+    "header": {
+      "type": 0,
+      "idx": 10,
+      "count": 8,
+      "picmax": 2,
+      "startFrm": 0,
+      "endFrm": 7
+    },
+    "units": [
+      {
+        "frame": 0,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 1,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 2,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 3,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 4,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 5,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 6,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 7,
+        "x": 0,
+        "y": 0,
+        "cdelay": 20,
+        "ndelay": 20,
+        "picIndex": 1
+      }
+    ],
+    "pictures": [
+      {
+        "picIndex": 0,
+        "payloadOffset": 46,
+        "byteLength": 519,
+        "sha256": "098cc033217387c64d1b6b3a1878bd03a3b691970c56372e1e01803f91df491b",
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "rowBytes": 8,
+        "planeBytes": 512,
+        "inkPixels": 1435,
+        "opaqueWhitePixels": 2661,
+        "reference": {
+          "path": "build/r21-native-wood/native-picture-0.png",
+          "bytes": 887,
+          "sha256": "168ce32af3b0785b8fc547c23431edf3d8c0e4ac6be0d00aaa134fbc42eec926",
+          "width": 64,
+          "height": 64,
+          "role": "Exact native bitmap decoding, bit1=opaque black and bit0=opaque white. Inspection reference, not HD or live LCD evidence."
+        },
+        "preview": {
+          "path": "build/r21-native-wood/preview-picture-0-4x.png",
+          "bytes": 3321,
+          "sha256": "2841a7006072646d2f80e23edb190a61ae5ad31301ec24885f8c3323e7ffb5cd",
+          "width": 256,
+          "height": 256,
+          "scale": 4,
+          "interpolation": "nearest-neighbour",
+          "role": "Inspection magnification only, not a new HD asset."
+        }
+      },
+      {
+        "picIndex": 1,
+        "payloadOffset": 565,
+        "byteLength": 583,
+        "sha256": "b859c02336180e21dd0eaa9b1bdf09f734c1a8c9dd2d0f5e0c14232a537d28e9",
+        "width": 66,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "rowBytes": 9,
+        "planeBytes": 576,
+        "inkPixels": 1376,
+        "opaqueWhitePixels": 2848,
+        "reference": {
+          "path": "build/r21-native-wood/native-picture-1.png",
+          "bytes": 890,
+          "sha256": "22c68798df980e8ac2ce1b08b54393c1c31d756ee432db83f42c5ff206f604fe",
+          "width": 66,
+          "height": 64,
+          "role": "Exact native bitmap decoding, bit1=opaque black and bit0=opaque white. Inspection reference, not HD or live LCD evidence."
+        },
+        "preview": {
+          "path": "build/r21-native-wood/preview-picture-1-4x.png",
+          "bytes": 3289,
+          "sha256": "d2ece50282bcb2eb8e74bfaf6af24713eea2c2b979a981feb812da29e8e345a5",
+          "width": 264,
+          "height": 256,
+          "scale": 4,
+          "interpolation": "nearest-neighbour",
+          "role": "Inspection magnification only, not a new HD asset."
+        }
+      }
+    ],
+    "trailingBytes": 0
+  },
+  "nativeSkills": [
+    {
+      "skillId": 6,
+      "numbering": "Actual native SkillID is 1-based. SID(n)=n; effect/array offset uses id-1. Menu row index is separate.",
+      "name": "滚木",
+      "nameGbkHex": "b9f6c4be",
+      "nameItem": {
+        "id": 11,
+        "item": 5,
+        "resourceAddress": 22829,
+        "resourceSize": 186,
+        "itemCount": 43,
+        "fixedLength": 4,
+        "relativeOffset": 34,
+        "absoluteOffset": 22863,
+        "byteLength": 4,
+        "sha256": "6d67768c2581b8a015106952d2ba8721bbf72528ee030acab24577919497c356"
+      },
+      "effect": {
+        "resourceId": 10,
+        "recordSize": 34,
+        "recordOffset": 170,
+        "rawHex": "0000200300001464646464006464003c000000000000640000640000646464646464",
+        "aim": 0,
+        "state": 0,
+        "power": 800,
+        "destroy": 0,
+        "useMp": 20,
+        "weather": [
+          100,
+          100,
+          100,
+          100,
+          0
+        ],
+        "targetTerrain": [
+          100,
+          100,
+          0,
+          60,
+          0,
+          0,
+          0,
+          0
+        ],
+        "casterTerrain": [
+          0,
+          0,
+          100,
+          0,
+          0,
+          100,
+          0,
+          0
+        ],
+        "targetArms": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ]
+      },
+      "aimRange": {
+        "resourceId": 13,
+        "recordOffset": 405,
+        "width": 9,
+        "height": 9,
+        "raw": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          2,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sha256": "ea3a93f43de2f856cdaa84f178183e0385f744890078f425a370b587cb82395d",
+        "nonzeroOffsets": [
+          {
+            "x": 0,
+            "y": -2,
+            "value": 1
+          },
+          {
+            "x": -1,
+            "y": -1,
+            "value": 1
+          },
+          {
+            "x": 0,
+            "y": -1,
+            "value": 1
+          },
+          {
+            "x": 1,
+            "y": -1,
+            "value": 1
+          },
+          {
+            "x": -2,
+            "y": 0,
+            "value": 1
+          },
+          {
+            "x": -1,
+            "y": 0,
+            "value": 1
+          },
+          {
+            "x": 0,
+            "y": 0,
+            "value": 2
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "value": 1
+          },
+          {
+            "x": 2,
+            "y": 0,
+            "value": 1
+          },
+          {
+            "x": -1,
+            "y": 1,
+            "value": 1
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "value": 1
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "value": 1
+          },
+          {
+            "x": 0,
+            "y": 2,
+            "value": 1
+          }
+        ]
+      },
+      "movie": {
+        "id": 37,
+        "resourceIndex": 0,
+        "startFrm": 0,
+        "endFrm": 7,
+        "keyflag": 0,
+        "x": 48,
+        "y": 16,
+        "mode": 0,
+        "usesBackpic16": false,
+        "usedPictureIndices": [
+          0,
+          1
+        ],
+        "selectedUnion": {
+          "x": 48,
+          "y": 16,
+          "width": 66,
+          "height": 64
+        }
+      }
+    },
+    {
+      "skillId": 7,
+      "numbering": "Actual native SkillID is 1-based. SID(n)=n; effect/array offset uses id-1. Menu row index is separate.",
+      "name": "落石",
+      "nameGbkHex": "c2e4caaf",
+      "nameItem": {
+        "id": 11,
+        "item": 6,
+        "resourceAddress": 22829,
+        "resourceSize": 186,
+        "itemCount": 43,
+        "fixedLength": 4,
+        "relativeOffset": 38,
+        "absoluteOffset": 22867,
+        "byteLength": 4,
+        "sha256": "544c51facb8517d658bfcebf685827f1cbcbdece615bd5ea35235dbfe9dd683c"
+      },
+      "effect": {
+        "resourceId": 10,
+        "recordSize": 34,
+        "recordOffset": 204,
+        "rawHex": "0000e80300001964646464006464003c000000640000640000640000646464646464",
+        "aim": 0,
+        "state": 0,
+        "power": 1000,
+        "destroy": 0,
+        "useMp": 25,
+        "weather": [
+          100,
+          100,
+          100,
+          100,
+          0
+        ],
+        "targetTerrain": [
+          100,
+          100,
+          0,
+          60,
+          0,
+          0,
+          0,
+          100
+        ],
+        "casterTerrain": [
+          0,
+          0,
+          100,
+          0,
+          0,
+          100,
+          0,
+          0
+        ],
+        "targetArms": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ]
+      },
+      "aimRange": {
+        "resourceId": 13,
+        "recordOffset": 486,
+        "width": 9,
+        "height": 9,
+        "raw": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          2,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sha256": "ea3a93f43de2f856cdaa84f178183e0385f744890078f425a370b587cb82395d",
+        "nonzeroOffsets": [
+          {
+            "x": 0,
+            "y": -2,
+            "value": 1
+          },
+          {
+            "x": -1,
+            "y": -1,
+            "value": 1
+          },
+          {
+            "x": 0,
+            "y": -1,
+            "value": 1
+          },
+          {
+            "x": 1,
+            "y": -1,
+            "value": 1
+          },
+          {
+            "x": -2,
+            "y": 0,
+            "value": 1
+          },
+          {
+            "x": -1,
+            "y": 0,
+            "value": 1
+          },
+          {
+            "x": 0,
+            "y": 0,
+            "value": 2
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "value": 1
+          },
+          {
+            "x": 2,
+            "y": 0,
+            "value": 1
+          },
+          {
+            "x": -1,
+            "y": 1,
+            "value": 1
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "value": 1
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "value": 1
+          },
+          {
+            "x": 0,
+            "y": 2,
+            "value": 1
+          }
+        ]
+      },
+      "movie": {
+        "id": 37,
+        "resourceIndex": 0,
+        "startFrm": 0,
+        "endFrm": 0,
+        "keyflag": 0,
+        "x": 48,
+        "y": 16,
+        "mode": 0,
+        "usesBackpic16": false,
+        "usedPictureIndices": [
+          0
+        ],
+        "selectedUnion": {
+          "x": 48,
+          "y": 16,
+          "width": 64,
+          "height": 64
+        }
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "picIndex": 0,
+      "original": {
+        "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-6806f367-6b5a-4859-976b-0e9d2b463b21.png",
+        "bytes": 3350024,
+        "sha256": "1dfb121cf4d2e67ce19591988ac5c19e3846fa1548094de26d094ca3a7bbb315"
+      },
+      "destination": "assets/hd-spe/wood-37/picture-0.png",
+      "image": {
+        "width": 1254,
+        "height": 1254,
+        "colorType": 2,
+        "opaquePixels": 1572516,
+        "nonOpaquePixels": 0,
+        "crcChecked": true
+      },
+      "prompt": "Use case: stylized-concept. Asset type: an opaque full-frame high-definition replacement for the actual 64x64/66x64 WOOD37 shared rolling-wood and falling-rock spell movie in a historical Three Kingdoms strategy game. Create one square, complete scene with no margins; every edge is filled with the environment. This is one of two alternating original native picture slots, not a sprite sheet. Match a restrained, richly textured painted game-art style: weathered gray-brown rock, warm sandstone highlights, muted olive-black shadows and dusty earth, fine hand-painted natural detail. The native image shows rocky mountains and tumbling stones; preserve that subject rather than adding logs or interpreting the skill name as a new scene. Three angular mountain crags fill the upper half: the left peak is highest near the upper-left quarter, a smaller central crag slopes diagonally down to the center, and the right crag rises along the right edge. A sloping rocky ledge runs across the middle, with a nearer dusty foreground in the bottom half. Several separate irregular dark-edged boulders fall and tumble diagonally downward toward the viewer, with short dust trails, readable large silhouettes and spaces between them. Use a locked slightly elevated frontal viewpoint. No people, horses, buildings, magic symbols, text, letters, border, watermark, interface, or unrelated props. No transparent areas: fully opaque scenic painting. At the game's small logical display the three crags and moving stones must remain clear. Picture slot 0: an earlier falling-stone pose. Put a conspicuous falling boulder below the left peak in the upper-left-middle, another around the center-left ledge, one in the mid-right, and scattered smaller nearer stones across lower-left, lower-center and lower-right. Dust remains subdued. The bottom-center boulder is relatively small and close to the lower edge.",
+      "reference": null,
+      "saved": {
+        "path": "assets/hd-spe/wood-37/picture-0.png",
+        "bytes": 3350024,
+        "sha256": "1dfb121cf4d2e67ce19591988ac5c19e3846fa1548094de26d094ca3a7bbb315"
+      }
+    },
+    {
+      "picIndex": 1,
+      "original": {
+        "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-74d4d88a-839e-4dff-aff9-6e43972048c4.png",
+        "bytes": 3170693,
+        "sha256": "07bec0d7ec67f03704bc5d9d20869afe8fe250fff93b8d67fe0a8a4fcf5c92a8"
+      },
+      "destination": "assets/hd-spe/wood-37/picture-1.png",
+      "image": {
+        "width": 1254,
+        "height": 1254,
+        "colorType": 2,
+        "opaquePixels": 1572516,
+        "nonOpaquePixels": 0,
+        "crcChecked": true
+      },
+      "prompt": "Use case: stylized-concept. Asset type: second alternating opaque full-frame mountain rockfall scene for WOOD37, shared by rolling-wood and falling-rock spells in a Three Kingdoms strategy game. EDIT the attached slot-0 original to create slot 1. Keep the same square full-frame canvas, fixed mountain silhouettes, three crags, rocky middle ledge, viewpoint, blue-gray clouded sky, pale warm sandstone highlights, gray-brown stone textures, olive shadows, brush detail and lighting. Preserve the complete scene and all edge content. Change only the tumbling stones and their local dust trails to a next animation pose: move the conspicuous airborne boulder below the left high peak noticeably lower, lower the center-left airborne stone, move the mid-right boulder a little lower, place a larger nearer tumbling boulder in lower-center-right, and let a small left foreground stone touch the bottom-left edge. Preserve spaces between the distinct large moving stones so the motion reads clearly at 66x64 logical pixels. Retain substantial rocky detail all the way to the right edge: native slot 1 uses 66 columns, two more than slot 0, and that edge must not be cropped or empty. No figures, horses, buildings, logs, symbols, text, letters, border, watermark or interface. Entire scene opaque, no transparent areas. Do not resize or crop the reference. This is one complete next-pose image, not a sheet or a comparison.",
+      "reference": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-6806f367-6b5a-4859-976b-0e9d2b463b21.png",
+      "saved": {
+        "path": "assets/hd-spe/wood-37/picture-1.png",
+        "bytes": 3170693,
+        "sha256": "07bec0d7ec67f03704bc5d9d20869afe8fe250fff93b8d67fe0a8a4fcf5c92a8"
+      }
+    }
+  ],
+  "processing": "Both original generated PNGs copied byte-exact. No crop, resize, reencoding, recoloring, alpha changes or manual image edits. Slot1 is the built-in generated next-pose edit of slot0.",
+  "review": {
+    "rootViewedNativePictures": [
+      {
+        "path": "build/r21-native-wood/preview-picture-0-4x.png",
+        "bytes": 3321,
+        "sha256": "2841a7006072646d2f80e23edb190a61ae5ad31301ec24885f8c3323e7ffb5cd",
+        "width": 256,
+        "height": 256,
+        "scale": 4,
+        "interpolation": "nearest-neighbour",
+        "role": "Inspection magnification only, not a new HD asset."
+      },
+      {
+        "path": "build/r21-native-wood/preview-picture-1-4x.png",
+        "bytes": 3289,
+        "sha256": "d2ece50282bcb2eb8e74bfaf6af24713eea2c2b979a981feb812da29e8e345a5",
+        "width": 264,
+        "height": 256,
+        "scale": 4,
+        "interpolation": "nearest-neighbour",
+        "role": "Inspection magnification only, not a new HD asset."
+      }
+    ],
+    "styleReferenceViewed": "assets/hd-spe/stone-42/picture-0.png",
+    "generatorDisplaysInspected": true,
+    "semanticBoundary": "Shared native artwork depicts mountains and tumbling stones; no logs or extra figures invented from the WOOD name. HD art is a visual replacement, not native pixel equivalence."
+  },
+  "manifest": {
+    "path": "assets/hd-spe/manifest.json",
+    "bytes": 578937,
+    "sha256": "553a219f34b6b4b36f1b7c19fe82a8f43afa4fe230a77d9eb93ff275999228ac",
+    "entries": 48,
+    "prior46ObjectsUnchanged": true,
+    "range6": [
+      0,
+      7
+    ],
+    "range7": [
+      0,
+      0
+    ],
+    "unusedSlot1For7ExplicitNull": true
+  },
+  "acceptanceBoundary": "Asset/source preparation only. Actual native/browser skill transitions, copy coverage, label/NUM/hold, all outside pixels and fallback are verified separately; image generation alone is not runtime completion."
+}

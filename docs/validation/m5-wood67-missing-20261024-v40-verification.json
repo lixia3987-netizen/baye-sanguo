@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "acceptedForPublicationClosure": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood67-missing-20261024-v40.json",
+    "bytes": 18055,
+    "sha256": "51b846af0ed22966bc389599da4c28e8d17894a1923acb5de9a938a32998e14b"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-wood67-missing-20261024-v40.md",
+    "bytes": 2846,
+    "sha256": "93306cb6cad5d02ba895fa3e0f632a7f0c6a23bcc2dd7a497981576363809942"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-missing-20261024-v40-verify.mjs",
+    "bytes": 14717,
+    "sha256": "8b52cc45f39af3dd0dc8110b1ce921d21dc204312e9b5d62fd6efdc11c12e173"
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-missing-20261024-v40-archive.json",
+    "bytes": 430362,
+    "sha256": "10eaef311010ef428312a9c714cd863112c5de755d265ca265c0e51f5cdce808"
+  },
+  "latestWorld": {
+    "path": "docs/validation/m5-wood67-missing-20261024-v40-latest-world.json",
+    "bytes": 148035,
+    "sha256": "f03b9c0ad0e0b7f1cbda90d4e99ecd4e7d40d54fbf10823704dde8f491d39e3a"
+  },
+  "pair": [
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40-sango0.sav",
+      "bytes": 8221,
+      "sha256": "40edc75d6da65b6d540ba3f2f50df629677cd1e234d701624dc713cdd48c77e0"
+    },
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40-sango1.sav",
+      "bytes": 4840,
+      "sha256": "6ad8f18531509ed68dcdacac2bc489b6c4498c86d90b418d0bc0ee25af3348ae"
+    }
+  ],
+  "fullLogGzip": {
+    "path": "docs/validation/m5-wood67-missing-20261024-v40-full-suite.log.gz",
+    "bytes": 162366,
+    "sha256": "2d83584d6860fe307b46d45b6b0948e15806c6f356b5f91cd3fef1f40c191052"
+  },
+  "originalDriverExitCode": 1,
+  "originalControllerAccepted": false,
+  "independentActualFallbackAccepted": true,
+  "classicAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "independentReaderRequired": true
+}

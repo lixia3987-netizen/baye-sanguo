@@ -1,0 +1,305 @@
+{
+  "schemaVersion": 1,
+  "prefix": "docs/validation/m5-quantity-ack-refresh-20261024-v45",
+  "kind": "Original October foreground quantity Dialog ACK refresh; paired local instrumented observations",
+  "actualCampaignMutation": false,
+  "newMainInputProduced": false,
+  "mainInputReferences": [
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42.json",
+      "bytes": 14720,
+      "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-latest-world.json",
+      "bytes": 148013,
+      "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028"
+    }
+  ],
+  "runs": [
+    {
+      "dir": "build/impact-skill-20261014/r12-quantity-before-v1",
+      "role": "first-entry-diagnostic-refusal",
+      "files": 37,
+      "rawBytes": 8135925,
+      "pngs": 2
+    },
+    {
+      "dir": "build/impact-skill-20261014/r12-quantity-before-v2",
+      "role": "second-submenu-dom-readiness-refusal",
+      "files": 37,
+      "rawBytes": 7962188,
+      "pngs": 2
+    },
+    {
+      "dir": "build/impact-skill-20261014/r12-quantity-before-v3",
+      "role": "successful-before",
+      "files": 43,
+      "rawBytes": 13819205,
+      "pngs": 4
+    },
+    {
+      "dir": "build/impact-skill-20261014/r12-quantity-after-v1",
+      "role": "after-original-wrapper-cleanup-refusal",
+      "files": 43,
+      "rawBytes": 13787158,
+      "pngs": 4
+    }
+  ],
+  "terminals": {
+    "firstFailure": {
+      "session": 77662,
+      "final": "43b051",
+      "exitCode": 1
+    },
+    "secondFailure": {
+      "session": 88265,
+      "final": "2599a8",
+      "exitCode": 1
+    },
+    "before": {
+      "session": 34811,
+      "final": "6a13f5",
+      "exitCode": 0
+    },
+    "after": {
+      "session": 62087,
+      "final": "911306",
+      "exitCode": 1
+    },
+    "postExit": {
+      "final": "73f386",
+      "exitCode": 0
+    },
+    "full": {
+      "session": 64659,
+      "initial": "5a876d",
+      "final": "ac7d4f",
+      "exitCode": 0
+    }
+  },
+  "beforeSeedFingerprint": "b03c69836975ded37cd537f3df5066a926369ef7023a77dca553958c18f87388",
+  "afterSeedFingerprint": "fc7aa68eee5c99ec65c2950d91b80d51082e24bb0787153d6adaafce2621412a",
+  "eachBatchOwnSeedUnchanged": true,
+  "crossBatchSameSeedClaimed": false,
+  "comparison": {
+    "trustedClickToDispatch": {
+      "before": {
+        "p50": 0.5,
+        "p95": 0.7999999970197678
+      },
+      "after": {
+        "p50": 0.5,
+        "p95": 0.7999999970197678
+      },
+      "p95Difference": 0
+    },
+    "dispatchToOriginalAckCallback": {
+      "before": {
+        "p50": 30.700000002980232,
+        "p95": 52.5
+      },
+      "after": {
+        "p50": 32.5,
+        "p95": 55.19999998807907
+      },
+      "p95Difference": 2.699999988079071
+    },
+    "dispatchToFirstObservedAck": {
+      "before": {
+        "p50": 29.099999994039536,
+        "p95": 49.80000001192093
+      },
+      "after": {
+        "p50": 30.799999997019768,
+        "p95": 52.599999994039536
+      },
+      "p95Difference": 2.7999999821186066
+    },
+    "originalAckToQueueIdle": {
+      "before": {
+        "p50": 2.0999999940395355,
+        "p95": 3
+      },
+      "after": {
+        "p50": 2.9000000059604645,
+        "p95": 3.2999999970197678
+      },
+      "p95Difference": 0.29999999701976776
+    },
+    "queueIdleToDomObserved": {
+      "before": {
+        "p50": 63.3999999910593,
+        "p95": 148
+      },
+      "after": {
+        "p50": 0,
+        "p95": 0.10000000894069672
+      },
+      "p95Difference": -147.8999999910593
+    },
+    "domObservedToRaf": {
+      "before": {
+        "p50": 14.899999991059303,
+        "p95": 23.200000002980232
+      },
+      "after": {
+        "p50": 14.5,
+        "p95": 23.19999998807907
+      },
+      "p95Difference": -1.4901161193847656e-8
+    },
+    "trustedClickToRaf": {
+      "before": {
+        "p50": 113.8999999910593,
+        "p95": 224.40000000596046
+      },
+      "after": {
+        "p50": 50,
+        "p95": 78.79999999701977
+      },
+      "p95Difference": -145.6000000089407
+    }
+  },
+  "afterOriginalControllerOk": false,
+  "afterOriginalTreeExited": false,
+  "afterSupplementaryNaturalExitAccepted": true,
+  "postExitReceipt": {
+    "path": "build/impact-skill-20261014/r12-quantity-after-post-exit-v2.json",
+    "bytes": 3125,
+    "sha256": "7e6d91aa8b2c9751a8e2fe8a249d2bf5eaeee90c5f3d09f5b51c3661e4c0a0fd"
+  },
+  "scope": {
+    "currentForegroundDialogBodyRangeOnly": true,
+    "backgroundCitySummaryAccepted": false,
+    "ordinaryBackgroundCityCanBeDimmedAndPartiallyVisible": true,
+    "nPerRun": 24,
+    "p95Rank": 23,
+    "domTimestamp": "microtask/first-read observation",
+    "rafTimestamp": "callback-entry observation",
+    "physicalPresentationAccepted": false,
+    "stableOrRealDevicePerformanceAccepted": false,
+    "activeWoodAidAccepted": false,
+    "cssVisualLayoutAccepted": false
+  },
+  "sourceLayers": {
+    "oldBefore": "Immutable old executed copies plus closed1121vector/source-lock; old source is not required to equal the product after this fix.",
+    "after": "1121current startup-source pins,72served plus18executed copies; fresh full selected source pins require matching checkout.",
+    "exactChangedPublicSources": [
+      {
+        "before": {
+          "path": "js/hd-city-menu.js",
+          "bytes": 428488,
+          "sha256": "69d85a0dda567673f141fe459056698362d3ebb4f6b318e07a4bc3bfe76b451c"
+        },
+        "after": {
+          "path": "js/hd-city-menu.js",
+          "bytes": 429190,
+          "sha256": "fc962400da101aba777e03ad40eba53c9761295bc3be032bf713516a2c2c4a65"
+        }
+      },
+      {
+        "before": {
+          "path": "js/hd-dialog.js",
+          "bytes": 133841,
+          "sha256": "d5df932466662bdbfe20804ef8f129a231452f8776c903d543e626bf78b55692"
+        },
+        "after": {
+          "path": "js/hd-dialog.js",
+          "bytes": 135589,
+          "sha256": "5c2b5ddd9151f5510d642c75b422167c8fe4ea77bed1f9358bc1cb4be745a4e1"
+        }
+      },
+      {
+        "before": {
+          "path": "pc.html",
+          "bytes": 27750,
+          "sha256": "1fd2098e550f72d5ff506132413ef71edfb75d13a23a62eff36c1122fad21fbe"
+        },
+        "after": {
+          "path": "pc.html",
+          "bytes": 27750,
+          "sha256": "3395a55a43b4f4f9ad079765c60091527e8e411079900f54e802255a5bb64ad8"
+        }
+      }
+    ],
+    "matchingGitCheckoutRequired": true,
+    "portableClosedSourceArchive": false,
+    "fullTreeCopied": false,
+    "profileArchived": false,
+    "oldArchivesTraversed": false
+  },
+  "regression": {
+    "registeredFiles": 141,
+    "previousTests": 7701,
+    "tests": 7708,
+    "newDifferentTests": 7,
+    "targetNewCases": 7,
+    "oldPositiveFailures": 2,
+    "targetRoutingAndInput": 171,
+    "oldContrastAndRerunsAddedAgain": false,
+    "fixtureDevelopmentFirstSummaryOnly": true
+  },
+  "full": {
+    "receipt": {
+      "path": "build/impact-skill-20261014/r12-quantity-root-full-v1.json",
+      "bytes": 38972,
+      "sha256": "851d1a04081f1c7226bf20bab93db78ef52ffc451e3fc6fda2ae1ca5cc71f08d"
+    },
+    "before": {
+      "path": "build/impact-skill-20261014/r12-quantity-root-full-v1-before.json",
+      "bytes": 38123,
+      "sha256": "40e8b7a80e81ab0b88a80d861cb5a9a004460c1ceb4a4f3ff6446660d19a5d98"
+    },
+    "stdoutOriginal": {
+      "path": "build/impact-skill-20261014/r12-quantity-root-full-v1.stdout.log",
+      "bytes": 648344,
+      "sha256": "5cf4eaacac4724101726110db66e743a83088f198d1ed270c4e0f7f0b149dd3a"
+    },
+    "stderrOriginal": {
+      "path": "build/impact-skill-20261014/r12-quantity-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdoutGzip": {
+      "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-full-test.log.gz",
+      "bytes": 168754,
+      "sha256": "02b59c43bede1a6d2c142b4c7eff382a82a2319bfccfc62a72ecdf9332210b03"
+    },
+    "CC": "build/toolchain/emsdk/upstream/bin/clang.exe",
+    "duration_ms": 451976.2581
+  },
+  "archive": {
+    "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-archive.json",
+    "bytes": 95416,
+    "sha256": "1ddcc3ba516272bfed5db8ad36c0217220ebaf2503effccaff5cb57a4d12a6d1"
+  },
+  "reader": {
+    "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-verify.mjs",
+    "bytes": 32262,
+    "sha256": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca"
+  },
+  "boundaries": [
+    "Both earlier actual failures remain original exit1 with no quantity samples or payment.",
+    "AFTER24observations completed but its original cleanup refused four nonallowlisted updater descendants. Original wrapperfalse is immutable; the later read-only twoCIM natural-exit summary is a separate accepted layer.",
+    "The fullCIM arrays were not saved; independent review links its source/old identity/pins and retained result summaries without claiming an independent fresh OS resample.",
+    "First posttool v1 b43f46/1 expected a missing result field, v2 reads originaluser8080-before.json; intermediate shellquote3b1628/1 was not a valid new runtime.",
+    "Every run preserves its own seed fingerprint before/after. BEFORE and AFTER native seed fingerprints differ naturally; only the loaded October world/pair and measurement path are shared.",
+    "The foreground Dialog updated amount and bounds; dimmed CITY background strong is diagnostic, can lag, and is not described as hidden or accepted as synchronized.",
+    "Native receipt callback/firstread/queueidle/DOM/RAF are separate observation points. Negative raw deltas are retained; no compositor/physicalpaint or stable performance claim."
+  ],
+  "performanceBaselineAccepted": false,
+  "activeWoodAidAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false
+}

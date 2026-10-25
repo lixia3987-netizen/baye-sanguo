@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "scope": "SOURCE-ONLY pure original Search3 MAKE world validation; city6 approved envoys51/36/5; no actual or UI execution",
+  "module": {
+    "path": "build/impact-skill-20261014/hd-impact-v30-search3-world-oracle-v1.mjs",
+    "bytes": 13453,
+    "sha256": "59fadef331b5fa635e4bb1a1d9e11deb2c4ee4020682031635d90b625a10cc1a"
+  },
+  "test": {
+    "path": "build/impact-skill-20261014/test-hd-impact-v30-search3-world-oracle-v2.mjs",
+    "bytes": 13116,
+    "sha256": "35665d2303d2ad5ac838bc9dcc6facfcf5270ba64f063066d5905b6eecd9b7c1"
+  },
+  "unexecutedHistoricalTest": {
+    "path": "build/impact-skill-20261014/test-hd-impact-v30-search3-world-oracle-v1.mjs",
+    "bytes": 13114,
+    "sha256": "38590f65aff36bfde5feb6ee54ef0cbbf3a7dafdb1e46ae37247ec127c9d3b7b"
+  },
+  "fixture": {
+    "path": "build/impact-skill-20261014/hd-impact-v30-december-search-world-v1.json",
+    "bytes": 77919,
+    "sha256": "b620e8fc2b28d267639d0c5d68721ff1e1e6aa14b389745f0f2864ca00b4b9a1"
+  },
+  "fixtureSource": {
+    "world": {
+      "path": "build/impact-skill-20261014/impact13-battle-v29-latest-genuine-saved-world-v1.json",
+      "bytes": 77919,
+      "sha256": "b620e8fc2b28d267639d0c5d68721ff1e1e6aa14b389745f0f2864ca00b4b9a1"
+    },
+    "receipt": {
+      "path": "build/impact-skill-20261014/impact13-battle-v29-terminal-receipt-v1.json",
+      "bytes": 326981,
+      "sha256": "7ff781daa094699dd24322e0f4e796b65d13638b27fe9b402f029680eccc1767"
+    },
+    "closedRootFacts": {
+      "actual": {
+        "sessionId": 84120,
+        "chunk": "1cc90b",
+        "exitCode": 0
+      },
+      "independent": {
+        "sessionId": 21976,
+        "chunk": "aa028a",
+        "exitCode": 0
+      }
+    },
+    "fixtureIsHistoricalControlledInput": true,
+    "currentActualInputAccepted": false
+  },
+  "originalLibrary": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "nativeSources": [
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "bytes": 34493,
+      "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/comm.h",
+      "bytes": 5109,
+      "sha256": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+    }
+  ],
+  "sourceReferences": [
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "start": 611,
+      "end": 678,
+      "contract": "SearchMake obtains current GetCityPersons; costs are applied before ShowGReport; after report natural return initializes only OrderId3/Person/City/TimeCount0; successful AddOrderHead then DelPerson."
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "start": 1037,
+      "end": 1054,
+      "contract": "canAddOrder first, then first free OrderId255 among ORDER_MAX200; entire14byteOrder copied; full or hook rejection is outside successful-queue scope and must preserve paid actual prefix."
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "start": 108,
+      "end": 145,
+      "contract": "DelPerson selects first matching local raw actor, shifts through index198 only, preservesqueue199 and200..1999, decrements origin Persons and all later-city queue pointers; no global PID dedup."
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "start": 365,
+      "end": 469,
+      "contract": "Original Money/Thew resource2 indexed by command3; explicit config mode required, no guessed FIX defaults."
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "start": 644,
+      "end": 670,
+      "contract": "Generic report is its own timed UI stage; pure world model does not authorize report observation, zero-ACK ownership, native call or input."
+    }
+  ],
+  "reusedSource": {
+    "strictWorldCore": {
+      "parent": {
+        "path": "build/impact-skill-20261014/hd-impact-v29-treat12-world-oracle-v1.mjs",
+        "bytes": 11801,
+        "sha256": "87a1443668483c31ca66544486698b4b9b9c4dcf9a56012486ac17583b536b65"
+      },
+      "range": "from const PERSON= through before function originalLibrary",
+      "bytes": 4373,
+      "sha256": "1fb02ab267e361eae88253c3d36263e63837da4f8a6b93722406d330012e73cf",
+      "copiedByteExact": true
+    },
+    "priorRawQueueReference": {
+      "path": "build/impact-skill-20261014/hd-impact-v27-canvass16-make-oracle-v1.mjs",
+      "bytes": 24282,
+      "sha256": "93aa6b083e57753cc714257c35729ce7920b19901ec05cc0017b5b185faf23c5"
+    },
+    "businessLogicCopiedFromPriorCommands": false,
+    "description": "Strict shape core reused exactly; Search3 cost/order-phase model is newly authored from native C, not imported from a Treat or Canvass verdict."
+  },
+  "designAdvice": {
+    "path": "build/impact-skill-20261014/impact13-v30-legal-navy-acquisition-alternatives-source-advice-v2.json",
+    "bytes": 174761,
+    "sha256": "156a3d6f70eb99af336ac50c7abf7f8415f08f8f21b1779193d2704648f300c2"
+  },
+  "api": {
+    "plan": "planV30Search3({world,libBytes,cityIndex,personId,identity?})",
+    "report": "verifyV30SearchReportWorld({before,reportWorld,libBytes,cityIndex,personId,identity?})",
+    "twoStage": "verifyV30SearchTwoStage({before,reportWorld,retiredWorld,libBytes,cityIndex,personId,identities?})",
+    "identities": "optional complete measured before/report/retired original-library identities; all unknown fields and generations exact"
+  },
+  "contract": {
+    "period": 4,
+    "king": 0,
+    "origins": {
+      "6": [
+        51,
+        36,
+        5
+      ]
+    },
+    "moneyCost": 0,
+    "thewCost": 8,
+    "minimumActualCashAfter": 500,
+    "reportOnlyPays": true,
+    "retiredFirstFreeSlots": 200,
+    "initializedOrderFields": [
+      "OrderId",
+      "Person",
+      "City",
+      "TimeCount"
+    ],
+    "fiveOpaqueFields": [
+      "Object",
+      "Arms",
+      "Food",
+      "Money",
+      "Consume"
+    ],
+    "fullWorldUnknownFieldsExact": true,
+    "selectedActorUniqueRawOnly": true,
+    "unrelatedCrossCityDuplicatesPreserved": true,
+    "fullQueueOrHookRejectionAccepted": false,
+    "defaultConfigAssumptions": false,
+    "readOnlyNoMutation": true,
+    "importTimeIo": false
+  },
+  "controlledTests": {
+    "authoredTopLevelCases": 53,
+    "caseNames": [
+      "S01 current genuine December fixture bytes and whole-source identity remain exact",
+      "S02 Search report pays only original8Thew and zero money before queueing",
+      "S03 natural report return queuesOrder3 only after payment and full raw DelPerson",
+      "S04 existing cross-city PID duplicates survive without global deduplication",
+      "S05 full unknown fields on world actor city and retired-order metadata survive",
+      "S06 no planning or two-stage check mutates any input bytes or LIB",
+      "S07 exact8Thew is sufficient and becomes0 without overflow",
+      "S08 below8Thew refuses a known insufficient payment",
+      "S09 cash500 remains protected because Search moneycost0",
+      "S10 cash499 cannot rely on future Search or Plunder proceeds",
+      "S11 all approved city6 actors are requalified from current actual fields",
+      "S12 actor5 IQ1 is legal MAKE but has no odd discovery-item residue",
+      "S13 current Satrap21 is outside envoy scope",
+      "S14 a newly promoted selected Satrap is retained rather than detached",
+      "S15 foreign city cannot spend a player search",
+      "S16 actor converted before MAKE cannot use stale owned selection",
+      "S17 selected actor duplicate in another raw city fails only chosen uniqueness",
+      "S18 selected actor duplicate inside origin fails",
+      "S19 existing selected head order prevents repayment",
+      "S20 active selected tail order also prevents repayment",
+      "S21 retired opaque actor values are not treated as active orders",
+      "S22 firstfree search covers all200 including last slot199",
+      "S23 a full200slot queue refuses the successful-queue scope before another action",
+      "S24 five uninitialized order fields may retain measured nonzero fullrange values",
+      "S25 wrong firstfree slot cannot be substituted",
+      "S26 initializedOrder OrderId must equal nativeSearch literal",
+      "S26 initializedOrder Person must equal nativeSearch literal",
+      "S26 initializedOrder City must equal nativeSearch literal",
+      "S26 initializedOrder TimeCount must equal nativeSearch literal",
+      "S27 report cannot contain an early order or early DelPerson",
+      "S28 retirement cannot omit the new order and removal",
+      "S29 duplicate payment after report is not one original action",
+      "S30 report cannot claim Search reward money before a policy month",
+      "S31 report cannot reveal the hidden ship before the native driver",
+      "S32 report cannot preclaim a higher-level free person affiliation",
+      "S33 true queue199 is retained instead of zeroed",
+      "S34 rawqueue200 and1999 tails are exact including opaque values",
+      "S35 clearing source remove-slot rather than native left shift is rejected",
+      "S36 later city PersonQueue pointers must decrement exactly once",
+      "S37 source city Persons count cannot survive removal unchanged",
+      "S38 unrelated opaque order field cannot drift under masking",
+      "S39 unknown metadata on the newly copied slot is not blanket ignored",
+      "S40 unrelated guard arms and full goods inventory cannot drift",
+      "S41 date and native configuration cannot change during MAKE",
+      "S42 report-disabled and missing FIX flag inputs fail without assumptions",
+      "S43 full native State0..4 are retained not normalized",
+      "S44 unknown State5 is not silently treated as a normal city",
+      "S45 world accessors and sparse raw arrays are not dropped by cloning",
+      "S46 changed originalLIB or16bit money mode cannot alter cost silently",
+      "S47 complete existing sourcebank identity may be compared without invented owner UI",
+      "S48 bank generation and every unknown identity field stay exact across both phases",
+      "S49 malformed bank identity cannot be accepted as original ready bytes",
+      "S50 no UI execution SAVE item month cast or HD flag is granted by pure world models"
+    ],
+    "classification": "53 Search3 controlled cases with common strict-shape and queue conservation regressions. Not an additive global distinct-case total; historical fixture and synthetic after-worlds do not grant actual acceptance.",
+    "testsExecutedByAuthor": 0,
+    "rootTestRunKnown": false,
+    "rootCasePassCount": null,
+    "controlledAfterWorldsSynthetic": true,
+    "provisionalOnly": true,
+    "unexecutedV1ToV2Repair": {
+      "kind": "controlled-negative-precondition-only",
+      "from": "w.queue[c.PersonQueue]=51",
+      "to": "w.queue[c.PersonQueue+1]=51",
+      "reason": "Current city6 first resident is already51; only +1 creates a second origin occurrence. No module logic, assertions or other tests changed.",
+      "exactOneReplacement": true,
+      "rootFailureLogCreated": false
+    }
+  },
+  "boundaries": {
+    "sourceOnly": true,
+    "sourceModelAcceptedIsNotNativeAcceptance": true,
+    "publicOwnerProtocolProved": false,
+    "reportZeroInputProved": false,
+    "nativeTimedRetirementProved": false,
+    "genuineSaveProved": false,
+    "searchDriverOrNaturalReturnModeled": false,
+    "noRewardOrAcquisitionModel": true,
+    "paidFailurePrefixMustBePreserved": true,
+    "noRngEvaluation": true,
+    "noModuleOrTestExecutionByAuthor": true
+  },
+  "actualSearchMakeAccepted": false,
+  "actualPaymentAccepted": false,
+  "actualSearchDispatchAccepted": false,
+  "actualSearchItemFound": false,
+  "actualMonthAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualCastAccepted": false,
+  "actualMovieAccepted": false,
+  "actualPixelAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hd720VisualAccepted": false,
+  "hd1080VisualAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false
+}

@@ -1,0 +1,2005 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-10T13:07:12.848Z",
+  "status": "aid17-29-limited-player-runtime-accepted",
+  "accepted": true,
+  "wholeHdAccepted": false,
+  "portableClosedArchive": false,
+  "archiveClosed": false,
+  "scope": "Acceptance is limited to original LIB period3/player9, actual caster188 plus ally144 dispatch31 to32, friendly skills17/29, resource41/index0/range0..7, NUM15, completed hold and owner retirement.",
+  "boundaries": [
+    "Acceptance is limited to original LIB period3/player9, actual caster188 plus ally144 dispatch31 to32, friendly skills17/29, resource41/index0/range0..7, NUM15, completed hold and owner retirement.",
+    "HD1080 used the installed quartet; HD720 and exact picture0-404 LCD fallback1080 used the identical staged engine bytes. No installed720 or installed missing-picture run is claimed.",
+    "Native160x96 pixels use independent actual LIB timer/clear/font/NUM reconstruction. HD outside the authenticated48,16/64x64 window is the actual LCD; HD inside uses source/draw geometry and sampled readbacks, not native pixel identity.",
+    "MP and ARMS_GAIN are independently recorded per actual run. Cap-zero is a compiled-C/VM boundary only unless an actual attempt observes it.",
+    "Classic, hidden/visibility, resize, other skills, complete four-period play, mobile and performance remain pending. Full HD and permanent-death acceptance are not claimed.",
+    "Complete original PNGs remain local and are inventoried by exact bytes/SHA. Only representative original PNGs are in this Git archive; portableClosedArchive=false. No original file is deleted."
+  ],
+  "preparation": {
+    "accepted": true,
+    "phase2Audit": {
+      "path": "build/r22-aid-phase2-v5-terminal-independent-audit.json",
+      "bytes": 38502,
+      "sha256": "d3fd102be74c234053c7522c838301ec537a2bda5b5a36388902f2341e539ec9"
+    },
+    "counts": {
+      "normalMonths": 3,
+      "searchOrders": 3,
+      "completedSearchMonths": 3,
+      "searchMoney": 0,
+      "searchThew": 24,
+      "newMoveOrders": 0,
+      "newMoveArrivals": 0,
+      "inheritedMoveAcceptedAsHistoricalOnly": 1,
+      "governance": 1,
+      "governanceReturns": 1,
+      "governanceMoney": 0,
+      "governanceThew": 0,
+      "searcherTreatRecovery": 0,
+      "canvass": 0,
+      "abandonedDefenses": 0,
+      "publicSaveOperations": 4,
+      "publicSavePairs": 4,
+      "distinctSavedPairContents": 3,
+      "campaignRows": 124,
+      "campaignInline": true,
+      "nativeSelections": 12,
+      "selectionArrowKeys": 9,
+      "selectedSearchReportAcks": 3,
+      "governanceReportAcks": 1,
+      "engineInputs": 63,
+      "openingSpeActiveInputs": 3,
+      "preparationSpeActiveInputs": 0,
+      "httpRequests": 71,
+      "httpErrors": 0,
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0
+    },
+    "originalCasterSave": {
+      "tag": "caster188-owned",
+      "date": {
+        "year": 212,
+        "month": 8
+      },
+      "files": [
+        {
+          "path": "build\\r22-aid-phase2-actual-v5\\native-caster188-owned-sango0.sav",
+          "bytes": 8221,
+          "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d"
+        },
+        {
+          "path": "build\\r22-aid-phase2-actual-v5\\native-caster188-owned-sango1.sav",
+          "bytes": 4840,
+          "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97"
+        }
+      ],
+      "fullAbi": {
+        "header": {
+          "period": 3,
+          "count": 200,
+          "king": 9,
+          "year": 212,
+          "month": 8
+        },
+        "people": 200,
+        "cities": 38,
+        "orders": 0,
+        "fighterBytes": 600,
+        "allCapturedPersonFieldsMatched": true,
+        "allResidentQueuesMatched": true,
+        "files": [
+          {
+            "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+            "bytes": 8221,
+            "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d"
+          },
+          {
+            "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+            "bytes": 4840,
+            "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97"
+          }
+        ]
+      },
+      "identity": "v1:414390:1d36da77:1e9c0477",
+      "sameBytesAs": "phase2-month-003",
+      "freshPublicLoadRequired": true
+    },
+    "actualCaster": {
+      "personIndex": 188,
+      "nativeId": 189,
+      "name": "南方小鬼",
+      "belong": 10,
+      "oldBelong": 0,
+      "level": 20,
+      "experience": 0,
+      "iq": 150,
+      "force": 150,
+      "age": 24,
+      "devotion": 93,
+      "character": 4,
+      "thew": 100,
+      "arms": 100,
+      "baseArm": 5,
+      "armType": 5,
+      "equip": [
+        0,
+        0
+      ]
+    },
+    "ally144": {
+      "personIndex": 144,
+      "nativeId": 145,
+      "name": "吴兰",
+      "belong": 10,
+      "oldBelong": 0,
+      "level": 1,
+      "experience": 0,
+      "iq": 58,
+      "force": 79,
+      "age": 42,
+      "devotion": 77,
+      "character": 4,
+      "thew": 100,
+      "arms": 100,
+      "baseArm": 2,
+      "armType": 2,
+      "equip": [
+        0,
+        0
+      ]
+    },
+    "fullBattleEligibilitySeparatelyVerifiedByEachCast": true
+  },
+  "actualModes": [
+    {
+      "mode": "installed-hd1080",
+      "installed": true,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exitCode": 0,
+      "accepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "result": {
+        "path": "build/r22-aid-cast-actual-v7-installed1080/result.json",
+        "bytes": 99304061,
+        "sha256": "0272f6d4c22d084bbd130760f7e30a44bb62ae665b4931e1cfbe52fa29f1fd4e"
+      },
+      "audit": {
+        "path": "build/r22-aid-phase3-v7-installed1080-terminal-independent-audit-v1.json",
+        "bytes": 140656,
+        "sha256": "91201b0886c57e34197679392b380f552004f7bce2fc105a2e9df3cdea43d54a"
+      },
+      "rootLog": {
+        "path": "build/r22-aid-cast-actual-v7-installed1080.log",
+        "bytes": 625,
+        "sha256": "13ed0e219b83708f5f269f57d8c5a3bbd87559eb5e38f9d52b7b7ad3791931ec"
+      },
+      "isolation": {
+        "path": "build/r22-aid-cast-actual-v7-installed1080-isolation.json",
+        "bytes": 3503,
+        "sha256": "f0dbb3b689c585ed7c5fe6087554106f61756dfe410deab14c00bb7404daa465"
+      },
+      "source": {
+        "sourceVerification": {
+          "path": "build/r22-aid-cast-actual-v7-installed1080/source-verification.json",
+          "bytes": 419173,
+          "sha256": "f4593db1edba3000825cef656da77070244bcc49514eda8c802dfb49059df543"
+        },
+        "records": 1177,
+        "uniquePhysicalSources": 1173,
+        "drift": 0,
+        "added": 0,
+        "native128": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+        "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+        "compiledModified": true,
+        "servedInstalledQuartet": [
+          {
+            "path": "js/baye.js",
+            "bytes": 192446,
+            "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+          },
+          {
+            "path": "js/baye.wasm",
+            "bytes": 4535346,
+            "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+          },
+          {
+            "path": "js/baye.wasm.map",
+            "bytes": 29983,
+            "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e"
+          },
+          {
+            "path": "js/baye.build.json",
+            "bytes": 16650,
+            "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a"
+          }
+        ],
+        "installationProof": {
+          "path": "build/r25-engine-installation-root-v1.json",
+          "bytes": 4437,
+          "sha256": "91236a5ea64c4203130f3ebe903d71a5ebcae720d35293854f92ff2ffb8ba192"
+        },
+        "servedInstalledIdentityVerified": true
+      },
+      "attempts": [
+        {
+          "skillId": 17,
+          "succeeded": true,
+          "actorId": 189,
+          "targetId": 145,
+          "mpBefore": 146,
+          "mpAfter": 131,
+          "mpCost": 15,
+          "appliedGain": 800,
+          "targetArmsBefore": 100,
+          "targetArmsAfter": 900,
+          "capacity": 1470,
+          "events": [
+            4
+          ]
+        },
+        {
+          "skillId": 29,
+          "succeeded": true,
+          "actorId": 189,
+          "targetId": 145,
+          "mpBefore": 131,
+          "mpAfter": 101,
+          "mpCost": 30,
+          "appliedGain": 570,
+          "targetArmsBefore": 900,
+          "targetArmsAfter": 1470,
+          "capacity": 1470,
+          "events": [
+            5
+          ]
+        }
+      ],
+      "capZeroObserved": false,
+      "captureCounts": {
+        "totalRaw": 132,
+        "selectedReadbacks": 55,
+        "actualLcdCallbacks": 53,
+        "additionalHeldReadbacks": 2
+      },
+      "families": [
+        {
+          "skillId": 17,
+          "appliedGain": 800,
+          "capacityBefore": 1470,
+          "movieReadbacks": 8,
+          "postReadbacks": 19,
+          "labels": 19,
+          "numbers": 18,
+          "holds": 1,
+          "hdReadbacks": 27,
+          "observedWidths": [
+            64
+          ],
+          "actualLcdCallbacks": 26,
+          "numericPublication": {
+            "firstPhase": "numbers",
+            "value": 800,
+            "readbacks": 19,
+            "unpublishedMovieValues": [
+              0
+            ]
+          }
+        },
+        {
+          "skillId": 29,
+          "appliedGain": 570,
+          "capacityBefore": 1470,
+          "movieReadbacks": 8,
+          "postReadbacks": 20,
+          "labels": 20,
+          "numbers": 19,
+          "holds": 1,
+          "hdReadbacks": 28,
+          "observedWidths": [
+            64
+          ],
+          "actualLcdCallbacks": 27,
+          "numericPublication": {
+            "firstPhase": "numbers",
+            "value": 570,
+            "readbacks": 20,
+            "unpublishedMovieValues": [
+              0
+            ]
+          }
+        }
+      ],
+      "fontValidation": {
+        "status": "loaded",
+        "check": true,
+        "faces": [
+          {
+            "family": "BayeUI",
+            "status": "loaded"
+          }
+        ],
+        "source": {
+          "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+          "bytes": 8261128,
+          "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+        },
+        "requests": [
+          {
+            "url": "/fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "status": 200,
+            "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "bytes": 8261128,
+            "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+          }
+        ],
+        "keysBefore": 4,
+        "keysAfter": 4
+      },
+      "http": {
+        "permitted404": [],
+        "blockedKnownExternal": [
+          "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+          "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+        ],
+        "unrelatedHttpErrors": 0
+      },
+      "dispatch": {
+        "army": [
+          189,
+          145,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "order": {
+          "OrderId": 27,
+          "City": 31,
+          "Object": 32,
+          "Person": 0,
+          "Food": 1247,
+          "TimeCount": 1,
+          "army": [
+            189,
+            145,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "food": 1247,
+        "foodBudget": {
+          "totalArms": 6470,
+          "ratio": 3,
+          "turns": 20,
+          "perBout": 26,
+          "required": 521
+        },
+        "actualMoney": 9591
+      },
+      "cleanup": {
+        "runtime": {
+          "httpPort": 8792,
+          "debugPort": 8793,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-aid-cast-A4CXFy",
+          "chromePid": 68028,
+          "user8080Touched": false,
+          "cleaned": true
+        },
+        "privateCleanup": {
+          "chromeExited": true,
+          "chromeExitCode": null,
+          "chromeSignal": "SIGTERM",
+          "httpClosed": true
+        },
+        "wrapperAfter": {
+          "atUtc": "2026-10-10T12:59:45.2155891Z",
+          "chrome": [],
+          "ports": [
+            {
+              "LocalPort": 8080,
+              "OwningProcess": 57860
+            }
+          ],
+          "user8080HttpStatus": 200
+        },
+        "freshReadonlyOs": {
+          "atUtc": "2026-10-10T13:03:15.5636775Z",
+          "processes": [],
+          "ports": [
+            {
+              "LocalPort": 8080,
+              "OwningProcess": 57860
+            }
+          ]
+        }
+      },
+      "representatives": [
+        {
+          "mode": "installed-hd1080",
+          "skillId": 17,
+          "phase": "movie0",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-installed1080/aid-0000-movie-lcd.png",
+          "bytes": 5155,
+          "sha256": "100ada25e03972eb5a8ce38113600ab3f4efa1c6c19828f9b48504700da52076",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/100ada25e03972eb5a8ce38113600ab3f4efa1c6c19828f9b48504700da52076.png",
+            "bytes": 5155,
+            "sha256": "100ada25e03972eb5a8ce38113600ab3f4efa1c6c19828f9b48504700da52076",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "installed-hd1080",
+          "skillId": 17,
+          "phase": "movie0",
+          "actualCaptureStage": "lcd-flush",
+          "role": "hd",
+          "path": "build/r22-aid-cast-actual-v7-installed1080/aid-0000-movie-hd.png",
+          "bytes": 1397270,
+          "sha256": "f726883f8e1d6cfbc0e6bb753d02b95ae7166466c95641af2c104beb70ce049f",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/f726883f8e1d6cfbc0e6bb753d02b95ae7166466c95641af2c104beb70ce049f.png",
+            "bytes": 1397270,
+            "sha256": "f726883f8e1d6cfbc0e6bb753d02b95ae7166466c95641af2c104beb70ce049f",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 344,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "installed-hd1080",
+          "skillId": 17,
+          "phase": "movie7",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-installed1080/aid-0007-movie-lcd.png",
+          "bytes": 5126,
+          "sha256": "7ed6669c2ace4a3114a6a72cf804a727490ec4b0e4000d7a139f062a99a57e68",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/7ed6669c2ace4a3114a6a72cf804a727490ec4b0e4000d7a139f062a99a57e68.png",
+            "bytes": 5126,
+            "sha256": "7ed6669c2ace4a3114a6a72cf804a727490ec4b0e4000d7a139f062a99a57e68",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "installed-hd1080",
+          "skillId": 17,
+          "phase": "movie7",
+          "actualCaptureStage": "lcd-flush",
+          "role": "hd",
+          "path": "build/r22-aid-cast-actual-v7-installed1080/aid-0007-movie-hd.png",
+          "bytes": 1385088,
+          "sha256": "fe0d9db622b8a366115cc228f12d44ccbe784f39654a1b49975c529d97ef3d0e",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/fe0d9db622b8a366115cc228f12d44ccbe784f39654a1b49975c529d97ef3d0e.png",
+            "bytes": 1385088,
+            "sha256": "fe0d9db622b8a366115cc228f12d44ccbe784f39654a1b49975c529d97ef3d0e",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 341,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "installed-hd1080",
+          "skillId": 17,
+          "phase": "completed-hold",
+          "actualCaptureStage": "held-lcd-readback",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-installed1080/aid-0026-hold-lcd.png",
+          "bytes": 5127,
+          "sha256": "f0757abc0f5520feab08f73144878b13627e1c2186f230bdb018508fecf33349",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/f0757abc0f5520feab08f73144878b13627e1c2186f230bdb018508fecf33349.png",
+            "bytes": 5127,
+            "sha256": "f0757abc0f5520feab08f73144878b13627e1c2186f230bdb018508fecf33349",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "installed-hd1080",
+          "skillId": 17,
+          "phase": "completed-hold",
+          "actualCaptureStage": "held-lcd-readback",
+          "role": "hd",
+          "path": "build/r22-aid-cast-actual-v7-installed1080/aid-0026-hold-hd.png",
+          "bytes": 1078306,
+          "sha256": "cd100bfbb8b7326a3f0aaf032f322338ee0bd93ddb39197d786a9d5315d86aa7",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/cd100bfbb8b7326a3f0aaf032f322338ee0bd93ddb39197d786a9d5315d86aa7.png",
+            "bytes": 1078306,
+            "sha256": "cd100bfbb8b7326a3f0aaf032f322338ee0bd93ddb39197d786a9d5315d86aa7",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 266,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "installed-hd1080",
+          "skillId": 29,
+          "phase": "movie0",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-installed1080/aid-0102-movie-lcd.png",
+          "bytes": 6357,
+          "sha256": "06da100f2fb7b7b31d1b5dd5f491320f212ea52db3e85e677217d43ff2a815df",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/06da100f2fb7b7b31d1b5dd5f491320f212ea52db3e85e677217d43ff2a815df.png",
+            "bytes": 6357,
+            "sha256": "06da100f2fb7b7b31d1b5dd5f491320f212ea52db3e85e677217d43ff2a815df",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "installed-hd1080",
+          "skillId": 29,
+          "phase": "movie0",
+          "actualCaptureStage": "lcd-flush",
+          "role": "hd",
+          "path": "build/r22-aid-cast-actual-v7-installed1080/aid-0102-movie-hd.png",
+          "bytes": 1400124,
+          "sha256": "2b8bb6c4968b4b563300200a2ff3bf707c72436fa62f116c119648309bd64f4d",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/2b8bb6c4968b4b563300200a2ff3bf707c72436fa62f116c119648309bd64f4d.png",
+            "bytes": 1400124,
+            "sha256": "2b8bb6c4968b4b563300200a2ff3bf707c72436fa62f116c119648309bd64f4d",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 344,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "installed-hd1080",
+          "skillId": 29,
+          "phase": "movie7",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-installed1080/aid-0109-movie-lcd.png",
+          "bytes": 6276,
+          "sha256": "489be057019e8097ce4e3837c2f3972feb8b19f5227879182159c13eecaea7e6",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/489be057019e8097ce4e3837c2f3972feb8b19f5227879182159c13eecaea7e6.png",
+            "bytes": 6276,
+            "sha256": "489be057019e8097ce4e3837c2f3972feb8b19f5227879182159c13eecaea7e6",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "installed-hd1080",
+          "skillId": 29,
+          "phase": "movie7",
+          "actualCaptureStage": "lcd-flush",
+          "role": "hd",
+          "path": "build/r22-aid-cast-actual-v7-installed1080/aid-0109-movie-hd.png",
+          "bytes": 1387582,
+          "sha256": "b0f5393f7abd94fd63fb13f0001e72f5fd28173cd3c954edbafc59b08d8ebb86",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/b0f5393f7abd94fd63fb13f0001e72f5fd28173cd3c954edbafc59b08d8ebb86.png",
+            "bytes": 1387582,
+            "sha256": "b0f5393f7abd94fd63fb13f0001e72f5fd28173cd3c954edbafc59b08d8ebb86",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 341,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "installed-hd1080",
+          "skillId": 29,
+          "phase": "completed-hold",
+          "actualCaptureStage": "held-lcd-readback",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-installed1080/aid-0129-hold-lcd.png",
+          "bytes": 6299,
+          "sha256": "e76a0cd068e17972a98be4ee2f8dcde299b29181f837ca7ee8e0ff0ba64cbef7",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/e76a0cd068e17972a98be4ee2f8dcde299b29181f837ca7ee8e0ff0ba64cbef7.png",
+            "bytes": 6299,
+            "sha256": "e76a0cd068e17972a98be4ee2f8dcde299b29181f837ca7ee8e0ff0ba64cbef7",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "installed-hd1080",
+          "skillId": 29,
+          "phase": "completed-hold",
+          "actualCaptureStage": "held-lcd-readback",
+          "role": "hd",
+          "path": "build/r22-aid-cast-actual-v7-installed1080/aid-0129-hold-hd.png",
+          "bytes": 1084017,
+          "sha256": "e762efec6697ce7b779e170f4ac42b4d9e61c8fd8f3b2599f47aa16abf0d41c4",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/e762efec6697ce7b779e170f4ac42b4d9e61c8fd8f3b2599f47aa16abf0d41c4.png",
+            "bytes": 1084017,
+            "sha256": "e762efec6697ce7b779e170f4ac42b4d9e61c8fd8f3b2599f47aa16abf0d41c4",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 267,
+              "crcVerified": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "staged-hd720",
+      "installed": false,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "exitCode": 0,
+      "accepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "result": {
+        "path": "build/r22-aid-cast-actual-v7-hd720/result.json",
+        "bytes": 97628363,
+        "sha256": "85359a7fba8d7fa260d0c6d953e42ae41d6a1bb01180644858dd7aae68ab4432"
+      },
+      "audit": {
+        "path": "build/r22-aid-phase3-v7-hd720-terminal-independent-audit.json",
+        "bytes": 137483,
+        "sha256": "64c93b184657fa5de5d2755b9defb05e3042c267164fec62cd097511df9e73a0"
+      },
+      "rootLog": {
+        "path": "build/r22-aid-cast-actual-v7-hd720.log",
+        "bytes": 589,
+        "sha256": "42113490c29f429bbe71745bbcc79df3f9943ce72ec61f91ad427f6d4138aa88"
+      },
+      "isolation": {
+        "path": "build/r22-aid-cast-actual-v7-hd720-isolation.json",
+        "bytes": 3489,
+        "sha256": "adf93fc1f7e1e57bd7f95360696ee4a3b4392ec93a7448004c0e1feeb4b67e0f"
+      },
+      "source": {
+        "sourceVerification": {
+          "path": "build/r22-aid-cast-actual-v7-hd720/source-verification.json",
+          "bytes": 419229,
+          "sha256": "a2ea88deb11254fc3487da5755e26a5ba842015f0dac6ba7bebf5ed8654ad799"
+        },
+        "records": 1177,
+        "uniquePhysicalSources": 1177,
+        "drift": 0,
+        "added": 0,
+        "native128": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+        "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+        "compiledModified": true,
+        "servedStagedQuartet": [
+          {
+            "path": "build/wasm/src/baye.js",
+            "bytes": 192446,
+            "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+          },
+          {
+            "path": "build/wasm/src/baye.wasm",
+            "bytes": 4535346,
+            "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+          },
+          {
+            "path": "build/wasm/src/baye.wasm.map",
+            "bytes": 29983,
+            "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e"
+          }
+        ],
+        "installedCurrentAcceptance": false
+      },
+      "attempts": [
+        {
+          "skillId": 17,
+          "succeeded": true,
+          "actorId": 189,
+          "targetId": 145,
+          "mpBefore": 146,
+          "mpAfter": 131,
+          "mpCost": 15,
+          "appliedGain": 800,
+          "targetArmsBefore": 100,
+          "targetArmsAfter": 900,
+          "capacity": 1470,
+          "events": [
+            4
+          ]
+        },
+        {
+          "skillId": 29,
+          "succeeded": true,
+          "actorId": 189,
+          "targetId": 145,
+          "mpBefore": 131,
+          "mpAfter": 101,
+          "mpCost": 30,
+          "appliedGain": 570,
+          "targetArmsBefore": 900,
+          "targetArmsAfter": 1470,
+          "capacity": 1470,
+          "events": [
+            5
+          ]
+        }
+      ],
+      "capZeroObserved": false,
+      "captureCounts": {
+        "totalRaw": 132,
+        "selectedReadbacks": 55,
+        "actualLcdCallbacks": 53,
+        "additionalHeldReadbacks": 2
+      },
+      "families": [
+        {
+          "skillId": 17,
+          "appliedGain": 800,
+          "capacityBefore": 1470,
+          "movieReadbacks": 8,
+          "postReadbacks": 20,
+          "labels": 20,
+          "numbers": 19,
+          "holds": 1,
+          "hdReadbacks": 28,
+          "observedWidths": [
+            64
+          ],
+          "actualLcdCallbacks": 27,
+          "numericPublication": {
+            "firstPhase": "numbers",
+            "value": 800,
+            "readbacks": 20,
+            "unpublishedMovieValues": [
+              0
+            ]
+          }
+        },
+        {
+          "skillId": 29,
+          "appliedGain": 570,
+          "capacityBefore": 1470,
+          "movieReadbacks": 8,
+          "postReadbacks": 19,
+          "labels": 19,
+          "numbers": 18,
+          "holds": 1,
+          "hdReadbacks": 27,
+          "observedWidths": [
+            64
+          ],
+          "actualLcdCallbacks": 26,
+          "numericPublication": {
+            "firstPhase": "numbers",
+            "value": 570,
+            "readbacks": 19,
+            "unpublishedMovieValues": [
+              0
+            ]
+          }
+        }
+      ],
+      "fontValidation": {
+        "status": "loaded",
+        "check": true,
+        "faces": [
+          {
+            "family": "BayeUI",
+            "status": "loaded"
+          }
+        ],
+        "source": {
+          "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+          "bytes": 8261128,
+          "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+        },
+        "requests": [
+          {
+            "url": "/fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "status": 200,
+            "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "bytes": 8261128,
+            "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+          }
+        ],
+        "keysBefore": 4,
+        "keysAfter": 4
+      },
+      "http": {
+        "permitted404": [],
+        "blockedKnownExternal": [
+          "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+          "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+        ],
+        "unrelatedHttpErrors": 0
+      },
+      "dispatch": {
+        "army": [
+          189,
+          145,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "order": {
+          "OrderId": 27,
+          "City": 31,
+          "Object": 32,
+          "Person": 0,
+          "Food": 1247,
+          "TimeCount": 1,
+          "army": [
+            189,
+            145,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "food": 1247,
+        "foodBudget": {
+          "totalArms": 6470,
+          "ratio": 3,
+          "turns": 20,
+          "perBout": 26,
+          "required": 521
+        },
+        "actualMoney": 9591
+      },
+      "cleanup": {
+        "runtime": {
+          "httpPort": 7050,
+          "debugPort": 7051,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-aid-cast-JeMIOx",
+          "chromePid": 46540,
+          "user8080Touched": false,
+          "cleaned": true
+        },
+        "privateCleanup": {
+          "chromeExited": true,
+          "chromeExitCode": null,
+          "chromeSignal": "SIGTERM",
+          "httpClosed": true
+        },
+        "wrapperAfter": {
+          "atUtc": "2026-10-10T12:48:36.1154755Z",
+          "chrome": [],
+          "ports": [
+            {
+              "LocalPort": 8080,
+              "OwningProcess": 57860
+            }
+          ],
+          "user8080HttpStatus": 200
+        },
+        "freshReadonlyOs": {
+          "atUtc": "2026-10-10T12:50:27.7867982Z",
+          "processes": [],
+          "ports": [
+            {
+              "LocalPort": 8080,
+              "OwningProcess": 57860
+            }
+          ]
+        }
+      },
+      "representatives": [
+        {
+          "mode": "staged-hd720",
+          "skillId": 17,
+          "phase": "movie0",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-hd720/aid-0000-movie-lcd.png",
+          "bytes": 5323,
+          "sha256": "0271ba48112aa1be4f11920367516bcf794762bd62685cacffcfe026489c490f",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/0271ba48112aa1be4f11920367516bcf794762bd62685cacffcfe026489c490f.png",
+            "bytes": 5323,
+            "sha256": "0271ba48112aa1be4f11920367516bcf794762bd62685cacffcfe026489c490f",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-hd720",
+          "skillId": 17,
+          "phase": "movie0",
+          "actualCaptureStage": "lcd-flush",
+          "role": "hd",
+          "path": "build/r22-aid-cast-actual-v7-hd720/aid-0000-movie-hd.png",
+          "bytes": 1396988,
+          "sha256": "f41d4d2e39d7d5c6aaf444d39d4bd10fdab5305eff96e5866cdba0e14cde2d94",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/f41d4d2e39d7d5c6aaf444d39d4bd10fdab5305eff96e5866cdba0e14cde2d94.png",
+            "bytes": 1396988,
+            "sha256": "f41d4d2e39d7d5c6aaf444d39d4bd10fdab5305eff96e5866cdba0e14cde2d94",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 344,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-hd720",
+          "skillId": 17,
+          "phase": "movie7",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-hd720/aid-0007-movie-lcd.png",
+          "bytes": 5251,
+          "sha256": "80eb7fdd487de9f98733d0e9c9c20955eae24988f0715072c7966b718bb2112e",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/80eb7fdd487de9f98733d0e9c9c20955eae24988f0715072c7966b718bb2112e.png",
+            "bytes": 5251,
+            "sha256": "80eb7fdd487de9f98733d0e9c9c20955eae24988f0715072c7966b718bb2112e",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-hd720",
+          "skillId": 17,
+          "phase": "movie7",
+          "actualCaptureStage": "lcd-flush",
+          "role": "hd",
+          "path": "build/r22-aid-cast-actual-v7-hd720/aid-0007-movie-hd.png",
+          "bytes": 1384582,
+          "sha256": "930155258b09bdba64623eae9b3d4530955a46b1e880659efe67d89e0981fed4",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/930155258b09bdba64623eae9b3d4530955a46b1e880659efe67d89e0981fed4.png",
+            "bytes": 1384582,
+            "sha256": "930155258b09bdba64623eae9b3d4530955a46b1e880659efe67d89e0981fed4",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 341,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-hd720",
+          "skillId": 17,
+          "phase": "completed-hold",
+          "actualCaptureStage": "held-lcd-readback",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-hd720/aid-0027-hold-lcd.png",
+          "bytes": 5242,
+          "sha256": "edd1f9421f73b473bb4c3caedaae91c9d076de51fefd138452b4c083b972d180",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/edd1f9421f73b473bb4c3caedaae91c9d076de51fefd138452b4c083b972d180.png",
+            "bytes": 5242,
+            "sha256": "edd1f9421f73b473bb4c3caedaae91c9d076de51fefd138452b4c083b972d180",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-hd720",
+          "skillId": 17,
+          "phase": "completed-hold",
+          "actualCaptureStage": "held-lcd-readback",
+          "role": "hd",
+          "path": "build/r22-aid-cast-actual-v7-hd720/aid-0027-hold-hd.png",
+          "bytes": 1077795,
+          "sha256": "140e14089bac4a7ce12d41267c87cdd6d79d6210bfafe173d95cdbdf7a47c4d8",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/140e14089bac4a7ce12d41267c87cdd6d79d6210bfafe173d95cdbdf7a47c4d8.png",
+            "bytes": 1077795,
+            "sha256": "140e14089bac4a7ce12d41267c87cdd6d79d6210bfafe173d95cdbdf7a47c4d8",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 266,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-hd720",
+          "skillId": 29,
+          "phase": "movie0",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-hd720/aid-0103-movie-lcd.png",
+          "bytes": 5943,
+          "sha256": "386f8c0e9fc66a5118c7c6b96a64323632d4b92c82d73d0beb8f788e89ad6132",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/386f8c0e9fc66a5118c7c6b96a64323632d4b92c82d73d0beb8f788e89ad6132.png",
+            "bytes": 5943,
+            "sha256": "386f8c0e9fc66a5118c7c6b96a64323632d4b92c82d73d0beb8f788e89ad6132",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-hd720",
+          "skillId": 29,
+          "phase": "movie0",
+          "actualCaptureStage": "lcd-flush",
+          "role": "hd",
+          "path": "build/r22-aid-cast-actual-v7-hd720/aid-0103-movie-hd.png",
+          "bytes": 1399638,
+          "sha256": "e882b264787ebc96a490d476704c2f776627965c82c0ac5e0d69850f9a173943",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/e882b264787ebc96a490d476704c2f776627965c82c0ac5e0d69850f9a173943.png",
+            "bytes": 1399638,
+            "sha256": "e882b264787ebc96a490d476704c2f776627965c82c0ac5e0d69850f9a173943",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 344,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-hd720",
+          "skillId": 29,
+          "phase": "movie7",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-hd720/aid-0110-movie-lcd.png",
+          "bytes": 5896,
+          "sha256": "ff88950b8650d38fe99c35e88d3990ba20fe8e51a69da45b58b4b5e058582664",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/ff88950b8650d38fe99c35e88d3990ba20fe8e51a69da45b58b4b5e058582664.png",
+            "bytes": 5896,
+            "sha256": "ff88950b8650d38fe99c35e88d3990ba20fe8e51a69da45b58b4b5e058582664",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-hd720",
+          "skillId": 29,
+          "phase": "movie7",
+          "actualCaptureStage": "lcd-flush",
+          "role": "hd",
+          "path": "build/r22-aid-cast-actual-v7-hd720/aid-0110-movie-hd.png",
+          "bytes": 1386740,
+          "sha256": "2bbf66622155969720364672fb8beec4440bba21a6517954ef58aeb81e737058",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/2bbf66622155969720364672fb8beec4440bba21a6517954ef58aeb81e737058.png",
+            "bytes": 1386740,
+            "sha256": "2bbf66622155969720364672fb8beec4440bba21a6517954ef58aeb81e737058",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 341,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-hd720",
+          "skillId": 29,
+          "phase": "completed-hold",
+          "actualCaptureStage": "held-lcd-readback",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-hd720/aid-0129-hold-lcd.png",
+          "bytes": 5947,
+          "sha256": "3aae927a631bdcad740ccba43d4050dcfe949a996f8bcb3edaae9bc356e695a2",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/3aae927a631bdcad740ccba43d4050dcfe949a996f8bcb3edaae9bc356e695a2.png",
+            "bytes": 5947,
+            "sha256": "3aae927a631bdcad740ccba43d4050dcfe949a996f8bcb3edaae9bc356e695a2",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-hd720",
+          "skillId": 29,
+          "phase": "completed-hold",
+          "actualCaptureStage": "held-lcd-readback",
+          "role": "hd",
+          "path": "build/r22-aid-cast-actual-v7-hd720/aid-0129-hold-hd.png",
+          "bytes": 1083692,
+          "sha256": "3446c5072fe3273213d30bd7d53dd2f3f8b30d4fd53d62a8698d81dd8cc52140",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/3446c5072fe3273213d30bd7d53dd2f3f8b30d4fd53d62a8698d81dd8cc52140.png",
+            "bytes": 1083692,
+            "sha256": "3446c5072fe3273213d30bd7d53dd2f3f8b30d4fd53d62a8698d81dd8cc52140",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 267,
+              "crcVerified": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "staged-missing-picture0-1080",
+      "installed": false,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exitCode": 0,
+      "accepted": true,
+      "hdAccepted": false,
+      "fallbackAccepted": true,
+      "result": {
+        "path": "build/r22-aid-cast-actual-v7-missing1080/result.json",
+        "bytes": 80729987,
+        "sha256": "714eca457a192177767cd43d3f37292f83f8961d0654820c17373ced08c279d8"
+      },
+      "audit": {
+        "path": "build/r22-aid-phase3-v7-missing1080-terminal-independent-audit.json",
+        "bytes": 132700,
+        "sha256": "5270ee8cc5c12b4fa470701c6f11ff9778488c5ebf849762aef71c9291c80a7a"
+      },
+      "rootLog": {
+        "path": "build/r22-aid-cast-actual-v7-missing1080.log",
+        "bytes": 623,
+        "sha256": "4ac246b59f78e756e472d9523f9b3e7be8df630ee85e4bc750671faa888da74f"
+      },
+      "isolation": {
+        "path": "build/r22-aid-cast-actual-v7-missing1080-isolation.json",
+        "bytes": 3532,
+        "sha256": "a1d750f4eaaacb0bfde70440f8d001418da3f2ab778fc97ee544c7f1da60257e"
+      },
+      "source": {
+        "sourceVerification": {
+          "path": "build/r22-aid-cast-actual-v7-missing1080/source-verification.json",
+          "bytes": 419229,
+          "sha256": "a2ea88deb11254fc3487da5755e26a5ba842015f0dac6ba7bebf5ed8654ad799"
+        },
+        "records": 1177,
+        "uniquePhysicalSources": 1177,
+        "drift": 0,
+        "added": 0,
+        "native128": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+        "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+        "compiledModified": true,
+        "servedStagedQuartet": [
+          {
+            "path": "build/wasm/src/baye.js",
+            "bytes": 192446,
+            "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+          },
+          {
+            "path": "build/wasm/src/baye.wasm",
+            "bytes": 4535346,
+            "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+          },
+          {
+            "path": "build/wasm/src/baye.wasm.map",
+            "bytes": 29983,
+            "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e"
+          }
+        ],
+        "installedCurrentAcceptance": false
+      },
+      "attempts": [
+        {
+          "skillId": 17,
+          "succeeded": true,
+          "actorId": 189,
+          "targetId": 145,
+          "mpBefore": 146,
+          "mpAfter": 131,
+          "mpCost": 15,
+          "appliedGain": 800,
+          "targetArmsBefore": 100,
+          "targetArmsAfter": 900,
+          "capacity": 1470,
+          "events": [
+            4
+          ]
+        },
+        {
+          "skillId": 29,
+          "succeeded": true,
+          "actorId": 189,
+          "targetId": 145,
+          "mpBefore": 131,
+          "mpAfter": 101,
+          "mpCost": 30,
+          "appliedGain": 570,
+          "targetArmsBefore": 900,
+          "targetArmsAfter": 1470,
+          "capacity": 1470,
+          "events": [
+            5
+          ]
+        }
+      ],
+      "capZeroObserved": false,
+      "captureCounts": {
+        "totalRaw": 109,
+        "selectedReadbacks": 54,
+        "actualLcdCallbacks": 52,
+        "additionalHeldReadbacks": 2
+      },
+      "families": [
+        {
+          "skillId": 17,
+          "appliedGain": 800,
+          "capacityBefore": 1470,
+          "movieReadbacks": 8,
+          "postReadbacks": 19,
+          "labels": 19,
+          "numbers": 18,
+          "holds": 1,
+          "hdReadbacks": 0,
+          "observedWidths": [
+            64
+          ],
+          "actualLcdCallbacks": 26,
+          "numericPublication": {
+            "firstPhase": "numbers",
+            "value": 800,
+            "readbacks": 19,
+            "unpublishedMovieValues": [
+              0
+            ]
+          }
+        },
+        {
+          "skillId": 29,
+          "appliedGain": 570,
+          "capacityBefore": 1470,
+          "movieReadbacks": 8,
+          "postReadbacks": 19,
+          "labels": 19,
+          "numbers": 18,
+          "holds": 1,
+          "hdReadbacks": 0,
+          "observedWidths": [
+            64
+          ],
+          "actualLcdCallbacks": 26,
+          "numericPublication": {
+            "firstPhase": "numbers",
+            "value": 570,
+            "readbacks": 19,
+            "unpublishedMovieValues": [
+              0
+            ]
+          }
+        }
+      ],
+      "fontValidation": {
+        "status": "loaded",
+        "check": true,
+        "faces": [
+          {
+            "family": "BayeUI",
+            "status": "loaded"
+          }
+        ],
+        "source": {
+          "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+          "bytes": 8261128,
+          "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+        },
+        "requests": [
+          {
+            "url": "/fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "status": 200,
+            "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "bytes": 8261128,
+            "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+          }
+        ],
+        "keysBefore": 4,
+        "keysAfter": 4
+      },
+      "http": {
+        "permitted404": [
+          {
+            "url": "/assets/hd-spe/aid-41/picture-0.png",
+            "status": 404,
+            "scenario": "exact selected AID picture0 intentionally unavailable"
+          }
+        ],
+        "blockedKnownExternal": [
+          "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+          "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+        ],
+        "unrelatedHttpErrors": 0
+      },
+      "dispatch": {
+        "army": [
+          189,
+          145,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "order": {
+          "OrderId": 27,
+          "City": 31,
+          "Object": 32,
+          "Person": 0,
+          "Food": 1247,
+          "TimeCount": 1,
+          "army": [
+            189,
+            145,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "food": 1247,
+        "foodBudget": {
+          "totalArms": 6470,
+          "ratio": 3,
+          "turns": 20,
+          "perBout": 26,
+          "required": 521
+        },
+        "actualMoney": 9591
+      },
+      "cleanup": {
+        "runtime": {
+          "httpPort": 2722,
+          "debugPort": 2723,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-aid-cast-CrRuim",
+          "chromePid": 52624,
+          "user8080Touched": false,
+          "cleaned": true
+        },
+        "privateCleanup": {
+          "chromeExited": true,
+          "chromeExitCode": null,
+          "chromeSignal": "SIGTERM",
+          "httpClosed": true
+        },
+        "wrapperAfter": {
+          "atUtc": "2026-10-10T12:48:12.7275276Z",
+          "chrome": [],
+          "ports": [
+            {
+              "LocalPort": 8080,
+              "OwningProcess": 57860
+            }
+          ],
+          "user8080HttpStatus": 200
+        },
+        "freshReadonlyOs": {
+          "atUtc": "2026-10-10T12:50:17.4262211Z",
+          "processes": [],
+          "ports": [
+            {
+              "LocalPort": 8080,
+              "OwningProcess": 57860
+            }
+          ]
+        }
+      },
+      "representatives": [
+        {
+          "mode": "staged-missing-picture0-1080",
+          "skillId": 17,
+          "phase": "movie0",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-missing1080/aid-0000-movie-lcd.png",
+          "bytes": 4680,
+          "sha256": "c2185bee8b0cffcae2326d051a0dc0c2ba0015f775062bcbf87f95c81d465e2a",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/c2185bee8b0cffcae2326d051a0dc0c2ba0015f775062bcbf87f95c81d465e2a.png",
+            "bytes": 4680,
+            "sha256": "c2185bee8b0cffcae2326d051a0dc0c2ba0015f775062bcbf87f95c81d465e2a",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-missing-picture0-1080",
+          "skillId": 17,
+          "phase": "movie0",
+          "actualCaptureStage": "lcd-flush",
+          "role": "fallback-canvas",
+          "path": "build/r22-aid-cast-actual-v7-missing1080/aid-0000-movie-hd.png",
+          "bytes": 52393,
+          "sha256": "5d1df4a4cc8332ca9d3027055fe44536d07508f87969d1841f9f129a1b345d9e",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/5d1df4a4cc8332ca9d3027055fe44536d07508f87969d1841f9f129a1b345d9e.png",
+            "bytes": 52393,
+            "sha256": "5d1df4a4cc8332ca9d3027055fe44536d07508f87969d1841f9f129a1b345d9e",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 16,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-missing-picture0-1080",
+          "skillId": 17,
+          "phase": "movie7",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-missing1080/aid-0007-movie-lcd.png",
+          "bytes": 4594,
+          "sha256": "221dfaffbb932e686ff3a9c7790adfec11c7ba10f9dd9656e552abeff79b2384",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/221dfaffbb932e686ff3a9c7790adfec11c7ba10f9dd9656e552abeff79b2384.png",
+            "bytes": 4594,
+            "sha256": "221dfaffbb932e686ff3a9c7790adfec11c7ba10f9dd9656e552abeff79b2384",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-missing-picture0-1080",
+          "skillId": 17,
+          "phase": "movie7",
+          "actualCaptureStage": "lcd-flush",
+          "role": "fallback-canvas",
+          "path": "build/r22-aid-cast-actual-v7-missing1080/aid-0007-movie-hd.png",
+          "bytes": 52488,
+          "sha256": "3706230ea9c6f4293ebf7cc1bc4128d58d831c4f1177ddf50be570590077ec2c",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/3706230ea9c6f4293ebf7cc1bc4128d58d831c4f1177ddf50be570590077ec2c.png",
+            "bytes": 52488,
+            "sha256": "3706230ea9c6f4293ebf7cc1bc4128d58d831c4f1177ddf50be570590077ec2c",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 16,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-missing-picture0-1080",
+          "skillId": 17,
+          "phase": "completed-hold",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-missing1080/aid-0026-hold-lcd.png",
+          "bytes": 4608,
+          "sha256": "fcffd0e1fc75e0039bf11b3734001b9dd54a39b6872561e9ce65e6993ae5364c",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/fcffd0e1fc75e0039bf11b3734001b9dd54a39b6872561e9ce65e6993ae5364c.png",
+            "bytes": 4608,
+            "sha256": "fcffd0e1fc75e0039bf11b3734001b9dd54a39b6872561e9ce65e6993ae5364c",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-missing-picture0-1080",
+          "skillId": 17,
+          "phase": "completed-hold",
+          "actualCaptureStage": "lcd-flush",
+          "role": "fallback-canvas",
+          "path": "build/r22-aid-cast-actual-v7-missing1080/aid-0026-hold-hd.png",
+          "bytes": 52575,
+          "sha256": "09b3b92c8c437173e815880f4bdfbb3552562dcf1263e6575304a60a7a33efa8",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/09b3b92c8c437173e815880f4bdfbb3552562dcf1263e6575304a60a7a33efa8.png",
+            "bytes": 52575,
+            "sha256": "09b3b92c8c437173e815880f4bdfbb3552562dcf1263e6575304a60a7a33efa8",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 16,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-missing-picture0-1080",
+          "skillId": 29,
+          "phase": "movie0",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-missing1080/aid-0080-movie-lcd.png",
+          "bytes": 6109,
+          "sha256": "a5a02ca5421fdb43b7a353c092d4056c408280af0814079931b93777214189fd",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/a5a02ca5421fdb43b7a353c092d4056c408280af0814079931b93777214189fd.png",
+            "bytes": 6109,
+            "sha256": "a5a02ca5421fdb43b7a353c092d4056c408280af0814079931b93777214189fd",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-missing-picture0-1080",
+          "skillId": 29,
+          "phase": "movie0",
+          "actualCaptureStage": "lcd-flush",
+          "role": "fallback-canvas",
+          "path": "build/r22-aid-cast-actual-v7-missing1080/aid-0080-movie-hd.png",
+          "bytes": 55589,
+          "sha256": "256c88b225d2a27bda835f9a2089f9e859405cb057e0020b5ddf1ca0fd58d55e",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/256c88b225d2a27bda835f9a2089f9e859405cb057e0020b5ddf1ca0fd58d55e.png",
+            "bytes": 55589,
+            "sha256": "256c88b225d2a27bda835f9a2089f9e859405cb057e0020b5ddf1ca0fd58d55e",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 17,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-missing-picture0-1080",
+          "skillId": 29,
+          "phase": "movie7",
+          "actualCaptureStage": "lcd-flush",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-missing1080/aid-0087-movie-lcd.png",
+          "bytes": 6037,
+          "sha256": "fb5e71346ee392a36dfe9ee5ef3d99abec624c4c04a71f913662f9a36c48feb8",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/fb5e71346ee392a36dfe9ee5ef3d99abec624c4c04a71f913662f9a36c48feb8.png",
+            "bytes": 6037,
+            "sha256": "fb5e71346ee392a36dfe9ee5ef3d99abec624c4c04a71f913662f9a36c48feb8",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-missing-picture0-1080",
+          "skillId": 29,
+          "phase": "movie7",
+          "actualCaptureStage": "lcd-flush",
+          "role": "fallback-canvas",
+          "path": "build/r22-aid-cast-actual-v7-missing1080/aid-0087-movie-hd.png",
+          "bytes": 55637,
+          "sha256": "e615d94f78ac40ce40f5a7adb9ce7ba53e98ab3e6ed7db048e85677f2c0bd6bc",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/e615d94f78ac40ce40f5a7adb9ce7ba53e98ab3e6ed7db048e85677f2c0bd6bc.png",
+            "bytes": 55637,
+            "sha256": "e615d94f78ac40ce40f5a7adb9ce7ba53e98ab3e6ed7db048e85677f2c0bd6bc",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 17,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-missing-picture0-1080",
+          "skillId": 29,
+          "phase": "completed-hold",
+          "actualCaptureStage": "held-lcd-readback",
+          "role": "native",
+          "path": "build/r22-aid-cast-actual-v7-missing1080/aid-0106-hold-lcd.png",
+          "bytes": 6054,
+          "sha256": "1bafddafcbe893ab23929d6719a5e7de6ebf68a17a6843e6a11c80ce8d8a511a",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/1bafddafcbe893ab23929d6719a5e7de6ebf68a17a6843e6a11c80ce8d8a511a.png",
+            "bytes": 6054,
+            "sha256": "1bafddafcbe893ab23929d6719a5e7de6ebf68a17a6843e6a11c80ce8d8a511a",
+            "metadata": {
+              "width": 160,
+              "height": 96,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 5,
+              "crcVerified": true
+            }
+          }
+        },
+        {
+          "mode": "staged-missing-picture0-1080",
+          "skillId": 29,
+          "phase": "completed-hold",
+          "actualCaptureStage": "held-lcd-readback",
+          "role": "fallback-canvas",
+          "path": "build/r22-aid-cast-actual-v7-missing1080/aid-0106-hold-hd.png",
+          "bytes": 55725,
+          "sha256": "618cc7015ad5b1066896ee30796fe1f0b971987dde3dad3eb7504d37f68994a1",
+          "archive": {
+            "path": "docs/validation/m4-aid-runtime-20261010/png/618cc7015ad5b1066896ee30796fe1f0b971987dde3dad3eb7504d37f68994a1.png",
+            "bytes": 55725,
+            "sha256": "618cc7015ad5b1066896ee30796fe1f0b971987dde3dad3eb7504d37f68994a1",
+            "metadata": {
+              "width": 1760,
+              "height": 1056,
+              "bitDepth": 8,
+              "colorType": 6,
+              "chunks": 17,
+              "crcVerified": true
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "oldFailure": {
+    "result": {
+      "path": "build/r22-aid-cast-actual-v6-hd1080/result.json",
+      "bytes": 103093724,
+      "sha256": "a60dea52cf5373ab8783618ba8a7f0b194fe637562f8e94a5e6793bae24073bf"
+    },
+    "exitCode": 1,
+    "ok": false,
+    "accepted": false,
+    "hdAccepted": false,
+    "error": "AssertionError [ERR_ASSERTION]: Complete byte bitset\n    at bits (file:///F:/project/baye-sanguo/build/r22-aid-runtime-oracle-v3.mjs:134:28)\n    at verifyAidCaptures (file:///F:/project/baye-sanguo/build/r22-aid-runtime-oracle-v3.mjs:323:30)\n    at smokeAid (file:///F:/project/baye-sanguo/build/r22-test-hd-aid-runtime-candidate-v6.mjs:405:328)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async main (file:///F:/project/baye-sanguo/build/r22-test-hd-aid-runtime-candidate-v6.mjs:762:9)",
+    "independentAudit": {
+      "path": "build/r22-aid-phase3-v6-hd1080-terminal-independent-audit.json",
+      "bytes": 4110,
+      "sha256": "27feb6753a80a32644590550d8ea0db4e8b1f4a02867a7869403d5457fca38cc"
+    },
+    "offlineV4": {
+      "exitCode": 1,
+      "accepted": false,
+      "log": {
+        "path": "build/r22-aid-oracle-v4-offline-revalidation-v1.log",
+        "bytes": 926,
+        "sha256": "98750e9b8ab785c51945056d231cbf688f343e901912257314cf268c20d5a5ee"
+      },
+      "reason": "First offline fix still expected an already-published ARMS_GAIN during movie; movie value remains zero until real result publication."
+    },
+    "offlineV5": {
+      "accepted": true,
+      "newBrowserRun": false,
+      "originalRuntimeAccepted": false,
+      "proof": {
+        "path": "build/r22-aid-oracle-v5-hd1080-offline-revalidation.json",
+        "bytes": 71752,
+        "sha256": "d4684d2af9de975b86741523b2ff6a82fb8fe8a36ad4c70c1edd63911a223d41"
+      },
+      "selfchecks": {
+        "path": "build/r22-aid-oracle-v5-selfcheck-proof.json",
+        "bytes": 6589,
+        "sha256": "cd1f867de3c48a4b491cacc61a6bb735dbea01433bb48aaad63d7f7b0928b28d"
+      },
+      "checks": 14
+    }
+  },
+  "installedEngine": {
+    "installation": {
+      "path": "build/r25-engine-installation-root-v1.json",
+      "bytes": 4437,
+      "sha256": "91236a5ea64c4203130f3ebe903d71a5ebcae720d35293854f92ff2ffb8ba192"
+    },
+    "script": {
+      "path": "build/r25-install-verified-engine-root-v1.mjs",
+      "bytes": 4793,
+      "sha256": "24080d214da343ab56ca22544cfebb78c3615fcea3f3347a66e3bdbcfb16abff"
+    },
+    "quartet": [
+      {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4535346,
+        "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29983,
+        "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 16650,
+        "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a"
+      }
+    ],
+    "cache": "20261010c",
+    "native128": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+    "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+    "engineSourceModified": true,
+    "provenanceRewritten": false
+  },
+  "currentSourceRegression": {
+    "execution": {
+      "path": "build/r25-installed-full-source-tests-v1-execution.json",
+      "bytes": 3564,
+      "sha256": "8a5569935d424824f5511f5004737352cf11d88f37dbec2f1517fef5399adc5e"
+    },
+    "runner": {
+      "path": "build/r25-run-source-tests-root-v1.mjs",
+      "bytes": 3253,
+      "sha256": "efb9fa45e99dfda55084ce46eeabac7461a5180ec7b07520d545bd33b963db75"
+    },
+    "log": {
+      "path": "build/r25-installed-full-source-tests-v1.log",
+      "bytes": 288244,
+      "sha256": "e87d9056779d5798b516d7f58e174b45a71a9631754954cec87afeac9d54320c"
+    },
+    "summary": {
+      "tests": 1108,
+      "pass": 1108,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "uniqueModules": 50,
+    "sources": {
+      "count": 1266,
+      "pre": {
+        "path": "build/r25-installed-full-source-tests-v1-sources-pre.json",
+        "bytes": 213923,
+        "sha256": "24a14a469043464ae04c0e2dbffd2d34447e58116a24fc36ad9665d48fa8e211"
+      },
+      "post": {
+        "path": "build/r25-installed-full-source-tests-v1-sources-post.json",
+        "bytes": 213923,
+        "sha256": "24a14a469043464ae04c0e2dbffd2d34447e58116a24fc36ad9665d48fa8e211"
+      },
+      "drift": []
+    },
+    "coverage": "VM/compiled-C/source checks; actual browser acceptance is separately bounded by actualModes."
+  },
+  "runtimeSources": {
+    "runner": {
+      "path": "build/r22-test-hd-aid-runtime-candidate-v7.mjs",
+      "bytes": 109217,
+      "sha256": "2919596b1bf0453edd97799d74257fff9c601c527d17d10f0c0c4d742015c4a4"
+    },
+    "oracle": {
+      "path": "build/r22-aid-runtime-oracle-v5.mjs",
+      "bytes": 50136,
+      "sha256": "23726974ac1fa582e329b1ceeb45c926a52d52d6cd03bf6a162519e77d00f8fc"
+    },
+    "writer": {
+      "path": "build/r21-write-large-json-v2.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833"
+    },
+    "routePlan": {
+      "path": "build/r22-aid-runtime-route-plan.json",
+      "bytes": 37096,
+      "sha256": "5f9c46ccbb554705701f8f39e8573ddffe8a028de897473a777a35a361f5425a"
+    },
+    "approvedPhase2": {
+      "path": "build/r22-aid-phase2-driver-v5-final-v2.mjs",
+      "bytes": 138744,
+      "sha256": "6734d992f05c9cdb687469fba73d481676330f101f9fd1046964619c47ca6746"
+    },
+    "library": {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    "art": [
+      {
+        "path": "assets/hd-spe/aid-41/picture-0.png",
+        "bytes": 3203857,
+        "sha256": "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57"
+      },
+      {
+        "path": "assets/hd-spe/aid-41/picture-1.png",
+        "bytes": 2868208,
+        "sha256": "3d3d7353f870fcffb85e54fe767c3d37f48fb53ed65ecd59eb907992e2f616ed"
+      }
+    ]
+  },
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-aid-runtime-20261010/runtime-index.json",
+      "bytes": 71156,
+      "sha256": "b7f06c85d1d136dd99e036ef2f7d746e52b0c2f9372986ab382fac67df763d32"
+    },
+    "originalPngInventory": {
+      "path": "docs/validation/m4-aid-runtime-20261010/original-png-inventory.json",
+      "bytes": 233889,
+      "sha256": "3702d5a35c4ec907a9f3177bfe75d4d2b74c343616a1abc9d3412b89b130bf6c"
+    },
+    "counts": {
+      "logicalRaw": 86,
+      "physicalGzip": 78,
+      "logicalRepresentativePng": 36,
+      "physicalRepresentativePng": 36,
+      "originalPng": 783,
+      "localOnlyPng": 747
+    },
+    "allGzipInflatedAndByteEqual": true,
+    "allSelectedPngByteEqualAndCrcValid": true,
+    "fullLocalPngPreserved": true,
+    "fullLocalPngInGit": false,
+    "portableClosedArchive": false
+  },
+  "remaining": [
+    "Classic and visibility/hidden/resize skill scenes",
+    "Other skills and complete four-period player routes",
+    "Mobile and performance",
+    "WOOD6/7 qualified-caster preparation and actual casts; other HD checklist requirements"
+  ]
+}

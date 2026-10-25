@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "kind": "historical January pending10 controlled pure-test fixtures",
+  "historicalMeasurements": true,
+  "controlledTestData": true,
+  "currentActualInput": false,
+  "rootAuthoritySource": {
+    "path": "build/impact-skill-20261014/impact13-battle-v24c-terminal-receipt-v1.json",
+    "bytes": 298130,
+    "sha256": "1fe31c0b8531e5390da7d94d6daf4cb0edeb32694923d53be1794153df271328"
+  },
+  "sourceTerminal": {
+    "sessionId": 95134,
+    "chunkId": "cb4220",
+    "exitCode": 1
+  },
+  "sourcePublicationCommit": "0b734b2a2fd4a1077441c232810d456544c52a90",
+  "fixtures": [
+    {
+      "role": "latest genuinely saved already-paid pending10 world",
+      "source": {
+        "path": "build/impact-skill-20261014/impact13-battle-v24c-latest-genuine-saved-world-v1.json",
+        "bytes": 78015,
+        "sha256": "57e902ec17928bce5a5a4708936e83db9121e1cd9c797fbf41397f7aa5a9b318"
+      },
+      "formal": {
+        "path": "scripts/fixtures/hd-impact-v25-january-paid-pending-world.json",
+        "bytes": 78015,
+        "sha256": "57e902ec17928bce5a5a4708936e83db9121e1cd9c797fbf41397f7aa5a9b318"
+      }
+    },
+    {
+      "role": "original January resident guard reference raw dictionary packet before those ten MAKE",
+      "source": {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v24c/raw-v23-month1-settled-before-SAVE.json",
+        "bytes": 86839,
+        "sha256": "895ba29fcea8eb9eae4fbdaf76b2bcaae168a243316f9684b49f2f22f7c91c74"
+      },
+      "formal": {
+        "path": "scripts/fixtures/hd-impact-v25-january-original-month-raw.json",
+        "bytes": 86839,
+        "sha256": "895ba29fcea8eb9eae4fbdaf76b2bcaae168a243316f9684b49f2f22f7c91c74"
+      },
+      "logicalWorld": {
+        "bytes": 78033,
+        "sha256": "aa4552539c54117bf94a440023f36728435dfdec18fb625a8ef3b5f9147a44b7"
+      }
+    }
+  ],
+  "caseScope": "These exact historical bytes are controlled data for17 pure qualification/guard regression cases. Reading them does not LOAD a game, execute orders, restore RNG or establish a new natural return. Complete paid order opaque bytes remain part of the fixture.",
+  "newPaymentsAuthorized": false,
+  "newMAKEAuthorized": false,
+  "gameLoaded": false,
+  "actualContinuationAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualPreparationAccepted": false,
+  "actualNativeReturnAccepted": false,
+  "actualCastAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false
+}

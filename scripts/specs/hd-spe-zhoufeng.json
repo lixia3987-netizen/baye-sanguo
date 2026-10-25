@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "kind": "zhoufeng-spe-entry-source-spec",
+  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+  "speId": 39,
+  "resourceIndex": 0,
+  "kindId": 2,
+  "startFrm": 0,
+  "endFrm": 7,
+  "skillId": 14,
+  "zhoufengVersion": 1,
+  "opaqueCoverageVersion": 1,
+  "nativeFingerprint": "fnv1a32:6b0ebc5a:1084",
+  "nativeLength": 1084,
+  "pictureSources": [
+    "assets/hd-spe/qimen-39/picture-0.png",
+    "assets/hd-spe/qimen-39/picture-1.png"
+  ],
+  "pictureSha256": [
+    "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882",
+    "8851ef77671c7de2da944d625e0ac0765ce42e8768ddd2b216c1f971c50db4d2"
+  ],
+  "purpose": "Original enemy skill14/STATE_JZ2/MP15, transient movie result only. Reuse exact existing QIMEN39 pictures; no numeric postlude/hold/label, no skill20 or15 acceptance. Preserve every prior manifest entry."
+}

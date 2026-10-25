@@ -1,0 +1,923 @@
+{
+  "schemaVersion": 1,
+  "kind": "Bounded complete current V44 flat run plus explicit small supports",
+  "encoding": "independent-gzip-base64-blobs",
+  "logicalFiles": 92,
+  "uniqueBlobs": 88,
+  "namedRawBytes": 27725469,
+  "physicalRawBytes": 27661659,
+  "gzipBytes": 22421991,
+  "serializedPartBytes": 29916665,
+  "partByteLimit": 8388608,
+  "totalSerializedByteLimit": 67108864,
+  "totalPhysicalRawByteLimit": 67108864,
+  "actualFlatFiles": 51,
+  "actualFlatBytes": 27143004,
+  "ordinaryPngs": 11,
+  "criticalExecutedCopies": 12,
+  "executionSourceCount": 1118,
+  "servedSourceCount": 72,
+  "matchingExecutionCheckoutRequired": true,
+  "portableClosedSourceArchive": false,
+  "privateProfileArchived": false,
+  "oldArchiveTraversed": false,
+  "parts": [
+    {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-archive-part001.json",
+      "bytes": 6862061,
+      "sha256": "6725abcefecbb79e06b04a3099faef62b15a018200895fa4ac8b763e0735cea9",
+      "blobs": 32
+    },
+    {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-archive-part002.json",
+      "bytes": 6137286,
+      "sha256": "7abe50ff8ab50dc1d0d0c611b1ae76691761bb90ca2a4ac0e5e1943d4ecaa8e8",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-archive-part003.json",
+      "bytes": 8247852,
+      "sha256": "4f8ee592918d64e3fb6255255c1a760cb3987d66f5afb153bafc0606223d7cc8",
+      "blobs": 5
+    },
+    {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-archive-part004.json",
+      "bytes": 8382905,
+      "sha256": "b7e610c2561f4ab4bee0573765f5aa8a9a58559578bd18a3b8a239aacb654d6e",
+      "blobs": 10
+    },
+    {
+      "path": "docs/validation/m5-pc-map-menu-boundaries-20261024-v44-archive-part005.json",
+      "bytes": 286561,
+      "sha256": "bf9f0dc957ff6eb77d5282cb952b313545794a6003c591b6bf94cb327cb685f5",
+      "blobs": 39
+    }
+  ],
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/cleanup.json",
+      "bytes": 15597,
+      "sha256": "7bfcd80af4ee5d2428a27f8970471185ac692622edebe45722e0c528847bb0bf",
+      "blob": "7bfcd80af4ee5d2428a27f8970471185ac692622edebe45722e0c528847bb0bf",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/executed-bridge.js",
+      "bytes": 160484,
+      "sha256": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99",
+      "blob": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99",
+      "roles": [
+        "actual-flat-file",
+        "executed-critical-copy"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/executed-campaign-reader.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "blob": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "actual-flat-file",
+        "executed-critical-copy"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/executed-engine-manifest.json",
+      "bytes": 21284,
+      "sha256": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "blob": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "roles": [
+        "actual-flat-file",
+        "executed-critical-copy"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/executed-hd-spe.js",
+      "bytes": 134571,
+      "sha256": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "blob": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3",
+      "roles": [
+        "actual-flat-file",
+        "executed-critical-copy"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/executed-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+      "blob": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+      "roles": [
+        "actual-flat-file",
+        "executed-critical-copy"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/executed-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "blob": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "roles": [
+        "actual-flat-file",
+        "executed-critical-copy"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/executed-packed-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "blob": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "roles": [
+        "actual-flat-file",
+        "executed-critical-copy"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/executed-pc.html",
+      "bytes": 27750,
+      "sha256": "1fd2098e550f72d5ff506132413ef71edfb75d13a23a62eff36c1122fad21fbe",
+      "blob": "1fd2098e550f72d5ff506132413ef71edfb75d13a23a62eff36c1122fad21fbe",
+      "roles": [
+        "actual-flat-file",
+        "executed-critical-copy"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/executed-save-storage.js",
+      "bytes": 11899,
+      "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+      "blob": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+      "roles": [
+        "actual-flat-file",
+        "executed-critical-copy"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/executed-scenario.mjs",
+      "bytes": 22493,
+      "sha256": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "blob": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "roles": [
+        "actual-flat-file",
+        "executed-critical-copy"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/executed-system-ui.js",
+      "bytes": 55988,
+      "sha256": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+      "blob": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+      "roles": [
+        "actual-flat-file",
+        "executed-critical-copy"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/executed-tool.mjs",
+      "bytes": 26726,
+      "sha256": "18f71c2bf2e37c819eefe50dbb810a920e506b02c93f555c343b322fb62e7cdb",
+      "blob": "18f71c2bf2e37c819eefe50dbb810a920e506b02c93f555c343b322fb62e7cdb",
+      "roles": [
+        "actual-flat-file",
+        "executed-critical-copy"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/final-unchanged-map.json",
+      "bytes": 216245,
+      "sha256": "5cb0665936a39d2739addcbe01fcadefbe639a5a353af7bc6b7aeb09ad848fb7",
+      "blob": "5cb0665936a39d2739addcbe01fcadefbe639a5a353af7bc6b7aeb09ad848fb7",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/function-menu-pc1080-dpr1.json",
+      "bytes": 190607,
+      "sha256": "23ecdf8225daad06fae7dac818fa34addcbfe306db3070cf90964607a7818015",
+      "blob": "23ecdf8225daad06fae7dac818fa34addcbfe306db3070cf90964607a7818015",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/function-menu-pc1080-dpr1.png",
+      "bytes": 72232,
+      "sha256": "c2ca94411fbb07d80c2c0d7398cd0e3cfb9b544d5561723d066f6bf387fefa43",
+      "blob": "c2ca94411fbb07d80c2c0d7398cd0e3cfb9b544d5561723d066f6bf387fefa43",
+      "roles": [
+        "actual-flat-file",
+        "ordinary-screenshot"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/function-menu-pc720-dpr1.json",
+      "bytes": 190612,
+      "sha256": "577129e18168b67130decd4cafb7a68ab05fb1b62b199663e26fb4f25a643255",
+      "blob": "577129e18168b67130decd4cafb7a68ab05fb1b62b199663e26fb4f25a643255",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/function-menu-pc720-dpr1.png",
+      "bytes": 59390,
+      "sha256": "dfb3ef0b7b48545c8324402fe12d78a9b07d38eb0b692b1a614b9ab9e68b6afc",
+      "blob": "dfb3ef0b7b48545c8324402fe12d78a9b07d38eb0b692b1a614b9ab9e68b6afc",
+      "roles": [
+        "actual-flat-file",
+        "ordinary-screenshot"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/function-menu-pc720-dpr2.json",
+      "bytes": 190611,
+      "sha256": "c473fe7f3a455cd099512fedd8c733ebc92fd3f6c774f0117c5d19c9f127ae73",
+      "blob": "c473fe7f3a455cd099512fedd8c733ebc92fd3f6c774f0117c5d19c9f127ae73",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/function-menu-pc720-dpr2.png",
+      "bytes": 134711,
+      "sha256": "69dd54d69bcaa6ac96866d2ff2cbc822993f2d83fcc56a5eefb477c9cdc41807",
+      "blob": "69dd54d69bcaa6ac96866d2ff2cbc822993f2d83fcc56a5eefb477c9cdc41807",
+      "roles": [
+        "actual-flat-file",
+        "ordinary-screenshot"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/function-menu-restore-pc1080-dpr1.json",
+      "bytes": 190619,
+      "sha256": "e5cad0e049300eb2e5caf2200184ee61335754bdff9fc38585b57692c079d2b1",
+      "blob": "e5cad0e049300eb2e5caf2200184ee61335754bdff9fc38585b57692c079d2b1",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/function-menu-restore-pc1080-dpr1.png",
+      "bytes": 65433,
+      "sha256": "a0bf0f46643f0b6de2f46dc8b002d24e701f912e69c04cb390380ce5c3d69940",
+      "blob": "a0bf0f46643f0b6de2f46dc8b002d24e701f912e69c04cb390380ce5c3d69940",
+      "roles": [
+        "actual-flat-file",
+        "ordinary-screenshot"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/geometry-observer.json",
+      "bytes": 625094,
+      "sha256": "72c29c9adbe1bad955a9f5729342bf205fd2c5ae95542e9797df63a22c3adf49",
+      "blob": "72c29c9adbe1bad955a9f5729342bf205fd2c5ae95542e9797df63a22c3adf49",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/input-canonical.json",
+      "bytes": 14720,
+      "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "blob": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/input-latest-world.json",
+      "bytes": 148013,
+      "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "blob": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/input-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "blob": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/input-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "blob": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/map-pc1080-dpr1.json",
+      "bytes": 190285,
+      "sha256": "8e46745285ba9bcf832768129a2b2c3b2073d5daeb1c5907b5e1b28ef5bef13e",
+      "blob": "8e46745285ba9bcf832768129a2b2c3b2073d5daeb1c5907b5e1b28ef5bef13e",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/map-pc1080-dpr1.png",
+      "bytes": 3079848,
+      "sha256": "1c90fcf375290068fd929c0dc3f566501c2c1e6209243d2c18feaba46b0eeda1",
+      "blob": "1c90fcf375290068fd929c0dc3f566501c2c1e6209243d2c18feaba46b0eeda1",
+      "roles": [
+        "actual-flat-file",
+        "ordinary-screenshot"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/map-pc720-dpr1.json",
+      "bytes": 190292,
+      "sha256": "a0ddf2cbab20bc2510c17e691937d8a7fa5ad99e7984d33a90446225fad5439e",
+      "blob": "a0ddf2cbab20bc2510c17e691937d8a7fa5ad99e7984d33a90446225fad5439e",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/map-pc720-dpr1.png",
+      "bytes": 1491792,
+      "sha256": "94867dc6fe97ca2c2dc10cba416a4c70a9c89c2f2e342bd88d42b31245790bfc",
+      "blob": "94867dc6fe97ca2c2dc10cba416a4c70a9c89c2f2e342bd88d42b31245790bfc",
+      "roles": [
+        "actual-flat-file",
+        "ordinary-screenshot"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/map-pc720-dpr2.json",
+      "bytes": 190292,
+      "sha256": "8b194fce0923d02d5c7a8a3d78dfa9062377b6533c7788b0a6941c6427becb71",
+      "blob": "8b194fce0923d02d5c7a8a3d78dfa9062377b6533c7788b0a6941c6427becb71",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/map-pc720-dpr2.png",
+      "bytes": 4590589,
+      "sha256": "61082aa262bed2a6b53713e83a96ee350fab7f520ac4a064c1e1876420e2dda9",
+      "blob": "61082aa262bed2a6b53713e83a96ee350fab7f520ac4a064c1e1876420e2dda9",
+      "roles": [
+        "actual-flat-file",
+        "ordinary-screenshot"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/map-restore-pc1080-dpr1.json",
+      "bytes": 190287,
+      "sha256": "95d5bd7d29c405e26bdbf4850ae785c811129634bb625d8c8b51f0217acfccd0",
+      "blob": "95d5bd7d29c405e26bdbf4850ae785c811129634bb625d8c8b51f0217acfccd0",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/map-restore-pc1080-dpr1.png",
+      "bytes": 3079623,
+      "sha256": "fa571711f084307b3590f5575e021f77a5ccbb1e338b7df5fd9a2a0b045cc37b",
+      "blob": "fa571711f084307b3590f5575e021f77a5ccbb1e338b7df5fd9a2a0b045cc37b",
+      "roles": [
+        "actual-flat-file",
+        "ordinary-screenshot"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/native-inputs.json",
+      "bytes": 87859,
+      "sha256": "eb05a19db6f87d2da766349f251536c28c071d3596ab0ce4143dc0c30107cf5f",
+      "blob": "eb05a19db6f87d2da766349f251536c28c071d3596ab0ce4143dc0c30107cf5f",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/october-after-menu-cancel.json",
+      "bytes": 190332,
+      "sha256": "ba73535c628b6c508c8bfddec627e6db000f769da65d005f23751346da05ee0b",
+      "blob": "ba73535c628b6c508c8bfddec627e6db000f769da65d005f23751346da05ee0b",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/october-after-menu-cancel.png",
+      "bytes": 3079580,
+      "sha256": "857b5ff7e4a6a5dadeef3c13f4e69b238e98709aa03c9735c5d89806edcd8241",
+      "blob": "857b5ff7e4a6a5dadeef3c13f4e69b238e98709aa03c9735c5d89806edcd8241",
+      "roles": [
+        "actual-flat-file",
+        "ordinary-screenshot"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/october-final-unchanged-map.json",
+      "bytes": 190345,
+      "sha256": "cd425e3f753eae9f30f32a33dcff9df86d7c473909c27739ab1b2a9a7c04e3fa",
+      "blob": "cd425e3f753eae9f30f32a33dcff9df86d7c473909c27739ab1b2a9a7c04e3fa",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/october-final-unchanged-map.png",
+      "bytes": 3079793,
+      "sha256": "cf19f6f5265e5a5af1d93b1b5c000dba814e9f5fd0ecb1756127121938b3f54b",
+      "blob": "cf19f6f5265e5a5af1d93b1b5c000dba814e9f5fd0ecb1756127121938b3f54b",
+      "roles": [
+        "actual-flat-file",
+        "ordinary-screenshot"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/october-loaded-map-baseline.json",
+      "bytes": 190299,
+      "sha256": "082a18046c0c817ab20dbdfe57543972f8994ddd36f1179b7455cf9824ad527a",
+      "blob": "082a18046c0c817ab20dbdfe57543972f8994ddd36f1179b7455cf9824ad527a",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/october-loaded-map-baseline.png",
+      "bytes": 3079950,
+      "sha256": "d7e843405fee998ddd1514c7bb53b35845eb8e7d3bdbf3c45b9daad1e89718b8",
+      "blob": "d7e843405fee998ddd1514c7bb53b35845eb8e7d3bdbf3c45b9daad1e89718b8",
+      "roles": [
+        "actual-flat-file",
+        "ordinary-screenshot"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/opening-before.json",
+      "bytes": 5170,
+      "sha256": "1938ce3c41e04c8e26fce39fbc87460094d130444059b771bc1b5e0768d265ba",
+      "blob": "1938ce3c41e04c8e26fce39fbc87460094d130444059b771bc1b5e0768d265ba",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/owned-process-samples.jsonl",
+      "bytes": 77376,
+      "sha256": "17e6f6c97bc1ebf42c5fb545be6785e72039b4b8cce284e7c9883d22bb5795a6",
+      "blob": "17e6f6c97bc1ebf42c5fb545be6785e72039b4b8cce284e7c9883d22bb5795a6",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/owned-union.json",
+      "bytes": 12353,
+      "sha256": "3ba9a19a053e8a1fcf808cdcaa9b3ac58b3a0e62d960d549539176eb1fc4c415",
+      "blob": "3ba9a19a053e8a1fcf808cdcaa9b3ac58b3a0e62d960d549539176eb1fc4c415",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/result.json",
+      "bytes": 755057,
+      "sha256": "874d81ca25bbb2462a9908b8cce3c7b2252f2d98f61be5bd0a0540e37e5d8715",
+      "blob": "874d81ca25bbb2462a9908b8cce3c7b2252f2d98f61be5bd0a0540e37e5d8715",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/served-source-after.json",
+      "bytes": 21649,
+      "sha256": "8e9d7d4d40421480a23b08053a187997b023a249c7e2a38a73b891ebe725a92a",
+      "blob": "8e9d7d4d40421480a23b08053a187997b023a249c7e2a38a73b891ebe725a92a",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/served-source-before.json",
+      "bytes": 11632,
+      "sha256": "b0496dc6380d7d70b07287d37879f0cee60654251481ced41faa7833061b39a0",
+      "blob": "b0496dc6380d7d70b07287d37879f0cee60654251481ced41faa7833061b39a0",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/source-after.json",
+      "bytes": 357358,
+      "sha256": "137cd5ef6d7a53098fe1ef73523fc54accea13c3677c80139bd322e466665385",
+      "blob": "137cd5ef6d7a53098fe1ef73523fc54accea13c3677c80139bd322e466665385",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/source-before.json",
+      "bytes": 203321,
+      "sha256": "0a2fea58b1ec6c52c8253d4a38819e6a37d552118df071be4ed99e71bb796d9c",
+      "blob": "0a2fea58b1ec6c52c8253d4a38819e6a37d552118df071be4ed99e71bb796d9c",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-geometry-v1/user8080-before.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "blob": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "roles": [
+        "actual-flat-file"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/october-geometry-closed-independent-v1/review.json",
+      "bytes": 41743,
+      "sha256": "bb6dffdfc8a91d8e8d20b411a2ae56c104b49895303d1c29336b7e9ed591a4b5",
+      "blob": "bb6dffdfc8a91d8e8d20b411a2ae56c104b49895303d1c29336b7e9ed591a4b5",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/october-geometry-closed-independent-review-v1.mjs",
+      "bytes": 20370,
+      "sha256": "3cbbd7aa965136f8638b5e129b5a9147d04d3f67c6e074ebe90e53461a29530f",
+      "blob": "3cbbd7aa965136f8638b5e129b5a9147d04d3f67c6e074ebe90e53461a29530f",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-visible-dom-independent-v1.json",
+      "bytes": 32216,
+      "sha256": "ded2c4bafbad24c20ef73f51c001029c6295c90530ac003f93bb2325b6f2a19c",
+      "blob": "ded2c4bafbad24c20ef73f51c001029c6295c90530ac003f93bb2325b6f2a19c",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-visible-dom-independent-v1.mjs",
+      "bytes": 10215,
+      "sha256": "4bbc5fe1b0ec478add38377dc2f623141c96488f33e03aea90011207bc2edd96",
+      "blob": "4bbc5fe1b0ec478add38377dc2f623141c96488f33e03aea90011207bc2edd96",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-visible-dom-independent-v1.stdout.log",
+      "bytes": 468,
+      "sha256": "e9f5cb32eb1f87d51e746d59f146dcbb2ffe1c5a0ac5988d8305d8340f780a57",
+      "blob": "e9f5cb32eb1f87d51e746d59f146dcbb2ffe1c5a0ac5988d8305d8340f780a57",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-october-visible-dom-independent-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/october-v44-regression-source-continuity-v1.json",
+      "bytes": 932,
+      "sha256": "457b77e1db595c99a56b5b6593022db9f573ebc34ecd9193aa8708b6df41e5e3",
+      "blob": "457b77e1db595c99a56b5b6593022db9f573ebc34ecd9193aa8708b6df41e5e3",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-root-full-v1.json",
+      "bytes": 38349,
+      "sha256": "38d2467459a58becb1e59a357a642f655e01893526a5238d7fa110d337114c00",
+      "blob": "38d2467459a58becb1e59a357a642f655e01893526a5238d7fa110d337114c00",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-spe-return-root-full-v1-before.json",
+      "bytes": 37384,
+      "sha256": "b8417df5c877b8711226534aaaa1b9726ed95354981f131d860d18c88b8967da",
+      "blob": "b8417df5c877b8711226534aaaa1b9726ed95354981f131d860d18c88b8967da",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/build-v44-map-menu-reader-v1.mjs",
+      "bytes": 10462,
+      "sha256": "4ddbb2cb21134c426e7c3b953632e212c0bb30b5b8ec7759670a1ee1704adbea",
+      "blob": "4ddbb2cb21134c426e7c3b953632e212c0bb30b5b8ec7759670a1ee1704adbea",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v44-map-menu-reader-v1.mjs",
+      "bytes": 31867,
+      "sha256": "4d2bb8e52e45979d1949e7f9cbb492cb406e8b3e7c34d9e2c2c6953f5f2c5af1",
+      "blob": "4d2bb8e52e45979d1949e7f9cbb492cb406e8b3e7c34d9e2c2c6953f5f2c5af1",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-v44-map-menu-boundaries-v1.mjs",
+      "bytes": 13549,
+      "sha256": "c0618bc6b7624bb51d4e5fefedb7bf8f4a0aa4fd980fd7caf3d13425a1547735",
+      "blob": "c0618bc6b7624bb51d4e5fefedb7bf8f4a0aa4fd980fd7caf3d13425a1547735",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/smoke-v44-map-menu-reader-v1.mjs",
+      "bytes": 4895,
+      "sha256": "e54bfaa3b5135ded0e0f4809bfb2dea12c95a6c1b2043b3f33916d27a84b06a4",
+      "blob": "e54bfaa3b5135ded0e0f4809bfb2dea12c95a6c1b2043b3f33916d27a84b06a4",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v44-reader-smoke-v1/receipt.json",
+      "bytes": 1944,
+      "sha256": "7ca23527cdadff6a136457364f2f3848acaa761804df5417e8c7687fd694a9ba",
+      "blob": "7ca23527cdadff6a136457364f2f3848acaa761804df5417e8c7687fd694a9ba",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v44-reader-smoke-v1/empty-part.json",
+      "bytes": 324,
+      "sha256": "24411c821ed493c492332b0dd1bc67150df581d2b57399a225dc2747a27c10ad",
+      "blob": "24411c821ed493c492332b0dd1bc67150df581d2b57399a225dc2747a27c10ad",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/smoke-v44-map-menu-reader-v2.mjs",
+      "bytes": 6394,
+      "sha256": "d906f994c332919acbbee14ec5f10ae4cab0f3ae6a60d15defdd474da2eb6f8f",
+      "blob": "d906f994c332919acbbee14ec5f10ae4cab0f3ae6a60d15defdd474da2eb6f8f",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v44-reader-smoke-v2/receipt.json",
+      "bytes": 2264,
+      "sha256": "814af325133ba0e44d46203ded468ab1b8ef54092f1a68f50189d6a1377859a1",
+      "blob": "814af325133ba0e44d46203ded468ab1b8ef54092f1a68f50189d6a1377859a1",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v44-reader-smoke-v2/empty-part.json",
+      "bytes": 324,
+      "sha256": "24411c821ed493c492332b0dd1bc67150df581d2b57399a225dc2747a27c10ad",
+      "blob": "24411c821ed493c492332b0dd1bc67150df581d2b57399a225dc2747a27c10ad",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v1.mjs",
+      "bytes": 21148,
+      "sha256": "b1c7225990e9b7baa5ac9361d7b0bd95c577a60c0a83b0723592cb4425abe23c",
+      "blob": "b1c7225990e9b7baa5ac9361d7b0bd95c577a60c0a83b0723592cb4425abe23c",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v2.mjs",
+      "bytes": 21451,
+      "sha256": "9e7caadc765589b9bb722d7d368d8186c820ae57ba19b4c053dc68c17a24b054",
+      "blob": "9e7caadc765589b9bb722d7d368d8186c820ae57ba19b4c053dc68c17a24b054",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v3.mjs",
+      "bytes": 22493,
+      "sha256": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "blob": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-geometry-v1.mjs",
+      "bytes": 22969,
+      "sha256": "f33b158dcf978a1dc0b1b872090fe4df86094253929362e0769fb21c658139ba",
+      "blob": "f33b158dcf978a1dc0b1b872090fe4df86094253929362e0769fb21c658139ba",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-geometry-v2.mjs",
+      "bytes": 26589,
+      "sha256": "d62430c4e9d6898e91cfdcabb203ed31a67a67c2b2bf2c6757d1a081b63ebf9b",
+      "blob": "d62430c4e9d6898e91cfdcabb203ed31a67a67c2b2bf2c6757d1a081b63ebf9b",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-geometry-v3.mjs",
+      "bytes": 26726,
+      "sha256": "18f71c2bf2e37c819eefe50dbb810a920e506b02c93f555c343b322fb62e7cdb",
+      "blob": "18f71c2bf2e37c819eefe50dbb810a920e506b02c93f555c343b322fb62e7cdb",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v2.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "blob": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v2.mjs",
+      "bytes": 11720,
+      "sha256": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "blob": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-full-v1.mjs",
+      "bytes": 3425,
+      "sha256": "ca51d78b677431e1b49b2361005f0bac4c0de83092b5490be915056368b09401",
+      "blob": "ca51d78b677431e1b49b2361005f0bac4c0de83092b5490be915056368b09401",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/OCTOBER-GEOMETRY-DRAFT.md",
+      "bytes": 6391,
+      "sha256": "8cc1a0a8edf6cd499ae997c9e3e6a44e6d587c57feaf09d5fd0ba648354ad480",
+      "blob": "8cc1a0a8edf6cd499ae997c9e3e6a44e6d587c57feaf09d5fd0ba648354ad480",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/OCTOBER-GEOMETRY-DRAFT-v2.md",
+      "bytes": 6903,
+      "sha256": "8ec74f58f8ab2dcb3d6a8bd967bfce0bbce09e08ad45c513d40a039543430803",
+      "blob": "8ec74f58f8ab2dcb3d6a8bd967bfce0bbce09e08ad45c513d40a039543430803",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/OCTOBER-GEOMETRY-DRAFT-v3.md",
+      "bytes": 7317,
+      "sha256": "aee612a49e5824abaeff174be07c62875f9d82b44f692e01a66ca9db683b254a",
+      "blob": "aee612a49e5824abaeff174be07c62875f9d82b44f692e01a66ca9db683b254a",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/OCTOBER-BOOTSTRAP-DRAFT-v1.md",
+      "bytes": 3875,
+      "sha256": "4ba51d3ee830b98459267d057fed5dbc60d17edb3d1f8b4c395f650f1e69fbba",
+      "blob": "4ba51d3ee830b98459267d057fed5dbc60d17edb3d1f8b4c395f650f1e69fbba",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/OCTOBER-BOOTSTRAP-DRAFT-v2.md",
+      "bytes": 4381,
+      "sha256": "36a5f249052fe50c464e8bb1794692f87ad369141ae16ec8f0c08cc50eab9a15",
+      "blob": "36a5f249052fe50c464e8bb1794692f87ad369141ae16ec8f0c08cc50eab9a15",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-source-receipt-v1.json",
+      "bytes": 4797,
+      "sha256": "0c5aec303fc38bd948fce13f60fd160bb944ab16f478b8625a2ddac404c0ab26",
+      "blob": "0c5aec303fc38bd948fce13f60fd160bb944ab16f478b8625a2ddac404c0ab26",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-source-receipt-v2.json",
+      "bytes": 2410,
+      "sha256": "5780dc5f358f0426acf4a4cb22a15d584a9ffc54faec2ad3e3ab9e5ca279cf99",
+      "blob": "5780dc5f358f0426acf4a4cb22a15d584a9ffc54faec2ad3e3ab9e5ca279cf99",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-source-receipt-v3.json",
+      "bytes": 2796,
+      "sha256": "3df786f7ac12178f480ad3dbb311206a93c06847799e04f0ebd92ac674399b67",
+      "blob": "3df786f7ac12178f480ad3dbb311206a93c06847799e04f0ebd92ac674399b67",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-bootstrap-source-receipt-v1.json",
+      "bytes": 3074,
+      "sha256": "99f66052a7835ec6df2ded4388709738c13c2a689c5756a87ed7737f82f071da",
+      "blob": "99f66052a7835ec6df2ded4388709738c13c2a689c5756a87ed7737f82f071da",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-bootstrap-source-receipt-v2.json",
+      "bytes": 2806,
+      "sha256": "3da1fdfb591137b62dcb2a8c9c7a5c88e1fd787dcc62922de90b7ae76e4ed71d",
+      "blob": "3da1fdfb591137b62dcb2a8c9c7a5c88e1fd787dcc62922de90b7ae76e4ed71d",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/prepare-october-geometry-v2.mjs",
+      "bytes": 4952,
+      "sha256": "8af60e784341f85955d44c9cc7baebc4b4603838bbae11143e295576dc70a90e",
+      "blob": "8af60e784341f85955d44c9cc7baebc4b4603838bbae11143e295576dc70a90e",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/prepare-october-geometry-v3.mjs",
+      "bytes": 8311,
+      "sha256": "7a16c17142f42aeee01d22d47d54e1a64373d4e00b6108489e4fae4802dbf23a",
+      "blob": "7a16c17142f42aeee01d22d47d54e1a64373d4e00b6108489e4fae4802dbf23a",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/prepare-october-bootstrap-v2.mjs",
+      "bytes": 10901,
+      "sha256": "ab62e6ee7afd791a205ea655659b58adc9d3c4862e95fdb31ed492f606c4a4ef",
+      "blob": "ab62e6ee7afd791a205ea655659b58adc9d3c4862e95fdb31ed492f606c4a4ef",
+      "roles": [
+        "explicit-publication-support",
+        "source-only-development-history-not-game-acceptance"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-spe-return-boundary-20261024-v43.json",
+      "bytes": 89063,
+      "sha256": "de9c11fabc6b80847e3c12a22afbd502cbfabf695354a141fbdddffe940a09c9",
+      "blob": "de9c11fabc6b80847e3c12a22afbd502cbfabf695354a141fbdddffe940a09c9",
+      "roles": [
+        "explicit-publication-support"
+      ]
+    }
+  ]
+}

@@ -3,3 +3,5 @@ node_modules/
 *.log
 .idea/
 .vscode/
+build/
+vendor/iBaye/src/baye/version.h

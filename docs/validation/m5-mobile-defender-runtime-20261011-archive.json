@@ -1,0 +1,503 @@
+{
+  "at": "2026-10-11T09:35:19.317Z",
+  "compression": "gzip",
+  "roundtripVerified": true,
+  "files": [
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/00-title-844.png",
+      "bytes": 30705,
+      "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+      "file": "raw/ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7.gz",
+      "archiveBytes": 29146,
+      "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/defender-667-01-new-map-hd-overworld-canvas.png",
+      "bytes": 567344,
+      "sha256": "6c6ad327b34cbe6a19d09fc9622747a8b0088c0072e1918f4bfc8033037119f4",
+      "file": "raw/dbe7c2656944ca80fa51604dd8d581195dd73057af38af5ddaddbf1f70fac5f5.gz",
+      "archiveBytes": 567537,
+      "archiveSha256": "dbe7c2656944ca80fa51604dd8d581195dd73057af38af5ddaddbf1f70fac5f5"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/defender-667-01-new-map.png",
+      "bytes": 462531,
+      "sha256": "cd11050fdd1df19ab8c7a1b90626ef204b209e95ab09e6bbc9f32e3efe630d1a",
+      "file": "raw/4e2f86a6864ece625bec45b390926f08f3a66265e465a456b7acc4bb67db36ee.gz",
+      "archiveBytes": 462553,
+      "archiveSha256": "4e2f86a6864ece625bec45b390926f08f3a66265e465a456b7acc4bb67db36ee"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/defender-667-02-native-picker.png",
+      "bytes": 42895,
+      "sha256": "a08bc63920b375b06440ce93cdf0e8bed95fcc2ec4bea8253f009d617b64c833",
+      "file": "raw/6fd78164ad6a3a9e52fc1997a235133ecaa5135862f5b0b22eb4cad06a9387fb.gz",
+      "archiveBytes": 41642,
+      "archiveSha256": "6fd78164ad6a3a9e52fc1997a235133ecaa5135862f5b0b22eb4cad06a9387fb"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/defender-667-03-first-selected.png",
+      "bytes": 41085,
+      "sha256": "08ff051e79f71b362ce7b5b1ded53e3dde712ac84225675bce2746222cde9ef9",
+      "file": "raw/3eba4c4a9258c668183ea8161772f459fa9c8158f81a2cb38ca63d2757a9aa1b.gz",
+      "archiveBytes": 39667,
+      "archiveSha256": "3eba4c4a9258c668183ea8161772f459fa9c8158f81a2cb38ca63d2757a9aa1b"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/defender-667-05-defensive-battle-hd-mobile-battle-canvas.png",
+      "bytes": 28219,
+      "sha256": "3c3c6a05f5c00c644a4a8f07d56c13befbbff62ac33a9702381b8679f59f9853",
+      "file": "raw/23f7154e3fd7405c60a0245a0f136f7f0a1f3d8bfe67f753f8b6accd085a9b92.gz",
+      "archiveBytes": 26785,
+      "archiveSha256": "23f7154e3fd7405c60a0245a0f136f7f0a1f3d8bfe67f753f8b6accd085a9b92"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/defender-667-05-defensive-battle.png",
+      "bytes": 47874,
+      "sha256": "ca500564e65f04c28a1fedae4be4887565137f0a5e07431eb78eb6d1cf932ffe",
+      "file": "raw/9f6bdde0959b158af9d59c79afadb21495ff83a570e229f42b494f648050cbc8.gz",
+      "archiveBytes": 46538,
+      "archiveSha256": "9f6bdde0959b158af9d59c79afadb21495ff83a570e229f42b494f648050cbc8"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/defender-667-month-1-map-hd-overworld-canvas.png",
+      "bytes": 567358,
+      "sha256": "d1ac604c8eb2cf2453e553cf76ab17c361f162cda1febdb7e17aa92acb841b8e",
+      "file": "raw/9b7d9f412bff79ea937c33d8de773e749324ee844884c15907ebf8b3a5459bd0.gz",
+      "archiveBytes": 567551,
+      "archiveSha256": "9b7d9f412bff79ea937c33d8de773e749324ee844884c15907ebf8b3a5459bd0"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/defender-667-month-1-map.png",
+      "bytes": 462485,
+      "sha256": "cf00a98bcd605d55a2ba80dfe6eb39e7ac86aac961c2f47cffed6f7d90bcadf1",
+      "file": "raw/b69f1eb7d8e131667164c32753905479ce8c0849b05d67847d199c6782f30c61.gz",
+      "archiveBytes": 462507,
+      "archiveSha256": "b69f1eb7d8e131667164c32753905479ce8c0849b05d67847d199c6782f30c61"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/executed-tool.mjs",
+      "bytes": 114156,
+      "sha256": "10484606d2c473b15393bc9731ce5615870202ce50066bb8172f73e4109c6cb8",
+      "file": "raw/162637e232890e1397944775b4a141982400c8718d7f8a7da6fbda2a83bbc62a.gz",
+      "archiveBytes": 29334,
+      "archiveSha256": "162637e232890e1397944775b4a141982400c8718d7f8a7da6fbda2a83bbc62a"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/owned-process-samples.jsonl",
+      "bytes": 89335,
+      "sha256": "32a0df56d7ba23a0694c3a0322f04b67ca704189187135f4bd0d05f2c9103033",
+      "file": "raw/7f48abb6cadd3059146483b004f27bf80649534a6b0359955379011d9adf5597.gz",
+      "archiveBytes": 2554,
+      "archiveSha256": "7f48abb6cadd3059146483b004f27bf80649534a6b0359955379011d9adf5597"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/result.json",
+      "bytes": 13005871,
+      "sha256": "908b2e9db4e0139d8a9313ab3392a73a52bb7463535ac0bb6d560d27c6129e47",
+      "file": "raw/49872a5af493e17614271f3d9d29e92ccd16046ef7206d956c3a1dc9489e9bcc.gz",
+      "archiveBytes": 696663,
+      "archiveSha256": "49872a5af493e17614271f3d9d29e92ccd16046ef7206d956c3a1dc9489e9bcc"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1/source-verification.json",
+      "bytes": 79891,
+      "sha256": "87600f950b0332486695b2ac792ec6fae1a4abf6ae419dabe167ec05b87b1ff6",
+      "file": "raw/5bbc4c73733fd8dd19e4e2ad49a0b5f1501a7ad74d4ec9d97779820560b495a1.gz",
+      "archiveBytes": 17511,
+      "archiveSha256": "5bbc4c73733fd8dd19e4e2ad49a0b5f1501a7ad74d4ec9d97779820560b495a1"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-667-v1.log",
+      "bytes": 492,
+      "sha256": "1912b85c92604c853e3eb4c5751928f06ed8e655ebe60ebd33474c0e4a73187f",
+      "file": "raw/37971785e48b9a9140d90df713ea25b7ef2753f9b1c6417fc1df66b15d0eb597.gz",
+      "archiveBytes": 242,
+      "archiveSha256": "37971785e48b9a9140d90df713ea25b7ef2753f9b1c6417fc1df66b15d0eb597"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-01-new-map-hd-overworld-canvas.png",
+      "bytes": 749136,
+      "sha256": "68efe4a5576cc95d9e376f45bc81058b121bba523d06289fe506ee653e23bed6",
+      "file": "raw/f05571bf141892a2d41b6d629fd29e6f3ed9e5bba0d7dc8bfbdb4846202eb282.gz",
+      "archiveBytes": 749347,
+      "archiveSha256": "f05571bf141892a2d41b6d629fd29e6f3ed9e5bba0d7dc8bfbdb4846202eb282"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-01-new-map.png",
+      "bytes": 611140,
+      "sha256": "de193823ff4b6fcb0affc43e6c8d92b4f033123b4495076c18645896bb0938cb",
+      "file": "raw/7ee3a136ae572df25e1c3a22776ba9937e60b53daec10e12adbb5ec3b1ee5c56.gz",
+      "archiveBytes": 611301,
+      "archiveSha256": "7ee3a136ae572df25e1c3a22776ba9937e60b53daec10e12adbb5ec3b1ee5c56"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-02-native-picker.png",
+      "bytes": 47213,
+      "sha256": "f0f2964bb78e6750315efdc39ebb69deea5b80e992c08a148aae613797240429",
+      "file": "raw/207074923b124bd2d2a25369b1041cd785adcf4925b702d6b84125a52a29236f.gz",
+      "archiveBytes": 45125,
+      "archiveSha256": "207074923b124bd2d2a25369b1041cd785adcf4925b702d6b84125a52a29236f"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-03-first-selected.png",
+      "bytes": 45458,
+      "sha256": "7886dc8e25435478862d3eaec9c6cc3409b3c6580a4d5c230dcf7e2c24604863",
+      "file": "raw/b19b4813511c168f3a6d6834c032e1f1f7e21ea920429319a58e62fc24084a09.gz",
+      "archiveBytes": 43220,
+      "archiveSha256": "b19b4813511c168f3a6d6834c032e1f1f7e21ea920429319a58e62fc24084a09"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-05-defensive-battle-hd-mobile-battle-canvas.png",
+      "bytes": 32064,
+      "sha256": "438ccbc1f54ebd9d6cf06172a4a328c9b22cadfb24c1a621b39622560cd19514",
+      "file": "raw/8854011f2cad1abc4e5678b83022d9f5eea2f2f48970e1c050d34e5eaf4f18c1.gz",
+      "archiveBytes": 30135,
+      "archiveSha256": "8854011f2cad1abc4e5678b83022d9f5eea2f2f48970e1c050d34e5eaf4f18c1"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-05-defensive-battle.png",
+      "bytes": 52591,
+      "sha256": "b7cbcd25c943c4894b606b377413047551ed7d9c3e2446606e66f4f6c291bc40",
+      "file": "raw/41ec77435987ed1265afe3581ab91046c97b4d186bec1a5834378d0988f29b7b.gz",
+      "archiveBytes": 50945,
+      "archiveSha256": "41ec77435987ed1265afe3581ab91046c97b4d186bec1a5834378d0988f29b7b"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-month-1-map-hd-overworld-canvas.png",
+      "bytes": 749213,
+      "sha256": "31b28c63d62f1cc78ff5ae6afecc02e8bc71732652f933332fe53b5e89b3a0f1",
+      "file": "raw/ed4c185ae8f010c1b7d9d30dd3f96d1aaeb66da33b93d3f80a3fd77054afc34d.gz",
+      "archiveBytes": 749424,
+      "archiveSha256": "ed4c185ae8f010c1b7d9d30dd3f96d1aaeb66da33b93d3f80a3fd77054afc34d"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-month-1-map.png",
+      "bytes": 611529,
+      "sha256": "7a9a8a02a97c8f16a75afbd6a23d864808e8931ee4d62490ac910e6901f7c1b8",
+      "file": "raw/8404e09af4ed5dd2da7d6c23f1c3bea9b39edffc5c6a253d6f7c4955d9539599.gz",
+      "archiveBytes": 611698,
+      "archiveSha256": "8404e09af4ed5dd2da7d6c23f1c3bea9b39edffc5c6a253d6f7c4955d9539599"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-month-2-map-hd-overworld-canvas.png",
+      "bytes": 749860,
+      "sha256": "09dd79bc7e40c5071b2a55b50c571e172db610cc890d1d34bdbe1fd04c0ab67b",
+      "file": "raw/f8fb5e776509725223817b89f96bd2a9101716f35c21d1098f7b25a6864ce64b.gz",
+      "archiveBytes": 750071,
+      "archiveSha256": "f8fb5e776509725223817b89f96bd2a9101716f35c21d1098f7b25a6864ce64b"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-month-2-map.png",
+      "bytes": 611569,
+      "sha256": "23c7c4d30d0e6a8104d5e11a2a24477541366303b66f8b183f0b6e88ef3d0cde",
+      "file": "raw/445de3c6151fbbda7b65a0648b1e53cd97c4e06746fc4184810921bee86ab156.gz",
+      "archiveBytes": 611722,
+      "archiveSha256": "445de3c6151fbbda7b65a0648b1e53cd97c4e06746fc4184810921bee86ab156"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-month-3-map-hd-overworld-canvas.png",
+      "bytes": 749156,
+      "sha256": "d2174a3d56828eb127c78e4bd37c04c3467ff6009d03deb52b135502e59aa048",
+      "file": "raw/a54fc183dc473a656f8c6eb9b23dbf2d051c64d7783484fb766ead8394788638.gz",
+      "archiveBytes": 749364,
+      "archiveSha256": "a54fc183dc473a656f8c6eb9b23dbf2d051c64d7783484fb766ead8394788638"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-month-3-map.png",
+      "bytes": 611458,
+      "sha256": "a10e9019634c8a3f5c9eb465af510e96cba11a24aed2bf0d699219770399bc39",
+      "file": "raw/df46ed339c5d420cbdbbbf958471be5d33beec4466e8192233b2d5216df10805.gz",
+      "archiveBytes": 611626,
+      "archiveSha256": "df46ed339c5d420cbdbbbf958471be5d33beec4466e8192233b2d5216df10805"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-month-4-map-hd-overworld-canvas.png",
+      "bytes": 749626,
+      "sha256": "36235e1b1994891431eb435b453ab1168466ab8c713dd35e0458c0b2c18ec693",
+      "file": "raw/0f58f5f80756320b1fbb1facd02b4ecc2c9b53afc5310ad1236b23b5e4e973f4.gz",
+      "archiveBytes": 749837,
+      "archiveSha256": "0f58f5f80756320b1fbb1facd02b4ecc2c9b53afc5310ad1236b23b5e4e973f4"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/defender-844-month-4-map.png",
+      "bytes": 612053,
+      "sha256": "218e5779ed8393690053f25103dbcc6dec44696e8b72489c74e829d3030a6ad1",
+      "file": "raw/64b394dbb50b436f973ac1337dd9dea445bd0e90e39f6407df3a588202648148.gz",
+      "archiveBytes": 612211,
+      "archiveSha256": "64b394dbb50b436f973ac1337dd9dea445bd0e90e39f6407df3a588202648148"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/executed-tool.mjs",
+      "bytes": 114156,
+      "sha256": "10484606d2c473b15393bc9731ce5615870202ce50066bb8172f73e4109c6cb8",
+      "file": "raw/162637e232890e1397944775b4a141982400c8718d7f8a7da6fbda2a83bbc62a.gz",
+      "archiveBytes": 29334,
+      "archiveSha256": "162637e232890e1397944775b4a141982400c8718d7f8a7da6fbda2a83bbc62a"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/owned-process-samples.jsonl",
+      "bytes": 119641,
+      "sha256": "3b05670ad92e4208e387184884ddae32c4a21212c62885f38315d1589645b4fb",
+      "file": "raw/f1dc468250bd654b0a07a04fec0a574471fc5af53994694d977e68d5fd7289e5.gz",
+      "archiveBytes": 2833,
+      "archiveSha256": "f1dc468250bd654b0a07a04fec0a574471fc5af53994694d977e68d5fd7289e5"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/result.json",
+      "bytes": 17990060,
+      "sha256": "192fad70f29cbf4779bd26ee3190523aac4843a2d170668fcb9d4761067eddbb",
+      "file": "raw/a0850444c7c35834d45ea9650b193ba2b5fb2ff77db4650ac4c8d0a1cf7faea3.gz",
+      "archiveBytes": 961078,
+      "archiveSha256": "a0850444c7c35834d45ea9650b193ba2b5fb2ff77db4650ac4c8d0a1cf7faea3"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1/source-verification.json",
+      "bytes": 80180,
+      "sha256": "5fe2528ab6d8db8b2d25580e665b22323883d0eedb61c43500c554a576b59439",
+      "file": "raw/c1eea9f93d03c9a8ecc2786011622f516931201bfe8c87fedada9307b2dc3502.gz",
+      "archiveBytes": 17584,
+      "archiveSha256": "c1eea9f93d03c9a8ecc2786011622f516931201bfe8c87fedada9307b2dc3502"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v1.log",
+      "bytes": 666,
+      "sha256": "5ab98a2f77716fb0434ace642e7e6423e827a45584d19976e4acfc23c759ed42",
+      "file": "raw/9061d2a245d1467f3d7d3e63688b73ea6b5ccfdf6136c741665e4d59433f9431.gz",
+      "archiveBytes": 257,
+      "archiveSha256": "9061d2a245d1467f3d7d3e63688b73ea6b5ccfdf6136c741665e4d59433f9431"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/defender-844-01-new-map-hd-overworld-canvas.png",
+      "bytes": 749093,
+      "sha256": "7831a9450df2fb157da16ebe00f98de25d092bdd4f26d5bd120701702c629c5e",
+      "file": "raw/b93f441431d0bf1a99e2dfe6bbd297a6eea3e9bac5b54b3d41c0f6c0ffdd922a.gz",
+      "archiveBytes": 749304,
+      "archiveSha256": "b93f441431d0bf1a99e2dfe6bbd297a6eea3e9bac5b54b3d41c0f6c0ffdd922a"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/defender-844-01-new-map.png",
+      "bytes": 611327,
+      "sha256": "88e6b4a39c80705092cdec8fbc81667b5142b6baf6a7c7abffb13a91e07d0b40",
+      "file": "raw/0cc0890344865b8dac0796709e4cb9cf72aaf2037b255d05cb56df334676584e.gz",
+      "archiveBytes": 611488,
+      "archiveSha256": "0cc0890344865b8dac0796709e4cb9cf72aaf2037b255d05cb56df334676584e"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/defender-844-02-native-picker.png",
+      "bytes": 47213,
+      "sha256": "f0f2964bb78e6750315efdc39ebb69deea5b80e992c08a148aae613797240429",
+      "file": "raw/207074923b124bd2d2a25369b1041cd785adcf4925b702d6b84125a52a29236f.gz",
+      "archiveBytes": 45125,
+      "archiveSha256": "207074923b124bd2d2a25369b1041cd785adcf4925b702d6b84125a52a29236f"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/defender-844-03-first-selected.png",
+      "bytes": 45458,
+      "sha256": "7886dc8e25435478862d3eaec9c6cc3409b3c6580a4d5c230dcf7e2c24604863",
+      "file": "raw/b19b4813511c168f3a6d6834c032e1f1f7e21ea920429319a58e62fc24084a09.gz",
+      "archiveBytes": 43220,
+      "archiveSha256": "b19b4813511c168f3a6d6834c032e1f1f7e21ea920429319a58e62fc24084a09"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/defender-844-05-defensive-battle-hd-mobile-battle-canvas.png",
+      "bytes": 32064,
+      "sha256": "438ccbc1f54ebd9d6cf06172a4a328c9b22cadfb24c1a621b39622560cd19514",
+      "file": "raw/8854011f2cad1abc4e5678b83022d9f5eea2f2f48970e1c050d34e5eaf4f18c1.gz",
+      "archiveBytes": 30135,
+      "archiveSha256": "8854011f2cad1abc4e5678b83022d9f5eea2f2f48970e1c050d34e5eaf4f18c1"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/defender-844-05-defensive-battle.png",
+      "bytes": 52692,
+      "sha256": "811f93c8e3ff51a9f476734f275ce902ac9a9aef2d9db87e1d35d5d53bd4e2d4",
+      "file": "raw/e7eb497bb8d958dd24aa18c53cc3f7d12fb1e1a89755c65372424662e64655f8.gz",
+      "archiveBytes": 51231,
+      "archiveSha256": "e7eb497bb8d958dd24aa18c53cc3f7d12fb1e1a89755c65372424662e64655f8"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/defender-844-month-1-map-hd-overworld-canvas.png",
+      "bytes": 749097,
+      "sha256": "4ba1d6ff1452ce73eac5ecbedb82373dd17f3ac7f42a5d78704a4500e657d322",
+      "file": "raw/f610600de61b630280a76cf2ad177bc452b6baff7004719644362d69dcacb6a4.gz",
+      "archiveBytes": 749308,
+      "archiveSha256": "f610600de61b630280a76cf2ad177bc452b6baff7004719644362d69dcacb6a4"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/defender-844-month-1-map.png",
+      "bytes": 611750,
+      "sha256": "11deb28dd2ab81340f3352626570a28080a2e8a5b71f6cacdac8d1c21a2edbd2",
+      "file": "raw/eb1d42f0f55390f4d246b495d201bd405fcb87b6f64144ecd17e20d1e48cf1b0.gz",
+      "archiveBytes": 611919,
+      "archiveSha256": "eb1d42f0f55390f4d246b495d201bd405fcb87b6f64144ecd17e20d1e48cf1b0"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/defender-844-month-2-map-hd-overworld-canvas.png",
+      "bytes": 749991,
+      "sha256": "c27c0aa444538cb7559210cecea333a16746bcecb6f41aed7dd435ea3e166f55",
+      "file": "raw/6a347df77cca13774fd291d50743bd4172b7df166a52f15c4cc345f456076a92.gz",
+      "archiveBytes": 750202,
+      "archiveSha256": "6a347df77cca13774fd291d50743bd4172b7df166a52f15c4cc345f456076a92"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/defender-844-month-2-map.png",
+      "bytes": 611737,
+      "sha256": "4ba6e51d684f14a70f624b8e0eba4026b8b76d0e5f4dbc71a4c75efd5ce58451",
+      "file": "raw/a924ae6e849ef9cd6d5c8a1142780fd820702260069151373b1adce046e096a1.gz",
+      "archiveBytes": 611903,
+      "archiveSha256": "a924ae6e849ef9cd6d5c8a1142780fd820702260069151373b1adce046e096a1"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/executed-tool.mjs",
+      "bytes": 114156,
+      "sha256": "10484606d2c473b15393bc9731ce5615870202ce50066bb8172f73e4109c6cb8",
+      "file": "raw/162637e232890e1397944775b4a141982400c8718d7f8a7da6fbda2a83bbc62a.gz",
+      "archiveBytes": 29334,
+      "archiveSha256": "162637e232890e1397944775b4a141982400c8718d7f8a7da6fbda2a83bbc62a"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/owned-process-samples.jsonl",
+      "bytes": 99915,
+      "sha256": "0e92caaed64665090317b03cc4aa9ed5d580e2ad166036310bad8ea32b6c16d6",
+      "file": "raw/6b1c7b9bc95fdb9432b681f5c5f1f192110e2b91c61a502bdfc52fdec40eb8de.gz",
+      "archiveBytes": 2647,
+      "archiveSha256": "6b1c7b9bc95fdb9432b681f5c5f1f192110e2b91c61a502bdfc52fdec40eb8de"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/result.json",
+      "bytes": 14028670,
+      "sha256": "514de169a0c4311328b2f76c08e6d2e66f7cb4c24b626b7f5ec46b512e205287",
+      "file": "raw/e7307937f58777e2d7a272fb8257471be22ee7e36401491a645cb03ac764c4e1.gz",
+      "archiveBytes": 757164,
+      "archiveSha256": "e7307937f58777e2d7a272fb8257471be22ee7e36401491a645cb03ac764c4e1"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2/source-verification.json",
+      "bytes": 79603,
+      "sha256": "e6a02bd8bcccb47a62ed7756b0c5d8e77bbdeb49e7475e8b495ca510526d98d8",
+      "file": "raw/c2c1c781efda45d8272f9e0688d22a50010ca6dd07a7d3aa4942136ac7a19387.gz",
+      "archiveBytes": 17437,
+      "archiveSha256": "c2c1c781efda45d8272f9e0688d22a50010ca6dd07a7d3aa4942136ac7a19387"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/installed-844-v2.log",
+      "bytes": 550,
+      "sha256": "00968b8cc7e32b316e022142b8ff959753b9fbfd53fdf902801868b0744433ba",
+      "file": "raw/b1436ddc2748ce4b759679e83919b70a57dc8acfbc431ee683eaea6b3b2273d7.gz",
+      "archiveBytes": 246,
+      "archiveSha256": "b1436ddc2748ce4b759679e83919b70a57dc8acfbc431ee683eaea6b3b2273d7"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/final-suite-v1/result.json",
+      "bytes": 59361,
+      "sha256": "12eba33e09b13a032f9cfbe5d7fc09018a2bcab2d36465fac262108fc723ba6a",
+      "file": "raw/5440cd52b858247989786fb967db7d754cd09aa7cf50cfa2f2ff487c39865318.gz",
+      "archiveBytes": 12414,
+      "archiveSha256": "5440cd52b858247989786fb967db7d754cd09aa7cf50cfa2f2ff487c39865318"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/final-suite-v1/test-output.log",
+      "bytes": 353766,
+      "sha256": "4f54050555e8592925424082f58771b2b9dc8bc5384fa5377fee1b163dd2e3cd",
+      "file": "raw/68ad756838d77f648f7e490a17a558bfa7d7a0510cdcd4aa7919cfc9e25593f5.gz",
+      "archiveBytes": 93650,
+      "archiveSha256": "68ad756838d77f648f7e490a17a558bfa7d7a0510cdcd4aa7919cfc9e25593f5"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/user8080-before.json",
+      "bytes": 183,
+      "sha256": "a83e74d100c4db5e15b8d31a88b172c6e828b32b78d4c25a169106175951f639",
+      "file": "raw/89698006f07f46dbdf7463a448bbd67a34d7e0fffcf9928816a40df848396fb7.gz",
+      "archiveBytes": 160,
+      "archiveSha256": "89698006f07f46dbdf7463a448bbd67a34d7e0fffcf9928816a40df848396fb7"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/build-consistency.json",
+      "bytes": 22005,
+      "sha256": "674dc79dd98db3acfc6554ad9aa224e3097207f222c9b131f828b4877c0dbe61",
+      "file": "raw/b4428aa7b0561dad3fce70b57dc86ee9ebf4e07974d35a7cb15bc380623b92b0.gz",
+      "archiveBytes": 6594,
+      "archiveSha256": "b4428aa7b0561dad3fce70b57dc86ee9ebf4e07974d35a7cb15bc380623b92b0"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/cleanup-user8080-verification.json",
+      "bytes": 959,
+      "sha256": "3c3049998cbc15cbd6bdfc017db628eb574a008b15c34f7b3de5626af67db774",
+      "file": "raw/e5b7ab9d6cc8bdcaf230c2942d1c80c3930879ca856fb28f76266ec1177b7645.gz",
+      "archiveBytes": 403,
+      "archiveSha256": "e5b7ab9d6cc8bdcaf230c2942d1c80c3930879ca856fb28f76266ec1177b7645"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/independent-review-v1.json",
+      "bytes": 32509,
+      "sha256": "1df92c02168c80691129950b5104694bda562fad131c05b4da61191c3e428da6",
+      "file": "raw/2976089ac0caa212d201ade36cdaf822e6a485c53471d2850e427d38e2d4bb51.gz",
+      "archiveBytes": 5333,
+      "archiveSha256": "2976089ac0caa212d201ade36cdaf822e6a485c53471d2850e427d38e2d4bb51"
+    },
+    {
+      "source": "build/mobile-defender-runtime-20261011/focused-v1.log",
+      "bytes": 7070,
+      "sha256": "c9255a9592b1db6c5f7a9c86b3cde27ffdb546403338d5e54c8fe9b300828d15",
+      "file": "raw/559778ca6206abff7d763a61ece4c1cabfb998f8313acde98d076832fac1a86d.gz",
+      "archiveBytes": 2328,
+      "archiveSha256": "559778ca6206abff7d763a61ece4c1cabfb998f8313acde98d076832fac1a86d"
+    },
+    {
+      "source": "scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 114156,
+      "sha256": "10484606d2c473b15393bc9731ce5615870202ce50066bb8172f73e4109c6cb8",
+      "file": "raw/162637e232890e1397944775b4a141982400c8718d7f8a7da6fbda2a83bbc62a.gz",
+      "archiveBytes": 29334,
+      "archiveSha256": "162637e232890e1397944775b4a141982400c8718d7f8a7da6fbda2a83bbc62a"
+    },
+    {
+      "source": "scripts/hd-mobile-defender-runtime-checks.mjs",
+      "bytes": 17473,
+      "sha256": "e8f07b58d4a4b7a0a05969e82082fd564f8a510221d60416eb0bc9c6770aba8d",
+      "file": "raw/0ff8e4f8d0740c40b111253e5e1e1d115673bd1d0310eae00104594942645397.gz",
+      "archiveBytes": 5814,
+      "archiveSha256": "0ff8e4f8d0740c40b111253e5e1e1d115673bd1d0310eae00104594942645397"
+    },
+    {
+      "source": "scripts/hd-mobile-defender-runtime-oracle.mjs",
+      "bytes": 17743,
+      "sha256": "4e6091be0ea257c5cf3e7045405e4eebd5680fb85717956b69caa2a399b57c55",
+      "file": "raw/6223428a03eefdf0c43e5b1b943793add77a5f7edecf55a1a2961f2211c55eb7.gz",
+      "archiveBytes": 6061,
+      "archiveSha256": "6223428a03eefdf0c43e5b1b943793add77a5f7edecf55a1a2961f2211c55eb7"
+    },
+    {
+      "source": "scripts/test-hd-mobile-defender-runtime-oracle.mjs",
+      "bytes": 15876,
+      "sha256": "b000548c675f530bce5dffebb10c9a3ac2ce6a11af488cdda3b4a240ebd66c27",
+      "file": "raw/8fc744ec15e5866f5b0ab5746f9255d6492e2ac65d16cad9227140ae1cb71d2c.gz",
+      "archiveBytes": 4934,
+      "archiveSha256": "8fc744ec15e5866f5b0ab5746f9255d6492e2ac65d16cad9227140ae1cb71d2c"
+    },
+    {
+      "source": "package.json",
+      "bytes": 13086,
+      "sha256": "a17ffc7cccd8c9f5a563788ea728fd80ef6f01b7279d403a468344bd4b913b31",
+      "file": "raw/8a72f96bc3a05082149e975feb72450236d40e96d930f9db09e83aa8d9a0a167.gz",
+      "archiveBytes": 1939,
+      "archiveSha256": "8a72f96bc3a05082149e975feb72450236d40e96d930f9db09e83aa8d9a0a167"
+    }
+  ]
+}

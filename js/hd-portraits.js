@@ -1,0 +1,775 @@
+/**
+ * HD 武将立绘壳。
+ * 有 assets/hd-portraits/hd/... 时，在人物信息 / 战场说明头像 / 地图君主头像上显示 HD。
+ * 没有 HD 文件时用 refs 里的引擎原头像；refs 也没有则留空，经典 LCD 仍画 GEN_HEADPIC。
+ * 不改 WASM，不改战斗自动操作。
+ */
+(function (global) {
+    // baye_bridge_init() replaces window.Promise with the engine's callback shim.
+    // Async functions retain the native constructor even after that replacement.
+    var NativePromise = (async function () { return null; })().constructor;
+    var MANIFEST_URL = 'assets/hd-portraits/manifest.json';
+    var REFERENCE_INDEX_URL = 'assets/hd-portraits/refs/index.json';
+    var PERIOD_NAME = { 1: '董卓弄权', 2: '曹操崛起', 3: '赤壁之战', 4: '三足鼎立' };
+
+    var state = {
+        manifest: null,
+        byKey: {},
+        referencesByKey: {},
+        referenceSha256: '',
+        loading: null,
+        generation: 0,
+        viewSeq: 0,
+        tickSeq: 0,
+        pendingKey: '',
+        nameById: null,
+        namePeriod: 0,
+        nameLib: '',
+        key: '',
+        busy: false,
+        timer: 0,
+        started: false,
+        startSeq: 0,
+        identityKey: '',
+        identityApi: null,
+        unsubscribeIdentity: null,
+        readingIdentity: false,
+        authority: null,
+        visibilityBound: false
+    };
+
+    function num(obj, name) {
+        if (!obj || obj[name] == null) {
+            return null;
+        }
+        var v = obj[name];
+        if (v && typeof v === 'object' && 'value' in v) {
+            v = v.value;
+        }
+        v = Number(v);
+        return isFinite(v) ? v : null;
+    }
+
+    function validPerson(id) {
+        return typeof id === 'number' && isFinite(id) && Math.floor(id) === id && id >= 0 && id < 0xfffe;
+    }
+
+    function validPeriod(period) {
+        return period >= 1 && period <= 4 && Math.floor(period) === period;
+    }
+
+    function currentLib() {
+        var lib = '';
+        try { lib = global.localStorage.getItem('baye/libpath') || ''; } catch (e) {}
+        return lib;
+    }
+
+    function validSha256(value) {
+        return typeof value === 'string' && /^[0-9a-f]{64}$/.test(value);
+    }
+
+    function previewMode() {
+        if (!document.body || document.body.getAttribute('data-hd-portrait-manual') !== '1' ||
+            (global.dynLib !== null && global.dynLib !== undefined && global.dynLib !== '')) {
+            return false;
+        }
+        try {
+            return !(global.baye && baye.hd && typeof baye.hd.ready === 'function' && baye.hd.ready());
+        } catch (e) { return false; }
+    }
+
+    function retireIdentity() {
+        state.viewSeq += 1;
+        state.tickSeq += 1;
+        state.busy = false;
+        state.pendingKey = '';
+        state.nameById = null;
+        state.nameLib = '';
+        probeCache = Object.create(null);
+        sourceCache = Object.create(null);
+        paint(null, lcdSource());
+    }
+
+    function bindIdentity() {
+        var api = global.BayeHdLibIdentity;
+        if (state.identityApi === api) { return; }
+        if (state.unsubscribeIdentity) { state.unsubscribeIdentity(); }
+        state.identityApi = api || null;
+        state.unsubscribeIdentity = api && typeof api.subscribe === 'function' ? api.subscribe(function () {
+            if (state.readingIdentity) { return; }
+            authority();
+            if (state.started && !document.hidden) { tick(); }
+        }) : null;
+    }
+
+    // Asset previews have their own namespace. A preview never supplies a LIB
+    // digest and cannot authorize a later running game, even on the same page.
+    function authority() {
+        if (state.readingIdentity) { return state.authority; }
+        state.readingIdentity = true;
+        var identity = { status: 'unavailable', generation: 0, sha256: null,
+            byteLength: 0, reason: 'identity-module-unavailable' };
+        try {
+            bindIdentity();
+            if (state.identityApi && typeof state.identityApi.read === 'function') {
+                identity = state.identityApi.read();
+            }
+        } catch (e) {}
+        var preview = previewMode(), expected = state.manifest && state.manifest.libSha256;
+        var key = preview ? 'preview:' + expected :
+            ['runtime', identity.generation, identity.status, identity.sha256 || ''].join(':');
+        var result = { key: key, preview: preview, identity: identity,
+            supported: validSha256(expected) && (preview || (identity.status === 'ready' && identity.sha256 === expected)) };
+        state.authority = result;
+        if (key !== state.identityKey) {
+            state.identityKey = key;
+            retireIdentity();
+        }
+        state.readingIdentity = false;
+        return result;
+    }
+
+    function supportsLib() {
+        var auth = authority();
+        return !!(auth && auth.supported);
+    }
+
+    function stillAuthorized(token) {
+        var now = authority();
+        if (!token || !now || !now.supported || token.key !== now.key || token.preview !== now.preview) { return false; }
+        return token.preview || !!(state.identityApi && typeof state.identityApi.isCurrent === 'function' &&
+            state.identityApi.isCurrent(token.identity));
+    }
+
+    function lcdSource(entry) {
+        return { mode: 'lcd', url: '', entry: entry || null };
+    }
+
+    function periodNow() {
+        try {
+            var p = num(global.baye && baye.data, 'g_PIdx');
+            if (p >= 1 && p <= 4) {
+                return p;
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    function asset(rel) {
+        return 'assets/hd-portraits/' + String(rel || '').replace(/^\/+/, '');
+    }
+
+    function indexManifest(manifest) {
+        var map = {};
+        var entries = manifest && manifest.entries ? manifest.entries : [];
+        var i;
+        for (i = 0; i < entries.length; i++) {
+            var entry = entries[i];
+            if (!entry || entry.missing || entry.personId == null || entry.period == null) {
+                continue;
+            }
+            map[entry.period + ':' + entry.personId] = entry;
+        }
+        state.byKey = map;
+        state.manifest = manifest;
+    }
+
+    function indexReferences(index) {
+        var map = {};
+        var periods = index && index.periods || [];
+        for (var i = 0; i < periods.length; i++) {
+            var block = periods[i];
+            if (!block || !validPeriod(block.period)) {
+                continue;
+            }
+            var people = block.people || [];
+            for (var j = 0; j < people.length; j++) {
+                var person = people[j];
+                if (!person || person.skipped || !person.file || !validPerson(person.id)) {
+                    continue;
+                }
+                map[block.period + ':' + person.id] = {
+                    name: person.name,
+                    personId: person.id,
+                    period: block.period,
+                    ref: 'refs/' + person.file
+                };
+            }
+        }
+        state.referencesByKey = map;
+        state.referenceSha256 = index && index.libSha256 || '';
+    }
+
+    function fetchIndex(url) {
+        return fetch(url, { cache: 'no-store' }).then(function (res) {
+            if (!res.ok) {
+                throw new Error(url + ' ' + res.status);
+            }
+            return res.json();
+        }).catch(function (err) {
+            console.warn('[hd-portraits] index', err && err.message ? err.message : err);
+            return null;
+        });
+    }
+
+    function loadManifest() {
+        if (state.loading) {
+            return state.loading;
+        }
+        state.generation += 1;
+        state.viewSeq += 1;
+        state.tickSeq += 1;
+        state.busy = false;
+        state.pendingKey = '';
+        state.manifest = null;
+        state.byKey = {};
+        state.referencesByKey = {};
+        state.referenceSha256 = '';
+        state.nameById = null;
+        probeCache = Object.create(null);
+        sourceCache = Object.create(null);
+        paint(null, lcdSource());
+        authority();
+        state.loading = NativePromise.all([fetchIndex(MANIFEST_URL), fetchIndex(REFERENCE_INDEX_URL)]).then(function (indexes) {
+            indexManifest(indexes[0]);
+            indexReferences(indexes[1]);
+            state.loading = null;
+            return indexes[0];
+        });
+        return state.loading;
+    }
+
+    function entryFor(personId, period) {
+        return state.byKey[period + ':' + personId] || null;
+    }
+
+    function dedupe(list) {
+        var out = [];
+        var seen = {};
+        var i;
+        for (i = 0; i < list.length; i++) {
+            if (!list[i] || seen[list[i]]) {
+                continue;
+            }
+            seen[list[i]] = 1;
+            out.push(list[i]);
+        }
+        return out;
+    }
+
+    var probeCache = Object.create(null);
+    var sourceCache = Object.create(null);
+
+    function probe(url, token) {
+        var key = token.key + '|' + url;
+        if (probeCache[key]) {
+            return probeCache[key];
+        }
+        // Cache the pending request too: concurrent callers share both hits and misses.
+        var pending = new NativePromise(function (resolve) {
+            var img = new Image();
+            img.onload = function () {
+                resolve('ok');
+            };
+            img.onerror = function () {
+                resolve('miss');
+            };
+            img.src = url;
+        });
+        probeCache[key] = pending;
+        return pending;
+    }
+
+    function urlsFor(personId, period) {
+        var entry = entryFor(personId, period);
+        var reference = state.manifest && validSha256(state.referenceSha256) &&
+            state.referenceSha256 === state.manifest.libSha256 ?
+            state.referencesByKey[period + ':' + personId] : null;
+        var hd = [];
+        var ref = [];
+        if (entry && entry.hd) {
+            hd.push(asset(entry.hd));
+        }
+        if (entry && entry.ref) {
+            ref.push(asset(entry.ref));
+        }
+        if (reference && reference.ref) {
+            ref.push(asset(reference.ref));
+        }
+        // Use exported paths, including names; guessed filenames cause unnecessary 404s.
+        return { hd: dedupe(hd), ref: dedupe(ref), entry: entry || reference };
+    }
+
+    function chooseSource(personId, period) {
+        var token = authority();
+        var generation = state.generation;
+        if (!token.supported || !validPerson(personId) || !validPeriod(period) || document.hidden) {
+            return NativePromise.resolve(lcdSource());
+        }
+        var cacheKey = token.key + '|' + period + ':' + personId;
+        function stillCurrent(src) {
+            return !document.hidden && generation === state.generation && stillAuthorized(token) ? src : lcdSource();
+        }
+        if (sourceCache[cacheKey]) {
+            return sourceCache[cacheKey].then(stillCurrent);
+        }
+        var urls = urlsFor(personId, period);
+        var chain = NativePromise.resolve(null);
+        function tryList(list, mode) {
+            var j;
+            for (j = 0; j < list.length; j++) {
+                (function (url) {
+                    chain = chain.then(function (found) {
+                        if (document.hidden || generation !== state.generation || !stillAuthorized(token)) { return null; }
+                        if (found) {
+                            return found;
+                        }
+                        return probe(url, token).then(function (status) {
+                            return !document.hidden && status === 'ok' && stillAuthorized(token) ?
+                                { mode: mode, url: url, entry: urls.entry, preview: token.preview } : null;
+                        });
+                    });
+                })(list[j]);
+            }
+        }
+        tryList(urls.hd, 'hd');
+        tryList(urls.ref, 'ref');
+        sourceCache[cacheKey] = chain.then(function (found) {
+            return found || lcdSource(urls.entry);
+        });
+        return sourceCache[cacheKey].then(stillCurrent);
+    }
+
+    function personName(id) {
+        try {
+            if (global.baye && typeof baye.getPersonName === 'function') {
+                var name = String(baye.getPersonName(id) || '').trim();
+                if (name) {
+                    return name;
+                }
+            }
+        } catch (e) {}
+        var period = periodNow();
+        var entry = period ? entryFor(id, period) : null;
+        return entry && entry.name ? entry.name : '';
+    }
+
+    function ensureNameIndex(period) {
+        var lib = authority().key;
+        if (state.nameById && state.namePeriod === period && state.nameLib === lib) {
+            return;
+        }
+        var map = {};
+        var n = 0;
+        try {
+            if (global.baye && typeof baye.getPersonCount === 'function') {
+                n = Number(baye.getPersonCount()) || 0;
+            }
+        } catch (e) {}
+        if (n > 0 && n <= 2000 && global.baye && typeof baye.getPersonName === 'function') {
+            var i;
+            for (i = 0; i < n; i++) {
+                var name = '';
+                try { name = String(baye.getPersonName(i) || '').trim(); } catch (e2) {}
+                if (name && map[name] == null) {
+                    map[name] = i;
+                }
+            }
+        }
+        state.nameById = map;
+        state.namePeriod = period;
+        state.nameLib = lib;
+    }
+
+    function dialogSnap() {
+        try {
+            if (global.BayeHdDialog && typeof BayeHdDialog.debugSnapshot === 'function') {
+                return BayeHdDialog.debugSnapshot();
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    function battleNotePerson() {
+        var dlg = dialogSnap();
+        if (!dlg || !dlg.open || dlg.kind !== 'help') {
+            return null;
+        }
+        if (global.BayeHdDialog && typeof BayeHdDialog.shouldShowHd === 'function' &&
+            !BayeHdDialog.shouldShowHd()) { return null; }
+        var help, fight;
+        try {
+            if (!global.baye || !baye.hd || !baye.hd.ready || !baye.hd.ready() ||
+                !baye.hd.help || !baye.hd.fight) { return null; }
+            help = baye.hd.help();
+            fight = baye.hd.fight();
+        } catch (e) { return null; }
+        var detail = dlg.helpDetail, owner = dlg.helpOwner;
+        if (!help || help.active !== 1 || help.protocolVersion !== 1 || help.complete !== 1 ||
+            help.kind !== 1 || !validPerson(help.person) || !Number.isInteger(help.slot) ||
+            help.slot < 0 || help.slot >= 20 || !Number.isInteger(help.seq) || help.seq <= 0 ||
+            !Number.isInteger(help.generation) || help.generation <= 0 || help.generation !== help.detailGeneration ||
+            !fight || !fight.active || fight.over || fight.inputKind !== 9 ||
+            help.inputSeq !== fight.inputSeq || !owner || owner.kind !== 9 || owner.inputSeq !== fight.inputSeq ||
+            !detail || detail.kind !== 1 || detail.person !== help.person || detail.slot !== help.slot ||
+            detail.seq !== help.seq || detail.generation !== help.generation || detail.inputSeq !== help.inputSeq ||
+            detail.name !== help.name || typeof help.name !== 'string' || !help.name.trim()) { return null; }
+        return { id: help.person, name: help.name,
+            ownerKey: JSON.stringify([help.generation, help.seq, help.inputSeq, help.slot, help.person]) };
+    }
+
+    function reportPerson() {
+        var dlg = dialogSnap();
+        if (!dlg || !dlg.open || dlg.kind !== 'report') {
+            return null;
+        }
+        var rep = null;
+        try {
+            rep = global.baye && baye.hd && baye.hd.report ? baye.hd.report() : null;
+        } catch (e) {}
+        if (!rep || Number(rep.kind) !== 2 || !validPerson(Number(rep.person))) {
+            return null;
+        }
+        return Number(rep.person);
+    }
+
+    function menuPerson() {
+        var api = global.BayeHdCityMenu;
+        if (!api || typeof api.isOpen !== 'function' || !api.isOpen()) {
+            return null;
+        }
+        var snap = null;
+        try {
+            snap = typeof api.debugSnapshot === 'function' ? api.debugSnapshot() : null;
+        } catch (e) {}
+        if (!snap || snap.layer !== 'deep' || !/^person/.test(String(snap.deepKind || ''))) {
+            return null;
+        }
+        // The standalone preview has no running native menu to own its view.
+        // Runtime person IDs must come from the exact native list, never names.
+        if (!previewMode()) {
+            var menu = null, owner = snap.deepMenuOwner, ownerParts;
+            try {
+                if (!global.baye || !baye.hd || typeof baye.hd.ready !== 'function' || !baye.hd.ready() ||
+                    typeof baye.hd.menuItems !== 'function') { return null; }
+                menu = baye.hd.menuItems();
+                if (snap.qtyActive || snap.engineHelpOpen ||
+                    baye.hd.report && baye.hd.report().active ||
+                    baye.hd.help && baye.hd.help().active) { return null; }
+                ownerParts = owner && JSON.parse(owner.key);
+            } catch (e2) { return null; }
+            if (!menu || menu.active !== 1 || menu.context !== 1 || menu.kind !== 3 ||
+                !Array.isArray(menu.names) || !menu.names.length || menu.count !== menu.names.length ||
+                typeof menu.seq !== 'number' || menu.seq <= 0 || Math.floor(menu.seq) !== menu.seq ||
+                typeof menu.index !== 'number' || menu.index < 0 || menu.index >= menu.count || Math.floor(menu.index) !== menu.index ||
+                !owner || owner.context !== 1 || owner.kind !== 3 || owner.seq !== menu.seq ||
+                !Array.isArray(ownerParts) || [5, 7].indexOf(ownerParts.length) < 0 || ownerParts[1] !== 1 ||
+                ownerParts[2] !== 3 || ownerParts[3] !== menu.seq ||
+                JSON.stringify(ownerParts[4]) !== JSON.stringify(menu.names) || snap.deepCount !== menu.count) { return null; }
+            var personCount;
+            try { personCount = baye.getPersonCount(); } catch (e3) { return null; }
+            if (!Number.isInteger(personCount) || personCount <= 0) { return null; }
+            var actualIds = menu.idsValid === true;
+            if (actualIds) {
+                if (ownerParts.length !== 7 || !Number.isInteger(menu.generation) || menu.generation <= 0 ||
+                    menu.generation !== menu.detailGeneration || ownerParts[5] !== menu.detailGeneration ||
+                    !Array.isArray(menu.ids) || menu.ids.length !== menu.count ||
+                    JSON.stringify(ownerParts[6]) !== JSON.stringify(menu.ids)) { return null; }
+                for (var m = 0; m < menu.ids.length; m++) {
+                    if (!validPerson(menu.ids[m]) || menu.ids[m] >= personCount) { return null; }
+                }
+            } else if (ownerParts.length === 7 &&
+                (ownerParts[6] !== null || ownerParts[5] !== (menu.detailGeneration == null ? null : menu.detailGeneration))) {
+                return null;
+            }
+            for (var n = 0; n < menu.names.length; n++) {
+                if (typeof menu.names[n] !== 'string' || !menu.names[n] ||
+                    !actualIds && menu.names.indexOf(menu.names[n]) !== n) { return null; }
+            }
+            var index = menu.index, selected = snap.deepItems && snap.deepItems[index], detail = snap.personDetail;
+            var id = actualIds ? menu.ids[index] : null, name = menu.names[index];
+            if (actualIds && selected && (selected.i !== index || selected.name !== name ||
+                selected.pind != null && selected.pind !== id)) { return null; }
+            if (!actualIds && selected && selected.i === index && selected.name === name && validPerson(selected.pind)) {
+                id = selected.pind;
+            }
+            if (detail) {
+                if (detail.ownerKey !== owner.key || detail.context !== 1 || detail.kind !== 3 ||
+                    detail.seq !== menu.seq || detail.nativeIndex !== index || detail.name !== name ||
+                    !validPerson(detail.personIndex) || id != null && id !== detail.personIndex) { return null; }
+                id = detail.personIndex;
+            }
+            if (!validPerson(id)) { return null; }
+            if (personCount <= id) { return null; }
+            return { id: id, name: name, ownerKey: owner.key, seq: menu.seq, index: index };
+        }
+        var idx = snap.idleIndex;
+        var item = snap.deepItems && idx != null ? snap.deepItems[idx] : null;
+        if (!item) {
+            return null;
+        }
+        if (item.pind != null && validPerson(Number(item.pind))) {
+            return { id: Number(item.pind), name: item.name || '' };
+        }
+        var period = periodNow();
+        if (period && item.name) {
+            ensureNameIndex(period);
+            var id = state.nameById[String(item.name).trim()];
+            if (validPerson(id)) {
+                return { id: id, name: item.name };
+            }
+        }
+        return null;
+    }
+
+    function mapKing() {
+        if (!document.body || !document.body.classList.contains('baye-hd-overworld-map')) {
+            return null;
+        }
+        var dialog = dialogSnap();
+        if (dialog && dialog.open && dialog.kind === 'help') { return null; }
+        try {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.isOpen === 'function' && BayeHdCityMenu.isOpen()) {
+                return null;
+            }
+        } catch (e) {}
+        try {
+            if (global.BayeHdBattle && typeof BayeHdBattle.isOpen === 'function' && BayeHdBattle.isOpen()) {
+                return null;
+            }
+        } catch (e2) {}
+        var id = num(global.baye && baye.data, 'g_PlayerKing');
+        if (!validPerson(id)) {
+            return null;
+        }
+        return id;
+    }
+
+    function detectView() {
+        if (document.hidden || !supportsLib()) {
+            return null;
+        }
+        var period = periodNow();
+        if (!period) {
+            return null;
+        }
+        var battlePerson = battleNotePerson();
+        if (battlePerson && validPerson(battlePerson.id)) {
+            return { context: 'battle-note', personId: battlePerson.id, period: period,
+                name: battlePerson.name, helpOwnerKey: battlePerson.ownerKey };
+        }
+        var reportId = reportPerson();
+        if (validPerson(reportId)) {
+            return { context: 'person-info', personId: reportId, period: period, name: personName(reportId) };
+        }
+        var menu = menuPerson();
+        if (menu && validPerson(menu.id)) {
+            return {
+                context: 'person-info',
+                personId: menu.id,
+                period: period,
+                name: menu.name || personName(menu.id),
+                menuOwnerKey: menu.ownerKey || '',
+                menuSeq: menu.seq,
+                menuIndex: menu.index
+            };
+        }
+        var king = mapKing();
+        if (validPerson(king)) {
+            return { context: 'map-king', personId: king, period: period, name: personName(king) };
+        }
+        return null;
+    }
+
+    function paint(view, src) {
+        var root = document.getElementById('hd-portrait');
+        var img = document.getElementById('hd-portrait-img');
+        var cap = document.getElementById('hd-portrait-cap');
+        if (!root) {
+            return;
+        }
+        var pane = document.getElementById('hd-city-menu-person-details');
+        var slot = view && view.context === 'person-info' && view.menuOwnerKey && pane && !pane.hidden &&
+            src && !src.preview && src.mode !== 'lcd'
+            ? document.getElementById('hd-city-menu-person-portrait') : null;
+        var parent = slot || document.body;
+        if (parent && typeof parent.appendChild === 'function' && root.parentNode !== parent) {
+            parent.appendChild(root);
+        }
+        if (!view || !src || src.mode === 'lcd') {
+            root.hidden = true;
+            root.setAttribute('data-hd-portrait', 'off');
+            root.setAttribute('data-hd-portrait-source', 'none');
+            root.setAttribute('data-context', view && view.context ? view.context : '');
+            if (img) {
+                img.removeAttribute('src');
+            }
+            if (cap) {
+                cap.textContent = '';
+            }
+            return;
+        }
+        var name = view.name || (src.entry && src.entry.name) || ('将' + view.personId);
+        var periodLabel = PERIOD_NAME[view.period] || ('时期' + view.period);
+        var modeLabel = src.mode === 'hd' ? 'HD 立绘' : '原头像';
+        root.hidden = false;
+        root.setAttribute('data-hd-portrait', src.mode);
+        root.setAttribute('data-hd-portrait-source', src.preview ? 'preview' : 'runtime');
+        root.setAttribute('data-context', view.context);
+        root.setAttribute('data-person-id', String(view.personId));
+        root.setAttribute('data-period', String(view.period));
+        if (img) {
+            img.alt = name + ' ' + modeLabel;
+            if (img.getAttribute('src') !== src.url) {
+                img.src = src.url;
+            }
+        }
+        if (cap) {
+            cap.textContent = name + ' · ' + periodLabel + ' · ' + modeLabel + (src.preview ? ' · 素材预览' : '');
+        }
+    }
+
+    function viewKey(view) {
+        return view ? [authority().key, view.context, view.personId, view.period, view.name || '',
+            view.menuOwnerKey || '', view.menuSeq, view.menuIndex, view.helpOwnerKey || ''].join('|') : 'off';
+    }
+
+    function applyView(view, verifyDetectedView) {
+        var token = authority();
+        var seq = ++state.viewSeq;
+        var generation = state.generation;
+        if (!view || document.hidden) {
+            paint(null, lcdSource());
+            state.key = 'off';
+            return NativePromise.resolve({ mode: 'lcd', url: '' });
+        }
+        var requestedKey = viewKey(view);
+        var root = document.getElementById('hd-portrait');
+        if (root && (root.getAttribute('data-person-id') !== String(view.personId) ||
+            root.getAttribute('data-period') !== String(view.period) ||
+            root.getAttribute('data-context') !== view.context || !token.supported)) {
+            paint(null, lcdSource());
+        }
+        return chooseSource(view.personId, view.period).then(function (src) {
+            if (seq !== state.viewSeq || generation !== state.generation) {
+                return lcdSource();
+            }
+            if (document.hidden || !stillAuthorized(token)) {
+                src = lcdSource();
+            }
+            if (verifyDetectedView) {
+                var currentView = null;
+                try { currentView = detectView(); } catch (e) {}
+                if (requestedKey !== viewKey(currentView)) {
+                    src = lcdSource();
+                }
+            }
+            var key = [src.mode, src.url, view.context, view.personId, view.period].join('|');
+            state.key = key;
+            paint(view, src);
+            return src;
+        });
+    }
+
+    function tick() {
+        var view = null;
+        try {
+            view = detectView();
+        } catch (e) {
+            view = null;
+        }
+        var nextKey = viewKey(view);
+        if (state.busy && state.pendingKey === nextKey) {
+            return;
+        }
+        var seq = ++state.tickSeq;
+        state.busy = true;
+        state.pendingKey = nextKey;
+        if (nextKey === 'off') {
+            applyView(null);
+            state.busy = false;
+            return;
+        }
+        function settled() {
+            if (seq === state.tickSeq) {
+                state.busy = false;
+            }
+        }
+        applyView(view, true).then(settled, settled);
+    }
+
+    function start() {
+        if (!state.visibilityBound && typeof document.addEventListener === 'function') {
+            state.visibilityBound = true;
+            document.addEventListener('visibilitychange', function () {
+                if (document.hidden) { retireIdentity(); }
+                else if (state.started) { tick(); }
+            });
+        }
+        if (state.started) {
+            return loadManifest();
+        }
+        state.started = true;
+        var startSeq = ++state.startSeq;
+        return loadManifest().then(function () {
+            if (!state.started || startSeq !== state.startSeq || state.timer) {
+                return;
+            }
+            tick();
+            state.timer = setInterval(tick, 320);
+        });
+    }
+
+    function stop() {
+        if (state.timer) {
+            clearInterval(state.timer);
+            state.timer = 0;
+        }
+        state.started = false;
+        state.startSeq += 1;
+        if (state.unsubscribeIdentity) { state.unsubscribeIdentity(); }
+        state.unsubscribeIdentity = null;
+        state.identityApi = null;
+        retireIdentity();
+    }
+
+    global.BayeHdPortraits = {
+        start: start,
+        stop: stop,
+        loadManifest: loadManifest,
+        entryFor: entryFor,
+        chooseSource: chooseSource,
+        detectView: detectView,
+        applyView: applyView,
+        debugSnapshot: function () {
+            var auth = authority();
+            var root = document.getElementById('hd-portrait');
+            return {
+                mode: root ? root.getAttribute('data-hd-portrait') : null,
+                context: root ? root.getAttribute('data-context') : null,
+                personId: root ? root.getAttribute('data-person-id') : null,
+                period: root ? root.getAttribute('data-period') : null,
+                manifest: !!(state.manifest && state.manifest.entries),
+                lib: currentLib(),
+                supportedLib: auth.supported,
+                preview: auth.preview,
+                identity: auth.identity,
+                referenceCount: Object.keys(state.referencesByKey).length
+            };
+        }
+    };
+
+    function boot() {
+        if (document.body && document.body.getAttribute('data-hd-portrait-manual') === '1') {
+            loadManifest();
+            return;
+        }
+        start();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
+})(window);

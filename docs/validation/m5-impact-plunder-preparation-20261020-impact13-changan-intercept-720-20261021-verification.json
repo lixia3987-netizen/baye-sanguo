@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-impact13-changan-intercept-720-archive-independent-verification-supplement",
+  "archiveIndependentValidationAccepted": true,
+  "originalOnly": true,
+  "actualAcceptedAttempt": {
+    "reader": {
+      "path": "build/impact-skill-20261014/verify-impact13-changan-intercept-720-archive-v2.mjs",
+      "bytes": 10167,
+      "sha256": "af30b34ad7a4cc71b9c935f441889f2132184ac357823ae680af2a67b3ccb079"
+    },
+    "log": {
+      "path": "build/impact-skill-20261014/impact13-v20-archive-independent-root-v1.log",
+      "bytes": 659,
+      "sha256": "ff9d804219e36a8932221a47289bed9b785d5fa6b88e727538c7ff00d4d8a0ef"
+    },
+    "rootTerminal": {
+      "sessionId": null,
+      "chunkId": "72d9d2",
+      "exitCode": 0
+    },
+    "accepted": true,
+    "result": {
+      "ok": true,
+      "canonical": {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-changan-intercept-720-20261021.json",
+        "bytes": 87979,
+        "sha256": "638b94f2ba030cb0aef26119274ae184ba1328558c549f7f9ce34c42d400a763"
+      },
+      "namedFiles": 211,
+      "uniqueBlobs": 205,
+      "parts": 3,
+      "allRawRoundtripsExact": true,
+      "allNamedBlobsClosed": true,
+      "noUnreferencedBlobs": true,
+      "rawResultsEmbeddedOnce": [
+        {
+          "id": "v20",
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v20/result.json",
+          "bytes": 370818968,
+          "sha256": "a7467b8f4fdc5b1a04265e26fc8bbb34f91ff88801532d328578adce63d4d23e"
+        }
+      ],
+      "latestPairsPackedAccepted": true,
+      "currentNamedDiskReopened": true,
+      "portableClosedArchive": false
+    }
+  },
+  "primaryArchive": {
+    "canonical": {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-changan-intercept-720-20261021.json",
+      "bytes": 87979,
+      "sha256": "638b94f2ba030cb0aef26119274ae184ba1328558c549f7f9ce34c42d400a763"
+    },
+    "index": {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-changan-intercept-720-20261021-archive.json",
+      "bytes": 69061,
+      "sha256": "39a49f2a597ecd7e83b4381ca621d5b140da53cc98241ee015b4a672f4bc661a"
+    },
+    "parts": [
+      {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-changan-intercept-720-20261021-archive-part001.json",
+        "bytes": 26141083,
+        "sha256": "9c5b13771a363d64f6ec69a3cc4e3c44e690e3c5d7648e9d461b7ca5a2d472f2"
+      },
+      {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-changan-intercept-720-20261021-archive-part002.json",
+        "bytes": 30295280,
+        "sha256": "f7b715e73114f2ec41e1f1609ad74efa2241b8bfb991286911e79e10d90735bc"
+      },
+      {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-changan-intercept-720-20261021-archive-part003.json",
+        "bytes": 15811062,
+        "sha256": "fb55b2d0af7031640f95826fafbbb0f069e24a8ad2ddc3b28f2bffad491bd356"
+      }
+    ],
+    "namedFiles": 211,
+    "uniqueBlobs": 205,
+    "archiveParts": 3,
+    "unchanged": true
+  },
+  "supplementReader": {
+    "path": "build/impact-skill-20261014/verify-impact13-changan-intercept-720-verification-supplement-v1.mjs",
+    "bytes": 4086,
+    "sha256": "ff1cfe5bf0198e2e9cde7654572090037acd5fa2000967bb57f1cc4fb10ca44c"
+  },
+  "embeddedFiles": [
+    {
+      "path": "build/impact-skill-20261014/verify-impact13-changan-intercept-720-archive-v2.mjs",
+      "bytes": 10167,
+      "sha256": "af30b34ad7a4cc71b9c935f441889f2132184ac357823ae680af2a67b3ccb079",
+      "encoding": "gzip+base64",
+      "gzipBytes": 3406,
+      "gzipSha256": "7d89b3bb2b35b34aedbb6c5c80a026b40d7def4916c66329cb9826e21d5606d2",
+      "data": "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"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-v20-archive-independent-root-v1.log",
+      "bytes": 659,
+      "sha256": "ff9d804219e36a8932221a47289bed9b785d5fa6b88e727538c7ff00d4d8a0ef",
+      "encoding": "gzip+base64",
+      "gzipBytes": 442,
+      "gzipSha256": "e21d261d5f9a751d1d1dab1a204d734b036c6adc4344b8138439c9a7dea017ba",
+      "data": "H4sIAAAAAAACCl3RTY/TMBAG4DsSf2LOCfVXEie3BZYjrCpxQhzG9piauk6wnS6o6n9HLS2LuM77ekZ6fIJ5D1PNKzVgMc0pWIwwnWDBuoMJ3GzL5ogxOKxhTptD14bDgra2S1yTo9wumRbM17QVTPScCXbrcNnaHaZvmNqQKmVLS20Hwe49/uZ7mRM0YH5VKjDpYRzGBsoORdfDBL3UZlReGGSSWcOQvOg5H8WgkLhWBrkUuuu07dToBz9aksoq4RRjOPQSzg0kPJD7EOJlv+C8gTWFHyu9jbO5TFjXwIK5FphkAxjjFp+385pczWEpjz/R1jsPxvjxsuz69F2cC7l7lObPKZOnTMneCvco4/OWyhpreTwYco7cp2QJpi8nCA4mOAoGzV3brCG6zQ247EOMNyquNn9JDdYaqUVbV4ztUbBNvh74D1MOTHM99vofUBxUPxjtlXe2MxyZEn1HovdWG2Ok8iP3XmvNeCeFu9gOGp2lXjrlhCQ4f20gYqVSnzDk8oR2T+7BXj72RcOuOVOqV6z3oey3NC+UXvJlzhVNpD+GD9nuwpFg8hgLnV+/+g25TBrVkwIAAA=="
+    },
+    {
+      "path": "build/impact-skill-20261014/verify-impact13-changan-intercept-720-verification-supplement-v1.mjs",
+      "bytes": 4086,
+      "sha256": "ff1cfe5bf0198e2e9cde7654572090037acd5fa2000967bb57f1cc4fb10ca44c",
+      "encoding": "gzip+base64",
+      "gzipBytes": 1623,
+      "gzipSha256": "09e913c2a5cf05d187da2705e69be162ccc00676458c5ad514af2765c430ed0d",
+      "data": "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"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-v20-archive-build-root-v1.log",
+      "bytes": 1882,
+      "sha256": "f303ca90162b0529e3490514142f7109d3c7a0eea9a3a1f7e810ae9d1e81b72a",
+      "encoding": "gzip+base64",
+      "gzipBytes": 758,
+      "gzipSha256": "afd64968e83bbf185f946de9741b4467b5eca640a7759441a57105d6c2b7c286",
+      "data": "H4sIAAAAAAACCsWVPW8kNwyG+wD5E6pnziIlUdJ2l68uwCFtkIKSSFu58cxmZtaXwPB/D9bZXDbbBGl8LUlJeN6XpJ5NW1l3c1CeNhnMp7XvYg77epLB1GXWfm8Oz+bI+4M5mHLqU7vrj0eu+7h97NM0okUCC/4SBTfWB57veR77vMta5biPEe3Ia33oTzL2+Xjat1H7zNP4BO9+3ZbZDKb8sctmDkAu2DSY7YExkDkY5oCBg3qVnChgLBJScjWlXBNHbVUzZRF0udhKlQuXwgrR5ZySa+ZlMDM/SvuhT+cHEGAwp7n/dpJvpqWcIzYMhqfO2zlPg1n500/LaW772o/v6xlA2t+KTLzLtn/gvm4fuH6UdltwPizbado3c/j52fRmDuYJrRn+l4SF932Sket+OquE9m59vfRGLRdtgpTpX4JFT7Ek9dpqKMDWIwVB0ppKKc5rBtWUkoXgsDlMISZuVcg139CJefllMMdl3blM8u20bNLe/2Xd5x5ZTvvZw1fAC1Vb6nb3xFNvvPdlvnsM4wXxOJ3mJut4XOXI62v2Aox2/I+eudTB5+Y58rpbe9s0SODBJnelQj6zuxiBHblGXkkqZXa1enHVe6FsxdXQIvkkuXmCEisHxuYjKpqX4cuw4a3FFnPAZK/YNJYIQaID8IpSPQgokM3cohdlRA8lFS05AybKABKzgG3ZRhdK/WJs7nbYQwKwhNdsJYSCzbJG64C81RwSkrKWUqxayoKeEzdsrbqCSbGocvMZSnOB3p7thomyJbgCcpl9VuSQo9QWJbniXYLKhNBCAW8bB1drTuhBxEIonimi+lKJgN8O6N1j+wfDu3A9TmoFLCUCcsnHjIVscZwdBWgarEutCEuEUptPQX1GJU+oitFRhTccpxs7UswxX4GQSyV7xcLW2VosiyIBZIyeBZIvDOeVGFINPmvUXMX56rF5azmSe92Oi2qvnafvf+/b3uf775a6/bi0rv38D7wuyZevv/oTpa+maloHAAA="
+    },
+    {
+      "path": "build/impact-skill-20261014/build-impact13-changan-intercept-720-verification-supplement-v1.mjs",
+      "bytes": 5602,
+      "sha256": "ee71b480d90cd28383fea469e76eb1cb7db35e0e44b4433729d648c19d7b70fa",
+      "encoding": "gzip+base64",
+      "gzipBytes": 2267,
+      "gzipSha256": "da137fcd8cb312c6bc55defd904d1a8c945d878681d03531e21023927a5132f5",
+      "data": "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"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-changan-intercept-720-verification-supplement-inputs-final-v1.json",
+      "bytes": 2988,
+      "sha256": "27afea134c3efa4526bc0bb12831f45a6f3fcc3da5b92f0a08d7aadccc1369e1",
+      "encoding": "gzip+base64",
+      "gzipBytes": 1115,
+      "gzipSha256": "20b2cebf4b870ded4ad31359a88ced6888d24eee276b106e9594b7a72f4a2e96",
+      "data": "H4sIAAAAAAACCs1Wy24cNxC86yuIOWskNt9UTkLgQ26BY/gS+NAkm96x5pV5rL0x/O/BzI5WK3sdI0hi+LRAL6e7qljs7o9XjBVj3FGDr2kYq64t7hhcL9GHqk3FHSuqpsc4gSzjDtu32JZVO9EQqZ9KK3jZd+NUvh+qiUoc4q7aU1m1iXpqE7VTuce6SjhVXVvmqsW6rNp+nsZyD8VaZQ1Wf9JSahpmWoPjRM1SOnVxvH3KcNvo8oim7Ou5TTSU/UA9Dsf8ggsDXPDyG4i3cxuAfqgaHA73R+zFHft4xRhjRcS2a6uI9Sm0HMZp9/8Du3k3du2Kbi0aDhONxR1z1lt/io47FNosYIx0wassAnLJY+BIWRgAL6xCAqcCghROaxe18tlmH0mqqERSnKM1slhTfjpmLpbL+/D9OT+a5yvcjecGLnCXHpXPArW3FJMlJ4OSDiIaAUkHUDyhljF6JxQQcdBBobEiqxCNAXzOvcdhWqr9vhV61OC7q1AuSDj/zAlneggDCriTZ389ieKjDiCtBZRGJqOyoWg8yhgVyagUGc9JRp2sUY58UgaCjahRJGVFFsWW9NP1D6KD+KoOkguvheMXdcg2WNBkJYDKgqICggyGe0xWUUYhFAQXcvAehDMegKwn4MlzK3WIP5wO8qs6gHYA3IjLOgStg0gcs+USjOLZaydMxhxC4JkbT0KhwyRSijIIl0XIGZPyEJLU5qTD+vvmalOkwDjNWN/HBTal+2mipp+eOuhAmGi41ErCXNXpdtNpfKjqemMM6nZPQ5UP3xLoUZe9uGnejV/2C+Bg7IV+gVnyIBUmiypGC8FHL3VWCpzzWYAU4BRGqa0TEsk4jlmgsUHGGLj1z/tF3b39p/ROvPZnLM4H5tB1U7mHmyX3l21QXxoAOfvkuBLgSRp0XgohAJUVzgdKPlink85ognNkhdXSRZsz50klh5zyc1ILgFc0NMtgPmc30rjsB78sk7qd6/oEJO7m9mENF1Ykn8QTbvpQTT93aRmr/FkR3EyzTf2Tpca572tqqJ1ePnfPf+id9VQVjy/yqeAi+pOXTpIr7swWOlccYiYdMgfvSJCPiazRSlvBPefSYlwUF5xzb2wI2maIUeUAPKJSa2fZ3lBK1QIE6xdNoJRWSY7z59/7av3g7x0FzolLlpJcRvQcjAhcC09Sea5BgRLZAvdJRoucCD1KhGzJAUfyCchBsOJxrl4x9uZ4r7HrFxcUv57WRbahZLHuxnkg1rX14Ya97LqJnT0IdmwjR2exxVCcDdT11I4CgLXYUGK5qmm8Flyzua3+mImFugsjwzZJtg71a3a8dRoZ1jUb8D0burlN01D16zl2bGasxonGifUYHyix3+5fv7hhr3bEtjXxBLoaWdU084Shpp/WnHEehgXvW2yor/Fwu6/GJWPoupqwHdlADVYtow8Yp/rAph2d86wPbBsjlNhp+VxiM403xdWnq78AebOV4KwLAAA="
+    }
+  ],
+  "namedArchiveAugmentation": false,
+  "primaryArchiveRewritten": false,
+  "portableClosedArchive": false,
+  "independentProofBooleanFields": [
+    "actualArmyAndSupplyPreparationAccepted",
+    "actualArmyRecruitmentAndDistributionAccepted",
+    "actualCastAccepted",
+    "actualCastOccurred",
+    "actualContinuationAccepted",
+    "actualMarchDispatchAccepted",
+    "actualMovieAccepted",
+    "actualNativeSkillInvocationAccepted",
+    "actualPathReadsAccepted",
+    "actualPixelAccepted",
+    "actualPlunderDispatchAccepted",
+    "actualPreparationAccepted",
+    "actualTwoSidedInterceptUsed",
+    "allCurrentSourceTuplesExact",
+    "allIndependentStagesRerunInThisFinal",
+    "allNativeConfirmationsAndMpDebitsAccepted",
+    "battleWindowExhaustionAccepted",
+    "beforeCombatReadonlyCallbackAccepted",
+    "castReadyPreparationAccepted",
+    "defenseRuntimeAccepted",
+    "driverAcceptanceFlagsUsedForIndependentProof",
+    "failedRunEvidenceAccepted",
+    "finalAimFencesAccepted",
+    "globalHdComplete",
+    "guardPreservationAccepted",
+    "hd1080VisualAccepted",
+    "hd720VisualAccepted",
+    "hdAccepted",
+    "interceptFutureEnemyMovementGuaranteed",
+    "latestIsPriorInput",
+    "latestSavedStateMustBeCurrentInput",
+    "legalRetreatAccepted",
+    "moviePixelAdapterRun",
+    "mpDebitsAccepted",
+    "nonserializedQueueTailRestorationAccepted",
+    "olderAugustJulyJuneMayPairMayReplaceIt",
+    "originalOrderReturnWorldDeltasAccepted",
+    "originalStateResetAccepted",
+    "profileRetained",
+    "restoreUnsavedBattleOrRngAllowed",
+    "rngContinuityAccepted",
+    "sameRunContinuationAccepted",
+    "saveScreenshotDimensionsGrantSkillPixelAcceptance",
+    "sourceRunAccepted",
+    "wholeNativeAbiRestorationAccepted"
+  ],
+  "independentProofBooleans": {
+    "actualArmyAndSupplyPreparationAccepted": true,
+    "actualArmyRecruitmentAndDistributionAccepted": true,
+    "actualCastAccepted": true,
+    "actualCastOccurred": true,
+    "actualContinuationAccepted": true,
+    "actualMarchDispatchAccepted": true,
+    "actualMovieAccepted": true,
+    "actualNativeSkillInvocationAccepted": true,
+    "actualPathReadsAccepted": true,
+    "actualPixelAccepted": true,
+    "actualPlunderDispatchAccepted": true,
+    "actualPreparationAccepted": true,
+    "actualTwoSidedInterceptUsed": true,
+    "allCurrentSourceTuplesExact": true,
+    "allIndependentStagesRerunInThisFinal": true,
+    "allNativeConfirmationsAndMpDebitsAccepted": true,
+    "battleWindowExhaustionAccepted": false,
+    "beforeCombatReadonlyCallbackAccepted": true,
+    "castReadyPreparationAccepted": true,
+    "defenseRuntimeAccepted": false,
+    "driverAcceptanceFlagsUsedForIndependentProof": false,
+    "failedRunEvidenceAccepted": false,
+    "finalAimFencesAccepted": true,
+    "globalHdComplete": false,
+    "guardPreservationAccepted": false,
+    "hd1080VisualAccepted": false,
+    "hd720VisualAccepted": true,
+    "hdAccepted": false,
+    "interceptFutureEnemyMovementGuaranteed": false,
+    "latestIsPriorInput": false,
+    "latestSavedStateMustBeCurrentInput": true,
+    "legalRetreatAccepted": true,
+    "moviePixelAdapterRun": true,
+    "mpDebitsAccepted": true,
+    "nonserializedQueueTailRestorationAccepted": false,
+    "olderAugustJulyJuneMayPairMayReplaceIt": false,
+    "originalOrderReturnWorldDeltasAccepted": true,
+    "originalStateResetAccepted": true,
+    "profileRetained": true,
+    "restoreUnsavedBattleOrRngAllowed": false,
+    "rngContinuityAccepted": false,
+    "sameRunContinuationAccepted": false,
+    "saveScreenshotDimensionsGrantSkillPixelAcceptance": false,
+    "sourceRunAccepted": true,
+    "wholeNativeAbiRestorationAccepted": false
+  },
+  "actualCastAccepted": true,
+  "actualMovieAccepted": true,
+  "actualPixelAccepted": true,
+  "hd720VisualAccepted": true,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "scope": "Post-write evidence only: exact independent root log, reader, writer and input bytes. The immutable main canonical/index/parts are not rewritten. Flags equal the independently validated V20 canonical; no additional gameplay, whole-product or RNG credit."
+}

@@ -1,0 +1,409 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-city4-held-round-20261026-v65-anchor-archive-part001.json",
+      "bytes": 6401075,
+      "sha256": "b44cd9c881141582bd7a62d5a86f8bbd28175fd096dc5e39c9c185221f4d9d23",
+      "blobs": 15
+    },
+    {
+      "path": "docs/validation/m5-city4-held-round-20261026-v65-anchor-archive-part002.json",
+      "bytes": 4281788,
+      "sha256": "84f0dee47355e9f805914433971468f99b123adebd8fe0478da94b043c4bc30c",
+      "blobs": 26
+    }
+  ],
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/city4-end-anchor-saved-map.json",
+      "bytes": 250322,
+      "sha256": "6b055abc2c85a4af967132d1e56bf866a933114882fb1f7a308e107d6f5e4b1c",
+      "blob": "6b055abc2c85a4af967132d1e56bf866a933114882fb1f7a308e107d6f5e4b1c",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/city4-end-anchor-saved-map.png",
+      "bytes": 3081676,
+      "sha256": "281a43233a853994402208707ede65dc82669230a0b2f04d32f07b1bb8d97045",
+      "blob": "281a43233a853994402208707ede65dc82669230a0b2f04d32f07b1bb8d97045",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/city4-end-resume-ledger-candidate.json",
+      "bytes": 16987290,
+      "sha256": "d2b0df2fe585a62b217255c76591c714fefcb2a438dadbeef18374e8d913dfcc",
+      "blob": "d2b0df2fe585a62b217255c76591c714fefcb2a438dadbeef18374e8d913dfcc",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/end-anchor-input-provenance.json",
+      "bytes": 2432,
+      "sha256": "aea1bd33b03189469f7c8e3aa9f9fbd0a9dabec170391446e6c270675e9915df",
+      "blob": "aea1bd33b03189469f7c8e3aa9f9fbd0a9dabec170391446e6c270675e9915df",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/end-anchor-presentation-preflight-classic-focus-after.json",
+      "bytes": 1625,
+      "sha256": "9e8f1b238961f544d9bb1d84bbac40db0ff67f134536e176e42e3ca4d81bcdfa",
+      "blob": "9e8f1b238961f544d9bb1d84bbac40db0ff67f134536e176e42e3ca4d81bcdfa",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/end-anchor-presentation-preflight-classic-focus-fresh.json",
+      "bytes": 1625,
+      "sha256": "062a227b2eb55c76da881a01bc04325a770baaa443074355f758fba66bab11c0",
+      "blob": "062a227b2eb55c76da881a01bc04325a770baaa443074355f758fba66bab11c0",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/end-anchor-presentation-preflight-classic-focus-initial.json",
+      "bytes": 1627,
+      "sha256": "999d1a3d52304c94aacf4f56687f5049ec7c3b965906606b5e89ec6e62c0eda3",
+      "blob": "999d1a3d52304c94aacf4f56687f5049ec7c3b965906606b5e89ec6e62c0eda3",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/end-anchor-presentation-preflight-classic.json",
+      "bytes": 275157,
+      "sha256": "9542bf40398b631a9be98334aa9d220761d33de5925effd8cc0981499c19c24e",
+      "blob": "9542bf40398b631a9be98334aa9d220761d33de5925effd8cc0981499c19c24e",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/end-anchor-presentation-preflight-hd-map-focus-after.json",
+      "bytes": 1621,
+      "sha256": "a540370998b223b26597c79600313d39b3e450ead8246abb829907bb7699b868",
+      "blob": "a540370998b223b26597c79600313d39b3e450ead8246abb829907bb7699b868",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/end-anchor-presentation-preflight-hd-map-focus-fresh.json",
+      "bytes": 1621,
+      "sha256": "f4e9de560f51b9eaef9da8f87ce73b771e840e796adb515740680e553cb4b3fa",
+      "blob": "f4e9de560f51b9eaef9da8f87ce73b771e840e796adb515740680e553cb4b3fa",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/end-anchor-presentation-preflight-hd-map-focus-initial.json",
+      "bytes": 1623,
+      "sha256": "c836b71fe122627f36cca45f6b7276a5ee5e1f625494be08640171e9a060a598",
+      "blob": "c836b71fe122627f36cca45f6b7276a5ee5e1f625494be08640171e9a060a598",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/end-anchor-presentation-preflight-hd-map.json",
+      "bytes": 275158,
+      "sha256": "352567926f8ed9e7b20eeccf02b79675cd0b495e6e7eb66680fa92a7a84f47b7",
+      "blob": "352567926f8ed9e7b20eeccf02b79675cd0b495e6e7eb66680fa92a7a84f47b7",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/end-anchor-report.json",
+      "bytes": 32936,
+      "sha256": "2b2b4585e2a6a59f2ae74c9af27c81095ac16a5eea0dd456414b674880e0e144",
+      "blob": "2b2b4585e2a6a59f2ae74c9af27c81095ac16a5eea0dd456414b674880e0e144",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/end-anchor-zero-native-mode-preflight.json",
+      "bytes": 502766,
+      "sha256": "222e9dd07a235361970224aeea89e1ea6ee56756494a2398d6bb01ec7ce2b0d5",
+      "blob": "222e9dd07a235361970224aeea89e1ea6ee56756494a2398d6bb01ec7ce2b0d5",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/loaded-p57-dispatch-before-end-anchor-save.json",
+      "bytes": 250266,
+      "sha256": "b43e4193a9df5912024afb5749681669634aa017687bc9b68403b343d8568787",
+      "blob": "b43e4193a9df5912024afb5749681669634aa017687bc9b68403b343d8568787",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/loaded-p57-dispatch-before-end-anchor-save.png",
+      "bytes": 3080737,
+      "sha256": "1686f4da45ac195ddc058ef3ac6dd9b511778065fb67e9bda221d921d7aacdbc",
+      "blob": "1686f4da45ac195ddc058ef3ac6dd9b511778065fb67e9bda221d921d7aacdbc",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/native-ticket-21402b525b0c3bfd298ce43edae81609c3e5cd961fbdb4311d39596f6147ceb4.json",
+      "bytes": 199396,
+      "sha256": "21402b525b0c3bfd298ce43edae81609c3e5cd961fbdb4311d39596f6147ceb4",
+      "blob": "21402b525b0c3bfd298ce43edae81609c3e5cd961fbdb4311d39596f6147ceb4",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/native-ticket-3217bd0ca86c9377dfc776088427642c6e0f21b276747f88fb08d46a22aba3eb.json",
+      "bytes": 199396,
+      "sha256": "3217bd0ca86c9377dfc776088427642c6e0f21b276747f88fb08d46a22aba3eb",
+      "blob": "3217bd0ca86c9377dfc776088427642c6e0f21b276747f88fb08d46a22aba3eb",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/native-ticket-5462b770dc03943b74669e3cd6f3d6489e56f93ed397fc8a111c804332d10a4c.json",
+      "bytes": 199347,
+      "sha256": "5462b770dc03943b74669e3cd6f3d6489e56f93ed397fc8a111c804332d10a4c",
+      "blob": "5462b770dc03943b74669e3cd6f3d6489e56f93ed397fc8a111c804332d10a4c",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/native-ticket-8ae81d1b9a197ccf08c7ae926410cba14a87305e4c82d7fcfe6a3437fdb5ffe1.json",
+      "bytes": 199406,
+      "sha256": "8ae81d1b9a197ccf08c7ae926410cba14a87305e4c82d7fcfe6a3437fdb5ffe1",
+      "blob": "8ae81d1b9a197ccf08c7ae926410cba14a87305e4c82d7fcfe6a3437fdb5ffe1",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/native-ticket-b82ecc4d4207a84dbafafa0b1e3d9fb110e008b0b6cf3df08c7f48558ec78d0a.json",
+      "bytes": 199394,
+      "sha256": "b82ecc4d4207a84dbafafa0b1e3d9fb110e008b0b6cf3df08c7f48558ec78d0a",
+      "blob": "b82ecc4d4207a84dbafafa0b1e3d9fb110e008b0b6cf3df08c7f48558ec78d0a",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/native-ticket-ee4414c1f1124a6c90b898c413a235b8e90b9dbf99d4fd636c20adab6226aca7.json",
+      "bytes": 199346,
+      "sha256": "ee4414c1f1124a6c90b898c413a235b8e90b9dbf99d4fd636c20adab6226aca7",
+      "blob": "ee4414c1f1124a6c90b898c413a235b8e90b9dbf99d4fd636c20adab6226aca7",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/native-wood67-131-v64-normal-round-resume-sango0.sav",
+      "bytes": 8221,
+      "sha256": "122a72b600bbee49d734f0420731b7be7895af0eaf222741f6daee6eaae09d2b",
+      "blob": "122a72b600bbee49d734f0420731b7be7895af0eaf222741f6daee6eaae09d2b",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/native-wood67-131-v64-normal-round-resume-sango1.sav",
+      "bytes": 4840,
+      "sha256": "7729f28906d5afee0c0bf0719233c7a58b78c8fa0894c934a69e7ed44c17da34",
+      "blob": "7729f28906d5afee0c0bf0719233c7a58b78c8fa0894c934a69e7ed44c17da34",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/origin-bound-anchor-admission.json",
+      "bytes": 2371,
+      "sha256": "24ac09b51fe92e81407e6ffaa972dd8e52caf2aa31409b94e8c69ca7a375381d",
+      "blob": "24ac09b51fe92e81407e6ffaa972dd8e52caf2aa31409b94e8c69ca7a375381d",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/origin-bound-anchor-qualified.json",
+      "bytes": 11759,
+      "sha256": "c5dc726442a7c6101279b328eb8b3eb46372dbccebd896bbd62fe214c213d3ec",
+      "blob": "c5dc726442a7c6101279b328eb8b3eb46372dbccebd896bbd62fe214c213d3ec",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-000.json",
+      "bytes": 1110,
+      "sha256": "ca7ac7cc24357a3e79c3a10d17fce62227bc05d12405dad4ca3f474d0538ba54",
+      "blob": "ca7ac7cc24357a3e79c3a10d17fce62227bc05d12405dad4ca3f474d0538ba54",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-001.json",
+      "bytes": 1135,
+      "sha256": "0cd1cf74181a3a00f13cb4ae1529ba48d3b631a65b0e3a4dd568b61c5ddd523b",
+      "blob": "0cd1cf74181a3a00f13cb4ae1529ba48d3b631a65b0e3a4dd568b61c5ddd523b",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-002.json",
+      "bytes": 1129,
+      "sha256": "29be275600f960228b1f8edfd1fd15d9cee1855ced41df9242cd98e3970e573f",
+      "blob": "29be275600f960228b1f8edfd1fd15d9cee1855ced41df9242cd98e3970e573f",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-003.json",
+      "bytes": 1124,
+      "sha256": "c94f2f93b181dc517f3511eb0f00fa92cbcdf06c14931877d270e7e6805e11db",
+      "blob": "c94f2f93b181dc517f3511eb0f00fa92cbcdf06c14931877d270e7e6805e11db",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-004.json",
+      "bytes": 1133,
+      "sha256": "5e2df61892dcb322f5576b183f6b0c1d1ccec109860118ff51396865824d4395",
+      "blob": "5e2df61892dcb322f5576b183f6b0c1d1ccec109860118ff51396865824d4395",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-005.json",
+      "bytes": 1136,
+      "sha256": "b45ef9378545f184854088a0ed9b3d4e058e5f07ddc19c08347284df524cbaf4",
+      "blob": "b45ef9378545f184854088a0ed9b3d4e058e5f07ddc19c08347284df524cbaf4",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-006.json",
+      "bytes": 1130,
+      "sha256": "f42bf89f9a57e0b68ab0bd6fed733e5e2116c1cb91f4cffad538852326d1d952",
+      "blob": "f42bf89f9a57e0b68ab0bd6fed733e5e2116c1cb91f4cffad538852326d1d952",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-007.json",
+      "bytes": 1126,
+      "sha256": "db7acd3627a2f643e66f562eaee31d654c8ad32cbd2307a39ee36ccb18090718",
+      "blob": "db7acd3627a2f643e66f562eaee31d654c8ad32cbd2307a39ee36ccb18090718",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-008.json",
+      "bytes": 1135,
+      "sha256": "e6831d757f2491563074ad86eb35f1d237b75a1163a2ce1fda308ff710fd461c",
+      "blob": "e6831d757f2491563074ad86eb35f1d237b75a1163a2ce1fda308ff710fd461c",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-009.json",
+      "bytes": 1140,
+      "sha256": "fcb84424358ebb1d4c25c85f6ff934420beb127d0b9ae3ace2ae902321c2cd36",
+      "blob": "fcb84424358ebb1d4c25c85f6ff934420beb127d0b9ae3ace2ae902321c2cd36",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-010.json",
+      "bytes": 2012,
+      "sha256": "a406550e77c3e8dacd5b5aba9387fc1bf32bc3d5fdeec87b1f8e68782be848b2",
+      "blob": "a406550e77c3e8dacd5b5aba9387fc1bf32bc3d5fdeec87b1f8e68782be848b2",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-011.json",
+      "bytes": 1117,
+      "sha256": "b7a1b7734e17fdb41c46c84e36029c9c85e1050fe619e24bffd05cb3e42b94a8",
+      "blob": "b7a1b7734e17fdb41c46c84e36029c9c85e1050fe619e24bffd05cb3e42b94a8",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-012.json",
+      "bytes": 1136,
+      "sha256": "d85e05aa7734b1e3996d558b2e7ae17d865e994c6501b7e13f83d9e35d4fd864",
+      "blob": "d85e05aa7734b1e3996d558b2e7ae17d865e994c6501b7e13f83d9e35d4fd864",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/stable-ticket-013.json",
+      "bytes": 1134,
+      "sha256": "75e1fd0c439d80d8752f0f5b73af43bd69f583236d12198b0ec5b19b610c858b",
+      "blob": "75e1fd0c439d80d8752f0f5b73af43bd69f583236d12198b0ec5b19b610c858b",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-owned-normal-round-20261026-v3/anchor/wood67-131-v64-normal-round-resume-public-save.json",
+      "bytes": 1197751,
+      "sha256": "5a0d89683bcbf9075340d59f84feac4624df48a6f97563dbe479bae51d33d2a2",
+      "blob": "5a0d89683bcbf9075340d59f84feac4624df48a6f97563dbe479bae51d33d2a2",
+      "roles": [
+        "Whole original actual Held anchor contract; supplied bytes only"
+      ]
+    }
+  ],
+  "logicalFiles": 41,
+  "uniqueBlobs": 41,
+  "rawNamedBytes": 27186406,
+  "uniqueRawBytes": 27186406,
+  "uniqueGzipBytes": 8004948,
+  "serializedPartBytes": 10682863,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

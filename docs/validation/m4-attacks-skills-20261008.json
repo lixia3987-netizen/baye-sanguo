@@ -1,0 +1,1812 @@
+{
+  "date": "2026-10-08",
+  "baseCommit": "9ca9c40855ddc545667179abfc094a5203cb6036",
+  "scope": "R01/R02 standard cavalry and infantry exact intervals plus FIRE35 native result label/numeric/hold. Full HD goal remains active.",
+  "deliveredAttackIntervals": [
+    {
+      "speId": 21,
+      "resourceIndex": 0,
+      "startFrm": 9,
+      "endFrm": 17,
+      "count": 54,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:5a4c8036:4630",
+      "resourceLength": 4630,
+      "requiredSlots": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        16,
+        17
+      ]
+    },
+    {
+      "speId": 19,
+      "resourceIndex": 0,
+      "startFrm": 11,
+      "endFrm": 21,
+      "count": 66,
+      "picmax": 19,
+      "resourceFingerprint": "fnv1a32:f0c01d45:6115",
+      "resourceLength": 6115,
+      "requiredSlots": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        9,
+        10
+      ]
+    },
+    {
+      "speId": 20,
+      "resourceIndex": 0,
+      "startFrm": 10,
+      "endFrm": 19,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:28294325:5014",
+      "resourceLength": 5014,
+      "requiredSlots": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7
+      ]
+    }
+  ],
+  "deliveredSkill": {
+    "protocolVersion": 1,
+    "speId": 35,
+    "skillMenuProtocolUnchanged": true,
+    "actualScene": {
+      "x": 48,
+      "y": 16,
+      "width": 65,
+      "height": 64,
+      "mode": 2
+    },
+    "phases": [
+      "movie",
+      "numbers",
+      "hold"
+    ],
+    "label": "actual consumed GBK bytes/coordinates, independently replayed with actual font.bin",
+    "number": "actual NUM15 digit slots/history; native12x16 opaque clearing preserved, HD glyph width6px to prevent neighbor occlusion",
+    "outsideScene": "Within the displayed130x64 arena,4160 logical pixels outside the65x64 effect window match actual LCD. Separately, the full160x96 native pixel oracle checks11200 unchanged pixels outside that effect window.",
+    "topOwner": "actual native attack/skill scope stack; same/different-kind nested retired parents stay full LCD",
+    "fallbacks": "custom/retired/noMovie/unknown background/provender/unproven context use full160x96 LCD; no fixed-arena crop that hides off-center native text",
+    "gameplay": "No added keys, clock, skip, hook lookup, damage/EXP/MP/provender calculation or native wait change"
+  },
+  "generated": {
+    "ledger": {
+      "path": "assets/hd-spe/GENERATED-ATTACKS.json",
+      "bytes": 427228,
+      "sha256": "73ba18355d4aa2e1695f3208f6e8e8db579548c2318f9c804cd9b7a0301edfb4"
+    },
+    "summary": {
+      "targetGroups": 51,
+      "finalGroups": 29,
+      "builtinCalls": 37,
+      "rejectedFinalCandidates": 7,
+      "failedCalls": 1,
+      "remainingGroups": 22
+    },
+    "targetGroups": 51,
+    "acceptedForegroundGroups": 29,
+    "pendingForegroundGroups": 22,
+    "builtinCalls": 37,
+    "rejectedCandidates": 7,
+    "noOutputFailures": 1,
+    "newAcceptedGroups": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      14,
+      15,
+      18,
+      19,
+      30,
+      36
+    ],
+    "newAcceptedFiles": 14,
+    "productionFrozenDuringAcceptance": true,
+    "originalInputs": "docs/validation/m4-attacks-skills-20261008/art-input-index.json",
+    "oldBatchInputs": "docs/validation/m4-attacks-20261008/native-input-index.json",
+    "constraint": "Builtin imagegen original bytes only; no crop/resize/reencoding/compositing. Other accepted groups have not yet been wired or played."
+  },
+  "sources": {
+    "manifest": {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 60411,
+      "sha256": "148b1c577d453890a32e27143abc36bf1e5c03130ecd0503334fe1505e809993"
+    },
+    "bridge": {
+      "path": "js/bridge.js",
+      "bytes": 99813,
+      "sha256": "07615be055e7fd8b8382dd50aebc1729f41262112ac33854b627f2e6762b2bb0"
+    },
+    "presenter": {
+      "path": "js/hd-spe.js",
+      "bytes": 46491,
+      "sha256": "ef59480402ebbc00e3f97b28f85cf545cf844807d24044f1d64456c8e9a01601"
+    },
+    "nativeFiles": [
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 127707,
+        "sha256": "b0aa351bccb8ee3b2376a6b3aaa55c2f6caa9d9cb201a12fac8a60b8f7f8d884"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 12809,
+        "sha256": "78fb5dbddeefb20e1aad907f41025fae345ac9e0ebb1034e5e2a9a27ab3be894"
+      },
+      {
+        "path": "vendor/iBaye/src/FightSub.c",
+        "bytes": 36284,
+        "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+      },
+      {
+        "path": "vendor/iBaye/src/PublicFun.c",
+        "bytes": 32773,
+        "sha256": "d0ba467a2cdc0cdbfa69fdd77c25ea5d72fe255c9135420485ee2a53c14cc83b"
+      }
+    ],
+    "build": {
+      "installedAt": "2026-10-08T13:02:14.128Z",
+      "sourceRevision": "9ca9c40855ddc545667179abfc094a5203cb6036",
+      "engineSourceModified": true,
+      "engineSourceSha256": "56b01e4becf3c06e6b4cc154dfa6585e37a2c9aa91cd3ada744420c72228e02f",
+      "files": [
+        {
+          "staged": "build/wasm/src/baye.js",
+          "installed": "js/baye.js",
+          "bytes": 192446,
+          "sha256": "71e906da1485bebb598607d1e3899dbc240bb936615b57770c3e09ddecd96f60",
+          "byteEqual": true
+        },
+        {
+          "staged": "build/wasm/src/baye.wasm",
+          "installed": "js/baye.wasm",
+          "bytes": 4439355,
+          "sha256": "bd708dd8c7561c383c05ea0ca88c8164b5aa6d467f5ad5f42dcb19b965d3973e",
+          "byteEqual": true
+        },
+        {
+          "staged": "build/wasm/src/baye.wasm.map",
+          "installed": "js/baye.wasm.map",
+          "bytes": 29805,
+          "sha256": "e2364dd054be4665e48ac96601046b9f06d5a01a808d547ca200514c2fa797a4",
+          "byteEqual": true
+        },
+        {
+          "staged": "build/wasm/src/baye.build.json",
+          "installed": "js/baye.build.json",
+          "bytes": 6763,
+          "sha256": "59191e60421006bf3c43a4fb51f9e5f22494d47ff3533fa985f6f96c58971dc8",
+          "byteEqual": true
+        }
+      ]
+    },
+    "aggregateSourceProof": {
+      "original": "build/r10-source-proof.json",
+      "archived": "docs/validation/m4-attacks-skills-20261008/raw/5a5418eb1831bc6d36530c00c063de5ff5361a13cfc47bd3aaacf4582754cf71.json.gz",
+      "bytes": 274764,
+      "sha256": "5a5418eb1831bc6d36530c00c063de5ff5361a13cfc47bd3aaacf4582754cf71",
+      "gzipBytes": 70699,
+      "gzipSha256": "f7232242d145db07d67258f3253f50dcc9197bd22b0ae0fc3f999b73d5260550",
+      "decompressedByteEqual": true
+    },
+    "old906PngLibRawBytesUnchanged": true,
+    "cacheVersion": "20261008p",
+    "historicalSourceBoundary": "Stage/sourceRevision9ca9c408 with engineSourceModified=true is the actual build origin. Later commit must not be substituted into this manifest. Pre-digit-fit browser reports keep their own8eac source tuple."
+  },
+  "tests": {
+    "windowsAll": {
+      "tests": 683,
+      "passed": 683,
+      "failed": 0,
+      "skipped": 0,
+      "log": {
+        "original": "build/r10-all-tests.log",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/e0cfca2daa1bf78f8040e176bec95b41f459493605b313aaefc9b8b11e49b14d.log.gz",
+        "bytes": 88258,
+        "sha256": "e0cfca2daa1bf78f8040e176bec95b41f459493605b313aaefc9b8b11e49b14d",
+        "gzipBytes": 28094,
+        "gzipSha256": "1159a7e66602f1e23e9014c56c887cf7cc6f210c9650fa7d1032c34bda36ce5f",
+        "decompressedByteEqual": true
+      }
+    },
+    "actualNativeSkill": {
+      "tests": 28,
+      "passed": 28,
+      "failed": 0,
+      "skipped": 0,
+      "log": {
+        "original": "build/r10-skill-engine-final.log",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/2180dac17dd11dc77fcf5e15f0f4af5a994842225d5b9e6cb1f2181dd246adaa.log.gz",
+        "bytes": 3366,
+        "sha256": "2180dac17dd11dc77fcf5e15f0f4af5a994842225d5b9e6cb1f2181dd246adaa",
+        "gzipBytes": 1231,
+        "gzipSha256": "929ed24da5a194888ef8403f18069b87530640b783f2298d247ff0ca4e5af3dd",
+        "decompressedByteEqual": true
+      },
+      "snapshot": {
+        "original": "build/r10-skill-native-snapshot.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/4e7edfe100edaf4c9f6e62f1ef4e43fe3d5cb800e6766c3839fa4574ed1fde7f.json.gz",
+        "bytes": 29659,
+        "sha256": "4e7edfe100edaf4c9f6e62f1ef4e43fe3d5cb800e6766c3839fa4574ed1fde7f",
+        "gzipBytes": 2818,
+        "gzipSha256": "882e6c3d910b85343393aa09493f4ff90116d519b78a2ea2dac50b7dc21a9f3c",
+        "decompressedByteEqual": true
+      }
+    },
+    "nativeToJsSamples": {
+      "original": "build/r10-native-js-samples.json",
+      "archived": "docs/validation/m4-attacks-skills-20261008/raw/a5d4ef5bcea16c984ca2f902c68c4f9ae0d099bbef05fb4b544dad3fbd68880a.json.gz",
+      "bytes": 19087,
+      "sha256": "a5d4ef5bcea16c984ca2f902c68c4f9ae0d099bbef05fb4b544dad3fbd68880a",
+      "gzipBytes": 1128,
+      "gzipSha256": "2fb7644120abf9b18e859768f4f3e51344cb7ac5e33f82d4bd5ceb7618ba9778",
+      "decompressedByteEqual": true
+    },
+    "firstDigitFitFullAttempt": {
+      "original": "build/r10-all-tests-digit-fit-first.log",
+      "archived": "docs/validation/m4-attacks-skills-20261008/raw/dbc65a173ee410d24547028c1b128652969b974f533bff8dc38f6da8fb31fa53.log.gz",
+      "bytes": 89001,
+      "sha256": "dbc65a173ee410d24547028c1b128652969b974f533bff8dc38f6da8fb31fa53",
+      "gzipBytes": 28422,
+      "gzipSha256": "b432f11a707922d2a710f0d658ba06c406f5c65ea283fb06a279522938b9933d",
+      "decompressedByteEqual": true
+    },
+    "firstDigitFitFullFailure": "Unrelated overworld-identity asynchronous test readiness failed once under concurrent full suite; exact log retained. Same unchanged final code full rerun683/683 passed. No map production or test changes made to obtain success."
+  },
+  "strictFinalRuns": [
+    "build/r10-infantry-installed-digitfit/result.json",
+    "build/r10-bow-installed-resize-digitfit/result.json",
+    "build/r10-skill-installed-1080-final-v3/result.json",
+    "build/r10-skill-installed-720-final/result.json"
+  ],
+  "runs": [
+    {
+      "original": "build/r10-bow-installed-resize-digitfit/result.json",
+      "report": {
+        "original": "build/r10-bow-installed-resize-digitfit/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/04f85983f48a3317360eefdce61380fefd035dfae5b9c9e98ee84bea8b27b44f.json.gz",
+        "bytes": 7651690,
+        "sha256": "04f85983f48a3317360eefdce61380fefd035dfae5b9c9e98ee84bea8b27b44f",
+        "gzipBytes": 332716,
+        "gzipSha256": "9ef1f08f5b15f0dcb4fcf090c40ee46e9bccab0be4020220f3f255eddce6a522",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": false,
+      "sourceStatus": "final digit-fit JS EF594804",
+      "checkpoints": 16,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1124,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-RS1TKJ",
+        "origin": "http://127.0.0.1:11578",
+        "debugPort": 11579,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 3,
+        "target": 10,
+        "hurt": 14,
+        "session": 1
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 18,
+        "pixelReadbacks": 21,
+        "events": 1,
+        "numericReadbacks": 15,
+        "completedHoldReadbacks": 1,
+        "hdReadbacks": 21,
+        "lcdReadbacks": 0
+      },
+      "acceptedRange": [
+        21,
+        9,
+        17
+      ],
+      "actualIntervals": [
+        "21:9:17"
+      ],
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-bow-staged-404/result.json",
+      "report": {
+        "original": "build/r10-bow-staged-404/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/83a3fe7166cdcbd53690a520b8c2e056a378c8725716b655ea6abeef388fa5fa.json.gz",
+        "bytes": 7793316,
+        "sha256": "83a3fe7166cdcbd53690a520b8c2e056a378c8725716b655ea6abeef388fa5fa",
+        "gzipBytes": 324928,
+        "gzipSha256": "8613ee19b11ed5cef44646d970289c5478d8783478d9eb02f681c1eee1522a03",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": false,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 16,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1124,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-4CrhIh",
+        "origin": "http://127.0.0.1:1033",
+        "debugPort": 1034,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 3,
+        "target": 10,
+        "hurt": 14,
+        "session": 1
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 17,
+        "pixelReadbacks": 18,
+        "events": 1,
+        "numericReadbacks": 13,
+        "completedHoldReadbacks": 1,
+        "hdReadbacks": 0,
+        "lcdReadbacks": 18
+      },
+      "acceptedRange": [
+        21,
+        9,
+        17
+      ],
+      "actualIntervals": [
+        "21:9:17"
+      ],
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-bow-staged-nominal/result.json",
+      "report": {
+        "original": "build/r10-bow-staged-nominal/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/068320415b5293ca8b1488c98ba04c500edb27b6ba909eb44f14c3c0b7d98eeb.json.gz",
+        "bytes": 6440405,
+        "sha256": "068320415b5293ca8b1488c98ba04c500edb27b6ba909eb44f14c3c0b7d98eeb",
+        "gzipBytes": 307786,
+        "gzipSha256": "79ada18bfc34588d362c494a3889a7377caed403a007211467e4ce03b6956581",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 15,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1124,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-AjRChN",
+        "origin": "http://127.0.0.1:5321",
+        "debugPort": 8492,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 3,
+        "target": 11,
+        "hurt": 14,
+        "session": 1
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 18,
+        "pixelReadbacks": 19,
+        "events": 1,
+        "numericReadbacks": 14,
+        "completedHoldReadbacks": 1,
+        "hdReadbacks": 19,
+        "lcdReadbacks": 0
+      },
+      "acceptedRange": [
+        21,
+        9,
+        17
+      ],
+      "actualIntervals": [
+        "21:9:17"
+      ],
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-bow-staged-resize/result.json",
+      "report": {
+        "original": "build/r10-bow-staged-resize/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/9fdbe16d12064445342675d856838d59650d8ac6ba81e16cfd5956da6cdc0058.json.gz",
+        "bytes": 6467539,
+        "sha256": "9fdbe16d12064445342675d856838d59650d8ac6ba81e16cfd5956da6cdc0058",
+        "gzipBytes": 308239,
+        "gzipSha256": "9a4cd4c9f012740ad967ba3c0bf98f93f03cebb5eda11130005202f56f39070d",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 15,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1124,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-M7qKHZ",
+        "origin": "http://127.0.0.1:1037",
+        "debugPort": 1038,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 3,
+        "target": 11,
+        "hurt": 14,
+        "session": 1
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 16,
+        "pixelReadbacks": 19,
+        "events": 1,
+        "numericReadbacks": 14,
+        "completedHoldReadbacks": 1,
+        "hdReadbacks": 19,
+        "lcdReadbacks": 0
+      },
+      "acceptedRange": [
+        21,
+        9,
+        17
+      ],
+      "actualIntervals": [
+        "21:9:17"
+      ],
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-cavalry-staged/result.json",
+      "report": {
+        "original": "build/r10-cavalry-staged/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/010550e2c8bb86003022e4ddd7dd087a5031b6e6ee9643239563ce5b2a4c1e9b.json.gz",
+        "bytes": 1185176,
+        "sha256": "010550e2c8bb86003022e4ddd7dd087a5031b6e6ee9643239563ce5b2a4c1e9b",
+        "gzipBytes": 101656,
+        "gzipSha256": "7bd39e151318f31a6a8f468a7c2d8d3cc5908d974a9b510639027c8a59a4db5e",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "acceptedHd": null,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 5,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1114,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-tWpgNA",
+        "origin": "http://127.0.0.1:8786",
+        "debugPort": 8787,
+        "cleaned": true
+      },
+      "error": "Error: Timed out waiting for military submenu after stopping conscription\n    at waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:358:11)\n    at async recruitSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:710:5)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:739:16)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:588:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1085:9)",
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": [
+        19,
+        11,
+        21
+      ],
+      "actualIntervals": null,
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-cavalry-staged-v2/result.json",
+      "report": {
+        "original": "build/r10-cavalry-staged-v2/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/18b9a9fdefdf8cb835503ffb1943bdef36f2fd3ec85d24cd487a531baa5f12cc.json.gz",
+        "bytes": 1176166,
+        "sha256": "18b9a9fdefdf8cb835503ffb1943bdef36f2fd3ec85d24cd487a531baa5f12cc",
+        "gzipBytes": 101844,
+        "gzipSha256": "1f32cc1329e9671efbd3d1015a002ceecca80b744a45f118e7dabd7a306d7abf",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "acceptedHd": null,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 5,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1114,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-rJLEXj",
+        "origin": "http://127.0.0.1:11449",
+        "debugPort": 11450,
+        "cleaned": true
+      },
+      "error": "Error: {\"exceptionId\":1,\"text\":\"Uncaught\",\"lineNumber\":0,\"columnNumber\":230,\"scriptId\":\"85\",\"stackTrace\":{\"callFrames\":[{\"functionName\":\"\",\"scriptId\":\"85\",\"url\":\"\",\"lineNumber\":0,\"columnNumber\":230}]},\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"TypeError\",\"description\":\"TypeError: Cannot read properties of undefined (reading 'length')\\n    at <anonymous>:1:231\",\"objectId\":\"-5278220877631102190.2.31\"}}\n    at evaluate (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:347:40)\n    at async waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:354:23)\n    at async reopenMilitaryAfterPersonPicker (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:692:5)\n    at async recruitSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:728:28)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:756:16)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:588:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1102:9)",
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": [
+        19,
+        11,
+        21
+      ],
+      "actualIntervals": null,
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-cavalry-staged-v3/result.json",
+      "report": {
+        "original": "build/r10-cavalry-staged-v3/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/9640c824758049be8d262be1e662228ae86455d30e91423ec510639a9799af0f.json.gz",
+        "bytes": 12291874,
+        "sha256": "9640c824758049be8d262be1e662228ae86455d30e91423ec510639a9799af0f",
+        "gzipBytes": 483689,
+        "gzipSha256": "df1a107e9792e3dcebf8b8398a74224aa582406f8bc6f59114c24b47f62e60c3",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "acceptedHd": null,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 17,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1124,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-Dcja40",
+        "origin": "http://127.0.0.1:14121",
+        "debugPort": 14122,
+        "cleaned": true
+      },
+      "error": "AssertionError [ERR_ASSERTION]: The equipped actual attacker survived; a death is not replaced or repaired\n    at battleSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:957:27)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:801:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:588:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1102:9)",
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": [
+        19,
+        11,
+        21
+      ],
+      "actualIntervals": null,
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-cavalry-staged-v4/result.json",
+      "report": {
+        "original": "build/r10-cavalry-staged-v4/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/0f3e945f17db901a152a77c3c3f2fb867307d59bee95c37f152343d79794c3cc.json.gz",
+        "bytes": 933893,
+        "sha256": "0f3e945f17db901a152a77c3c3f2fb867307d59bee95c37f152343d79794c3cc",
+        "gzipBytes": 95469,
+        "gzipSha256": "ee58e06ccf02c5b0d0bba229d577e2d376580371ed9f724afe75f53c9e876d9d",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "acceptedHd": null,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 4,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1114,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-YYaGjt",
+        "origin": "http://127.0.0.1:13286",
+        "debugPort": 13287,
+        "cleaned": true
+      },
+      "error": "AssertionError [ERR_ASSERTION]: HD row belongs to the exact current native U16 person ID\n\nundefined !== 66\n\n    at chooseNativePerson (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:627:12)\n    at async recruitSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:723:18)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:762:16)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:594:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1108:9)",
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": [
+        19,
+        11,
+        21
+      ],
+      "actualIntervals": null,
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-cavalry-staged-v5/result.json",
+      "report": {
+        "original": "build/r10-cavalry-staged-v5/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/fe11cecc1df127e1553fa7e3bc588d4853dd8adbe690b0ea80148d6ae63ccf02.json.gz",
+        "bytes": 13271675,
+        "sha256": "fe11cecc1df127e1553fa7e3bc588d4853dd8adbe690b0ea80148d6ae63ccf02",
+        "gzipBytes": 527383,
+        "gzipSha256": "d25b9a012d75471b25ffe18bc1a3873bb420b3f4c8130cd17ed005a5a460cb7d",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "acceptedHd": null,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 17,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1124,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-dkpNrC",
+        "origin": "http://127.0.0.1:11412",
+        "debugPort": 11413,
+        "cleaned": true
+      },
+      "error": "AssertionError [ERR_ASSERTION]: The equipped actual attacker survived; a death is not replaced or repaired\n    at battleSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:966:27)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:810:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:594:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1111:9)",
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": [
+        19,
+        11,
+        21
+      ],
+      "actualIntervals": null,
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-cavalry-staged-v6/result.json",
+      "report": {
+        "original": "build/r10-cavalry-staged-v6/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/2e0bd45f36589d38716c16546917664808114695365ad9e87e8730e18d02741a.json.gz",
+        "bytes": 15621775,
+        "sha256": "2e0bd45f36589d38716c16546917664808114695365ad9e87e8730e18d02741a",
+        "gzipBytes": 621460,
+        "gzipSha256": "4eb7bb650e4bad33a0e78ef740c18df9e02b13c0a421135ab63ec1a761827dee",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 19,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1124,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-WclTWv",
+        "origin": "http://127.0.0.1:13147",
+        "debugPort": 13148,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 1,
+        "target": 11,
+        "hurt": 60,
+        "session": 2
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 46,
+        "pixelReadbacks": 48,
+        "events": 2,
+        "numericReadbacks": 32,
+        "completedHoldReadbacks": 2,
+        "hdReadbacks": 21,
+        "lcdReadbacks": 27
+      },
+      "acceptedRange": [
+        19,
+        11,
+        21
+      ],
+      "actualIntervals": [
+        "20:0:9",
+        "19:11:21"
+      ],
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-core-installed-final/result.json",
+      "report": {
+        "original": "build/r10-core-installed-final/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/32b3bc2f92a87a7f6340a99762acb0920cff8792ba4fe9315e506530230608ea.json.gz",
+        "bytes": 747301,
+        "sha256": "32b3bc2f92a87a7f6340a99762acb0920cff8792ba4fe9315e506530230608ea",
+        "gzipBytes": 67374,
+        "gzipSha256": "b3c5b8160f7c55a2f03f755f82ee21d46edc9451d2f554f64f3dd0d7e76164b8",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": null,
+      "staged": false,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 14,
+      "viewport": null,
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": null,
+      "isolation": null,
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": null,
+      "actualIntervals": null,
+      "coverage": null
+    },
+    {
+      "original": "build/r10-core-staged-regression/result.json",
+      "report": {
+        "original": "build/r10-core-staged-regression/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/09bc63c15019c8e5b2af999a2d1fb2df9ce18c0872f52c09898533f74c31e6ce.json.gz",
+        "bytes": 747489,
+        "sha256": "09bc63c15019c8e5b2af999a2d1fb2df9ce18c0872f52c09898533f74c31e6ce",
+        "gzipBytes": 67384,
+        "gzipSha256": "2db9093560dff1cd815c02cc3784f450b519188249db68e31f66658604fd7472",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": null,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 14,
+      "viewport": null,
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": null,
+      "isolation": null,
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": null,
+      "actualIntervals": null,
+      "coverage": null
+    },
+    {
+      "original": "build/r10-infantry-installed-digitfit/result.json",
+      "report": {
+        "original": "build/r10-infantry-installed-digitfit/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/d032a85bab3ca84d87120fae31ae21d169ec1e565b172b10c33809a53b9b6c74.json.gz",
+        "bytes": 14371338,
+        "sha256": "d032a85bab3ca84d87120fae31ae21d169ec1e565b172b10c33809a53b9b6c74",
+        "gzipBytes": 598560,
+        "gzipSha256": "f94166a595260797b13b9fdf441d168a10eb84e4026be8165a0434c767acf026",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": false,
+      "sourceStatus": "final digit-fit JS EF594804",
+      "checkpoints": 18,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1124,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-WRO1dx",
+        "origin": "http://127.0.0.1:11572",
+        "debugPort": 11573,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 2,
+        "target": 11,
+        "hurt": 110,
+        "session": 2
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 45,
+        "pixelReadbacks": 47,
+        "events": 2,
+        "numericReadbacks": 31,
+        "completedHoldReadbacks": 2,
+        "hdReadbacks": 47,
+        "lcdReadbacks": 0
+      },
+      "acceptedRange": [
+        20,
+        10,
+        19
+      ],
+      "actualIntervals": [
+        "20:10:19"
+      ],
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-infantry-installed-final/result.json",
+      "report": {
+        "original": "build/r10-infantry-installed-final/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/1959a51872403b20b51d958cb6016eeda6dba39ca7d08b406bf933af5bc5b262.json.gz",
+        "bytes": 15657336,
+        "sha256": "1959a51872403b20b51d958cb6016eeda6dba39ca7d08b406bf933af5bc5b262",
+        "gzipBytes": 609804,
+        "gzipSha256": "d3a516d18007da71d8b0a73dec48b0b91235f6d8c136b9c06186e15905a6251c",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": false,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 19,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1124,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-HvhaCS",
+        "origin": "http://127.0.0.1:10506",
+        "debugPort": 10507,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 2,
+        "target": 10,
+        "hurt": 69,
+        "session": 2
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 47,
+        "pixelReadbacks": 49,
+        "events": 2,
+        "numericReadbacks": 33,
+        "completedHoldReadbacks": 2,
+        "hdReadbacks": 22,
+        "lcdReadbacks": 0
+      },
+      "acceptedRange": [
+        20,
+        10,
+        19
+      ],
+      "actualIntervals": [
+        "19:11:21",
+        "20:10:19"
+      ],
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-infantry-staged/result.json",
+      "report": {
+        "original": "build/r10-infantry-staged/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/f351d45818c6cd34a197b1f5f7cb958ea297b5d2be0afc72a1265480ffa3e5dd.json.gz",
+        "bytes": 1184218,
+        "sha256": "f351d45818c6cd34a197b1f5f7cb958ea297b5d2be0afc72a1265480ffa3e5dd",
+        "gzipBytes": 101405,
+        "gzipSha256": "b68603aae54ff1912afef78e2cebf4d4741f3f9e7d44a400bcac041b6a3b4ee4",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "acceptedHd": null,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 5,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1111,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-EndtG8",
+        "origin": "http://127.0.0.1:8791",
+        "debugPort": 8792,
+        "cleaned": true
+      },
+      "error": "Error: Timed out waiting for military submenu after stopping conscription\n    at waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:358:11)\n    at async recruitSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:710:5)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:739:16)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:588:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1085:9)",
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": [
+        20,
+        10,
+        19
+      ],
+      "actualIntervals": null,
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-infantry-staged-v2/result.json",
+      "report": {
+        "original": "build/r10-infantry-staged-v2/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/921c7fdd7da1318f247cca1526bbfa16dcdc46acce392a926135291be3ad6070.json.gz",
+        "bytes": 1184766,
+        "sha256": "921c7fdd7da1318f247cca1526bbfa16dcdc46acce392a926135291be3ad6070",
+        "gzipBytes": 101669,
+        "gzipSha256": "16fede2f213d229645c0623d696766c6cfa5128a14385d6b8eb500d13843741a",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "acceptedHd": null,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 5,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1111,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-Ubzu6s",
+        "origin": "http://127.0.0.1:11453",
+        "debugPort": 11454,
+        "cleaned": true
+      },
+      "error": "Error: {\"exceptionId\":1,\"text\":\"Uncaught\",\"lineNumber\":0,\"columnNumber\":230,\"scriptId\":\"85\",\"stackTrace\":{\"callFrames\":[{\"functionName\":\"\",\"scriptId\":\"85\",\"url\":\"\",\"lineNumber\":0,\"columnNumber\":230}]},\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"TypeError\",\"description\":\"TypeError: Cannot read properties of undefined (reading 'length')\\n    at <anonymous>:1:231\",\"objectId\":\"8334034161639137604.2.31\"}}\n    at evaluate (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:347:40)\n    at async waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:354:23)\n    at async reopenMilitaryAfterPersonPicker (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:692:5)\n    at async recruitSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:728:28)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:756:16)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:588:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1102:9)",
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": [
+        20,
+        10,
+        19
+      ],
+      "actualIntervals": null,
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-infantry-staged-v3/result.json",
+      "report": {
+        "original": "build/r10-infantry-staged-v3/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/dca5d705b910bb6b78e4cad02f4758ac301b9de4e45c63d151b8c80e51a25e03.json.gz",
+        "bytes": 14152932,
+        "sha256": "dca5d705b910bb6b78e4cad02f4758ac301b9de4e45c63d151b8c80e51a25e03",
+        "gzipBytes": 564764,
+        "gzipSha256": "f55243205bc1241c3fa7e8f1fa1592a0566d761cfff918c3a636ebea779fdec2",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 19,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "count": 1124,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-h9mNQp",
+        "origin": "http://127.0.0.1:14126",
+        "debugPort": 14127,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 2,
+        "target": 10,
+        "hurt": 69,
+        "session": 2
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 45,
+        "pixelReadbacks": 47,
+        "events": 2,
+        "numericReadbacks": 30,
+        "completedHoldReadbacks": 2,
+        "hdReadbacks": 21,
+        "lcdReadbacks": 0
+      },
+      "acceptedRange": [
+        20,
+        10,
+        19
+      ],
+      "actualIntervals": [
+        "19:11:21",
+        "20:10:19"
+      ],
+      "coverage": "Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed."
+    },
+    {
+      "original": "build/r10-maker-staged-regression/result.json",
+      "report": {
+        "original": "build/r10-maker-staged-regression/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/c0e47771e82d18fee4bb00edb728a78204b838e03b454d35f4b8294a87340c1a.json.gz",
+        "bytes": 34413431,
+        "sha256": "c0e47771e82d18fee4bb00edb728a78204b838e03b454d35f4b8294a87340c1a",
+        "gzipBytes": 638959,
+        "gzipSha256": "3b1f60b1052894d80d6179c59ea0b07f6361b71613391fab48635da206c6ef03",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 30,
+      "viewport": null,
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "ok": true,
+        "count": 983,
+        "runnerMatch": true,
+        "added": [],
+        "drift": []
+      },
+      "isolation": {
+        "httpPort": 4455,
+        "unknownHttpPort": 4456,
+        "debugPort": 4457,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-maker-runtime-4cvWpM",
+        "chromePid": 147828,
+        "user8080Touched": false,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": null,
+      "actualIntervals": null,
+      "coverage": "Actual MAKER6 rolling playback, complete/skip, native post-movie hold, and title return through genuine menu input"
+    },
+    {
+      "original": "build/r10-opening-staged-regression/result.json",
+      "report": {
+        "original": "build/r10-opening-staged-regression/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/d835ece106e7b0b9f73dc9d339e58ccd6b5aa94bcf2a76f464a497016531c1d0.json.gz",
+        "bytes": 2190646,
+        "sha256": "d835ece106e7b0b9f73dc9d339e58ccd6b5aa94bcf2a76f464a497016531c1d0",
+        "gzipBytes": 110804,
+        "gzipSha256": "1c03c947c835fdd658c08e53fe3aa8f6492eee5e91eab0f43fdaa98239dc8ddd",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 15,
+      "viewport": null,
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "ok": true,
+        "count": 983,
+        "runnerMatch": true,
+        "added": [],
+        "drift": []
+      },
+      "isolation": {
+        "httpPort": 3500,
+        "unknownHttpPort": 3501,
+        "debugPort": 3502,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-opening-runtime-0lKwjS",
+        "chromePid": 148096,
+        "user8080Touched": false,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3",
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": null,
+      "actualIntervals": null,
+      "coverage": "Real complete MAIN3 displayed LCD commits and HD picture-slot mapping; timer merging is preserved"
+    },
+    {
+      "original": "build/r10-skill-installed-1080-final/result.json",
+      "report": {
+        "original": "build/r10-skill-installed-1080-final/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/650e707c1568bd7aa3aeddcffb3d2135a785b1be16ff80e9e919db6a611cc9bc.json.gz",
+        "bytes": 21979994,
+        "sha256": "650e707c1568bd7aa3aeddcffb3d2135a785b1be16ff80e9e919db6a611cc9bc",
+        "gzipBytes": 756917,
+        "gzipSha256": "d087189a51a28cd5e19f8ea7b6e47e70c55928f202ac636e0f1782b746b002f4",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": false,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 18,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "ok": true,
+        "count": 1113,
+        "drift": [],
+        "added": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "httpPort": 13618,
+        "debugPort": 13619,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-zi3LU1",
+        "chromePid": 143568,
+        "user8080Touched": false,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": null,
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 25,
+        "events": 1,
+        "movieHd": 8,
+        "postHd": 18,
+        "labels": 18,
+        "numericReadbacks": 17,
+        "completedHoldReadbacks": 1
+      },
+      "acceptedRange": null,
+      "actualIntervals": null,
+      "coverage": {
+        "accepted": "One actual standard-LIB default FIRE35 action including real font label, NUM15 history and original native result wait. HD effect pictures occupy the actual opaque65x64window; the result label/numeric/hold presenter preserves surrounding actualLCD. The existing movie presenter uses neutral artwork surround, not an authenticated full-arena replacement.",
+        "notRun": "Other skills, custom hooks, unknown LIB, noMovie/map-edge fallback, AOE, mobile or performance; C/JS suites cover some boundaries separately",
+        "legacyEvidence": "Old spe-runtime file names containing native-frame were HD canvas exports and are not used as native-pixel evidence here"
+      }
+    },
+    {
+      "original": "build/r10-skill-installed-1080-final-v2/result.json",
+      "report": {
+        "original": "build/r10-skill-installed-1080-final-v2/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/210992510fb8a6a70cb16340684716daaf314c35b911262fd66e6511cf5af70a.json.gz",
+        "bytes": 15156828,
+        "sha256": "210992510fb8a6a70cb16340684716daaf314c35b911262fd66e6511cf5af70a",
+        "gzipBytes": 376534,
+        "gzipSha256": "bf37c338c3d7b9ff96e3db031b4ab44a807687e45865e2260d52bcd39edf9042",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "acceptedHd": false,
+      "staged": false,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 21,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "ok": true,
+        "count": 1113,
+        "drift": [],
+        "added": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "httpPort": 1899,
+        "debugPort": 1900,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-XsagZp",
+        "chromePid": 111484,
+        "user8080Touched": false,
+        "cleaned": true
+      },
+      "error": "AssertionError [ERR_ASSERTION]: The actual game produced default FIRE\n    at verifySkillCaptures (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:639:9)\n    at main (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:755:38)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": null,
+      "actualIntervals": null,
+      "coverage": null
+    },
+    {
+      "original": "build/r10-skill-installed-1080-final-v3/result.json",
+      "report": {
+        "original": "build/r10-skill-installed-1080-final-v3/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/48e456b5decc94d90650d0c71aa1555534d60c19742f83461ed1283d09f8a08a.json.gz",
+        "bytes": 22808861,
+        "sha256": "48e456b5decc94d90650d0c71aa1555534d60c19742f83461ed1283d09f8a08a",
+        "gzipBytes": 768824,
+        "gzipSha256": "49e68569401ca073af8d464f8cb56ab4ecfb480990de7816eaadd7bc0926392d",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": false,
+      "sourceStatus": "final digit-fit JS EF594804",
+      "checkpoints": 21,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "ok": true,
+        "count": 1113,
+        "drift": [],
+        "added": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "httpPort": 5566,
+        "debugPort": 5567,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-sa7oZw",
+        "chromePid": 106384,
+        "user8080Touched": false,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": null,
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 24,
+        "events": 1,
+        "movieHd": 8,
+        "postHd": 17,
+        "labels": 17,
+        "numericReadbacks": 16,
+        "completedHoldReadbacks": 1
+      },
+      "acceptedRange": null,
+      "actualIntervals": null,
+      "coverage": {
+        "accepted": "One actual standard-LIB default FIRE35 action including real font label, NUM15 history and original native result wait. HD effect pictures occupy the actual opaque65x64window; the result label/numeric/hold presenter preserves surrounding actualLCD. The existing movie presenter uses neutral artwork surround, not an authenticated full-arena replacement.",
+        "notRun": "Other skills, custom hooks, unknown LIB, noMovie/map-edge fallback, AOE, mobile or performance; C/JS suites cover some boundaries separately",
+        "legacyEvidence": "Old spe-runtime file names containing native-frame were HD canvas exports and are not used as native-pixel evidence here"
+      }
+    },
+    {
+      "original": "build/r10-skill-installed-720-final/result.json",
+      "report": {
+        "original": "build/r10-skill-installed-720-final/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/2a2bce2b087fc585b4fa1c3d12508ebea3c09b6f90df122b7d8908efe0b5956c.json.gz",
+        "bytes": 16401916,
+        "sha256": "2a2bce2b087fc585b4fa1c3d12508ebea3c09b6f90df122b7d8908efe0b5956c",
+        "gzipBytes": 710552,
+        "gzipSha256": "4c06fa844ebf6b94185d43ecca851fdb12ada6443d433aeedeb239506966a4c0",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": false,
+      "sourceStatus": "final digit-fit JS EF594804",
+      "checkpoints": 17,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "ok": true,
+        "count": 1113,
+        "drift": [],
+        "added": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "httpPort": 2504,
+        "debugPort": 2505,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-0ofWWO",
+        "chromePid": 150232,
+        "user8080Touched": false,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": null,
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 26,
+        "events": 1,
+        "movieHd": 8,
+        "postHd": 19,
+        "labels": 19,
+        "numericReadbacks": 18,
+        "completedHoldReadbacks": 1
+      },
+      "acceptedRange": null,
+      "actualIntervals": null,
+      "coverage": {
+        "accepted": "One actual standard-LIB default FIRE35 action including real font label, NUM15 history and original native result wait. HD effect pictures occupy the actual opaque65x64window; the result label/numeric/hold presenter preserves surrounding actualLCD. The existing movie presenter uses neutral artwork surround, not an authenticated full-arena replacement.",
+        "notRun": "Other skills, custom hooks, unknown LIB, noMovie/map-edge fallback, AOE, mobile or performance; C/JS suites cover some boundaries separately",
+        "legacyEvidence": "Old spe-runtime file names containing native-frame were HD canvas exports and are not used as native-pixel evidence here"
+      }
+    },
+    {
+      "original": "build/r10-skill-staged-1080/result.json",
+      "report": {
+        "original": "build/r10-skill-staged-1080/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/cd0e927f4a950d717b1cafb238a8cb4235dc0b05607fc2c9dc92e3c58ecbf586.json.gz",
+        "bytes": 19320918,
+        "sha256": "cd0e927f4a950d717b1cafb238a8cb4235dc0b05607fc2c9dc92e3c58ecbf586",
+        "gzipBytes": 743899,
+        "gzipSha256": "372de2d9d5c177dd4f1b0a25033339998a3f87d35897eb6fd079471e4d0b1d25",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "acceptedHd": false,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 18,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "ok": true,
+        "count": 1113,
+        "drift": [],
+        "added": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "httpPort": 5294,
+        "debugPort": 5295,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-pjxnlM",
+        "chromePid": 150084,
+        "user8080Touched": false,
+        "cleaned": true
+      },
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(end>0)\n\n    at nativeLabel (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:610:488)\n    at verifySkillCaptures (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:640:30)\n    at main (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:746:38)",
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": null,
+      "actualIntervals": null,
+      "coverage": null
+    },
+    {
+      "original": "build/r10-skill-staged-1080-v2/result.json",
+      "report": {
+        "original": "build/r10-skill-staged-1080-v2/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/50a2cec1ff4ced09ae568f64ef38479520a461a579b5f12c279f4eb1cd53eb5e.json.gz",
+        "bytes": 16727532,
+        "sha256": "50a2cec1ff4ced09ae568f64ef38479520a461a579b5f12c279f4eb1cd53eb5e",
+        "gzipBytes": 709185,
+        "gzipSha256": "18728b5642e23ef478f36ab04f5bcecc95643e3bf47d6e3ccf25261ca8ab8920",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 18,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "ok": true,
+        "count": 1113,
+        "drift": [],
+        "added": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "httpPort": 10617,
+        "debugPort": 10618,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-JCikKk",
+        "chromePid": 151456,
+        "user8080Touched": false,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": null,
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 26,
+        "events": 1,
+        "movieHd": 8,
+        "postHd": 19,
+        "labels": 19,
+        "numericReadbacks": 18,
+        "completedHoldReadbacks": 1
+      },
+      "acceptedRange": null,
+      "actualIntervals": null,
+      "coverage": {
+        "accepted": "One actual standard-LIB default FIRE35 action including real font label, NUM15 history and original native result wait. HD effect pictures occupy the actual opaque65x64window; the result label/numeric/hold presenter preserves surrounding actualLCD. The existing movie presenter uses neutral artwork surround, not an authenticated full-arena replacement.",
+        "notRun": "Other skills, custom hooks, unknown LIB, noMovie/map-edge fallback, AOE, mobile or performance; C/JS suites cover some boundaries separately",
+        "legacyEvidence": "Old spe-runtime file names containing native-frame were HD canvas exports and are not used as native-pixel evidence here"
+      }
+    },
+    {
+      "original": "build/r10-skill-staged-720/result.json",
+      "report": {
+        "original": "build/r10-skill-staged-720/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/6a514690f51e13156d186057d74ba131ff47484cd9e80b6f3a93cbd36e10a5a6.json.gz",
+        "bytes": 15899467,
+        "sha256": "6a514690f51e13156d186057d74ba131ff47484cd9e80b6f3a93cbd36e10a5a6",
+        "gzipBytes": 375064,
+        "gzipSha256": "0828b53e3a7c60bdae0e5280f9b1c492c6b5cb2160b21c981595be93483ce583",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "acceptedHd": false,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 19,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "ok": true,
+        "count": 1113,
+        "drift": [],
+        "added": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "httpPort": 12455,
+        "debugPort": 12456,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-rITVV8",
+        "chromePid": 144572,
+        "user8080Touched": false,
+        "cleaned": true
+      },
+      "error": "AssertionError [ERR_ASSERTION]: The actual game produced default FIRE\n    at verifySkillCaptures (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:630:9)\n    at main (file:///F:/project/baye-sanguo/scripts/test-hd-skill-runtime.mjs:746:38)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+      "actualHurt": null,
+      "nativePixelOracle": null,
+      "acceptedRange": null,
+      "actualIntervals": null,
+      "coverage": null
+    },
+    {
+      "original": "build/r10-skill-staged-720-v2/result.json",
+      "report": {
+        "original": "build/r10-skill-staged-720-v2/result.json",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/1c67c09a5d4e560782c95825e24a167fac3378edf4b98c9e1f9737c2f4d1464e.json.gz",
+        "bytes": 17831302,
+        "sha256": "1c67c09a5d4e560782c95825e24a167fac3378edf4b98c9e1f9737c2f4d1464e",
+        "gzipBytes": 732527,
+        "gzipSha256": "b815e0a4800ca3aeaa4ee14928ba4eebbce27b6bdb49132d900d2668995fc661",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "acceptedHd": true,
+      "staged": true,
+      "sourceStatus": "earlier frozen source tuple; acceptance limited to its actual recorded bytes",
+      "checkpoints": 16,
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "sourceVerification": {
+        "ok": true,
+        "count": 1113,
+        "drift": [],
+        "added": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "httpPort": 10626,
+        "debugPort": 10627,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-iQfBC3",
+        "chromePid": 135696,
+        "user8080Touched": false,
+        "cleaned": true
+      },
+      "error": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "actualHurt": null,
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 27,
+        "events": 1,
+        "movieHd": 8,
+        "postHd": 20,
+        "labels": 20,
+        "numericReadbacks": 19,
+        "completedHoldReadbacks": 1
+      },
+      "acceptedRange": null,
+      "actualIntervals": null,
+      "coverage": {
+        "accepted": "One actual standard-LIB default FIRE35 action including real font label, NUM15 history and original native result wait. HD effect pictures occupy the actual opaque65x64window; the result label/numeric/hold presenter preserves surrounding actualLCD. The existing movie presenter uses neutral artwork surround, not an authenticated full-arena replacement.",
+        "notRun": "Other skills, custom hooks, unknown LIB, noMovie/map-edge fallback, AOE, mobile or performance; C/JS suites cover some boundaries separately",
+        "legacyEvidence": "Old spe-runtime file names containing native-frame were HD canvas exports and are not used as native-pixel evidence here"
+      }
+    }
+  ],
+  "audits": {
+    "ordinary": {
+      "original": "build/r10-attack-validation-audit.json",
+      "archived": "docs/validation/m4-attacks-skills-20261008/raw/aa9a31e1e9317df2d285b490fb57b6fd1a9ede04d5f36cacdfbb22f5d57ea323.json.gz",
+      "bytes": 23872,
+      "sha256": "aa9a31e1e9317df2d285b490fb57b6fd1a9ede04d5f36cacdfbb22f5d57ea323",
+      "gzipBytes": 4872,
+      "gzipSha256": "b4420202cc631a0a6fdf7d4a8d805ec46cc165746a0f2608b6ecafa0ddcf7a60",
+      "decompressedByteEqual": true
+    },
+    "skill": {
+      "original": "build/r10-skill-validation-audit.json",
+      "archived": "docs/validation/m4-attacks-skills-20261008/raw/a2d4369b8b3790304a369cac055a1be0a4b2f3428e22137ab70bda8ff03cdbae.json.gz",
+      "bytes": 44533,
+      "sha256": "a2d4369b8b3790304a369cac055a1be0a4b2f3428e22137ab70bda8ff03cdbae",
+      "gzipBytes": 7737,
+      "gzipSha256": "9d3602480f4bf9ac7c169a743a9fe64ded0dd1f2667519e86760a34ceba28918",
+      "decompressedByteEqual": true
+    },
+    "indexReviewBeforeScopeClarification": {
+      "original": "build/r10-archive-index-audit.json",
+      "archived": "docs/validation/m4-attacks-skills-20261008/raw/c7f6fa0e0e353b8022039dcaeef0866ad1eb752edc2275b9ec9d75a07dd975ff.json.gz",
+      "bytes": 16663,
+      "sha256": "c7f6fa0e0e353b8022039dcaeef0866ad1eb752edc2275b9ec9d75a07dd975ff",
+      "gzipBytes": 4058,
+      "gzipSha256": "aeb5a5f532cc2f5c3a48ccceee426e65f5242255a42ca3db1054c0d9b87708d5",
+      "decompressedByteEqual": true
+    },
+    "scopeClarification": {
+      "original": "build/r10-scope-correction-audit.json",
+      "archived": "docs/validation/m4-attacks-skills-20261008/raw/0c13901e321403d409dc8f71e4065569b8addf94fe9057dd82e32534d58e7e02.json.gz",
+      "bytes": 2817,
+      "sha256": "0c13901e321403d409dc8f71e4065569b8addf94fe9057dd82e32534d58e7e02",
+      "gzipBytes": 1130,
+      "gzipSha256": "62937f5df7827d2bcdb5fcc160a59fd4d96feba471b7624b3c5372119cb1c0fb",
+      "decompressedByteEqual": true
+    },
+    "preDigitFitRunners": {
+      "ordinary": {
+        "original": "build/r10-attack-runtime-pre-digitfit.mjs",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/c9476f6d66782d0950f8fa48ea14f3f59700b1207816a7bd4a797cffa0ccbeb1.mjs.gz",
+        "bytes": 102694,
+        "sha256": "c9476f6d66782d0950f8fa48ea14f3f59700b1207816a7bd4a797cffa0ccbeb1",
+        "gzipBytes": 29780,
+        "gzipSha256": "c4a4a45c5f5cb096d2960ed41724165eeb31802b6134b7219e23587a1dea29dd",
+        "decompressedByteEqual": true
+      },
+      "skill": {
+        "original": "build/r10-skill-runtime-pre-digitfit.mjs",
+        "archived": "docs/validation/m4-attacks-skills-20261008/raw/24317663e13664a5e9001ed636f75c17cc1e3251de3b99c40c8385f1ec4d0d4d.mjs.gz",
+        "bytes": 69751,
+        "sha256": "24317663e13664a5e9001ed636f75c17cc1e3251de3b99c40c8385f1ec4d0d4d",
+        "gzipBytes": 22264,
+        "gzipSha256": "8d8828cf21840de10e168d0d1e5e73c8a1ee0d2434526cdce8d4a395c8d39eda",
+        "decompressedByteEqual": true
+      },
+      "method": "reconstructedFromFinalExactSHA: only reverse the documented text width assertion(s); reconstructed bytes exactly match each historical runner SHA. These are not pre-run saved copies."
+    }
+  },
+  "installation": "Four installed files exactly equal staged bytes; installed FIRE1080/720 and representative ordinary110/14 validated final glyph fix. Core14 installed verified29 recorded sources; do not present it as1113-source full freeze.",
+  "archive": {
+    "runtimeIndex": "docs/validation/m4-attacks-skills-20261008/runtime-index.json",
+    "visualReview": "docs/validation/m4-attacks-skills-20261008/visual-review.json",
+    "artInputs": "docs/validation/m4-attacks-skills-20261008/art-input-index.json",
+    "retention": {
+      "retained": 1695,
+      "omitted": 1189,
+      "policy": "All actual native LCD PNGs retained. Complete callback HD pairs retained for primary new cavalry/infantry and final digit-fit FIRE. Intermediate HD regressions and whole-page checks retain selected original keyframes; omitted items preserve hash/size/reason. Art inputs preserved independently."
+    },
+    "gzip": "Original text/JSON/source bytes; every archived gzip roundtrip SHA/size verified.",
+    "png": "Original PNG bytes, SHA deduplicated without image editing. All native LCD and primary new attack/final FIRE callback pairs retained; intermediate HD regression/full-page PNGs explicitly omitted with hashes/reasons.",
+    "independentAudit": {
+      "original": "build/r10-archive-audit.json",
+      "archived": "docs/validation/m4-attacks-skills-20261008/raw/dc532642f692f0b1f4d15835d19fd9441e99c3c6b40d37c86df2d4ed9a36e12f.json.gz",
+      "bytes": 1540937,
+      "sha256": "dc532642f692f0b1f4d15835d19fd9441e99c3c6b40d37c86df2d4ed9a36e12f",
+      "gzipBytes": 254932,
+      "gzipSha256": "2306fd68f295f1e3e9d7a39c976f4eda80f2d3345dde2252a623fba28f2722de",
+      "decompressedByteEqual": true
+    }
+  },
+  "coverageLimits": [
+    "Only3 of37 ordinary attack call intervals are wired; remaining34 intervals stay LCD. 29 of51 foreground groups accepted;22 pending, and generated-but-unwired groups are not runtime acceptance.",
+    "Only default standard FIRE35 result has actual browser HD acceptance. Other skill resources, AOE/custom/noMovie/provender and nested owner semantics are actual-C/bridge/presenter fixtures, not full real-browser battles.",
+    "Existing movie presentation uses neutral surround; postlude only true65x64 windowHD and outside actual LCD, not a complete battle-arena HD conversion.",
+    "Legacy SPE files named native-frame were HD canvas exports; this batch uses actual callback ImageData or LCD readback and does not upgrade those historical filenames into native-pixel evidence.",
+    "Native opaque clearing can erase backdrop border/nearby figure pixels and preserve lower numeric trails. HD draw geometry and native ROM pixel fidelity are checked separately; they are not pixel-identical artwork.",
+    "Other HUD/search/help art, crossing markers, complete succession, four-period/real-Mod campaign/save matrix, performance baseline, mobile horizontal HD/real devices and real cloud account acceptance remain open."
+  ]
+}

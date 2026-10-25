@@ -1,0 +1,533 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-23T14:26:04.076Z",
+  "status": "accepted-current-installed-PC720-selected-AID17and29-only",
+  "accepted": true,
+  "actualCastAccepted": true,
+  "installed720HdAccepted": true,
+  "hdAccepted": true,
+  "fallbackAccepted": false,
+  "wholeHdAccepted": false,
+  "globalHdComplete": false,
+  "portableClosedArchive": false,
+  "scope": "Current installed1280x720 strict HD selected AID17/29 two independent original P3/player9/2128 public LOAD cases only. No main P4 SAVE use.",
+  "independentActivity": {
+    "period": 3,
+    "playerKing": 9,
+    "belong": 10,
+    "date": {
+      "year": 212,
+      "month": 8
+    },
+    "identity": "v1:414390:1d36da77:1e9c0477",
+    "caster188": 188,
+    "ally144": 144,
+    "mainP4CurrentAprilCampaignTouched": false,
+    "source": "approved-v5",
+    "inputPair": [
+      {
+        "key": "baye//data//sango0.sav",
+        "lib": "libs/dat-mod.lib",
+        "name": "三国霸业-词典原版",
+        "identity": "v1:414390:1d36da77:1e9c0477",
+        "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+        "bytes": 8221,
+        "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d",
+        "scope": "Exact bytes read from original public native save, never edited/re-encoded as a new world"
+      },
+      {
+        "key": "baye//data//sango1.sav",
+        "lib": "libs/dat-mod.lib",
+        "name": "三国霸业-词典原版",
+        "identity": "v1:414390:1d36da77:1e9c0477",
+        "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+        "bytes": 4840,
+        "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97",
+        "scope": "Exact bytes read from original public native save, never edited/re-encoded as a new world"
+      }
+    ],
+    "previousResult": {
+      "bytes": 48322439,
+      "sha256": "e467cecf81eca3c997b6afd4168aec2037e92ebaf1c24fe6e384ed64b55cf782"
+    }
+  },
+  "runs": [
+    {
+      "id": 17,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "result": {
+        "path": "build/aid-hd720-20261023/installed720-17-v1/result.json",
+        "bytes": 24093487,
+        "sha256": "0ca2f21a138eaec550382e039744ebbc8eabb925d8465fed8e5f46d6e3bdeb03"
+      },
+      "tool": {
+        "source": "build/aid-hd720-20261023/test-hd-aid-installed720-runtime-candidate-v1.mjs",
+        "bytes": 113887,
+        "sha256": "d8be23283f4e4d07425424a4b01be7987533e332a655337f7859b4b3270caacf"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "mp": {
+        "before": 146,
+        "after": 131,
+        "cost": 15
+      },
+      "gain": {
+        "before": 100,
+        "after": 900,
+        "applied": 800,
+        "capacity": 1470
+      },
+      "source": {
+        "records": 1230,
+        "physical": 1226,
+        "drift": 0,
+        "added": 0,
+        "native128": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d"
+      },
+      "readbacks": 23,
+      "logicalPixelComparisons": 353280,
+      "physicalOutsidePixelComparisons": 31347712,
+      "scales": [
+        11
+      ],
+      "families": [
+        {
+          "skillId": 17,
+          "numericPublication": {
+            "firstAt": 23176.79999999702,
+            "firstPhase": "numbers",
+            "value": 800,
+            "readbacks": 15,
+            "unpublishedMovie": [
+              {
+                "at": 21163.5,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 21465.39999999851,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 21740,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 21971.19999999553,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 22202,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 22434.69999999553,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 22675.60000000149,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 22924.10000000149,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              }
+            ]
+          },
+          "appliedGain": 800,
+          "capacityBefore": 1470,
+          "movieReadbacks": 8,
+          "postReadbacks": 15,
+          "labels": 15,
+          "numbers": 14,
+          "holds": 1,
+          "hdReadbacks": 23,
+          "observedWidths": [
+            64
+          ],
+          "actualLcdCallbacks": 22
+        }
+      ],
+      "cleanup": {
+        "recorded": 8,
+        "treeExited": true,
+        "httpClosed": true,
+        "profileRetained": true,
+        "freshOs": {
+          "atUtc": "2026-10-23T14:21:19.6196111Z",
+          "processes": [],
+          "ports": [],
+          "profileMatches": []
+        }
+      },
+      "input": {
+        "profile": "approved-v5",
+        "identity": "v1:414390:1d36da77:1e9c0477",
+        "header": {
+          "period": 3,
+          "count": 200,
+          "king": 9,
+          "year": 212,
+          "month": 8
+        },
+        "files": [
+          {
+            "key": "baye//data//sango0.sav",
+            "lib": "libs/dat-mod.lib",
+            "name": "三国霸业-词典原版",
+            "identity": "v1:414390:1d36da77:1e9c0477",
+            "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+            "bytes": 8221,
+            "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d",
+            "scope": "Exact bytes read from original public native save, never edited/re-encoded as a new world"
+          },
+          {
+            "key": "baye//data//sango1.sav",
+            "lib": "libs/dat-mod.lib",
+            "name": "三国霸业-词典原版",
+            "identity": "v1:414390:1d36da77:1e9c0477",
+            "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+            "bytes": 4840,
+            "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97",
+            "scope": "Exact bytes read from original public native save, never edited/re-encoded as a new world"
+          }
+        ],
+        "result": {
+          "bytes": 48322439,
+          "sha256": "e467cecf81eca3c997b6afd4168aec2037e92ebaf1c24fe6e384ed64b55cf782"
+        }
+      },
+      "oracle": {
+        "ok": true,
+        "accepted": true,
+        "hdAccepted": true,
+        "classicNegativeAccepted": false,
+        "missingAssetNegativeAccepted": false,
+        "eventCount": 1,
+        "verifiedReadbacks": 23,
+        "keyCountDuringSelectedMovieOrResult": 0
+      }
+    },
+    {
+      "id": 29,
+      "accepted": true,
+      "actualCastAccepted": true,
+      "hdAccepted": true,
+      "fallbackAccepted": false,
+      "result": {
+        "path": "build/aid-hd720-20261023/installed720-29-v1/result.json",
+        "bytes": 26629161,
+        "sha256": "1c457bc64265c09d0cea0f7cd69e8f3f87df5e674913cfeeb5200c13f58088d3"
+      },
+      "tool": {
+        "source": "build/aid-hd720-20261023/test-hd-aid-installed720-runtime-candidate-v1.mjs",
+        "bytes": 113887,
+        "sha256": "d8be23283f4e4d07425424a4b01be7987533e332a655337f7859b4b3270caacf"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "mp": {
+        "before": 146,
+        "after": 116,
+        "cost": 30
+      },
+      "gain": {
+        "before": 100,
+        "after": 1470,
+        "applied": 1370,
+        "capacity": 1470
+      },
+      "source": {
+        "records": 1230,
+        "physical": 1226,
+        "drift": 0,
+        "added": 0,
+        "native128": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d"
+      },
+      "readbacks": 26,
+      "logicalPixelComparisons": 399360,
+      "physicalOutsidePixelComparisons": 35436544,
+      "scales": [
+        11
+      ],
+      "families": [
+        {
+          "skillId": 29,
+          "numericPublication": {
+            "firstAt": 25212.10000000149,
+            "firstPhase": "numbers",
+            "value": 1370,
+            "readbacks": 18,
+            "unpublishedMovie": [
+              {
+                "at": 22901.20000000298,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 23555.39999999851,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 23793,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 24038.20000000298,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 24258,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 24504.20000000298,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 24732.10000000149,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              },
+              {
+                "at": 24963.10000000149,
+                "phase": "movie",
+                "value": 0,
+                "session": 1
+              }
+            ]
+          },
+          "appliedGain": 1370,
+          "capacityBefore": 1470,
+          "movieReadbacks": 8,
+          "postReadbacks": 18,
+          "labels": 18,
+          "numbers": 17,
+          "holds": 1,
+          "hdReadbacks": 26,
+          "observedWidths": [
+            64
+          ],
+          "actualLcdCallbacks": 25
+        }
+      ],
+      "cleanup": {
+        "recorded": 8,
+        "treeExited": true,
+        "httpClosed": true,
+        "profileRetained": true,
+        "freshOs": {
+          "atUtc": "2026-10-23T14:21:45.6645102Z",
+          "processes": [],
+          "ports": [],
+          "profileMatches": []
+        }
+      },
+      "input": {
+        "profile": "approved-v5",
+        "identity": "v1:414390:1d36da77:1e9c0477",
+        "header": {
+          "period": 3,
+          "count": 200,
+          "king": 9,
+          "year": 212,
+          "month": 8
+        },
+        "files": [
+          {
+            "key": "baye//data//sango0.sav",
+            "lib": "libs/dat-mod.lib",
+            "name": "三国霸业-词典原版",
+            "identity": "v1:414390:1d36da77:1e9c0477",
+            "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+            "bytes": 8221,
+            "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d",
+            "scope": "Exact bytes read from original public native save, never edited/re-encoded as a new world"
+          },
+          {
+            "key": "baye//data//sango1.sav",
+            "lib": "libs/dat-mod.lib",
+            "name": "三国霸业-词典原版",
+            "identity": "v1:414390:1d36da77:1e9c0477",
+            "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+            "bytes": 4840,
+            "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97",
+            "scope": "Exact bytes read from original public native save, never edited/re-encoded as a new world"
+          }
+        ],
+        "result": {
+          "bytes": 48322439,
+          "sha256": "e467cecf81eca3c997b6afd4168aec2037e92ebaf1c24fe6e384ed64b55cf782"
+        }
+      },
+      "oracle": {
+        "ok": true,
+        "accepted": true,
+        "hdAccepted": true,
+        "classicNegativeAccepted": false,
+        "missingAssetNegativeAccepted": false,
+        "eventCount": 1,
+        "verifiedReadbacks": 26,
+        "keyCountDuringSelectedMovieOrResult": 0
+      }
+    }
+  ],
+  "totals": {
+    "hdReadbacks": 49,
+    "logicalPixelComparisons": 752640,
+    "physicalOutsidePixelComparisons": 66784256,
+    "physicalOutsidePixelComparisonScope": "Actual HD Canvas original PNG/backing-store pixels at render scale11, not hardware screen pixels or physical refresh frames",
+    "movieLcdCallbacks": 16,
+    "totalSelectedLcdCallbacks": 47,
+    "completedHoldReadbacks": 2
+  },
+  "terminal": {
+    "events": {
+      "path": "build/aid-hd720-20261023/terminal-tool-events-v1.json",
+      "bytes": 3260,
+      "sha256": "0d8d623b147a9c9d17a21b7fc0d6949f561c8c7decb07f1e21dc7d4dc5cdc33c"
+    },
+    "run17": {
+      "session": 61725,
+      "startChunk": "7e71d1",
+      "terminalChunk": "94bfa0",
+      "exitCode": 0
+    },
+    "run29": {
+      "session": 2649,
+      "startChunk": "b10cd3",
+      "terminalChunk": "1cbda1",
+      "exitCode": 0
+    },
+    "independentAudit": {
+      "session": 68077,
+      "initialChunk": "ac8f09",
+      "terminalChunk": "d2de95",
+      "exitCode": 0,
+      "ref": {
+        "path": "build/aid-hd720-20261023/terminal-independent-audit-v2.json",
+        "bytes": 81846,
+        "sha256": "e632428c46aacf83f745310ebcfeb4bf2265d128bf2833dfcc354786abeb732f"
+      }
+    },
+    "auditFailurePreserved": {
+      "ref": {
+        "path": "build/aid-hd720-20261023/terminal-independent-audit-v1-failure.json",
+        "bytes": 530,
+        "sha256": "1e2fa715ebc5208c583d8aa371d8b147fc6aba239db58a57ca53170ede26ba36"
+      },
+      "scope": "First offline audit incorrectly required user8080HTTP200; both actual baseline probes were unchanged connection refused/no listener. Corrected offline audit v2, zero new native input or browser run."
+    }
+  },
+  "user8080": {
+    "before": {
+      "path": "build/aid-hd720-20261023/user8080-before.json",
+      "bytes": 257,
+      "sha256": "19c63664130cf9c1633df9faf2c9b1ed5829d4f943957e66f390c0c911e6bb07"
+    },
+    "after": {
+      "path": "build/aid-hd720-20261023/user8080-after.json",
+      "bytes": 276,
+      "sha256": "32d7f45692e7a807997422e71284cb93b50df45adff87267be8d02fb63e07619"
+    },
+    "sameListenersAndExactProcessIdentity": true,
+    "wasListening": false,
+    "httpStatus": "由于目标计算机积极拒绝，无法连接。 (127.0.0.1:8080)"
+  },
+  "source": {
+    "candidate": {
+      "path": "build/aid-hd720-20261023/test-hd-aid-installed720-runtime-candidate-v1.mjs",
+      "bytes": 113887,
+      "sha256": "d8be23283f4e4d07425424a4b01be7987533e332a655337f7859b4b3270caacf"
+    },
+    "oracle": {
+      "path": "scripts/hd-aid-runtime-oracle.mjs",
+      "bytes": 50538,
+      "sha256": "3aabc6ee0486955226dfd631c750466492203a927a45c258ffa2ad1372843c48"
+    },
+    "formalClassicRunnerUnmodified": {
+      "path": "scripts/test-hd-aid-runtime.mjs",
+      "bytes": 113444,
+      "sha256": "2d9190c63d8345646cb9f18daf52b2014c3cdaea2565e639d541d3929024113d"
+    },
+    "productEdited": false,
+    "nativeRebuilt": false,
+    "native128": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+    "sourceRecordsPerRun": 1230,
+    "sourceDrift": 0,
+    "sourceAdded": 0
+  },
+  "archive": {
+    "index": "docs/validation/m5-aid-installed720-20261023/runtime-index.json",
+    "logicalFiles": 209,
+    "uniqueHdPngs": 35,
+    "hdSolidOriginalBytes": 40565260,
+    "hdSolidCompressedBytes": 23350356,
+    "everySelectedHdPngClosed": true,
+    "everyCapturedNativeLcdHdPngClosed": true,
+    "rawMachineEvidenceClosed": true,
+    "omittedSupplementaryPng": 8,
+    "portableClosedArchive": false
+  },
+  "previews": [
+    {
+      "id": 17,
+      "phase": "movie",
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0000-movie-hd.png",
+      "bytes": 1396965,
+      "sha256": "6247fe06ab2ef407e1a36d3d28ed5988365be4fa02ac10e1014d109bdec46788",
+      "archive": "png/6247fe06ab2ef407e1a36d3d28ed5988365be4fa02ac10e1014d109bdec46788.png",
+      "originalUnmodified": true
+    },
+    {
+      "id": 29,
+      "phase": "hold",
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0025-hold-hd.png",
+      "bytes": 1038581,
+      "sha256": "de80474f2676fca51c03a15b0ff6071dc9b7edcdd9e8389c28d3efdc97906f8c",
+      "archive": "png/de80474f2676fca51c03a15b0ff6071dc9b7edcdd9e8389c28d3efdc97906f8c.png",
+      "originalUnmodified": true
+    }
+  ],
+  "limits": [
+    "Current installedPC1280x720 selected AID17/29 only; prior installed1080/staged720/exact-missing/classic evidence stays its own exact sources. No full current matrix or whole-HD completion.",
+    "Independent oracle proves the complete native160x96 history and every physical HD PNG/backing pixel outside the certified64x64 window. Inside, exact draw/clear/font/NUM geometry and bounded original artwork readback samples are checked; no all-interior anti-aliased glyph/art pixel identity claim.",
+    "No visibility/resize/mobile/device/performance/whole-campaign/RNG continuity or hardware physical-refresh coverage.",
+    "Source and P3 matrix inputs are separate from root P4 main April progression."
+  ]
+}

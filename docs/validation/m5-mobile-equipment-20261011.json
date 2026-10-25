@@ -1,0 +1,2622 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "accepted": true,
+  "scope": "Original mobile equipment confiscation and granting through actual native controls in two independent fresh original games",
+  "fullHdAccepted": false,
+  "realDeviceAccepted": false,
+  "wholeNativeAbiAccepted": false,
+  "nativeBuildChanged": false,
+  "flows": [
+    {
+      "directory": "build/mobile-equipment-844-v4-20261011",
+      "viewport": [
+        844,
+        390
+      ],
+      "cityIndex": 15,
+      "actors": {
+        "king": 0,
+        "donor": 20,
+        "recipient": 19,
+        "kingTool": 1,
+        "donorTool": 0
+      },
+      "phases": 36,
+      "nativeKeys": 190,
+      "nativeLcdTouches": 0,
+      "sourceFiles": 64,
+      "previewChecks": 46,
+      "equipmentChecks": 74,
+      "trustedPans": 59,
+      "operations": [
+        {
+          "kind": "confiscate",
+          "personId": 0,
+          "toolId": 1,
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "equipmentAccepted": true,
+            "operation": "confiscate",
+            "scope": "One original useflag0 ConfiscateMake or LargessMake transfer; all recorded worldSource fields, not the whole native ABI",
+            "cityIndex": 15,
+            "personId": 0,
+            "toolId": 1,
+            "equipmentSlot": "Tool1",
+            "goodsQueueIndex": 7,
+            "stats": {
+              "forceBefore": 86,
+              "forceAfter": 76,
+              "iqBefore": 36,
+              "iqAfter": 36,
+              "devotionBefore": 100,
+              "devotionAfter": 100
+            },
+            "inventory": {
+              "before": 0,
+              "after": 1,
+              "discoveredOnInsert": true,
+              "tailCleared": false
+            },
+            "reportExpected": false,
+            "reportWorldAccepted": false,
+            "reportBusinessStage": "no-report-for-king",
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "inputAccepted": false,
+            "reportOwnerAccepted": false,
+            "retirementAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "consumableAccepted": false,
+            "limits": [
+              "All recorded worldSource fields are compared; native input/publication/owner/retirement is caller evidence",
+              "Final confiscation GOODS is sampled after native second-only equipment compaction",
+              "No consumed item, army conversion, scripted hook or unsampled derived battle/movement effect acceptance"
+            ]
+          }
+        },
+        {
+          "kind": "reward",
+          "personId": 19,
+          "toolId": 1,
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "equipmentAccepted": true,
+            "operation": "reward",
+            "scope": "One original useflag0 ConfiscateMake or LargessMake transfer; all recorded worldSource fields, not the whole native ABI",
+            "cityIndex": 15,
+            "personId": 19,
+            "toolId": 1,
+            "equipmentSlot": "Tool1",
+            "goodsQueueIndex": 7,
+            "stats": {
+              "forceBefore": 54,
+              "forceAfter": 64,
+              "iqBefore": 92,
+              "iqAfter": 92,
+              "devotionBefore": 89,
+              "devotionAfter": 97
+            },
+            "inventory": {
+              "before": 1,
+              "after": 0,
+              "discoveredOnInsert": false,
+              "tailCleared": false
+            },
+            "reportExpected": true,
+            "reportWorldAccepted": true,
+            "reportBusinessStage": "after-equipment-and-inventory-before-devotion",
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "inputAccepted": false,
+            "reportOwnerAccepted": false,
+            "retirementAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "consumableAccepted": false,
+            "limits": [
+              "All recorded worldSource fields are compared; native input/publication/owner/retirement is caller evidence",
+              "Final confiscation GOODS is sampled after native second-only equipment compaction",
+              "No consumed item, army conversion, scripted hook or unsampled derived battle/movement effect acceptance"
+            ]
+          }
+        },
+        {
+          "kind": "confiscate",
+          "personId": 20,
+          "toolId": 0,
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "equipmentAccepted": true,
+            "operation": "confiscate",
+            "scope": "One original useflag0 ConfiscateMake or LargessMake transfer; all recorded worldSource fields, not the whole native ABI",
+            "cityIndex": 15,
+            "personId": 20,
+            "toolId": 0,
+            "equipmentSlot": "Tool1",
+            "goodsQueueIndex": 7,
+            "stats": {
+              "forceBefore": 110,
+              "forceAfter": 100,
+              "iqBefore": 53,
+              "iqAfter": 53,
+              "devotionBefore": 95,
+              "devotionAfter": 75
+            },
+            "inventory": {
+              "before": 0,
+              "after": 1,
+              "discoveredOnInsert": true,
+              "tailCleared": false
+            },
+            "reportExpected": true,
+            "reportWorldAccepted": true,
+            "reportBusinessStage": "before-all-transfer-business",
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "inputAccepted": false,
+            "reportOwnerAccepted": false,
+            "retirementAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "consumableAccepted": false,
+            "limits": [
+              "All recorded worldSource fields are compared; native input/publication/owner/retirement is caller evidence",
+              "Final confiscation GOODS is sampled after native second-only equipment compaction",
+              "No consumed item, army conversion, scripted hook or unsampled derived battle/movement effect acceptance"
+            ]
+          }
+        },
+        {
+          "kind": "reward",
+          "personId": 20,
+          "toolId": 0,
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "equipmentAccepted": true,
+            "operation": "reward",
+            "scope": "One original useflag0 ConfiscateMake or LargessMake transfer; all recorded worldSource fields, not the whole native ABI",
+            "cityIndex": 15,
+            "personId": 20,
+            "toolId": 0,
+            "equipmentSlot": "Tool1",
+            "goodsQueueIndex": 7,
+            "stats": {
+              "forceBefore": 100,
+              "forceAfter": 110,
+              "iqBefore": 53,
+              "iqAfter": 53,
+              "devotionBefore": 75,
+              "devotionAfter": 83
+            },
+            "inventory": {
+              "before": 1,
+              "after": 0,
+              "discoveredOnInsert": false,
+              "tailCleared": false
+            },
+            "reportExpected": true,
+            "reportWorldAccepted": true,
+            "reportBusinessStage": "after-equipment-and-inventory-before-devotion",
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "inputAccepted": false,
+            "reportOwnerAccepted": false,
+            "retirementAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "consumableAccepted": false,
+            "limits": [
+              "All recorded worldSource fields are compared; native input/publication/owner/retirement is caller evidence",
+              "Final confiscation GOODS is sampled after native second-only equipment compaction",
+              "No consumed item, army conversion, scripted hook or unsampled derived battle/movement effect acceptance"
+            ]
+          }
+        }
+      ],
+      "reports": [
+        {
+          "label": "initial empty reward inventory",
+          "native": {
+            "text": "城中无道具",
+            "seq": 1,
+            "active": 1,
+            "inputSeq": 3,
+            "kind": 1,
+            "person": 65535
+          },
+          "ackKeys": [
+            39
+          ]
+        },
+        {
+          "label": "actual full-equipped rejection",
+          "native": {
+            "text": "该将道具已满",
+            "seq": 2,
+            "active": 1,
+            "inputSeq": 5,
+            "kind": 1,
+            "person": 65535
+          },
+          "ackKeys": [
+            39
+          ]
+        },
+        {
+          "label": "reward person report",
+          "native": {
+            "text": "臣定鞠躬尽瘁，以报答主公之恩！",
+            "seq": 3,
+            "active": 1,
+            "inputSeq": 7,
+            "kind": 2,
+            "person": 19
+          },
+          "ackKeys": [
+            39
+          ]
+        },
+        {
+          "label": "empty inventory after actual reward",
+          "native": {
+            "text": "城中无道具",
+            "seq": 4,
+            "active": 1,
+            "inputSeq": 9,
+            "kind": 1,
+            "person": 65535
+          },
+          "ackKeys": [
+            39
+          ]
+        },
+        {
+          "label": "confiscation person report",
+          "native": {
+            "text": "长此以往，人心难留……",
+            "seq": 5,
+            "active": 1,
+            "inputSeq": 11,
+            "kind": 2,
+            "person": 20
+          },
+          "ackKeys": [
+            39
+          ]
+        },
+        {
+          "label": "reward person report",
+          "native": {
+            "text": "请期待我日后的表现！",
+            "seq": 6,
+            "active": 1,
+            "inputSeq": 13,
+            "kind": 2,
+            "person": 20
+          },
+          "ackKeys": [
+            39
+          ]
+        },
+        {
+          "label": "empty inventory after actual reward",
+          "native": {
+            "text": "城中无道具",
+            "seq": 7,
+            "active": 1,
+            "inputSeq": 15,
+            "kind": 1,
+            "person": 65535
+          },
+          "ackKeys": [
+            39
+          ]
+        }
+      ],
+      "cancellations": [
+        {
+          "label": "leave fresh confiscation PERSON",
+          "keys": [
+            40
+          ],
+          "nativeKind": 0,
+          "seq": 38
+        },
+        {
+          "label": "cancel recipient after full-equipped rejection",
+          "keys": [
+            40
+          ],
+          "nativeKind": 4,
+          "seq": 49
+        },
+        {
+          "label": "cancel actual reward inventory",
+          "keys": [
+            40
+          ],
+          "nativeKind": 0,
+          "seq": 50
+        },
+        {
+          "label": "leave updated actual person details",
+          "keys": [
+            40
+          ],
+          "nativeKind": 0,
+          "seq": 64
+        },
+        {
+          "label": "cancel genuine equipped GOODS",
+          "keys": [
+            40
+          ],
+          "nativeKind": 3,
+          "seq": 73
+        },
+        {
+          "label": "leave fresh confiscation PERSON",
+          "keys": [
+            40
+          ],
+          "nativeKind": 0,
+          "seq": 78
+        },
+        {
+          "label": "leave updated actual person details",
+          "keys": [
+            40
+          ],
+          "nativeKind": 0,
+          "seq": 92
+        }
+      ],
+      "emptyInventory": true,
+      "fullEquipmentRejected": true,
+      "returnedHud": {
+        "visible": true,
+        "status": "原版游戏",
+        "reason": "",
+        "cityIndex": 15,
+        "city": "洛阳",
+        "owner": "董卓",
+        "date": "190年1月",
+        "money": "517",
+        "food": "1254",
+        "arms": "0",
+        "ticket": {
+          "libraryGeneration": 2,
+          "generation": 3,
+          "speGeneration": 3,
+          "mapInputSeq": 11,
+          "mapCity": 16
+        }
+      },
+      "expectedHud": {
+        "city": "洛阳",
+        "owner": "董卓",
+        "date": "190年1月",
+        "money": "517",
+        "food": "1254",
+        "arms": "0"
+      }
+    },
+    {
+      "directory": "build/mobile-equipment-667-v4-20261011",
+      "viewport": [
+        667,
+        375
+      ],
+      "cityIndex": 15,
+      "actors": {
+        "king": 0,
+        "donor": 20,
+        "recipient": 19,
+        "kingTool": 1,
+        "donorTool": 0
+      },
+      "phases": 36,
+      "nativeKeys": 190,
+      "nativeLcdTouches": 0,
+      "sourceFiles": 64,
+      "previewChecks": 46,
+      "equipmentChecks": 74,
+      "trustedPans": 73,
+      "operations": [
+        {
+          "kind": "confiscate",
+          "personId": 0,
+          "toolId": 1,
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "equipmentAccepted": true,
+            "operation": "confiscate",
+            "scope": "One original useflag0 ConfiscateMake or LargessMake transfer; all recorded worldSource fields, not the whole native ABI",
+            "cityIndex": 15,
+            "personId": 0,
+            "toolId": 1,
+            "equipmentSlot": "Tool1",
+            "goodsQueueIndex": 7,
+            "stats": {
+              "forceBefore": 86,
+              "forceAfter": 76,
+              "iqBefore": 36,
+              "iqAfter": 36,
+              "devotionBefore": 100,
+              "devotionAfter": 100
+            },
+            "inventory": {
+              "before": 0,
+              "after": 1,
+              "discoveredOnInsert": true,
+              "tailCleared": false
+            },
+            "reportExpected": false,
+            "reportWorldAccepted": false,
+            "reportBusinessStage": "no-report-for-king",
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "inputAccepted": false,
+            "reportOwnerAccepted": false,
+            "retirementAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "consumableAccepted": false,
+            "limits": [
+              "All recorded worldSource fields are compared; native input/publication/owner/retirement is caller evidence",
+              "Final confiscation GOODS is sampled after native second-only equipment compaction",
+              "No consumed item, army conversion, scripted hook or unsampled derived battle/movement effect acceptance"
+            ]
+          }
+        },
+        {
+          "kind": "reward",
+          "personId": 19,
+          "toolId": 1,
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "equipmentAccepted": true,
+            "operation": "reward",
+            "scope": "One original useflag0 ConfiscateMake or LargessMake transfer; all recorded worldSource fields, not the whole native ABI",
+            "cityIndex": 15,
+            "personId": 19,
+            "toolId": 1,
+            "equipmentSlot": "Tool1",
+            "goodsQueueIndex": 7,
+            "stats": {
+              "forceBefore": 54,
+              "forceAfter": 64,
+              "iqBefore": 92,
+              "iqAfter": 92,
+              "devotionBefore": 89,
+              "devotionAfter": 97
+            },
+            "inventory": {
+              "before": 1,
+              "after": 0,
+              "discoveredOnInsert": false,
+              "tailCleared": false
+            },
+            "reportExpected": true,
+            "reportWorldAccepted": true,
+            "reportBusinessStage": "after-equipment-and-inventory-before-devotion",
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "inputAccepted": false,
+            "reportOwnerAccepted": false,
+            "retirementAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "consumableAccepted": false,
+            "limits": [
+              "All recorded worldSource fields are compared; native input/publication/owner/retirement is caller evidence",
+              "Final confiscation GOODS is sampled after native second-only equipment compaction",
+              "No consumed item, army conversion, scripted hook or unsampled derived battle/movement effect acceptance"
+            ]
+          }
+        },
+        {
+          "kind": "confiscate",
+          "personId": 20,
+          "toolId": 0,
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "equipmentAccepted": true,
+            "operation": "confiscate",
+            "scope": "One original useflag0 ConfiscateMake or LargessMake transfer; all recorded worldSource fields, not the whole native ABI",
+            "cityIndex": 15,
+            "personId": 20,
+            "toolId": 0,
+            "equipmentSlot": "Tool1",
+            "goodsQueueIndex": 7,
+            "stats": {
+              "forceBefore": 110,
+              "forceAfter": 100,
+              "iqBefore": 53,
+              "iqAfter": 53,
+              "devotionBefore": 95,
+              "devotionAfter": 75
+            },
+            "inventory": {
+              "before": 0,
+              "after": 1,
+              "discoveredOnInsert": true,
+              "tailCleared": false
+            },
+            "reportExpected": true,
+            "reportWorldAccepted": true,
+            "reportBusinessStage": "before-all-transfer-business",
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "inputAccepted": false,
+            "reportOwnerAccepted": false,
+            "retirementAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "consumableAccepted": false,
+            "limits": [
+              "All recorded worldSource fields are compared; native input/publication/owner/retirement is caller evidence",
+              "Final confiscation GOODS is sampled after native second-only equipment compaction",
+              "No consumed item, army conversion, scripted hook or unsampled derived battle/movement effect acceptance"
+            ]
+          }
+        },
+        {
+          "kind": "reward",
+          "personId": 20,
+          "toolId": 0,
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "equipmentAccepted": true,
+            "operation": "reward",
+            "scope": "One original useflag0 ConfiscateMake or LargessMake transfer; all recorded worldSource fields, not the whole native ABI",
+            "cityIndex": 15,
+            "personId": 20,
+            "toolId": 0,
+            "equipmentSlot": "Tool1",
+            "goodsQueueIndex": 7,
+            "stats": {
+              "forceBefore": 100,
+              "forceAfter": 110,
+              "iqBefore": 53,
+              "iqAfter": 53,
+              "devotionBefore": 75,
+              "devotionAfter": 83
+            },
+            "inventory": {
+              "before": 1,
+              "after": 0,
+              "discoveredOnInsert": false,
+              "tailCleared": false
+            },
+            "reportExpected": true,
+            "reportWorldAccepted": true,
+            "reportBusinessStage": "after-equipment-and-inventory-before-devotion",
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30,
+              "goodsQueue": 2000,
+              "tools": 33
+            },
+            "inputAccepted": false,
+            "reportOwnerAccepted": false,
+            "retirementAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "consumableAccepted": false,
+            "limits": [
+              "All recorded worldSource fields are compared; native input/publication/owner/retirement is caller evidence",
+              "Final confiscation GOODS is sampled after native second-only equipment compaction",
+              "No consumed item, army conversion, scripted hook or unsampled derived battle/movement effect acceptance"
+            ]
+          }
+        }
+      ],
+      "reports": [
+        {
+          "label": "initial empty reward inventory",
+          "native": {
+            "text": "城中无道具",
+            "seq": 1,
+            "active": 1,
+            "inputSeq": 3,
+            "kind": 1,
+            "person": 65535
+          },
+          "ackKeys": [
+            39
+          ]
+        },
+        {
+          "label": "actual full-equipped rejection",
+          "native": {
+            "text": "该将道具已满",
+            "seq": 2,
+            "active": 1,
+            "inputSeq": 5,
+            "kind": 1,
+            "person": 65535
+          },
+          "ackKeys": [
+            39
+          ]
+        },
+        {
+          "label": "reward person report",
+          "native": {
+            "text": "我决不会辜负主公对我的期望！",
+            "seq": 3,
+            "active": 1,
+            "inputSeq": 7,
+            "kind": 2,
+            "person": 19
+          },
+          "ackKeys": [
+            39
+          ]
+        },
+        {
+          "label": "empty inventory after actual reward",
+          "native": {
+            "text": "城中无道具",
+            "seq": 4,
+            "active": 1,
+            "inputSeq": 9,
+            "kind": 1,
+            "person": 65535
+          },
+          "ackKeys": [
+            39
+          ]
+        },
+        {
+          "label": "confiscation person report",
+          "native": {
+            "text": "长此以往，人心难留……",
+            "seq": 5,
+            "active": 1,
+            "inputSeq": 11,
+            "kind": 2,
+            "person": 20
+          },
+          "ackKeys": [
+            39
+          ]
+        },
+        {
+          "label": "reward person report",
+          "native": {
+            "text": "请期待我日后的表现！",
+            "seq": 6,
+            "active": 1,
+            "inputSeq": 13,
+            "kind": 2,
+            "person": 20
+          },
+          "ackKeys": [
+            39
+          ]
+        },
+        {
+          "label": "empty inventory after actual reward",
+          "native": {
+            "text": "城中无道具",
+            "seq": 7,
+            "active": 1,
+            "inputSeq": 15,
+            "kind": 1,
+            "person": 65535
+          },
+          "ackKeys": [
+            39
+          ]
+        }
+      ],
+      "cancellations": [
+        {
+          "label": "leave fresh confiscation PERSON",
+          "keys": [
+            40
+          ],
+          "nativeKind": 0,
+          "seq": 38
+        },
+        {
+          "label": "cancel recipient after full-equipped rejection",
+          "keys": [
+            40
+          ],
+          "nativeKind": 4,
+          "seq": 49
+        },
+        {
+          "label": "cancel actual reward inventory",
+          "keys": [
+            40
+          ],
+          "nativeKind": 0,
+          "seq": 50
+        },
+        {
+          "label": "leave updated actual person details",
+          "keys": [
+            40
+          ],
+          "nativeKind": 0,
+          "seq": 64
+        },
+        {
+          "label": "cancel genuine equipped GOODS",
+          "keys": [
+            40
+          ],
+          "nativeKind": 3,
+          "seq": 73
+        },
+        {
+          "label": "leave fresh confiscation PERSON",
+          "keys": [
+            40
+          ],
+          "nativeKind": 0,
+          "seq": 78
+        },
+        {
+          "label": "leave updated actual person details",
+          "keys": [
+            40
+          ],
+          "nativeKind": 0,
+          "seq": 92
+        }
+      ],
+      "emptyInventory": true,
+      "fullEquipmentRejected": true,
+      "returnedHud": {
+        "visible": true,
+        "status": "原版游戏",
+        "reason": "",
+        "cityIndex": 15,
+        "city": "洛阳",
+        "owner": "董卓",
+        "date": "190年1月",
+        "money": "517",
+        "food": "1254",
+        "arms": "0",
+        "ticket": {
+          "libraryGeneration": 2,
+          "generation": 3,
+          "speGeneration": 3,
+          "mapInputSeq": 11,
+          "mapCity": 16
+        }
+      },
+      "expectedHud": {
+        "city": "洛阳",
+        "owner": "董卓",
+        "date": "190年1月",
+        "money": "517",
+        "food": "1254",
+        "arms": "0"
+      }
+    }
+  ],
+  "tests": {
+    "modules": 74,
+    "tests": 2583,
+    "pass": 2583,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "log": "build/mobile-equipment-suite-v5-20261011.log"
+  },
+  "failedRuns": [
+    {
+      "directory": "build/mobile-equipment-844-v1-20261011",
+      "accepted": false,
+      "error": "Error: Timed out complete current equipment HD owner kind 2\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:223:78)\n    at async owned (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:21:5)\n    at async open (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:61:17)\n    at async runMobileEquipmentChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:114:3)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:529:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:719:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:751:86"
+    },
+    {
+      "directory": "build/mobile-equipment-844-v2-20261011",
+      "accepted": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   1\n+ ]\n- []\n\n    at owned (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:28:24)\n    at async confiscate (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:80:61)\n    at async runMobileEquipmentChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:122:3)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:529:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:719:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:751:86"
+    },
+    {
+      "directory": "build/mobile-equipment-667-v2-20261011",
+      "accepted": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   1\n+ ]\n- []\n\n    at owned (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:28:24)\n    at async confiscate (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:80:61)\n    at async runMobileEquipmentChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:122:3)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:529:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:719:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:751:86"
+    },
+    {
+      "directory": "build/mobile-equipment-844-v3-20261011",
+      "accepted": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'' !== '（空）'\n\n    at attributes (file:///F:/project/baye-sanguo/scripts/hd-mobile-preview-runtime-checks.mjs:74:81)\n    at async page (file:///F:/project/baye-sanguo/scripts/hd-mobile-preview-runtime-checks.mjs:103:19)\n    at async allPages (file:///F:/project/baye-sanguo/scripts/hd-mobile-preview-runtime-checks.mjs:122:84)\n    at async verifyPerson (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:114:114)\n    at async runMobileEquipmentChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:132:36)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:529:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:719:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:751:86"
+    },
+    {
+      "directory": "build/mobile-equipment-667-v3-20261011",
+      "accepted": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'' !== '（空）'\n\n    at attributes (file:///F:/project/baye-sanguo/scripts/hd-mobile-preview-runtime-checks.mjs:74:81)\n    at async page (file:///F:/project/baye-sanguo/scripts/hd-mobile-preview-runtime-checks.mjs:103:19)\n    at async allPages (file:///F:/project/baye-sanguo/scripts/hd-mobile-preview-runtime-checks.mjs:122:84)\n    at async verifyPerson (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:114:114)\n    at async runMobileEquipmentChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-equipment-runtime-checks.mjs:132:36)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:529:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:719:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:751:86"
+    }
+  ],
+  "userService": {
+    "before": {
+      "checkedAt": "2026-10-11T00:20:14.3404390Z",
+      "listenPort": 8080,
+      "identities": [
+        {
+          "ProcessId": 57860,
+          "ExecutablePath": "C:\\Program Files\\nodejs\\node.exe",
+          "CreationDateUtc": "2026-10-10T11:26:04.2797180Z"
+        }
+      ],
+      "httpStatus": 200
+    },
+    "after": {
+      "checkedAt": "2026-10-11T00:44:22.2571249Z",
+      "listenPort": 8080,
+      "identities": [
+        {
+          "ProcessId": 57860,
+          "ExecutablePath": "C:\\Program Files\\nodejs\\node.exe",
+          "CreationDateUtc": "2026-10-10T11:26:04.2797180Z"
+        }
+      ],
+      "httpStatus": 200
+    },
+    "unchanged": true
+  },
+  "ownedHistoricalRows": 86,
+  "ownedHistoricalPidAbsent": true,
+  "ownedHistoricalBirthExact": false,
+  "cleanupNote": "All recorded PIDs are absent. Historical birth timestamp normalization is inaccurate; no exact UTC tick comparison is claimed. Original proof retained with independent audit correction.",
+  "portableClosedArchive": false,
+  "limits": [
+    "Desktop Chrome landscape touch emulation, not real mobile hardware",
+    "Only recorded world fields, not the complete native ABI",
+    "Actual grants cover useflag0 weapon tools 0/1; not every tool class or error path",
+    "No new battle, succession, save-load, other-period or performance acceptance",
+    "Selected originals and byte-exact compressed receipts are not a standalone replay package"
+  ],
+  "archive": {
+    "originalCount": 185,
+    "originalBytes": 615527853,
+    "archiveBytes": 50800533,
+    "originals": [
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/result.json",
+        "bytes": 131680796,
+        "sha256": "e3b812f50a8cbd81716855fdc6972bf8b1220165fcd7265b9d2ab274ca70c598",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/001-result.json.gz",
+        "archiveBytes": 6039092,
+        "archiveSha256": "83b47623bf14c1a4743c5fef9a0db9a15b0fd351822a8778a6f94be22a1278d4",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/executed-tool.mjs",
+        "bytes": 87649,
+        "sha256": "f43745c4486093ea4c0ecc89c7c5abcff6b60e1dcfebe1891bb70ce69b8589b5",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/002-executed-tool.mjs.gz",
+        "archiveBytes": 24458,
+        "archiveSha256": "d9fe5386bfb3731682d7b0fa13599080e6f08c82e1a100e07cbdf9ae43e8df30",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/source-verification.json",
+        "bytes": 10467,
+        "sha256": "5821a20cb6381f0173f5c51b1e3b62b1f68eb4bac8f343488b7a65f3e6b6fe24",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/003-source-verification.json.gz",
+        "archiveBytes": 3514,
+        "archiveSha256": "de4104d6aa772184ef6a340129cc68cce106139fce3c6021db51e3196285d49e",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/owned-process-samples.jsonl",
+        "bytes": 354858,
+        "sha256": "a0b9da4a3b40c0d1e9f081cb6336dc0217e415787a11b9283011620259eee002",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/004-owned-process-samples.jsonl.gz",
+        "archiveBytes": 5288,
+        "archiveSha256": "04054d998ff7e7a9ae441678f939e9a88708881cf987f36d9f9447300c1a71e1",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-cli-20261011.log",
+        "bytes": 2858,
+        "sha256": "91fac4c68c9d8b170e4a1cfc69fd27571828c95dcdc7f85bc0d690832c4f23cf",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/005-mobile-equipment-844-v4-cli-20261011.log.gz",
+        "archiveBytes": 530,
+        "archiveSha256": "e72ea0701d6e4cda83003ba0d632e1be168daa7d4bbe482ff32034bb12d72072",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-01-confiscated-0-1.png",
+        "bytes": 117286,
+        "sha256": "a9c1c0aa8329723f2f5143f1fda98709725dcc1905c8a4f23ee1e380d974b77f",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/006-equipment-844x390-01-confiscated-0-1.png.gz",
+        "archiveBytes": 116449,
+        "archiveSha256": "ff6e146efb76a4183ad5fc99554b8b37585e87efc71c329bafade8e3c0c289f6",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-03-tool-1-all-properties.png",
+        "bytes": 48180,
+        "sha256": "eaaba91ae601ef51554b6a818140d6aa5173be2adbdc68812b7102de6ec9df29",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/007-equipment-844x390-03-tool-1-all-properties.png.gz",
+        "archiveBytes": 46817,
+        "archiveSha256": "75ab0511f06ea49dd67aa64e0029ca3d808863e12c19b9b91a8e7b95a44e2b87",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-05-tool-1-all-properties.png",
+        "bytes": 48180,
+        "sha256": "eaaba91ae601ef51554b6a818140d6aa5173be2adbdc68812b7102de6ec9df29",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/008-equipment-844x390-05-tool-1-all-properties.png.gz",
+        "archiveBytes": 46817,
+        "archiveSha256": "75ab0511f06ea49dd67aa64e0029ca3d808863e12c19b9b91a8e7b95a44e2b87",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-06-rewarded-19-1-hd-overworld-canvas.png",
+        "bytes": 681642,
+        "sha256": "fb5fc1138cb826e5e8a2c8843a41acd61ef1845fe1f45afbb1c611c0d8df1840",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/009-equipment-844x390-06-rewarded-19-1-hd-overworld-canvas.png.gz",
+        "archiveBytes": 681870,
+        "archiveSha256": "b87c42582ce06a1eedef16d2eb2587e14782ced99edd29fa99edd2ef1f0f4171",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-06-rewarded-19-1.png",
+        "bytes": 539843,
+        "sha256": "9b73aa560fd3a2de5df8386ae0ea1f5d2d9eb2197bafd072ef378d58332e4700",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/010-equipment-844x390-06-rewarded-19-1.png.gz",
+        "archiveBytes": 540006,
+        "archiveSha256": "be23d9af805a9c6f22a9d29d791066da3ae762acd2a139cbb3543f74aa3c4c0f",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-08-person-19-all-properties.png",
+        "bytes": 58744,
+        "sha256": "ed4c367198eefaabc5dd264ccc7280093515f03754e46c82c4cc362077aa94aa",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/011-equipment-844x390-08-person-19-all-properties.png.gz",
+        "archiveBytes": 57590,
+        "archiveSha256": "eba6dac228add77a20ae81c6c9d0438b2661a15389f4324f258a29ff59db8e75",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-09-confiscated-20-0.png",
+        "bytes": 120356,
+        "sha256": "6fd0d7bcbfd7adc2f6371a0f13e755f26c78ed3e2e5b9fa1aa2cd2a97e328b7e",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/012-equipment-844x390-09-confiscated-20-0.png.gz",
+        "archiveBytes": 119480,
+        "archiveSha256": "490522ed223c9940cc9561ae9fd919d2f827071077a61a0a842320c00904687f",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-11-tool-0-all-properties.png",
+        "bytes": 48854,
+        "sha256": "b06909f282b0d0579684daa54edc85394d970c9a0033cbd1712156213527dc71",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/013-equipment-844x390-11-tool-0-all-properties.png.gz",
+        "archiveBytes": 47555,
+        "archiveSha256": "9f476f57eef6708970956ef02b73cde61496956bc32f1b15d1c885bb5ba09728",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-12-rewarded-20-0-hd-overworld-canvas.png",
+        "bytes": 681498,
+        "sha256": "6444b4923a6e76c1170edf2de18d6cf0f13623e51d7a01ced336bd9880128ded",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/014-equipment-844x390-12-rewarded-20-0-hd-overworld-canvas.png.gz",
+        "archiveBytes": 681726,
+        "archiveSha256": "5568562413d800bfacc363cedc561b4033f971f63bc279183e55b2014baeb1f8",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-12-rewarded-20-0.png",
+        "bytes": 539574,
+        "sha256": "e5995743268f32494168db47208fcfdc671f8153732b72a85bc2a2a0fe150445",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/015-equipment-844x390-12-rewarded-20-0.png.gz",
+        "archiveBytes": 539737,
+        "archiveSha256": "79b6ff79da289dca5561d5838b68efb048a022a9e4f4b2df157e1443fa713bf8",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-14-person-20-all-properties.png",
+        "bytes": 59618,
+        "sha256": "e470b90d9f9cd44a7df789626ed626967dbc16b3ce24839b37ec14f928ed06e1",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/016-equipment-844x390-14-person-20-all-properties.png.gz",
+        "archiveBytes": 58385,
+        "archiveSha256": "dcb7d371f478881da8f27dd0b3fc71dd05ba211b1d3f03e919ac242d57023400",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-15-map-hd-overworld-canvas.png",
+        "bytes": 682366,
+        "sha256": "7ace4de884527b45e0be043bd3089b0f3e409ad26ee6aaac57d1144e829aee53",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/017-equipment-844x390-15-map-hd-overworld-canvas.png.gz",
+        "archiveBytes": 682594,
+        "archiveSha256": "ff96a63c765388768d777fe3d7251cc004ef43ba151f8c947cc30f0f6db9dce4",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-844x390-15-map.png",
+        "bytes": 540072,
+        "sha256": "d1a7d9e54b4c5de84565f9bc2737b2e2ca1797e29169cbcaac45bc56cdc85c3b",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/018-equipment-844x390-15-map.png.gz",
+        "archiveBytes": 540235,
+        "archiveSha256": "1160d61d968c3c5b966e42ab9094909c428666f3dc964f7c88da24e9202005cf",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-preview-844x390-03-person-20-all-properties.png",
+        "bytes": 59618,
+        "sha256": "e470b90d9f9cd44a7df789626ed626967dbc16b3ce24839b37ec14f928ed06e1",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/019-equipment-preview-844x390-03-person-20-all-properties.png.gz",
+        "archiveBytes": 58385,
+        "archiveSha256": "dcb7d371f478881da8f27dd0b3fc71dd05ba211b1d3f03e919ac242d57023400",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-preview-844x390-06-tool-0-all-properties.png",
+        "bytes": 50160,
+        "sha256": "b75c1d0bcad52cfe3619104734a8d3713e1cd901451eaf80ba31adee445f7abf",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/020-equipment-preview-844x390-06-tool-0-all-properties.png.gz",
+        "archiveBytes": 48967,
+        "archiveSha256": "48a71aab74ffd77aa701780177f60088769faf0bf3836e4a19090a59cd7d28c3",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-preview-844x390-08-tool-22-all-properties.png",
+        "bytes": 50131,
+        "sha256": "03b6347e123afe319f384d93479449b95ec3ff551f03f41860f60fb684d37ec4",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/021-equipment-preview-844x390-08-tool-22-all-properties.png.gz",
+        "archiveBytes": 48975,
+        "archiveSha256": "633e332327a274497b22b92a89dd91b8867afc0b1969cbbb735fd5ec2a1075e3",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-preview-844x390-09-map-hd-overworld-canvas.png",
+        "bytes": 681509,
+        "sha256": "e74037530676db87417766dcacf8d35c312f746b84edc180adacf804bc7afcbd",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/022-equipment-preview-844x390-09-map-hd-overworld-canvas.png.gz",
+        "archiveBytes": 681737,
+        "archiveSha256": "9b2056812cbff8130a6ccc78548ead2123a56ca08fce2d5d85c85a52b24bd903",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/equipment-preview-844x390-09-map.png",
+        "bytes": 539430,
+        "sha256": "ff5a5df98057bf48637aec6092355b60ad0a20bd13a7ed69e5bffbb4b2812921",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/023-equipment-preview-844x390-09-map.png.gz",
+        "archiveBytes": 539593,
+        "archiveSha256": "fc85671981391e523324b07ebb59ec32130b068488b18c92567a63adffe3f55a",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/final-equipment-HD-map-hd-overworld-canvas.png",
+        "bytes": 681430,
+        "sha256": "1444a739f753bb6d9a1cffe424d6153f367e18fdb3aa300b2704d879a5534627",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/024-final-equipment-HD-map-hd-overworld-canvas.png.gz",
+        "archiveBytes": 681658,
+        "archiveSha256": "52aa2e2ac9ee09cb6cb69bf89d67472f93b1de6426bbc5ea9d4cbcf42022be6c",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v4-20261011/final-equipment-HD-map.png",
+        "bytes": 539519,
+        "sha256": "abb69c0455b29f641a9e0657981986e753d876e32b03569ed1dbe7b97bf18b54",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/025-final-equipment-HD-map.png.gz",
+        "archiveBytes": 539682,
+        "archiveSha256": "cc77f8500905180704d5f440668de13a480eeea7312a80b974ab222e44dd3512",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/result.json",
+        "bytes": 141421056,
+        "sha256": "88776b7fbf223cfec3106c86e9c150a5f39a454dab6a00fd78b9938011e7afd8",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/026-result.json.gz",
+        "archiveBytes": 6448100,
+        "archiveSha256": "f07dcb3fbd4193d37cc058f0035968fc8c2905cbce41d8624f1b3e21c9e5b78c",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/executed-tool.mjs",
+        "bytes": 87649,
+        "sha256": "f43745c4486093ea4c0ecc89c7c5abcff6b60e1dcfebe1891bb70ce69b8589b5",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/027-executed-tool.mjs.gz",
+        "archiveBytes": 24458,
+        "archiveSha256": "d9fe5386bfb3731682d7b0fa13599080e6f08c82e1a100e07cbdf9ae43e8df30",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/source-verification.json",
+        "bytes": 10467,
+        "sha256": "5821a20cb6381f0173f5c51b1e3b62b1f68eb4bac8f343488b7a65f3e6b6fe24",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/028-source-verification.json.gz",
+        "archiveBytes": 3514,
+        "archiveSha256": "de4104d6aa772184ef6a340129cc68cce106139fce3c6021db51e3196285d49e",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/owned-process-samples.jsonl",
+        "bytes": 352895,
+        "sha256": "480942baf06a7553d6878c7234b46cd72a3955dd0993876f91b064520fd1e5fa",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/029-owned-process-samples.jsonl.gz",
+        "archiveBytes": 5198,
+        "archiveSha256": "fd61205c0f7f821d647b5aa05c97a13ecc63ccc89ad3139c7fdeb12953a0e658",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-cli-20261011.log",
+        "bytes": 2858,
+        "sha256": "8ca1a2b8fb95036d25a00804363cab6971c27384f9abcde520886333d683ee8d",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/030-mobile-equipment-667-v4-cli-20261011.log.gz",
+        "archiveBytes": 532,
+        "archiveSha256": "eb10519c2da412f27150b1f374792f453d036df8dc130ce73a611496fae1877b",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-01-confiscated-0-1.png",
+        "bytes": 113608,
+        "sha256": "ebb4c3f628acf8429859065a4d671f87dc8eeb77514c692ef209692ce2a62b22",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/031-equipment-667x375-01-confiscated-0-1.png.gz",
+        "archiveBytes": 113161,
+        "archiveSha256": "4b9d3ed2cf53470f8ef355ba4252f7db09a0550bcb85eca9f7f53fdde6f9ab5c",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-03-tool-1-all-properties.png",
+        "bytes": 46335,
+        "sha256": "81633555b55b4173deab30d30d89817b6fc69e1769133e711f12039106e03810",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/032-equipment-667x375-03-tool-1-all-properties.png.gz",
+        "archiveBytes": 45701,
+        "archiveSha256": "b8ae70f3e076363af725334289a5f8441753d7d144402044ddfd7a3a84638097",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-05-tool-1-all-properties.png",
+        "bytes": 46381,
+        "sha256": "1caf50d8825cfa2957ee1911004c0c4ef90b65950b59aa676b49b73caaa18148",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/033-equipment-667x375-05-tool-1-all-properties.png.gz",
+        "archiveBytes": 45756,
+        "archiveSha256": "ccf75c741415e0d24685e6e23e9af99388d4911cc0f324800826412da13b8795",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-06-rewarded-19-1-hd-overworld-canvas.png",
+        "bytes": 529494,
+        "sha256": "17301087669035bc9e44d038e5801451f2a0df6c32056135e59f455f6f91af95",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/034-equipment-667x375-06-rewarded-19-1-hd-overworld-canvas.png.gz",
+        "archiveBytes": 529677,
+        "archiveSha256": "1fbd56f31c92fc07514d8b786e50ec4b225469fbc528968bf8e254232380b380",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-06-rewarded-19-1.png",
+        "bytes": 424064,
+        "sha256": "c63b55e21068bd99f854d551b1dfbce2602d7f1447db6a01369c6a04f46203a2",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/035-equipment-667x375-06-rewarded-19-1.png.gz",
+        "archiveBytes": 424154,
+        "archiveSha256": "637144b1668b583a48644de1da1200e2d6b16f793465580e3a0bb81de9f914a0",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-08-person-19-all-properties.png",
+        "bytes": 55105,
+        "sha256": "29cfc968ab7589ece9d023c05255c88c15aeeae3aadda135bf340bbae24db7e9",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/036-equipment-667x375-08-person-19-all-properties.png.gz",
+        "archiveBytes": 54284,
+        "archiveSha256": "67f219e9bfa8bb49ca01bcb08d67e7af16bee9f55bf4b7d9014cae1f25910df9",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-09-confiscated-20-0.png",
+        "bytes": 116323,
+        "sha256": "eb4befab87ceec5c22e83e523239349d057be48ac5098d02cd86650312f6b5ff",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/037-equipment-667x375-09-confiscated-20-0.png.gz",
+        "archiveBytes": 115898,
+        "archiveSha256": "5f57f9101a32f892440c47ec452bb538a7ae1cc45df3075a284d622c2682c4b1",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-11-tool-0-all-properties.png",
+        "bytes": 47127,
+        "sha256": "4a65b2e2ac85e83b558581777e405368ff6eefb24b3b0bcdc6665d09370513eb",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/038-equipment-667x375-11-tool-0-all-properties.png.gz",
+        "archiveBytes": 46443,
+        "archiveSha256": "d364207dfcd7a160ddbc2a770050e8654397bb58a83860dbbfa69a9ce9134a3e",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-12-rewarded-20-0-hd-overworld-canvas.png",
+        "bytes": 528869,
+        "sha256": "9bafe5dde787fa61518a101210eb9a031dff75ce9d8bb6c70658a85aca119d76",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/039-equipment-667x375-12-rewarded-20-0-hd-overworld-canvas.png.gz",
+        "archiveBytes": 529052,
+        "archiveSha256": "bd96d5f54c48fef04793078848b6465788046a6766680460f30569797a936c88",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-12-rewarded-20-0.png",
+        "bytes": 423644,
+        "sha256": "b35e010fce309b30cbc67796cca2da6e9b7e5cfbde5575925e192613573061dd",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/040-equipment-667x375-12-rewarded-20-0.png.gz",
+        "archiveBytes": 423734,
+        "archiveSha256": "44d1696784a6ef143d74e5c6855ffc0ce0c9128c410e4a70ca8425083d2fc2f3",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-14-person-20-all-properties.png",
+        "bytes": 55704,
+        "sha256": "beecdec955b54bb7897eb31fbaf9e7ef3b1fe11085e301d8f12e49eafefb7630",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/041-equipment-667x375-14-person-20-all-properties.png.gz",
+        "archiveBytes": 54932,
+        "archiveSha256": "f862a7946cd3c1d96f16316cbe63e2dc5ee49ce49c1e5f8e1cbe76e211e1e1cd",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-15-map-hd-overworld-canvas.png",
+        "bytes": 528893,
+        "sha256": "c17e8f524451e5634dfa2c4ae66fdcba3183d0cba4b1b1773a0c95a838897e3d",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/042-equipment-667x375-15-map-hd-overworld-canvas.png.gz",
+        "archiveBytes": 529076,
+        "archiveSha256": "828205814d4e7311aec8b3641fe2497ee038253e89b4cfde6a0ccb862bd9efcc",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-667x375-15-map.png",
+        "bytes": 423757,
+        "sha256": "656cccc04f2222ae12c8970732359ebe7e48370f298bed75a675f85f67eec529",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/043-equipment-667x375-15-map.png.gz",
+        "archiveBytes": 423847,
+        "archiveSha256": "f428f6f73d0930424f6b9dfe1ec02e06031665aea0c5358ce7e826640f155489",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-preview-667x375-03-person-20-all-properties.png",
+        "bytes": 55704,
+        "sha256": "beecdec955b54bb7897eb31fbaf9e7ef3b1fe11085e301d8f12e49eafefb7630",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/044-equipment-preview-667x375-03-person-20-all-properties.png.gz",
+        "archiveBytes": 54932,
+        "archiveSha256": "f862a7946cd3c1d96f16316cbe63e2dc5ee49ce49c1e5f8e1cbe76e211e1e1cd",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-preview-667x375-06-tool-0-all-properties.png",
+        "bytes": 48863,
+        "sha256": "cb50898813b9f82bb510aec1ae322852d1c93256c855591ef75c8ab8c2774395",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/045-equipment-preview-667x375-06-tool-0-all-properties.png.gz",
+        "archiveBytes": 48149,
+        "archiveSha256": "c9f2c730e2f41b8745e30a2fc03b127566fa2faf45cacb0c1d8703a78e2af271",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-preview-667x375-08-tool-22-all-properties.png",
+        "bytes": 49067,
+        "sha256": "28c702a293295945ae738ba3afd8d58aeee56ec11c25de573bed1e775c5b3ad6",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/046-equipment-preview-667x375-08-tool-22-all-properties.png.gz",
+        "archiveBytes": 48399,
+        "archiveSha256": "762e132b042d0dd7f982b4296e1f28aee4e81ea63dc2c82b15f094f1fd28a9d5",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-preview-667x375-09-map-hd-overworld-canvas.png",
+        "bytes": 529749,
+        "sha256": "d20977c37fb13983f02b3e375e1e8854c6948f530e574ab853734a10a8fca332",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/047-equipment-preview-667x375-09-map-hd-overworld-canvas.png.gz",
+        "archiveBytes": 529932,
+        "archiveSha256": "48b56b6c937b4690844d0ceb3ebbef2ff5fcaa29d816499efa49c7c9d5a774bd",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/equipment-preview-667x375-09-map.png",
+        "bytes": 424138,
+        "sha256": "513dc86029a46d636a324b14c179c1342f1dcc8843ceeaabaa73114ac691cf3c",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/048-equipment-preview-667x375-09-map.png.gz",
+        "archiveBytes": 424228,
+        "archiveSha256": "74619affcdfd191f402ce6eed51eb78cdf37d295d7a355ab80867f1f3a2792e5",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/final-equipment-HD-map-hd-overworld-canvas.png",
+        "bytes": 528842,
+        "sha256": "04fffa5dbc9dda07721f454f77e1b2295fe54944a0168804b3d9838fd08bfaac",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/049-final-equipment-HD-map-hd-overworld-canvas.png.gz",
+        "archiveBytes": 529025,
+        "archiveSha256": "a70c642249a9909918cbb094942d9195f7aaf5816ecb8db1443dbcc7560cbb78",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v4-20261011/final-equipment-HD-map.png",
+        "bytes": 423786,
+        "sha256": "5b9e5ce7b173a56b0864790f47e725fc83e81fe9a611ec0935ea390ae4f565da",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/050-final-equipment-HD-map.png.gz",
+        "archiveBytes": 423876,
+        "archiveSha256": "68bee7b2bc11cd1acf18898e877f1da6916969dd9788d3d87ef9b7296ea45de0",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v1-20261011/result.json",
+        "bytes": 40610178,
+        "sha256": "1d9aec06b9041573db69f208e69fe8cbe3b897b6f14a96d232052c91afcba961",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/051-result.json.gz",
+        "archiveBytes": 1877282,
+        "archiveSha256": "a8c49c61219a69713b9fe69954e6f0c6053000aafd4137dc7ecb5d99517bd921",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v1-20261011/executed-tool.mjs",
+        "bytes": 87649,
+        "sha256": "f43745c4486093ea4c0ecc89c7c5abcff6b60e1dcfebe1891bb70ce69b8589b5",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/052-executed-tool.mjs.gz",
+        "archiveBytes": 24458,
+        "archiveSha256": "d9fe5386bfb3731682d7b0fa13599080e6f08c82e1a100e07cbdf9ae43e8df30",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v1-20261011/source-verification.json",
+        "bytes": 10467,
+        "sha256": "74858ace48b5f55a740321ff221f9235055dfe2dacc9f5141ac093497ea33c7c",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/053-source-verification.json.gz",
+        "archiveBytes": 3518,
+        "archiveSha256": "5d0ad160722145eca49cc66f81e8c7142b83d8250e2269a05afc1fda30c78a75",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v1-20261011/owned-process-samples.jsonl",
+        "bytes": 155913,
+        "sha256": "dda522f524b39767f77651b468a9e458c841b4d9d8b33699c0c41282d96c1c59",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/054-owned-process-samples.jsonl.gz",
+        "archiveBytes": 3225,
+        "archiveSha256": "d142045098d0808f384d4d48e49098f1bad216cbe9dc8be49208493624d8a814",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v1-cli-20261011.log",
+        "bytes": 2799,
+        "sha256": "62374714a93ed6e078c06fa8dadec2dbf6037a98a163f798da1afb35b7532ba9",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/055-mobile-equipment-844-v1-cli-20261011.log.gz",
+        "archiveBytes": 559,
+        "archiveSha256": "ccf77a16aaa2fff98f856c77c7dc387793e76b80cd19c5a146f54bc6e4d3220c",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v1-20261011/equipment-preview-844x390-03-person-20-all-properties.png",
+        "bytes": 59618,
+        "sha256": "e470b90d9f9cd44a7df789626ed626967dbc16b3ce24839b37ec14f928ed06e1",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/056-equipment-preview-844x390-03-person-20-all-properties.png.gz",
+        "archiveBytes": 58385,
+        "archiveSha256": "dcb7d371f478881da8f27dd0b3fc71dd05ba211b1d3f03e919ac242d57023400",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v1-20261011/equipment-preview-844x390-06-tool-0-all-properties.png",
+        "bytes": 50160,
+        "sha256": "b75c1d0bcad52cfe3619104734a8d3713e1cd901451eaf80ba31adee445f7abf",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/057-equipment-preview-844x390-06-tool-0-all-properties.png.gz",
+        "archiveBytes": 48967,
+        "archiveSha256": "48a71aab74ffd77aa701780177f60088769faf0bf3836e4a19090a59cd7d28c3",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v1-20261011/equipment-preview-844x390-08-tool-22-all-properties.png",
+        "bytes": 50131,
+        "sha256": "03b6347e123afe319f384d93479449b95ec3ff551f03f41860f60fb684d37ec4",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/058-equipment-preview-844x390-08-tool-22-all-properties.png.gz",
+        "archiveBytes": 48975,
+        "archiveSha256": "633e332327a274497b22b92a89dd91b8867afc0b1969cbbb735fd5ec2a1075e3",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v1-20261011/equipment-preview-844x390-09-map-hd-overworld-canvas.png",
+        "bytes": 681341,
+        "sha256": "a9c4018544837d20db2ef67a88952407b6f0ea5a2de0d00a6488d52da926ead1",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/059-equipment-preview-844x390-09-map-hd-overworld-canvas.png.gz",
+        "archiveBytes": 681569,
+        "archiveSha256": "4e5c6f42c9b08dc9a160ba181b7b29dd0919a364ee22d2bb7ac39797b45eeaff",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v1-20261011/equipment-preview-844x390-09-map.png",
+        "bytes": 539564,
+        "sha256": "06b0783d0d6a943b3710103851e81c186c850354d443c4d9f12925b6f6c05541",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/060-equipment-preview-844x390-09-map.png.gz",
+        "archiveBytes": 539727,
+        "archiveSha256": "a5aa750ec904d2bf465922d3ee5815c86296de1507bc9148bf49151d077ff605",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v1-20261011/failure-hd-overworld-canvas.png",
+        "bytes": 682346,
+        "sha256": "8ea9826bdfa80aea25c818624bc250c4fa43568a77a94093d6ddcb7973c68cf7",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/061-failure-hd-overworld-canvas.png.gz",
+        "archiveBytes": 682574,
+        "archiveSha256": "6adc8d643b734fb993b0260f8d925a53a5beab2c01ad67bba3b1ed44b59b41df",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v1-20261011/failure.png",
+        "bytes": 539914,
+        "sha256": "ccaf08481b91fb821cce73c5eb3c1d85b96ee665d6aa7b55b22fdb3dbbbcac8d",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/062-failure.png.gz",
+        "archiveBytes": 540077,
+        "archiveSha256": "a1328b60a260bcb23e2b33930467cd22f355b7d1e90b19c5341df9904b710b3c",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v2-20261011/result.json",
+        "bytes": 43986946,
+        "sha256": "766a26510bf95bd553bf09983a6e3fc80addefadf23eb59d3f9ca38aa58892e0",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/063-result.json.gz",
+        "archiveBytes": 2041097,
+        "archiveSha256": "b8643b9269ef3b73ad3e4773ddb2d19f1c63c477b5d9348e6f5667f97802dbd9",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v2-20261011/executed-tool.mjs",
+        "bytes": 87649,
+        "sha256": "f43745c4486093ea4c0ecc89c7c5abcff6b60e1dcfebe1891bb70ce69b8589b5",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/064-executed-tool.mjs.gz",
+        "archiveBytes": 24458,
+        "archiveSha256": "d9fe5386bfb3731682d7b0fa13599080e6f08c82e1a100e07cbdf9ae43e8df30",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v2-20261011/source-verification.json",
+        "bytes": 10467,
+        "sha256": "b16248a4c14209d70d57ea5416a4df48745df85f62e13abe09a903ec2b018733",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/065-source-verification.json.gz",
+        "archiveBytes": 3513,
+        "archiveSha256": "d59b5ac5315f64aefd58052c338d52cd0ce0f5f23e3e3b795d12a7a8844c6c3c",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v2-20261011/owned-process-samples.jsonl",
+        "bytes": 190503,
+        "sha256": "094a1e269432c3019b1e71ecad31369abb36ad4f2e4eb1ee8368d063eaf122b4",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/066-owned-process-samples.jsonl.gz",
+        "archiveBytes": 3761,
+        "archiveSha256": "1332caf6a417d32f9549d10ccbdd602e9991b0d1703a1d0825be0c0532d8e50b",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v2-cli-20261011.log",
+        "bytes": 2787,
+        "sha256": "5c314e279394bdebbdb27de493e50daa0bbef5f222c24089e8c4b4a13538eb75",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/067-mobile-equipment-844-v2-cli-20261011.log.gz",
+        "archiveBytes": 619,
+        "archiveSha256": "27e95c53e72f9fcf2f5cc1914f265fd5d5c62f5cd3d8fe82dd29f12f8122d79d",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v2-20261011/equipment-preview-844x390-03-person-20-all-properties.png",
+        "bytes": 59618,
+        "sha256": "e470b90d9f9cd44a7df789626ed626967dbc16b3ce24839b37ec14f928ed06e1",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/068-equipment-preview-844x390-03-person-20-all-properties.png.gz",
+        "archiveBytes": 58385,
+        "archiveSha256": "dcb7d371f478881da8f27dd0b3fc71dd05ba211b1d3f03e919ac242d57023400",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v2-20261011/equipment-preview-844x390-06-tool-0-all-properties.png",
+        "bytes": 50160,
+        "sha256": "b75c1d0bcad52cfe3619104734a8d3713e1cd901451eaf80ba31adee445f7abf",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/069-equipment-preview-844x390-06-tool-0-all-properties.png.gz",
+        "archiveBytes": 48967,
+        "archiveSha256": "48a71aab74ffd77aa701780177f60088769faf0bf3836e4a19090a59cd7d28c3",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v2-20261011/equipment-preview-844x390-08-tool-22-all-properties.png",
+        "bytes": 50131,
+        "sha256": "03b6347e123afe319f384d93479449b95ec3ff551f03f41860f60fb684d37ec4",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/070-equipment-preview-844x390-08-tool-22-all-properties.png.gz",
+        "archiveBytes": 48975,
+        "archiveSha256": "633e332327a274497b22b92a89dd91b8867afc0b1969cbbb735fd5ec2a1075e3",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v2-20261011/equipment-preview-844x390-09-map-hd-overworld-canvas.png",
+        "bytes": 681518,
+        "sha256": "5a6339a6e3369f3d22f2e7edc30a75a84bb93b9d93bf764cbb751f12e8739824",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/071-equipment-preview-844x390-09-map-hd-overworld-canvas.png.gz",
+        "archiveBytes": 681746,
+        "archiveSha256": "1e718301e5fff9f32d53500ce31d6a6955dc3ec85bbec406b00d8339074ff58f",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v2-20261011/equipment-preview-844x390-09-map.png",
+        "bytes": 539554,
+        "sha256": "1ad285f9d3a8df63ac2109935ffc041ebe0f6c81bd116c287435968ab0c67601",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/072-equipment-preview-844x390-09-map.png.gz",
+        "archiveBytes": 539717,
+        "archiveSha256": "b8bda9c888658819f83d4bfec566463994c4e3241bdfc3cb2324616027a72df9",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v2-20261011/failure.png",
+        "bytes": 51209,
+        "sha256": "b08e6a6e80cb10aff85684b8757b05baee1f91e29a4faa1733b32ee3b2f65fc0",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/073-failure.png.gz",
+        "archiveBytes": 50050,
+        "archiveSha256": "d7f166b8dcfea95c0b299f9f72d996da85f5c6881f2810aefa53bc9daef0fb59",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v2-20261011/result.json",
+        "bytes": 46624465,
+        "sha256": "0fda1dee0463bde8b865d3cc46efc5be9f1ea5b3659715a3b58329f30416f22d",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/074-result.json.gz",
+        "archiveBytes": 2144402,
+        "archiveSha256": "becd0d6f9aafbd80c3f8bb95450b28deafd7b49513961070f290c2d3780bd7f0",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v2-20261011/executed-tool.mjs",
+        "bytes": 87649,
+        "sha256": "f43745c4486093ea4c0ecc89c7c5abcff6b60e1dcfebe1891bb70ce69b8589b5",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/075-executed-tool.mjs.gz",
+        "archiveBytes": 24458,
+        "archiveSha256": "d9fe5386bfb3731682d7b0fa13599080e6f08c82e1a100e07cbdf9ae43e8df30",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v2-20261011/source-verification.json",
+        "bytes": 10467,
+        "sha256": "c381d2e7f88ec34c254c7b25ad0bbc4658534e748855e8ec927fd38f927408a5",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/076-source-verification.json.gz",
+        "archiveBytes": 3512,
+        "archiveSha256": "20b63c49c5918361bff93c759fd6d4a600c31daebcf592eed1160d79aa234640",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v2-20261011/owned-process-samples.jsonl",
+        "bytes": 183963,
+        "sha256": "4020a06843d8d02c04a622891279b6b0da186fadd3cbecdc2d31db480120110b",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/077-owned-process-samples.jsonl.gz",
+        "archiveBytes": 3706,
+        "archiveSha256": "3d06fb6e8def9eb593f212aadc4f386470959bd4b3e70cdb810c171b732708c3",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v2-cli-20261011.log",
+        "bytes": 2787,
+        "sha256": "4972cf7008bf25d8e3ead557ba840a1a0e37a945f1b018caaa594f9248bc818d",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/078-mobile-equipment-667-v2-cli-20261011.log.gz",
+        "archiveBytes": 621,
+        "archiveSha256": "2592b1b1fcf2db9acf26b108076c8a7f04aab5708a5ad1d7e652c524b188555b",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v2-20261011/equipment-preview-667x375-03-person-20-all-properties.png",
+        "bytes": 55704,
+        "sha256": "beecdec955b54bb7897eb31fbaf9e7ef3b1fe11085e301d8f12e49eafefb7630",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/079-equipment-preview-667x375-03-person-20-all-properties.png.gz",
+        "archiveBytes": 54932,
+        "archiveSha256": "f862a7946cd3c1d96f16316cbe63e2dc5ee49ce49c1e5f8e1cbe76e211e1e1cd",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v2-20261011/equipment-preview-667x375-06-tool-0-all-properties.png",
+        "bytes": 48817,
+        "sha256": "ffcb1949586235793f8325b91bb04f7949efc2a69080bf2dfc403a2867a81ca4",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/080-equipment-preview-667x375-06-tool-0-all-properties.png.gz",
+        "archiveBytes": 48121,
+        "archiveSha256": "42c93e370b3b043a44927ed0672cf3d238bb96e07ba489ac7b6c6e191f3f9246",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v2-20261011/equipment-preview-667x375-08-tool-22-all-properties.png",
+        "bytes": 49065,
+        "sha256": "2983c64643e2017dc3a2d1630bc23a90e976791fedc03a8521eb7f8547c8e6a0",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/081-equipment-preview-667x375-08-tool-22-all-properties.png.gz",
+        "archiveBytes": 48384,
+        "archiveSha256": "5e6474ece1c86e95407285ab8497a8df793a1db81873900882d71aa95850731b",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v2-20261011/equipment-preview-667x375-09-map-hd-overworld-canvas.png",
+        "bytes": 528976,
+        "sha256": "8acabd6e7eabb3684d9fa342fbb4e783c7468c3fa24f4e7f524c9e56ca8c4668",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/082-equipment-preview-667x375-09-map-hd-overworld-canvas.png.gz",
+        "archiveBytes": 529159,
+        "archiveSha256": "1547f17b99cd73ab334df0d05ad686a075c60112b0005e6d13e49454f0bf4200",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v2-20261011/equipment-preview-667x375-09-map.png",
+        "bytes": 423982,
+        "sha256": "5b5d82a68a01d73c0963a708aeaac98a157683fb0afa8d50507779f9c43fc283",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/083-equipment-preview-667x375-09-map.png.gz",
+        "archiveBytes": 424072,
+        "archiveSha256": "81a4d31852abea1826d982c1a5d0236a5745f141951edb8c785aaa9fd261f53c",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v2-20261011/failure.png",
+        "bytes": 48790,
+        "sha256": "b4a90709c20ff88a88fae61cb230c71e81c8bd6cb0c4a613f63798f2c03b5d75",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/084-failure.png.gz",
+        "archiveBytes": 48070,
+        "archiveSha256": "cc90f83b1fc5f73a5f27e277ff831f1dc48eb9d5e4f4c75a1285676b207facc9",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/result.json",
+        "bytes": 86695714,
+        "sha256": "2df4cda2123c9e06b1d4dd9dd98e478f4dea21e05fcb0a96c36888e95b056b8e",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/085-result.json.gz",
+        "archiveBytes": 3978990,
+        "archiveSha256": "6627daa0fe3f1980520a31b9454ec4e7c9b24c43eaa944235df360c30758dc4a",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/executed-tool.mjs",
+        "bytes": 87649,
+        "sha256": "f43745c4486093ea4c0ecc89c7c5abcff6b60e1dcfebe1891bb70ce69b8589b5",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/086-executed-tool.mjs.gz",
+        "archiveBytes": 24458,
+        "archiveSha256": "d9fe5386bfb3731682d7b0fa13599080e6f08c82e1a100e07cbdf9ae43e8df30",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/source-verification.json",
+        "bytes": 10467,
+        "sha256": "9d82554ffd11a2d111482ba2bcb555e4d8fe30798d807f067a4008af900c609e",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/087-source-verification.json.gz",
+        "archiveBytes": 3515,
+        "archiveSha256": "2a2b0f5a74e2943186a441f807961914f82f70645ed6a4b430877ba2ade96244",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/owned-process-samples.jsonl",
+        "bytes": 254738,
+        "sha256": "b9dd2686b66e6d60cdb2f70a937a2cc3680fdb7a03aecfef985f198a83f811b4",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/088-owned-process-samples.jsonl.gz",
+        "archiveBytes": 4191,
+        "archiveSha256": "c3b09dd4fbb152b391a26aa2bc6246a00cf8ef43634df7477d9b155da1189d05",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-cli-20261011.log",
+        "bytes": 3907,
+        "sha256": "f6967233d67b5f8a2e27780180c350a2335e4f69c9b926ad7d31afba6bb6d7af",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/089-mobile-equipment-844-v3-cli-20261011.log.gz",
+        "archiveBytes": 753,
+        "archiveSha256": "3f934c3cc599c6191a52b638820baa549daa7a7d83a58984f57aa34c45114409",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/equipment-844x390-01-confiscated-0-1.png",
+        "bytes": 117286,
+        "sha256": "a9c1c0aa8329723f2f5143f1fda98709725dcc1905c8a4f23ee1e380d974b77f",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/090-equipment-844x390-01-confiscated-0-1.png.gz",
+        "archiveBytes": 116449,
+        "archiveSha256": "ff6e146efb76a4183ad5fc99554b8b37585e87efc71c329bafade8e3c0c289f6",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/equipment-844x390-03-tool-1-all-properties.png",
+        "bytes": 48180,
+        "sha256": "eaaba91ae601ef51554b6a818140d6aa5173be2adbdc68812b7102de6ec9df29",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/091-equipment-844x390-03-tool-1-all-properties.png.gz",
+        "archiveBytes": 46817,
+        "archiveSha256": "75ab0511f06ea49dd67aa64e0029ca3d808863e12c19b9b91a8e7b95a44e2b87",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/equipment-844x390-05-tool-1-all-properties.png",
+        "bytes": 48180,
+        "sha256": "eaaba91ae601ef51554b6a818140d6aa5173be2adbdc68812b7102de6ec9df29",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/092-equipment-844x390-05-tool-1-all-properties.png.gz",
+        "archiveBytes": 46817,
+        "archiveSha256": "75ab0511f06ea49dd67aa64e0029ca3d808863e12c19b9b91a8e7b95a44e2b87",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/equipment-844x390-06-rewarded-19-1-hd-overworld-canvas.png",
+        "bytes": 682162,
+        "sha256": "d9829244ee5f9ac986ba60f5db6e82144775fb4f441153a08c65292dd7354744",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/093-equipment-844x390-06-rewarded-19-1-hd-overworld-canvas.png.gz",
+        "archiveBytes": 682390,
+        "archiveSha256": "70130baa6039b8d1e795358fcb2eee7dfc626f28771e4d6f66e776c43ca8ba48",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/equipment-844x390-06-rewarded-19-1.png",
+        "bytes": 540182,
+        "sha256": "79020bfd6ffc7ab0356ea1479f7e8e255f486801aae91e109f508d21e1523921",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/094-equipment-844x390-06-rewarded-19-1.png.gz",
+        "archiveBytes": 540345,
+        "archiveSha256": "cfbeddc4e1db2b29ed94f8743f909d7847272df4f2d202ea84472c6827ed8afb",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/equipment-preview-844x390-03-person-20-all-properties.png",
+        "bytes": 59618,
+        "sha256": "e470b90d9f9cd44a7df789626ed626967dbc16b3ce24839b37ec14f928ed06e1",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/095-equipment-preview-844x390-03-person-20-all-properties.png.gz",
+        "archiveBytes": 58385,
+        "archiveSha256": "dcb7d371f478881da8f27dd0b3fc71dd05ba211b1d3f03e919ac242d57023400",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/equipment-preview-844x390-06-tool-0-all-properties.png",
+        "bytes": 50160,
+        "sha256": "b75c1d0bcad52cfe3619104734a8d3713e1cd901451eaf80ba31adee445f7abf",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/096-equipment-preview-844x390-06-tool-0-all-properties.png.gz",
+        "archiveBytes": 48967,
+        "archiveSha256": "48a71aab74ffd77aa701780177f60088769faf0bf3836e4a19090a59cd7d28c3",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/equipment-preview-844x390-08-tool-22-all-properties.png",
+        "bytes": 50131,
+        "sha256": "03b6347e123afe319f384d93479449b95ec3ff551f03f41860f60fb684d37ec4",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/097-equipment-preview-844x390-08-tool-22-all-properties.png.gz",
+        "archiveBytes": 48975,
+        "archiveSha256": "633e332327a274497b22b92a89dd91b8867afc0b1969cbbb735fd5ec2a1075e3",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/equipment-preview-844x390-09-map-hd-overworld-canvas.png",
+        "bytes": 681537,
+        "sha256": "f14c25d303b97967ceea538750f14e59fe880af082952defbda694f8e9ec18d0",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/098-equipment-preview-844x390-09-map-hd-overworld-canvas.png.gz",
+        "archiveBytes": 681765,
+        "archiveSha256": "8208ac530f025911e10beee4b3ae8300dd41a1b9847a10c05645ef227ce9b166",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/equipment-preview-844x390-09-map.png",
+        "bytes": 539512,
+        "sha256": "7edbaea14627c34aebda74afab985b6ac6b0965e6978664d523711b9863c2e2b",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/099-equipment-preview-844x390-09-map.png.gz",
+        "archiveBytes": 539675,
+        "archiveSha256": "bf47defd5b431ccdfc29a0fd94519112a8c89568d1aa7254e3903816c5348756",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-844-v3-20261011/failure.png",
+        "bytes": 58981,
+        "sha256": "a8e5f431b031890ac2ae7e45b40eebb65d188293e66ce87c4a9be0e3451f362a",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/100-failure.png.gz",
+        "archiveBytes": 57845,
+        "archiveSha256": "88e55a113efc57d76cfe6b3658f9ce8931e05c789c4202030b855269830e1678",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/result.json",
+        "bytes": 94072496,
+        "sha256": "38ac04b63ff7b37bf04ffbc4ec6fb8bfd4128babf97e43acd1e449798c8f1144",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/101-result.json.gz",
+        "archiveBytes": 4271741,
+        "archiveSha256": "0ce8761645e395ae5cfcdd3e00e592e078dc406c5cfa87141f479c4260cc0b3a",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/executed-tool.mjs",
+        "bytes": 87649,
+        "sha256": "f43745c4486093ea4c0ecc89c7c5abcff6b60e1dcfebe1891bb70ce69b8589b5",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/102-executed-tool.mjs.gz",
+        "archiveBytes": 24458,
+        "archiveSha256": "d9fe5386bfb3731682d7b0fa13599080e6f08c82e1a100e07cbdf9ae43e8df30",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/source-verification.json",
+        "bytes": 10467,
+        "sha256": "1e4aa813775675b9d653f5671eed4ae742ae95b98760b2200bade54bf8d7cb57",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/103-source-verification.json.gz",
+        "archiveBytes": 3514,
+        "archiveSha256": "9fe08de8be833dfeff84a275fcbb432b6da6becef5c6a33181cb98b7664db5fa",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/owned-process-samples.jsonl",
+        "bytes": 254742,
+        "sha256": "e825009adc8f66672977f050709d1c3ec77a4f8fb06b16c8ccb8e612d5ebd30d",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/104-owned-process-samples.jsonl.gz",
+        "archiveBytes": 4189,
+        "archiveSha256": "e6bd8bc4aa8c8e1da7620e43fd43ba561d7ef11305e9d3755e8a3a1652c31e32",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-cli-20261011.log",
+        "bytes": 3907,
+        "sha256": "1975c82967ad0edbed98d33a34e6d3c2f5faaaad7340eecb7b2d552fc9fb4d8a",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/105-mobile-equipment-667-v3-cli-20261011.log.gz",
+        "archiveBytes": 754,
+        "archiveSha256": "826828eee3457efd9e6433c2b9c2b62392471263bd1f6cf143647988ec148a91",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/equipment-667x375-01-confiscated-0-1.png",
+        "bytes": 113608,
+        "sha256": "ebb4c3f628acf8429859065a4d671f87dc8eeb77514c692ef209692ce2a62b22",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/106-equipment-667x375-01-confiscated-0-1.png.gz",
+        "archiveBytes": 113161,
+        "archiveSha256": "4b9d3ed2cf53470f8ef355ba4252f7db09a0550bcb85eca9f7f53fdde6f9ab5c",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/equipment-667x375-03-tool-1-all-properties.png",
+        "bytes": 46340,
+        "sha256": "480e3e0be32c49a18ae0dc8a43a0b217ec6a708f69e8c0495d8d4a341903eb08",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/107-equipment-667x375-03-tool-1-all-properties.png.gz",
+        "archiveBytes": 45687,
+        "archiveSha256": "8252b831224d2075b91d8f6763d39908d666a38b70965ae436d4fddafbf65f1c",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/equipment-667x375-05-tool-1-all-properties.png",
+        "bytes": 46340,
+        "sha256": "480e3e0be32c49a18ae0dc8a43a0b217ec6a708f69e8c0495d8d4a341903eb08",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/108-equipment-667x375-05-tool-1-all-properties.png.gz",
+        "archiveBytes": 45687,
+        "archiveSha256": "8252b831224d2075b91d8f6763d39908d666a38b70965ae436d4fddafbf65f1c",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/equipment-667x375-06-rewarded-19-1-hd-overworld-canvas.png",
+        "bytes": 528966,
+        "sha256": "ca5d12126f35ebaf9775de7389bddf6a4d30e221effe414dc67fe971205f56d8",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/109-equipment-667x375-06-rewarded-19-1-hd-overworld-canvas.png.gz",
+        "archiveBytes": 529149,
+        "archiveSha256": "5f8ca1d717c21c31707f13bafa84b7b4b2d35889170c94034235c365efc3a90e",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/equipment-667x375-06-rewarded-19-1.png",
+        "bytes": 423701,
+        "sha256": "c032cc10d1ab94a95c2c2c932b8d2918128b6b3cef23497df0264f3ab4515da4",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/110-equipment-667x375-06-rewarded-19-1.png.gz",
+        "archiveBytes": 423791,
+        "archiveSha256": "d62fbaa61e12163d99ec0d31f56173794e63f6237a857e1cf6af58753286193c",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/equipment-preview-667x375-03-person-20-all-properties.png",
+        "bytes": 55704,
+        "sha256": "beecdec955b54bb7897eb31fbaf9e7ef3b1fe11085e301d8f12e49eafefb7630",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/111-equipment-preview-667x375-03-person-20-all-properties.png.gz",
+        "archiveBytes": 54932,
+        "archiveSha256": "f862a7946cd3c1d96f16316cbe63e2dc5ee49ce49c1e5f8e1cbe76e211e1e1cd",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/equipment-preview-667x375-06-tool-0-all-properties.png",
+        "bytes": 48821,
+        "sha256": "af3c04e2fd541170f4383d09ca4ea3653fd079d5b466af030667436f9ac19ab7",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/112-equipment-preview-667x375-06-tool-0-all-properties.png.gz",
+        "archiveBytes": 48107,
+        "archiveSha256": "7cf79d47caf9abd6e3225a08f8ab9a1cee5791e51dae74481f2e0a5c796f7a21",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/equipment-preview-667x375-08-tool-22-all-properties.png",
+        "bytes": 49067,
+        "sha256": "28c702a293295945ae738ba3afd8d58aeee56ec11c25de573bed1e775c5b3ad6",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/113-equipment-preview-667x375-08-tool-22-all-properties.png.gz",
+        "archiveBytes": 48399,
+        "archiveSha256": "762e132b042d0dd7f982b4296e1f28aee4e81ea63dc2c82b15f094f1fd28a9d5",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/equipment-preview-667x375-09-map-hd-overworld-canvas.png",
+        "bytes": 529598,
+        "sha256": "e9e18f7adb215714db5d3c0c1a48c2319728e7203ed66fee3665a7e184cf31ba",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/114-equipment-preview-667x375-09-map-hd-overworld-canvas.png.gz",
+        "archiveBytes": 529781,
+        "archiveSha256": "7a223c05545a28b17e0ad0ed6761bcf7534d683249c0dbbbe9cb17b9031a2e4a",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/equipment-preview-667x375-09-map.png",
+        "bytes": 424132,
+        "sha256": "ae4df1256e69f56752146ea7d2bf0a5bbd8abfab055e84e14624ef561896dd36",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/115-equipment-preview-667x375-09-map.png.gz",
+        "archiveBytes": 424222,
+        "archiveSha256": "7e4ba6b7817070781043a14e85c86eaca724940b4b20b9eca371edf2bbed06b6",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-667-v3-20261011/failure.png",
+        "bytes": 55395,
+        "sha256": "e2671c90249d4aea1959f9c47b9005d1d159b5d5015487d0d667e64ea5263b8a",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/116-failure.png.gz",
+        "archiveBytes": 54575,
+        "archiveSha256": "ad0a8b7c25881e637fe8d6b8e1084dc2d66cadbb94c12c11d09032f55cb031ba",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-checks-v1-20261011.mjs",
+        "bytes": 13336,
+        "sha256": "932b7b0726db7ce07101ad8ae8bba343dd94d715eff952afcf80a9c60c6677aa",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/117-mobile-equipment-checks-v1-20261011.mjs.gz",
+        "archiveBytes": 4336,
+        "archiveSha256": "ecd15594e6648abd3f63b67ae49cbdae294030784963ab5220a447e6d75ecf66",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-checks-v2-20261011.mjs",
+        "bytes": 14048,
+        "sha256": "ed16be5a4468bc401118684012a1a6132a4b8198b854d4724328630dadd4c805",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/118-mobile-equipment-checks-v2-20261011.mjs.gz",
+        "archiveBytes": 4542,
+        "archiveSha256": "4abb568c6016de44dae0d73d498efe16a0a9a180793599bef8601c4f00929a64",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-checks-v3-20261011.mjs",
+        "bytes": 14315,
+        "sha256": "0d49c737f13c3bbf1f8375f766aad14d4ee78f7c090673871c2b1e74abd03b82",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/119-mobile-equipment-checks-v3-20261011.mjs.gz",
+        "archiveBytes": 4622,
+        "archiveSha256": "5a0942c52275c610244b0df99ae8bebea69e7d8bf5376a8f6742ab528d62787a",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-cleanup-proof-20261011.log",
+        "bytes": 85,
+        "sha256": "c1e2812a206772eff9d052d1018f9a998085174a5a153b96b612bf983e6b6435",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/120-mobile-equipment-cleanup-proof-20261011.log.gz",
+        "archiveBytes": 99,
+        "archiveSha256": "0f3fb2e7499660f26868802e1a98d71d27e5091c812aef846ac6311d863b4b0f",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-cli-negative-20261011.json",
+        "bytes": 890,
+        "sha256": "4afb39e7a04ec8c2be8ec4ee255974779d73756c5467f5f08d1a5f50c1c022e2",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/121-mobile-equipment-cli-negative-20261011.json.gz",
+        "archiveBytes": 181,
+        "archiveSha256": "d570b05f56dfe12cb631c4e58b73773c923b917cedd2451742d4cbdd5f0720c5",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-detail-old-source-negative-v3-20261011.log",
+        "bytes": 1706,
+        "sha256": "22e317fc483a62afa76088aab87b48da46fc0c35939e30bc0ba5d65b143eb1a4",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/122-mobile-equipment-detail-old-source-negative-v3-20261011.log.gz",
+        "archiveBytes": 758,
+        "archiveSha256": "5a0644804988ed5096859d780489b62d22569d902abe496770b17e0d7aef9b35",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-detail-old-source-negative-v3-20261011.mjs",
+        "bytes": 5078,
+        "sha256": "436926d9694ecaa789aec3d9b2e20e3a1eb6cc153aa10d4cb6f37eda9c53e98e",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/123-mobile-equipment-detail-old-source-negative-v3-20261011.mjs.gz",
+        "archiveBytes": 1962,
+        "archiveSha256": "92762be850480797c884073278d64df32544859049a5dbda3d6d83d59cd70011",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-detail-unit-v4-20261011.log",
+        "bytes": 809,
+        "sha256": "0c9ecba2970e25c9b9268e1321fe7852bab6bcf43a88fd53e886513f6cb523d6",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/124-mobile-equipment-detail-unit-v4-20261011.log.gz",
+        "archiveBytes": 350,
+        "archiveSha256": "2ba3d8b550109c5b2a2888941535cb395b42139a5d2e1f05900960526725596b",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-focused-v1-20261011.log",
+        "bytes": 47044,
+        "sha256": "d58cb05904d6e06e352afd16e8e075c6af1d5381c781777775107d89a232cac9",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/125-mobile-equipment-focused-v1-20261011.log.gz",
+        "archiveBytes": 11708,
+        "archiveSha256": "d74bd7bd7bac90213a83b6346e29b68d1c9820131b1f3d1e3722ff063775f16f",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-focused-v2-20261011.log",
+        "bytes": 45268,
+        "sha256": "2c5b0520cedf18b24b67117e683ee9ce4a5b1a96bdc01a06da80287f596f68f0",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/126-mobile-equipment-focused-v2-20261011.log.gz",
+        "archiveBytes": 11769,
+        "archiveSha256": "71e0b570c5f44e852857874334e74acfc2ab7cd70b20d09a4b35a572ab247a72",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-focused-v3-20261011.log",
+        "bytes": 46261,
+        "sha256": "c0ca213e06fc7a426dd95f7460c991ba4d2049baa2c76d1e2d827117f1eca74f",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/127-mobile-equipment-focused-v3-20261011.log.gz",
+        "archiveBytes": 11982,
+        "archiveSha256": "50bc614436be32e436b4965e0b4fd2fbb806eef8cb08dbde38ddbc3d7f6eef17",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-focused-v4-20261011.log",
+        "bytes": 75845,
+        "sha256": "9fc151f6b7c36aa68fddd09379029d8b9889a801c47a05720089247daca8fba8",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/128-mobile-equipment-focused-v4-20261011.log.gz",
+        "archiveBytes": 13315,
+        "archiveSha256": "ca3084c9a62c8b5866b660d3a7cf8fc83504435aaeaaddc6a9234dc93d0045e9",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-focused-v5-20261011.log",
+        "bytes": 48029,
+        "sha256": "de0ee382b7ff0d8d7a88e57996f6f6c6b30183c9fb1ff833ebca34ac5333fb92",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/129-mobile-equipment-focused-v5-20261011.log.gz",
+        "archiveBytes": 12189,
+        "archiveSha256": "473f967f83f1a93e46ef49ab12e50d15cc7ea0c093df04ca0b4c8d628ea2af07",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-goods-domain-source-audit-20261011.txt",
+        "bytes": 4874,
+        "sha256": "734ed9ee9f77de37186fee171c0e93fddfa6a9d47a955f32150dd0ceff32ad3c",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/130-mobile-equipment-goods-domain-source-audit-20261011.txt.gz",
+        "archiveBytes": 2387,
+        "archiveSha256": "227b86f206d3760e4fb3dcd9018b11910e538ecc134b3ffcff9ae8964863ca7e",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-independent-audit-20261011.txt",
+        "bytes": 34492,
+        "sha256": "5926d7672517690e6c3e52fb91e69440195ee9163eee0b0c38d716aa9e432d35",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/131-mobile-equipment-independent-audit-20261011.txt.gz",
+        "archiveBytes": 9264,
+        "archiveSha256": "a709636f334587b057dd27fd1b12f158736e87f9a9f8cac419a5efde80a77a6d",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-initial-audit-20261011.txt",
+        "bytes": 16397,
+        "sha256": "79985afbf475f85e568bbc080dae835a9ce42e8b38d63de44ee95c78e7ce1a17",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/132-mobile-equipment-initial-audit-20261011.txt.gz",
+        "archiveBytes": 6617,
+        "archiveSha256": "e16dbecf1c85ad78592c19e84db3126f5c6cd384c54de154b377b12ff5f55493",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-map-old-source-negative-prepare-v1.mjs",
+        "bytes": 465,
+        "sha256": "b1ebf1b42d24dce543cea984ade81b03170023a2978585bc5906cd35f7acbff6",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/133-mobile-equipment-map-old-source-negative-prepare-v1.mjs.gz",
+        "archiveBytes": 294,
+        "archiveSha256": "d92641c4c3d32e5fbab0655ef75259bacd72f04273bb4d6ed9778f509e321b2a",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-map-old-source-negative-test-v1.mjs",
+        "bytes": 124321,
+        "sha256": "b4e5fc84979891fe71874900ee4af0f2ee457be5f5ba10a28e2ed6dd3484821a",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/134-mobile-equipment-map-old-source-negative-test-v1.mjs.gz",
+        "archiveBytes": 27028,
+        "archiveSha256": "b09470dd41b1bad130897b54413f6623f7696c6c8a2cea1598249af38bfe38b3",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-map-old-source-negative-v1-20261011.log",
+        "bytes": 10703,
+        "sha256": "fb47ad1072f5f0cc0f0af6029efb3118f2d109ac9c2a337e0b22beca16262934",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/135-mobile-equipment-map-old-source-negative-v1-20261011.log.gz",
+        "archiveBytes": 1677,
+        "archiveSha256": "436e7e84db0d2bda2dce02c7f2378135cd8981a92856d734d62e435c57a2c61c",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-map-source-audit-20261011.txt",
+        "bytes": 9230,
+        "sha256": "69a9e25258e27ea389fd749ed46d8ae3126a4e5129f71cacc8ddb8cbc4063913",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/136-mobile-equipment-map-source-audit-20261011.txt.gz",
+        "archiveBytes": 3983,
+        "archiveSha256": "213daaac07fc21f197d662c7ee166d8291b440e36b9f09dc33faa0f95e8f0efe",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-old-source-negative-prepare-v1.mjs",
+        "bytes": 454,
+        "sha256": "acf197b4bef4d8b1cccda15a08a044fa56c8537160664e04d789b76f0c67d2da",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/137-mobile-equipment-old-source-negative-prepare-v1.mjs.gz",
+        "archiveBytes": 286,
+        "archiveSha256": "4bd1b6a507db1ada02d560fba131eb0fe79d4da3391b821fa2f187e76d06fd3d",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-old-source-negative-test-v1.mjs",
+        "bytes": 121403,
+        "sha256": "6af197544f282140010e50fed7aff76e3be5dc2477a7f4e7db9d8071d5090aad",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/138-mobile-equipment-old-source-negative-test-v1.mjs.gz",
+        "archiveBytes": 26514,
+        "archiveSha256": "9644b32547587ecba975e00ecedc0eefdf56ea2f9df0aaffd3c60845e11ee1d8",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-old-source-negative-v1-20261011.log",
+        "bytes": 14920,
+        "sha256": "b872b79208d4a89e6e3a324f504c493b05ad64fa97d8050a15dead95f5f572d0",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/139-mobile-equipment-old-source-negative-v1-20261011.log.gz",
+        "archiveBytes": 1751,
+        "archiveSha256": "97a717b78b6136fddc6903f6ec97be27ad2c9a16d060ee342d3d98e3b4e8b5b4",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-owned-historical-after-20261011.json",
+        "bytes": 22955,
+        "sha256": "32d098ee262d266ac040edda2bf72f8a7f0e4987fe7dff566e86d0233c2f1ef7",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/140-mobile-equipment-owned-historical-after-20261011.json.gz",
+        "archiveBytes": 888,
+        "archiveSha256": "01a52458837341612525faebf92e0159643da010c63e1d59a2607c2191178018",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-package-v3-20261011.json",
+        "bytes": 10702,
+        "sha256": "36e0d72237df4818c74745ecc2acdb27369a990c9e563c121b53a98c9c19a158",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/141-mobile-equipment-package-v3-20261011.json.gz",
+        "archiveBytes": 1719,
+        "archiveSha256": "e92ef3650308a92be586da3d5a1c2a4afaa07e38a2198172fc0089b249fbf899",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-preview-helper-v1-20261011.mjs",
+        "bytes": 16528,
+        "sha256": "f3fac71ea9da945e548f6a30fef94d3a6f78f413fa89eb1fa8523147ea5d1811",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/142-mobile-equipment-preview-helper-v1-20261011.mjs.gz",
+        "archiveBytes": 5154,
+        "archiveSha256": "cfd2b52b3c75d3d646cea05f9a27dc7d10c2a4b03b58069bfcf33e63f5635c4d",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-preview-helper-v2-20261011.mjs",
+        "bytes": 16568,
+        "sha256": "19098761e2148896b3b1c2401c10e2e21617cf01436cc8dfab1d8528f2ac0111",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/143-mobile-equipment-preview-helper-v2-20261011.mjs.gz",
+        "archiveBytes": 5159,
+        "archiveSha256": "bbc97b50d01223b3e8a15d9063e7fa9ff95950ceea5d6ed20234587ad9f24c0f",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-preview-helper-v3-20261011.mjs",
+        "bytes": 16568,
+        "sha256": "19098761e2148896b3b1c2401c10e2e21617cf01436cc8dfab1d8528f2ac0111",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/144-mobile-equipment-preview-helper-v3-20261011.mjs.gz",
+        "archiveBytes": 5159,
+        "archiveSha256": "bbc97b50d01223b3e8a15d9063e7fa9ff95950ceea5d6ed20234587ad9f24c0f",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-delta-v1.json",
+        "bytes": 1194590,
+        "sha256": "fcf50b351d8f7f6579f0db266911b17e1d49f6cac5c5b02425519351ebe00ce6",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/145-mobile-equipment-product-delta-v1.json.gz",
+        "archiveBytes": 288099,
+        "archiveSha256": "21e69b068e16ad7cd8133b46e108ec2913aa04c5881286117b3618ee1475da07",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-delta-v2.json",
+        "bytes": 280100,
+        "sha256": "4acb3d64fc0db360be6637c46a758c96094bb6a5cca01f2854afead5cdae8f8d",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/146-mobile-equipment-product-delta-v2.json.gz",
+        "archiveBytes": 64044,
+        "archiveSha256": "d8e425533e972539cbae8d6098b5367cbffd2433764ada6ecd9fe773e9b1b254",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-freeze-v1.json",
+        "bytes": 7389,
+        "sha256": "033d1e0cd81b849c1b2710bdb2e7847150fabc9e6b9be69f9ad7be87ac063f94",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/147-mobile-equipment-product-freeze-v1.json.gz",
+        "archiveBytes": 2869,
+        "archiveSha256": "307db5a8e8c0e28af4fb8b64e86813f0d14b3e4287f52f4aedb78d8d070e92d7",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-freeze-v2.json",
+        "bytes": 7085,
+        "sha256": "24601e225ec6b5cc173bb921b767e04eb108c664dbf6791dcc178428cd6ed425",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/148-mobile-equipment-product-freeze-v2.json.gz",
+        "archiveBytes": 2760,
+        "archiveSha256": "119d63320bbc7b95dfaa9e164f1691dfee0913d7984908aedd5c679facbcc520",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-root-freeze-final-20261011.json",
+        "bytes": 2064,
+        "sha256": "0239a57c4b85141fd6cb2f098afa1f2d10afb840f6a82b9b8c7e33d48beff377",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/149-mobile-equipment-root-freeze-final-20261011.json.gz",
+        "archiveBytes": 797,
+        "archiveSha256": "e2f47310c2df721489c9a7cb3fbd2aa2d6da926f239299721707f1b313896243",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-root-freeze-v2-20261011.json",
+        "bytes": 1504,
+        "sha256": "65947ad352b3e2ae7d8663317f56a86a161bc7add559cd6f661872b89d5eb206",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/150-mobile-equipment-root-freeze-v2-20261011.json.gz",
+        "archiveBytes": 641,
+        "archiveSha256": "40e2151a97b1af8fb8182e839aef7d5c05db637ce5d0ea73d8fc037e5c29c883",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-root-freeze-v3-20261011.json",
+        "bytes": 1513,
+        "sha256": "f66835a6964363020ecf74419ce7a5c1d30e455f6e8c58f4c0c1b2e9d3549d6f",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/151-mobile-equipment-root-freeze-v3-20261011.json.gz",
+        "archiveBytes": 653,
+        "archiveSha256": "01ee1dfa27fb0f307bb116d10bbf50cd63919920606c902fd4e0d57c411d0568",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-source-audit-20261011.txt",
+        "bytes": 7446,
+        "sha256": "5d1d69b383c4cdf2e9833038685d4874880e5b64bcd1626e70aab225f187de7b",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/152-mobile-equipment-source-audit-20261011.txt.gz",
+        "archiveBytes": 3553,
+        "archiveSha256": "06d6e1080ce6f84fc4f07750a72c6d4abe77b3a14be4936b4559efc5c378e3cd",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-status-effect-recheck-v4-20261011.log",
+        "bytes": 6125,
+        "sha256": "bac288589a567ccf1623b002c817d24e772e8c7565c4720d32dae6d87e733ccf",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/153-mobile-equipment-status-effect-recheck-v4-20261011.log.gz",
+        "archiveBytes": 1606,
+        "archiveSha256": "a9b490bcbc584d0d2fa9a3ba21e5c5cb233e4d514ea407d29a66524d77307035",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-suite-final-20261011.log",
+        "bytes": 255108,
+        "sha256": "c1f61feb7cb7b642e277b3469a3c57c641d3cc9a46d1afd0fd617fa4a80e4a50",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/154-mobile-equipment-suite-final-20261011.log.gz",
+        "archiveBytes": 71030,
+        "archiveSha256": "3e4cbf54c91c54feec54faf4dccdf3cc9ba753cee3499c13b73f74385547cdb0",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-suite-v1-20261011.log",
+        "bytes": 253260,
+        "sha256": "ec02423d930a07db0e9a890e5cde8d7d9cea43f1499a3e093d67c9789a1bd1e8",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/155-mobile-equipment-suite-v1-20261011.log.gz",
+        "archiveBytes": 70542,
+        "archiveSha256": "d26ae5caab605c525a0a018724397a5dcae2d61e3c26b0c12916234d75e297b1",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-suite-v4-20261011.log",
+        "bytes": 253468,
+        "sha256": "96da7393173dc43169d389ea1e0bf421a2dc7c3c290ceb490d727b86f25770e5",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/156-mobile-equipment-suite-v4-20261011.log.gz",
+        "archiveBytes": 70395,
+        "archiveSha256": "02ae489987d2136ddcf5036dcc3eb15cef3a759dc11eb25b908588a2b853a7c2",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-suite-v5-20261011.log",
+        "bytes": 607682,
+        "sha256": "40b8ff6dcb295e9385af254b28ff0a11b6a93232a464eb69461c1af98dd320c1",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/157-mobile-equipment-suite-v5-20261011.log.gz",
+        "archiveBytes": 98378,
+        "archiveSha256": "1b9fbc28ad3d13040203ec491be77298339f16bee567b5311b7b235e06999faa",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-user-service-after-20261011.json",
+        "bytes": 285,
+        "sha256": "6ef88ecc89ce7ec21139b2be601deb035d6ab746ba0abab2f0ae1ddf4d300d92",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/158-mobile-equipment-user-service-after-20261011.json.gz",
+        "archiveBytes": 225,
+        "archiveSha256": "2852eb266b45960b4ed54db61582723589badb998d0e3e8934ef2bbdae3e206e",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-user-service-before-20261011.json",
+        "bytes": 285,
+        "sha256": "0af0c112cffecc4b06c209f05d8a911c83344b8ff38af4976da0ac94cf558a6f",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/159-mobile-equipment-user-service-before-20261011.json.gz",
+        "archiveBytes": 225,
+        "archiveSha256": "52410f310bcdb354e4150cdc847a74be256e9456935b4697de95e34a4a8761dd",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-write-freeze-v1.mjs",
+        "bytes": 6246,
+        "sha256": "82dadc1fac9c9a7404e609a459d0815790b28c01d096d49aa26a88cb7a2fe4a6",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/160-mobile-equipment-write-freeze-v1.mjs.gz",
+        "archiveBytes": 2677,
+        "archiveSha256": "080c6da551f853c12fb9d6516a2eb88bde19d2dfc803367c8eb94a5fd2f8cb87",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-write-freeze-v2.mjs",
+        "bytes": 6474,
+        "sha256": "a81c0bf61b4bd8e877bbc74110f4ae06d1e823fa6a952e9f6b1994c5444857ce",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/161-mobile-equipment-write-freeze-v2.mjs.gz",
+        "archiveBytes": 2685,
+        "archiveSha256": "086b847878f6cc8a87078abf15c8a219673949026017ffa5a9122cb5a44fe863",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-freeze-v1-source-20261011/hd-city-menu.js",
+        "bytes": 364147,
+        "sha256": "874e359224961e88c958bb886797297b722adca452f802c586b7ad9b05115710",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/162-hd-city-menu.js.gz",
+        "archiveBytes": 74260,
+        "archiveSha256": "5c5f31690d4ff2fbe2fe8c9fbc326472d884ab04d231a0b3796739d6c0e0e90b",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-freeze-v1-source-20261011/hd-mobile.css",
+        "bytes": 21044,
+        "sha256": "fa0a94de35145528dd3426ab35d3266060566d4f258ea875cdaed1a0923a67c0",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/163-hd-mobile.css.gz",
+        "archiveBytes": 3782,
+        "archiveSha256": "0e3be3b2fa668dfafd38875cda461fc1bd32f74191c2562de7a676ff7a11a6db",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-freeze-v1-source-20261011/m.html",
+        "bytes": 15358,
+        "sha256": "1ef8ab2f90b4b688d1e96390f0b39cf7e2bbb572d2e55a4bd6fe99a4e3dc1942",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/164-m.html.gz",
+        "archiveBytes": 3971,
+        "archiveSha256": "00c43e02ad08471b0b92e2587ceb7035717f4ec0d48f72e70213e00c484f271b",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-freeze-v1-source-20261011/pc.html",
+        "bytes": 26890,
+        "sha256": "60ece11cd3d26232c129cf853dee5fed55bedfc7c71050eb6d8f33fdb591518d",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/165-pc.html.gz",
+        "archiveBytes": 6350,
+        "archiveSha256": "baed95ca63d6eabe6e1b2a64ad892b8c828da0a2f541a5ac7004ad9d9bdee000",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-freeze-v1-source-20261011/test-hd-city-mobile-host.mjs",
+        "bytes": 121363,
+        "sha256": "29fe2a30d0124ea5453901624daa245d1abe060d350fb18816a99b5da22abf56",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/166-test-hd-city-mobile-host.mjs.gz",
+        "archiveBytes": 26487,
+        "archiveSha256": "c78b5f06afc017f2c95469a4f646101a8a943d2b709e33ad0bf1ad814f4091c1",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-v1-source-20261011/hd-city-menu.js",
+        "bytes": 352318,
+        "sha256": "1233809076a86f0427ea843c13d70d981aa2f81c8478e8f67403e96860e3d5ff",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/167-hd-city-menu.js.gz",
+        "archiveBytes": 72094,
+        "archiveSha256": "599fbe3728609815f06ad00e3e6a64871fad166062e7a3b295a8aab77681347b",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-v1-source-20261011/hd-mobile.css",
+        "bytes": 21044,
+        "sha256": "fa0a94de35145528dd3426ab35d3266060566d4f258ea875cdaed1a0923a67c0",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/168-hd-mobile.css.gz",
+        "archiveBytes": 3782,
+        "archiveSha256": "0e3be3b2fa668dfafd38875cda461fc1bd32f74191c2562de7a676ff7a11a6db",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-v1-source-20261011/m.html",
+        "bytes": 15358,
+        "sha256": "901b01d08dd80f06dded40b7e4b1b016402883f6d3fa4bebdb33d32f84b588bc",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/169-m.html.gz",
+        "archiveBytes": 3970,
+        "archiveSha256": "ba0236ea1bc4dc6577445a4450e02e522678596d7653772cddd7c42bc6a1d02b",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-v1-source-20261011/pc.html",
+        "bytes": 26890,
+        "sha256": "5b75cec0cfb28df9f510dce4bd822e0842bb55019336e55bf8e00ae1134adb0a",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/170-pc.html.gz",
+        "archiveBytes": 6350,
+        "archiveSha256": "b3572799774d58fabfa4700f15a13056d0207c99059531c8d3ff3dce2c288fea",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-equipment-product-v1-source-20261011/test-hd-city-mobile-host.mjs",
+        "bytes": 108002,
+        "sha256": "c29679ba226537ed580bcae2accfd8069521afb892625af808092b535233620b",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/171-test-hd-city-mobile-host.mjs.gz",
+        "archiveBytes": 24416,
+        "archiveSha256": "512f6c5e7162c1636a9c2fde3b8b437050757c286dd276e8d37a73913ab77ed3",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/archive-mobile-equipment-20261011.cjs",
+        "bytes": 10108,
+        "sha256": "57946de7c42a6c94b8945fd6c0e4f6ebfc01cab41cdc516237aeaaa32a2cdb28",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/172-archive-mobile-equipment-20261011.cjs.gz",
+        "archiveBytes": 5102,
+        "archiveSha256": "bab57ac47007530b3f142ec83ff7490bc4ce15ffbdd128a09f0fc2d6c796e8bf",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/check-mobile-equipment-cleanup-20261011.ps1",
+        "bytes": 3208,
+        "sha256": "062694ccd3b8b6ced46d0d0a87eed977cd3ae6a595958114ca83330fb6a663ba",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/173-check-mobile-equipment-cleanup-20261011.ps1.gz",
+        "archiveBytes": 1132,
+        "archiveSha256": "63b6d48b73fc992f25fd2e622fcd134345dc740b857b20182d0f23acf9d75e5f",
+        "roundTripExact": true
+      },
+      {
+        "original": "js/hd-city-menu.js",
+        "bytes": 366145,
+        "sha256": "d7183a405390cb93ea79d25192ffe0387852b07d5f88086f11af502b5732fef8",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/174-hd-city-menu.js.gz",
+        "archiveBytes": 74726,
+        "archiveSha256": "e09850e8b305b6240ee7894298a7d4d81e3a5a6a84c07d2e15aeca480c4b20a5",
+        "roundTripExact": true
+      },
+      {
+        "original": "css/hd-mobile.css",
+        "bytes": 21044,
+        "sha256": "fa0a94de35145528dd3426ab35d3266060566d4f258ea875cdaed1a0923a67c0",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/175-hd-mobile.css.gz",
+        "archiveBytes": 3782,
+        "archiveSha256": "0e3be3b2fa668dfafd38875cda461fc1bd32f74191c2562de7a676ff7a11a6db",
+        "roundTripExact": true
+      },
+      {
+        "original": "m.html",
+        "bytes": 15358,
+        "sha256": "a5d72f14e57340cc26b0edc64ccfa1e06f43cfbc051800e991133cb031942b69",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/176-m.html.gz",
+        "archiveBytes": 3971,
+        "archiveSha256": "7d3456a0db7940e4d90173068737b19c3193bf2838c2392c4d2a178d41b28718",
+        "roundTripExact": true
+      },
+      {
+        "original": "pc.html",
+        "bytes": 26890,
+        "sha256": "8bbce28f0a658a9716e984d9fed06680e18661932ac1e2499e5d257573c3c218",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/177-pc.html.gz",
+        "archiveBytes": 6350,
+        "archiveSha256": "aeb05e2bb8cc040358753dfb620e161a8807711f24de7fc8ad8ba7453e889f5f",
+        "roundTripExact": true
+      },
+      {
+        "original": "package.json",
+        "bytes": 10751,
+        "sha256": "4ea1e9f6ed8c1d53b4a40de6035446fcff8a4d54aeab813db52412ed2116e894",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/178-package.json.gz",
+        "archiveBytes": 1729,
+        "archiveSha256": "be8f3d707173f623a468ba88283fdf7e2f08fe479c4fbf722bf17003f6c35d11",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/test-hd-city-mobile-host.mjs",
+        "bytes": 124274,
+        "sha256": "fc7af67b4af174f1f0c529b7919a67fda0bf98ebb4396115e4eaffa3100785af",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/179-test-hd-city-mobile-host.mjs.gz",
+        "archiveBytes": 26993,
+        "archiveSha256": "8e7f9978adf404490921d8a0e0d25f20de119cbebc5770d7cb1dba4acd89c5b6",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/test-hd-mobile-city-runtime.mjs",
+        "bytes": 87649,
+        "sha256": "f43745c4486093ea4c0ecc89c7c5abcff6b60e1dcfebe1891bb70ce69b8589b5",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/180-test-hd-mobile-city-runtime.mjs.gz",
+        "archiveBytes": 24458,
+        "archiveSha256": "d9fe5386bfb3731682d7b0fa13599080e6f08c82e1a100e07cbdf9ae43e8df30",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/hd-mobile-preview-runtime-checks.mjs",
+        "bytes": 16634,
+        "sha256": "653a1568fac7614d5f58ded7accd87d5a6d7b2a93d6d3a51244f600e48758127",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/181-hd-mobile-preview-runtime-checks.mjs.gz",
+        "archiveBytes": 5176,
+        "archiveSha256": "c424dd851da0df4ab861962ce037c8bbd66a09c18edd1d1f484bbc92f52b7496",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/hd-mobile-equipment-runtime-checks.mjs",
+        "bytes": 14305,
+        "sha256": "7d7b257d6cf27971461842026f9b46c263ccf18823a3bfa2929484122ed8ce75",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/182-hd-mobile-equipment-runtime-checks.mjs.gz",
+        "archiveBytes": 4612,
+        "archiveSha256": "d0e149db95df5f926b203a5ed52a877ba4b60888fd9bdc3f202bfc8c32f37e1a",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/hd-mobile-equipment-runtime-oracle.mjs",
+        "bytes": 12249,
+        "sha256": "7dd275a6e76a464ead894078b38789698acc4a2233045341af1b335afbe822bb",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/183-hd-mobile-equipment-runtime-oracle.mjs.gz",
+        "archiveBytes": 4330,
+        "archiveSha256": "071ea9949904432668aec083ccbb0c3228ff5bfad336fdd62b0fb1a2c12c3f60",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/test-hd-mobile-equipment-runtime-oracle.mjs",
+        "bytes": 14199,
+        "sha256": "f70be0b45d3320dcbd5f9fe7b99fa1d2b81023bf3ea85968729cfb2aa1bccba8",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/184-test-hd-mobile-equipment-runtime-oracle.mjs.gz",
+        "archiveBytes": 4166,
+        "archiveSha256": "6a9e84c32531d0ef38d95deea5f533e17ca9a7a9dd9159ad4416092e76349b0e",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/test-hd-mobile-detail-runtime-checks.mjs",
+        "bytes": 5067,
+        "sha256": "71554a62e0dd111a25b36356649209f15deef66ec06999e39db66842b4368bca",
+        "archive": "docs/validation/m5-mobile-equipment-20261011/raw/185-test-hd-mobile-detail-runtime-checks.mjs.gz",
+        "archiveBytes": 1949,
+        "archiveSha256": "84dc0501e6e96a8744d309c30bed29d14876d5f394248a9e34d053d4278e3027",
+        "roundTripExact": true
+      }
+    ]
+  }
+}

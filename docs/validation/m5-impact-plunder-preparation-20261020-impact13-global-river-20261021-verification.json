@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-impact13-global-river-immutable-archive-independent-verification-supplement",
+  "archiveIndependentValidationAccepted": true,
+  "originalOnly": true,
+  "previousAttempt": {
+    "reader": {
+      "path": "build/impact-skill-20261014/verify-impact13-global-river-archive-v3.mjs",
+      "bytes": 7258,
+      "sha256": "15ffaadb9b6099ec5204ba22897fcc6295043733b7b3792d4bb7040eec8948ab"
+    },
+    "log": {
+      "path": "build/impact-skill-20261014/impact13-global-river-archive-independent-verification-v3.log",
+      "bytes": 478,
+      "sha256": "e99d039a172423dc6e6807ad4c8888822b642dc23bbc3b0e740c90ded59743f2"
+    },
+    "rootTerminal": {
+      "chunkId": "35d1a6",
+      "exitCode": 1
+    },
+    "accepted": false,
+    "reason": "Large canonical-base64 grouped regex overflowed the JavaScript regexp stack before archive verification completed"
+  },
+  "actualAcceptedAttempt": {
+    "reader": {
+      "path": "build/impact-skill-20261014/verify-impact13-global-river-archive-v4.mjs",
+      "bytes": 7409,
+      "sha256": "dc2549dfb32a6ee26401f7cf31b523068720aaf6da148505a6c545632057d91f"
+    },
+    "log": {
+      "path": "build/impact-skill-20261014/impact13-global-river-archive-independent-verification-v4.log",
+      "bytes": 835,
+      "sha256": "c01901ffdecbc2fd2a525d6e7094d67ceb41498e7c999dd0d01395c0efecd1a5"
+    },
+    "rootTerminal": {
+      "chunkId": "f7290c",
+      "exitCode": 0
+    },
+    "accepted": true,
+    "result": {
+      "ok": true,
+      "canonical": {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021.json",
+        "bytes": 23616,
+        "sha256": "077d3f1704467e0ef152725f3fe153c8a83cc5e98999776d714bd96dfb331aff"
+      },
+      "namedFiles": 245,
+      "uniqueBlobs": 175,
+      "parts": 3,
+      "allRawRoundtripsExact": true,
+      "allNamedBlobsClosed": true,
+      "noUnreferencedBlobs": true,
+      "rawResultsEmbeddedOnce": [
+        {
+          "id": "v16b",
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v16b/result.json",
+          "bytes": 370147336,
+          "sha256": "2533bb7b4bd81d9bb004f57aae88ee5d395f5a11f5674d441be65b5ee20f5d7c"
+        },
+        {
+          "id": "v17",
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v17/result.json",
+          "bytes": 136583310,
+          "sha256": "1675f8a7e9f6461415e6f58a2adbf6a6f1233239b47fa54f9400c4384bc81ed9"
+        }
+      ],
+      "latestPairsPackedAccepted": true,
+      "currentNamedDiskReopened": true,
+      "portableClosedArchive": false
+    }
+  },
+  "primaryArchive": {
+    "canonical": {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021.json",
+      "bytes": 23616,
+      "sha256": "077d3f1704467e0ef152725f3fe153c8a83cc5e98999776d714bd96dfb331aff"
+    },
+    "index": {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-archive.json",
+      "bytes": 56154,
+      "sha256": "660046b585074c19c06d58e6494b52dce3556255869c9748ba8c7d1c9658a4a8"
+    },
+    "parts": [
+      {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-archive-part001.json",
+        "bytes": 19663763,
+        "sha256": "5319f5a17df94dd39090844766db027336989390b2521f2fa6c3a464233ba6a9"
+      },
+      {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-archive-part002.json",
+        "bytes": 25933807,
+        "sha256": "0a40ef71d0c5b9bd2128c81c80d03e5a9aea5aa6d52229a191abcc4e8471918f"
+      },
+      {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-global-river-20261021-archive-part003.json",
+        "bytes": 10103707,
+        "sha256": "0361fd3228d7a63e267f5674a674c1b7dc44d722d7be7c42b6a444c4d77ec13c"
+      }
+    ],
+    "namedFiles": 245,
+    "uniqueBlobs": 175,
+    "archiveParts": 3,
+    "unchanged": true
+  },
+  "base64Repair": {
+    "typeStringRequired": true,
+    "lengthMultipleOfFourRequired": true,
+    "fullDecodeReencodeEqualityRequired": true,
+    "invalidAlphabetPaddingTruncationRejected": true,
+    "gzipAndFullRawHashesRetained": true
+  },
+  "embeddedFiles": [
+    {
+      "path": "build/impact-skill-20261014/verify-impact13-global-river-archive-v4.mjs",
+      "bytes": 7409,
+      "sha256": "dc2549dfb32a6ee26401f7cf31b523068720aaf6da148505a6c545632057d91f",
+      "role": "Actual root-passed V4 independent reader; canonical base64 re-encoding replaces stack-overflowing grouped regex",
+      "encoding": "gzip+base64",
+      "gzipBytes": 2645,
+      "gzipSha256": "9d7b04f12a97e188944cc878ba061f5c2acb9b49eefcd33fa7d9146dba72ea90",
+      "data": "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"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-global-river-archive-independent-verification-v3.log",
+      "bytes": 478,
+      "sha256": "e99d039a172423dc6e6807ad4c8888822b642dc23bbc3b0e740c90ded59743f2",
+      "role": "Rejected V3 verifier terminal log; no acceptance",
+      "encoding": "gzip+base64",
+      "gzipBytes": 331,
+      "gzipSha256": "0c2054cd40100e2e20d51f737c829fc5e71763c900b3fac4792261b25c1cabad",
+      "data": "H4sIAAAAAAACCm2QTU/DMAyG75X6H8JtlWjTL7YRMSQO4zaEJs6gLPW6rGlS4rRq4c+jbmUTEr7Ykh/7fW1tCmAcEaxjy3nie+QUWyjXffNqjTNuaGDdg5hZKKFvbgk6K3UZkJvViuhWqVNRcycOAfn+XfDue7635bqEtbXGMrLhvazbmgiuFEHHRUVQfgGBXgAUUJwHuZukI+hBkNkD10YPtWnxMbgQUjuwmqvNqElm+u8JbHElR6vCRfU/4P2CZVdwLxUwSukzo401RxCO7vgAIXJdtobuWqkKKuuGCxdiJZUK0zidJ3GS0w6s3A/huZlkYanMjqvQyg5syK04yA7CLovqI7I0ZVm8vKg21ghAjKb8JkWFT7rYwmhAGo2T59+D6QRSx7H6+GyhBWRJnLO7YHz3iykgOiLp0jxK8ij2vR95QZrO3gEAAA=="
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-global-river-archive-independent-verification-v4.log",
+      "bytes": 835,
+      "sha256": "c01901ffdecbc2fd2a525d6e7094d67ceb41498e7c999dd0d01395c0efecd1a5",
+      "role": "Actual root-passed V4 full raw/archive/current-disk verification log",
+      "encoding": "gzip+base64",
+      "gzipBytes": 499,
+      "gzipSha256": "aa68d993f943f7a19cf3cb3b24da864ccabedd3e7418deaeedb282edac275730",
+      "data": "H4sIAAAAAAACCqWRTY/TMBRF90j8ibdOaBx/JdkNMCxhVIkVYvFsP1NT1wm20wGN+t/RlHZmhNixPs/XV+c+wLyHqeaVGrCY5hQsRpgeYMG6gwncbMvmiDE4rGFOm4Nsw2FBW9slrslRbpdMC+YzbfuuV6zru8sN4+23OBuMbQ5HylfM3nwvc4IGzK9KBaaeK6YaKDvspYIJOq0d90x3QihNHXkme91Lzz0xye2AA7dW0jiM46i1cpoJ40blvOGcofdwaiDhgdyHEM/5QjawpvBjpbdxNgUmpmUDC+ZaYOINYIxbvN/Oa3I1h6Xc/kRbr1Ywxo+PYeen7+JcyF1Rmj+nTJ4yJXs5uKKM91sqa6zl9mDIOXKfkiWYvjxAcDDBkSkDzdWyWUN0m4vYsg8xXlwxsXlSabDWSC3aumJsHwM2+fzFXzq57pjQnL9U2kvOjdFGGDcwNxrTdcJLjUjDQCQdH6WXyJiXSgsnBDOkpJFEfeel0xZOzVNx/Z+99b9rM67kwDnrXtRmSks/oKbRK6GYYJKUlwP26IxXqDzrOe/5aIT2KIUfRddZwQdh7MDIjXD62kDESqXeYcjlDu2e3I21tNTnGe2aM6V6Xvl9KPstzQulZ77MuaKJ9Gf8m2x34UgweYyFTq9f/Qaf0fhrQwMAAA=="
+    },
+    {
+      "path": "build/impact-skill-20261014/build-impact13-global-river-verification-supplement-v1.mjs",
+      "bytes": 7805,
+      "sha256": "448e143631455361ce7ce8776ff0d740735d59c27293df6998112e703a726cdf",
+      "role": "Exact supplement writer source",
+      "encoding": "gzip+base64",
+      "gzipBytes": 3034,
+      "gzipSha256": "c4d21acf809ffe340869ea2fda68fb85c57a94a5bdaa82e5c00dfa709a731ae0",
+      "data": "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"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-v17-next-june-preparation-source-advice-v1.json",
+      "bytes": 20717,
+      "sha256": "22ca5d1f0ed3a6524f4b69cf3502a54c0b17015b66d3e65c61473383b3bdedc1",
+      "role": "Optional source-only next June preparation advice; no new actual gameplay or acceptance",
+      "encoding": "gzip+base64",
+      "gzipBytes": 7049,
+      "gzipSha256": "cd0b614e15ca920003f939ea9e578b5f0638de7cb842b4062b2b4a53ab7041a9",
+      "data": "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"
+    }
+  ],
+  "sourceOnlyAdvice": {
+    "included": true,
+    "pin": {
+      "path": "build/impact-skill-20261014/impact13-v17-next-june-preparation-source-advice-v1.json",
+      "bytes": 20717,
+      "sha256": "22ca5d1f0ed3a6524f4b69cf3502a54c0b17015b66d3e65c61473383b3bdedc1"
+    },
+    "actualCredit": false
+  },
+  "namedArchiveAugmentation": false,
+  "primaryArchiveRewritten": false,
+  "portableClosedArchive": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "scope": "Supplement binds the new V4 reader exact bytes and actual root terminal/log to the already WX-written canonical/index/three parts. All245 named paths/175 raw blobs/three parts were independently reopened and roundtripped. The original archive stays unchanged. Optional June advice is source-only and supplies no actual gameplay credit; successful Impact13/movie/pixel/HD and portable product closure remain unaccepted."
+}

@@ -1,0 +1,814 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-impact-january-preparation-checkpoint",
+  "publicationDate": "2026-10-20",
+  "status": "partial-two-new-months-current-january-staffing-and-faction-route-pending",
+  "originalOnly": true,
+  "noNewNativeBuild": true,
+  "actualExecution": {
+    "startedAt": "2026-10-20T15:23:08.027Z",
+    "finishedAt": "2026-10-20T15:25:16.849Z",
+    "ok": false,
+    "exitCode": 1,
+    "result": {
+      "path": "build/impact-skill-20261014/prepare-induce-actual-v6/result.json",
+      "bytes": 77450104,
+      "sha256": "15372d36bdc911d9f29264f52212af00ebeb5c7d4058f57c599a58a00f76108a"
+    },
+    "terminal": {
+      "path": "build/impact-skill-20261014/prepare-induce-v6-terminal-receipt-v1.json",
+      "bytes": 13808,
+      "sha256": "5428eaf8228e4d2e3850b037726991217e944aed26b0016faa1b534f73f5dfa5"
+    },
+    "tool": {
+      "path": "build/impact-induce-candidate-v6.mjs",
+      "bytes": 443647,
+      "sha256": "df882c23e57eb5a8af597dfbe8d29c4e45bf7c7ce5f744b873cf7043fe208753"
+    }
+  },
+  "actualDispatchAccepted": true,
+  "actualPlunderAccepted": true,
+  "actualPreparationAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false,
+  "fullHdAccepted": false,
+  "globalHdComplete": false,
+  "originalLibrary": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "dependencies": {
+    "baseCommit": "6f59d98201b0ffcdd0ae8fd7fe5d842fb76cd290",
+    "scope": "Previous November archive, original product/history and full5130 frozen-source archive stay committed dependencies. Their large parts and240 frozen blobs are not duplicated here."
+  },
+  "sources": {
+    "actual": {
+      "logical": 1290,
+      "normalizedPhysical": 1286,
+      "sourceVerification": {
+        "path": "build/impact-skill-20261014/prepare-induce-actual-v6/source-verification.json",
+        "bytes": 462528,
+        "sha256": "300d3f1d30ba9f1851b91ad0f47f36c49a5d4cc9fbc484ee4139731c2238addf"
+      },
+      "allRecordedTuplesCurrentExact": true,
+      "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d"
+    },
+    "priorSuiteCurrentByteRecheck": {
+      "count": 241,
+      "allCurrentExact": true,
+      "testsRerun": false
+    }
+  },
+  "tests": {
+    "priorRecord": {
+      "result": {
+        "path": "build/impact-skill-20261014/impact-verifier-full-suite-v2/result.json",
+        "bytes": 69575,
+        "sha256": "712e535c1008d5d02024e5f09723329fcec244eb8b533fc89f151698d8b2d16f"
+      },
+      "terminal": {
+        "path": "build/impact-skill-20261014/impact-verifier-full-suite-terminal-v2.json",
+        "bytes": 1434,
+        "sha256": "c406242972104ab7f3d20a9ddd01c5c4c826f176443483d1a12441e158f686f2"
+      },
+      "sourceFreeze": {
+        "path": "build/impact-skill-20261014/impact-verifier-full-suite-v2/source-freeze.json",
+        "bytes": 62084,
+        "sha256": "e7a6c7e98f7efa2a058ce525c09d37db6b8e652a4ffd65473b4c4c4990588658"
+      },
+      "executionConcurrency": 1,
+      "modules": 91,
+      "counts": {
+        "tests": 5130,
+        "suites": 0,
+        "pass": 5130,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "startedAt": "2026-10-20T15:16:33.377Z",
+      "finishedAt": "2026-10-20T15:18:07.931Z"
+    },
+    "rerunForThisCheckpoint": false
+  },
+  "foodPurchase": {
+    "cityIndex": 20,
+    "personId": 52,
+    "purchased": 41,
+    "totalArms": 13339,
+    "food": 267,
+    "money": 513,
+    "thew": 6,
+    "actual": true
+  },
+  "plunder": {
+    "actor": 44,
+    "city": 20,
+    "orderId": 26,
+    "thewCost": 12,
+    "moneyCost": 0,
+    "makeReportObserved": true,
+    "makeAcknowledgementAccepted": true,
+    "driverReportObserved": true,
+    "driverAcknowledgementAccepted": false,
+    "grossMoney": 258,
+    "grossFood": 645,
+    "cityCosts": {
+      "PeopleDevotion": [
+        17,
+        8
+      ],
+      "Farming": [
+        451,
+        225
+      ],
+      "Commerce": [
+        343,
+        171
+      ]
+    },
+    "fiveFieldDriverProof": {
+      "accepted": true,
+      "phase": "driver-report",
+      "orderIndex": 4,
+      "personId": 44,
+      "cityIndex": 20,
+      "food": 645,
+      "money": 258,
+      "economics": {
+        "PeopleDevotion": 8,
+        "Farming": 225,
+        "Commerce": 171,
+        "Food": 912,
+        "Money": 771
+      },
+      "actorReturnAccepted": false,
+      "wholeMonthWorldAccepted": false,
+      "scope": "Only five city economics fields and current actor/order before return; earlier Gov/Trade queue changes and all unrelated month effects remain outside this proof",
+      "publicInputAccepted": false,
+      "actualPreparationAccepted": false,
+      "actualCastAccepted": false
+    },
+    "opaqueNewOrder": {
+      "fields": [
+        "Object",
+        "Arms",
+        "Food",
+        "Money",
+        "Consume"
+      ],
+      "actual": {
+        "Object": 0,
+        "Arms": 29496,
+        "Food": 51,
+        "Money": 29496,
+        "Consume": 51
+      },
+      "semanticAcceptance": false
+    },
+    "wholeMonthEconomicEffectAccepted": false
+  },
+  "governance": {
+    "count": 9,
+    "currentReportAcknowledgements": 9,
+    "latestCapitalGovernanceAlreadySaved": true
+  },
+  "induce": [
+    {
+      "number": 1,
+      "actor": 12,
+      "target": 136,
+      "orderIndex": 5,
+      "queueIndex": 21,
+      "moneyCost": 50,
+      "thewCost": 10,
+      "rawWorldDispatchAccepted": true,
+      "acquisitionEstablished": false
+    },
+    {
+      "number": 2,
+      "actor": 12,
+      "target": 136,
+      "orderIndex": 5,
+      "queueIndex": 20,
+      "moneyCost": 50,
+      "thewCost": 10,
+      "rawWorldDispatchAccepted": true,
+      "acquisitionEstablished": false
+    }
+  ],
+  "months": [
+    {
+      "number": 1,
+      "before": [
+        236,
+        11
+      ],
+      "after": [
+        236,
+        12
+      ],
+      "strategyEndKeys": [
+        39
+      ],
+      "acquisitionEstablished": false,
+      "finalTargetCasterAndCityFaction": 137,
+      "causalInduceBranchAccepted": false
+    },
+    {
+      "number": 2,
+      "before": [
+        236,
+        12
+      ],
+      "after": [
+        237,
+        1
+      ],
+      "strategyEndKeys": [
+        39
+      ],
+      "acquisitionEstablished": false,
+      "finalTargetCasterAndCityFaction": 2,
+      "causalInduceBranchAccepted": false
+    }
+  ],
+  "publicSaves": [
+    {
+      "index": 0,
+      "tag": "impact-induce-loaded-november",
+      "date": [
+        236,
+        11
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-loaded-november-sango0.sav",
+          "bytes": 8221,
+          "sha256": "a2eca6ecfefe65a2e6b907ccc3a701ec4945bf885ddafaa26a50590a6c15b6f1"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-loaded-november-sango1.sav",
+          "bytes": 4840,
+          "sha256": "30404ca6bc1f2f3dab20bcc4975f4b7b94ecb9f3f014d7dcad5cd38be6c51dd2"
+        }
+      ],
+      "worldSemanticSha256": "d26cafd18b01e413ad420476beab2f03343c27b1b7df3d8984107514a0186e46",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 1,
+      "tag": "impact-induce-govern-1-city-4",
+      "date": [
+        236,
+        11
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-1-city-4-sango0.sav",
+          "bytes": 8221,
+          "sha256": "b87c897f88ed340347208212e5c14a96b694337983471a27f868f2558ecd8e83"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-1-city-4-sango1.sav",
+          "bytes": 4840,
+          "sha256": "48e63b1d1965ebf9ffd6200dcdcf78293d11c6b4dcb18a72ad98f9dcc10ffed4"
+        }
+      ],
+      "worldSemanticSha256": "85a3ea0f7bd0882d801ad4332f79dcc81444cf43d2ab14010f1373182985e75b",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 2,
+      "tag": "impact-induce-govern-1-city-13",
+      "date": [
+        236,
+        11
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-1-city-13-sango0.sav",
+          "bytes": 8221,
+          "sha256": "e444e621f3302a79af83688f22acab966d218a96d82169a18fcdf9f4ad8390c6"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-1-city-13-sango1.sav",
+          "bytes": 4840,
+          "sha256": "6878f92c17c2012e8daa5cda43be45e7f41be6241aa708bdd8cb1b532ed8b5bd"
+        }
+      ],
+      "worldSemanticSha256": "6a943758b2a81208ab3eb9e087fef7c319d02120d0b7a7dfb97c6b4c0dadf155",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 3,
+      "tag": "impact-induce-govern-1-city-20",
+      "date": [
+        236,
+        11
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-1-city-20-sango0.sav",
+          "bytes": 8221,
+          "sha256": "7b455ebb9b694793957290e83bd526af338f6e2c2e56abd20efc4d1092392afd"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-1-city-20-sango1.sav",
+          "bytes": 4840,
+          "sha256": "3ccd1b8bed1318eb68c5d8ef8af5210c865599b0f7aa8f51f838186cee5dacef"
+        }
+      ],
+      "worldSemanticSha256": "c717daa1885a925e2af93d183451cecd6f9efdb8b3939a8bd2fcd368a52b5d1e",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 4,
+      "tag": "impact-induce-food-1-city-20",
+      "date": [
+        236,
+        11
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-food-1-city-20-sango0.sav",
+          "bytes": 8221,
+          "sha256": "eaf434609de1f7553e24c0a6ef4da94e60f04b653ef444da90b425a0848275dd"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-food-1-city-20-sango1.sav",
+          "bytes": 4840,
+          "sha256": "ed888b3e9916eacdff7ef8966bae8dc0d55a4eba15066d3354e93fc2407697de"
+        }
+      ],
+      "worldSemanticSha256": "3c220bf7f60f80dfa19702a36f7a5d75068ecb8ca6c90cc4d8f188a4312c78bc",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 5,
+      "tag": "impact-induce-plunder-026",
+      "date": [
+        236,
+        11
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-plunder-026-sango0.sav",
+          "bytes": 8221,
+          "sha256": "6e236c7982c0473b479d12e76727f58431dec333f366b94c7d2752912d3d6833"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-plunder-026-sango1.sav",
+          "bytes": 4840,
+          "sha256": "e03d3f9ae672998571c529c8ac5116d533f078c48bb7b1144f815387bbe14048"
+        }
+      ],
+      "worldSemanticSha256": "b4301c6f16c7654386b6ef61a3f448313fb0aef788b5ab3bd8f01fbc781af468",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 6,
+      "tag": "impact-induce-order-001",
+      "date": [
+        236,
+        11
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-order-001-sango0.sav",
+          "bytes": 8221,
+          "sha256": "bbf7915beef0814b52c450a4ac2e18d6ec169db9a80c6615b072db736660d8bf"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-order-001-sango1.sav",
+          "bytes": 4840,
+          "sha256": "6b15b54888236091636f575944ec7fdb66624b5b71549aa7053483c32a2958aa"
+        }
+      ],
+      "worldSemanticSha256": "c246d607629e8b4c4b1c686217d93b895983caf323929f3d12dca11190f52603",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 7,
+      "tag": "impact-induce-month-001",
+      "date": [
+        236,
+        12
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-month-001-sango0.sav",
+          "bytes": 8221,
+          "sha256": "d4942fcc464a9009e6b65bc77c13a9fe909364ff1a1c7d112ec606c17db22fe2"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-month-001-sango1.sav",
+          "bytes": 4840,
+          "sha256": "eb292b6b24a5bc7ab80c7dc1460d842d64ee96b97c78284a54be3866d91a0c2f"
+        }
+      ],
+      "worldSemanticSha256": "614b6b72141d284c1050281570f4f2dcfec35e224352d66307e41175de772b4a",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 8,
+      "tag": "impact-induce-govern-2-city-4",
+      "date": [
+        236,
+        12
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-2-city-4-sango0.sav",
+          "bytes": 8221,
+          "sha256": "db2cea202a0b0541139ac53b138800d2ee7dc313ee90aa535cd241372b105c91"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-2-city-4-sango1.sav",
+          "bytes": 4840,
+          "sha256": "5332aa577b45d6cfdb632e5fd7876a32b192b312b0d9d4417afb549f4ea488cb"
+        }
+      ],
+      "worldSemanticSha256": "9550a126c4c83fb931d5a6fe6a5ca1e3e339933a9f4d11ad5ff3761545449aee",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 9,
+      "tag": "impact-induce-govern-2-city-5",
+      "date": [
+        236,
+        12
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-2-city-5-sango0.sav",
+          "bytes": 8221,
+          "sha256": "22c0d4a414f37d0d1dfe8eaa1e1d731a1eb609992ed62952a185f418a29eacd6"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-2-city-5-sango1.sav",
+          "bytes": 4840,
+          "sha256": "571e6f1b59d0aba2c0260818eeedc390957f2432ff4711b4d98dc90dec1ac868"
+        }
+      ],
+      "worldSemanticSha256": "29ae55b3ba39840a9e783b620b85cf04891d33c34f2f1db2bc319f27909a9192",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 10,
+      "tag": "impact-induce-govern-2-city-7",
+      "date": [
+        236,
+        12
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-2-city-7-sango0.sav",
+          "bytes": 8221,
+          "sha256": "3b4ddf475231a91240ad7d4b5d3b24d11d2330da033305af493ac2fe63b7f7b7"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-2-city-7-sango1.sav",
+          "bytes": 4840,
+          "sha256": "7efb911ae4a493ee8c85ecef1afaadf7ad7233204f495780124928f4bb95858c"
+        }
+      ],
+      "worldSemanticSha256": "172986517e9fc0f5ebcd196ffd612abf3ec8c77681c34bca985626bcb43ae4bd",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 11,
+      "tag": "impact-induce-govern-2-city-13",
+      "date": [
+        236,
+        12
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-2-city-13-sango0.sav",
+          "bytes": 8221,
+          "sha256": "6d84e45871c595e252a670d502c1b754af9ff300ad13ce8e86a2bfaa4c54babe"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-2-city-13-sango1.sav",
+          "bytes": 4840,
+          "sha256": "64dd45eeb75df0f475a9a71f7b38bb4d9a9765e19c8026773238ef70a6a986e6"
+        }
+      ],
+      "worldSemanticSha256": "6e9e8ea0cdaad926d2941fb60039983447042baa65fa4c209e513bdc8b49c106",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 12,
+      "tag": "impact-induce-govern-2-city-16",
+      "date": [
+        236,
+        12
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-2-city-16-sango0.sav",
+          "bytes": 8221,
+          "sha256": "ff1d5a7dc632c31b4bb39c90f85257f5dbcf7d68837c3bf5146675dbac672414"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-2-city-16-sango1.sav",
+          "bytes": 4840,
+          "sha256": "a4d87b39249f75318d2562bb96146666e8eefcf01af372a355bcd5c77da8f6b1"
+        }
+      ],
+      "worldSemanticSha256": "70c0e745dbb00a84014424b165b00cd69a47760aca1d5ec87bd01f8f46a2e8c6",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 13,
+      "tag": "impact-induce-order-002",
+      "date": [
+        236,
+        12
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-order-002-sango0.sav",
+          "bytes": 8221,
+          "sha256": "85c7a6ec6b208864e0d4668f8eb36a33fae0981212d9cfaf8141069682b03ecf"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-order-002-sango1.sav",
+          "bytes": 4840,
+          "sha256": "488503004237801e27adcb681e23a3b0051298c56dc589ceec92a5deca027676"
+        }
+      ],
+      "worldSemanticSha256": "67e44c9fbfff21df348ea4f43bfa2240fed3da016d4a77267150842dc4e3afb5",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 14,
+      "tag": "impact-induce-month-002",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-month-002-sango0.sav",
+          "bytes": 8221,
+          "sha256": "3761ddf12149263c23078b9ca5bba5d578ef38e9fe00089e9b7cba667f645c7d"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-month-002-sango1.sav",
+          "bytes": 4840,
+          "sha256": "e1aa6c6d1ff2c1348a5af1c057fede20475ce90791041fd7967009b72c3b1bd4"
+        }
+      ],
+      "worldSemanticSha256": "49f4192a3a0aea986deefa4d09df8c8535ed0e7be180a05ca7ed0637cf143fe6",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 15,
+      "tag": "impact-induce-govern-3-city-16",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-3-city-16-sango0.sav",
+          "bytes": 8221,
+          "sha256": "2cb151de2e77db3d76b365a39fa380aa97a51d3c2f4cdf448ff4a1131271c248"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-govern-3-city-16-sango1.sav",
+          "bytes": 4840,
+          "sha256": "f7eea80d7ec12645606c72bc3ed42f44b15e457f59bdd6b1236f10b7c4bf6a93"
+        }
+      ],
+      "worldSemanticSha256": "7b19315fc4c8b873bd907f265429203bdedab23c83caaf7d840232434249b17d",
+      "fullMeasuredPersistedFieldsAccepted": true
+    },
+    {
+      "index": 16,
+      "tag": "impact-induce-pending-016",
+      "date": [
+        237,
+        1
+      ],
+      "pair": [
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-pending-016-sango0.sav",
+          "bytes": 8221,
+          "sha256": "2cb151de2e77db3d76b365a39fa380aa97a51d3c2f4cdf448ff4a1131271c248"
+        },
+        {
+          "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-pending-016-sango1.sav",
+          "bytes": 4840,
+          "sha256": "f7eea80d7ec12645606c72bc3ed42f44b15e457f59bdd6b1236f10b7c4bf6a93"
+        }
+      ],
+      "worldSemanticSha256": "7b19315fc4c8b873bd907f265429203bdedab23c83caaf7d840232434249b17d",
+      "fullMeasuredPersistedFieldsAccepted": true
+    }
+  ],
+  "latestRecovery": {
+    "descriptor": {
+      "path": "build/impact-skill-20261014/impact-induce-recovery-input-v4.json",
+      "bytes": 21136,
+      "sha256": "bdc16e6d2ac834560459829f8ea8bbf725d8ec27c609940431d5db4b51e2577d"
+    },
+    "rootProof": {
+      "path": "build/impact-skill-20261014/impact-induce-recovery-root-proof-v4.json",
+      "bytes": 2947,
+      "sha256": "6f80f7c7aef3f24e7822a615c90b313285eb950400308fa2f8231e503ab08739"
+    },
+    "tag": "impact-induce-pending-016",
+    "date": [
+      237,
+      1
+    ],
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-pending-016-sango0.sav",
+        "bytes": 8221,
+        "sha256": "2cb151de2e77db3d76b365a39fa380aa97a51d3c2f4cdf448ff4a1131271c248"
+      },
+      {
+        "path": "build/impact-skill-20261014/prepare-induce-actual-v6/native-impact-induce-pending-016-sango1.sav",
+        "bytes": 4840,
+        "sha256": "f7eea80d7ec12645606c72bc3ed42f44b15e457f59bdd6b1236f10b7c4bf6a93"
+      }
+    ],
+    "worldSemanticSha256": "7b19315fc4c8b873bd907f265429203bdedab23c83caaf7d840232434249b17d",
+    "savedEqualsFailureWorld": true,
+    "activeOrders": [
+      {
+        "slot": 0,
+        "OrderId": 4,
+        "Person": 20,
+        "City": 16,
+        "Object": 65535,
+        "Arms": 0,
+        "Food": 0,
+        "Money": 48232,
+        "Consume": 57,
+        "TimeCount": 0
+      }
+    ],
+    "target136Faction": 2,
+    "caster117Faction": 2,
+    "city12Faction": 2,
+    "factionCityCounts": {
+      "1": 7,
+      "2": 11,
+      "3": 12
+    },
+    "previous136StillKing": false,
+    "oldInduceRouteCurrentlyLegal": false,
+    "olderCheckpointAllowed": false
+  },
+  "stopBoundary": {
+    "completedNewNormalMonths": 2,
+    "thirdEndPerformed": false,
+    "currentCity16": {
+      "money": 5679,
+      "food": 159,
+      "requiredFood": 231,
+      "deficit": 72,
+      "nativeFoodCost": 360,
+      "availableRawResidents": [
+        40,
+        0
+      ]
+    },
+    "currentCity20": {
+      "money": 856,
+      "food": 380
+    },
+    "reason": "No legal current trader/cash for required real next-month food",
+    "interpretation": "Current staffing policy excludes retained guard40 although native cash can pay; new public action must be reviewed and freshly observed."
+  },
+  "nextRouteProposal": {
+    "file": {
+      "path": "build/impact-skill-20261014/impact-january-next-route-plan-v1.md",
+      "bytes": 11496,
+      "sha256": "239d69b52dee8b1e3e63bbd5bed7add1f667c1705a480df2fe2ab99019b69774"
+    },
+    "proposalOnly": true,
+    "actualExecuted": false
+  },
+  "sourceStage": {
+    "proof": {
+      "path": "build/impact-skill-20261014/impact13-source-stage-root-proof-v2.json",
+      "bytes": 10318,
+      "sha256": "15172931d8d2170cb0f7b060a58e4a2da4bc067e5a022e7e45f6c7ff9b9681b0"
+    },
+    "tool": {
+      "path": "build/impact13-runtime-candidate-v2.mjs",
+      "bytes": 155812,
+      "sha256": "2ba0cf29e2b023ad72b0f7c114f9ec2e44f1993b30b0f6317a1b883315772c71"
+    },
+    "cases": [
+      {
+        "name": "impact13-preflight-v2",
+        "exitCode": 0,
+        "sourceCount": 1224,
+        "sourceTupleBytesExact": true,
+        "requests": 0,
+        "inputs": 0,
+        "profile": null,
+        "actualCastAccepted": false,
+        "hdAccepted": false
+      },
+      {
+        "name": "impact13-preflight-720-v2",
+        "exitCode": 0,
+        "sourceCount": 1224,
+        "sourceTupleBytesExact": true,
+        "requests": 0,
+        "inputs": 0,
+        "profile": null,
+        "actualCastAccepted": false,
+        "hdAccepted": false
+      },
+      {
+        "name": "impact13-preflight-missing-assets-v2",
+        "exitCode": 0,
+        "sourceCount": 1224,
+        "sourceTupleBytesExact": true,
+        "requests": 0,
+        "inputs": 0,
+        "profile": null,
+        "actualCastAccepted": false,
+        "hdAccepted": false
+      },
+      {
+        "name": "impact13-preflight-classic-v2",
+        "exitCode": 0,
+        "sourceCount": 1224,
+        "sourceTupleBytesExact": true,
+        "requests": 0,
+        "inputs": 0,
+        "profile": null,
+        "actualCastAccepted": false,
+        "hdAccepted": false
+      },
+      {
+        "name": "impact13-unqualified-reject-v2",
+        "exitCode": 1,
+        "sourceCount": 1214,
+        "sourceTupleBytesExact": true,
+        "requests": 0,
+        "inputs": 0,
+        "profile": null,
+        "actualCastAccepted": false,
+        "hdAccepted": false
+      }
+    ],
+    "httpStarted": false,
+    "chromeStarted": false,
+    "qualifiedInputBound": false,
+    "actualCastAccepted": false,
+    "hdAccepted": false,
+    "actualPixelMatrixAccepted": false,
+    "scope": "Source/resource preflight only for1080/720/missing-BACKPIC/classic configurations and explicit unqualified execution rejection. These are not four actual cast/pixel-matrix runs, and counts do not add to5130 unit checks. No OS cleanup claim is inferred from no browser launch."
+  },
+  "isolation": {
+    "external": {
+      "path": "build/impact-skill-20261014/prepare-induce-v6-external-cleanup-v1.json",
+      "bytes": 4353,
+      "sha256": "61ff797b7fd1ff7d6d726882fb2f670425a60595ecc2343f4aecb5cd119da15f"
+    },
+    "exactHistoricalIdentityCount": 15,
+    "matchingIdentities": 0,
+    "privateListeners": 0,
+    "user8080Unchanged": true,
+    "profileRetained": true,
+    "directoriesDeleted": false,
+    "publisherPerformedOsQuery": false
+  },
+  "archive": {
+    "path": "docs/validation/m5-impact-plunder-preparation-20261020-january-archive.json",
+    "bytes": 32282,
+    "sha256": "b62e3b6f6f765db1c767dbea2df51a2f4fdb79d15fef14805d0b01dd1a8a1009",
+    "namedFiles": 141,
+    "uniqueBlobs": 117,
+    "parts": 4,
+    "namedFileArchiveClosed": true,
+    "portableClosedArchive": false
+  },
+  "limits": [
+    "Original v6 remains exit1/okfalse with no acquisition or preparation after two NEW natural months; the third strategy end was never performed.",
+    "Target136/caster117/city12 became faction2 after the second entire natural month. This is not an execution-instant trace of Induce or a particular AI cause. Old hard-coded136 is no longer an enemy king, and player7cities versus faction2 eleven fails the old Induce city-ratio gate.",
+    "Capital16 food is159 versus required231, a72 deficit;5679Money can pay360. The stopped tool excludes the only nonking resident40 as a retained guard, so this is a staffing-policy stop, not native unaffordability. Future payment/temporary guard exception is not executed here.",
+    "Already saved January governance20 is active Order4 atslot0; no rollback, repeated governance, rewritten orders, old resource credit or reconstructed SAVE is allowed.",
+    "Plunder driver gross258Money/645Food includes halving city17→8 devotion,451→225 farming,343→171 commerce. DriverACK=false; no full-month economic attribution or invented confirmation.",
+    "All17 measured packed SAVE worlds are checked, but seed/RNG continuity, unmeasured header options/cursor/custom fields, unsaved resident tail and full native ABI remain outside acceptance.",
+    "Guards retain ownership, residency, Arms and Devotion. Their ages naturally advanced one at the new year; entire person structs are not falsely claimed unchanged.",
+    "5130/91modules is the prior fresh serial test record, not rerun for this January publication. Current241source byte recheck does not turn it into a new test run.",
+    "Four successful source-only file preflights and one expected missing-qualified-input rejection are not four actual skill casts or pixel-matrix runs; no browser, HTTP or game input occurred in those probes. Their counts do not add to5130.",
+    "Named bytes only are archive-closed. Full prior product/source/history and previous large archives rely on committed6f59d98; portableClosedArchive=false. Futurev7, qualified recruitment, march/battle, dual-water eligibility, cast/HD/fallback/globalHD remain unaccepted.",
+    "Publisher only verifies root terminal and external cleanup files; it does not query OS, stop processes, delete profiles, run tests, launch servers/browser or send game input."
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "accepted": true,
+  "sourceOnly": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood67-recruitment-source-20261024-v40.json",
+    "bytes": 24046,
+    "sha256": "9eb57e2a092bc93aef528589a46259c886a8e1f799e2bdc92211c19192de18fc"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-wood67-recruitment-source-20261024-v40.md",
+    "bytes": 3173,
+    "sha256": "d56a7650b7e9314d536badf1c1ef97b53af00b6d2d1b1e54892c6e97dc2f8790"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-recruitment-source-20261024-v40-verify.mjs",
+    "bytes": 6713,
+    "sha256": "6202f543b462665eff3cd713a91bbe9e86173ef7ac7961292fc4b563207386dd"
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-recruitment-source-20261024-v40-archive.json",
+    "bytes": 29862,
+    "sha256": "f39cd8eedd01a1b89c420fc10d70ac0076b1b30cf15339c154892868a967d5c7"
+  }
+}

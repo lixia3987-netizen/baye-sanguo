@@ -1,0 +1,642 @@
+
+> test
+> node --test scripts/test-hd-input.mjs scripts/test-hd-battle-mode.mjs scripts/test-hd-battle-commands.mjs scripts/test-hd-march.mjs scripts/test-hd-city-entry.mjs scripts/test-hd-engine-protocol.mjs scripts/test-hd-dialog-routing.mjs scripts/test-hd-portraits.mjs scripts/test-hd-campaign-flow.mjs scripts/test-hd-campaign-engine.mjs scripts/test-hd-save-transaction.mjs scripts/test-hd-saveload-ui.mjs scripts/test-hd-save-pages.mjs scripts/test-hd-campaign-telemetry.mjs scripts/test-hd-render-visibility.mjs scripts/test-hd-performance-metrics.mjs scripts/test-hd-road-presentation.mjs scripts/test-hd-battle-terrain.mjs scripts/test-hd-battle-feedback.mjs scripts/test-hd-spe.mjs scripts/test-hd-spe-engine.mjs scripts/test-hd-lib-identity.mjs scripts/test-hd-overworld-identity.mjs scripts/test-hd-ownership.mjs scripts/test-hd-city-hud.mjs scripts/test-hd-idb-mod-compat.mjs scripts/test-hd-details-engine.mjs scripts/test-hd-details-bridge.mjs scripts/test-hd-overviews-engine.mjs scripts/test-hd-overviews-bridge.mjs scripts/test-hd-minimap.mjs
+
+✔ render, engine hooks and polling never invent selections, attacks or turns (12.7181ms)
+✔ unsupported legacy snapshots and busy engine reject manual commands (2.0574ms)
+✔ a real native battle report blocks commands and owns keyboard confirmation (2.6419ms)
+✔ a report opened during cursor movement retires the remaining battle request (2.6289ms)
+✔ selection rejects enemies, spent units, confused, stone and dead states (2.2779ms)
+✔ clicking a unit advances each direction only after the real cursor moves (3.3464ms)
+✔ single keyboard arrow sends once, waits for focus ack, then releases ownership (2.5806ms)
+✔ keyboard menu arrow acknowledges actual index and handles wraparound (2.3608ms)
+✔ keyboard repeat, composition and native form focus do not duplicate input (1.7842ms)
+✔ all LCD gaming shortcuts are consumed while busy or waiting for a command (2.0043ms)
+✔ help and situation shortcuts deliver once through the owned input wait (5.3702ms)
+✔ space uses cancellation ownership and never bypasses a committed move (2.5108ms)
+✔ move requests require real path cells and never choose a substitute destination (2.6139ms)
+✔ a destination becoming invalid before confirmation cancels without Enter (2.7086ms)
+✔ attack confirmation targets only the clicked enemy within the C range table (3.5051ms)
+✔ attack range origins crossing the map edge use the native U8 coordinate difference (9.1906ms)
+✔ wrapped attack ranges still reject blocked cells, friendly or empty targets and out-of-map input (3.4949ms)
+✔ attack ranges with ordinary positive origins preserve the same native mask lookup (2.6643ms)
+✔ skill menus use actual items and friendly target validation remains in the engine (2.7473ms)
+✔ rest navigates the current native menu index and commits exactly once (2.1385ms)
+✔ leftover bytes, wrong menu owner or stale menu kind cannot be commanded (1.9665ms)
+✔ keyboard menu navigation retires when the real menu sequence changes (2.6336ms)
+✔ help return is explicitly owned and cannot dismiss busy animations (3.3767ms)
+✔ situation page arrows send once and await a new engine page sequence (2.4554ms)
+✔ opening native system menu does not end a turn; choices require genuine menus (2.2159ms)
+✔ retreat selection preserves a separate native confirmation step (2.4517ms)
+✔ settings are selected through the live native submenu without turn commands (2.235ms)
+✔ cancel retires queued movement; committed commands cannot receive a second key (2.781ms)
+✔ new actor, menu or input sequence retires a pending request instead of guessing (6.75ms)
+✔ unacknowledged inputs time out without replay and same-input commits stay locked (2.7818ms)
+✔ classic mode and a new battle invalidate even already captured callbacks (4.8197ms)
+✔ results and succession dialogs are observed without dismissing or changing them (2.3077ms)
+✔ movement origins crossing map edges use native U8 arithmetic including raw zero and128 (7.4931ms)
+✔ invalid move metadata and incomplete masks cannot alias a valid destination (12.2641ms)
+✔ native map bounds prevent MOVE or AIM confirmations into presentation-only expansion cells (4.5738ms)
+✔ oversized or truncated AIM masks reject confirmation even if an early enemy cell is one (4.205ms)
+✔ unknown aim kinds and coerced metadata cannot confirm an otherwise marked enemy (16.8389ms)
+✔ movement feedback agrees with actual native confirmation for every byte, including origin and resistance boundary (2.7299ms)
+✔ movement uses full native 15 by 15 stride, offsets and U8 wrap at either map edge (15.6513ms)
+✔ attack and skill masks use native U8 origins, row stride and exactly byte one (43.6575ms)
+✔ lookup rejects coordinates outside actual native bounds before U8 wrap can alias a legal cell (1.6384ms)
+✔ missing, short or malformed native masks and bounds cannot invent reachability (1.4023ms)
+✔ range lookups observe current native bytes without mutating masks or sending an input (1.8465ms)
+✔ feedback belongs only to the current native movement or aim wait and retires for a report, menu or terminal state (3.6551ms)
+✔ range actor identity, alive state, action availability and native bounds must agree (5.3617ms)
+✔ visible range cells preserve native offsets and clip expanded presentation geometry at native map bounds (1.738ms)
+✔ range outlines join only known adjacent in-range cells without inventing a route through blocked or unknown cells (2.7556ms)
+✔ attack highlights only living enemies while a skill describes range without claiming target legality or damage (8.6716ms)
+✔ painting distinguishes range meanings, clips to the native board intersection and restores Canvas state (3.2867ms)
+✔ hidden, inactive and unavailable-mask feedback performs no paint, hook or native input (2.9531ms)
+✔ default classic startup preserves native menu and retreat flags (2.2871ms)
+✔ classic startup leaves an existing mod hook intact (0.7703ms)
+✔ HD installs once, delegates to the previous mod hook, and restores it (1.6297ms)
+✔ late HD wrapper calls in classic return the native-menu sentinel (1.0817ms)
+✔ auto follows current overworld mode and explicit classic overrides it (1.9712ms)
+✔ auto uses the stored overworld preference before the overworld module loads (0.9363ms)
+✔ HD removal does not overwrite a newer hook from another module (0.6311ms)
+✔ missing engine can start and late engine is picked up by startup polling (0.6984ms)
+✔ HD system hook waits for a real native choice instead of ending a turn (2.1159ms)
+✔ classic engine callbacks preserve active menu and battle state (0.8855ms)
+✔ switching an active HD scene to classic preserves the native menu and battle (1.1843ms)
+✔ finished battle notifications never drain reports or alter native results (0.7216ms)
+✔ preparing the next HD scene leaves native battle and menu state untouched (0.6837ms)
+✔ idle HD polling never selects actions from leftover menu bytes (1.1705ms)
+✔ real C FgtMainMenu preserves classic options and gates only HD hook retreat (356.4139ms)
+✔ all native byte tiles agree with the actual C classifier and eight terrain meanings (3.3015ms)
+✔ absent, fractional, nonnumeric and outside-byte tiles cannot invent a terrain meaning (1.0451ms)
+✔ inspection uses native full-map stride even when the visible board is cropped (1.0442ms)
+✔ missing cells and invalid native dimensions are neutral instead of using a screen cache (0.8705ms)
+✔ unverified LIBs and rejected category crosschecks keep unknown labels and no effect claims (4.2695ms)
+✔ terrain semantics require explicit verification rather than an absent or truthy status (1.204ms)
+✔ actual loaded dictionary bytes authenticate once; a changed cached LIB cannot inherit trust (86.9245ms)
+✔ missing, malformed or unhashable loaded data cannot authenticate from a stored path (53.2131ms)
+✔ a late valid fingerprint cannot overwrite a newer modified or missing identity (150.5358ms)
+✔ a stale rejected digest cannot revoke the current authenticated identity (90.6027ms)
+✔ custom terrain hooks veto authenticated labels while ordinary hooks preserve byte identity (37.6414ms)
+✔ production terrain verifier shares the current byte digest and rejects mismatched supplied data (43.4845ms)
+✔ terrain paint composites the cropped layer at the board anchor without native writes (2.0022ms)
+✔ cropped native map preserves category fills and local cell geometry (2.1804ms)
+✔ unchanged snapshots reuse static terrain; exact content and scene identity invalidate the cache (2.0283ms)
+✔ classic mode clears static cache and hidden pages cannot build or paint terrain (1.5066ms)
+✔ missing offscreen canvas still draws neutral fallback without touching native state (1.1162ms)
+✔ real C fight queue stores all 30 ten-person armies within its 600-byte allocation and reuses sparse slots (345.7243ms)
+✔ real C rejected fight orders leave caller, fighter storage and occupied queue unchanged and report once (287.3994ms)
+✔ real C high-slot dispatch occupies an empty city, frees its own slot and counts 16-bit fighter IDs (242.787ms)
+✔ real C older or AI dispatch cannot consume the latest player order acknowledgement (210.025ms)
+✔ real C incoming attacks own defender menus, ACK native indexes and preserve removal, ten-general and EXIT rules (225.5806ms)
+✔ real C rejected or cancelled march restores its generals without consuming food or money (200.1326ms)
+✔ real C player succession preserves campaign ownership, retries cancellation and appoints only the chosen candidate (217.2782ms)
+✔ real C person menu publishes every successor candidate beyond the old 80-name limit (209.4561ms)
+✔ real C report ownership covers only the actual timed input wait and leaves passive or disabled reports inactive (194.7714ms)
+✔ real C battle settlement transfers ownership, preserves winning troops and keeps defeated generals as captives (206.3275ms)
+ok 1 - battle history releases only for a real terminal result and native map input
+ok 2 - post-fight presentation reset observes the existing cursor without choosing a home city
+ok 3 - same-page new-game/load retires queued work without writing C input flags
+ok 4 - real result and occupation report waits stay passive until explicit confirmation
+ok 5 - live native reports retain input and pointer ownership despite old map or handoff markers
+ok 6 - report confirmation cannot replay into another report, map or successor wait
+ok 7 - confirming a result preserves a synchronously opened occupation report
+ok 8 - old march cleanup leaves current occupation, succession and next departure reports intact
+ok 9 - an instant GamFight result closes the order even when no active polling frame occurred
+ok 10 - a consumed empty-city order releases its wizard without requiring a battle or report acknowledgement
+ok 11 - a long empty-city report may outlast handoff polling and still release the consumed order later
+ok 12 - expired native report bytes cannot reopen a modal over a real map input
+ok 13 - successor candidates come only from the active campaign menu and observing chooses nobody
+ok 14 - successor polling preserves the same candidate buttons through a pointer gesture
+ok 15 - one player successor choice waits for each real menu index before confirming once
+ok 16 - a stalled successor index never retries movement or invents a confirmation
+ok 17 - large successor paths may exceed five seconds while each real movement keeps acknowledging
+ok 18 - successor transaction cannot resume across another menu, new game or a classic switch
+ok 19 - a pointer pressed on a previous successor menu cannot commit the next candidate list
+ok 20 - successor acknowledgement preserves the new ruler report opened synchronously by C
+ok 21 - explicit successor arrows move once and Escape neither chooses nor exits the required menu
+ok 22 - an incoming attack owns defenders from the real menu and current native army, independently of the old march
+ok 23 - a defender choice sends each arrow once, accepts its exact ACK and commits this menu once
+ok 24 - native removal and a new defender menu rebind the next choice without using the old index
+ok 25 - defender polling preserves button nodes and a gesture on the same actual menu
+ok 26 - a defender gesture and old finish button cannot cross a new menu containing the same names
+ok 27 - inactive, replaced or uncompleted defender menus reject stale pointer and keyboard commits before the next poll
+ok 28 - a defender button must still represent its real name and complete owner token
+ok 29 - explicit finish may choose no defenders and sends one EXIT without inventing a battle or clearing native state
+ok 30 - a live defense owner may explicitly finish despite stale offensive hold markers
+ok 31 - real battle input retires defense ownership and cancels queued defender movement
+ok 32 - defense requests stop across new games and classic mode, while retired callbacks leave fresh requests intact
+ok 33 - slow exact successor and defender ACKs extend each step without accepting unrelated cursor movement
+ok 34 - city person and goods selection uses native index zero despite stale parent idle index one
+ok 35 - city person selection waits for a real index ACK and duplicate clicks never confirm twice
+ok 36 - changed city menu kind, context, sequence or names retire a pending person request
+ok 37 - repeated march selections wait for native removal then select 庞德 from the new seven-person list
+ok 38 - a new native person list waits for the selected count ACK before it becomes clickable
+ok 39 - a person gesture cannot cross another menu even when the candidate names remain identical
+ok 40 - person names and IDs on a button must agree with the current rendered candidate
+ok 41 - polling a live person menu preserves button ownership through an unchanged gesture
+ok 42 - three recruit and two allocation quantities accept identical min-zero waits independently
+ok 43 - old quantity cleanup and queued digits cannot reach a new min-zero wait
+ok 44 - a real actor-death report remains visible and explicitly confirms once while battle is BUSY
+ok 45 - native defeat caused by the commander dying does not claim surviving generals were wiped out
+ok 46 - battle reports own pointer and keyboard input without sending other battle hotkeys into C
+ok 47 - a death acknowledgement preserves a nested report for another actor in the same battle
+ok 48 - old actor report pointer and cleanup cannot confirm or hide the next report
+ok 49 - expired actor reports and classic or new-game scene changes release their report ownership
+49 HD campaign flow regression cases passed.
+✔ scripts\test-hd-campaign-flow.mjs (527.9544ms)
+ok 1 - installation creates an empty recorder owned by the current document
+ok 2 - the wrapper preserves the native receiver, every argument, return value and error
+ok 3 - reinstallation in one document retains one wrapper and its existing evidence
+ok 4 - a refresh archives both documents and records fresh native inputs in the new page
+ok 5 - repeated archives update one document and extend its unchanged prefix once
+ok 6 - a missing input array rejects archival instead of fabricating an empty log
+ok 7 - a missing recorder or changed sendKey owner rejects collection without rewriting evidence
+ok 8 - modifying an already archived prefix is rejected and preserves the trusted archive
+ok 9 - truncating an already archived input document is rejected
+Campaign document input telemetry passed: 9 groups
+✔ scripts\test-hd-campaign-telemetry.mjs (181.9035ms)
+ok 1 - owned city entry walks the real cursor and cached native city before confirming
+ok 2 - stalled native movement does not retry a key, snap flags, Enter or open a fake city shell
+ok 3 - retained root menu text cannot acknowledge entry before active native city context
+ok 4 - an opened wrong city is rejected rather than labelled with the requested target
+ok 5 - changed map input sequence cancels pending entry without another direction or Enter
+ok 6 - a real root menu uses the actual native city rather than an old selected target
+ok 7 - leaving old menus exits each native menu sequence once before real map navigation
+ok 8 - cancelled entry callbacks cannot revive after a later map request
+8 HD city entry regression cases passed.
+✔ scripts\test-hd-city-entry.mjs (185.6107ms)
+✔ city groups preserve all native attributes, zero values and actual limits; queue offsets stay out (10.4259ms)
+✔ missing, null or invalid city fields stay unread, while unowned and zero limits remain explicit (2.4389ms)
+✔ unknown numeric city attributes are retained, without exposing queues (3.3292ms)
+✔ person detail preserves all real attributes, long name, zero thew and high equipment ID (4.5651ms)
+✔ current captive, previous unknown allegiance and lord character are separate contracts (3.9511ms)
+✔ known equipment is named through its actual ID and missing names retain the number (2.8284ms)
+✔ equipment names use the validated actual tool count for high IDs and never query invalid resources (3.8292ms)
+✔ untrusted/pending/stale loaded LIB or Mod property hooks only expose raw enum codes (4.0448ms)
+✔ native person index and owner attributes survive the read-only detail layout (5.9431ms)
+✔ stable native selection does not repeatedly scroll away manual inspection (9.1386ms)
+✔ native GetCityPersons filters an eleven-entry city queue to seven actors in its original order (5.1487ms)
+✔ matched native owner index determines both highlighted actor and detail, including direct refresh (3.8595ms)
+✔ filtered/reordered/duplicate native names never infer a person by name (9.2525ms)
+✔ report/help/quantity/owner change/pending input/hidden view retire person details (30.6091ms)
+✔ live attributes update under the same owner without changing the native queue (3.8555ms)
+✔ persistent portrait slot stays outside rebuilt fields and survives native highlight/attribute refresh (7.8235ms)
+✔ known native list defaults LCD off despite stale map/dialog classes, and explicit inspection persists (17.8189ms)
+✔ unknown native lists retain automatic LCD fallback without setting explicit inspection preference (4.9297ms)
+✔ native report/help ownership passes LCD control through and retires correctly when it ends (7.4985ms)
+✔ read-only status entry and return preserve the real root owner and can open its next submenu (6.0351ms)
+✔ real U16 menu IDs identify reordered and duplicate-name persons without guessing names (3.8554ms)
+✔ malformed claimed native IDs never fall back to a matching person name list (11.7617ms)
+✔ derived equipment arm passes the whole U16 person ID and retains the basic arm separately (2.8663ms)
+✔ same-name goods use actual selected tool ID and preserve native captured values and unread pages (3.7162ms)
+✔ standard current raw tool fields supplement unread default properties, preserving real zero values (6.524ms)
+✔ custom properties, unknown libraries and live property hooks never substitute standard raw semantics (20.9102ms)
+✔ genuine captured blank and literal markup stay distinct from unread values (6.4682ms)
+✔ tool fields and controls persist when actual highlighted ID changes, without automatic pagination (5.3075ms)
+✔ tool owner and generation loss, overlays and pending input retire details and preserve LCD fallback (61.607ms)
+✔ property page clicks send one native arrow and wait for the real page acknowledgement (5.2076ms)
+✔ pointer-owned stale page controls never send keys to another native selection or generation (18.5142ms)
+✔ reentrant read-only default or final input getters cannot publish or page a retired tool (7.1136ms)
+✔ same-name native menu ID changes retire an armed item click instead of confirming another tool (5.1284ms)
+✔ a report that restores the same native menu and page still retires an older pressed page button (11.1467ms)
+✔ cancelling a goods menu hides its side panel and retains the existing single native Exit (4.2141ms)
+✔ native menu IDs preserve reordered goods and same-name full U16 people (4.5827ms)
+✔ proven IDs resolve full native names once per owner and retire a reentrant name read (1.0578ms)
+✔ menu ID metadata rejects stale owners, malformed IDs and resource bounds (10.4724ms)
+✔ missing help fields stay unknown instead of naming person zero (1.5823ms)
+✔ goods exposes only actually captured title/value pairs, including native zero (1.3747ms)
+✔ derived equipment arm reads full U16 identity and never falls through to U8 (1.2385ms)
+✔ tool defaults require actual standard identity, native count and safe fresh fields (1.469ms)
+✔ getter reentrant world or LIB change retires already read tool fields (1.218ms)
+✔ actual tool payload rejects malformed tables, ranges, record sizes and names while restoring strict EOF (391.5071ms)
+✔ actual full U16 person arm matches native equipment precedence without changing a person (16.4779ms)
+✔ actual goods picker accumulates selected native title/value pages across horizontal scrolling (16.6786ms)
+✔ actual goods renderer captures each Mod hook result without extra calls or another row leaking (17.5476ms)
+✔ actual native goods row change retires the previous selection and captures the newly selected tool (18.8917ms)
+✔ a genuine nested report retires goods observations until a native page is actually rendered again (14.831ms)
+✔ actual menu IDs, reports, resets and old generation calls preserve native ownership boundaries (16.2903ms)
+✔ actual FgtShowHlp publishes exact U16 numbers and observes focus after the real pre-help hook (16.2276ms)
+✔ actual fighter override and reentrant reset keep incomplete or retired HD help neutral (20.0314ms)
+✔ actual terrain help preserves native class/text and downgrades override or invalid focus (14.9262ms)
+✔ old help unwind cannot clear or end a newer native input context (18.2591ms)
+✔ actual person picker publishes full U16 reordered identities while retaining its native row index (14.5037ms)
+✔ malformed or stale captures stay incomplete and real help/report ownership clears their observations (13.7629ms)
+✔ actual native goods picker traverses all 255 single-column pages and ignores an extra Right on the last page (17.1285ms)
+✔ actual native zero-column goods page stops repeated Right without redrawing or changing Enter selection (15.6242ms)
+✔ actual person picker survives 20 property pages and preserves U16 identities, row and input sequence (15.7843ms)
+✔ actual tool field export reads current validated bytes without hooks or resource writes (14.4869ms)
+✔ actual dat-mod.lib tool count/last record uses the compiled 66-byte native ABI (14.4169ms)
+✔ actual sc-mod.lib tool count/last record uses the compiled 66-byte native ABI (16.9206ms)
+✔ report observers never send keys or change bridge text in any march phase (15.4279ms)
+✔ explicit departure confirmation delegates once and never falls back to raw Enter (4.7872ms)
+✔ old march sequence or old session cannot confirm a newer report (12.8722ms)
+✔ march confirmation keyboard and overlapping native handlers dispatch exactly once (4.8432ms)
+✔ acknowledging one march report preserves the synchronously opened next report (5.3547ms)
+✔ hiding a march report with Back never cancels or confirms its engine wait (3.785ms)
+✔ actual native reports keep explicit Enter/Exit and observers stay passive (8.2502ms)
+✔ battle help buttons use the real 9 wait and cannot replay into its next menu (9.0083ms)
+✔ a stale help button cannot close a new help wait or send into BUSY (17.5901ms)
+✔ battle and dialog keyboard ownership emit one help return and ignore repeat (4.157ms)
+✔ help cleanup cannot close a synchronously opened quantity dialog (4.6898ms)
+✔ native form focus, composition and classic/HD switches do not submit stale reports (5.0743ms)
+✔ native march reports with legacy async ID zero still route by their real wait token (3.7743ms)
+✔ a pointer pressed on the old report cannot acknowledge the newly displayed one (4.0097ms)
+✔ march report presentation leaves the explicit city continue control accessible (7.0117ms)
+✔ a retained native report cannot submit into the newly active map or menu (7.4107ms)
+✔ battle toolbar help/search use the guarded controller without creating fake dialogs (16.3216ms)
+✔ native speech, departure, succession and stale policy observers stay passive (4.5982ms)
+✔ classic battle preference returns HELP9 keyboard ownership despite HD city preference (6.6054ms)
+✔ HELP9 cannot consume Enter after C opens SYSTEM6, RETREAT7 or SETTINGS8 (27.436ms)
+✔ VIEW10 uses its page acknowledgement and never inherits HELP9 dialog ownership (4.5491ms)
+✔ an old HELP9 pointer press cannot dismiss the next displayed help wait (5.0168ms)
+✔ complete native help renders the captured identity and all real numeric fields, including zero (5.3402ms)
+✔ native maximum level and custom GBK labels stay literal and never become HTML (4.0771ms)
+✔ current battle HELP owns visible fields despite a retained departure phase and city shell (4.232ms)
+✔ an incomplete current battle HELP keeps its LCD and return control above retained march state (5.9612ms)
+✔ incomplete, stale and malformed native help keeps LCD and never invents structured fields (51.556ms)
+✔ actual terrain help displays its complete native description while custom help retains LCD (4.0996ms)
+✔ LCD choice survives polling but a new help publication retires its former fields (3.7809ms)
+✔ old help publication and pointer tickets cannot acknowledge a newer native detail event (15.6069ms)
+✔ hidden, unready, classic and ended help views retire fields without native writes or automatic input (19.3535ms)
+✔ a real native report outranks a retained help detail and help observation cannot acknowledge either (3.9158ms)
+✔ menu help/search page the actual native list without creating a speculative result dialog (5.3429ms)
+✔ hidden and unready help/search controls cannot queue keys before a native view exists (10.6587ms)
+✔ malformed native wait metadata cannot own an otherwise complete help page (16.4797ms)
+✔ native map help can return once, but its stale controls never acknowledge a newer list or report (19.9096ms)
+✔ VIEW renders only the captured native page with slot zero, U16 identities and same names (4.2113ms)
+✔ VIEW sends one guarded arrow then waits for the native page ACK without local page prediction (5.3687ms)
+✔ VIEW footer returns once through the complete current native owner (2.9684ms)
+✔ VIEW classic comparison changes no inputs and survives native page and force changes (3.9409ms)
+✔ VIEW malformed, incomplete and custom snapshots retire HD presentation and preserve native fallback (79.6613ms)
+✔ VIEW stops owning controls on hidden, classic, reset, ended, report and competing native waits (21.9319ms)
+✔ pressed VIEW page, LCD and footer controls cannot transfer into newer VIEW or HELP owners (35.7014ms)
+✔ a press on old VIEW control A cannot arm rebuilt control B or another current control (96.2316ms)
+✔ public VIEW action requires exact owner and rejects hot payload edits until a new native publication (2.7741ms)
+✔ the controller rechecks VIEW publication immediately before sending through an unchanged fight wait (8.0827ms)
+✔ VIEW observes native empty pages and known enemy food zero without deriving a secret supply (3.0022ms)
+✔ real native quantity publishes exact character receipts after processing and preserves no-op, cursor and digit behavior (355.6561ms)
+✔ real native quantity closes all key and touch exits with fresh owners while retaining original cancel return values (268.1725ms)
+✔ real C quantity tokens reject old callbacks across world commit, end and sequence wraparound (220.2286ms)
+✔ public quantity bridge reads native receipts without writes and explicitly detects legacy or incomplete protocols (1.3703ms)
+✔ real C bridge distinguishes current input from stale bytes and cross-menu action commits (223.8623ms)
+✔ real C menu bridge preserves packed GBK names after embedded NUL and clears old menu slots (204.9208ms)
+✔ real C picture menus publish title/period indexes without stale names or new input on redraw (209.3918ms)
+✔ real C defender menus override city defaults, ACK redraws and release their scope after the actual wait (217.1199ms)
+✔ real C record lifecycle separates 3 save slots from 4 load slots and ACKs index without reopening input (213.0008ms)
+✔ real C nested reports restore outer text/person/kind with a fresh input sequence and respect the 16-frame boundary (211.4485ms)
+✔ real C new LIB/game invalidates nested reports, record ownership, fight/menu input and old march acknowledgement (204.9097ms)
+✔ real C king choice owns SYSTEM/KING despite a previous winner, publishes matching names and ACKs its native index (208.3242ms)
+✔ real C world commit clears old battle and march mirrors while preserving every persistent game field (214.7727ms)
+✔ real PlcSplMenu input guards ignore early/late action mailboxes in system, retreat, settings and skill menus (207.0326ms)
+✔ real C native menu/focus/map/view wrappers open and close input once; native HD sentinel keeps retreat confirmation (216.2891ms)
+✔ real C BattleMake reports selected-person ACK, cancellation/rejection, exhausted lists and successful order ACK (212.9896ms)
+✔ fixture executes the actual sc-mod ENGINE_SCRIPT enumerable Array helpers (4.9116ms)
+✔ pending open initializes real SDK transaction and operation queues when Mod helpers arrive later (1.9119ms)
+✔ open failure delivers each queued API callback once and preserves the original IDB error (2.755ms)
+✔ close before open fails pending operations once and closes a late IDB result (1.175ms)
+✔ aborting a queued transaction drains its callbacks and does not revive it at open (1.1718ms)
+✔ initialized transaction errors retain normal event handling and finish only once (1.0901ms)
+✔ empty and already-open SDK queues can close without enumerating inherited helpers (1.027ms)
+✔ SDK public promise APIs still read, write, remove and clear before and after open (1.4247ms)
+ok 1 - overlapping dialog/city/classic listeners dispatch Enter and Esc once
+ok 2 - city-only quantity UI owns Enter/Esc and repeated keys do not resubmit
+ok 3 - classic keys keep one engine dispatch when HD overlays are closed
+ok 4 - native input, content editing, IME and focused button activation stay native
+ok 5 - previously consumed keys and SPE ownership are not reclaimed by quantity shells
+ok 6 - both quantity buttons apply exact +/-1 and +/-10 from every cursor position
+ok 7 - quantity steps clamp at min/max, including one-digit and zero maxima
+ok 8 - confirm waits for queued changes, sends one Enter, and never retries into the next UI
+ok 9 - rapid opposite steps use the updated quantity before clamping
+ok 10 - both digit pads finish their digit before confirming and cancel pending digits
+ok 11 - standalone dialog uses the same step contract and stops sending when closed
+ok 12 - cancel discards pending steps/confirmation and cannot send them into the next UI
+ok 13 - async food cancellation invalidates already captured digit callbacks before engine ack
+ok 14 - classic then HD cannot replay a captured quantity command
+ok 15 - standalone dialog close/reopen does not revive its old step callbacks
+ok 16 - malformed, inactive and unsupported quantity requests do not emit engine keys
+ok 17 - native quantity cursor avoids no-op navigation and keeps exact steps from every place
+ok 18 - native ACK delays each following key and confirmation until the real receipt
+ok 19 - native FIFO re-reads bounds after opposite steps and digits before confirming
+ok 20 - native no-op cursor, rejected digit, bounds and search keys all receive ACKs
+ok 21 - native physical keys join pending button input rather than racing the receipt
+ok 22 - native ACK timeout drops queued confirmation, never retries, and still permits cancellation
+ok 23 - native mismatched or skipped receipts cannot release remaining keys or Enter
+ok 24 - native session replacement invalidates an active ACK and adopts the new owner independently of march
+ok 25 - native cancellation stops an already dispatched step even while its old receipt arrives
+ok 26 - native receipt wrap, initial readiness and inactive snapshots remain safe
+ok 27 - native ACK callbacks cannot survive classic mode or a new-game reset
+ok 28 - native quantity cleanup never writes quantity mirrors even without a march bridge
+ok 29 - standalone cancellation and confirmation cannot reopen the same delayed native owner
+ok 30 - a pending native receipt survives view close/reopen before planning a fresh step
+ok 31 - a fresh confirmation after view reopen waits for the abandoned key receipt
+ok 32 - failed native receipt remains sticky in the same owner and releases on a fresh native session
+ok 33 - city food mode changes cannot reopen or confirm a closed native quantity owner
+33 HD input regression cases passed.
+✔ scripts\test-hd-input.mjs (482.9794ms)
+✔ actual dictionary bytes verify with the engine Promise replacement and an unrelated preferred path (44.0112ms)
+✔ same preferred path and a one-byte changed LIB produce different identities (73.9039ms)
+✔ repeated reads and subscriptions share one digest for each actual byte source (8.9176ms)
+✔ stale success retires itself after an unobserved LIB switch (1.4981ms)
+✔ late rejection cannot overwrite the newer ready identity (1.0774ms)
+✔ malformed, absent, oversized and failed reads stay untrusted and can recover (3.8111ms)
+✔ missing crypto, digest rejection and malformed digests never publish ready (9.3268ms)
+✔ one consumer cannot mutate identity or prevent other consumers from retiring work (2.9275ms)
+✔ reentrant consumer switching the LIB leaves the newest generation authoritative (3.4649ms)
+ok 1 - retained report text and numeric fields never advance a march
+ok 2 - each real report accepts one player acknowledgement per input sequence
+ok 3 - stale async reports cannot acknowledge current person/food/map input
+ok 4 - native reports with no legacy async action confirm through their real input token
+ok 5 - an old displayed report token cannot acknowledge a newer report
+ok 6 - food confirmation waits for an engine phase acknowledgement
+ok 7 - finish persons waits for C selected count then sends one Exit
+ok 8 - missing selection acknowledgements time out without replaying generals
+ok 9 - map/list selection retains the player target without sending engine keys
+ok 10 - invalid or own cities preserve the previously selected enemy target
+ok 11 - target confirmation requires both real cursor and shown city then submits once
+ok 12 - a stalled cursor never receives a blind confirm or repeated movement key
+ok 13 - changing session/phase/input sequence invalidates a target move callback
+ok 14 - classic then HD cannot revive captured cursor work
+ok 15 - departure requires a fresh order for the same session/origin/player target
+ok 16 - U16 order sequence wrap acknowledges a fresh matching order
+ok 17 - armout text and success report do not end strategy automatically
+ok 18 - strategy handoff exits each actual city menu and map input once then confirms once
+ok 19 - retained FunctionMenu bytes without active context never confirm strategy
+ok 20 - a real map returned after departure accepts strategy handoff without a city menu
+ok 21 - menu navigation uses live index and waits for engine movement acknowledgement
+ok 22 - new menu sequence and classic mode cancel menu navigation permanently
+ok 23 - already-shifted queue items cannot cross new game or mode boundaries
+ok 24 - target cancel invalidates pending movement and waits for C idle acknowledgement
+ok 25 - keyboard Enter belongs to one explicit march step and repeats are consumed
+ok 26 - battle shell reset never advances live outcome or succession reports
+ok 27 - a city shell cannot open a requested city that differs from the native city
+ok 28 - root commands expose their submenu only after the real menu acknowledges it
+ok 29 - departure and report phases never display retained native person menu bytes
+ok 30 - march generals expose queue IDs only when the actual active menu agrees
+ok 31 - a live native person menu preserves Mod filtering and index order
+31 HD march regression cases passed.
+✔ scripts\test-hd-march.mjs (228.116ms)
+✔ native mini-map owner displays all authorized cities without sending game input (4.121ms)
+✔ one explicit key closes only its native overlay and repeats cannot become map movement (9.6741ms)
+✔ custom hooks, missing default image metadata and untrusted geography keep the real LCD (5.354ms)
+✔ classic comparison toggles no native key and a pressed old owner cannot close the new map (1.219ms)
+✔ mode, visibility, generation, map wait and higher native owners retire the overview (4.7786ms)
+✔ resize and classic toggle immediately revoke stale library art before the next poll (2.7955ms)
+✔ hidden then visible with the same native owner retires old Return and classic presses (3.5533ms)
+✔ classic then HD mode with the same native owner retires old Return and classic presses (2.1143ms)
+✔ missing overview bindings stay unknown and do not invent a native person or page (5.5902ms)
+✔ actual VIEW captures preserve full U16 identities, duplicate names, native zero and independent point slots (1.8087ms)
+✔ VIEW numeric fields and array cells reject strings, booleans, holes, sentinels and out of bounds (8.7274ms)
+✔ real bridge scalar boxes unwrap only their actual numeric value without coercing nested strings (1.4643ms)
+✔ bounded row and point counts cannot read past native capture buffers (7.9007ms)
+✔ actual GBK buffers decode only the captured field and row lengths without a name lookup (1.9051ms)
+✔ a whole-string binding cannot claim the later native VIEW slots after the first NUL (3.8074ms)
+✔ each actual native page publication replaces the previous rows without a bridge cache or extra engine input (1.1816ms)
+✔ VIEW retires a reentrant change while reading either rows or the final native text field (7.7393ms)
+✔ VIEW rejects an already stale detail generation without consuming the captured labels (1.1047ms)
+✔ native miniature snapshot identifies only its actual resource, image geometry and current map wait (1.0719ms)
+✔ miniature numeric fields reject coercion and retain native zero rather than guessing defaults (5.9872ms)
+✔ miniature final field reentry or a stale generation cannot claim a complete current image (5.1386ms)
+✔ actual VIEW10 preserves native rows, dead-point filtering, both forces, pages, boundary ACK and idle blinking (383.0546ms)
+✔ actual VIEW10 discloses enemy food only when the native temporary intelligence is known (14.8775ms)
+✔ actual show-situation Mod hook retains LCD fallback without duplicate hook calls (16.5156ms)
+✔ actual refresh-situation Mod hook retains LCD fallback (17.4005ms)
+✔ a reset during an actual native name read cannot revive a suspended old VIEW page (19.9039ms)
+✔ a Mod returning early from the actual situation display retires its owner (16.0614ms)
+✔ a real report retires a suspended VIEW capture even when its fight wait is unchanged, and old clears cannot close a new page (15.7994ms)
+✔ a newly installed refresh hook retires the displayed standard view during an idle blink without an input ACK (14.491ms)
+✔ a long actual native name is captured before the LCD troop offset without overflow or a second name read (16.1328ms)
+✔ a real miniature touch-up is consumed without changing the native city cursor (13.7058ms)
+✔ a real custom miniature publication does not claim a default strategic image (14.9803ms)
+✔ a truncated real picture payload stays incomplete and restores the strict EOF stream cursor (15.5795ms)
+✔ a reset during the actual map hook cannot republish the suspended miniature (11.8953ms)
+✔ a second real miniature in one GetCitySet wait has a fresh publication token without changing its map cursor (14.5423ms)
+✔ native miniature consumes closing key 34 without navigation or city entry (15.4765ms)
+✔ native miniature consumes closing key 35 without navigation or city entry (14.5162ms)
+✔ native miniature consumes closing key 36 without navigation or city entry (12.2767ms)
+✔ native miniature consumes closing key 37 without navigation or city entry (12.6266ms)
+✔ native miniature consumes closing key 38 without navigation or city entry (13.3193ms)
+✔ native miniature consumes closing key 39 without navigation or city entry (12.9426ms)
+✔ native miniature consumes closing key 40 without navigation or city entry (12.2379ms)
+✔ native miniature consumes closing key 51 without navigation or city entry (13.1448ms)
+✔ native miniature consumes closing key 52 without navigation or city entry (11.9901ms)
+✔ a real miniature with unsupported mask flags keeps its native image path but cannot claim complete HD metadata (12.1078ms)
+✔ a real miniature with zero width keeps its native image path but cannot claim complete HD metadata (12.6137ms)
+✔ a real miniature with zero image count keeps its native image path but cannot claim complete HD metadata (11.5829ms)
+✔ actual dat-mod.lib resource 75 uses the compiled native picture ABI and restores the real EOF cursor (12.6867ms)
+✔ actual sc-mod.lib resource 75 uses the compiled native picture ABI and restores the real EOF cursor (14.4604ms)
+✔ the actual observed JS hook boundary detects presence during its single native lookup and preserves custom return minus one (3.4604ms)
+✔ actual VIEW row bindings expose U8 arrays and retain GBK slots beyond embedded NULs (211.7261ms)
+✔ actual loaded standard bytes authorize only matching manifest and geo provenance, independently of the preferred path (68.28ms)
+✔ a byte-modified LIB with a standard preferred path remains classic and never claims standard city positions (48.1441ms)
+✔ pending, malformed, missing and unavailable digest identities preserve classic pointer and keyboard ownership (89.7735ms)
+✔ manifest and geo hash mismatches cannot inherit standard map authorization (71.8723ms)
+✔ city index, native name and native position must all agree; reorder and same-name wrong-index do not use OR matching (121.9717ms)
+✔ road provenance mismatch disables decorative connectors without disabling a correctly bound city map (30.9995ms)
+✔ an actual LIB replacement retires alignment, LCC caches, roads and late geo/image results (67.3111ms)
+✔ late assets from a retired classic view cannot complete a later HD view of the same LIB (35.4721ms)
+✔ terrain-only hooks do not veto standard overworld identity or execute during passive rendering (37.8251ms)
+✔ City U16 ownership preserves lord254 and higher IDs; zero alone is unowned and player index255 is valid (28.6154ms)
+✔ hot native city-layout changes retire map interaction before another input key or pointer gesture (26.3824ms)
+✔ a native name getter that replaces actual LIB bytes cannot authorize input using the previous layout (26.042ms)
+✔ native name reads that retire LIB identity during sampling cannot publish stale cities or dereference retired geo (53.5013ms)
+✔ invalid city owners stay unknown without coercing U16 sentinels or malformed values into lords or unowned cities (40.0596ms)
+✔ standard map provenance records independently bind the actual repository LIB digest and keep roads decorative (0.4993ms)
+✔ preset HD assets that finish before world initialization wake on genuine new-game/load and map hooks (61.066ms)
+✔ new-game read-only sampling follows a later native pick without a toolbar click or another map event (28.9614ms)
+✔ map observation preserves a Mod callback and infers report/menu/fight input instead of forcing map phase (31.5524ms)
+✔ new map hooks cannot wake pending/actual Mod libraries or paint and schedule while hidden (339.705ms)
+✔ native contract is U16 and only Person.Belong uses 0xffff for captive (2.4907ms)
+✔ person zero is free; person 65535 is captive; city zero alone is unowned (3.3179ms)
+✔ real U16 lord ID 255 resolves zero-based index without wrapping (1.9417ms)
+✔ real U16 lord ID 256 resolves zero-based index without wrapping (1.047ms)
+✔ real U16 lord ID 600 resolves zero-based index without wrapping (1.004ms)
+✔ real U16 lord ID 786 resolves zero-based index without wrapping (1.0055ms)
+✔ real U16 lord ID 2000 resolves zero-based index without wrapping (0.9352ms)
+✔ self plus one means lord only for a person, including high person index (1.045ms)
+✔ missing or invalid ownership stays unknown and never calls a name getter (1.243ms)
+✔ unavailable actual person list and missing names do not guess a lord (1.1115ms)
+✔ bridge value wrappers preserve exact U16 ownership (0.9909ms)
+✔ realm separates valid owner 255, no owner, and missing ownership without writes (1.224ms)
+HD performance metrics: 13 checks passed
+✔ scripts\test-hd-performance-metrics.mjs (103.0347ms)
+✔ all 800 shipped references resolve through their exported filenames (148.5288ms)
+✔ runtime person portrait docks in its detail pane and returns to the page for other views (42.9436ms)
+✔ person reports and hidden detail panes keep their portrait outside an old menu slot (32.934ms)
+✔ manual art preview never mounts into a runtime person detail slot (1.7185ms)
+✔ unlisted 袁绍 ID 2 has a named reference fallback without guessed requests (34.3444ms)
+✔ missing HD falls back to the real reference and repeated calls do not repeat 404s (31.0039ms)
+✔ person ID 0 remains valid in map, report, person menu and battle help (26.7726ms)
+✔ battle help portrait uses the captured native person and name, never the current focus or a name lookup (31.896ms)
+✔ partial, stale and mismatched native help cannot recover a portrait from focus or retained dialogue identity (26.3554ms)
+✔ a new native help event retires an old pending portrait even when its person is unchanged (28.8978ms)
+✔ switching from a captured help person to a new native wait while images load keeps LCD (29.6587ms)
+✔ period-specific IDs do not reuse the first period portrait (25.1127ms)
+✔ the actual loaded bytes authorize portraits at any path; unknown or missing bytes cannot inherit a familiar path (86.8679ms)
+✔ standalone preview is explicit and independent of preferences, and never supplies a runtime identity (28.9681ms)
+✔ missing both pictures hides the slot and caches misses; invalid IDs and periods make no requests (25.0759ms)
+✔ missing or mismatched indexes do not guess identities (72.6047ms)
+✔ parallel index loading shares requests; an explicit reload retries previously missing art (24.247ms)
+✔ engine Promise replacement before or after module loading cannot break native async work (53.2193ms)
+✔ a LIB switch while an image is pending cannot paint old art or poison its source cache (68.1387ms)
+✔ automatic polling does not paint a stale person and can change views while a request is pending (23.9618ms)
+✔ reloading indexes detaches obsolete pending work and restarts automatic lookup (24.8151ms)
+✔ pending real-byte verification is LCD until the actual digest completes, with no optimistic image requests (24.8709ms)
+✔ late real digests cannot recover an obsolete dictionary after an unobserved byte change or unload (69.7709ms)
+✔ missing identity/crypto, digest failures and missing or wrong manifest provenance remain neutral (94.7434ms)
+✔ preview image callbacks and cache entries cannot authorize or paint a later runtime on the same page (24.1663ms)
+✔ manual preview name indexes retire when leaving and restoring their separate identity namespace (23.6234ms)
+✔ runtime menus use the live native index and exact owner instead of a stale UI highlight (23.525ms)
+✔ authenticated native menu IDs support identical names through the exact current index (25.2526ms)
+✔ native ID owner generation, full array, bounds and selected identity must all agree (24.3037ms)
+✔ a seven-part owner without native ID metadata preserves only the old complete unique-list fallback (23.2973ms)
+✔ a new native ID generation retires an old pending menu portrait before the next poll (23.8269ms)
+✔ filtered, reordered, duplicate and nameless-ID native menus never infer a runtime person from a name (116.1661ms)
+✔ person detail identities require the same native owner, index, name and exact person ID (47.1358ms)
+✔ a native owner or index change retires pending menu portraits before the next poll (24.4367ms)
+✔ an explicit standalone preview can display an artificial name without granting runtime menu identity (27.3277ms)
+✔ terrain-only and ordinary observer hooks do not revoke authenticated portraits or cause another digest (26.0985ms)
+✔ hidden pages and stop detach pending portrait work; restart paints only the latest native person (29.5337ms)
+✔ late manifest loading cannot restart a stopped portrait session or duplicate a newer start (48.2799ms)
+✔ shipped portrait provenance matches the actual immutable dictionary bytes (0.1034ms)
+✔ actual dump backend stages PNGs and binds generated indexes to live loaded bytes rather than the summary path (3.6434ms)
+✔ failed actual dump source verification leaves all native references and provenance files untouched (1.7412ms)
+✔ both renderers stop painting and scheduling frames while hidden, including cancelled callbacks (23.2329ms)
+✔ startup in a hidden tab does not paint or queue frames, then reads current native fight on resume (7.7249ms)
+✔ resume samples latest whole-world ownership/date and native map owner immediately (2.6103ms)
+✔ current report owner on resume keeps overworld input disabled (2.5152ms)
+✔ native victory with a pending report closes old battle before any resume paint (7.8972ms)
+✔ hidden native-owner polling closes a terminal battle without painting or acknowledging its report (4.0752ms)
+✔ new-game reset while hidden cannot revive old units or cancelled battle frames (6.7973ms)
+✔ a fresh fight begun while hidden resumes its native roster, not the previous fight (3.4742ms)
+✔ repeated startup and visibility events retain one listener and one loop per renderer (18.9886ms)
+✔ classic startup and resume preserve existing mod menu ownership and do not schedule HD paint (2.3541ms)
+✔ switching to classic while hidden prevents resume of old HD loop or menu hook (5.224ms)
+✔ hiding preserves pending input and its ACK timer; visibility alone never advances the request (4.3874ms)
+✔ a committed user action keeps polling for its real native ACK while hidden without another Enter (6.2504ms)
+✔ overworld city-entry ACK work continues while painting is hidden and resume does not advance it (3.7914ms)
+✔ battle pennants render all six effective native arm types, including type zero (5.9254ms)
+✔ battle focus details refresh exact native troops, HP, MP and action states without max assumptions (7.9756ms)
+✔ missing or invalid arm types and MP retain a generic visible unit; dead generals disappear (6.5162ms)
+✔ large native roster IDs never truncate through the U8 effective arm type export (4.6357ms)
+✔ passive attack preview uses the native wrapped range mask and rejects empty, friendly or blocked cells (8.1311ms)
+✔ skill preview describes a friendly unit only as in range and retires under native report ownership (4.3039ms)
+✔ battle terrain keeps native non-square full-map stride and displays empty focus without engine input (48.6185ms)
+✔ battle never interprets an LCD cache or expanded visual bounds as native terrain (53.7812ms)
+✔ native occupied-cell mismatch makes the whole terrain presentation neutral until agreement returns (43.9923ms)
+✔ stale preferred LIB metadata and custom terrain hooks cannot authorize terrain labels or invoke hooks (110.7265ms)
+✔ movement feedback and focus use the native wrapped mask and retire under a report without input (3.4507ms)
+✔ range feedback returns current input ownership and mask hot changes without stale target markers (8.1341ms)
+✔ skill feedback has a distinct range label and friendly marker but makes no effectiveness claim (4.8618ms)
+✔ native bounds constrain range feedback even when roster and focus expand the display board (3.1156ms)
+✔ malformed range masks retire actor badge as well as contours and target line (7.7633ms)
+✔ unknown aim type cannot be coerced into an attack presentation (11.0166ms)
+✔ a genuine current action or skill menu keeps the selected actor badge without range feedback (3.0153ms)
+✔ unit legend clears actual 720p and 1080p controls without changing the board or native state (4.8445ms)
+✔ legend responds to real button bounds and letterbox offsets on resize, with no key sends (3.5089ms)
+✔ unit legend retains a complete canvas fallback when footer DOM geometry is unavailable (2.8836ms)
+✔ selection cannot turn geographic, tile or discovered connectors into march previews (10.8116ms)
+✔ decorative neighbors do not change city feedback or hit anchors (1.3937ms)
+✔ legend counts and faction swatches follow native ownership without repeated writes (1.7621ms)
+✔ hidden map redraws do not update the legend before returning to the current native state (1.4475ms)
+✔ missing owners remain unknown while U16 owner 255 is an actual faction (1.4442ms)
+✔ real export page uses sparse slot first-file metadata and preserves wrong-LIB identity (4.4457ms)
+✔ real export page sees a complete old pair and metadata after denied rollback and reload (3.7419ms)
+✔ real export page rejects empty and incomplete pairs before producing an export or cloud request (1.2719ms)
+✔ real export page JSON import commits both fourth-slot files and source identity (1.3102ms)
+✔ real export page legacy import uses fourth slot without fabricating source metadata (1.2676ms)
+✔ real export page malformed JSON and legacy pairs never replace an existing fourth slot (1.4647ms)
+✔ real export page reports transaction failure and retains the old fourth slot (1.3643ms)
+✔ real cloud-code callback imports through the same transaction and does not report denied commit as success (1.4285ms)
+✔ real online page sparse upload uses complete journal-visible pair and original two-line protocol (4.3288ms)
+✔ real online SDK download commits the exact selected LIB path and no invented fingerprint (2.1802ms)
+✔ real online page loads cloud indices when SDK login finishes after the LIB catalog (2.3523ms)
+✔ real online SDK malformed pair callbacks leave old saves unchanged (8.9489ms)
+✔ real online SDK denied commit and rollback never display import success or expose a mixed pair (3.7449ms)
+✔ real online page refuses a stale upload action when a save has become incomplete (2.1768ms)
+✔ real JS slots preserve sparse indices, fourth load slot and packed legacy/new headers (5.0389ms)
+✔ real JS rejects missing halves, non-hex, unsupported versions and custom truncation (5.4622ms)
+✔ real JS LIB mismatch returns no pseudo-file and identifies changed custom content at the same path (1.196ms)
+✔ real JS every transaction write failure retains both old files and all metadata (12.7475ms)
+✔ real JS durable journal keeps old pair visible when rollback is also denied and after reload (2.7316ms)
+✔ real JS partial staging and abort never publish a half save (1.2544ms)
+✔ real JS atomic import accepts the fourth slot and preserves source metadata without a loaded LIB (1.4091ms)
+✔ shared storage module imports and exports pairs without LCD, DOM, Module or loaded LIB (1.8446ms)
+✔ real JS atomic import validates both files before touching existing slot data or metadata (1.513ms)
+✔ real JS every fourth-slot import failure and denied rollback keeps the complete old source pair (13.6612ms)
+✔ actual C loading is transactional and saving checks every write/close before publishing both files (1579.219ms)
+✔ actual C web filesystem strictly decodes hex and propagates failed allocation/write/close (200.2723ms)
+✔ actual C record selector exposes the real slot, suspends during writes and reopens after failure (204.6532ms)
+✔ actual C slot labels use local saved period and refuse incomplete headers without changing the world (229.5799ms)
+ok 1 - empty native saving exposes exactly three usable real slots
+ok 2 - loading preserves four real slots and disables empty entries
+ok 3 - sparse slot two sends two acknowledged moves and one Enter
+ok 4 - fourth legacy load slot retains native index three
+ok 5 - a save from another period shows its own period instead of current person names
+ok 6 - wrong LIB, incomplete and invalid saves cannot send a confirmation
+ok 7 - changing storage or polling never loads a newly available slot
+ok 8 - storage is rechecked when a previously rendered load button is clicked
+ok 9 - removing a save during cursor navigation prevents the final Enter
+ok 10 - a missing index ACK times out without retrying or confirming
+ok 11 - native owner changes invalidate an unfinished selection
+ok 12 - new input sequence after failed load permits only a new player confirmation
+ok 13 - failed native saving retains the storage error without retrying automatically
+ok 14 - input sequence wrapping remains a fresh native owner
+ok 15 - mode switch cancels already scheduled selection without leaking Enter
+ok 16 - auto preference obeys an overworld switch before queued input executes
+ok 17 - return exits the record input once and follows native load return to title
+ok 18 - cancelled native saving returns to map and restores classic visibility
+ok 19 - saving completion follows native map return without sending another key
+ok 20 - held or repeated keyboard input cannot duplicate a native confirmation
+ok 21 - a stale pointerdown cannot confirm a refreshed native selector
+ok 22 - title loading entry waits for native index ACK and actual record opening
+ok 23 - function saving entry waits for native owner then opens only save slots
+ok 24 - stale native menu bytes cannot masquerade as an active system selector
+ok 25 - battle ownership blocks record input and strategy entry
+ok 26 - real storage inspector drives paired legacy sparse and wrong LIB rows
+ok 27 - actual bridge wrapped record fields and textless picture menu drive the UI
+ok 28 - native king input wins over an old campaign ruler and city ownership
+ok 29 - polling reopens the second native king selector after a closed period screen
+ok 30 - the king controller waits for index ACK and confirms once through keys and clicks
+ok 31 - a real eighteen-lord selector can progress longer than five seconds and confirm once
+ok 32 - one received menu ACK renews the five-second budget but a later stall times out
+ok 33 - continuously acknowledged moves still stop at the sixty-second total limit
+ok 34 - cancelling a slowly progressing king request retires already scheduled callbacks
+ok 35 - a slowly progressing request and stale pointer cannot enter a new king input token
+ok 36 - stale king pointer and outstanding navigation never enter a newer selector
+ok 37 - inactive historic king names cannot reopen a completed native ruler selection
+ok 38 - an old native king button cannot fall back to raw keys after input ends before polling
+ok 39 - old king keyboard events remain consumed after native input ends before polling
+ok 40 - cancelling the native king picker returns to the actual title once
+ok 41 - old runtimes retain their classic king selector without fabricated native ownership
+41 HD save/load UI regressions passed
+✔ scripts\test-hd-saveload-ui.mjs (146.632ms)
+✔ actual PlcMovie commits match independent draw/clear lifetimes, negative origins and AX_SCALE (321.0691ms)
+✔ actual LCD copy/timer coalescing and restore/adjust/reallocation reject stale displayed stamps (15.8748ms)
+✔ actual resource guards reject missing/truncated/invalid payloads and preserve a strict ROM EOF cursor (15.2954ms)
+✔ actual GamDelay accepts keyflag 1 once while flags 3 and 2 retain their native semantics (12.866ms)
+✔ native nested calls restore parents neutrally, exceed depth safely and ignore stale reset unwinds (11.4204ms)
+✔ unsupported mask, flip or paint state keeps native frame commits without claiming HD protocol support (12.7077ms)
+✔ actual opening, status, fight fallback and explicit skill/attack calls publish their native kind and context (14.8458ms)
+✔ only displayed native commits select frames; overlapping units and later clears use the bitset, not a JS clock (9.0833ms)
+✔ picture dimensions divide by native AX_SCALE while unit positions remain logical coordinates (1.8221ms)
+✔ opening skip sends once per event, rejects repeat/composition/form input and survives hidden/report ownership (1.8505ms)
+✔ only actual skipEligible opening waits own skip; battle, report and classic actions remain passive (1.2918ms)
+✔ classic LCD control changes the owning mode without sending a key or mutating native state (1.2606ms)
+✔ hidden pages stop all SPE Canvas work and resume from the current native display rather than old scratch (2.3528ms)
+✔ new, ended and mismatched displayed events cannot display a previous animation or revive from stale image requests (1.6794ms)
+✔ missing manifests, failed pictures, size mismatch, unsupported protocols and preserved-background flags use actual LCD fallback (3.8731ms)
+✔ actual LIB hash, scale and resource identity authorize slots; preferred path or an altered dictionary cannot inherit trust (3.6964ms)
+✔ a stale digest or manifest response cannot restore old identity, and startup retains one listener and poll (1.3707ms)
+✔ expanded screens retain the complete real LCD and same-event resize retires the old crop and repaints (1.4423ms)
+✔ negative and edge origins are clipped using native logical positions, without moving or enlarging picture slots (1.6201ms)
+✔ actual FIRE origin stays 33 logical pixels inside the fixed native battle arena and LCD crop starts at 15,16 (46.455ms)
+✔ production SPE manifest authenticates actual LIB payload, complete native unit/picture slots and opaque PNG resources (31.8774ms)
+ℹ tests 452
+ℹ suites 0
+ℹ pass 452
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3571.6855

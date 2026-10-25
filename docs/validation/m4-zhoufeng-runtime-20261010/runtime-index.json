@@ -1,0 +1,3764 @@
+{
+  "schemaVersion": 1,
+  "portableClosedArchive": false,
+  "logicalFiles": 280,
+  "uniqueGzip": 192,
+  "rawEntries": [
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 584656,
+      "sha256": "4c5a7afc1e8a823583057159bde2c610b75c8835a92fd24e1cf900010c8483a3",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4c5a7afc1e8a823583057159bde2c610b75c8835a92fd24e1cf900010c8483a3.gz",
+        "bytes": 14413,
+        "sha256": "5d13ddc28ab95b299a05dae7599d839d5cc4d363926bb4a353641c3a730ee47f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "assets/hd-spe/qimen-39/picture-0.png",
+      "bytes": 2458901,
+      "sha256": "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882.gz",
+        "bytes": 2360291,
+        "sha256": "d42e8252212502582f633d06c8509f3cbe569f37cce74bda3df8b3bec771b86b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "assets/hd-spe/qimen-39/picture-1.png",
+      "bytes": 2485449,
+      "sha256": "8851ef77671c7de2da944d625e0ac0765ce42e8768ddd2b216c1f971c50db4d2",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/8851ef77671c7de2da944d625e0ac0765ce42e8768ddd2b216c1f971c50db4d2.gz",
+        "bytes": 2390011,
+        "sha256": "76bbf75977f574b6df7c9f32453c3a5f0002da2c0e6ac2e115ed73575454e44f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r21-write-large-json-v2.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+        "bytes": 2550,
+        "sha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+      "bytes": 8221,
+      "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d.gz",
+        "bytes": 2183,
+        "sha256": "b0c9c257ff6266b170bb2f9294ab7ba3896027e7bf39cbed93b8de80e934a069",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+      "bytes": 4840,
+      "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97.gz",
+        "bytes": 1591,
+        "sha256": "9ad9a008e3321ed9ea41780c7f1e21e541966db729896fb471e23bb7d597a24f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r22-aid-phase2-v5-terminal-independent-audit.json",
+      "bytes": 38502,
+      "sha256": "d3fd102be74c234053c7522c838301ec537a2bda5b5a36388902f2341e539ec9",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/d3fd102be74c234053c7522c838301ec537a2bda5b5a36388902f2341e539ec9.gz",
+        "bytes": 7793,
+        "sha256": "a60b7714a546b5541e1ff9f113a16a649f1dd2dd1e992fca0ee28662d1c17afa",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r28-owned-chrome-tree-v4.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+        "bytes": 4452,
+        "sha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r28-zhoufeng14-integration-design-v1.json",
+      "bytes": 34033,
+      "sha256": "6f28a0eb02ce69a69a038d3d14c04591bd5a978563a31c58b25fff19660edf7a",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/6f28a0eb02ce69a69a038d3d14c04591bd5a978563a31c58b25fff19660edf7a.gz",
+        "bytes": 10142,
+        "sha256": "36736a3a9209139021b3932f62949446254333a8738c0c0c35833ed30cc39c94",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-archive-v3-check-only-reproduced-root-v1.json",
+      "bytes": 625,
+      "sha256": "fb46c5a9b271e7b7ed5a00511a01343df4f45072a0aee068e505d5303254dcc1",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fb46c5a9b271e7b7ed5a00511a01343df4f45072a0aee068e505d5303254dcc1.gz",
+        "bytes": 397,
+        "sha256": "d439e20966b00f1d5d31cf3e2e9d6b949d422f2faa5a2acfd4966b7dffc8cf6b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-archive-v3-check-only-reproduced-root-v1.log",
+      "bytes": 934,
+      "sha256": "40dc94ad541561155673732542cb758896c4a8025b5fc2885c3679a34cfa9cce",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/40dc94ad541561155673732542cb758896c4a8025b5fc2885c3679a34cfa9cce.gz",
+        "bytes": 420,
+        "sha256": "892d84c80c43144f6ec784d3ec59e048eec4d0fc5a5e56099d2e28fd8576dde7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-assemble-classic-observer-selftests-v3.mjs",
+      "bytes": 4850,
+      "sha256": "06ea23dad3dbef3b4bda7025a85c8d6a32dcd916cc2670ef2c978cc21401e8e8",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/06ea23dad3dbef3b4bda7025a85c8d6a32dcd916cc2670ef2c978cc21401e8e8.gz",
+        "bytes": 2176,
+        "sha256": "ebb7f00e71f379facb8b3ff3a75eabbc27e7bc63c33c00b6984c83065e0a3e90",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-assemble-zhoufeng-runtime-v3.mjs",
+      "bytes": 4574,
+      "sha256": "d58919103cf1559e1d9fc469c23293bd32d7642afc3328d60ebb4c2fbaa23584",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/d58919103cf1559e1d9fc469c23293bd32d7642afc3328d60ebb4c2fbaa23584.gz",
+        "bytes": 1727,
+        "sha256": "17a5aed4e86580081cc57b3ebfba5135ad541e01ecd12b99b2402625cb9a58b7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-check-historical-owned-root-v1.ps1",
+      "bytes": 3717,
+      "sha256": "f6dc411c15fa4b4c66a29634806470c8aac1e8bc325c32ffe832a095247e7c9d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f6dc411c15fa4b4c66a29634806470c8aac1e8bc325c32ffe832a095247e7c9d.gz",
+        "bytes": 1463,
+        "sha256": "591af21048927ab18cececb9c3bb737348dff7f5f35581801a7d04cd5acd147c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-check-isolation-root-v2.ps1",
+      "bytes": 3780,
+      "sha256": "8dc34752cc032b1e478200982d2b6ce2cdd8bd00ce6621f8ed99f5e183b74448",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/8dc34752cc032b1e478200982d2b6ce2cdd8bd00ce6621f8ed99f5e183b74448.gz",
+        "bytes": 1391,
+        "sha256": "a87c4ebc3a211908f6d83ef757e99748bee6906655d12a62998b0e147d57238b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-hidden-map-full-source-tests-v1-execution.json",
+      "bytes": 3694,
+      "sha256": "f7282cfdb8245d9fe12b77a8c353617c288ea5d5edb6fed0cdb9cbd99f466e1d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f7282cfdb8245d9fe12b77a8c353617c288ea5d5edb6fed0cdb9cbd99f466e1d.gz",
+        "bytes": 1143,
+        "sha256": "a94b8c0d3f054ad80f464459544fcd28cfbae5f193f3aa6536b721733948c4e5",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-hidden-map-full-source-tests-v1-sources-post.json",
+      "bytes": 77810,
+      "sha256": "68c40668e0c448fc3dffc784fc011b784176879b891af18dc0fab7eca2a4dece",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/68c40668e0c448fc3dffc784fc011b784176879b891af18dc0fab7eca2a4dece.gz",
+        "bytes": 25111,
+        "sha256": "a370c47005d2d58f85f13b27d47a008102dbb1c707866f4fea4a24c54e10f9c1",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-hidden-map-full-source-tests-v1-sources-pre.json",
+      "bytes": 77810,
+      "sha256": "68c40668e0c448fc3dffc784fc011b784176879b891af18dc0fab7eca2a4dece",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/68c40668e0c448fc3dffc784fc011b784176879b891af18dc0fab7eca2a4dece.gz",
+        "bytes": 25111,
+        "sha256": "a370c47005d2d58f85f13b27d47a008102dbb1c707866f4fea4a24c54e10f9c1",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-hidden-map-full-source-tests-v1.log",
+      "bytes": 314865,
+      "sha256": "e801f0cf538b4b5191ad717b2c9bdb4a76de320f796fbfb5951122b07ae43732",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/e801f0cf538b4b5191ad717b2c9bdb4a76de320f796fbfb5951122b07ae43732.gz",
+        "bytes": 56128,
+        "sha256": "07789591cad2b4acc31407aa27a6912b754c2cd1ab8b47226e00e96bdbb55b02",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-hidden-map-regression-independent-evidence-v1.json",
+      "bytes": 2245,
+      "sha256": "22e2ffc4ab6fd1040d16d4212706b2043d8bbbc65b7ba94da823e10f3e904fed",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/22e2ffc4ab6fd1040d16d4212706b2043d8bbbc65b7ba94da823e10f3e904fed.gz",
+        "bytes": 1043,
+        "sha256": "36749a90ba37b03454d0c567883678cb8c78cf72393160ede14f000eefb83853",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-overworld-battle-paint-offline-proof-v1.json",
+      "bytes": 2042,
+      "sha256": "6b62421d5dcf820c6918496e199b5066bc61770409c7c83d4635348e1c457ee9",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/6b62421d5dcf820c6918496e199b5066bc61770409c7c83d4635348e1c457ee9.gz",
+        "bytes": 868,
+        "sha256": "08afd7c5eb68a6e6aa2fdf09ac0bde35244c3a5539081340e09938b6a6202114",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-run-zhoufeng-actual-root-v1.mjs",
+      "bytes": 3193,
+      "sha256": "490d60f9c5fe5523e46f0523775138bf70e1693a91b8468664b98fcae435e73d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/490d60f9c5fe5523e46f0523775138bf70e1693a91b8468664b98fcae435e73d.gz",
+        "bytes": 1368,
+        "sha256": "a18fd2a3169810356c6f675b9114128db6a28fb2989ada404b998a8955ab407f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-run-zhoufeng-actual-root-v2.mjs",
+      "bytes": 3132,
+      "sha256": "31f3daa9c1220befab8679c063ff54d57b1f9e96e8005696420f1a5b040d30f9",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/31f3daa9c1220befab8679c063ff54d57b1f9e96e8005696420f1a5b040d30f9.gz",
+        "bytes": 1340,
+        "sha256": "78017fde6d664ddf46cf8823cc38de3418e92cd77c1e8b44b345df8cd5ea5d4d",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-test-hd-zhoufeng-runtime-candidate-v2.mjs",
+      "bytes": 112526,
+      "sha256": "2cf19603a008d9adcc5aee120af2bae6429bfcada1fd08d59f9874512422b841",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/2cf19603a008d9adcc5aee120af2bae6429bfcada1fd08d59f9874512422b841.gz",
+        "bytes": 34799,
+        "sha256": "a973785e35892127c24f43b14be82951a4fb4982159a392e62cf5984b529d721",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-test-hd-zhoufeng-runtime-candidate-v3.mjs",
+      "bytes": 121081,
+      "sha256": "131c7ec78a148ff4e7babe9fcf9b09e37b19df4e39ac84df52babb21140f8dce",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/131c7ec78a148ff4e7babe9fcf9b09e37b19df4e39ac84df52babb21140f8dce.gz",
+        "bytes": 37006,
+        "sha256": "ac75688e2ee5d6c1d6f80b98361d65efafcb1736874ee1486b63a8c986e1185c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-user-service-before-actual-root-v2.json",
+      "bytes": 242,
+      "sha256": "2f540948c208098dd3f84d2642ea6bddbcc69bb9441ec157aacb42fce1c4b2d4",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/2f540948c208098dd3f84d2642ea6bddbcc69bb9441ec157aacb42fce1c4b2d4.gz",
+        "bytes": 190,
+        "sha256": "f88c0d7905ef114cf576289831c17626e3d3efa7f6910ef8ff05e0869374ff1e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-write-zhoufeng-runtime-archive-v3.mjs",
+      "bytes": 19119,
+      "sha256": "a54f41e39425a12f6aae8b75100e94a9a456e85afbcc574bf2b78b9b28778c63",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/a54f41e39425a12f6aae8b75100e94a9a456e85afbcc574bf2b78b9b28778c63.gz",
+        "bytes": 6368,
+        "sha256": "e61d05743bb34e76c159f9963a3006c09c33dc4e13a8834d64f70cea99340613",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-write-zhoufeng-runtime-archive-v4.mjs",
+      "bytes": 19119,
+      "sha256": "5309fb6b5e3943c5c0ea601a9b247941fc8dee5372d76589d680e856ff93238c",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/5309fb6b5e3943c5c0ea601a9b247941fc8dee5372d76589d680e856ff93238c.gz",
+        "bytes": 6364,
+        "sha256": "4ba37e0fcbc4d611ab9e69e8840826180d0b515816d2537b6248133dd744ba0e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080-console.log",
+      "bytes": 638,
+      "sha256": "2d47a74aacb38f73278bcc884a6d8c2bad5536fc2548ddcbd501d52465a89aae",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/2d47a74aacb38f73278bcc884a6d8c2bad5536fc2548ddcbd501d52465a89aae.gz",
+        "bytes": 416,
+        "sha256": "f8b3d0978799e6ca7d4766353696572793ace53adf3b745c5e452993d85d3b59",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080-execution.json",
+      "bytes": 4027,
+      "sha256": "cb477922cf99bbb3d3b684072317b20fa83766582c1fa54493b00911e214e3de",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/cb477922cf99bbb3d3b684072317b20fa83766582c1fa54493b00911e214e3de.gz",
+        "bytes": 1129,
+        "sha256": "65b8177defdfdbdb426af68603140445758713555368a055f1771ddaf7ffe412",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080-root-after-isolation-v1.json",
+      "bytes": 2624,
+      "sha256": "e6b69abff3cf406edf5687f03b7c22360c471a6075d264f9dde2a58f6b64b86f",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/e6b69abff3cf406edf5687f03b7c22360c471a6075d264f9dde2a58f6b64b86f.gz",
+        "bytes": 759,
+        "sha256": "ac12eb07871c54ee6c12e9029c7f09806f38beecae4b15745218c69e19a6d0e6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/02-actual-native-march-persons.png",
+      "bytes": 2142280,
+      "sha256": "06c0df9036cae06d499836685f3c7e7cf37080dd7ac12c71d6ce3f83c93ddfa2",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/06c0df9036cae06d499836685f3c7e7cf37080dd7ac12c71d6ce3f83c93ddfa2.gz",
+        "bytes": 2142493,
+        "sha256": "b37f6663bd8090b8b79eda590b6a4d8160c24ec7c2a42d6901b9ae44819e3051",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/02-public-original-checkpoint-loaded.png",
+      "bytes": 3086265,
+      "sha256": "bd8c78623e132cfdf0fde81813da323d757ba75a8cb3f1e66653b428378cbf62",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/bd8c78623e132cfdf0fde81813da323d757ba75a8cb3f1e66653b428378cbf62.gz",
+        "bytes": 3087173,
+        "sha256": "4b1f10b84759f5eaee1493e35e6f5777a55156517202fd6b9ce9f5000da889ae",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/03-original-dispatch-order.png",
+      "bytes": 2312150,
+      "sha256": "f9030dad43a353579bf737390b44aed66a106f0dc8f96eeabf1e6807a35c9b77",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f9030dad43a353579bf737390b44aed66a106f0dc8f96eeabf1e6807a35c9b77.gz",
+        "bytes": 2312845,
+        "sha256": "5a19a7d541d1e4bdb784a9c996f15043510b9c63a3ced0a442ce2bac882ce7a5",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/04-real-battle-caster.png",
+      "bytes": 182742,
+      "sha256": "7ac3b04a2ee970c4c9c5c7a2f2cb52fcd50bb9e662a04839a9fd9f00d50e7585",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/7ac3b04a2ee970c4c9c5c7a2f2cb52fcd50bb9e662a04839a9fd9f00d50e7585.gz",
+        "bytes": 172875,
+        "sha256": "60b0c8c119578ea53fd30c1e8953f722526e77e57b7c97b814cb83baa2132439",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/05-liuyan-state-report-owners-retired.png",
+      "bytes": 263951,
+      "sha256": "544838b39d73edbb158eafc627d32339cbc50e2c677b9ecebffe68817af2961e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/544838b39d73edbb158eafc627d32339cbc50e2c677b9ecebffe68817af2961e.gz",
+        "bytes": 258011,
+        "sha256": "619ab088b87c70fd55d0c9a71b58a14201680a0be7c9608cf820d0d8cd09487f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/28-explicit-end-turn-1.png",
+      "bytes": 276879,
+      "sha256": "f0ed04d72c29c49f4b2a1d85ce5754d9bfe68c3b9c41310e9610c369d4c9dbff",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f0ed04d72c29c49f4b2a1d85ce5754d9bfe68c3b9c41310e9610c369d4c9dbff.gz",
+        "bytes": 271120,
+        "sha256": "516cd3f6b167382d17906b1c1369b5ef8988a94970d244eed24a093e1fb62e97",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/28-explicit-end-turn-2.png",
+      "bytes": 263429,
+      "sha256": "1c304789ab13bdfdf4b085d3adc9777109ab83df5fde605c1edb8f349ee6f0a9",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/1c304789ab13bdfdf4b085d3adc9777109ab83df5fde605c1edb8f349ee6f0a9.gz",
+        "bytes": 257483,
+        "sha256": "ae481361d5390f29d7a4a349cc07ca55f656bde70f0c448129ddf3230d0c3b82",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/28-explicit-end-turn-3.png",
+      "bytes": 264028,
+      "sha256": "74b8af20ac33c000a44823e1973cb5aba608f0a07ff09ce5f650fe87c66d1292",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74b8af20ac33c000a44823e1973cb5aba608f0a07ff09ce5f650fe87c66d1292.gz",
+        "bytes": 258057,
+        "sha256": "49d1000ec8f56c3d317cc1ed8de31a445426578da4270aa2ca047304f3fd985f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/browser-console.json",
+      "bytes": 12473,
+      "sha256": "4ccb1b52b2152e46d7e0990875c2ec4862cc775ebc04bf2357eb58bcfb7b14fb",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4ccb1b52b2152e46d7e0990875c2ec4862cc775ebc04bf2357eb58bcfb7b14fb.gz",
+        "bytes": 1390,
+        "sha256": "73065150b23d0a2c20716bf9f535b2cc31b2fa298b91d4178478842c39647769",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/engine-inputs.json",
+      "bytes": 26203,
+      "sha256": "9181c1e25ebc13cbb44f5a9af64d860a56d01aa3c16f3ac1429188c2cc303a53",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/9181c1e25ebc13cbb44f5a9af64d860a56d01aa3c16f3ac1429188c2cc303a53.gz",
+        "bytes": 845,
+        "sha256": "a182445ff10e42605341bcd6249c0bf99e4b710bc1af868e64830af495062357",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0000-movie-lcd.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0000-movie-native.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0001-movie-lcd.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0001-movie-native.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0002-movie-lcd.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0002-movie-native.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0003-movie-lcd.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0003-movie-native.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0004-movie-lcd.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0004-movie-native.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0005-movie-lcd.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0005-movie-native.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0006-movie-lcd.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0006-movie-native.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0007-movie-lcd.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0007-movie-native.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/native-liuyan-captures.json",
+      "bytes": 4715853,
+      "sha256": "13fee6f08c7f8a2869aaa1714db617a50df4b2ba7f2b9d74cf55f2838468e35b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/13fee6f08c7f8a2869aaa1714db617a50df4b2ba7f2b9d74cf55f2838468e35b.gz",
+        "bytes": 176959,
+        "sha256": "11796158e4bf0a344bbf1298d7544320c9dfa50ac4e147bfee7c1948306a533a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/native-report-observations.json",
+      "bytes": 348614,
+      "sha256": "ab90b050d9e74b62d7c55d2f5d75f26f5c90b4038bfdf1b32b9edc6c794677d9",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ab90b050d9e74b62d7c55d2f5d75f26f5c90b4038bfdf1b32b9edc6c794677d9.gz",
+        "bytes": 5304,
+        "sha256": "0041d410acdbc69d498fa449f903f0f926c9820142373c97059206cd2364f603",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/observer-errors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+        "bytes": 23,
+        "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/owned-process-samples.jsonl",
+      "bytes": 69827,
+      "sha256": "61a78ae499366f06618877a597d69b53befc8e38e7565c1370769b395abec675",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/61a78ae499366f06618877a597d69b53befc8e38e7565c1370769b395abec675.gz",
+        "bytes": 2344,
+        "sha256": "fb1d0930f99639d6cf49fe0b9616c2dfcda30eb1721cad3d8302f3f9e3b1c2be",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/result.json",
+      "bytes": 17571100,
+      "sha256": "ffbd14d1a1e9da961f7f63848efb11e75aa252125cfb596cb2803faa9216ec53",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ffbd14d1a1e9da961f7f63848efb11e75aa252125cfb596cb2803faa9216ec53.gz",
+        "bytes": 625823,
+        "sha256": "55b8dbbb092d2fbae7933391c1ad0e1133e1bc72022f7e8e21beddb25c867a86",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/skill14-actual-spell-seal-1.png",
+      "bytes": 263951,
+      "sha256": "544838b39d73edbb158eafc627d32339cbc50e2c677b9ecebffe68817af2961e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/544838b39d73edbb158eafc627d32339cbc50e2c677b9ecebffe68817af2961e.gz",
+        "bytes": 258011,
+        "sha256": "619ab088b87c70fd55d0c9a71b58a14201680a0be7c9608cf820d0d8cd09487f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/source-verification.json",
+      "bytes": 435716,
+      "sha256": "0d716f2899a36f74f145ad1ad1f34145349c6c6231a4ea9e97dcd0a8d3926bfe",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/0d716f2899a36f74f145ad1ad1f34145349c6c6231a4ea9e97dcd0a8d3926bfe.gz",
+        "bytes": 69732,
+        "sha256": "4a394bf6b252d31511934a0ad20c54562e13318ab8b09a1feb066484ede1dab0",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/spe-observations.json",
+      "bytes": 7423484,
+      "sha256": "5947e1df300c61764b67a915215babec5973adcaa6173c9796b1ede960c60841",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/5947e1df300c61764b67a915215babec5973adcaa6173c9796b1ede960c60841.gz",
+        "bytes": 84417,
+        "sha256": "c03d292bd205e26ddf5da51609167e4343da7675843b1a7ab3c5afcf2c74f38c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080-console.log",
+      "bytes": 661,
+      "sha256": "ca227ee409a5f7be2708261f63d02908da3ce0ab9966427f413631c056a1be1d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ca227ee409a5f7be2708261f63d02908da3ce0ab9966427f413631c056a1be1d.gz",
+        "bytes": 421,
+        "sha256": "bf11ba8e8aade4ddb4d68b10d0aee0aec991087088b43a2d733ec41ae3f3b053",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080-execution.json",
+      "bytes": 4013,
+      "sha256": "6948a418532c217ed7093392a83a9840e68631d8b29a0354d8ca97c177276711",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/6948a418532c217ed7093392a83a9840e68631d8b29a0354d8ca97c177276711.gz",
+        "bytes": 1122,
+        "sha256": "d7ec1879953a2f71f20e598d2978781d95e5c6f07ab964564789e63599db0f12",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080-root-after-isolation-v1.json",
+      "bytes": 2368,
+      "sha256": "220614deda7e9b915331039e913ae018584cb9e3fef35e7d021d5eb297baa68e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/220614deda7e9b915331039e913ae018584cb9e3fef35e7d021d5eb297baa68e.gz",
+        "bytes": 625,
+        "sha256": "d931cb6cb2cd0bfb2d7d2cf24fbd474a1edf3244361ee2f94c50621c615b21bf",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080-root-after-isolation-v2.json",
+      "bytes": 2988,
+      "sha256": "5ba8a05379db3b54c5b6d4516d747c19bcd7ed9fc0f1a051f00b3b66ae04a5b9",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/5ba8a05379db3b54c5b6d4516d747c19bcd7ed9fc0f1a051f00b3b66ae04a5b9.gz",
+        "bytes": 919,
+        "sha256": "c6f04948dd743cb6ecf9c322d4125c8e610e80c31e741196cd4eac63d5744cb5",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/02-actual-native-march-persons.png",
+      "bytes": 2141932,
+      "sha256": "1ca3175a96bb06fb93de9254c3e3db78d93d5e1d15ba6c00593684ce6fc68039",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/1ca3175a96bb06fb93de9254c3e3db78d93d5e1d15ba6c00593684ce6fc68039.gz",
+        "bytes": 2142145,
+        "sha256": "95b91e45a03c10f70fe1c99583c556657a91156dfa092128ebdde46a6d0840ef",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/02-public-original-checkpoint-loaded.png",
+      "bytes": 3085525,
+      "sha256": "28b8f83437250a3104436802eb78d465694d45327ecef101e444ac9b1a574c7e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/28b8f83437250a3104436802eb78d465694d45327ecef101e444ac9b1a574c7e.gz",
+        "bytes": 3086433,
+        "sha256": "45b5d717238995b536d980a0a572b61e02c0c6c06a805a7526a562ac0432fa19",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/03-original-dispatch-order.png",
+      "bytes": 2312480,
+      "sha256": "428aad2da7486b72de806de8b1a7a0aca489f220081ef2a61b86809f94db7cca",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/428aad2da7486b72de806de8b1a7a0aca489f220081ef2a61b86809f94db7cca.gz",
+        "bytes": 2313175,
+        "sha256": "2ae0d5002204eab2daa525cf12ba9fed14f55a16efb58d5c5476886fa38d0f46",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/04-real-battle-caster.png",
+      "bytes": 182682,
+      "sha256": "2a9815b36ce98804789910a2d0ecd7f01a50a2c8eac41ae297cbbb368780d4e7",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/2a9815b36ce98804789910a2d0ecd7f01a50a2c8eac41ae297cbbb368780d4e7.gz",
+        "bytes": 172703,
+        "sha256": "9d7166efde54fa783ca3eb986f4de4f138022618596adfe6f505f595a66eb9b1",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/05-liuyan-state-report-owners-retired.png",
+      "bytes": 263964,
+      "sha256": "c51fd13ee248bd5075fe1733c245b1e53fbda45df7645f93026ccacf3e6d4c85",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c51fd13ee248bd5075fe1733c245b1e53fbda45df7645f93026ccacf3e6d4c85.gz",
+        "bytes": 258132,
+        "sha256": "65ba52a8717a6cf985d1b642f96f5d266b3237b3040643d2b3dfad27cb80bf6a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/28-explicit-end-turn-1.png",
+      "bytes": 276895,
+      "sha256": "492ee55d50366cf93c73e377af42b4710110e8e5f5624bdb2b30344cc682feab",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/492ee55d50366cf93c73e377af42b4710110e8e5f5624bdb2b30344cc682feab.gz",
+        "bytes": 271101,
+        "sha256": "7dfc0184f5a7e7196af5ba01077dbde3ae8b9e0dcb4b4e63e10afc3e8581ce93",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/28-explicit-end-turn-2.png",
+      "bytes": 263210,
+      "sha256": "6b4337afefc6cbfa60e3603340c6588cc2e6b4511800b9dd6cdb56616afa1b04",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/6b4337afefc6cbfa60e3603340c6588cc2e6b4511800b9dd6cdb56616afa1b04.gz",
+        "bytes": 257137,
+        "sha256": "4f38f9687967f23e3525a0bb68a643ffa04193a8e0eb0de831bce849e6354b5f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/28-explicit-end-turn-3.png",
+      "bytes": 264045,
+      "sha256": "80927e71a89d8561b18d0010bce00d677726c6761ac6adfeed493d1b1f83bee5",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/80927e71a89d8561b18d0010bce00d677726c6761ac6adfeed493d1b1f83bee5.gz",
+        "bytes": 258094,
+        "sha256": "a4680c0553f6d53d662c3a9b3e5945ea29a2118c6cc19bd9cda0797c26aa961e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/actual-report-1.png",
+      "bytes": 249139,
+      "sha256": "d4a2331512c30b3f034217004cba164fe676a2e5c04940568b87bccad98031bf",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/d4a2331512c30b3f034217004cba164fe676a2e5c04940568b87bccad98031bf.gz",
+        "bytes": 244593,
+        "sha256": "8c2c3ec3739c2f6d63c997dbc8cbf7999d9c647d2b17b0276a58b6a41ee530cc",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/browser-console.json",
+      "bytes": 12529,
+      "sha256": "be0d25bdc4be4336731cac7e7a5e07f187faddff43ee6a882f08fd46f07ec990",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/be0d25bdc4be4336731cac7e7a5e07f187faddff43ee6a882f08fd46f07ec990.gz",
+        "bytes": 1385,
+        "sha256": "c703b5cbd62342991cc5741a72fde22deae154beb5adb578d581041107f9e214",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/engine-inputs.json",
+      "bytes": 25907,
+      "sha256": "f849206ae4865bd0fbe17cbf5cd4c16d18db78cb05e54a5ad5237b1162b0c9a9",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f849206ae4865bd0fbe17cbf5cd4c16d18db78cb05e54a5ad5237b1162b0c9a9.gz",
+        "bytes": 861,
+        "sha256": "4bf93a1fcacfe77799106b0ecc671cea1202e5aec44943d1f881bf8fd9a0d65f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0000-movie-hd.png",
+      "bytes": 1171003,
+      "sha256": "7bb63ee74b3bcebdee443cded1265bf65c5902ee0eedd78091c30b4dd69fb096",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/7bb63ee74b3bcebdee443cded1265bf65c5902ee0eedd78091c30b4dd69fb096.gz",
+        "bytes": 1152407,
+        "sha256": "dbaf4e7efba54c3daffa6a7c7181dbbc784ebde47f3b79a16c33fb8985a9abe0",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0000-movie-lcd.png",
+      "bytes": 5670,
+      "sha256": "fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672.gz",
+        "bytes": 5616,
+        "sha256": "9cd35f4afa22faf7d94198ba93d4502f0ea5859fab6bbf4ffc06173ec16e390c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0000-movie-native.png",
+      "bytes": 5670,
+      "sha256": "fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672.gz",
+        "bytes": 5616,
+        "sha256": "9cd35f4afa22faf7d94198ba93d4502f0ea5859fab6bbf4ffc06173ec16e390c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0001-movie-hd.png",
+      "bytes": 1192754,
+      "sha256": "1e4eb3de0aabd25b99418194c6b9b4a467cb24456867ec32fbc91a9e6e4d42be",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/1e4eb3de0aabd25b99418194c6b9b4a467cb24456867ec32fbc91a9e6e4d42be.gz",
+        "bytes": 1173834,
+        "sha256": "682366b1f3180ea382d67653a456b92e9b5c3ec717fdf23787c0193a34250bdb",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0001-movie-lcd.png",
+      "bytes": 5603,
+      "sha256": "c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb.gz",
+        "bytes": 5531,
+        "sha256": "dfc5da470eb7de622053f30bbf8214a7c6fcb5e0fe04388efb05db0bc2b1e7d7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0001-movie-native.png",
+      "bytes": 5603,
+      "sha256": "c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb.gz",
+        "bytes": 5531,
+        "sha256": "dfc5da470eb7de622053f30bbf8214a7c6fcb5e0fe04388efb05db0bc2b1e7d7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0002-movie-hd.png",
+      "bytes": 1171003,
+      "sha256": "7bb63ee74b3bcebdee443cded1265bf65c5902ee0eedd78091c30b4dd69fb096",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/7bb63ee74b3bcebdee443cded1265bf65c5902ee0eedd78091c30b4dd69fb096.gz",
+        "bytes": 1152407,
+        "sha256": "dbaf4e7efba54c3daffa6a7c7181dbbc784ebde47f3b79a16c33fb8985a9abe0",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0002-movie-lcd.png",
+      "bytes": 5670,
+      "sha256": "fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672.gz",
+        "bytes": 5616,
+        "sha256": "9cd35f4afa22faf7d94198ba93d4502f0ea5859fab6bbf4ffc06173ec16e390c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0002-movie-native.png",
+      "bytes": 5670,
+      "sha256": "fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672.gz",
+        "bytes": 5616,
+        "sha256": "9cd35f4afa22faf7d94198ba93d4502f0ea5859fab6bbf4ffc06173ec16e390c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0003-movie-hd.png",
+      "bytes": 1192754,
+      "sha256": "1e4eb3de0aabd25b99418194c6b9b4a467cb24456867ec32fbc91a9e6e4d42be",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/1e4eb3de0aabd25b99418194c6b9b4a467cb24456867ec32fbc91a9e6e4d42be.gz",
+        "bytes": 1173834,
+        "sha256": "682366b1f3180ea382d67653a456b92e9b5c3ec717fdf23787c0193a34250bdb",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0003-movie-lcd.png",
+      "bytes": 5603,
+      "sha256": "c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb.gz",
+        "bytes": 5531,
+        "sha256": "dfc5da470eb7de622053f30bbf8214a7c6fcb5e0fe04388efb05db0bc2b1e7d7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0003-movie-native.png",
+      "bytes": 5603,
+      "sha256": "c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb.gz",
+        "bytes": 5531,
+        "sha256": "dfc5da470eb7de622053f30bbf8214a7c6fcb5e0fe04388efb05db0bc2b1e7d7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0004-movie-hd.png",
+      "bytes": 1171003,
+      "sha256": "7bb63ee74b3bcebdee443cded1265bf65c5902ee0eedd78091c30b4dd69fb096",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/7bb63ee74b3bcebdee443cded1265bf65c5902ee0eedd78091c30b4dd69fb096.gz",
+        "bytes": 1152407,
+        "sha256": "dbaf4e7efba54c3daffa6a7c7181dbbc784ebde47f3b79a16c33fb8985a9abe0",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0004-movie-lcd.png",
+      "bytes": 5670,
+      "sha256": "fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672.gz",
+        "bytes": 5616,
+        "sha256": "9cd35f4afa22faf7d94198ba93d4502f0ea5859fab6bbf4ffc06173ec16e390c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0004-movie-native.png",
+      "bytes": 5670,
+      "sha256": "fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672.gz",
+        "bytes": 5616,
+        "sha256": "9cd35f4afa22faf7d94198ba93d4502f0ea5859fab6bbf4ffc06173ec16e390c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0005-movie-hd.png",
+      "bytes": 1192754,
+      "sha256": "1e4eb3de0aabd25b99418194c6b9b4a467cb24456867ec32fbc91a9e6e4d42be",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/1e4eb3de0aabd25b99418194c6b9b4a467cb24456867ec32fbc91a9e6e4d42be.gz",
+        "bytes": 1173834,
+        "sha256": "682366b1f3180ea382d67653a456b92e9b5c3ec717fdf23787c0193a34250bdb",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0005-movie-lcd.png",
+      "bytes": 5603,
+      "sha256": "c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb.gz",
+        "bytes": 5531,
+        "sha256": "dfc5da470eb7de622053f30bbf8214a7c6fcb5e0fe04388efb05db0bc2b1e7d7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0005-movie-native.png",
+      "bytes": 5603,
+      "sha256": "c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb.gz",
+        "bytes": 5531,
+        "sha256": "dfc5da470eb7de622053f30bbf8214a7c6fcb5e0fe04388efb05db0bc2b1e7d7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0006-movie-hd.png",
+      "bytes": 1171003,
+      "sha256": "7bb63ee74b3bcebdee443cded1265bf65c5902ee0eedd78091c30b4dd69fb096",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/7bb63ee74b3bcebdee443cded1265bf65c5902ee0eedd78091c30b4dd69fb096.gz",
+        "bytes": 1152407,
+        "sha256": "dbaf4e7efba54c3daffa6a7c7181dbbc784ebde47f3b79a16c33fb8985a9abe0",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0006-movie-lcd.png",
+      "bytes": 5670,
+      "sha256": "fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672.gz",
+        "bytes": 5616,
+        "sha256": "9cd35f4afa22faf7d94198ba93d4502f0ea5859fab6bbf4ffc06173ec16e390c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0006-movie-native.png",
+      "bytes": 5670,
+      "sha256": "fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672.gz",
+        "bytes": 5616,
+        "sha256": "9cd35f4afa22faf7d94198ba93d4502f0ea5859fab6bbf4ffc06173ec16e390c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0007-movie-hd.png",
+      "bytes": 1192754,
+      "sha256": "1e4eb3de0aabd25b99418194c6b9b4a467cb24456867ec32fbc91a9e6e4d42be",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/1e4eb3de0aabd25b99418194c6b9b4a467cb24456867ec32fbc91a9e6e4d42be.gz",
+        "bytes": 1173834,
+        "sha256": "682366b1f3180ea382d67653a456b92e9b5c3ec717fdf23787c0193a34250bdb",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0007-movie-lcd.png",
+      "bytes": 5603,
+      "sha256": "c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb.gz",
+        "bytes": 5531,
+        "sha256": "dfc5da470eb7de622053f30bbf8214a7c6fcb5e0fe04388efb05db0bc2b1e7d7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0007-movie-native.png",
+      "bytes": 5603,
+      "sha256": "c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb.gz",
+        "bytes": 5531,
+        "sha256": "dfc5da470eb7de622053f30bbf8214a7c6fcb5e0fe04388efb05db0bc2b1e7d7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/native-liuyan-captures.json",
+      "bytes": 5393021,
+      "sha256": "3359f303d95f4e7b8a77ff3b6624b111bfb358f39b7529a4ee2d37da96457ed6",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/3359f303d95f4e7b8a77ff3b6624b111bfb358f39b7529a4ee2d37da96457ed6.gz",
+        "bytes": 311494,
+        "sha256": "69b43e731dcc320414c0d17f06ae3a1b9a0fd3d94b771bf0e4683ec4fac65c6e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/native-report-observations.json",
+      "bytes": 271806,
+      "sha256": "47da3ff2906e2ab0e9de08be8d30ad5713ed51f6f7da6f5d0a936c053cdb70ed",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/47da3ff2906e2ab0e9de08be8d30ad5713ed51f6f7da6f5d0a936c053cdb70ed.gz",
+        "bytes": 4480,
+        "sha256": "7bf2a03625ce22e4e0b14732b19016720177d1913fb9a2505064baa367eb6a58",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/observer-errors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+        "bytes": 23,
+        "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/owned-process-samples.jsonl",
+      "bytes": 72277,
+      "sha256": "ca96318722c1a854269f907c69442a9f22cb057760eaf01d96bb0e0c88cf9af4",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ca96318722c1a854269f907c69442a9f22cb057760eaf01d96bb0e0c88cf9af4.gz",
+        "bytes": 2629,
+        "sha256": "efd8a3b78e9188d3694b10a079024cc79d4d3d692a74f3eb63d67f4ef904ac6f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/result.json",
+      "bytes": 18438473,
+      "sha256": "c77e352b6134b07e0590926efb5ee3b9e9437813ddfff8c9abfec36ac6a93a17",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c77e352b6134b07e0590926efb5ee3b9e9437813ddfff8c9abfec36ac6a93a17.gz",
+        "bytes": 762685,
+        "sha256": "5c91025720610ac407c116b3741ff9847949a0422add6697deb736cbc6eddf5f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/skill14-actual-spell-seal-1.png",
+      "bytes": 263964,
+      "sha256": "c51fd13ee248bd5075fe1733c245b1e53fbda45df7645f93026ccacf3e6d4c85",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c51fd13ee248bd5075fe1733c245b1e53fbda45df7645f93026ccacf3e6d4c85.gz",
+        "bytes": 258132,
+        "sha256": "65ba52a8717a6cf985d1b642f96f5d266b3237b3040643d2b3dfad27cb80bf6a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/source-verification.json",
+      "bytes": 435716,
+      "sha256": "0d716f2899a36f74f145ad1ad1f34145349c6c6231a4ea9e97dcd0a8d3926bfe",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/0d716f2899a36f74f145ad1ad1f34145349c6c6231a4ea9e97dcd0a8d3926bfe.gz",
+        "bytes": 69732,
+        "sha256": "4a394bf6b252d31511934a0ad20c54562e13318ab8b09a1feb066484ede1dab0",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/spe-observations.json",
+      "bytes": 7318945,
+      "sha256": "e971192503dcb01af785d0e53e06c2ac468a652a4a75c319c1c25328dc0c07cc",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/e971192503dcb01af785d0e53e06c2ac468a652a4a75c319c1c25328dc0c07cc.gz",
+        "bytes": 83597,
+        "sha256": "dc9089c71eb71119ccc0997b5471ba70701527a8affe387964434e7beebeeb1e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720-console.log",
+      "bytes": 660,
+      "sha256": "a6871a4c5bdda394f5dfe90422265d2069bcc5bec2643f286d943a0a4181cc17",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/a6871a4c5bdda394f5dfe90422265d2069bcc5bec2643f286d943a0a4181cc17.gz",
+        "bytes": 421,
+        "sha256": "a518e7bb78b8e51301a5b1131f10540d22ebd683220767b6159163500d25e513",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720-execution.json",
+      "bytes": 4022,
+      "sha256": "5838fe530092282aa0fea438f36b6001dab3395564bc31a229eebbab6f196a84",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/5838fe530092282aa0fea438f36b6001dab3395564bc31a229eebbab6f196a84.gz",
+        "bytes": 1125,
+        "sha256": "70dad4d35c2a65eb1d481207c292fd975bac59ff65331c2c88a5e8ddcef8b4c6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720-root-after-isolation-v1.json",
+      "bytes": 2624,
+      "sha256": "bbf4fb90cc77ab7b72c5ed27522ce6b918da705ef878e61b3845e12bac8efa00",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/bbf4fb90cc77ab7b72c5ed27522ce6b918da705ef878e61b3845e12bac8efa00.gz",
+        "bytes": 763,
+        "sha256": "54646e7e05f76474d238728822145662c5411c36db73ed0108cfe3a8c2692ec7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/02-actual-native-march-persons.png",
+      "bytes": 761953,
+      "sha256": "4e4ffe6d5de2129bd660259b996e603e7b70bc6f6075361654bbf753c804085d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4e4ffe6d5de2129bd660259b996e603e7b70bc6f6075361654bbf753c804085d.gz",
+        "bytes": 761654,
+        "sha256": "660a79bfbd8c2b43b320422d8211c60c188e5d60e301c402ce04ef67c61f5340",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/02-public-original-checkpoint-loaded.png",
+      "bytes": 58817,
+      "sha256": "1a7e72979334ae1c64ff4c9196d29f046af3818d1f9ad788a48204a6159bdd43",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/1a7e72979334ae1c64ff4c9196d29f046af3818d1f9ad788a48204a6159bdd43.gz",
+        "bytes": 55185,
+        "sha256": "ad9e3dcacb942611735b54220fe86158b092c9089e91eb2cb7c079c8e126fcea",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/03-original-dispatch-order.png",
+      "bytes": 882284,
+      "sha256": "301e6f4a2f09b0ba4e86a6ade68e444ab98f6a2b5322f3ca56c1d847d4fc4ccf",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/301e6f4a2f09b0ba4e86a6ade68e444ab98f6a2b5322f3ca56c1d847d4fc4ccf.gz",
+        "bytes": 882563,
+        "sha256": "5b23d6b11c551ed87dec047ebd2033cae81ecdff7794dac5634f8a2b49e0d0ff",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/04-real-battle-caster.png",
+      "bytes": 163561,
+      "sha256": "0cd08643c8512bc54a65247c2371f947a83a6ae5856a2d74020799d26f5c2e85",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/0cd08643c8512bc54a65247c2371f947a83a6ae5856a2d74020799d26f5c2e85.gz",
+        "bytes": 161736,
+        "sha256": "90d2e364af13430ebca40589072d0d3a251066c8dc02b2ae0e5101ea7cb36ac8",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/05-liuyan-state-report-owners-retired.png",
+      "bytes": 186982,
+      "sha256": "7ba8e40173093f1e2492390bd5deb64e73b72a10bad8b7d0cfc111cb3ebbecdb",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/7ba8e40173093f1e2492390bd5deb64e73b72a10bad8b7d0cfc111cb3ebbecdb.gz",
+        "bytes": 184967,
+        "sha256": "873dea414ed63ab2464cef396004ba774ebf16856b978cbe16fa5495cf44de93",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/28-explicit-end-turn-1.png",
+      "bytes": 192681,
+      "sha256": "2e43ee1682f1022b5a58f212b8f694e3fb552b7031ba3019f404e75fae9c2bac",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/2e43ee1682f1022b5a58f212b8f694e3fb552b7031ba3019f404e75fae9c2bac.gz",
+        "bytes": 190786,
+        "sha256": "4deb5249348c5a037b381267fae7e3fed0440c17b045e26a8d7c481b5b52b401",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/28-explicit-end-turn-2.png",
+      "bytes": 186579,
+      "sha256": "9879e259974dca1d72d77790a9180e4aca93942d0e404c97762044ce594705f4",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/9879e259974dca1d72d77790a9180e4aca93942d0e404c97762044ce594705f4.gz",
+        "bytes": 184467,
+        "sha256": "18e9725f60fe29d44f362109d5eafd64b38eac845d3179456c5bc980019ed474",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/28-explicit-end-turn-3.png",
+      "bytes": 187029,
+      "sha256": "ba4c4cb16dbb7d60b7bf35f550609abfff8654dfa229563fb3b6f8d1f6f0b4af",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ba4c4cb16dbb7d60b7bf35f550609abfff8654dfa229563fb3b6f8d1f6f0b4af.gz",
+        "bytes": 184975,
+        "sha256": "a6c26856719b694711c45f794a27e2a45d3516cb0198ceec8b014be8b349dbaa",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/actual-report-1.png",
+      "bytes": 170056,
+      "sha256": "81aa612cc7cd8c13a60a76b83c02621a935f657ffc7a7042def41d53d60a937a",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/81aa612cc7cd8c13a60a76b83c02621a935f657ffc7a7042def41d53d60a937a.gz",
+        "bytes": 168930,
+        "sha256": "d5e8768e23541c0f10c7ca7778ab8e581cde021afb8dcda0a0cd9d24b98e6086",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/browser-console.json",
+      "bytes": 12529,
+      "sha256": "2c800602ce6ed9f531895d90f52e75ce9180071b9f17bcb59df0c5dca6c50cc6",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/2c800602ce6ed9f531895d90f52e75ce9180071b9f17bcb59df0c5dca6c50cc6.gz",
+        "bytes": 1386,
+        "sha256": "659b83450732b035fa8a8ddb521537aa3b91314659aad149473bcb731e2ba4b9",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/engine-inputs.json",
+      "bytes": 25873,
+      "sha256": "ccde31ff344f9b4e577c911d0d7a42265c76644a94eabe58fec7b225bdc3fa50",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ccde31ff344f9b4e577c911d0d7a42265c76644a94eabe58fec7b225bdc3fa50.gz",
+        "bytes": 837,
+        "sha256": "763eff30c27fe59eeff0af88a411fe6478a7945226b9cfc9d9a8ee377e363298",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0000-movie-hd.png",
+      "bytes": 1170943,
+      "sha256": "599c5bf5f08bc103de91da66988d93a4b4096d6dcf724d989cab74081184cc4e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/599c5bf5f08bc103de91da66988d93a4b4096d6dcf724d989cab74081184cc4e.gz",
+        "bytes": 1152509,
+        "sha256": "091238620b71f25cfc5542fb12dd36e857c1ef1323bad40e383618204c7c6729",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0000-movie-lcd.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0000-movie-native.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0001-movie-hd.png",
+      "bytes": 1192597,
+      "sha256": "601ca53b02a59250df3ab698a6ab2e17d18747b8fed8674e7d5bb9ac5a4fe09d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/601ca53b02a59250df3ab698a6ab2e17d18747b8fed8674e7d5bb9ac5a4fe09d.gz",
+        "bytes": 1173693,
+        "sha256": "4cd75a2ac135e89a25bd4e0064af16372467b7eb0ab98a10ef08ee27523eed63",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0001-movie-lcd.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0001-movie-native.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0002-movie-hd.png",
+      "bytes": 1170943,
+      "sha256": "599c5bf5f08bc103de91da66988d93a4b4096d6dcf724d989cab74081184cc4e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/599c5bf5f08bc103de91da66988d93a4b4096d6dcf724d989cab74081184cc4e.gz",
+        "bytes": 1152509,
+        "sha256": "091238620b71f25cfc5542fb12dd36e857c1ef1323bad40e383618204c7c6729",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0002-movie-lcd.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0002-movie-native.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0003-movie-hd.png",
+      "bytes": 1192597,
+      "sha256": "601ca53b02a59250df3ab698a6ab2e17d18747b8fed8674e7d5bb9ac5a4fe09d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/601ca53b02a59250df3ab698a6ab2e17d18747b8fed8674e7d5bb9ac5a4fe09d.gz",
+        "bytes": 1173693,
+        "sha256": "4cd75a2ac135e89a25bd4e0064af16372467b7eb0ab98a10ef08ee27523eed63",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0003-movie-lcd.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0003-movie-native.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0004-movie-hd.png",
+      "bytes": 1170943,
+      "sha256": "599c5bf5f08bc103de91da66988d93a4b4096d6dcf724d989cab74081184cc4e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/599c5bf5f08bc103de91da66988d93a4b4096d6dcf724d989cab74081184cc4e.gz",
+        "bytes": 1152509,
+        "sha256": "091238620b71f25cfc5542fb12dd36e857c1ef1323bad40e383618204c7c6729",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0004-movie-lcd.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0004-movie-native.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0005-movie-hd.png",
+      "bytes": 1192597,
+      "sha256": "601ca53b02a59250df3ab698a6ab2e17d18747b8fed8674e7d5bb9ac5a4fe09d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/601ca53b02a59250df3ab698a6ab2e17d18747b8fed8674e7d5bb9ac5a4fe09d.gz",
+        "bytes": 1173693,
+        "sha256": "4cd75a2ac135e89a25bd4e0064af16372467b7eb0ab98a10ef08ee27523eed63",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0005-movie-lcd.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0005-movie-native.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0006-movie-hd.png",
+      "bytes": 1170943,
+      "sha256": "599c5bf5f08bc103de91da66988d93a4b4096d6dcf724d989cab74081184cc4e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/599c5bf5f08bc103de91da66988d93a4b4096d6dcf724d989cab74081184cc4e.gz",
+        "bytes": 1152509,
+        "sha256": "091238620b71f25cfc5542fb12dd36e857c1ef1323bad40e383618204c7c6729",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0006-movie-lcd.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0006-movie-native.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42.gz",
+        "bytes": 5585,
+        "sha256": "a75dfd3fc126117ce4975718ec0fb53ff03694e15520960d6ecb112673b79284",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0007-movie-hd.png",
+      "bytes": 1192597,
+      "sha256": "601ca53b02a59250df3ab698a6ab2e17d18747b8fed8674e7d5bb9ac5a4fe09d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/601ca53b02a59250df3ab698a6ab2e17d18747b8fed8674e7d5bb9ac5a4fe09d.gz",
+        "bytes": 1173693,
+        "sha256": "4cd75a2ac135e89a25bd4e0064af16372467b7eb0ab98a10ef08ee27523eed63",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0007-movie-lcd.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0007-movie-native.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32.gz",
+        "bytes": 5472,
+        "sha256": "db6aac1887bc34fd4b38c547b10ef3885f738710f55533ac95184265ed0861a6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/native-liuyan-captures.json",
+      "bytes": 5392771,
+      "sha256": "37d11bc175d0f833b0624de4b3371217b3ba294140c0e73d4624adc7d3967973",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/37d11bc175d0f833b0624de4b3371217b3ba294140c0e73d4624adc7d3967973.gz",
+        "bytes": 310870,
+        "sha256": "ff94b6c3483ac41b6c7fe7757dc7b7152c3bca7adf8b528435eadf759c5fa3c4",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/native-report-observations.json",
+      "bytes": 271798,
+      "sha256": "69b9ab2a5c0a929d1b85c06a04806f62d3a554c236b0f136afe0ed0c4485f0cf",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/69b9ab2a5c0a929d1b85c06a04806f62d3a554c236b0f136afe0ed0c4485f0cf.gz",
+        "bytes": 4476,
+        "sha256": "02095cd3e12c63339d0e7907acadab07e505a3ea7615e3bfa6b54aa0dbe711c0",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/observer-errors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+        "bytes": 23,
+        "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/owned-process-samples.jsonl",
+      "bytes": 71053,
+      "sha256": "0766e3a965d177de1c15b4f2f1e55d644508e25812879386cc627f7d22571203",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/0766e3a965d177de1c15b4f2f1e55d644508e25812879386cc627f7d22571203.gz",
+        "bytes": 2364,
+        "sha256": "d9220d5e9ad2850d1bc723c214f826a94b25525c17ab6a3cd6b846d376641ed6",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/result.json",
+      "bytes": 18437650,
+      "sha256": "f3ce0d552373998b83c31cdf6ddffd5dca423c7e1b4caf60c340aaadf109c9d9",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f3ce0d552373998b83c31cdf6ddffd5dca423c7e1b4caf60c340aaadf109c9d9.gz",
+        "bytes": 761765,
+        "sha256": "129c6be7c6ed4f1e556e1d0d3ff899d116a94ab9da49c7d080dc4d5f442da27e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/skill14-actual-spell-seal-1.png",
+      "bytes": 186982,
+      "sha256": "7ba8e40173093f1e2492390bd5deb64e73b72a10bad8b7d0cfc111cb3ebbecdb",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/7ba8e40173093f1e2492390bd5deb64e73b72a10bad8b7d0cfc111cb3ebbecdb.gz",
+        "bytes": 184967,
+        "sha256": "873dea414ed63ab2464cef396004ba774ebf16856b978cbe16fa5495cf44de93",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/source-verification.json",
+      "bytes": 435716,
+      "sha256": "0d716f2899a36f74f145ad1ad1f34145349c6c6231a4ea9e97dcd0a8d3926bfe",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/0d716f2899a36f74f145ad1ad1f34145349c6c6231a4ea9e97dcd0a8d3926bfe.gz",
+        "bytes": 69732,
+        "sha256": "4a394bf6b252d31511934a0ad20c54562e13318ab8b09a1feb066484ede1dab0",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/spe-observations.json",
+      "bytes": 7340476,
+      "sha256": "cbc5db919c32c55f29362101b4c6ef985dca4cbfbdcf82c5526796b6a58f327d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/cbc5db919c32c55f29362101b4c6ef985dca4cbfbdcf82c5526796b6a58f327d.gz",
+        "bytes": 83816,
+        "sha256": "88c5b26a394d3a54b725bd4e850a022c89f0cf7d69c32f8f443f829160427cab",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080-console.log",
+      "bytes": 659,
+      "sha256": "fedd685b2a92203b6d63668032e61a6e81deb4086ca7df7a2f419f263d93aad0",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fedd685b2a92203b6d63668032e61a6e81deb4086ca7df7a2f419f263d93aad0.gz",
+        "bytes": 421,
+        "sha256": "a214ac87a2c75e1e19025a4f778b7adccd7a7827451dbcee04f44dc54cf0ade8",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080-execution.json",
+      "bytes": 4037,
+      "sha256": "41f951499937ca110500421104a144c099dfddec6851aa855230b4818ef51a85",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/41f951499937ca110500421104a144c099dfddec6851aa855230b4818ef51a85.gz",
+        "bytes": 1131,
+        "sha256": "48340527d5e288b316f42938ae9ee77ee8398d4d4da9e18e5450b1d781e61a31",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080-root-after-isolation-v1.json",
+      "bytes": 2621,
+      "sha256": "c02ed39c5666602f1d9ec248ab8dc4138af4189fb042183012e3ea08395f191b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c02ed39c5666602f1d9ec248ab8dc4138af4189fb042183012e3ea08395f191b.gz",
+        "bytes": 758,
+        "sha256": "41a64f2263a308e4909cf5307d7ff8f53195aed5f8ae560741079eb3c2d6484b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/02-actual-native-march-persons.png",
+      "bytes": 2200717,
+      "sha256": "4f7428ece40f32565e008ff11a62c49f236dfc03f4cdb2e48518e06fd4ca600b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4f7428ece40f32565e008ff11a62c49f236dfc03f4cdb2e48518e06fd4ca600b.gz",
+        "bytes": 2201390,
+        "sha256": "ddd46ecab751b93a2d3bf315d3fa6d19705d6a1042d357ebaa947709833f2e45",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/02-public-original-checkpoint-loaded.png",
+      "bytes": 3085647,
+      "sha256": "6be117b5561fe62f2e5a859071affd0306234d705a476ab97c8696594f612c1e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/6be117b5561fe62f2e5a859071affd0306234d705a476ab97c8696594f612c1e.gz",
+        "bytes": 3086555,
+        "sha256": "fb86e38d27d4c46c4e2f6d0f7ec9aad7f137dc1b9506c9a7aefcb555ea20ded9",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/03-original-dispatch-order.png",
+      "bytes": 2312148,
+      "sha256": "8ff4e62f0ff0a25d0e791c28585138737b94164fd95913909cd84a6f1c685629",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/8ff4e62f0ff0a25d0e791c28585138737b94164fd95913909cd84a6f1c685629.gz",
+        "bytes": 2312843,
+        "sha256": "a24cc8804e153522b5b75880eff85c10f21471864effcd263b92d0daf346b8a9",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/04-real-battle-caster.png",
+      "bytes": 181982,
+      "sha256": "472dfdca7be1b936962833b572dc4ed02857eed41d27afa89d8e78ecea5698e9",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/472dfdca7be1b936962833b572dc4ed02857eed41d27afa89d8e78ecea5698e9.gz",
+        "bytes": 172117,
+        "sha256": "aa6c0d1dcec00d67f76d1af6209ddf316843e6dcb937912fd5391d3b435048e7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/05-liuyan-state-report-owners-retired.png",
+      "bytes": 264568,
+      "sha256": "36910cadef20165cc9aa3589a498b0469b3567832160039d4622f2e8d9dc5a73",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/36910cadef20165cc9aa3589a498b0469b3567832160039d4622f2e8d9dc5a73.gz",
+        "bytes": 258664,
+        "sha256": "3e5e01e6054677c9c3fe23bdb6fa638b1c4b7d64d4894b9b2046fcd82dc52772",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/28-explicit-end-turn-1.png",
+      "bytes": 268618,
+      "sha256": "2cb51367477b2e3c276da690a7af21dcc5a4b66d52497832c58ee3a6df08eb1d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/2cb51367477b2e3c276da690a7af21dcc5a4b66d52497832c58ee3a6df08eb1d.gz",
+        "bytes": 262917,
+        "sha256": "6e3f99df3ee429425854df413519bc85465a6db62750b5881690d8dd73d6d4df",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/28-explicit-end-turn-2.png",
+      "bytes": 263244,
+      "sha256": "5414738904e0f5ece1b3ef3309fb248564538f3ae156f8a7047c8fdcee27a4a0",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/5414738904e0f5ece1b3ef3309fb248564538f3ae156f8a7047c8fdcee27a4a0.gz",
+        "bytes": 257348,
+        "sha256": "f8eba584a3abaf532dc2d530eb10c1faa60410babc4133a3e8c9b2682738d476",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/28-explicit-end-turn-3.png",
+      "bytes": 264535,
+      "sha256": "c38f46400b827e993bcaab70d73772db761b969b011b219bb9fa97cd685b700f",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c38f46400b827e993bcaab70d73772db761b969b011b219bb9fa97cd685b700f.gz",
+        "bytes": 258630,
+        "sha256": "7af4d2ca1219cd8c9c2b6f1cfb03b15ddc36ca4207df6d6e120f414d5877b54a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/actual-report-1.png",
+      "bytes": 249028,
+      "sha256": "529ffe99970b8b815791fc278bab6dea4a5ec56d3123559579d7e4a0ed14f2f2",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/529ffe99970b8b815791fc278bab6dea4a5ec56d3123559579d7e4a0ed14f2f2.gz",
+        "bytes": 244592,
+        "sha256": "0423d7108b41ef2b2043ae6ac59ac2760bb6c6cdc81b1887a38211587a5c3b33",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/browser-console.json",
+      "bytes": 12529,
+      "sha256": "8f531548e20fc88139fed980447e2c4b27760728c55e47c66c51289ae818c093",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/8f531548e20fc88139fed980447e2c4b27760728c55e47c66c51289ae818c093.gz",
+        "bytes": 1391,
+        "sha256": "d7be68168f36a10904b47b8b3a4faff777ebc2b5c3567c86d3f1c3522c7c823d",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/engine-inputs.json",
+      "bytes": 26463,
+      "sha256": "6878d5ea7d726c0623ba29e19875926ae8957d6a527e9277c46285e58522923d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/6878d5ea7d726c0623ba29e19875926ae8957d6a527e9277c46285e58522923d.gz",
+        "bytes": 872,
+        "sha256": "3ad442fa48e42d2790129d54f0cbdd4c22eb635f46c54f07ba690c1678bbe4fa",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0000-movie-hd.png",
+      "bytes": 54658,
+      "sha256": "4532bbf6a4280f689d6e1d6cc1756f6cabf7480bea383630b1ef76d008dbaec6",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4532bbf6a4280f689d6e1d6cc1756f6cabf7480bea383630b1ef76d008dbaec6.gz",
+        "bytes": 30534,
+        "sha256": "8b38681d1de7596f2672d6370681dd1c2994c82f8f8134b8933edc67c572da6b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0000-movie-lcd.png",
+      "bytes": 5633,
+      "sha256": "f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b.gz",
+        "bytes": 5574,
+        "sha256": "d2a89ca5cee3b399366acb1e334f42fe8476e702bde2328da4d0e5bb6691d13f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0000-movie-native.png",
+      "bytes": 5633,
+      "sha256": "f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b.gz",
+        "bytes": 5574,
+        "sha256": "d2a89ca5cee3b399366acb1e334f42fe8476e702bde2328da4d0e5bb6691d13f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0001-movie-hd.png",
+      "bytes": 54673,
+      "sha256": "ab22253eee7704c4c84482cd41954d8d87ef5d34d455392332fb9606c28e65cf",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ab22253eee7704c4c84482cd41954d8d87ef5d34d455392332fb9606c28e65cf.gz",
+        "bytes": 30409,
+        "sha256": "4c7ebeb6d7cda1652f9c73ab2f0dfc09eb526f0bfba262f60533594dd122c6ee",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0001-movie-lcd.png",
+      "bytes": 5574,
+      "sha256": "fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56.gz",
+        "bytes": 5504,
+        "sha256": "bb4a61cee3f656e02626b7c7bab2a70c0a6457bf3a02d074bbcfe5b0989e4598",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0001-movie-native.png",
+      "bytes": 5574,
+      "sha256": "fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56.gz",
+        "bytes": 5504,
+        "sha256": "bb4a61cee3f656e02626b7c7bab2a70c0a6457bf3a02d074bbcfe5b0989e4598",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0002-movie-hd.png",
+      "bytes": 54658,
+      "sha256": "4532bbf6a4280f689d6e1d6cc1756f6cabf7480bea383630b1ef76d008dbaec6",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4532bbf6a4280f689d6e1d6cc1756f6cabf7480bea383630b1ef76d008dbaec6.gz",
+        "bytes": 30534,
+        "sha256": "8b38681d1de7596f2672d6370681dd1c2994c82f8f8134b8933edc67c572da6b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0002-movie-lcd.png",
+      "bytes": 5633,
+      "sha256": "f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b.gz",
+        "bytes": 5574,
+        "sha256": "d2a89ca5cee3b399366acb1e334f42fe8476e702bde2328da4d0e5bb6691d13f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0002-movie-native.png",
+      "bytes": 5633,
+      "sha256": "f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b.gz",
+        "bytes": 5574,
+        "sha256": "d2a89ca5cee3b399366acb1e334f42fe8476e702bde2328da4d0e5bb6691d13f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0003-movie-hd.png",
+      "bytes": 54673,
+      "sha256": "ab22253eee7704c4c84482cd41954d8d87ef5d34d455392332fb9606c28e65cf",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ab22253eee7704c4c84482cd41954d8d87ef5d34d455392332fb9606c28e65cf.gz",
+        "bytes": 30409,
+        "sha256": "4c7ebeb6d7cda1652f9c73ab2f0dfc09eb526f0bfba262f60533594dd122c6ee",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0003-movie-lcd.png",
+      "bytes": 5574,
+      "sha256": "fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56.gz",
+        "bytes": 5504,
+        "sha256": "bb4a61cee3f656e02626b7c7bab2a70c0a6457bf3a02d074bbcfe5b0989e4598",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0003-movie-native.png",
+      "bytes": 5574,
+      "sha256": "fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56.gz",
+        "bytes": 5504,
+        "sha256": "bb4a61cee3f656e02626b7c7bab2a70c0a6457bf3a02d074bbcfe5b0989e4598",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0004-movie-hd.png",
+      "bytes": 54658,
+      "sha256": "4532bbf6a4280f689d6e1d6cc1756f6cabf7480bea383630b1ef76d008dbaec6",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4532bbf6a4280f689d6e1d6cc1756f6cabf7480bea383630b1ef76d008dbaec6.gz",
+        "bytes": 30534,
+        "sha256": "8b38681d1de7596f2672d6370681dd1c2994c82f8f8134b8933edc67c572da6b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0004-movie-lcd.png",
+      "bytes": 5633,
+      "sha256": "f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b.gz",
+        "bytes": 5574,
+        "sha256": "d2a89ca5cee3b399366acb1e334f42fe8476e702bde2328da4d0e5bb6691d13f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0004-movie-native.png",
+      "bytes": 5633,
+      "sha256": "f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b.gz",
+        "bytes": 5574,
+        "sha256": "d2a89ca5cee3b399366acb1e334f42fe8476e702bde2328da4d0e5bb6691d13f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0005-movie-hd.png",
+      "bytes": 54673,
+      "sha256": "ab22253eee7704c4c84482cd41954d8d87ef5d34d455392332fb9606c28e65cf",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ab22253eee7704c4c84482cd41954d8d87ef5d34d455392332fb9606c28e65cf.gz",
+        "bytes": 30409,
+        "sha256": "4c7ebeb6d7cda1652f9c73ab2f0dfc09eb526f0bfba262f60533594dd122c6ee",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0005-movie-lcd.png",
+      "bytes": 5574,
+      "sha256": "fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56.gz",
+        "bytes": 5504,
+        "sha256": "bb4a61cee3f656e02626b7c7bab2a70c0a6457bf3a02d074bbcfe5b0989e4598",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0005-movie-native.png",
+      "bytes": 5574,
+      "sha256": "fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56.gz",
+        "bytes": 5504,
+        "sha256": "bb4a61cee3f656e02626b7c7bab2a70c0a6457bf3a02d074bbcfe5b0989e4598",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0006-movie-hd.png",
+      "bytes": 54658,
+      "sha256": "4532bbf6a4280f689d6e1d6cc1756f6cabf7480bea383630b1ef76d008dbaec6",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4532bbf6a4280f689d6e1d6cc1756f6cabf7480bea383630b1ef76d008dbaec6.gz",
+        "bytes": 30534,
+        "sha256": "8b38681d1de7596f2672d6370681dd1c2994c82f8f8134b8933edc67c572da6b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0006-movie-lcd.png",
+      "bytes": 5633,
+      "sha256": "f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b.gz",
+        "bytes": 5574,
+        "sha256": "d2a89ca5cee3b399366acb1e334f42fe8476e702bde2328da4d0e5bb6691d13f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0006-movie-native.png",
+      "bytes": 5633,
+      "sha256": "f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b.gz",
+        "bytes": 5574,
+        "sha256": "d2a89ca5cee3b399366acb1e334f42fe8476e702bde2328da4d0e5bb6691d13f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0007-movie-hd.png",
+      "bytes": 54673,
+      "sha256": "ab22253eee7704c4c84482cd41954d8d87ef5d34d455392332fb9606c28e65cf",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ab22253eee7704c4c84482cd41954d8d87ef5d34d455392332fb9606c28e65cf.gz",
+        "bytes": 30409,
+        "sha256": "4c7ebeb6d7cda1652f9c73ab2f0dfc09eb526f0bfba262f60533594dd122c6ee",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0007-movie-lcd.png",
+      "bytes": 5574,
+      "sha256": "fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56.gz",
+        "bytes": 5504,
+        "sha256": "bb4a61cee3f656e02626b7c7bab2a70c0a6457bf3a02d074bbcfe5b0989e4598",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0007-movie-native.png",
+      "bytes": 5574,
+      "sha256": "fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56.gz",
+        "bytes": 5504,
+        "sha256": "bb4a61cee3f656e02626b7c7bab2a70c0a6457bf3a02d074bbcfe5b0989e4598",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/native-liuyan-captures.json",
+      "bytes": 5351469,
+      "sha256": "ba901009da98c4addab8c4b26f76f283e9e72dafe7638d7e626cd4de2f505320",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ba901009da98c4addab8c4b26f76f283e9e72dafe7638d7e626cd4de2f505320.gz",
+        "bytes": 196235,
+        "sha256": "170941983334f31aa333d26676f2422b769101cf9f53cc3cb501c513877bf6a3",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/native-report-observations.json",
+      "bytes": 268844,
+      "sha256": "12bcf94e75ac09523799bd07c22b73ff641886ec3e150fd0856f3703cb45555a",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/12bcf94e75ac09523799bd07c22b73ff641886ec3e150fd0856f3703cb45555a.gz",
+        "bytes": 4191,
+        "sha256": "a1f3f553ef480b2b71ceef24b80b38b237c40f968f2a129e1f075517b49ebe0d",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/observer-errors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+        "bytes": 23,
+        "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/owned-process-samples.jsonl",
+      "bytes": 69843,
+      "sha256": "e250ce17a594974fa8d42d0977542d07fd4282fe2096152687aaec0867dd0bd0",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/e250ce17a594974fa8d42d0977542d07fd4282fe2096152687aaec0867dd0bd0.gz",
+        "bytes": 2349,
+        "sha256": "319c48ac1211087bd818f6dfea1e31a52e6c73de1557fc7065c51d638de0fd8d",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/result.json",
+      "bytes": 17765991,
+      "sha256": "3592d9a0fbcfaed123c16aea42a6e0ecd981ede04b371555b1568a13bf921c3c",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/3592d9a0fbcfaed123c16aea42a6e0ecd981ede04b371555b1568a13bf921c3c.gz",
+        "bytes": 622677,
+        "sha256": "5e1d6992a223c53a9556613ebef0076879ac99e4ad4829c665b3cf3556ff4988",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/skill14-actual-spell-seal-1.png",
+      "bytes": 264568,
+      "sha256": "36910cadef20165cc9aa3589a498b0469b3567832160039d4622f2e8d9dc5a73",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/36910cadef20165cc9aa3589a498b0469b3567832160039d4622f2e8d9dc5a73.gz",
+        "bytes": 258664,
+        "sha256": "3e5e01e6054677c9c3fe23bdb6fa638b1c4b7d64d4894b9b2046fcd82dc52772",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/source-verification.json",
+      "bytes": 435716,
+      "sha256": "0d716f2899a36f74f145ad1ad1f34145349c6c6231a4ea9e97dcd0a8d3926bfe",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/0d716f2899a36f74f145ad1ad1f34145349c6c6231a4ea9e97dcd0a8d3926bfe.gz",
+        "bytes": 69732,
+        "sha256": "4a394bf6b252d31511934a0ad20c54562e13318ab8b09a1feb066484ede1dab0",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/spe-observations.json",
+      "bytes": 6092051,
+      "sha256": "8edce474e264d5816d66bf19ca02ec76286bac262ad3090c81b911556a2bd6c7",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/8edce474e264d5816d66bf19ca02ec76286bac262ad3090c81b911556a2bd6c7.gz",
+        "bytes": 56542,
+        "sha256": "248b4e1183a9543eb2dc4f6a1b6564a924f6fc69a985a3733d23a6401f58f5e1",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-archive-inputs-four-terminal-v1.json",
+      "bytes": 21142,
+      "sha256": "f2d5089dea3ff792613402cd4b18f891b746337fac169bd71893570bef1aa645",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/f2d5089dea3ff792613402cd4b18f891b746337fac169bd71893570bef1aa645.gz",
+        "bytes": 4866,
+        "sha256": "2814881bc4ad5714021c226eccdd703a0df28724962bd0e7569cd8f9fbda7d0d",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-archive-inputs-four-terminal-v2.json",
+      "bytes": 22268,
+      "sha256": "4cff10967540f8e231c0302b3c18b1f3fab1aaa7afd6c167ca688a9b1ab2c942",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4cff10967540f8e231c0302b3c18b1f3fab1aaa7afd6c167ca688a9b1ab2c942.gz",
+        "bytes": 5196,
+        "sha256": "14ff356cb881e424344991942b9e5f5e5106c70758cb6d6d8e0a06ec7aaf3502",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic-fragment-v3.mjs",
+      "bytes": 7955,
+      "sha256": "8c667ef45fd042a4fe694b2207808accee2240f7090273831c6ac1cb1001cfe4",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/8c667ef45fd042a4fe694b2207808accee2240f7090273831c6ac1cb1001cfe4.gz",
+        "bytes": 2727,
+        "sha256": "28e504a9df306f7074b33399afa45514a5c01f82ec19232f8abb41ebd5485652",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic-readonly-preflight-v3/result.json",
+      "bytes": 879004,
+      "sha256": "e0a48b6a326caff1c3416d270582699f35e843915792f4a868675a40bd0b0c4e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/e0a48b6a326caff1c3416d270582699f35e843915792f4a868675a40bd0b0c4e.gz",
+        "bytes": 151849,
+        "sha256": "179581d961c89c312e25783a1b1459ddea9c05aff6a846f74150c1649b1ffecf",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic-runner-final-freeze-v3.json",
+      "bytes": 5389,
+      "sha256": "3c433b04c0f97b8ae0c9113dae39b40b3e2ffa9330540db898822c2377dbb988",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/3c433b04c0f97b8ae0c9113dae39b40b3e2ffa9330540db898822c2377dbb988.gz",
+        "bytes": 2300,
+        "sha256": "18fe72e179f67c44208153225eb9689c16de84e2ed3754ad8b50a63bedd31e4c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic-source-selftests-proof-v3.json",
+      "bytes": 1428,
+      "sha256": "20a760ddf238f713a520a502c0d57d7bed2a7c2f521b4c5df3fe069bfaa1d239",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/20a760ddf238f713a520a502c0d57d7bed2a7c2f521b4c5df3fe069bfaa1d239.gz",
+        "bytes": 762,
+        "sha256": "9c49133248756ee5ff5d8efae5c95600612b50268f7aa10fca4b7f1719a1e1fb",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic-source-selftests-v3.mjs",
+      "bytes": 8184,
+      "sha256": "82740e970e9fd3c48c4c0a67ffb9977b2918a60aa93909cffa2961ce9f46de7a",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/82740e970e9fd3c48c4c0a67ffb9977b2918a60aa93909cffa2961ce9f46de7a.gz",
+        "bytes": 3332,
+        "sha256": "eae3736da006b82972dc2b01592c5b0efd5bdc2b3896dea846403719a4fe6150",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic1080-isolation-source-independent-audit-v1.json",
+      "bytes": 9876,
+      "sha256": "8fc97a82394207afd20887f1d06e06ec795e6fe1e8331e43cc908c927452d522",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/8fc97a82394207afd20887f1d06e06ec795e6fe1e8331e43cc908c927452d522.gz",
+        "bytes": 2921,
+        "sha256": "3b1cc67ec0505ad8c743d4679a043e6a48e3cecf1b09fc4097ff0d0ac8d8ef73",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic1080-isolation-source-readonly-audit-v1.mjs",
+      "bytes": 11498,
+      "sha256": "0eec3ee5f8eb8b04ecffc798592f185638e311373a744141e1a3517809a214aa",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/0eec3ee5f8eb8b04ecffc798592f185638e311373a744141e1a3517809a214aa.gz",
+        "bytes": 4083,
+        "sha256": "765bac16aa4416df224f21fa8129a61b54021e49d6865d9232f873e91f814b98",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic1080-root-historical-exit-v1.json",
+      "bytes": 3700,
+      "sha256": "5ae1ceaaafbf779bd23b79b4936292e5099d9762c78d4bc7fb371d77768f9414",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/5ae1ceaaafbf779bd23b79b4936292e5099d9762c78d4bc7fb371d77768f9414.gz",
+        "bytes": 1053,
+        "sha256": "74a5cf42df27650a3ac68c4130361e18fe752590a56ae8b20a370dd8777bdb62",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic1080-root-isolation-independent-supplement-v1.json",
+      "bytes": 1566,
+      "sha256": "39bd5ef4d2302602c80ebbc7924c73ecf9b61519dcace59e9983ed4d00aee6e8",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/39bd5ef4d2302602c80ebbc7924c73ecf9b61519dcace59e9983ed4d00aee6e8.gz",
+        "bytes": 797,
+        "sha256": "ed126f36bfa52bbd438df2e92d1ae9811c805ce9c2b45d20f3ad6c24c0d08d03",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic1080-terminal-independent-audit-v1.json",
+      "bytes": 18259,
+      "sha256": "3ccc1ded85ea22848e76fa0dc7acf452f495a5faca60887e424811c91c8a5587",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/3ccc1ded85ea22848e76fa0dc7acf452f495a5faca60887e424811c91c8a5587.gz",
+        "bytes": 3790,
+        "sha256": "0965007ff4f693bd741086dce0d6b56f30e741d214ac16cf130861868ba85e88",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic1080-terminal-raw-reader-v1.log",
+      "bytes": 730,
+      "sha256": "e63d8cbf8f32eb8ffb40f90c389b448640ec6d53a037cc75aebbdbe6317b081d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/e63d8cbf8f32eb8ffb40f90c389b448640ec6d53a037cc75aebbdbe6317b081d.gz",
+        "bytes": 387,
+        "sha256": "0580327b94cee331ef51400633e735312bc4346b4d04d654d5c13ce707e781c9",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic1080-terminal-raw-reader-v1.mjs",
+      "bytes": 18619,
+      "sha256": "091de47797e303265ec4afa1ab0890c504226335f98e2011acf575be74ee033d",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/091de47797e303265ec4afa1ab0890c504226335f98e2011acf575be74ee033d.gz",
+        "bytes": 6865,
+        "sha256": "46cedffc1f30118ee574403ec158c997c59b9265dbc1a102fdec3eaf1e17fff4",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic1080-terminal-raw-reader-v2.log",
+      "bytes": 168,
+      "sha256": "b11d2e0850de8a856b95a388b8505dac8ed023d17349bb0de252ecd011c5964a",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/b11d2e0850de8a856b95a388b8505dac8ed023d17349bb0de252ecd011c5964a.gz",
+        "bytes": 156,
+        "sha256": "dbf45c75de8427c3c46c445e9571979e7d607c3ad5ed512610c2e3bd63925239",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-classic1080-verified-historical-owned-union-v1.json",
+      "bytes": 6665,
+      "sha256": "c814941ee3c20c71bf38c6c5f2fb1f37d020e6e9acf5ffd5312a85a37a825a93",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c814941ee3c20c71bf38c6c5f2fb1f37d020e6e9acf5ffd5312a85a37a825a93.gz",
+        "bytes": 1016,
+        "sha256": "9b3f1c764bd3941e120b8156a312084b83eb1193a33b14d73017caa5c0009431",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-components-freeze-v2.json",
+      "bytes": 3576,
+      "sha256": "33cfee86cd48d43febb175d9d72474603a5e5af0e3e1831e7cc7430b383dfc52",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/33cfee86cd48d43febb175d9d72474603a5e5af0e3e1831e7cc7430b383dfc52.gz",
+        "bytes": 1499,
+        "sha256": "a6dbc5256f3003f4910d3fab551474cf4d5eb7ab209165fd363d6a2b8d3e4b04",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-driver-common-source-selftests-proof-v3.json",
+      "bytes": 1788,
+      "sha256": "2905a8314098c5e171c9ba63fc7330a370acfdf9e0b42279fc1d78311b139929",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/2905a8314098c5e171c9ba63fc7330a370acfdf9e0b42279fc1d78311b139929.gz",
+        "bytes": 898,
+        "sha256": "79dc1f30daf784d26ac819f66110b0d1b9f5b3aace610b8f6ad3581203c0d84a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-driver-delta-v1.json",
+      "bytes": 29593,
+      "sha256": "8ca968a1cdd30e24e25295a2b6c82574ae01dc65577aa60a53c16760cf96d68c",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/8ca968a1cdd30e24e25295a2b6c82574ae01dc65577aa60a53c16760cf96d68c.gz",
+        "bytes": 5152,
+        "sha256": "8c259c805254b647054945cd020d571d74957a4907cb625a361b9f3dc9e5006a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-driver-delta-v2.json",
+      "bytes": 5107,
+      "sha256": "055200b304a51c9d07071d2c9d80ec9bdaff8d2343e871ea65cdc8db7ac291b4",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/055200b304a51c9d07071d2c9d80ec9bdaff8d2343e871ea65cdc8db7ac291b4.gz",
+        "bytes": 1871,
+        "sha256": "50c21146213fe4c005efdcf5270d9e5e60eba9ed939d081250781875aeafee6f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-driver-delta-v3.json",
+      "bytes": 12341,
+      "sha256": "d94dc8538c5d6a1527e5e154312923627eb6bdefd7662e5cb2237f85f848b3b8",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/d94dc8538c5d6a1527e5e154312923627eb6bdefd7662e5cb2237f85f848b3b8.gz",
+        "bytes": 4029,
+        "sha256": "d58b1dd7d6b9812fea448be3c60091f29ce897db8c88e5aae16c4d591ed4e968",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-driver-source-selftests-proof-final-v2.json",
+      "bytes": 1788,
+      "sha256": "6ed1385956b5a6748a8ecc0208492154d4a5802afe6e6e03ff8e0762c4645929",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/6ed1385956b5a6748a8ecc0208492154d4a5802afe6e6e03ff8e0762c4645929.gz",
+        "bytes": 899,
+        "sha256": "621b4c62f6ad9b179c0d606f08f95f5f43a22a1199a9fc94f07f27f92a1cf55b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-driver-source-selftests-v2.mjs",
+      "bytes": 8159,
+      "sha256": "c3ee6f412423fdeac34a680b5a9bc0c2bd2da1a3943cdf004ecce6922d8a298a",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c3ee6f412423fdeac34a680b5a9bc0c2bd2da1a3943cdf004ecce6922d8a298a.gz",
+        "bytes": 3315,
+        "sha256": "d47661b8a3ae2565c1b3611e6ffefa5e5ccd82b608eb78eed5b3ecc5a57aecef",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-installed1080-isolation-source-independent-audit-v1.json",
+      "bytes": 9876,
+      "sha256": "99fdbd964bf6f8c6534a3566e52045815f3979dd65f1575bb3b969e298dc383b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/99fdbd964bf6f8c6534a3566e52045815f3979dd65f1575bb3b969e298dc383b.gz",
+        "bytes": 2926,
+        "sha256": "f47fb6dfafdc8da58cd07ee901378bbc1d739fbc761591da68d500963fc5c996",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-installed1080-isolation-source-readonly-audit-v1.mjs",
+      "bytes": 10959,
+      "sha256": "15572c904286202da4b1f7c83e991468cf50f8bc561495e1e49102435b5cac7b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/15572c904286202da4b1f7c83e991468cf50f8bc561495e1e49102435b5cac7b.gz",
+        "bytes": 3922,
+        "sha256": "74138ccdba6a31ce463ffcffc03ad575d91f4346cfa2595f3e2bcc552f870392",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-installed1080-root-historical-exit-v1.json",
+      "bytes": 4444,
+      "sha256": "80f399c3ba0dd53397bfab66d3e4b70f6c0247e98895e5a5e89c581a42272eed",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/80f399c3ba0dd53397bfab66d3e4b70f6c0247e98895e5a5e89c581a42272eed.gz",
+        "bytes": 1105,
+        "sha256": "af2582a910b4069964e558684e1d50e39a4bd7a56f58501740101511250f13fd",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-installed1080-root-isolation-independent-supplement-v1.json",
+      "bytes": 2056,
+      "sha256": "79e48b6fa1b70d66e38012ed3d8a77c179327c30459cdd6399bb43ce31d5b6b0",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/79e48b6fa1b70d66e38012ed3d8a77c179327c30459cdd6399bb43ce31d5b6b0.gz",
+        "bytes": 1026,
+        "sha256": "732c092836dcdd9ffe432235983376c217e2e1e7fb4b2ec91c96fb7f1e334b62",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-installed1080-terminal-independent-audit-v1.json",
+      "bytes": 16348,
+      "sha256": "0f59f5c6837615aa1175968f4ee0c59f7688c6163274dc7b7a8c8b98e9af20a2",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/0f59f5c6837615aa1175968f4ee0c59f7688c6163274dc7b7a8c8b98e9af20a2.gz",
+        "bytes": 3419,
+        "sha256": "c0b26607ea8134e8304cd2eac5586698d41fa8e6182052e8b5a5b7b8e5117e5c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-installed1080-verified-historical-owned-union-v1.json",
+      "bytes": 8124,
+      "sha256": "2b85d33ddc61393e8fdb26fbcef7529735518c0b5e20e82931bb617e55d94720",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/2b85d33ddc61393e8fdb26fbcef7529735518c0b5e20e82931bb617e55d94720.gz",
+        "bytes": 1235,
+        "sha256": "9b19a234ab9139546d332f564b85133824d68344e49f2d2c8445074154543d12",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-installed720-isolation-source-independent-audit-v1.json",
+      "bytes": 9822,
+      "sha256": "266f7a353cd67a162ef03a734429e0571afdc1093f966f781496a6e6a7d6b236",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/266f7a353cd67a162ef03a734429e0571afdc1093f966f781496a6e6a7d6b236.gz",
+        "bytes": 2922,
+        "sha256": "48d1188ebbbce9e644347b5b521185f3da2dfebbdbc3279674ac5fa807c3a7dc",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-installed720-isolation-source-readonly-audit-v1.mjs",
+      "bytes": 11029,
+      "sha256": "52046a8bc9a4a07501329d61f1d2e592694635713692088425f8cf1dd1a7b754",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/52046a8bc9a4a07501329d61f1d2e592694635713692088425f8cf1dd1a7b754.gz",
+        "bytes": 3949,
+        "sha256": "b9627fb8cebffbf3f74bfebb51f9e5c13b8949069e18b72379085d7238d59231",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-installed720-root-historical-exit-v1.json",
+      "bytes": 3704,
+      "sha256": "22ebb99dee0b150a1bcadf031bfe9a3e01e04e87f9af650b5516093269230844",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/22ebb99dee0b150a1bcadf031bfe9a3e01e04e87f9af650b5516093269230844.gz",
+        "bytes": 1056,
+        "sha256": "7f93ddb5bd454d5bd4430486e06906a2685645c784fc0c23a7874615bd669f35",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-installed720-root-isolation-independent-supplement-v1.json",
+      "bytes": 1575,
+      "sha256": "0736e1c7deb7d3df8e5044a6a3731f61d3b0e7610c8bd05e4a5cb0c6b748d072",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/0736e1c7deb7d3df8e5044a6a3731f61d3b0e7610c8bd05e4a5cb0c6b748d072.gz",
+        "bytes": 800,
+        "sha256": "1f404a187a7425bc8ea258fe9469b6cfca11bcb2cd39abe7bd3278f3ade92172",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-installed720-terminal-independent-audit-v1.json",
+      "bytes": 16358,
+      "sha256": "5907fcf68d79d19ea1be4a09922be41acd25db4d6f15048a844018ace55f5f21",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/5907fcf68d79d19ea1be4a09922be41acd25db4d6f15048a844018ace55f5f21.gz",
+        "bytes": 3444,
+        "sha256": "aeebf0c97b10e35084b26454815840fbae870b9a6dc34d6e98ec2cf06da2c5f4",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-installed720-verified-historical-owned-union-v1.json",
+      "bytes": 6877,
+      "sha256": "ef756340aac8115c41a1f757b7cadd28b07fe8d478385b5867471135580a88a4",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ef756340aac8115c41a1f757b7cadd28b07fe8d478385b5867471135580a88a4.gz",
+        "bytes": 1122,
+        "sha256": "0cbd0ab0d2a6a3833f63f010dc56b033d918b03fc0aa8b2ce242d5ea2d9ddec3",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-missing1080-isolation-source-independent-audit-v1.json",
+      "bytes": 10030,
+      "sha256": "cb96cae63556ec9c19a0f5ada37afdbac590dbfa1bf06fa93e6cc76b2cbd5e7c",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/cb96cae63556ec9c19a0f5ada37afdbac590dbfa1bf06fa93e6cc76b2cbd5e7c.gz",
+        "bytes": 3018,
+        "sha256": "4d597af4fd2e72b666b9efac52488828e291507235e9c972e6ddc41b039b2df1",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-missing1080-isolation-source-readonly-audit-v1.mjs",
+      "bytes": 11569,
+      "sha256": "ebb90b46f00cafa7fd3187099e97dd722e41631010b159075c311e56ae5412b6",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ebb90b46f00cafa7fd3187099e97dd722e41631010b159075c311e56ae5412b6.gz",
+        "bytes": 4132,
+        "sha256": "3c232805ea0613417640f6ffec2b66b35c63c7a381f67603b4daa09c5d3ad6c2",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-missing1080-root-historical-exit-v1.json",
+      "bytes": 3700,
+      "sha256": "eb2944c7310c048c49eda8e5cd2d39cef7c9571076a854c6f70f059cae6da1e1",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/eb2944c7310c048c49eda8e5cd2d39cef7c9571076a854c6f70f059cae6da1e1.gz",
+        "bytes": 1060,
+        "sha256": "84689a52155580bf636897985ad74ed25fc7342a42dd2e290a9c22b24d9c877c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-missing1080-root-isolation-independent-supplement-v1.json",
+      "bytes": 1576,
+      "sha256": "70827032d131af078fc035211a59e7954b0745e6a686fd2c7b49520d34f798d8",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/70827032d131af078fc035211a59e7954b0745e6a686fd2c7b49520d34f798d8.gz",
+        "bytes": 802,
+        "sha256": "f817ae85af6b3bc6453b2422c6d007c90280effd402a5a79e94d7646b6a1821c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-missing1080-terminal-independent-audit-v1.json",
+      "bytes": 16633,
+      "sha256": "a82c0322508f6f0e2a747ca006d6d3af660ae1a00c5beb22312abdb494ecc1cd",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/a82c0322508f6f0e2a747ca006d6d3af660ae1a00c5beb22312abdb494ecc1cd.gz",
+        "bytes": 3569,
+        "sha256": "af142f2661cf2e12e57440f07b3dd7d16d8b20d49d1bc07492f43a3500f6ed5d",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-missing1080-verified-historical-owned-union-v1.json",
+      "bytes": 6836,
+      "sha256": "ef3bc355f94c20e8d386108ed31ea29a76fc5e2dfa0c08b24d1de5e5e37539ba",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ef3bc355f94c20e8d386108ed31ea29a76fc5e2dfa0c08b24d1de5e5e37539ba.gz",
+        "bytes": 1116,
+        "sha256": "d189fa8cc3165a88fabbe0d28776ad15f9378022d4910fff05506e19b073a47b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-observer-v2.mjs",
+      "bytes": 14760,
+      "sha256": "48d1188f451423a4bade23bd4250357bbf241c6eda3b8535538660835541f6e5",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/48d1188f451423a4bade23bd4250357bbf241c6eda3b8535538660835541f6e5.gz",
+        "bytes": 4835,
+        "sha256": "09e64069ca0d1abc1951eec26128f0bf33f8f2ba1f774b45c194e216fcf994eb",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-pixels-v1.mjs",
+      "bytes": 10715,
+      "sha256": "fb543d5b5393ee2adfc1cca3748aa6f947e7c442587d75e35f3f55d73fd71c32",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fb543d5b5393ee2adfc1cca3748aa6f947e7c442587d75e35f3f55d73fd71c32.gz",
+        "bytes": 3925,
+        "sha256": "6c9447f751422aba06dc7bc4f07609dd0af815be9f4ab03ad0452be9cc668e36",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-readonly-preflight-final-v2-console.log",
+      "bytes": 329,
+      "sha256": "275ebe9b240fdd8c5d7415707e56358c1e3b25e5b1eedc91b819408e86f89a25",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/275ebe9b240fdd8c5d7415707e56358c1e3b25e5b1eedc91b819408e86f89a25.gz",
+        "bytes": 261,
+        "sha256": "5b697d46b312a509bd17b964feda859ffab98d3e67339bdc3d63fb984b5d1e61",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-readonly-preflight-final-v2/result.json",
+      "bytes": 878961,
+      "sha256": "00461416efc7fe24308f2ac306d2192bf9e26efaa2038a3bbff22a35dfe62d08",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/00461416efc7fe24308f2ac306d2192bf9e26efaa2038a3bbff22a35dfe62d08.gz",
+        "bytes": 151814,
+        "sha256": "72e92693250ac07ef048c2b3adb5115faf2d0918f521b252f112adeba64fd82f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-readonly-preflight-final-v2/source-verification.json",
+      "bytes": 435716,
+      "sha256": "0d716f2899a36f74f145ad1ad1f34145349c6c6231a4ea9e97dcd0a8d3926bfe",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/0d716f2899a36f74f145ad1ad1f34145349c6c6231a4ea9e97dcd0a8d3926bfe.gz",
+        "bytes": 69732,
+        "sha256": "4a394bf6b252d31511934a0ad20c54562e13318ab8b09a1feb066484ede1dab0",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-runtime-archive-builder-freeze-v3.json",
+      "bytes": 7410,
+      "sha256": "3abc9fabd0834977c2bc29d4b238602868f0ddb56fa30d52556a8193395d3c4e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/3abc9fabd0834977c2bc29d4b238602868f0ddb56fa30d52556a8193395d3c4e.gz",
+        "bytes": 2178,
+        "sha256": "f1f0479db0b928bd3f22fd001eb8d26e326107e58659f8c46a407cc251fadcda",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-runtime-final-freeze-v2.json",
+      "bytes": 5970,
+      "sha256": "230a6b806cedf9e4acd835f7e0e541042f1f773a916156e4166434706f07c604",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/230a6b806cedf9e4acd835f7e0e541042f1f773a916156e4166434706f07c604.gz",
+        "bytes": 2309,
+        "sha256": "3577f9a33afc3246ecfaa2934781bd2a6f63a51e725b99a7e6cb4e4d78ff7c07",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-runtime-oracle-selftests-classic-v3.mjs",
+      "bytes": 29760,
+      "sha256": "a871e184dd596322d691063241c184e2fc67d696459f29e2153f8da26d12500c",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/a871e184dd596322d691063241c184e2fc67d696459f29e2153f8da26d12500c.gz",
+        "bytes": 9575,
+        "sha256": "9261bc8ee1499212611d79f6a8b69ac00a75b661f7f56f93fe62ed2979a56fdd",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-runtime-oracle-selftests-proof-classic-v3.json",
+      "bytes": 7702,
+      "sha256": "0bc07d55aabe9f2aabd89d304c486951093cfdce5ce6eaacdb9855ac1e251281",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/0bc07d55aabe9f2aabd89d304c486951093cfdce5ce6eaacdb9855ac1e251281.gz",
+        "bytes": 2267,
+        "sha256": "d7575592a4deea2633d825a134c60c290c77b213bff274b0fc2265c4891b645e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-runtime-oracle-selftests-proof-v2.json",
+      "bytes": 7547,
+      "sha256": "0a959e501b0f59c818f02107bdd59caf243383efc01c79ee2c93a2da2968ce2b",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/0a959e501b0f59c818f02107bdd59caf243383efc01c79ee2c93a2da2968ce2b.gz",
+        "bytes": 2228,
+        "sha256": "e1e537119722a94d01c0d2cf7c71272cce783ae3b715b37f5df58f616ce3c69f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-runtime-oracle-selftests-v2.log",
+      "bytes": 130,
+      "sha256": "6fa4206615ffe163795d47c203a219ff27a281d057b47fac2800548c8d596a36",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/6fa4206615ffe163795d47c203a219ff27a281d057b47fac2800548c8d596a36.gz",
+        "bytes": 134,
+        "sha256": "08a1cb36964787799f3e024f9d893396d088a377c4891a0abb78afbc038d4c70",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-runtime-oracle-v2.mjs",
+      "bytes": 23720,
+      "sha256": "5a3e4bc1fb43f83f24c99b08cdfab0e46a04c5381d75679a9b22446b6c8853fd",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/5a3e4bc1fb43f83f24c99b08cdfab0e46a04c5381d75679a9b22446b6c8853fd.gz",
+        "bytes": 8076,
+        "sha256": "78e7d40c0cf37aa31c0b29b598047fe927b6dc10dc7c982101995e7adb09c93f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-terminal-raw-reader-v1-field-failure.json",
+      "bytes": 583,
+      "sha256": "d26a3639cdb0b921f77c380c00ec41a82fdc5787aa9e434111bf860b3e140134",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/d26a3639cdb0b921f77c380c00ec41a82fdc5787aa9e434111bf860b3e140134.gz",
+        "bytes": 365,
+        "sha256": "cf8e47d501f49d6fdbdc5108e0704de81154bac0b2f7829057025ca89ca2b8f1",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-terminal-raw-reader-v1.mjs",
+      "bytes": 15038,
+      "sha256": "b5b0e65526a80bf4e6153bf21b68b2c9ae53ee83538abe2caf032b573b755ce2",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/b5b0e65526a80bf4e6153bf21b68b2c9ae53ee83538abe2caf032b573b755ce2.gz",
+        "bytes": 5822,
+        "sha256": "360d7a6fa26956225f4e280b545443d1165af6cfe4d280b4083a65e442fadcca",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-terminal-raw-reader-v2.log",
+      "bytes": 170,
+      "sha256": "a1f32c8d694875ff34546ad47becf8e2ee1f48d9cc7032183fe4246378bd45e2",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/a1f32c8d694875ff34546ad47becf8e2ee1f48d9cc7032183fe4246378bd45e2.gz",
+        "bytes": 159,
+        "sha256": "c84917e66b9c12d593a16e35d855e8de421d1874ab24b9798ace9f10d7d9bc70",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-three-terminal-evidence-review-supplement-v1.json",
+      "bytes": 7126,
+      "sha256": "687518deb89dfc98b0f4fdf8b675b126e71cef9ab245f78377c7c168c2fd2c72",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/687518deb89dfc98b0f4fdf8b675b126e71cef9ab245f78377c7c168c2fd2c72.gz",
+        "bytes": 2205,
+        "sha256": "51782070667e7b249c1c2e937563bdc7c2ed32a6eec30e4247a109e38c45444f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+      "bytes": 8261128,
+      "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1.gz",
+        "bytes": 5571240,
+        "sha256": "76196e3985ecae1efdfaadc401006c0d3becf745c23660ec1b0f756568389597",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "index.html",
+      "bytes": 7515,
+      "sha256": "470e4ea8f9f785a9c36d15d41fb479bdc16c8475660f7ec199d7ea8b0d459744",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/470e4ea8f9f785a9c36d15d41fb479bdc16c8475660f7ec199d7ea8b0d459744.gz",
+        "bytes": 2164,
+        "sha256": "f685b864bfc89fa483dd7d0d55441ffdc6992330ab3f9822e4e4da35826fbf9e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 16650,
+      "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a.gz",
+        "bytes": 4597,
+        "sha256": "658c834865c37dcd23cd62ec549059b2381a79ae3072b5a36702298c61836a49",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/baye.js",
+      "bytes": 192446,
+      "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643.gz",
+        "bytes": 48013,
+        "sha256": "bee56eb8e509d56baf74c94814ff9c95f48b33839eb225b2bb18327a186c1121",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/baye.wasm",
+      "bytes": 4535346,
+      "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e.gz",
+        "bytes": 2499042,
+        "sha256": "6f18970aff4dbb926b850adad6a48b712c63196f55182e452960658d920e4e22",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/baye.wasm.map",
+      "bytes": 29983,
+      "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e.gz",
+        "bytes": 8467,
+        "sha256": "90b004c09c298b5b2e54a21690d9a96df0623c0a52a3fd6b0520e1899b4c0ff2",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 144883,
+      "sha256": "b41e70e8552bd98ea75c1c1ee7d5b4c9289598d820865e1f0c5afe15659799a4",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/b41e70e8552bd98ea75c1c1ee7d5b4c9289598d820865e1f0c5afe15659799a4.gz",
+        "bytes": 26861,
+        "sha256": "1b40e832141085d86b7b0e898cbd1ef4c73b5ecef76b961eae28179c5fcfc696",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 159807,
+      "sha256": "15676c6784b34158bf93fe27d574df25bcaaf7f51fbe6438609d5b8972b86e54",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/15676c6784b34158bf93fe27d574df25bcaaf7f51fbe6438609d5b8972b86e54.gz",
+        "bytes": 34457,
+        "sha256": "8a41e67f5fd9cadff95ca232939565501d90bdcf12f14c43ae90b9f7b9ab298a",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 90052,
+      "sha256": "10042adadaec6897da4343aa30fdda0f03cb96ecd9c55804794ccf7cd70efd2a",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/10042adadaec6897da4343aa30fdda0f03cb96ecd9c55804794ccf7cd70efd2a.gz",
+        "bytes": 17783,
+        "sha256": "9602029c2d024f2468165132392d521236dbab4112cc8834a4bb1ff1c62468a5",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e.gz",
+        "bytes": 85983,
+        "sha256": "91b23dccece50c3f83bf0d613622b8b328bb4a128c805fa9f779249d0d61c441",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "pc.html",
+      "bytes": 27413,
+      "sha256": "ec96f5c1414f110d98aa4a496048b10d928d3d2f98a49a49fa4a79d034dc8768",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/ec96f5c1414f110d98aa4a496048b10d928d3d2f98a49a49fa4a79d034dc8768.gz",
+        "bytes": 6359,
+        "sha256": "1cb24b12b5829a8cba10977c1db39e58280b4a9de7b460c6d7b357a0e3166377",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "scripts/test-hd-render-visibility.mjs",
+      "bytes": 49313,
+      "sha256": "710980ddfa3ae820b13902b664103061417b7ee4f1a57759d25a8bc6f34317d7",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/710980ddfa3ae820b13902b664103061417b7ee4f1a57759d25a8bc6f34317d7.gz",
+        "bytes": 11979,
+        "sha256": "3a7b1f2e9e680b6ede3864588b9a547b2c4bab342a5c1952b2f921e1a48f9bae",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-runtime-archive-final-v4/runtime-index.json",
+      "bytes": 151950,
+      "sha256": "b77f1ec5e0970b2a4d1723c55d1b8cebc772d6690fc0ff71f901fc3b5ee63eac",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/b77f1ec5e0970b2a4d1723c55d1b8cebc772d6690fc0ff71f901fc3b5ee63eac.gz",
+        "bytes": 21905,
+        "sha256": "8a1bc2b4f011f55b495e4966298c644a956fa34b7c2da162b5997d0dcfa033c9",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-runtime-archive-final-v4/record.json",
+      "bytes": 10135,
+      "sha256": "fe595c764a5c3923d800ddd16c1c38c57d0cefe508db6ebcdf680c3fa79fa17c",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/fe595c764a5c3923d800ddd16c1c38c57d0cefe508db6ebcdf680c3fa79fa17c.gz",
+        "bytes": 2302,
+        "sha256": "bae1fe6d1d57f45c0d959886a38364aa845012b916b0a23c10c388de02a6cb7f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-zhoufeng-runtime-archive-builder-freeze-v4.json",
+      "bytes": 3685,
+      "sha256": "2512ad9701c86d009ba776f84bca49b9e430edbebe38c3e07e7b1856f196004c",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/2512ad9701c86d009ba776f84bca49b9e430edbebe38c3e07e7b1856f196004c.gz",
+        "bytes": 1270,
+        "sha256": "c19c1aeaccb2fd0c17175ba0de2ea266d0bf7c55cb5a04a573508542e0241f09",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-archive-v4-check-only-root-v1.json",
+      "bytes": 5429,
+      "sha256": "4dd1bac896338136c92b03397b95deb96df5507d423a2fc9560c063e8e02518f",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/4dd1bac896338136c92b03397b95deb96df5507d423a2fc9560c063e8e02518f.gz",
+        "bytes": 1415,
+        "sha256": "16225d267df55e2ea3a77124ad0381f0708462b8f49754b06f7d0f2d0bdbc2be",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-archive-v4-publish-root-v1.json",
+      "bytes": 5852,
+      "sha256": "07d52589d9f4d5bf1717d943db286a3950c7e8fdfeaf739ad44a6acdc280353c",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/07d52589d9f4d5bf1717d943db286a3950c7e8fdfeaf739ad44a6acdc280353c.gz",
+        "bytes": 1557,
+        "sha256": "647708093b156ce502dab648bb01f090804324291e1302cc504fae55abf7c49e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-archive-v4-check-only-root-v1.log",
+      "bytes": 3267,
+      "sha256": "127ac3b5bfd13dd01eed01114b3cd9b7bfda7de2d0208f04e5f8e6371dcd709c",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/127ac3b5bfd13dd01eed01114b3cd9b7bfda7de2d0208f04e5f8e6371dcd709c.gz",
+        "bytes": 972,
+        "sha256": "2bc11dd2c7297c28601dcf2562813dc7cd76dbecc8abf955a07ba76f523577e3",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r30-archive-v4-publish-root-v1.log",
+      "bytes": 3623,
+      "sha256": "81e8bbac5a6a222facf33ab793d68e9f07368f915a55ad8bd8a329669b6142c1",
+      "archive": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/raw/81e8bbac5a6a222facf33ab793d68e9f07368f915a55ad8bd8a329669b6142c1.gz",
+        "bytes": 1120,
+        "sha256": "395b4080c14829ab8a29fb8334e373802135d630505753b4819f31fd66ed0532",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    }
+  ],
+  "selectedPng": [
+    {
+      "scenario": "installed1080",
+      "role": "frame0-native",
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0000-movie-native.png",
+      "bytes": 5670,
+      "sha256": "fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/000-installed1080-frame0-native.png",
+        "bytes": 5670,
+        "sha256": "fd7e0267df3e03220a14b05dce9f8eba9fbac1326af02dd238333a0a7b511672"
+      }
+    },
+    {
+      "scenario": "installed1080",
+      "role": "frame0-hd",
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0000-movie-hd.png",
+      "bytes": 1171003,
+      "sha256": "7bb63ee74b3bcebdee443cded1265bf65c5902ee0eedd78091c30b4dd69fb096",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/001-installed1080-frame0-hd.png",
+        "bytes": 1171003,
+        "sha256": "7bb63ee74b3bcebdee443cded1265bf65c5902ee0eedd78091c30b4dd69fb096"
+      }
+    },
+    {
+      "scenario": "installed1080",
+      "role": "frame1-native",
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0001-movie-native.png",
+      "bytes": 5603,
+      "sha256": "c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/002-installed1080-frame1-native.png",
+        "bytes": 5603,
+        "sha256": "c8d6f410a6f2b2fc0625451c58a575333e4fe0246c3bbc26f97b69bdeee333fb"
+      }
+    },
+    {
+      "scenario": "installed1080",
+      "role": "frame1-hd",
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/liuyan-0001-movie-hd.png",
+      "bytes": 1192754,
+      "sha256": "1e4eb3de0aabd25b99418194c6b9b4a467cb24456867ec32fbc91a9e6e4d42be",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/003-installed1080-frame1-hd.png",
+        "bytes": 1192754,
+        "sha256": "1e4eb3de0aabd25b99418194c6b9b4a467cb24456867ec32fbc91a9e6e4d42be"
+      }
+    },
+    {
+      "scenario": "installed1080",
+      "role": "actual-report-1",
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/actual-report-1.png",
+      "bytes": 249139,
+      "sha256": "d4a2331512c30b3f034217004cba164fe676a2e5c04940568b87bccad98031bf",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/004-installed1080-actual-report-1.png",
+        "bytes": 249139,
+        "sha256": "d4a2331512c30b3f034217004cba164fe676a2e5c04940568b87bccad98031bf"
+      }
+    },
+    {
+      "scenario": "installed1080",
+      "role": "05-liuyan-state-report-owners-retired",
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/05-liuyan-state-report-owners-retired.png",
+      "bytes": 263964,
+      "sha256": "c51fd13ee248bd5075fe1733c245b1e53fbda45df7645f93026ccacf3e6d4c85",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/005-installed1080-05-liuyan-state-report-owners-retired.png",
+        "bytes": 263964,
+        "sha256": "c51fd13ee248bd5075fe1733c245b1e53fbda45df7645f93026ccacf3e6d4c85"
+      }
+    },
+    {
+      "scenario": "installed720",
+      "role": "frame0-native",
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0000-movie-native.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/006-installed720-frame0-native.png",
+        "bytes": 5625,
+        "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42"
+      }
+    },
+    {
+      "scenario": "installed720",
+      "role": "frame0-hd",
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0000-movie-hd.png",
+      "bytes": 1170943,
+      "sha256": "599c5bf5f08bc103de91da66988d93a4b4096d6dcf724d989cab74081184cc4e",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/007-installed720-frame0-hd.png",
+        "bytes": 1170943,
+        "sha256": "599c5bf5f08bc103de91da66988d93a4b4096d6dcf724d989cab74081184cc4e"
+      }
+    },
+    {
+      "scenario": "installed720",
+      "role": "frame1-native",
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0001-movie-native.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/008-installed720-frame1-native.png",
+        "bytes": 5566,
+        "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32"
+      }
+    },
+    {
+      "scenario": "installed720",
+      "role": "frame1-hd",
+      "path": "build/r30-zhoufeng-actual-v1-installed720/liuyan-0001-movie-hd.png",
+      "bytes": 1192597,
+      "sha256": "601ca53b02a59250df3ab698a6ab2e17d18747b8fed8674e7d5bb9ac5a4fe09d",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/009-installed720-frame1-hd.png",
+        "bytes": 1192597,
+        "sha256": "601ca53b02a59250df3ab698a6ab2e17d18747b8fed8674e7d5bb9ac5a4fe09d"
+      }
+    },
+    {
+      "scenario": "installed720",
+      "role": "actual-report-1",
+      "path": "build/r30-zhoufeng-actual-v1-installed720/actual-report-1.png",
+      "bytes": 170056,
+      "sha256": "81aa612cc7cd8c13a60a76b83c02621a935f657ffc7a7042def41d53d60a937a",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/010-installed720-actual-report-1.png",
+        "bytes": 170056,
+        "sha256": "81aa612cc7cd8c13a60a76b83c02621a935f657ffc7a7042def41d53d60a937a"
+      }
+    },
+    {
+      "scenario": "installed720",
+      "role": "05-liuyan-state-report-owners-retired",
+      "path": "build/r30-zhoufeng-actual-v1-installed720/05-liuyan-state-report-owners-retired.png",
+      "bytes": 186982,
+      "sha256": "7ba8e40173093f1e2492390bd5deb64e73b72a10bad8b7d0cfc111cb3ebbecdb",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/011-installed720-05-liuyan-state-report-owners-retired.png",
+        "bytes": 186982,
+        "sha256": "7ba8e40173093f1e2492390bd5deb64e73b72a10bad8b7d0cfc111cb3ebbecdb"
+      }
+    },
+    {
+      "scenario": "missing1080",
+      "role": "frame0-native",
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0000-movie-native.png",
+      "bytes": 5633,
+      "sha256": "f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/012-missing1080-frame0-native.png",
+        "bytes": 5633,
+        "sha256": "f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b"
+      }
+    },
+    {
+      "scenario": "missing1080",
+      "role": "frame0-lcd",
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0000-movie-lcd.png",
+      "bytes": 5633,
+      "sha256": "f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/013-missing1080-frame0-lcd.png",
+        "bytes": 5633,
+        "sha256": "f101a2239c28dc73fd1998aeedd6b9f67a9ad575d1307ee94d548bb21156ca2b"
+      }
+    },
+    {
+      "scenario": "missing1080",
+      "role": "frame1-native",
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0001-movie-native.png",
+      "bytes": 5574,
+      "sha256": "fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/014-missing1080-frame1-native.png",
+        "bytes": 5574,
+        "sha256": "fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56"
+      }
+    },
+    {
+      "scenario": "missing1080",
+      "role": "frame1-lcd",
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/liuyan-0001-movie-lcd.png",
+      "bytes": 5574,
+      "sha256": "fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/015-missing1080-frame1-lcd.png",
+        "bytes": 5574,
+        "sha256": "fed894edbadc0a87987b61cae03fc2766ee4ba5ab63f8066ac34a428a3e42d56"
+      }
+    },
+    {
+      "scenario": "missing1080",
+      "role": "actual-report-1",
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/actual-report-1.png",
+      "bytes": 249028,
+      "sha256": "529ffe99970b8b815791fc278bab6dea4a5ec56d3123559579d7e4a0ed14f2f2",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/016-missing1080-actual-report-1.png",
+        "bytes": 249028,
+        "sha256": "529ffe99970b8b815791fc278bab6dea4a5ec56d3123559579d7e4a0ed14f2f2"
+      }
+    },
+    {
+      "scenario": "missing1080",
+      "role": "05-liuyan-state-report-owners-retired",
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/05-liuyan-state-report-owners-retired.png",
+      "bytes": 264568,
+      "sha256": "36910cadef20165cc9aa3589a498b0469b3567832160039d4622f2e8d9dc5a73",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/017-missing1080-05-liuyan-state-report-owners-retired.png",
+        "bytes": 264568,
+        "sha256": "36910cadef20165cc9aa3589a498b0469b3567832160039d4622f2e8d9dc5a73"
+      }
+    },
+    {
+      "scenario": "classic1080",
+      "role": "frame0-native",
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0000-movie-native.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/018-classic1080-frame0-native.png",
+        "bytes": 5625,
+        "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42"
+      }
+    },
+    {
+      "scenario": "classic1080",
+      "role": "frame0-lcd",
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0000-movie-lcd.png",
+      "bytes": 5625,
+      "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/019-classic1080-frame0-lcd.png",
+        "bytes": 5625,
+        "sha256": "4cda85a1eab6af3fef70e0108216d0281a7246a8764bf575ba2b281ac79c4a42"
+      }
+    },
+    {
+      "scenario": "classic1080",
+      "role": "frame1-native",
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0001-movie-native.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/020-classic1080-frame1-native.png",
+        "bytes": 5566,
+        "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32"
+      }
+    },
+    {
+      "scenario": "classic1080",
+      "role": "frame1-lcd",
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/liuyan-0001-movie-lcd.png",
+      "bytes": 5566,
+      "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/021-classic1080-frame1-lcd.png",
+        "bytes": 5566,
+        "sha256": "74e5a1c982a3cfaa51eac25493221537e39e2ecd74f54ac1660865ed168b7c32"
+      }
+    },
+    {
+      "scenario": "classic1080",
+      "role": "after-cast-report-retirement",
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/skill14-actual-spell-seal-1.png",
+      "bytes": 263951,
+      "sha256": "544838b39d73edbb158eafc627d32339cbc50e2c677b9ecebffe68817af2961e",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/022-classic1080-after-cast-report-retirement.png",
+        "bytes": 263951,
+        "sha256": "544838b39d73edbb158eafc627d32339cbc50e2c677b9ecebffe68817af2961e"
+      }
+    },
+    {
+      "scenario": "classic1080",
+      "role": "all-owners-retired",
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/05-liuyan-state-report-owners-retired.png",
+      "bytes": 263951,
+      "sha256": "544838b39d73edbb158eafc627d32339cbc50e2c677b9ecebffe68817af2961e",
+      "preview": {
+        "path": "docs/validation/m4-zhoufeng-runtime-20261010/preview/023-classic1080-all-owners-retired.png",
+        "bytes": 263951,
+        "sha256": "544838b39d73edbb158eafc627d32339cbc50e2c677b9ecebffe68817af2961e"
+      }
+    }
+  ],
+  "jsonlPrivacy": [
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed1080/owned-process-samples.jsonl",
+      "lines": 8,
+      "fullOwnedCommandLineOccurrences": 70,
+      "verifiedHistoricalIdentities": 15,
+      "verifiedIdentityKeys": [
+        "36504:2026-10-10T15:09:12.3641870Z",
+        "45692:2026-10-10T15:09:12.2081020Z",
+        "55304:2026-10-10T15:09:41.5387650Z",
+        "56484:2026-10-10T15:09:12.3041930Z",
+        "57884:2026-10-10T15:09:12.0703490Z",
+        "70796:2026-10-10T15:09:12.0905180Z",
+        "74408:2026-10-10T15:09:12.2130830Z",
+        "76920:2026-10-10T15:09:41.5056870Z",
+        "77280:2026-10-10T15:09:12.2578350Z",
+        "78140:2026-10-10T15:09:15.7929240Z",
+        "78764:2026-10-10T15:09:12.2245220Z",
+        "78916:2026-10-10T15:09:41.5530160Z",
+        "79564:2026-10-10T15:09:12.2828530Z",
+        "80196:2026-10-10T15:09:41.5215020Z",
+        "80592:2026-10-10T15:09:12.3085030Z"
+      ],
+      "unrelatedFullCommandLines": 0
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-installed720/owned-process-samples.jsonl",
+      "lines": 8,
+      "fullOwnedCommandLineOccurrences": 67,
+      "verifiedHistoricalIdentities": 11,
+      "verifiedIdentityKeys": [
+        "37296:2026-10-10T15:11:38.5380360Z",
+        "37856:2026-10-10T15:11:38.3053140Z",
+        "45864:2026-10-10T15:11:38.4658470Z",
+        "48476:2026-10-10T15:11:38.4107460Z",
+        "48628:2026-10-10T15:11:38.3975500Z",
+        "56548:2026-10-10T15:11:38.4413370Z",
+        "76368:2026-10-10T15:11:38.2913190Z",
+        "76688:2026-10-10T15:11:38.4871350Z",
+        "80448:2026-10-10T15:11:38.4914310Z",
+        "80792:2026-10-10T15:11:38.3934920Z",
+        "80872:2026-10-10T15:11:43.9772560Z"
+      ],
+      "unrelatedFullCommandLines": 0
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-missing1080/owned-process-samples.jsonl",
+      "lines": 8,
+      "fullOwnedCommandLineOccurrences": 66,
+      "verifiedHistoricalIdentities": 11,
+      "verifiedIdentityKeys": [
+        "19796:2026-10-10T15:14:02.1199730Z",
+        "52444:2026-10-10T15:14:02.0212750Z",
+        "55596:2026-10-10T15:14:01.9748600Z",
+        "55868:2026-10-10T15:14:02.0470890Z",
+        "57140:2026-10-10T15:14:01.9877920Z",
+        "61880:2026-10-10T15:14:01.9704590Z",
+        "74608:2026-10-10T15:14:01.8648090Z",
+        "75168:2026-10-10T15:14:05.0460120Z",
+        "78380:2026-10-10T15:14:01.8799460Z",
+        "79912:2026-10-10T15:14:02.0681530Z",
+        "80096:2026-10-10T15:14:02.0728260Z"
+      ],
+      "unrelatedFullCommandLines": 0
+    },
+    {
+      "path": "build/r30-zhoufeng-actual-v1-classic1080/owned-process-samples.jsonl",
+      "lines": 8,
+      "fullOwnedCommandLineOccurrences": 66,
+      "verifiedHistoricalIdentities": 11,
+      "verifiedIdentityKeys": [
+        "52152:2026-10-10T15:20:41.4964600Z",
+        "57668:2026-10-10T15:20:41.3456570Z",
+        "59868:2026-10-10T15:20:41.3502850Z",
+        "61728:2026-10-10T15:20:41.3630610Z",
+        "62204:2026-10-10T15:20:41.4427930Z",
+        "76152:2026-10-10T15:20:41.2573490Z",
+        "76568:2026-10-10T15:20:41.3953960Z",
+        "76960:2026-10-10T15:20:41.4208920Z",
+        "78564:2026-10-10T15:20:41.2423210Z",
+        "79224:2026-10-10T15:20:44.6756850Z",
+        "79600:2026-10-10T15:20:41.4470040Z"
+      ],
+      "unrelatedFullCommandLines": 0
+    }
+  ],
+  "excluded": [
+    "Browser profile directories",
+    "Unrelated full CIM CommandLine records",
+    "Live or unspecified actual scenarios"
+  ],
+  "note": "Every original logical path/size/SHA is retained; gzip aliases are content-deduplicated. This is a limited evidence archive, not a complete portable checkout.",
+  "installation": {
+    "stagingIndex": {
+      "path": "build/r30-zhoufeng-runtime-archive-final-v4/runtime-index.json",
+      "bytes": 151950,
+      "sha256": "b77f1ec5e0970b2a4d1723c55d1b8cebc772d6690fc0ff71f901fc3b5ee63eac"
+    },
+    "stagingRecord": {
+      "path": "build/r30-zhoufeng-runtime-archive-final-v4/record.json",
+      "bytes": 10135,
+      "sha256": "fe595c764a5c3923d800ddd16c1c38c57d0cefe508db6ebcdf680c3fa79fa17c"
+    },
+    "originalsDeleted": false,
+    "originalBytes": 198003672
+  }
+}

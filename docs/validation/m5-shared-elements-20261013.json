@@ -1,0 +1,1719 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-13T10:56:34.346Z",
+  "status": "partial",
+  "globalHdComplete": false,
+  "baseline": "68f75b245914032d03c6a45dbd11d0ef4aa2a3c8",
+  "scope": {
+    "implemented": [
+      11,
+      18,
+      19
+    ],
+    "actualCastAccepted": [
+      18,
+      19
+    ],
+    "pendingActual": [
+      11
+    ],
+    "originalOnly": true,
+    "nativeRebuilt": false,
+    "newArtwork": false,
+    "allDevicesAccepted": false,
+    "allPhysicalFramesAccepted": false,
+    "cssCompositeContrastAccepted": false
+  },
+  "productFreeze": {
+    "path": "build/shared-elements-20261013/product-freeze-v1.json",
+    "sha256": "25e00c96689b79f7bb5a94b78b1f90b99bcab27049b00a37079cdb5443d3ffbb",
+    "sources": [
+      {
+        "path": "js/bridge.js",
+        "bytes": 155298,
+        "sha256": "68fa96c7a69d4831de9cfc8311f6995c7ac3f2917c5f2291143647f2bd58d4aa",
+        "frozen": "product-68fa96c7a69d4831de9cfc8311f6995c7ac3f2917c5f2291143647f2bd58d4aa.js"
+      },
+      {
+        "path": "js/hd-spe.js",
+        "bytes": 122960,
+        "sha256": "611c8a917f6cf7b29abebcb2bacaa6737058751d9f13f390305880c8241807a5",
+        "frozen": "product-611c8a917f6cf7b29abebcb2bacaa6737058751d9f13f390305880c8241807a5.js"
+      },
+      {
+        "path": "assets/hd-spe/manifest.json",
+        "bytes": 598581,
+        "sha256": "c3072f85dd77166e1ead87970fc7624d6a789dbdee59018d641fa92b0e8535a6",
+        "frozen": "product-c3072f85dd77166e1ead87970fc7624d6a789dbdee59018d641fa92b0e8535a6.json"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 27342,
+        "sha256": "735828ec292565faf66287ee811328f76c9302ac08954510da59237952c96d80",
+        "frozen": "product-735828ec292565faf66287ee811328f76c9302ac08954510da59237952c96d80.html"
+      },
+      {
+        "path": "m.html",
+        "bytes": 18450,
+        "sha256": "ee80820cd435515a50bda07610c0c2123a018e931917178acc122812dec0c584",
+        "frozen": "product-ee80820cd435515a50bda07610c0c2123a018e931917178acc122812dec0c584.html"
+      },
+      {
+        "path": "scripts/test-hd-spe.mjs",
+        "bytes": 262350,
+        "sha256": "00867a91cc5bff34baeef828955e05bb1a4b04850496da64e9fb14236c5321fd",
+        "frozen": "product-00867a91cc5bff34baeef828955e05bb1a4b04850496da64e9fb14236c5321fd.mjs"
+      },
+      {
+        "path": "scripts/test-hd-skill-bridge.mjs",
+        "bytes": 36778,
+        "sha256": "e455955fe318707c561aab3170464d968b3162d26023ff7f427a50c999db4909",
+        "frozen": "product-e455955fe318707c561aab3170464d968b3162d26023ff7f427a50c999db4909.mjs"
+      },
+      {
+        "path": "scripts/test-hd-skill-engine.mjs",
+        "bytes": 52143,
+        "sha256": "721b7c22613cf63ff041ba7019aee18d76fce94b29b68e443d9483a43cf425aa",
+        "frozen": "product-721b7c22613cf63ff041ba7019aee18d76fce94b29b68e443d9483a43cf425aa.mjs"
+      },
+      {
+        "path": "scripts/test-hd-mobile-spe.mjs",
+        "bytes": 24884,
+        "sha256": "10a6fd0f1af2943ebe7fac0178aa74ef4886b2c011c64b7d9e58b75dd099887e",
+        "frozen": "product-10a6fd0f1af2943ebe7fac0178aa74ef4886b2c011c64b7d9e58b75dd099887e.mjs"
+      }
+    ],
+    "manifest": {
+      "before": 55,
+      "after": 58,
+      "preservedEntries": true,
+      "preservedTopLevel": true,
+      "beforeSha256": "e849c09b84c64214dbc2762e19611e842006dd2609828cebb0ab73e39c546b0a",
+      "added": [
+        {
+          "speId": 35,
+          "resourceIndex": 0,
+          "kind": 2,
+          "startFrm": 0,
+          "endFrm": 7,
+          "count": 8,
+          "picmax": 2,
+          "resourceFingerprint": "fnv1a32:0bf53f74:1212",
+          "resourceLength": 1212,
+          "units": [
+            {
+              "frame": 0,
+              "x": 0,
+              "y": 0,
+              "picIndex": 0
+            },
+            {
+              "frame": 1,
+              "x": 0,
+              "y": 0,
+              "picIndex": 1
+            },
+            {
+              "frame": 2,
+              "x": 0,
+              "y": 0,
+              "picIndex": 0
+            },
+            {
+              "frame": 3,
+              "x": 0,
+              "y": 0,
+              "picIndex": 1
+            },
+            {
+              "frame": 4,
+              "x": 0,
+              "y": 0,
+              "picIndex": 0
+            },
+            {
+              "frame": 5,
+              "x": 0,
+              "y": 0,
+              "picIndex": 1
+            },
+            {
+              "frame": 6,
+              "x": 0,
+              "y": 0,
+              "picIndex": 0
+            },
+            {
+              "frame": 7,
+              "x": 0,
+              "y": 0,
+              "picIndex": 1
+            }
+          ],
+          "pictures": [
+            {
+              "picIndex": 0,
+              "src": "assets/hd-spe/fire-35/picture-0.png",
+              "width": 1254,
+              "height": 1254,
+              "logicalWidth": 65,
+              "logicalHeight": 64,
+              "nativeWidth": 65,
+              "nativeHeight": 64,
+              "mask": 0
+            },
+            {
+              "picIndex": 1,
+              "src": "assets/hd-spe/fire-35/picture-1.png",
+              "width": 1254,
+              "height": 1254,
+              "logicalWidth": 65,
+              "logicalHeight": 64,
+              "nativeWidth": 65,
+              "nativeHeight": 64,
+              "mask": 0
+            }
+          ],
+          "skillResultVersion": 1,
+          "skillNumber": {
+            "id": 15,
+            "resourceIndex": 0,
+            "pictureIndex": 0,
+            "nativeWidth": 12,
+            "nativeHeight": 16,
+            "count": 10,
+            "mask": 0,
+            "x": 0,
+            "y": 0,
+            "resourceLength": 327,
+            "resourceFingerprint": "fnv1a32:b37d7407:327"
+          },
+          "fireVersion": 1,
+          "opaqueCoverageVersion": 1,
+          "skillId": 11
+        },
+        {
+          "speId": 35,
+          "resourceIndex": 0,
+          "kind": 2,
+          "startFrm": 0,
+          "endFrm": 7,
+          "count": 8,
+          "picmax": 2,
+          "resourceFingerprint": "fnv1a32:0bf53f74:1212",
+          "resourceLength": 1212,
+          "units": [
+            {
+              "frame": 0,
+              "x": 0,
+              "y": 0,
+              "picIndex": 0
+            },
+            {
+              "frame": 1,
+              "x": 0,
+              "y": 0,
+              "picIndex": 1
+            },
+            {
+              "frame": 2,
+              "x": 0,
+              "y": 0,
+              "picIndex": 0
+            },
+            {
+              "frame": 3,
+              "x": 0,
+              "y": 0,
+              "picIndex": 1
+            },
+            {
+              "frame": 4,
+              "x": 0,
+              "y": 0,
+              "picIndex": 0
+            },
+            {
+              "frame": 5,
+              "x": 0,
+              "y": 0,
+              "picIndex": 1
+            },
+            {
+              "frame": 6,
+              "x": 0,
+              "y": 0,
+              "picIndex": 0
+            },
+            {
+              "frame": 7,
+              "x": 0,
+              "y": 0,
+              "picIndex": 1
+            }
+          ],
+          "pictures": [
+            {
+              "picIndex": 0,
+              "src": "assets/hd-spe/fire-35/picture-0.png",
+              "width": 1254,
+              "height": 1254,
+              "logicalWidth": 65,
+              "logicalHeight": 64,
+              "nativeWidth": 65,
+              "nativeHeight": 64,
+              "mask": 0
+            },
+            {
+              "picIndex": 1,
+              "src": "assets/hd-spe/fire-35/picture-1.png",
+              "width": 1254,
+              "height": 1254,
+              "logicalWidth": 65,
+              "logicalHeight": 64,
+              "nativeWidth": 65,
+              "nativeHeight": 64,
+              "mask": 0
+            }
+          ],
+          "skillResultVersion": 1,
+          "skillNumber": {
+            "id": 15,
+            "resourceIndex": 0,
+            "pictureIndex": 0,
+            "nativeWidth": 12,
+            "nativeHeight": 16,
+            "count": 10,
+            "mask": 0,
+            "x": 0,
+            "y": 0,
+            "resourceLength": 327,
+            "resourceFingerprint": "fnv1a32:b37d7407:327"
+          },
+          "fireVersion": 1,
+          "opaqueCoverageVersion": 1,
+          "skillId": 18
+        },
+        {
+          "speId": 36,
+          "resourceIndex": 0,
+          "kind": 2,
+          "startFrm": 0,
+          "endFrm": 7,
+          "count": 8,
+          "picmax": 2,
+          "resourceFingerprint": "fnv1a32:6d62e7a8:1084",
+          "resourceLength": 1084,
+          "units": [
+            {
+              "frame": 0,
+              "x": 0,
+              "y": 0,
+              "picIndex": 0
+            },
+            {
+              "frame": 1,
+              "x": 0,
+              "y": 0,
+              "picIndex": 1
+            },
+            {
+              "frame": 2,
+              "x": 0,
+              "y": 0,
+              "picIndex": 0
+            },
+            {
+              "frame": 3,
+              "x": 0,
+              "y": 0,
+              "picIndex": 1
+            },
+            {
+              "frame": 4,
+              "x": 0,
+              "y": 0,
+              "picIndex": 0
+            },
+            {
+              "frame": 5,
+              "x": 0,
+              "y": 0,
+              "picIndex": 1
+            },
+            {
+              "frame": 6,
+              "x": 0,
+              "y": 0,
+              "picIndex": 0
+            },
+            {
+              "frame": 7,
+              "x": 0,
+              "y": 0,
+              "picIndex": 1
+            }
+          ],
+          "pictures": [
+            {
+              "picIndex": 0,
+              "src": "assets/hd-spe/water-36/picture-0.png",
+              "width": 1254,
+              "height": 1254,
+              "logicalWidth": 64,
+              "logicalHeight": 64,
+              "nativeWidth": 64,
+              "nativeHeight": 64,
+              "mask": 0
+            },
+            {
+              "picIndex": 1,
+              "src": "assets/hd-spe/water-36/picture-1.png",
+              "width": 1254,
+              "height": 1254,
+              "logicalWidth": 64,
+              "logicalHeight": 64,
+              "nativeWidth": 64,
+              "nativeHeight": 64,
+              "mask": 0
+            }
+          ],
+          "skillResultVersion": 1,
+          "skillNumber": {
+            "id": 15,
+            "resourceIndex": 0,
+            "pictureIndex": 0,
+            "nativeWidth": 12,
+            "nativeHeight": 16,
+            "count": 10,
+            "mask": 0,
+            "x": 0,
+            "y": 0,
+            "resourceLength": 327,
+            "resourceFingerprint": "fnv1a32:b37d7407:327"
+          },
+          "waterVersion": 1,
+          "opaqueCoverageVersion": 1,
+          "skillId": 19
+        }
+      ]
+    },
+    "native": {
+      "count": 128,
+      "aggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+      "changed": false,
+      "rebuilt": false,
+      "installed": [
+        {
+          "path": "js/baye.js",
+          "bytes": 193321,
+          "sha256": "86baead056252a5f631445c8c18e6372abf56ac8d9d090c10f2b7f0c5f7caed2"
+        },
+        {
+          "path": "js/baye.wasm",
+          "bytes": 4561352,
+          "sha256": "08d733567e29716cfc8249a9365aa2f923b6c064e407d3d655cedecb48456de5"
+        },
+        {
+          "path": "js/baye.wasm.map",
+          "bytes": 29983,
+          "sha256": "ddc5651cee33ea5a550b6522a2321b48e1a3bab3a21bb290f54d07b1e8321646"
+        }
+      ],
+      "manifest": {
+        "path": "js/baye.build.json",
+        "bytes": 21284,
+        "sha256": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233"
+      }
+    },
+    "scopeClarification": "Original freeze scope prose says subsequently introduced runner. The actual final-product-suite additionally snapshotted draft a28; final runner1b was revised later and independently actually executed. Original freeze bytes retained; its nine product sources remain unchanged."
+  },
+  "regression": {
+    "modules": 89,
+    "counts": {
+      "tests": 4586,
+      "suites": 0,
+      "pass": 4586,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "sources": 227,
+    "sourceDriftDuringRun": [],
+    "snapshotRuntime": "a28b79e7e854ef607addcdb4c6ac7c65b6a25862f0a916bfbe916848d766fdc2",
+    "scope": "Frozen core/product/unit/native suite. The draft runtime a28 was additionally snapshotted but is not among the 89 package.json test modules. Final runner1b has separate actual execution/source proof; all other frozen sources remain byte-identical."
+  },
+  "runtime": {
+    "runner": {
+      "path": "scripts/test-hd-shared-elements-runtime.mjs",
+      "bytes": 127904,
+      "sha256": "1b2a256ef6958f53c41fa4ae9133f20139fa9646a205df569cc8e10efbb2d15b"
+    },
+    "sourceCountMeaning": "1221 logical request/source records per attempt; aliases may share a physical file.",
+    "rows": [
+      {
+        "name": "fire18-1080-v5",
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "skillId": 18,
+        "mode": "hd",
+        "startedAt": "2026-10-13T07:24:05.227Z",
+        "finishedAt": "2026-10-13T07:25:56.701Z",
+        "attempts": 1,
+        "successful": 1,
+        "damage": {
+          "actorId": 189,
+          "targetId": 46,
+          "beforeArms": 700,
+          "afterArms": 0,
+          "requested": 960,
+          "applied": 700,
+          "value": 700,
+          "session": 1,
+          "resultKind": 1,
+          "actorMpBefore": 146,
+          "actorMpAfter": 116
+        },
+        "pixels": {
+          "actualLcdCallbacks": 21,
+          "events": 1,
+          "sourceCopies": 8,
+          "movieHd": 8,
+          "postHd": 14,
+          "labels": 14,
+          "numericReadbacks": 13,
+          "completedHoldReadbacks": 1,
+          "fallbackReadbacks": 0,
+          "outsidePixelsPerHdReadback": 11200,
+          "outsidePixelComparisons": 246400,
+          "readonlySnapshots": 88
+        },
+        "verifiedReadbacks": 22,
+        "reportCount": 1,
+        "reports": [
+          {
+            "kind": 2,
+            "body": "就这点兵力，实在无法再战下去，只好先撤退了。",
+            "ackCount": 0,
+            "retired": true
+          }
+        ],
+        "sources": 1221,
+        "runnerSha256": "1b2a256ef6958f53c41fa4ae9133f20139fa9646a205df569cc8e10efbb2d15b",
+        "result": {
+          "path": "build/shared-elements-20261013/fire18-1080-v5/result.json",
+          "sha256": "c9a260d7a93c314bb22d73343034d119c2f911a7040399e8631253164aee6266"
+        }
+      },
+      {
+        "name": "water19-1080-v1",
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "skillId": 19,
+        "mode": "hd",
+        "startedAt": "2026-10-13T07:27:25.573Z",
+        "finishedAt": "2026-10-13T07:29:05.118Z",
+        "attempts": 1,
+        "successful": 1,
+        "damage": {
+          "actorId": 189,
+          "targetId": 174,
+          "beforeArms": 176,
+          "afterArms": 0,
+          "requested": 1200,
+          "applied": 176,
+          "value": 176,
+          "session": 1,
+          "resultKind": 1,
+          "actorMpBefore": 146,
+          "actorMpAfter": 116
+        },
+        "pixels": {
+          "actualLcdCallbacks": 23,
+          "events": 1,
+          "sourceCopies": 8,
+          "movieHd": 8,
+          "postHd": 16,
+          "labels": 16,
+          "numericReadbacks": 15,
+          "completedHoldReadbacks": 1,
+          "fallbackReadbacks": 0,
+          "outsidePixelsPerHdReadback": 11264,
+          "outsidePixelComparisons": 270336,
+          "readonlySnapshots": 96
+        },
+        "verifiedReadbacks": 24,
+        "reportCount": 1,
+        "reports": [
+          {
+            "kind": 2,
+            "body": "为什么受伤的总是我？我不甘心，我不甘心！",
+            "ackCount": 0,
+            "retired": true
+          }
+        ],
+        "sources": 1221,
+        "runnerSha256": "1b2a256ef6958f53c41fa4ae9133f20139fa9646a205df569cc8e10efbb2d15b",
+        "result": {
+          "path": "build/shared-elements-20261013/water19-1080-v1/result.json",
+          "sha256": "66b659a1a2d9c04ad0fb1ff0d1a730b8e94235ed4cab6acc5691a10f8d9405a1"
+        }
+      },
+      {
+        "name": "fire18-720-v1",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "skillId": 18,
+        "mode": "hd",
+        "startedAt": "2026-10-13T10:30:42.803Z",
+        "finishedAt": "2026-10-13T10:33:46.998Z",
+        "attempts": 1,
+        "successful": 1,
+        "damage": {
+          "actorId": 189,
+          "targetId": 46,
+          "beforeArms": 700,
+          "afterArms": 0,
+          "requested": 960,
+          "applied": 700,
+          "value": 700,
+          "session": 1,
+          "resultKind": 1,
+          "actorMpBefore": 146,
+          "actorMpAfter": 116
+        },
+        "pixels": {
+          "actualLcdCallbacks": 25,
+          "events": 1,
+          "sourceCopies": 8,
+          "movieHd": 8,
+          "postHd": 18,
+          "labels": 18,
+          "numericReadbacks": 17,
+          "completedHoldReadbacks": 1,
+          "fallbackReadbacks": 0,
+          "outsidePixelsPerHdReadback": 11200,
+          "outsidePixelComparisons": 291200,
+          "readonlySnapshots": 104
+        },
+        "verifiedReadbacks": 26,
+        "reportCount": 1,
+        "reports": [
+          {
+            "kind": 2,
+            "body": "就这点兵力，实在无法再战下去，只好先撤退了。",
+            "ackCount": 0,
+            "retired": true
+          }
+        ],
+        "sources": 1221,
+        "runnerSha256": "1b2a256ef6958f53c41fa4ae9133f20139fa9646a205df569cc8e10efbb2d15b",
+        "result": {
+          "path": "build/shared-elements-20261013/fire18-720-v1/result.json",
+          "sha256": "8cf35809e8296b215068cb940564f54ab644730ff5ab5841923d0b2b3ae8a44f"
+        }
+      },
+      {
+        "name": "water19-720-v1",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "skillId": 19,
+        "mode": "hd",
+        "startedAt": "2026-10-13T10:33:49.542Z",
+        "finishedAt": "2026-10-13T10:36:20.142Z",
+        "attempts": 1,
+        "successful": 1,
+        "damage": {
+          "actorId": 189,
+          "targetId": 20,
+          "beforeArms": 780,
+          "afterArms": 0,
+          "requested": 1200,
+          "applied": 780,
+          "value": 780,
+          "session": 1,
+          "resultKind": 1,
+          "actorMpBefore": 146,
+          "actorMpAfter": 116
+        },
+        "pixels": {
+          "actualLcdCallbacks": 25,
+          "events": 1,
+          "sourceCopies": 8,
+          "movieHd": 8,
+          "postHd": 18,
+          "labels": 18,
+          "numericReadbacks": 17,
+          "completedHoldReadbacks": 1,
+          "fallbackReadbacks": 0,
+          "outsidePixelsPerHdReadback": 11264,
+          "outsidePixelComparisons": 292864,
+          "readonlySnapshots": 104
+        },
+        "verifiedReadbacks": 26,
+        "reportCount": 1,
+        "reports": [
+          {
+            "kind": 2,
+            "body": "为什么受伤的总是我？我不甘心，我不甘心！",
+            "ackCount": 0,
+            "retired": true
+          }
+        ],
+        "sources": 1221,
+        "runnerSha256": "1b2a256ef6958f53c41fa4ae9133f20139fa9646a205df569cc8e10efbb2d15b",
+        "result": {
+          "path": "build/shared-elements-20261013/water19-720-v1/result.json",
+          "sha256": "4d2260d893aa8dc61e4d55f73fa60adf971048c58969dc91e83095e96e733dff"
+        }
+      },
+      {
+        "name": "fire18-missing-v1",
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "skillId": 18,
+        "mode": "missing-assets",
+        "startedAt": "2026-10-13T10:36:21.827Z",
+        "finishedAt": "2026-10-13T10:38:32.760Z",
+        "attempts": 1,
+        "successful": 1,
+        "damage": {
+          "actorId": 189,
+          "targetId": 75,
+          "beforeArms": 122,
+          "afterArms": 0,
+          "requested": 768,
+          "applied": 122,
+          "value": 122,
+          "session": 2,
+          "resultKind": 1,
+          "actorMpBefore": 146,
+          "actorMpAfter": 116
+        },
+        "pixels": {
+          "actualLcdCallbacks": 24,
+          "events": 1,
+          "sourceCopies": 8,
+          "movieHd": 0,
+          "postHd": 0,
+          "labels": 17,
+          "numericReadbacks": 16,
+          "completedHoldReadbacks": 1,
+          "fallbackReadbacks": 25,
+          "outsidePixelsPerHdReadback": 11200,
+          "outsidePixelComparisons": 0,
+          "readonlySnapshots": 100
+        },
+        "verifiedReadbacks": 25,
+        "reportCount": 1,
+        "reports": [
+          {
+            "kind": 2,
+            "body": "就这点兵力，实在无法再战下去，只好先撤退了。",
+            "ackCount": 0,
+            "retired": true
+          }
+        ],
+        "sources": 1221,
+        "runnerSha256": "1b2a256ef6958f53c41fa4ae9133f20139fa9646a205df569cc8e10efbb2d15b",
+        "result": {
+          "path": "build/shared-elements-20261013/fire18-missing-v1/result.json",
+          "sha256": "ae40875513c086c9b27a1c6e23bb17202e0089d7a00ba444578f7e809d64e5c5"
+        }
+      },
+      {
+        "name": "water19-missing-v1",
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "skillId": 19,
+        "mode": "missing-assets",
+        "startedAt": "2026-10-13T10:38:34.601Z",
+        "finishedAt": "2026-10-13T10:41:08.054Z",
+        "attempts": 1,
+        "successful": 1,
+        "damage": {
+          "actorId": 189,
+          "targetId": 46,
+          "beforeArms": 700,
+          "afterArms": 0,
+          "requested": 1200,
+          "applied": 700,
+          "value": 700,
+          "session": 1,
+          "resultKind": 1,
+          "actorMpBefore": 146,
+          "actorMpAfter": 116
+        },
+        "pixels": {
+          "actualLcdCallbacks": 23,
+          "events": 1,
+          "sourceCopies": 8,
+          "movieHd": 0,
+          "postHd": 0,
+          "labels": 16,
+          "numericReadbacks": 15,
+          "completedHoldReadbacks": 1,
+          "fallbackReadbacks": 24,
+          "outsidePixelsPerHdReadback": 11264,
+          "outsidePixelComparisons": 0,
+          "readonlySnapshots": 96
+        },
+        "verifiedReadbacks": 24,
+        "reportCount": 2,
+        "reports": [
+          {
+            "kind": 2,
+            "body": "就这点兵力，实在无法再战下去，只好先撤退了。",
+            "ackCount": 0,
+            "retired": true
+          },
+          {
+            "kind": 2,
+            "body": "为什么受伤的总是我？我不甘心，我不甘心！",
+            "ackCount": 0,
+            "retired": true
+          }
+        ],
+        "sources": 1221,
+        "runnerSha256": "1b2a256ef6958f53c41fa4ae9133f20139fa9646a205df569cc8e10efbb2d15b",
+        "result": {
+          "path": "build/shared-elements-20261013/water19-missing-v1/result.json",
+          "sha256": "49e882f75587394570e60bac4b35921bacd888d50c531d03dbccc742db405f08"
+        }
+      },
+      {
+        "name": "fire18-classic-v1",
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "skillId": 18,
+        "mode": "classic",
+        "startedAt": "2026-10-13T10:41:09.066Z",
+        "finishedAt": "2026-10-13T10:43:02.459Z",
+        "attempts": 1,
+        "successful": 1,
+        "damage": {
+          "actorId": 189,
+          "targetId": 46,
+          "beforeArms": 700,
+          "afterArms": 0,
+          "requested": 960,
+          "applied": 700,
+          "value": 700,
+          "session": 1,
+          "resultKind": 1,
+          "actorMpBefore": 146,
+          "actorMpAfter": 116
+        },
+        "pixels": {
+          "actualLcdCallbacks": 31,
+          "events": 1,
+          "sourceCopies": 8,
+          "movieHd": 0,
+          "postHd": 0,
+          "labels": 24,
+          "numericReadbacks": 23,
+          "completedHoldReadbacks": 1,
+          "fallbackReadbacks": 32,
+          "outsidePixelsPerHdReadback": 11200,
+          "outsidePixelComparisons": 0,
+          "readonlySnapshots": 128
+        },
+        "verifiedReadbacks": 32,
+        "reportCount": 1,
+        "reports": [
+          {
+            "kind": 2,
+            "body": "为什么受伤的总是我？我不甘心，我不甘心！",
+            "ackCount": 0,
+            "retired": true
+          }
+        ],
+        "sources": 1221,
+        "runnerSha256": "1b2a256ef6958f53c41fa4ae9133f20139fa9646a205df569cc8e10efbb2d15b",
+        "result": {
+          "path": "build/shared-elements-20261013/fire18-classic-v1/result.json",
+          "sha256": "7249e33e3bf38004698e9a38537fdabd8ef1df3808fed2ebd5047ed30e2dc22d"
+        }
+      },
+      {
+        "name": "water19-classic-v1",
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "skillId": 19,
+        "mode": "classic",
+        "startedAt": "2026-10-13T10:43:03.773Z",
+        "finishedAt": "2026-10-13T10:45:03.010Z",
+        "attempts": 1,
+        "successful": 1,
+        "damage": {
+          "actorId": 189,
+          "targetId": 174,
+          "beforeArms": 176,
+          "afterArms": 0,
+          "requested": 960,
+          "applied": 176,
+          "value": 176,
+          "session": 1,
+          "resultKind": 1,
+          "actorMpBefore": 146,
+          "actorMpAfter": 116
+        },
+        "pixels": {
+          "actualLcdCallbacks": 26,
+          "events": 1,
+          "sourceCopies": 8,
+          "movieHd": 0,
+          "postHd": 0,
+          "labels": 19,
+          "numericReadbacks": 18,
+          "completedHoldReadbacks": 1,
+          "fallbackReadbacks": 27,
+          "outsidePixelsPerHdReadback": 11264,
+          "outsidePixelComparisons": 0,
+          "readonlySnapshots": 108
+        },
+        "verifiedReadbacks": 27,
+        "reportCount": 1,
+        "reports": [
+          {
+            "kind": 2,
+            "body": "为什么受伤的总是我？我不甘心，我不甘心！",
+            "ackCount": 0,
+            "retired": true
+          }
+        ],
+        "sources": 1221,
+        "runnerSha256": "1b2a256ef6958f53c41fa4ae9133f20139fa9646a205df569cc8e10efbb2d15b",
+        "result": {
+          "path": "build/shared-elements-20261013/water19-classic-v1/result.json",
+          "sha256": "cf7a86dec0f648a6930c2c28396ad0694c387a137af5d8df05438e8077d94343"
+        }
+      }
+    ]
+  },
+  "failures": [
+    {
+      "name": "fire18-1080-v1",
+      "accepted": false,
+      "actualCastAccepted": false,
+      "tool": {
+        "source": "scripts/test-hd-shared-elements-runtime.mjs",
+        "sha256": "a28b79e7e854ef607addcdb4c6ac7c65b6a25862f0a916bfbe916848d766fdc2"
+      },
+      "error": "Error: {\"exceptionId\":1,\"text\":\"Uncaught\",\"lineNumber\":6,\"columnNumber\":14,\"scriptId\":\"56\",\"stackTrace\":{\"callFrames\":[{\"functionName\":\"\",\"scriptId\":\"56\",\"url\":\"\",\"lineNumber\":6,\"columnNumber\":14},{\"functionName\":\"\",\"scriptId\":\"56\",\"url\":\"\",\"lineNumber\":9,\"columnNumber\":2}]},\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"TypeError\",\"description\":\"TypeError: undefined is not iterable (cannot read property Symbol(Symbol.iterator))\\n    at Array.from (<anonymous>)\\n    at <anonymous>:7:15\\n    at <anonymous>:10:3\",\"objectId\":\"-4973807163653475134.2.4\"}}\n    at evaluate (file:///F:/project/baye-sanguo/scripts/test-hd-shared-elements-runtime.mjs:257:40)\n    at async loadPreparation (file:///F:/project/baye-sanguo/scripts/test-hd-shared-elements-runtime.mjs:428:67)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-shared-elements-runtime.mjs:458:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-shared-elements-runtime.mjs:1105:9)",
+      "result": {
+        "path": "build/shared-elements-20261013/fire18-1080-v1/result.json",
+        "sha256": "ee0ec64ecc0fb079790fc15c2886bfd059e15b538a190a9d2b65c7dc55c0f969"
+      }
+    },
+    {
+      "name": "fire18-1080-v2",
+      "accepted": false,
+      "actualCastAccepted": false,
+      "tool": {
+        "source": "scripts/test-hd-shared-elements-runtime.mjs",
+        "sha256": "7f716d06df59df443e3047f996407a531d607ca0a45b58a76ef691967aa3d047"
+      },
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nnull !== 0\n\n    at loadPreparation (file:///F:/project/baye-sanguo/scripts/test-hd-shared-elements-runtime.mjs:429:127)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-shared-elements-runtime.mjs:458:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-shared-elements-runtime.mjs:1105:9)",
+      "result": {
+        "path": "build/shared-elements-20261013/fire18-1080-v2/result.json",
+        "sha256": "8a01828072f32ff5198e5fb1a4cd6a16ed407f3e6c143b25af9a6f935cb46630"
+      }
+    },
+    {
+      "name": "fire18-1080-v3",
+      "accepted": false,
+      "actualCastAccepted": false,
+      "tool": {
+        "source": "scripts/test-hd-shared-elements-runtime.mjs",
+        "sha256": "f44e3bbc94d94a04c99c2f99e42fef3b6105b3ef519009d05040094590b7e2d2"
+      },
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nundefined !== 134\n\n    at marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-shared-elements-runtime.mjs:730:48)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-shared-elements-runtime.mjs:461:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-shared-elements-runtime.mjs:1106:9)",
+      "result": {
+        "path": "build/shared-elements-20261013/fire18-1080-v3/result.json",
+        "sha256": "c2a8544574b1910bc10949b509eb90b37322b4f80e62ba22e568ac9ba8c3cd86"
+      }
+    },
+    {
+      "name": "fire18-1080-v4",
+      "accepted": false,
+      "actualCastAccepted": false,
+      "tool": {
+        "source": "scripts/test-hd-shared-elements-runtime.mjs",
+        "sha256": "461ecbb0b5f7daaf1bd2434fe6472b74f77b1f3ba619f30e7b22fb33d730cf89"
+      },
+      "error": "AssertionError [ERR_ASSERTION]: Caster active unchanged during native effect\n\n1 !== 0\n\n    at verifySkillCaptures (file:///F:/project/baye-sanguo/scripts/test-hd-shared-elements-runtime.mjs:988:66)\n    at main (file:///F:/project/baye-sanguo/scripts/test-hd-shared-elements-runtime.mjs:1108:38)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+      "result": {
+        "path": "build/shared-elements-20261013/fire18-1080-v4/result.json",
+        "sha256": "3655d0ffe84101975d59c93904d3413ecd184265b636a139baad9bcff9e11662"
+      }
+    }
+  ],
+  "preflight": {
+    "name": "preflight-18-v1",
+    "actualCastAccepted": false,
+    "scope": "Source/native/save verification only; no browser or gameplay acceptance."
+  },
+  "corrections": [
+    "v1 reader ORDERQUEUE replaced with actual g_OrderQueue",
+    "v2 unpublished debug flag explicitly unavailable; exact real MP30 debit required",
+    "v3 exact menu sequence/IDs/render readiness wait before second native selection",
+    "v4 caster expected STA_END1 from real native dispatcher; failed record remains false"
+  ],
+  "independentFileAudit": {
+    "performedBy": "root",
+    "scope": "PNG CRC/inflate/filter decoding independent of renderer; all verified raw LCD PNG pixels and scaled HD logical-center readbacks, full fallback or every window-outside pixel, readonly snapshots and stored source bytes. Native ROM oracle is separately saved in runner; no independent art pixel or page CSS contrast claim.",
+    "pngChecks": 412,
+    "pixelComparisons": 2759680,
+    "rawReadonlySnapshots": 824
+  },
+  "independentAgentAudit": {
+    "path": "build/shared-elements-20261013/independent-audit-message-v1.json",
+    "sha256": "760f4a0fc8b2f9816e66b4b93048e309444dd8390aa21d23d77e5f40caf78cbc",
+    "scope": "Completed pure-file audit communicated by agent message; root persisted the message findings, agent wrote no file",
+    "reportedPass": true,
+    "agentFinalStatus": "Capacity error after the completed audit message; no additional review or file is claimed"
+  },
+  "cleanup": {
+    "sampledAt": "2026-10-13T10:46:38.8744434Z",
+    "attemptCount": 13,
+    "recordedCount": 132,
+    "recorded": [
+      {
+        "ProcessId": 10808,
+        "CreationDate": "2026-10-13T07:08:54.6310890Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 25460,
+        "CreationDate": "2026-10-13T07:24:05.8369660Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 38288,
+        "CreationDate": "2026-10-13T07:11:02.2274930Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 38288,
+        "CreationDate": "2026-10-13T07:14:38.5790940Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 42060,
+        "CreationDate": "2026-10-13T07:11:02.1377350Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 42628,
+        "CreationDate": "2026-10-13T10:41:09.6228410Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 45868,
+        "CreationDate": "2026-10-13T07:08:54.5912650Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 46400,
+        "CreationDate": "2026-10-13T07:06:26.8021690Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 46412,
+        "CreationDate": "2026-10-13T07:14:35.8374390Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 48992,
+        "CreationDate": "2026-10-13T07:08:54.5491030Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 48992,
+        "CreationDate": "2026-10-13T07:24:05.8412100Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 49280,
+        "CreationDate": "2026-10-13T07:27:26.2459640Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 49432,
+        "CreationDate": "2026-10-13T07:24:05.9224210Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 51052,
+        "CreationDate": "2026-10-13T07:11:02.1842450Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 51160,
+        "CreationDate": "2026-10-13T07:14:35.9133640Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 51276,
+        "CreationDate": "2026-10-13T07:24:05.9027720Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 51508,
+        "CreationDate": "2026-10-13T07:27:26.3284550Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 51604,
+        "CreationDate": "2026-10-13T07:08:54.4584020Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 52000,
+        "CreationDate": "2026-10-13T07:11:02.1533790Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 52264,
+        "CreationDate": "2026-10-13T07:14:35.8251240Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 52288,
+        "CreationDate": "2026-10-13T10:38:35.2741890Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 52316,
+        "CreationDate": "2026-10-13T07:06:26.8726610Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 52604,
+        "CreationDate": "2026-10-13T07:11:02.0568020Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 53404,
+        "CreationDate": "2026-10-13T07:11:02.2691940Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 53424,
+        "CreationDate": "2026-10-13T07:08:54.4663990Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 53448,
+        "CreationDate": "2026-10-13T07:06:26.4899220Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 53628,
+        "CreationDate": "2026-10-13T07:14:35.9093990Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 53832,
+        "CreationDate": "2026-10-13T07:24:05.7512130Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 53852,
+        "CreationDate": "2026-10-13T07:06:26.3744130Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 53952,
+        "CreationDate": "2026-10-13T07:27:26.2613240Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 54144,
+        "CreationDate": "2026-10-13T07:11:02.2072030Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 54148,
+        "CreationDate": "2026-10-13T07:14:35.7354670Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 54276,
+        "CreationDate": "2026-10-13T07:24:05.8531350Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 54308,
+        "CreationDate": "2026-10-13T07:06:26.4862030Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 54324,
+        "CreationDate": "2026-10-13T07:08:54.5445210Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 54664,
+        "CreationDate": "2026-10-13T10:43:04.4870720Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 54712,
+        "CreationDate": "2026-10-13T07:06:26.8686280Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 55016,
+        "CreationDate": "2026-10-13T07:06:26.8273350Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 55016,
+        "CreationDate": "2026-10-13T07:24:05.8797440Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 55280,
+        "CreationDate": "2026-10-13T07:14:35.7435570Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 55456,
+        "CreationDate": "2026-10-13T07:06:26.8524420Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 55492,
+        "CreationDate": "2026-10-13T07:06:26.3503930Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 56000,
+        "CreationDate": "2026-10-13T07:06:26.9129760Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 56160,
+        "CreationDate": "2026-10-13T07:14:35.8923310Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 56260,
+        "CreationDate": "2026-10-13T10:38:35.3415000Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 56348,
+        "CreationDate": "2026-10-13T07:08:54.6762180Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 56440,
+        "CreationDate": "2026-10-13T07:14:35.8207360Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 56544,
+        "CreationDate": "2026-10-13T07:24:05.7595320Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 56584,
+        "CreationDate": "2026-10-13T07:08:54.6135750Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 56596,
+        "CreationDate": "2026-10-13T07:08:57.3021100Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 56756,
+        "CreationDate": "2026-10-13T07:11:04.8482910Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 56876,
+        "CreationDate": "2026-10-13T07:27:26.2876880Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 56996,
+        "CreationDate": "2026-10-13T07:08:54.5610270Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 57200,
+        "CreationDate": "2026-10-13T07:27:28.7490210Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 57284,
+        "CreationDate": "2026-10-13T07:14:35.9568640Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 57312,
+        "CreationDate": "2026-10-13T07:11:02.0488090Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 57432,
+        "CreationDate": "2026-10-13T07:27:26.3694550Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 57488,
+        "CreationDate": "2026-10-13T07:11:02.2234370Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 57728,
+        "CreationDate": "2026-10-13T07:14:35.8689870Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 57728,
+        "CreationDate": "2026-10-13T07:24:05.9628510Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 57752,
+        "CreationDate": "2026-10-13T07:11:02.1416290Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 57872,
+        "CreationDate": "2026-10-13T07:24:08.6008760Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 58024,
+        "CreationDate": "2026-10-13T07:08:54.6347890Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 58308,
+        "CreationDate": "2026-10-13T07:06:29.5469230Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 58500,
+        "CreationDate": "2026-10-13T07:27:26.3251370Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 58516,
+        "CreationDate": "2026-10-13T07:27:26.2496620Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 58624,
+        "CreationDate": "2026-10-13T07:27:26.1684930Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 58888,
+        "CreationDate": "2026-10-13T07:24:05.9183560Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 58896,
+        "CreationDate": "2026-10-13T07:27:26.1604400Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 58976,
+        "CreationDate": "2026-10-13T07:27:26.3095480Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 59040,
+        "CreationDate": "2026-10-13T10:38:35.3845540Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 60968,
+        "CreationDate": "2026-10-13T10:41:09.7128770Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 61832,
+        "CreationDate": "2026-10-13T10:43:04.5589440Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 62716,
+        "CreationDate": "2026-10-13T10:41:09.7915270Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 62884,
+        "CreationDate": "2026-10-13T10:38:35.1712440Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 63832,
+        "CreationDate": "2026-10-13T10:36:22.4660140Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 63868,
+        "CreationDate": "2026-10-13T10:38:35.3449690Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 64464,
+        "CreationDate": "2026-10-13T10:38:35.2624110Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 64492,
+        "CreationDate": "2026-10-13T10:36:22.5469690Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 64528,
+        "CreationDate": "2026-10-13T10:41:12.4627820Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 64692,
+        "CreationDate": "2026-10-13T10:41:09.6309720Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 64728,
+        "CreationDate": "2026-10-13T10:36:22.3844610Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 64788,
+        "CreationDate": "2026-10-13T10:33:52.9122450Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 65148,
+        "CreationDate": "2026-10-13T10:38:38.0447050Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 65428,
+        "CreationDate": "2026-10-13T10:36:22.4776540Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 65716,
+        "CreationDate": "2026-10-13T10:43:04.4715580Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 65724,
+        "CreationDate": "2026-10-13T10:33:50.2092690Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 65804,
+        "CreationDate": "2026-10-13T10:33:50.2914460Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 65992,
+        "CreationDate": "2026-10-13T10:43:04.4755530Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66020,
+        "CreationDate": "2026-10-13T10:33:50.2316590Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66088,
+        "CreationDate": "2026-10-13T10:41:09.7536520Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66132,
+        "CreationDate": "2026-10-13T10:33:50.0813000Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66248,
+        "CreationDate": "2026-10-13T10:38:35.2586290Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66288,
+        "CreationDate": "2026-10-13T10:30:43.6800670Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66340,
+        "CreationDate": "2026-10-13T10:43:04.5172530Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66356,
+        "CreationDate": "2026-10-13T10:30:43.6310800Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66368,
+        "CreationDate": "2026-10-13T10:36:22.5057250Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66508,
+        "CreationDate": "2026-10-13T10:33:50.2509040Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66564,
+        "CreationDate": "2026-10-13T10:36:22.5431230Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66672,
+        "CreationDate": "2026-10-13T10:30:43.6342850Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66736,
+        "CreationDate": "2026-10-13T10:30:46.3990460Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66792,
+        "CreationDate": "2026-10-13T10:41:09.8339730Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 66988,
+        "CreationDate": "2026-10-13T10:36:22.5282240Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67024,
+        "CreationDate": "2026-10-13T10:33:50.1832030Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67032,
+        "CreationDate": "2026-10-13T10:43:07.2193070Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67092,
+        "CreationDate": "2026-10-13T10:43:04.5412910Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67176,
+        "CreationDate": "2026-10-13T10:43:04.3900110Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67192,
+        "CreationDate": "2026-10-13T10:36:25.1781110Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67292,
+        "CreationDate": "2026-10-13T10:41:09.7755010Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67424,
+        "CreationDate": "2026-10-13T10:33:50.2479590Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67440,
+        "CreationDate": "2026-10-13T10:41:09.7091430Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67484,
+        "CreationDate": "2026-10-13T10:36:22.5869920Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67500,
+        "CreationDate": "2026-10-13T10:33:50.1672160Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67596,
+        "CreationDate": "2026-10-13T10:33:50.1714920Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67656,
+        "CreationDate": "2026-10-13T10:30:43.5449240Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67872,
+        "CreationDate": "2026-10-13T10:43:04.5625680Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 67976,
+        "CreationDate": "2026-10-13T10:38:35.3251540Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68056,
+        "CreationDate": "2026-10-13T10:33:50.0892410Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68088,
+        "CreationDate": "2026-10-13T10:41:09.7954280Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68096,
+        "CreationDate": "2026-10-13T10:38:35.1798750Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68156,
+        "CreationDate": "2026-10-13T10:41:09.7244890Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68212,
+        "CreationDate": "2026-10-13T10:36:22.3766610Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68232,
+        "CreationDate": "2026-10-13T10:30:43.4444720Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68252,
+        "CreationDate": "2026-10-13T10:30:43.5905780Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68324,
+        "CreationDate": "2026-10-13T10:36:22.4624010Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68332,
+        "CreationDate": "2026-10-13T10:38:35.3024720Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68448,
+        "CreationDate": "2026-10-13T10:30:43.5580250Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68464,
+        "CreationDate": "2026-10-13T10:30:43.4573690Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68472,
+        "CreationDate": "2026-10-13T10:30:43.5402250Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68500,
+        "CreationDate": "2026-10-13T10:30:43.6136380Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68596,
+        "CreationDate": "2026-10-13T10:43:04.3820480Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      {
+        "ProcessId": 68720,
+        "CreationDate": "2026-10-13T10:43:04.6030320Z",
+        "ExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      }
+    ],
+    "survivors": [],
+    "privatePorts": [
+      2058,
+      2059,
+      3157,
+      3159,
+      4163,
+      4164,
+      4452,
+      4453,
+      5203,
+      5204,
+      5476,
+      5477,
+      7404,
+      7405,
+      8730,
+      8731,
+      11246,
+      11247,
+      12827,
+      12828,
+      13486,
+      13487,
+      14450,
+      14451
+    ],
+    "privateListeners": [],
+    "userServerBefore": {
+      "sampledAt": "2026-10-13T06:34:32.61668Z",
+      "userPort": 8080,
+      "noListener": true,
+      "listeners": []
+    },
+    "userServicesAfter": [],
+    "userUnchanged": true,
+    "ok": true
+  },
+  "rootExecutions": {
+    "path": "build/shared-elements-20261013/root-executions-v1.json",
+    "sha256": "50c8271e1c47ecf82739b7d858ea0579681c6d01fdde09cfd694049c5fd3c5c7"
+  },
+  "boundaries": [
+    "Skill11 food-loss numbers/HOLD before a separately owned ARMS_LOSS value0 movie remain controlled-only; no later troop NUM/HOLD is invented.",
+    "Actual skills18/19 aim0 each use one target. Two-command C fixture is not AOE.",
+    "Caster active becomes STA_END1 before movie; target state0 during movie/numbers/hold and may become state8 afterward when troops reach0.",
+    "Debug flag not published; source default inspected and observed MP30 debit validates these non-debug commands.",
+    "Unchanged historical native pair imported publicly and loaded under current ABI; old/current engine equality, RNG continuity and full ABI not claimed.",
+    "Actual callbacks, source copies, measured readbacks and screenshots are distinct counts.",
+    "Mobile controlled VM only; physical devices, other periods/targets/Mods, resize/visibility/performance, WOOD6/7 and remaining attacks remain pending."
+  ],
+  "archive": {
+    "path": "docs/validation/m5-shared-elements-20261013-archive.json",
+    "scope": "Exact product/unit/runtime versions, 227 frozen suite sources, complete named attempt JSON/JSONL/logs, root OS proof, preparation native pair and representative PNG pairs. Profiles/cache excluded; unchanged 1221 asset bytes are pinned by source metadata and Git provenance rather than all duplicated.",
+    "bytes": 49347314,
+    "sha256": "9064c22bfb2a4f8365882b3a9fa3f07da142a5795f3ec7ec4b62496f519adb3b",
+    "files": 491,
+    "uniqueBlobs": 398
+  }
+}

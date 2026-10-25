@@ -1,0 +1,444 @@
+{
+  "schemaVersion": 1,
+  "kind": "V40 source-only controlled evidence, original snapshots and TAP",
+  "files": [
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 711999,
+      "sha256": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf",
+      "roles": [
+        "unchanged-production-source-snapshot",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/build-wood67-exactmissing-source-review-v2.mjs",
+      "bytes": 2740,
+      "sha256": "4deedb4131dd231ed96fd7816d6371631d0cefe175b5f55247ee22e3ba0e5c82",
+      "roles": [
+        "explicit-controlled-source-and-readiness-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/build-wood67-missing-art-source-probe-v1.mjs",
+      "bytes": 4520,
+      "sha256": "600fe778e65e22706f1894b97953b311083ed6258313e87360455aa0f252220a",
+      "roles": [
+        "explicit-controlled-source-and-readiness-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-wood67-v40-source-publication-inputs-v1.mjs",
+      "bytes": 5124,
+      "sha256": "11a8efa57bfa92dca270a4806f3416eb11dd09e3f2bd2560be60de6dbf30d117",
+      "roles": [
+        "bounded-source-publication-tool"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-wood67-exactmissing-source-v40-v1.mjs",
+      "bytes": 13362,
+      "sha256": "385beddf841da36b183d52088301cbc1e3052b8c8233cac06afcaf11d24a46de"
+    },
+    {
+      "path": "build/impact-skill-20261014/record-wood67-exactmissing-formal-after-v1.mjs",
+      "bytes": 4371,
+      "sha256": "2aebb34b122030b976e530ace2a04fdd1dc97796bbe40a9b50c16b8a8721322b",
+      "roles": [
+        "explicit-controlled-source-and-readiness-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/record-wood67-exactmissing-formal-before-v1.mjs",
+      "bytes": 1039,
+      "sha256": "308c7d296d3634e63138edf723ce9bd4d061fc711c12457fbc8d13a846ef1be6",
+      "roles": [
+        "explicit-controlled-source-and-readiness-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-wood67-exactmissing-formal-independent-v1.mjs",
+      "bytes": 5551,
+      "sha256": "3c26c876d4d4f5740cc3e69556ff0f7e4d7b931834ea89505bac9795ab198bd9",
+      "roles": [
+        "explicit-controlled-source-and-readiness-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-wood67-exactmissing-source-v1.mjs",
+      "bytes": 8727,
+      "sha256": "a52dbc1664cf1c804f20bc539f049e423110c3552e2f567feaedb70ff2e1ebae",
+      "roles": [
+        "explicit-controlled-source-and-readiness-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-wood67-exactmissing-source-v2.mjs",
+      "bytes": 9828,
+      "sha256": "2aeb8985226e4c4158e7ecf8012d2e18496e2ffd321a8493fadbee369fb516d6",
+      "roles": [
+        "explicit-controlled-source-and-readiness-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/test-wood67-missing-art-source-probe-v1.mjs",
+      "bytes": 303949,
+      "sha256": "81f4907091a36e96ab385b3e020680dae0548ba3822c5e5228f2a51d4781c0d2",
+      "roles": [
+        "explicit-controlled-source-and-readiness-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-first-static-rejection-v1.json",
+      "bytes": 510,
+      "sha256": "75be99969dc0d374a1723fdea806aa0332f6e9664aef40c79cd7cc6a3ee357ba",
+      "roles": [
+        "explicit-controlled-source-and-readiness-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-formal-independent-v1.json",
+      "bytes": 5192,
+      "sha256": "0e3f973c285f5b61d2340ae87f6f9390b09f44cfaeb57ead4cc13829ed33a8a2",
+      "roles": [
+        "explicit-controlled-source-and-readiness-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-formal-tests-v1/after-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "exact-original-before-after-targeted-tests"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-formal-tests-v1/after-stdout.txt",
+      "bytes": 78461,
+      "sha256": "cb9ffe20f6551d81876f50a536b2bb475690946a2422877630a94afd81eb9b73",
+      "roles": [
+        "exact-original-before-after-targeted-tests"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-formal-tests-v1/after-test-hd-spe.mjs",
+      "bytes": 303084,
+      "sha256": "b05cb961cd891d56a3e9cd85977839c7285c0fe4660a1f8f3d48beb8ef51a09b",
+      "roles": [
+        "exact-original-before-after-targeted-tests"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-formal-tests-v1/before-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "exact-original-before-after-targeted-tests"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-formal-tests-v1/before-stdout.txt",
+      "bytes": 76258,
+      "sha256": "dc11795709b7287dc31a6089498c2dcce037393576064e60d5d58fdf61ebaa29",
+      "roles": [
+        "exact-original-before-after-targeted-tests"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-formal-tests-v1/before-test-hd-spe.mjs",
+      "bytes": 299174,
+      "sha256": "0747d6178b649681c1860f50d574062cdafde9ba393564eabbe403b0c9641cd6",
+      "roles": [
+        "exact-original-before-after-targeted-tests"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-formal-tests-v1/receipt.json",
+      "bytes": 6087,
+      "sha256": "1a89eef2b0f5f4a138d3b8baa3694203199ce597a92b5022f71135af1ab82a42",
+      "roles": [
+        "exact-original-before-after-targeted-tests"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-source-review-v2/README.md",
+      "bytes": 1657,
+      "sha256": "9ab0112c31e6676ca68705961c93e5af620485c405b9f43065ebc569910e8b69",
+      "roles": [
+        "fourteen-original-pure-probes-not-added-to-formal-count"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-source-review-v2/receipt.json",
+      "bytes": 8235,
+      "sha256": "1c430ffa618e9e58e91d04b275e9cb4fb903f64552e9b2ee4c7580f98522991f",
+      "roles": [
+        "fourteen-original-pure-probes-not-added-to-formal-count"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-source-review-v2/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "fourteen-original-pure-probes-not-added-to-formal-count"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-exactmissing-source-review-v2/stdout.txt",
+      "bytes": 1823,
+      "sha256": "6beee6acc2379ee3d87b02c8ea932332a48552e8ecb89d740491ffdf6e4fb6da",
+      "roles": [
+        "fourteen-original-pure-probes-not-added-to-formal-count"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-missing-art-probe-build-v1.json",
+      "bytes": 666,
+      "sha256": "36b4fced3ca8b18bce030918c1456a68fe9d9c6c8db21b5c95d9d953e7858ea1",
+      "roles": [
+        "explicit-controlled-source-and-readiness-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v40-publication-controlled-v1/first-review-before-scoped-phase-match.mjs",
+      "bytes": 5242,
+      "sha256": "022a004ab094a44107305668b3876d58b69798c4707474266f0adcfd2506f288",
+      "roles": [
+        "retained-readonly-review-helper-rejections"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v40-publication-controlled-v1/first-review-failure.json",
+      "bytes": 518,
+      "sha256": "91813cabda0a943d6bc102b557e22de4fc6d50626088de6200f2e49c9dc864b0",
+      "roles": [
+        "retained-readonly-review-helper-rejections"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v40-publication-controlled-v1/second-review-before-added-boundary-newline.mjs",
+      "bytes": 5549,
+      "sha256": "747d21d837965a0dffafb6b2ee57fa896ed39e88b020b4394c0a05f37602b179",
+      "roles": [
+        "retained-readonly-review-helper-rejections"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v40-publication-controlled-v1/second-review-failure.json",
+      "bytes": 477,
+      "sha256": "950d8210483ef1b838e7b116febd77945f9b0b061fb7753fad8f2789f8a44557",
+      "roles": [
+        "retained-readonly-review-helper-rejections"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v40-root-full-regression-v1.json",
+      "bytes": 4273,
+      "sha256": "4d62bd52e2955b7761727164ebbc56c5e22221d777eb9201a5669f85ea6933a9",
+      "roles": [
+        "root-closed-full-regression-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v40-source-publication-inputs-v1.json",
+      "bytes": 23724,
+      "sha256": "b8c8ea71f40418a78e3ab422d365187b94e0deb972a378698707dc00ad82119c"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-latest-world.json",
+      "bytes": 147947,
+      "sha256": "22f5aebeb64c34bb384c3aa471b5e024dccebbb28d5a1625c60e261de1cd186b",
+      "roles": [
+        "exact-four-current-August-main-input-only"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-sango0.sav",
+      "bytes": 8221,
+      "sha256": "b09b2d6c5ffe776f4fe210a7413bc4a050d8b9b2f0d99ded450fe810cf9891a1",
+      "roles": [
+        "exact-four-current-August-main-input-only"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-sango1.sav",
+      "bytes": 4840,
+      "sha256": "4867fd2aa7fce30cd81eb8640d69ff267196ffe6442279cb069d9dbb58c6b49e",
+      "roles": [
+        "exact-four-current-August-main-input-only"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39.json",
+      "bytes": 16564,
+      "sha256": "79883e209c4be66a0ec253a1617ffb6e0601cd44b4ff225c9618c95462a0b650",
+      "roles": [
+        "exact-four-current-August-main-input-only"
+      ]
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 80899,
+      "sha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2",
+      "roles": [
+        "unchanged-production-source-snapshot",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 133919,
+      "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f",
+      "roles": [
+        "unchanged-production-source-snapshot",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "roles": [
+        "unchanged-production-source-snapshot",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "package.json",
+      "bytes": 19484,
+      "sha256": "d89619c574dff11db482f7cbcd2d9ae376f45046379de451d79251f602fe970d",
+      "roles": [
+        "current-registration-unchanged-by-this-batch",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-classic-presentation.mjs",
+      "bytes": 1965,
+      "sha256": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986",
+      "roles": [
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-evidence-contract.mjs",
+      "bytes": 10750,
+      "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4",
+      "roles": [
+        "unchanged-production-source-snapshot",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-runtime-oracle.mjs",
+      "bytes": 49408,
+      "sha256": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e",
+      "roles": [
+        "unchanged-production-source-snapshot",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-supplied-continuation.mjs",
+      "bytes": 26600,
+      "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f",
+      "roles": [
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-spe.mjs",
+      "bytes": 303084,
+      "sha256": "b05cb961cd891d56a3e9cd85977839c7285c0fe4660a1f8f3d48beb8ef51a09b",
+      "roles": [
+        "current-formal-test",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-classic-presentation.mjs",
+      "bytes": 6847,
+      "sha256": "447ac822361e3a24863e1f0deceb12c892f48e44248ac0e3444a8863047cc3b2",
+      "roles": [
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-supplied-continuation.mjs",
+      "bytes": 22834,
+      "sha256": "dd11b1eb06332a0045cd2b986c0afbfeec47fae3c76c804347d6819ae9e9fa14",
+      "roles": [
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f",
+      "roles": [
+        "unchanged-production-source-snapshot",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/data/pconst.h",
+      "bytes": 1761,
+      "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0",
+      "roles": [
+        "unchanged-production-source-snapshot",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/datman.c",
+      "bytes": 9424,
+      "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c",
+      "roles": [
+        "unchanged-production-source-snapshot",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540",
+      "roles": [
+        "unchanged-production-source-snapshot",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 33782,
+      "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c",
+      "roles": [
+        "unchanged-production-source-snapshot",
+        "all-seventeen-current-full-regression-source-pins"
+      ]
+    }
+  ],
+  "rawBundle": {
+    "path": "docs/validation/m5-wood67-exactmissing-source-20261024-v40-raw.json.gz",
+    "bytes": 839572,
+    "sha256": "a9c33d81ce2e648a86d235931f3ef26eb05ecff21c570f158506ab3c53a191b1"
+  },
+  "rawPayload": {
+    "bytes": 4039063,
+    "sha256": "125c45403d84268f217cacb8464e1bddb0127ab07857859a787207fb7e8f2808"
+  },
+  "fullLog": {
+    "path": "build/hd-full-suite-20261024-v40.log",
+    "bytes": 614320,
+    "sha256": "ddb0f15faac1075f2f6bc579631da980e7c86999e1170cf319ce366875cfd8da"
+  },
+  "fullLogGzip": {
+    "path": "docs/validation/m5-wood67-exactmissing-source-20261024-v40-full-suite.log.gz",
+    "bytes": 156768,
+    "sha256": "9fc1466a53428fa8cfc02fafd24e06f32c3fb36a03a926545191635be9685623"
+  },
+  "oldArchivesTraversed": false,
+  "largeV39ActualArchiveCopied": false,
+  "portableClosedRuntimeArchive": false,
+  "matchingCheckoutRequired": true
+}

@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-11T13:02:59.762Z",
+  "status": "source-validated-runtime-pending",
+  "globalHdComplete": false,
+  "native": {
+    "changed": false,
+    "rebuilt": false,
+    "count": 128,
+    "aggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d"
+  },
+  "manifest": {
+    "previousEntries": 53,
+    "entries": 54,
+    "oldEntriesAndOrderUnchanged": true,
+    "topLevelUnchanged": true
+  },
+  "product": [
+    {
+      "path": "js/bridge.js",
+      "bytes": 154169,
+      "sha256": "d1c1c0cfa7816a9305cee47965aada7cf765bea674ae114c4a54f466eace4a59"
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 118258,
+      "sha256": "df8174565de107cc564b347d8009a7b1d27f294af376a6e8a7e7e97ca14e7d02"
+    },
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 590423,
+      "sha256": "768661f7545e275052be5055b1ad4847a37138a3d537d5ccc6d90f3d1119565b"
+    }
+  ],
+  "defaultSuite": {
+    "modules": 89,
+    "tests": 4404,
+    "suites": 0,
+    "pass": 4404,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "sourceCount": 228,
+    "sourceDrift": []
+  },
+  "addedTests": {
+    "spe": 17,
+    "skillBridge": 36,
+    "mobileControlledVm": 10,
+    "compiledNativeFixture": 2,
+    "total": 65
+  },
+  "targeted": {
+    "frontend": {
+      "modules": 2,
+      "tests": 304,
+      "passed": 304,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "water12NewTests": 53,
+      "speModule": {
+        "tests": 190,
+        "newTests": 17
+      },
+      "skillBridgeModule": {
+        "tests": 114,
+        "newTests": 36
+      }
+    },
+    "compiledNativeThreeModules": {
+      "tests": 67,
+      "pass": 67,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "initialFullSuite": {
+    "tests": 4404,
+    "suites": 0,
+    "pass": 4389,
+    "fail": 15,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "sourceDrift": [],
+    "cause": "The WATER fixture edit broke WOOD source customization anchors and reused modes24. Restore the shared setup/selector and reserve WATER modes91/92. No native or runtime product edits were needed."
+  },
+  "actualRuntime": {
+    "executed": false,
+    "preflightExecuted": false,
+    "pc1080": "pending",
+    "pc720": "pending",
+    "missingAssets": "pending",
+    "classic": "pending",
+    "mobileBrowser": "pending",
+    "device": "pending"
+  },
+  "userService": {
+    "sampledAt": "2026-10-11T13:02:44.4452543Z",
+    "ProcessId": 57860,
+    "ExecutablePath": "C:\\Program Files\\nodejs\\node.exe",
+    "CreationUtc": "2026-10-10T11:26:04.2797180Z",
+    "httpStatus": 200,
+    "changedByThisBatch": false
+  },
+  "limits": [
+    "Controlled VM and compiled C fixtures are not playable browser acceptance.",
+    "11264 outside pixels is the geometric window count, not a new actual browser pixel-equivalence result.",
+    "Terrain outside the effect remains native LCD; complete HD and other skills remain partial.",
+    "Runtime and cleanup scripts are prepared; no execution or owned-process cleanup is claimed in this batch."
+  ],
+  "runtimePreparationProof": "build/water-window-20261011/runtime-safety-preparation-v1.json",
+  "evidence": [
+    {
+      "source": "build/water-window-20261011/batch-summary.json",
+      "file": "m5-water-window-20261011/b3f584f092c6f3c1167fc4141024aff130eba5f4c47c0982e5ff476af9bd2bda.json.gz",
+      "rawBytes": 3216,
+      "rawSha256": "b3f584f092c6f3c1167fc4141024aff130eba5f4c47c0982e5ff476af9bd2bda",
+      "bytes": 1399,
+      "sha256": "bc5d0ec14665ee7c5b85363eb5deff3f41031f9eba268d0a7b1011015719905a"
+    },
+    {
+      "source": "build/water-window-20261011/final-suite-v2/result.json",
+      "file": "m5-water-window-20261011/757b929d1a0aaca98ae510da736f5717d9db6ed6cd6d85517437ca66b4f24bda.json.gz",
+      "rawBytes": 61446,
+      "rawSha256": "757b929d1a0aaca98ae510da736f5717d9db6ed6cd6d85517437ca66b4f24bda",
+      "bytes": 12902,
+      "sha256": "a12688fcb128b2ff8fbaa56a4e60a7ec9d1343f5b8ea6679c1199136f280cab0"
+    },
+    {
+      "source": "build/water-window-20261011/final-suite-v2/test-output.log",
+      "file": "m5-water-window-20261011/f58c2666ccd5e54578379e8042475900029c818cb8b040b7dc34ed178ed77bda.log.gz",
+      "rawBytes": 391445,
+      "rawSha256": "f58c2666ccd5e54578379e8042475900029c818cb8b040b7dc34ed178ed77bda",
+      "bytes": 102685,
+      "sha256": "d8a2f650a3ac5d71ad347b6804f0663be8d0b61bb55fdab8084ea5703c72b15b"
+    },
+    {
+      "source": "build/water-window-20261011/final-suite/result.json",
+      "file": "m5-water-window-20261011/8dc0bb35304a8e8911249e45ce4b40060c1f00bb7d3f14ec85710f75436d6b96.json.gz",
+      "rawBytes": 61447,
+      "rawSha256": "8dc0bb35304a8e8911249e45ce4b40060c1f00bb7d3f14ec85710f75436d6b96",
+      "bytes": 12911,
+      "sha256": "1a8dd0ddc295464f5433c8e82d7c649c0c9dfa13c75f1f54810322e00d59fd36"
+    },
+    {
+      "source": "build/water-window-20261011/final-suite/test-output.log",
+      "file": "m5-water-window-20261011/9886c9196b03ad6ad55e1dc1ea3c3ef9888e4cd5c1daa5ea5eb936d9278a0c42.log.gz",
+      "rawBytes": 403376,
+      "rawSha256": "9886c9196b03ad6ad55e1dc1ea3c3ef9888e4cd5c1daa5ea5eb936d9278a0c42",
+      "bytes": 103752,
+      "sha256": "7b455722b1ef20df2c5dfbca82beb0605c4ee930e7c0eef0da7b745889f239d3"
+    },
+    {
+      "source": "build/water-window-20261011/frontend-tests-freeze-v1.json",
+      "file": "m5-water-window-20261011/3c227de6506d8b86ec2dd040b39c51fe1aa0a7cf7b1e9562b6c08985ea0bb718.json.gz",
+      "rawBytes": 4477,
+      "rawSha256": "3c227de6506d8b86ec2dd040b39c51fe1aa0a7cf7b1e9562b6c08985ea0bb718",
+      "bytes": 1861,
+      "sha256": "41067d0df85510f12000f9d4abc0695229fb18119642e4aa718fa57d1adeab74"
+    },
+    {
+      "source": "build/water-window-20261011/native-shared-fixtures-v2.log",
+      "file": "m5-water-window-20261011/095643625be28446d49f223856e9d4168d82f2484d4785f128e058db1a47622c.log.gz",
+      "rawBytes": 7322,
+      "rawSha256": "095643625be28446d49f223856e9d4168d82f2484d4785f128e058db1a47622c",
+      "bytes": 2459,
+      "sha256": "56ad77e3d994af397debab8cadc94ae688b5dd3ffe7b10ed49cb83eb83a6dda2"
+    },
+    {
+      "source": "build/water-window-20261011/runtime-safety-preparation-v1.json",
+      "file": "m5-water-window-20261011/424e910e26f07e5f93e4cef1db61bf847df10b7dff5d225894ea45a91422c5d6.json.gz",
+      "rawBytes": 6680,
+      "rawSha256": "424e910e26f07e5f93e4cef1db61bf847df10b7dff5d225894ea45a91422c5d6",
+      "bytes": 1797,
+      "sha256": "4d2999f6c8cd18be90308b050a548f1faf9fad35c5dd1b1cd99b72c8db6df44a"
+    },
+    {
+      "source": "build/water-window-20261011/water12-product-final-freeze-v1.json",
+      "file": "m5-water-window-20261011/6fe0712d35242f543b9865ceb4441775618b75c02ba506fb58e2cadca7be5379.json.gz",
+      "rawBytes": 6600,
+      "rawSha256": "6fe0712d35242f543b9865ceb4441775618b75c02ba506fb58e2cadca7be5379",
+      "bytes": 1683,
+      "sha256": "2b5176baf9c9114719501278bd992adbc83c624dff358aa8aeafe046b2bdd8e7"
+    },
+    {
+      "source": "build/water-window-20261011/water12-product-forward-inverse-delta-v1.json",
+      "file": "m5-water-window-20261011/adeef66b3fec5b4122520cac8ba5505a54b780d36954bd84e439f9bf02b0b811.json.gz",
+      "rawBytes": 357993,
+      "rawSha256": "adeef66b3fec5b4122520cac8ba5505a54b780d36954bd84e439f9bf02b0b811",
+      "bytes": 72169,
+      "sha256": "c5b62d68ae5aa95be1b5d1e786c1d83fa9dba3085bdafd33f83487d70bc87029"
+    },
+    {
+      "source": "build/water-window-20261011/user-service-verification.json",
+      "file": "m5-water-window-20261011/a0d9bce4e7aeeb96790e745135a55eca2ee1ba6bf050f75c5e86a9f842f33fff.json.gz",
+      "rawBytes": 240,
+      "rawSha256": "a0d9bce4e7aeeb96790e745135a55eca2ee1ba6bf050f75c5e86a9f842f33fff",
+      "bytes": 204,
+      "sha256": "2a000498a72d47660cf229ab4daf0d2d398d7209377046e2a43fd227886f43e1"
+    }
+  ],
+  "archive": "m5-water-window-20261011-archive.json",
+  "archiveUniqueFiles": 250
+}

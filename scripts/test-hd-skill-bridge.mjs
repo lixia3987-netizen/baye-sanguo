@@ -1,0 +1,465 @@
+// Read-only boundary tests. Actual native functions and pixels are verified by
+// test-hd-skill-engine.mjs; these snapshots are deliberately synthetic.
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import test from 'node:test';
+import vm from 'node:vm';
+const source=readFileSync(new URL('../js/bridge.js',import.meta.url),'utf8');
+const native=readFileSync(new URL('../vendor/iBaye/src/hd-bridge.c',import.meta.url),'utf8');
+const lib=readFileSync(new URL('../libs/dat-mod.lib',import.meta.url));
+const plain=v=>JSON.parse(JSON.stringify(v));
+function resource(id){const at=lib.readUInt32LE((id-1)*4);return lib.subarray(at+14,at+14+lib.readUInt32LE(at+8));}
+function fnv(bytes){let hash=2166136261;for(const b of bytes)hash=Math.imul(hash^b,16777619)>>>0;return hash;}
+const fire=resource(35),num=resource(15);
+function fixture(){
+    const raw={},writes=[],keys=[],calls=[];let onRead=null;
+    const context=vm.createContext({TextDecoder,TextEncoder,Module:{HEAPU8:new Uint8Array(8192)},console:{log(){},warn(){}},addEventListener(){},alert(){},lcdBlur(){}});context.window=context;
+    for(const n of new Set(source.match(/\b_baye\w+/g)))context[n]=()=>0;
+    context._bayeHdReady=()=>1;context._bayeSendKey=k=>keys.push(k);
+    vm.runInContext(source,context);context.baye_bridge_init();
+    function readonly(v,path=''){return v&&typeof v==='object'?new Proxy(v,{get(o,k){onRead?.(path,k);return readonly(o[k],path+'.'+String(k));},set(o,k){writes.push(path+'.'+String(k));throw Error('write');}}):v;}
+    const baye=context.baye;baye.data=readonly(raw);baye.ensureData=()=>baye.data;
+    for(const n of ['getPersonName','getSkillName','getArmType','callHook'])baye[n]=(...a)=>{calls.push([n,...a]);throw Error('uncaptured getter');};
+    for(const match of native.slice(0,native.indexOf('U8 g_hdSkillActive =')).matchAll(/\b(?:U8|U16|U32|I16)\s+([^;]+);/g)){
+        for(const decl of match[1].split(',')){
+            const m=/\b(g_hdSkillResult\w+)\s*(?:\[([^\]]+)\])?/.exec(decl);if(!m)continue;
+            const len=m[2]==='BAYE_HD_SPE_FRAME_BYTES'?32:m[2]==='BAYE_HD_SKILL_DIGITS'?10:m[2]==='BAYE_HD_SKILL_LABEL_BYTES'?64:Number(m[2]);
+            raw[m[1]]=m[2]?Array(len).fill(0):0;
+        }
+    }
+    function picture(prefix,id,bytes){Object.assign(raw,{[prefix+'Valid']:1,[prefix+'Id']:id,[prefix+'ResourceIndex']:0,[prefix+'PictureIndex']:0,[prefix+'Width']:bytes.readUInt16LE(0),[prefix+'Height']:bytes.readUInt16LE(2),[prefix+'Count']:bytes.readUInt16LE(4),[prefix+'Mask']:bytes[6],[prefix+'OriginX']:0,[prefix+'OriginY']:0,[prefix+'ResourceFingerprint']:fnv(bytes),[prefix+'ResourceLength']:bytes.length});}
+    function hold(phase=3){
+        Object.assign(raw,{g_hdResultOwnerKind:2,g_hdResultOwnerValid:1,g_hdResultOwnerGeneration:7,g_hdResultOwnerSession:11,
+            g_hdSpeGeneration:7,g_hdSpeActive:0,
+            g_hdSkillResultProtocolVersion:1,g_hdSkillResultActive:1,g_hdSkillResultPhase:phase,g_hdSkillResultCustom:0,g_hdSkillResultSourceValid:1,
+            g_hdSkillResultGeneration:7,g_hdSkillResultSession:11,g_hdSkillResultSkillId:1,g_hdSkillResultResultKind:1,g_hdSkillResultActorIndex:2,g_hdSkillResultTargetIndex:10,g_hdSkillResultValue:240,
+            g_hdSkillResultPaintSeq:27,g_hdSkillResultEventId:31,g_hdSkillResultCommitSeq:8,g_hdSkillResultFrameIndex:7,g_hdSkillResultId:35,g_hdSkillResultResourceIndex:0,
+            g_hdSkillResultCount:fire[2],g_hdSkillResultPicmax:fire[3],g_hdSkillResultStartFrm:0,g_hdSkillResultEndFrm:7,g_hdSkillResultOriginX:48,g_hdSkillResultOriginY:16,
+            g_hdSkillResultResourceFingerprint:fnv(fire),g_hdSkillResultResourceLength:fire.length,
+            g_hdSkillResultDisplayValid:1,g_hdSkillResultDisplayGeneration:7,g_hdSkillResultDisplaySession:11,g_hdSkillResultDisplayPaintSeq:27,g_hdSkillResultDisplayEventId:31,g_hdSkillResultDisplayCommitSeq:8,g_hdSkillResultDisplayFrameIndex:7});
+        picture('g_hdSkillResultNumber',15,num);
+        for(const p of ['g_hdSkillResult','g_hdSkillResultDisplay']){
+            Object.assign(raw,{[p+'SceneMode']:2,[p+'SceneX']:48,[p+'SceneY']:16,[p+'SceneWidth']:65,[p+'SceneHeight']:64,[p+'LabelValid']:1,[p+'LabelX']:55,[p+'LabelY']:18,[p+'LabelLength']:8,[p+'DigitCount']:3});
+            raw[p+'LabelGbk']=Array(64).fill(0);raw[p+'LabelGbk'].splice(0,8,...Buffer.from('b1f8c1a6bcf5c9d9','hex'));
+            raw[p+'VisibleFrames']=Array(32).fill(0);raw[p+'VisibleFrames'][0]=128;
+            raw[p+'ClearFrames']=Array(32).fill(0);raw[p+'ClearFrames'][0]=127;
+            for(const f of ['Index','X','Y','FirstY','DrawCount'])raw[p+'Digit'+f]=Array(10).fill(0);
+            for(let i=0;i<3;i++){raw[p+'DigitIndex'][i]=[2,4,0][i];raw[p+'DigitX'][i]=55+i*6;raw[p+'DigitY'][i]=49;raw[p+'DigitFirstY'][i]=56;raw[p+'DigitDrawCount'][i]=8;}
+        }
+    }
+    function untouched(){assert.deepEqual(writes,[]);assert.deepEqual(keys,[]);assert.deepEqual(calls,[]);}
+    return{raw,baye,hold,untouched,onRead:f=>{onRead=f;}};
+}
+function neutral(s){assert.equal(s.active,false);assert.equal(s.phase,null);assert.equal(s.sourceValid,false);assert.equal(s.scene,null);assert.equal(s.display,null);assert.equal(s.value,null);assert.deepEqual(plain(s.digits),[]);}
+function unsafe(s){assert.equal(s.sourceValid,false);assert.equal(s.display?.valid??false,false);assert.equal(s.scene?.frameValid??false,false);}
+test('skill result keeps its actual read-only owner while public SPE remains inactive',()=>{
+    const f=fixture();f.hold();const s=f.baye.hd.skillResult();assert.equal(s.active,true);assert.equal(s.phase,'hold');assert.equal(s.skillId,1);assert.equal(s.value,240);
+    assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);assert.equal(s.display.label.text,'兵力减少');assert.equal(s.display.composition.mode,2);assert.equal(s.display.composition.background.valid,false);
+    assert.deepEqual(plain(s.display.digits).map(d=>d.digit),[2,4,0]);assert.equal(s.skipEligible,false);assert.equal(s.returnEligible,false);assert.equal(f.raw.g_hdSpeActive,0);f.untouched();
+});
+test('pending label and pre-NUM resource do not move displayed pixels forward',()=>{
+    const f=fixture();f.hold(2);for(const p of ['g_hdSkillResult','g_hdSkillResultDisplay']){f.raw[p+'DigitCount']=0;f.raw[p+'LabelValid']=0;for(const n of ['Index','X','Y','FirstY','DrawCount'])f.raw[p+'Digit'+n].fill(0);}
+    f.raw.g_hdSkillResultNumberValid=0;const s=f.baye.hd.skillResult();assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);assert.equal(s.display.label.valid,false);assert.deepEqual(plain(s.display.digits),[]);f.untouched();
+});
+for(const [name,change] of [
+    ['custom',r=>{r.g_hdSkillResultCustom=1;}],['retired source',r=>{r.g_hdSkillResultSourceValid=0;}],
+    ['another top owner kind',r=>{r.g_hdResultOwnerKind=1;}],['another top session',r=>{r.g_hdResultOwnerSession++;}],
+    ['invalid parent observer',r=>{r.g_hdResultOwnerValid=0;}],
+    ['unknown scene',r=>{r.g_hdSkillResultSceneMode=0;}],['missing movie',r=>{r.g_hdSkillResultEventId=0;}],
+    ['outside label',r=>{r.g_hdSkillResultLabelX=100;}],['incomplete GBK',r=>{r.g_hdSkillResultLabelLength=7;}],
+    ['trailing byte',r=>{r.g_hdSkillResultLabelGbk[63]=1;}],['wrong decimal',r=>{r.g_hdSkillResultDigitIndex[1]=9;}],
+    ['invalid upward draw',r=>{r.g_hdSkillResultDigitY[0]=48;}],['unused digit forgery',r=>{r.g_hdSkillResultDigitX[9]=55;}],
+    ['provender has no prior scene',r=>{r.g_hdSkillResultResultKind=3;}],['outside digit',r=>{r.g_hdSkillResultDigitX[0]=110;}],
+    ['out of range live bit',r=>{r.g_hdSkillResultVisibleFrames[31]=128;}],['out of range clear bit',r=>{r.g_hdSkillResultClearFrames[1]=1;}]
+])test('skill HD rejects '+name+' without changing native inputs',()=>{const f=fixture();f.hold();change(f.raw);unsafe(f.baye.hd.skillResult());f.untouched();});
+for(const [name,change] of [
+    ['another session',r=>{r.g_hdSkillResultDisplaySession++;}],['future paint',r=>{r.g_hdSkillResultDisplayPaintSeq++;}],
+    ['another window',r=>{r.g_hdSkillResultDisplaySceneX++;}],['other label',r=>{r.g_hdSkillResultDisplayLabelGbk[1]^=1;}],
+    ['displayed bit drift',r=>{r.g_hdSkillResultDisplayVisibleFrames[0]=64;}],['displayed pose ahead',r=>{r.g_hdSkillResultDisplayDigitDrawCount[0]=9;}]
+])test('skill display rejects '+name+' separately from its current source',()=>{const f=fixture();f.hold();change(f.raw);const s=f.baye.hd.skillResult();assert.equal(s.sourceValid,true);assert.equal(s.display.valid,false);f.untouched();});
+for(const name of ['g_hdSkillResultSession','g_hdSkillResultLabelGbk','g_hdSkillResultDisplayClearFrames','g_hdSkillResultDigitDrawCount'])test('complete strict snapshot neutralizes missing '+name,()=>{const f=fixture();f.hold();delete f.raw[name];neutral(f.baye.hd.skillResult());f.untouched();});
+test('reentrant field reads cannot join another session to a label or digit array',()=>{
+    const f=fixture();f.hold();let once=false;f.onRead((p,k)=>{if(!once&&p==='.g_hdSkillResultDisplayLabelGbk'&&k==='63'){once=true;f.raw.g_hdSkillResultSession++;}});neutral(f.baye.hd.skillResult());f.untouched();
+});
+test('malformed numbers and missing native data do not coerce to person/value zero',()=>{
+    const f=fixture();f.hold();f.raw.g_hdSkillResultValue='240';neutral(f.baye.hd.skillResult());f.baye.ensureData=()=>null;neutral(f.baye.hd.skillResult());f.untouched();
+});
+test('native result stack keeps an overwritten real parent active for LCD, without authorizing child metadata',()=>{
+    const f=fixture();f.hold();f.raw.g_hdResultOwnerSession=10;f.raw.g_hdResultOwnerValid=0;const top=f.baye.hd.resultOwner();
+    assert.equal(top.active,true);assert.equal(top.kind,2);assert.equal(top.valid,false);assert.equal(top.session,10);unsafe(f.baye.hd.skillResult());
+    delete f.raw.g_hdResultOwnerGeneration;assert.equal(f.baye.hd.resultOwner().active,false);neutral(f.baye.hd.skillResult());f.untouched();
+});
+
+// Original FIRE5/11/18 share an exact opaque65x64 source. These synthetic
+// owner tests never claim an actual game cast or authorize unknown contexts.
+const fireHeader=readFileSync(new URL('../vendor/iBaye/src/hd-bridge.h',import.meta.url),'utf8');
+const fireConstants=Object.fromEntries([...fireHeader.matchAll(/^#define\s+([A-Z_][A-Z_0-9]*)\s+(\d+)\b/gm)].map(m=>[m[1],+m[2]]));
+const bits=(...list)=>{const b=Array(32).fill(0);for(const n of list)b[n>>3]|=1<<(n&7);return b;};
+function fireMovieFixture(){
+ const raw={},keys=[],writes=[],calls=[];let onRead=null;
+ const c=vm.createContext({TextDecoder,TextEncoder,Module:{HEAPU8:new Uint8Array(8192)},console:{log(){},warn(){}},addEventListener(){},alert(){},lcdBlur(){}});c.window=c;
+ for(const n of new Set(source.match(/\b_baye\w+/g)))c[n]=()=>0;
+ c._bayeHdReady=()=>1;c._bayeSendKey=k=>keys.push(k);vm.runInContext(source,c);c.baye_bridge_init();
+ function readonly(v,p=''){return v&&typeof v==='object'?new Proxy(v,{get(o,k){onRead?.(p,k);return readonly(o[k],p+'.'+String(k));},set(o,k){writes.push(p+'.'+String(k));throw Error('world write');}}):v;}
+ const baye=c.baye;baye.data=readonly(raw);baye.ensureData=()=>baye.data;
+ for(const n of ['getPersonName','getCityName','getArmType','callHook'])baye[n]=(...a)=>{calls.push([n,...a]);throw Error('uncaptured getter/hook');};
+ for(const match of native.slice(native.indexOf('U8 g_hdSpePendingKind ='),native.indexOf('U8 g_hdSkillActive =')).matchAll(/\b(?:U8|U16|U32|I16)\s+([^;]+);/g))for(const decl of match[1].split(',')){
+  const m=/\b(g_hd(?:Spe|SkillResult|ResultOwner)\w+)\s*(?:\[([^\]]+)\])?/.exec(decl);if(!m)continue;
+  const len=fireConstants[m[2]]??Number(m[2]);raw[m[1]]=m[2]?Array(len).fill(0):0;
+ }
+ function movie(skill=5,current=0,display=current){
+  Object.assign(raw,{g_scale:1,g_screenWidth:160,g_screenHeight:96,g_hdReportActive:0,g_hdHelpActive:0,g_hdQtyActive:0,
+   g_hdSpeProtocolVersion:2,g_hdSpeActive:1,g_hdSpeId:35,g_hdSpeKind:2,g_hdSpeSeq:12,g_hdSpeGeneration:7,g_hdSpeEventId:31,
+   g_hdSpeParentEventId:0,g_hdSpeDepth:1,g_hdSpeResourceIndex:0,g_hdSpeCount:8,g_hdSpePicmax:2,g_hdSpeStartFrm:0,g_hdSpeEndFrm:7,
+   g_hdSpeOriginX:48,g_hdSpeOriginY:16,g_hdSpeResourceFingerprint:fnv(fire),g_hdSpeResourceLength:fire.length,g_hdSpeProtocolValid:1,
+   g_hdSpeFrameValid:1,g_hdSpeCommitSeq:current+1,g_hdSpeFrameIndex:current,g_hdSpeKeyflag:0,g_hdSpeSkipEligible:0,
+   g_hdSpeContextKnown:1,g_hdSpeSkillId:skill,g_hdSpeActorIndex:2,g_hdSpeTargetIndex:10,g_hdSpeCompositionVersion:1,g_hdSpeCompositionValid:1,
+   g_hdSpeDisplayCompositionValid:1,g_hdSpeDisplayGeneration:7,g_hdSpeDisplayEventId:31,g_hdSpeDisplayCommitSeq:display+1,
+   g_hdSpeDisplayFrameIndex:display,g_hdSpeDisplayFrameValid:1});
+  for(const [p,f] of [['g_hdSpe',current],['g_hdSpeDisplay',display]])Object.assign(raw,{[p+'SceneMode']:2,[p+'SceneX']:48,[p+'SceneY']:16,[p+'SceneWidth']:65,[p+'SceneHeight']:64,[p+'VisibleFrames']:bits(f),[p+'ClearFrames']:bits(...Array.from({length:f},(_,i)=>i))});
+ }
+ function picture(p,id,b){Object.assign(raw,{[p+'Valid']:1,[p+'Id']:id,[p+'ResourceIndex']:0,[p+'PictureIndex']:0,[p+'Width']:b.readUInt16LE(0),[p+'Height']:b.readUInt16LE(2),[p+'Count']:b.readUInt16LE(4),[p+'Mask']:b[6],[p+'OriginX']:0,[p+'OriginY']:0,[p+'ResourceFingerprint']:fnv(b),[p+'ResourceLength']:b.length});}
+ function hold(){
+  movie(5,7);Object.assign(raw,{g_hdSpeActive:0,g_hdResultOwnerKind:2,g_hdResultOwnerValid:1,g_hdResultOwnerGeneration:7,g_hdResultOwnerSession:11,
+   g_hdSkillResultProtocolVersion:1,g_hdSkillResultActive:1,g_hdSkillResultPhase:3,g_hdSkillResultCustom:0,g_hdSkillResultSourceValid:1,
+   g_hdSkillResultGeneration:7,g_hdSkillResultSession:11,g_hdSkillResultSkillId:5,g_hdSkillResultResultKind:1,g_hdSkillResultActorIndex:2,g_hdSkillResultTargetIndex:10,
+   g_hdSkillResultValue:240,g_hdSkillResultPaintSeq:27,g_hdSkillResultEventId:31,g_hdSkillResultCommitSeq:8,g_hdSkillResultFrameIndex:7,
+   g_hdSkillResultId:35,g_hdSkillResultResourceIndex:0,g_hdSkillResultCount:8,g_hdSkillResultPicmax:2,g_hdSkillResultStartFrm:0,g_hdSkillResultEndFrm:7,
+   g_hdSkillResultOriginX:48,g_hdSkillResultOriginY:16,g_hdSkillResultResourceFingerprint:fnv(fire),g_hdSkillResultResourceLength:fire.length,
+   g_hdSkillResultDisplayValid:1,g_hdSkillResultDisplayGeneration:7,g_hdSkillResultDisplaySession:11,g_hdSkillResultDisplayPaintSeq:27,
+   g_hdSkillResultDisplayEventId:31,g_hdSkillResultDisplayCommitSeq:8,g_hdSkillResultDisplayFrameIndex:7});
+  picture('g_hdSkillResultNumber',15,num);
+  for(const p of ['g_hdSkillResult','g_hdSkillResultDisplay']){
+   Object.assign(raw,{[p+'SceneMode']:2,[p+'SceneX']:48,[p+'SceneY']:16,[p+'SceneWidth']:65,[p+'SceneHeight']:64,[p+'VisibleFrames']:bits(7),[p+'ClearFrames']:bits(0,1,2,3,4,5,6),[p+'LabelValid']:1,[p+'LabelX']:55,[p+'LabelY']:18,[p+'LabelLength']:8,[p+'DigitCount']:3});
+   raw[p+'LabelGbk']=Array(64).fill(0);raw[p+'LabelGbk'].splice(0,8,...Buffer.from('b1f8c1a6bcf5c9d9','hex'));
+   for(const n of ['Index','X','Y','FirstY','DrawCount'])raw[p+'Digit'+n]=Array(10).fill(0);
+   for(let i=0;i<3;i++){raw[p+'DigitIndex'][i]=[2,4,0][i];raw[p+'DigitX'][i]=55+i*6;raw[p+'DigitY'][i]=49;raw[p+'DigitFirstY'][i]=56;raw[p+'DigitDrawCount'][i]=8;}
+  }
+ }
+ return{raw,baye,movie,hold,picture,onRead:f=>onRead=f,replaceData(){baye.data=readonly(structuredClone(raw));},untouched(){assert.deepEqual(keys,[]);assert.deepEqual(writes,[]);assert.deepEqual(calls,[]);}};
+}
+
+function rejectFire(f){const s=f.baye.hd.spe();assert.equal(s.composition.valid,false);assert.equal(s.display.composition.valid,false);f.untouched();}
+test('exact FIRE5 ROM source is1212bytes and authentic65wide opaque pictures',()=>{
+ assert.equal(fire.length,1212);assert.equal(fnv(fire),0x0bf53f74);assert.deepEqual([...fire.subarray(2,6)],[8,2,0,7]);
+ let off=6+8*5;for(let p=0;p<2;p++){assert.equal(fire.readUInt16LE(off),65);assert.equal(fire.readUInt16LE(off+2),64);assert.equal(fire[off+6],0);off+=7+Math.ceil(65/8)*64;}
+ assert.equal(off,fire.length);
+});
+for(let frame=0;frame<8;frame++)test('FIRE5 source copy '+frame+' authenticates current and exact displayed65x64 owner',()=>{
+ const f=fireMovieFixture();f.movie(5,frame);const s=f.baye.hd.spe();assert.equal(s.skillId,5);assert.equal(s.contextKnown,true);assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+ assert.deepEqual([s.composition.mode,s.composition.x,s.composition.y,s.composition.width,s.composition.height],[2,48,16,65,64]);assert.deepEqual(plain(s.display.visibleFrames),bits(frame));assert.deepEqual(plain(s.display.composition.clearFrames),bits(...Array.from({length:frame},(_,i)=>i)));f.untouched();
+});
+test('FIRE displayed commit may truly lag current source without borrowing future clear bits',()=>{
+ const f=fireMovieFixture();f.movie(5,7,2);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);assert.equal(s.display.commitSeq,3);assert.equal(s.commitSeq,8);assert.deepEqual(plain(s.display.composition.clearFrames),bits(0,1));f.untouched();
+});
+for(const [label,change]of[
+ ['unrelated skill10',r=>r.g_hdSpeSkillId=10],['unrelated skill22',r=>r.g_hdSpeSkillId=22],['other skill14',r=>r.g_hdSpeSkillId=14],['other skill15',r=>r.g_hdSpeSkillId=15],
+ ['custom context',r=>r.g_hdSpeContextKnown=0],['wrong movie',r=>r.g_hdSpeId=36],['fingerprint',r=>r.g_hdSpeResourceFingerprint^=1],['resource length',r=>r.g_hdSpeResourceLength--],
+ ['truncated64 source',r=>r.g_hdSpeSceneWidth=64],['invented66 source',r=>r.g_hdSpeSceneWidth=66],['noninteger geometry',r=>r.g_hdSpeSceneWidth='65'],['height',r=>r.g_hdSpeSceneHeight=63],
+ ['origin',r=>r.g_hdSpeOriginX=47],['scene origin',r=>r.g_hdSpeSceneY=15],['keyflag',r=>r.g_hdSpeKeyflag=1],['drawing scale',r=>r.g_scale=2],['screen width',r=>r.g_screenWidth=161],
+ ['unknown actor',r=>r.g_hdSpeActorIndex=20],['unknown target',r=>r.g_hdSpeTargetIndex=20],['wrong range',r=>r.g_hdSpeEndFrm=6],['wrong frame count',r=>r.g_hdSpeCount=7],['wrong picture count',r=>r.g_hdSpePicmax=3],
+ ['movie boundary',r=>r.g_hdSpeSceneMode=1],['no real opaque frontier',r=>r.g_hdSpeVisibleFrames.fill(0)],['future clear',r=>r.g_hdSpeClearFrames[0]=2],['competing report',r=>r.g_hdReportActive=1],['missing geometry',r=>delete r.g_hdSpeSceneWidth]
+])test('FIRE65 authentication rejects '+label+' and preserves all native inputs',()=>{const f=fireMovieFixture();f.movie();change(f.raw);rejectFire(f);});
+for(const[label,change]of[
+ ['truncated display64',r=>r.g_hdSpeDisplaySceneWidth=64],['future display commit',r=>r.g_hdSpeDisplayCommitSeq=9],['future visible copy',r=>r.g_hdSpeDisplayVisibleFrames[0]=8],['future clear copy',r=>r.g_hdSpeDisplayClearFrames[0]=8],['different event',r=>r.g_hdSpeDisplayEventId++],['different generation',r=>r.g_hdSpeDisplayGeneration++]
+])test('FIRE65 display independently rejects '+label,()=>{const f=fireMovieFixture();f.movie(5,7,2);change(f.raw);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();});
+test('FIRE65 remains LCD on a late raw mutation or opaque data rebinding',()=>{
+ for(const rebind of [false,true]){const f=fireMovieFixture();f.movie();let once=false;f.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSpeStatusProtocolVersion'){once=true;if(rebind)f.replaceData();else f.raw.g_hdSpeSceneWidth=64;}});rejectFire(f);}
+});
+for(const phase of [2,3])test('FIRE5 real saved final copy retains65window through NUM or HOLD phase '+phase,()=>{
+ const f=fireMovieFixture();f.hold();f.raw.g_hdSkillResultPhase=phase;const s=f.baye.hd.skillResult();assert.equal(s.skillId,5);assert.equal(s.speId,35);assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);assert.deepEqual([s.display.composition.mode,s.display.composition.x,s.display.composition.y,s.display.composition.width,s.display.composition.height],[2,48,16,65,64]);assert.deepEqual(plain(s.display.digits).map(d=>d.digit),[2,4,0]);f.untouched();
+});
+
+// Reuse the read-only ABI harness, but decode WATER's independent ROM source.
+// These are controlled public snapshots, not proof of native skill success.
+const water=resource(36);
+function waterMovieFixture(){
+ const f=fireMovieFixture();
+ function movie(current=0,shown=current){
+  f.movie(12,current,shown);Object.assign(f.raw,{g_hdSpeId:36,g_hdSpeResourceFingerprint:fnv(water),g_hdSpeResourceLength:water.length,
+   g_hdSpeSceneWidth:64,g_hdSpeDisplaySceneWidth:64});
+ }
+ function hold(phase=3){
+  f.hold();Object.assign(f.raw,{g_hdSpeId:36,g_hdSpeSkillId:12,g_hdSpeResourceFingerprint:fnv(water),g_hdSpeResourceLength:water.length,
+   g_hdSpeSceneWidth:64,g_hdSpeDisplaySceneWidth:64,g_hdSkillResultPhase:phase,g_hdSkillResultSkillId:12,g_hdSkillResultId:36,
+   g_hdSkillResultResourceFingerprint:fnv(water),g_hdSkillResultResourceLength:water.length,
+   g_hdSkillResultSceneWidth:64,g_hdSkillResultDisplaySceneWidth:64});
+ }
+ return{...f,movie,hold};
+}
+function rejectWater(f){const s=f.baye.hd.spe();assert.equal(s.composition.valid,false);assert.equal(s.display.composition.valid,false);f.untouched();}
+test('WATER12 exact ROM36 source has1084bytes two64opaque slots and8real20tick alternating units',()=>{
+ assert.equal(water.length,1084);assert.equal(fnv(water),0x6d62e7a8);assert.deepEqual([...water.subarray(2,6)],[8,2,0,7]);
+ for(let i=0;i<8;i++)assert.deepEqual([...water.subarray(6+5*i,11+5*i)],[0,0,20,20,i%2]);
+ let at=46;for(let i=0;i<2;i++){assert.equal(water.readUInt16LE(at),64);assert.equal(water.readUInt16LE(at+2),64);assert.equal(water[at+6],0);at+=7+8*64;}
+ assert.equal(at,water.length);
+});
+for(const frame of [0,3,7])test('WATER12 controlled raw current/display copy '+frame+' authenticates exact64square without getters or inputs',()=>{
+ const f=waterMovieFixture();f.movie(frame);const s=f.baye.hd.spe();
+ assert.equal(s.protocolVersion,2);assert.equal(s.id,36);assert.equal(s.skillId,12);assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+ assert.deepEqual([s.composition.mode,s.composition.x,s.composition.y,s.composition.width,s.composition.height],[2,48,16,64,64]);
+ assert.deepEqual(plain(s.display.visibleFrames),bits(frame));assert.deepEqual(plain(s.display.composition.clearFrames),bits(...Array.from({length:frame},(_,i)=>i)));f.untouched();
+});
+test('WATER12 displayed copy may lag current but each independently establishes its copied frontier',()=>{
+ const f=waterMovieFixture();f.movie(7,2);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+ assert.equal(s.commitSeq,8);assert.equal(s.display.commitSeq,3);assert.deepEqual(plain(s.display.composition.clearFrames),bits(0,1));f.untouched();
+});
+test('WATER12 clear-only frontier is authentic while missing that frontier is not',()=>{
+ const f=waterMovieFixture();f.movie(3);
+ for(const p of ['g_hdSpe','g_hdSpeDisplay']){f.raw[p+'VisibleFrames']=bits();f.raw[p+'ClearFrames']=bits(0,1,2,3);}
+ const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+ f.raw.g_hdSpeClearFrames=bits(0,1,2);rejectWater(f);
+});
+for(const[label,change]of[
+ ['unrelated skill18',r=>r.g_hdSpeSkillId=18],['unrelated skill5',r=>r.g_hdSpeSkillId=5],['unknown context',r=>r.g_hdSpeContextKnown=0],
+ ['wrong resource',r=>r.g_hdSpeId=35],['wrong fingerprint',r=>r.g_hdSpeResourceFingerprint^=1],['truncated source',r=>r.g_hdSpeResourceLength--],
+ ['inflated65 width',r=>r.g_hdSpeSceneWidth=65],['truncated63 width',r=>r.g_hdSpeSceneWidth=63],['nonnumeric width',r=>r.g_hdSpeSceneWidth='64'],
+ ['wrong origin',r=>r.g_hdSpeOriginX=47],['mode3 nested backdrop',r=>r.g_hdSpeSceneMode=3],['unknown actor',r=>r.g_hdSpeActorIndex=20],
+ ['unknown target',r=>r.g_hdSpeTargetIndex=20],['interactive keyflag',r=>r.g_hdSpeKeyflag=1],['nonpast current bit',r=>r.g_hdSpeVisibleFrames=bits(1)],
+ ['competing report',r=>r.g_hdReportActive=1],['unscaled screen',r=>r.g_scale=2],['partial ABI geometry',r=>delete r.g_hdSpeSceneWidth]
+])test('WATER12 raw ownership rejects '+label+' without native work',()=>{const f=waterMovieFixture();f.movie();change(f.raw);rejectWater(f);});
+for(const[label,change]of[
+ ['future commit',r=>r.g_hdSpeDisplayCommitSeq=9],['future copy',r=>r.g_hdSpeDisplayVisibleFrames=bits(3)],
+ ['future clear',r=>r.g_hdSpeDisplayClearFrames=bits(3)],['different event',r=>r.g_hdSpeDisplayEventId++],
+ ['different generation',r=>r.g_hdSpeDisplayGeneration++],['wrong64rectangle',r=>r.g_hdSpeDisplaySceneWidth=65],
+ ['frontier not established',r=>{r.g_hdSpeDisplayVisibleFrames=bits();r.g_hdSpeDisplayClearFrames=bits(0,1);}]
+])test('WATER12 displayed owner rejects '+label+' independently of valid current copy',()=>{
+ const f=waterMovieFixture();f.movie(7,2);change(f.raw);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();
+});
+test('WATER12 equal current/display commit requires the same copied frames and clear history',()=>{
+ for(const change of [r=>r.g_hdSpeDisplayVisibleFrames=bits(2),r=>r.g_hdSpeDisplayClearFrames=bits(0)]){
+  const f=waterMovieFixture();f.movie(3);change(f.raw);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();
+ }
+});
+test('WATER12 late raw mutation and same-primitive opaque data rebind fail the public snapshot fence',()=>{
+ for(const rebind of [false,true]){const f=waterMovieFixture();f.movie();let once=false;
+  f.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSpeStatusProtocolVersion'){once=true;if(rebind)f.replaceData();else f.raw.g_hdSpeSceneWidth=65;}});rejectWater(f);
+ }
+});
+for(const phase of [2,3])test('WATER12 raw NUM/HOLD phase '+phase+' binds realNUM15 and saved final64square to top session',()=>{
+ const f=waterMovieFixture();f.hold(phase);const s=f.baye.hd.skillResult();
+ assert.equal(s.skillId,12);assert.equal(s.speId,36);assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);
+ assert.deepEqual([s.display.composition.mode,s.display.composition.x,s.display.composition.y,s.display.composition.width,s.display.composition.height],[2,48,16,64,64]);
+ assert.deepEqual(plain(s.display.digits).map(d=>[d.digit,d.x,d.y,d.firstY,d.drawCount]),[[2,55,49,56,8],[4,61,49,56,8],[0,67,49,56,8]]);
+ assert.equal(s.number.valid,true);assert.equal(s.number.id,15);f.untouched();
+});
+test('WATER12 raw HOLD rejects stale top session, forged NUM payload and late data binding',()=>{
+ for(const change of [r=>r.g_hdResultOwnerSession++,r=>r.g_hdSkillResultNumberResourceFingerprint^=1,r=>r.g_hdSkillResultDisplaySession++]){
+  const f=waterMovieFixture();f.hold();change(f.raw);const s=f.baye.hd.skillResult();
+  assert.ok(!s.sourceValid||!s.display.valid||!s.number.valid,'stale top or invalid saved numeric source cannot fully authenticate');f.untouched();
+ }
+ const f=waterMovieFixture();f.hold();let once=false;f.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSkillResultDisplayDigitDrawCount'){once=true;f.replaceData();}});
+ const s=f.baye.hd.skillResult();assert.equal(once,true);assert.equal(s.sourceValid,false);f.untouched();
+});
+
+// STONE is decoded independently; matching WATER geometry is not authority.
+const stone=resource(42);
+function stoneMovieFixture(){
+ const f=waterMovieFixture();
+ const bind=()=>Object.assign(f.raw,{g_hdSpeId:42,g_hdSpeSkillId:23,g_hdSpeResourceFingerprint:fnv(stone),g_hdSpeResourceLength:stone.length});
+ return {...f,movie(current=0,shown=current){f.movie(current,shown);bind();},hold(phase=3){f.hold(phase);bind();
+  Object.assign(f.raw,{g_hdSkillResultSkillId:23,g_hdSkillResultId:42,g_hdSkillResultResourceFingerprint:fnv(stone),g_hdSkillResultResourceLength:stone.length});}};
+}
+test('STONE23 original ROM42 owns eight alternating opaque64 copies, independently of WATER36',()=>{
+ assert.equal(stone.length,1084);assert.equal(fnv(stone),0x0e6f8d97);assert.notDeepEqual(stone,water);
+ assert.deepEqual([...stone.subarray(2,6)],[8,2,0,7]);
+ for(let i=0;i<8;i++)assert.deepEqual([...stone.subarray(6+i*5,11+i*5)],[0,0,20,20,i%2]);
+ let offset=46;for(let i=0;i<2;i++){assert.deepEqual([stone.readUInt16LE(offset),stone.readUInt16LE(offset+2),stone[offset+6]],[64,64,0]);offset+=519;}
+ assert.equal(offset,stone.length);
+});
+for(let frame=0;frame<8;frame++)test('STONE23 authentic copied frontier '+frame+' publishes only its actual64square',()=>{
+ const f=stoneMovieFixture();f.movie(frame);const s=f.baye.hd.spe();
+ assert.deepEqual([s.id,s.skillId,s.contextKnown,s.composition.valid,s.display.composition.valid],[42,23,true,true,true]);
+ assert.deepEqual([s.composition.mode,s.composition.x,s.composition.y,s.composition.width,s.composition.height],[2,48,16,64,64]);
+ assert.deepEqual(plain(s.display.visibleFrames),bits(frame));f.untouched();
+});
+test('STONE23 current and displayed copies authenticate their own frontier and clear history',()=>{
+ const f=stoneMovieFixture();f.movie(7,2);let s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+ f.raw.g_hdSpeDisplayClearFrames=bits(0,1,3);s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();
+});
+for(const [label,change] of [
+ ['WATER context',r=>r.g_hdSpeSkillId=12],['other STONE context',r=>r.g_hdSpeSkillId=13],['unknown context',r=>r.g_hdSpeContextKnown=0],
+ ['WATER source',r=>r.g_hdSpeId=36],['WATER fingerprint',r=>r.g_hdSpeResourceFingerprint=fnv(water)],['wrong index',r=>r.g_hdSpeResourceIndex=1],
+ ['wrong length',r=>r.g_hdSpeResourceLength--],['wide window',r=>r.g_hdSpeSceneWidth=65],['short window',r=>r.g_hdSpeSceneHeight=63],
+ ['invented backdrop',r=>r.g_hdSpeSceneMode=1],['wrong origin',r=>r.g_hdSpeOriginX=47],['missing target',r=>r.g_hdSpeTargetIndex=20],
+ ['missing actor',r=>r.g_hdSpeActorIndex=20],['interactive movie',r=>r.g_hdSpeKeyflag=1],['scale2',r=>r.g_scale=2],
+ ['wrong LCD',r=>r.g_screenHeight=97],['wrong range',r=>r.g_hdSpeEndFrm=6],['future bits',r=>r.g_hdSpeVisibleFrames=bits(1)],
+ ['missing frontier',r=>r.g_hdSpeVisibleFrames=bits()],['report',r=>r.g_hdReportActive=1],['help',r=>r.g_hdHelpActive=1],['quantity',r=>r.g_hdQtyActive=1]
+])test('STONE23 refuses '+label+' without changing native state',()=>{
+ const f=stoneMovieFixture();f.movie();change(f.raw);const s=f.baye.hd.spe();assert.equal(s.composition.valid,false);assert.equal(s.display.composition.valid,false);f.untouched();
+});
+test('STONE23 state report retires its copied window without borrowing the generic42 composition',()=>{
+ const f=stoneMovieFixture();f.movie(7);assert.equal(f.baye.hd.spe().display.composition.valid,true);
+ f.raw.g_hdReportActive=1;const s=f.baye.hd.spe();assert.equal(s.composition.valid,false);assert.equal(s.display.composition.valid,false);f.untouched();
+});
+test('STONE23 late mutation or same-value data rebinding cannot authenticate stale copied pixels',()=>{
+ for(const rebind of [false,true]){const f=stoneMovieFixture();f.movie();let once=false;
+  f.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSpeStatusProtocolVersion'){once=true;if(rebind)f.replaceData();else f.raw.g_hdSpeSceneWidth=65;}});
+  const s=f.baye.hd.spe();assert.equal(s.composition.valid,false);assert.equal(s.display.composition.valid,false);f.untouched();
+ }
+});
+
+// Shared caller expansion retains exact resource ownership. Skill11's earlier
+// food-loss numbers have no movie source; its later movie has value0/no NUM.
+function sharedCallerFixture(skillId){
+ const f=skillId===19?waterMovieFixture():fireMovieFixture();
+ const bind=()=>{f.raw.g_hdSpeSkillId=skillId;f.raw.g_hdSkillResultSkillId=skillId;};
+ return {...f,movie(current=0,shown=current){if(skillId===19)f.movie(current,shown);else f.movie(skillId,current,shown);bind();},hold(phase=3){f.hold(phase);bind();f.raw.g_hdSkillResultPhase=phase;}};
+}
+for(const skillId of [11,18,19])for(let frame=0;frame<8;frame++)test('shared original skill'+skillId+' authenticates source/display copy'+frame+' only for its exact resource',()=>{
+ const f=sharedCallerFixture(skillId);f.movie(frame);const s=f.baye.hd.spe(),width=skillId===19?64:65;
+ assert.equal(s.skillId,skillId);assert.equal(s.id,skillId===19?36:35);assert.equal(s.contextKnown,true);assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+ assert.deepEqual([s.composition.mode,s.composition.x,s.composition.y,s.composition.width,s.composition.height],[2,48,16,width,64]);
+ assert.deepEqual(plain(s.display.visibleFrames),bits(frame));assert.deepEqual(plain(s.display.composition.clearFrames),bits(...Array.from({length:frame},(_,i)=>i)));f.untouched();
+});
+for(const skillId of [11,18,19])test('shared original skill'+skillId+' keeps separate current/display clear frontiers',()=>{
+ const f=sharedCallerFixture(skillId);f.movie(7,2);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);assert.equal(s.commitSeq,8);assert.equal(s.display.commitSeq,3);assert.deepEqual(plain(s.display.composition.clearFrames),bits(0,1));f.untouched();
+});
+for(const skillId of [11,18,19])for(const[label,change]of[
+ ['unknown context',r=>r.g_hdSpeContextKnown=0],['unknown skill',r=>r.g_hdSpeSkillId=65535],
+ ['cross-resource skill',r=>r.g_hdSpeSkillId=skillId===19?18:19],['competing report',r=>r.g_hdReportActive=1],
+ ['missing helper owner',r=>r.g_hdHelpActive=1],['quantity owner',r=>r.g_hdQtyActive=1]
+])test('shared original skill'+skillId+' rejects '+label+' without reading gameplay getters or writing',()=>{
+ const f=sharedCallerFixture(skillId);f.movie();change(f.raw);if(skillId===19)rejectWater(f);else rejectFire(f);
+});
+for(const skillId of [11,18,19])test('shared original skill'+skillId+' rejects a stale displayed event and opaque data rebind',()=>{
+ const f=sharedCallerFixture(skillId);f.movie(7,2);f.raw.g_hdSpeDisplayEventId++;
+ const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();
+ const rebound=sharedCallerFixture(skillId);rebound.movie();let once=false;
+ rebound.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSpeStatusProtocolVersion'){once=true;rebound.replaceData();}});
+ if(skillId===19)rejectWater(rebound);else rejectFire(rebound);assert.equal(once,true);
+});
+for(const skillId of [18,19])for(const phase of [2,3])test('shared damaging skill'+skillId+' NUM/HOLD phase'+phase+' binds its own final movie and NUM15',()=>{
+ const f=sharedCallerFixture(skillId);f.hold(phase);const s=f.baye.hd.skillResult();assert.equal(s.skillId,skillId);assert.equal(s.speId,skillId===19?36:35);assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);
+ assert.equal(s.number.valid,true);assert.equal(s.number.id,15);assert.deepEqual(plain(s.display.digits).map(d=>d.digit),[2,4,0]);f.untouched();
+});
+for(const skillId of [18,19])test('shared damaging skill'+skillId+' cannot reuse another target session',()=>{
+ const f=sharedCallerFixture(skillId);f.hold();f.raw.g_hdSkillResultDisplaySession--;
+ const s=f.baye.hd.skillResult();assert.equal(s.sourceValid,true);assert.equal(s.display.valid,false);f.untouched();
+});
+test('WATER19 numeric snapshot retains the opaque data-reference final fence',()=>{
+ const f=sharedCallerFixture(19);f.hold();let once=false;f.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSkillResultDisplayDigitDrawCount'){once=true;f.replaceData();}});
+ assert.equal(f.baye.hd.skillResult().sourceValid,false);assert.equal(once,true);f.untouched();
+});
+test('FIRE11 prior provender numbers remain factual but cannot borrow a later FIRE movie scene',()=>{
+ const f=sharedCallerFixture(11);f.hold(2);Object.assign(f.raw,{g_hdSkillResultResultKind:3,g_hdSkillResultValue:150,g_hdSkillResultSourceValid:0,g_hdSkillResultEventId:0,g_hdSkillResultId:0,g_hdSkillResultSceneMode:0});
+ const s=f.baye.hd.skillResult();assert.equal(s.active,true);assert.equal(s.skillId,11);assert.equal(s.resultKind,3);assert.equal(s.value,150);unsafe(s);f.untouched();
+});
+test('FIRE11 actual zero-value movie does not infer late numeric payload from its food-loss prelude',()=>{
+ const f=sharedCallerFixture(11);f.hold(1);Object.assign(f.raw,{g_hdSpeActive:1,g_hdSkillResultValue:0,g_hdSkillResultNumberValid:0});
+ for(const p of ['g_hdSkillResult','g_hdSkillResultDisplay']){
+  Object.assign(f.raw,{[p+'DigitCount']:0,[p+'LabelValid']:0,[p+'LabelLength']:0});f.raw[p+'LabelGbk'].fill(0);
+  for(const n of ['Index','X','Y','FirstY','DrawCount'])f.raw[p+'Digit'+n].fill(0);
+ }
+ const s=f.baye.hd.skillResult();assert.equal(s.active,true);assert.equal(s.phase,'movie');assert.equal(s.skillId,11);assert.equal(s.resultKind,1);assert.equal(s.value,0);assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);assert.equal(s.number.valid,false);assert.equal(s.label.valid,false);assert.deepEqual(plain(s.digits),[]);assert.deepEqual(plain(s.display.digits),[]);f.untouched();
+});
+
+// Each army skill owns its real mode1 BACKPIC/range, independently of kind3
+// attack art. Synthetic observers establish protocol boundaries, not casts.
+const armySpecs=[
+ [1,19,11,21,66,19,6115,0xf0c01d45],[2,19,11,21,66,19,6115,0xf0c01d45],
+ [3,19,11,21,66,19,6115,0xf0c01d45],[4,19,11,21,66,19,6115,0xf0c01d45],
+ [8,20,10,20,60,18,5014,0x28294325],[9,21,9,17,54,18,4630,0x5a4c8036],
+ [10,21,9,17,54,18,4630,0x5a4c8036],[13,38,0,14,15,4,1251,0xd85d421b]
+];
+const armyBg=resource(16);
+function armyMovieFixture(skill=1){
+ const f=fireMovieFixture(),spec=armySpecs.find(s=>s[0]===skill),[id,speId,start,end,count,picmax,length,fingerprint]=spec,bytes=resource(speId);
+ function background(prefix){f.picture(prefix,16,armyBg);Object.assign(f.raw,{[prefix+'OriginX']:15,[prefix+'OriginY']:16});}
+ function movie(current=start,display=current){
+  f.movie(id);Object.assign(f.raw,{g_hdSpeId:speId,g_hdSpeCount:count,g_hdSpePicmax:picmax,g_hdSpeStartFrm:start,g_hdSpeEndFrm:end,
+   g_hdSpeOriginX:15,g_hdSpeOriginY:16,g_hdSpeResourceLength:length,g_hdSpeResourceFingerprint:fingerprint,
+   g_hdSpeFrameIndex:current,g_hdSpeCommitSeq:current-start+1,g_hdSpeDisplayFrameIndex:display,g_hdSpeDisplayCommitSeq:display-start+1});
+  for(const[p,frame]of [['g_hdSpe',current],['g_hdSpeDisplay',display]]){
+   Object.assign(f.raw,{[p+'SceneMode']:1,[p+'SceneX']:15,[p+'SceneY']:16,[p+'SceneWidth']:130,[p+'SceneHeight']:64,
+    [p+'VisibleFrames']:bits(frame),[p+'ClearFrames']:bits(...Array.from({length:frame-start},(_,i)=>start+i))});background(p+'Bg');
+  }
+ }
+ function hold(phase=3){
+  f.hold();movie(end);Object.assign(f.raw,{g_hdSpeActive:0,g_hdSkillResultPhase:phase,g_hdSkillResultSkillId:id,
+   g_hdSkillResultId:speId,g_hdSkillResultCount:count,g_hdSkillResultPicmax:picmax,g_hdSkillResultStartFrm:start,g_hdSkillResultEndFrm:end,
+   g_hdSkillResultOriginX:15,g_hdSkillResultOriginY:16,g_hdSkillResultResourceLength:length,g_hdSkillResultResourceFingerprint:fingerprint,
+   g_hdSkillResultFrameIndex:end,g_hdSkillResultCommitSeq:end-start+1,g_hdSkillResultDisplayFrameIndex:end,g_hdSkillResultDisplayCommitSeq:end-start+1});
+  for(const p of ['g_hdSkillResult','g_hdSkillResultDisplay']){
+   Object.assign(f.raw,{[p+'SceneMode']:1,[p+'SceneX']:15,[p+'SceneY']:16,[p+'SceneWidth']:130,[p+'SceneHeight']:64,
+    [p+'VisibleFrames']:bits(end),[p+'ClearFrames']:bits(...Array.from({length:end-start},(_,i)=>start+i))});background(p+'Bg');
+  }
+ }
+ return{...f,movie,hold,spec,bytes};
+}
+function rejectArmy(f){const s=f.baye.hd.spe();assert.equal(s.composition.valid,false);assert.equal(s.display.composition.valid,false);f.untouched();}
+test('army skill contracts decode exact original movies and the real BACKPIC16',()=>{
+ for(const[,id,start,end,count,picmax,length,hash]of armySpecs){const b=resource(id);assert.equal(b.length,length);assert.equal(fnv(b),hash);assert.equal(b[2],count);assert.equal(b[3],picmax);assert.ok(start<=end&&end<count);}
+ assert.deepEqual([armyBg.length,fnv(armyBg),armyBg.readUInt16LE(0),armyBg.readUInt16LE(2),armyBg.readUInt16LE(4),armyBg[6]],[1095,0x3bf544d6,130,64,1,0]);
+});
+for(const[skill,,start,end]of armySpecs){
+ test('army skill'+skill+' independently accepts its first copy and lagged displayed BACKPIC16',()=>{
+  const f=armyMovieFixture(skill);f.movie(start);let s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+  f.movie(end,start);s=f.baye.hd.spe();assert.equal(s.skillId,skill);assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+  assert.deepEqual([s.composition.mode,s.composition.x,s.composition.y,s.composition.width,s.composition.height],[1,15,16,130,64]);assert.equal(s.composition.background.id,16);f.untouched();
+ });
+ test('army skill'+skill+' retains its real final scene and NUM15 through HOLD',()=>{
+  const f=armyMovieFixture(skill);f.hold();const s=f.baye.hd.skillResult();assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);assert.equal(s.skillId,skill);
+  assert.equal(s.scene.frameIndex,end);assert.equal(s.resultKind,1);assert.deepEqual([s.scene.composition.mode,s.scene.composition.x,s.scene.composition.y,s.scene.composition.width,s.scene.composition.height],[1,15,16,130,64]);assert.equal(s.number.id,15);assert.deepEqual(plain(s.digits).map(d=>d.digit),[2,4,0]);f.untouched();
+ });
+}
+for(const[label,change]of[
+ ['unknown context',r=>r.g_hdSpeContextKnown=0],['unrelated caller',r=>r.g_hdSpeSkillId=5],['wrong resource for caller',r=>r.g_hdSpeId=20],
+ ['unknown actor',r=>r.g_hdSpeActorIndex=255],['unknown target',r=>r.g_hdSpeTargetIndex=20],['resource fingerprint',r=>r.g_hdSpeResourceFingerprint^=1],
+ ['resource length',r=>r.g_hdSpeResourceLength--],['resource index',r=>r.g_hdSpeResourceIndex=1],['resource count',r=>r.g_hdSpeCount--],['picture count',r=>r.g_hdSpePicmax--],
+ ['incorrect caller range',r=>r.g_hdSpeEndFrm--],['wrong movie origin',r=>r.g_hdSpeOriginX=48],['invented opaque mode',r=>r.g_hdSpeSceneMode=2],
+ ['truncated backdrop',r=>r.g_hdSpeSceneWidth=129],['missing backdrop',r=>r.g_hdSpeBgValid=0],['different backdrop',r=>r.g_hdSpeBgId=17],
+ ['backdrop fingerprint',r=>r.g_hdSpeBgResourceFingerprint^=1],['backdrop mask',r=>r.g_hdSpeBgMask=1],['backdrop placement',r=>r.g_hdSpeBgOriginX=14],
+ ['future live copy',r=>r.g_hdSpeVisibleFrames=bits(12)],['earlier unrelated clear',r=>r.g_hdSpeClearFrames=bits(10)],['unestablished frontier',r=>r.g_hdSpeVisibleFrames.fill(0)],
+ ['scale',r=>r.g_scale=2],['screen height',r=>r.g_screenHeight=97],['competing report',r=>r.g_hdReportActive=1],['competing help',r=>r.g_hdHelpActive=1],['competing quantity',r=>r.g_hdQtyActive=1]
+])test('army skill source rejects '+label+' without authorizing kind2 generic attack composition',()=>{const f=armyMovieFixture();f.movie();change(f.raw);rejectArmy(f);});
+for(const[label,change]of[
+ ['different backdrop',r=>r.g_hdSpeDisplayBgResourceFingerprint^=1],['future commit',r=>r.g_hdSpeDisplayCommitSeq=99],
+ ['future frame',r=>{r.g_hdSpeDisplayFrameIndex=22;r.g_hdSpeDisplayVisibleFrames=bits(22);}],['future clear',r=>r.g_hdSpeDisplayClearFrames=bits(22)],
+ ['same commit different copied state',r=>r.g_hdSpeDisplayClearFrames=bits(11)],['different event',r=>r.g_hdSpeDisplayEventId++]
+])test('army skill display independently rejects '+label,()=>{const f=armyMovieFixture();f.movie();change(f.raw);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();});
+test('army skill8 preserves its actual end20 and rejects the ordinary attack end19',()=>{const f=armyMovieFixture(8);f.movie(20);assert.equal(f.baye.hd.spe().composition.valid,true);f.raw.g_hdSpeEndFrm=19;rejectArmy(f);});
+test('army clear-only final copy remains established without reviving its erased picture',()=>{const f=armyMovieFixture();f.movie(21);for(const p of ['g_hdSpe','g_hdSpeDisplay']){f.raw[p+'VisibleFrames']=bits();f.raw[p+'ClearFrames']=bits(...Array.from({length:11},(_,i)=>11+i));}const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);assert.deepEqual(plain(s.visibleFrames),bits());f.untouched();});
+test('ordinary kind3 attack retains its existing BACKPIC contract without borrowing skill context',()=>{const f=armyMovieFixture();f.movie();f.raw.g_hdSpeKind=3;f.raw.g_hdSpeContextKnown=0;const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);f.untouched();});
+for(const[label,change]of[
+ ['wrong caller',r=>r.g_hdSkillResultSkillId=8],['wrong final range',r=>r.g_hdSkillResultEndFrm=20],['wrong background',r=>r.g_hdSkillResultBgResourceFingerprint^=1],
+ ['wrong result kind',r=>r.g_hdSkillResultResultKind=2],['wrong NUM resource',r=>r.g_hdSkillResultNumberId=14],['wrong NUM bytes',r=>r.g_hdSkillResultNumberResourceFingerprint^=1],
+ ['shifted native label',r=>r.g_hdSkillResultLabelX=54],['shifted native digits',r=>r.g_hdSkillResultDigitX[0]=54],['future saved clear',r=>r.g_hdSkillResultClearFrames=bits(22)],
+ ['another top session',r=>r.g_hdResultOwnerSession++],['competing report',r=>r.g_hdReportActive=1]
+])test('army NUM/HOLD rejects '+label,()=>{const f=armyMovieFixture();f.hold();change(f.raw);unsafe(f.baye.hd.skillResult());f.untouched();});
+test('army skill still authenticates its actual NUM phase before complete HOLD',()=>{const f=armyMovieFixture(10);f.hold(2);assert.equal(f.baye.hd.skillResult().sourceValid,true);f.untouched();});
+test('army movie and saved numeric owners reject same-value opaque data rebinding',()=>{
+ for(const postlude of [false,true]){const f=armyMovieFixture();postlude?f.hold():f.movie();let once=false;f.onRead((p,k)=>{if(!once&&(postlude?p==='.g_hdSkillResultDisplayDigitDrawCount'&&k==='9':p===''&&k==='g_hdSpeStatusProtocolVersion')){once=true;f.replaceData();}});if(postlude)neutral(f.baye.hd.skillResult());else rejectArmy(f);assert.equal(once,true);f.untouched();}
+});
+
+// IMPACT13 is an independent original masked movie, not generic attack38.
+test('IMPACT13 ROM is15 timed units and four independent masked pictures',()=>{
+ const b=resource(38),skill=resource(10).subarray(12*34,13*34);assert.equal(b.length,1251);assert.equal(fnv(b),0xd85d421b);assert.deepEqual([...b.subarray(2,6)],[15,4,0,14]);
+ assert.equal(skill.toString('hex'),'0000e80300001e646464640000000000000000640000000000000064646464506464');
+ assert.deepEqual([skill[0],skill[1],skill.readUInt16LE(2),skill.readUInt16LE(4),skill[6]],[0,0,1000,0,30]);
+ assert.deepEqual([...skill.subarray(7,12)],[100,100,100,100,0]);assert.deepEqual([...skill.subarray(12,20)],[0,0,0,0,0,0,0,100]);assert.deepEqual([...skill.subarray(20,28)],[0,0,0,0,0,0,0,100]);
+ let at=81;for(const[w,h]of [[32,32],[32,32],[23,21],[46,42]]){assert.deepEqual([b.readUInt16LE(at),b.readUInt16LE(at+2),b.readUInt16LE(at+4),b[at+6]],[w,h,1,1]);at+=7+Math.ceil(w/8)*h*2;}assert.equal(at,b.length);
+ for(let i=0;i<15;i++)assert.ok(b[10+i*5]<4);assert.deepEqual([...b.subarray(6,11)],[86,14,43,1,1]);assert.deepEqual([...b.subarray(76,81)],[70,6,30,30,3]);
+});
+for(const[label,change]of[
+ ['unknown context',r=>r.g_hdSpeContextKnown=0],['wrong skill',r=>r.g_hdSpeSkillId=1],['wrong id',r=>r.g_hdSpeId=19],['wrong resource index',r=>r.g_hdSpeResourceIndex=1],
+ ['wrong FNV',r=>r.g_hdSpeResourceFingerprint^=1],['wrong length',r=>r.g_hdSpeResourceLength++],['wrong count',r=>r.g_hdSpeCount=14],['wrong slot count',r=>r.g_hdSpePicmax=3],
+ ['wrong start',r=>r.g_hdSpeStartFrm=1],['wrong end',r=>r.g_hdSpeEndFrm=13],['unknown actor',r=>r.g_hdSpeActorIndex=255],['unknown target',r=>r.g_hdSpeTargetIndex=255],
+ ['opaque rather than BACKPIC mode',r=>r.g_hdSpeSceneMode=2],['wrong background',r=>r.g_hdSpeBgResourceFingerprint^=1],['missing background',r=>r.g_hdSpeBgValid=0],
+ ['future visible',r=>r.g_hdSpeVisibleFrames=bits(1)],['future clear',r=>r.g_hdSpeClearFrames=bits(1)],['missing established frontier',r=>r.g_hdSpeVisibleFrames=bits()],
+ ['competing report',r=>r.g_hdReportActive=1],['competing help',r=>r.g_hdHelpActive=1],['competing quantity',r=>r.g_hdQtyActive=1]
+])test('IMPACT13 source rejects '+label+' without generic38 authorization',()=>{const f=armyMovieFixture(13);f.movie();change(f.raw);rejectArmy(f);});
+for(const[label,change]of[
+ ['different background',r=>r.g_hdSpeDisplayBgResourceFingerprint^=1],['different generation',r=>r.g_hdSpeDisplayGeneration++],['different event',r=>r.g_hdSpeDisplayEventId++],
+ ['future frontier',r=>{r.g_hdSpeDisplayFrameIndex=15;r.g_hdSpeDisplayVisibleFrames=bits(15);}],['same commit different clear',r=>r.g_hdSpeDisplayClearFrames=bits(0)]
+])test('IMPACT13 rejects '+label+' only for the displayed copy',()=>{const f=armyMovieFixture(13);f.movie();change(f.raw);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();});
+for(const phase of [2,3])test('IMPACT13 true NUM/HOLD phase'+phase+' keeps its own full BACKPIC scene',()=>{const f=armyMovieFixture(13);f.hold(phase);const s=f.baye.hd.skillResult();assert.equal(s.skillId,13);assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);assert.equal(s.resultKind,1);assert.equal(s.scene.frameIndex,14);assert.equal(s.number.id,15);f.untouched();});
+for(const[label,change]of[
+ ['wrong skill',r=>r.g_hdSkillResultSkillId=1],['wrong resource',r=>r.g_hdSkillResultId=19],['wrong movie hash',r=>r.g_hdSkillResultResourceFingerprint^=1],
+ ['wrong background',r=>r.g_hdSkillResultBgId=17],['gain result',r=>r.g_hdSkillResultResultKind=2],['other top owner session',r=>r.g_hdResultOwnerSession++],
+ ['future cleared frame',r=>r.g_hdSkillResultClearFrames=bits(15)],['wrong NUM plane',r=>r.g_hdSkillResultNumberResourceFingerprint^=1],['competing report',r=>r.g_hdReportActive=1]
+])test('IMPACT13 numeric source rejects '+label,()=>{const f=armyMovieFixture(13);f.hold();change(f.raw);unsafe(f.baye.hd.skillResult());f.untouched();});
+test('IMPACT13 displayed postlude cannot mix another result session',()=>{const f=armyMovieFixture(13);f.hold();f.raw.g_hdSkillResultDisplaySession++;const s=f.baye.hd.skillResult();assert.equal(s.sourceValid,true);assert.equal(s.display.valid,false);f.untouched();});
+test('IMPACT13 movie and NUM snapshots reject late opaque data substitution',()=>{
+ for(const postlude of [false,true]){const f=armyMovieFixture(13);postlude?f.hold():f.movie();let once=false;f.onRead((p,k)=>{if(!once&&(postlude?p==='.g_hdSkillResultDisplayDigitDrawCount'&&k==='9':p===''&&k==='g_hdSpeStatusProtocolVersion')){once=true;f.replaceData();}});postlude?neutral(f.baye.hd.skillResult()):rejectArmy(f);assert.equal(once,true);f.untouched();}
+});

@@ -1,0 +1,459 @@
+{
+  "schemaVersion": 1,
+  "kind": "Read-only actual V33 April continuation source audit",
+  "sourceOnly": true,
+  "newGameActions": 0,
+  "newMonths": 0,
+  "newPayments": 0,
+  "scope": "Source feasibility and next native-input contract only. No gameplay, RNG prediction, battle MP observation, new SAVE or classic pixels.",
+  "latest": {
+    "tag": "impact13-129-v33-month1-policy-settled",
+    "date": [
+      239,
+      4
+    ],
+    "slot": 0,
+    "pendingOrders": [],
+    "terminal": {
+      "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/terminal-minimal.json",
+      "bytes": 206339,
+      "sha256": "f0b175a6fc8a8428541957f1848dda250a2ce79d41b2a3e17b894f157c8ca53f"
+    },
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/native-impact13-129-v33-month1-policy-settled-sango0.sav",
+        "bytes": 8221,
+        "sha256": "1159340f7541add6342fe48a978b4c32cbd6dd2f5e92fc9173415d31e227bd7f"
+      },
+      {
+        "path": "build/impact-skill-20261014/impact13-prepare-actual-v33/native-impact13-129-v33-month1-policy-settled-sango1.sav",
+        "bytes": 4840,
+        "sha256": "b3d0e56aca29da984f42245eadf85df565df582bbf474f8e7f9f3d2c88492ea1"
+      }
+    ],
+    "completeOriginalPairComparedToWorld": true,
+    "worldJsonSha256": "fdcb9b490501b88fbf9d4eaab57ae940c76339d7225cb54c4e0258ff07cc7c1f"
+  },
+  "caster": {
+    "personId": 129,
+    "name": "潘浚",
+    "rawLocations": [
+      {
+        "cityIndex": 6,
+        "queueIndex": 20
+      }
+    ],
+    "OldBelong": 1,
+    "Belong": 1,
+    "Level": 8,
+    "Force": 39,
+    "IQ": 72,
+    "Devotion": 54,
+    "Character": 2,
+    "Experience": 6,
+    "Thew": 100,
+    "ArmsType": 3,
+    "Arms": 1910,
+    "Tool1": 0,
+    "Tool2": 0,
+    "Age": 65,
+    "sourceMp": 68,
+    "actualBattleMpObserved": false
+  },
+  "buy153": {
+    "selectedActor": {
+      "personId": 50,
+      "name": "王粲",
+      "rawLocations": [
+        {
+          "cityIndex": 20,
+          "queueIndex": 87
+        }
+      ],
+      "OldBelong": 0,
+      "Belong": 1,
+      "Level": 1,
+      "Force": 46,
+      "IQ": 72,
+      "Devotion": 100,
+      "Character": 0,
+      "Experience": 0,
+      "Thew": 100,
+      "ArmsType": 1,
+      "Arms": 0,
+      "Tool1": 0,
+      "Tool2": 0,
+      "Age": 62
+    },
+    "sourcePlan": {
+      "accepted": true,
+      "sourceOnlyPlanning": true,
+      "cityIndex": 20,
+      "personId": 50,
+      "quantity": 153,
+      "minimum": 1,
+      "maximum": 267,
+      "initialValue": 267,
+      "cancelSentinel": 65535,
+      "orderIndex": 0,
+      "orderId": 11,
+      "timeCount": 0,
+      "actorRawOccurrenceIndices": [
+        87
+      ],
+      "firstRemovedQueueIndex": 87,
+      "money": {
+        "before": 1335,
+        "cost": 765,
+        "after": 570
+      },
+      "food": {
+        "before": 114,
+        "after": 267,
+        "applied": 153,
+        "fixOverFlow16": 0
+      },
+      "thew": {
+        "before": 100,
+        "cost": 12,
+        "after": 88
+      },
+      "initializedOrder": {
+        "OrderId": 11,
+        "Person": 50,
+        "City": 20,
+        "TimeCount": 0
+      },
+      "opaqueOrderFields": [
+        "Object",
+        "Arms",
+        "Food",
+        "Money",
+        "Consume"
+      ],
+      "nativeUsesIsMoney": false,
+      "positiveBuyOnly": true,
+      "actualInputAccepted": false,
+      "actualPaymentAccepted": false,
+      "actualPreparationAccepted": false,
+      "actualNativeReturnAccepted": false,
+      "actualAcquisitionAccepted": false,
+      "actualCastAccepted": false,
+      "actualMovieAccepted": false,
+      "actualPixelAccepted": false,
+      "classicNativePixelAccepted": false,
+      "hdAccepted": false,
+      "globalHdComplete": false,
+      "rngContinuityAccepted": false,
+      "wholeMonthAccepted": false,
+      "wholeNativeAbiAccepted": false
+    },
+    "reason": "Idle zero-army loyalty100 actor avoids removing a garrison or spending the low-stamina Plunder actor44. Current actor52 is also idle but loyalty15 is unnecessary risk.",
+    "nativeReturn": "ExchangeDrv only AddPerson; PolicyExec DelOrder. Food was already credited at MAKE; never credit it again on return.",
+    "combineSameMonth": true
+  },
+  "march": {
+    "originCity": 6,
+    "destinationCity": 12,
+    "adjacent": true,
+    "timeCount": 1,
+    "direction": 0,
+    "directionName": "north",
+    "oneNativeArmy": [
+      130,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "selectedPersonIds": [
+      129
+    ],
+    "currentSatrapId": 130,
+    "currentSatrapMayBeLawfullySelected": true,
+    "retainedGuardIds": [
+      51,
+      36,
+      5,
+      21
+    ],
+    "retainedGuardArms": 400,
+    "origin": {
+      "state": 0,
+      "food": 10094,
+      "money": 29550,
+      "reserve": 0
+    },
+    "food": {
+      "dailyRatioRaw": 0,
+      "dailyRatio": 3,
+      "monthlyRatioRaw": 0,
+      "monthlyRatio": 50,
+      "boutMaxObserved": 30,
+      "army": 1910,
+      "sqrtArmy": 43,
+      "perBout": 14,
+      "quantity": 421,
+      "city6FoodAfter": 9673,
+      "retainedGuardsStrictNextMonthFloor": 9
+    },
+    "moneyCost": 0,
+    "thewCost": 0,
+    "expectedAllocation": {
+      "buySlot": 0,
+      "battleSlot": 170,
+      "fighterSlot": 0
+    },
+    "publicSelector": "Current original owned-person list is [51,129,36,5,21]; select PID129 only from fresh complete IDs/names/owner, then cancel person selection without selecting the four retained guards.",
+    "orderSequence": "Queue and genuinely SAVE Buy11 first, then queue and SAVE one Battle27. A single original END executes Buy11 before Battle27. Confirm full adjacent native Buy return before combat; no extra empty preparation month."
+  },
+  "enemyCity12": {
+    "belong": 2,
+    "state": 0,
+    "food": 10807,
+    "money": 7508,
+    "people": [
+      {
+        "personId": 136,
+        "name": "贾华",
+        "level": 20,
+        "arms": 2970,
+        "armType": 1,
+        "force": 61,
+        "iq": 36
+      },
+      {
+        "personId": 117,
+        "name": "朱治",
+        "level": 11,
+        "arms": 2380,
+        "armType": 3,
+        "force": 72,
+        "iq": 56
+      },
+      {
+        "personId": 16,
+        "name": "乐进",
+        "level": 6,
+        "arms": 1840,
+        "armType": 1,
+        "force": 82,
+        "iq": 42
+      },
+      {
+        "personId": 134,
+        "name": "孙浩",
+        "level": 4,
+        "arms": 1330,
+        "armType": 0,
+        "force": 44,
+        "iq": 49
+      }
+    ],
+    "totalArms": 8520,
+    "futureAiMakeCanChangeRoster": true,
+    "notVictoryForecast": true
+  },
+  "map": {
+    "mapId": 112,
+    "width": 32,
+    "height": 32,
+    "originalPayloadSha256": "d631fee02389fd321203ebdf6e0e9960eb62172495cef7171a61b8f9525f4053",
+    "castle": {
+      "x": 15,
+      "y": 14
+    },
+    "riverCells": 357,
+    "sourceInitialPlayerPosition": {
+      "x": 16,
+      "y": 2
+    },
+    "sourceDefenderSlotsIfCurrentFourRemain": [
+      {
+        "personId": 136,
+        "name": "贾华",
+        "level": 20,
+        "arms": 2970,
+        "armType": 1,
+        "force": 61,
+        "iq": 36,
+        "slot": 10,
+        "x": 15,
+        "y": 14,
+        "currentlyCastleSlot": true,
+        "impactArmyRatio": 100
+      },
+      {
+        "personId": 117,
+        "name": "朱治",
+        "level": 11,
+        "arms": 2380,
+        "armType": 3,
+        "force": 72,
+        "iq": 56,
+        "slot": 11,
+        "x": 15,
+        "y": 15,
+        "currentlyCastleSlot": false,
+        "impactArmyRatio": 80
+      },
+      {
+        "personId": 16,
+        "name": "乐进",
+        "level": 6,
+        "arms": 1840,
+        "armType": 1,
+        "force": 82,
+        "iq": 42,
+        "slot": 12,
+        "x": 14,
+        "y": 14,
+        "currentlyCastleSlot": false,
+        "impactArmyRatio": 100
+      },
+      {
+        "personId": 134,
+        "name": "孙浩",
+        "level": 4,
+        "arms": 1330,
+        "armType": 0,
+        "force": 44,
+        "iq": 49,
+        "slot": 13,
+        "x": 16,
+        "y": 14,
+        "currentlyCastleSlot": false,
+        "impactArmyRatio": 100
+      }
+    ],
+    "riverPairExamples": [
+      {
+        "actor": {
+          "x": 17,
+          "y": 4
+        },
+        "target": {
+          "x": 18,
+          "y": 4
+        },
+        "staticUnoccupiedNavyEntryCostFromSpawn": 5
+      },
+      {
+        "actor": {
+          "x": 14,
+          "y": 6
+        },
+        "target": {
+          "x": 14,
+          "y": 7
+        },
+        "staticUnoccupiedNavyEntryCostFromSpawn": 8
+      }
+    ],
+    "examplesAreNotCurrentNativeReachability": true,
+    "preferredMobileTarget": "If actual defender roster/order stays unchanged, navy117/slot11 and infantry16/slot12 or cavalry134/slot13 may move; strongest136/slot10 starts on castle and native AI does not move a unit standing on castle. Re-read actual roster, states and native MOVE grid each turn.",
+    "castGate": "Current selected caster and a live enemy must both have native terrain7, Manhattan distance1, current original AIM value1, weather1..4, live states, current native menu skill13 and observed MP>=30. Read full native MOVE250 twice and again before public movement; never force enemy movement."
+  },
+  "allOwnedCurrentStates": [
+    {
+      "cityIndex": 4,
+      "state": 0,
+      "food": 6311,
+      "money": 30000
+    },
+    {
+      "cityIndex": 5,
+      "state": 4,
+      "food": 2831,
+      "money": 18269
+    },
+    {
+      "cityIndex": 6,
+      "state": 0,
+      "food": 10094,
+      "money": 29550
+    },
+    {
+      "cityIndex": 7,
+      "state": 0,
+      "food": 18547,
+      "money": 30000
+    },
+    {
+      "cityIndex": 13,
+      "state": 2,
+      "food": 7830,
+      "money": 30000
+    },
+    {
+      "cityIndex": 16,
+      "state": 2,
+      "food": 634,
+      "money": 10818
+    },
+    {
+      "cityIndex": 20,
+      "state": 3,
+      "food": 114,
+      "money": 1335
+    }
+  ],
+  "minimumGameplayTransactions": [
+    "Public native LOAD latest exact V33 April pair; compare full original pair and current world, sample current native configuration/hooks.",
+    "One original city20/actor50 Buy153, raw exact quantity/MAKE delta and genuine public dual SAVE; leave paid Order11 pending.",
+    "One original city6/actor129 Battle27 to city12, choose421 food under currently observed default3 and boutMax30, raw exact military delta and genuine public dual SAVE.",
+    "One original END; observe Exchange11 AddPerson/DelOrder before Battle27 and recheck actual food/guards. Enter actual native map112 and read actual battle MP.",
+    "Only fresh legal original MOVE/Rest/turn and skill13 AIM/Enter; select classic before cast, preserve movie/GBK/NUM/HOLD pixel evidence, no timed report ACK; save only a naturally retired ordinary strategy MAP after bounded lawful termination."
+  ],
+  "sourceConstraints": [
+    "V33 remains frozen and preparation-only. New continuation runner/oracles need explicit239-4 source/input bounds and Buy+Battle admission.",
+    "Existing final AIM validators bind origin13 or origin16; make a new origin6/destination12/map112 fence rather than claiming those routes apply unchanged.",
+    "Buy153 leaves city20 at267 before END and usually1 after the next normal monthly consumption if military/world stay unchanged. No second END without a new fresh food/cash audit.",
+    "Old disaster tokens are not a forecast: ComputerTactic resets all38 city States0 before PolicyExec; subsequent actual callback state and military fields govern source checks.",
+    "Single1910 caster versus current8520 defenders is not a guaranteed battle/cast/safe-return outcome. Preserve natural failures and newest actual SAVE; never rewind or reset RNG."
+  ],
+  "sources": [
+    "scripts/hd-impact-v26-raw-buy11-oracle.mjs:18-21",
+    "vendor/iBaye/src/citycmdc.c:56-180",
+    "vendor/iBaye/src/citycmd.c:459-463,1248-1270",
+    "vendor/iBaye/src/citycmdd.c:58-211,247-416",
+    "vendor/iBaye/src/cityedit.c:506-536",
+    "vendor/iBaye/src/FgtCount.c:122-143,330-354",
+    "vendor/iBaye/src/Fight.c:840-907,942-979",
+    "vendor/iBaye/src/FgtPkAi.c:317-318",
+    "vendor/iBaye/src/tactic.c:158-166,755-766",
+    "scripts/hd-impact-river-route.mjs:27-65",
+    "scripts/hd-impact-route112-final-aim.mjs:9-14",
+    "build/impact-skill-20261014/hd-impact-v21-route112-south-final-aim-v1.mjs:9-14"
+  ],
+  "sourcePins": [
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "scripts/hd-impact-v26-raw-buy11-oracle.mjs",
+      "bytes": 14276,
+      "sha256": "56e290989b261944b3822b56921d88c8051654d6beb0edade163a9ad8541db9f"
+    },
+    {
+      "path": "scripts/hd-impact-river-route.mjs",
+      "bytes": 6398,
+      "sha256": "69142e4682b76ae6072226805935d889709016ffc323991348dde4df9ad7bba6"
+    },
+    {
+      "path": "scripts/hd-impact-river-approach.mjs",
+      "bytes": 7133,
+      "sha256": "77a87e2930aa83a6238830cb87c3824ea1a81aaa9f2fdff102a9d67b259b1b13"
+    }
+  ],
+  "actualCastAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hdAccepted": false
+}

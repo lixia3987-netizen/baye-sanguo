@@ -1,0 +1,67 @@
+{
+  "ok": true,
+  "scope": "Lossless extraction/nearest-neighbour proof only, no generated HD or browser",
+  "metadata": {
+    "path": "build/r25-native-liuyan-40/metadata.json",
+    "sha256": "1ad646245c2a95f2eb27b973831112df097bb79f758c5c764e39d2cdbb40706f"
+  },
+  "verified": [
+    {
+      "path": "build/r25-native-liuyan-40/picture-0-native-64.png",
+      "bytes": 887,
+      "sha256": "1a2fbd359951531c91f9293bd1cc09be66a977287947bb6f7d79a41b0a4fe318",
+      "width": 64,
+      "height": 64,
+      "rgbaSha256": "8236e13d4239e8ee4cd7eeab12a6ec4b41637f908c5369bcac74b903439f7292",
+      "pngCrcAndInflate": true,
+      "allPixelsMatchActualOriginalPlane": true
+    },
+    {
+      "path": "build/r25-native-liuyan-40/picture-0-nearest-4x.png",
+      "bytes": 3404,
+      "sha256": "f2085396f6421e0e8def150534286cec4b8d93b661d3b9708e6c2b42cb8cc1d9",
+      "width": 256,
+      "height": 256,
+      "rgbaSha256": "7e1cec5b0c8d8d2097af62ba7a82793977989eb2c1f4a416acd1fbbafc887564",
+      "pngCrcAndInflate": true,
+      "allPixelsMatchActualOriginalPlane": true
+    },
+    {
+      "path": "build/r25-native-liuyan-40/picture-1-native-64.png",
+      "bytes": 898,
+      "sha256": "bd86cb47e356d314c2689c842bc67fbcdd9656eb7367dac3f4139e4b9f1b43b6",
+      "width": 64,
+      "height": 64,
+      "rgbaSha256": "1449cc02f8668cf87fcc5d9b4a4da20349ddfbe0b49a0d4df937b6b27d96ff10",
+      "pngCrcAndInflate": true,
+      "allPixelsMatchActualOriginalPlane": true
+    },
+    {
+      "path": "build/r25-native-liuyan-40/picture-1-nearest-4x.png",
+      "bytes": 3430,
+      "sha256": "59aed732456cbaf0483e1f17d96527b4ba7bbb1df0c9caa33e62c7833367c726",
+      "width": 256,
+      "height": 256,
+      "rgbaSha256": "c37d4c9128bb35208e0cc1bd54128d755434fa8aab0102042769405688ace65a",
+      "pngCrcAndInflate": true,
+      "allPixelsMatchActualOriginalPlane": true
+    }
+  ],
+  "frameDifference": {
+    "changedPixels": 113,
+    "boundsInclusive": {
+      "left": 21,
+      "top": 10,
+      "right": 45,
+      "bottom": 27
+    },
+    "otherPixelsIdentical": true
+  },
+  "visualReview": {
+    "actuallyViewed": [
+      "build/r25-native-liuyan-40/picture-0-nearest-4x.png",
+      "build/r25-native-liuyan-40/picture-1-nearest-4x.png"
+    ],
+    "observation": "Two facing helmeted long-weapon figures and mountain background; speech bubble differs. Pixel text not transcribed as exact GBK text. This is native source reference, not actual game display."
+  }
+}

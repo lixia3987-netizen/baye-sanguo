@@ -1,0 +1,4117 @@
+{
+  "schemaVersion": 1,
+  "prefix": "docs/validation/m5-city4-origin-anchor-20261025-v61",
+  "kind": "city4-origin-anchor-source-only",
+  "sourceOnly": true,
+  "publishedNewMainInput": false,
+  "globalHdComplete": false,
+  "main": {
+    "kind": "retained-prior",
+    "prefix": "docs/validation/m5-wood-city4-recovery-20261024-v57",
+    "inputPins": [
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57.json",
+        "bytes": 379062,
+        "sha256": "70949f4f2edb9b4564e37b151add6e551d7cb3f010d6a8ccb70a387847c59f1a"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-latest-world.json",
+        "bytes": 148004,
+        "sha256": "58f8ac8d6366c09023a834995bde26bd0973e32a1b12292d463f1644b983c1f6"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-sango0.sav",
+        "bytes": 8221,
+        "sha256": "122a72b600bbee49d734f0420731b7be7895af0eaf222741f6daee6eaae09d2b"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-sango1.sav",
+        "bytes": 4840,
+        "sha256": "f3b6f39a2433f88abaef52e921c65e7d607d6752620762927f2b542f74f27353"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-index.json",
+        "bytes": 151295,
+        "sha256": "6f072b12b1e4ac75c8b818497536e3bffd69f23cb6e7cf4bc9371aab500c857a"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-part001.json",
+        "bytes": 8142224,
+        "sha256": "8357cab4cb1ee68aa3d8c06f8df3b4ed6811ded199e49185324e53593eafe94b"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-part002.json",
+        "bytes": 8377587,
+        "sha256": "d348517c680ec688f5f1cbe5d5507087b21fdfc0bb6a17064cdf2ec25e61efb8"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-part003.json",
+        "bytes": 2359629,
+        "sha256": "5ef83127046a14c813b301096bc354a83835cf94e9db0908192f077da612448b"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      }
+    ]
+  },
+  "externalInputPins": [
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57.json",
+      "bytes": 379062,
+      "sha256": "70949f4f2edb9b4564e37b151add6e551d7cb3f010d6a8ccb70a387847c59f1a"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-latest-world.json",
+      "bytes": 148004,
+      "sha256": "58f8ac8d6366c09023a834995bde26bd0973e32a1b12292d463f1644b983c1f6"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-sango0.sav",
+      "bytes": 8221,
+      "sha256": "122a72b600bbee49d734f0420731b7be7895af0eaf222741f6daee6eaae09d2b"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-sango1.sav",
+      "bytes": 4840,
+      "sha256": "f3b6f39a2433f88abaef52e921c65e7d607d6752620762927f2b542f74f27353"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-index.json",
+      "bytes": 151295,
+      "sha256": "6f072b12b1e4ac75c8b818497536e3bffd69f23cb6e7cf4bc9371aab500c857a"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-part001.json",
+      "bytes": 8142224,
+      "sha256": "8357cab4cb1ee68aa3d8c06f8df3b4ed6811ded199e49185324e53593eafe94b"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-part002.json",
+      "bytes": 8377587,
+      "sha256": "d348517c680ec688f5f1cbe5d5507087b21fdfc0bb6a17064cdf2ec25e61efb8"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-part003.json",
+      "bytes": 2359629,
+      "sha256": "5ef83127046a14c813b301096bc354a83835cf94e9db0908192f077da612448b"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    }
+  ],
+  "integration": {
+    "path": "build/impact-skill-20261014/v61-origin-anchor-integration-v1.json",
+    "bytes": 16233,
+    "sha256": "c7e93fcf7d111e92c0d7173c43bdef7f9549249ad6ba262a2bcb047d30e71d96"
+  },
+  "tests": {
+    "controls": {
+      "receipt": {
+        "path": "build/impact-skill-20261014/v60-anchor-candidate-controls-v1.json",
+        "bytes": 7707,
+        "sha256": "861ef20516eef34dc7e3a4ecdf6c8dfc61d3c3b773329488e14dc1574980b764"
+      },
+      "terminal": {
+        "closed": true,
+        "sessionId": 36157,
+        "initialChunk": "af14fd",
+        "terminalChunk": "5b570c",
+        "exitCode": 0
+      }
+    },
+    "target": {
+      "receipt": {
+        "path": "build/impact-skill-20261014/v61-origin-anchor-target-v2.json",
+        "bytes": 224995,
+        "sha256": "5999e7dd4c6222efd119d576402ac1b6d26eb7db22502e652cf33a030c9c1b9a"
+      },
+      "terminal": {
+        "closed": true,
+        "sessionId": 63407,
+        "initialChunk": "472259",
+        "terminalChunk": "b1f1d6",
+        "exitCode": 0
+      }
+    },
+    "full": {
+      "receipt": {
+        "path": "build/impact-skill-20261014/v61-origin-anchor-full-v1.json",
+        "bytes": 117832,
+        "sha256": "1cdf267d9f0bbb5f0f6092a0a2b2306d13385617860d5e7ce262802c91f15543"
+      },
+      "terminal": {
+        "closed": true,
+        "sessionId": 36386,
+        "initialChunk": "ca722a",
+        "terminalChunk": "78b079",
+        "exitCode": 0
+      }
+    }
+  },
+  "failedTransportAttempt": {
+    "path": "build/impact-skill-20261014/v61-target-transport-failure-v1.json",
+    "bytes": 1683,
+    "sha256": "dc705e592dcc3c13d0292e27c2bc7c5ca09f8c774d561e96190aec0238bf242f"
+  },
+  "sourceChanges": [
+    {
+      "path": "package.json",
+      "bytes": 21052,
+      "sha256": "1ace6deab308ed96fac8350971ec5fafef3932912da0811f579274c707b90acf"
+    },
+    {
+      "path": "scripts/hd-wood-city4-anchor-runtime.mjs",
+      "bytes": 25281,
+      "sha256": "5a7859a5f8ff1dd46fb69f78f82de0ff7c8efee1919eef6f51918d7ca9834112"
+    },
+    {
+      "path": "scripts/hd-wood-city4-origin-anchor.mjs",
+      "bytes": 20343,
+      "sha256": "e35a42a4c4634cc371dd8cf2be4aba86d23d1be0cfada112d929c172afab0b80"
+    },
+    {
+      "path": "scripts/hd-wood-city4-ui-predicates.mjs",
+      "bytes": 13694,
+      "sha256": "42071ad8bd0c81b2c4e7a5713873a862ab3d0422668377593c2439f29f31b294"
+    },
+    {
+      "path": "scripts/hd-wood-city4-ticket-view.mjs",
+      "bytes": 7704,
+      "sha256": "c5590438fe45261112882bfde6d6215abfbd8fd1a7cdd9a2f2d7642c24369085"
+    },
+    {
+      "path": "scripts/hd-wood-city4-anchor-artifacts.mjs",
+      "bytes": 2658,
+      "sha256": "d448d9cec872a87f062cdd69233a076146392c6f867543f9af70ef9cf3f2996e"
+    },
+    {
+      "path": "scripts/hd-wood-city4-anchor-input-contract.mjs",
+      "bytes": 7764,
+      "sha256": "549be3f5ee0a210d7625cd55aa95f6fc6a5854279f59c888b1bd871b954b1314"
+    },
+    {
+      "path": "scripts/hd-wood-city4-anchor-ledger.mjs",
+      "bytes": 1269,
+      "sha256": "6f73b59a0a302a9d8f5b25cedb6f20f957c1154b402158d13c1f40a46a8c4118"
+    },
+    {
+      "path": "scripts/hd-wood-city4-snapshot-observer.mjs",
+      "bytes": 1827,
+      "sha256": "cb8dae92a4a2e853426eb57694df1b28a75e42ac23771c72662cf10e27b3db08"
+    },
+    {
+      "path": "scripts/hd-wood-city4-ticket-observer.mjs",
+      "bytes": 882,
+      "sha256": "7ad3e0b841ef4770dc302750f1bcf2b6a669496be4bb09fe753d750eb0e08683"
+    },
+    {
+      "path": "scripts/fixtures/hd-wood-city4-anchor-cdp.mjs",
+      "bytes": 11813,
+      "sha256": "ce84a1ed6ce2716821a1bf4f34a8d43a111cada2f9dc92720a3841de4d639f8f"
+    },
+    {
+      "path": "scripts/test-hd-wood-city4-origin-anchor.mjs",
+      "bytes": 20301,
+      "sha256": "d17fb32524453332033aca69575ceb275797088edcb6bca0ff1e33d2587f553b"
+    }
+  ],
+  "attributesEvolution": {
+    "before": {
+      "path": ".gitattributes",
+      "bytes": 37106,
+      "sha256": "3104df89420e6df2642387a3a2843908df5c41db65ab3ce08734a3f182dd7261"
+    },
+    "after": {
+      "path": ".gitattributes",
+      "bytes": 37619,
+      "sha256": "98c919d6f1ad89a38704efe8b13aa4338720cbb168058819e25a7845b76c47c5"
+    },
+    "appendedText": "\n# Source-authenticated city4 LOAD and fresh SAVE source evidence.\n/docs/validation/m5-city4-origin-anchor-20261025-v61*.json -text whitespace=cr-at-eol\n/docs/validation/m5-city4-origin-anchor-20261025-v61*.mjs -text whitespace=cr-at-eol\n/docs/validation/m5-city4-origin-anchor-20261025-v61*.md -text whitespace=cr-at-eol\n/docs/validation/m5-city4-origin-anchor-20261025-v61*.gz -text\n/docs/validation/m5-city4-origin-anchor-20261025-v61*.sav -text\n/docs/validation/m5-city4-origin-anchor-20261025-v61*.png -text\n"
+  },
+  "planPins": [
+    {
+      "path": "docs/hd-development-plan.md",
+      "bytes": 212926,
+      "sha256": "aeb23c85d063dc05f205c13ac0196afe910c79b6b6cfc8564076f829620fb0a3"
+    },
+    {
+      "path": "docs/hd-remaining-work.md",
+      "bytes": 244227,
+      "sha256": "a70157f8b91d469eedfcc8d54b409f546cd8103956e1622a2a2ef7d37bbe19f8"
+    }
+  ],
+  "supportPins": [
+    {
+      "path": "build/impact-skill-20261014/prepare-v61-plans-bindings-v1.mjs",
+      "bytes": 6637,
+      "sha256": "497fd52157e43998e4e801df2a8fb65c1cb664196c81b35e55e2934b9f4a14bd"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-closed-tests-v1.json",
+      "bytes": 1363,
+      "sha256": "69acc366b754959c7c044e936b655ebe59577c71f12391e3f7238fb6f2340dd0"
+    },
+    {
+      "path": "build/impact-skill-20261014/record-v61-origin-anchor-closed-v1.mjs",
+      "bytes": 1447,
+      "sha256": "426544ee1467883db4b06f72839ddb5061535a82953badb7e173a540fe66fcac"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-integrated-peer-v1.json",
+      "bytes": 20056,
+      "sha256": "f62d9572aa4b04ba63f39a2922c83750041f88b087d158a6b864da6f45a16dd0"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-publication-static-peer-v1.json",
+      "bytes": 8427,
+      "sha256": "b66d9e42875174ae2e7cdf7c5061011601fb681e27e9fb3f2d3d1454f9bcd7f2"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-source-publication/README.md",
+      "bytes": 4716,
+      "sha256": "055f46ae2f92ba30623a2a0bd1f1a6e998a0469204404a556794071a5f60d6bc"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-source-publication/source-preparation-v1.json",
+      "bytes": 5223,
+      "sha256": "9ec413da5dca0d7a5b68463f9faacff65b531ba48ae9d258c0aa3bf006b08092"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-origin-anchor-glue-candidate-v3/source-preparation-v3.json",
+      "bytes": 4295,
+      "sha256": "e9edad43f41879d384cf3bb3c0d74f48d797931a1df690060313a8053b9bcbb3"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-native-adapter-candidate-v2/source-preparation-v2.json",
+      "bytes": 8419,
+      "sha256": "4cbaf27846fdf714302bbc525a022c41bb5db81a6bfcca0327a09050b50796cc"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-origin-anchor-glue-independent-peer-v1.json",
+      "bytes": 6203,
+      "sha256": "6f28c1d309e34f4a409452a7d8e83eaeec3c4c4960184fb26d88fb93880edd11"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-v61-target-v2.mjs",
+      "bytes": 2532,
+      "sha256": "071e9d46ff5e2fd342ce25342a905662ab765cf745900df349c514e9a3e2808b"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-source-publication/publish-v61-origin-anchor-v1.mjs",
+      "bytes": 13079,
+      "sha256": "8c1434ca5d57321182e9ea60653fdad4d87b0226d42dc711e3502abd732e8d8c"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-source-publication/v61-origin-anchor-reader-v1.mjs",
+      "bytes": 23669,
+      "sha256": "69935cef36f60930ce032cfa8f0d8a82efa2e840f836cc0f5ae1e92ef741984a"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-publication-bindings-v1.json",
+      "bytes": 5560,
+      "sha256": "09b87be7b26ad8eef0d31cea15cc2c5daba40a8438187d4e7415d4b0a97344d1"
+    }
+  ],
+  "currentSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 37106,
+      "sha256": "3104df89420e6df2642387a3a2843908df5c41db65ab3ce08734a3f182dd7261"
+    },
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 711999,
+      "sha256": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf"
+    },
+    {
+      "path": "build/impact-skill-20261014/build-city4-continuation-source-v1.mjs",
+      "bytes": 7570,
+      "sha256": "2a640f41c08246b65e0c150726a0856e4665ca7f3a38dfd9c90740e760611ee5"
+    },
+    {
+      "path": "build/impact-skill-20261014/build-city4-continuation-test-v1.mjs",
+      "bytes": 2238,
+      "sha256": "83be16fc309317241085a36ebf1283b0110c5860d422d2ec18195e7c507143d9"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/0-hd-wood-city4-continuation.mjs",
+      "bytes": 50430,
+      "sha256": "113a0fabb67451a7f83e44b505f9c53fd4fa936bb9f371b0993f1b21dd305128"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/1-test-hd-wood-city4-continuation.mjs",
+      "bytes": 40932,
+      "sha256": "a9a12c98bc4c30488aaf984addf304e25d3d803fde7e3ee8e18cbd6fe25b2f98"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/2-build-city4-continuation-source-v1.mjs",
+      "bytes": 6184,
+      "sha256": "189945c8d004ca1b348f6259cc12f6de036c13b0bb5ce175d037bcb795d35213"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/3-build-city4-continuation-test-v1.mjs",
+      "bytes": 1975,
+      "sha256": "643f82691436c0fce9d96af6e60c0d5d0fdc85446004c96cd346415ad5dad13f"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/4-city4-continuation-chain-v1.js.txt",
+      "bytes": 18399,
+      "sha256": "8d9832d3aa6da645963b5e0bc1b40c3399529fd8f3e2f319c12a1dbe4ad161cc"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/5-city4-continuation-fixture-and-tests-v1.js.txt",
+      "bytes": 29210,
+      "sha256": "2e7031c09964a008a159ab9e469cd94a52fe86ea8bc605bf8a9f7a70bf51f814"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-before-march-report-fix-v1/receipt.json",
+      "bytes": 2153,
+      "sha256": "90ac4522c40ad97561e32979046169f90293406be267a45879c55d08dd619f41"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-c-evidence-v1.json",
+      "bytes": 18008,
+      "sha256": "f8ac7b3fe171a561a790904a4376cf4b917dccd7b2d9c5c108d8499ab0c89d47"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-chain-v1.js.txt",
+      "bytes": 18706,
+      "sha256": "5e6e26718d54ad4ba3b015ce4d488b17f584a098db37539ef79adce365f3deff"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-fixture-and-tests-v1.js.txt",
+      "bytes": 34399,
+      "sha256": "9e36e475d576b0ee748766578f7c735a68945b5148315bb90ed96131fe6d3f87"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-independent-review-final-v1.json",
+      "bytes": 6874,
+      "sha256": "965606e2f8d5fd6db9004371f8210f96bd5f3e3489a17e57988def31c034910d"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v5/receipt.json",
+      "bytes": 9109,
+      "sha256": "ea128ab38808ea2d3c480e7fa28070e06cd64d741c47bc438ae97a1fcbc3a94b"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v5/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v5/stdout.txt",
+      "bytes": 4820,
+      "sha256": "a71f96cbd9293f4da09cb57f28e3529d594adcb74156f0d2fa88c54e44e8b4d1"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v6/receipt.json",
+      "bytes": 9109,
+      "sha256": "af092c7ee350b2b800c8b8735d3b8245bde6a7a5c4cf2eb5a3dc4e50dba58ff6"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v6/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v6/stdout.txt",
+      "bytes": 4937,
+      "sha256": "8f994c03d260c1609648691e386eec4951023b72348d4a46b63713d5b9be7bd7"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v7/receipt.json",
+      "bytes": 10713,
+      "sha256": "a4bc7400d2c29d1aec942f9bcf02c4df413459d0e4423ca11cae3c1d9314f659"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v7/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v7/stdout.txt",
+      "bytes": 5296,
+      "sha256": "7e9be286387eeb05ac9b6664a59a89542c10d29270bca4c48291904a6ce5419b"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v8/receipt.json",
+      "bytes": 15628,
+      "sha256": "b2ebceaa1b3e5ec2cc7ae5eb6bfee746ef3677a09daf9ca8c96af94bdeadad3d"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v8/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-continuation-target-v8/stdout.txt",
+      "bytes": 5818,
+      "sha256": "b0c91e2c991b34d95cf612d64278dd7c4b798f57741f6644f505707e5de5d7c3"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v3.json",
+      "bytes": 12654,
+      "sha256": "f382c27d30414ab1cb826c61425d5452237048f801fe04f29dd372083b75eb4a"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v4.json",
+      "bytes": 12654,
+      "sha256": "eea710b7b9efe6396d6be3d44bf2302f497fd4c2fb461f9023e145e31d46d069"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v4/source-after.json",
+      "bytes": 4423,
+      "sha256": "03acf38cb99394b844de1fc55a6d839d4b4d67f61290672dbc9808934e7f41ce"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v4/source-before.json",
+      "bytes": 4423,
+      "sha256": "03acf38cb99394b844de1fc55a6d839d4b4d67f61290672dbc9808934e7f41ce"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v4/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v4/stdout.tap",
+      "bytes": 5032,
+      "sha256": "a541df95ad03721625d8cd249f79d65a30de32e7837db1a3060b2e35f1cd16d6"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v5.json",
+      "bytes": 13252,
+      "sha256": "c355d4d0377ed068f379ffb213c28eb9923d1869a8f88eda35cc1651b9920945"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v7.json",
+      "bytes": 13252,
+      "sha256": "e2bbdfdcae9d69b1c136a2a697f311ecbf6248bf7ae56a4872b2d353422d2d64"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v7/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v7/stdout.tap",
+      "bytes": 5759,
+      "sha256": "48162a4a2da9e9a1cd88c6ae00c3e6b49aea00cf38978dfbefba49a958bf0413"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v8.json",
+      "bytes": 13252,
+      "sha256": "b110446cd239c7a1df398eae87419608c346e05cc271994b60cf4b6a3206a472"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v8/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-distributions-source-controls-v8/stdout.tap",
+      "bytes": 5755,
+      "sha256": "f821cb0dad1f4efd1cb0b9f697ce8a982b2cb728dc9ccc6059e04e4b891994cc"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-battle-close-candidate-v2/city4-end-battle-close-v2.mjs",
+      "bytes": 31824,
+      "sha256": "cb6dfc3ae12a29d7ffd3d6c62ac818ffa6c556b0065b8c0c21e94fac31c542d6"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-battle-close-independent-peer-v1.json",
+      "bytes": 8550,
+      "sha256": "4a295ce6026d8e96d6f1f935a8cec66935943b206952c7958c9161b22fd21cc6"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/city4-live-retention-fake-child-v1.mjs",
+      "bytes": 2861,
+      "sha256": "5c3e75cf64b8ca9ef3f3ec3f271de9d5ce2fe44cdb125601acedb47a5d9fd187"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/controlled-terminal-fixture-v1.mjs",
+      "bytes": 5618,
+      "sha256": "1f409a912b7df10ed8a49461f042d5782c4d924e04373890ac2d3177ce56d1e0"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/README.md",
+      "bytes": 3363,
+      "sha256": "431bba22286cd34014bde3f7c711f50352cd45e4156a3bcd8031da66b24b92d5"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/source-preparation-v1.json",
+      "bytes": 9573,
+      "sha256": "217954bcb6f1e3a8dd08ed8292b1ce2b132a271602d678608d00d17b6cfc6fa7"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/test-city4-end-close-retention-v1.mjs",
+      "bytes": 15097,
+      "sha256": "44bc09f8bf6685feb1efd37adf8e4597fa30fd0b8f0b15c44567144e192b69a3"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-controller-candidate-v1/city4-end-observer-v1.mjs",
+      "bytes": 3296,
+      "sha256": "87ed001e242b97d41bc2eca832e7d13664b080c8b426576916b6a9bc089400ab"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-controller-candidate-v1/city4-end-session-v1.mjs",
+      "bytes": 2954,
+      "sha256": "1a71331052796919da7a6c3d0048dc78faaf327f543c146022d3ce1682e54b99"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-controller-candidate-v1/october-city4-end-v1.mjs",
+      "bytes": 4018,
+      "sha256": "05c10966eca16781859e8bb7a7b7716a2913a82bdb02342d1e7eaf7ecc29026c"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-controller-candidate-v1/run-october-city4-end-v1.mjs",
+      "bytes": 873,
+      "sha256": "efbf75bfe0cf61b8040fff755de83a6227074975aadf01160361208d826b483f"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-controller-candidate-v1/test-city4-end-controller-source-v1.mjs",
+      "bytes": 16969,
+      "sha256": "22a96e648dbb1547804e85612b4d290c6ea9ed0ce8ee68fa5e760259d0e58557"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-controller-source-freeze-v1.json",
+      "bytes": 4615,
+      "sha256": "74300023a7eb9d443c8cd4b55d9d893079ceef4e1a3494edfb924e891fceb940"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-live-retention-candidate-v1/city4-end-live-retention-v1.mjs",
+      "bytes": 16428,
+      "sha256": "6e9bd6e00ddce245589c219a837e99bb71e800e891dc7254e94c4d8218e5b96c"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-end-artifacts-v1.mjs",
+      "bytes": 2658,
+      "sha256": "d448d9cec872a87f062cdd69233a076146392c6f867543f9af70ef9cf3f2996e"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-end-ledger-v1.mjs",
+      "bytes": 1269,
+      "sha256": "6f73b59a0a302a9d8f5b25cedb6f20f957c1154b402158d13c1f40a46a8c4118"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-end-main-input-v1.mjs",
+      "bytes": 7788,
+      "sha256": "04f8764ff5f6356bd7b1a05cfcd0c118147d7c88a737fa5e85e4bb421eeba86e"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-end-native-anchor-v1.mjs",
+      "bytes": 24597,
+      "sha256": "7e2b3a819e5458723a8a41e8da16c1febdcff27761d26d27786fdc449508360d"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-ticket-view-v1.mjs",
+      "bytes": 7701,
+      "sha256": "26af6024990e607cb88193acfc0d437eb5d736348a700e46c1da9a23f222f781"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-ui-predicates-v1.mjs",
+      "bytes": 13694,
+      "sha256": "42071ad8bd0c81b2c4e7a5713873a862ab3d0422668377593c2439f29f31b294"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-native-adapter-candidate-v2/city4-end-native-anchor-v2.mjs",
+      "bytes": 25461,
+      "sha256": "ff44c0073f610098a5e66dad800573fb1b208ec65575ae362834d9f67ade9c01"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-origin-anchor-glue-candidate-v1/city4-end-origin-anchor-v1.mjs",
+      "bytes": 20156,
+      "sha256": "d47beae22aaf75295923bb5d5bb231a0513a4500dd7d0b75acbd086a52d84ef3"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-origin-anchor-glue-candidate-v3/city4-end-origin-anchor-v3.mjs",
+      "bytes": 20410,
+      "sha256": "d528d5edbbcc0d13ad2d1677e6f23d03354057aa97d842cf2ab79a7029168240"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-origin-anchor-tests-candidate-v2/controlled-anchor-cdp-v2.mjs",
+      "bytes": 11846,
+      "sha256": "4e817390ac66fafdbc45174b334e789ff975e311ae599abedfdec5eef9aae47f"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-origin-anchor-tests-candidate-v2/source-preparation-v2.json",
+      "bytes": 3320,
+      "sha256": "be208cf74e441947ba2859456350349a7794510a72b921fefba58e29296074f7"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-origin-anchor-tests-candidate-v2/test-city4-origin-anchor-v2.mjs",
+      "bytes": 20355,
+      "sha256": "3911d177453670e7030b20bc017746295d7e412636f85f969b7090a6643734d5"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-origin-binding-candidate-v3/city4-end-input-v3.mjs",
+      "bytes": 23279,
+      "sha256": "31b486a34366d1b2b9bc0b065ee9265ee1ec89f47b3aec45b16ebcf7a1280559"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-origin-tests-candidate-v1/test-city4-end-input-v3.mjs",
+      "bytes": 18103,
+      "sha256": "c3d36547a72c9790fa0d007ddb82e9acd32972bc0f4a68a0dc10fffe8f3eac22"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-end-retention-static-peer-v1.json",
+      "bytes": 6431,
+      "sha256": "0636c64f2f09a1369a42405bfff15adb38b6c73d8aaacd0c9166f90a2b72bc6d"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-march-input-v1.mjs",
+      "bytes": 9126,
+      "sha256": "cac8e7bbb05c68c1c7710569428f5748425ec8e31284204c9cacce99d1f8af2b"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-march-input-v2.mjs",
+      "bytes": 9126,
+      "sha256": "9724ad7bb42deec699fc7c6723ad1dba37fe8b3773ad790d7f6b8fd0b0dd7fbe"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-march-report-source-fix-v1.json",
+      "bytes": 2137,
+      "sha256": "2e5727cd9f426a6da587b06df64dceaf9e838623ddc114199337909865ae60ad"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-native-save-report-source-review-v1.json",
+      "bytes": 3461,
+      "sha256": "5fdf38204d380a0fc07844fcbd1573dc9c081994bfccfb8c70344dcf3e6c9030"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-partial-phase-source-independent-v1.json",
+      "bytes": 7626,
+      "sha256": "ff04fbbea9b5945108b0a91fa9559bae7d0a9a2e0cc7a3f9772538240dec95a0"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-plunder-input-v1.mjs",
+      "bytes": 8031,
+      "sha256": "3fa085b651c5f963b25350a42dd1244fd0398c7e89d58364036af48447cf8cb0"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-plunder-save-native-source-reader-recovery-v1.json",
+      "bytes": 1273,
+      "sha256": "66a9feb5a0c6f9b36511bb9c116a96f2a557f65d98e5041c1f966ba5e63418a4"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-plunder-save-native-source-v2.json",
+      "bytes": 2512,
+      "sha256": "1ab7a2b06decbdf041c5164e5ab1b89360cb91bf62281350c605a34d704f1ed3"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-plunder-save-report-source-fix-v1.json",
+      "bytes": 1721,
+      "sha256": "a39932b10ff2b236c3969127b0f2d0a26b8363d95b8837dd8ab9dfbbc4358ea3"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v1/city4-ticket-view-v1.mjs",
+      "bytes": 7133,
+      "sha256": "58cafa34bc373ad5f62a218877f7d385d20311fe0aec8c33288eef8d46bf0313"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v1/city4-ui-predicates-v1.mjs",
+      "bytes": 6051,
+      "sha256": "b48fad744f25077220263ceb4d8d75366c645a941f826473d506b65adf815c9c"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v1/october-city4-distributions-v1.mjs",
+      "bytes": 26441,
+      "sha256": "f23817f999c64c575b97dd5177800e65157da233c33e98408ae415fb326669a6"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v1/run-october-city4-distributions-v1.mjs",
+      "bytes": 28195,
+      "sha256": "a2b46ec93bdf23a382c2a79173dcd4e3b3234306c07991c6335432b4198e66e4"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v1/test-city4-distributions-source-v1.mjs",
+      "bytes": 12384,
+      "sha256": "e172ee717d8bb466ece8c1d4d040190c6fdf62a47d64f53c847cd33652a30ab2"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v2/city4-ticket-view-v1.mjs",
+      "bytes": 7133,
+      "sha256": "58cafa34bc373ad5f62a218877f7d385d20311fe0aec8c33288eef8d46bf0313"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v2/city4-ui-predicates-v1.mjs",
+      "bytes": 6341,
+      "sha256": "ed10dd7f31d5345323dace1b3b54849e68f8e1d8e00d27a46286041e046689d2"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v2/october-city4-distributions-v1.mjs",
+      "bytes": 27541,
+      "sha256": "57471438e112ab5d999ceaa677364f9f53dfebf0cb09bc137b5c931ef7ff4ffd"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v2/run-october-city4-distributions-v1.mjs",
+      "bytes": 28216,
+      "sha256": "a989f1e2606aa3a3702517a1ee10e09f81100cf1576ef306f6c6c5391f14d26b"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-20261024-source-v2/test-city4-distributions-source-v1.mjs",
+      "bytes": 16731,
+      "sha256": "40ea2d4b3ac92d67e8520966a6ca8a1decc7172ea11939346931f5f4feb6e3c6"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-preparation-full-added-sources-v1.json",
+      "bytes": 9161,
+      "sha256": "3abc95ce25e082bfbd94a5e0974e4ac862a57e4c8475b258a1aed38a288b3182"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-repeat-phase-fix-independent-v1.json",
+      "bytes": 3472,
+      "sha256": "b15a3e9ef53defd1effbeb4336a65a70318ac273d83f8a131f09a69091f6c95b"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-saving-report-correction-evidence-v1.json",
+      "bytes": 6736,
+      "sha256": "ef9e5c73f56632c635b05132fbd141a149ee11a4314159aafaf47cb93a5aaae0"
+    },
+    {
+      "path": "build/impact-skill-20261014/city4-ticket-view-extraction-v1.json",
+      "bytes": 631,
+      "sha256": "818b40a142869f636ac8d6c1165b754e85fff18096d8ae9ab72eeb383ce9fd6c"
+    },
+    {
+      "path": "build/impact-skill-20261014/freeze-city4-full-added-sources-v1.mjs",
+      "bytes": 2447,
+      "sha256": "67cd6ca9db5eda6254775a7acead26982c445d2aae3dc2a2c0771c8c11790730"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v41-latest-v40-september-input-v1.mjs",
+      "bytes": 6835,
+      "sha256": "143c6c1acf96b54f0e5807d3d50fc9f0efb81cd2a0be6e3a3490f23243e0eec5"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v42-latest-v41-paid-input-v1.mjs",
+      "bytes": 7080,
+      "sha256": "d7d48009d1cbd1447da2878ff289066907297f8e8cdfbf8948e4207b621356e0"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-wood-v39-ticket-observer-v1.mjs",
+      "bytes": 1833,
+      "sha256": "64e0cd4dab788920d164012714457badd487ecf7123aff653e13ab45f592085d"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-wood-v40-ticket-observer-v1.mjs",
+      "bytes": 893,
+      "sha256": "ce169b4fcde3770c1bda14e31ad34bee9cd707f85bc72b8036e5aa9ee38be71e"
+    },
+    {
+      "path": "build/impact-skill-20261014/integrate-v54-system-layout-fix-v1.mjs",
+      "bytes": 4206,
+      "sha256": "f1d183289404faec268501835471e37a5eac7768ae521d66443fe836ff562778"
+    },
+    {
+      "path": "build/impact-skill-20261014/integrate-v55-system-ack-fix-v1.mjs",
+      "bytes": 2695,
+      "sha256": "afe01346ab29ba8000d0864f0720984512961b80996cf43b21cb2e8953b7d238"
+    },
+    {
+      "path": "build/impact-skill-20261014/integrate-v55-system-ack-fix-v2.mjs",
+      "bytes": 3294,
+      "sha256": "7aca74b3e987a759b43051edc960a6bfe6b4f0410f063666824245ccdde9d972"
+    },
+    {
+      "path": "build/impact-skill-20261014/integrate-v55-system-ack-fix-v3.mjs",
+      "bytes": 3169,
+      "sha256": "508468c7031fa490780950b0a3363df9bbda94998316bca342e376f5b4fba8f0"
+    },
+    {
+      "path": "build/impact-skill-20261014/integrate-v56-king-preview-v2.mjs",
+      "bytes": 3374,
+      "sha256": "811a447cfe919600f2f65f2f04e9d879410e4bf826b8976751f842f3ba182707"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-city4-ticket-view-v1.mjs",
+      "bytes": 4916,
+      "sha256": "6be20a6de490248519442702443b2c5b426c3bd0b823db3e16e14d44626771fb"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-v54-system-css-candidate-v1.mjs",
+      "bytes": 1652,
+      "sha256": "44baa9931098912b1e98f7f61c5014efbb7d29cac48495034f22f3b89c2c2c7f"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-v59-origin-tests-v1.mjs",
+      "bytes": 6909,
+      "sha256": "00d7bba263ce439e1d12b0af3beda8300fc8a4ee0f9b9f025b6227f36770cf1d"
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-v61-target-v2.mjs",
+      "bytes": 2532,
+      "sha256": "071e9d46ff5e2fd342ce25342a905662ab765cf745900df349c514e9a3e2808b"
+    },
+    {
+      "path": "build/impact-skill-20261014/preserve-v54-system-before-v1.mjs",
+      "bytes": 1485,
+      "sha256": "535835e406c399d89c845182d9fe9896b7487cd3e97033a6d134ed4baf844647"
+    },
+    {
+      "path": "build/impact-skill-20261014/preserve-v55-system-before-v1.mjs",
+      "bytes": 1247,
+      "sha256": "dcaecb74d45bc45bc667f19c050a8ab08f1cbe0e0c46b303c0d893384cccce5c"
+    },
+    {
+      "path": "build/impact-skill-20261014/preserve-v56-king-before-v1.mjs",
+      "bytes": 1325,
+      "sha256": "121e85381d333121d59eb39010c6d54418e35de53ee039b0d2c48d2f2c367f16"
+    },
+    {
+      "path": "build/impact-skill-20261014/probe-v59-history-origin-before-v1.mjs",
+      "bytes": 1536,
+      "sha256": "d757483653c78921add93a890fb374590272efa7c4ac5c77284e1c6249cdf82f"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/cancel-owner-predicates-v1.mjs",
+      "bytes": 2662,
+      "sha256": "6305f25edaf3a42a37743b1d83b7e8308a3965116759f6648cfa4f0fdc522ad1"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/october-quantity-cancel-owner-v1.mjs",
+      "bytes": 32261,
+      "sha256": "dc92f4aa989173444a9f44e965dad0964452fd0bb812469cfbbf621dbe362351"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-october-quantity-cancel-owner-v1.mjs",
+      "bytes": 29217,
+      "sha256": "88c2f958d2c57352fb789908278fa86cee778a6087ac704cba4354d96c2520ca"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-quantity-cancel-owner-full-v1.mjs",
+      "bytes": 3721,
+      "sha256": "33f7a0932e166466bf2b0e41726cbf8e56e136d46a926896ea2067e3b7676aba"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/test-october-quantity-cancel-owner-source-v1.mjs",
+      "bytes": 15224,
+      "sha256": "a2431b513c05efd518efa05d4ae16dfbc011c35162ff531d5fc4197814e78cd2"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/focus-predicates-v1.mjs",
+      "bytes": 3291,
+      "sha256": "85039dfd95b69daafddbde8bb7dc5a45230ae419fd90332b1d2eacf5118250f1"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/october-quantity-focus-v1.mjs",
+      "bytes": 24379,
+      "sha256": "7923bcea1d2e47a1acdc49fa497d365c6df88d657558e253241ef4306f83ab4d"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-october-quantity-focus-v1.mjs",
+      "bytes": 32515,
+      "sha256": "470f1162da5c9593140f14bb61fb90bb9be64b948741d9958b1c4ec7f0103838"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-quantity-focus-map111-full-v1.mjs",
+      "bytes": 3730,
+      "sha256": "71e2e5e46b9d8a9186c2249dac9197e413a2b8cb55923d2c551c05d4f830d8ed"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-focus-20261024-source-v1/test-october-quantity-focus-source-v1.mjs",
+      "bytes": 10703,
+      "sha256": "0a8f57d437224ac123db856486dada97c008833bdcec1457a1f05adf0eac35b8"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/october-quantity-rapid-v1.mjs",
+      "bytes": 39336,
+      "sha256": "e90a867297c7fa714d900124e31d3e9a5e37a06840743cc62292fa4078ffdbd8"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/rapid-predicates-v1.mjs",
+      "bytes": 4823,
+      "sha256": "2b862f490d60f3451b1982355334c55531552a71c182478c21287542db877e57"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-city-quantity-full-v1.mjs",
+      "bytes": 3668,
+      "sha256": "71429c14a55bce6fe768a89e588fef80d49380ff943d7071cac4cd8a65bf656e"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-october-quantity-rapid-v1.mjs",
+      "bytes": 28767,
+      "sha256": "67d246cf05c889b497d6dfe7b88f25d7648a1143bfb9bebeecea8431773d8459"
+    },
+    {
+      "path": "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/test-october-quantity-rapid-source-v1.mjs",
+      "bytes": 18209,
+      "sha256": "c05a113719a999e1fb4d5cfe399c3685645d1c16d9bc9f3a01aa27c5feed3c8a"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-cancel-owner-source-controls-v1.json",
+      "bytes": 11547,
+      "sha256": "d9f21352824ef841d5784ae0a8cd0ea92a1e647d340e7a882c1296c8fa8faf40"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-focus-source-controls-v1.json",
+      "bytes": 10646,
+      "sha256": "989a26f4c65667aa6d7d0f2f24808ef81e7fd0903e9cc7ec4f93c51e9ca3dd0f"
+    },
+    {
+      "path": "build/impact-skill-20261014/r12-quantity-rapid-source-controls-v1.json",
+      "bytes": 9878,
+      "sha256": "08ab95be39a52bc5404f2da89672f4ddaf5965eef691e3d65f4062326ff65383"
+    },
+    {
+      "path": "build/impact-skill-20261014/review-city4-continuation-c-evidence-v1.mjs",
+      "bytes": 4417,
+      "sha256": "f8752b3e3b99edf734dcb0e290a5cb04f2a6b0cb77d1df2846bed85c902d9f6f"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-continuation-target-v5.mjs",
+      "bytes": 2768,
+      "sha256": "3dba1f9244e15362572f805a25e77bb55e503e53199bc07870180a37fa2013e8"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-continuation-target-v6.mjs",
+      "bytes": 2768,
+      "sha256": "44025b11fd40823d876bb8833ba313de277d80cf4bf6eb999c1aa35d4603fbbf"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-continuation-target-v7.mjs",
+      "bytes": 2878,
+      "sha256": "faafbd81322a85853f4752a9ca78bf717861a457f212ea1db01bd309d8cd3564"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-continuation-target-v8.mjs",
+      "bytes": 3605,
+      "sha256": "03a42023425018c77786e547b6bc3258873ff443f517de1d5cc1d197de098545"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-distributions-source-controls-v4.mjs",
+      "bytes": 3641,
+      "sha256": "172e6a45b5d8be9206d2adfef0b26f18953028514d58de83b598df125f3d8fb7"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-distributions-source-controls-v7.mjs",
+      "bytes": 4022,
+      "sha256": "5d05d1f48331b04f2c5868de8b4c1b7a9d60f1b2449e396f7a1b77d3a9b5fc61"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-distributions-source-controls-v8.mjs",
+      "bytes": 4022,
+      "sha256": "44bd0cee95dccf5e8d666a2bf3837d17e618dc0117d80929e29346d5de4213ad"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-march-full-v1.mjs",
+      "bytes": 5965,
+      "sha256": "892d3b35d85bfc2171c45477beb22b884da0264627124e5324c03bfe7107b7a7"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-plunder-full-v1.mjs",
+      "bytes": 6075,
+      "sha256": "ad95ed7a93422f486e709fa4f914d82516a6f9a4e9bd295fb080dbb2ad5e5f1d"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-preparation-full-v1.mjs",
+      "bytes": 4270,
+      "sha256": "139d5c19f21c6bad5cbec15e139f91da8e2cbd4aff4becda0248a870a0962e0b"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-preparation-full-v2.mjs",
+      "bytes": 4930,
+      "sha256": "83d2a9468230ad9c7312e671c040de0ea4f375ccecf25adc1edde43823080fa4"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-city4-preparation-full-v3.mjs",
+      "bytes": 5039,
+      "sha256": "9619aee8ff83c64a7d424b085873e00d0c42cc4dabb00636af7ccb80554bd53a"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v53-focus-full-v1.mjs",
+      "bytes": 6157,
+      "sha256": "6d143ccfa8e4340cf83095e280cbdbe8a674523ff8e3d64c5b436bfe7f038314"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v53-focus-target-v1.mjs",
+      "bytes": 2842,
+      "sha256": "0011a6fe291476f8610f59377b91232382136eaf6a544fffe042d45a60c975f8"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v54-system-full-v1.mjs",
+      "bytes": 5993,
+      "sha256": "a15ac47d3cae6f98d5537aede3a4a0e2d0cc54140d64bdf3bfb77d770a9b8394"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v54-system-layout-v1.mjs",
+      "bytes": 21047,
+      "sha256": "9c37086f99fc196883072430e1ba2f52b35b4551eedec8fca2d1890860860d90"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v54-system-layout-v2.mjs",
+      "bytes": 21784,
+      "sha256": "8a599c2e24f7d0c17ff0024547671bc125a290cdbebace17b5ee6ab5e4ff9695"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v54-system-target-v1.mjs",
+      "bytes": 4297,
+      "sha256": "510a78e3d1bf3d69cf4c00cd6cd51b94679bda38c04535a75b03ae6c2fe54a37"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v55-system-full-v1.mjs",
+      "bytes": 5847,
+      "sha256": "1ee8ad6ab207aaa57d6fbd65dece16d87bd41669d4e6abfc808dec6f9427cb20"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v55-system-full-v2.mjs",
+      "bytes": 6111,
+      "sha256": "12f634580f37f1c9925b2ef7d8b305310c052e192932935b58ea0d9776a2c161"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v55-system-target-v1.mjs",
+      "bytes": 4304,
+      "sha256": "bd454f8925ee99a9a41bb66ec4e782e1f24ccf1d3e6807bb16b2d8e34cd229e5"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v55-system-target-v2.mjs",
+      "bytes": 4449,
+      "sha256": "7d63b76481a776eb7f69b87c3832db10ff9b3887a05b94936504994587282679"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v55-system-target-v3.mjs",
+      "bytes": 5472,
+      "sha256": "b915c9ce458e5de47f362ded4107fd95fc5a2e7f6b6d4c24aa870acf5df7356b"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v56-king-full-v2.mjs",
+      "bytes": 5230,
+      "sha256": "5f7a364c47dc8cc7c1bf2e21feb6f04960f25a53dd2988a90809e0340d2aa111"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v56-king-target-v2.mjs",
+      "bytes": 4072,
+      "sha256": "1e6d652a39d25fb5c6e22f9cfd8d8bdcfa348880ac494a1b34761a3a2529e1a7"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v57-save-phase-full-v1.mjs",
+      "bytes": 3944,
+      "sha256": "d5dd0d4b113505222eb8ee1bfeb30d6e9f279bf66b3c1f46e5f74ebcfbd90c3e"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v57-save-phase-target-v1.mjs",
+      "bytes": 3539,
+      "sha256": "754d33740e501edd0ca1a9104309293c8d77c7fcad2ac55a15e2873f5c721809"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v58-end-controller-controls-v1.mjs",
+      "bytes": 2573,
+      "sha256": "87ca2c336f3b8dfc1e31f1c474bab3e4dfa2b4e8f4a7a13b4b9a06604300ea3f"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v58-end-full-v1.mjs",
+      "bytes": 4581,
+      "sha256": "493495c1856e2311b0ab97ecee867d1838c6d9035f95ee4a994905b8bc027922"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v58-end-target-v2.mjs",
+      "bytes": 4119,
+      "sha256": "aca280d69bbc9cb8a39f75fc6c6091380d57fe68efc78c70b725914576fbf43e"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v59-origin-full-v2.mjs",
+      "bytes": 3894,
+      "sha256": "d59698fdf329f31c32504631b71a59b7ccab9142580f3bcc24d5d07ab4e22d14"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v59-origin-target-v2.mjs",
+      "bytes": 4206,
+      "sha256": "70a470ed1b5814f1be9f72feafd81b9707e07e02ae5aa71567e008326b67a0f5"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v60-retention-full-v1.mjs",
+      "bytes": 4097,
+      "sha256": "815796c85324f6afc539d7a1c5b4448b4baef350c51722d141075ff3a504fa6b"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v60-retention-target-v1.mjs",
+      "bytes": 4648,
+      "sha256": "aeea66abc8310ae3c9a473deee9d5820d902477146f0fd57e3c69501a9849e01"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v60-runtime-controls-v1.mjs",
+      "bytes": 3494,
+      "sha256": "9af07ed2a669ea5cf9128c9d37afb5ba3cd63c708e5f774180eee99260baef3f"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v61-origin-anchor-full-v1.mjs",
+      "bytes": 4546,
+      "sha256": "7d6c19db531ddbd7f8dc6360007ef42b685beebc1ca812cfbc0c5bdb4d844ba5"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v61-origin-anchor-target-v1.mjs",
+      "bytes": 5205,
+      "sha256": "926aba1e5dd6ef97a70497446037cac11d7730fa6a804ae852aa46a409073592"
+    },
+    {
+      "path": "build/impact-skill-20261014/run-v61-origin-anchor-target-v2.mjs",
+      "bytes": 5403,
+      "sha256": "bb49e856840308d8acfec3feddfc622f58e259ae4e3e85fc5f8f32fd853c8c2a"
+    },
+    {
+      "path": "build/impact-skill-20261014/v51-city4-plunder-input-bind-v1.json",
+      "bytes": 6423,
+      "sha256": "8a17e09d590410e0e1f13f9338c7de34b4491635278e39c171753a3f2b2c0027"
+    },
+    {
+      "path": "build/impact-skill-20261014/v52-city4-march-input-bind-v1.json",
+      "bytes": 7171,
+      "sha256": "803bf927fd5f70d750c37a3ac402ed47b63a815fa163ed8d1567b33a29de4daf"
+    },
+    {
+      "path": "build/impact-skill-20261014/v52-city4-march-report-source-audit-v1.json",
+      "bytes": 5234,
+      "sha256": "84468f6724b9d958948570bb551a64f5969d9d7bfe0023b5aa29c621d04ac5a1"
+    },
+    {
+      "path": "build/impact-skill-20261014/v52-saved-suite-baseline-v1.json",
+      "bytes": 68718,
+      "sha256": "e7e9dff11b6e563888d23fad98fb31f2a12973fd52d7a6c2b3dde5db4f05fb6f"
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-before-v1/css/hd-graphics.css",
+      "bytes": 4107,
+      "sha256": "157385e2d4ed3fb2d36a3b6bc137e3c231bb8bfc83eda44250f1a4b782377a81"
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-before-v1/css/hd-overworld.css",
+      "bytes": 5226,
+      "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-before-v1/js/hd-graphics.js",
+      "bytes": 11177,
+      "sha256": "f40858de52d530ecd272a346c345c38fe4f1573ce0ce0facf09f7caaa488f1b2"
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-before-v1/pc.html",
+      "bytes": 27750,
+      "sha256": "b78b730abe7572e0d407850da2b23193e4f15538507f0354fe0235e5b39e3ad8"
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-before-v1/receipt.json",
+      "bytes": 1171,
+      "sha256": "c22853ef3dd475c74b63dc2ecfb4c99f6c4f8daa0b52d6b8d92f7e6efac25fef"
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-before-v1/test-hd-display-settings.mjs",
+      "bytes": 10071,
+      "sha256": "97a9c8588653fb7b7159e91c3bb72a64d61c63c6bc513091573558f022039fe0"
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-source-fix-v1.json",
+      "bytes": 5288,
+      "sha256": "6b37172d823a4dfb535f59a591a9f53576ec97e3d62719cc2f38f824d5c3b6b7"
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-source-implementation-v1.json",
+      "bytes": 2438,
+      "sha256": "53e3b17ed07387dfd8cf60543ce384d635c24390054e5ebb26b33c529ef76733"
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-target-v1/receipt.json",
+      "bytes": 5416,
+      "sha256": "9e1ec9e97d8f9c92231691074ef8ae77dcd8127381c35b52f47a666270336bd6"
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-target-v1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v53-focus-target-v1/stdout.tap",
+      "bytes": 2777,
+      "sha256": "87d059f03c87a46de5f3554bfd23115cea03b6b6d4d3f7628b1f7958cb702cd5"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-before-v1/css/hd-system-ui.css",
+      "bytes": 3417,
+      "sha256": "001d37af3a53b7af9a17c4235cdecca8554c27c9249f3f983a235ca1f71cb833"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-before-v1/js/hd-system-ui.js",
+      "bytes": 55988,
+      "sha256": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-before-v1/m.html",
+      "bytes": 18450,
+      "sha256": "079834a4286999ecc778af119b3436308f94ab1eac17f1e17de3ce17444f3542"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-before-v1/pc.html",
+      "bytes": 28004,
+      "sha256": "04ff7412e818d0ff98cd2a4089225e0b56b9c9fead08804787b5f068c7a68a02"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-before-v1/receipt.json",
+      "bytes": 1209,
+      "sha256": "ee5da668b557094cd0b3385caab3d5e102f83883bbc3d67e6a0e0da5ad9076a3"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-before-v1/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 33802,
+      "sha256": "0c09d3c767907f33aa7880d80546f36d4a2a91ccb9dbb7df783bc22fb5285aa1"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-layout-css-candidate-v1.css",
+      "bytes": 3712,
+      "sha256": "b31ad2ebc094c6c1f834ea3153017284d679365b2b7b74d7a80023f7f7f784ef"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-layout-scenario-v1.mjs",
+      "bytes": 18319,
+      "sha256": "0180f87a41a30651505e0bb3d576593e85b1a423123357f99d9f3e21d2aa99b8"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-list-candidate-v1/js/hd-system-ui.js",
+      "bytes": 59205,
+      "sha256": "6087c6fdc061866657ecd8c01e135815dabb18f900a0ca21bacbe00cb477f4ee"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-list-candidate-v1/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 43242,
+      "sha256": "fc8871894fab9f3c7931ed3ae885f66258e73a96e659c72a0126203aad2f68cf"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-source-fix-v1.json",
+      "bytes": 4176,
+      "sha256": "bbdbef2ab38c30faa6e7a213c1cee1ae1913881ad34bdf29fac36a443c6d1d68"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-target-v1/current-source-positive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-target-v1/current-source-positive.stdout.tap",
+      "bytes": 54333,
+      "sha256": "e4eb6dee191cbeddfd7c575042b0b64847f659cfa35f107bb69d49e0e272a6ed"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-target-v1/original-source-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-target-v1/original-source-negative.stdout.tap",
+      "bytes": 56082,
+      "sha256": "f3923688bcc81faaf15188010e9549f0f5092eb7245fafb33a7b8003c8cae757"
+    },
+    {
+      "path": "build/impact-skill-20261014/v54-system-target-v1/receipt.json",
+      "bytes": 8343,
+      "sha256": "e18db7f1381029d6da31e86e3d4e55aaf1189cd570ca67ea984f6ef82ec8b90b"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-obsolete-full-stop-v1.json",
+      "bytes": 16233,
+      "sha256": "405fa96dcced8ea399f132483d0d3f99f671794817f7234937055c88d2d6d702"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-ack-candidate-v1/js/hd-system-ui.js",
+      "bytes": 63167,
+      "sha256": "aa2bd5b4d30e051a7db90e9ffb7e82f03aa37da9773246d1f4c527245f726b85"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-ack-candidate-v1/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 51454,
+      "sha256": "c34d1ae155132e3c1e09c9554e9bc95a37bc4baf5cca8679cb41636f14d03a87"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-ack-candidate-v2/js/hd-system-ui.js",
+      "bytes": 63262,
+      "sha256": "acebcc1998b1b1d96637a39700ba5050bc24447332206197d3caf41990a04909"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-ack-candidate-v2/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 53109,
+      "sha256": "cc9cc942060a2c47953282622411b6f2620f457227ae734f19dda69a6a291f9e"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-before-v1/.gitattributes",
+      "bytes": 32787,
+      "sha256": "02a9aac5a259c456c1e9dbc2791d55c50def8cf8acd11de9c46ca42dbda31bfc"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-before-v1/js/hd-system-ui.js",
+      "bytes": 59205,
+      "sha256": "6087c6fdc061866657ecd8c01e135815dabb18f900a0ca21bacbe00cb477f4ee"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-before-v1/m.html",
+      "bytes": 18456,
+      "sha256": "ddc7a3cf046ca10eceddb560dd18574fce85af35b4d341d1e88fc39f2b98a909"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-before-v1/pc.html",
+      "bytes": 28016,
+      "sha256": "47f337700d61dc192e754d26fd8e119acbfe86171ca6dfdc41b3c775c9b685ca"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-before-v1/receipt.json",
+      "bytes": 1392,
+      "sha256": "7fb42f4f12323a5b93c80d55a130295b8ee71bfde0ceada877db69da1747ba47"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-before-v1/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 43242,
+      "sha256": "fc8871894fab9f3c7931ed3ae885f66258e73a96e659c72a0126203aad2f68cf"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-root-full-v1-before.json",
+      "bytes": 80732,
+      "sha256": "b6557359d9849957e3cd279f35a068d75646493f9745afa3622ab7048c653b98"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-root-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-root-full-v1.stdout.log",
+      "bytes": 545545,
+      "sha256": "50c19779ce9e1c4ba51b3350caaf30965afcbf86674baa69df086473a22b6766"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-source-fix-v1.json",
+      "bytes": 2844,
+      "sha256": "3f2e7f06451f21d5beb6dc6a5740f20a50bfe1aa47f2af978b06baf3abc59281"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-source-fix-v2.json",
+      "bytes": 3882,
+      "sha256": "879c405d811dd2017eb881bca310ddee5683aa36b9052b36668f96dbb9b70ea1"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v1.stderr.log",
+      "bytes": 797,
+      "sha256": "eec6a5babdf46d803d0cd4959b398ef15f86452faf3060b8dab3d01762a4720e"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v1.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/current-source-positive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/current-source-positive.stdout.tap",
+      "bytes": 55154,
+      "sha256": "6ca64832ec65807f1819ecf840e17e183530d2204c29b810d461b231d3bf41c1"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/intermediate-source-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/intermediate-source-negative.stdout.tap",
+      "bytes": 6717,
+      "sha256": "311db3bab5b7b2cd6da16f3aa6ceead0795bafa5bc4274d4d5a5d96c10c5ae0e"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/original-source-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/original-source-negative.stdout.tap",
+      "bytes": 6042,
+      "sha256": "0dcab49877acaac1fa21b56a334dd2a694ce178ad4570a06f6fb5aca224d095b"
+    },
+    {
+      "path": "build/impact-skill-20261014/v55-system-target-v2/receipt.json",
+      "bytes": 13602,
+      "sha256": "a9fef5b08b7da6dec95a1d5c25bd2cafcb5ae27cfc564187fa7fde9355bc4da7"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-before-v1/css/hd-system-ui.css",
+      "bytes": 3712,
+      "sha256": "b31ad2ebc094c6c1f834ea3153017284d679365b2b7b74d7a80023f7f7f784ef"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-before-v1/js/hd-system-ui.js",
+      "bytes": 63262,
+      "sha256": "acebcc1998b1b1d96637a39700ba5050bc24447332206197d3caf41990a04909"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-before-v1/m.html",
+      "bytes": 18456,
+      "sha256": "42e34d498482920c8968179cacd6cb8385753878b0228e9b9203def36faf5476"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-before-v1/pc.html",
+      "bytes": 28016,
+      "sha256": "279e96bb0406885a8aae021ac417cf1652ffcb8169446ccb3c1a692fefbe43e3"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-before-v1/receipt.json",
+      "bytes": 2388,
+      "sha256": "68dd1539e59b874ad8219baf18f5c4e1ea18674d381cd8313fc4cf8696bc5b6b"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-before-v1/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 53109,
+      "sha256": "cc9cc942060a2c47953282622411b6f2620f457227ae734f19dda69a6a291f9e"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-preview-candidate-v1/js/hd-system-ui.js",
+      "bytes": 76693,
+      "sha256": "b08c2021cf63f8128850ca9b60647b36a6c9e4dfa0a7f229bac54d914b7d0654"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-preview-candidate-v2/css/hd-system-ui.css",
+      "bytes": 7088,
+      "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-preview-candidate-v2/js/hd-system-ui.js",
+      "bytes": 76775,
+      "sha256": "da6f0317ec8eeb9e7beeb49e5d5d94bd540953ccaf5f80f1e78bdb47222543a7"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-preview-candidate-v2/m.html",
+      "bytes": 18454,
+      "sha256": "54cab091cc80c7627ab6d2c37558a27bdd133385c8e97b2825cb4c0f2dbd2276"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-preview-candidate-v2/pc.html",
+      "bytes": 28655,
+      "sha256": "427b37b33bc5ed60efc32cd5e18b874fa0d830d71e8c7775d4f27a677a11199e"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-preview-candidate-v2/scripts/test-hd-saveload-ui.mjs",
+      "bytes": 64179,
+      "sha256": "9d051011ae4e9cc035d61aefd51d89a00aefdad2e09da118027cb07ab3eca5ed"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-reviewed-candidate-v2.json",
+      "bytes": 1558,
+      "sha256": "e419ba8c85629c5545d3b1ed4a9172c8627b172715ebbba23bdbf4d5b8057bde"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-source-fix-v1.json",
+      "bytes": 4509,
+      "sha256": "3fd808a395f5be1e66a7e967a615ce150bb6f2e02e763a545e22f90a097c4694"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-source-fix-v2.json",
+      "bytes": 5491,
+      "sha256": "e181e2199f9f8515331d567a8bd0c4c2c2135aaaaec518ac474b12b3899f0923"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/current-source-positive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/current-source-positive.stdout.tap",
+      "bytes": 55830,
+      "sha256": "a26ed4efc1c1b894fa9ee2771c045553bdd40d369bd8d035a2925431025b50f3"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/intermediate-SVG-source-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/intermediate-SVG-source-negative.stdout.tap",
+      "bytes": 7139,
+      "sha256": "96655e0b8c6300c8d6b136b81453b9ef98bba1a8a3a8f8754838c97700e39e89"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/original-source-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/original-source-negative.stdout.tap",
+      "bytes": 3421,
+      "sha256": "d1a8b12957876af8d3c373b5cfb4a28d5c595da264647a7831bbf5d9b8111acd"
+    },
+    {
+      "path": "build/impact-skill-20261014/v56-king-target-v2/receipt.json",
+      "bytes": 12219,
+      "sha256": "281a307444cb7cf30b3bbc780b9886ac0862f6eb7fd65c76a2be7e0115c1e979"
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-save-phase-baseline-v1/hd-wood-city4-continuation.mjs",
+      "bytes": 51788,
+      "sha256": "c998ce1f9f8cf4b3b181f5d037e06cac533ac9106d15c777b409607aef2d5338"
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-save-phase-baseline-v1/test-hd-wood-city4-continuation.mjs",
+      "bytes": 46188,
+      "sha256": "21636267b7e79169da3d38e3a9cfd63dababe6136cbab2a07a1792c42892d4d3"
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-save-phase-peer-v1.json",
+      "bytes": 10026,
+      "sha256": "86e35a7ce3c8c76205e15421af2ec2b461680b803cf850e6d49b45ff4bb4d111"
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-save-phase-target-v1-old-formal.mjs",
+      "bytes": 52121,
+      "sha256": "376f25fd62de04ea0bcdb7b285c6f8efa84398e62a16a5671334a8aa2e85f854"
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-save-phase-target-v1-old-test.mjs",
+      "bytes": 50222,
+      "sha256": "b80c1c84f9d57be8cb36ab02cfcb0bd1e733ca12a47131d3007bcf20b2de5443"
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-save-phase-target-v1.json",
+      "bytes": 174758,
+      "sha256": "4604a5b80b77a466841d9cdcc4b19ff2c0ce1685d1f59911db7cccfa9cb14285"
+    },
+    {
+      "path": "build/impact-skill-20261014/v57-saved-preparation-review-v2.json",
+      "bytes": 69648,
+      "sha256": "87346a00f8b4848c2110fe18d406e2df37e4f4ef4df2aed86f201af1510d4a61"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-before-v1/hd-wood-city4-continuation.mjs",
+      "bytes": 52185,
+      "sha256": "04cfde7b2e6fb64f19ce2c07df93f0df14280378ad7e702f49aef026686dc5dc"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-before-v1/package.json",
+      "bytes": 20831,
+      "sha256": "2ae8b31d64d5d00e3396f0cf7627ddea123182e7da4169b4d7427019379e23fe"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-before-v1/test-hd-wood-city4-continuation.mjs",
+      "bytes": 50045,
+      "sha256": "be428c25aed9275201e1c177065274605e95ccec246106933b07baf6f1b9164f"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-controller-controls-v1.json",
+      "bytes": 5065,
+      "sha256": "450c3649ee167e17eedf3667f7247a01b3ffb0e7c567339544961a6a28fc447f"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-controller-controls-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-controller-controls-v1.stdout.tap",
+      "bytes": 3392,
+      "sha256": "814b8fbf79762d79087b5de3f448e373f9464c2b0f18d01aa56a756f253a0c59"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-full-v1.json",
+      "bytes": 98483,
+      "sha256": "94ea7a5a702482e0add4c40236683230967bf77b1214145fb1e214f0c41ef9f3"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-full-v1.stdout.log",
+      "bytes": 665183,
+      "sha256": "581659f702d80095117c21256547e90bffda085501db6a5dd66aacb3382cea69"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-source-integration-v2.json",
+      "bytes": 3925,
+      "sha256": "01bf6387c6e0dc0d7ccf03830c1dfe4e0ce773a8b43f761b8059bab1629da508"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-source-peer-v1.json",
+      "bytes": 5103,
+      "sha256": "b696b8097040e3406622236112bd267ed7e415976bef515a3deef7a69cdeba4f"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2-negative.stdout.tap",
+      "bytes": 1003,
+      "sha256": "4907fca0a48f6aaea5d62ae0b35ac77f3aa6dd480e89bb90b97e6c0f148e2e44"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2-old-formal.mjs",
+      "bytes": 52518,
+      "sha256": "b40fa63679015c6ecbcd3a8bde6a8b781dc47ac7cf58ba420d2766c2e246edb2"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2-old-test.mjs",
+      "bytes": 55525,
+      "sha256": "81f1014da524f87c10fd71fa5c0f826d420c47749facb9cefc01d7c3580caf56"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2-positive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2-positive.stdout.tap",
+      "bytes": 3102,
+      "sha256": "8c05440208ca2e9a1a671fbabc55dccecfee76fcb3050262b1a2ea00fffe1f0b"
+    },
+    {
+      "path": "build/impact-skill-20261014/v58-end-target-v2.json",
+      "bytes": 183263,
+      "sha256": "f09b099bad98beac73c0d9d2c0ca657069d8fe562c62a4267e6c4044e235d694"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-history-origin-before-v1.json",
+      "bytes": 732,
+      "sha256": "3d1828a8326521d1678660d3c23ea72c67582788d3aa404443078832b6831e15"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-before-v1/hd-wood-city4-end-input.mjs",
+      "bytes": 12487,
+      "sha256": "e69f79ee3099c5c1ed1c062f4ec9c2f4712f99554d91b68bb7fbb7f6b2ae8794"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-before-v1/test-hd-wood-city4-end-input.mjs",
+      "bytes": 11287,
+      "sha256": "da72e0df612039ca746f03489f6b26679420910d3bfb68e533e6190481f0f414"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-full-v2.json",
+      "bytes": 100540,
+      "sha256": "5ce7e6fcd498b7bd6cdc6a9a65fac8fe25bc90af52fdff9645f5470373dabadb"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-full-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-full-v2.stdout.log",
+      "bytes": 666177,
+      "sha256": "49d02b6a380e17a013da07905718dd5c233bcbff527440ef5f017e11e9bcbd3d"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-source-integration-v2.json",
+      "bytes": 3862,
+      "sha256": "2be1e1528bc792d9fb446227531ccfcf1d0f8a817d32eb0fce3be2e5700982a9"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-source-peer-v1.json",
+      "bytes": 5881,
+      "sha256": "559da8956bb3459afc5b0a79f1b5886dcc600e16132093bb9cb2a15ebc56367f"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-source-preparation-v1.json",
+      "bytes": 3984,
+      "sha256": "47249d93a824e64937835dcd9a8b925f3bcea961dfd273686ce18856d5785b5d"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-target-v2-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-target-v2-negative.stdout.tap",
+      "bytes": 1018,
+      "sha256": "e075f5c694b8c6a53c83c321dad013aa4c21dd301bc570c543c972d74673dc2f"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-target-v2-old-input.mjs",
+      "bytes": 12589,
+      "sha256": "238fd749721ae63b4735e3315d6ab580fca9642363f4974515add0828afe9bc7"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-target-v2-old-test.mjs",
+      "bytes": 18204,
+      "sha256": "ddf401b23adbdde6ed64f0d878c9647e3a6e631e3a22381384c0a452fdc6a51f"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-target-v2-positive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-target-v2-positive.stdout.tap",
+      "bytes": 5503,
+      "sha256": "eb529d8942c32d7ff9d94263b9808a083f883722a75ee9ca5c977c214d3a3066"
+    },
+    {
+      "path": "build/impact-skill-20261014/v59-origin-target-v2.json",
+      "bytes": 195036,
+      "sha256": "109314f2bbfac4288af8329ab0323ae40a86bc4ba4e505e0f329112b35552dc1"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-anchor-candidate-controls-v1-before.json",
+      "bytes": 5992,
+      "sha256": "7d65b83f970bb3be8c728827eed883533b21ad3cac535a3c726f3a701970a33a"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-anchor-candidate-controls-v1.json",
+      "bytes": 7707,
+      "sha256": "861ef20516eef34dc7e3a4ecdf6c8dfc61d3c3b773329488e14dc1574980b764"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-anchor-candidate-controls-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-anchor-candidate-controls-v1.stdout.tap",
+      "bytes": 4794,
+      "sha256": "c3f94313d4ad093a974cbefacc10ab344b3fc3757016cba12e2a72338fd4157e"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-future-candidate-closed-controls-v1.json",
+      "bytes": 863,
+      "sha256": "c0c573fec59b608340b65f2dce96b21c4bdba8b11489b4c83128ecd486720666"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-retention-full-v1.json",
+      "bytes": 108425,
+      "sha256": "960178bbe599451e5bdd1e205f73a6d452132a7c100adb75f34b719faa6fbb90"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-retention-full-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-retention-full-v1.stdout.log",
+      "bytes": 667083,
+      "sha256": "cd6d3f933941bcd62b4b9d004a1fb0453110caac374afed20a54b9f919a47d73"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-retention-integration-v1.json",
+      "bytes": 6546,
+      "sha256": "e95f83ce70b95497e24077fc24a48fd27ca92e3436f38c1d28d4348732e39fee"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-retention-target-v1-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-retention-target-v1-negative.stdout.tap",
+      "bytes": 1241,
+      "sha256": "d57a3a871e46fa54b71f502cd782f5dc17758dc8f63ce2cfa707b8b8e2902677"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-retention-target-v1-positive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-retention-target-v1-positive.stdout.tap",
+      "bytes": 2512,
+      "sha256": "60f98818ffaea9f20e2e9aacf6b62d7ec609f6ed7cbd5ab876311a0154dcc80e"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-retention-target-v1-unref-child.mjs",
+      "bytes": 2889,
+      "sha256": "9628820b77bfc05f1ff85b17950c4361ace587d5d66b1731217dec1763c0af7b"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-retention-target-v1-unref-runtime.mjs",
+      "bytes": 16496,
+      "sha256": "2fa02347c8271ed2f8cefb43fcbf274d67e84c2227446fc7a0ecbf7fdfd00a66"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-retention-target-v1-unref-test.mjs",
+      "bytes": 10597,
+      "sha256": "532bce6357cea79e50195d4f0982a5777e77eae082c8104433c8af9192745717"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-retention-target-v1.json",
+      "bytes": 209444,
+      "sha256": "88f5e9686b7ced1c1ee5b608e049021b395b014d3f2b3eef0d0f80ed3c99267b"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-runtime-controls-v1-before.json",
+      "bytes": 101757,
+      "sha256": "9acafb9d96a9f065ae7afe4a1a7b38d0d002971cfcdb967a77fb86292d7917be"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-runtime-controls-v1.json",
+      "bytes": 103040,
+      "sha256": "a5edf3beb397801b023a755b05e3cc91ff63849ffec530af9264a1b2af10779e"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-runtime-controls-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v60-runtime-controls-v1.stdout.tap",
+      "bytes": 4085,
+      "sha256": "0fcb260aa48ceb1ffc65b1db8c5260992b10dd10e7ca6873e30f7eb52117708f"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-integrated-peer-v1.json",
+      "bytes": 20056,
+      "sha256": "f62d9572aa4b04ba63f39a2922c83750041f88b087d158a6b864da6f45a16dd0"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-integration-v1.json",
+      "bytes": 16233,
+      "sha256": "c7e93fcf7d111e92c0d7173c43bdef7f9549249ad6ba262a2bcb047d30e71d96"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-target-v1-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-target-v1-negative.stdout.tap",
+      "bytes": 2000,
+      "sha256": "939b601c06f17277d54ebbc43f380c8b7c7fc86d39eca6eefd53f4ff93ee9c68"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-target-v1-old-capability-test.mjs",
+      "bytes": 3547,
+      "sha256": "016b6fe3320b9f221c94ff7ee02a7987bae8adbd6b115ab263e1e8d3acbf572d"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-target-v2-negative.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-target-v2-negative.stdout.tap",
+      "bytes": 1022,
+      "sha256": "bb77bc6e848db5df8371dede0e0bebf9c5074a27db75db3f1dfd07871385ef50"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-target-v2-old-capability-test.mjs",
+      "bytes": 3601,
+      "sha256": "8f8cb9b549a30300601a30a64bfc0cbb39e44323e5f3d1ac092f50515e4dd6bc"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-target-v2-positive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-target-v2-positive.stdout.tap",
+      "bytes": 4796,
+      "sha256": "5d2b198405356967833b8bb8d2947ac34d9f1e2219eec8eb7538aca4d0377240"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-origin-anchor-target-v2.json",
+      "bytes": 224995,
+      "sha256": "5999e7dd4c6222efd119d576402ac1b6d26eb7db22502e652cf33a030c9c1b9a"
+    },
+    {
+      "path": "build/impact-skill-20261014/v61-target-transport-failure-v1.json",
+      "bytes": 1683,
+      "sha256": "dc705e592dcc3c13d0292e27c2bc7c5ca09f8c774d561e96190aec0238bf242f"
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v2.mjs",
+      "bytes": 14267,
+      "sha256": "83c1b19f21041303788cfd1bc9b7ebf5843a2c16bd028c30689ed75e49100075"
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v3.mjs",
+      "bytes": 22493,
+      "sha256": "3000bb15a070330f8f7a98f4686564d736be886102c3a1b5741aea0ab6e99b00"
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-quantity-latency-v4.mjs",
+      "bytes": 35256,
+      "sha256": "1a8fcb1be2a15cec635a0d2ecb65bfe32306efae3dc2e8c5a512e1f8f8508275"
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-full-v1.mjs",
+      "bytes": 3425,
+      "sha256": "ca51d78b677431e1b49b2361005f0bac4c0de83092b5490be915056368b09401"
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v2.mjs",
+      "bytes": 11720,
+      "sha256": "79c76d2115728e8d34afc13e014d25621cd5e5355c9e9810596f91d940666ead"
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-quantity-latency-v4.mjs",
+      "bytes": 27783,
+      "sha256": "59aaa9d2d773ecd0019c3319301f557608f5b72820a6ca9e4b40e03f6b368611"
+    },
+    {
+      "path": "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-quantity-full-v1.mjs",
+      "bytes": 3730,
+      "sha256": "e06b47054d580509660bc27b08e51929d6b16030ecc97f71b553ccf80f729613"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v41-public-ui-helpers-v1.js.txt",
+      "bytes": 13517,
+      "sha256": "07c0253ad3119d82088cf27e1eaab79b886c49c17ab80c1698622aa0c510781a"
+    },
+    {
+      "path": "css/hd-graphics.css",
+      "bytes": 4567,
+      "sha256": "5941d014ada1e3fcc889031640dde97fa1f542d5c213c1e62ae0f7dc29e2d43a"
+    },
+    {
+      "path": "css/hd-overworld.css",
+      "bytes": 5226,
+      "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+    },
+    {
+      "path": "css/hd-system-ui.css",
+      "bytes": 7088,
+      "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d"
+    },
+    {
+      "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-verify.mjs",
+      "bytes": 32262,
+      "sha256": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-archive-part001.json",
+      "bytes": 7349764,
+      "sha256": "b252579fa579d7e283dcd5e638788df7f80ff935e776286767514923980a879e"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-archive-part002.json",
+      "bytes": 5182236,
+      "sha256": "320f78f868810c34ca61b898d5772e68aaf52f382b506d8de42fea7f06bd881a"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-archive-part003.json",
+      "bytes": 6967967,
+      "sha256": "830d07fb5d02b7a63f4257f7123c3e6afff8a1f4bf8949f6fee6f7825ee30d46"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-archive.json",
+      "bytes": 123719,
+      "sha256": "aaa81df2c53bbf28e3901db8a56b062ce855b4e6604c56c5c54d00d53b117332"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-latest-world.json",
+      "bytes": 148009,
+      "sha256": "6f8d406d7bab357c23f7db44277b11485fac1285e19740a3e320fc967fa675df"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango0.sav",
+      "bytes": 8221,
+      "sha256": "f5ef17056675fcd03d41c19af61365507fc09d1db726addc9528ee2acb326f13"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51-sango1.sav",
+      "bytes": 4840,
+      "sha256": "688c681ffedab58a5caa398d4fafba985d6e29733cd46d30145fac746a22616d"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-plunder-20261024-v51.json",
+      "bytes": 302409,
+      "sha256": "c16f3969ee7fc4f9d9af5ecfa6942c075442e0d9a98aaa5e390cf84ccb210d79"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-index.json",
+      "bytes": 151295,
+      "sha256": "6f072b12b1e4ac75c8b818497536e3bffd69f23cb6e7cf4bc9371aab500c857a"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-part001.json",
+      "bytes": 8142224,
+      "sha256": "8357cab4cb1ee68aa3d8c06f8df3b4ed6811ded199e49185324e53593eafe94b"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-part002.json",
+      "bytes": 8377587,
+      "sha256": "d348517c680ec688f5f1cbe5d5507087b21fdfc0bb6a17064cdf2ec25e61efb8"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-part003.json",
+      "bytes": 2359629,
+      "sha256": "5ef83127046a14c813b301096bc354a83835cf94e9db0908192f077da612448b"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-latest-world.json",
+      "bytes": 148004,
+      "sha256": "58f8ac8d6366c09023a834995bde26bd0973e32a1b12292d463f1644b983c1f6"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-publication.json",
+      "bytes": 61097,
+      "sha256": "1b5dd68946d29d8cf92abe868d1f1031d3107ddbed1d039f523eb4295e2c2357"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-reader-control.json",
+      "bytes": 81603,
+      "sha256": "a041e1ad348d81598e3ae30de00189edfdd80c03ac584bea4c5a710d47a42e92"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-sango0.sav",
+      "bytes": 8221,
+      "sha256": "122a72b600bbee49d734f0420731b7be7895af0eaf222741f6daee6eaae09d2b"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-sango1.sav",
+      "bytes": 4840,
+      "sha256": "f3b6f39a2433f88abaef52e921c65e7d607d6752620762927f2b542f74f27353"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-recovery-20261024-v57.json",
+      "bytes": 379062,
+      "sha256": "70949f4f2edb9b4564e37b151add6e551d7cb3f010d6a8ccb70a387847c59f1a"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-archive-part001.json",
+      "bytes": 6489796,
+      "sha256": "44b56dafb58b129372943516e48b5dc8edf83224807678cb7927678818164192"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-archive-part002.json",
+      "bytes": 5214694,
+      "sha256": "77e9ab7a53bd29d166fb5da3819ea6420465a1670be9947423c8a56889dd5fce"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-archive-part003.json",
+      "bytes": 6893751,
+      "sha256": "c6fa846052b10bfe4c380dd213f40acbd26c8775902cb59950ed9b7c5568907f"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-archive.json",
+      "bytes": 77104,
+      "sha256": "5549aa7b4a10f2aa75a4a342b31543eb612f94df191e1851c4478f1452c170bb"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-latest-world.json",
+      "bytes": 148013,
+      "sha256": "a8d672af8b0876eb3818bab1ace9fb013c51c422a915f5325f14eacf3f3c52af"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-sango0.sav",
+      "bytes": 8221,
+      "sha256": "a181b0c56938d39eba4ff3afcf44fae1448f1bf3f47f25a7b54014ea1ffa7e23"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50-sango1.sav",
+      "bytes": 4840,
+      "sha256": "62f150e47967dd63be435d2eed40e579ac329e2d644f2899d4a0f0920201d1c0"
+    },
+    {
+      "path": "docs/validation/m5-wood-city4-resume-20261024-v50.json",
+      "bytes": 294013,
+      "sha256": "ac9e0d1f0f98997d5d8106ca328d2cbea132189643a95898f8f990c2df279c9a"
+    },
+    {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-buy-history.json.gz",
+      "bytes": 650623,
+      "sha256": "bc2878a8de39717decb77948f238a6362a6e76af400ecb196eab86599f453619"
+    },
+    {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-latest-world.json",
+      "bytes": 148035,
+      "sha256": "8b532d9c428e3d9d3e14a4db68967e88bfefe75b86019353d82ae11469a6d723"
+    },
+    {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-sango0.sav",
+      "bytes": 8221,
+      "sha256": "922292cb792e8fb249ef112cbb06644d89d40ee5da9a75888762ed55faf035c8"
+    },
+    {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41-sango1.sav",
+      "bytes": 4840,
+      "sha256": "9bd6b46b97225869505370be246e334ef6c2701f3d779c6236d493e4b1371ac5"
+    },
+    {
+      "path": "docs/validation/m5-wood67-buy-paid-20261024-v41.json",
+      "bytes": 10647,
+      "sha256": "fb74d01825b9d5a41feedb78fb3ebe39813beae09e7dc6b5aaa6a71319f67b24"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-latest-world.json",
+      "bytes": 148013,
+      "sha256": "52dfd286b582fadeff02dccdbafd6e9738b7eb343168ca09e538d2e43f7c8f75"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e6d0c2381355e53fce9eccaceaa187ff167a519ea74118bb88ed2fa0da0bc7d6"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42-sango1.sav",
+      "bytes": 4840,
+      "sha256": "95a6d1d2ae281cb0a4a3b32d0e10f1fb059ce834c6c74d75d82b5766c4607028"
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v42.json",
+      "bytes": 14720,
+      "sha256": "566212990de1c84301ff5985aed2fc81f9fd2d3d94bda898615c37c30b1d7217"
+    },
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40-latest-world.json",
+      "bytes": 148035,
+      "sha256": "f03b9c0ad0e0b7f1cbda90d4e99ecd4e7d40d54fbf10823704dde8f491d39e3a"
+    },
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40-sango0.sav",
+      "bytes": 8221,
+      "sha256": "40edc75d6da65b6d540ba3f2f50df629677cd1e234d701624dc713cdd48c77e0"
+    },
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40-sango1.sav",
+      "bytes": 4840,
+      "sha256": "6ad8f18531509ed68dcdacac2bc489b6c4498c86d90b418d0bc0ee25af3348ae"
+    },
+    {
+      "path": "docs/validation/m5-wood67-missing-20261024-v40.json",
+      "bytes": 18055,
+      "sha256": "51b846af0ed22966bc389599da4c28e8d17894a1923acb5de9a938a32998e14b"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 160484,
+      "sha256": "8068f9e8982cc4a3e519743521778820b22c38b98e45fac06a287b8cdc680e99"
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 80899,
+      "sha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 431117,
+      "sha256": "8e94cb039a0b1cf7cb5172212a88c377330dc61860223b54a6173658518ff13f"
+    },
+    {
+      "path": "js/hd-dialog.js",
+      "bytes": 136991,
+      "sha256": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7"
+    },
+    {
+      "path": "js/hd-graphics.js",
+      "bytes": 11645,
+      "sha256": "435f947e220be26a27ee4479ec5a7f91205bbd9321760a38931dd4076abe3715"
+    },
+    {
+      "path": "js/hd-lib-identity.js",
+      "bytes": 5822,
+      "sha256": "b32f1bc26cfe1d41f064fb250b8c6c4978aa8ac7c5c8ad2ecc4ac5df14e42aaf"
+    },
+    {
+      "path": "js/hd-mobile-system.js",
+      "bytes": 32227,
+      "sha256": "88499b83ae043e434aea9dc4c8109a3bc9f69be3bbc1aee52305a6e700acd643"
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 134571,
+      "sha256": "6215f2cf46293d1ef0765d4b53064aaa95c29fadfedbcef530a8827e43c8f6b3"
+    },
+    {
+      "path": "js/hd-system-ui.js",
+      "bytes": 76775,
+      "sha256": "da6f0317ec8eeb9e7beeb49e5d5d94bd540953ccaf5f80f1e78bdb47222543a7"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 35113,
+      "sha256": "2fc1d709aca0d13a4db3f6883578ca5d6a81c01cca21ffbd09c9c700549f48e0"
+    },
+    {
+      "path": "js/save-storage.js",
+      "bytes": 11899,
+      "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "m.html",
+      "bytes": 18454,
+      "sha256": "54cab091cc80c7627ab6d2c37558a27bdd133385c8e97b2825cb4c0f2dbd2276"
+    },
+    {
+      "path": "package.json",
+      "bytes": 21052,
+      "sha256": "1ace6deab308ed96fac8350971ec5fafef3932912da0811f579274c707b90acf"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 28655,
+      "sha256": "427b37b33bc5ed60efc32cd5e18b874fa0d830d71e8c7775d4f27a677a11199e"
+    },
+    {
+      "path": "scripts/fixtures/hd-wood-buy-continuation.mjs",
+      "bytes": 17129,
+      "sha256": "2bc14ac9235c5ad87fbcf48ea8bd4783f20484e98fa3d630d61bc47f6c59493c"
+    },
+    {
+      "path": "scripts/fixtures/hd-wood-city4-anchor-cdp.mjs",
+      "bytes": 11813,
+      "sha256": "ce84a1ed6ce2716821a1bf4f34a8d43a111cada2f9dc92720a3841de4d639f8f"
+    },
+    {
+      "path": "scripts/fixtures/hd-wood-city4-live-retention-fake-child.mjs",
+      "bytes": 2824,
+      "sha256": "b272b158b4f9a2c96d3284964afddf4edcb09723396b5d1211967c393474f23c"
+    },
+    {
+      "path": "scripts/fixtures/hd-wood-city4-terminal-fixture.mjs",
+      "bytes": 5587,
+      "sha256": "e350033bf6c7a820de82f1cc7211695aa41d35e55a641281f6ae8c4af4ac3edb"
+    },
+    {
+      "path": "scripts/hd-impact-move-path.mjs",
+      "bytes": 5572,
+      "sha256": "bc593fb1286538d4bef314326a742f131090481d821233b34ce063e082def4cd"
+    },
+    {
+      "path": "scripts/hd-impact-plunder-runtime-oracle.mjs",
+      "bytes": 10718,
+      "sha256": "2b21c4194435f5f602a102f976a27d47d2cfa5639cce16269d6a91675fe9a998"
+    },
+    {
+      "path": "scripts/hd-impact-v26-raw-buy11-oracle.mjs",
+      "bytes": 14276,
+      "sha256": "56e290989b261944b3822b56921d88c8051654d6beb0edade163a9ad8541db9f"
+    },
+    {
+      "path": "scripts/hd-impact-v31-acquisition-policy.mjs",
+      "bytes": 21161,
+      "sha256": "f6555d6e00cdf26a1040749936f9c07e5560873d9b72d657952aae21f60b4d7c"
+    },
+    {
+      "path": "scripts/hd-impact-v32-conditional-plunder-prefix.mjs",
+      "bytes": 26243,
+      "sha256": "790c3b5dd1d24e984dd9bf6c0ccef2f6a4e22141cc4171fdf2da04c2c0d28013"
+    },
+    {
+      "path": "scripts/hd-impact-v36-wood-route.mjs",
+      "bytes": 16732,
+      "sha256": "b17fc01755860be7280247edb67b0501754537d8b1eb6e2e66c0f6d3095caf46"
+    },
+    {
+      "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe"
+    },
+    {
+      "path": "scripts/hd-runtime-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0"
+    },
+    {
+      "path": "scripts/hd-wood-buy-continuation.mjs",
+      "bytes": 29260,
+      "sha256": "ab7e8019173d506b8d3844d884cefeb063b8330d8f22509001193f0220726bf3"
+    },
+    {
+      "path": "scripts/hd-wood-buy-runtime.mjs",
+      "bytes": 19242,
+      "sha256": "5d6352318f25c56b7054fb6e32745377babb4ebf73f24e99eae57cd263436f80"
+    },
+    {
+      "path": "scripts/hd-wood-city4-anchor-artifacts.mjs",
+      "bytes": 2658,
+      "sha256": "d448d9cec872a87f062cdd69233a076146392c6f867543f9af70ef9cf3f2996e"
+    },
+    {
+      "path": "scripts/hd-wood-city4-anchor-input-contract.mjs",
+      "bytes": 7764,
+      "sha256": "549be3f5ee0a210d7625cd55aa95f6fc6a5854279f59c888b1bd871b954b1314"
+    },
+    {
+      "path": "scripts/hd-wood-city4-anchor-ledger.mjs",
+      "bytes": 1269,
+      "sha256": "6f73b59a0a302a9d8f5b25cedb6f20f957c1154b402158d13c1f40a46a8c4118"
+    },
+    {
+      "path": "scripts/hd-wood-city4-anchor-runtime.mjs",
+      "bytes": 25281,
+      "sha256": "5a7859a5f8ff1dd46fb69f78f82de0ff7c8efee1919eef6f51918d7ca9834112"
+    },
+    {
+      "path": "scripts/hd-wood-city4-continuation.mjs",
+      "bytes": 52844,
+      "sha256": "e73c15c5dc156b16f7f57e2898ed471b8e94b21d38b7722397453dc314dfb027"
+    },
+    {
+      "path": "scripts/hd-wood-city4-end-input.mjs",
+      "bytes": 23243,
+      "sha256": "cff968c20236b5eed24a3d611d377341d305e013cba5288380b6ed4fc5e3d53e"
+    },
+    {
+      "path": "scripts/hd-wood-city4-live-retention.mjs",
+      "bytes": 16383,
+      "sha256": "0309b2dbcaca49b0b29f223cfd0b239e07aaea4f5d11b3076fb8c6c93418efb2"
+    },
+    {
+      "path": "scripts/hd-wood-city4-origin-anchor.mjs",
+      "bytes": 20343,
+      "sha256": "e35a42a4c4634cc371dd8cf2be4aba86d23d1be0cfada112d929c172afab0b80"
+    },
+    {
+      "path": "scripts/hd-wood-city4-preparation.mjs",
+      "bytes": 14136,
+      "sha256": "2142399ba7f6b80b230199b5596eed5557276d2f2677a845755960ef97efd933"
+    },
+    {
+      "path": "scripts/hd-wood-city4-snapshot-observer.mjs",
+      "bytes": 1827,
+      "sha256": "cb8dae92a4a2e853426eb57694df1b28a75e42ac23771c72662cf10e27b3db08"
+    },
+    {
+      "path": "scripts/hd-wood-city4-ticket-observer.mjs",
+      "bytes": 882,
+      "sha256": "7ad3e0b841ef4770dc302750f1bcf2b6a669496be4bb09fe753d750eb0e08683"
+    },
+    {
+      "path": "scripts/hd-wood-city4-ticket-view.mjs",
+      "bytes": 7704,
+      "sha256": "c5590438fe45261112882bfde6d6215abfbd8fd1a7cdd9a2f2d7642c24369085"
+    },
+    {
+      "path": "scripts/hd-wood-city4-ui-predicates.mjs",
+      "bytes": 13694,
+      "sha256": "42071ad8bd0c81b2c4e7a5713873a862ab3d0422668377593c2439f29f31b294"
+    },
+    {
+      "path": "scripts/hd-wood-classic-presentation.mjs",
+      "bytes": 1965,
+      "sha256": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986"
+    },
+    {
+      "path": "scripts/hd-wood-evidence-contract.mjs",
+      "bytes": 10750,
+      "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4"
+    },
+    {
+      "path": "scripts/hd-wood-missing-picture.mjs",
+      "bytes": 7879,
+      "sha256": "9e80491b46295b5fe9ef274de8136049937743fd17e58420ac88b7b04324adc8"
+    },
+    {
+      "path": "scripts/hd-wood-native-action.mjs",
+      "bytes": 12494,
+      "sha256": "681064d68f35be8f01937168593c44a696b6df0ceeafd033b6c7b094ba3841a5"
+    },
+    {
+      "path": "scripts/hd-wood-native-route.mjs",
+      "bytes": 6273,
+      "sha256": "e6f899062e58ec289380a6608b477e8e9341cf344bc01b93c0c77162a6933329"
+    },
+    {
+      "path": "scripts/hd-wood-original-continuation.mjs",
+      "bytes": 19876,
+      "sha256": "8c0764ca38b2c3530a72abbc66cb21b5d9f407e36314d5fe95d9f295b33b2c91"
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-hooks.mjs",
+      "bytes": 5591,
+      "sha256": "8a663db5c1f775fe5cede82163d4ac79861f6fb2b099634aad718f67f3f4c2fc"
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-preparation.mjs",
+      "bytes": 30306,
+      "sha256": "8fd0e641949d4c1ebef99507695fe0b4249aeaae6526a49972b05d658277b183"
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-runtime.mjs",
+      "bytes": 16527,
+      "sha256": "0ffd126775312cab0aa3ebfd1c8ff7148e13b75125f21092e2edfa55a2b355d6"
+    },
+    {
+      "path": "scripts/hd-wood-runtime-oracle.mjs",
+      "bytes": 49408,
+      "sha256": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e"
+    },
+    {
+      "path": "scripts/hd-wood-supplied-continuation.mjs",
+      "bytes": 26600,
+      "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f"
+    },
+    {
+      "path": "scripts/test-hd-ai-target-bridge.mjs",
+      "bytes": 21975,
+      "sha256": "9c7b4b6265fd3c633c476546053019528e6d6ed535dae44bf47b23f01b9f0e9a"
+    },
+    {
+      "path": "scripts/test-hd-ai-target-engine.mjs",
+      "bytes": 25243,
+      "sha256": "201fba2943add0ffc673246456b06d4aa0daa3ad302aaa19e0ca887c95a14849"
+    },
+    {
+      "path": "scripts/test-hd-aid-bridge.mjs",
+      "bytes": 5926,
+      "sha256": "eac5b3323f325bb03865302018c9985262539efcea66646802ab06f585771086"
+    },
+    {
+      "path": "scripts/test-hd-aid-engine.mjs",
+      "bytes": 31366,
+      "sha256": "59757f0bff704853188ff6543486b978348dfc9bd34e4760699e5c5716d3f98b"
+    },
+    {
+      "path": "scripts/test-hd-aid-runtime-oracle.mjs",
+      "bytes": 9648,
+      "sha256": "15a1cceb0e9d2c69f6b783f369d1d7c1efde818b7a43d2ee67eaaead27f533a3"
+    },
+    {
+      "path": "scripts/test-hd-aid.mjs",
+      "bytes": 30351,
+      "sha256": "b293ee07257764ad735a057481b8a5af0a5fb41096faecb19f3326a14ba8c0b3"
+    },
+    {
+      "path": "scripts/test-hd-attack-bridge.mjs",
+      "bytes": 19755,
+      "sha256": "0c1e3bd9ccdb0e5aa2e07877e73a26e14f674391c5d8c8af6ff47f6f38b7f55a"
+    },
+    {
+      "path": "scripts/test-hd-attack-engine.mjs",
+      "bytes": 35770,
+      "sha256": "204c7d23fdcb44ad170498101f6629ffbcacec8b9d7a16d63b57cfc1aefb0411"
+    },
+    {
+      "path": "scripts/test-hd-battle-commands.mjs",
+      "bytes": 27304,
+      "sha256": "5e5dca6cfa1a04f9582d01800a5c0db471204df70578b159fe6ed1d8864c1209"
+    },
+    {
+      "path": "scripts/test-hd-battle-feedback.mjs",
+      "bytes": 23274,
+      "sha256": "ca7c56aa0f7d41f94f19588182dad68950b3a5ec2a0e49bdffb341fdf71a27b9"
+    },
+    {
+      "path": "scripts/test-hd-battle-mobile-host.mjs",
+      "bytes": 17036,
+      "sha256": "a30159e164ed7fbb15ff374fbcbd2dc17988ad9a7a94a14df9fb24e60c1574bc"
+    },
+    {
+      "path": "scripts/test-hd-battle-mode.mjs",
+      "bytes": 20759,
+      "sha256": "6c14c8e1d6abab815f8f9ea3d367d4e27b3d210ba8ddeeec0bbd5d82e062c415"
+    },
+    {
+      "path": "scripts/test-hd-battle-note.mjs",
+      "bytes": 15532,
+      "sha256": "52b6a65d7031487e024c0ef6ec6a0addab58243bf6a574a0fedb599b5825fbf3"
+    },
+    {
+      "path": "scripts/test-hd-battle-scene-runtime-oracle.mjs",
+      "bytes": 13781,
+      "sha256": "2ff5f4da9af912aaacca0363daf83b9b839349d778fa995a1ca26b237ef8598b"
+    },
+    {
+      "path": "scripts/test-hd-battle-scene.mjs",
+      "bytes": 15035,
+      "sha256": "85a7b2e3dd2aec8697063930a5154e5f15a7939bc01bbc9276a9490c8ca59c96"
+    },
+    {
+      "path": "scripts/test-hd-battle-terrain.mjs",
+      "bytes": 19450,
+      "sha256": "fff214f761e76957647a5a9231529cc88e8ced682b71c04e47ddc56710883266"
+    },
+    {
+      "path": "scripts/test-hd-campaign-engine.mjs",
+      "bytes": 52950,
+      "sha256": "4a0f8e947f20754629026cf4438a5301f781c1b95195a687bec03e0a0e04f55b"
+    },
+    {
+      "path": "scripts/test-hd-campaign-flow.mjs",
+      "bytes": 46239,
+      "sha256": "e6f84bd3c3f790b537d8fdad7f026a427a4749de8d4168cb0382f25a2ef09f7d"
+    },
+    {
+      "path": "scripts/test-hd-campaign-telemetry.mjs",
+      "bytes": 10276,
+      "sha256": "456ea7b29a6f56adb3c19a4faa6384b2c8289bd425d9ce43d7fd5321c8f89a19"
+    },
+    {
+      "path": "scripts/test-hd-city-entry.mjs",
+      "bytes": 9738,
+      "sha256": "79eb2555ccd8d28a5d50bbe0f2d295a2201a743a67ec5db755d09e7309b50c26"
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 123784,
+      "sha256": "87fb2c079be01f91d9f7ad2a5096bc93b6fb379b4a41d5b7ac9f055c2844389f"
+    },
+    {
+      "path": "scripts/test-hd-city-mobile-host.mjs",
+      "bytes": 177204,
+      "sha256": "6d7f52c66bd3c229f271b81a257f8795400a434771caed9ba89eba1e868cc3d7"
+    },
+    {
+      "path": "scripts/test-hd-details-bridge.mjs",
+      "bytes": 29952,
+      "sha256": "63f05c704fe44a7717e7899046c57cc663737bdf3280039adf5ef68ae77daea4"
+    },
+    {
+      "path": "scripts/test-hd-details-engine.mjs",
+      "bytes": 36778,
+      "sha256": "3b4f07c0560056f0f8d6105635f141d2951804101ac1e58bda957bccc18fbd96"
+    },
+    {
+      "path": "scripts/test-hd-dialog-routing.mjs",
+      "bytes": 108634,
+      "sha256": "fa3cd66fc876e8fa56c52b4e01dd6598de8ba487a04776dcc5ff09a1ebbdd4b4"
+    },
+    {
+      "path": "scripts/test-hd-dingshen-bridge.mjs",
+      "bytes": 12851,
+      "sha256": "d3c0f95f0b1d79294be678550ea85364601f3cd1903a7d316b9a09bfd16195d8"
+    },
+    {
+      "path": "scripts/test-hd-display-settings.mjs",
+      "bytes": 17094,
+      "sha256": "5eb07629869bb44dcbd39762b1a0f896b1462264b9427badcb49dfdf49667f44"
+    },
+    {
+      "path": "scripts/test-hd-engine-protocol.mjs",
+      "bytes": 57400,
+      "sha256": "ea7856cd928a54a00e2d293e88f51bcb3e723c65179cefef91af7c74ca03f1f5"
+    },
+    {
+      "path": "scripts/test-hd-idb-mod-compat.mjs",
+      "bytes": 13312,
+      "sha256": "f1556dd2ad61317ad003ea0fa97a3b05fc95bd8c0d1eaec7dc87b24777da422e"
+    },
+    {
+      "path": "scripts/test-hd-impact-canvass-runtime-oracle.mjs",
+      "bytes": 37685,
+      "sha256": "07b87fcc96d937c2c8b51996995953cae2639d9e825ade2fa2c72180d211634c"
+    },
+    {
+      "path": "scripts/test-hd-impact-diplomacy-runtime-oracle.mjs",
+      "bytes": 21875,
+      "sha256": "f9aeb51992aa977c7a8eccecc5d93ed6d28ecfc6339132c3e534a9b92adcddc5"
+    },
+    {
+      "path": "scripts/test-hd-impact-plunder-runtime-oracle.mjs",
+      "bytes": 12976,
+      "sha256": "0d68ea0c4248baf4b7ed45a8b4f77dddd3f6c3f03aa105b95098d77b922bfb8c"
+    },
+    {
+      "path": "scripts/test-hd-impact-v23-acquisition-plan.mjs",
+      "bytes": 3786,
+      "sha256": "1968cce9a5bb13b24ef93834124b2f33cd0c545592896966494f690fd2242bfb"
+    },
+    {
+      "path": "scripts/test-hd-impact-v23-canvass16-make-oracle.mjs",
+      "bytes": 17727,
+      "sha256": "ae47b37d2819a30235c8767e27d77163eeea73ef8c67191f01c7bdc1540a935c"
+    },
+    {
+      "path": "scripts/test-hd-impact-v23-canvass16-natural-return.mjs",
+      "bytes": 11308,
+      "sha256": "4e9a9cbc22d677f905b49e30301f2036f6150cabf43d3dac34cca794d501864b"
+    },
+    {
+      "path": "scripts/test-hd-impact-v23-json-normalize.mjs",
+      "bytes": 4719,
+      "sha256": "21b99a2c0797607e0094c231f2b2607fbbff1578664827e3a66ad4119af2178a"
+    },
+    {
+      "path": "scripts/test-hd-impact-v23-world-dictionary.mjs",
+      "bytes": 12463,
+      "sha256": "72540765bacafb03ddd2781b6c8839475176a058f987d4501a0d0b387e79cae5"
+    },
+    {
+      "path": "scripts/test-hd-impact-v24-final-report-storage.mjs",
+      "bytes": 5340,
+      "sha256": "7c2dd19b3b4fbd9c01044e97988a36482d76f4f9d0183fb9fa6fc242fd42b795"
+    },
+    {
+      "path": "scripts/test-hd-impact-v24-month-window.mjs",
+      "bytes": 4772,
+      "sha256": "168660046bc3a509b3186b5624565e60216c368698059d28051664583a92ce9b"
+    },
+    {
+      "path": "scripts/test-hd-impact-v24-observation-row-stream.mjs",
+      "bytes": 12512,
+      "sha256": "a1a8362ac0868ea1dc4108da585e3eda6a57ec11149b175d036ea278e3d8eb4b"
+    },
+    {
+      "path": "scripts/test-hd-impact-v24-selected-row-terminal-integrity.mjs",
+      "bytes": 2159,
+      "sha256": "74a742822acc14bd1b70b621691fdd003073f76b1c2404b24d64d69ac8a2c4f0"
+    },
+    {
+      "path": "scripts/test-hd-impact-v25-pending-resume.mjs",
+      "bytes": 7806,
+      "sha256": "5fd04637390b1eed077d85d5bef9e3955fafe3586a4c528956041d83acf54599"
+    },
+    {
+      "path": "scripts/test-hd-impact-v26-raw-buy11-oracle.mjs",
+      "bytes": 12730,
+      "sha256": "ab37a3fefff90a1f9aa400c1228a7a1828f0cdffdaad780cf11fb12f37d7c5c0"
+    },
+    {
+      "path": "scripts/test-hd-impact-v27-acquisition-plan.mjs",
+      "bytes": 9045,
+      "sha256": "f0238b6a769e83bf143d7e2fb05082117a9bedaf9dec635be44b9315d80020d6"
+    },
+    {
+      "path": "scripts/test-hd-impact-v27-canvass16-make-oracle.mjs",
+      "bytes": 12535,
+      "sha256": "10c278cab7788f72c575c69b1b3e75c8623670c1828acf1a2d7f8bc3ab8da7f1"
+    },
+    {
+      "path": "scripts/test-hd-impact-v27-canvass16-natural-return.mjs",
+      "bytes": 12663,
+      "sha256": "4aab99fd0c747823c99fdaedf144c7ed679c4dcb0e0763b13aff420405ea977e"
+    },
+    {
+      "path": "scripts/test-hd-impact-v28-acquisition-plan.mjs",
+      "bytes": 12511,
+      "sha256": "9a53356da1a3a9ca3a4123773348f68cde9bb91e12d6a6738513beb03cff36f4"
+    },
+    {
+      "path": "scripts/test-hd-impact-v29-acquisition-policy.mjs",
+      "bytes": 5963,
+      "sha256": "b3a2e0fd14096378255fd70d20f8207914792b970ed805e190297627c49b09d1"
+    },
+    {
+      "path": "scripts/test-hd-impact-v29-november-recovery-plan.mjs",
+      "bytes": 11911,
+      "sha256": "d120434ad2ebd3b24406727e364274d939cb05980a1e7a927a8c26d4f5e6ce3e"
+    },
+    {
+      "path": "scripts/test-hd-impact-v29-treat12-world-oracle.mjs",
+      "bytes": 18089,
+      "sha256": "1d71da631c11b2d2288285eca53bdb99fb304d3b00d1c9d86097788afbe54b25"
+    },
+    {
+      "path": "scripts/test-hd-impact-v30-search3-natural-return.mjs",
+      "bytes": 16042,
+      "sha256": "148266e1da11b61617ec88988fdb9039e001a727862543be7c0dbdfc7954b290"
+    },
+    {
+      "path": "scripts/test-hd-impact-v30-search3-world-oracle.mjs",
+      "bytes": 13116,
+      "sha256": "d109b3be704f5f7b25996ba957c874660c40e81f1e5117816dbc0a9ca15c392a"
+    },
+    {
+      "path": "scripts/test-hd-impact-v31-acquisition-policy.mjs",
+      "bytes": 10226,
+      "sha256": "2be201d22e4756db25c57d56c32f61adeac7155f233f003d7057907b1546c0e0"
+    },
+    {
+      "path": "scripts/test-hd-impact-v31-canvass16-make-oracle.mjs",
+      "bytes": 15044,
+      "sha256": "28524b94c19cc856f51fdd572861e768c93a7d94db7d0a7a52bf7ecbce9df4a8"
+    },
+    {
+      "path": "scripts/test-hd-impact-v31-canvass16-natural-return.mjs",
+      "bytes": 15223,
+      "sha256": "e82391868c1ba52216e93078ac8597e635626c9946b895ef50b70087ec80ce55"
+    },
+    {
+      "path": "scripts/test-hd-impact-v31-water-token-give-oracle.mjs",
+      "bytes": 6152,
+      "sha256": "36b1bb6a14af62ed5cbd3d3934a8351afcb792ea299f579ffa7712a79cfbd7d2"
+    },
+    {
+      "path": "scripts/test-hd-impact-v32-acquisition-policy.mjs",
+      "bytes": 5963,
+      "sha256": "96870f1560feccc2e1fb24320c3ad851b58049d6ee27c25a430c9c37edbb65d9"
+    },
+    {
+      "path": "scripts/test-hd-impact-v32-canvass16-make-oracle.mjs",
+      "bytes": 15058,
+      "sha256": "6bd6d2ca6516d6724384ddcabf9fa801c25e52d57a1cffa6c6edd4e6bd6c2a48"
+    },
+    {
+      "path": "scripts/test-hd-impact-v32-canvass16-natural-return.mjs",
+      "bytes": 15225,
+      "sha256": "f3df81dd7c713184c9e6e1ccea6b160a5575ea20a74d080d1b2ac5438836d5fb"
+    },
+    {
+      "path": "scripts/test-hd-impact-v32-conditional-plunder-prefix.mjs",
+      "bytes": 24037,
+      "sha256": "97b8dab5f275f44db2b167819960b609c38bd40a614994998bc6f8a338822fc9"
+    },
+    {
+      "path": "scripts/test-hd-impact-v32-water-token-give-oracle.mjs",
+      "bytes": 11508,
+      "sha256": "223b5e968477f6082bbb8a1002338292065880dde23e942c1fd5677c30366000"
+    },
+    {
+      "path": "scripts/test-hd-impact-v33-city6-readiness.mjs",
+      "bytes": 18401,
+      "sha256": "cacb18fcc86bcc70ff8b36afeeb1d8df7a3791c77f20f486afb1df3188c4a12d"
+    },
+    {
+      "path": "scripts/test-hd-impact-v33-water-token-give-oracle.mjs",
+      "bytes": 8519,
+      "sha256": "022bf13875d0ff7cd757fbf416b82038ba035259cf7819bb71ba073b27e54a83"
+    },
+    {
+      "path": "scripts/test-hd-impact-v34-north-route.mjs",
+      "bytes": 14565,
+      "sha256": "e2f9ea89799caa85bbcfe00061b2d240d8dc1e93253c19ab7fc75578d4ccedc2"
+    },
+    {
+      "path": "scripts/test-hd-impact-v34-preparation.mjs",
+      "bytes": 12616,
+      "sha256": "ca9ce18265898a6e556237ee73e4e90ff1ad1addb2bb414612e6a5d6accb57df"
+    },
+    {
+      "path": "scripts/test-hd-impact-v36-conditional-plunder-prefix.mjs",
+      "bytes": 16326,
+      "sha256": "e5e4ad062b99f0a6a06935b413b24dff8de8dca20fc7d5a5a83f23fdd81c9075"
+    },
+    {
+      "path": "scripts/test-hd-impact-v36-wood-march.mjs",
+      "bytes": 4962,
+      "sha256": "b37c9d8a0ad196cc5ef918b478fc091137aa9d7c66d2e1e5045698b00a3a2909"
+    },
+    {
+      "path": "scripts/test-hd-impact-v36-wood-route.mjs",
+      "bytes": 16668,
+      "sha256": "759ade7ea9cb8eb8c97254566d5cb5b7d64753613ce49f92ff51bdf19eb67cdd"
+    },
+    {
+      "path": "scripts/test-hd-input.mjs",
+      "bytes": 31206,
+      "sha256": "b2311e1fc944fdd46f5ec6f9c4f21c23df44534092640720ade972c2cb19d1e0"
+    },
+    {
+      "path": "scripts/test-hd-lib-identity.mjs",
+      "bytes": 7909,
+      "sha256": "7f5a358f15c1a8b9ea45b08e7110011e473086a86d24c3308e8e99ff1c7be68a"
+    },
+    {
+      "path": "scripts/test-hd-liuyan-bridge.mjs",
+      "bytes": 11518,
+      "sha256": "9bbafef2fa2c5b25b3038ab80a234d7a1cd0401178f90553faa89cce3a34c6b4"
+    },
+    {
+      "path": "scripts/test-hd-maker-bridge.mjs",
+      "bytes": 16562,
+      "sha256": "7c39262d2d237df3dae6e2d6eb87022e700967d79b7efd517bd9149ea7d59130"
+    },
+    {
+      "path": "scripts/test-hd-maker-engine.mjs",
+      "bytes": 22045,
+      "sha256": "5d49e39740e49feda1846c70e951412405e8984aaaf6642239d5a647a947396d"
+    },
+    {
+      "path": "scripts/test-hd-march.mjs",
+      "bytes": 20618,
+      "sha256": "062a9bec31e03689818522deefde2fd3737833307e6fce26bcd250362df225d7"
+    },
+    {
+      "path": "scripts/test-hd-minimap.mjs",
+      "bytes": 23773,
+      "sha256": "bd5841c8dae6ea35954945c5f775891e0e6ae2837bd57dda2fb4bbefdb9b4b71"
+    },
+    {
+      "path": "scripts/test-hd-mobile-battle-overviews-runtime-oracle.mjs",
+      "bytes": 9065,
+      "sha256": "4e11919a57b579554c7dc94e0913b6b43112054cdb8189524877e14e0c7eb7b3"
+    },
+    {
+      "path": "scripts/test-hd-mobile-battle-runtime-oracle.mjs",
+      "bytes": 4501,
+      "sha256": "dac040e50d0ec1f13cb53eda977360a2f448b2c0d2ba790a5e297e0a32999625"
+    },
+    {
+      "path": "scripts/test-hd-mobile-battle.mjs",
+      "bytes": 51589,
+      "sha256": "ae57080f597f4d8393718e515de836098908a9f4dc5535a6342b589448858ed4"
+    },
+    {
+      "path": "scripts/test-hd-mobile-city.mjs",
+      "bytes": 41507,
+      "sha256": "0c488978e4d9c1916f34f6e0570a67f34fe2c003adca90a2dc80d2494b7c82c7"
+    },
+    {
+      "path": "scripts/test-hd-mobile-defender-runtime-oracle.mjs",
+      "bytes": 15880,
+      "sha256": "18737d61f28a04d01ec1716bff468f6c9207e79942b38f275db6e4df1af724a9"
+    },
+    {
+      "path": "scripts/test-hd-mobile-defender-settlement-runtime-oracle.mjs",
+      "bytes": 15883,
+      "sha256": "8d9a52477e8944474db5360d059f5a511b2ba99410087cfa92ec259c5308b7a3"
+    },
+    {
+      "path": "scripts/test-hd-mobile-detail-runtime-checks.mjs",
+      "bytes": 5067,
+      "sha256": "71554a62e0dd111a25b36356649209f15deef66ec06999e39db66842b4368bca"
+    },
+    {
+      "path": "scripts/test-hd-mobile-diplomacy-engine.mjs",
+      "bytes": 21932,
+      "sha256": "0f626b93d1bd3ac58d697009334884cae570ff89b65f8af17e4ad7e149a5eb0f"
+    },
+    {
+      "path": "scripts/test-hd-mobile-diplomacy-runtime-oracle.mjs",
+      "bytes": 10599,
+      "sha256": "df3528d0a30710b67e7f41e6c1e2371f5d876a3e2c522f8b28f6affecbd590e2"
+    },
+    {
+      "path": "scripts/test-hd-mobile-distribution-runtime-oracle.mjs",
+      "bytes": 7887,
+      "sha256": "f9b6e675d704caa312ed96fe0c648fbc051e2b5c87175271bfbcec19573dcd7b"
+    },
+    {
+      "path": "scripts/test-hd-mobile-equipment-runtime-oracle.mjs",
+      "bytes": 14199,
+      "sha256": "f70be0b45d3320dcbd5f9fe7b99fa1d2b81023bf3ea85968729cfb2aa1bccba8"
+    },
+    {
+      "path": "scripts/test-hd-mobile-map.mjs",
+      "bytes": 43315,
+      "sha256": "f466aadae5111556065dcd8104785dcec1e7c3f4f958b1eef14f32cd220d4453"
+    },
+    {
+      "path": "scripts/test-hd-mobile-march-runtime-oracle.mjs",
+      "bytes": 15815,
+      "sha256": "a6ed8bccf3035badb446d973220d74a7f8c90fd3cedf1eda157c3689c19607ea"
+    },
+    {
+      "path": "scripts/test-hd-mobile-minimap.mjs",
+      "bytes": 17770,
+      "sha256": "a607f0505cf3ffcee54e70617c3261ecc4e7b03e06460fab20d858a02e96e57d"
+    },
+    {
+      "path": "scripts/test-hd-mobile-portraits.mjs",
+      "bytes": 30861,
+      "sha256": "38b3b3f6d92dc6bccf7d4246861f1cb3608896a50c7c43407d2b031cd4f17f21"
+    },
+    {
+      "path": "scripts/test-hd-mobile-recruitment-runtime-oracle.mjs",
+      "bytes": 12889,
+      "sha256": "fb14d448aeab44571c24ef8129f8c39918909764509c1f96cbbc42d53ec168aa"
+    },
+    {
+      "path": "scripts/test-hd-mobile-spe.mjs",
+      "bytes": 47866,
+      "sha256": "64cdeb51f0f39f07f3b4ac0198dddb66e72bb49a0fe4fbcef3f2964c9bcf8799"
+    },
+    {
+      "path": "scripts/test-hd-mobile-successor-runtime-oracle.mjs",
+      "bytes": 14977,
+      "sha256": "83cfd042523cd26be58703710e62bcf3df21890ef9c24de25368b87c01ee814f"
+    },
+    {
+      "path": "scripts/test-hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 9974,
+      "sha256": "a5a18405000819ea05998a72834562f61ee2768ac84f2346942be013c0bdeac0"
+    },
+    {
+      "path": "scripts/test-hd-mobile-system.mjs",
+      "bytes": 51020,
+      "sha256": "6de44861ab96e969b564322cfe757f9fb63e49125244bc0219e53d07c1a57cbb"
+    },
+    {
+      "path": "scripts/test-hd-mobile-trade-engine.mjs",
+      "bytes": 18225,
+      "sha256": "52722555428d52f7e13baba00a8d2d1716417bdd59d031fbf02af831bb295220"
+    },
+    {
+      "path": "scripts/test-hd-mobile-trade-runtime-oracle.mjs",
+      "bytes": 13258,
+      "sha256": "8aeb78829ca8d587999e8749c102d5ff4f458113c1c6ab95dfad730385dc180d"
+    },
+    {
+      "path": "scripts/test-hd-mobile-transfer-engine.mjs",
+      "bytes": 25507,
+      "sha256": "4b27eac7a7b6c6241961ed95c9ddf6ee4057762f0e49617fd1df9ba3c252756c"
+    },
+    {
+      "path": "scripts/test-hd-mobile-transfer-runtime-oracle.mjs",
+      "bytes": 15937,
+      "sha256": "df5dfd21eae3dd40bf50511d6bd584752dbeec16bb5fbc310822240b0e6df388"
+    },
+    {
+      "path": "scripts/test-hd-mobile.mjs",
+      "bytes": 16397,
+      "sha256": "7c6a3ec836ed381d794b9075edeefba876abcd343600feabde0473a80ccd94ef"
+    },
+    {
+      "path": "scripts/test-hd-overviews-bridge.mjs",
+      "bytes": 14174,
+      "sha256": "bf7e3a21dd9bc909035969a9cd192cbe5b47b8337494f11d13b66d05696042cc"
+    },
+    {
+      "path": "scripts/test-hd-overviews-engine.mjs",
+      "bytes": 35459,
+      "sha256": "e15195ed60983a3d7da88c7239a83656df5b776defee46b09d24347d23af2c7f"
+    },
+    {
+      "path": "scripts/test-hd-overworld-environment.mjs",
+      "bytes": 22014,
+      "sha256": "50dd3db1d7713af0fad2fa0ecd50ff2b1d1cb8c7934dad72cbded59aecfab5c4"
+    },
+    {
+      "path": "scripts/test-hd-overworld-identity.mjs",
+      "bytes": 22278,
+      "sha256": "f6adef043c8e8ce941afb80743f3abbd43946c532875b1b89ea53461f09085b1"
+    },
+    {
+      "path": "scripts/test-hd-overworld-layers.mjs",
+      "bytes": 11652,
+      "sha256": "238a47836804d8a32b4c46ca315fc161e2cb0774448a4d3fa1db463cfbc06de7"
+    },
+    {
+      "path": "scripts/test-hd-overworld-touch.mjs",
+      "bytes": 28588,
+      "sha256": "cdba0aae82e2cf05b88e5b5386250943fd525f8865e26b4be79613acb4537b86"
+    },
+    {
+      "path": "scripts/test-hd-ownership.mjs",
+      "bytes": 5863,
+      "sha256": "32219fd08fa41fbf12dac5c2d0e4d7c933828bfa582183b366214bd429152e30"
+    },
+    {
+      "path": "scripts/test-hd-performance-metrics.mjs",
+      "bytes": 1228,
+      "sha256": "0f51df6f9b7eaca9f1fdc4ca88b250d3407f737fffdb6827024eb9b1e3bd6da4"
+    },
+    {
+      "path": "scripts/test-hd-person-properties-engine.mjs",
+      "bytes": 25396,
+      "sha256": "2098538af65f1839c8d7d29a70b4d526975ae88273194569cd111d334e392545"
+    },
+    {
+      "path": "scripts/test-hd-portraits.mjs",
+      "bytes": 54641,
+      "sha256": "56516f62f4100805f8aed656e5e936b27b83148437d58459f04b9da054a44cfc"
+    },
+    {
+      "path": "scripts/test-hd-qimen20-bridge.mjs",
+      "bytes": 12411,
+      "sha256": "2ab90e194d31fbead83dacae65479158e0f5f226c5e018220f8f8c5dd695325f"
+    },
+    {
+      "path": "scripts/test-hd-render-visibility.mjs",
+      "bytes": 50865,
+      "sha256": "b0c719632013200dc197fd02e59f5ebfaec5de0fa26cb70c998c7851d7fe346f"
+    },
+    {
+      "path": "scripts/test-hd-road-presentation.mjs",
+      "bytes": 8294,
+      "sha256": "44cdf69d84384258d9501bc8833a16fd97c190de53c9008d368537dcfc4bcda7"
+    },
+    {
+      "path": "scripts/test-hd-runtime-json.mjs",
+      "bytes": 9752,
+      "sha256": "8f47578067ed5c16c5dee507982309f37a55378f3d23b6d0bc97c33018e18636"
+    },
+    {
+      "path": "scripts/test-hd-runtime-owned-chrome.mjs",
+      "bytes": 8131,
+      "sha256": "9c64f1dbe043528933f142b0d2c4147164d683824735496287c2a05b28d619b3"
+    },
+    {
+      "path": "scripts/test-hd-save-pages.mjs",
+      "bytes": 28079,
+      "sha256": "370d329e255095ad18c115cc26229c2b5a51f008bc9b02f6b88e6fa4b862705c"
+    },
+    {
+      "path": "scripts/test-hd-save-transaction.mjs",
+      "bytes": 33151,
+      "sha256": "09f1a089c859044a0729dac52427476c71f0ed6ffdbe50548013160c071ef922"
+    },
+    {
+      "path": "scripts/test-hd-saveload-ui.mjs",
+      "bytes": 64179,
+      "sha256": "9d051011ae4e9cc035d61aefd51d89a00aefdad2e09da118027cb07ab3eca5ed"
+    },
+    {
+      "path": "scripts/test-hd-skill-bridge.mjs",
+      "bytes": 50437,
+      "sha256": "3fac0b2b42a8347658f0fd6185f72f8734b6efac90230a821f0eda309bfce522"
+    },
+    {
+      "path": "scripts/test-hd-skill-engine.mjs",
+      "bytes": 61780,
+      "sha256": "bb4df539508e7e2bc8adf022f21ac5b967189465d4d9826235677633defe2bef"
+    },
+    {
+      "path": "scripts/test-hd-spe-engine.mjs",
+      "bytes": 20173,
+      "sha256": "814a920369df4645908f526251e0f2b8d4303971fbeb5bcc2c4a360e6036c045"
+    },
+    {
+      "path": "scripts/test-hd-spe.mjs",
+      "bytes": 305606,
+      "sha256": "72d3d447aa4ba3f10db14ab54dad7c38c897b0ae86f8b8808ead53877fda005f"
+    },
+    {
+      "path": "scripts/test-hd-status-effect-bridge.mjs",
+      "bytes": 25997,
+      "sha256": "3dae2a152d084bd9c2d5c90bc0021e90543476169c7ba98d00c943d3cc762e7d"
+    },
+    {
+      "path": "scripts/test-hd-status-effect-engine.mjs",
+      "bytes": 27081,
+      "sha256": "ae7e4e98a9f842ca7d162b7310c7fc470ec0d775b3e92daa7d7deb2d38bdf2eb"
+    },
+    {
+      "path": "scripts/test-hd-wood-bridge.mjs",
+      "bytes": 10545,
+      "sha256": "2213b5e8eb7b91bb9735efecf9dccc279557284a26a9e60734148eb08e40c142"
+    },
+    {
+      "path": "scripts/test-hd-wood-buy-continuation.mjs",
+      "bytes": 27329,
+      "sha256": "92189f0e101e490deb23e82d744c9d16125510ce0cc0a5b2807b57be65f1e5ab"
+    },
+    {
+      "path": "scripts/test-hd-wood-buy-runtime.mjs",
+      "bytes": 14214,
+      "sha256": "59fc8ac8146318bd9ef7ae5ad77d271c39520b5253bad15ee4d3f9aed52e08bb"
+    },
+    {
+      "path": "scripts/test-hd-wood-city4-continuation.mjs",
+      "bytes": 55355,
+      "sha256": "35cebe466ed5d5bade9d0579d4c56313829224a96e06df6c5031acc1910e2e05"
+    },
+    {
+      "path": "scripts/test-hd-wood-city4-end-input.mjs",
+      "bytes": 18103,
+      "sha256": "c3d36547a72c9790fa0d007ddb82e9acd32972bc0f4a68a0dc10fffe8f3eac22"
+    },
+    {
+      "path": "scripts/test-hd-wood-city4-live-retention.mjs",
+      "bytes": 10479,
+      "sha256": "bbf91d7f92f53f7e22c3902a004e07056c90dddcbe92c515c182300549f64fc2"
+    },
+    {
+      "path": "scripts/test-hd-wood-city4-origin-anchor.mjs",
+      "bytes": 20301,
+      "sha256": "d17fb32524453332033aca69575ceb275797088edcb6bca0ff1e33d2587f553b"
+    },
+    {
+      "path": "scripts/test-hd-wood-city4-preparation.mjs",
+      "bytes": 15890,
+      "sha256": "a7e2d898835956cf25bed65c56f35fdf8311b0376e90ae418bfe6e0bcb6ae8e0"
+    },
+    {
+      "path": "scripts/test-hd-wood-classic-presentation.mjs",
+      "bytes": 6847,
+      "sha256": "447ac822361e3a24863e1f0deceb12c892f48e44248ac0e3444a8863047cc3b2"
+    },
+    {
+      "path": "scripts/test-hd-wood-engine.mjs",
+      "bytes": 15152,
+      "sha256": "b4126b3517ea9087113511177cb3ab8f5a8a8bbaf1521f63d357800690f007a5"
+    },
+    {
+      "path": "scripts/test-hd-wood-missing-picture.mjs",
+      "bytes": 16385,
+      "sha256": "98938d006f2c206ca649e685828c56e47e3ba2b94e946daf6368031851ffe768"
+    },
+    {
+      "path": "scripts/test-hd-wood-native-action.mjs",
+      "bytes": 17143,
+      "sha256": "475fd7ae0fcd477735a52674c69e63785b330d71c25fd0446ba0176cf9a4e9ff"
+    },
+    {
+      "path": "scripts/test-hd-wood-native-route.mjs",
+      "bytes": 10278,
+      "sha256": "6706b4655e00240e433dce00624fb10e73f9fe9158c338d8a6e0895c47fc209c"
+    },
+    {
+      "path": "scripts/test-hd-wood-original-continuation.mjs",
+      "bytes": 20346,
+      "sha256": "16eeca6e9a11f99dd20561bd69f30d053e10fe84e34c0264fd3579c8f7cffca6"
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-hooks.mjs",
+      "bytes": 8160,
+      "sha256": "612539477d0bf9404aabde4e517e0801a24443fea075e32d771e7a8db33cef88"
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-preparation.mjs",
+      "bytes": 32373,
+      "sha256": "bb295da89030378028a2dca99e78dc1b2a3fefc1f139904246f611f4c054f1ef"
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-runtime.mjs",
+      "bytes": 28940,
+      "sha256": "f0d4b79350fcd958ba839d29e2aa4f0e1ff09c392336acc1bbfe150766937dbf"
+    },
+    {
+      "path": "scripts/test-hd-wood-runtime-oracle.mjs",
+      "bytes": 28222,
+      "sha256": "b5b0224b9d383a3baf2279fc888b913b012154a2a7832173e2bf84a0d5b9ee61"
+    },
+    {
+      "path": "scripts/test-hd-wood-supplied-continuation.mjs",
+      "bytes": 22834,
+      "sha256": "dd11b1eb06332a0045cd2b986c0afbfeec47fae3c76c804347d6819ae9e9fa14"
+    },
+    {
+      "path": "scripts/test-hd-zhoufeng-bridge.mjs",
+      "bytes": 11712,
+      "sha256": "c8bcd549dba0a019414738e49b172a06909323d494f08428414181255dfa63b2"
+    },
+    {
+      "path": "scripts/test-lcd-touch.mjs",
+      "bytes": 12886,
+      "sha256": "31caee3c0fc611679e3afe9519c630cb3eeb4badc3807ad768e6e4489e8d913b"
+    },
+    {
+      "path": "scripts/test-original-game-entry.mjs",
+      "bytes": 13399,
+      "sha256": "e10f848e6b700eb7a4074b44c20e9812c6a0388c745b8ff3729df07a61a3e398"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/paccount.h",
+      "bytes": 2251,
+      "sha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/sconst.h",
+      "bytes": 4101,
+      "sha256": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea"
+    },
+    {
+      "path": "vendor/iBaye/src/bind-objects.c",
+      "bytes": 17734,
+      "sha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/comIn.c",
+      "bytes": 12480,
+      "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63"
+    },
+    {
+      "path": "vendor/iBaye/src/comOut.c",
+      "bytes": 21378,
+      "sha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f"
+    },
+    {
+      "path": "vendor/iBaye/src/config.c",
+      "bytes": 179,
+      "sha256": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7"
+    },
+    {
+      "path": "vendor/iBaye/src/data/pconst.h",
+      "bytes": 1761,
+      "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+    },
+    {
+      "path": "vendor/iBaye/src/datman.c",
+      "bytes": 9424,
+      "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "bytes": 27302,
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/gamEng.c",
+      "bytes": 47517,
+      "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.h",
+      "bytes": 19624,
+      "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5"
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/exportjs.c",
+      "bytes": 9789,
+      "sha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279"
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/font.bin.c",
+      "bytes": 1003524,
+      "sha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401"
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 33782,
+      "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+    },
+    {
+      "path": "vendor/iBaye/src/tactic.c",
+      "bytes": 45067,
+      "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+    }
+  ],
+  "literalExactIgnored": [
+    "build/impact-skill-20261014/build-city4-continuation-source-v1.mjs",
+    "build/impact-skill-20261014/build-city4-continuation-test-v1.mjs",
+    "build/impact-skill-20261014/city4-before-march-report-fix-v1/0-hd-wood-city4-continuation.mjs",
+    "build/impact-skill-20261014/city4-before-march-report-fix-v1/1-test-hd-wood-city4-continuation.mjs",
+    "build/impact-skill-20261014/city4-before-march-report-fix-v1/2-build-city4-continuation-source-v1.mjs",
+    "build/impact-skill-20261014/city4-before-march-report-fix-v1/3-build-city4-continuation-test-v1.mjs",
+    "build/impact-skill-20261014/city4-before-march-report-fix-v1/4-city4-continuation-chain-v1.js.txt",
+    "build/impact-skill-20261014/city4-before-march-report-fix-v1/5-city4-continuation-fixture-and-tests-v1.js.txt",
+    "build/impact-skill-20261014/city4-before-march-report-fix-v1/receipt.json",
+    "build/impact-skill-20261014/city4-continuation-c-evidence-v1.json",
+    "build/impact-skill-20261014/city4-continuation-chain-v1.js.txt",
+    "build/impact-skill-20261014/city4-continuation-fixture-and-tests-v1.js.txt",
+    "build/impact-skill-20261014/city4-continuation-independent-review-final-v1.json",
+    "build/impact-skill-20261014/city4-continuation-target-v5/receipt.json",
+    "build/impact-skill-20261014/city4-continuation-target-v5/stderr.txt",
+    "build/impact-skill-20261014/city4-continuation-target-v5/stdout.txt",
+    "build/impact-skill-20261014/city4-continuation-target-v6/receipt.json",
+    "build/impact-skill-20261014/city4-continuation-target-v6/stderr.txt",
+    "build/impact-skill-20261014/city4-continuation-target-v6/stdout.txt",
+    "build/impact-skill-20261014/city4-continuation-target-v7/receipt.json",
+    "build/impact-skill-20261014/city4-continuation-target-v7/stderr.txt",
+    "build/impact-skill-20261014/city4-continuation-target-v7/stdout.txt",
+    "build/impact-skill-20261014/city4-continuation-target-v8/receipt.json",
+    "build/impact-skill-20261014/city4-continuation-target-v8/stderr.txt",
+    "build/impact-skill-20261014/city4-continuation-target-v8/stdout.txt",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v3.json",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v4.json",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v4/source-after.json",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v4/source-before.json",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v4/stderr.log",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v4/stdout.tap",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v5.json",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v7.json",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v7/stderr.log",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v7/stdout.tap",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v8.json",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v8/stderr.log",
+    "build/impact-skill-20261014/city4-distributions-source-controls-v8/stdout.tap",
+    "build/impact-skill-20261014/city4-end-battle-close-candidate-v2/city4-end-battle-close-v2.mjs",
+    "build/impact-skill-20261014/city4-end-battle-close-independent-peer-v1.json",
+    "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/README.md",
+    "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/city4-live-retention-fake-child-v1.mjs",
+    "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/controlled-terminal-fixture-v1.mjs",
+    "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/source-preparation-v1.json",
+    "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/test-city4-end-close-retention-v1.mjs",
+    "build/impact-skill-20261014/city4-end-controller-candidate-v1/city4-end-observer-v1.mjs",
+    "build/impact-skill-20261014/city4-end-controller-candidate-v1/city4-end-session-v1.mjs",
+    "build/impact-skill-20261014/city4-end-controller-candidate-v1/october-city4-end-v1.mjs",
+    "build/impact-skill-20261014/city4-end-controller-candidate-v1/run-october-city4-end-v1.mjs",
+    "build/impact-skill-20261014/city4-end-controller-candidate-v1/test-city4-end-controller-source-v1.mjs",
+    "build/impact-skill-20261014/city4-end-controller-source-freeze-v1.json",
+    "build/impact-skill-20261014/city4-end-live-retention-candidate-v1/city4-end-live-retention-v1.mjs",
+    "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-end-artifacts-v1.mjs",
+    "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-end-ledger-v1.mjs",
+    "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-end-main-input-v1.mjs",
+    "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-end-native-anchor-v1.mjs",
+    "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-ticket-view-v1.mjs",
+    "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-ui-predicates-v1.mjs",
+    "build/impact-skill-20261014/city4-end-native-adapter-candidate-v2/city4-end-native-anchor-v2.mjs",
+    "build/impact-skill-20261014/city4-end-origin-anchor-glue-candidate-v1/city4-end-origin-anchor-v1.mjs",
+    "build/impact-skill-20261014/city4-end-origin-anchor-glue-candidate-v3/city4-end-origin-anchor-v3.mjs",
+    "build/impact-skill-20261014/city4-end-origin-anchor-tests-candidate-v2/controlled-anchor-cdp-v2.mjs",
+    "build/impact-skill-20261014/city4-end-origin-anchor-tests-candidate-v2/source-preparation-v2.json",
+    "build/impact-skill-20261014/city4-end-origin-anchor-tests-candidate-v2/test-city4-origin-anchor-v2.mjs",
+    "build/impact-skill-20261014/city4-end-origin-binding-candidate-v3/city4-end-input-v3.mjs",
+    "build/impact-skill-20261014/city4-end-origin-tests-candidate-v1/test-city4-end-input-v3.mjs",
+    "build/impact-skill-20261014/city4-end-retention-static-peer-v1.json",
+    "build/impact-skill-20261014/city4-march-input-v1.mjs",
+    "build/impact-skill-20261014/city4-march-input-v2.mjs",
+    "build/impact-skill-20261014/city4-march-report-source-fix-v1.json",
+    "build/impact-skill-20261014/city4-native-save-report-source-review-v1.json",
+    "build/impact-skill-20261014/city4-partial-phase-source-independent-v1.json",
+    "build/impact-skill-20261014/city4-plunder-input-v1.mjs",
+    "build/impact-skill-20261014/city4-plunder-save-native-source-reader-recovery-v1.json",
+    "build/impact-skill-20261014/city4-plunder-save-native-source-v2.json",
+    "build/impact-skill-20261014/city4-plunder-save-report-source-fix-v1.json",
+    "build/impact-skill-20261014/city4-preparation-20261024-source-v1/city4-ticket-view-v1.mjs",
+    "build/impact-skill-20261014/city4-preparation-20261024-source-v1/city4-ui-predicates-v1.mjs",
+    "build/impact-skill-20261014/city4-preparation-20261024-source-v1/october-city4-distributions-v1.mjs",
+    "build/impact-skill-20261014/city4-preparation-20261024-source-v1/run-october-city4-distributions-v1.mjs",
+    "build/impact-skill-20261014/city4-preparation-20261024-source-v1/test-city4-distributions-source-v1.mjs",
+    "build/impact-skill-20261014/city4-preparation-20261024-source-v2/city4-ticket-view-v1.mjs",
+    "build/impact-skill-20261014/city4-preparation-20261024-source-v2/city4-ui-predicates-v1.mjs",
+    "build/impact-skill-20261014/city4-preparation-20261024-source-v2/october-city4-distributions-v1.mjs",
+    "build/impact-skill-20261014/city4-preparation-20261024-source-v2/run-october-city4-distributions-v1.mjs",
+    "build/impact-skill-20261014/city4-preparation-20261024-source-v2/test-city4-distributions-source-v1.mjs",
+    "build/impact-skill-20261014/city4-preparation-full-added-sources-v1.json",
+    "build/impact-skill-20261014/city4-repeat-phase-fix-independent-v1.json",
+    "build/impact-skill-20261014/city4-saving-report-correction-evidence-v1.json",
+    "build/impact-skill-20261014/city4-ticket-view-extraction-v1.json",
+    "build/impact-skill-20261014/freeze-city4-full-added-sources-v1.mjs",
+    "build/impact-skill-20261014/hd-impact-v41-latest-v40-september-input-v1.mjs",
+    "build/impact-skill-20261014/hd-impact-v42-latest-v41-paid-input-v1.mjs",
+    "build/impact-skill-20261014/hd-wood-v39-ticket-observer-v1.mjs",
+    "build/impact-skill-20261014/hd-wood-v40-ticket-observer-v1.mjs",
+    "build/impact-skill-20261014/integrate-v54-system-layout-fix-v1.mjs",
+    "build/impact-skill-20261014/integrate-v55-system-ack-fix-v1.mjs",
+    "build/impact-skill-20261014/integrate-v55-system-ack-fix-v2.mjs",
+    "build/impact-skill-20261014/integrate-v55-system-ack-fix-v3.mjs",
+    "build/impact-skill-20261014/integrate-v56-king-preview-v2.mjs",
+    "build/impact-skill-20261014/prepare-city4-ticket-view-v1.mjs",
+    "build/impact-skill-20261014/prepare-v54-system-css-candidate-v1.mjs",
+    "build/impact-skill-20261014/prepare-v59-origin-tests-v1.mjs",
+    "build/impact-skill-20261014/prepare-v61-target-v2.mjs",
+    "build/impact-skill-20261014/preserve-v54-system-before-v1.mjs",
+    "build/impact-skill-20261014/preserve-v55-system-before-v1.mjs",
+    "build/impact-skill-20261014/preserve-v56-king-before-v1.mjs",
+    "build/impact-skill-20261014/probe-v59-history-origin-before-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/cancel-owner-predicates-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/october-quantity-cancel-owner-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-october-quantity-cancel-owner-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-quantity-cancel-owner-full-v1.mjs",
+    "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/test-october-quantity-cancel-owner-source-v1.mjs",
+    "build/impact-skill-20261014/quantity-focus-20261024-source-v1/focus-predicates-v1.mjs",
+    "build/impact-skill-20261014/quantity-focus-20261024-source-v1/october-quantity-focus-v1.mjs",
+    "build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-october-quantity-focus-v1.mjs",
+    "build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-quantity-focus-map111-full-v1.mjs",
+    "build/impact-skill-20261014/quantity-focus-20261024-source-v1/test-october-quantity-focus-source-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/october-quantity-rapid-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/rapid-predicates-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-city-quantity-full-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-october-quantity-rapid-v1.mjs",
+    "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/test-october-quantity-rapid-source-v1.mjs",
+    "build/impact-skill-20261014/r12-quantity-cancel-owner-source-controls-v1.json",
+    "build/impact-skill-20261014/r12-quantity-focus-source-controls-v1.json",
+    "build/impact-skill-20261014/r12-quantity-rapid-source-controls-v1.json",
+    "build/impact-skill-20261014/review-city4-continuation-c-evidence-v1.mjs",
+    "build/impact-skill-20261014/run-city4-continuation-target-v5.mjs",
+    "build/impact-skill-20261014/run-city4-continuation-target-v6.mjs",
+    "build/impact-skill-20261014/run-city4-continuation-target-v7.mjs",
+    "build/impact-skill-20261014/run-city4-continuation-target-v8.mjs",
+    "build/impact-skill-20261014/run-city4-distributions-source-controls-v4.mjs",
+    "build/impact-skill-20261014/run-city4-distributions-source-controls-v7.mjs",
+    "build/impact-skill-20261014/run-city4-distributions-source-controls-v8.mjs",
+    "build/impact-skill-20261014/run-city4-march-full-v1.mjs",
+    "build/impact-skill-20261014/run-city4-plunder-full-v1.mjs",
+    "build/impact-skill-20261014/run-city4-preparation-full-v1.mjs",
+    "build/impact-skill-20261014/run-city4-preparation-full-v2.mjs",
+    "build/impact-skill-20261014/run-city4-preparation-full-v3.mjs",
+    "build/impact-skill-20261014/run-v53-focus-full-v1.mjs",
+    "build/impact-skill-20261014/run-v53-focus-target-v1.mjs",
+    "build/impact-skill-20261014/run-v54-system-full-v1.mjs",
+    "build/impact-skill-20261014/run-v54-system-layout-v1.mjs",
+    "build/impact-skill-20261014/run-v54-system-layout-v2.mjs",
+    "build/impact-skill-20261014/run-v54-system-target-v1.mjs",
+    "build/impact-skill-20261014/run-v55-system-full-v1.mjs",
+    "build/impact-skill-20261014/run-v55-system-full-v2.mjs",
+    "build/impact-skill-20261014/run-v55-system-target-v1.mjs",
+    "build/impact-skill-20261014/run-v55-system-target-v2.mjs",
+    "build/impact-skill-20261014/run-v55-system-target-v3.mjs",
+    "build/impact-skill-20261014/run-v56-king-full-v2.mjs",
+    "build/impact-skill-20261014/run-v56-king-target-v2.mjs",
+    "build/impact-skill-20261014/run-v57-save-phase-full-v1.mjs",
+    "build/impact-skill-20261014/run-v57-save-phase-target-v1.mjs",
+    "build/impact-skill-20261014/run-v58-end-controller-controls-v1.mjs",
+    "build/impact-skill-20261014/run-v58-end-full-v1.mjs",
+    "build/impact-skill-20261014/run-v58-end-target-v2.mjs",
+    "build/impact-skill-20261014/run-v59-origin-full-v2.mjs",
+    "build/impact-skill-20261014/run-v59-origin-target-v2.mjs",
+    "build/impact-skill-20261014/run-v60-retention-full-v1.mjs",
+    "build/impact-skill-20261014/run-v60-retention-target-v1.mjs",
+    "build/impact-skill-20261014/run-v60-runtime-controls-v1.mjs",
+    "build/impact-skill-20261014/run-v61-origin-anchor-full-v1.mjs",
+    "build/impact-skill-20261014/run-v61-origin-anchor-target-v1.mjs",
+    "build/impact-skill-20261014/run-v61-origin-anchor-target-v2.mjs",
+    "build/impact-skill-20261014/v51-city4-plunder-input-bind-v1.json",
+    "build/impact-skill-20261014/v52-city4-march-input-bind-v1.json",
+    "build/impact-skill-20261014/v52-city4-march-report-source-audit-v1.json",
+    "build/impact-skill-20261014/v52-saved-suite-baseline-v1.json",
+    "build/impact-skill-20261014/v53-focus-before-v1/css/hd-graphics.css",
+    "build/impact-skill-20261014/v53-focus-before-v1/css/hd-overworld.css",
+    "build/impact-skill-20261014/v53-focus-before-v1/js/hd-graphics.js",
+    "build/impact-skill-20261014/v53-focus-before-v1/pc.html",
+    "build/impact-skill-20261014/v53-focus-before-v1/receipt.json",
+    "build/impact-skill-20261014/v53-focus-before-v1/test-hd-display-settings.mjs",
+    "build/impact-skill-20261014/v53-focus-source-fix-v1.json",
+    "build/impact-skill-20261014/v53-focus-source-implementation-v1.json",
+    "build/impact-skill-20261014/v53-focus-target-v1/receipt.json",
+    "build/impact-skill-20261014/v53-focus-target-v1/stderr.log",
+    "build/impact-skill-20261014/v53-focus-target-v1/stdout.tap",
+    "build/impact-skill-20261014/v54-system-before-v1/css/hd-system-ui.css",
+    "build/impact-skill-20261014/v54-system-before-v1/js/hd-system-ui.js",
+    "build/impact-skill-20261014/v54-system-before-v1/m.html",
+    "build/impact-skill-20261014/v54-system-before-v1/pc.html",
+    "build/impact-skill-20261014/v54-system-before-v1/receipt.json",
+    "build/impact-skill-20261014/v54-system-before-v1/scripts/test-hd-saveload-ui.mjs",
+    "build/impact-skill-20261014/v54-system-layout-css-candidate-v1.css",
+    "build/impact-skill-20261014/v54-system-layout-scenario-v1.mjs",
+    "build/impact-skill-20261014/v54-system-list-candidate-v1/js/hd-system-ui.js",
+    "build/impact-skill-20261014/v54-system-list-candidate-v1/scripts/test-hd-saveload-ui.mjs",
+    "build/impact-skill-20261014/v54-system-source-fix-v1.json",
+    "build/impact-skill-20261014/v54-system-target-v1/current-source-positive.stderr.log",
+    "build/impact-skill-20261014/v54-system-target-v1/current-source-positive.stdout.tap",
+    "build/impact-skill-20261014/v54-system-target-v1/original-source-negative.stderr.log",
+    "build/impact-skill-20261014/v54-system-target-v1/original-source-negative.stdout.tap",
+    "build/impact-skill-20261014/v54-system-target-v1/receipt.json",
+    "build/impact-skill-20261014/v55-obsolete-full-stop-v1.json",
+    "build/impact-skill-20261014/v55-system-ack-candidate-v1/js/hd-system-ui.js",
+    "build/impact-skill-20261014/v55-system-ack-candidate-v1/scripts/test-hd-saveload-ui.mjs",
+    "build/impact-skill-20261014/v55-system-ack-candidate-v2/js/hd-system-ui.js",
+    "build/impact-skill-20261014/v55-system-ack-candidate-v2/scripts/test-hd-saveload-ui.mjs",
+    "build/impact-skill-20261014/v55-system-before-v1/.gitattributes",
+    "build/impact-skill-20261014/v55-system-before-v1/js/hd-system-ui.js",
+    "build/impact-skill-20261014/v55-system-before-v1/m.html",
+    "build/impact-skill-20261014/v55-system-before-v1/pc.html",
+    "build/impact-skill-20261014/v55-system-before-v1/receipt.json",
+    "build/impact-skill-20261014/v55-system-before-v1/scripts/test-hd-saveload-ui.mjs",
+    "build/impact-skill-20261014/v55-system-root-full-v1-before.json",
+    "build/impact-skill-20261014/v55-system-root-full-v1.stderr.log",
+    "build/impact-skill-20261014/v55-system-root-full-v1.stdout.log",
+    "build/impact-skill-20261014/v55-system-source-fix-v1.json",
+    "build/impact-skill-20261014/v55-system-source-fix-v2.json",
+    "build/impact-skill-20261014/v55-system-target-v1.stderr.log",
+    "build/impact-skill-20261014/v55-system-target-v1.stdout.log",
+    "build/impact-skill-20261014/v55-system-target-v2/current-source-positive.stderr.log",
+    "build/impact-skill-20261014/v55-system-target-v2/current-source-positive.stdout.tap",
+    "build/impact-skill-20261014/v55-system-target-v2/intermediate-source-negative.stderr.log",
+    "build/impact-skill-20261014/v55-system-target-v2/intermediate-source-negative.stdout.tap",
+    "build/impact-skill-20261014/v55-system-target-v2/original-source-negative.stderr.log",
+    "build/impact-skill-20261014/v55-system-target-v2/original-source-negative.stdout.tap",
+    "build/impact-skill-20261014/v55-system-target-v2/receipt.json",
+    "build/impact-skill-20261014/v56-king-before-v1/css/hd-system-ui.css",
+    "build/impact-skill-20261014/v56-king-before-v1/js/hd-system-ui.js",
+    "build/impact-skill-20261014/v56-king-before-v1/m.html",
+    "build/impact-skill-20261014/v56-king-before-v1/pc.html",
+    "build/impact-skill-20261014/v56-king-before-v1/receipt.json",
+    "build/impact-skill-20261014/v56-king-before-v1/scripts/test-hd-saveload-ui.mjs",
+    "build/impact-skill-20261014/v56-king-preview-candidate-v1/js/hd-system-ui.js",
+    "build/impact-skill-20261014/v56-king-preview-candidate-v2/css/hd-system-ui.css",
+    "build/impact-skill-20261014/v56-king-preview-candidate-v2/js/hd-system-ui.js",
+    "build/impact-skill-20261014/v56-king-preview-candidate-v2/m.html",
+    "build/impact-skill-20261014/v56-king-preview-candidate-v2/pc.html",
+    "build/impact-skill-20261014/v56-king-preview-candidate-v2/scripts/test-hd-saveload-ui.mjs",
+    "build/impact-skill-20261014/v56-king-reviewed-candidate-v2.json",
+    "build/impact-skill-20261014/v56-king-source-fix-v1.json",
+    "build/impact-skill-20261014/v56-king-source-fix-v2.json",
+    "build/impact-skill-20261014/v56-king-target-v2/current-source-positive.stderr.log",
+    "build/impact-skill-20261014/v56-king-target-v2/current-source-positive.stdout.tap",
+    "build/impact-skill-20261014/v56-king-target-v2/intermediate-SVG-source-negative.stderr.log",
+    "build/impact-skill-20261014/v56-king-target-v2/intermediate-SVG-source-negative.stdout.tap",
+    "build/impact-skill-20261014/v56-king-target-v2/original-source-negative.stderr.log",
+    "build/impact-skill-20261014/v56-king-target-v2/original-source-negative.stdout.tap",
+    "build/impact-skill-20261014/v56-king-target-v2/receipt.json",
+    "build/impact-skill-20261014/v57-save-phase-baseline-v1/hd-wood-city4-continuation.mjs",
+    "build/impact-skill-20261014/v57-save-phase-baseline-v1/test-hd-wood-city4-continuation.mjs",
+    "build/impact-skill-20261014/v57-save-phase-peer-v1.json",
+    "build/impact-skill-20261014/v57-save-phase-target-v1-old-formal.mjs",
+    "build/impact-skill-20261014/v57-save-phase-target-v1-old-test.mjs",
+    "build/impact-skill-20261014/v57-save-phase-target-v1.json",
+    "build/impact-skill-20261014/v57-saved-preparation-review-v2.json",
+    "build/impact-skill-20261014/v58-end-before-v1/hd-wood-city4-continuation.mjs",
+    "build/impact-skill-20261014/v58-end-before-v1/package.json",
+    "build/impact-skill-20261014/v58-end-before-v1/test-hd-wood-city4-continuation.mjs",
+    "build/impact-skill-20261014/v58-end-controller-controls-v1.json",
+    "build/impact-skill-20261014/v58-end-controller-controls-v1.stderr.log",
+    "build/impact-skill-20261014/v58-end-controller-controls-v1.stdout.tap",
+    "build/impact-skill-20261014/v58-end-full-v1.json",
+    "build/impact-skill-20261014/v58-end-full-v1.stderr.log",
+    "build/impact-skill-20261014/v58-end-full-v1.stdout.log",
+    "build/impact-skill-20261014/v58-end-source-integration-v2.json",
+    "build/impact-skill-20261014/v58-end-source-peer-v1.json",
+    "build/impact-skill-20261014/v58-end-target-v2-negative.stderr.log",
+    "build/impact-skill-20261014/v58-end-target-v2-negative.stdout.tap",
+    "build/impact-skill-20261014/v58-end-target-v2-old-formal.mjs",
+    "build/impact-skill-20261014/v58-end-target-v2-old-test.mjs",
+    "build/impact-skill-20261014/v58-end-target-v2-positive.stderr.log",
+    "build/impact-skill-20261014/v58-end-target-v2-positive.stdout.tap",
+    "build/impact-skill-20261014/v58-end-target-v2.json",
+    "build/impact-skill-20261014/v59-history-origin-before-v1.json",
+    "build/impact-skill-20261014/v59-origin-before-v1/hd-wood-city4-end-input.mjs",
+    "build/impact-skill-20261014/v59-origin-before-v1/test-hd-wood-city4-end-input.mjs",
+    "build/impact-skill-20261014/v59-origin-full-v2.json",
+    "build/impact-skill-20261014/v59-origin-full-v2.stderr.log",
+    "build/impact-skill-20261014/v59-origin-full-v2.stdout.log",
+    "build/impact-skill-20261014/v59-origin-source-integration-v2.json",
+    "build/impact-skill-20261014/v59-origin-source-peer-v1.json",
+    "build/impact-skill-20261014/v59-origin-source-preparation-v1.json",
+    "build/impact-skill-20261014/v59-origin-target-v2-negative.stderr.log",
+    "build/impact-skill-20261014/v59-origin-target-v2-negative.stdout.tap",
+    "build/impact-skill-20261014/v59-origin-target-v2-old-input.mjs",
+    "build/impact-skill-20261014/v59-origin-target-v2-old-test.mjs",
+    "build/impact-skill-20261014/v59-origin-target-v2-positive.stderr.log",
+    "build/impact-skill-20261014/v59-origin-target-v2-positive.stdout.tap",
+    "build/impact-skill-20261014/v59-origin-target-v2.json",
+    "build/impact-skill-20261014/v60-anchor-candidate-controls-v1-before.json",
+    "build/impact-skill-20261014/v60-anchor-candidate-controls-v1.json",
+    "build/impact-skill-20261014/v60-anchor-candidate-controls-v1.stderr.log",
+    "build/impact-skill-20261014/v60-anchor-candidate-controls-v1.stdout.tap",
+    "build/impact-skill-20261014/v60-future-candidate-closed-controls-v1.json",
+    "build/impact-skill-20261014/v60-retention-full-v1.json",
+    "build/impact-skill-20261014/v60-retention-full-v1.stderr.log",
+    "build/impact-skill-20261014/v60-retention-full-v1.stdout.log",
+    "build/impact-skill-20261014/v60-retention-integration-v1.json",
+    "build/impact-skill-20261014/v60-retention-target-v1-negative.stderr.log",
+    "build/impact-skill-20261014/v60-retention-target-v1-negative.stdout.tap",
+    "build/impact-skill-20261014/v60-retention-target-v1-positive.stderr.log",
+    "build/impact-skill-20261014/v60-retention-target-v1-positive.stdout.tap",
+    "build/impact-skill-20261014/v60-retention-target-v1-unref-child.mjs",
+    "build/impact-skill-20261014/v60-retention-target-v1-unref-runtime.mjs",
+    "build/impact-skill-20261014/v60-retention-target-v1-unref-test.mjs",
+    "build/impact-skill-20261014/v60-retention-target-v1.json",
+    "build/impact-skill-20261014/v60-runtime-controls-v1-before.json",
+    "build/impact-skill-20261014/v60-runtime-controls-v1.json",
+    "build/impact-skill-20261014/v60-runtime-controls-v1.stderr.log",
+    "build/impact-skill-20261014/v60-runtime-controls-v1.stdout.tap",
+    "build/impact-skill-20261014/v61-origin-anchor-integrated-peer-v1.json",
+    "build/impact-skill-20261014/v61-origin-anchor-integration-v1.json",
+    "build/impact-skill-20261014/v61-origin-anchor-target-v1-negative.stderr.log",
+    "build/impact-skill-20261014/v61-origin-anchor-target-v1-negative.stdout.tap",
+    "build/impact-skill-20261014/v61-origin-anchor-target-v1-old-capability-test.mjs",
+    "build/impact-skill-20261014/v61-origin-anchor-target-v2-negative.stderr.log",
+    "build/impact-skill-20261014/v61-origin-anchor-target-v2-negative.stdout.tap",
+    "build/impact-skill-20261014/v61-origin-anchor-target-v2-old-capability-test.mjs",
+    "build/impact-skill-20261014/v61-origin-anchor-target-v2-positive.stderr.log",
+    "build/impact-skill-20261014/v61-origin-anchor-target-v2-positive.stdout.tap",
+    "build/impact-skill-20261014/v61-origin-anchor-target-v2.json",
+    "build/impact-skill-20261014/v61-target-transport-failure-v1.json",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v2.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v3.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-quantity-latency-v4.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-full-v1.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v2.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-quantity-latency-v4.mjs",
+    "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-quantity-full-v1.mjs",
+    "build/impact-skill-20261014/wood67-v41-public-ui-helpers-v1.js.txt"
+  ],
+  "archive": {
+    "path": "docs/validation/m5-city4-origin-anchor-20261025-v61-archive-index.json",
+    "bytes": 150755,
+    "sha256": "a1d205058323c483f2f2448779a7b5ffb53c34783d62c755df907984857f4162"
+  },
+  "codec": {
+    "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-verify.mjs",
+    "bytes": 32262,
+    "sha256": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca"
+  },
+  "reader": {
+    "path": "docs/validation/m5-city4-origin-anchor-20261025-v61-verify.mjs",
+    "bytes": 23640,
+    "sha256": "8899c298b01f4ac29d9b08b3ea4758859c9e4b3cf16cb452f3293f47df724eb2"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-city4-origin-anchor-20261025-v61.md",
+    "bytes": 2187,
+    "sha256": "61b58a3c3ce30f9299b98f5199b27e003bb8a2a95e47b6c237eb4e9599f8f4b8"
+  },
+  "observations": {
+    "sourceOnly": true,
+    "newBrowserRuns": 0,
+    "newNativeInputs": 0,
+    "newPublicLoads": 0,
+    "newPublicSaves": 0,
+    "newMarches": 0,
+    "newPlunders": 0,
+    "newDistributions": 0,
+    "newEnd": 0,
+    "newNaturalMonths": 0,
+    "newBattleOrders": 0,
+    "maximumActualEnd": 0,
+    "cleanupAuthorized": false,
+    "sessionReleaseAllowed": false,
+    "sameNodeLiveCaptureAuthenticated": false,
+    "actualMonthAccepted": false,
+    "actualIncomeObserved": false,
+    "actualIncomeAccepted": false,
+    "actualBattleAccepted": false,
+    "actualPublicSaveAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "publishedNewMainInput": false,
+    "controllerExecutable": false,
+    "retainedCurrentMain": "P57 genuine saved dispatched world and original dual SAV",
+    "retainedPriorMainInput": true,
+    "retainedOriginalFalseFlags": true,
+    "retainedInputPins": [
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57.json",
+        "bytes": 379062,
+        "sha256": "70949f4f2edb9b4564e37b151add6e551d7cb3f010d6a8ccb70a387847c59f1a"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-latest-world.json",
+        "bytes": 148004,
+        "sha256": "58f8ac8d6366c09023a834995bde26bd0973e32a1b12292d463f1644b983c1f6"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-sango0.sav",
+        "bytes": 8221,
+        "sha256": "122a72b600bbee49d734f0420731b7be7895af0eaf222741f6daee6eaae09d2b"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-sango1.sav",
+        "bytes": 4840,
+        "sha256": "f3b6f39a2433f88abaef52e921c65e7d607d6752620762927f2b542f74f27353"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-index.json",
+        "bytes": 151295,
+        "sha256": "6f072b12b1e4ac75c8b818497536e3bffd69f23cb6e7cf4bc9371aab500c857a"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-part001.json",
+        "bytes": 8142224,
+        "sha256": "8357cab4cb1ee68aa3d8c06f8df3b4ed6811ded199e49185324e53593eafe94b"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-part002.json",
+        "bytes": 8377587,
+        "sha256": "d348517c680ec688f5f1cbe5d5507087b21fdfc0bb6a17064cdf2ec25e61efb8"
+      },
+      {
+        "path": "docs/validation/m5-wood-city4-recovery-20261024-v57-archive-part003.json",
+        "bytes": 2359629,
+        "sha256": "5ef83127046a14c813b301096bc354a83835cf94e9db0908192f077da612448b"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      }
+    ],
+    "runtimeIntegration": {
+      "completeRelocatedSourceFiles": 11,
+      "onlyRecordedImportsRootAndLf": true,
+      "wholeFourteenSubtestBodiesAndParentPreserved": true,
+      "registeredModules": 146,
+      "defaultEntry": "createCity4OriginBoundAnchorAdapter",
+      "legacySemanticCheckIsNotOriginAuthority": true
+    },
+    "controlledCoverage": {
+      "fixedSevenKeyCdpModelOnly": true,
+      "realExclusiveControlledFiles": true,
+      "originalRawProofStaysPrivate": true,
+      "privateFreshCaptureGraphRequired": true,
+      "noRealNativeEngineBrowserOrEnd": true,
+      "terminalSaveAndReleaseStillUnbound": true
+    },
+    "tests": {
+      "priorCandidateControls": {
+        "tests": 15,
+        "pass": 15,
+        "subtests": 14,
+        "parent": 1,
+        "countedInDefault": false
+      },
+      "firstTransportAttempt": {
+        "accepted": false,
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "positiveNotRun": true,
+        "expectedBehaviorNotReached": true
+      },
+      "target": {
+        "tests": 15,
+        "pass": 15,
+        "oldCapabilityNegative": {
+          "tests": 1,
+          "pass": 0,
+          "fail": 1,
+          "countedInDefault": false
+        }
+      },
+      "full": {
+        "tests": 7893,
+        "pass": 7893,
+        "registeredModules": 146,
+        "addedDefaultTests": 15,
+        "previousDefaultTests": 7878
+      }
+    },
+    "sources": {
+      "current": 596,
+      "literalExactIgnored": [
+        "build/impact-skill-20261014/build-city4-continuation-source-v1.mjs",
+        "build/impact-skill-20261014/build-city4-continuation-test-v1.mjs",
+        "build/impact-skill-20261014/city4-before-march-report-fix-v1/0-hd-wood-city4-continuation.mjs",
+        "build/impact-skill-20261014/city4-before-march-report-fix-v1/1-test-hd-wood-city4-continuation.mjs",
+        "build/impact-skill-20261014/city4-before-march-report-fix-v1/2-build-city4-continuation-source-v1.mjs",
+        "build/impact-skill-20261014/city4-before-march-report-fix-v1/3-build-city4-continuation-test-v1.mjs",
+        "build/impact-skill-20261014/city4-before-march-report-fix-v1/4-city4-continuation-chain-v1.js.txt",
+        "build/impact-skill-20261014/city4-before-march-report-fix-v1/5-city4-continuation-fixture-and-tests-v1.js.txt",
+        "build/impact-skill-20261014/city4-before-march-report-fix-v1/receipt.json",
+        "build/impact-skill-20261014/city4-continuation-c-evidence-v1.json",
+        "build/impact-skill-20261014/city4-continuation-chain-v1.js.txt",
+        "build/impact-skill-20261014/city4-continuation-fixture-and-tests-v1.js.txt",
+        "build/impact-skill-20261014/city4-continuation-independent-review-final-v1.json",
+        "build/impact-skill-20261014/city4-continuation-target-v5/receipt.json",
+        "build/impact-skill-20261014/city4-continuation-target-v5/stderr.txt",
+        "build/impact-skill-20261014/city4-continuation-target-v5/stdout.txt",
+        "build/impact-skill-20261014/city4-continuation-target-v6/receipt.json",
+        "build/impact-skill-20261014/city4-continuation-target-v6/stderr.txt",
+        "build/impact-skill-20261014/city4-continuation-target-v6/stdout.txt",
+        "build/impact-skill-20261014/city4-continuation-target-v7/receipt.json",
+        "build/impact-skill-20261014/city4-continuation-target-v7/stderr.txt",
+        "build/impact-skill-20261014/city4-continuation-target-v7/stdout.txt",
+        "build/impact-skill-20261014/city4-continuation-target-v8/receipt.json",
+        "build/impact-skill-20261014/city4-continuation-target-v8/stderr.txt",
+        "build/impact-skill-20261014/city4-continuation-target-v8/stdout.txt",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v3.json",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v4.json",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v4/source-after.json",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v4/source-before.json",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v4/stderr.log",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v4/stdout.tap",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v5.json",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v7.json",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v7/stderr.log",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v7/stdout.tap",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v8.json",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v8/stderr.log",
+        "build/impact-skill-20261014/city4-distributions-source-controls-v8/stdout.tap",
+        "build/impact-skill-20261014/city4-end-battle-close-candidate-v2/city4-end-battle-close-v2.mjs",
+        "build/impact-skill-20261014/city4-end-battle-close-independent-peer-v1.json",
+        "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/README.md",
+        "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/city4-live-retention-fake-child-v1.mjs",
+        "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/controlled-terminal-fixture-v1.mjs",
+        "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/source-preparation-v1.json",
+        "build/impact-skill-20261014/city4-end-close-retention-tests-candidate-v1/test-city4-end-close-retention-v1.mjs",
+        "build/impact-skill-20261014/city4-end-controller-candidate-v1/city4-end-observer-v1.mjs",
+        "build/impact-skill-20261014/city4-end-controller-candidate-v1/city4-end-session-v1.mjs",
+        "build/impact-skill-20261014/city4-end-controller-candidate-v1/october-city4-end-v1.mjs",
+        "build/impact-skill-20261014/city4-end-controller-candidate-v1/run-october-city4-end-v1.mjs",
+        "build/impact-skill-20261014/city4-end-controller-candidate-v1/test-city4-end-controller-source-v1.mjs",
+        "build/impact-skill-20261014/city4-end-controller-source-freeze-v1.json",
+        "build/impact-skill-20261014/city4-end-live-retention-candidate-v1/city4-end-live-retention-v1.mjs",
+        "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-end-artifacts-v1.mjs",
+        "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-end-ledger-v1.mjs",
+        "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-end-main-input-v1.mjs",
+        "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-end-native-anchor-v1.mjs",
+        "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-ticket-view-v1.mjs",
+        "build/impact-skill-20261014/city4-end-native-adapter-candidate-v1/city4-ui-predicates-v1.mjs",
+        "build/impact-skill-20261014/city4-end-native-adapter-candidate-v2/city4-end-native-anchor-v2.mjs",
+        "build/impact-skill-20261014/city4-end-origin-anchor-glue-candidate-v1/city4-end-origin-anchor-v1.mjs",
+        "build/impact-skill-20261014/city4-end-origin-anchor-glue-candidate-v3/city4-end-origin-anchor-v3.mjs",
+        "build/impact-skill-20261014/city4-end-origin-anchor-tests-candidate-v2/controlled-anchor-cdp-v2.mjs",
+        "build/impact-skill-20261014/city4-end-origin-anchor-tests-candidate-v2/source-preparation-v2.json",
+        "build/impact-skill-20261014/city4-end-origin-anchor-tests-candidate-v2/test-city4-origin-anchor-v2.mjs",
+        "build/impact-skill-20261014/city4-end-origin-binding-candidate-v3/city4-end-input-v3.mjs",
+        "build/impact-skill-20261014/city4-end-origin-tests-candidate-v1/test-city4-end-input-v3.mjs",
+        "build/impact-skill-20261014/city4-end-retention-static-peer-v1.json",
+        "build/impact-skill-20261014/city4-march-input-v1.mjs",
+        "build/impact-skill-20261014/city4-march-input-v2.mjs",
+        "build/impact-skill-20261014/city4-march-report-source-fix-v1.json",
+        "build/impact-skill-20261014/city4-native-save-report-source-review-v1.json",
+        "build/impact-skill-20261014/city4-partial-phase-source-independent-v1.json",
+        "build/impact-skill-20261014/city4-plunder-input-v1.mjs",
+        "build/impact-skill-20261014/city4-plunder-save-native-source-reader-recovery-v1.json",
+        "build/impact-skill-20261014/city4-plunder-save-native-source-v2.json",
+        "build/impact-skill-20261014/city4-plunder-save-report-source-fix-v1.json",
+        "build/impact-skill-20261014/city4-preparation-20261024-source-v1/city4-ticket-view-v1.mjs",
+        "build/impact-skill-20261014/city4-preparation-20261024-source-v1/city4-ui-predicates-v1.mjs",
+        "build/impact-skill-20261014/city4-preparation-20261024-source-v1/october-city4-distributions-v1.mjs",
+        "build/impact-skill-20261014/city4-preparation-20261024-source-v1/run-october-city4-distributions-v1.mjs",
+        "build/impact-skill-20261014/city4-preparation-20261024-source-v1/test-city4-distributions-source-v1.mjs",
+        "build/impact-skill-20261014/city4-preparation-20261024-source-v2/city4-ticket-view-v1.mjs",
+        "build/impact-skill-20261014/city4-preparation-20261024-source-v2/city4-ui-predicates-v1.mjs",
+        "build/impact-skill-20261014/city4-preparation-20261024-source-v2/october-city4-distributions-v1.mjs",
+        "build/impact-skill-20261014/city4-preparation-20261024-source-v2/run-october-city4-distributions-v1.mjs",
+        "build/impact-skill-20261014/city4-preparation-20261024-source-v2/test-city4-distributions-source-v1.mjs",
+        "build/impact-skill-20261014/city4-preparation-full-added-sources-v1.json",
+        "build/impact-skill-20261014/city4-repeat-phase-fix-independent-v1.json",
+        "build/impact-skill-20261014/city4-saving-report-correction-evidence-v1.json",
+        "build/impact-skill-20261014/city4-ticket-view-extraction-v1.json",
+        "build/impact-skill-20261014/freeze-city4-full-added-sources-v1.mjs",
+        "build/impact-skill-20261014/hd-impact-v41-latest-v40-september-input-v1.mjs",
+        "build/impact-skill-20261014/hd-impact-v42-latest-v41-paid-input-v1.mjs",
+        "build/impact-skill-20261014/hd-wood-v39-ticket-observer-v1.mjs",
+        "build/impact-skill-20261014/hd-wood-v40-ticket-observer-v1.mjs",
+        "build/impact-skill-20261014/integrate-v54-system-layout-fix-v1.mjs",
+        "build/impact-skill-20261014/integrate-v55-system-ack-fix-v1.mjs",
+        "build/impact-skill-20261014/integrate-v55-system-ack-fix-v2.mjs",
+        "build/impact-skill-20261014/integrate-v55-system-ack-fix-v3.mjs",
+        "build/impact-skill-20261014/integrate-v56-king-preview-v2.mjs",
+        "build/impact-skill-20261014/prepare-city4-ticket-view-v1.mjs",
+        "build/impact-skill-20261014/prepare-v54-system-css-candidate-v1.mjs",
+        "build/impact-skill-20261014/prepare-v59-origin-tests-v1.mjs",
+        "build/impact-skill-20261014/prepare-v61-target-v2.mjs",
+        "build/impact-skill-20261014/preserve-v54-system-before-v1.mjs",
+        "build/impact-skill-20261014/preserve-v55-system-before-v1.mjs",
+        "build/impact-skill-20261014/preserve-v56-king-before-v1.mjs",
+        "build/impact-skill-20261014/probe-v59-history-origin-before-v1.mjs",
+        "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/cancel-owner-predicates-v1.mjs",
+        "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/october-quantity-cancel-owner-v1.mjs",
+        "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-october-quantity-cancel-owner-v1.mjs",
+        "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/run-quantity-cancel-owner-full-v1.mjs",
+        "build/impact-skill-20261014/quantity-cancel-owner-20261024-source-v1/test-october-quantity-cancel-owner-source-v1.mjs",
+        "build/impact-skill-20261014/quantity-focus-20261024-source-v1/focus-predicates-v1.mjs",
+        "build/impact-skill-20261014/quantity-focus-20261024-source-v1/october-quantity-focus-v1.mjs",
+        "build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-october-quantity-focus-v1.mjs",
+        "build/impact-skill-20261014/quantity-focus-20261024-source-v1/run-quantity-focus-map111-full-v1.mjs",
+        "build/impact-skill-20261014/quantity-focus-20261024-source-v1/test-october-quantity-focus-source-v1.mjs",
+        "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/october-quantity-rapid-v1.mjs",
+        "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/rapid-predicates-v1.mjs",
+        "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-city-quantity-full-v1.mjs",
+        "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/run-october-quantity-rapid-v1.mjs",
+        "build/impact-skill-20261014/quantity-rapid-20261024-source-v1/test-october-quantity-rapid-source-v1.mjs",
+        "build/impact-skill-20261014/r12-quantity-cancel-owner-source-controls-v1.json",
+        "build/impact-skill-20261014/r12-quantity-focus-source-controls-v1.json",
+        "build/impact-skill-20261014/r12-quantity-rapid-source-controls-v1.json",
+        "build/impact-skill-20261014/review-city4-continuation-c-evidence-v1.mjs",
+        "build/impact-skill-20261014/run-city4-continuation-target-v5.mjs",
+        "build/impact-skill-20261014/run-city4-continuation-target-v6.mjs",
+        "build/impact-skill-20261014/run-city4-continuation-target-v7.mjs",
+        "build/impact-skill-20261014/run-city4-continuation-target-v8.mjs",
+        "build/impact-skill-20261014/run-city4-distributions-source-controls-v4.mjs",
+        "build/impact-skill-20261014/run-city4-distributions-source-controls-v7.mjs",
+        "build/impact-skill-20261014/run-city4-distributions-source-controls-v8.mjs",
+        "build/impact-skill-20261014/run-city4-march-full-v1.mjs",
+        "build/impact-skill-20261014/run-city4-plunder-full-v1.mjs",
+        "build/impact-skill-20261014/run-city4-preparation-full-v1.mjs",
+        "build/impact-skill-20261014/run-city4-preparation-full-v2.mjs",
+        "build/impact-skill-20261014/run-city4-preparation-full-v3.mjs",
+        "build/impact-skill-20261014/run-v53-focus-full-v1.mjs",
+        "build/impact-skill-20261014/run-v53-focus-target-v1.mjs",
+        "build/impact-skill-20261014/run-v54-system-full-v1.mjs",
+        "build/impact-skill-20261014/run-v54-system-layout-v1.mjs",
+        "build/impact-skill-20261014/run-v54-system-layout-v2.mjs",
+        "build/impact-skill-20261014/run-v54-system-target-v1.mjs",
+        "build/impact-skill-20261014/run-v55-system-full-v1.mjs",
+        "build/impact-skill-20261014/run-v55-system-full-v2.mjs",
+        "build/impact-skill-20261014/run-v55-system-target-v1.mjs",
+        "build/impact-skill-20261014/run-v55-system-target-v2.mjs",
+        "build/impact-skill-20261014/run-v55-system-target-v3.mjs",
+        "build/impact-skill-20261014/run-v56-king-full-v2.mjs",
+        "build/impact-skill-20261014/run-v56-king-target-v2.mjs",
+        "build/impact-skill-20261014/run-v57-save-phase-full-v1.mjs",
+        "build/impact-skill-20261014/run-v57-save-phase-target-v1.mjs",
+        "build/impact-skill-20261014/run-v58-end-controller-controls-v1.mjs",
+        "build/impact-skill-20261014/run-v58-end-full-v1.mjs",
+        "build/impact-skill-20261014/run-v58-end-target-v2.mjs",
+        "build/impact-skill-20261014/run-v59-origin-full-v2.mjs",
+        "build/impact-skill-20261014/run-v59-origin-target-v2.mjs",
+        "build/impact-skill-20261014/run-v60-retention-full-v1.mjs",
+        "build/impact-skill-20261014/run-v60-retention-target-v1.mjs",
+        "build/impact-skill-20261014/run-v60-runtime-controls-v1.mjs",
+        "build/impact-skill-20261014/run-v61-origin-anchor-full-v1.mjs",
+        "build/impact-skill-20261014/run-v61-origin-anchor-target-v1.mjs",
+        "build/impact-skill-20261014/run-v61-origin-anchor-target-v2.mjs",
+        "build/impact-skill-20261014/v51-city4-plunder-input-bind-v1.json",
+        "build/impact-skill-20261014/v52-city4-march-input-bind-v1.json",
+        "build/impact-skill-20261014/v52-city4-march-report-source-audit-v1.json",
+        "build/impact-skill-20261014/v52-saved-suite-baseline-v1.json",
+        "build/impact-skill-20261014/v53-focus-before-v1/css/hd-graphics.css",
+        "build/impact-skill-20261014/v53-focus-before-v1/css/hd-overworld.css",
+        "build/impact-skill-20261014/v53-focus-before-v1/js/hd-graphics.js",
+        "build/impact-skill-20261014/v53-focus-before-v1/pc.html",
+        "build/impact-skill-20261014/v53-focus-before-v1/receipt.json",
+        "build/impact-skill-20261014/v53-focus-before-v1/test-hd-display-settings.mjs",
+        "build/impact-skill-20261014/v53-focus-source-fix-v1.json",
+        "build/impact-skill-20261014/v53-focus-source-implementation-v1.json",
+        "build/impact-skill-20261014/v53-focus-target-v1/receipt.json",
+        "build/impact-skill-20261014/v53-focus-target-v1/stderr.log",
+        "build/impact-skill-20261014/v53-focus-target-v1/stdout.tap",
+        "build/impact-skill-20261014/v54-system-before-v1/css/hd-system-ui.css",
+        "build/impact-skill-20261014/v54-system-before-v1/js/hd-system-ui.js",
+        "build/impact-skill-20261014/v54-system-before-v1/m.html",
+        "build/impact-skill-20261014/v54-system-before-v1/pc.html",
+        "build/impact-skill-20261014/v54-system-before-v1/receipt.json",
+        "build/impact-skill-20261014/v54-system-before-v1/scripts/test-hd-saveload-ui.mjs",
+        "build/impact-skill-20261014/v54-system-layout-css-candidate-v1.css",
+        "build/impact-skill-20261014/v54-system-layout-scenario-v1.mjs",
+        "build/impact-skill-20261014/v54-system-list-candidate-v1/js/hd-system-ui.js",
+        "build/impact-skill-20261014/v54-system-list-candidate-v1/scripts/test-hd-saveload-ui.mjs",
+        "build/impact-skill-20261014/v54-system-source-fix-v1.json",
+        "build/impact-skill-20261014/v54-system-target-v1/current-source-positive.stderr.log",
+        "build/impact-skill-20261014/v54-system-target-v1/current-source-positive.stdout.tap",
+        "build/impact-skill-20261014/v54-system-target-v1/original-source-negative.stderr.log",
+        "build/impact-skill-20261014/v54-system-target-v1/original-source-negative.stdout.tap",
+        "build/impact-skill-20261014/v54-system-target-v1/receipt.json",
+        "build/impact-skill-20261014/v55-obsolete-full-stop-v1.json",
+        "build/impact-skill-20261014/v55-system-ack-candidate-v1/js/hd-system-ui.js",
+        "build/impact-skill-20261014/v55-system-ack-candidate-v1/scripts/test-hd-saveload-ui.mjs",
+        "build/impact-skill-20261014/v55-system-ack-candidate-v2/js/hd-system-ui.js",
+        "build/impact-skill-20261014/v55-system-ack-candidate-v2/scripts/test-hd-saveload-ui.mjs",
+        "build/impact-skill-20261014/v55-system-before-v1/.gitattributes",
+        "build/impact-skill-20261014/v55-system-before-v1/js/hd-system-ui.js",
+        "build/impact-skill-20261014/v55-system-before-v1/m.html",
+        "build/impact-skill-20261014/v55-system-before-v1/pc.html",
+        "build/impact-skill-20261014/v55-system-before-v1/receipt.json",
+        "build/impact-skill-20261014/v55-system-before-v1/scripts/test-hd-saveload-ui.mjs",
+        "build/impact-skill-20261014/v55-system-root-full-v1-before.json",
+        "build/impact-skill-20261014/v55-system-root-full-v1.stderr.log",
+        "build/impact-skill-20261014/v55-system-root-full-v1.stdout.log",
+        "build/impact-skill-20261014/v55-system-source-fix-v1.json",
+        "build/impact-skill-20261014/v55-system-source-fix-v2.json",
+        "build/impact-skill-20261014/v55-system-target-v1.stderr.log",
+        "build/impact-skill-20261014/v55-system-target-v1.stdout.log",
+        "build/impact-skill-20261014/v55-system-target-v2/current-source-positive.stderr.log",
+        "build/impact-skill-20261014/v55-system-target-v2/current-source-positive.stdout.tap",
+        "build/impact-skill-20261014/v55-system-target-v2/intermediate-source-negative.stderr.log",
+        "build/impact-skill-20261014/v55-system-target-v2/intermediate-source-negative.stdout.tap",
+        "build/impact-skill-20261014/v55-system-target-v2/original-source-negative.stderr.log",
+        "build/impact-skill-20261014/v55-system-target-v2/original-source-negative.stdout.tap",
+        "build/impact-skill-20261014/v55-system-target-v2/receipt.json",
+        "build/impact-skill-20261014/v56-king-before-v1/css/hd-system-ui.css",
+        "build/impact-skill-20261014/v56-king-before-v1/js/hd-system-ui.js",
+        "build/impact-skill-20261014/v56-king-before-v1/m.html",
+        "build/impact-skill-20261014/v56-king-before-v1/pc.html",
+        "build/impact-skill-20261014/v56-king-before-v1/receipt.json",
+        "build/impact-skill-20261014/v56-king-before-v1/scripts/test-hd-saveload-ui.mjs",
+        "build/impact-skill-20261014/v56-king-preview-candidate-v1/js/hd-system-ui.js",
+        "build/impact-skill-20261014/v56-king-preview-candidate-v2/css/hd-system-ui.css",
+        "build/impact-skill-20261014/v56-king-preview-candidate-v2/js/hd-system-ui.js",
+        "build/impact-skill-20261014/v56-king-preview-candidate-v2/m.html",
+        "build/impact-skill-20261014/v56-king-preview-candidate-v2/pc.html",
+        "build/impact-skill-20261014/v56-king-preview-candidate-v2/scripts/test-hd-saveload-ui.mjs",
+        "build/impact-skill-20261014/v56-king-reviewed-candidate-v2.json",
+        "build/impact-skill-20261014/v56-king-source-fix-v1.json",
+        "build/impact-skill-20261014/v56-king-source-fix-v2.json",
+        "build/impact-skill-20261014/v56-king-target-v2/current-source-positive.stderr.log",
+        "build/impact-skill-20261014/v56-king-target-v2/current-source-positive.stdout.tap",
+        "build/impact-skill-20261014/v56-king-target-v2/intermediate-SVG-source-negative.stderr.log",
+        "build/impact-skill-20261014/v56-king-target-v2/intermediate-SVG-source-negative.stdout.tap",
+        "build/impact-skill-20261014/v56-king-target-v2/original-source-negative.stderr.log",
+        "build/impact-skill-20261014/v56-king-target-v2/original-source-negative.stdout.tap",
+        "build/impact-skill-20261014/v56-king-target-v2/receipt.json",
+        "build/impact-skill-20261014/v57-save-phase-baseline-v1/hd-wood-city4-continuation.mjs",
+        "build/impact-skill-20261014/v57-save-phase-baseline-v1/test-hd-wood-city4-continuation.mjs",
+        "build/impact-skill-20261014/v57-save-phase-peer-v1.json",
+        "build/impact-skill-20261014/v57-save-phase-target-v1-old-formal.mjs",
+        "build/impact-skill-20261014/v57-save-phase-target-v1-old-test.mjs",
+        "build/impact-skill-20261014/v57-save-phase-target-v1.json",
+        "build/impact-skill-20261014/v57-saved-preparation-review-v2.json",
+        "build/impact-skill-20261014/v58-end-before-v1/hd-wood-city4-continuation.mjs",
+        "build/impact-skill-20261014/v58-end-before-v1/package.json",
+        "build/impact-skill-20261014/v58-end-before-v1/test-hd-wood-city4-continuation.mjs",
+        "build/impact-skill-20261014/v58-end-controller-controls-v1.json",
+        "build/impact-skill-20261014/v58-end-controller-controls-v1.stderr.log",
+        "build/impact-skill-20261014/v58-end-controller-controls-v1.stdout.tap",
+        "build/impact-skill-20261014/v58-end-full-v1.json",
+        "build/impact-skill-20261014/v58-end-full-v1.stderr.log",
+        "build/impact-skill-20261014/v58-end-full-v1.stdout.log",
+        "build/impact-skill-20261014/v58-end-source-integration-v2.json",
+        "build/impact-skill-20261014/v58-end-source-peer-v1.json",
+        "build/impact-skill-20261014/v58-end-target-v2-negative.stderr.log",
+        "build/impact-skill-20261014/v58-end-target-v2-negative.stdout.tap",
+        "build/impact-skill-20261014/v58-end-target-v2-old-formal.mjs",
+        "build/impact-skill-20261014/v58-end-target-v2-old-test.mjs",
+        "build/impact-skill-20261014/v58-end-target-v2-positive.stderr.log",
+        "build/impact-skill-20261014/v58-end-target-v2-positive.stdout.tap",
+        "build/impact-skill-20261014/v58-end-target-v2.json",
+        "build/impact-skill-20261014/v59-history-origin-before-v1.json",
+        "build/impact-skill-20261014/v59-origin-before-v1/hd-wood-city4-end-input.mjs",
+        "build/impact-skill-20261014/v59-origin-before-v1/test-hd-wood-city4-end-input.mjs",
+        "build/impact-skill-20261014/v59-origin-full-v2.json",
+        "build/impact-skill-20261014/v59-origin-full-v2.stderr.log",
+        "build/impact-skill-20261014/v59-origin-full-v2.stdout.log",
+        "build/impact-skill-20261014/v59-origin-source-integration-v2.json",
+        "build/impact-skill-20261014/v59-origin-source-peer-v1.json",
+        "build/impact-skill-20261014/v59-origin-source-preparation-v1.json",
+        "build/impact-skill-20261014/v59-origin-target-v2-negative.stderr.log",
+        "build/impact-skill-20261014/v59-origin-target-v2-negative.stdout.tap",
+        "build/impact-skill-20261014/v59-origin-target-v2-old-input.mjs",
+        "build/impact-skill-20261014/v59-origin-target-v2-old-test.mjs",
+        "build/impact-skill-20261014/v59-origin-target-v2-positive.stderr.log",
+        "build/impact-skill-20261014/v59-origin-target-v2-positive.stdout.tap",
+        "build/impact-skill-20261014/v59-origin-target-v2.json",
+        "build/impact-skill-20261014/v60-anchor-candidate-controls-v1-before.json",
+        "build/impact-skill-20261014/v60-anchor-candidate-controls-v1.json",
+        "build/impact-skill-20261014/v60-anchor-candidate-controls-v1.stderr.log",
+        "build/impact-skill-20261014/v60-anchor-candidate-controls-v1.stdout.tap",
+        "build/impact-skill-20261014/v60-future-candidate-closed-controls-v1.json",
+        "build/impact-skill-20261014/v60-retention-full-v1.json",
+        "build/impact-skill-20261014/v60-retention-full-v1.stderr.log",
+        "build/impact-skill-20261014/v60-retention-full-v1.stdout.log",
+        "build/impact-skill-20261014/v60-retention-integration-v1.json",
+        "build/impact-skill-20261014/v60-retention-target-v1-negative.stderr.log",
+        "build/impact-skill-20261014/v60-retention-target-v1-negative.stdout.tap",
+        "build/impact-skill-20261014/v60-retention-target-v1-positive.stderr.log",
+        "build/impact-skill-20261014/v60-retention-target-v1-positive.stdout.tap",
+        "build/impact-skill-20261014/v60-retention-target-v1-unref-child.mjs",
+        "build/impact-skill-20261014/v60-retention-target-v1-unref-runtime.mjs",
+        "build/impact-skill-20261014/v60-retention-target-v1-unref-test.mjs",
+        "build/impact-skill-20261014/v60-retention-target-v1.json",
+        "build/impact-skill-20261014/v60-runtime-controls-v1-before.json",
+        "build/impact-skill-20261014/v60-runtime-controls-v1.json",
+        "build/impact-skill-20261014/v60-runtime-controls-v1.stderr.log",
+        "build/impact-skill-20261014/v60-runtime-controls-v1.stdout.tap",
+        "build/impact-skill-20261014/v61-origin-anchor-integrated-peer-v1.json",
+        "build/impact-skill-20261014/v61-origin-anchor-integration-v1.json",
+        "build/impact-skill-20261014/v61-origin-anchor-target-v1-negative.stderr.log",
+        "build/impact-skill-20261014/v61-origin-anchor-target-v1-negative.stdout.tap",
+        "build/impact-skill-20261014/v61-origin-anchor-target-v1-old-capability-test.mjs",
+        "build/impact-skill-20261014/v61-origin-anchor-target-v2-negative.stderr.log",
+        "build/impact-skill-20261014/v61-origin-anchor-target-v2-negative.stdout.tap",
+        "build/impact-skill-20261014/v61-origin-anchor-target-v2-old-capability-test.mjs",
+        "build/impact-skill-20261014/v61-origin-anchor-target-v2-positive.stderr.log",
+        "build/impact-skill-20261014/v61-origin-anchor-target-v2-positive.stdout.tap",
+        "build/impact-skill-20261014/v61-origin-anchor-target-v2.json",
+        "build/impact-skill-20261014/v61-target-transport-failure-v1.json",
+        "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/maker-held-browser-boundary-v2.mjs",
+        "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-public-load-geometry-v3.mjs",
+        "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/october-quantity-latency-v4.mjs",
+        "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-full-v1.mjs",
+        "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-maker-boundary-v2.mjs",
+        "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-october-quantity-latency-v4.mjs",
+        "build/impact-skill-20261014/viewport-baseline-20261024-source-v1/run-quantity-full-v1.mjs",
+        "build/impact-skill-20261014/wood67-v41-public-ui-helpers-v1.js.txt"
+      ]
+    },
+    "attributes": {
+      "sourceAppendBytes": 682,
+      "publicationAppendBytes": 513
+    },
+    "priorActualFilesRepacked": 0,
+    "archiveTraversesOldParts": false,
+    "mainFoodIncomeStillUnobserved": {
+      "city20Food": 1,
+      "city20Money": 886,
+      "foodGap": 266,
+      "sourceForecastFood": 645,
+      "sourceForecastMoney": 258
+    }
+  }
+}

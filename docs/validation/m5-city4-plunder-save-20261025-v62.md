@@ -1,0 +1,7 @@
+# 城4原生Plunder44结果与完整SAVE合同
+
+本批只将原C配方与原LIB64索引148–150拼接的精确退休结果纳入完整SAVE合同，金额来自当前world.people[44]的IQ与Force。原65535与MAKE44保留，完整快照、未知字段、序号、四键与双档合同保持。旧85项源码字节不变，新默认仅recipe5＋whole-SAVE4，共9项，登记148文件。
+
+两个时间点分别保留：旧M上的observer-stage17及first-own10是未注册的固定mock-CDP／隔离VM控测，原始false／超时／取消也逐项保留，两个进程真实CLOSED与源码稳定后才准集成；它们不构成本批M报告修复的功能前置。candidate9与旧门负控1项不重复计默认；正式target94及完整7902依据本批根CLOSED终态、原始全输出及前后完整source向量核验。future partial不授actualEND。
+
+这份证据不授真实END、收益、战斗、最终SAVE、释放或整体HD完成信用。P57原八公开文件与原LIB九项只external exact引用，旧actual、profile与旧archive分卷不重包。最终tracked必须匹配当前checkout；缺失B只可从本包同名精确回退。

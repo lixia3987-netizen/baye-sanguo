@@ -1,0 +1,496 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-10",
+  "status": "PASS_SCOPED_R08_BRIDGE_AND_MISSING_ART_RUNTIME",
+  "scope": "Original standard-LIB decorative world-map river crossing only. Two completed isolated installed-engine runs; no complete-HD, Mod, mobile, battle, skill or all-lord acceptance claim.",
+  "provenanceLink": "../../assets/hd-overworld/GENERATED-BRIDGE.json",
+  "archiveIndex": {
+    "path": "docs/validation/m4-bridge-crossing-20261010/runtime-index.json",
+    "absolutePath": "F:/project/baye-sanguo/docs/validation/m4-bridge-crossing-20261010/runtime-index.json",
+    "bytes": 103098,
+    "sha256": "2ae807deec8bb1731f017644eb3caf6031aa7418ee868760211c0d04f8133933"
+  },
+  "archive": {
+    "logicalRaw": 22,
+    "physicalRaw": 20,
+    "originalRawBytes": 7155017,
+    "preservedGzipBytes": 617922,
+    "logicalPng": 122,
+    "retainedPng": 20,
+    "physicalPng": 20,
+    "preservedPngBytes": 8845603,
+    "workspaceOnlyPng": 102,
+    "workspaceOnlyPngBytes": 236368222,
+    "payloadFileCount": 40,
+    "payloadBytes": 9463525
+  },
+  "library": {
+    "mode": "original standard LIB",
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "filenameIsNotModAcceptance": true
+  },
+  "installedEngine": {
+    "sourceRevision": "523fa9360e64f9923231dd4ede6d759c1d987fff",
+    "engineSourceSha256": "1f2b1744a4c7a7497fd54d336350b059a91f421679ce804f127f422aa5f7fc11",
+    "engineSourceModified": true,
+    "artifacts": {
+      "baye.js": {
+        "bytes": 192446,
+        "sha256": "fd55a72ea966641204f032a9e68b11d45efb8c9afe0f258de841cb06194edf11"
+      },
+      "baye.wasm": {
+        "bytes": 4521847,
+        "sha256": "71ee6726687a5c5a5a1d9509010aef3ad82b8308b84c813374074777d7851572"
+      },
+      "baye.wasm.map": {
+        "bytes": 29983,
+        "sha256": "1ddda3fdb2b858135a468fe118f2a4c5093839f29ec09ad7bf101378fb72b186"
+      }
+    },
+    "scope": "Actual installed js quartet served by both runs. Newer staged native aggregate8ca/wasm c693 was not served and is not relabelled as runtime evidence."
+  },
+  "executedRunner": {
+    "sourcePath": "scripts/test-hd-overworld-runtime.mjs",
+    "archivedFrom": "build/r23-test-hd-overworld-runtime-candidate-v2.mjs",
+    "bytes": 58355,
+    "sha256": "8aa13338085946631c3f248a23d8b990587dbd3afd990ca14559da89fc7f1d6a",
+    "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/8aa13338085946631c3f248a23d8b990587dbd3afd990ca14559da89fc7f1d6a.gz",
+    "encoding": "gzip",
+    "preservedBytes": 18066,
+    "preservedSha256": "943554a91ffc4c8610f0e8fbc58d2e0dc10a0da460e0abddbd97b5b8d7bbd017"
+  },
+  "maintenanceRunner": {
+    "path": "scripts/test-hd-overworld-runtime.mjs",
+    "absolutePath": "F:/project/baye-sanguo/scripts/test-hd-overworld-runtime.mjs",
+    "bytes": 58335,
+    "sha256": "d8c4db269f589af9fa4158e89f34e814cc3fbfbfdc053c404264fce59d96cdd5",
+    "change": "Only line102 comment changed from misleading no-browser wording to read-only bridge observation wording. Actual executed58355B/8aa133 source is preserved separately byte-for-byte; the maintenance hash was not executed for these two records.",
+    "commentOnlyByteExact": true,
+    "oldComment": "// Build-only extension of the existing isolated overworld runner. No browser is run by this file.",
+    "newComment": "// Read-only bridge observation within the existing isolated overworld runner."
+  },
+  "rootWrapper": {
+    "sourcePath": "build/r23-run-overworld-root-v1.mjs",
+    "archivedFrom": "build/r23-run-overworld-root-v1.mjs",
+    "bytes": 3431,
+    "sha256": "8bec6f7130fed225a0f9b13f611b3c1eb8faa6219b1e87c06b0ec98852656f5b",
+    "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/8bec6f7130fed225a0f9b13f611b3c1eb8faa6219b1e87c06b0ec98852656f5b.gz",
+    "encoding": "gzip",
+    "preservedBytes": 1678,
+    "preservedSha256": "949f02d5ab3ec229d7ad8a517f9aa88153d783a9229f56ac9a5d0c994441febe"
+  },
+  "runs": [
+    {
+      "mode": "bridge",
+      "ok": true,
+      "startedAt": "2026-10-10T11:51:02.519Z",
+      "finishedAt": "2026-10-10T11:52:20.225Z",
+      "raw": {
+        "sourcePath": "build/r23-overworld-actual-bridge-v1/result.json",
+        "archivedFrom": "build/r23-overworld-actual-bridge-v1/result.json",
+        "bytes": 4694504,
+        "sha256": "a58a96a948050a108c0ff60c5b5f5631db5e413648ca5045dc108eb3ce87c232",
+        "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/a58a96a948050a108c0ff60c5b5f5631db5e413648ca5045dc108eb3ce87c232.gz",
+        "encoding": "gzip",
+        "preservedBytes": 382289,
+        "preservedSha256": "df2dec604b5e57cfb5d56a04880654eced85f916ff30af41f2646236923d5442"
+      },
+      "sourceVerification": {
+        "sourcePath": "build/r23-overworld-actual-bridge-v1/source-verification.json",
+        "archivedFrom": "build/r23-overworld-actual-bridge-v1/source-verification.json",
+        "bytes": 24530,
+        "sha256": "cc059f5104a02daca6c1cab48cf3bd600b3755887b604d9644a9c6f37bf5f6e3",
+        "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/cc059f5104a02daca6c1cab48cf3bd600b3755887b604d9644a9c6f37bf5f6e3.gz",
+        "encoding": "gzip",
+        "preservedBytes": 5281,
+        "preservedSha256": "188f32d48fe0bf90a8b8230225203981085509593ea854fb96c01153e1e29759"
+      },
+      "isolation": {
+        "sourcePath": "build/r23-overworld-actual-bridge-v1/isolation.json",
+        "archivedFrom": "build/r23-overworld-actual-bridge-v1/isolation.json",
+        "bytes": 505,
+        "sha256": "8c3ed5afff0f00aa87cf95e4ec573f399b634a482ec08720ae9cfa24090c46e0",
+        "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/8c3ed5afff0f00aa87cf95e4ec573f399b634a482ec08720ae9cfa24090c46e0.gz",
+        "encoding": "gzip",
+        "preservedBytes": 294,
+        "preservedSha256": "52a318d5af3ce70b493400bff7276c31df46e4a9bfa53c9be8959c21f4f46a13"
+      },
+      "rootIsolation": {
+        "sourcePath": "build/r23-overworld-actual-bridge-v1-isolation-root.json",
+        "archivedFrom": "build/r23-overworld-actual-bridge-v1-isolation-root.json",
+        "bytes": 4090,
+        "sha256": "92d3594fa99965abc4246fc1ce2d286c9406a88ef0992058a61c68b937538f31",
+        "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/92d3594fa99965abc4246fc1ce2d286c9406a88ef0992058a61c68b937538f31.gz",
+        "encoding": "gzip",
+        "preservedBytes": 1651,
+        "preservedSha256": "303caa5509c91f2b29f52015a8371fa4195b56979ec7f748f5eba7985c3cd422"
+      },
+      "log": {
+        "sourcePath": "build/r23-overworld-actual-bridge-v1.log",
+        "archivedFrom": "build/r23-overworld-actual-bridge-v1.log",
+        "bytes": 2933,
+        "sha256": "6a069c648dc1ef51bc6b50a413f6d45cb72e9949944de2d3acf4c8b87a61e56e",
+        "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/6a069c648dc1ef51bc6b50a413f6d45cb72e9949944de2d3acf4c8b87a61e56e.gz",
+        "encoding": "gzip",
+        "preservedBytes": 519,
+        "preservedSha256": "ce02621c9c70a7b98bb20405fc993bd19846b15c6add1e11fd2e8cde5ebe8b50"
+      },
+      "staged": false,
+      "phases": 87,
+      "originalPngCount": 103,
+      "retainedPngCount": 10,
+      "workspaceOnlyPngCount": 93,
+      "sourceRecords": 84,
+      "verificationRecordsIncludingRunner": 85,
+      "sourceDrift": [],
+      "coverage": {
+        "pointerCities1080": 38,
+        "pointerCities720": 38,
+        "distinctOwnedRoots": 1,
+        "nonOwnedSelections": 74,
+        "actualTabHiding": true,
+        "cameraBounds": true,
+        "zoom": [
+          0.5,
+          2.2
+        ]
+      },
+      "naturalPass": {
+        "a": 13,
+        "b": 17,
+        "count": 1,
+        "reason": "river-crossing"
+      },
+      "drawSamplesPerViewport": 4,
+      "drawSampleCount": 8,
+      "bridgeWorldUnchanged": true,
+      "bridgeStageExtraEngineKeys": 0,
+      "engineKeyCountsByViewport": [
+        {
+          "viewport": "1920x1080",
+          "before": 14,
+          "after": 14
+        },
+        {
+          "viewport": "1280x720",
+          "before": 16,
+          "after": 16
+        }
+      ],
+      "bridgeRequestStatus": 200,
+      "missingFallback": null,
+      "expectedExternalBlocks": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "exceptions": 0,
+      "dialogs": 0,
+      "cleanup": {
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-overworld-runtime-ARZhCD",
+        "httpPort": 12147,
+        "debugPort": 12148,
+        "chromePid": 49548,
+        "userServicePort": 8080,
+        "scope": "Only the server, Chrome child and fresh profile created by this runner are owned",
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "chromeExited": true,
+        "serverClosed": true,
+        "profileRemoved": true,
+        "profileError": null,
+        "httpPortClosed": true,
+        "debugPortClosed": true,
+        "cleaned": true,
+        "user8080PidBefore": 57860,
+        "user8080PidAfter": 57860,
+        "user8080HttpBefore": 200,
+        "user8080HttpAfter": 200
+      }
+    },
+    {
+      "mode": "missing",
+      "ok": true,
+      "startedAt": "2026-10-10T11:53:36.692Z",
+      "finishedAt": "2026-10-10T11:53:49.492Z",
+      "raw": {
+        "sourcePath": "build/r23-overworld-actual-missing-v1/result.json",
+        "archivedFrom": "build/r23-overworld-actual-missing-v1/result.json",
+        "bytes": 1490017,
+        "sha256": "b70936a3e4e98885f3e8e17aa34e37e713d073892adbdc29fba371cc60fecb3b",
+        "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/b70936a3e4e98885f3e8e17aa34e37e713d073892adbdc29fba371cc60fecb3b.gz",
+        "encoding": "gzip",
+        "preservedBytes": 71956,
+        "preservedSha256": "9df766697600c88afb16493b6d43bbd2afd6b40e030aba114856fe8fe011fc99"
+      },
+      "sourceVerification": {
+        "sourcePath": "build/r23-overworld-actual-missing-v1/source-verification.json",
+        "archivedFrom": "build/r23-overworld-actual-missing-v1/source-verification.json",
+        "bytes": 24530,
+        "sha256": "cc059f5104a02daca6c1cab48cf3bd600b3755887b604d9644a9c6f37bf5f6e3",
+        "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/cc059f5104a02daca6c1cab48cf3bd600b3755887b604d9644a9c6f37bf5f6e3.gz",
+        "encoding": "gzip",
+        "preservedBytes": 5281,
+        "preservedSha256": "188f32d48fe0bf90a8b8230225203981085509593ea854fb96c01153e1e29759"
+      },
+      "isolation": {
+        "sourcePath": "build/r23-overworld-actual-missing-v1/isolation.json",
+        "archivedFrom": "build/r23-overworld-actual-missing-v1/isolation.json",
+        "bytes": 503,
+        "sha256": "b0dc31e1b83631c0119bdcedb26d52175b720eeb74128b9ef30f94e77bda8dc4",
+        "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/b0dc31e1b83631c0119bdcedb26d52175b720eeb74128b9ef30f94e77bda8dc4.gz",
+        "encoding": "gzip",
+        "preservedBytes": 293,
+        "preservedSha256": "c148558338cbe14a9f5681b0b4e703a971df3e551b6dbe1cc57f0b56e10ff9fa"
+      },
+      "rootIsolation": {
+        "sourcePath": "build/r23-overworld-actual-missing-v1-isolation-root.json",
+        "archivedFrom": "build/r23-overworld-actual-missing-v1-isolation-root.json",
+        "bytes": 4182,
+        "sha256": "c18c655c9de0b1c067fc8bbab840a0e399492647d0f1abe7ed8c299f9b5e1986",
+        "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/c18c655c9de0b1c067fc8bbab840a0e399492647d0f1abe7ed8c299f9b5e1986.gz",
+        "encoding": "gzip",
+        "preservedBytes": 1677,
+        "preservedSha256": "493ba4263f4d82d27382b15bef9fddc7091d274c5f275eaaf54b11b7e23d0d28"
+      },
+      "log": {
+        "sourcePath": "build/r23-overworld-actual-missing-v1.log",
+        "archivedFrom": "build/r23-overworld-actual-missing-v1.log",
+        "bytes": 417,
+        "sha256": "090cfe774ab58090196d9c51e4290eb9f62bed76045a83ee834b96fc9b0c2df6",
+        "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/090cfe774ab58090196d9c51e4290eb9f62bed76045a83ee834b96fc9b0c2df6.gz",
+        "encoding": "gzip",
+        "preservedBytes": 285,
+        "preservedSha256": "be54e3effc07a666c34039a3502df3d5eeaee449c223150127f3a2869076cadb"
+      },
+      "staged": false,
+      "phases": 3,
+      "originalPngCount": 19,
+      "retainedPngCount": 10,
+      "workspaceOnlyPngCount": 9,
+      "sourceRecords": 84,
+      "verificationRecordsIncludingRunner": 85,
+      "sourceDrift": [],
+      "coverage": {
+        "bridgeOnly": true,
+        "pointerCities1080": 0,
+        "pointerCities720": 0,
+        "bridgeViewports": 2,
+        "actualTabHiding": true,
+        "classicReturn": true,
+        "trustedPan": true,
+        "presentationZoom": [
+          1,
+          1.35
+        ],
+        "full38CityTraversal": false
+      },
+      "naturalPass": {
+        "a": 13,
+        "b": 17,
+        "count": 1,
+        "reason": "river-crossing"
+      },
+      "drawSamplesPerViewport": 4,
+      "drawSampleCount": 8,
+      "bridgeWorldUnchanged": true,
+      "bridgeStageExtraEngineKeys": 0,
+      "engineKeyCountsByViewport": [
+        {
+          "viewport": "1920x1080",
+          "before": 14,
+          "after": 14
+        },
+        {
+          "viewport": "1280x720",
+          "before": 14,
+          "after": 14
+        }
+      ],
+      "bridgeRequestStatus": 404,
+      "missingFallback": {
+        "operation": "original renderer Canvas arc",
+        "radiusDesignUnits": 7,
+        "scope": "Decorative fallback; not native LCD/battle/skill pixels"
+      },
+      "expectedExternalBlocks": [
+        "https://img.bbkgames.com/script/js-sdk.js?ver=20260329",
+        "http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3"
+      ],
+      "exceptions": 0,
+      "dialogs": 0,
+      "cleanup": {
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-overworld-runtime-Kp8DFE",
+        "httpPort": 5687,
+        "debugPort": 5688,
+        "chromePid": 54500,
+        "userServicePort": 8080,
+        "scope": "Only the server, Chrome child and fresh profile created by this runner are owned",
+        "chromeExitCode": null,
+        "chromeSignalCode": "SIGTERM",
+        "chromeExited": true,
+        "serverClosed": true,
+        "profileRemoved": true,
+        "profileError": null,
+        "httpPortClosed": true,
+        "debugPortClosed": true,
+        "cleaned": true,
+        "user8080PidBefore": 57860,
+        "user8080PidAfter": 57860,
+        "user8080HttpBefore": 200,
+        "user8080HttpAfter": 200
+      }
+    }
+  ],
+  "geometry": {
+    "naturalEdge": [
+      13,
+      17
+    ],
+    "mapIndicesAreZeroBased": true,
+    "designSize": [
+      32,
+      32
+    ],
+    "cssSize1080": [
+      32,
+      32
+    ],
+    "cssSize720": [
+      21.333333333333332,
+      21.333333333333332
+    ],
+    "interpretation": "32 design-canvas units are32 CSS pixels at1920x1080 and21.333333333333332 CSS pixels at1280x720. Camera zoom changes placement while marker design size remains32. Missing art uses the existing radius7 Canvas arc, not a generated bridge or native-pixel oracle."
+  },
+  "offlineRuntimeChecks": {
+    "freeze": {
+      "sourcePath": "build/r23-overworld-runtime-freeze-v2.json",
+      "archivedFrom": "build/r23-overworld-runtime-freeze-v2.json",
+      "bytes": 2441,
+      "sha256": "50c399f978331d74694539c332ea3745ec8b2d5f86803c55278ca45486eccf62",
+      "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/50c399f978331d74694539c332ea3745ec8b2d5f86803c55278ca45486eccf62.gz",
+      "encoding": "gzip",
+      "preservedBytes": 1167,
+      "preservedSha256": "51ad2205154af8cbbd8c45e5891e31c8c1f107d5773f2825f84f7a7af8509fbe"
+    },
+    "proof": {
+      "sourcePath": "build/r23-overworld-runtime-offline-proof-v2.json",
+      "archivedFrom": "build/r23-overworld-runtime-offline-proof-v2.json",
+      "bytes": 3550,
+      "sha256": "5438567908866a13534a8b0af9778071bc7e6846976b68a89fb9bf823ee09fb9",
+      "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/5438567908866a13534a8b0af9778071bc7e6846976b68a89fb9bf823ee09fb9.gz",
+      "encoding": "gzip",
+      "preservedBytes": 1232,
+      "preservedSha256": "c082cf1442f68090a4d3ca497c8372f79ccf154ea2b2a33d3faeef42c6536900"
+    },
+    "checks": 29,
+    "scope": "Controlled source-function/DOM/canvas/HTTP fixtures, separate from actual runs."
+  },
+  "historicalFullSuite": {
+    "execution": {
+      "sourcePath": "build/r23-full-source-tests-v1-execution.json",
+      "archivedFrom": "build/r23-full-source-tests-v1-execution.json",
+      "bytes": 3449,
+      "sha256": "b010182070573b983b6a1f3e547bf2f6629461f2dacb97e7d8d98dac3caf7ed1",
+      "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/b010182070573b983b6a1f3e547bf2f6629461f2dacb97e7d8d98dac3caf7ed1.gz",
+      "encoding": "gzip",
+      "preservedBytes": 1057,
+      "preservedSha256": "bc1da3de389c3048ee09f1682dd38cef00b993eb69cbc1278e53122b203698cd"
+    },
+    "log": {
+      "sourcePath": "build/r23-full-source-tests-v1.log",
+      "archivedFrom": "build/r23-full-source-tests-v1.log",
+      "bytes": 281482,
+      "sha256": "32285bd8859a55acd8dc7d622c4903516938d15dc5fd29b0a2de89e6e810f07e",
+      "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/32285bd8859a55acd8dc7d622c4903516938d15dc5fd29b0a2de89e6e810f07e.gz",
+      "encoding": "gzip",
+      "preservedBytes": 51059,
+      "preservedSha256": "acd2cecd216d537a7308b0456c11ae1baa88bcb02f8e0dc0d620093612b7adc3"
+    },
+    "pre": {
+      "sourcePath": "build/r23-full-source-tests-v1-sources-pre.json",
+      "archivedFrom": "build/r23-full-source-tests-v1-sources-pre.json",
+      "bytes": 212364,
+      "sha256": "9571aeabb7067e469e8e614955d6ad767a6dec5cca220e80c60eeb9a191aeb21",
+      "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/9571aeabb7067e469e8e614955d6ad767a6dec5cca220e80c60eeb9a191aeb21.gz",
+      "encoding": "gzip",
+      "preservedBytes": 54943,
+      "preservedSha256": "4a112e321dfe9612921b77ef9aea1826c7b2170df278d374bd657e2f23cf74a0"
+    },
+    "post": {
+      "sourcePath": "build/r23-full-source-tests-v1-sources-post.json",
+      "archivedFrom": "build/r23-full-source-tests-v1-sources-post.json",
+      "bytes": 212364,
+      "sha256": "9571aeabb7067e469e8e614955d6ad767a6dec5cca220e80c60eeb9a191aeb21",
+      "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/9571aeabb7067e469e8e614955d6ad767a6dec5cca220e80c60eeb9a191aeb21.gz",
+      "encoding": "gzip",
+      "preservedBytes": 54943,
+      "preservedSha256": "4a112e321dfe9612921b77ef9aea1826c7b2170df278d374bd657e2f23cf74a0"
+    },
+    "tests": 1081,
+    "pass": 1081,
+    "fail": 0,
+    "skip": 0,
+    "modules": 49,
+    "sourceRecords": 1255,
+    "sourceDrift": 0,
+    "scope": "Original recorded full-suite execution after bridge asset/cache integration, before the runtime runner was enhanced. It froze the older42584B runtime/3a27660e source; it does not certify the later58355B runtime extension. Extension29offline checks and two actual runs are separate."
+  },
+  "independentReviews": {
+    "production": {
+      "sourcePath": "build/r23-bridge-production-independent-review-v1.json",
+      "archivedFrom": "build/r23-bridge-production-independent-review-v1.json",
+      "bytes": 4356,
+      "sha256": "b49f9aa475be4fbc5a90a10728dfc0c683716ca2babe7017316a1b334fb1c388",
+      "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/b49f9aa475be4fbc5a90a10728dfc0c683716ca2babe7017316a1b334fb1c388.gz",
+      "encoding": "gzip",
+      "preservedBytes": 1708,
+      "preservedSha256": "482e98714b20a1090a8cab5b3d21ff3115d53b37989dbf316b8bf68ec4260d68"
+    },
+    "sourceAndRecordedSuite": {
+      "sourcePath": "build/r23-bridge-source-full-independent-audit.json",
+      "archivedFrom": "build/r23-bridge-source-full-independent-audit.json",
+      "bytes": 9423,
+      "sha256": "792ccd1faea19f9d4f5a2364e7d0ec904fb0d9c07c45f20c8a15c7bcd6ca2869",
+      "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/792ccd1faea19f9d4f5a2364e7d0ec904fb0d9c07c45f20c8a15c7bcd6ca2869.gz",
+      "encoding": "gzip",
+      "preservedBytes": 3596,
+      "preservedSha256": "f7a4cfb3057235ecc37fd6bff45c54e0b6c55fdff81575dfe7916a696b2334de"
+    },
+    "runtimeSummary": {
+      "sourcePath": "build/r23-overworld-final-independent-audit-summary-v1.json",
+      "archivedFrom": "build/r23-overworld-final-independent-audit-summary-v1.json",
+      "bytes": 25837,
+      "sha256": "6595d6a2974c35210a354853552b517ac751f1ec7038aacb0f9a144390cdf62a",
+      "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/6595d6a2974c35210a354853552b517ac751f1ec7038aacb0f9a144390cdf62a.gz",
+      "encoding": "gzip",
+      "preservedBytes": 4976,
+      "preservedSha256": "8734907100d2ae5c18667362858caee795c58a657912abea46c2cb6a13e1536a"
+    },
+    "runtimeFull": {
+      "sourcePath": "build/r23-overworld-final-independent-audit-v1.json",
+      "archivedFrom": "build/r23-overworld-final-independent-audit-v1.json",
+      "bytes": 91754,
+      "sha256": "2dec472eedde18f946d1706646191722b9b0cdf5d3d382f32a267dc0656972ee",
+      "preservedPath": "docs/validation/m4-bridge-crossing-20261010/raw/2dec472eedde18f946d1706646191722b9b0cdf5d3d382f32a267dc0656972ee.gz",
+      "encoding": "gzip",
+      "preservedBytes": 14195,
+      "preservedSha256": "00d2bf578db0b9a806d215725f8abe2b2a68d7570ec5efd304fa402e6076ace7"
+    },
+    "visualScope": "Independent reviewer actually viewed7 images only; all122 PNGs additionally underwent recorded CRC/inflate verification and all16 ROI images recorded decoded-RGBA checks. This archive operation itself performs byte/hash checks and does not claim new visual inspection."
+  },
+  "retention": {
+    "raw": "All22 specified raw records preserved by SHA-deduplicated gzip; original bytes/SHA and gzip bytes/SHA recorded. Identical full-suite pre/post sources share one gzip.",
+    "png": "20 selected original PNG files: both viewport design32-full images plus every bridge-*-roi for each run. Remaining102 screenshot descriptors are workspace-only in the index; no claim all screenshots are committed.",
+    "noBinaryCopies": "Installed engine/LIB are identified by actual recorded hashes rather than duplicated into this evidence archive."
+  },
+  "limitations": [
+    "Positive run visited38cities at each of two desktop viewports, with one distinct owned root only; other74 selections were not own-city menus.",
+    "Missing-art run is explicitly bridgeOnly with zero city traversal; it does not inherit the positive run76city visits.",
+    "Bridge-stage presentation changes add zero engine keys and preserve the complete captured native world/owners; boot/traversal keys are separate recorded player actions.",
+    "Two external SDK/analytics URLs per run were intentionally blocked; other actual exceptions/dialogs were zero.",
+    "Both original private Chrome/server/profile cleanups completed; user8080 remained PID57860/HTTP200 in recorded before/after evidence. No new service request or browser was made for archiving.",
+    "Only original standard-LIB desktop map bridge scope is accepted; no Mod/mobile/full-HD completion is asserted."
+  ]
+}

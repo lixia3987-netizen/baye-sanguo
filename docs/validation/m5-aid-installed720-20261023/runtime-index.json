@@ -1,0 +1,2229 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-23T14:26:04.074Z",
+  "kind": "current-installed720-HD-two-independent-AID-cases",
+  "scope": "All current machine JSON, observed terminal handle/chunk/exit evidence, executed source, exact original pair and every raw captured native/visible LCD/HD PNG. Original HD PNG bytes deduplicated into one bounded binary solid Brotli object, with offset/length/SHA for exact reconstruction. No recursive old48MB preparation history or private profile archive.",
+  "selectedHdReadbacks": 49,
+  "allCapturedPngClosed": true,
+  "rawMachineEvidenceClosed": true,
+  "selectedHdPngClosed": true,
+  "allSupplementaryFullPagePngClosed": false,
+  "portableClosedArchive": false,
+  "solid": {
+    "file": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+    "encoding": "brotli-concatenated-original-png-bytes",
+    "bytes": 23350356,
+    "sha256": "56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984",
+    "originalBytes": 40565260,
+    "originalSha256": "4d1ed0ac6a3f7b5c5119c7a4b84fd614c2a15ed4191540c3ab9ad913b3f30125",
+    "uniquePngs": 35,
+    "entries": [
+      {
+        "sha256": "6247fe06ab2ef407e1a36d3d28ed5988365be4fa02ac10e1014d109bdec46788",
+        "offset": 0,
+        "bytes": 1396965,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0000-movie-hd.png",
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0002-movie-hd.png",
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0004-movie-hd.png",
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0006-movie-hd.png"
+        ]
+      },
+      {
+        "sha256": "0117dda906559e3958e6339fab317ca5bcbb795c76b58816eab63642fcf47860",
+        "offset": 1396965,
+        "bytes": 1384592,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0001-movie-hd.png",
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0003-movie-hd.png",
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0005-movie-hd.png",
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0007-movie-hd.png"
+        ]
+      },
+      {
+        "sha256": "5441df02df1151c1e3e7f0636d2fd1f7daba915b908c88ca3aba5b68899e0641",
+        "offset": 2781557,
+        "bytes": 1252765,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0008-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "661caf604930e09588c5514837f371e823978d24b0410f568aa0b8b1474bfffc",
+        "offset": 4034322,
+        "bytes": 1189747,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0009-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "9596d0491d3e5ef9fc16c97f162657b76321198934e1408872d74f4451037e25",
+        "offset": 5224069,
+        "bytes": 1179566,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0010-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "1affea7bfe8d03660de677945e7e398949bb23aeb88de1ddf5775f5a0a71f0ae",
+        "offset": 6403635,
+        "bytes": 1176190,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0011-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "598ce1c6c77386418c2458be2ee4cacfaaf2c1742475f9fe40bb22aa4cd20855",
+        "offset": 7579825,
+        "bytes": 1168572,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0012-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "e45f671389bc834da79dd26ec8857bdd5c8212a23c2846c85d6ad5b534a22555",
+        "offset": 8748397,
+        "bytes": 1136513,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0013-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "3ea180a63ae8b07c99ffd51403865dd0bcef3ec46ea1dce54ee0f59e272bc63c",
+        "offset": 9884910,
+        "bytes": 1134789,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0014-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "1ff317ba37575a36237774cfc975348cc51f917e29e04c0fa047a12bf616e7c2",
+        "offset": 11019699,
+        "bytes": 1128693,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0015-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "90255669ca1a9bbdc7a86a70e927f413cd443a23f2864618e8b839f94b6bb1ef",
+        "offset": 12148392,
+        "bytes": 1126783,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0016-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "96a68600fbdd09bef5e14e45b23d116d718a1322169cf62aa508b99aaf15540f",
+        "offset": 13275175,
+        "bytes": 1124641,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0017-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "6df0a3583481f6081515c1e9a7f913807e5b9ea1f980851c786869520c1d201f",
+        "offset": 14399816,
+        "bytes": 1092440,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0018-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "67f37e58ca4cbc004f28e2ca7a2034e2c7b995eea07239b4f31dbfa4e3a134d8",
+        "offset": 15492256,
+        "bytes": 1090803,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0019-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "835523753b5a26f6f2f025bbd9c6c089fecfc5b68f4bb062600fbc690c7426df",
+        "offset": 16583059,
+        "bytes": 1086939,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0020-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "96c9e99351db88cc95296b916cf2198cb433bb77d0f06cdf816875c700a7fb0d",
+        "offset": 17669998,
+        "bytes": 1077779,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0021-numbers-hd.png",
+          "build/aid-hd720-20261023/installed720-17-v1/aid-0022-hold-hd.png"
+        ]
+      },
+      {
+        "sha256": "9edd5f7f834388e237c692964b48524a91c23f86cc7b0e136e0f8a33d236d4ba",
+        "offset": 18747777,
+        "bytes": 1399503,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0000-movie-hd.png",
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0002-movie-hd.png",
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0004-movie-hd.png",
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0006-movie-hd.png"
+        ]
+      },
+      {
+        "sha256": "2fb4215b8aa743f55e5d083de27693a6eb31312708287e2e53628b743b002b31",
+        "offset": 20147280,
+        "bytes": 1386733,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0001-movie-hd.png",
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0003-movie-hd.png",
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0005-movie-hd.png",
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0007-movie-hd.png"
+        ]
+      },
+      {
+        "sha256": "597b4b0829263d6649472c691a186e8dd31fcfbacc826dfb672aa75a0a21a235",
+        "offset": 21534013,
+        "bytes": 1254896,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0008-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "7fa68c8c2fc16ea8a5caeb4b54efe902759042a3cf478797c0934372330a8049",
+        "offset": 22788909,
+        "bytes": 1187129,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0009-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "374a2411f626a7cec6ac483b6e1d6fe313bbc289a4b085d10b982f391133809a",
+        "offset": 23976038,
+        "bytes": 1183081,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0010-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "4a251f74fb267e175dd2287d83ef6ed075ca23b0d4150e51a9744f9edb989219",
+        "offset": 25159119,
+        "bytes": 1177534,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0011-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "7509b84da84eb4beda0adbc2a6ce9b8b0e2c04f993369d6a0f3bbecc94762bf1",
+        "offset": 26336653,
+        "bytes": 1166106,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0012-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "8b8c251bc0719ccf458faea2eefcc1e85f223174bcab0d7003f041aea8325c06",
+        "offset": 27502759,
+        "bytes": 1136972,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0013-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "cf0805075e03e3cc202cff1f4769dbe982e61449ba6cd13cb89af7e7f6d1701c",
+        "offset": 28639731,
+        "bytes": 1134124,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0014-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "1a33e8a8c9f6dab3b64a857266ba997b42b528d04f50fbdcd96bb1f70d3bf0d1",
+        "offset": 29773855,
+        "bytes": 1129138,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0015-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "47a4876bcabeb8d409d370f50bb6af7b0aa84692a7c53aabd0727a8317d961d9",
+        "offset": 30902993,
+        "bytes": 1125726,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0016-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "d6ac7fab23aa8fcb5e2dc30cb806fe80d8ea51f40d27a69c4d7b6b48522cbce5",
+        "offset": 32028719,
+        "bytes": 1094316,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0017-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "e4d8c2fa010e49dbf654cc53a0a383e91c8fea345b8d4a9b2893fb3f28f8b941",
+        "offset": 33123035,
+        "bytes": 1091168,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0018-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "71764283672e5c1b4b7cf2893d8dc7ad3a1d55af61796a83ef85e1f193504971",
+        "offset": 34214203,
+        "bytes": 1087660,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0019-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "ccf7f862804401a6ac3ad2dbcdff6fce23f6a1857dcb23a912d36ce889f07c36",
+        "offset": 35301863,
+        "bytes": 1081853,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0020-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "916152fcc4e6d8ede29569e3dc996981dff79fd34b4e8f34bb57db2abe3ff089",
+        "offset": 36383716,
+        "bytes": 1051642,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0021-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "033e301dabe3f34be9513d9b3e2ffbb0d9d25a2af64bb5a9c0db6a149461a38c",
+        "offset": 37435358,
+        "bytes": 1048542,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0022-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "065b97c52f282f49bdd2ec47b2b7e7d24182c811800ddf309da04e7383580989",
+        "offset": 38483900,
+        "bytes": 1042779,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0023-numbers-hd.png"
+        ]
+      },
+      {
+        "sha256": "de80474f2676fca51c03a15b0ff6071dc9b7edcdd9e8389c28d3efdc97906f8c",
+        "offset": 39526679,
+        "bytes": 1038581,
+        "originals": [
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0024-numbers-hd.png",
+          "build/aid-hd720-20261023/installed720-29-v1/aid-0025-hold-hd.png"
+        ]
+      }
+    ]
+  },
+  "files": [
+    {
+      "original": "build/aid-hd720-20261023/preflight-17-v1/browser-console.json",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "archive": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8.gz",
+      "archiveBytes": 62,
+      "archiveSha256": "c60d00d2ef6f8356932d247ac3ec484516d01b489f5f78c4e3927fbc9eaa7537",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-17-v1/executed-aid-oracle.mjs",
+      "bytes": 50538,
+      "sha256": "3aabc6ee0486955226dfd631c750466492203a927a45c258ffa2ad1372843c48",
+      "archive": "raw/3aabc6ee0486955226dfd631c750466492203a927a45c258ffa2ad1372843c48.gz",
+      "archiveBytes": 15484,
+      "archiveSha256": "30c2724fd2edbac6d3b147bd7ece46249a058ca480777c91d4bfdf33ed49dd03",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-17-v1/executed-json-writer.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "archive": "raw/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "archiveBytes": 2550,
+      "archiveSha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-17-v1/executed-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "archive": "raw/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "archiveBytes": 4452,
+      "archiveSha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-17-v1/executed-tool.mjs",
+      "bytes": 113887,
+      "sha256": "d8be23283f4e4d07425424a4b01be7987533e332a655337f7859b4b3270caacf",
+      "archive": "raw/d8be23283f4e4d07425424a4b01be7987533e332a655337f7859b4b3270caacf.gz",
+      "archiveBytes": 35242,
+      "archiveSha256": "4f88d0e1b50e50776b72feefefe0b821d1b28c5e2c7ccf5eb30d3da5c1af714b",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-17-v1/result.json",
+      "bytes": 886176,
+      "sha256": "19714597777d80e448da804109c079d74c42b8246fd8ed6f3082c9790269a9a1",
+      "archive": "raw/19714597777d80e448da804109c079d74c42b8246fd8ed6f3082c9790269a9a1.gz",
+      "archiveBytes": 151204,
+      "archiveSha256": "af5e17fe3cf5a7f8afe400e0c3a101ce37d6f89954e02cc5831aeb0c059f8d75",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-17-v1/source-verification.json",
+      "bytes": 438220,
+      "sha256": "3efdb6079b392271e78d979ca180eb537fca02c2ef9e186b68ec86b97d4d0c82",
+      "archive": "raw/3efdb6079b392271e78d979ca180eb537fca02c2ef9e186b68ec86b97d4d0c82.gz",
+      "archiveBytes": 70129,
+      "archiveSha256": "a8eac3831619ed8b33773172ea5dbb6ec779756dd625cf3c76c458716e6cbbcb",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-29-v1/browser-console.json",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "archive": "raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8.gz",
+      "archiveBytes": 62,
+      "archiveSha256": "c60d00d2ef6f8356932d247ac3ec484516d01b489f5f78c4e3927fbc9eaa7537",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-29-v1/executed-aid-oracle.mjs",
+      "bytes": 50538,
+      "sha256": "3aabc6ee0486955226dfd631c750466492203a927a45c258ffa2ad1372843c48",
+      "archive": "raw/3aabc6ee0486955226dfd631c750466492203a927a45c258ffa2ad1372843c48.gz",
+      "archiveBytes": 15484,
+      "archiveSha256": "30c2724fd2edbac6d3b147bd7ece46249a058ca480777c91d4bfdf33ed49dd03",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-29-v1/executed-json-writer.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "archive": "raw/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "archiveBytes": 2550,
+      "archiveSha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-29-v1/executed-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "archive": "raw/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "archiveBytes": 4452,
+      "archiveSha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-29-v1/executed-tool.mjs",
+      "bytes": 113887,
+      "sha256": "d8be23283f4e4d07425424a4b01be7987533e332a655337f7859b4b3270caacf",
+      "archive": "raw/d8be23283f4e4d07425424a4b01be7987533e332a655337f7859b4b3270caacf.gz",
+      "archiveBytes": 35242,
+      "archiveSha256": "4f88d0e1b50e50776b72feefefe0b821d1b28c5e2c7ccf5eb30d3da5c1af714b",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-29-v1/result.json",
+      "bytes": 886176,
+      "sha256": "8dad99f35cd559e620b3d196731a818652e82ba669e172a99b71a8e415581e71",
+      "archive": "raw/8dad99f35cd559e620b3d196731a818652e82ba669e172a99b71a8e415581e71.gz",
+      "archiveBytes": 151204,
+      "archiveSha256": "46b24f31ea4da00232dc8f619e4bd29bc60232d7f9626e67e0b7bf7091d43d58",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/preflight-29-v1/source-verification.json",
+      "bytes": 438220,
+      "sha256": "3efdb6079b392271e78d979ca180eb537fca02c2ef9e186b68ec86b97d4d0c82",
+      "archive": "raw/3efdb6079b392271e78d979ca180eb537fca02c2ef9e186b68ec86b97d4d0c82.gz",
+      "archiveBytes": 70129,
+      "archiveSha256": "a8eac3831619ed8b33773172ea5dbb6ec779756dd625cf3c76c458716e6cbbcb",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/02-public-original-checkpoint-loaded.png",
+      "bytes": 36505,
+      "sha256": "78eff9f04b28f7eaf135d9c1ffcd88815b9c97c04863d3c1e2b7e264dec31fac",
+      "archive": "png/78eff9f04b28f7eaf135d9c1ffcd88815b9c97c04863d3c1e2b7e264dec31fac.png",
+      "archiveBytes": 36505,
+      "archiveSha256": "78eff9f04b28f7eaf135d9c1ffcd88815b9c97c04863d3c1e2b7e264dec31fac",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/04-real-battle-caster.png",
+      "bytes": 163478,
+      "sha256": "3f990ae0ef249c9751e5ae411fbf93af5da98e7297351bf05a29539c6d91d4b3",
+      "archive": "png/3f990ae0ef249c9751e5ae411fbf93af5da98e7297351bf05a29539c6d91d4b3.png",
+      "archiveBytes": 163478,
+      "archiveSha256": "3f990ae0ef249c9751e5ae411fbf93af5da98e7297351bf05a29539c6d91d4b3",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0000-movie-hd.png",
+      "bytes": 1396965,
+      "sha256": "6247fe06ab2ef407e1a36d3d28ed5988365be4fa02ac10e1014d109bdec46788",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 0
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0000-movie-lcd.png",
+      "bytes": 5311,
+      "sha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "archive": "png/950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614.png",
+      "archiveBytes": 5311,
+      "archiveSha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0000-movie-native.png",
+      "bytes": 5311,
+      "sha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "archive": "png/950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614.png",
+      "archiveBytes": 5311,
+      "archiveSha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0001-movie-hd.png",
+      "bytes": 1384592,
+      "sha256": "0117dda906559e3958e6339fab317ca5bcbb795c76b58816eab63642fcf47860",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 1396965
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0001-movie-lcd.png",
+      "bytes": 5239,
+      "sha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "archive": "png/0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d.png",
+      "archiveBytes": 5239,
+      "archiveSha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0001-movie-native.png",
+      "bytes": 5239,
+      "sha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "archive": "png/0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d.png",
+      "archiveBytes": 5239,
+      "archiveSha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0002-movie-hd.png",
+      "bytes": 1396965,
+      "sha256": "6247fe06ab2ef407e1a36d3d28ed5988365be4fa02ac10e1014d109bdec46788",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 0
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0002-movie-lcd.png",
+      "bytes": 5311,
+      "sha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "archive": "png/950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614.png",
+      "archiveBytes": 5311,
+      "archiveSha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0002-movie-native.png",
+      "bytes": 5311,
+      "sha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "archive": "png/950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614.png",
+      "archiveBytes": 5311,
+      "archiveSha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0003-movie-hd.png",
+      "bytes": 1384592,
+      "sha256": "0117dda906559e3958e6339fab317ca5bcbb795c76b58816eab63642fcf47860",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 1396965
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0003-movie-lcd.png",
+      "bytes": 5239,
+      "sha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "archive": "png/0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d.png",
+      "archiveBytes": 5239,
+      "archiveSha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0003-movie-native.png",
+      "bytes": 5239,
+      "sha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "archive": "png/0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d.png",
+      "archiveBytes": 5239,
+      "archiveSha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0004-movie-hd.png",
+      "bytes": 1396965,
+      "sha256": "6247fe06ab2ef407e1a36d3d28ed5988365be4fa02ac10e1014d109bdec46788",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 0
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0004-movie-lcd.png",
+      "bytes": 5311,
+      "sha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "archive": "png/950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614.png",
+      "archiveBytes": 5311,
+      "archiveSha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0004-movie-native.png",
+      "bytes": 5311,
+      "sha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "archive": "png/950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614.png",
+      "archiveBytes": 5311,
+      "archiveSha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0005-movie-hd.png",
+      "bytes": 1384592,
+      "sha256": "0117dda906559e3958e6339fab317ca5bcbb795c76b58816eab63642fcf47860",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 1396965
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0005-movie-lcd.png",
+      "bytes": 5239,
+      "sha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "archive": "png/0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d.png",
+      "archiveBytes": 5239,
+      "archiveSha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0005-movie-native.png",
+      "bytes": 5239,
+      "sha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "archive": "png/0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d.png",
+      "archiveBytes": 5239,
+      "archiveSha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0006-movie-hd.png",
+      "bytes": 1396965,
+      "sha256": "6247fe06ab2ef407e1a36d3d28ed5988365be4fa02ac10e1014d109bdec46788",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 0
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0006-movie-lcd.png",
+      "bytes": 5311,
+      "sha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "archive": "png/950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614.png",
+      "archiveBytes": 5311,
+      "archiveSha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0006-movie-native.png",
+      "bytes": 5311,
+      "sha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "archive": "png/950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614.png",
+      "archiveBytes": 5311,
+      "archiveSha256": "950d71be440b5640e9d54cb1d8a22f5cb64b962cd4160655ef1f6bee750df614",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0007-movie-hd.png",
+      "bytes": 1384592,
+      "sha256": "0117dda906559e3958e6339fab317ca5bcbb795c76b58816eab63642fcf47860",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 1396965
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0007-movie-lcd.png",
+      "bytes": 5239,
+      "sha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "archive": "png/0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d.png",
+      "archiveBytes": 5239,
+      "archiveSha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0007-movie-native.png",
+      "bytes": 5239,
+      "sha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "archive": "png/0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d.png",
+      "archiveBytes": 5239,
+      "archiveSha256": "0c50a3baa68e98ddb5999735383fe783b0152fc5f114c559964311ab2ea6984d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0008-numbers-hd.png",
+      "bytes": 1252765,
+      "sha256": "5441df02df1151c1e3e7f0636d2fd1f7daba915b908c88ca3aba5b68899e0641",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 2781557
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0008-numbers-lcd.png",
+      "bytes": 5415,
+      "sha256": "6ae3145944329a314608a691fed516dd1a05c79cdf0b2ef3e9040a70baea2fc6",
+      "archive": "png/6ae3145944329a314608a691fed516dd1a05c79cdf0b2ef3e9040a70baea2fc6.png",
+      "archiveBytes": 5415,
+      "archiveSha256": "6ae3145944329a314608a691fed516dd1a05c79cdf0b2ef3e9040a70baea2fc6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0008-numbers-native.png",
+      "bytes": 5415,
+      "sha256": "6ae3145944329a314608a691fed516dd1a05c79cdf0b2ef3e9040a70baea2fc6",
+      "archive": "png/6ae3145944329a314608a691fed516dd1a05c79cdf0b2ef3e9040a70baea2fc6.png",
+      "archiveBytes": 5415,
+      "archiveSha256": "6ae3145944329a314608a691fed516dd1a05c79cdf0b2ef3e9040a70baea2fc6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0009-numbers-hd.png",
+      "bytes": 1189747,
+      "sha256": "661caf604930e09588c5514837f371e823978d24b0410f568aa0b8b1474bfffc",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 4034322
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0009-numbers-lcd.png",
+      "bytes": 5384,
+      "sha256": "fc52849a2411da1bfd902b61eeaef5520b5051b9aecfb0157b9126117bb67f50",
+      "archive": "png/fc52849a2411da1bfd902b61eeaef5520b5051b9aecfb0157b9126117bb67f50.png",
+      "archiveBytes": 5384,
+      "archiveSha256": "fc52849a2411da1bfd902b61eeaef5520b5051b9aecfb0157b9126117bb67f50",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0009-numbers-native.png",
+      "bytes": 5384,
+      "sha256": "fc52849a2411da1bfd902b61eeaef5520b5051b9aecfb0157b9126117bb67f50",
+      "archive": "png/fc52849a2411da1bfd902b61eeaef5520b5051b9aecfb0157b9126117bb67f50.png",
+      "archiveBytes": 5384,
+      "archiveSha256": "fc52849a2411da1bfd902b61eeaef5520b5051b9aecfb0157b9126117bb67f50",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0010-numbers-hd.png",
+      "bytes": 1179566,
+      "sha256": "9596d0491d3e5ef9fc16c97f162657b76321198934e1408872d74f4451037e25",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 5224069
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0010-numbers-lcd.png",
+      "bytes": 5375,
+      "sha256": "d9deef45978f34cecfd09a0ae91255b9fa866fc7ecfec36d0b5b8dcc0750a2dd",
+      "archive": "png/d9deef45978f34cecfd09a0ae91255b9fa866fc7ecfec36d0b5b8dcc0750a2dd.png",
+      "archiveBytes": 5375,
+      "archiveSha256": "d9deef45978f34cecfd09a0ae91255b9fa866fc7ecfec36d0b5b8dcc0750a2dd",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0010-numbers-native.png",
+      "bytes": 5375,
+      "sha256": "d9deef45978f34cecfd09a0ae91255b9fa866fc7ecfec36d0b5b8dcc0750a2dd",
+      "archive": "png/d9deef45978f34cecfd09a0ae91255b9fa866fc7ecfec36d0b5b8dcc0750a2dd.png",
+      "archiveBytes": 5375,
+      "archiveSha256": "d9deef45978f34cecfd09a0ae91255b9fa866fc7ecfec36d0b5b8dcc0750a2dd",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0011-numbers-hd.png",
+      "bytes": 1176190,
+      "sha256": "1affea7bfe8d03660de677945e7e398949bb23aeb88de1ddf5775f5a0a71f0ae",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 6403635
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0011-numbers-lcd.png",
+      "bytes": 5373,
+      "sha256": "a7916f97c450c683b3d97b4da24b4a5b7a57690cbb35d87992f9c90aef02f5ac",
+      "archive": "png/a7916f97c450c683b3d97b4da24b4a5b7a57690cbb35d87992f9c90aef02f5ac.png",
+      "archiveBytes": 5373,
+      "archiveSha256": "a7916f97c450c683b3d97b4da24b4a5b7a57690cbb35d87992f9c90aef02f5ac",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0011-numbers-native.png",
+      "bytes": 5373,
+      "sha256": "a7916f97c450c683b3d97b4da24b4a5b7a57690cbb35d87992f9c90aef02f5ac",
+      "archive": "png/a7916f97c450c683b3d97b4da24b4a5b7a57690cbb35d87992f9c90aef02f5ac.png",
+      "archiveBytes": 5373,
+      "archiveSha256": "a7916f97c450c683b3d97b4da24b4a5b7a57690cbb35d87992f9c90aef02f5ac",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0012-numbers-hd.png",
+      "bytes": 1168572,
+      "sha256": "598ce1c6c77386418c2458be2ee4cacfaaf2c1742475f9fe40bb22aa4cd20855",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 7579825
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0012-numbers-lcd.png",
+      "bytes": 5355,
+      "sha256": "ff153612ffe2043e8c001c4d58bb622c134c1a971a9cd8478e18345c42669c25",
+      "archive": "png/ff153612ffe2043e8c001c4d58bb622c134c1a971a9cd8478e18345c42669c25.png",
+      "archiveBytes": 5355,
+      "archiveSha256": "ff153612ffe2043e8c001c4d58bb622c134c1a971a9cd8478e18345c42669c25",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0012-numbers-native.png",
+      "bytes": 5355,
+      "sha256": "ff153612ffe2043e8c001c4d58bb622c134c1a971a9cd8478e18345c42669c25",
+      "archive": "png/ff153612ffe2043e8c001c4d58bb622c134c1a971a9cd8478e18345c42669c25.png",
+      "archiveBytes": 5355,
+      "archiveSha256": "ff153612ffe2043e8c001c4d58bb622c134c1a971a9cd8478e18345c42669c25",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0013-numbers-hd.png",
+      "bytes": 1136513,
+      "sha256": "e45f671389bc834da79dd26ec8857bdd5c8212a23c2846c85d6ad5b534a22555",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 8748397
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0013-numbers-lcd.png",
+      "bytes": 5336,
+      "sha256": "27cd826227708254744ae47cdc0c0b0dc766354e195f73802af6e62cedd7b25b",
+      "archive": "png/27cd826227708254744ae47cdc0c0b0dc766354e195f73802af6e62cedd7b25b.png",
+      "archiveBytes": 5336,
+      "archiveSha256": "27cd826227708254744ae47cdc0c0b0dc766354e195f73802af6e62cedd7b25b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0013-numbers-native.png",
+      "bytes": 5336,
+      "sha256": "27cd826227708254744ae47cdc0c0b0dc766354e195f73802af6e62cedd7b25b",
+      "archive": "png/27cd826227708254744ae47cdc0c0b0dc766354e195f73802af6e62cedd7b25b.png",
+      "archiveBytes": 5336,
+      "archiveSha256": "27cd826227708254744ae47cdc0c0b0dc766354e195f73802af6e62cedd7b25b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0014-numbers-hd.png",
+      "bytes": 1134789,
+      "sha256": "3ea180a63ae8b07c99ffd51403865dd0bcef3ec46ea1dce54ee0f59e272bc63c",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 9884910
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0014-numbers-lcd.png",
+      "bytes": 5314,
+      "sha256": "39aac5e534ca50cb26a8081d67bcd13da747baffa739c8c400f89454551b3dc0",
+      "archive": "png/39aac5e534ca50cb26a8081d67bcd13da747baffa739c8c400f89454551b3dc0.png",
+      "archiveBytes": 5314,
+      "archiveSha256": "39aac5e534ca50cb26a8081d67bcd13da747baffa739c8c400f89454551b3dc0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0014-numbers-native.png",
+      "bytes": 5314,
+      "sha256": "39aac5e534ca50cb26a8081d67bcd13da747baffa739c8c400f89454551b3dc0",
+      "archive": "png/39aac5e534ca50cb26a8081d67bcd13da747baffa739c8c400f89454551b3dc0.png",
+      "archiveBytes": 5314,
+      "archiveSha256": "39aac5e534ca50cb26a8081d67bcd13da747baffa739c8c400f89454551b3dc0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0015-numbers-hd.png",
+      "bytes": 1128693,
+      "sha256": "1ff317ba37575a36237774cfc975348cc51f917e29e04c0fa047a12bf616e7c2",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 11019699
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0015-numbers-lcd.png",
+      "bytes": 5306,
+      "sha256": "0a7582e3e76fc4aa76f1cff325a1b300f90fa0d2bf50a431c23859fcd71e8667",
+      "archive": "png/0a7582e3e76fc4aa76f1cff325a1b300f90fa0d2bf50a431c23859fcd71e8667.png",
+      "archiveBytes": 5306,
+      "archiveSha256": "0a7582e3e76fc4aa76f1cff325a1b300f90fa0d2bf50a431c23859fcd71e8667",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0015-numbers-native.png",
+      "bytes": 5306,
+      "sha256": "0a7582e3e76fc4aa76f1cff325a1b300f90fa0d2bf50a431c23859fcd71e8667",
+      "archive": "png/0a7582e3e76fc4aa76f1cff325a1b300f90fa0d2bf50a431c23859fcd71e8667.png",
+      "archiveBytes": 5306,
+      "archiveSha256": "0a7582e3e76fc4aa76f1cff325a1b300f90fa0d2bf50a431c23859fcd71e8667",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0016-numbers-hd.png",
+      "bytes": 1126783,
+      "sha256": "90255669ca1a9bbdc7a86a70e927f413cd443a23f2864618e8b839f94b6bb1ef",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 12148392
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0016-numbers-lcd.png",
+      "bytes": 5299,
+      "sha256": "df401cf3c899423f5c6597a5b384f8e188bf0ebc11326ebf78014d774c603ed3",
+      "archive": "png/df401cf3c899423f5c6597a5b384f8e188bf0ebc11326ebf78014d774c603ed3.png",
+      "archiveBytes": 5299,
+      "archiveSha256": "df401cf3c899423f5c6597a5b384f8e188bf0ebc11326ebf78014d774c603ed3",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0016-numbers-native.png",
+      "bytes": 5299,
+      "sha256": "df401cf3c899423f5c6597a5b384f8e188bf0ebc11326ebf78014d774c603ed3",
+      "archive": "png/df401cf3c899423f5c6597a5b384f8e188bf0ebc11326ebf78014d774c603ed3.png",
+      "archiveBytes": 5299,
+      "archiveSha256": "df401cf3c899423f5c6597a5b384f8e188bf0ebc11326ebf78014d774c603ed3",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0017-numbers-hd.png",
+      "bytes": 1124641,
+      "sha256": "96a68600fbdd09bef5e14e45b23d116d718a1322169cf62aa508b99aaf15540f",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 13275175
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0017-numbers-lcd.png",
+      "bytes": 5290,
+      "sha256": "b4abf5eb9a6d6dc7eba3ee098305409481eac3f72eea0aebe0ff45d892c63519",
+      "archive": "png/b4abf5eb9a6d6dc7eba3ee098305409481eac3f72eea0aebe0ff45d892c63519.png",
+      "archiveBytes": 5290,
+      "archiveSha256": "b4abf5eb9a6d6dc7eba3ee098305409481eac3f72eea0aebe0ff45d892c63519",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0017-numbers-native.png",
+      "bytes": 5290,
+      "sha256": "b4abf5eb9a6d6dc7eba3ee098305409481eac3f72eea0aebe0ff45d892c63519",
+      "archive": "png/b4abf5eb9a6d6dc7eba3ee098305409481eac3f72eea0aebe0ff45d892c63519.png",
+      "archiveBytes": 5290,
+      "archiveSha256": "b4abf5eb9a6d6dc7eba3ee098305409481eac3f72eea0aebe0ff45d892c63519",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0018-numbers-hd.png",
+      "bytes": 1092440,
+      "sha256": "6df0a3583481f6081515c1e9a7f913807e5b9ea1f980851c786869520c1d201f",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 14399816
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0018-numbers-lcd.png",
+      "bytes": 5286,
+      "sha256": "3b4281bdd3f4d4ce1a88a9d6107ab7abd61644575c70a50148b765e1413b658b",
+      "archive": "png/3b4281bdd3f4d4ce1a88a9d6107ab7abd61644575c70a50148b765e1413b658b.png",
+      "archiveBytes": 5286,
+      "archiveSha256": "3b4281bdd3f4d4ce1a88a9d6107ab7abd61644575c70a50148b765e1413b658b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0018-numbers-native.png",
+      "bytes": 5286,
+      "sha256": "3b4281bdd3f4d4ce1a88a9d6107ab7abd61644575c70a50148b765e1413b658b",
+      "archive": "png/3b4281bdd3f4d4ce1a88a9d6107ab7abd61644575c70a50148b765e1413b658b.png",
+      "archiveBytes": 5286,
+      "archiveSha256": "3b4281bdd3f4d4ce1a88a9d6107ab7abd61644575c70a50148b765e1413b658b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0019-numbers-hd.png",
+      "bytes": 1090803,
+      "sha256": "67f37e58ca4cbc004f28e2ca7a2034e2c7b995eea07239b4f31dbfa4e3a134d8",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 15492256
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0019-numbers-lcd.png",
+      "bytes": 5273,
+      "sha256": "b7c4064fa5b0f864ecf4a9d4221bc5b57bf49309ff3a6c275893f13dd3fde18a",
+      "archive": "png/b7c4064fa5b0f864ecf4a9d4221bc5b57bf49309ff3a6c275893f13dd3fde18a.png",
+      "archiveBytes": 5273,
+      "archiveSha256": "b7c4064fa5b0f864ecf4a9d4221bc5b57bf49309ff3a6c275893f13dd3fde18a",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0019-numbers-native.png",
+      "bytes": 5273,
+      "sha256": "b7c4064fa5b0f864ecf4a9d4221bc5b57bf49309ff3a6c275893f13dd3fde18a",
+      "archive": "png/b7c4064fa5b0f864ecf4a9d4221bc5b57bf49309ff3a6c275893f13dd3fde18a.png",
+      "archiveBytes": 5273,
+      "archiveSha256": "b7c4064fa5b0f864ecf4a9d4221bc5b57bf49309ff3a6c275893f13dd3fde18a",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0020-numbers-hd.png",
+      "bytes": 1086939,
+      "sha256": "835523753b5a26f6f2f025bbd9c6c089fecfc5b68f4bb062600fbc690c7426df",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 16583059
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0020-numbers-lcd.png",
+      "bytes": 5260,
+      "sha256": "8323b906c677633ee5e920daede770e5fd8cd19707bc5736c5d6749181c151e5",
+      "archive": "png/8323b906c677633ee5e920daede770e5fd8cd19707bc5736c5d6749181c151e5.png",
+      "archiveBytes": 5260,
+      "archiveSha256": "8323b906c677633ee5e920daede770e5fd8cd19707bc5736c5d6749181c151e5",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0020-numbers-native.png",
+      "bytes": 5260,
+      "sha256": "8323b906c677633ee5e920daede770e5fd8cd19707bc5736c5d6749181c151e5",
+      "archive": "png/8323b906c677633ee5e920daede770e5fd8cd19707bc5736c5d6749181c151e5.png",
+      "archiveBytes": 5260,
+      "archiveSha256": "8323b906c677633ee5e920daede770e5fd8cd19707bc5736c5d6749181c151e5",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0021-numbers-hd.png",
+      "bytes": 1077779,
+      "sha256": "96c9e99351db88cc95296b916cf2198cb433bb77d0f06cdf816875c700a7fb0d",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 17669998
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0021-numbers-lcd.png",
+      "bytes": 5231,
+      "sha256": "36cf61603c350f9fcdb815df7c88237f84b8c010bff647fc552871c95097efa0",
+      "archive": "png/36cf61603c350f9fcdb815df7c88237f84b8c010bff647fc552871c95097efa0.png",
+      "archiveBytes": 5231,
+      "archiveSha256": "36cf61603c350f9fcdb815df7c88237f84b8c010bff647fc552871c95097efa0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0021-numbers-native.png",
+      "bytes": 5231,
+      "sha256": "36cf61603c350f9fcdb815df7c88237f84b8c010bff647fc552871c95097efa0",
+      "archive": "png/36cf61603c350f9fcdb815df7c88237f84b8c010bff647fc552871c95097efa0.png",
+      "archiveBytes": 5231,
+      "archiveSha256": "36cf61603c350f9fcdb815df7c88237f84b8c010bff647fc552871c95097efa0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0022-hold-hd.png",
+      "bytes": 1077779,
+      "sha256": "96c9e99351db88cc95296b916cf2198cb433bb77d0f06cdf816875c700a7fb0d",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 17669998
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0022-hold-lcd.png",
+      "bytes": 5231,
+      "sha256": "36cf61603c350f9fcdb815df7c88237f84b8c010bff647fc552871c95097efa0",
+      "archive": "png/36cf61603c350f9fcdb815df7c88237f84b8c010bff647fc552871c95097efa0.png",
+      "archiveBytes": 5231,
+      "archiveSha256": "36cf61603c350f9fcdb815df7c88237f84b8c010bff647fc552871c95097efa0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0022-hold-native.png",
+      "bytes": 5231,
+      "sha256": "36cf61603c350f9fcdb815df7c88237f84b8c010bff647fc552871c95097efa0",
+      "archive": "png/36cf61603c350f9fcdb815df7c88237f84b8c010bff647fc552871c95097efa0.png",
+      "archiveBytes": 5231,
+      "archiveSha256": "36cf61603c350f9fcdb815df7c88237f84b8c010bff647fc552871c95097efa0",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0023-movie-lcd.png",
+      "bytes": 4433,
+      "sha256": "c7bb2682b9409e36219b905ac04466e13edd72d353991013321e65af2dcc779d",
+      "archive": "png/c7bb2682b9409e36219b905ac04466e13edd72d353991013321e65af2dcc779d.png",
+      "archiveBytes": 4433,
+      "archiveSha256": "c7bb2682b9409e36219b905ac04466e13edd72d353991013321e65af2dcc779d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0023-movie-native.png",
+      "bytes": 4433,
+      "sha256": "c7bb2682b9409e36219b905ac04466e13edd72d353991013321e65af2dcc779d",
+      "archive": "png/c7bb2682b9409e36219b905ac04466e13edd72d353991013321e65af2dcc779d.png",
+      "archiveBytes": 4433,
+      "archiveSha256": "c7bb2682b9409e36219b905ac04466e13edd72d353991013321e65af2dcc779d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0024-movie-lcd.png",
+      "bytes": 4419,
+      "sha256": "28f63ef33ea0bd0cf85c733a9c54a34cb036eeb6c3e784b9081c57b4927015e6",
+      "archive": "png/28f63ef33ea0bd0cf85c733a9c54a34cb036eeb6c3e784b9081c57b4927015e6.png",
+      "archiveBytes": 4419,
+      "archiveSha256": "28f63ef33ea0bd0cf85c733a9c54a34cb036eeb6c3e784b9081c57b4927015e6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0024-movie-native.png",
+      "bytes": 4419,
+      "sha256": "28f63ef33ea0bd0cf85c733a9c54a34cb036eeb6c3e784b9081c57b4927015e6",
+      "archive": "png/28f63ef33ea0bd0cf85c733a9c54a34cb036eeb6c3e784b9081c57b4927015e6.png",
+      "archiveBytes": 4419,
+      "archiveSha256": "28f63ef33ea0bd0cf85c733a9c54a34cb036eeb6c3e784b9081c57b4927015e6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/browser-console.json",
+      "bytes": 12605,
+      "sha256": "2744d83e122859873b6ebed0e4446e61918b9406648105cb35acbe5e8ff103e0",
+      "archive": "raw/2744d83e122859873b6ebed0e4446e61918b9406648105cb35acbe5e8ff103e0.gz",
+      "archiveBytes": 1391,
+      "archiveSha256": "afeadc65df3b157d2da2d314836c81b7795223a9b2933d207ea6c1fefdb59567",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/engine-inputs.json",
+      "bytes": 11572,
+      "sha256": "9c14186a42838a534397c93117d4a1f79fe51d79024be64840f949b7f97e7149",
+      "archive": "raw/9c14186a42838a534397c93117d4a1f79fe51d79024be64840f949b7f97e7149.gz",
+      "archiveBytes": 518,
+      "archiveSha256": "2ae26944f336892674e8f8e8d5109513cc627e6cf71577c25c00837259d3df19",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/executed-aid-oracle.mjs",
+      "bytes": 50538,
+      "sha256": "3aabc6ee0486955226dfd631c750466492203a927a45c258ffa2ad1372843c48",
+      "archive": "raw/3aabc6ee0486955226dfd631c750466492203a927a45c258ffa2ad1372843c48.gz",
+      "archiveBytes": 15484,
+      "archiveSha256": "30c2724fd2edbac6d3b147bd7ece46249a058ca480777c91d4bfdf33ed49dd03",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/executed-json-writer.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "archive": "raw/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "archiveBytes": 2550,
+      "archiveSha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/executed-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "archive": "raw/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "archiveBytes": 4452,
+      "archiveSha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/executed-tool.mjs",
+      "bytes": 113887,
+      "sha256": "d8be23283f4e4d07425424a4b01be7987533e332a655337f7859b4b3270caacf",
+      "archive": "raw/d8be23283f4e4d07425424a4b01be7987533e332a655337f7859b4b3270caacf.gz",
+      "archiveBytes": 35242,
+      "archiveSha256": "4f88d0e1b50e50776b72feefefe0b821d1b28c5e2c7ccf5eb30d3da5c1af714b",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/native-skill-captures.json",
+      "bytes": 16300480,
+      "sha256": "15b6ff52f6932de39ba7381fecb5946ec359fca4150e1bae5a3fa5f2bcf131e4",
+      "archive": "raw/15b6ff52f6932de39ba7381fecb5946ec359fca4150e1bae5a3fa5f2bcf131e4.gz",
+      "archiveBytes": 896329,
+      "archiveSha256": "b5530c1867577efd14fbc10ce612e0ee30fed0549307223664b756b1c81c1a28",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/observer-errors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archive": "raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/owned-process-samples.jsonl",
+      "bytes": 30948,
+      "sha256": "c0a9ba3789c0a3bb119a2683df5bf5766a5a9535f2948ca7086ce08ebb822c2a",
+      "archive": "raw/c0a9ba3789c0a3bb119a2683df5bf5766a5a9535f2948ca7086ce08ebb822c2a.gz",
+      "archiveBytes": 1924,
+      "archiveSha256": "7881b1c9cff82b10a56960e88b238d7dbaf68656b105849ae74566ce86560268",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/result.json",
+      "bytes": 24093487,
+      "sha256": "0ca2f21a138eaec550382e039744ebbc8eabb925d8465fed8e5f46d6e3bdeb03",
+      "archive": "raw/0ca2f21a138eaec550382e039744ebbc8eabb925d8465fed8e5f46d6e3bdeb03.gz",
+      "archiveBytes": 1262948,
+      "archiveSha256": "e9cc29a08138e7e37c15086873f0ca55864dbcc5bba0b3d0220cb67da8e83a76",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/source-verification.json",
+      "bytes": 438220,
+      "sha256": "3efdb6079b392271e78d979ca180eb537fca02c2ef9e186b68ec86b97d4d0c82",
+      "archive": "raw/3efdb6079b392271e78d979ca180eb537fca02c2ef9e186b68ec86b97d4d0c82.gz",
+      "archiveBytes": 70129,
+      "archiveSha256": "a8eac3831619ed8b33773172ea5dbb6ec779756dd625cf3c76c458716e6cbbcb",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-17-v1/spe-observations.json",
+      "bytes": 2335673,
+      "sha256": "d8635c31572192fdd6cf2de14bd9a02a3a38d991348897b04aec7ca007f82b66",
+      "archive": "raw/d8635c31572192fdd6cf2de14bd9a02a3a38d991348897b04aec7ca007f82b66.gz",
+      "archiveBytes": 26423,
+      "archiveSha256": "c95215ae221af2250b210e5fc7c6a92590829c2a35bcd485108ffd706ed6d3cd",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/02-public-original-checkpoint-loaded.png",
+      "bytes": 1567348,
+      "sha256": "408501290184cd1dafbe4bfdb61aa75acaa3cc88553416d20a5b676f8c77b634",
+      "archive": "png/408501290184cd1dafbe4bfdb61aa75acaa3cc88553416d20a5b676f8c77b634.png",
+      "archiveBytes": 1567348,
+      "archiveSha256": "408501290184cd1dafbe4bfdb61aa75acaa3cc88553416d20a5b676f8c77b634",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/04-real-battle-caster.png",
+      "bytes": 163499,
+      "sha256": "95b253f383e11c9f4fffd8e291a987363e251d4d06f67e12e75f07db7b4ee63d",
+      "archive": "png/95b253f383e11c9f4fffd8e291a987363e251d4d06f67e12e75f07db7b4ee63d.png",
+      "archiveBytes": 163499,
+      "archiveSha256": "95b253f383e11c9f4fffd8e291a987363e251d4d06f67e12e75f07db7b4ee63d",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0000-movie-hd.png",
+      "bytes": 1399503,
+      "sha256": "9edd5f7f834388e237c692964b48524a91c23f86cc7b0e136e0f8a33d236d4ba",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 18747777
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0000-movie-lcd.png",
+      "bytes": 6226,
+      "sha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "archive": "png/16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934.png",
+      "archiveBytes": 6226,
+      "archiveSha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0000-movie-native.png",
+      "bytes": 6226,
+      "sha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "archive": "png/16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934.png",
+      "archiveBytes": 6226,
+      "archiveSha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0001-movie-hd.png",
+      "bytes": 1386733,
+      "sha256": "2fb4215b8aa743f55e5d083de27693a6eb31312708287e2e53628b743b002b31",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 20147280
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0001-movie-lcd.png",
+      "bytes": 6129,
+      "sha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "archive": "png/edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9.png",
+      "archiveBytes": 6129,
+      "archiveSha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0001-movie-native.png",
+      "bytes": 6129,
+      "sha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "archive": "png/edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9.png",
+      "archiveBytes": 6129,
+      "archiveSha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0002-movie-hd.png",
+      "bytes": 1399503,
+      "sha256": "9edd5f7f834388e237c692964b48524a91c23f86cc7b0e136e0f8a33d236d4ba",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 18747777
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0002-movie-lcd.png",
+      "bytes": 6226,
+      "sha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "archive": "png/16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934.png",
+      "archiveBytes": 6226,
+      "archiveSha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0002-movie-native.png",
+      "bytes": 6226,
+      "sha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "archive": "png/16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934.png",
+      "archiveBytes": 6226,
+      "archiveSha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0003-movie-hd.png",
+      "bytes": 1386733,
+      "sha256": "2fb4215b8aa743f55e5d083de27693a6eb31312708287e2e53628b743b002b31",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 20147280
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0003-movie-lcd.png",
+      "bytes": 6129,
+      "sha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "archive": "png/edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9.png",
+      "archiveBytes": 6129,
+      "archiveSha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0003-movie-native.png",
+      "bytes": 6129,
+      "sha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "archive": "png/edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9.png",
+      "archiveBytes": 6129,
+      "archiveSha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0004-movie-hd.png",
+      "bytes": 1399503,
+      "sha256": "9edd5f7f834388e237c692964b48524a91c23f86cc7b0e136e0f8a33d236d4ba",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 18747777
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0004-movie-lcd.png",
+      "bytes": 6226,
+      "sha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "archive": "png/16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934.png",
+      "archiveBytes": 6226,
+      "archiveSha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0004-movie-native.png",
+      "bytes": 6226,
+      "sha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "archive": "png/16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934.png",
+      "archiveBytes": 6226,
+      "archiveSha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0005-movie-hd.png",
+      "bytes": 1386733,
+      "sha256": "2fb4215b8aa743f55e5d083de27693a6eb31312708287e2e53628b743b002b31",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 20147280
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0005-movie-lcd.png",
+      "bytes": 6129,
+      "sha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "archive": "png/edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9.png",
+      "archiveBytes": 6129,
+      "archiveSha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0005-movie-native.png",
+      "bytes": 6129,
+      "sha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "archive": "png/edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9.png",
+      "archiveBytes": 6129,
+      "archiveSha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0006-movie-hd.png",
+      "bytes": 1399503,
+      "sha256": "9edd5f7f834388e237c692964b48524a91c23f86cc7b0e136e0f8a33d236d4ba",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 18747777
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0006-movie-lcd.png",
+      "bytes": 6226,
+      "sha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "archive": "png/16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934.png",
+      "archiveBytes": 6226,
+      "archiveSha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0006-movie-native.png",
+      "bytes": 6226,
+      "sha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "archive": "png/16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934.png",
+      "archiveBytes": 6226,
+      "archiveSha256": "16ac66c9762ebf8b86c4cf74627c8e5e6aad3a1f002c08bb9ef62ceb87650934",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0007-movie-hd.png",
+      "bytes": 1386733,
+      "sha256": "2fb4215b8aa743f55e5d083de27693a6eb31312708287e2e53628b743b002b31",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 20147280
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0007-movie-lcd.png",
+      "bytes": 6129,
+      "sha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "archive": "png/edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9.png",
+      "archiveBytes": 6129,
+      "archiveSha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0007-movie-native.png",
+      "bytes": 6129,
+      "sha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "archive": "png/edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9.png",
+      "archiveBytes": 6129,
+      "archiveSha256": "edd997e652161a53c5e409c047a06bf235f5a223c5371ab31b60d00cc2b7a1e9",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0008-numbers-hd.png",
+      "bytes": 1254896,
+      "sha256": "597b4b0829263d6649472c691a186e8dd31fcfbacc826dfb672aa75a0a21a235",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 21534013
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0008-numbers-lcd.png",
+      "bytes": 6343,
+      "sha256": "6cdfe434929dabc5002eae5bb499e481d0b5c01e37f20477988de4878352a736",
+      "archive": "png/6cdfe434929dabc5002eae5bb499e481d0b5c01e37f20477988de4878352a736.png",
+      "archiveBytes": 6343,
+      "archiveSha256": "6cdfe434929dabc5002eae5bb499e481d0b5c01e37f20477988de4878352a736",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0008-numbers-native.png",
+      "bytes": 6343,
+      "sha256": "6cdfe434929dabc5002eae5bb499e481d0b5c01e37f20477988de4878352a736",
+      "archive": "png/6cdfe434929dabc5002eae5bb499e481d0b5c01e37f20477988de4878352a736.png",
+      "archiveBytes": 6343,
+      "archiveSha256": "6cdfe434929dabc5002eae5bb499e481d0b5c01e37f20477988de4878352a736",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0009-numbers-hd.png",
+      "bytes": 1187129,
+      "sha256": "7fa68c8c2fc16ea8a5caeb4b54efe902759042a3cf478797c0934372330a8049",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 22788909
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0009-numbers-lcd.png",
+      "bytes": 6282,
+      "sha256": "b973bb28a811a64eb196cac2e26d11dd99605f27de887bebe7f3e1758e7f9498",
+      "archive": "png/b973bb28a811a64eb196cac2e26d11dd99605f27de887bebe7f3e1758e7f9498.png",
+      "archiveBytes": 6282,
+      "archiveSha256": "b973bb28a811a64eb196cac2e26d11dd99605f27de887bebe7f3e1758e7f9498",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0009-numbers-native.png",
+      "bytes": 6282,
+      "sha256": "b973bb28a811a64eb196cac2e26d11dd99605f27de887bebe7f3e1758e7f9498",
+      "archive": "png/b973bb28a811a64eb196cac2e26d11dd99605f27de887bebe7f3e1758e7f9498.png",
+      "archiveBytes": 6282,
+      "archiveSha256": "b973bb28a811a64eb196cac2e26d11dd99605f27de887bebe7f3e1758e7f9498",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0010-numbers-hd.png",
+      "bytes": 1183081,
+      "sha256": "374a2411f626a7cec6ac483b6e1d6fe313bbc289a4b085d10b982f391133809a",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 23976038
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0010-numbers-lcd.png",
+      "bytes": 6270,
+      "sha256": "9cff470485c039e91ff2f50aad2bae6c6d672d9e8bb2772b961536d0afd28b17",
+      "archive": "png/9cff470485c039e91ff2f50aad2bae6c6d672d9e8bb2772b961536d0afd28b17.png",
+      "archiveBytes": 6270,
+      "archiveSha256": "9cff470485c039e91ff2f50aad2bae6c6d672d9e8bb2772b961536d0afd28b17",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0010-numbers-native.png",
+      "bytes": 6270,
+      "sha256": "9cff470485c039e91ff2f50aad2bae6c6d672d9e8bb2772b961536d0afd28b17",
+      "archive": "png/9cff470485c039e91ff2f50aad2bae6c6d672d9e8bb2772b961536d0afd28b17.png",
+      "archiveBytes": 6270,
+      "archiveSha256": "9cff470485c039e91ff2f50aad2bae6c6d672d9e8bb2772b961536d0afd28b17",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0011-numbers-hd.png",
+      "bytes": 1177534,
+      "sha256": "4a251f74fb267e175dd2287d83ef6ed075ca23b0d4150e51a9744f9edb989219",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 25159119
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0011-numbers-lcd.png",
+      "bytes": 6265,
+      "sha256": "b29d61d344447c762a134ead7867e2d8c605b04f2ac18ea36de7f3064353bd56",
+      "archive": "png/b29d61d344447c762a134ead7867e2d8c605b04f2ac18ea36de7f3064353bd56.png",
+      "archiveBytes": 6265,
+      "archiveSha256": "b29d61d344447c762a134ead7867e2d8c605b04f2ac18ea36de7f3064353bd56",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0011-numbers-native.png",
+      "bytes": 6265,
+      "sha256": "b29d61d344447c762a134ead7867e2d8c605b04f2ac18ea36de7f3064353bd56",
+      "archive": "png/b29d61d344447c762a134ead7867e2d8c605b04f2ac18ea36de7f3064353bd56.png",
+      "archiveBytes": 6265,
+      "archiveSha256": "b29d61d344447c762a134ead7867e2d8c605b04f2ac18ea36de7f3064353bd56",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0012-numbers-hd.png",
+      "bytes": 1166106,
+      "sha256": "7509b84da84eb4beda0adbc2a6ce9b8b0e2c04f993369d6a0f3bbecc94762bf1",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 26336653
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0012-numbers-lcd.png",
+      "bytes": 6251,
+      "sha256": "56d88995349e31f5e1b03cfab04ca1ff89406739153122429df0131fe94ffaf7",
+      "archive": "png/56d88995349e31f5e1b03cfab04ca1ff89406739153122429df0131fe94ffaf7.png",
+      "archiveBytes": 6251,
+      "archiveSha256": "56d88995349e31f5e1b03cfab04ca1ff89406739153122429df0131fe94ffaf7",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0012-numbers-native.png",
+      "bytes": 6251,
+      "sha256": "56d88995349e31f5e1b03cfab04ca1ff89406739153122429df0131fe94ffaf7",
+      "archive": "png/56d88995349e31f5e1b03cfab04ca1ff89406739153122429df0131fe94ffaf7.png",
+      "archiveBytes": 6251,
+      "archiveSha256": "56d88995349e31f5e1b03cfab04ca1ff89406739153122429df0131fe94ffaf7",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0013-numbers-hd.png",
+      "bytes": 1136972,
+      "sha256": "8b8c251bc0719ccf458faea2eefcc1e85f223174bcab0d7003f041aea8325c06",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 27502759
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0013-numbers-lcd.png",
+      "bytes": 6243,
+      "sha256": "8890619304798a6eedae663b3842a6bd61d1936012a61a9014539139e48d025e",
+      "archive": "png/8890619304798a6eedae663b3842a6bd61d1936012a61a9014539139e48d025e.png",
+      "archiveBytes": 6243,
+      "archiveSha256": "8890619304798a6eedae663b3842a6bd61d1936012a61a9014539139e48d025e",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0013-numbers-native.png",
+      "bytes": 6243,
+      "sha256": "8890619304798a6eedae663b3842a6bd61d1936012a61a9014539139e48d025e",
+      "archive": "png/8890619304798a6eedae663b3842a6bd61d1936012a61a9014539139e48d025e.png",
+      "archiveBytes": 6243,
+      "archiveSha256": "8890619304798a6eedae663b3842a6bd61d1936012a61a9014539139e48d025e",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0014-numbers-hd.png",
+      "bytes": 1134124,
+      "sha256": "cf0805075e03e3cc202cff1f4769dbe982e61449ba6cd13cb89af7e7f6d1701c",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 28639731
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0014-numbers-lcd.png",
+      "bytes": 6252,
+      "sha256": "fed8c8c6b6ea90ecf1906ef8d33b5b9d9e283609ab9a74fe2d3ab8cc8c381bd6",
+      "archive": "png/fed8c8c6b6ea90ecf1906ef8d33b5b9d9e283609ab9a74fe2d3ab8cc8c381bd6.png",
+      "archiveBytes": 6252,
+      "archiveSha256": "fed8c8c6b6ea90ecf1906ef8d33b5b9d9e283609ab9a74fe2d3ab8cc8c381bd6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0014-numbers-native.png",
+      "bytes": 6252,
+      "sha256": "fed8c8c6b6ea90ecf1906ef8d33b5b9d9e283609ab9a74fe2d3ab8cc8c381bd6",
+      "archive": "png/fed8c8c6b6ea90ecf1906ef8d33b5b9d9e283609ab9a74fe2d3ab8cc8c381bd6.png",
+      "archiveBytes": 6252,
+      "archiveSha256": "fed8c8c6b6ea90ecf1906ef8d33b5b9d9e283609ab9a74fe2d3ab8cc8c381bd6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0015-numbers-hd.png",
+      "bytes": 1129138,
+      "sha256": "1a33e8a8c9f6dab3b64a857266ba997b42b528d04f50fbdcd96bb1f70d3bf0d1",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 29773855
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0015-numbers-lcd.png",
+      "bytes": 6231,
+      "sha256": "7c41672f0e986fb0d8607c6b745f8c61e7fd9b9dc823ee684756356bafb27f9a",
+      "archive": "png/7c41672f0e986fb0d8607c6b745f8c61e7fd9b9dc823ee684756356bafb27f9a.png",
+      "archiveBytes": 6231,
+      "archiveSha256": "7c41672f0e986fb0d8607c6b745f8c61e7fd9b9dc823ee684756356bafb27f9a",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0015-numbers-native.png",
+      "bytes": 6231,
+      "sha256": "7c41672f0e986fb0d8607c6b745f8c61e7fd9b9dc823ee684756356bafb27f9a",
+      "archive": "png/7c41672f0e986fb0d8607c6b745f8c61e7fd9b9dc823ee684756356bafb27f9a.png",
+      "archiveBytes": 6231,
+      "archiveSha256": "7c41672f0e986fb0d8607c6b745f8c61e7fd9b9dc823ee684756356bafb27f9a",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0016-numbers-hd.png",
+      "bytes": 1125726,
+      "sha256": "47a4876bcabeb8d409d370f50bb6af7b0aa84692a7c53aabd0727a8317d961d9",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 30902993
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0016-numbers-lcd.png",
+      "bytes": 6214,
+      "sha256": "cab3387846cd1dc4a56fd65fad663ae3cbee26c8ddcd4b8ef13e37977d2cbf6f",
+      "archive": "png/cab3387846cd1dc4a56fd65fad663ae3cbee26c8ddcd4b8ef13e37977d2cbf6f.png",
+      "archiveBytes": 6214,
+      "archiveSha256": "cab3387846cd1dc4a56fd65fad663ae3cbee26c8ddcd4b8ef13e37977d2cbf6f",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0016-numbers-native.png",
+      "bytes": 6214,
+      "sha256": "cab3387846cd1dc4a56fd65fad663ae3cbee26c8ddcd4b8ef13e37977d2cbf6f",
+      "archive": "png/cab3387846cd1dc4a56fd65fad663ae3cbee26c8ddcd4b8ef13e37977d2cbf6f.png",
+      "archiveBytes": 6214,
+      "archiveSha256": "cab3387846cd1dc4a56fd65fad663ae3cbee26c8ddcd4b8ef13e37977d2cbf6f",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0017-numbers-hd.png",
+      "bytes": 1094316,
+      "sha256": "d6ac7fab23aa8fcb5e2dc30cb806fe80d8ea51f40d27a69c4d7b6b48522cbce5",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 32028719
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0017-numbers-lcd.png",
+      "bytes": 6174,
+      "sha256": "71a8d8ae6a47f979b1b061855f3e7e3335480d5b8273b91c44236e99a601ed9b",
+      "archive": "png/71a8d8ae6a47f979b1b061855f3e7e3335480d5b8273b91c44236e99a601ed9b.png",
+      "archiveBytes": 6174,
+      "archiveSha256": "71a8d8ae6a47f979b1b061855f3e7e3335480d5b8273b91c44236e99a601ed9b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0017-numbers-native.png",
+      "bytes": 6174,
+      "sha256": "71a8d8ae6a47f979b1b061855f3e7e3335480d5b8273b91c44236e99a601ed9b",
+      "archive": "png/71a8d8ae6a47f979b1b061855f3e7e3335480d5b8273b91c44236e99a601ed9b.png",
+      "archiveBytes": 6174,
+      "archiveSha256": "71a8d8ae6a47f979b1b061855f3e7e3335480d5b8273b91c44236e99a601ed9b",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0018-numbers-hd.png",
+      "bytes": 1091168,
+      "sha256": "e4d8c2fa010e49dbf654cc53a0a383e91c8fea345b8d4a9b2893fb3f28f8b941",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 33123035
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0018-numbers-lcd.png",
+      "bytes": 6175,
+      "sha256": "21e8bb6fde8b34de6320391026894e8b841f1076afdc280da53f95ac4e0177b6",
+      "archive": "png/21e8bb6fde8b34de6320391026894e8b841f1076afdc280da53f95ac4e0177b6.png",
+      "archiveBytes": 6175,
+      "archiveSha256": "21e8bb6fde8b34de6320391026894e8b841f1076afdc280da53f95ac4e0177b6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0018-numbers-native.png",
+      "bytes": 6175,
+      "sha256": "21e8bb6fde8b34de6320391026894e8b841f1076afdc280da53f95ac4e0177b6",
+      "archive": "png/21e8bb6fde8b34de6320391026894e8b841f1076afdc280da53f95ac4e0177b6.png",
+      "archiveBytes": 6175,
+      "archiveSha256": "21e8bb6fde8b34de6320391026894e8b841f1076afdc280da53f95ac4e0177b6",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0019-numbers-hd.png",
+      "bytes": 1087660,
+      "sha256": "71764283672e5c1b4b7cf2893d8dc7ad3a1d55af61796a83ef85e1f193504971",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 34214203
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0019-numbers-lcd.png",
+      "bytes": 6178,
+      "sha256": "f2bdd070db1d41133fe40e44e347a7c13abcc9532219b25b024ef7367fa23f96",
+      "archive": "png/f2bdd070db1d41133fe40e44e347a7c13abcc9532219b25b024ef7367fa23f96.png",
+      "archiveBytes": 6178,
+      "archiveSha256": "f2bdd070db1d41133fe40e44e347a7c13abcc9532219b25b024ef7367fa23f96",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0019-numbers-native.png",
+      "bytes": 6178,
+      "sha256": "f2bdd070db1d41133fe40e44e347a7c13abcc9532219b25b024ef7367fa23f96",
+      "archive": "png/f2bdd070db1d41133fe40e44e347a7c13abcc9532219b25b024ef7367fa23f96.png",
+      "archiveBytes": 6178,
+      "archiveSha256": "f2bdd070db1d41133fe40e44e347a7c13abcc9532219b25b024ef7367fa23f96",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0020-numbers-hd.png",
+      "bytes": 1081853,
+      "sha256": "ccf7f862804401a6ac3ad2dbcdff6fce23f6a1857dcb23a912d36ce889f07c36",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 35301863
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0020-numbers-lcd.png",
+      "bytes": 6159,
+      "sha256": "2c27841e337ed7e847a07577e5942880fd56e964264c5f66eb75a23eeef089ca",
+      "archive": "png/2c27841e337ed7e847a07577e5942880fd56e964264c5f66eb75a23eeef089ca.png",
+      "archiveBytes": 6159,
+      "archiveSha256": "2c27841e337ed7e847a07577e5942880fd56e964264c5f66eb75a23eeef089ca",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0020-numbers-native.png",
+      "bytes": 6159,
+      "sha256": "2c27841e337ed7e847a07577e5942880fd56e964264c5f66eb75a23eeef089ca",
+      "archive": "png/2c27841e337ed7e847a07577e5942880fd56e964264c5f66eb75a23eeef089ca.png",
+      "archiveBytes": 6159,
+      "archiveSha256": "2c27841e337ed7e847a07577e5942880fd56e964264c5f66eb75a23eeef089ca",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0021-numbers-hd.png",
+      "bytes": 1051642,
+      "sha256": "916152fcc4e6d8ede29569e3dc996981dff79fd34b4e8f34bb57db2abe3ff089",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 36383716
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0021-numbers-lcd.png",
+      "bytes": 6141,
+      "sha256": "0c35ea24d4437ea540eb3d07c75d61775b3210be1f607ac487ef4654e4db2727",
+      "archive": "png/0c35ea24d4437ea540eb3d07c75d61775b3210be1f607ac487ef4654e4db2727.png",
+      "archiveBytes": 6141,
+      "archiveSha256": "0c35ea24d4437ea540eb3d07c75d61775b3210be1f607ac487ef4654e4db2727",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0021-numbers-native.png",
+      "bytes": 6141,
+      "sha256": "0c35ea24d4437ea540eb3d07c75d61775b3210be1f607ac487ef4654e4db2727",
+      "archive": "png/0c35ea24d4437ea540eb3d07c75d61775b3210be1f607ac487ef4654e4db2727.png",
+      "archiveBytes": 6141,
+      "archiveSha256": "0c35ea24d4437ea540eb3d07c75d61775b3210be1f607ac487ef4654e4db2727",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0022-numbers-hd.png",
+      "bytes": 1048542,
+      "sha256": "033e301dabe3f34be9513d9b3e2ffbb0d9d25a2af64bb5a9c0db6a149461a38c",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 37435358
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0022-numbers-lcd.png",
+      "bytes": 6134,
+      "sha256": "701246b98728d825006eeeead2e6d61cac9e063a13f88a97998e9008a116c765",
+      "archive": "png/701246b98728d825006eeeead2e6d61cac9e063a13f88a97998e9008a116c765.png",
+      "archiveBytes": 6134,
+      "archiveSha256": "701246b98728d825006eeeead2e6d61cac9e063a13f88a97998e9008a116c765",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0022-numbers-native.png",
+      "bytes": 6134,
+      "sha256": "701246b98728d825006eeeead2e6d61cac9e063a13f88a97998e9008a116c765",
+      "archive": "png/701246b98728d825006eeeead2e6d61cac9e063a13f88a97998e9008a116c765.png",
+      "archiveBytes": 6134,
+      "archiveSha256": "701246b98728d825006eeeead2e6d61cac9e063a13f88a97998e9008a116c765",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0023-numbers-hd.png",
+      "bytes": 1042779,
+      "sha256": "065b97c52f282f49bdd2ec47b2b7e7d24182c811800ddf309da04e7383580989",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 38483900
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0023-numbers-lcd.png",
+      "bytes": 6112,
+      "sha256": "4ca44d0bd47e701dd54514cf934594dc62d2634174c7a6ccf32d366aa87ea551",
+      "archive": "png/4ca44d0bd47e701dd54514cf934594dc62d2634174c7a6ccf32d366aa87ea551.png",
+      "archiveBytes": 6112,
+      "archiveSha256": "4ca44d0bd47e701dd54514cf934594dc62d2634174c7a6ccf32d366aa87ea551",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0023-numbers-native.png",
+      "bytes": 6112,
+      "sha256": "4ca44d0bd47e701dd54514cf934594dc62d2634174c7a6ccf32d366aa87ea551",
+      "archive": "png/4ca44d0bd47e701dd54514cf934594dc62d2634174c7a6ccf32d366aa87ea551.png",
+      "archiveBytes": 6112,
+      "archiveSha256": "4ca44d0bd47e701dd54514cf934594dc62d2634174c7a6ccf32d366aa87ea551",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0024-numbers-hd.png",
+      "bytes": 1038581,
+      "sha256": "de80474f2676fca51c03a15b0ff6071dc9b7edcdd9e8389c28d3efdc97906f8c",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 39526679
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0024-numbers-lcd.png",
+      "bytes": 6106,
+      "sha256": "855ff8ae73fcec926d796e315574643a26527000a13f5193186c15aa851c1b89",
+      "archive": "png/855ff8ae73fcec926d796e315574643a26527000a13f5193186c15aa851c1b89.png",
+      "archiveBytes": 6106,
+      "archiveSha256": "855ff8ae73fcec926d796e315574643a26527000a13f5193186c15aa851c1b89",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0024-numbers-native.png",
+      "bytes": 6106,
+      "sha256": "855ff8ae73fcec926d796e315574643a26527000a13f5193186c15aa851c1b89",
+      "archive": "png/855ff8ae73fcec926d796e315574643a26527000a13f5193186c15aa851c1b89.png",
+      "archiveBytes": 6106,
+      "archiveSha256": "855ff8ae73fcec926d796e315574643a26527000a13f5193186c15aa851c1b89",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0025-hold-hd.png",
+      "bytes": 1038581,
+      "sha256": "de80474f2676fca51c03a15b0ff6071dc9b7edcdd9e8389c28d3efdc97906f8c",
+      "encoding": "solid-brotli-original-png",
+      "archive": "solid/56cd6fd7a307deffffcea544ce45580bfa58ce4060a74c3694cb745902884984.br",
+      "offset": 39526679
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0025-hold-lcd.png",
+      "bytes": 6106,
+      "sha256": "855ff8ae73fcec926d796e315574643a26527000a13f5193186c15aa851c1b89",
+      "archive": "png/855ff8ae73fcec926d796e315574643a26527000a13f5193186c15aa851c1b89.png",
+      "archiveBytes": 6106,
+      "archiveSha256": "855ff8ae73fcec926d796e315574643a26527000a13f5193186c15aa851c1b89",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0025-hold-native.png",
+      "bytes": 6106,
+      "sha256": "855ff8ae73fcec926d796e315574643a26527000a13f5193186c15aa851c1b89",
+      "archive": "png/855ff8ae73fcec926d796e315574643a26527000a13f5193186c15aa851c1b89.png",
+      "archiveBytes": 6106,
+      "archiveSha256": "855ff8ae73fcec926d796e315574643a26527000a13f5193186c15aa851c1b89",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0026-movie-lcd.png",
+      "bytes": 4410,
+      "sha256": "8f5bc8e3b2cf7300730ecd466b86ecb4505fafeb04b7e1ff57be9b049bdb2135",
+      "archive": "png/8f5bc8e3b2cf7300730ecd466b86ecb4505fafeb04b7e1ff57be9b049bdb2135.png",
+      "archiveBytes": 4410,
+      "archiveSha256": "8f5bc8e3b2cf7300730ecd466b86ecb4505fafeb04b7e1ff57be9b049bdb2135",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0026-movie-native.png",
+      "bytes": 4410,
+      "sha256": "8f5bc8e3b2cf7300730ecd466b86ecb4505fafeb04b7e1ff57be9b049bdb2135",
+      "archive": "png/8f5bc8e3b2cf7300730ecd466b86ecb4505fafeb04b7e1ff57be9b049bdb2135.png",
+      "archiveBytes": 4410,
+      "archiveSha256": "8f5bc8e3b2cf7300730ecd466b86ecb4505fafeb04b7e1ff57be9b049bdb2135",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0027-movie-lcd.png",
+      "bytes": 4398,
+      "sha256": "51c5333285e318156bba6973166e2a81758820be11b8af4cd6c4aaa882d51349",
+      "archive": "png/51c5333285e318156bba6973166e2a81758820be11b8af4cd6c4aaa882d51349.png",
+      "archiveBytes": 4398,
+      "archiveSha256": "51c5333285e318156bba6973166e2a81758820be11b8af4cd6c4aaa882d51349",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0027-movie-native.png",
+      "bytes": 4398,
+      "sha256": "51c5333285e318156bba6973166e2a81758820be11b8af4cd6c4aaa882d51349",
+      "archive": "png/51c5333285e318156bba6973166e2a81758820be11b8af4cd6c4aaa882d51349.png",
+      "archiveBytes": 4398,
+      "archiveSha256": "51c5333285e318156bba6973166e2a81758820be11b8af4cd6c4aaa882d51349",
+      "encoding": "original-png"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/browser-console.json",
+      "bytes": 12567,
+      "sha256": "2fe3808013141bdbec38f41526c7c81f2f86748b25f018a0606832d5783955fb",
+      "archive": "raw/2fe3808013141bdbec38f41526c7c81f2f86748b25f018a0606832d5783955fb.gz",
+      "archiveBytes": 1385,
+      "archiveSha256": "f924a6fbd5cfe948fc0c9de55318a65bd6ad1061dc53d473e9b505501a4cec80",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/engine-inputs.json",
+      "bytes": 12534,
+      "sha256": "b8a1df51327ff62aea39304424f4a49cfbfa6dff2430ffd4b22a50b89c8980c1",
+      "archive": "raw/b8a1df51327ff62aea39304424f4a49cfbfa6dff2430ffd4b22a50b89c8980c1.gz",
+      "archiveBytes": 534,
+      "archiveSha256": "8e4be7042da4a1a8dda1907328b40760cc1d8cd4efe74309c7efd021da299608",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/executed-aid-oracle.mjs",
+      "bytes": 50538,
+      "sha256": "3aabc6ee0486955226dfd631c750466492203a927a45c258ffa2ad1372843c48",
+      "archive": "raw/3aabc6ee0486955226dfd631c750466492203a927a45c258ffa2ad1372843c48.gz",
+      "archiveBytes": 15484,
+      "archiveSha256": "30c2724fd2edbac6d3b147bd7ece46249a058ca480777c91d4bfdf33ed49dd03",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/executed-json-writer.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "archive": "raw/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "archiveBytes": 2550,
+      "archiveSha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/executed-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "archive": "raw/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "archiveBytes": 4452,
+      "archiveSha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/executed-tool.mjs",
+      "bytes": 113887,
+      "sha256": "d8be23283f4e4d07425424a4b01be7987533e332a655337f7859b4b3270caacf",
+      "archive": "raw/d8be23283f4e4d07425424a4b01be7987533e332a655337f7859b4b3270caacf.gz",
+      "archiveBytes": 35242,
+      "archiveSha256": "4f88d0e1b50e50776b72feefefe0b821d1b28c5e2c7ccf5eb30d3da5c1af714b",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/native-skill-captures.json",
+      "bytes": 18425466,
+      "sha256": "7865607d3eb5520ceb4151b1eed8d2539818cca0287d6136a16394864b36516c",
+      "archive": "raw/7865607d3eb5520ceb4151b1eed8d2539818cca0287d6136a16394864b36516c.gz",
+      "archiveBytes": 1047749,
+      "archiveSha256": "0815150ec478ddb579941f60b68849d8c16beabfc09dae4fbb7c3f9f04f0814b",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/observer-errors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archive": "raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/owned-process-samples.jsonl",
+      "bytes": 29727,
+      "sha256": "94ec09c3725d68a817256fa774e77afe90d258645dd2a1da6ef34264ecc653ae",
+      "archive": "raw/94ec09c3725d68a817256fa774e77afe90d258645dd2a1da6ef34264ecc653ae.gz",
+      "archiveBytes": 1909,
+      "archiveSha256": "3a795473362202e5e640cbc1e0a6d1fbd3b88e73d2569132ba30133f08f06da2",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/result.json",
+      "bytes": 26629161,
+      "sha256": "1c457bc64265c09d0cea0f7cd69e8f3f87df5e674913cfeeb5200c13f58088d3",
+      "archive": "raw/1c457bc64265c09d0cea0f7cd69e8f3f87df5e674913cfeeb5200c13f58088d3.gz",
+      "archiveBytes": 1426002,
+      "archiveSha256": "e81357e610b0d6aa22d8d6394896214e941d41137e58aa3650f4f96279f80834",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/source-verification.json",
+      "bytes": 438220,
+      "sha256": "3efdb6079b392271e78d979ca180eb537fca02c2ef9e186b68ec86b97d4d0c82",
+      "archive": "raw/3efdb6079b392271e78d979ca180eb537fca02c2ef9e186b68ec86b97d4d0c82.gz",
+      "archiveBytes": 70129,
+      "archiveSha256": "a8eac3831619ed8b33773172ea5dbb6ec779756dd625cf3c76c458716e6cbbcb",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/installed720-29-v1/spe-observations.json",
+      "bytes": 2451784,
+      "sha256": "0a1cec2ce11d11466bb1eff3a021ee333e748e37140eec7b2ac961e602b20b9c",
+      "archive": "raw/0a1cec2ce11d11466bb1eff3a021ee333e748e37140eec7b2ac961e602b20b9c.gz",
+      "archiveBytes": 27669,
+      "archiveSha256": "0bd67ac3dc14cf00a945047c30ab7bf5ee4ab369b4a3cb8c7ee7bdfed220e2d0",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/user8080-before.json",
+      "bytes": 257,
+      "sha256": "19c63664130cf9c1633df9faf2c9b1ed5829d4f943957e66f390c0c911e6bb07",
+      "archive": "raw/19c63664130cf9c1633df9faf2c9b1ed5829d4f943957e66f390c0c911e6bb07.gz",
+      "archiveBytes": 250,
+      "archiveSha256": "ba833ce321603ab25c763ea96a03d9c45a9ca212e1be6496457cf2139f8b2c89",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/user8080-after.json",
+      "bytes": 276,
+      "sha256": "32d7f45692e7a807997422e71284cb93b50df45adff87267be8d02fb63e07619",
+      "archive": "raw/32d7f45692e7a807997422e71284cb93b50df45adff87267be8d02fb63e07619.gz",
+      "archiveBytes": 271,
+      "archiveSha256": "84bfb64a1ba0969e9facf26ff74d5d19a6c142f9542b3ef94c88a5cd02076f4e",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/terminal-tool-events-v1.json",
+      "bytes": 3260,
+      "sha256": "0d8d623b147a9c9d17a21b7fc0d6949f561c8c7decb07f1e21dc7d4dc5cdc33c",
+      "archive": "raw/0d8d623b147a9c9d17a21b7fc0d6949f561c8c7decb07f1e21dc7d4dc5cdc33c.gz",
+      "archiveBytes": 927,
+      "archiveSha256": "6ed2b6e9fae240779f86978ec7734400db0e339c143817fc20a1dd8ea5562e51",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/terminal-independent-audit-v1.mjs",
+      "bytes": 9639,
+      "sha256": "0be9685e1b886f06a7380b8bb9ad9d596461b93f614e3a48a21f1bc4ef309ab8",
+      "archive": "raw/0be9685e1b886f06a7380b8bb9ad9d596461b93f614e3a48a21f1bc4ef309ab8.gz",
+      "archiveBytes": 3835,
+      "archiveSha256": "4fbeab1af1aeda5940f8dae7f47a39557c83255b849c72bd9ed1eec4eed71ec3",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/terminal-independent-audit-v1-failure.json",
+      "bytes": 530,
+      "sha256": "1e2fa715ebc5208c583d8aa371d8b147fc6aba239db58a57ca53170ede26ba36",
+      "archive": "raw/1e2fa715ebc5208c583d8aa371d8b147fc6aba239db58a57ca53170ede26ba36.gz",
+      "archiveBytes": 419,
+      "archiveSha256": "d168705772b9d9771e4cf3614bbe3ca2048b242b41b76976a45f930f1add9f28",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/terminal-independent-audit-v2.mjs",
+      "bytes": 9818,
+      "sha256": "cc87fd64fc60be4189c1bc487fc390160bb477159e91856fba723d7fee9aba93",
+      "archive": "raw/cc87fd64fc60be4189c1bc487fc390160bb477159e91856fba723d7fee9aba93.gz",
+      "archiveBytes": 3883,
+      "archiveSha256": "6ef095b3dd507ba2cc6b4cdf68dde1e955c8c09d681ebfc57bbf55c1add76e6c",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/terminal-independent-audit-v2.json",
+      "bytes": 81846,
+      "sha256": "e632428c46aacf83f745310ebcfeb4bf2265d128bf2833dfcc354786abeb732f",
+      "archive": "raw/e632428c46aacf83f745310ebcfeb4bf2265d128bf2833dfcc354786abeb732f.gz",
+      "archiveBytes": 11308,
+      "archiveSha256": "efda2d0c93f2f77bb0c885b8f7aac63cb99d73b4d933e487f8b976827c911a3e",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/static-candidate-preflight-v1.mjs",
+      "bytes": 5020,
+      "sha256": "1c294efa8bb9b8b3dd15abfccd7570a71bcd25cf5cf903cc6e7c43a8a3213545",
+      "archive": "raw/1c294efa8bb9b8b3dd15abfccd7570a71bcd25cf5cf903cc6e7c43a8a3213545.gz",
+      "archiveBytes": 2380,
+      "archiveSha256": "571ebc0aab39b851938e74f042481d322f823b974a730aeafb0b3ed046d81837",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-hd720-20261023/static-candidate-preflight-v1.json",
+      "bytes": 2971,
+      "sha256": "1b549aefccf97b8b2671a3499370f692041bb3e24d81fdf85e9fbdb41b5a30d3",
+      "archive": "raw/1b549aefccf97b8b2671a3499370f692041bb3e24d81fdf85e9fbdb41b5a30d3.gz",
+      "archiveBytes": 1398,
+      "archiveSha256": "cef287214242a6fd994a22f6e823fbf8c6b292a8ed1ba23f5e80afff22adf77b",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango0.sav",
+      "bytes": 8221,
+      "sha256": "5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d",
+      "archive": "raw/5e8eb45f4e7712d3e63982db03c5616ec7866a75b109ab186725b4eef938b20d.gz",
+      "archiveBytes": 2183,
+      "archiveSha256": "b0c9c257ff6266b170bb2f9294ab7ba3896027e7bf39cbed93b8de80e934a069",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/r22-aid-phase2-actual-v5/native-caster188-owned-sango1.sav",
+      "bytes": 4840,
+      "sha256": "8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97",
+      "archive": "raw/8f73a71dfba722cd2e3c33824853bc8a82886180030ed5d63a45a52c18939f97.gz",
+      "archiveBytes": 1591,
+      "archiveSha256": "9ad9a008e3321ed9ea41780c7f1e21e541966db729896fb471e23bb7d597a24f",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "docs/validation/m4-aid-runtime-20261010.json",
+      "bytes": 67539,
+      "sha256": "b052f46a45581f8204d083e8b24a65b32e3e89cdf73c16ef3e7a52f1cbbf9c9e",
+      "archive": "raw/b052f46a45581f8204d083e8b24a65b32e3e89cdf73c16ef3e7a52f1cbbf9c9e.gz",
+      "archiveBytes": 10272,
+      "archiveSha256": "7f1a53b0e2abc2b33be0d87cf17ac3ca9f05fa2e9730bb485508e7951c39d9eb",
+      "encoding": "gzip-original-bytes"
+    }
+  ],
+  "previews": [
+    {
+      "id": 17,
+      "phase": "movie",
+      "original": "build/aid-hd720-20261023/installed720-17-v1/aid-0000-movie-hd.png",
+      "bytes": 1396965,
+      "sha256": "6247fe06ab2ef407e1a36d3d28ed5988365be4fa02ac10e1014d109bdec46788",
+      "archive": "png/6247fe06ab2ef407e1a36d3d28ed5988365be4fa02ac10e1014d109bdec46788.png",
+      "originalUnmodified": true
+    },
+    {
+      "id": 29,
+      "phase": "hold",
+      "original": "build/aid-hd720-20261023/installed720-29-v1/aid-0025-hold-hd.png",
+      "bytes": 1038581,
+      "sha256": "de80474f2676fca51c03a15b0ff6071dc9b7edcdd9e8389c28d3efdc97906f8c",
+      "archive": "png/de80474f2676fca51c03a15b0ff6071dc9b7edcdd9e8389c28d3efdc97906f8c.png",
+      "originalUnmodified": true
+    }
+  ],
+  "omittedSupplementaryFullPagePng": [
+    {
+      "path": "build/aid-hd720-20261023/installed720-17-v1/02-actual-native-march-persons.png",
+      "bytes": 839981,
+      "sha256": "aae063d6902e45319ebaa661797aab280929e315d863311a78c7a4d2a54ce915",
+      "reason": "Supplementary full-page setup/post-retirement screenshot only; every raw captured native/LCD/HD PNG is archived unchanged"
+    },
+    {
+      "path": "build/aid-hd720-20261023/installed720-17-v1/03-original-dispatch-order.png",
+      "bytes": 937821,
+      "sha256": "89d934cb7a1287275b6a06b1f01babf6a87ab165912309f153585190c2dd8d14",
+      "reason": "Supplementary full-page setup/post-retirement screenshot only; every raw captured native/LCD/HD PNG is archived unchanged"
+    },
+    {
+      "path": "build/aid-hd720-20261023/installed720-17-v1/05-two-AID-owners-retired.png",
+      "bytes": 196639,
+      "sha256": "5bc4a06b370ddeb1f9f68daed631fb4a9ebda0cd270f9e4e4127ef92019366b2",
+      "reason": "Supplementary full-page setup/post-retirement screenshot only; every raw captured native/LCD/HD PNG is archived unchanged"
+    },
+    {
+      "path": "build/aid-hd720-20261023/installed720-17-v1/skill17-true-player-movie-1.png",
+      "bytes": 196639,
+      "sha256": "5bc4a06b370ddeb1f9f68daed631fb4a9ebda0cd270f9e4e4127ef92019366b2",
+      "reason": "Supplementary full-page setup/post-retirement screenshot only; every raw captured native/LCD/HD PNG is archived unchanged"
+    },
+    {
+      "path": "build/aid-hd720-20261023/installed720-29-v1/02-actual-native-march-persons.png",
+      "bytes": 787182,
+      "sha256": "89415ed0db78e6d85f7092f48d9909df4a5f4264f99b49bc4b0fd2108d0defdf",
+      "reason": "Supplementary full-page setup/post-retirement screenshot only; every raw captured native/LCD/HD PNG is archived unchanged"
+    },
+    {
+      "path": "build/aid-hd720-20261023/installed720-29-v1/03-original-dispatch-order.png",
+      "bytes": 939741,
+      "sha256": "7829d1846cfbed2de029f7d8e543a11f4613a2edd5e9ed6f72272b6940f42ec0",
+      "reason": "Supplementary full-page setup/post-retirement screenshot only; every raw captured native/LCD/HD PNG is archived unchanged"
+    },
+    {
+      "path": "build/aid-hd720-20261023/installed720-29-v1/05-two-AID-owners-retired.png",
+      "bytes": 196620,
+      "sha256": "4a435c19b8ea3df672c8c560d9f75c2d964afc0dbf1eea30a5c38d01c03845fc",
+      "reason": "Supplementary full-page setup/post-retirement screenshot only; every raw captured native/LCD/HD PNG is archived unchanged"
+    },
+    {
+      "path": "build/aid-hd720-20261023/installed720-29-v1/skill29-true-player-movie-1.png",
+      "bytes": 196620,
+      "sha256": "4a435c19b8ea3df672c8c560d9f75c2d964afc0dbf1eea30a5c38d01c03845fc",
+      "reason": "Supplementary full-page setup/post-retirement screenshot only; every raw captured native/LCD/HD PNG is archived unchanged"
+    }
+  ],
+  "dependencies": {
+    "originalPhase2Result": {
+      "bytes": 48322439,
+      "sha256": "e467cecf81eca3c997b6afd4168aec2037e92ebaf1c24fe6e384ed64b55cf782"
+    },
+    "source": "approved-v5",
+    "scope": "Exact48MB historical result dependency SHA only; current untouched pair, current real native LOAD and source pins were independently verified."
+  }
+}

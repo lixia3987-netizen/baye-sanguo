@@ -1,0 +1,534 @@
+{
+  "schemaVersion": 1,
+  "kind": "V32 original conditional Plunder-prefix pure source adoption with immutable forward provenance",
+  "sourceOnly": true,
+  "adoptedModule": {
+    "path": "build/impact-skill-20261014/hd-impact-v32-conditional-plunder-prefix-v4.mjs",
+    "bytes": 26245,
+    "sha256": "3186e26161a2cb9dc8cfcd27e919be39bc75a671138b898c43116766cfc80b79"
+  },
+  "adoptedTests": {
+    "path": "build/impact-skill-20261014/test-hd-impact-v32-conditional-plunder-prefix-v2.mjs",
+    "bytes": 23774,
+    "sha256": "581a06698de3b6efdcb4a6c8e7202aa3f065d27fd0db8e7b2e27bd1868b30245"
+  },
+  "allPreservedVersions": [
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v32-conditional-plunder-prefix-v1.mjs",
+      "bytes": 22250,
+      "sha256": "ca594dd4238053efd0eba45d3b4911c0590a20746e85b2474c69fb3393ae21a6"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v32-conditional-plunder-prefix-v2.mjs",
+      "bytes": 23206,
+      "sha256": "c79f24220c2b5f3f3087e35723774af973e77edb0ef91b5c656291ab5d6c5996"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v32-conditional-plunder-prefix-v3.mjs",
+      "bytes": 24208,
+      "sha256": "e604e039271ef4083a3e6a58e2740524fe8712ee68f1c33baf54e693c965b404"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v32-conditional-plunder-prefix-v4.mjs",
+      "bytes": 26245,
+      "sha256": "3186e26161a2cb9dc8cfcd27e919be39bc75a671138b898c43116766cfc80b79"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v32-conditional-plunder-prefix-v1.mjs",
+      "bytes": 20776,
+      "sha256": "ea7233e8599050ecef5d0236ec0c64441ae6b083727ee931c59b9adbafb923c1"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v32-conditional-plunder-prefix-v2.mjs",
+      "bytes": 23774,
+      "sha256": "581a06698de3b6efdcb4a6c8e7202aa3f065d27fd0db8e7b2e27bd1868b30245"
+    }
+  ],
+  "immutableForwardProof": [
+    {
+      "from": {
+        "path": "build/impact-skill-20261014/hd-impact-v32-conditional-plunder-prefix-v1.mjs",
+        "bytes": 22250,
+        "sha256": "ca594dd4238053efd0eba45d3b4911c0590a20746e85b2474c69fb3393ae21a6"
+      },
+      "to": {
+        "path": "build/impact-skill-20261014/hd-impact-v32-conditional-plunder-prefix-v2.mjs",
+        "bytes": 23206,
+        "sha256": "c79f24220c2b5f3f3087e35723774af973e77edb0ef91b5c656291ab5d6c5996"
+      },
+      "kind": "One minimal contiguous UTF16 source replacement, all surrounding bytes exact",
+      "startUtf16": 1808,
+      "before": "const FALSE_CREDIT=Object.freeze({publicInputAccepted:false,publicSaveAccepted:false,nativeExecutionAccepted:false,actualSupplyIncomeAccepted:false,actualAcquisitionAccepted:false,actualGiveExecutionAccepted:false,actualPreparationAccepted:false,actualMonthAccepted:false,actualCastAccepted:false,classicNativePixelAccepted:false,hdAccepted:false,globalHdComplete:false,rngContinuityAccepted:false});\nconst hash=b=>createHash('sha256').update(b).digest('hex'),clone=structuredClone,eq=(a,b,label)=>assert.deepEqual(a,b,label),envoyIds=new Set(V31_ENVOYS.map(x=>x[1]));\nconst PERSON={OldBelong:65535,Belong:65535,Level:255,Force:255,IQ:255,Devotion:255,Character:255,Experience:255,Thew:255,ArmsType:255,Arms:65535,Tool1:65535,Tool2:65535,Age:255};\nconst CITY={State:255,Belong:65535,SatrapId:65535,FarmingLimit:65535,Farming:65535,CommerceLimit:65535,Commerce:65535,PeopleDevotion:255,AvoidCalamity:255,PopulationLimit:0xffffffff,Population:0xffffffff,Money:65535,Food:65535,MothballArms:65535,PersonQueue:65535,Persons:65535,ToolQueue:65535,Tools:65535};\nconst ORDER={OrderId:255,Person:65535,City:255,Object:65535,Arms:65535,Food:65535,Money:65535,Consume:255,TimeCount:255};\nconst CONFIG=['enable16bitConsumeMoney','checkRedundantOnAddPerson','armsPerMoney','armsPerDevotion','fixOverFlow16','enableCustomRatio','ratioOfArmsToLevel','ratioOfArmsToAge','ratioOfArmsToIQ','ratioOfArmsToForce','disableExpGrowing','maxLevel','disableAllPersonReport','fixAlienateComsumeThew','disableSL'];\nfunction integer(v,min,max,name){assert.ok(Number.isInteger(v)&&v>=min&&v<=max,name+' integer '+min+'..'+max);return v;}\nfunction dense(a,n,name){assert.ok(Array.isArray(a)&&a.length===n,name+' exact array length');assert.equal(Object.keys(a).length,n,name+' dense indexed array only');for(let i=0;i<n;i++)assert.ok(Object.hasOwn(a,i),name+' missing '+i);}\nfunction measurement(v,name,parents=new Set()){\n if(v===null||typeof v==='string'||typeof v==='boolean')return;\n if(typeof v==='number'){assert.ok(Number.isFinite(v),name+' finite');return;}\n assert.ok(v&&typeof v==='object',name+' JSON measurement only');assert.ok(!parents.has(v),name+' no cycle');assert.equal(Object.getOwnPropertySymbols(v).length,0,name+' no symbols');assert.equal(Object.getPrototypeOf(v),Array.isArray(v)?Array.prototype:Object.prototype,name+' plain measurement');\n parents.add(v);if(Array.isArray(v))dense(v,v.length,name);for(const k of Object.keys(v)){const d=Object.getOwnPropertyDescriptor(v,k);assert.ok(Object.hasOwn(d,'value'),name+' no accessor');measurement(d.value,name+'.'+k,parents);}parents.delete(v);\n}\nfunction vector(v,n,max,name){dense(v,n,name);for(let i=0;i<n;i++)integer(v[i],0,max,name+'['+i+']');}\nfunction typed(row,fields,name){assert.ok(row&&typeof row==='object'&&!Array.isArray(row),name+' object');for(const [k,max]of Object.entries(fields))integer(row[k],0,max,name+'.'+k);}\nfunction shape(w,name){\n measurement(w,name);assert.ok(w&&!Array.isArray(w),name+' world');assert.equal(w.period,4,name+' original P4');assert.equal(w.king,0,name+' current P4 king0');integer(w.year,0,65535,name+'.year');integer(w.month,1,12,name+'.month');\n dense(w.people,200,name+'.people');w.people.forEach((p,i)=>{typed(p,PERSON,name+'.people['+i+']');for(const k of ['Belong','OldBelong'])assert.ok(p[k]<=200||p[k]===65535,name+' original person faction token');});\n dense(w.cities,38,name+'.cities');vector(w.queue,2000,65535,name+'.queue');vector(w.goodsQueue,2000,65535,name+'.goodsQueue');vector(w.fighters,600,255,name+'.fighters');vector(w.fighterIndex,30,1,name+'.fighterIndex');\n const occupied=new Set();w.cities.forEach((c,i)=>{typed(c,CITY,name+'.cities['+i+']');assert.ok(c.Belong<=200&&c.SatrapId<=200,name+' city faction/person bounds');assert.ok(c.PersonQueue+c.Persons<=200,name+' in-use raw resident range inside serialized first200');assert.ok(c.ToolQueue+c.Tools<=2000,name+' in-use goods bounds');for(let j=c.PersonQueue;j<c.PersonQueue+c.Persons;j++){assert.ok(!occupied.has(j),name+' no overlapping physical resident slots');occupied.add(j);integer(w.queue[j],0,199,name+' in-use raw PID');}});\n // Do not add a global PID-uniqueness assertion: GetCityPersons only filters\n // each actual city slice by Belong. The old input really contains cross-city\n // raw repeats, including an eligible PID in two different enemy cities.\n dense(w.orders,200,name+'.orders');w.orders.forEach((o,i)=>typed(o,ORDER,name+'.orders['+i+']'));\n assert.ok(w.config&&typeof w.config==='object'&&!Array.isArray(w.config),name+'.config');for(const k of CONFIG)integer(w.config[k],0,0xffffffff,name+'.config.'+k);assert.equal(w.config.enable16bitConsumeMoney,0,name+' only approved original byte money table');assert.equal(w.config.enableCustomRatio,0);assert.equal(w.config.maxLevel,20);integer(w.lookMovie,0,255,name+'.lookMovie');assert.ok(w.engineDebug===null||w.engineDebug===0,name+' debug if published must be zero; null is not direct flag evidence');\n}\n\n\nfunction scoped(w,label){shape(w,label);eq([w.year,w.month],[239,2],label+' only actual February policy, no fabricated later world');eq(w.cities.flatMap((c,i)=>c.Belong===1?[i]:[]),V31_OWNED,label+' exact owned cities');assert.equal(w.config.fixOverFlow16,0);return w;}\nfunction library(libBytes){assert.ok(Buffer.isBuffer(libBytes)||libBytes instanceof Uint8Array);const b=Buffer.from(libBytes);eq([b.length,hash(b)],[207195,'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e']);const r=b.readUInt32LE(4);assert.equal(b.readUInt16LE(r+4),2);const fixed=b.readUInt32LE(r+8),off=fixed?14+9*fixed:b.readUInt32LE(r+14+9*8),size=fixed||b.readUInt32LE(r+18+9*8);eq([r,off,size,b[r+off+24]],[2357,955,28,12]);return{bytes:b.length,sha256:hash(b),thewResource:2,itemIndex:9,commandIndex:24,absoluteCostByteOffset:r+off+24,thewCost:12};}\nfunction places(w,id){return V31_OWNED.flatMap(city=>v31Residents(w,city).flatMap(p=>p===id?[city]:[]));}\nfunction rawIds(w,city){const c=w.cities[city];return w.queue.slice(c.PersonQueue,c.PersonQueue+c.Persons);}\nfunction economics(w){const c=w.cities[20],p=w.people[44];eq([p.IQ,p.Force,p.Arms,p.Belong],[46,83,0,1]);const n=p.IQ+p.Force;assert.ok(c.Food+n*5<=65535&&c.Money+n*2<=65535,'No resource wrap is supported');return{PeopleDevotion:Math.floor(c.PeopleDevotion/2),Farming:Math.floor(c.Farming/2),Commerce:Math.floor(c.Commerce/2),Food:c.Food+n*5,Money:c.Money+n*2};}\nfunction plansScope(plans){dense(plans,plans.length,'plans');assert.ok(plans.length<=10);for(const p of plans){assert.ok(Object.hasOwn(V31_ACTORS_BY_CITY,p.cityIndex));assert.ok(V31_ACTORS_BY_CITY[p.cityIndex].includes(p.personId));assert.ok(V31_TARGETS.includes(p.targetId));assert.notEqual(p.cityIndex,20,'No new army acquisition at the repaired city in this narrow prefix scope');}}\nfunction savedWorld(publicSave,w){measurement(publicSave,'publicSave');assert.ok(publicSave&&typeof publicSave.tag==='string');assert.match(publicSave.tag,/^impact13-129-v32-[a-z0-9-]+$/);eq(publicSave.before.world,w,'Public SAVE before complete world');eq(publicSave.after.world,w,'Public SAVE after complete world');return{tag:publicSave.tag,worldJsonSha256:hash(Buffer.from(JSON.stringify(w))),scope:'Supplied full SAVE world comparison only; original UI/control/packed file proof remains independent',publicSaveAccepted:false};}\nexport function verifyV32NoTakeoverHookFence({snapshot,observerExpected=false}={}){measurement(snapshot,'hookFence');assert.ok(snapshot&&snapshot.readOnly===true);dense(snapshot.hooks,V32_NO_TAKEOVER_HOOKS.length,'complete no-takeover hooks');eq(snapshot.hooks.map(h=>h.name),V32_NO_TAKEOVER_HOOKS,'No omitted, repeated or unreviewed AI/order hook');for(const h of snapshot.hooks){assert.equal(h.present,false,'Unexpected native lifecycle/gameplay hook '+h.name);assert.equal(h.type,'undefined','Native hook type '+h.name);}const o=snapshot.observer;assert.ok(o&&o.name==='willExecuteOrder');if(observerExpected===false)assert.equal(o.present,false,'No policy observer before the authorized installation');else{measurement(observerExpected,'observerExpected');assert.ok(observerExpected&&typeof observerExpected.functionSource==='string'&&observerExpected.functionSource.length>0,'ROOT-frozen exact observer function body required",
+      "after": "export const V32_POLICY_OBSERVER_FUNCTION_SOURCE=\"function(context){const ordinal=store.calls.length;let initial=null,sample={ordinal,returnValue:-1};try{initial=order(context);store.calls.push(initial);const asyncBefore=asyncState(),a=read(),b=read(),after=order(context),asyncAfter=asyncState();sample={ordinal,order:initial,a,b,contextAfter:after,asyncBefore,asyncAfter,slotCandidates:b.world.orders.flatMap((o,i)=>JSON.stringify(o)===JSON.stringify(initial)?[i]:[]),contextUnchanged:JSON.stringify(initial)===JSON.stringify(after),asyncActionUnchanged:JSON.stringify(asyncBefore)===JSON.stringify(asyncAfter),returnValue:-1};}catch(e){if(store.calls.length===ordinal)store.calls.push(initial);sample={...sample,order:initial,error:String(e&&e.stack||e)};}store.samples.push(sample);return -1;}\";\nconst FALSE_CREDIT=Object.freeze({publicInputAccepted:false,publicSaveAccepted:false,nativeExecutionAccepted:false,actualSupplyIncomeAccepted:false,actualAcquisitionAccepted:false,actualGiveExecutionAccepted:false,actualPreparationAccepted:false,actualMonthAccepted:false,actualCastAccepted:false,classicNativePixelAccepted:false,hdAccepted:false,globalHdComplete:false,rngContinuityAccepted:false});\nconst hash=b=>createHash('sha256').update(b).digest('hex'),clone=structuredClone,eq=(a,b,label)=>assert.deepEqual(a,b,label),envoyIds=new Set(V31_ENVOYS.map(x=>x[1]));\nconst PERSON={OldBelong:65535,Belong:65535,Level:255,Force:255,IQ:255,Devotion:255,Character:255,Experience:255,Thew:255,ArmsType:255,Arms:65535,Tool1:65535,Tool2:65535,Age:255};\nconst CITY={State:255,Belong:65535,SatrapId:65535,FarmingLimit:65535,Farming:65535,CommerceLimit:65535,Commerce:65535,PeopleDevotion:255,AvoidCalamity:255,PopulationLimit:0xffffffff,Population:0xffffffff,Money:65535,Food:65535,MothballArms:65535,PersonQueue:65535,Persons:65535,ToolQueue:65535,Tools:65535};\nconst ORDER={OrderId:255,Person:65535,City:255,Object:65535,Arms:65535,Food:65535,Money:65535,Consume:255,TimeCount:255};\nconst CONFIG=['enable16bitConsumeMoney','checkRedundantOnAddPerson','armsPerMoney','armsPerDevotion','fixOverFlow16','enableCustomRatio','ratioOfArmsToLevel','ratioOfArmsToAge','ratioOfArmsToIQ','ratioOfArmsToForce','disableExpGrowing','maxLevel','disableAllPersonReport','fixAlienateComsumeThew','disableSL'];\nfunction integer(v,min,max,name){assert.ok(Number.isInteger(v)&&v>=min&&v<=max,name+' integer '+min+'..'+max);return v;}\nfunction dense(a,n,name){assert.ok(Array.isArray(a)&&a.length===n,name+' exact array length');assert.equal(Object.keys(a).length,n,name+' dense indexed array only');for(let i=0;i<n;i++)assert.ok(Object.hasOwn(a,i),name+' missing '+i);}\nfunction measurement(v,name,parents=new Set()){\n if(v===null||typeof v==='string'||typeof v==='boolean')return;\n if(typeof v==='number'){assert.ok(Number.isFinite(v),name+' finite');return;}\n assert.ok(v&&typeof v==='object',name+' JSON measurement only');assert.ok(!parents.has(v),name+' no cycle');assert.equal(Object.getOwnPropertySymbols(v).length,0,name+' no symbols');assert.equal(Object.getPrototypeOf(v),Array.isArray(v)?Array.prototype:Object.prototype,name+' plain measurement');\n parents.add(v);if(Array.isArray(v))dense(v,v.length,name);for(const k of Object.keys(v)){const d=Object.getOwnPropertyDescriptor(v,k);assert.ok(Object.hasOwn(d,'value'),name+' no accessor');measurement(d.value,name+'.'+k,parents);}parents.delete(v);\n}\nfunction vector(v,n,max,name){dense(v,n,name);for(let i=0;i<n;i++)integer(v[i],0,max,name+'['+i+']');}\nfunction typed(row,fields,name){assert.ok(row&&typeof row==='object'&&!Array.isArray(row),name+' object');for(const [k,max]of Object.entries(fields))integer(row[k],0,max,name+'.'+k);}\nfunction shape(w,name){\n measurement(w,name);assert.ok(w&&!Array.isArray(w),name+' world');assert.equal(w.period,4,name+' original P4');assert.equal(w.king,0,name+' current P4 king0');integer(w.year,0,65535,name+'.year');integer(w.month,1,12,name+'.month');\n dense(w.people,200,name+'.people');w.people.forEach((p,i)=>{typed(p,PERSON,name+'.people['+i+']');for(const k of ['Belong','OldBelong'])assert.ok(p[k]<=200||p[k]===65535,name+' original person faction token');});\n dense(w.cities,38,name+'.cities');vector(w.queue,2000,65535,name+'.queue');vector(w.goodsQueue,2000,65535,name+'.goodsQueue');vector(w.fighters,600,255,name+'.fighters');vector(w.fighterIndex,30,1,name+'.fighterIndex');\n const occupied=new Set();w.cities.forEach((c,i)=>{typed(c,CITY,name+'.cities['+i+']');assert.ok(c.Belong<=200&&c.SatrapId<=200,name+' city faction/person bounds');assert.ok(c.PersonQueue+c.Persons<=200,name+' in-use raw resident range inside serialized first200');assert.ok(c.ToolQueue+c.Tools<=2000,name+' in-use goods bounds');for(let j=c.PersonQueue;j<c.PersonQueue+c.Persons;j++){assert.ok(!occupied.has(j),name+' no overlapping physical resident slots');occupied.add(j);integer(w.queue[j],0,199,name+' in-use raw PID');}});\n // Do not add a global PID-uniqueness assertion: GetCityPersons only filters\n // each actual city slice by Belong. The old input really contains cross-city\n // raw repeats, including an eligible PID in two different enemy cities.\n dense(w.orders,200,name+'.orders');w.orders.forEach((o,i)=>typed(o,ORDER,name+'.orders['+i+']'));\n assert.ok(w.config&&typeof w.config==='object'&&!Array.isArray(w.config),name+'.config');for(const k of CONFIG)integer(w.config[k],0,0xffffffff,name+'.config.'+k);assert.equal(w.config.enable16bitConsumeMoney,0,name+' only approved original byte money table');assert.equal(w.config.enableCustomRatio,0);assert.equal(w.config.maxLevel,20);integer(w.lookMovie,0,255,name+'.lookMovie');assert.ok(w.engineDebug===null||w.engineDebug===0,name+' debug if published must be zero; null is not direct flag evidence');\n}\n\n\nfunction scoped(w,label){shape(w,label);eq([w.year,w.month],[239,2],label+' only actual February policy, no fabricated later world');eq(w.cities.flatMap((c,i)=>c.Belong===1?[i]:[]),V31_OWNED,label+' exact owned cities');assert.equal(w.config.fixOverFlow16,0);return w;}\nfunction library(libBytes){assert.ok(Buffer.isBuffer(libBytes)||libBytes instanceof Uint8Array);const b=Buffer.from(libBytes);eq([b.length,hash(b)],[207195,'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e']);const r=b.readUInt32LE(4);assert.equal(b.readUInt16LE(r+4),2);const fixed=b.readUInt32LE(r+8),off=fixed?14+9*fixed:b.readUInt32LE(r+14+9*8),size=fixed||b.readUInt32LE(r+18+9*8);eq([r,off,size,b[r+off+24]],[2357,955,28,12]);return{bytes:b.length,sha256:hash(b),thewResource:2,itemIndex:9,commandIndex:24,absoluteCostByteOffset:r+off+24,thewCost:12};}\nfunction places(w,id){return V31_OWNED.flatMap(city=>v31Residents(w,city).flatMap(p=>p===id?[city]:[]));}\nfunction rawIds(w,city){const c=w.cities[city];return w.queue.slice(c.PersonQueue,c.PersonQueue+c.Persons);}\nfunction economics(w){const c=w.cities[20],p=w.people[44];eq([p.IQ,p.Force,p.Arms,p.Belong],[46,83,0,1]);const n=p.IQ+p.Force;assert.ok(c.Food+n*5<=65535&&c.Money+n*2<=65535,'No resource wrap is supported');return{PeopleDevotion:Math.floor(c.PeopleDevotion/2),Farming:Math.floor(c.Farming/2),Commerce:Math.floor(c.Commerce/2),Food:c.Food+n*5,Money:c.Money+n*2};}\nfunction plansScope(plans){dense(plans,plans.length,'plans');assert.ok(plans.length<=10);for(const p of plans){assert.ok(Object.hasOwn(V31_ACTORS_BY_CITY,p.cityIndex));assert.ok(V31_ACTORS_BY_CITY[p.cityIndex].includes(p.personId));assert.ok(V31_TARGETS.includes(p.targetId));assert.notEqual(p.cityIndex,20,'No new army acquisition at the repaired city in this narrow prefix scope');}}\nfunction savedWorld(publicSave,w){measurement(publicSave,'publicSave');assert.ok(publicSave&&typeof publicSave.tag==='string');assert.match(publicSave.tag,/^impact13-129-v32-[a-z0-9-]+$/);eq(publicSave.before.world,w,'Public SAVE before complete world');eq(publicSave.after.world,w,'Public SAVE after complete world');return{tag:publicSave.tag,worldJsonSha256:hash(Buffer.from(JSON.stringify(w))),scope:'Supplied full SAVE world comparison only; original UI/control/packed file proof remains independent',publicSaveAccepted:false};}\nexport function verifyV32NoTakeoverHookFence({snapshot,observerExpected=false}={}){measurement(snapshot,'hookFence');assert.ok(snapshot&&snapshot.readOnly===true);dense(snapshot.hooks,V32_NO_TAKEOVER_HOOKS.length,'complete no-takeover hooks');eq(snapshot.hooks.map(h=>h.name),V32_NO_TAKEOVER_HOOKS,'No omitted, repeated or unreviewed AI/order hook');for(const h of snapshot.hooks){assert.equal(h.present,false,'Unexpected native lifecycle/gameplay hook '+h.name);assert.equal(h.type,'undefined','Native hook type '+h.name);}const o=snapshot.observer;assert.ok(o&&o.name==='willExecuteOrder');if(observerExpected===false)assert.equal(o.present,false,'No policy observer before the authorized installation');else{measurement(observerExpected,'observerExpected');assert.ok(observerExpected&&typeof observerExpected.functionSource==='string'&&observerExpected.functionSource.length>0,'ROOT-frozen exact observer function body required');eq(observerExpected.functionSource,V32_POLICY_OBSERVER_FUNCTION_SOURCE,'Caller expectation must equal the exact inherited readonly native observer source",
+      "replacementCount": 1,
+      "exactSourceReplay": true,
+      "reason": "Freeze exact observer; reject arbitrary matching expected and actual hook function text.",
+      "moduleExecuted": false,
+      "testsExecuted": false
+    },
+    {
+      "from": {
+        "path": "build/impact-skill-20261014/hd-impact-v32-conditional-plunder-prefix-v2.mjs",
+        "bytes": 23206,
+        "sha256": "c79f24220c2b5f3f3087e35723774af973e77edb0ef91b5c656291ab5d6c5996"
+      },
+      "to": {
+        "path": "build/impact-skill-20261014/hd-impact-v32-conditional-plunder-prefix-v3.mjs",
+        "bytes": 24208,
+        "sha256": "e604e039271ef4083a3e6a58e2740524fe8712ee68f1c33baf54e693c965b404"
+      },
+      "kind": "One minimal contiguous UTF16 source replacement, all surrounding bytes exact",
+      "startUtf16": 23206,
+      "before": "",
+      "after": "export function verifyV32QueuedDispatchGuards({world,referenceWorld,dispatchWorld,libBytes}={}){\n planV32ConditionalPlunderPrefix({world:referenceWorld,libBytes});\n verifyRawPlunderDispatch({before:referenceWorld,after:dispatchWorld,libBytes});\n scoped(world,'Intermediate native queued dispatch');queuedOrders(world);\n eq(world.orders[0],dispatchWorld.orders[0],'Exact once-paid slot0 Plunder survives all intermediate Canvass UI phases');\n const guards=guard(world,referenceWorld,world,{plunderReturned:false,strictPeople:true});\n eq([world.cities[20].Food,world.cities[20].Money],[1,1077],'Intermediate queued orders have no actual Plunder income');\n const actual=v31FoodBudget(world);eq(actual.rows.filter(r=>!r.actualSafe).map(r=>r.city),[20]);\n return{accepted:true,sourceModelOnly:true,sourcePrefixQualified:true,actualCurrentFoodSafe:false,actualIncomeObservedInSuppliedEvidence:false,futureIncomeAccepted:false,runtimeHookFenceRequiredBeforeAnyInput:true,guardProof:guards,...FALSE_CREDIT};\n}\n",
+      "replacementCount": 1,
+      "exactSourceReplay": true,
+      "reason": "Add intermediate queued worker guard with no SAVE or income credit; exact paid slot0 and known worker exceptions.",
+      "moduleExecuted": false,
+      "testsExecuted": false
+    },
+    {
+      "from": {
+        "path": "build/impact-skill-20261014/hd-impact-v32-conditional-plunder-prefix-v3.mjs",
+        "bytes": 24208,
+        "sha256": "e604e039271ef4083a3e6a58e2740524fe8712ee68f1c33baf54e693c965b404"
+      },
+      "to": {
+        "path": "build/impact-skill-20261014/hd-impact-v32-conditional-plunder-prefix-v4.mjs",
+        "bytes": 26245,
+        "sha256": "3186e26161a2cb9dc8cfcd27e919be39bc75a671138b898c43116766cfc80b79"
+      },
+      "kind": "One minimal contiguous UTF16 source replacement, all surrounding bytes exact",
+      "startUtf16": 18031,
+      "before": "readonly(s,i,calls,observerExpected){measurement(s,'callback'+i);assert.ok(s&&!s.error&&s.a&&s.b);eq(s.ordinal,i);eq(s.order,calls[i]);eq(s.a,s.b,'Complete readonly native A/B');eq(s.contextAfter,s.order);eq(s.asyncBefore,s.asyncAfter,'All32 async params/id/text/unknown fields unchanged');dense(s.asyncBefore.params,32,'async params');eq([s.returnValue,s.contextUnchanged,s.asyncActionUnchanged],[-1,true,true]);assert.equal(s.b.meta.currentIdentity,true);verifyV32NoTakeoverHookFence({snapshot:s.b.meta.v32HookFence,observerExpected});assert.ok(Array.isArray(s.b.meta.gameplayHooks)&&s.b.meta.gameplayHooks.length>0);for(const h of s.b.meta.gameplayHooks)assert.equal(h.present,false);scoped(s.b.world,'native callback');eq(s.slotCandidates,s.b.world.orders.flatMap((o,index)=>JSON.stringify(o)===JSON.stringify(s.order)?[index]:[]),'Every complete current native order identity slot');return s.b;}\nexport function verifyV32PlunderPrefixObserved({queuedWorld,observer,referenceWorld,libBytes,observerExpected}={}){scoped(queuedWorld,'queued');scoped(referenceWorld,'reference');library(libBytes);queuedOrders(queuedWorld);assert.ok(observer&&observer.installed===true);dense(observer.samples,observer.samples.length,'samples');dense(observer.calls,observer.samples.length,'calls');assert.ok(observer.samples.length>=2,'Missing immediate next native callback cannot prove Plunder return');for(let i=0;i<observer.samples.length;i++)readonly(observer.samples[i],i,observer.calls,observerExpected);const first=observer.samples[0],next=observer.samples[1];eq(first.slotCandidates,[0],'Plunder is actually the first callback atslot0');eq(first.order,queuedWorld.orders[0]);assert.equal(next.slotCandidates.length,1);assert.ok(next.slotCandidates[0]>0);const before=first.b.world,after=next.b.world;eq(before.orders[0],queuedWorld.orders[0]);eq(before.people[44],queuedWorld.people[44]);for(const city of V31_OWNED){const expected={...queuedWorld.cities[city],State:0,PersonQueue:before.cities[city].PersonQueue};eq(before.cities[city],expected,'AI MAKE cannot mutate owned economics/army fields; only globalState0 and raw offsets '+city);eq(rawIds(before,city),rawIds(queuedWorld,city),'AI MAKE cannot remove or relocate original owned-city raw residents '+city);}eq([before.cities[20].Food,before.cities[20].Money],[1,1077]);const firstGuards=guard(before,referenceWorld,queuedWorld,{plunderReturned:false,strictPeople:true}),transition=v31VerifyPlunderReturn({before,after,orderIndex:0}),returnGuards=guard(after,referenceWorld,queuedWorld,{plunderReturned:true,strictPeople:true}),food=v31FoodBudget(after);assert.equal(food.accepted,true,'Only actual adjacent supplied income may satisfy strict actual Food/cash');eq([after.cities[20].Food,after.cities[20].Money],[646,1335]);return{accepted:true,sourceModelOnly:true,completeAdjacentNativePrefixAccepted:true,callbackOrdinal:0,nextCallbackOrdinal:1,orderIndex:0,callbackCount:observer.samples.length,firstGuards,returnGuards,transition,actualIncomeObservedInSuppliedEvidence:true,actualCurrentFoodSafe:true,actualCurrentFoodModel:food,futureIncomeAccepted:false,modeledIntermediateWasObserved:false,wholeMonthWorldAccepted:false,...FALSE_CREDIT};}\nexport function verifyV32AfterPrefixActualFoodAndGuards({queuedWorld,observer,ticket,referenceWorld,libBytes,kind,ordinal=null,plans=[],observerExpected}={}){assert.ok(['native-callback','native-order27-callback','before-defender-input'].includes(kind));measurement(ticket,'actual ticket');scoped(ticket.world,'actual later ticket');let prefix=observer;if(kind!=='before-defender-input'){integer(ordinal,1,observer.samples.length-1,'Later actual native callback ordinal');prefix={...observer,samples:observer.samples.slice(0,ordinal+1),calls:observer.calls.slice(0,ordinal+1)};eq(prefix.samples.at(-1).b,ticket,'This exact callback ticket, not a later world');if(kind==='native-order27-callback')assert.equal(prefix.samples.at(-1).order.OrderId,27);}const proof=verifyV32PlunderPrefixObserved({queuedWorld,observer:prefix,referenceWorld,libBytes,observerExpected});for(const s of prefix.samples){integer(s.b.state?.keys,0,0xffffffff,'Actual native callback key count');integer(ticket.state?.keys,0,0xffffffff,'Actual ticket key count');assert.ok(s.b.state.keys<=ticket.state.keys,'No future native callback may authorize an earlier defender');}",
+      "after": "epoch(t){\n measurement(t,'complete actual ticket');assert.ok(t&&t.state&&t.state.snapshot&&t.meta);assert.equal(t.meta.currentIdentity,true,'Current native LIB identity is required for every callback and defender ticket');\n const i=t.meta.identity;assert.ok(i&&i.status==='ready');eq([i.sha256,i.byteLength],['3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e',207195]);integer(i.generation,1,0xffffffff,'Current original LIB generation');\n eq(t.state.snapshot.library,i,'Actual raw snapshot and metadata carry the same complete original LIB ticket, including unknown identity fields');\n const refs=t.state.snapshot.references;assert.ok(refs&&typeof refs==='object'&&!Array.isArray(refs));for(const k of ['data','engine','hd'])integer(refs[k],1,0xffffffff,'Actual reference token '+k);\n const generation=integer(t.state.snapshot.spe?.generation,1,0xffffffff,'Actual native SPE generation');integer(t.state.keys,0,0xffffffff,'Actual engine key count');\n const invariantMeta=clone(t.meta);delete invariantMeta.city;delete invariantMeta.cityPos;\n for(const k of ['monthlyRatio','dailyRatio','aiLevelUpSpeed','orderCapacity','boutMax'])integer(t.meta[k],0,0xffffffff,'Actual invariant meta '+k);eq([t.meta.aiLevelUpSpeed,t.meta.orderCapacity],[0,200]);\n return{references:clone(refs),generation,identity:clone(i),invariantMeta,config:clone(t.world.config)};\n}\nfunction readonly(s,i,calls,observerExpected){measurement(s,'callback'+i);assert.ok(s&&!s.error&&s.a&&s.b);eq(s.ordinal,i);eq(s.order,calls[i]);eq(s.a,s.b,'Complete readonly native A/B');eq(s.contextAfter,s.order);eq(s.asyncBefore,s.asyncAfter,'All32 async params/id/text/unknown fields unchanged');dense(s.asyncBefore.params,32,'async params');eq([s.returnValue,s.contextUnchanged,s.asyncActionUnchanged],[-1,true,true]);assert.equal(s.b.meta.currentIdentity,true);verifyV32NoTakeoverHookFence({snapshot:s.b.meta.v32HookFence,observerExpected});assert.ok(Array.isArray(s.b.meta.gameplayHooks)&&s.b.meta.gameplayHooks.length>0);for(const h of s.b.meta.gameplayHooks)assert.equal(h.present,false);scoped(s.b.world,'native callback');epoch(s.b);eq(s.slotCandidates,s.b.world.orders.flatMap((o,index)=>JSON.stringify(o)===JSON.stringify(s.order)?[index]:[]),'Every complete current native order identity slot');return s.b;}\nexport function verifyV32PlunderPrefixObserved({queuedWorld,observer,referenceWorld,libBytes,observerExpected}={}){scoped(queuedWorld,'queued');scoped(referenceWorld,'reference');library(libBytes);queuedOrders(queuedWorld);assert.ok(observer&&observer.installed===true);dense(observer.samples,observer.samples.length,'samples');dense(observer.calls,observer.samples.length,'calls');assert.ok(observer.samples.length>=2,'Missing immediate next native callback cannot prove Plunder return');for(let i=0;i<observer.samples.length;i++)readonly(observer.samples[i],i,observer.calls,observerExpected);const anchor=epoch(observer.samples[0].b);for(let i=0;i<observer.samples.length;i++){eq(epoch(observer.samples[i].b),anchor,'Every native callback belongs to the same complete data/engine/HD/LIB/config generation');if(i)assert.ok(observer.samples[i].b.state.keys>=observer.samples[i-1].b.state.keys,'Native callback key count cannot move backwards');}eq(observer.samples[1].b.state.keys,observer.samples[0].b.state.keys,'Plunder timed report and immediate adjacent return require zero additional engine inputs');const first=observer.samples[0],next=observer.samples[1];eq(first.slotCandidates,[0],'Plunder is actually the first callback atslot0');eq(first.order,queuedWorld.orders[0]);assert.equal(next.slotCandidates.length,1);assert.ok(next.slotCandidates[0]>0);const before=first.b.world,after=next.b.world;eq(before.orders[0],queuedWorld.orders[0]);eq(before.people[44],queuedWorld.people[44]);for(const city of V31_OWNED){const expected={...queuedWorld.cities[city],State:0,PersonQueue:before.cities[city].PersonQueue};eq(before.cities[city],expected,'AI MAKE cannot mutate owned economics/army fields; only globalState0 and raw offsets '+city);eq(rawIds(before,city),rawIds(queuedWorld,city),'AI MAKE cannot remove or relocate original owned-city raw residents '+city);}eq([before.cities[20].Food,before.cities[20].Money],[1,1077]);const firstGuards=guard(before,referenceWorld,queuedWorld,{plunderReturned:false,strictPeople:true}),transition=v31VerifyPlunderReturn({before,after,orderIndex:0}),returnGuards=guard(after,referenceWorld,queuedWorld,{plunderReturned:true,strictPeople:true}),food=v31FoodBudget(after);assert.equal(food.accepted,true,'Only actual adjacent supplied income may satisfy strict actual Food/cash');eq([after.cities[20].Food,after.cities[20].Money],[646,1335]);return{accepted:true,sourceModelOnly:true,completeAdjacentNativePrefixAccepted:true,callbackOrdinal:0,nextCallbackOrdinal:1,orderIndex:0,callbackCount:observer.samples.length,firstGuards,returnGuards,transition,actualIncomeObservedInSuppliedEvidence:true,actualCurrentFoodSafe:true,actualCurrentFoodModel:food,futureIncomeAccepted:false,modeledIntermediateWasObserved:false,wholeMonthWorldAccepted:false,...FALSE_CREDIT};}\nexport function verifyV32AfterPrefixActualFoodAndGuards({queuedWorld,observer,ticket,referenceWorld,libBytes,kind,ordinal=null,plans=[],observerExpected}={}){assert.ok(['native-callback','native-order27-callback','before-defender-input'].includes(kind));measurement(ticket,'actual ticket');scoped(ticket.world,'actual later ticket');let prefix=observer;if(kind!=='before-defender-input'){integer(ordinal,1,observer.samples.length-1,'Later actual native callback ordinal');prefix={...observer,samples:observer.samples.slice(0,ordinal+1),calls:observer.calls.slice(0,ordinal+1)};eq(prefix.samples.at(-1).b,ticket,'This exact callback ticket, not a later world');if(kind==='native-order27-callback')assert.equal(prefix.samples.at(-1).order.OrderId,27);}const proof=verifyV32PlunderPrefixObserved({queuedWorld,observer:prefix,referenceWorld,libBytes,observerExpected});for(const s of prefix.samples){integer(s.b.state?.keys,0,0xffffffff,'Actual native callback key count');integer(ticket.state?.keys,0,0xffffffff,'Actual ticket key count');assert.ok(s.b.state.keys<=ticket.state.keys,'No future native callback may authorize an earlier defender');}eq(epoch(ticket),epoch(prefix.samples[0].b),'Actual later callback/DEF belongs to the same original data/engine/HD/LIB/config epoch');",
+      "replacementCount": 1,
+      "exactSourceReplay": true,
+      "reason": "Close independent review epoch finding: complete original LIB/ref/SPE/meta/config binding; monotonic keys and zero keys within slot0 to next callback.",
+      "moduleExecuted": false,
+      "testsExecuted": false
+    },
+    {
+      "from": {
+        "path": "build/impact-skill-20261014/test-hd-impact-v32-conditional-plunder-prefix-v1.mjs",
+        "bytes": 20776,
+        "sha256": "ea7233e8599050ecef5d0236ec0c64441ae6b083727ee931c59b9adbafb923c1"
+      },
+      "to": {
+        "path": "build/impact-skill-20261014/test-hd-impact-v32-conditional-plunder-prefix-v2.mjs",
+        "bytes": 23774,
+        "sha256": "581a06698de3b6efdcb4a6c8e7202aa3f065d27fd0db8e7b2e27bd1868b30245"
+      },
+      "kind": "One minimal contiguous UTF16 source replacement, all surrounding bytes exact",
+      "startUtf16": 633,
+      "before": "3.mjs';\nimport {V31_ENVOYS,V31_TARGETS,V31_OWNED} from '../../scripts/hd-impact-v31-acquisition-policy.mjs';\nconst fixtureBytes=readFileSync(new URL('./hd-impact-v32-february-acquisition-world-v1.json',import.meta.url)),libBytes=readFileSync(new URL('../../libs/dat-mod.lib',import.meta.url));\nconst hash=b=>createHash('sha256').update(b).digest('hex'),fresh=()=>JSON.parse(fixtureBytes),clone=structuredClone;\nconst expected={functionSource:V32_POLICY_OBSERVER_FUNCTION_SOURCE};\nfunction fence(installed=true){return{readOnly:true,hooks:V32_NO_TAKEOVER_HOOKS.map(name=>({name,present:false,type:'undefined'})),observer:installed?{name:'willExecuteOrder',present:true,sameFunction:true,originalUndefined:true,functionSource:V32_POLICY_OBSERVER_FUNCTION_SOURCE}:{name:'willExecuteOrder',present:false}};}\nfunction noActualCredit(p){for(const k of ['publicInputAccepted','publicSaveAccepted','nativeExecutionAccepted','actualSupplyIncomeAccepted','actualAcquisitionAccepted','actualGiveExecutionAccepted','actualPreparationAccepted','actualMonthAccepted','actualCastAccepted','classicNativePixelAccepted','hdAccepted','globalHdComplete','rngContinuityAccepted'])assert.equal(p[k],false,k);assert.equal(p.futureIncomeAccepted,false);}\nfunction remove(w,city,id){const c=w.cities[city],at=w.queue.slice(c.PersonQueue,c.PersonQueue+c.Persons).indexOf(id);assert.ok(at>=0);for(let j=c.PersonQueue+at;j<199;j++)w.queue[j]=w.queue[j+1];c.Persons--;for(let i=city+1;i<38;i++)w.cities[i].PersonQueue--;}\nfunction add(w,city,id){const c=w.cities[city];for(let j=199;j>c.PersonQueue;j--)w.queue[j]=w.queue[j-1];w.queue[c.PersonQueue]=id;c.Persons++;for(let i=city+1;i<38;i++)w.cities[i].PersonQueue++;}\nfunction save(w){return{tag:'impact13-129-v32-controlled-save',before:{world:clone(w)},after:{world:clone(w)}};}\nfunction charged(before){const w=clone(before);w.people[44].Thew-=12;return w;}\nfunction dispatched(before=fresh()){const w=charged(before);Object.assign(w.orders[0],{OrderId:26,Person:44,City:20,TimeCount:0});remove(w,20,44);return w;}\nfunction queued(n=10,before=fresh()){const w=dispatched(before),plans=[];for(let i=0;i<n;i++){const[city,id]=V31_ENVOYS[i],target=V31_TARGETS[i];assert.ok(w.people[id].Thew>=20);w.people[id].Thew-=20;w.cities[city].Money-=50;Object.assign(w.orders[i+1],{OrderId:16,Person:id,City:city,Object:target,TimeCount:10});remove(w,city,id);plans.push({cityIndex:city,personId:id,targetId:target});}return{before,dispatch:dispatched(before),world:w,plans};}\nfunction ticket(world,keys=100){return{world:clone(world),state:{keys},meta:{currentIdentity:true,gameplayHooks:[{name:'PolicyExec',present:false}],v32HookFence:fence()}};}\nfunction sample(world,index,ordinal){const b=ticket(world,100+ordinal),order=clone(world.orders[index]),asyncBefore={id:0,params:Array(32).fill(0),text:'',opaqueReadOnlyMarker:{v:1}};return{ordinal,order,a:clone(b),b,contextAfter:clone(order),asyncBefore,asyncAfter:clone(asyncBefore),slotCandidates:world.orders.flatMap((o,i)=>JSON.stringify(o)===JSON.stringify(order)?[i]:[]),contextUnchanged:true,asyncActionUnchanged:true,returnValue:-1};}\nfunction addSample(observer,world,index){const s=sample(world,index,observer.samples.length);observer.samples.push(s);observer.calls.push(clone(s.order));return s;}\nfunction plunderReturn(before){const w=clone(before),c=w.cities[20],p=w.people[44],n=p.IQ+p.Force;Object.assign(c,{PeopleDevotion:Math.floor(c.PeopleDevotion/2),Farming:Math.floor(c.Farming/2),Commerce:Math.floor(c.Commerce/2),Food:c.Food+n*5,Money:c.Money+n*2});add(w,20,44);w.orders[0].OrderId=255;return w;}\nfunction trace(n=10){const q=queued(n),start=clone(q.world);for(const c of start.cities)c.State=0;const observer={installed:true,samples:[],calls:[]};addSample(observer,start,0);const after=plunderReturn(start);if(n===0)Object.assign(after.orders[170],{OrderId:27,Person:100,City:0,TimeCount:0});addSample(observer,after,n?1:170);return{...q,start,after,observer};}\nfunction prefix(x){return verifyV32PlunderPrefixObserved({queuedWorld:x.world,referenceWorld:x.before,observer:x.observer,libBytes,observerExpected:expected});}\nfunction guard(x,{ordinal=x.observer.samples.length-1,kind='native-callback',actualTicket=x.observer.samples[ordinal].b,plans=[]}={}){return verifyV32AfterPrefixActualFoodAndGuards({queuedWorld:x.world,referenceWorld:x.before,observer:x.observer,ticket:actualTicket,libBytes,observerExpected:expected,kind,ordinal,plans});}\nfunction end(x){return verifyV32ConditionalEndAdmission({world:x.world,referenceWorld:x.before,dispatchWorld:x.dispatch,libBytes,plans:x.plans,publicSave:save(x.world),hookFence:fence(),observerExpected:expected});}\nfunction mutateSample(s,fn){fn(s.b);s.a=clone(s.b);}\nfunction completedTrace(){const x=trace(10);let now=clone(x.after);for(let i=1;i<=10;i++){const o=now.orders[i];add(now,o.City,o.Person);o.OrderId=255;if(i===10)Object.assign(now.orders[170],{OrderId:27,Person:100,City:0,TimeCount:0});addSample(x.observer,now,i===10?170:i+1);}x.battle=clone(now);return x;}\n\ntest('fixture is the exact accepted V31 final world, not a generated fresh gameplay result',()=>{assert.equal(fixtureBytes.length,77973);assert.equal(hash(fixtureBytes),'6b8cd48c5cc7460d34bdf737cf67f3896a7ac7c9588652890825e818183afada');const w=fresh();assert.deepEqual([w.year,w.month,w.cities[20].Food,w.cities[20].Money],[239,2,1,1077]);assert.equal(w.orders.filter(o=>o.OrderId!==255).length,0);assert.deepEqual([w.people[44].IQ,w.people[44].Force,w.people[44].Thew,w.people[44].Arms],[46,83,28,0]);});\ntest('prefix source plan preserves unsafe current Food1 and strict267, forecasting only645food/258money',()=>{const w=fresh(),copy=clone(w),p=planV32ConditionalPlunderPrefix({world:w,libBytes});assert.equal(p.sourcePrefixQualified,true);assert.equal(p.actualCurrentFoodSafe,false);assert.equal(p.actualIncomeObservedInSuppliedEvidence,false);assert.deepEqual([p.forecast.Food,p.forecast.Money,p.foodGain,p.moneyGain],[646,1335,645,258]);assert.equal(p.currentSafety.rows.find(r=>r.city===20).requiredFood,267);assert.equal(p.forecastIsActualIncome,false);assert.equal(p.runtimeHookFenceRequiredBeforeAnyInput,true);noActualCredit(p);assert.deepEqual(w,copy);});\ntest('exact original LIB row24 byte3336 is12; scope contains no Buy/Treat/Search/transport/move/march',()=>{const p=planV32ConditionalPlunderPrefix({world:fresh(),libBytes});assert.deepEqual([p.library.absoluteCostByteOffset,p.library.thewCost,p.native.thew,p.native.moneyCost],[3336,12,12,0]);for(const k of ['maximumNewBuys','maximumNewTreats','maximumNewSearches','maximumTransportations','maximumMoves','maximumMarches'])assert.equal(V32_PREFIX_SCOPE[k],0);});\nfor(const [name,mutate]of [\n ['old January input',w=>w.month=1],['future March input',w=>w.month=3],['already pending payment',w=>w.orders[0].OrderId=16],['Thew below original12',w=>w.people[44].Thew=11],['actor is satrap',w=>w.cities[20].SatrapId=45],['combat army removed',w=>w.people[30].Arms=0],['actor acquired army',w=>w.people[44].Arms=1],['current money drift',w=>w.cities[20].Money=1078],['current food drift',w=>w.cities[20].Food=2],['reserve army added',w=>w.cities[20].MothballArms=1],['other owned city unsafe',w=>w.cities[4].Food=0],['foreign actor faction',w=>w.people[44].Belong=2],['unknown non-JSON value',w=>w.opaque=undefined],['goods tail removed',w=>w.goodsQueue.pop()]\n])test('source plan rejects '+name,()=>{const w=fresh();mutate(w);assert.throws(()=>planV32ConditionalPlunderPrefix({world:w,libBytes}));});\ntest('source plan rejects altered original LIB even with unchanged cost byte',()=>{const b=Buffer.from(libBytes);b[0]^=1;assert.throws(()=>planV32ConditionalPlunderPrefix({world:fresh(),libBytes:b}));});\ntest('shape preserves genuine cross-city enemy PID repeats instead of globally deduplicating them',()=>{const w=fresh(),seen=new Set();let repeated=false;for(const c of w.cities)for(const id of w.queue.slice(c.PersonQueue,c.PersonQueue+c.Persons)){if(seen.has(id))repeated=true;seen.add(id);}assert.equal(repeated,true);assert.equal(planV32ConditionalPlunderPrefix({world:w,libBytes}).accepted,true);});\ntest('exact MAKE report, Thew12, four initialized order fields, opaque five and public SAVE compare pass without income',()=>{const before=fresh(),during=charged(before),after=dispatched(before);const p=verifyV32PlunderDispatchForConditionalEnd({before,during,after,libBytes,publicSave:save(after)});assert.equal(p.native.makeReportObserved,true);assert.equal(p.actualCurrentFoodSafe,false);assert.equal(p.native.opaqueOrder.semanticAcceptance,false);noActualCredit(p);});\nfor(const [name,mutate]of [\n ['only11Thew charged',w=>w.people[44].Thew++],['income before DRV',w=>w.cities[20].Food+=645],['money before DRV',w=>w.cities[20].Money+=258],['opaque unknown world changed',w=>w.extra={changed:true}],['unrelated raw queue tail changed',w=>w.queue[1999]^=1],['goods tail changed',w=>w.goodsQueue[1999]^=1],['combat Arms changed',w=>w.people[30].Arms--]\n])test('complete MAKE oracle rejects '+name,()=>{const before=fresh(),after=dispatched(before);mutate(after);assert.throws(()=>verifyV32PlunderDispatchForConditionalEnd({before,after,libBytes,publicSave:save(after)}));});\ntest('MAKE supplied SAVE world mismatch or wrong tag cannot be counted',()=>{const before=fresh(),after=dispatched(before),s=save(after);s.after.world.people[0].Age++;assert.throws(()=>verifyV32PlunderDispatchForConditionalEnd({before,after,libBytes,publicSave:s}));s.after.world=clone(after);s.tag='impact13-129-v31-old';assert.throws(()=>verifyV32PlunderDispatchForConditionalEnd({before,after,libBytes,publicSave:s}));});\ntest('all43 gameplay hooks absent before installation pass; exact frozen readonly observer after passes',()=>{assert.equal(V32_NO_TAKEOVER_HOOKS.length,43);assert.equal(verifyV32NoTakeoverHookFence({snapshot:fence(false)}).accepted,true);const p=verifyV32NoTakeoverHookFence({snapshot:fence(),observerExpected:expected});assert.equal(p.checkedHooks,43);assert.equal(p.observerFunctionSourceSha256,'45344f20fab5e06ad57a25ead0f8016cf3505599ca944a867b02e93ba22bbc21');});\nfor(const name of V32_NO_TAKEOVER_HOOKS)test('hook fence rejects native takeover '+name,()=>{const f=fence();Object.assign(f.hooks.find(h=>h.name===name),{present:true,type:'function'});assert.throws(()=>verifyV32NoTakeoverHookFence({snapshot:f,observerExpected:expected}));});\nfor(const [name,mutate]of [\n ['missing hook',f=>f.hooks.pop()],['duplicated hook',f=>f.hooks[1]=clone(f.hooks[0])],['reordered hook',f=>f.hooks.reverse()],['present false with function type',f=>f.hooks[0].type='function'],['replaced prior observer',f=>f.observer.originalUndefined=false],['observer is not installed function identity',f=>f.observer.sameFunction=false],['observer body changed',f=>f.observer.functionSource+=' '],['hook getter instead of measured field',f=>Object.defineProperty(f.hooks[0],'present',{get(){return false;},enumerable:true})]\n])test('hook fence rejects '+name,()=>{const f=fence();mutate(f);assert.throws(()=>verifyV32NoTakeoverHookFence({snapshot:f,observerExpected:expected}));});\ntest('arbitrary caller-expected matching return-minus-one hook is still rejected',()=>{const f=fence(),bad='function(){return -1;}';f.observer.functionSource=bad;assert.throws(()=>verifyV32NoTakeoverHookFence({snapshot:f,observerExpected:{functionSource:bad}}));});\ntest('observer present before authorized installation is rejected',()=>assert.throws(()=>verifyV32NoTakeoverHookFence({snapshot:fence()})));\ntest('pre-END intermediate guard permits exact10 pending native envoys and retains unsafe Food1 without SAVE',()=>{const x=queued(),p=verifyV32QueuedDispatchGuards({world:x.world,referenceWorld:x.before,dispatchWorld:x.dispatch,libBytes});assert.equal(x.world.orders.filter(o=>o.OrderId===16).length,10);assert.equal(p.guardProof.knownPendingEnvoysAllowed,true);assert.equal(p.actualCurrentFoodSafe,false);noActualCredit(p);});\ntest('conditional END accepts real-MAKE-shaped slot0 plus10 pending Canvass and fresh full SAVE/fence, with no actual food credit',()=>{const x=queued(),p=end(x);assert.equal(p.conditionalEndAdmissionQualified,true);assert.equal(p.actualCurrentFoodSafe,false);assert.equal(p.currentSafety.rows.find(r=>r.city===20).food,1);noActualCredit(p);});\nfor(const id of [11,12,13,14,25,27])test('END rejects extra unapproved native command '+id,()=>{const x=queued(1);x.world.orders[1].OrderId=id;assert.throws(()=>end(x));});\nfor(const [name,mutate]of [\n ['Plunder moved from slot0',x=>{[x.world.orders[0],x.world.orders[1]]=[x.world.orders[1],x.world.orders[0]];}],['Plunder opaque field mutated after MAKE',x=>x.world.orders[0].Consume^=1],['envoy Arms removed',x=>x.world.people[37].Arms=0],['retained combatant missing',x=>remove(x.world,20,30)],['Plunder actor returned before driver',x=>add(x.world,20,44)],['envoy has not paid20Thew',x=>x.world.people[37].Thew++],['city20 expected income prematurely credited',x=>x.world.cities[20].Food=646],['Canvass not native Time10',x=>x.world.orders[1].TimeCount=0],['noncontiguous player prefix',x=>{x.world.orders[11]=x.world.orders[10];x.world.orders[10]=clone(x.before.orders[10]);}]\n])test('queued/END guards reject '+name,()=>{const x=queued();mutate(x);assert.throws(()=>verifyV32QueuedDispatchGuards({world:x.world,referenceWorld:x.before,dispatchWorld:x.dispatch,libBytes}));assert.throws(()=>end(x));});\ntest('END requires current full SAVE and installed exact observer',()=>{const x=queued(),base={world:x.world,referenceWorld:x.before,dispatchWorld:x.dispatch,libBytes,publicSave:save(x.world),hookFence:fence(),observerExpected:expected};assert.throws(()=>verifyV32ConditionalEndAdmission({...base,publicSave:{...save(x.world),tag:'wrong'}}));assert.throws(()=>verifyV32ConditionalEndAdmission({...base,hookFence:fence(false),observerExpected:false}));});\ntest('first observed slot0->slot1 transition proves646/1335 only after full readonly adjacent actual-shaped snapshots',()=>{const x=trace(),p=prefix(x);assert.equal(p.completeAdjacentNativePrefixAccepted,true);assert.deepEqual([p.callbackOrdinal,p.nextCallbackOrdinal],[0,1]);assert.equal(p.actualIncomeObservedInSuppliedEvidence,true);assert.equal(p.actualCurrentFoodSafe,true);assert.equal(p.modeledIntermediateWasObserved,false);assert.equal(p.wholeMonthWorldAccepted,false);noActualCredit(p);});\ntest('first callback after Plunder allows10 still-pending envoys, protects their army in actual food budget',()=>{const x=trace(),p=guard(x);assert.equal(x.after.orders.filter(o=>o.OrderId===16).length,10);assert.equal(p.guardProof.knownPendingEnvoysAllowed,true);assert.equal(p.fullOriginalResidentsReturnedRequired,false);assert.ok(p.actualCurrentFoodModel.rows.some(r=>r.pendingArms>0&&r.potentialTargetArms>0));assert.equal(p.actualCurrentFoodSafe,true);noActualCredit(p);});\nfor(const [name,mutate]of [\n ['no next callback',x=>{x.observer.samples.pop();x.observer.calls.pop();}],['A/B world differs',x=>x.observer.samples[1].a.world.queue[1999]^=1],['original context changed',x=>x.observer.samples[1].contextAfter.Consume^=1],['async opaque metadata changed',x=>x.observer.samples[1].asyncAfter.opaqueReadOnlyMarker.v=2],['only31 async parameters',x=>{x.observer.samples[1].asyncBefore.params.pop();x.observer.samples[1].asyncAfter.params.pop();}],['non-minus-one observer return',x=>x.observer.samples[1].returnValue=0],['wrong ordinal',x=>x.observer.samples[1].ordinal=2],['native identity false',x=>mutateSample(x.observer.samples[1],b=>b.meta.currentIdentity=false)],['native hook appears after END',x=>mutateSample(x.observer.samples[1],b=>Object.assign(b.meta.v32HookFence.hooks[0],{present:true,type:'function'}))],['wrong reported native slot',x=>x.observer.samples[1].slotCandidates=[170]],['city20 food changed during AI MAKE',x=>{mutateSample(x.observer.samples[0],b=>b.world.cities[20].Food++);}],['city20 money changed during AI MAKE',x=>mutateSample(x.observer.samples[0],b=>b.world.cities[20].Money++)],['IQ changed during AI MAKE',x=>mutateSample(x.observer.samples[0],b=>b.world.people[44].IQ++)],['global player State reset omitted',x=>mutateSample(x.observer.samples[0],b=>b.world.cities[20].State=2)],['AddPerson return missing',x=>mutateSample(x.observer.samples[1],b=>remove(b.world,20,44))],['Plunder Thew restored before month',x=>mutateSample(x.observer.samples[1],b=>b.world.people[44].Thew+=12)],['foreign raw queue tail drift in adjacent return',x=>mutateSample(x.observer.samples[1],b=>b.world.queue[1999]^=1)],['unknown adjacent world field drift',x=>mutateSample(x.observer.samples[1],b=>b.world.unmodeled={delta:true})],['opaque Plunder field drift at DelOrder',x=>mutateSample(x.observer.samples[1],b=>b.world.orders[0].Money^=1)],['forecast income without actual field',x=>mutateSample(x.observer.samples[1],b=>b.world.cities[20].Food=1)]\n])test('prefix observed proof rejects '+name,()=>{const x=trace();mutate(x);assert.throws(()=>prefix(x));});\ntest('battle stage rejects10 still-pending envoys although ordinary first-next callback passed',()=>{const x=trace();assert.equal(guard(x).accepted,true);assert.throws(()=>guard(x,{kind:'before-defender-input'}));assert.throws(()=>guard(x,{kind:'native-order27-callback'}));});\ntest('all known original envoy returns restore strict full residents/Arms before actual Order27 guard',()=>{const x=completedTrace(),p=guard(x,{kind:'native-order27-callback'});assert.equal(p.fullOriginalResidentsReturnedRequired,true);assert.equal(p.guardProof.knownPendingEnvoysAllowed,false);assert.equal(p.actualCurrentFoodSafe,true);noActualCredit(p);});\ntest('fresh DEF ticket may follow readonly callback without fabricating an extra callback',()=>{const x=completedTrace(),t=ticket(x.battle,500),p=guard(x,{kind:'before-defender-input',actualTicket:t});assert.equal(p.fullOriginalResidentsReturnedRequired,true);assert.equal(p.actualCurrentFoodSafe,true);noActualCredit(p);});\ntest('no future callback with a later public key count may authorize earlier DEF',()=>{const x=completedTrace(),t=ticket(x.battle,100);assert.throws(()=>guard(x,{kind:'before-defender-input',actualTicket:t}));});\ntest('native callback must bind exact ticket at ordinal, never later supplied world',()=>{const x=completedTrace();assert.throws(()=>guard(x,{ordinal:1,actualTicket:x.observer.samples.at(-1).b}));});\ntest('later callback uses only already-observed prefix; corrupt future callback cannot authorize or poison earlier callback',()=>{const x=completedTrace();x.observer.samples.at(-1).error='not valid as a future proof';const p=guard(x,{ordinal:1,actualTicket:x.observer.samples[1].b});assert.equal(p.accepted,true);});\nfor(const [name,mutate]of [\n ['combat guard removed',w=>remove(w,20,30)],['combat Arms reduced',w=>w.people[30].Arms--],['pending envoy Arms reduced',w=>w.people[37].Arms--],['retained city20 worker faction changed',w=>w.people[50].Belong=2],['p44 not yet returned',w=>remove(w,20,44)],['city20 cash below500',w=>w.cities[20].Money=499],['other owned city food unsafe',w=>w.cities[4].Food=0],['old fulfilled slot opaque mutation',w=>w.orders[0].Object^=1]\n])test('later actual callback guards reject '+name,()=>{const x=trace();let later=clone(x.after);mutate(later);addSample(x.observer,later,1);assert.throws(()=>guard(x));});\ntest('actual later minimum Food267 passes; exact floor266 rejects without conditional income',()=>{const x=trace();let later=clone(x.after);later.cities[20].Food=267;addSample(x.observer,later,1);const p=guard(x);assert.equal(p.actualCurrentFoodModel.rows.find(r=>r.city===20).requiredFood,267);assert.equal(p.actualCurrentFoodSafe,true);mutateSample(x.observer.samples.at(-1),b=>b.world.cities[20].Food=266);assert.throws(()=>guard(x));});\ntest('battle guard cannot quietly drop a returned original envoy even after native Plunder proof',()=>{const x=completedTrace(),last=x.observer.samples.at(-1);mutateSample(last,b=>remove(b.world,13,37));assert.throws(()=>guard(x,{kind:'native-order27-callback'}));});\ntest('no-envoy optional path still requires a real next callback, then full actual battle guard',()=>{const x=trace(0);assert.equal(prefix(x).accepted,true);assert.equal(guard(x,{kind:'native-order27-callback'}",
+      "after": "4.mjs';\nimport {V31_ENVOYS,V31_TARGETS,V31_OWNED} from '../../scripts/hd-impact-v31-acquisition-policy.mjs';\nconst fixtureBytes=readFileSync(new URL('./hd-impact-v32-february-acquisition-world-v1.json',import.meta.url)),libBytes=readFileSync(new URL('../../libs/dat-mod.lib',import.meta.url));\nconst hash=b=>createHash('sha256').update(b).digest('hex'),fresh=()=>JSON.parse(fixtureBytes),clone=structuredClone;\nconst expected={functionSource:V32_POLICY_OBSERVER_FUNCTION_SOURCE};\nfunction fence(installed=true){return{readOnly:true,hooks:V32_NO_TAKEOVER_HOOKS.map(name=>({name,present:false,type:'undefined'})),observer:installed?{name:'willExecuteOrder',present:true,sameFunction:true,originalUndefined:true,functionSource:V32_POLICY_OBSERVER_FUNCTION_SOURCE}:{name:'willExecuteOrder',present:false}};}\nfunction noActualCredit(p){for(const k of ['publicInputAccepted','publicSaveAccepted','nativeExecutionAccepted','actualSupplyIncomeAccepted','actualAcquisitionAccepted','actualGiveExecutionAccepted','actualPreparationAccepted','actualMonthAccepted','actualCastAccepted','classicNativePixelAccepted','hdAccepted','globalHdComplete','rngContinuityAccepted'])assert.equal(p[k],false,k);assert.equal(p.futureIncomeAccepted,false);}\nfunction remove(w,city,id){const c=w.cities[city],at=w.queue.slice(c.PersonQueue,c.PersonQueue+c.Persons).indexOf(id);assert.ok(at>=0);for(let j=c.PersonQueue+at;j<199;j++)w.queue[j]=w.queue[j+1];c.Persons--;for(let i=city+1;i<38;i++)w.cities[i].PersonQueue--;}\nfunction add(w,city,id){const c=w.cities[city];for(let j=199;j>c.PersonQueue;j--)w.queue[j]=w.queue[j-1];w.queue[c.PersonQueue]=id;c.Persons++;for(let i=city+1;i<38;i++)w.cities[i].PersonQueue++;}\nfunction save(w){return{tag:'impact13-129-v32-controlled-save',before:{world:clone(w)},after:{world:clone(w)}};}\nfunction charged(before){const w=clone(before);w.people[44].Thew-=12;return w;}\nfunction dispatched(before=fresh()){const w=charged(before);Object.assign(w.orders[0],{OrderId:26,Person:44,City:20,TimeCount:0});remove(w,20,44);return w;}\nfunction queued(n=10,before=fresh()){const w=dispatched(before),plans=[];for(let i=0;i<n;i++){const[city,id]=V31_ENVOYS[i],target=V31_TARGETS[i];assert.ok(w.people[id].Thew>=20);w.people[id].Thew-=20;w.cities[city].Money-=50;Object.assign(w.orders[i+1],{OrderId:16,Person:id,City:city,Object:target,TimeCount:10});remove(w,city,id);plans.push({cityIndex:city,personId:id,targetId:target});}return{before,dispatch:dispatched(before),world:w,plans};}\nfunction ticket(world,keys=100){const identity={status:'ready',generation:2,sha256:'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e',byteLength:207195,reason:'',opaqueIdentity:{unchanged:true}};return{world:clone(world),state:{keys,snapshot:{references:{data:1,engine:2,hd:3,opaqueReference:{unchanged:true}},library:clone(identity),spe:{generation:3}}},meta:{identity:clone(identity),currentIdentity:true,monthlyRatio:0,dailyRatio:0,aiLevelUpSpeed:0,orderCapacity:200,boutMax:30,cityMode:'classic',overworldMode:'hd-map',systemMode:'hd',battleMode:'hd',opaqueMeta:{unchanged:true},gameplayHooks:[{name:'PolicyExec',present:false}],v32HookFence:fence()}};}\nfunction sample(world,index,ordinal){const b=ticket(world,100),order=clone(world.orders[index]),asyncBefore={id:0,params:Array(32).fill(0),text:'',opaqueReadOnlyMarker:{v:1}};return{ordinal,order,a:clone(b),b,contextAfter:clone(order),asyncBefore,asyncAfter:clone(asyncBefore),slotCandidates:world.orders.flatMap((o,i)=>JSON.stringify(o)===JSON.stringify(order)?[i]:[]),contextUnchanged:true,asyncActionUnchanged:true,returnValue:-1};}\nfunction addSample(observer,world,index){const s=sample(world,index,observer.samples.length);observer.samples.push(s);observer.calls.push(clone(s.order));return s;}\nfunction plunderReturn(before){const w=clone(before),c=w.cities[20],p=w.people[44],n=p.IQ+p.Force;Object.assign(c,{PeopleDevotion:Math.floor(c.PeopleDevotion/2),Farming:Math.floor(c.Farming/2),Commerce:Math.floor(c.Commerce/2),Food:c.Food+n*5,Money:c.Money+n*2});add(w,20,44);w.orders[0].OrderId=255;return w;}\nfunction trace(n=10){const q=queued(n),start=clone(q.world);for(const c of start.cities)c.State=0;Object.assign(start.orders[170],{OrderId:27,Person:100,City:0,TimeCount:0});const observer={installed:true,samples:[],calls:[]};addSample(observer,start,0);const after=plunderReturn(start);addSample(observer,after,n?1:170);return{...q,start,after,observer};}\nfunction prefix(x){return verifyV32PlunderPrefixObserved({queuedWorld:x.world,referenceWorld:x.before,observer:x.observer,libBytes,observerExpected:expected});}\nfunction guard(x,{ordinal=x.observer.samples.length-1,kind='native-callback',actualTicket=x.observer.samples[ordinal].b,plans=[]}={}){return verifyV32AfterPrefixActualFoodAndGuards({queuedWorld:x.world,referenceWorld:x.before,observer:x.observer,ticket:actualTicket,libBytes,observerExpected:expected,kind,ordinal,plans});}\nfunction end(x){return verifyV32ConditionalEndAdmission({world:x.world,referenceWorld:x.before,dispatchWorld:x.dispatch,libBytes,plans:x.plans,publicSave:save(x.world),hookFence:fence(),observerExpected:expected});}\nfunction mutateSample(s,fn){fn(s.b);s.a=clone(s.b);}\nfunction completedTrace(){const x=trace(10);let now=clone(x.after);for(let i=1;i<=10;i++){const o=now.orders[i];add(now,o.City,o.Person);o.OrderId=255;if(i===10)Object.assign(now.orders[170],{OrderId:27,Person:100,City:0,TimeCount:0});addSample(x.observer,now,i===10?170:i+1);}x.battle=clone(now);return x;}\n\ntest('fixture is the exact accepted V31 final world, not a generated fresh gameplay result',()=>{assert.equal(fixtureBytes.length,77973);assert.equal(hash(fixtureBytes),'6b8cd48c5cc7460d34bdf737cf67f3896a7ac7c9588652890825e818183afada');const w=fresh();assert.deepEqual([w.year,w.month,w.cities[20].Food,w.cities[20].Money],[239,2,1,1077]);assert.equal(w.orders.filter(o=>o.OrderId!==255).length,0);assert.deepEqual([w.people[44].IQ,w.people[44].Force,w.people[44].Thew,w.people[44].Arms],[46,83,28,0]);});\ntest('prefix source plan preserves unsafe current Food1 and strict267, forecasting only645food/258money',()=>{const w=fresh(),copy=clone(w),p=planV32ConditionalPlunderPrefix({world:w,libBytes});assert.equal(p.sourcePrefixQualified,true);assert.equal(p.actualCurrentFoodSafe,false);assert.equal(p.actualIncomeObservedInSuppliedEvidence,false);assert.deepEqual([p.forecast.Food,p.forecast.Money,p.foodGain,p.moneyGain],[646,1335,645,258]);assert.equal(p.currentSafety.rows.find(r=>r.city===20).requiredFood,267);assert.equal(p.forecastIsActualIncome,false);assert.equal(p.runtimeHookFenceRequiredBeforeAnyInput,true);noActualCredit(p);assert.deepEqual(w,copy);});\ntest('exact original LIB row24 byte3336 is12; scope contains no Buy/Treat/Search/transport/move/march',()=>{const p=planV32ConditionalPlunderPrefix({world:fresh(),libBytes});assert.deepEqual([p.library.absoluteCostByteOffset,p.library.thewCost,p.native.thew,p.native.moneyCost],[3336,12,12,0]);for(const k of ['maximumNewBuys','maximumNewTreats','maximumNewSearches','maximumTransportations','maximumMoves','maximumMarches'])assert.equal(V32_PREFIX_SCOPE[k],0);});\nfor(const [name,mutate]of [\n ['old January input',w=>w.month=1],['future March input',w=>w.month=3],['already pending payment',w=>w.orders[0].OrderId=16],['Thew below original12',w=>w.people[44].Thew=11],['actor is satrap',w=>w.cities[20].SatrapId=45],['combat army removed',w=>w.people[30].Arms=0],['actor acquired army',w=>w.people[44].Arms=1],['current money drift',w=>w.cities[20].Money=1078],['current food drift',w=>w.cities[20].Food=2],['reserve army added',w=>w.cities[20].MothballArms=1],['other owned city unsafe',w=>w.cities[4].Food=0],['foreign actor faction',w=>w.people[44].Belong=2],['unknown non-JSON value',w=>w.opaque=undefined],['goods tail removed',w=>w.goodsQueue.pop()]\n])test('source plan rejects '+name,()=>{const w=fresh();mutate(w);assert.throws(()=>planV32ConditionalPlunderPrefix({world:w,libBytes}));});\ntest('source plan rejects altered original LIB even with unchanged cost byte',()=>{const b=Buffer.from(libBytes);b[0]^=1;assert.throws(()=>planV32ConditionalPlunderPrefix({world:fresh(),libBytes:b}));});\ntest('shape preserves genuine cross-city enemy PID repeats instead of globally deduplicating them',()=>{const w=fresh(),seen=new Set();let repeated=false;for(const c of w.cities)for(const id of w.queue.slice(c.PersonQueue,c.PersonQueue+c.Persons)){if(seen.has(id))repeated=true;seen.add(id);}assert.equal(repeated,true);assert.equal(planV32ConditionalPlunderPrefix({world:w,libBytes}).accepted,true);});\ntest('exact MAKE report, Thew12, four initialized order fields, opaque five and public SAVE compare pass without income',()=>{const before=fresh(),during=charged(before),after=dispatched(before);const p=verifyV32PlunderDispatchForConditionalEnd({before,during,after,libBytes,publicSave:save(after)});assert.equal(p.native.makeReportObserved,true);assert.equal(p.actualCurrentFoodSafe,false);assert.equal(p.native.opaqueOrder.semanticAcceptance,false);noActualCredit(p);});\nfor(const [name,mutate]of [\n ['only11Thew charged',w=>w.people[44].Thew++],['income before DRV',w=>w.cities[20].Food+=645],['money before DRV',w=>w.cities[20].Money+=258],['opaque unknown world changed',w=>w.extra={changed:true}],['unrelated raw queue tail changed',w=>w.queue[1999]^=1],['goods tail changed',w=>w.goodsQueue[1999]^=1],['combat Arms changed',w=>w.people[30].Arms--]\n])test('complete MAKE oracle rejects '+name,()=>{const before=fresh(),after=dispatched(before);mutate(after);assert.throws(()=>verifyV32PlunderDispatchForConditionalEnd({before,after,libBytes,publicSave:save(after)}));});\ntest('MAKE supplied SAVE world mismatch or wrong tag cannot be counted',()=>{const before=fresh(),after=dispatched(before),s=save(after);s.after.world.people[0].Age++;assert.throws(()=>verifyV32PlunderDispatchForConditionalEnd({before,after,libBytes,publicSave:s}));s.after.world=clone(after);s.tag='impact13-129-v31-old';assert.throws(()=>verifyV32PlunderDispatchForConditionalEnd({before,after,libBytes,publicSave:s}));});\ntest('all43 gameplay hooks absent before installation pass; exact frozen readonly observer after passes',()=>{assert.equal(V32_NO_TAKEOVER_HOOKS.length,43);assert.equal(verifyV32NoTakeoverHookFence({snapshot:fence(false)}).accepted,true);const p=verifyV32NoTakeoverHookFence({snapshot:fence(),observerExpected:expected});assert.equal(p.checkedHooks,43);assert.equal(p.observerFunctionSourceSha256,'45344f20fab5e06ad57a25ead0f8016cf3505599ca944a867b02e93ba22bbc21');});\nfor(const name of V32_NO_TAKEOVER_HOOKS)test('hook fence rejects native takeover '+name,()=>{const f=fence();Object.assign(f.hooks.find(h=>h.name===name),{present:true,type:'function'});assert.throws(()=>verifyV32NoTakeoverHookFence({snapshot:f,observerExpected:expected}));});\nfor(const [name,mutate]of [\n ['missing hook',f=>f.hooks.pop()],['duplicated hook',f=>f.hooks[1]=clone(f.hooks[0])],['reordered hook',f=>f.hooks.reverse()],['present false with function type',f=>f.hooks[0].type='function'],['replaced prior observer',f=>f.observer.originalUndefined=false],['observer is not installed function identity',f=>f.observer.sameFunction=false],['observer body changed',f=>f.observer.functionSource+=' '],['hook getter instead of measured field',f=>Object.defineProperty(f.hooks[0],'present',{get(){return false;},enumerable:true})]\n])test('hook fence rejects '+name,()=>{const f=fence();mutate(f);assert.throws(()=>verifyV32NoTakeoverHookFence({snapshot:f,observerExpected:expected}));});\ntest('arbitrary caller-expected matching return-minus-one hook is still rejected',()=>{const f=fence(),bad='function(){return -1;}';f.observer.functionSource=bad;assert.throws(()=>verifyV32NoTakeoverHookFence({snapshot:f,observerExpected:{functionSource:bad}}));});\ntest('observer present before authorized installation is rejected',()=>assert.throws(()=>verifyV32NoTakeoverHookFence({snapshot:fence()})));\ntest('pre-END intermediate guard permits exact10 pending native envoys and retains unsafe Food1 without SAVE',()=>{const x=queued(),p=verifyV32QueuedDispatchGuards({world:x.world,referenceWorld:x.before,dispatchWorld:x.dispatch,libBytes});assert.equal(x.world.orders.filter(o=>o.OrderId===16).length,10);assert.equal(p.guardProof.knownPendingEnvoysAllowed,true);assert.equal(p.actualCurrentFoodSafe,false);noActualCredit(p);});\ntest('conditional END accepts real-MAKE-shaped slot0 plus10 pending Canvass and fresh full SAVE/fence, with no actual food credit',()=>{const x=queued(),p=end(x);assert.equal(p.conditionalEndAdmissionQualified,true);assert.equal(p.actualCurrentFoodSafe,false);assert.equal(p.currentSafety.rows.find(r=>r.city===20).food,1);noActualCredit(p);});\nfor(const id of [11,12,13,14,25,27])test('END rejects extra unapproved native command '+id,()=>{const x=queued(1);x.world.orders[1].OrderId=id;assert.throws(()=>end(x));});\nfor(const [name,mutate]of [\n ['Plunder moved from slot0',x=>{[x.world.orders[0],x.world.orders[1]]=[x.world.orders[1],x.world.orders[0]];}],['Plunder opaque field mutated after MAKE',x=>x.world.orders[0].Consume^=1],['envoy Arms removed',x=>x.world.people[37].Arms=0],['retained combatant missing',x=>remove(x.world,20,30)],['Plunder actor returned before driver',x=>add(x.world,20,44)],['envoy has not paid20Thew',x=>x.world.people[37].Thew++],['city20 expected income prematurely credited',x=>x.world.cities[20].Food=646],['Canvass not native Time10',x=>x.world.orders[1].TimeCount=0],['noncontiguous player prefix',x=>{x.world.orders[11]=x.world.orders[10];x.world.orders[10]=clone(x.before.orders[10]);}]\n])test('queued/END guards reject '+name,()=>{const x=queued();mutate(x);assert.throws(()=>verifyV32QueuedDispatchGuards({world:x.world,referenceWorld:x.before,dispatchWorld:x.dispatch,libBytes}));assert.throws(()=>end(x));});\ntest('END requires current full SAVE and installed exact observer',()=>{const x=queued(),base={world:x.world,referenceWorld:x.before,dispatchWorld:x.dispatch,libBytes,publicSave:save(x.world),hookFence:fence(),observerExpected:expected};assert.throws(()=>verifyV32ConditionalEndAdmission({...base,publicSave:{...save(x.world),tag:'wrong'}}));assert.throws(()=>verifyV32ConditionalEndAdmission({...base,hookFence:fence(false),observerExpected:false}));});\ntest('first observed slot0->slot1 transition proves646/1335 only after full readonly adjacent actual-shaped snapshots',()=>{const x=trace(),p=prefix(x);assert.equal(p.completeAdjacentNativePrefixAccepted,true);assert.deepEqual([p.callbackOrdinal,p.nextCallbackOrdinal],[0,1]);assert.equal(p.actualIncomeObservedInSuppliedEvidence,true);assert.equal(p.actualCurrentFoodSafe,true);assert.equal(p.modeledIntermediateWasObserved,false);assert.equal(p.wholeMonthWorldAccepted,false);noActualCredit(p);});\ntest('first callback after Plunder allows10 still-pending envoys, protects their army in actual food budget',()=>{const x=trace(),p=guard(x);assert.equal(x.after.orders.filter(o=>o.OrderId===16).length,10);assert.equal(p.guardProof.knownPendingEnvoysAllowed,true);assert.equal(p.fullOriginalResidentsReturnedRequired,false);assert.ok(p.actualCurrentFoodModel.rows.some(r=>r.pendingArms>0&&r.potentialTargetArms>0));assert.equal(p.actualCurrentFoodSafe,true);noActualCredit(p);});\nfor(const [name,mutate]of [\n ['no next callback',x=>{x.observer.samples.pop();x.observer.calls.pop();}],['A/B world differs',x=>x.observer.samples[1].a.world.queue[1999]^=1],['original context changed',x=>x.observer.samples[1].contextAfter.Consume^=1],['async opaque metadata changed',x=>x.observer.samples[1].asyncAfter.opaqueReadOnlyMarker.v=2],['only31 async parameters',x=>{x.observer.samples[1].asyncBefore.params.pop();x.observer.samples[1].asyncAfter.params.pop();}],['non-minus-one observer return',x=>x.observer.samples[1].returnValue=0],['wrong ordinal',x=>x.observer.samples[1].ordinal=2],['native identity false',x=>mutateSample(x.observer.samples[1],b=>b.meta.currentIdentity=false)],['native hook appears after END',x=>mutateSample(x.observer.samples[1],b=>Object.assign(b.meta.v32HookFence.hooks[0],{present:true,type:'function'}))],['wrong reported native slot',x=>x.observer.samples[1].slotCandidates=[170]],['city20 food changed during AI MAKE',x=>{mutateSample(x.observer.samples[0],b=>b.world.cities[20].Food++);}],['city20 money changed during AI MAKE',x=>mutateSample(x.observer.samples[0],b=>b.world.cities[20].Money++)],['IQ changed during AI MAKE',x=>mutateSample(x.observer.samples[0],b=>b.world.people[44].IQ++)],['global player State reset omitted',x=>mutateSample(x.observer.samples[0],b=>b.world.cities[20].State=2)],['AddPerson return missing',x=>mutateSample(x.observer.samples[1],b=>remove(b.world,20,44))],['Plunder Thew restored before month',x=>mutateSample(x.observer.samples[1],b=>b.world.people[44].Thew+=12)],['foreign raw queue tail drift in adjacent return',x=>mutateSample(x.observer.samples[1],b=>b.world.queue[1999]^=1)],['unknown adjacent world field drift',x=>mutateSample(x.observer.samples[1],b=>b.world.unmodeled={delta:true})],['opaque Plunder field drift at DelOrder',x=>mutateSample(x.observer.samples[1],b=>b.world.orders[0].Money^=1)],['forecast income without actual field',x=>mutateSample(x.observer.samples[1],b=>b.world.cities[20].Food=1)]\n])test('prefix observed proof rejects '+name,()=>{const x=trace();mutate(x);assert.throws(()=>prefix(x));});\ntest('battle stage rejects10 still-pending envoys although ordinary first-next callback passed',()=>{const x=trace();assert.equal(guard(x).accepted,true);assert.throws(()=>guard(x,{kind:'before-defender-input'}));assert.throws(()=>guard(x,{kind:'native-order27-callback'}));});\ntest('all known original envoy returns restore strict full residents/Arms before actual Order27 guard',()=>{const x=completedTrace(),p=guard(x,{kind:'native-order27-callback'});assert.equal(p.fullOriginalResidentsReturnedRequired,true);assert.equal(p.guardProof.knownPendingEnvoysAllowed,false);assert.equal(p.actualCurrentFoodSafe,true);noActualCredit(p);});\ntest('fresh DEF ticket may follow readonly callback without fabricating an extra callback',()=>{const x=completedTrace(),t=ticket(x.battle,500),p=guard(x,{kind:'before-defender-input',actualTicket:t});assert.equal(p.fullOriginalResidentsReturnedRequired,true);assert.equal(p.actualCurrentFoodSafe,true);noActualCredit(p);});\ntest('no future callback with a later public key count may authorize earlier DEF',()=>{const x=completedTrace(),t=ticket(x.battle,99);assert.throws(()=>guard(x,{kind:'before-defender-input',actualTicket:t}));});\ntest('native callback must bind exact ticket at ordinal, never later supplied world',()=>{const x=completedTrace();assert.throws(()=>guard(x,{ordinal:1,actualTicket:x.observer.samples.at(-1).b}));});\ntest('later callback uses only already-observed prefix; corrupt future callback cannot authorize or poison earlier callback',()=>{const x=completedTrace();x.observer.samples.at(-1).error='not valid as a future proof';const p=guard(x,{ordinal:1,actualTicket:x.observer.samples[1].b});assert.equal(p.accepted,true);});\nfor(const [name,mutate]of [\n ['combat guard removed',w=>remove(w,20,30)],['combat Arms reduced',w=>w.people[30].Arms--],['pending envoy Arms reduced',w=>w.people[37].Arms--],['retained city20 worker faction changed',w=>w.people[50].Belong=2],['p44 not yet returned',w=>remove(w,20,44)],['city20 cash below500',w=>w.cities[20].Money=499],['other owned city food unsafe',w=>w.cities[4].Food=0],['old fulfilled slot opaque mutation',w=>w.orders[0].Object^=1]\n])test('later actual callback guards reject '+name,()=>{const x=trace();let later=clone(x.after);mutate(later);addSample(x.observer,later,1);assert.throws(()=>guard(x));});\ntest('actual later minimum Food267 passes; exact floor266 rejects without conditional income',()=>{const x=trace();let later=clone(x.after);later.cities[20].Food=267;addSample(x.observer,later,1);const p=guard(x);assert.equal(p.actualCurrentFoodModel.rows.find(r=>r.city===20).requiredFood,267);assert.equal(p.actualCurrentFoodSafe,true);mutateSample(x.observer.samples.at(-1),b=>b.world.cities[20].Food=266);assert.throws(()=>guard(x));});\ntest('battle guard cannot quietly drop a returned original envoy even after native Plunder proof',()=>{const x=completedTrace(),last=x.observer.samples.at(-1);mutateSample(last,b=>remove(b.world,13,37));assert.throws(()=>guard(x,{kind:'native-order27-callback'}));});\ntest('no-envoy optional path still requires a real next callback, then full actual battle guard',()=>{const x=trace(0);assert.equal(prefix(x).accepted,true);assert.equal(guard(x,{kind:'native-order27-callback'}).accepted,true);});\nfor(const [name,mutate]of [\n ['different data object',b=>b.state.snapshot.references.data++],['different engine object',b=>b.state.snapshot.references.engine++],['different HD object',b=>b.state.snapshot.references.hd++],['opaque reference metadata drift',b=>b.state.snapshot.references.opaqueReference.unchanged=false],['different native SPE generation',b=>b.state.snapshot.spe.generation++],['different complete LIB generation',b=>{b.meta.identity.generation++;b.state.snapshot.library.generation++;}],['raw/library ticket mismatch',b=>b.state.snapshot.library.reason='stale'],['different original LIB digest',b=>{b.meta.identity.sha256='0'.repeat(64);b.state.snapshot.library.sha256='0'.repeat(64);}],['opaque invariant meta drift',b=>b.meta.opaqueMeta.unchanged=false],['native config drift',b=>b.world.config.disableExpGrowing=1],['additional input within Plunder adjacent timed return',b=>b.state.keys++],['key sequence moved backwards',b=>b.state.keys--]\n])test('cross-callback epoch rejects '+name,()=>{const x=trace();mutateSample(x.observer.samples[1],mutate);assert.throws(()=>prefix(x));});\nfor(const [name,mutate]of [\n ['stale native currentIdentity',t=>t.meta.currentIdentity=false],['changed actual data object',t=>t.state.snapshot.references.data++],['changed HD generation',t=>t.state.snapshot.spe.generation++],['changed complete library ticket',t=>{t.meta.identity.generation++;t.state.snapshot.library.generation++;}],['unknown identity field drift',t=>{t.meta.identity.opaqueIdentity.unchanged=false;t.state.snapshot.library.opaqueIdentity.unchanged=false;}],['missing actual snapshot',t=>delete t.state.snapshot]\n])test('DEF guard rejects '+name+' despite same world and nondecreasing keys',()=>{const x=completedTrace(),t=ticket(x.battle,500);mutate(t);assert.throws(()=>guard(x,{kind:'before-defender-input',actualTicket:t}));});\ntest('complete raw A/B equality includes unknown state fields, not only world/known owners',()=>{const x=trace();x.observer.samples[1].a.state.unknownOwner={changed:true};assert.throws(()=>prefix(x));});\ntest('mutable UI city coordinates are permitted across valid same-epoch callbacks, while full individual A/B remains exact',()=>{const x=trace();mutateSample(x.observer.samples[0],b=>{b.meta.cityPos={x:1,y:0,setx:1,sety:0};b.meta.city={sending:false,queueLen:0,walkBusy:false};});mutateSample(x.observer.samples[1],b=>{b.meta.cityPos={x:2,y:0,setx:2,sety:0};b.meta.city={sending:false,queueLen:0,walkBusy:false};});assert.equal(prefix(x",
+      "replacementCount": 1,
+      "exactSourceReplay": true,
+      "reason": "Adopt V4, native-style complete ticket epochs and epoch negatives; controlled original AI Battle order placed before first callback.",
+      "moduleExecuted": false,
+      "testsExecuted": false
+    }
+  ],
+  "acceptedInputPins": [
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-v31-terminal-receipt-v1.json",
+      "bytes": 261206,
+      "sha256": "673d215a356a782d9f22674e404d2c6e2e0c08accb242408133ce7c85121168f"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-battle-v31-latest-genuine-saved-world-v1.json",
+      "bytes": 77973,
+      "sha256": "6b8cd48c5cc7460d34bdf737cf67f3896a7ac7c9588652890825e818183afada"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v32-february-acquisition-world-v1.json",
+      "bytes": 77973,
+      "sha256": "6b8cd48c5cc7460d34bdf737cf67f3896a7ac7c9588652890825e818183afada"
+    }
+  ],
+  "priorSourceAdvice": [
+    {
+      "path": "build/impact-skill-20261014/impact13-v31-next-february-plunder-prefix-source-advice-v1.md",
+      "bytes": 6203,
+      "sha256": "b267b9826e533816a10cb3103f3409e6b513ac07717090a3c153bf7da52662fa"
+    },
+    {
+      "path": "build/impact-skill-20261014/impact13-v31-next-february-plunder-prefix-source-audit-v1.json",
+      "bytes": 11909,
+      "sha256": "7ae17e052f61774be3eb43e76504f0d0ded719a7b7706b42395ceac1c674fd06"
+    }
+  ],
+  "earlierIndependentReview": {
+    "path": "build/impact-skill-20261014/impact13-v32-independent-prefix-source-review-v1.json",
+    "bytes": 8115,
+    "sha256": "ac535dc509a20fe07736a0595afef1c40be5082d2e022d9dfa57261d8f3f1601"
+  },
+  "nativeSources": [
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "bytes": 34493,
+      "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/tactic.c",
+      "bytes": 45067,
+      "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78"
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "scripts/hd-impact-plunder-runtime-oracle.mjs",
+      "bytes": 10718,
+      "sha256": "2b21c4194435f5f602a102f976a27d47d2cfa5639cce16269d6a91675fe9a998"
+    },
+    {
+      "path": "build/impact13-runtime-candidate-v31.mjs",
+      "bytes": 530451,
+      "sha256": "d47405f2167fa1f6ce0e2a401af0d002316d909cdb7993c8cc7b778597e514c4"
+    },
+    {
+      "path": "js/demos.js",
+      "bytes": 18466,
+      "sha256": "4ae8ef25df25c55abae92335dc65564aec3d3aab4a463687ea33a9afd08c7233"
+    },
+    {
+      "path": "vendor/iBaye/src/Fight.c",
+      "bytes": 58254,
+      "sha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "bytes": 27302,
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtPkAi.c",
+      "bytes": 44229,
+      "sha256": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 80899,
+      "sha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2"
+    },
+    {
+      "path": "scripts/hd-impact-v31-acquisition-policy.mjs",
+      "bytes": 21161,
+      "sha256": "f6555d6e00cdf26a1040749936f9c07e5560873d9b72d657952aae21f60b4d7c"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v31-water-token-give-oracle-v1.mjs",
+      "bytes": 11181,
+      "sha256": "94aa5abe7310499b0fa69bae27200816856c9f61372c6d7a2764a83b79975881"
+    }
+  ],
+  "fullWorldValidator": {
+    "source": {
+      "path": "build/impact-skill-20261014/hd-impact-v31-water-token-give-oracle-v1.mjs",
+      "bytes": 11181,
+      "sha256": "94aa5abe7310499b0fa69bae27200816856c9f61372c6d7a2764a83b79975881"
+    },
+    "from": "const PERSON=",
+    "through": "before function rawPositions(",
+    "exactTextCopied": true,
+    "unknownJsonFieldsPreserved": true,
+    "enemyGlobalPidDeduplicationForbidden": true,
+    "arrays": {
+      "people": 200,
+      "cities": 38,
+      "orders": 200,
+      "queue": 2000,
+      "goodsQueue": 2000,
+      "fighters": 600,
+      "fighterIndex": 30
+    }
+  },
+  "scope": {
+    "period": 4,
+    "king": 0,
+    "date": [
+      239,
+      2
+    ],
+    "plunderCommand": 26,
+    "city": 20,
+    "person": 44,
+    "slot": 0,
+    "maximumPlunders": 1,
+    "maximumCanvasses": 10,
+    "maximumMonths": 1,
+    "newBuy": 0,
+    "newTreat": 0,
+    "newSearch": 0,
+    "newTransport": 0,
+    "newMove": 0,
+    "newMarch": 0,
+    "optionalGive": "Separate V32 full causal native Canvass/Give oracle only after observed success and qualification."
+  },
+  "chronology": "Original ComputerTactic AI MAKE first with all-cities State0 reset. Plunder slot0 precedes every later native DRV/Battle27/DEF and ConditionUpdate/month consumption; it does not precede AI MAKE.",
+  "economics": {
+    "currentFood": 1,
+    "currentMoney": 1077,
+    "actualCurrentFoodSafe": false,
+    "rawCity20Residents": 13,
+    "ownedCity20Residents": 12,
+    "retainedArms": 13339,
+    "strictRequiredActualFood": 267,
+    "minimumActualCash": 500,
+    "actorIQ": 46,
+    "actorForce": 83,
+    "originalThewCommand": 24,
+    "originalThewCost": 12,
+    "absoluteThewByteOffset": 3336,
+    "makeMoneyCost": 0,
+    "forecastFoodGain": 645,
+    "forecastMoneyGain": 258,
+    "forecastFood": 646,
+    "forecastMoney": 1335,
+    "forecastIncomeIsActual": false,
+    "onlyObservedCompleteAdjacentReturnProvesSuppliedIncome": true,
+    "randomTransportCannotProvideGuaranteedSupply": true
+  },
+  "originalThewByteProof": {
+    "libraryBytes": 207195,
+    "librarySha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "resourceId": 2,
+    "resourceHeaderOffset": 2357,
+    "zeroBasedItemIndex": 9,
+    "itemOffsetFromResource": 955,
+    "itemByteLength": 28,
+    "commandIndex": 24,
+    "absoluteCostByteOffset": 3336,
+    "byteValue": 12,
+    "notActual26RowValue": 20,
+    "source": "citycmde.c179-185 IsManual/OrderConsumeThew uses CONSCRIPTION24"
+  },
+  "originalAiMakeAudit": {
+    "source": "tactic.c134-193,208-277,296-405,424-498,517-663; cityedit.c696-785; LevelUp tactic.c1445",
+    "allCitiesStateResetToZeroBeforePlayerSkip": true,
+    "playerCityFoodMoneyDirectlyChangedByOriginalAiMake": false,
+    "playerActorIqForceBelongDirectlyChangedByOriginalAiMake": false,
+    "globalAiLevelUpExcludesPlayerAndCaptives": true,
+    "levelUpChangesOnlyLevel": true,
+    "enemyCityPersonSelectionFiltersFaction": true,
+    "directAiCaptiveSurrenderRequiresBelong65535": true,
+    "ordinaryEnemyDiplomacyAffectsPlayerOnlyAtLaterDrv": true,
+    "occupiedSlot0NotOverwrittenByAddOrderHead": true,
+    "allFightOrdersUseSlots170to199": true,
+    "noDroughtArmyReductionForecastCredited": true,
+    "unrelatedAiWorldChangesMustNotBeBlindlyIgnored": true,
+    "assumption": "Exact original source and ROM; no extra native lifecycle/gameplay hooks."
+  },
+  "hookFence": {
+    "mustBeAbsent": [
+      "aiFightCommand",
+      "battleBuildAttackAttriutes",
+      "battleDrivePersonState",
+      "battleStage1",
+      "battleStage2",
+      "battleStage3",
+      "battleStage4",
+      "battleStage5",
+      "calcAttackRange",
+      "canUseSkill",
+      "ComputerTactic",
+      "countAttackHurt",
+      "countLandResistance",
+      "countMove",
+      "countMoveRange",
+      "countSkillHurt",
+      "didRefreshFightSituation",
+      "didRefreshFightStateBar",
+      "didShowFightSituation",
+      "didShowFightStateBar",
+      "drawGenerals",
+      "drawMapUnit",
+      "drawOneGeneral",
+      "enterBattle",
+      "exitBattle",
+      "fightChooseAction",
+      "fightChooseSkill",
+      "fightCountWinner",
+      "fightStatusBarTouched",
+      "getMaxArms",
+      "getSkillIds",
+      "getTerrainInfo",
+      "loadFightMap",
+      "mainSystemMenu",
+      "meetFight",
+      "PolicyExec",
+      "tacticStage1",
+      "tacticStage2",
+      "tacticStage3",
+      "tacticStage4",
+      "tacticStage5",
+      "tacticStageUser",
+      "willAddOrder"
+    ],
+    "count": 43,
+    "freshBeforeEveryPaidAction": [
+      "Plunder MAKE",
+      "each Canvass MAKE",
+      "optional Give"
+    ],
+    "requiredAtEndEveryCallbackAndDefender": true,
+    "approvedUnchangedHdUiHooks": [
+      "onMenuIdle",
+      "cityMakeCommand",
+      "willCloseMenu",
+      "didOpenNewGame",
+      "didLoadGame",
+      "didShowMainMap",
+      "fightOpenMainMenu"
+    ],
+    "oldMetaNineHooksInsufficient": true,
+    "observer": {
+      "name": "willExecuteOrder",
+      "originalUndefined": true,
+      "exactFunctionSource": "function(context){const ordinal=store.calls.length;let initial=null,sample={ordinal,returnValue:-1};try{initial=order(context);store.calls.push(initial);const asyncBefore=asyncState(),a=read(),b=read(),after=order(context),asyncAfter=asyncState();sample={ordinal,order:initial,a,b,contextAfter:after,asyncBefore,asyncAfter,slotCandidates:b.world.orders.flatMap((o,i)=>JSON.stringify(o)===JSON.stringify(initial)?[i]:[]),contextUnchanged:JSON.stringify(initial)===JSON.stringify(after),asyncActionUnchanged:JSON.stringify(asyncBefore)===JSON.stringify(asyncAfter),returnValue:-1};}catch(e){if(store.calls.length===ordinal)store.calls.push(initial);sample={...sample,order:initial,error:String(e&&e.stack||e)};}store.samples.push(sample);return -1;}",
+      "utf16Characters": 747,
+      "sha256": "45344f20fab5e06ad57a25ead0f8016cf3505599ca944a867b02e93ba22bbc21",
+      "returnValue": -1,
+      "allCallbacksReadTwice": true,
+      "all32AsyncParamsAndUnknownFieldsCompared": true,
+      "zeroAdditionalEngineKeysWithinPlunderReturn": true,
+      "arbitraryMatchingTextRejected": true
+    }
+  },
+  "epoch": {
+    "eachCompleteAEqualsB": true,
+    "originalReadyFullLibMetaEqualsRawSnapshotLibrary": true,
+    "completeIdentityGenerationAndUnknownFieldsFrozen": true,
+    "wholeReferenceTokensDataEngineHdFrozen": true,
+    "speGenerationFrozen": true,
+    "allInvariantMetaFrozenExcept": [
+      "city",
+      "cityPos"
+    ],
+    "fullConfigFrozen": true,
+    "keyCountMonotonic": true,
+    "futureCallbacksNeverAuthorizeEarlierDefender": true,
+    "defenderCurrentIdentityAndSameEpochRequired": true
+  },
+  "guardPhases": {
+    "intermediate": "Exact Thew12 p44 absent and independently known Canvass workers Thew20/absence only. Full people, operational Arms and retained combatants protected. Food1 remains unsafe; no SAVE/actual input credit.",
+    "firstNextCallback": "Full adjacent five-economics/AddPerson/DelOrder including every opaque raw field. p44 returned; up to10 Canvass envoys remain legitimately pending.",
+    "laterCallback": "Only known pending Canvass exceptions; full retained military/person obligations and actual food/cash including pending own Arms and potential target reserves. No forecast credit.",
+    "battleAndDefender": "Every original own resident returned, exact original Arms, no pending envoy, unchanged formal full battle guard, strict actual Food267+/Money500+."
+  },
+  "genericFormalReuse": {
+    "source": {
+      "path": "scripts/hd-impact-v31-acquisition-policy.mjs",
+      "bytes": 21161,
+      "sha256": "f6555d6e00cdf26a1040749936f9c07e5560873d9b72d657952aae21f60b4d7c"
+    },
+    "exports": [
+      "V31_ENVOYS",
+      "V31_ACTORS_BY_CITY",
+      "V31_TARGETS",
+      "V31_OWNED",
+      "V31_COMBAT_GUARDS",
+      "v31Residents",
+      "v31FoodBudget",
+      "v31GuardsBeforeBattle",
+      "v31VerifyPlunderReturn"
+    ],
+    "januaryBuyPlannerOrDateGuardCalled": false,
+    "genericBattleGuardsNotWeakened": true,
+    "newOwnDateGuard": [
+      239,
+      2
+    ]
+  },
+  "testCoverage": [
+    "Exact accepted February fixture byte pin, no actual credit",
+    "Thew12 original byte3336 and zero new Buy/Treat/Search/Transport/Move/March",
+    "Complete MAKE report/opaque fields/public SAVE world comparisons",
+    "All43 native takeover hooks negative and exact canonical observer",
+    "Conditional END and intermediate10 pending workers positive",
+    "Full adjacent readonly Plunder return with no input",
+    "First-next callback10 pending positive; actual Battle pending negative",
+    "Strict actual Food267 pass/266 fail and cash499 fail",
+    "Unknown world/state/meta/ref/library/context/32params comparisons",
+    "Cross-epoch callbacks and DEF identity/future-key negatives",
+    "All original residents/Arms returned at Battle/DEF positive"
+  ],
+  "authorExecutedModules": false,
+  "authorExecutedTests": false,
+  "authorStartedGame": false,
+  "authorIssuedNativeInput": false,
+  "authorCalledNativeSetters": false,
+  "authorEditedTrackedSources": false,
+  "authorUsedGit": false,
+  "rootExecutionAndIndependentTerminalRequired": true,
+  "actualSupplyIncomeAccepted": false,
+  "actualPublicSaveAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualGiveExecutionAccepted": false,
+  "actualPreparationAccepted": false,
+  "actualMonthAccepted": false,
+  "actualCastAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false
+}

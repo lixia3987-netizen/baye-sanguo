@@ -1,0 +1,38 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "callOrdinal": 1,
+  "request": {
+    "transparent_background": false,
+    "prompt": "Use case: sketch-to-render / historical-scene.\nAsset: first of two square opaque game-animation illustrations for original resource40 LIUYAN. Generate one complete square image, not a sprite sheet.\nInput image 1 is the authoritative native frame0 COMPOSITION AND EXACT IN-IMAGE GLYPH reference. Images 2 and 3 are STYLE references only.\nRepaint the native composition at high resolution: exactly TWO helmeted ancient Chinese infantry soldiers on the left and right, facing one another across the center, each holding a long polearm/spear. Match the left/right positions, facing directions, standing stance, weapon directions and mountain-shaped backdrop of image 1. This is a spoken exchange, with no attack, no lunging, no walking animation, no injury, and no extra people.\nPlace the same large speech bubble in the upper central area, with the same outline silhouette and tail direction as image 1. Carefully preserve the black glyph shapes and any punctuation INSIDE that bubble from image 1, in the same order, count and relative position. The native bitmap itself is the exact text source: do not translate, paraphrase, substitute guessed Chinese words, add new marks or invent a transcription. Render the referenced glyphs crisply and legibly against a pale ivory bubble, preserving their actual structure.\nStyle: match the restrained semi-realistic ancient Chinese painterly game art of images 2 and 3: charcoal and grey-green mountains, dark bronze/gold highlights, muted earth-brown cloth, dark iron/bronze lamellar armour, tangible metal helmets and wooden spear shafts, natural brush texture. Keep the background detailed but quiet so both full bodies and the bubble remain readable at small game size. Adapt image 1's mountain forms, not the precise composition of the style references.\nFull square scene with an opaque painted background all the way to each edge. Keep both soldiers, their helmets, hands, weapons and feet safely inside the square as in the native reference; no decorative border, no checkerboard, no transparency, no UI, no watermark, no title, no additional text outside the referenced bubble. Do not include the extra third soldier from image 3. No fire, magic effects, blood or modern equipment.",
+    "referenced_image_paths": [
+      "F:/project/baye-sanguo/build/r25-native-liuyan-40/picture-0-nearest-4x.png",
+      "F:/project/baye-sanguo/assets/hd-spe/qimen-39/picture-0.png",
+      "F:/project/baye-sanguo/assets/hd-spe/aid-41/picture-0.png"
+    ]
+  },
+  "references": [
+    {
+      "path": "build/r25-native-liuyan-40/picture-0-nearest-4x.png",
+      "role": "Primary composition and exact glyph source, original resource40 frame0, 4x nearest reference",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-native-liuyan-40\\picture-0-nearest-4x.png",
+      "bytes": 3404,
+      "sha256": "f2085396f6421e0e8def150534286cec4b8d93b661d3b9708e6c2b42cb8cc1d9"
+    },
+    {
+      "path": "assets/hd-spe/qimen-39/picture-0.png",
+      "role": "Palette and painterly rendering style only; do not borrow its subject count, pose or setting layout",
+      "absolutePath": "F:\\project\\baye-sanguo\\assets\\hd-spe\\qimen-39\\picture-0.png",
+      "bytes": 2458901,
+      "sha256": "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882"
+    },
+    {
+      "path": "assets/hd-spe/aid-41/picture-0.png",
+      "role": "Armour, helmet, spear and painterly material style only; do not borrow its third character or marching poses",
+      "absolutePath": "F:\\project\\baye-sanguo\\assets\\hd-spe\\aid-41\\picture-0.png",
+      "bytes": 3203857,
+      "sha256": "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57"
+    }
+  ],
+  "scope": "Generated raw candidate only; no production integration or runtime acceptance"
+}

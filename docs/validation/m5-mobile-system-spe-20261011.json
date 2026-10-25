@@ -1,0 +1,2476 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "accepted": true,
+  "scope": "Original mobile title/period background SPE boundary keeps the same native selector and button; current two-width trusted-touch system/save/load regression.",
+  "nativeBuildChanged": false,
+  "fullHdAccepted": false,
+  "realDeviceAccepted": false,
+  "earlierActualFailureCauseProven": false,
+  "tests": {
+    "defaultModules": 76,
+    "additionalModules": [
+      "scripts/test-hd-mobile-trade-runtime-oracle.mjs"
+    ],
+    "tests": 2908,
+    "pass": 2908,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "testAttempts": [
+    {
+      "log": "build/mobile-system-spe-suite-final-20261011.log",
+      "tests": 2903,
+      "passed": 2902,
+      "failed": 1,
+      "note": "Portrait test process exited 2147483651 with a JS stack dump; initial full attempt failed."
+    },
+    {
+      "log": "build/mobile-system-spe-portrait-recheck-20261011.log",
+      "tests": 92,
+      "passed": 92,
+      "failed": 0
+    },
+    {
+      "log": "build/mobile-system-spe-suite-final-v2-20261011.log",
+      "tests": 2908,
+      "passed": 2908,
+      "failed": 0
+    }
+  ],
+  "negativeBaseline": {
+    "tests": 8,
+    "expectedFailures": 8,
+    "proof": {
+      "original": "build/mobile-system-spe-key-old-source-negative-proof-v1-20261011.json",
+      "bytes": 1176,
+      "sha256": "b43f87018bbf53ce2cd728a8352982c4f365ecd2e5d1734a13587c02d357c75a",
+      "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/b43f87018bbf53ce2cd728a8352982c4f365ecd2e5d1734a13587c02d357c75a.gz",
+      "archiveBytes": 640,
+      "archiveSha256": "75ce3d39dec536a1d20b0c2f26423151dcc79fe4f679cd027095b0a2ac240aef",
+      "reused": false,
+      "roundTripExact": true
+    }
+  },
+  "flows": [
+    {
+      "directory": "build/mobile-system-mode-844-v1-20261011",
+      "current": false,
+      "accepted": true,
+      "width": 844,
+      "checkpoints": 13,
+      "nativeKeys": 59,
+      "nativeTouches": 0,
+      "modeSwitches": 40,
+      "selectorActions": 0,
+      "naturalBoundaryCoverage": null,
+      "boundaryDetails": [],
+      "sourceFiles": 69,
+      "sourceDrift": [],
+      "treeExited": true,
+      "serverClosed": true,
+      "error": null,
+      "result": {
+        "original": "build/mobile-system-mode-844-v1-20261011/result.json",
+        "bytes": 25250882,
+        "sha256": "2a73da5bd6cac191dd269bb866b1901eb1579d528b357fe17b9dee20b02b3f56",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/2a73da5bd6cac191dd269bb866b1901eb1579d528b357fe17b9dee20b02b3f56.gz",
+        "archiveBytes": 1453867,
+        "archiveSha256": "8bcb174f70d577e43f22d53f943236657687391f65a94104ced8d2d5200f64af",
+        "reused": false,
+        "roundTripExact": true
+      }
+    },
+    {
+      "directory": "build/mobile-system-mode-667-v1-20261011",
+      "current": false,
+      "accepted": false,
+      "width": 667,
+      "checkpoints": 3,
+      "nativeKeys": 1,
+      "nativeTouches": 0,
+      "modeSwitches": 0,
+      "selectorActions": 0,
+      "naturalBoundaryCoverage": null,
+      "boundaryDetails": [],
+      "sourceFiles": 66,
+      "sourceDrift": [],
+      "treeExited": true,
+      "serverClosed": true,
+      "error": "Error: Timed out current mobile HD system title\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:231:78)\n    at async runMobileSystemChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-system-runtime-checks.mjs:72:58)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:692:7)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:777:86",
+      "result": {
+        "original": "build/mobile-system-mode-667-v1-20261011/result.json",
+        "bytes": 1524602,
+        "sha256": "007ddb11d20bb99675039ed1ccb403b5541bbdcce5d9957fbe2bcdaca8156381",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/007ddb11d20bb99675039ed1ccb403b5541bbdcce5d9957fbe2bcdaca8156381.gz",
+        "archiveBytes": 128547,
+        "archiveSha256": "7ff67de809bd578b24a64bd0f6aac58142cfc66460b7e14ad26490fa50b66faf",
+        "reused": false,
+        "roundTripExact": true
+      }
+    },
+    {
+      "directory": "build/mobile-system-mode-667-v2-20261011",
+      "current": false,
+      "accepted": false,
+      "width": 667,
+      "checkpoints": 5,
+      "nativeKeys": 4,
+      "nativeTouches": 0,
+      "modeSwitches": 40,
+      "selectorActions": 0,
+      "naturalBoundaryCoverage": null,
+      "boundaryDetails": [],
+      "sourceFiles": 66,
+      "sourceDrift": [],
+      "treeExited": true,
+      "serverClosed": true,
+      "error": "Error: Timed out current mobile HD system period\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:231:78)\n    at async action (file:///F:/project/baye-sanguo/scripts/hd-mobile-system-runtime-checks.mjs:53:115)\n    at async runMobileSystemChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-system-runtime-checks.mjs:86:3)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:692:7)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:777:86",
+      "result": {
+        "original": "build/mobile-system-mode-667-v2-20261011/result.json",
+        "bytes": 14059905,
+        "sha256": "19e480da534a0c3707e1b4b24e6056ad83b26feeba126ed5a9003edf7ae04485",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/19e480da534a0c3707e1b4b24e6056ad83b26feeba126ed5a9003edf7ae04485.gz",
+        "archiveBytes": 838629,
+        "archiveSha256": "0782abfcda873a7940aac9c3c55622217ae76878b65374d9a7796fae45fc0b26",
+        "reused": false,
+        "roundTripExact": true
+      }
+    },
+    {
+      "directory": "build/mobile-system-node-667-v1-20261011",
+      "current": false,
+      "accepted": true,
+      "width": 667,
+      "checkpoints": 13,
+      "nativeKeys": 59,
+      "nativeTouches": 0,
+      "modeSwitches": 40,
+      "selectorActions": 0,
+      "naturalBoundaryCoverage": null,
+      "boundaryDetails": [],
+      "sourceFiles": 69,
+      "sourceDrift": [],
+      "treeExited": true,
+      "serverClosed": true,
+      "error": null,
+      "result": {
+        "original": "build/mobile-system-node-667-v1-20261011/result.json",
+        "bytes": 39289433,
+        "sha256": "fb26ec8be964d3b5123f5cc7fcca842adcd5f442f220610d3c6c8a5800f523c3",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/fb26ec8be964d3b5123f5cc7fcca842adcd5f442f220610d3c6c8a5800f523c3.gz",
+        "archiveBytes": 1919284,
+        "archiveSha256": "732178ca5085d1aabbb2f869f48faa0938719d158bcd5eadd140ed4963de9410",
+        "reused": false,
+        "roundTripExact": true
+      }
+    },
+    {
+      "directory": "build/mobile-system-node-667-v2-20261011",
+      "current": false,
+      "accepted": true,
+      "width": 667,
+      "checkpoints": 13,
+      "nativeKeys": 59,
+      "nativeTouches": 0,
+      "modeSwitches": 40,
+      "selectorActions": 0,
+      "naturalBoundaryCoverage": null,
+      "boundaryDetails": [],
+      "sourceFiles": 69,
+      "sourceDrift": [],
+      "treeExited": true,
+      "serverClosed": true,
+      "error": null,
+      "result": {
+        "original": "build/mobile-system-node-667-v2-20261011/result.json",
+        "bytes": 39291116,
+        "sha256": "7962c476d625b29867a48045d3f995ebd1ed69ff509f1713edead2dd1afa4a60",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/7962c476d625b29867a48045d3f995ebd1ed69ff509f1713edead2dd1afa4a60.gz",
+        "archiveBytes": 1919297,
+        "archiveSha256": "92e82f2b95d41e7331d1141fdb217d67376dc124ba04ecfd0923cb196c16df2d",
+        "reused": false,
+        "roundTripExact": true
+      }
+    },
+    {
+      "directory": "build/mobile-system-spe-fix-667-v1-20261011",
+      "current": true,
+      "accepted": true,
+      "width": 667,
+      "checkpoints": 14,
+      "nativeKeys": 71,
+      "nativeTouches": 0,
+      "modeSwitches": 40,
+      "selectorActions": 12,
+      "naturalBoundaryCoverage": {
+        "title": true,
+        "period": true
+      },
+      "boundaryDetails": [
+        {
+          "screen": "title",
+          "downSpe": 1,
+          "endSpe": 0,
+          "keySame": true,
+          "nodeSame": true,
+          "rawBoundaryObserved": true,
+          "accepted": true,
+          "keys": [
+            39
+          ]
+        },
+        {
+          "screen": "period",
+          "downSpe": 1,
+          "endSpe": 0,
+          "keySame": true,
+          "nodeSame": true,
+          "rawBoundaryObserved": true,
+          "accepted": true,
+          "keys": [
+            40
+          ]
+        }
+      ],
+      "sourceFiles": 69,
+      "sourceDrift": [],
+      "treeExited": true,
+      "serverClosed": true,
+      "error": null,
+      "result": {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/result.json",
+        "bytes": 42006024,
+        "sha256": "dfce072fd5f125e72474eb5fcbf3c8bad14d0dbca15e71688de85eb0dc5cc768",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/dfce072fd5f125e72474eb5fcbf3c8bad14d0dbca15e71688de85eb0dc5cc768.gz",
+        "archiveBytes": 2102680,
+        "archiveSha256": "c9d4adadfee2ee69c473e61351f00244e174a83437a07fcc5d0ef402d891591e",
+        "reused": false,
+        "roundTripExact": true
+      }
+    },
+    {
+      "directory": "build/mobile-system-spe-fix-844-v1-20261011",
+      "current": true,
+      "accepted": true,
+      "width": 844,
+      "checkpoints": 14,
+      "nativeKeys": 71,
+      "nativeTouches": 0,
+      "modeSwitches": 40,
+      "selectorActions": 12,
+      "naturalBoundaryCoverage": {
+        "title": true,
+        "period": true
+      },
+      "boundaryDetails": [
+        {
+          "screen": "title",
+          "downSpe": 1,
+          "endSpe": 0,
+          "keySame": true,
+          "nodeSame": true,
+          "rawBoundaryObserved": true,
+          "accepted": true,
+          "keys": [
+            39
+          ]
+        },
+        {
+          "screen": "period",
+          "downSpe": 1,
+          "endSpe": 0,
+          "keySame": true,
+          "nodeSame": true,
+          "rawBoundaryObserved": true,
+          "accepted": true,
+          "keys": [
+            40
+          ]
+        }
+      ],
+      "sourceFiles": 69,
+      "sourceDrift": [],
+      "treeExited": true,
+      "serverClosed": true,
+      "error": null,
+      "result": {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/result.json",
+        "bytes": 41031143,
+        "sha256": "a7544dd7af6f5a661669cd55e72803945feaa4da9666e42cf37689a0f4421772",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/a7544dd7af6f5a661669cd55e72803945feaa4da9666e42cf37689a0f4421772.gz",
+        "archiveBytes": 2058800,
+        "archiveSha256": "5d5aaf8c1de046f2c883ac2de341a73c75a790bce941517cb75e05266c105daa",
+        "reused": false,
+        "roundTripExact": true
+      }
+    }
+  ],
+  "limitations": [
+    "Earlier classic-switch and UP-to-CLICK failures remain retained; their exact cause has not been proven by a new failing actual trace.",
+    "Only title/period SpeActive key identity is normalized; Movie and all other native fields, full raw double reads and trusted node checks remain.",
+    "This batch does not implement trade UI, full mobile HD, real-device acceptance, cloud saves, complete native ABI or RNG continuity."
+  ],
+  "portableClosedArchive": false,
+  "archive": {
+    "originalCount": 221,
+    "repositorySourceCount": 61,
+    "uniqueGzipCount": 111,
+    "newGzipCount": 97,
+    "originalBytes": 254952155,
+    "gzipBytes": 34155388,
+    "originals": [
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/executed-tool.mjs",
+        "bytes": 91382,
+        "sha256": "5db968006bbf83138c2b10aaa839241fefd724d9e4574f52029a32deb559a189",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/5db968006bbf83138c2b10aaa839241fefd724d9e4574f52029a32deb559a189.gz",
+        "archiveBytes": 25222,
+        "archiveSha256": "90cf3bd49baa9bcdfbf78a3f8730373f4964c90d737f589c8d04fd7c1fb4bdac",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/owned-process-samples.jsonl",
+        "bytes": 149072,
+        "sha256": "e017ac3952d541bb329d2bbbdf96e4760a0d0e5148caa64e1c53f5370acf7d4f",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/e017ac3952d541bb329d2bbbdf96e4760a0d0e5148caa64e1c53f5370acf7d4f.gz",
+        "archiveBytes": 3425,
+        "archiveSha256": "dca4e3cf7ec7f28bafe0715e17300eda86f5af5e483d3665b7c8d8a40f9f0852",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/result.json",
+        "bytes": 25250882,
+        "sha256": "2a73da5bd6cac191dd269bb866b1901eb1579d528b357fe17b9dee20b02b3f56",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/2a73da5bd6cac191dd269bb866b1901eb1579d528b357fe17b9dee20b02b3f56.gz",
+        "archiveBytes": 1453867,
+        "archiveSha256": "8bcb174f70d577e43f22d53f943236657687391f65a94104ced8d2d5200f64af",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/source-verification.json",
+        "bytes": 11223,
+        "sha256": "9689eaf749f56d3b70b0730dce280fd6edcca8594e6f322a276be627f8153994",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/9689eaf749f56d3b70b0730dce280fd6edcca8594e6f322a276be627f8153994.gz",
+        "archiveBytes": 3728,
+        "archiveSha256": "51b977cccb17529e70ad5edad044b3ffddd9eddafae6fb4645dbc406950eff42",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-01-title.png",
+        "bytes": 33878,
+        "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f.gz",
+        "archiveBytes": 31771,
+        "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-02-portrait-lcd.png",
+        "bytes": 5361,
+        "sha256": "237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60.gz",
+        "archiveBytes": 5340,
+        "archiveSha256": "bb75fd07926669a453cfc27a49c64117780ab96e0a11cef5baafdfa96d1ea74f",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-02-portrait.png",
+        "bytes": 6764,
+        "sha256": "1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2.gz",
+        "archiveBytes": 5489,
+        "archiveSha256": "3bbb8944592b161c70efd7dd0f9d3e39dcc61f068520b2654860fd1e701a0d87",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-02b-mode-repeat.png",
+        "bytes": 33940,
+        "sha256": "2388cccc175f75660d61a3ec16f10cc9a392290f6812d5baac305cefd1b3d308",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/2388cccc175f75660d61a3ec16f10cc9a392290f6812d5baac305cefd1b3d308.gz",
+        "archiveBytes": 31809,
+        "archiveSha256": "02f9e5009c7e0f4718ca61245fb7d5905f1af934aa8f774e9eada0772d50149b",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-03-empty-load.png",
+        "bytes": 32950,
+        "sha256": "0e181936d5ba57d6313b2918d36db42486058c1a44a7564cfa640372bfcd3345",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/0e181936d5ba57d6313b2918d36db42486058c1a44a7564cfa640372bfcd3345.gz",
+        "archiveBytes": 30746,
+        "archiveSha256": "903db77c752d5013cf5267752481ed6e4d4ec8894f009dcabde75025efd6ca28",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-04-rulers.png",
+        "bytes": 35313,
+        "sha256": "6d63985273a5691603d4e6acb8a7d6eb225c05a87263d24a8de3264b262cd644",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/6d63985273a5691603d4e6acb8a7d6eb225c05a87263d24a8de3264b262cd644.gz",
+        "archiveBytes": 33300,
+        "archiveSha256": "58cd78978d11a8a851af892f6f87f8bdb0a5695edfd93bf938354fd563d9abf2",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-05-new-map-hd-overworld-canvas.png",
+        "bytes": 749212,
+        "sha256": "d032959a833d2f2b03dee51995060e2f121a60d8c1e8a78814725309a0838764",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/d032959a833d2f2b03dee51995060e2f121a60d8c1e8a78814725309a0838764.gz",
+        "archiveBytes": 749423,
+        "archiveSha256": "df71eca9ebed3aae64b0fe0bb4c7af31162969d8e6a9ce1d35d02fb306546644",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-05-new-map.png",
+        "bytes": 611484,
+        "sha256": "732ef75c84656607084d1c5294bf35daa878132efe4cf74d12d12722a1bbdb8a",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/732ef75c84656607084d1c5294bf35daa878132efe4cf74d12d12722a1bbdb8a.gz",
+        "archiveBytes": 611637,
+        "archiveSha256": "801ec87a76265a0148c7318a5b80ef1e40c940630b22e1a4c980a58f1cf2a714",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-06-save-slots.png",
+        "bytes": 32775,
+        "sha256": "5cf378308b58bff1c9a8b6c929a80145e184aaff972e3252f9ae95a5ed520561",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/5cf378308b58bff1c9a8b6c929a80145e184aaff972e3252f9ae95a5ed520561.gz",
+        "archiveBytes": 30554,
+        "archiveSha256": "d1ea3ace13068eee8c35439bacf4dc3341a20fdb87ab4c5f6984d792f741dae3",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-07-saved-map-hd-overworld-canvas.png",
+        "bytes": 749244,
+        "sha256": "d189cfabfed65dd38993bfcc994a48a95baa07b0ababb1abe70bfec1fa0c5297",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/d189cfabfed65dd38993bfcc994a48a95baa07b0ababb1abe70bfec1fa0c5297.gz",
+        "archiveBytes": 749455,
+        "archiveSha256": "f8675c80133a8ceeb507e9cb8dbd14fbb7aa1e15f2bd830ca2ee83094b420cdd",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-07-saved-map.png",
+        "bytes": 611535,
+        "sha256": "6d7ddad90213d08c5639806d0bf0a33a584bb11f472a9e3c553a312c9f99df36",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/6d7ddad90213d08c5639806d0bf0a33a584bb11f472a9e3c553a312c9f99df36.gz",
+        "archiveBytes": 611688,
+        "archiveSha256": "74f83d19aa1829d60e0021769e71731f2836edd4e5c576087a041e54aa81beb0",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-08-changed-world-hd-overworld-canvas.png",
+        "bytes": 681529,
+        "sha256": "b3d5692a458da098f6ab6812fba1eab960abc23cc2714432b305dbbdb946cfb6",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/b3d5692a458da098f6ab6812fba1eab960abc23cc2714432b305dbbdb946cfb6.gz",
+        "archiveBytes": 681757,
+        "archiveSha256": "892755a1b6bb25856525ac47bd560a4c6bf62e0489a39f901589bfe6baca1f6b",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-08-changed-world.png",
+        "bytes": 539346,
+        "sha256": "3428f69f599ba6fe68fdaa2b44c9e16925e6b9f219f9052d1996079b7a9ed039",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/3428f69f599ba6fe68fdaa2b44c9e16925e6b9f219f9052d1996079b7a9ed039.gz",
+        "archiveBytes": 539502,
+        "archiveSha256": "d825f75c5ac9d7055bce9b49414a181fa337cc85cc1813b95b486348e9511b1c",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-09-end-confirm.png",
+        "bytes": 31837,
+        "sha256": "d5708476f6c20a2e0cfd751c9c10e0c1b427c675795a65126ee5ec201b7a22ac",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/d5708476f6c20a2e0cfd751c9c10e0c1b427c675795a65126ee5ec201b7a22ac.gz",
+        "archiveBytes": 29472,
+        "archiveSha256": "0a8e8f4699cd5c5fc95fb14f694cc1d16a3eff605ec281ead09d867250480f84",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-10-reloaded-title.png",
+        "bytes": 33878,
+        "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f.gz",
+        "archiveBytes": 31771,
+        "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-11-load-slots.png",
+        "bytes": 33806,
+        "sha256": "da54e4b4789a2ff2a10a6aaf89018b2c85c1a507e5b3b82613c5265e803a4df0",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/da54e4b4789a2ff2a10a6aaf89018b2c85c1a507e5b3b82613c5265e803a4df0.gz",
+        "archiveBytes": 31636,
+        "archiveSha256": "f5b1449bfa685098771bd1111d5a412cfa361ef06e21cca16f6405c4e9d9d60e",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-12-loaded-map-hd-overworld-canvas.png",
+        "bytes": 749143,
+        "sha256": "83760f6c56fdd18a69eb00b22abeb696e7f873719946142e92f23902acba47b1",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/83760f6c56fdd18a69eb00b22abeb696e7f873719946142e92f23902acba47b1.gz",
+        "archiveBytes": 749354,
+        "archiveSha256": "45838b116e04f3135f9e5a15a2566e4bb23daba2578ebf08349b8b17f783d1c1",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-844-v1-20261011/system-844-12-loaded-map.png",
+        "bytes": 611370,
+        "sha256": "3eaf5abbe32e788cc0d49a01b776bbdeff9da12d103dde16ef9593bc78b141fb",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/3eaf5abbe32e788cc0d49a01b776bbdeff9da12d103dde16ef9593bc78b141fb.gz",
+        "archiveBytes": 611523,
+        "archiveSha256": "9e681dc00196e20e78ae8d127faecbfbea5010c2078573b5f87902d2035a4892",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v1-20261011/executed-tool.mjs",
+        "bytes": 91382,
+        "sha256": "5db968006bbf83138c2b10aaa839241fefd724d9e4574f52029a32deb559a189",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/5db968006bbf83138c2b10aaa839241fefd724d9e4574f52029a32deb559a189.gz",
+        "archiveBytes": 25222,
+        "archiveSha256": "90cf3bd49baa9bcdfbf78a3f8730373f4964c90d737f589c8d04fd7c1fb4bdac",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v1-20261011/failure-lcd.png",
+        "bytes": 5361,
+        "sha256": "237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60.gz",
+        "archiveBytes": 5340,
+        "archiveSha256": "bb75fd07926669a453cfc27a49c64117780ab96e0a11cef5baafdfa96d1ea74f",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v1-20261011/failure.png",
+        "bytes": 24273,
+        "sha256": "98644a20a93155da4a56655dddeadc44c1e587b405c28a0f9e2e55df88d77336",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/98644a20a93155da4a56655dddeadc44c1e587b405c28a0f9e2e55df88d77336.gz",
+        "archiveBytes": 22906,
+        "archiveSha256": "a0e9db4f55e4678a6644049465c8cf5ab654e82e655079f2f9951390bd1efe61",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v1-20261011/owned-process-samples.jsonl",
+        "bytes": 52209,
+        "sha256": "367bee0d9ad758c9e357d74e252a67aa3a6cc1f12817d97d20fb75bb97eee23e",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/367bee0d9ad758c9e357d74e252a67aa3a6cc1f12817d97d20fb75bb97eee23e.gz",
+        "archiveBytes": 2147,
+        "archiveSha256": "3b25ff35e149691272d54c08c85cf0657cb0743605b40e02afb7521291bf9eef",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v1-20261011/result.json",
+        "bytes": 1524602,
+        "sha256": "007ddb11d20bb99675039ed1ccb403b5541bbdcce5d9957fbe2bcdaca8156381",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/007ddb11d20bb99675039ed1ccb403b5541bbdcce5d9957fbe2bcdaca8156381.gz",
+        "archiveBytes": 128547,
+        "archiveSha256": "7ff67de809bd578b24a64bd0f6aac58142cfc66460b7e14ad26490fa50b66faf",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v1-20261011/source-verification.json",
+        "bytes": 10687,
+        "sha256": "68acfad114ae34e2c8f05665973d99ae45c3003c1bca0c9fa426d51229a0ac1a",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/68acfad114ae34e2c8f05665973d99ae45c3003c1bca0c9fa426d51229a0ac1a.gz",
+        "archiveBytes": 3498,
+        "archiveSha256": "8970f1a88146477bf32824b4c03cef3cbea6c195141c3a8aa5ab2ba312121f3f",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v1-20261011/system-667-01-title.png",
+        "bytes": 30705,
+        "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea.gz",
+        "archiveBytes": 29146,
+        "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v1-20261011/system-667-02-portrait-lcd.png",
+        "bytes": 5361,
+        "sha256": "237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60.gz",
+        "archiveBytes": 5340,
+        "archiveSha256": "bb75fd07926669a453cfc27a49c64117780ab96e0a11cef5baafdfa96d1ea74f",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v1-20261011/system-667-02-portrait.png",
+        "bytes": 6764,
+        "sha256": "1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2.gz",
+        "archiveBytes": 5489,
+        "archiveSha256": "3bbb8944592b161c70efd7dd0f9d3e39dcc61f068520b2654860fd1e701a0d87",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v2-20261011/executed-tool.mjs",
+        "bytes": 91450,
+        "sha256": "235f2c6bb5a3730487e2ed4661fcd1f348b586200314fcfca2628c8f6478bd18",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/235f2c6bb5a3730487e2ed4661fcd1f348b586200314fcfca2628c8f6478bd18.gz",
+        "archiveBytes": 25229,
+        "archiveSha256": "d43d10f1e40e0ab0a5d5b84575783fda75f4de3544a06dd0fa8e4b771f405764",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v2-20261011/failure.png",
+        "bytes": 30769,
+        "sha256": "19879cfb96f3569f942d2ee479ca3a30c223fa6cff4f78f8d571bc8fa04bce58",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/19879cfb96f3569f942d2ee479ca3a30c223fa6cff4f78f8d571bc8fa04bce58.gz",
+        "archiveBytes": 29222,
+        "archiveSha256": "4b5617530e484222b28c6731efa85044fcd24acada9989cacbfdc9553d9ebe6c",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v2-20261011/owned-process-samples.jsonl",
+        "bytes": 74706,
+        "sha256": "a3b6f90a1eac20f5646848aea519660406d72c21a7a9d1d8acca4b3793f45dcd",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/a3b6f90a1eac20f5646848aea519660406d72c21a7a9d1d8acca4b3793f45dcd.gz",
+        "archiveBytes": 2642,
+        "archiveSha256": "926d86408334a1ce69e1e2bd59be143e897912645e2ded39c04ec38de0c5d06e",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v2-20261011/result.json",
+        "bytes": 14059905,
+        "sha256": "19e480da534a0c3707e1b4b24e6056ad83b26feeba126ed5a9003edf7ae04485",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/19e480da534a0c3707e1b4b24e6056ad83b26feeba126ed5a9003edf7ae04485.gz",
+        "archiveBytes": 838629,
+        "archiveSha256": "0782abfcda873a7940aac9c3c55622217ae76878b65374d9a7796fae45fc0b26",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v2-20261011/source-verification.json",
+        "bytes": 10687,
+        "sha256": "9b6d8d2b218ec2e802a186287acf9d576bcbb6f9558feac79b366800d87cf71e",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/9b6d8d2b218ec2e802a186287acf9d576bcbb6f9558feac79b366800d87cf71e.gz",
+        "archiveBytes": 3499,
+        "archiveSha256": "a04ad2fb3a60d36c960ed9ac56177164899c0af62e9f3f4324a932e318b14abf",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v2-20261011/system-667-01-title.png",
+        "bytes": 30705,
+        "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea.gz",
+        "archiveBytes": 29146,
+        "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v2-20261011/system-667-02-portrait-lcd.png",
+        "bytes": 5361,
+        "sha256": "237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60.gz",
+        "archiveBytes": 5340,
+        "archiveSha256": "bb75fd07926669a453cfc27a49c64117780ab96e0a11cef5baafdfa96d1ea74f",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v2-20261011/system-667-02-portrait.png",
+        "bytes": 6764,
+        "sha256": "1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2.gz",
+        "archiveBytes": 5489,
+        "archiveSha256": "3bbb8944592b161c70efd7dd0f9d3e39dcc61f068520b2654860fd1e701a0d87",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v2-20261011/system-667-02b-mode-repeat.png",
+        "bytes": 30769,
+        "sha256": "19879cfb96f3569f942d2ee479ca3a30c223fa6cff4f78f8d571bc8fa04bce58",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/19879cfb96f3569f942d2ee479ca3a30c223fa6cff4f78f8d571bc8fa04bce58.gz",
+        "archiveBytes": 29222,
+        "archiveSha256": "4b5617530e484222b28c6731efa85044fcd24acada9989cacbfdc9553d9ebe6c",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-mode-667-v2-20261011/system-667-03-empty-load.png",
+        "bytes": 30143,
+        "sha256": "c2a9bc7c630488bd1e627e5299aff530c35429f4e500c24b505600a965178faf",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/c2a9bc7c630488bd1e627e5299aff530c35429f4e500c24b505600a965178faf.gz",
+        "archiveBytes": 28614,
+        "archiveSha256": "6a8f85773f0f80da3d3400286cce5e4d2d45f357e36412d7cd9eaeb4d6cb29ea",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/executed-tool.mjs",
+        "bytes": 92869,
+        "sha256": "69b1252dcf033cf3e0ec6546adb8b99dc47c2b45a7df5bb0cc146973eda16334",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/69b1252dcf033cf3e0ec6546adb8b99dc47c2b45a7df5bb0cc146973eda16334.gz",
+        "archiveBytes": 25657,
+        "archiveSha256": "2504188f1e1388c00aa3f8452a18edbe0909fb82ab5f83bd8f8a7dcc2dbe95a4",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/owned-process-samples.jsonl",
+        "bytes": 146981,
+        "sha256": "583465693702f8738b927109d3cf84fc556542c18f445374d5dfc9e404037ed6",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/583465693702f8738b927109d3cf84fc556542c18f445374d5dfc9e404037ed6.gz",
+        "archiveBytes": 3412,
+        "archiveSha256": "a71fa06532ef7abb344fbf6c1743eae7ef93648b3a0c4d5926e717886a67cbf7",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/result.json",
+        "bytes": 39289433,
+        "sha256": "fb26ec8be964d3b5123f5cc7fcca842adcd5f442f220610d3c6c8a5800f523c3",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/fb26ec8be964d3b5123f5cc7fcca842adcd5f442f220610d3c6c8a5800f523c3.gz",
+        "archiveBytes": 1919284,
+        "archiveSha256": "732178ca5085d1aabbb2f869f48faa0938719d158bcd5eadd140ed4963de9410",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/source-verification.json",
+        "bytes": 11223,
+        "sha256": "dc01a259a215b15f00892c00d2d1bb569479791d87f0390a108abf7eb072d724",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/dc01a259a215b15f00892c00d2d1bb569479791d87f0390a108abf7eb072d724.gz",
+        "archiveBytes": 3735,
+        "archiveSha256": "71c473065e39252a5e01ebdb9de34bc7103647c801e036f3872d2012368abe22",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-01-title.png",
+        "bytes": 30705,
+        "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea.gz",
+        "archiveBytes": 29146,
+        "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-02-portrait-lcd.png",
+        "bytes": 5361,
+        "sha256": "237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60.gz",
+        "archiveBytes": 5340,
+        "archiveSha256": "bb75fd07926669a453cfc27a49c64117780ab96e0a11cef5baafdfa96d1ea74f",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-02-portrait.png",
+        "bytes": 6764,
+        "sha256": "1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2.gz",
+        "archiveBytes": 5489,
+        "archiveSha256": "3bbb8944592b161c70efd7dd0f9d3e39dcc61f068520b2654860fd1e701a0d87",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-02b-mode-repeat.png",
+        "bytes": 30769,
+        "sha256": "19879cfb96f3569f942d2ee479ca3a30c223fa6cff4f78f8d571bc8fa04bce58",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/19879cfb96f3569f942d2ee479ca3a30c223fa6cff4f78f8d571bc8fa04bce58.gz",
+        "archiveBytes": 29222,
+        "archiveSha256": "4b5617530e484222b28c6731efa85044fcd24acada9989cacbfdc9553d9ebe6c",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-03-empty-load.png",
+        "bytes": 30143,
+        "sha256": "c2a9bc7c630488bd1e627e5299aff530c35429f4e500c24b505600a965178faf",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/c2a9bc7c630488bd1e627e5299aff530c35429f4e500c24b505600a965178faf.gz",
+        "archiveBytes": 28614,
+        "archiveSha256": "6a8f85773f0f80da3d3400286cce5e4d2d45f357e36412d7cd9eaeb4d6cb29ea",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-04-rulers.png",
+        "bytes": 31788,
+        "sha256": "556d167cffcbd35d56709594446467eafe35e8bc0ee74bcedd2c70e4ab5346d5",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/556d167cffcbd35d56709594446467eafe35e8bc0ee74bcedd2c70e4ab5346d5.gz",
+        "archiveBytes": 30514,
+        "archiveSha256": "906d91b9bc59d4ae5aef1c419c7d4a6edb6429dcf3b1ded3c2589dda520a3d32",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-05-new-map-hd-overworld-canvas.png",
+        "bytes": 567519,
+        "sha256": "250bb493aeff33503b2ad200f6c1910266c27e4d596565d705dc36f7ea1f9834",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/250bb493aeff33503b2ad200f6c1910266c27e4d596565d705dc36f7ea1f9834.gz",
+        "archiveBytes": 567712,
+        "archiveSha256": "7f6b45984c29174e397fc196a9bc377ab61589470ff6fe290cda4f2316f84405",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-05-new-map.png",
+        "bytes": 462916,
+        "sha256": "efdb92b16103e102b5e630dd6f317bd82291a022ee42ee9cb64fd3aa4f735570",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/efdb92b16103e102b5e630dd6f317bd82291a022ee42ee9cb64fd3aa4f735570.gz",
+        "archiveBytes": 462948,
+        "archiveSha256": "fdd91bef9e8b0df665c6cdfa35449a921eeb4e82f7475471870947ef51ee7d0b",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-06-save-slots.png",
+        "bytes": 29575,
+        "sha256": "2479e6db94ce8fc226f848f0187a9042b5f72620f4427e62e066e4a0046a8ec7",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/2479e6db94ce8fc226f848f0187a9042b5f72620f4427e62e066e4a0046a8ec7.gz",
+        "archiveBytes": 28025,
+        "archiveSha256": "6bcde0e1199528fc933a0accaee6fae4481fd5deb2ee0d0e0a4c21a774413bfb",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-07-saved-map-hd-overworld-canvas.png",
+        "bytes": 567685,
+        "sha256": "58a3fdaa4064a35b28cb2e202c8e218f2d98474f478b9d6fa6430094fb07a701",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/58a3fdaa4064a35b28cb2e202c8e218f2d98474f478b9d6fa6430094fb07a701.gz",
+        "archiveBytes": 567878,
+        "archiveSha256": "62f5a53f7e7731577605d3c6fc6802dd609c0d939dfa6f9b93ade4d72b245d05",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-07-saved-map.png",
+        "bytes": 462771,
+        "sha256": "3b4011426aca3250c983514f8e2885f4a07caab258c4c3c5d7aaf2197d6cb7f2",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/3b4011426aca3250c983514f8e2885f4a07caab258c4c3c5d7aaf2197d6cb7f2.gz",
+        "archiveBytes": 462803,
+        "archiveSha256": "98bcea755a076d20b073f2b61f857c2e01f134edbf0cc653f23de77ec6a880b9",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-08-changed-world-hd-overworld-canvas.png",
+        "bytes": 529654,
+        "sha256": "c4b0a3c4cac56e6664cae10ba7205e51f1e62d9f4bb3bb9435da196158706970",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/c4b0a3c4cac56e6664cae10ba7205e51f1e62d9f4bb3bb9435da196158706970.gz",
+        "archiveBytes": 529837,
+        "archiveSha256": "a53bb29128a7513f99829bc933b4670080383b93ff87fb98fe8920cee8428fdd",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-08-changed-world.png",
+        "bytes": 423887,
+        "sha256": "e35e604d0c1586a25e08ef0c281354e1cb2adfd9ef88083505cb4dc44f2699a4",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/e35e604d0c1586a25e08ef0c281354e1cb2adfd9ef88083505cb4dc44f2699a4.gz",
+        "archiveBytes": 423945,
+        "archiveSha256": "8a1920889fe063100d73cd193b61e618f0b49e377dde8cae236a6089a2cdccf1",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-09-end-confirm.png",
+        "bytes": 28646,
+        "sha256": "b10b780050ee2f0711b94f33a1e0d3c1bcbbb6e18ff78840b43ed094b7cc7e1a",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/b10b780050ee2f0711b94f33a1e0d3c1bcbbb6e18ff78840b43ed094b7cc7e1a.gz",
+        "archiveBytes": 26861,
+        "archiveSha256": "3a1aaedce3a7464865ca1640f27446cf7beb9d5dc544353411e524aded476806",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-10-reloaded-title.png",
+        "bytes": 30705,
+        "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea.gz",
+        "archiveBytes": 29146,
+        "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-11-load-slots.png",
+        "bytes": 30990,
+        "sha256": "5babf6fa04dab9f535332d55cddd71d6c1f3ec1a280e349280307fa596ad3dc0",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/5babf6fa04dab9f535332d55cddd71d6c1f3ec1a280e349280307fa596ad3dc0.gz",
+        "archiveBytes": 29457,
+        "archiveSha256": "20e1a6f5ade2c03dd5b7267d08504a79ecfff40551c724c3695d2ce2379cf52c",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-12-loaded-map-hd-overworld-canvas.png",
+        "bytes": 567418,
+        "sha256": "261bb5fab051cea2d3f55d5f92024e93ec4ba0e18a0ea9b2118c1401b844c5fa",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/261bb5fab051cea2d3f55d5f92024e93ec4ba0e18a0ea9b2118c1401b844c5fa.gz",
+        "archiveBytes": 567611,
+        "archiveSha256": "cfbd095c38ff9e9abb66f84eaa88e0b33083674d53995c41c08746fce30f0a8f",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v1-20261011/system-667-12-loaded-map.png",
+        "bytes": 462947,
+        "sha256": "a48010af2fc861762e99e529245f1e902db5fa7d2ffb4cbf42f1f58b67513a8a",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/a48010af2fc861762e99e529245f1e902db5fa7d2ffb4cbf42f1f58b67513a8a.gz",
+        "archiveBytes": 462979,
+        "archiveSha256": "3f244b128afbe994522ce07214068d74c790ab4a45ff932c43d0afb1c53c53f3",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/executed-tool.mjs",
+        "bytes": 92869,
+        "sha256": "69b1252dcf033cf3e0ec6546adb8b99dc47c2b45a7df5bb0cc146973eda16334",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/69b1252dcf033cf3e0ec6546adb8b99dc47c2b45a7df5bb0cc146973eda16334.gz",
+        "archiveBytes": 25657,
+        "archiveSha256": "2504188f1e1388c00aa3f8452a18edbe0909fb82ab5f83bd8f8a7dcc2dbe95a4",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/owned-process-samples.jsonl",
+        "bytes": 144721,
+        "sha256": "ba8b7327a48201f9e5516e97c20a1e1001070bc4b11db9faffd2884ae9b7a619",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/ba8b7327a48201f9e5516e97c20a1e1001070bc4b11db9faffd2884ae9b7a619.gz",
+        "archiveBytes": 3108,
+        "archiveSha256": "7c9c680057828c4efc4ee058bca987f6ee8b0a29e8309a747a29112fbdb19c29",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/result.json",
+        "bytes": 39291116,
+        "sha256": "7962c476d625b29867a48045d3f995ebd1ed69ff509f1713edead2dd1afa4a60",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/7962c476d625b29867a48045d3f995ebd1ed69ff509f1713edead2dd1afa4a60.gz",
+        "archiveBytes": 1919297,
+        "archiveSha256": "92e82f2b95d41e7331d1141fdb217d67376dc124ba04ecfd0923cb196c16df2d",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/source-verification.json",
+        "bytes": 11223,
+        "sha256": "d89f69f054546771614fc8d050b13469e0b1cd4e918566f593eb32afaf3fdfdd",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/d89f69f054546771614fc8d050b13469e0b1cd4e918566f593eb32afaf3fdfdd.gz",
+        "archiveBytes": 3734,
+        "archiveSha256": "ba0a52715994e1e65f5f775ef3604955fee8d89f83f234ba4d77039a337e79ae",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-01-title.png",
+        "bytes": 30705,
+        "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea.gz",
+        "archiveBytes": 29146,
+        "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-02-portrait-lcd.png",
+        "bytes": 5361,
+        "sha256": "237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60.gz",
+        "archiveBytes": 5340,
+        "archiveSha256": "bb75fd07926669a453cfc27a49c64117780ab96e0a11cef5baafdfa96d1ea74f",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-02-portrait.png",
+        "bytes": 6764,
+        "sha256": "1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2.gz",
+        "archiveBytes": 5489,
+        "archiveSha256": "3bbb8944592b161c70efd7dd0f9d3e39dcc61f068520b2654860fd1e701a0d87",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-02b-mode-repeat.png",
+        "bytes": 30769,
+        "sha256": "19879cfb96f3569f942d2ee479ca3a30c223fa6cff4f78f8d571bc8fa04bce58",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/19879cfb96f3569f942d2ee479ca3a30c223fa6cff4f78f8d571bc8fa04bce58.gz",
+        "archiveBytes": 29222,
+        "archiveSha256": "4b5617530e484222b28c6731efa85044fcd24acada9989cacbfdc9553d9ebe6c",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-03-empty-load.png",
+        "bytes": 30143,
+        "sha256": "c2a9bc7c630488bd1e627e5299aff530c35429f4e500c24b505600a965178faf",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/c2a9bc7c630488bd1e627e5299aff530c35429f4e500c24b505600a965178faf.gz",
+        "archiveBytes": 28614,
+        "archiveSha256": "6a8f85773f0f80da3d3400286cce5e4d2d45f357e36412d7cd9eaeb4d6cb29ea",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-04-rulers.png",
+        "bytes": 31788,
+        "sha256": "556d167cffcbd35d56709594446467eafe35e8bc0ee74bcedd2c70e4ab5346d5",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/556d167cffcbd35d56709594446467eafe35e8bc0ee74bcedd2c70e4ab5346d5.gz",
+        "archiveBytes": 30514,
+        "archiveSha256": "906d91b9bc59d4ae5aef1c419c7d4a6edb6429dcf3b1ded3c2589dda520a3d32",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-05-new-map-hd-overworld-canvas.png",
+        "bytes": 568265,
+        "sha256": "7d5261672d1b4ee3ffbe38c614bfcbe934f13f32ab51ec65b61331e8cf25fef3",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/7d5261672d1b4ee3ffbe38c614bfcbe934f13f32ab51ec65b61331e8cf25fef3.gz",
+        "archiveBytes": 568458,
+        "archiveSha256": "ddb7ddf7d9f11786700c2bf4fcb44f12f1bd3c93a6528804bb16ea24cf2d66f3",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-05-new-map.png",
+        "bytes": 463175,
+        "sha256": "b4f27e06b25ffe89e88f72c105cfac0751438d1284f6afe338af918d39d50504",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/b4f27e06b25ffe89e88f72c105cfac0751438d1284f6afe338af918d39d50504.gz",
+        "archiveBytes": 463207,
+        "archiveSha256": "811c4740cc23fe0998585cb148f2ccf13c5a143037cc93760d1bd95691fe7c45",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-06-save-slots.png",
+        "bytes": 29575,
+        "sha256": "2479e6db94ce8fc226f848f0187a9042b5f72620f4427e62e066e4a0046a8ec7",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/2479e6db94ce8fc226f848f0187a9042b5f72620f4427e62e066e4a0046a8ec7.gz",
+        "archiveBytes": 28025,
+        "archiveSha256": "6bcde0e1199528fc933a0accaee6fae4481fd5deb2ee0d0e0a4c21a774413bfb",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-07-saved-map-hd-overworld-canvas.png",
+        "bytes": 567330,
+        "sha256": "63fdc7750bf0ef54d96759dd276d8e396adaee534a3488b044dd5fcba64c4db4",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/63fdc7750bf0ef54d96759dd276d8e396adaee534a3488b044dd5fcba64c4db4.gz",
+        "archiveBytes": 567523,
+        "archiveSha256": "a8ec5481ee4454803d2f6db7535780133e59fded5406141cdd2f809922cdc9f3",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-07-saved-map.png",
+        "bytes": 462833,
+        "sha256": "34638577074e4cd1e52344baf45f97a5a39c55870bdc179337dec6ea2f909409",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/34638577074e4cd1e52344baf45f97a5a39c55870bdc179337dec6ea2f909409.gz",
+        "archiveBytes": 462865,
+        "archiveSha256": "d44cf9b1586d6f4b8d3edc04c100009f27c7d42f359a70d6a3af2887daca581b",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-08-changed-world-hd-overworld-canvas.png",
+        "bytes": 529471,
+        "sha256": "078ae72f29f53fb691bfd1b9275e06141c2df7ee96264cdfda78da117f42b2dc",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/078ae72f29f53fb691bfd1b9275e06141c2df7ee96264cdfda78da117f42b2dc.gz",
+        "archiveBytes": 529654,
+        "archiveSha256": "4a962576b7d781529c4d60adb6b0eee32e6b7b2024c7bb796ca55a5ec2077641",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-08-changed-world.png",
+        "bytes": 423367,
+        "sha256": "4e2ae3f77772295011e6b30529984e3d6c65a1e360ff8320e49ac632e1726e8d",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/4e2ae3f77772295011e6b30529984e3d6c65a1e360ff8320e49ac632e1726e8d.gz",
+        "archiveBytes": 423430,
+        "archiveSha256": "b73d85781b5b88de385112e606004d1af5ee5f2108e177f6cb1fd04c660b626d",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-09-end-confirm.png",
+        "bytes": 28646,
+        "sha256": "b10b780050ee2f0711b94f33a1e0d3c1bcbbb6e18ff78840b43ed094b7cc7e1a",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/b10b780050ee2f0711b94f33a1e0d3c1bcbbb6e18ff78840b43ed094b7cc7e1a.gz",
+        "archiveBytes": 26861,
+        "archiveSha256": "3a1aaedce3a7464865ca1640f27446cf7beb9d5dc544353411e524aded476806",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-10-reloaded-title.png",
+        "bytes": 30705,
+        "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea.gz",
+        "archiveBytes": 29146,
+        "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-11-load-slots.png",
+        "bytes": 30990,
+        "sha256": "5babf6fa04dab9f535332d55cddd71d6c1f3ec1a280e349280307fa596ad3dc0",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/5babf6fa04dab9f535332d55cddd71d6c1f3ec1a280e349280307fa596ad3dc0.gz",
+        "archiveBytes": 29457,
+        "archiveSha256": "20e1a6f5ade2c03dd5b7267d08504a79ecfff40551c724c3695d2ce2379cf52c",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-12-loaded-map-hd-overworld-canvas.png",
+        "bytes": 567521,
+        "sha256": "e97effc652aacc8057314e21616e1d986ffaeed98b5e9a27fe626ed42d406675",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/e97effc652aacc8057314e21616e1d986ffaeed98b5e9a27fe626ed42d406675.gz",
+        "archiveBytes": 567714,
+        "archiveSha256": "5cce137c36e815194ccd4843df91b0b43e0aefc9c328331c9fdd0e21ee5dae69",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-667-v2-20261011/system-667-12-loaded-map.png",
+        "bytes": 462936,
+        "sha256": "f0f1269a69f0a4853f3b3bb4307698157d2204a80ea6fd7d619671eabe2a8fc0",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/f0f1269a69f0a4853f3b3bb4307698157d2204a80ea6fd7d619671eabe2a8fc0.gz",
+        "archiveBytes": 462968,
+        "archiveSha256": "59b99b3dd90bbe0f83047e169c31316a7ceab5d941cfa73fb021224865a3e6a7",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/executed-tool.mjs",
+        "bytes": 92869,
+        "sha256": "69b1252dcf033cf3e0ec6546adb8b99dc47c2b45a7df5bb0cc146973eda16334",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/69b1252dcf033cf3e0ec6546adb8b99dc47c2b45a7df5bb0cc146973eda16334.gz",
+        "archiveBytes": 25657,
+        "archiveSha256": "2504188f1e1388c00aa3f8452a18edbe0909fb82ab5f83bd8f8a7dcc2dbe95a4",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/owned-process-samples.jsonl",
+        "bytes": 153271,
+        "sha256": "04250b6bbfcca9a3268c737ec431978612940f969cc2de48c9198ecd554852a5",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/04250b6bbfcca9a3268c737ec431978612940f969cc2de48c9198ecd554852a5.gz",
+        "archiveBytes": 3212,
+        "archiveSha256": "7afe9029ff6a886bc02810cda051da107ec25a6629c16852744398c4f2b4a021",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/result.json",
+        "bytes": 42006024,
+        "sha256": "dfce072fd5f125e72474eb5fcbf3c8bad14d0dbca15e71688de85eb0dc5cc768",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/dfce072fd5f125e72474eb5fcbf3c8bad14d0dbca15e71688de85eb0dc5cc768.gz",
+        "archiveBytes": 2102680,
+        "archiveSha256": "c9d4adadfee2ee69c473e61351f00244e174a83437a07fcc5d0ef402d891591e",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/source-verification.json",
+        "bytes": 11223,
+        "sha256": "3ab86c9bc41863470eff5302b7c78f60970e3a7ff1ddef5b60473118f46ed045",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/3ab86c9bc41863470eff5302b7c78f60970e3a7ff1ddef5b60473118f46ed045.gz",
+        "archiveBytes": 3738,
+        "archiveSha256": "fe3d41c677f56092802c754edcd17d09d3761a63d0a73193e360feede655cfa2",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-01-title.png",
+        "bytes": 30705,
+        "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea.gz",
+        "archiveBytes": 29146,
+        "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-02-portrait-lcd.png",
+        "bytes": 5361,
+        "sha256": "237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60.gz",
+        "archiveBytes": 5340,
+        "archiveSha256": "bb75fd07926669a453cfc27a49c64117780ab96e0a11cef5baafdfa96d1ea74f",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-02-portrait.png",
+        "bytes": 6764,
+        "sha256": "1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2.gz",
+        "archiveBytes": 5489,
+        "archiveSha256": "3bbb8944592b161c70efd7dd0f9d3e39dcc61f068520b2654860fd1e701a0d87",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-02b-mode-repeat.png",
+        "bytes": 30705,
+        "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea.gz",
+        "archiveBytes": 29146,
+        "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-02c-selector-repeat.png",
+        "bytes": 30705,
+        "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea.gz",
+        "archiveBytes": 29146,
+        "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-03-empty-load.png",
+        "bytes": 30143,
+        "sha256": "c2a9bc7c630488bd1e627e5299aff530c35429f4e500c24b505600a965178faf",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/c2a9bc7c630488bd1e627e5299aff530c35429f4e500c24b505600a965178faf.gz",
+        "archiveBytes": 28614,
+        "archiveSha256": "6a8f85773f0f80da3d3400286cce5e4d2d45f357e36412d7cd9eaeb4d6cb29ea",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-04-rulers.png",
+        "bytes": 31788,
+        "sha256": "556d167cffcbd35d56709594446467eafe35e8bc0ee74bcedd2c70e4ab5346d5",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/556d167cffcbd35d56709594446467eafe35e8bc0ee74bcedd2c70e4ab5346d5.gz",
+        "archiveBytes": 30514,
+        "archiveSha256": "906d91b9bc59d4ae5aef1c419c7d4a6edb6429dcf3b1ded3c2589dda520a3d32",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-05-new-map-hd-overworld-canvas.png",
+        "bytes": 568002,
+        "sha256": "b6f577b365e0de6000162d6c6aeb6cb926128f7cf75901544f7459b92cc2c61c",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/b6f577b365e0de6000162d6c6aeb6cb926128f7cf75901544f7459b92cc2c61c.gz",
+        "archiveBytes": 568195,
+        "archiveSha256": "511706d3098e85fcc61ac389fe0cd2cff9a255fd09abc36a054ecd419ecc4d78",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-05-new-map.png",
+        "bytes": 463067,
+        "sha256": "a9a81992cf0cabc86dcf617c3795af3388fa03f5c8a73ae2bb4d3f8355005d39",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/a9a81992cf0cabc86dcf617c3795af3388fa03f5c8a73ae2bb4d3f8355005d39.gz",
+        "archiveBytes": 463099,
+        "archiveSha256": "9b9e78f5b96b3ba919e0fb6928e2fb6ebc58eec5a67bc609913054cd68e981c4",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-06-save-slots.png",
+        "bytes": 29561,
+        "sha256": "36435b1efd62dcb7886a821ea2f9b6b5d4d8c91fe52287ab5ca3adf4de76fefb",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/36435b1efd62dcb7886a821ea2f9b6b5d4d8c91fe52287ab5ca3adf4de76fefb.gz",
+        "archiveBytes": 28027,
+        "archiveSha256": "c61a6c26e35c88f8760c770f04831ac397111e60d4e51b4fc625f94fda8f8701",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-07-saved-map-hd-overworld-canvas.png",
+        "bytes": 567503,
+        "sha256": "a39c06d51beb9ecb3501e09e066777ef1452df8bc20ce7347a308168be235c5a",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/a39c06d51beb9ecb3501e09e066777ef1452df8bc20ce7347a308168be235c5a.gz",
+        "archiveBytes": 567696,
+        "archiveSha256": "b8015fb592411f278b4f93ed39ad359912b721d308db878b4bfd505fe47ad6b2",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-07-saved-map.png",
+        "bytes": 462946,
+        "sha256": "536752b430a312f32d8b232fc60b58e8d6029842159cbab3b51bb3b6c2263a50",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/536752b430a312f32d8b232fc60b58e8d6029842159cbab3b51bb3b6c2263a50.gz",
+        "archiveBytes": 462978,
+        "archiveSha256": "54df8ea5701d9b52dc987c124c1757b79fa2633d23f5baf8cd820000e67eaa2b",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-08-changed-world-hd-overworld-canvas.png",
+        "bytes": 529693,
+        "sha256": "e233174d1372f0b5ed9753872b69de0631e5e03bf0d9f639d515064b6000c8f2",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/e233174d1372f0b5ed9753872b69de0631e5e03bf0d9f639d515064b6000c8f2.gz",
+        "archiveBytes": 529876,
+        "archiveSha256": "d4d11a13a0b5f3e7ee0c99afe8b1068b930d97c6f3c209b4ee69abb54057f60e",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-08-changed-world.png",
+        "bytes": 423575,
+        "sha256": "ae86f2ca3f04f86ea173578b0de59ee0901b3cf5f0263b30132ef64d0e2f1401",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/ae86f2ca3f04f86ea173578b0de59ee0901b3cf5f0263b30132ef64d0e2f1401.gz",
+        "archiveBytes": 423638,
+        "archiveSha256": "e74bf21ae419d5b8dcbbedc6cefab39ca40277b223ec3dcdc724e2630b0df1d0",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-09-end-confirm.png",
+        "bytes": 28646,
+        "sha256": "b10b780050ee2f0711b94f33a1e0d3c1bcbbb6e18ff78840b43ed094b7cc7e1a",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/b10b780050ee2f0711b94f33a1e0d3c1bcbbb6e18ff78840b43ed094b7cc7e1a.gz",
+        "archiveBytes": 26861,
+        "archiveSha256": "3a1aaedce3a7464865ca1640f27446cf7beb9d5dc544353411e524aded476806",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-10-reloaded-title.png",
+        "bytes": 30705,
+        "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea.gz",
+        "archiveBytes": 29146,
+        "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-11-load-slots.png",
+        "bytes": 30990,
+        "sha256": "5babf6fa04dab9f535332d55cddd71d6c1f3ec1a280e349280307fa596ad3dc0",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/5babf6fa04dab9f535332d55cddd71d6c1f3ec1a280e349280307fa596ad3dc0.gz",
+        "archiveBytes": 29457,
+        "archiveSha256": "20e1a6f5ade2c03dd5b7267d08504a79ecfff40551c724c3695d2ce2379cf52c",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-12-loaded-map-hd-overworld-canvas.png",
+        "bytes": 567874,
+        "sha256": "b420aff8f93989d8980d986f98fd88546a21de8c35ab4ab90818a37f76cca933",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/b420aff8f93989d8980d986f98fd88546a21de8c35ab4ab90818a37f76cca933.gz",
+        "archiveBytes": 568067,
+        "archiveSha256": "ad48a4fb7222ae58130c7699377303d338972798d3b6f558c2d9919fbb5b305e",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-20261011/system-667-12-loaded-map.png",
+        "bytes": 463371,
+        "sha256": "81464a8e6731a62c261097335e1ec49a7d2441e27b2b34d6d9a15cd89b57434c",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/81464a8e6731a62c261097335e1ec49a7d2441e27b2b34d6d9a15cd89b57434c.gz",
+        "archiveBytes": 463403,
+        "archiveSha256": "46aab1c61b6bd5b5ea0b9dc5877c3d01e3833c39f75d0d432a74b50dcf0b3fec",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/test-hd-mobile-city-runtime.mjs",
+        "bytes": 92869,
+        "sha256": "69b1252dcf033cf3e0ec6546adb8b99dc47c2b45a7df5bb0cc146973eda16334",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/69b1252dcf033cf3e0ec6546adb8b99dc47c2b45a7df5bb0cc146973eda16334.gz",
+        "archiveBytes": 25657,
+        "archiveSha256": "2504188f1e1388c00aa3f8452a18edbe0909fb82ab5f83bd8f8a7dcc2dbe95a4",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/hd-runtime-owned-chrome.mjs",
+        "bytes": 13354,
+        "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+        "repositoryPath": "scripts/hd-runtime-owned-chrome.mjs",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "scripts/hd-runtime-json.mjs",
+        "bytes": 7162,
+        "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+        "repositoryPath": "scripts/hd-runtime-json.mjs",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "scripts/hd-mobile-quantity-runtime-checks.mjs",
+        "bytes": 2843,
+        "sha256": "a41277ae13c651e100d914e4ea917446ca678e45c43b35e1fcdaee34ff8ed3a8",
+        "repositoryPath": "scripts/hd-mobile-quantity-runtime-checks.mjs",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "m.html",
+        "bytes": 16345,
+        "sha256": "b0cad3eeedee80f13eb04c21b73f8730a4a43b2de32725e88424009f9d112f38",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/b0cad3eeedee80f13eb04c21b73f8730a4a43b2de32725e88424009f9d112f38.gz",
+        "archiveBytes": 4122,
+        "archiveSha256": "ad4a3a1894b75d6865d2761a4355805858a5a42521a244e7513980ec3d9cb445",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "js/original-game.js",
+        "bytes": 7437,
+        "sha256": "1ce5174f232eb007f92596ef4107f3e9ba23305e13eae621427f5fd72c545e34",
+        "repositoryPath": "js/original-game.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-mobile.js",
+        "bytes": 9959,
+        "sha256": "68445e55aa8c6de684d876c47de5bac142f27119cdac67027e7d4afd34f077c5",
+        "repositoryPath": "js/hd-mobile.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-mobile-map.js",
+        "bytes": 27072,
+        "sha256": "7229c605a9bbab9a24231dfdaf288c83567fe480a526682f0c79a51525e31598",
+        "repositoryPath": "js/hd-mobile-map.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-mobile-city.js",
+        "bytes": 30789,
+        "sha256": "3db2e95f89f21aeaa9952d8902c47cc4e325f9cf4ff2e6332f2ad46de7a55a28",
+        "repositoryPath": "js/hd-mobile-city.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-city-menu.js",
+        "bytes": 366145,
+        "sha256": "d7183a405390cb93ea79d25192ffe0387852b07d5f88086f11af502b5732fef8",
+        "repositoryPath": "js/hd-city-menu.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-dialog.js",
+        "bytes": 106539,
+        "sha256": "5f8e9654509cf7fd809179293a20ef67e53a85c67079e91fa2eb6cbca180dca0",
+        "repositoryPath": "js/hd-dialog.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-overworld.js",
+        "bytes": 169029,
+        "sha256": "efc99f94680cfb02b5c7db447a788a1eb32f9bc46c2abe6e25b933d075e26610",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/efc99f94680cfb02b5c7db447a788a1eb32f9bc46c2abe6e25b933d075e26610.gz",
+        "archiveBytes": 36813,
+        "archiveSha256": "34d0a26a1bbb0133dc26da2734249a47c93043f15333f0e03206786a0949e595",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "js/lcd.js",
+        "bytes": 34767,
+        "sha256": "76be04ea9d710b8797aa4bcef327091a702b82f992d61bd5b72e1a09bf0fb78c",
+        "repositoryPath": "js/lcd.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+        "repositoryPath": "libs/dat-mod.lib",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "scripts/hd-mobile-system-runtime-checks.mjs",
+        "bytes": 23211,
+        "sha256": "589f6df00063bb741e4cd9628c7df875e55bdf9ac1709a39c689770f1e291632",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/589f6df00063bb741e4cd9628c7df875e55bdf9ac1709a39c689770f1e291632.gz",
+        "archiveBytes": 7084,
+        "archiveSha256": "1b6e78008211fee0e48bedeb8773d368de31e7bd4763c0e8f8da471e90435a77",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/hd-mobile-system-runtime-oracle.mjs",
+        "bytes": 10021,
+        "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+        "repositoryPath": "scripts/hd-mobile-system-runtime-oracle.mjs",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "scripts/test-hd-mobile-system.mjs",
+        "bytes": 45979,
+        "sha256": "b4e2e50240ee72d624935348ad4c9edf2d73791d2740369ef790563a608e8546",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/b4e2e50240ee72d624935348ad4c9edf2d73791d2740369ef790563a608e8546.gz",
+        "archiveBytes": 11143,
+        "archiveSha256": "42398ba490f25696f7115d507debe1e62b3835ec7a3e89dbce8c5778eb3572a5",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/test-hd-mobile-system-runtime-oracle.mjs",
+        "bytes": 9974,
+        "sha256": "a5a18405000819ea05998a72834562f61ee2768ac84f2346942be013c0bdeac0",
+        "repositoryPath": "scripts/test-hd-mobile-system-runtime-oracle.mjs",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "scripts/test-lcd-touch.mjs",
+        "bytes": 11422,
+        "sha256": "55c06f0cdb6e7f47184ba753d5069523944935fc32f15332116ed2b573de01fe",
+        "repositoryPath": "scripts/test-lcd-touch.mjs",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "package.json",
+        "bytes": 10834,
+        "sha256": "8a0967a4bdb0c5be07cdfb1f381c25ef3bec435406c6270aec7d5933a6b69a5f",
+        "repositoryPath": "package.json",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "pc.html",
+        "bytes": 26890,
+        "sha256": "038cbc84e9c2259b8e641b5ec051921f939519455bc944c2c33c1b6ed494a442",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/038cbc84e9c2259b8e641b5ec051921f939519455bc944c2c33c1b6ed494a442.gz",
+        "archiveBytes": 6351,
+        "archiveSha256": "6787ac16bafea6a21e79b2ec466fd8708a39db4e99f0e94d48c227450628258c",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "js/hd-system-ui.js",
+        "bytes": 55988,
+        "sha256": "aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/aecb6cda06fb915d977c61f3252d6c17bf9a3b5fc2ed98ce927fd7f62198a126.gz",
+        "archiveBytes": 12443,
+        "archiveSha256": "9566b868886eb674a6e436752a6a20d614b409058f1411e6efd1fd378720406c",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "js/hd-mobile-system.js",
+        "bytes": 31986,
+        "sha256": "ccd65f1c745529da4e7f11b18f8184c6633fb0081111200690a2a380793bc64d",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/ccd65f1c745529da4e7f11b18f8184c6633fb0081111200690a2a380793bc64d.gz",
+        "archiveBytes": 8144,
+        "archiveSha256": "6636717563ee4739803d0166a0de8fc263d1473d3f270ff0782976168c8d5d51",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "css/hd-mobile.css",
+        "bytes": 24973,
+        "sha256": "ebec29264a3e59fc85198d95a723c1ff4f6ebef3edf6dbb0c6e5295bf557aae4",
+        "repositoryPath": "css/hd-mobile.css",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "css/hd-system-ui.css",
+        "bytes": 3417,
+        "sha256": "001d37af3a53b7af9a17c4235cdecca8554c27c9249f3f983a235ca1f71cb833",
+        "repositoryPath": "css/hd-system-ui.css",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/save-storage.js",
+        "bytes": 11899,
+        "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+        "repositoryPath": "js/save-storage.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "css/baye.css",
+        "bytes": 2869,
+        "sha256": "1cd06ece53807cba09a191d21da367bbe33deec393eb0f98b668e2e8d59e4c83",
+        "repositoryPath": "css/baye.css",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "css/hd-overworld.css",
+        "bytes": 4893,
+        "sha256": "f73d215b252bbb3fca714d0dea03ba99e6597fb358293d1049e92effe14997d1",
+        "repositoryPath": "css/hd-overworld.css",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "css/hd-city-menu.css",
+        "bytes": 14183,
+        "sha256": "3fc256cf6fa34756987f993d208948008f39d14faf7588de4618857c0ca6b485",
+        "repositoryPath": "css/hd-city-menu.css",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "css/hd-dialog.css",
+        "bytes": 9772,
+        "sha256": "3ae9cdfa2da38d1fa38c4513d985468e13fe35e324c3865c57e0ecd1f8e70d9e",
+        "repositoryPath": "css/hd-dialog.css",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/encoding-indexes.js",
+        "bytes": 145824,
+        "sha256": "3108a91b9d49db07b9b930f261d6ac5727eead44a388720c5366dde8ba30f738",
+        "repositoryPath": "js/encoding-indexes.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/encoding.js",
+        "bytes": 101260,
+        "sha256": "4c9320d536c1aad92679ded7eabd2f6b70b1244a31d1104a97a94dbe7fa4b15d",
+        "repositoryPath": "js/encoding.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/sprintf.js",
+        "bytes": 9783,
+        "sha256": "85b3777bbfaf4f74c81135ef0264e6413dce8e2dbe8999b0c29f83c42723972c",
+        "repositoryPath": "js/sprintf.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/jquery.min.js",
+        "bytes": 92629,
+        "sha256": "c12f6098e641aaca96c60215800f18f5671039aecf812217fab3c0d152f6adb4",
+        "repositoryPath": "js/jquery.min.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/lzma_worker-min.js",
+        "bytes": 23963,
+        "sha256": "e2189cb40141f598298a0810e19e4133aa5e8ab62a0a1295a5944ce5d3064523",
+        "repositoryPath": "js/lzma_worker-min.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/base64.js",
+        "bytes": 3334,
+        "sha256": "bb8dcdd0ad8e9c2315aa81eff98b0687c500adc3a08ab24a2c36e11e8ed92a42",
+        "repositoryPath": "js/base64.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/idbkvstore.min.js",
+        "bytes": 16578,
+        "sha256": "d41e42cb680355a626e536ca8ace12fc4c3eb3d22b3dd581f51e48a1aa3aed60",
+        "repositoryPath": "js/idbkvstore.min.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/bridge.js",
+        "bytes": 144208,
+        "sha256": "ce727505885ae5f3adf43a3ce7de95320d5c52c237fba904c3b7152b1e08ffd8",
+        "repositoryPath": "js/bridge.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-lib-identity.js",
+        "bytes": 5822,
+        "sha256": "b32f1bc26cfe1d41f064fb250b8c6c4978aa8ac7c5c8ad2ecc4ac5df14e42aaf",
+        "repositoryPath": "js/hd-lib-identity.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-overworld-layers.js",
+        "bytes": 5717,
+        "sha256": "c1146dd116191c4bc450c8e581b77d1239d036608ad56a664192d527dc6e773a",
+        "repositoryPath": "js/hd-overworld-layers.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-portraits.js",
+        "bytes": 30421,
+        "sha256": "ef3e2f9ab47b45232b7ff216d1a1f5298fb834c204eb7c987f2ce20fb12fbc6c",
+        "repositoryPath": "js/hd-portraits.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-mobile-portraits.js",
+        "bytes": 24241,
+        "sha256": "cd33628dd9e2a7c4436ed88d121727c8e539f46cabe35ff3ab5973d5b6206076",
+        "repositoryPath": "js/hd-mobile-portraits.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-battle-terrain.js",
+        "bytes": 12641,
+        "sha256": "657abe5362c1cf810ddef66583bca90e86432bc3ffe8a5fc5c1c1d5f02885467",
+        "repositoryPath": "js/hd-battle-terrain.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-battle-feedback.js",
+        "bytes": 12212,
+        "sha256": "ff9f026ad86b50174b7f2f4e0b5b1b91fa9f2b0800a7a515ce2e8663ac23f90f",
+        "repositoryPath": "js/hd-battle-feedback.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-battle.js",
+        "bytes": 80131,
+        "sha256": "8a8dd2243ac76ab69e7b9060cb6104c6260b73bb0d47d1f8ab10b4eb06170a7d",
+        "repositoryPath": "js/hd-battle.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-spe.js",
+        "bytes": 102411,
+        "sha256": "83b462cd8ec0ce5e3e73abf722f3aa696ae6ac5b38428ec01ac69104f8788252",
+        "repositoryPath": "js/hd-spe.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/hd-mobile-battle.js",
+        "bytes": 27805,
+        "sha256": "d10f271a4771ea05d1acb4ad1dd70ec3b4509870870215806f7b97cb4d8467d8",
+        "repositoryPath": "js/hd-mobile-battle.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643",
+        "repositoryPath": "js/baye.js",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "js/baye.wasm",
+        "bytes": 4535346,
+        "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e",
+        "repositoryPath": "js/baye.wasm",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-portraits/manifest.json",
+        "bytes": 8741,
+        "sha256": "bda8f663852c256f8221fbd63721b5a6ddd27743d1d24a23798e92e9fa6e5894",
+        "repositoryPath": "assets/hd-portraits/manifest.json",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-portraits/refs/index.json",
+        "bytes": 224423,
+        "sha256": "546a3ea06bf14cc0a14729b710ca7cfcca00a8f384e415b23e5a02cec2b3ed6f",
+        "repositoryPath": "assets/hd-portraits/refs/index.json",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "favicon.png",
+        "bytes": 7349,
+        "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22",
+        "repositoryPath": "favicon.png",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-spe/manifest.json",
+        "bytes": 586171,
+        "sha256": "0033b2fd76b34677e04f79486a15bce6d02c12d7074950c8ae120340251d54bb",
+        "repositoryPath": "assets/hd-spe/manifest.json",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-overworld/manifest.json",
+        "bytes": 8120,
+        "sha256": "a33ee40f0e75524e0adaac2b06047f57631c6861753795647790ea1df0879f94",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/a33ee40f0e75524e0adaac2b06047f57631c6861753795647790ea1df0879f94.gz",
+        "archiveBytes": 1628,
+        "archiveSha256": "4b3a41ee51b7e6c785d55f8ec8b3b64f71c7c8a4ab6719a1e550091fc788966f",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "assets/hd-overworld/palette/factions.json",
+        "bytes": 479,
+        "sha256": "547c38d5a8ad90084f99eccdeb8a0eb4a77b499297bd075995469c073ae56098",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/547c38d5a8ad90084f99eccdeb8a0eb4a77b499297bd075995469c073ae56098.gz",
+        "archiveBytes": 230,
+        "archiveSha256": "a0c3d22cc38fbe60a2358c1b4d298646fe6bb5cc4b73d111f07cccd34596ddd0",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "assets/hd-overworld/roads/adjacency.json",
+        "bytes": 925,
+        "sha256": "db0808fcb101d9d0439c54f4dd054325315b07e05713824fb7875ef78f0ddfad",
+        "repositoryPath": "assets/hd-overworld/roads/adjacency.json",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-overworld/china-lcc-cities.json",
+        "bytes": 13172,
+        "sha256": "6c429b8d0009c7c78e0bc478e9ba4539ada4b0c60c87e2d1c56813d56a4de73a",
+        "repositoryPath": "assets/hd-overworld/china-lcc-cities.json",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-overworld/terrain/base_plains.jpg",
+        "bytes": 2538377,
+        "sha256": "522f661bfdcc5ecc54be83c081e446dfbe5caaf554fe8ef08f15a07a8f61c445",
+        "repositoryPath": "assets/hd-overworld/terrain/base_plains.jpg",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-overworld/terrain/overlay_rivers.png",
+        "bytes": 93336,
+        "sha256": "17690a7d137c018774fec999d8143fc1f0719166a3ac3d2dc6c4d8e3de9214d7",
+        "repositoryPath": "assets/hd-overworld/terrain/overlay_rivers.png",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-overworld/terrain/mountain-cluster-v1.png",
+        "bytes": 911013,
+        "sha256": "05cc208ef6c6fee6c95551ddf2f9ed1bf43b5cf0ab7ce7c368de0f2085e1ec46",
+        "repositoryPath": "assets/hd-overworld/terrain/mountain-cluster-v1.png",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-overworld/terrain/forest-cluster-v1.png",
+        "bytes": 1540805,
+        "sha256": "978ce9bcd48053ca77da87ffaa92efd6ec06ed626aa3f2ee9e95585a6f52d85f",
+        "repositoryPath": "assets/hd-overworld/terrain/forest-cluster-v1.png",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-overworld/cities/fortified-city-v1.png",
+        "bytes": 972200,
+        "sha256": "c5ad664a4be45b0aa955d05bbd75948b03d1c2386ba5435d1da76ea40c99c4db",
+        "repositoryPath": "assets/hd-overworld/cities/fortified-city-v1.png",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-overworld/ui/cursor.png",
+        "bytes": 777,
+        "sha256": "1ce09a744160b991ed1ce62dce95240b4107d3f74f6beeb6f8257c92f0fec994",
+        "repositoryPath": "assets/hd-overworld/ui/cursor.png",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-overworld/ui/cursor_hover.png",
+        "bytes": 3060,
+        "sha256": "3b45532f02cb5de846bf3df8bdaf87dfc661d9ab76130468471314b03d614604",
+        "repositoryPath": "assets/hd-overworld/ui/cursor_hover.png",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-overworld/roads/stroke.png",
+        "bytes": 108,
+        "sha256": "6a25048f9f5c15dcc8f6e537c3f3d8cddb7b2fca135252ae29e8bd30a4deba4c",
+        "repositoryPath": "assets/hd-overworld/roads/stroke.png",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-overworld/roads/bridge-crossing-v1.png",
+        "bytes": 1198185,
+        "sha256": "110a48d457f5af9be4f51d156f2841eab1dc7e524232d5592ab7bbe1c64f1e88",
+        "repositoryPath": "assets/hd-overworld/roads/bridge-crossing-v1.png",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1",
+        "repositoryPath": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-portraits/hd/hd_p1_0000_董卓.png",
+        "bytes": 1607223,
+        "sha256": "1de400c70f00b1cd2ca6ccb0d9574cbe3d5a169cc42778895bce8432c8689b26",
+        "repositoryPath": "assets/hd-portraits/hd/hd_p1_0000_董卓.png",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "assets/hd-portraits/refs/period-1/19-李儒.png",
+        "bytes": 486,
+        "sha256": "d41813a0446a3a5ab4bfa15067543675eb204f9f9e7fa9e898de2490eca9524e",
+        "repositoryPath": "assets/hd-portraits/refs/period-1/19-李儒.png",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/executed-tool.mjs",
+        "bytes": 92869,
+        "sha256": "69b1252dcf033cf3e0ec6546adb8b99dc47c2b45a7df5bb0cc146973eda16334",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/69b1252dcf033cf3e0ec6546adb8b99dc47c2b45a7df5bb0cc146973eda16334.gz",
+        "archiveBytes": 25657,
+        "archiveSha256": "2504188f1e1388c00aa3f8452a18edbe0909fb82ab5f83bd8f8a7dcc2dbe95a4",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/owned-process-samples.jsonl",
+        "bytes": 152928,
+        "sha256": "8e7ec5f46a929de48f5e7a1c916db299c4f648307200f916d3f8da6b32639962",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/8e7ec5f46a929de48f5e7a1c916db299c4f648307200f916d3f8da6b32639962.gz",
+        "archiveBytes": 3212,
+        "archiveSha256": "be780a10558ca3b99cf6aa33803d74a01ec015aed7fbca4a7719b7ca3db839ca",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/result.json",
+        "bytes": 41031143,
+        "sha256": "a7544dd7af6f5a661669cd55e72803945feaa4da9666e42cf37689a0f4421772",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/a7544dd7af6f5a661669cd55e72803945feaa4da9666e42cf37689a0f4421772.gz",
+        "archiveBytes": 2058800,
+        "archiveSha256": "5d5aaf8c1de046f2c883ac2de341a73c75a790bce941517cb75e05266c105daa",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/source-verification.json",
+        "bytes": 11223,
+        "sha256": "1a8bf3a94457d1723796b43201bb2078b5b251193e9ba80e98ed9442d26f1837",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/1a8bf3a94457d1723796b43201bb2078b5b251193e9ba80e98ed9442d26f1837.gz",
+        "archiveBytes": 3737,
+        "archiveSha256": "10dd5141bc017e5e006daeb3cdc8314868655f3d05409529ad54381a6f07e424",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-01-title.png",
+        "bytes": 33878,
+        "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f.gz",
+        "archiveBytes": 31771,
+        "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-02-portrait-lcd.png",
+        "bytes": 5361,
+        "sha256": "237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/237c7f50201e2916c019f1a8bdca2a9a2d34ecf0ed64b509a7e3c65a9836fd60.gz",
+        "archiveBytes": 5340,
+        "archiveSha256": "bb75fd07926669a453cfc27a49c64117780ab96e0a11cef5baafdfa96d1ea74f",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-02-portrait.png",
+        "bytes": 6764,
+        "sha256": "1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/1cd38b1338470f2ec14194dd2524d1bfbc6579d37fed76790968c5edef9242f2.gz",
+        "archiveBytes": 5489,
+        "archiveSha256": "3bbb8944592b161c70efd7dd0f9d3e39dcc61f068520b2654860fd1e701a0d87",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-02b-mode-repeat.png",
+        "bytes": 33878,
+        "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f.gz",
+        "archiveBytes": 31771,
+        "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-02c-selector-repeat.png",
+        "bytes": 33878,
+        "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f.gz",
+        "archiveBytes": 31771,
+        "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-03-empty-load.png",
+        "bytes": 32950,
+        "sha256": "0e181936d5ba57d6313b2918d36db42486058c1a44a7564cfa640372bfcd3345",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/0e181936d5ba57d6313b2918d36db42486058c1a44a7564cfa640372bfcd3345.gz",
+        "archiveBytes": 30746,
+        "archiveSha256": "903db77c752d5013cf5267752481ed6e4d4ec8894f009dcabde75025efd6ca28",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-04-rulers.png",
+        "bytes": 35313,
+        "sha256": "6d63985273a5691603d4e6acb8a7d6eb225c05a87263d24a8de3264b262cd644",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/6d63985273a5691603d4e6acb8a7d6eb225c05a87263d24a8de3264b262cd644.gz",
+        "archiveBytes": 33300,
+        "archiveSha256": "58cd78978d11a8a851af892f6f87f8bdb0a5695edfd93bf938354fd563d9abf2",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-05-new-map-hd-overworld-canvas.png",
+        "bytes": 749187,
+        "sha256": "ea35ebb2a62e7cde45354cce7625e8d7d61db9fbb71af345b8cf80f46ff54bb7",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/ea35ebb2a62e7cde45354cce7625e8d7d61db9fbb71af345b8cf80f46ff54bb7.gz",
+        "archiveBytes": 749398,
+        "archiveSha256": "158dac306e7555951525eb9e304a8e83e00c3feaf62070e3052555d2a20c60a4",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-05-new-map.png",
+        "bytes": 611554,
+        "sha256": "03aecf3780ccf27e171f7b01ec0cbc5e0924e78e6f6ed913a0edb440a2e64b40",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/03aecf3780ccf27e171f7b01ec0cbc5e0924e78e6f6ed913a0edb440a2e64b40.gz",
+        "archiveBytes": 611707,
+        "archiveSha256": "d8718f222090d4ca59134bbf4d27f80788a4c04d2a348fa18b50a13de1cbf264",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-06-save-slots.png",
+        "bytes": 32775,
+        "sha256": "5cf378308b58bff1c9a8b6c929a80145e184aaff972e3252f9ae95a5ed520561",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/5cf378308b58bff1c9a8b6c929a80145e184aaff972e3252f9ae95a5ed520561.gz",
+        "archiveBytes": 30554,
+        "archiveSha256": "d1ea3ace13068eee8c35439bacf4dc3341a20fdb87ab4c5f6984d792f741dae3",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-07-saved-map-hd-overworld-canvas.png",
+        "bytes": 749065,
+        "sha256": "9c6cfbbdb08f92a038bb647578028f86fda1581f3d9df37277d9d606b9f8a1e8",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/9c6cfbbdb08f92a038bb647578028f86fda1581f3d9df37277d9d606b9f8a1e8.gz",
+        "archiveBytes": 749276,
+        "archiveSha256": "64a89b3923e27210956277e7f95e0781fe481c4d9b2a2f77d2e9b166501d731a",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-07-saved-map.png",
+        "bytes": 611658,
+        "sha256": "49f19fa8005c56b30c7caba7a7fd287653fdfbf9e1b587d2587d43e5213e4122",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/49f19fa8005c56b30c7caba7a7fd287653fdfbf9e1b587d2587d43e5213e4122.gz",
+        "archiveBytes": 611811,
+        "archiveSha256": "cb39d3700f68274d1214cb8691ee78e9525c4ac4af76fa739d27454d1e7446e6",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-08-changed-world-hd-overworld-canvas.png",
+        "bytes": 681355,
+        "sha256": "5790ac9a26cbfd6e34d0532b484a6f7a5256b4950a99ed7d7f72a1d5b931937a",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/5790ac9a26cbfd6e34d0532b484a6f7a5256b4950a99ed7d7f72a1d5b931937a.gz",
+        "archiveBytes": 681583,
+        "archiveSha256": "fa5df8fe0474743e391e1096cb2b92b6a78e765ec51f8bd4558ebc7de14e199e",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-08-changed-world.png",
+        "bytes": 539584,
+        "sha256": "e5a49b1d6ceedeb6fe3f80b8bc9659733ea4f1fadf64e3ece19e70910c2b28b1",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/e5a49b1d6ceedeb6fe3f80b8bc9659733ea4f1fadf64e3ece19e70910c2b28b1.gz",
+        "archiveBytes": 539740,
+        "archiveSha256": "4afac1115d28ebae778869320942c7e0d8a70b7b10e6df05e64ccf6265874019",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-09-end-confirm.png",
+        "bytes": 31846,
+        "sha256": "276628c1b47804fd736a6d50a1dc950f05dd24d57bc7b3ef44b86e70b2fe8732",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/276628c1b47804fd736a6d50a1dc950f05dd24d57bc7b3ef44b86e70b2fe8732.gz",
+        "archiveBytes": 29496,
+        "archiveSha256": "5d95102db70ecee1e49473fae1410c15c357745d90adfcd36d417f7eef2e247c",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-10-reloaded-title.png",
+        "bytes": 33878,
+        "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f.gz",
+        "archiveBytes": 31771,
+        "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-11-load-slots.png",
+        "bytes": 33806,
+        "sha256": "da54e4b4789a2ff2a10a6aaf89018b2c85c1a507e5b3b82613c5265e803a4df0",
+        "archive": "docs/validation/m5-mobile-system-20261011/raw/da54e4b4789a2ff2a10a6aaf89018b2c85c1a507e5b3b82613c5265e803a4df0.gz",
+        "archiveBytes": 31636,
+        "archiveSha256": "f5b1449bfa685098771bd1111d5a412cfa361ef06e21cca16f6405c4e9d9d60e",
+        "reused": true,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-12-loaded-map-hd-overworld-canvas.png",
+        "bytes": 749125,
+        "sha256": "7fcc1ffe82b4b7aa0176c34a0b00039880a1c73e16c91cdbee441f083c1ea515",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/7fcc1ffe82b4b7aa0176c34a0b00039880a1c73e16c91cdbee441f083c1ea515.gz",
+        "archiveBytes": 749336,
+        "archiveSha256": "5ca855b8571215c622e604ca5d159f1688fdf9e0657ee54feb219744db127e3e",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-20261011/system-844-12-loaded-map.png",
+        "bytes": 611392,
+        "sha256": "fadca423154999791c99618520ebd5d3b6b09a7c5b96ddfedf99f1fc1c3754c0",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/fadca423154999791c99618520ebd5d3b6b09a7c5b96ddfedf99f1fc1c3754c0.gz",
+        "archiveBytes": 611545,
+        "archiveSha256": "cfa7cb19def425cf43534f32f56b78248b42317b598a4647f943cece1ff4b926",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/archive-mobile-system-spe-20261011.cjs",
+        "bytes": 8327,
+        "sha256": "619ef1213dd2b555efed9b28191dfade0000377eb8bb0b587c7cd3ed9962942d",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/619ef1213dd2b555efed9b28191dfade0000377eb8bb0b587c7cd3ed9962942d.gz",
+        "archiveBytes": 3081,
+        "archiveSha256": "6997c73b7ed026bddf1ef21485e99337d898a8979d3ed2926bdb17f6c4063470",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-identity-diagnostics-v2-20261011-freeze.json",
+        "bytes": 2599,
+        "sha256": "78fb459f0eaffa2040f937a414fc4a77883996810cdaa73a7b593ec7c2309eb2",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/78fb459f0eaffa2040f937a414fc4a77883996810cdaa73a7b593ec7c2309eb2.gz",
+        "archiveBytes": 1199,
+        "archiveSha256": "debf37a5bb0f7b1d44b328caacc692cce23c7b89febf606e0d7c3130e550d886",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-identity-diagnostics-v2-20261011-delta.json",
+        "bytes": 21970,
+        "sha256": "ea1e08e89e01111e5465d50215318e7335baf0ebc92ebb99219d69c70b6ade46",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/ea1e08e89e01111e5465d50215318e7335baf0ebc92ebb99219d69c70b6ade46.gz",
+        "archiveBytes": 4719,
+        "archiveSha256": "351b00b216b1759eac22b4219dedabc90a9b1682c87666bfb42fcbb63d47ba53",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-key-freeze-v1-20261011.json",
+        "bytes": 2413,
+        "sha256": "a812447b5eac77c83e31fe8c757564ece18c8671cd9665c8d98b299203b449b0",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/a812447b5eac77c83e31fe8c757564ece18c8671cd9665c8d98b299203b449b0.gz",
+        "archiveBytes": 1108,
+        "archiveSha256": "52314086574754163063283448843d38f278b9598774623e4082a80c9ba9fa62",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-key-delta-v1-20261011.json",
+        "bytes": 12838,
+        "sha256": "1c1ff0490096f3bf10eb46bda2c977857bc838ee27575e260cfbddb1bfd80057",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/1c1ff0490096f3bf10eb46bda2c977857bc838ee27575e260cfbddb1bfd80057.gz",
+        "archiveBytes": 2501,
+        "archiveSha256": "1b714add22349c0608b0906b40c628a4141c9a546c499c7de4e098992c1f1574",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-key-focused-v1-20261011.log",
+        "bytes": 20874,
+        "sha256": "2e39de2cc90aaa95ea138786c669926bd1795f852f61dd4e8eb1ca614a9962b9",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/2e39de2cc90aaa95ea138786c669926bd1795f852f61dd4e8eb1ca614a9962b9.gz",
+        "archiveBytes": 5233,
+        "archiveSha256": "a6cb3e53dc04a099da4f553cb12ec4d7e31e5c49beefeb22dfdcdd544b49e89c",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/hd-mobile-trade-runtime-oracle.mjs",
+        "bytes": 12860,
+        "sha256": "bdbafe6365748b1ea72b16dcf1d7789b69f94372734c397c093a523bb4861106",
+        "repositoryPath": "scripts/hd-mobile-trade-runtime-oracle.mjs",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "scripts/test-hd-mobile-trade-runtime-oracle.mjs",
+        "bytes": 13258,
+        "sha256": "8aeb78829ca8d587999e8749c102d5ff4f458113c1c6ab95dfad730385dc180d",
+        "repositoryPath": "scripts/test-hd-mobile-trade-runtime-oracle.mjs",
+        "repositoryRevision": "6ae03354ca9281f35cd7bf1cb2c713493cf6dc9e",
+        "storedInRepository": true,
+        "byteExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-key-old-source-negative-proof-v1-20261011.json",
+        "bytes": 1176,
+        "sha256": "b43f87018bbf53ce2cd728a8352982c4f365ecd2e5d1734a13587c02d357c75a",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/b43f87018bbf53ce2cd728a8352982c4f365ecd2e5d1734a13587c02d357c75a.gz",
+        "archiveBytes": 640,
+        "archiveSha256": "75ce3d39dec536a1d20b0c2f26423151dcc79fe4f679cd027095b0a2ac240aef",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-key-normalization-product-before-v1-20261011/hd-mobile-system.js",
+        "bytes": 31370,
+        "sha256": "baafd0f9063048d15db96179ef6450ff68c40f833df01ab97b0fe0231d13ab67",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/baafd0f9063048d15db96179ef6450ff68c40f833df01ab97b0fe0231d13ab67.gz",
+        "archiveBytes": 7969,
+        "archiveSha256": "dd48739d539e57eac9e4542278ee0ab59cc77653d999bedd2537f7dee7d27595",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-key-old-source-negative-v1-20261011.mjs",
+        "bytes": 46041,
+        "sha256": "a35533414fbb1c63f7192122fd46e8878787643032e66f3f9d8537eac38b69ad",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/a35533414fbb1c63f7192122fd46e8878787643032e66f3f9d8537eac38b69ad.gz",
+        "archiveBytes": 11180,
+        "archiveSha256": "9bd2ec4ae0b4ef547ed99eaf87dde191cc2a6c1a03528089c973f589f6f049af",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-key-old-source-negative-v1-20261011.log",
+        "bytes": 56282,
+        "sha256": "cfcd0248102c2e94ebc4859545672e73f259153475b84fac9b1d28f9da7c0a09",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/cfcd0248102c2e94ebc4859545672e73f259153475b84fac9b1d28f9da7c0a09.gz",
+        "archiveBytes": 1935,
+        "archiveSha256": "ab86ddbf7ee7177428ae06d06cb0670b33573f12522f8b3dc3d48a671892877b",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-suite-final-20261011.log",
+        "bytes": 688777,
+        "sha256": "16eb35784d27854d4084e774d141f4800da3b9f28d1c91251965cd670507dade",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/16eb35784d27854d4084e774d141f4800da3b9f28d1c91251965cd670507dade.gz",
+        "archiveBytes": 110807,
+        "archiveSha256": "6721d8d8006b4b45bf3d92b7ae115926dbbbc3ce04b46dc372f03b16993d5cf6",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-suite-final-v2-20261011.log",
+        "bytes": 670594,
+        "sha256": "befbc2de4917df8b9a61c090df60953561cd42430d9cc91606093b6e5de9ee1e",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/befbc2de4917df8b9a61c090df60953561cd42430d9cc91606093b6e5de9ee1e.gz",
+        "archiveBytes": 106934,
+        "archiveSha256": "ef891ba68df7f8f225298f33e5e4e3a6fe670e76e260bac115dcbb144b77ec11",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-portrait-recheck-20261011.log",
+        "bytes": 20512,
+        "sha256": "140d41f8f2bd2556ddacecfb1f883e91248bca69a5b0c75a0453ab90a1e648c0",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/140d41f8f2bd2556ddacecfb1f883e91248bca69a5b0c75a0453ab90a1e648c0.gz",
+        "archiveBytes": 2972,
+        "archiveSha256": "950e73689afbb70628723e114f79778c15f06b85171ae9a74fbe7e9a9551121f",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/check-mobile-system-node-cleanup-20261011.ps1",
+        "bytes": 3046,
+        "sha256": "f5f15ae3414bb0ee2e2d3c02123002de0004ff4c9e526583beb7ae37960feedf",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/f5f15ae3414bb0ee2e2d3c02123002de0004ff4c9e526583beb7ae37960feedf.gz",
+        "archiveBytes": 1184,
+        "archiveSha256": "7f09b16c1ca608123855027fba0c18e31d9c30cd2a96f1fb808d93ea5378ad08",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-user-service-before-20261011.json",
+        "bytes": 285,
+        "sha256": "a1f4c5882dd8e4ebf23c3f8231d1f67494b608fb3f8f3c14f1282d4bb3e140f1",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/a1f4c5882dd8e4ebf23c3f8231d1f67494b608fb3f8f3c14f1282d4bb3e140f1.gz",
+        "archiveBytes": 225,
+        "archiveSha256": "478402b4d82d8ebb9254ce842c1f40cd5756b32428c387853e1fe7143773a2e6",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-user-service-after-20261011.json",
+        "bytes": 285,
+        "sha256": "d6af4045a22072603e8137e47ac00980ce48dc0ae5b9b1f0b1616cac5e97db81",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/d6af4045a22072603e8137e47ac00980ce48dc0ae5b9b1f0b1616cac5e97db81.gz",
+        "archiveBytes": 226,
+        "archiveSha256": "f76d70706e94163296b16e50d1989be5740b45259fec0e7623158a04dca48bd5",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-node-owned-after-20261011.json",
+        "bytes": 13666,
+        "sha256": "6ffd264d4f928a548b84328ded784e03ef32b26d995c2c090bec7bdc0eedbe34",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/6ffd264d4f928a548b84328ded784e03ef32b26d995c2c090bec7bdc0eedbe34.gz",
+        "archiveBytes": 1238,
+        "archiveSha256": "18befe7054f0cd658e420b933117d6e852e086438fa5ebd23c1c4627c126d432",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-667-v1-cli-20261011.log",
+        "bytes": 933,
+        "sha256": "6ffd7c844ce64017380c8e48c8c609d841050020e8f72caff43ce2ed1a1d4ae1",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/6ffd7c844ce64017380c8e48c8c609d841050020e8f72caff43ce2ed1a1d4ae1.gz",
+        "archiveBytes": 318,
+        "archiveSha256": "a33d49f3e59443e8e036a2c1b1cb7e24e6bac46a74947141dabf9722d09378ab",
+        "reused": false,
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-system-spe-fix-844-v1-cli-20261011.log",
+        "bytes": 933,
+        "sha256": "4b6903383e81717674e2daf2ba257244bd6e61cb14984470bc9e27f718aa72a5",
+        "archive": "docs/validation/m5-mobile-system-spe-20261011/raw/4b6903383e81717674e2daf2ba257244bd6e61cb14984470bc9e27f718aa72a5.gz",
+        "archiveBytes": 318,
+        "archiveSha256": "b48b8540e20544d8b934838ddc5ed6565e5bae2f2eceae563f94750d3cd740da",
+        "reused": false,
+        "roundTripExact": true
+      }
+    ]
+  }
+}
