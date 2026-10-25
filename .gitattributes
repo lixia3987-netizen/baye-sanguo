@@ -646,3 +646,10 @@
 /docs/validation/m5-city4-readonly-flow-20261026-v63*.gz -text
 /docs/validation/m5-city4-readonly-flow-20261026-v63*.sav -text
 /docs/validation/m5-city4-readonly-flow-20261026-v63*.png -text
+
+/docs/validation/m5-city4-strong-flow-20261026-v64*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city4-strong-flow-20261026-v64*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city4-strong-flow-20261026-v64*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city4-strong-flow-20261026-v64*.gz -text
+/docs/validation/m5-city4-strong-flow-20261026-v64*.sav -text
+/docs/validation/m5-city4-strong-flow-20261026-v64*.png -text

@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {isDeepStrictEqual,types as utilTypes} from 'node:util';
-import {assertCity4FirstOwnCapability,assertCity4FirstOwnReadBinding} from './hd-wood-city4-first-own.mjs';
+import {assertCity4FirstOwnCapability,assertCity4FirstOwnReadBinding,assertCity4FirstOwnStrongCapability} from './hd-wood-city4-first-own.mjs';
 import {assertCity4ObserverStageCapability,assertCity4ObserverStageReadBinding} from './hd-wood-city4-observer-transition.mjs';
 import {verifyCity4Ticket,verifyCity4AfterOwnCurrentGuards} from './hd-wood-city4-continuation.mjs';
 import {city4TicketExpression} from './hd-wood-city4-ticket-view.mjs';
@@ -130,7 +130,7 @@ export function createCity4HdWoodActionCandidate(options){
  const report={schemaVersion:1,sourceOnly:true,readiness:CITY4_HD_WOOD_READINESS,limits:CITY4_HD_WOOD_LIMITS,route:copies(route.route),actions:[],reads:[],artifacts:[],guards:[],movePlans:[],obstacles:[],woodAttempts:[],turns:[],sourceOnlyPlanning:true,liveWorldMustBeRetained:true,newEnd:0,newMarch:0,newLoad:0,newSave:0,successfulMovieSkillsObserved:[],...noCredit()};
  let started=false,running=false,installed=false,baselineKeys=null,expectedKeys=null,startBout=null,startedAt=null,artifactBytes=0,lastTicket=null,ordinal=0;
  const spent=new Set(),content=new Map(),wait=ms=>new Promise(r=>setTimeout(r,ms));
- function brand(){seal();const v=assertCity4FirstOwnCapability(firstOwnCapability,identity);assert.ok(v.sameSession===sourceSession);assertCity4ObserverStageCapability(stageCapability,{originCapability,session,cdp});return v;}
+ function brand(){seal();const v=assertCity4FirstOwnStrongCapability(firstOwnCapability,identity);assert.ok(v.sameSession===sourceSession);return v;}
  // Read binding attests private same-module lineage only. It never accepts a
  // cached current/store value and never authorizes an input or cleanup.
  function sourceReferences(){if(sealOwn(session,'identity','Original session identity')!==sourceSession||sealOwn(session,'cdp','Original session CDP')!==cdp||sealOwn(cdp,'send','Original CDP send')!==sourceSend)sealFail('Original session/CDP/send references changed');}

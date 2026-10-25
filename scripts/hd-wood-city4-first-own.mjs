@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {isDeepStrictEqual,types as utilTypes} from 'node:util';
 import {assertCity4ObserverStageCapability,copyCity4ObserverStagePolicy} from './hd-wood-city4-observer-transition.mjs';
 import {assertCity4ObserverStageReadBinding} from './hd-wood-city4-observer-transition.mjs';
+import {assertCity4ObserverStageStrongBundle} from './hd-wood-city4-observer-transition.mjs';
 import {verifyCity4BeforeOwn} from './hd-wood-city4-continuation.mjs';
 
 export const CITY4_FIRST_OWN_READINESS=Object.freeze({sourceOnly:true,runnerProvided:false,maximumNewNativeInputs:0,maximumNewEnd:0,maximumActualEnd:0,saveProvided:false,cleanupProvided:false,privateOriginAndStageRequired:true});
@@ -99,4 +100,18 @@ export function assertCity4FirstOwnReadBinding(capability,options){
  assert.ok(identity.originCapability===b.originCapability&&identity.stageCapability===b.stageCapability&&identity.session===b.session&&identity.cdp===b.cdp&&capability.session===b.session&&capability.cdp===b.cdp&&capability.sameSession===b.identity,'Original readonly first-PICK/stage/origin/session/CDP references required');
  const stage=assertCity4ObserverStageReadBinding(b.stageCapability,{originCapability:b.originCapability,session:b.session,cdp:b.cdp});assert.ok(stage.admissionCapability===b.admissionCapability&&stage.sameSession===b.identity&&stage.endCommitAttempted===true&&stage.endNativeAckObserved===true,'The original privately captured one-END admission and ACK remain bound');
  return{originCapability:b.originCapability,stageCapability:b.stageCapability,firstOwnCapability:capability,session:b.session,cdp:b.cdp,sameSession:b.identity,readOnlyBinding:true,sourceOnly:true,maximumNewNativeInputs:0,maximumNewEnd:0,cleanupAuthorized:false,sessionReleaseAllowed:false};
+}
+
+/** Full first-PICK authentication with one strong stage/origin derivation per
+ * synchronous call. The original full export remains unchanged above. */
+export function assertCity4FirstOwnStrongCapability(capability,options){
+ const identity=dataFields(options,['stageCapability','originCapability','session','cdp'],'First-PICK capability identity'),b=captures.get(capability);assert.ok(b,'Only this exact same-module first-PICK capability is accepted');
+ assert.ok(identity.originCapability===b.originCapability&&identity.stageCapability===b.stageCapability&&identity.session===b.session&&identity.cdp===b.cdp&&capability.session===b.session&&capability.cdp===b.cdp&&capability.sameSession===b.identity,'No serialization, fake sameSession or alternate capture source');
+ const bundle=assertCity4ObserverStageStrongBundle(b.stageCapability,{originCapability:b.originCapability,session:b.session,cdp:b.cdp}),stage=bundle.stageView;
+ assert.ok(stage.originCapability===b.originCapability&&stage.session===b.session&&stage.cdp===b.cdp&&stage.sameSession===b.session.identity,'Original same-Node origin/stage/session/CDP binding');
+ assert.equal(stage.endCommitAttempted,true,'A collector cannot invent the stage one-END attempt');assert.equal(stage.endNativeAckObserved,true,'The actual sole39 ACK must already be independently observed by the stage');
+ assert.ok(stage.admissionCapability===b.admissionCapability,'The original private conditional-END admission remains bound');
+ eq(bundle.policy,b.policy,'Full original current-source policy/endReady and unknown fields remain unchanged');eq(stage.observerExpected,b.observerExpected);eq(stage.observerEpochTicket,b.observerEpochTicket);eq(stage.nativeBudget,b.nativeBudget);eq(stage.saveTags,b.saveTags);assert.ok(Buffer.from(stage.libBytes).equals(b.libBytes),'Exact original runtime LIB stays bound');
+ const proof=verifyCity4BeforeOwn(b.evidence);eq(copy(proof),b.proof,'Complete privately captured first-PICK proof is rederived, never accepted from a boolean');
+ return{originCapability:b.originCapability,stageCapability:b.stageCapability,firstOwnCapability:capability,firstOwnEvidence:copy(b.evidence),observerExpected:copy(b.observerExpected),observerEpochTicket:copy(b.observerEpochTicket),libBytes:Buffer.from(b.libBytes),nativeBudget:copy(b.nativeBudget),saveTags:copy(b.saveTags),sameSession:b.identity,session:b.session,cdp:b.cdp,readOnlyCapture:true,maximumNewEnd:0,...noCredit()};
 }

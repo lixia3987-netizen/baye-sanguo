@@ -146,7 +146,7 @@ export function createCity4EndObserverTransitionAdapter(options){
  const readObserverTicket=async label=>{readerAdmission(label);return current(label);};
  async function readObserver(label){readOnlyAdmission(label);const startedAt=performance.now(),value=readCurrentAtomic(await evaluate(atomicExpression)),observedAt=performance.now(),observer=copy(value.observer);lastTicket=copy(value.ticket);await sink.write('transition-observer-'+String(ordinal++).padStart(4,'0')+'.json',{label,value:copy(observer),startedAt,observedAt,nodeBoundaryOnly:true});sameLive();return copy(observer);}
  async function readObserverProtected(label){readOnlyAdmission(label);const startedAt=performance.now(),value=readCurrentAtomic(await evaluate(atomicExpression)),observedAt=performance.now();lastTicket=copy(value.ticket);const {seed,...rest}=value;await sink.write('transition-protected-'+String(ordinal++).padStart(4,'0')+'.json',{label,value:{...rest,seedFingerprint:sha(Buffer.from('native-seed-u32:'+String(seed)))},startedAt,observedAt,nodeBoundaryOnly:true});sameLive();return copy(value);}
- const driver=Object.freeze({prepareAdmission,commitEndExactlyOnce,readObserverTicket,readCurrentObservedTicket:readObserverTicket,readObserverProtected,readObserver,readiness:CITY4_END_TRANSITION_READINESS,status:()=>({phase:report.phase,started,installed,commitStarted,endCommitAttempted:report.endCommitAttempted,endNativeAckObserved:report.endNativeAckObserved,attempts:copy(attempts),report:copy(report),exclusiveArtifactPins:sink.pins(),sameSession:identity,session,cdp,...noCredit()})});owners.set(anchor,driver);stages.set(driver,{anchor,session,cdp,identity,sameLive,input,ledger,saveTags,libBytes,nativeBudget,admission:()=>currentAdmission,readLease:()=>readLease,readState:()=>({installed,epoch,speGeneration,admission:currentAdmission}),state:()=>({phase:report.phase,installed,endCommitAttempted:report.endCommitAttempted,endNativeAckObserved:report.endNativeAckObserved})});return driver;
+ const driver=Object.freeze({prepareAdmission,commitEndExactlyOnce,readObserverTicket,readCurrentObservedTicket:readObserverTicket,readObserverProtected,readObserver,readiness:CITY4_END_TRANSITION_READINESS,status:()=>({phase:report.phase,started,installed,commitStarted,endCommitAttempted:report.endCommitAttempted,endNativeAckObserved:report.endNativeAckObserved,attempts:copy(attempts),report:copy(report),exclusiveArtifactPins:sink.pins(),sameSession:identity,session,cdp,...noCredit()})});owners.set(anchor,driver);stages.set(driver,{strongRootMethods:captureStrongRootMethods(anchor),anchor,session,cdp,identity,sameLive,input,ledger,saveTags,libBytes,nativeBudget,admission:()=>currentAdmission,readLease:()=>readLease,readState:()=>({installed,epoch,speGeneration,admission:currentAdmission}),state:()=>({phase:report.phase,installed,endCommitAttempted:report.endCommitAttempted,endNativeAckObserved:report.endNativeAckObserved})});return driver;
 }
 
 /** Private same-module admission branding and complete graph revalidation.
@@ -185,4 +185,65 @@ export function assertCity4ObserverStageReadBinding(stage,options={}){
  const p=admissions.get(lease.admission);assert.ok(p===lease.admissionRecord&&p.driver===stage&&p.anchor===b.anchor&&p.session===session&&p.cdp===cdp&&p.identity===b.identity&&p.input===b.input&&p.ledger===b.ledger&&p.saveTags===b.saveTags&&p.epoch===lease.admissionEpoch&&p.speGeneration===lease.speGeneration,'Original private admission graph and epoch identities remain bound');
  assert.ok(lease.driver===stage&&lease.anchor===originCapability&&lease.session===session&&lease.cdp===cdp&&lease.identity===b.identity&&own(cdp,'send','Readonly stage CDP')===lease.send,'Original readonly closure references remain bound');b.sameLive();const state=b.state();assert.ok(state.installed);
  return{originCapability:b.anchor,stageCapability:stage,session,cdp,sameSession:b.identity,admissionCapability:lease.admission,endCommitAttempted:state.endCommitAttempted,endNativeAckObserved:state.endNativeAckObserved,readOnlyBinding:true,sourceOnly:true,maximumNewNativeInputs:0,maximumNewEnd:0,cleanupAuthorized:false,sessionReleaseAllowed:false};
+}
+
+/** One synchronous full stage/admission/origin authentication plus the complete
+ * original private policy. This is rederived per call, never a readonly permit
+ * or a cached successful source proof. No caller callback or await is used. */
+export function assertCity4ObserverStageStrongBundle(stage,options){
+ const b=stages.get(stage);assert.ok(b,'Only this exact same-module stage has a strong bundle');
+ assert.ok(options&&typeof options==='object'&&!utilTypes.isProxy(options),'Strong stage identity: non-proxy own-data options');
+ const identity=fields(options,['originCapability','session','cdp'],'Strong stage identity');strongStageSourcePreflight(stage,b,identity);
+ const view=assertCity4ObserverStageCapability(stage,identity),p=admissions.get(view.admissionCapability);
+ return{stageView:view,policy:{...copy(b.ledger),observerExpected:copy(observers),hookFence:copy(p.endReady.final.meta.v32HookFence),endReady:copy(p.endReady)}};
+}
+
+// Independent Strong API preflight: current shape only, no proof cache, byte
+// clone, previous-graph equality, callback, I/O or await. The sole old full
+// Stage -> Admission -> Origin derivation follows this entire synchronous walk.
+const STRONG_SHAPE_LIMITS=Object.freeze({nodes:6000000,depth:128,totalBytes:512*1024*1024,byteViewBytes:128*1024*1024,inspectableByteProperties:1024*1024});
+const StrongU8=Uint8Array,strongTa=Object.getPrototypeOf(StrongU8.prototype),strongGet=n=>Object.getOwnPropertyDescriptor(strongTa,n).get;
+const strongLength=strongGet('length'),strongByteLength=strongGet('byteLength'),strongOffset=strongGet('byteOffset'),strongBuffer=strongGet('buffer'),strongBrand=Object.getOwnPropertyDescriptor(strongTa,Symbol.toStringTag).get,strongBackingLength=Object.getOwnPropertyDescriptor(ArrayBuffer.prototype,'byteLength').get;
+const strongRootMethodNames=Object.freeze(['readPreEndTicket','readPreEndProtected','exclusiveArtifactPins']);
+function strongShapeFail(label){throw Error('Strong source shape: '+label);}
+function strongShapeProxy(value,label){if(value!==null&&(typeof value==='object'||typeof value==='function')&&utilTypes.isProxy(value))strongShapeFail(label+' Proxy rejected');}
+function strongShapeOwn(value,key,label){strongShapeProxy(value,label);if(!value||typeof value!=='object')strongShapeFail(label+' object required');const d=Object.getOwnPropertyDescriptor(value,key);if(!d||!Object.hasOwn(d,'value'))strongShapeFail(label+' own data required');return d.value;}
+function strongShapeLabel(label,key,index){return label+'.'+(typeof key==='string'?key.slice(0,90):'<symbol#'+index+'>');}
+function captureStrongRootMethods(origin){
+ strongShapeProxy(origin,'Origin root');if(!origin||typeof origin!=='object'||Object.getPrototypeOf(origin)!==Object.prototype||!Object.isFrozen(origin))strongShapeFail('Original frozen Origin root required');
+ const refs=Object.create(null);for(const key of strongRootMethodNames){const d=Object.getOwnPropertyDescriptor(origin,key);if(!d||!Object.hasOwn(d,'value')||d.writable||d.configurable)strongShapeFail('Original frozen root method descriptor');strongShapeProxy(d.value,'Original root method');if(typeof d.value!=='function')strongShapeFail('Original root method function required');refs[key]=d.value;}return Object.freeze(refs);
+}
+function strongShapeByteLength(value,label){
+ strongShapeProxy(value,label);if(!utilTypes.isUint8Array(value))strongShapeFail(label+' original Uint8Array/Buffer ABI required');
+ let length,byteLength,offset,buffer,backing,brand;try{length=strongLength.call(value);byteLength=strongByteLength.call(value);offset=strongOffset.call(value);buffer=strongBuffer.call(value);backing=strongBackingLength.call(buffer);brand=strongBrand.call(value);}catch{strongShapeFail(label+' intrinsic unshared byte view required');}
+ if(brand!=='Uint8Array'||length!==byteLength||!Number.isSafeInteger(length)||length<0||length>STRONG_SHAPE_LIMITS.byteViewBytes||!Number.isSafeInteger(offset)||offset<0||offset+length>backing)strongShapeFail(label+' bounded unshared byte view required');return length;
+}
+function strongStageSourcePreflight(stage,b,identity){
+ const {originCapability,session,cdp}=identity;if(originCapability!==b.anchor||session!==b.session||cdp!==b.cdp||stage!==owners.get(b.anchor))strongShapeFail('Original stage/origin/session/CDP references required');
+ const origin=b.anchor,admission=b.admission(),p=admissions.get(admission);if(!p||p.driver!==stage||p.anchor!==origin||p.session!==session||p.cdp!==cdp||p.identity!==b.identity)strongShapeFail('Original private admission graph required');
+ strongShapeProxy(origin,'Origin root');strongShapeProxy(admission,'Admission root');if(!origin||Object.getPrototypeOf(origin)!==Object.prototype||!Object.isFrozen(origin)||!admission||Object.getPrototypeOf(admission)!==Object.prototype||!Object.isFrozen(admission))strongShapeFail('Original frozen capability roots required');
+ const rootRefs={session,cdp,sameSession:b.identity},sameNode=strongShapeOwn(origin,'sameNode','Origin sameNode');strongShapeProxy(sameNode,'Origin sameNode');
+ for(const key of Object.keys(rootRefs)){if(strongShapeOwn(origin,key,'Origin identity')!==rootRefs[key]||strongShapeOwn(admission,key,'Admission identity')!==rootRefs[key])strongShapeFail('Original root identity reference');strongShapeProxy(rootRefs[key],'Original root identity');}
+ // sameLive is the original private own-data session/CDP/send identity check.
+ // Its remaining direct Origin fields were checked above on a frozen root.
+ strongShapeProxy(strongShapeOwn(cdp,'send','Original CDP send'),'Original CDP send');b.sameLive();
+ const rawRoles=new Set(['publication','world','sav0','sav1','ledger','final','publicSave','library']),seenData=new WeakSet(),seenRawMaps=new WeakSet(),seenOpaqueBytes=new WeakSet(),seenDataBytes=new WeakSet(),seenOriginRoots=new WeakSet(),seenAdmissionRoots=new WeakSet(),budget={nodes:0,bytes:0};
+ function walk(v,label,depth,context='data'){
+  strongShapeProxy(v,label);if(typeof v==='function')strongShapeFail(label+' nested function rejected');if(v===null||typeof v!=='object')return;if(++budget.nodes>STRONG_SHAPE_LIMITS.nodes||depth>STRONG_SHAPE_LIMITS.depth)strongShapeFail(label+' graph bound');
+  if(utilTypes.isUint8Array(v)){
+   const opaque=context==='opaque-byte',seen=opaque?seenOpaqueBytes:seenDataBytes;if(seen.has(v))return;const length=strongShapeByteLength(v,label);budget.bytes+=length;if(budget.bytes>STRONG_SHAPE_LIMITS.totalBytes)strongShapeFail(label+' total byte bound');seen.add(v);if(opaque)return;
+   const prototype=Object.getPrototypeOf(v);if(prototype!==Buffer.prototype&&prototype!==StrongU8.prototype)strongShapeFail(label+' standard data byte prototype');if(length>STRONG_SHAPE_LIMITS.inspectableByteProperties)strongShapeFail(label+' nonopaque byte metadata bound');const keys=Reflect.ownKeys(v);if(keys.length<length)strongShapeFail(label+' data byte indices');
+   // Native typed-array indices are intrinsic data slots. All additional own
+   // keys, including nonenumerable and symbol method/accessor shadows, are data.
+   for(let i=length;i<keys.length;i++){const key=keys[i],d=Object.getOwnPropertyDescriptor(v,key),path=strongShapeLabel(label,key,i);if(!d||!Object.hasOwn(d,'value'))strongShapeFail(path+' byte own data required');walk(d.value,path,depth+1);}return;
+  }
+  const seen=context==='raw-map'?seenRawMaps:context==='origin-root'?seenOriginRoots:context==='admission-root'?seenAdmissionRoots:seenData;if(seen.has(v))return;const prototype=Object.getPrototypeOf(v),array=Array.isArray(v);if(prototype!==(array?Array.prototype:Object.prototype)&&prototype!==null)strongShapeFail(label+' plain disclosure prototype');seen.add(v);
+  const keys=Reflect.ownKeys(v);for(let i=0;i<keys.length;i++){const key=keys[i],path=strongShapeLabel(label,key,i),d=Object.getOwnPropertyDescriptor(v,key);if(!d||!Object.hasOwn(d,'value'))strongShapeFail(path+' own data required');const value=d.value;strongShapeProxy(value,path);
+   if((context==='origin-root'||context==='admission-root')&&Object.hasOwn(rootRefs,key)){if(value!==rootRefs[key])strongShapeFail(path+' original root reference');continue;}
+   if(context==='origin-root'&&key==='sameNode'){if(value!==sameNode)strongShapeFail(path+' original sameNode reference');continue;}
+   if(context==='origin-root'&&strongRootMethodNames.includes(key)){if(!b.strongRootMethods||d.writable||d.configurable||typeof value!=='function'||value!==b.strongRootMethods[key])strongShapeFail(path+' original frozen root method reference');continue;}
+   walk(value,path,depth+1,context==='origin-root'&&key==='originBytes'?'raw-map':context==='raw-map'&&rawRoles.has(key)?'opaque-byte':'data');
+  }
+ }
+ walk(origin,'Origin',0,'origin-root');walk(admission,'Admission',0,'admission-root');
 }
