@@ -625,3 +625,13 @@
 /docs/validation/m5-city4-origin-anchor-20261025-v61*.gz -text
 /docs/validation/m5-city4-origin-anchor-20261025-v61*.sav -text
 /docs/validation/m5-city4-origin-anchor-20261025-v61*.png -text
+
+/scripts/hd-wood-city4-plunder-report.mjs text eol=lf
+/scripts/test-hd-wood-city4-plunder-report.mjs text eol=lf
+/scripts/test-hd-wood-city4-plunder-save.mjs text eol=lf
+/docs/validation/m5-city4-plunder-save-20261025-v62*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city4-plunder-save-20261025-v62*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city4-plunder-save-20261025-v62*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city4-plunder-save-20261025-v62*.gz -text
+/docs/validation/m5-city4-plunder-save-20261025-v62*.sav -text
+/docs/validation/m5-city4-plunder-save-20261025-v62*.png -text
