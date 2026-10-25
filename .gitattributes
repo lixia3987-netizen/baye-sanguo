@@ -604,3 +604,24 @@
 /docs/validation/m5-city4-live-retention-20261025-v60*.gz -text
 /docs/validation/m5-city4-live-retention-20261025-v60*.sav -text
 /docs/validation/m5-city4-live-retention-20261025-v60*.png -text
+
+# Source-authenticated same-process city4 LOAD and fresh SAVE adapter.
+/scripts/hd-wood-city4-anchor-runtime.mjs text eol=lf
+/scripts/hd-wood-city4-origin-anchor.mjs text eol=lf
+/scripts/hd-wood-city4-ui-predicates.mjs text eol=lf
+/scripts/hd-wood-city4-ticket-view.mjs text eol=lf
+/scripts/hd-wood-city4-anchor-artifacts.mjs text eol=lf
+/scripts/hd-wood-city4-anchor-input-contract.mjs text eol=lf
+/scripts/hd-wood-city4-anchor-ledger.mjs text eol=lf
+/scripts/hd-wood-city4-snapshot-observer.mjs text eol=lf
+/scripts/hd-wood-city4-ticket-observer.mjs text eol=lf
+/scripts/fixtures/hd-wood-city4-anchor-cdp.mjs text eol=lf
+/scripts/test-hd-wood-city4-origin-anchor.mjs text eol=lf
+
+# Source-authenticated city4 LOAD and fresh SAVE source evidence.
+/docs/validation/m5-city4-origin-anchor-20261025-v61*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city4-origin-anchor-20261025-v61*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city4-origin-anchor-20261025-v61*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city4-origin-anchor-20261025-v61*.gz -text
+/docs/validation/m5-city4-origin-anchor-20261025-v61*.sav -text
+/docs/validation/m5-city4-origin-anchor-20261025-v61*.png -text
