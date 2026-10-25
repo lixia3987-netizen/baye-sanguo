@@ -590,3 +590,17 @@
 /docs/validation/m5-city4-history-origin-20261024-v59*.gz -text
 /docs/validation/m5-city4-history-origin-20261024-v59*.sav -text
 /docs/validation/m5-city4-history-origin-20261024-v59*.png -text
+
+# Same-process city4 retention runtime and controlled fake-session coverage.
+/scripts/hd-wood-city4-live-retention.mjs text eol=lf
+/scripts/fixtures/hd-wood-city4-terminal-fixture.mjs text eol=lf
+/scripts/fixtures/hd-wood-city4-live-retention-fake-child.mjs text eol=lf
+/scripts/test-hd-wood-city4-live-retention.mjs text eol=lf
+
+# Same-process city4 live retention source evidence.
+/docs/validation/m5-city4-live-retention-20261025-v60*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city4-live-retention-20261025-v60*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city4-live-retention-20261025-v60*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city4-live-retention-20261025-v60*.gz -text
+/docs/validation/m5-city4-live-retention-20261025-v60*.sav -text
+/docs/validation/m5-city4-live-retention-20261025-v60*.png -text
