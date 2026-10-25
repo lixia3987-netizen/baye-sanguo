@@ -653,3 +653,17 @@
 /docs/validation/m5-city4-strong-flow-20261026-v64*.gz -text
 /docs/validation/m5-city4-strong-flow-20261026-v64*.sav -text
 /docs/validation/m5-city4-strong-flow-20261026-v64*.png -text
+
+/scripts/hd-wood-city4-battle-close.mjs text eol=lf
+/docs/validation/m5-city4-held-round-20261026-v65*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city4-held-round-20261026-v65*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city4-held-round-20261026-v65*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city4-held-round-20261026-v65*.gz -text
+/docs/validation/m5-city4-held-round-20261026-v65*.sav -text
+/docs/validation/m5-city4-held-round-20261026-v65*.png -text
+/docs/validation/m5-city4-close-diagnostics-20261026-v66*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city4-close-diagnostics-20261026-v66*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city4-close-diagnostics-20261026-v66*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city4-close-diagnostics-20261026-v66*.gz -text
+/docs/validation/m5-city4-close-diagnostics-20261026-v66*.sav -text
+/docs/validation/m5-city4-close-diagnostics-20261026-v66*.png -text
