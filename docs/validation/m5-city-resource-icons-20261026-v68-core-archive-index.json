@@ -1,0 +1,1441 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-city-resource-icons-20261026-v68-core-archive-part001.json",
+      "bytes": 7916100,
+      "sha256": "5a776f45c56d7eb788615a687a0ba88d8449b6fb63baf631c4a86f232ddd10c0",
+      "blobs": 70
+    },
+    {
+      "path": "docs/validation/m5-city-resource-icons-20261026-v68-core-archive-part002.json",
+      "bytes": 5968869,
+      "sha256": "74a1154b78a22694466cc6f222486f585de8f9004c65420fced8ddda39a64c93",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-city-resource-icons-20261026-v68-core-archive-part003.json",
+      "bytes": 5870857,
+      "sha256": "51786a18d397276586a565806ddb9bfd497c23440311e6eaaebae33bdcb3698f",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-city-resource-icons-20261026-v68-core-archive-part004.json",
+      "bytes": 7627258,
+      "sha256": "ff1a785ecc98ffb3367bb069a29a64b42b623988916b47c3ed9bed5abd73cd28",
+      "blobs": 6
+    },
+    {
+      "path": "docs/validation/m5-city-resource-icons-20261026-v68-core-archive-part005.json",
+      "bytes": 8333417,
+      "sha256": "ff5ba0fae7b86a2fc6315de3e2146868a86e94dea8977f18dd1586a903ad25b9",
+      "blobs": 37
+    },
+    {
+      "path": "docs/validation/m5-city-resource-icons-20261026-v68-core-archive-part006.json",
+      "bytes": 3534089,
+      "sha256": "e1036815fd5d6102acbe97dd3861e3a993bd6a506e3cbdbacd09d2b8f6586278",
+      "blobs": 7
+    }
+  ],
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 41444,
+      "sha256": "fc474b0ebbf4bcf5f0c2f9cd2b0634ceb7a124ae1fca9f91d7567557d5ad6eca",
+      "blob": "fc474b0ebbf4bcf5f0c2f9cd2b0634ceb7a124ae1fca9f91d7567557d5ad6eca",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resource-icons-candidate-v1/before/css/hd-city-menu.css",
+      "bytes": 15365,
+      "sha256": "4ce218279c71adcc49fa35a1f8dfadb00b93fb2601371f67c2d487e80c2a9081",
+      "blob": "4ce218279c71adcc49fa35a1f8dfadb00b93fb2601371f67c2d487e80c2a9081",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resource-icons-candidate-v1/before/js/hd-city-menu.js",
+      "bytes": 433456,
+      "sha256": "71792cdfd2d6689e0b32011df1b317e056f29408133329c834eb95fb4bea437f",
+      "blob": "71792cdfd2d6689e0b32011df1b317e056f29408133329c834eb95fb4bea437f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resource-icons-candidate-v1/mechanical-source-diff-v1.json",
+      "bytes": 7007,
+      "sha256": "e89e2cd53a5bc1f0ec43c95a66cf3b13578b9abd0f1efdb057adab96d2df28b6",
+      "blob": "e89e2cd53a5bc1f0ec43c95a66cf3b13578b9abd0f1efdb057adab96d2df28b6",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resource-icons-candidate-v1/source-preparation-v1.json",
+      "bytes": 2629,
+      "sha256": "f654d98fff65b63575e1c9e2d755ee5bafc7f42d5ff6247de0faf53f889c31b8",
+      "blob": "f654d98fff65b63575e1c9e2d755ee5bafc7f42d5ff6247de0faf53f889c31b8",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resource-icons-candidate-v1/source-static-peer-v1.json",
+      "bytes": 4522,
+      "sha256": "ae837709438d918c5365e7bf2fc601b662ec3d58d89826dc6949db146144b7f4",
+      "blob": "ae837709438d918c5365e7bf2fc601b662ec3d58d89826dc6949db146144b7f4",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resource-icons-candidate-v1/sources/css/hd-city-menu.css",
+      "bytes": 15502,
+      "sha256": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7",
+      "blob": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resource-icons-candidate-v1/sources/js/hd-city-menu.js",
+      "bytes": 436244,
+      "sha256": "31ad8b8b99f091e65ec33fe00ce933fb0ec2b9ff6629d49a3a66fc8ecd83f34f",
+      "blob": "31ad8b8b99f091e65ec33fe00ce933fb0ec2b9ff6629d49a3a66fc8ecd83f34f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/attributes-before-runtime-lf-v1",
+      "bytes": 41274,
+      "sha256": "e47c960724d2b7531a96fd1ddd81d081453f4bb1c32c468e8f11dd0b76652692",
+      "blob": "e47c960724d2b7531a96fd1ddd81d081453f4bb1c32c468e8f11dd0b76652692",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/before/css/hd-city-menu.css",
+      "bytes": 15365,
+      "sha256": "4ce218279c71adcc49fa35a1f8dfadb00b93fb2601371f67c2d487e80c2a9081",
+      "blob": "4ce218279c71adcc49fa35a1f8dfadb00b93fb2601371f67c2d487e80c2a9081",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/before/js/hd-city-menu.js",
+      "bytes": 433456,
+      "sha256": "71792cdfd2d6689e0b32011df1b317e056f29408133329c834eb95fb4bea437f",
+      "blob": "71792cdfd2d6689e0b32011df1b317e056f29408133329c834eb95fb4bea437f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/before/m.html",
+      "bytes": 18472,
+      "sha256": "b06e5d9a7abb5b9501f9995ae790a2867f0c6a97461d628c5d4b628b2d5dc595",
+      "blob": "b06e5d9a7abb5b9501f9995ae790a2867f0c6a97461d628c5d4b628b2d5dc595",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/before/pc.html",
+      "bytes": 28673,
+      "sha256": "7324640cdf6661aca0a456a8700c5453b785891139432a0196f25bdb25c19754",
+      "blob": "7324640cdf6661aca0a456a8700c5453b785891139432a0196f25bdb25c19754",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v3/publish-v68-resources-v3.mjs",
+      "bytes": 7131,
+      "sha256": "91b28ba5a262be4d91b17d7beb4e4be1596b7f221be18728a95afa0708204655",
+      "blob": "91b28ba5a262be4d91b17d7beb4e4be1596b7f221be18728a95afa0708204655",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v3/root-bindings-v3.json",
+      "bytes": 33004,
+      "sha256": "12547c7bf852c93aaff4dca08f3b8e870fd16cf438f1126b2f955d9f3bbfed04",
+      "blob": "12547c7bf852c93aaff4dca08f3b8e870fd16cf438f1126b2f955d9f3bbfed04",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v3/v68-resource-reader-v3.mjs",
+      "bytes": 45500,
+      "sha256": "f9f9158e450bc467212ac18aabaf25ff0c1c76d1b6fa3a4d5249b95cf5e44a6b",
+      "blob": "f9f9158e450bc467212ac18aabaf25ff0c1c76d1b6fa3a4d5249b95cf5e44a6b",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/README-root-binding-v4.md",
+      "bytes": 8631,
+      "sha256": "485ca66ce92ed886ecbae4f05f303d98721ad6ee364e2a8cfe65d339724cc436",
+      "blob": "485ca66ce92ed886ecbae4f05f303d98721ad6ee364e2a8cfe65d339724cc436",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/failed-mobile-chunks-v1/manifest.json",
+      "bytes": 1247,
+      "sha256": "68b0dc6c5bcaf14d6e5ca19831c14861a6b0b1c48faf10e17df1a9c7d33f5888",
+      "blob": "68b0dc6c5bcaf14d6e5ca19831c14861a6b0b1c48faf10e17df1a9c7d33f5888",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/failed-mobile-input-v1.json",
+      "bytes": 371,
+      "sha256": "064e0e8650992b5c33459880f22bad12966aefffa2c7c9789516836c8e1c2396",
+      "blob": "064e0e8650992b5c33459880f22bad12966aefffa2c7c9789516836c8e1c2396",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/fill-bindings-v4.mjs",
+      "bytes": 6304,
+      "sha256": "695cd217c1c1fec4d4611b2d5ec3c472da41387055060fceaa0f4c09ab598ab3",
+      "blob": "695cd217c1c1fec4d4611b2d5ec3c472da41387055060fceaa0f4c09ab598ab3",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/generate-source-v4.cjs",
+      "bytes": 4726,
+      "sha256": "e9823e6f287b3951bf6569eb7395c6b1e3ba5d4f9f2a708b63f071b2453e49cf",
+      "blob": "e9823e6f287b3951bf6569eb7395c6b1e3ba5d4f9f2a708b63f071b2453e49cf",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/inspect-small-shapes-v1.cjs",
+      "bytes": 2547,
+      "sha256": "e0fc863f6c6b1a45f7fb0e80704dfabd1e58411305248c39ed9b74a31a0efc26",
+      "blob": "e0fc863f6c6b1a45f7fb0e80704dfabd1e58411305248c39ed9b74a31a0efc26",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/mobile-chunks-v4/manifest.json",
+      "bytes": 929,
+      "sha256": "ba1e74a2e696adf24d3e259bc92b029a7a70623d919884a307766b879d7193f0",
+      "blob": "ba1e74a2e696adf24d3e259bc92b029a7a70623d919884a307766b879d7193f0",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/mobile-input-v4.json",
+      "bytes": 371,
+      "sha256": "0830b3629aea13b03f0b589f2d2b9e64f823709d51b0d97469316d248ec1c2e9",
+      "blob": "0830b3629aea13b03f0b589f2d2b9e64f823709d51b0d97469316d248ec1c2e9",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/prepare-mobile-chunks-v4.mjs",
+      "bytes": 3936,
+      "sha256": "77c463a7d25fb87840c85464c7a185e9dccead16ddbb4f6abd77d9daa06893dc",
+      "blob": "77c463a7d25fb87840c85464c7a185e9dccead16ddbb4f6abd77d9daa06893dc",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/publish-v68-resources-v4.mjs",
+      "bytes": 7408,
+      "sha256": "53a5ee10f6cc69ad330fde02f7258849c48c24c6b152a4efac18284078d0b33f",
+      "blob": "53a5ee10f6cc69ad330fde02f7258849c48c24c6b152a4efac18284078d0b33f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/root-bindings-v4.json",
+      "bytes": 34278,
+      "sha256": "60430c6ddddd6d3d1f1d4cc303f03a7aaf1996298c8f0143d5eb13c7d97f39d3",
+      "blob": "60430c6ddddd6d3d1f1d4cc303f03a7aaf1996298c8f0143d5eb13c7d97f39d3",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/small-shape-audit-v1.json",
+      "bytes": 27774,
+      "sha256": "43d06fd4b17a74abe88175898ccf85abc65f3fbd9c70c5182b307d74ecda68ba",
+      "blob": "43d06fd4b17a74abe88175898ccf85abc65f3fbd9c70c5182b307d74ecda68ba",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/source-freeze-v4.json",
+      "bytes": 3435,
+      "sha256": "985cf46ebab2c12fbd5619259de9093ac92cc7fea1d2e957ef0e35f3fbb99799",
+      "blob": "985cf46ebab2c12fbd5619259de9093ac92cc7fea1d2e957ef0e35f3fbb99799",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/source-preparation-v4.json",
+      "bytes": 3023,
+      "sha256": "7dc8d993fc574416af08835de18960714947b48467702f96afa3da595dff0155",
+      "blob": "7dc8d993fc574416af08835de18960714947b48467702f96afa3da595dff0155",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/source-static-peer-v1.json",
+      "bytes": 10655,
+      "sha256": "63eece1d6b5f8f284186454ff4a180cbc61740268c98eba027f37716e0875acc",
+      "blob": "63eece1d6b5f8f284186454ff4a180cbc61740268c98eba027f37716e0875acc",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/terminal-proof-v4.json",
+      "bytes": 2692,
+      "sha256": "25547cb88d472fdb7d129fb9da0deef54d6c690f37e39ff1e5cdd3567966c7bd",
+      "blob": "25547cb88d472fdb7d129fb9da0deef54d6c690f37e39ff1e5cdd3567966c7bd",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/v68-resource-reader-v4.mjs",
+      "bytes": 46467,
+      "sha256": "fd5c54d78e8aad37578a01543c94a0e3affb10c61779cdfa9e7ef92c8990ec87",
+      "blob": "fd5c54d78e8aad37578a01543c94a0e3affb10c61779cdfa9e7ef92c8990ec87",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/extract-hud-terminal-v1.mjs",
+      "bytes": 1251,
+      "sha256": "62a6bbcd5555ca9b9d6f6e67b197bd77102d48bbff13a97cbe2c8d8954700982",
+      "blob": "62a6bbcd5555ca9b9d6f6e67b197bd77102d48bbff13a97cbe2c8d8954700982",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/extract-hud-terminal-v2.mjs",
+      "bytes": 1251,
+      "sha256": "f7689c294827fd08b69372247375ced9df7f725ecbd2cb36706331e1095abfd4",
+      "blob": "f7689c294827fd08b69372247375ced9df7f725ecbd2cb36706331e1095abfd4",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/final-source-peer-v1.json",
+      "bytes": 8029,
+      "sha256": "ee5e5011028fca2fb47d5e7cadcbeff95213c734bed4bbaf8dcd667c483cc3f3",
+      "blob": "ee5e5011028fca2fb47d5e7cadcbeff95213c734bed4bbaf8dcd667c483cc3f3",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/hud-controls-v1.json",
+      "bytes": 2928,
+      "sha256": "388666a063aff097b40c04c19781f60033cd687619267348eae653ab62cc4c37",
+      "blob": "388666a063aff097b40c04c19781f60033cd687619267348eae653ab62cc4c37",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/hud-controls-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/hud-controls-v1.stdout.tap",
+      "bytes": 46595,
+      "sha256": "9f1af096866bb23fc87b53ae23990bed2f70ace47ab4d8b24495568a578a3875",
+      "blob": "9f1af096866bb23fc87b53ae23990bed2f70ace47ab4d8b24495568a578a3875",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/hud-controls-v2.json",
+      "bytes": 2927,
+      "sha256": "4d7f412fecf7516df2b591144a7e14dd704395c4ba82bdcb2c1677bd96d25eb7",
+      "blob": "4d7f412fecf7516df2b591144a7e14dd704395c4ba82bdcb2c1677bd96d25eb7",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/hud-controls-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/hud-controls-v2.stdout.tap",
+      "bytes": 46595,
+      "sha256": "647953f95397ef907ebf332d2c416431cb7b8c1d269f96d109bdb5dfcfe27da5",
+      "blob": "647953f95397ef907ebf332d2c416431cb7b8c1d269f96d109bdb5dfcfe27da5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/inspect-diagnostics-v1.mjs",
+      "bytes": 1055,
+      "sha256": "a4ee2d5abab11b6ed803acb601e2518ed31a27039da3c7994eb36fefd166d6ec",
+      "blob": "a4ee2d5abab11b6ed803acb601e2518ed31a27039da3c7994eb36fefd166d6ec",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/integrate-source-v1.mjs",
+      "bytes": 2649,
+      "sha256": "f12d123127af9d3eee082f67bc28590cd18b859521bef80abf21a7f7a8c3d956",
+      "blob": "f12d123127af9d3eee082f67bc28590cd18b859521bef80abf21a7f7a8c3d956",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "blob": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/entry-for-状况-0.png",
+      "bytes": 52910,
+      "sha256": "356e0b027cd31633ea4d30c482228a13515d1550a31c6c83e95be8f0d2dc8448",
+      "blob": "356e0b027cd31633ea4d30c482228a13515d1550a31c6c83e95be8f0d2dc8448",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/executed-equipment-helper.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/executed-preview-helper.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/executed-resource-helper.mjs",
+      "bytes": 6880,
+      "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "blob": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/executed-tool.mjs",
+      "bytes": 117406,
+      "sha256": "5d62f089f855d5d1cc6a55a7854c0131baf4a47956ae728aa8cd9ae652e79def",
+      "blob": "5d62f089f855d5d1cc6a55a7854c0131baf4a47956ae728aa8cd9ae652e79def",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/failure.png",
+      "bytes": 70221,
+      "sha256": "290de1b1593db45d7193d5be75c4c46c4126ed4e15e90eb199ac0b487536b60d",
+      "blob": "290de1b1593db45d7193d5be75c4c46c4126ed4e15e90eb199ac0b487536b60d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/preview-844x390-01-city-resource-Money.png",
+      "bytes": 56531,
+      "sha256": "f9c712ccbaf9278d4fb367ef6c0b3535f1306ac3dbdab163553e60af01da30f1",
+      "blob": "f9c712ccbaf9278d4fb367ef6c0b3535f1306ac3dbdab163553e60af01da30f1",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/preview-844x390-02-city-resource-Tools.png",
+      "bytes": 52530,
+      "sha256": "2537a3859520f46c5e58ac2ca49540dc7bee95d4e462ed328148bd7ad68c71ff",
+      "blob": "2537a3859520f46c5e58ac2ca49540dc7bee95d4e462ed328148bd7ad68c71ff",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/preview-844x390-03-person-0-preview.png",
+      "bytes": 118919,
+      "sha256": "9a07565c48b42653ccc87651c56091eed0bafdd74273ac3fd32fda3b2e44e4a6",
+      "blob": "9a07565c48b42653ccc87651c56091eed0bafdd74273ac3fd32fda3b2e44e4a6",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/preview-844x390-04-person-20-preview.png",
+      "bytes": 120972,
+      "sha256": "e6c34958ffd94f51dc4ec9ae0e75c149c66fe924c2093d44a034b94408c7d703",
+      "blob": "e6c34958ffd94f51dc4ec9ae0e75c149c66fe924c2093d44a034b94408c7d703",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/preview-844x390-05-person-20-all-properties.png",
+      "bytes": 60367,
+      "sha256": "33cc5f11d37839deffd95ebd99da9ed15b6b87e8922606b5b29f6b9a33b19eaa",
+      "blob": "33cc5f11d37839deffd95ebd99da9ed15b6b87e8922606b5b29f6b9a33b19eaa",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/preview-844x390-06-equipment-person-20-slot-0.png",
+      "bytes": 64686,
+      "sha256": "e40e18b2628220871eb356580e049bac7077e91574b2efaf42c13d178d6a04d5",
+      "blob": "e40e18b2628220871eb356580e049bac7077e91574b2efaf42c13d178d6a04d5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/preview-844x390-07-equipment-person-20-slot-1.png",
+      "bytes": 70165,
+      "sha256": "8c7434ddb0a232c2bfd3b2c52e9231f9e3082e2c78826f1673d1be3d74930868",
+      "blob": "8c7434ddb0a232c2bfd3b2c52e9231f9e3082e2c78826f1673d1be3d74930868",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/source-verification.json",
+      "bytes": 11674,
+      "sha256": "f2bd941809811ccc7e7a6670db572e247fb8b11cecf4079de45ab103fb65dbba",
+      "blob": "f2bd941809811ccc7e7a6670db572e247fb8b11cecf4079de45ab103fb65dbba",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v1/status-2.png",
+      "bytes": 64302,
+      "sha256": "59da5588fc12536f337f59fcfb0d116fd3c32c89612f43947af44eef7edecb91",
+      "blob": "59da5588fc12536f337f59fcfb0d116fd3c32c89612f43947af44eef7edecb91",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "blob": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/entry-for-状况-0.png",
+      "bytes": 52932,
+      "sha256": "a49ad2b614518521e1696429d6b60c83f474712f68e0678812c64d708ab1396e",
+      "blob": "a49ad2b614518521e1696429d6b60c83f474712f68e0678812c64d708ab1396e",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/executed-equipment-helper.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/executed-preview-helper.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/executed-resource-helper.mjs",
+      "bytes": 6880,
+      "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "blob": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/executed-tool.mjs",
+      "bytes": 124752,
+      "sha256": "203deab6b60c7823d714a6fca3ef1b3b577fe24fcac13daea628db463a7432b7",
+      "blob": "203deab6b60c7823d714a6fca3ef1b3b577fe24fcac13daea628db463a7432b7",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/failure.png",
+      "bytes": 62682,
+      "sha256": "d5634856d83b8ecd9bc1f6a793b9e2b5d469557776f2e768dc01fcd786ff868d",
+      "blob": "d5634856d83b8ecd9bc1f6a793b9e2b5d469557776f2e768dc01fcd786ff868d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/preview-844x390-01-city-resource-Money.png",
+      "bytes": 56492,
+      "sha256": "a2bbd9ae6b44a142d2dc39b5eaaed0d9b09daa29bf53280b7227473ab39cce1f",
+      "blob": "a2bbd9ae6b44a142d2dc39b5eaaed0d9b09daa29bf53280b7227473ab39cce1f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/preview-844x390-02-city-resource-Tools.png",
+      "bytes": 52958,
+      "sha256": "fe9e8cf58c8f630c9b49d39e34f9a7b2c82265298b95294dcba1859053bc1443",
+      "blob": "fe9e8cf58c8f630c9b49d39e34f9a7b2c82265298b95294dcba1859053bc1443",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/preview-844x390-03-person-0-preview.png",
+      "bytes": 118919,
+      "sha256": "9a07565c48b42653ccc87651c56091eed0bafdd74273ac3fd32fda3b2e44e4a6",
+      "blob": "9a07565c48b42653ccc87651c56091eed0bafdd74273ac3fd32fda3b2e44e4a6",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/preview-844x390-04-person-20-preview.png",
+      "bytes": 120972,
+      "sha256": "e6c34958ffd94f51dc4ec9ae0e75c149c66fe924c2093d44a034b94408c7d703",
+      "blob": "e6c34958ffd94f51dc4ec9ae0e75c149c66fe924c2093d44a034b94408c7d703",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/source-verification.json",
+      "bytes": 11674,
+      "sha256": "1ec271f48b649df37b8d50ac02e97ba89601666d9e7b2b98350af8a2544ae064",
+      "blob": "1ec271f48b649df37b8d50ac02e97ba89601666d9e7b2b98350af8a2544ae064",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-preview-v2/status-2.png",
+      "bytes": 64302,
+      "sha256": "59da5588fc12536f337f59fcfb0d116fd3c32c89612f43947af44eef7edecb91",
+      "blob": "59da5588fc12536f337f59fcfb0d116fd3c32c89612f43947af44eef7edecb91",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/mobile-v2-diagnostics-v1.json",
+      "bytes": 215980,
+      "sha256": "c31c23dcb50af489d13e7b2ff12a415042e3aa9142c43c7a9e863796df2846fd",
+      "blob": "c31c23dcb50af489d13e7b2ff12a415042e3aa9142c43c7a9e863796df2846fd",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/browser-console.json",
+      "bytes": 16079,
+      "sha256": "769b81706e03cf3d1705ca1a3818fd9301364beec1ba116ee772c6fd8942c960",
+      "blob": "769b81706e03cf3d1705ca1a3818fd9301364beec1ba116ee772c6fd8942c960",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/executed-checks.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/executed-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/executed-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/executed-resource-helper.mjs",
+      "bytes": 6880,
+      "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "blob": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/executed-tool.mjs",
+      "bytes": 35763,
+      "sha256": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "blob": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/pc1080-equipment-00-luoyang-root.png",
+      "bytes": 2278786,
+      "sha256": "20e94a58a88adb50e79cc4ac79dc8c21380b400ec8c1e76986212da8f1d6d5df",
+      "blob": "20e94a58a88adb50e79cc4ac79dc8c21380b400ec8c1e76986212da8f1d6d5df",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/pc1080-equipment-01-city-resource-Money.png",
+      "bytes": 2256121,
+      "sha256": "bb8fb304355b0f48d4d9cfe86f29bed6f8f85d3b691e7315fa0e7e529d313fc7",
+      "blob": "bb8fb304355b0f48d4d9cfe86f29bed6f8f85d3b691e7315fa0e7e529d313fc7",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/pc1080-equipment-02-city-resource-Tools.png",
+      "bytes": 2249707,
+      "sha256": "ee471138ea1fe0627d37d192beae434798b268a7dca10c7c93f2b972d860714b",
+      "blob": "ee471138ea1fe0627d37d192beae434798b268a7dca10c7c93f2b972d860714b",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/pc1080-equipment-03-search-person-list.png",
+      "bytes": 2225129,
+      "sha256": "8bdf145521d1f5d7b72ecbff15b6a423f33c3d860bb6cc68da8be7f0e3f3231f",
+      "blob": "8bdf145521d1f5d7b72ecbff15b6a423f33c3d860bb6cc68da8be7f0e3f3231f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/pc1080-equipment-04-equipment-person-20-slot-0.png",
+      "bytes": 2200702,
+      "sha256": "2b584a5b7a9b7b6fdd3c1b511b654187a773024a8847e17c4c4c7d99ed699cb8",
+      "blob": "2b584a5b7a9b7b6fdd3c1b511b654187a773024a8847e17c4c4c7d99ed699cb8",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/pc1080-equipment-05-equipment-person-20-slot-1.png",
+      "bytes": 2200704,
+      "sha256": "4011503313d57e287c34da03efc489168c51559e5bd461e64e124cf2b89ed69b",
+      "blob": "4011503313d57e287c34da03efc489168c51559e5bd461e64e124cf2b89ed69b",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/pc1080-equipment-06-equipment-person-0-slot-0.png",
+      "bytes": 2178512,
+      "sha256": "25003e8e6336625129823c8c9cdc3f33eaf031b00aaa8f2005b9e2493b2e81ca",
+      "blob": "25003e8e6336625129823c8c9cdc3f33eaf031b00aaa8f2005b9e2493b2e81ca",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/pc1080-equipment-07-equipment-person-19-empty.png",
+      "bytes": 2241855,
+      "sha256": "a9471affa53fb0b77a3f90100681433ee3bb8cc115f48c3d414e296530d639e0",
+      "blob": "a9471affa53fb0b77a3f90100681433ee3bb8cc115f48c3d414e296530d639e0",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/result.json",
+      "bytes": 6549546,
+      "sha256": "92228c4a982732637efb98a5f8400a4684694a1a03b57c1d989974c5bc80afd9",
+      "blob": "92228c4a982732637efb98a5f8400a4684694a1a03b57c1d989974c5bc80afd9",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc1080-v1/source-verification.json",
+      "bytes": 434823,
+      "sha256": "6cff086a1d5b809c209f1cba79d74316671fd9223aee424b3c9a6e75eeed6b58",
+      "blob": "6cff086a1d5b809c209f1cba79d74316671fd9223aee424b3c9a6e75eeed6b58",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/browser-console.json",
+      "bytes": 15762,
+      "sha256": "cb79ace29b66558e1c69608b3d0a4bda7b3db92451b13a1a4964e25a60d193bd",
+      "blob": "cb79ace29b66558e1c69608b3d0a4bda7b3db92451b13a1a4964e25a60d193bd",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/executed-checks.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/executed-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/executed-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/executed-resource-helper.mjs",
+      "bytes": 6880,
+      "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "blob": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/executed-tool.mjs",
+      "bytes": 35763,
+      "sha256": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "blob": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/pc720-equipment-00-luoyang-root.png",
+      "bytes": 878389,
+      "sha256": "627cc9ed424922f7946be6d8a3719fb3ed69b4b4a0f4d46ef1f6749a4014521a",
+      "blob": "627cc9ed424922f7946be6d8a3719fb3ed69b4b4a0f4d46ef1f6749a4014521a",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/pc720-equipment-01-city-resource-Money.png",
+      "bytes": 855528,
+      "sha256": "3652724c24c2e20e515c173746b77d06c16e1cb0128cb0dd3af75b5fe3649eff",
+      "blob": "3652724c24c2e20e515c173746b77d06c16e1cb0128cb0dd3af75b5fe3649eff",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/pc720-equipment-02-city-resource-Tools.png",
+      "bytes": 851286,
+      "sha256": "166057da13c745b51c7536546d9fbe86b53893c55bd4508e36665ebd52e08a1a",
+      "blob": "166057da13c745b51c7536546d9fbe86b53893c55bd4508e36665ebd52e08a1a",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/pc720-equipment-03-search-person-list.png",
+      "bytes": 867894,
+      "sha256": "f899f2610fe023be8d0e4383a6264b165e12ca8d44b88645b58539c3fe1753a3",
+      "blob": "f899f2610fe023be8d0e4383a6264b165e12ca8d44b88645b58539c3fe1753a3",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/pc720-equipment-04-equipment-person-20-slot-0.png",
+      "bytes": 796362,
+      "sha256": "62e550f36e43276397c2d030af3697190ddc830171d13e097f1ff36c973b04e2",
+      "blob": "62e550f36e43276397c2d030af3697190ddc830171d13e097f1ff36c973b04e2",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/pc720-equipment-05-equipment-person-20-slot-1.png",
+      "bytes": 796369,
+      "sha256": "8527d4e0ece4b52bb4b3102bdf83263e67fe0262829f120016edd3ee3d7c5fc6",
+      "blob": "8527d4e0ece4b52bb4b3102bdf83263e67fe0262829f120016edd3ee3d7c5fc6",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/pc720-equipment-06-equipment-person-0-slot-0.png",
+      "bytes": 773467,
+      "sha256": "ebdca6059272781ca3e27d1ebaeb176e5e047b4f725d666173896cb78aae0dd9",
+      "blob": "ebdca6059272781ca3e27d1ebaeb176e5e047b4f725d666173896cb78aae0dd9",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/pc720-equipment-07-equipment-person-19-empty.png",
+      "bytes": 835592,
+      "sha256": "952796d0b3356a464edaae70773d28e136775dae3c1eb8dffe527e3530e29bd7",
+      "blob": "952796d0b3356a464edaae70773d28e136775dae3c1eb8dffe527e3530e29bd7",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/result.json",
+      "bytes": 6551223,
+      "sha256": "97761bf5d8dbbd61f0dc14e66b7cc6c84c033547f16535948b497c64e6616381",
+      "blob": "97761bf5d8dbbd61f0dc14e66b7cc6c84c033547f16535948b497c64e6616381",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/pc720-v1/source-verification.json",
+      "bytes": 434823,
+      "sha256": "6cff086a1d5b809c209f1cba79d74316671fd9223aee424b3c9a6e75eeed6b58",
+      "blob": "6cff086a1d5b809c209f1cba79d74316671fd9223aee424b3c9a6e75eeed6b58",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/prepare-runtime-epoch-v1.mjs",
+      "bytes": 1878,
+      "sha256": "8cf4076b44d18210fa6f93f1c1cd618a54eef852b1b646c68e4c226d7d9a5da1",
+      "blob": "8cf4076b44d18210fa6f93f1c1cd618a54eef852b1b646c68e4c226d7d9a5da1",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/prepare-runtime-epoch-v2.mjs",
+      "bytes": 1656,
+      "sha256": "c2743558555ad0fa58ed5d89057a509a1da91f19a4f642a64a20055673860b8b",
+      "blob": "c2743558555ad0fa58ed5d89057a509a1da91f19a4f642a64a20055673860b8b",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/raw-hud-terminal-tool-v1.json",
+      "bytes": 459,
+      "sha256": "72af571a4dbc43b1ac115683d154c17ecfa631a6dfcade5ea58cf8f226a4bac5",
+      "blob": "72af571a4dbc43b1ac115683d154c17ecfa631a6dfcade5ea58cf8f226a4bac5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/raw-hud-terminal-tool-v2.json",
+      "bytes": 458,
+      "sha256": "ac79adb86ef74418d76f4df67f2e70f35a39ba07705c532e982014b9f2dc39da",
+      "blob": "ac79adb86ef74418d76f4df67f2e70f35a39ba07705c532e982014b9f2dc39da",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/raw-mobile-initial-tool-v1.json",
+      "bytes": 190,
+      "sha256": "575e562f7c16cc5a464230543dc62a5523e3e3813fbf2229f03fa7aac5bd10e2",
+      "blob": "575e562f7c16cc5a464230543dc62a5523e3e3813fbf2229f03fa7aac5bd10e2",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/raw-mobile-v1-terminal-tool-v1.json",
+      "bytes": 2672,
+      "sha256": "b4bcf8d7b79ddd53b6b2abf351e026e173da45723b9f22b675b142e3ef73d6f3",
+      "blob": "b4bcf8d7b79ddd53b6b2abf351e026e173da45723b9f22b675b142e3ef73d6f3",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/raw-mobile-v2-initial-tool-v1.json",
+      "bytes": 190,
+      "sha256": "193ce45f6272aee9bba54b7ce99a7b1b03e541be2c7c48e8a0ea1177c4b8da69",
+      "blob": "193ce45f6272aee9bba54b7ce99a7b1b03e541be2c7c48e8a0ea1177c4b8da69",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/raw-mobile-v2-terminal-tool-v1.json",
+      "bytes": 2704,
+      "sha256": "5459144a03771c3cbb206fd93976454c86cc634684ed50ab6ba8a032c40af13a",
+      "blob": "5459144a03771c3cbb206fd93976454c86cc634684ed50ab6ba8a032c40af13a",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/raw-pc1080-initial-tool-v1.json",
+      "bytes": 496,
+      "sha256": "be12f56c520b18562db5fdfccc12a4aff03696cd139b52a77306abb8015355b5",
+      "blob": "be12f56c520b18562db5fdfccc12a4aff03696cd139b52a77306abb8015355b5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/raw-pc1080-terminal-tool-v1.json",
+      "bytes": 385,
+      "sha256": "bc74fbcab7633244f04af2f11cf131f53498868d7ef612877a2bdec2da1ab2a1",
+      "blob": "bc74fbcab7633244f04af2f11cf131f53498868d7ef612877a2bdec2da1ab2a1",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/raw-pc720-initial-tool-v1.json",
+      "bytes": 497,
+      "sha256": "142c684bdf3384b56c231828addb48c156dbd58f197c8032b287e5b7b57ba21c",
+      "blob": "142c684bdf3384b56c231828addb48c156dbd58f197c8032b287e5b7b57ba21c",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/raw-pc720-terminal-tool-v1.json",
+      "bytes": 384,
+      "sha256": "7fac004fa1482c9a8dd7148925beca81209141fa138ae063da56eb6fb0d137a5",
+      "blob": "7fac004fa1482c9a8dd7148925beca81209141fa138ae063da56eb6fb0d137a5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/raw-publish-v3-terminal-tool-v1.json",
+      "bytes": 1463,
+      "sha256": "65926ca5ad665732ed39e62affb2283204c7306a7ba496c767cd117b4efd3492",
+      "blob": "65926ca5ad665732ed39e62affb2283204c7306a7ba496c767cd117b4efd3492",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/run-hud-controls-v1.mjs",
+      "bytes": 1811,
+      "sha256": "88e3931b2c62a20eaf53803e77af1c47aea5e03d55c07aed62b16313e80805e4",
+      "blob": "88e3931b2c62a20eaf53803e77af1c47aea5e03d55c07aed62b16313e80805e4",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/run-hud-controls-v2.mjs",
+      "bytes": 1811,
+      "sha256": "2d50678641d04ed96efb8cd5965cb6b847e1ae5374e49ecc798052b354ea21cf",
+      "blob": "2d50678641d04ed96efb8cd5965cb6b847e1ae5374e49ecc798052b354ea21cf",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/runtime-before-lf/scripts/hd-mobile-preview-runtime-checks.mjs",
+      "bytes": 19612,
+      "sha256": "91390ea035d6cbe6a346c029c73bd4c349aeb07f477c5c4b7a7a2272a96f5e4d",
+      "blob": "91390ea035d6cbe6a346c029c73bd4c349aeb07f477c5c4b7a7a2272a96f5e4d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/runtime-before-lf/scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 118333,
+      "sha256": "53d8f57f91c53d8dc5386100e792f4dc1683ca76ff081e1f518cf4289f8aee73",
+      "blob": "53d8f57f91c53d8dc5386100e792f4dc1683ca76ff081e1f518cf4289f8aee73",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/runtime-before-lf/scripts/test-hd-person-equipment-runtime.mjs",
+      "bytes": 35968,
+      "sha256": "d6c3675d60306cbbe71c631020e6ad5992cb957a22313071d95a446385b96d9d",
+      "blob": "d6c3675d60306cbbe71c631020e6ad5992cb957a22313071d95a446385b96d9d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/runtime-epoch-v1.json",
+      "bytes": 3775,
+      "sha256": "b62cd41524cd3fe4b38cc7d0d216ba038ebae2559001fc1505dee44a91e1b1c2",
+      "blob": "b62cd41524cd3fe4b38cc7d0d216ba038ebae2559001fc1505dee44a91e1b1c2",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/runtime-epoch-v2.json",
+      "bytes": 3528,
+      "sha256": "dd90dccd522804e02a1810de0255a185cf2125825ba76eccf72951cfe75ffed3",
+      "blob": "dd90dccd522804e02a1810de0255a185cf2125825ba76eccf72951cfe75ffed3",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/source-integration-v1.json",
+      "bytes": 2460,
+      "sha256": "fd4fb4a1b2e2e3d8903b410440ce3b6ebac352ec44007c8a6837d13e8dde38bb",
+      "blob": "fd4fb4a1b2e2e3d8903b410440ce3b6ebac352ec44007c8a6837d13e8dde38bb",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/targeted-city-icons-v1.before.json",
+      "bytes": 1213,
+      "sha256": "5a35d6db66e111eee56011686ee41ecb839ab76e0763c1f9784214d029f46a9a",
+      "blob": "5a35d6db66e111eee56011686ee41ecb839ab76e0763c1f9784214d029f46a9a",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/targeted-city-icons-v1.json",
+      "bytes": 1121,
+      "sha256": "091e9a26ce40ed58d9f08963f935744ae93192ae40a256663700e1e757d353d9",
+      "blob": "091e9a26ce40ed58d9f08963f935744ae93192ae40a256663700e1e757d353d9",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/targeted-city-icons-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/targeted-city-icons-v1.stdout.tap",
+      "bytes": 346,
+      "sha256": "48d252438f3c612b24de5707edb0841eac5d7ac194297171831a780ce2e4ee70",
+      "blob": "48d252438f3c612b24de5707edb0841eac5d7ac194297171831a780ce2e4ee70",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/targeted-city-icons-v2.before.json",
+      "bytes": 1213,
+      "sha256": "841d2adb5a6ff6d6cbf9e30a120db5f930b11730c3977c71d5839bef4c29d653",
+      "blob": "841d2adb5a6ff6d6cbf9e30a120db5f930b11730c3977c71d5839bef4c29d653",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/targeted-city-icons-v2.json",
+      "bytes": 2594,
+      "sha256": "51bd951a38e72c9fdff404b576999013a3917ca22343042af37a67ad05b3b8f7",
+      "blob": "51bd951a38e72c9fdff404b576999013a3917ca22343042af37a67ad05b3b8f7",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/targeted-city-icons-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "blob": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "build/city-resources-20261026-v68/targeted-city-icons-v2.stdout.tap",
+      "bytes": 657,
+      "sha256": "a4bb9412a2728f26ee22cfda440b789bb181bf147bba1db867851f2b1227ae61",
+      "blob": "a4bb9412a2728f26ee22cfda440b789bb181bf147bba1db867851f2b1227ae61",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "css/hd-city-menu.css",
+      "bytes": 15502,
+      "sha256": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7",
+      "blob": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 21284,
+      "sha256": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "blob": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "js/baye.js",
+      "bytes": 193321,
+      "sha256": "86baead056252a5f631445c8c18e6372abf56ac8d9d090c10f2b7f0c5f7caed2",
+      "blob": "86baead056252a5f631445c8c18e6372abf56ac8d9d090c10f2b7f0c5f7caed2",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "js/baye.wasm",
+      "bytes": 4561352,
+      "sha256": "08d733567e29716cfc8249a9365aa2f923b6c064e407d3d655cedecb48456de5",
+      "blob": "08d733567e29716cfc8249a9365aa2f923b6c064e407d3d655cedecb48456de5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "js/baye.wasm.map",
+      "bytes": 29983,
+      "sha256": "ddc5651cee33ea5a550b6522a2321b48e1a3bab3a21bb290f54d07b1e8321646",
+      "blob": "ddc5651cee33ea5a550b6522a2321b48e1a3bab3a21bb290f54d07b1e8321646",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 436244,
+      "sha256": "31ad8b8b99f091e65ec33fe00ce933fb0ec2b9ff6629d49a3a66fc8ecd83f34f",
+      "blob": "31ad8b8b99f091e65ec33fe00ce933fb0ec2b9ff6629d49a3a66fc8ecd83f34f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "blob": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "m.html",
+      "bytes": 18472,
+      "sha256": "d742e381ab06f3ed67996fe8bd84a8d1e157e34cf5ba23d9b09c2e96cba47f4c",
+      "blob": "d742e381ab06f3ed67996fe8bd84a8d1e157e34cf5ba23d9b09c2e96cba47f4c",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "package.json",
+      "bytes": 21183,
+      "sha256": "809fd447dd1177d6af707c189c4a0408011c1bfe5a78816012a21a09bc7a140d",
+      "blob": "809fd447dd1177d6af707c189c4a0408011c1bfe5a78816012a21a09bc7a140d",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "pc.html",
+      "bytes": 28673,
+      "sha256": "45295ba3abd35ada522cd134f61dbf934dcbd42aadf9fb59790f3078b1322947",
+      "blob": "45295ba3abd35ada522cd134f61dbf934dcbd42aadf9fb59790f3078b1322947",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "scripts/hd-city-resource-runtime-checks.mjs",
+      "bytes": 6880,
+      "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "blob": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "scripts/hd-mobile-preview-runtime-checks.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "scripts/hd-person-equipment-runtime-checks.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "scripts/hd-runtime-json.mjs",
+      "bytes": 7266,
+      "sha256": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "blob": "3e16c26e9b963d597cfdef97b3859c01862788a77ca208d6c4579d516d1dfda5",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "scripts/hd-runtime-owned-chrome.mjs",
+      "bytes": 13603,
+      "sha256": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "blob": "403aac41552628b1c4fbd940c0647b7f2f831d19e4fb125df5f50aa003e06761",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 134812,
+      "sha256": "8acfbf697fd5271b6c7c18cd38e039c02b16e97b809b3bacb2c68be00c740efe",
+      "blob": "8acfbf697fd5271b6c7c18cd38e039c02b16e97b809b3bacb2c68be00c740efe",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 124752,
+      "sha256": "203deab6b60c7823d714a6fca3ef1b3b577fe24fcac13daea628db463a7432b7",
+      "blob": "203deab6b60c7823d714a6fca3ef1b3b577fe24fcac13daea628db463a7432b7",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-person-equipment-runtime.mjs",
+      "bytes": 35763,
+      "sha256": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "blob": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "roles": [
+        "Exact original equipment core bytes; no archived execution"
+      ]
+    }
+  ],
+  "logicalFiles": 153,
+  "uniqueBlobs": 124,
+  "rawNamedBytes": 48472354,
+  "uniqueRawBytes": 46451895,
+  "uniqueGzipBytes": 29416168,
+  "serializedPartBytes": 39250590,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

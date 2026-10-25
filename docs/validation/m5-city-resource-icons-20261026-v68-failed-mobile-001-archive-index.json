@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-city-resource-icons-20261026-v68-failed-mobile-001-archive-part001.json",
+      "bytes": 2113000,
+      "sha256": "987485c9ff41ecb41c42b3f5b926d8ee331157b9c32c4cf110dc7f5af294e222",
+      "blobs": 1
+    }
+  ],
+  "files": [
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/failed-mobile-chunks-v1/chunk-001.raw",
+      "bytes": 33554432,
+      "sha256": "bff95b717425dc86b675631948664129e53dbe6a21087e9543ed78b6df6e5e68",
+      "blob": "bff95b717425dc86b675631948664129e53dbe6a21087e9543ed78b6df6e5e68",
+      "roles": [
+        "Exact original equipment failed-mobile-001 bytes; no archived execution"
+      ]
+    }
+  ],
+  "logicalFiles": 1,
+  "uniqueBlobs": 1,
+  "rawNamedBytes": 33554432,
+  "uniqueRawBytes": 33554432,
+  "uniqueGzipBytes": 1584517,
+  "serializedPartBytes": 2113000,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

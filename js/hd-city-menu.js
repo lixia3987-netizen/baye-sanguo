@@ -4617,6 +4617,62 @@
         } catch (e) { return false; }
     }
 
+    // Private row identity keeps the public two-cell HUD rows unchanged.
+    // Only the standard-library resource rows below are registered here.
+    var cityResourceFields = typeof WeakMap === 'function' ? new WeakMap() : null;
+
+    function cityResourceRow(city, field, label, standard) {
+        var row = [label, hudValue(city, field)];
+        if (standard && cityResourceFields) { cityResourceFields.set(row, field); }
+        return row;
+    }
+
+    function appendCityResourceIcon(row, field) {
+        var pathData;
+        switch (field) {
+        case 'Money':
+            pathData = 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M10 8h4v8h-4z';
+            break;
+        case 'Food':
+            pathData = 'M12 21V5 M12 9C8 9 5 7 5 3c4 0 7 2 7 6z M12 14c4 0 7-2 7-6-4 0-7 2-7 6z M12 18c-4 0-7-2-7-6 4 0 7 2 7 6z';
+            break;
+        case 'MothballArms':
+            pathData = 'M3 20h18 M5 20v-9l7-7 7 7v9 M9 20v-7h6v7';
+            break;
+        case 'Persons':
+            pathData = 'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M3 21v-2a6 6 0 0 1 12 0v2 M17 6a3 3 0 0 1 0 6 M18 15a5 5 0 0 1 3 4v2';
+            break;
+        case 'Tools':
+            pathData = 'M4 8h16v12H4z M9 8V4h6v4 M4 12h16 M10 12v3h4v-3';
+            break;
+        default:
+            return;
+        }
+        row.setAttribute('data-hd-city-resource', field);
+        var label = row.children && row.children[0];
+        if (!label || label.tagName !== 'SPAN' || typeof document.createElementNS !== 'function') { return; }
+        try {
+            var ns = 'http://www.w3.org/2000/svg';
+            var icon = document.createElementNS(ns, 'svg');
+            icon.setAttribute('class', 'hd-city-menu-resource-icon');
+            icon.setAttribute('viewBox', '0 0 24 24');
+            icon.setAttribute('aria-hidden', 'true');
+            icon.setAttribute('focusable', 'false');
+            icon.setAttribute('fill', 'none');
+            icon.setAttribute('stroke', 'currentColor');
+            icon.setAttribute('stroke-width', '1.8');
+            icon.setAttribute('stroke-linecap', 'round');
+            icon.setAttribute('stroke-linejoin', 'round');
+            icon.setAttribute('data-hd-city-resource-icon', field);
+            var shape = document.createElementNS(ns, 'path');
+            shape.setAttribute('d', pathData);
+            icon.appendChild(shape);
+            label.appendChild(icon);
+            label.classList.add('hd-city-menu-resource-label');
+        } catch (e) {
+            // Unsupported decorative SVG must not hide the original text.
+        }
+    }
     function cityDetails(city) {
         if (!city) { return null; }
         var code = hudNumber(city, 'State');
@@ -4635,9 +4691,9 @@
                 ['民忠', hudValue(city, 'PeopleDevotion')], ['防灾', hudValue(city, 'AvoidCalamity')]
             ] },
             { title: '资源与军备', rows: [
-                ['金钱', hudValue(city, 'Money')], ['粮食', hudValue(city, 'Food')],
-                ['预备兵', hudValue(city, 'MothballArms')],
-                ['城内人物', hudValue(city, 'Persons')], ['城内道具', hudValue(city, 'Tools')]
+                cityResourceRow(city, 'Money', '金钱', standard), cityResourceRow(city, 'Food', '粮食', standard),
+                cityResourceRow(city, 'MothballArms', '预备兵', standard),
+                cityResourceRow(city, 'Persons', '城内人物', standard), cityResourceRow(city, 'Tools', '城内道具', standard)
             ] }
         ];
         var represented = ['State', 'Belong', 'SatrapId', 'Farming', 'FarmingLimit', 'Commerce',
@@ -4675,7 +4731,10 @@
             section.appendChild(heading);
             var rows = document.createElement('div');
             rows.className = 'hd-city-menu-info-rows';
-            group.rows.forEach(function (row) { appendStat(rows, row[0], row[1]); });
+            group.rows.forEach(function (row) {
+                var stat = appendStat(rows, row[0], row[1]);
+                if (cityResourceFields) { appendCityResourceIcon(stat, cityResourceFields.get(row)); }
+            });
             section.appendChild(rows);
             box.appendChild(section);
         });

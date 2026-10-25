@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-city-resource-icons-20261026-v68-mobile-001-archive-part001.json",
+      "bytes": 1957992,
+      "sha256": "8f3e488e77d047170829141a53b79d7b58d0c8cc9d45b6558255dc6b02cdc380",
+      "blobs": 1
+    }
+  ],
+  "files": [
+    {
+      "path": "build/city-resources-20261026-v68/evidence-source-v4/mobile-chunks-v4/chunk-001.raw",
+      "bytes": 31205001,
+      "sha256": "554d1c2809132f689afb9c28da807ccaa111d474007d320b263949c098e56de6",
+      "blob": "554d1c2809132f689afb9c28da807ccaa111d474007d320b263949c098e56de6",
+      "roles": [
+        "Exact original equipment mobile-001 bytes; no archived execution"
+      ]
+    }
+  ],
+  "logicalFiles": 1,
+  "uniqueBlobs": 1,
+  "rawNamedBytes": 31205001,
+  "uniqueRawBytes": 31205001,
+  "uniqueGzipBytes": 1468263,
+  "serializedPartBytes": 1957992,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

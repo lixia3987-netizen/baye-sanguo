@@ -1928,3 +1928,80 @@ test('equipment semantic icons retain text for unknown DOM fields, missing SVG a
         assert.deepEqual(plain(h.raw), before, mode); assertNoEquipmentInput(h);
     }
 });
+
+test('city resource semantic icons preserve five native fields and complete values through normal status rendering', () => {
+    const h = equipmentSvgDocument(harness(), 'available');
+    Object.assign(h.city, {Money: 65535, Food: 0, MothballArms: 43210, Persons: 200, Tools: 33, 金钱: 999});
+    const before = plain(h.raw), menuBefore = plain(h.menu);
+    h.hud.renderStatus();
+    const details = h.hud.state.cityDetails, sections = h.nodes['hd-city-menu-status'].querySelectorAll('.hd-city-menu-info-group');
+    assert.deepEqual(Object.keys(details), ['cityIndex', 'name', 'groups']);
+    for (const group of details.groups) for (const row of group.rows) {
+        assert.equal(Array.isArray(row), true); assert.equal(row.length, 2);
+        assert.deepEqual(Reflect.ownKeys(row), ['0', '1', 'length'], 'Public DTO rows retain only their original two cells');
+    }
+    const resource = sections.find(section => section.children[0].textContent === '资源与军备');
+    assert.ok(resource);
+    const expected = [
+        ['Money', '金钱', '65535'], ['Food', '粮食', '0'], ['MothballArms', '预备兵', '43210'],
+        ['Persons', '城内人物', '200'], ['Tools', '城内道具', '33']
+    ], actual = resource.querySelectorAll('.hd-city-menu-stat');
+    assert.equal(actual.length, 5);
+    assert.deepEqual(actual.map(row => row.getAttribute('data-hd-city-resource')), expected.map(row => row[0]));
+    for (const [index, row] of actual.entries()) {
+        const [field, title, value] = expected[index], label = row.children[0], number = row.children[1];
+        assert.equal(label.textContent, title); assert.equal(number.textContent, value);
+        const icons = label.querySelectorAll('svg'); assert.equal(icons.length, 1);
+        const icon = icons[0];
+        assert.equal(icon.namespaceURI, 'http://www.w3.org/2000/svg');
+        assert.equal(icon.getAttribute('data-hd-city-resource-icon'), field);
+        assert.equal(icon.getAttribute('aria-hidden'), 'true'); assert.equal(icon.getAttribute('focusable'), 'false');
+        assert.equal(icon.getAttribute('tabindex'), null); assert.equal(icon.getAttribute('aria-label'), null);
+        assert.equal(icon.querySelectorAll('title').length, 0);
+        assert.ok(icon.querySelectorAll('path').some(path => (path.getAttribute('d') || '').trim().length > 0));
+        assert.ok([icon, ...walk(icon)].every(node => node.listeners.size === 0));
+        for (const tag of ['button', 'input', 'a']) assert.equal(row.querySelectorAll(tag).length, 0);
+    }
+    for (const section of sections.filter(section => section !== resource)) {
+        assert.equal(section.querySelectorAll('svg').length, 0, 'Other city groups remain plain text');
+        assert.equal(section.querySelectorAll('[data-hd-city-resource]').length, 0);
+    }
+    const extra = sections.find(section => section.children[0].textContent === '其他属性');
+    assert.ok(extra); assert.equal(extra.querySelector('span').textContent, '金钱');
+    assert.equal(extra.querySelector('strong').textContent, '999', 'A same-label unknown source field is not the native Money row');
+    assert.deepEqual(plain(details.groups.find(group => group.title === '资源与军备').rows), expected.map(([, title, value]) => [title, value]));
+    assert.equal(h.svgCalls.filter(call => call.tagName === 'svg').length, 5, 'The production status renderer requested all five icons');
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assertNoEquipmentInput(h);
+});
+
+test('city resource semantic icons retain original text without SVG or trusted standard city labels', () => {
+    for (const mode of ['no-svg', 'throws', 'nonstandard', 'city-display-hook']) {
+        const h = equipmentSvgDocument(harness(), mode === 'no-svg' || mode === 'throws' ? mode : 'available');
+        let hookCalls = 0;
+        if (mode === 'nonstandard') h.setIdentity({status: 'ready', sha256: 'different-library', generation: 1});
+        if (mode === 'city-display-hook') h.context.baye.hooks = {
+            getCityPropertyDisplay() { hookCalls++; throw Error('Decorative rendering must not execute a city display hook'); }
+        };
+        const before = plain(h.raw), menuBefore = plain(h.menu);
+        assert.doesNotThrow(() => h.hud.renderStatus(), mode);
+        const resource = h.nodes['hd-city-menu-status'].querySelectorAll('.hd-city-menu-info-group')
+            .find(section => section.children[0].textContent === '资源与军备');
+        assert.ok(resource, mode);
+        const expected = [['Money', '金钱', '532'], ['Food', '粮食', '1790'], ['MothballArms', '预备兵', '975'],
+            ['Persons', '城内人物', '2'], ['Tools', '城内道具', '3']], actual = resource.querySelectorAll('.hd-city-menu-stat');
+        assert.equal(actual.length, 5, mode);
+        for (const [index, row] of actual.entries()) {
+            const [field, title, value] = expected[index], label = row.children[0];
+            assert.equal(label.textContent, title, mode); assert.equal(row.children[1].textContent, value, mode);
+            assert.equal(label.querySelectorAll('svg').length, 0, mode);
+            assert.equal(label.classList.contains('hd-city-menu-resource-label'), false, mode);
+            assert.equal(row.getAttribute('data-hd-city-resource'), mode === 'no-svg' || mode === 'throws' ? field : null, mode);
+        }
+        assert.deepEqual(plain(h.hud.state.cityDetails.groups.find(group => group.title === '资源与军备').rows),
+            expected.map(([, title, value]) => [title, value]), mode);
+        assert.equal(h.nodes['hd-city-menu-status'].querySelectorAll('svg').length, 0, mode);
+        assert.equal(hookCalls, 0, mode);
+        assert.equal(h.svgCalls.filter(call => call.tagName === 'svg').length, mode === 'throws' ? 5 : 0, mode);
+        assert.deepEqual(plain(h.raw), before, mode); assert.deepEqual(plain(h.menu), menuBefore, mode); assertNoEquipmentInput(h);
+    }
+});

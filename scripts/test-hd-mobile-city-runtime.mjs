@@ -175,6 +175,91 @@ async function unusedPort() {
   const p=s.address().port;await new Promise(resolve=>s.close(resolve));return p;
 }
 
+// Stringified into the already loaded page only for --preview-only. This observer
+// never sends an input or treats an exported-function return as a C-consumption ACK.
+function installMobilePreviewKeyDiagnostics() {
+  const MAX_EVENTS=4096,MAX_CALLS=512,POLL_MS=100,WINDOW_MS=5000,MAX_POLLS=51;
+  const trace={schemaVersion:1,scope:'preview-only readonly key dispatch diagnostics',
+    exportInvocationIsNotNativeConsumptionAck:true,requestPrivateStateAvailable:false,
+    publicKeyRecorderUnchanged:true,limits:{events:MAX_EVENTS,calls:MAX_CALLS,pollMs:POLL_MS,windowMs:WINDOW_MS,pollsPerWindow:MAX_POLLS},
+    events:[],droppedEvents:0,diagnosticErrors:0,observedCalls:0,stopped:false};
+  let activeCall=null,nextCall=0,timer=null,deadline=0,polls=0,watchCall=null,lastSample='';
+  const publicDelegate=window.sendKey,directDelegate=window.baye&&baye.sendKey;
+  let nativeDelegate=window._bayeSendKey;
+  function quiet(fn){try{return fn();}catch{trace.diagnosticErrors++;return null;}}
+  function now(){return performance.now();}
+  function scalar(v){return v===null||typeof v==='boolean'||typeof v==='string'&&v.length<=120||typeof v==='number'&&Number.isFinite(v)?v:null;}
+  function append(kind,call,details){quiet(()=>{if(trace.events.length>=MAX_EVENTS){trace.droppedEvents++;return;}
+    trace.events.push({kind,call,at:now(),...details});});}
+  function runtime(){
+    const moduleAvailable=typeof Module!=='undefined'&&!!Module,exportsAvailable=typeof wasmExports!=='undefined'&&!!wasmExports;
+    const asyncAvailable=typeof Asyncify!=='undefined'&&!!Asyncify;
+    return {moduleAvailable,moduleAsmAvailable:moduleAvailable&&typeof Module.asm!=='undefined',
+      moduleKeyExportAvailable:moduleAvailable&&typeof Module._bayeSendKey==='function',wasmExportsAvailable:exportsAvailable,
+      wasmKeyExportAvailable:exportsAvailable&&typeof wasmExports.bayeSendKey==='function',
+      globalKeyExportAvailable:typeof window._bayeSendKey==='function',asyncifyAvailable:asyncAvailable,
+      asyncifyState:asyncAvailable?scalar(Asyncify.state):null,asyncifyCurrDataPresent:asyncAvailable?!!Asyncify.currData:null};
+  }
+  function snapshot(){
+    const d=window.baye&&baye.data,native={},read=(name)=>scalar(d&&d[name]);
+    for(const name of ['g_hdMenuActive','g_hdMenuContext','g_hdMenuKind','g_hdMenuSeq','g_hdMenuCount','g_hdMenuIndex','g_hdDetailGeneration',
+      'g_hdPersonPropertiesActive','g_hdPersonPropertiesComplete','g_hdPersonPropertiesPageComplete','g_hdPersonPropertiesGeneration',
+      'g_hdPersonPropertiesMenuSeq','g_hdPersonPropertiesIndex','g_hdPersonPropertiesPerson','g_hdPersonPropertiesPaintSeq',
+      'g_hdPersonPropertiesPageIndex','g_hdPersonPropertiesPageStart','g_hdPersonPropertiesPageEnd'])native[name]=read(name);
+    const ui=window.BayeHdCityMenu&&typeof BayeHdCityMenu.debugSnapshot==='function'?BayeHdCityMenu.debugSnapshot():null;
+    const p=ui&&ui.personProperties,pending=ui&&ui.personPagePending;
+    return {runtime:runtime(),native,ui:ui?{open:scalar(ui.open),layer:scalar(ui.layer),deepKind:scalar(ui.deepKind),
+      idleIndex:scalar(ui.idleIndex),sending:scalar(ui.sending),queueLen:scalar(ui.queueLen),walkBusy:scalar(ui.walkBusy),
+      closingSubPresent:!!ui.closingSub,handoff:scalar(ui.handoff),mobileRetireReason:scalar(ui.mobileRetireReason),
+      personPagePending:pending?{nativeIndex:scalar(pending.nativeIndex),personIndex:scalar(pending.personIndex),
+        paintSeq:scalar(pending.paintSeq),pageIndex:scalar(pending.pageIndex),direction:scalar(pending.direction)}:null,
+      toolPagePending:scalar(ui.toolPagePending),person:p?{nativeIndex:scalar(p.nativeIndex),personIndex:scalar(p.personIndex),
+        paintSeq:scalar(p.paintSeq),pageIndex:scalar(p.pageIndex),pageStart:scalar(p.pageStart),pageEnd:scalar(p.pageEnd)}:null}:null};
+  }
+  function sample(kind,call,force){quiet(()=>{const value=snapshot(),signature=JSON.stringify(value);
+    if(force||signature!==lastSample){lastSample=signature;append(kind,call,{value});}});}
+  function poll(){quiet(()=>{timer=null;if(trace.stopped)return;polls++;
+    if(now()>=deadline||polls>=MAX_POLLS){sample('watch-end',watchCall,true);return;}
+    sample('publication-change',watchCall,false);
+    if(trace.events.length<MAX_EVENTS)timer=setTimeout(poll,Math.min(POLL_MS,Math.max(0,deadline-now())));});}
+  function afterSend(call){quiet(()=>{if(trace.stopped||trace.events.length>=MAX_EVENTS)return;
+    watchCall=call;deadline=now()+WINDOW_MS;polls=0;sample('send-after',call,true);
+    if(timer===null)timer=setTimeout(poll,POLL_MS);});}
+  function repairLazyExport(){quiet(()=>{
+    const current=window._bayeSendKey;
+    if(current===observeNativeExport)return;
+    // Emscripten's first lazy invocation rewrites both bindings to this exact
+    // wasm export. Adopt only that known replacement, never our own wrapper.
+    if(typeof current==='function'&&typeof Module!=='undefined'&&Module._bayeSendKey===current&&
+      typeof wasmExports!=='undefined'&&wasmExports.bayeSendKey===current){
+      nativeDelegate=current;window._bayeSendKey=observeNativeExport;append('lazy-export-rebound',activeCall,{});
+    }else append('export-binding-changed-unrepaired',activeCall,{callable:typeof current==='function'});
+  });}
+  function invoke(channel,delegate,receiver,args){
+    const parent=activeCall,outer=parent===null,enabled=!trace.stopped&&nextCall<MAX_CALLS;
+    let call=null;if(enabled){call=++nextCall;trace.observedCalls=nextCall;activeCall=call;
+      quiet(()=>append('call',call,{parent,channel,key:scalar(args[0]),runtime:runtime()}));
+      if(outer)sample('send-before',call,true);}
+    try{const value=Reflect.apply(delegate,receiver,args);
+      if(enabled)append('return',call,{channel,returnType:typeof value});return value;
+    }catch(error){if(enabled)append('throw',call,{channel,thrownType:error===null?'null':typeof error,originalErrorRethrown:true});throw error;
+    }finally{
+      // Every diagnostic failure is contained; it cannot replace a send error.
+      repairLazyExport();activeCall=parent;if(enabled&&outer)afterSend(call);
+    }
+  }
+  function observeNativeExport(){return invoke('window._bayeSendKey',nativeDelegate,this,arguments);}
+  function observeDirectExport(){return invoke('baye.sendKey',directDelegate,this,arguments);}
+  function observePublicKey(){return invoke('window.sendKey',publicDelegate,this,arguments);}
+  window.__mobilePreviewKeyDiagnostics=trace;
+  window.__stopMobilePreviewKeyDiagnostics=function(){quiet(()=>{if(timer!==null)clearTimeout(timer);timer=null;
+    sample('observer-stop',watchCall,true);trace.stopped=true;});return trace;};
+  if(typeof nativeDelegate==='function')window._bayeSendKey=observeNativeExport;
+  if(typeof directDelegate==='function')baye.sendKey=observeDirectExport;
+  if(typeof publicDelegate==='function')window.sendKey=observePublicKey;
+  sample('installed',null,true);return {installed:true,exportInvocationIsNotNativeConsumptionAck:true,requestPrivateStateAvailable:false};
+}
+
 export async function main(args=process.argv.slice(2)) {
   const campaignOnly=args.includes('--campaign-only'),campaignFlags=args.filter(arg=>arg.startsWith('--campaign-width=')),campaignWidth=Number(campaignFlags[0]?.split('=')[1]||844);
   const defenderCombat=args.includes('--defender-combat'),defenderOnly=args.includes('--defender-only')||defenderCombat,defenderFlags=args.filter(arg=>arg.startsWith('--defender-width=')),defenderWidth=Number(defenderFlags[0]?.split('=')[1]||844),campaignMode=campaignOnly||defenderOnly;
@@ -725,8 +810,8 @@ export async function main(args=process.argv.slice(2)) {
     if(distribution){freeze('scripts/hd-mobile-distribution-runtime-checks.mjs');freeze('scripts/hd-mobile-distribution-runtime-oracle.mjs');}
     if(previewOnly||equipmentOnly)freeze('scripts/hd-mobile-preview-runtime-checks.mjs');
     if(previewOnly){
-      for(const f of ['scripts/hd-person-equipment-runtime-checks.mjs','css/hd-city-menu.css','css/hd-mobile.css','js/bridge.js','pc.html','package.json'])freeze(f);
-      for(const [file,name]of [['scripts/hd-person-equipment-runtime-checks.mjs','executed-equipment-helper.mjs'],['scripts/hd-mobile-preview-runtime-checks.mjs','executed-preview-helper.mjs']]){
+      for(const f of ['scripts/hd-person-equipment-runtime-checks.mjs','scripts/hd-city-resource-runtime-checks.mjs','css/hd-city-menu.css','css/hd-mobile.css','js/bridge.js','pc.html','package.json'])freeze(f);
+      for(const [file,name]of [['scripts/hd-person-equipment-runtime-checks.mjs','executed-equipment-helper.mjs'],['scripts/hd-mobile-preview-runtime-checks.mjs','executed-preview-helper.mjs'],['scripts/hd-city-resource-runtime-checks.mjs','executed-resource-helper.mjs']]){
         fs.writeFileSync(path.join(out,name),frozen.get(file).bytes,{flag:'wx'});
       }
     }
@@ -818,6 +903,7 @@ export async function main(args=process.argv.slice(2)) {
       const k=window.sendKey,t=window._bayeSendTouchEvent;window.sendKey=function(code){__mobileMapKeys.push({code,at:performance.now()});return k.apply(this,arguments);};
       window._bayeSendTouchEvent=function observeTouch(){__mobileMapNativeTouches.push({args:Array.from(arguments),at:performance.now()});const r=t.apply(this,arguments);window._bayeSendTouchEvent=observeTouch;return r;};
       return true;})()`);
+    if(previewOnly)report.previewKeyDiagnosticObserver=await evaluate('('+installMobilePreviewKeyDiagnostics.toString()+')()');
     report.initialPreferences=await evaluate(`({mobile:localStorage.getItem('${MOBILE_PREF}'),pc:localStorage.getItem('${PC_PREF}'),debug:localStorage.getItem('baye/debug')})`);
     assert.notEqual(report.initialPreferences.debug,'1','Fresh profile starts without requested native debug');
     for(let n=0;n<60;n++){if(await evaluate('baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1'))break;
@@ -901,6 +987,8 @@ export async function main(args=process.argv.slice(2)) {
     if(portraitsOnly&&cdp){try{report.failurePortrait=await evaluate('window.BayeHdMobilePortraits&&BayeHdMobilePortraits.debugSnapshot()');}catch{report.failurePortraitUnavailable=true;}}
     if(cdp){try{await checkpoint('failure');}catch{report.failureCaptureUnavailable=true;}}
   }finally{
+    if(previewOnly&&cdp){try{report.previewKeyDiagnostics=await evaluate('window.__stopMobilePreviewKeyDiagnostics?window.__stopMobilePreviewKeyDiagnostics():null');}
+      catch{report.previewKeyDiagnosticsUnavailable=true;}}
     await sampleOwned('before-cleanup');
     if(cdp&&ownership?.rootVerified){
       report.gracefulBrowserClose={requested:true};
@@ -916,6 +1004,7 @@ export async function main(args=process.argv.slice(2)) {
     report.historicalRecordedIdentities=[...historical.values()];report.profileRetained=fs.existsSync(profile);
     report.sourceDrift=report.sourceFiles.filter(ref=>{try{const b=fs.readFileSync(path.join(root,ref.path));return b.length!==ref.bytes||sha(b)!==ref.sha256;}catch{return true;}});
     if(report.sourceDrift.length){report.ok=false;report.accepted=false;process.exitCode=1;}
+    if(previewOnly)report.resourceIconsAccepted=report.ok===true&&report.resourceIconsAccepted===true;
     report.finishedAt=new Date().toISOString();write('source-verification.json',{sourceFiles:report.sourceFiles,sourceDrift:report.sourceDrift});write('result.json',report);
     process.removeListener('SIGINT',interrupt);process.removeListener('SIGTERM',interrupt);
     console.log(JSON.stringify({ok:report.ok,accepted:report.accepted,out,phases:report.phases.map(p=>p.name),error:report.error}));

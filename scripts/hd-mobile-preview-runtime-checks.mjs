@@ -147,6 +147,13 @@ export async function runMobilePreviewChecks(ctx) {
   report.previewChecks.push(entry);entry.baseline=await mark();
   const driver=await createMobileDetailRuntimeDriver(ctx,entry);
   const {sample,reveal,preview,allPages,snap}=driver;
+  if(ctx.equipmentCards){
+    const {checkCityResourceIcons}=await import('./hd-city-resource-runtime-checks.mjs');
+    report.resourceIconsAccepted=false;await root(3,'状况');
+    const statusBefore=await sample();await checkCityResourceIcons(ctx,driver,entry,testCity.index);await back(label+' resource status return',{status:true});
+    const statusAfter=await sample(),keys=await readKeys(statusBefore.state.keyCount);assert.deepEqual(keys,[]);assert.deepEqual(statusAfter.native,statusBefore.native);assert.deepEqual(statusAfter.world,statusBefore.world);assert.equal(statusAfter.state.touchCount,statusBefore.state.touchCount);assert.equal(statusAfter.state.cityUi.layer,'root');
+    entry.resourceStatusReturn={before:statusBefore,after:statusAfter,keys,accepted:true};
+  }
   await root(0,'内政');const picker=await submenu('搜寻');assert.ok(picker.state.menu.ids.length>=2);
   const equipped=picker.state.menu.ids.find(id=>picker.world.people[id].Tool1>0&&picker.world.people[id].Tool2>0);
   assert.ok(Number.isInteger(equipped),'Fresh resident has two actual equipped tools; no initial equipment compaction');
@@ -192,4 +199,5 @@ export async function runMobilePreviewChecks(ctx) {
   entry.returned=await sample();assert.equal(entry.returned.state.hud.visible,true);
   for(const [k,v]of Object.entries(entry.returned.state.expected))assert.equal(entry.returned.state.hud[k],v,'Returned preview HUD matches native '+k);
   assert.deepEqual(entry.returned.world,entry.baseline.world);entry.accepted=true;await snap('map');
+  if(ctx.equipmentCards)report.resourceIconsAccepted=report.previewChecks.length===2&&report.previewChecks.every(e=>e.accepted&&e.resourceIcons?.accepted&&e.resourceStatusReturn?.accepted);
 }

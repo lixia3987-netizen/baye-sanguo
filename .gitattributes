@@ -679,3 +679,13 @@
 # Preserve the renderer LF contract on a fresh Windows checkout.
 /js/hd-overworld-layers.js text eol=lf
 /scripts/test-hd-overworld-layers.mjs text eol=lf
+
+/scripts/hd-city-resource-runtime-checks.mjs text eol=lf
+/docs/validation/m5-city-resource-icons-20261026-v68*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city-resource-icons-20261026-v68*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city-resource-icons-20261026-v68*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city-resource-icons-20261026-v68*.png -text
+
+/scripts/test-hd-person-equipment-runtime.mjs text eol=lf
+/scripts/test-hd-mobile-city-runtime.mjs text eol=lf
+/scripts/hd-mobile-preview-runtime-checks.mjs text eol=lf
