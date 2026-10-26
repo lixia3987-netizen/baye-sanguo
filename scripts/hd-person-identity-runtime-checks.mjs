@@ -96,7 +96,7 @@ function assertCurrent(sample, personId, expected) {
 }
 
 // This function is serialized only as a fixed read-only DOM sampler; it never installs a hook or changes scroll/focus.
-function identityDomSnapshot(selector, kind) {
+export function identityDomSnapshot(selector, kind) {
   const binding = () => {
     const ui = BayeHdCityMenu.debugSnapshot();
     return {menu: baye.hd.menuItems(), properties: baye.hd.personProperties(), owner: ui.deepMenuOwner,
@@ -155,7 +155,7 @@ function identityDomSnapshot(selector, kind) {
 const contains = (outer, inner) => inner.left >= outer.left - EPSILON && inner.top >= outer.top - EPSILON && inner.right <= outer.right + EPSILON && inner.bottom <= outer.bottom + EPSILON;
 const overlaps = (a, b) => Math.min(a.right, b.right) - Math.max(a.left, b.left) > EPSILON && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > EPSILON;
 
-function assertGeometry(g, text, label) {
+export function assertGeometry(g, text, label) {
   assert.ok(g && g.shown && g.lines.length > 0, label + ' is genuinely displayed');
   assert.equal(g.text, text, label + ' preserves the complete text');assert.equal(g.rangeText, text);
   for (const r of [g.bounds, ...g.lines]) {

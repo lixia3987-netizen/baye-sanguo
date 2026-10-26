@@ -4873,8 +4873,8 @@
         return row;
     }
 
-    function appendHudGroups(box, groups) {
-        groups.forEach(function (group) {
+    function appendHudGroups(box, groups, personLocation) {
+        groups.forEach(function (group, groupIndex) {
             var section = document.createElement('section');
             section.className = 'hd-city-menu-info-group';
             var heading = document.createElement('h3');
@@ -4886,6 +4886,11 @@
                 var stat = appendStat(rows, row[0], row[1]);
                 if (cityResourceFields) { appendCityResourceIcon(stat, cityResourceFields.get(row)); }
             });
+            if (groupIndex === 0 && personLocation) {
+                var locationRow = appendStat(rows, '所在城市', personLocation.name);
+                locationRow.setAttribute('data-hd-person-location', '1');
+                locationRow.setAttribute('data-hd-person-location-city', String(personLocation.cityIndex));
+            }
             section.appendChild(rows);
             box.appendChild(section);
         });
@@ -4983,12 +4988,94 @@
             note: '装备可能改变实际兵种。忠诚值保留原始数值，君主与在野人物不以此判断归属。' };
     }
 
+    var personLocationReading = false, personLocationEpoch = 0;
+    function readPersonLocation(menu, owner, index, personIndex, data) {
+        if (personLocationReading) { personLocationEpoch += 1; return null; }
+        var token = ++personLocationEpoch;
+        personLocationReading = true;
+        try {
+            var engine = global.baye, hd = engine && engine.hd, api = global.BayeHdLibIdentity;
+            var identity = api && api.read(), ids = actualMenuIds(menu);
+            var identityReader = api && api.read, identityCurrent = api && api.isCurrent;
+            if (!standardHudLabels(['getPersonPropertyValue', 'getPersonPropertyTitle']) || !identity ||
+                identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA || identity.byteLength !== 207195 ||
+                !detailNumber(identity.generation, 0xffffffff) || !api.isCurrent(identity) || !engine || !hd ||
+                !data || engineData() !== data || !ids || ids[index] !== personIndex || !mobileMenuComplete(menu) ||
+                !ids.every(function (id) { return detailNumber(id, 199) != null; }) ||
+                detailNumber(personIndex, 199) == null || menu.active !== 1 || menu.context !== 1 || menu.kind !== 3 ||
+                !owner || owner.kind !== 3 || !owner.detailGeneration || menu.generation !== owner.detailGeneration ||
+                menu.detailGeneration !== owner.detailGeneration || menu.index !== index) { return null; }
+            var config = data.g_engineConfig, cities = data.g_Cities, queue = data.g_PersonsQueue, people = data.g_Persons;
+            var selectedPerson = people && people[personIndex];
+            var nameReader = engine.getCityName, personReader = engine.getPersonCount;
+            if (!config || config.citiesCount !== 38 || !cities || cities.length !== 38 || !queue || queue.length !== 2000 ||
+                !people || people.length !== 2000 || !selectedPerson ||
+                typeof nameReader !== 'function' || typeof personReader !== 'function' || personReader.call(engine) !== 200) { return null; }
+            function sourceCurrent() {
+                if (!personLocationReading || token !== personLocationEpoch) { return false; }
+                var current = global.baye === engine && engine.hd === hd && engineData() === data && engine.data === data &&
+                    global.BayeHdLibIdentity === api && api.read === identityReader && api.isCurrent === identityCurrent &&
+                    identityCurrent.call(api, identity) &&
+                    standardHudLabels(['getPersonPropertyValue', 'getPersonPropertyTitle']) &&
+                    data.g_engineConfig === config && config.citiesCount === 38 && data.g_Cities === cities && cities.length === 38 &&
+                    data.g_PersonsQueue === queue && queue.length === 2000 && data.g_Persons === people &&
+                    people.length === 2000 && people[personIndex] === selectedPerson &&
+                    engine.getCityName === nameReader && engine.getPersonCount === personReader;
+                return current && personLocationReading && token === personLocationEpoch;
+            }
+            function snapshot() {
+                if (!sourceCurrent()) { return null; }
+                var rows = [], refs = [], found = null;
+                // Match C GetPersonCity: city order, then each city's complete
+                // queue range. Duplicate entries keep the first match.
+                for (var c = 0; c < 38; c++) {
+                    var city = cities[c], start = city && detailNumber(city.PersonQueue, 2000);
+                    var count = city && detailNumber(city.Persons, 2000);
+                    if (!city || start == null || count == null || start + count > 2000) { return null; }
+                    var people = [];
+                    for (var q = 0; q < count; q++) {
+                        var person = detailNumber(queue[start + q], 199);
+                        if (person == null) { return null; }
+                        people.push(person);
+                        if (!found && person === personIndex) {
+                            found = {cityIndex: c, queueStart: start, queueCount: count, queueOffset: start + q};
+                        }
+                    }
+                    refs.push(city); rows.push([start, count, people]);
+                }
+                if (!sourceCurrent() || !refs.every(function (city, c) { return cities[c] === city; })) { return null; }
+                var current = engineMenuItems(), currentOwner = deepMenuOwner(current);
+                if (!currentOwner || currentOwner.key !== owner.key || JSON.stringify(current) !== JSON.stringify(menu) ||
+                    !state.open || state.layer !== 'deep' || !state.deepMenuOwner || state.deepMenuOwner.key !== owner.key ||
+                    state.nativeMenuRequest || state.deepSelectionPending || state.personPagePending || state.sending ||
+                    state.queue.length || state.closingSub || document.hidden || !shouldShowHd() ||
+                    token !== personLocationEpoch) { return null; }
+                return {rows: rows, refs: refs, found: found};
+            }
+            var before = snapshot();
+            if (!before) { return null; }
+            var name = before.found ? nameReader.call(engine, before.found.cityIndex) : '';
+            var after = snapshot();
+            if (!after || !sourceCurrent() || !before.refs.every(function (city, c) { return after.refs[c] === city; }) ||
+                JSON.stringify(before.rows) !== JSON.stringify(after.rows) || !after.found ||
+                typeof name !== 'string' || !name.trim() || name === '-' || token !== personLocationEpoch) { return null; }
+            return {personIndex: personIndex, cityIndex: after.found.cityIndex, name: name,
+                source: 'native-city-queue-first-match', libraryGeneration: identity.generation,
+                detailGeneration: owner.detailGeneration, menuSeq: menu.seq, nativeIndex: index,
+                queueStart: after.found.queueStart, queueCount: after.found.queueCount, queueOffset: after.found.queueOffset};
+        } catch (e) { return null; }
+        finally { personLocationReading = false; }
+    }
+
     function retirePersonDetails() {
         retirePersonProperties();
         state.personDetail = null;
         state.personDetailSig = '';
         var pane = el('hd-city-menu-person-details');
         if (pane) { pane.hidden = true; }
+        var fields = el('hd-city-menu-person-fields');
+        var locationRow = fields && fields.querySelector('[data-hd-person-location]');
+        if (locationRow && locationRow.parentNode) { locationRow.parentNode.removeChild(locationRow); }
         var layout = el('hd-city-menu-person-layout');
         if (layout) { layout.classList.remove('has-person-details'); }
     }
@@ -5256,6 +5343,7 @@
             properties.generation === owner.detailGeneration && properties.detailGeneration === owner.detailGeneration);
         var presentation = customProperties ? 'custom-native' : 'default';
         var equipment = details && !customProperties ? readPersonEquipment(menu, owner, index, details.personIndex) : [];
+        var location = details && !customProperties ? readPersonLocation(menu, owner, index, details.personIndex, detailData) : null;
         var equipmentMenu = engineMenuItems(), equipmentOwner = deepMenuOwner(equipmentMenu);
         if (!equipmentOwner || equipmentOwner.key !== owner.key || equipmentMenu.index !== index || detailOverlayActive() ||
             global.baye !== detailBaye || detailBaye.hd !== detailHd || engineData() !== detailData ||
@@ -5269,8 +5357,9 @@
         if (state.personDetail) {
             state.personDetail.corePresentation = presentation;
             state.personDetail.equipment = equipment;
+            state.personDetail.location = location;
         }
-        var signature = JSON.stringify([owner.key, index, details, presentation, equipment]);
+        var signature = JSON.stringify([owner.key, index, details, presentation, equipment, location]);
         fields.setAttribute('data-hd-person-core-presentation', presentation);
         if (state.personDetailSig === signature && fields.children.length) { return; }
         state.personDetailSig = signature;
@@ -5294,7 +5383,7 @@
             fields.appendChild(customNote);
             return;
         }
-        appendHudGroups(fields, details.groups);
+        appendHudGroups(fields, details.groups, location);
         appendPersonEquipment(fields, equipment);
         var note = document.createElement('p');
         note.className = 'hd-city-menu-info-note';

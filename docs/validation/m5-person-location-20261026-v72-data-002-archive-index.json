@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-002-archive-part001.json",
+      "bytes": 6014225,
+      "sha256": "04951754ba0073267b90cb5944660f4b74c79ef48ebd27328499d055467b4ef4",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-002-archive-part002.json",
+      "bytes": 6034097,
+      "sha256": "fb48cb4c0ed0a417f9d4c037d3d6d6b5ea326d75543df25d28e745b91952ec0a",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-002-archive-part003.json",
+      "bytes": 5882673,
+      "sha256": "40336e744c4a4703702ed8c01306d70e24a6ebd2dad55d2eabd057adf98c0fb1",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-002-archive-part004.json",
+      "bytes": 5861497,
+      "sha256": "1ed78629b4f4bc23d1163f4aa4e013b06a471b43ea1db2dcc1dc04ac967fc2ea",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-002-archive-part005.json",
+      "bytes": 5881589,
+      "sha256": "0789092e625b5645601cd82a221f31d8866ff51101f485fe030ef4294e8fb237",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-data-002-archive-part006.json",
+      "bytes": 2949999,
+      "sha256": "eeb41503aebee9dcf6d2477e4c7869d7377f908996c7c041ff6ca42881c2bebc",
+      "blobs": 1
+    }
+  ],
+  "files": [
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-05-identity-person-29-nativeOwnership.png",
+      "bytes": 2261119,
+      "sha256": "7758f6590dc83c335c68ab89831d475a2f82faedfd699fb1800fd49e3c3585a8",
+      "blob": "7758f6590dc83c335c68ab89831d475a2f82faedfd699fb1800fd49e3c3585a8",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-06-person-location-29-hdLocation.png",
+      "bytes": 2247731,
+      "sha256": "40f0c97d3ae8106e978f697ac2b6f76e71a45a4ab4167b59203d476c5a3ac427",
+      "blob": "40f0c97d3ae8106e978f697ac2b6f76e71a45a4ab4167b59203d476c5a3ac427",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-07-person-location-29-nativeLocation.png",
+      "bytes": 2261357,
+      "sha256": "5ccd3c2443326b660b2b74e005f0920b15579f13faf50c9334284f475aa30421",
+      "blob": "5ccd3c2443326b660b2b74e005f0920b15579f13faf50c9334284f475aa30421",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-08-canvass-actor.png",
+      "bytes": 2262391,
+      "sha256": "a9214180febdcffef48c7a44d54d5048f7a0ea99697c72bbb2bd0e5bccf82485",
+      "blob": "a9214180febdcffef48c7a44d54d5048f7a0ea99697c72bbb2bd0e5bccf82485",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-09-identity-person-139-listName.png",
+      "bytes": 2212983,
+      "sha256": "9057a8e7e02935472c7e4dbccc8f4b8e9303642efe93e2fb1b52496bed297899",
+      "blob": "9057a8e7e02935472c7e4dbccc8f4b8e9303642efe93e2fb1b52496bed297899",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-10-identity-person-139-heading.png",
+      "bytes": 2197233,
+      "sha256": "c443a62f17d472073e167d629201bb1afb23bfb0e485ac1836ca7c29d06be996",
+      "blob": "c443a62f17d472073e167d629201bb1afb23bfb0e485ac1836ca7c29d06be996",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-11-identity-person-139-ownership.png",
+      "bytes": 2197117,
+      "sha256": "de863af467db23607a8b037a72f0f16009b358d6383e88677406e7e51e8c363e",
+      "blob": "de863af467db23607a8b037a72f0f16009b358d6383e88677406e7e51e8c363e",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-12-identity-person-139-priorOwnership.png",
+      "bytes": 2197226,
+      "sha256": "3c92f10c697fd4a964fc7d85326c10fcab7fc7d1dd8ade5a4c6c945978e463a9",
+      "blob": "3c92f10c697fd4a964fc7d85326c10fcab7fc7d1dd8ade5a4c6c945978e463a9",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-13-identity-person-139-nativeOwnership.png",
+      "bytes": 2211896,
+      "sha256": "17e682209e1b301dbf426f11d22c8cc11138c4780eedf68e3f221ccc7a018d4c",
+      "blob": "17e682209e1b301dbf426f11d22c8cc11138c4780eedf68e3f221ccc7a018d4c",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-14-person-location-139-hdLocation.png",
+      "bytes": 2197506,
+      "sha256": "8defc2e5c5e823a18c0c8ac3561b59250f6279a37720d35e175e81692dc64d3a",
+      "blob": "8defc2e5c5e823a18c0c8ac3561b59250f6279a37720d35e175e81692dc64d3a",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/pc1080-after-v1/pc1080-identity-15-person-location-139-nativeLocation.png",
+      "bytes": 2211576,
+      "sha256": "538de2a8c013b54b2f647da3ae1e597da9eb5fe1fb21acc8a47ea34e07f397d5",
+      "blob": "538de2a8c013b54b2f647da3ae1e597da9eb5fe1fb21acc8a47ea34e07f397d5",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    }
+  ],
+  "logicalFiles": 11,
+  "uniqueBlobs": 11,
+  "rawNamedBytes": 24458135,
+  "uniqueRawBytes": 24458135,
+  "uniqueGzipBytes": 24465791,
+  "serializedPartBytes": 32624080,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

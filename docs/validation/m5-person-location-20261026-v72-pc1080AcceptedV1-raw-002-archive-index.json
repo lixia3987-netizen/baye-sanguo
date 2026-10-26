@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72-pc1080AcceptedV1-raw-002-archive-part001.json",
+      "bytes": 1062531,
+      "sha256": "9992aeeb33a7f19d80f8af9a854d2ec49cd9546305775fd2625b9e75349d388c",
+      "blobs": 1
+    }
+  ],
+  "files": [
+    {
+      "path": "build/person-location-20261026-v72/evidence-source-v1/pc1080AcceptedV1-chunks/raw-001.bin",
+      "bytes": 21451738,
+      "sha256": "adae704206de449584fa63fdd0f6c6db953f4ba8ec2c9314781d707c3543ed20",
+      "blob": "adae704206de449584fa63fdd0f6c6db953f4ba8ec2c9314781d707c3543ed20",
+      "roles": [
+        "Exact V72 original bytes; archived sources are data"
+      ]
+    }
+  ],
+  "logicalFiles": 1,
+  "uniqueBlobs": 1,
+  "rawNamedBytes": 21451738,
+  "uniqueRawBytes": 21451738,
+  "uniqueGzipBytes": 796668,
+  "serializedPartBytes": 1062531,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

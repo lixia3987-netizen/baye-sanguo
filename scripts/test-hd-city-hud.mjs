@@ -51,7 +51,7 @@ function matches(node, selector) {
     return node.tagName.toLowerCase() === selector.toLowerCase();
 }
 
-function harness() {
+function harness({sourceText} = {}) {
     const html = element('html'), body = element('body'); html.appendChild(body);
     const root = element(); root.id = 'hd-city-menu'; body.appendChild(root);
     const stage = element(); stage.className = 'hd-city-menu-stage'; root.appendChild(stage);
@@ -119,7 +119,7 @@ function harness() {
         toolDetails: () => null, personArmType: id => { derivedCalls.push(id); return null; } });
     let identity = { status: 'ready', generation: 1, sha256: standardHash }, current = true;
     context.BayeHdLibIdentity = { read: () => identity, isCurrent: value => current && value === identity };
-    let source = read('js/hd-city-menu.js');
+    let source = sourceText === undefined ? read('js/hd-city-menu.js') : sourceText;
     source = source.replace(/\}\)\(window\);\s*$/, `
         global.__hud = { state: state, cityDetails: cityDetails, personDetails: personDetails,
             renderStatus: renderStatus, renderPersonDetails: renderPersonDetails,
@@ -2004,4 +2004,229 @@ test('city resource semantic icons retain original text without SVG or trusted s
         assert.equal(h.svgCalls.filter(call => call.tagName === 'svg').length, mode === 'throws' ? 5 : 0, mode);
         assert.deepEqual(plain(h.raw), before, mode); assert.deepEqual(plain(h.menu), menuBefore, mode); assertNoEquipmentInput(h);
     }
+});
+
+// Original selected-PERSON location. These fixtures exercise the normal
+// production renderer; they neither export the location reader nor write C data.
+let locationRomNames;
+function originalLocationNames() {
+    if (locationRomNames) return locationRomNames;
+    const bytes = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url));
+    assert.equal(bytes.length, 207195);
+    const decoder = new TextDecoder('gbk', {fatal: true});
+    function name(resource, index) {
+        const base = bytes.readUInt32LE((resource - 1) * 4), count = bytes.readUInt16LE(base + 6), fixed = bytes.readUInt32LE(base + 8);
+        assert.equal(bytes.readUInt16LE(base + 4), resource); assert.ok(index < count);
+        const row = base + 14 + index * 8, offset = fixed ? base + 14 + index * fixed : base + bytes.readUInt32LE(row), length = fixed || bytes.readUInt32LE(row + 4);
+        const raw = bytes.subarray(offset, offset + length), end = raw.indexOf(0);
+        return decoder.decode(end < 0 ? raw : raw.subarray(0, end));
+    }
+    locationRomNames = {people: Array.from({length: 200}, (_, id) => name(72, id)), cities: Array.from({length: 38}, (_, id) => name(58, id))};
+    assert.deepEqual([locationRomNames.people[29], locationRomNames.people[139], locationRomNames.cities[4], locationRomNames.cities[30]], ['崔琰', '朵思大王', '晋阳', '云南']);
+    return locationRomNames;
+}
+function locationHarness(personId = 139) {
+    const oldSource = process.env.BAYE_HD_PERSON_LOCATION_SOURCE;
+    const h = harness(oldSource ? {sourceText: readFileSync(oldSource, 'utf8')} : undefined), rom = originalLocationNames();
+    // C PERSON_MAX is physical2000; the verified original ROM exposes logical200.
+    h.people = Array.from({length: 2000}, () => ({...h.person, Belong: 0, OldBelong: 0, Equip: [0, 0], Tool1: 0, Tool2: 0}));
+    h.people[29].Belong = 1; h.people[139].Belong = 4; h.people[143].Belong = 4;
+    h.person = h.people[personId];
+    h.cities = Array.from({length: 38}, () => ({...h.city, Belong: 0, SatrapId: 0, PersonQueue: 0, Persons: 0}));
+    Object.assign(h.cities[4], {Belong: 1, PersonQueue: 5, Persons: 1});
+    Object.assign(h.cities[30], {Belong: 4, PersonQueue: 100, Persons: 2});
+    h.city = h.cities[4]; h.queue = Array(2000).fill(0); h.queue[5] = 29; h.queue[100] = 139; h.queue[101] = 143;
+    Object.assign(h.raw, {g_Cities: h.cities, g_Persons: h.people, g_PersonsQueue: h.queue,
+        g_engineConfig: {citiesCount: 38, enable16bitConsumeMoney: 0, fixAlienateComsumeThew: 0},
+        g_PlayerKing: 0, g_PIdx: 4, g_hdEngineReady: 1, g_hdDetailGeneration: 3});
+    // Real bridge objects retain identity. The legacy large-library fixture's
+    // intentionally uncached proxies above are not changed by this new scope.
+    const cache = new WeakMap();
+    h.readonlyLocation = function readonly(value, at = '') {
+        if (!value || typeof value !== 'object') return value;
+        if (cache.has(value)) return cache.get(value);
+        const proxy = new Proxy(value, {get(target, key) {return readonly(target[key], at + '.' + String(key));},
+            set(target, key) {h.writes.push(at + '.' + String(key)); throw Error('location reader wrote native data');}});
+        cache.set(value, proxy); return proxy;
+    };
+    h.context.baye.data = h.readonlyLocation(h.raw); h.context.baye.ensureData = () => h.context.baye.data;
+    h.names.clear(); for (const [id, name] of rom.people.entries()) h.names.set(id, name);
+    h.cityNames = rom.cities.slice(); h.cityNameCalls = [];
+    h.context.baye.getCityName = id => {h.cityNameCalls.push(id); return h.cityNames[id] ?? '';};
+    h.context.baye.getPersonCount = () => 200; h.context.baye.getToolCount = () => 33;
+    h.context.baye.hd.personProperties = () => null;
+    const ids = personId === 29 ? [29] : [139, 143], index = ids.indexOf(personId);
+    Object.assign(h.menu, {active: 1, context: 1, kind: 3, seq: 9, count: ids.length, index,
+        generation: 3, detailGeneration: 3, idsValid: true, ids,
+        names: ids.map(id => rom.people[id]), packedNames: ids.map(id => rom.people[id].length === 4 ? rom.people[id].slice(0, 3) + '�' : rom.people[id]), itemLen: 8});
+    h.identity = {status: 'ready', sha256: standardHash, byteLength: 207195, generation: 1}; h.setIdentity(h.identity);
+    Object.assign(h.hud.state, {open: true, cityIndex: 4, cityName: '晋阳', layer: 'deep', deepKind: 'person', deepSelectionPending: null});
+    h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu);
+    h.renderLocation = () => h.hud.renderPersonDetails();
+    return h;
+}
+function locationNodes(h) {
+    const pane = h.document.getElementById('hd-city-menu-person-details');
+    return pane && !pane.hidden ? pane.querySelectorAll('[data-hd-person-location]') : [];
+}
+function assertLocation(h, cityIndex, {queueStart, queueCount, queueOffset} = {}) {
+    const detail = h.hud.state.personDetail, id = h.menu.ids[h.menu.index], expectedCity = h.cities[cityIndex], nodes = locationNodes(h);
+    assert.ok(detail); assert.equal(nodes.length, 1, 'one current selected-person location row');
+    assert.deepEqual(plain(detail.location), {personIndex: id, cityIndex, name: h.cityNames[cityIndex], source: 'native-city-queue-first-match',
+        libraryGeneration: 1, detailGeneration: 3, menuSeq: h.menu.seq, nativeIndex: h.menu.index,
+        queueStart: queueStart ?? expectedCity.PersonQueue, queueCount: queueCount ?? expectedCity.Persons,
+        queueOffset: queueOffset ?? expectedCity.PersonQueue + h.queue.slice(expectedCity.PersonQueue, expectedCity.PersonQueue + expectedCity.Persons).indexOf(id)});
+    const row = nodes[0]; assert.equal(row.getAttribute('data-hd-person-location'), '1');
+    assert.equal(row.getAttribute('data-hd-person-location-city'), String(cityIndex));
+    assert.equal(row.children[0].textContent, '所在城市'); assert.equal(row.children[1].textContent, h.cityNames[cityIndex]);
+    assert.equal(row.parentElement.parentElement.children[0].textContent, '身份与经历');
+    assert.equal(detail.groups.flatMap(group => group.rows).length, 15, 'legacy raw core DTO stays fifteen fields');
+    assert.ok(detail.groups.every(group => group.rows.every(row => row.length === 2)));
+    for (const tag of ['button', 'a', 'input']) assert.equal(row.querySelectorAll(tag).length, 0);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    return row;
+}
+function assertLocationAbsent(h, reason) {
+    assert.equal(h.hud.state.personDetail?.location ?? null, null, reason); assert.equal(locationNodes(h).length, 0, reason);
+    assert.deepEqual(h.keys, [], reason); assert.deepEqual(h.writes, [], reason);
+}
+function installLocationNameFault(h, mutate) {
+    const original = h.context.baye.getCityName; let called = false;
+    h.context.baye.getCityName = function (id) {if (!called) {called = true; mutate(h);} return original(id);};
+    return () => called;
+}
+
+test('person location normal rendering follows actual native IDs for allied and foreign current people', () => {
+    for (const id of [29, 139, 143]) {
+        const h = locationHarness(id), before = plain(h.raw), menu = plain(h.menu); h.renderLocation();
+        assertLocation(h, id === 29 ? 4 : 30); assert.equal(h.hud.state.personDetail.personIndex, id);
+        if (id !== 29) assert.notEqual(h.hud.state.personDetail.location.cityIndex, h.hud.state.cityIndex, 'foreign location is not the active menu origin');
+        const heading = h.document.getElementById('hd-city-menu-person-name'); assert.equal(heading.textContent, h.names.get(id));
+        const groups = h.document.getElementById('hd-city-menu-person-fields').querySelectorAll('.hd-city-menu-info-group');
+        assert.equal(groups[0].querySelectorAll('.hd-city-menu-stat').length, 5);
+        assert.equal(groups[0].querySelectorAll('span')[0].textContent, '归属');
+        assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    }
+});
+
+test('person location preserves C first-city and first-offset semantics even under duplicate foreign prefixes', () => {
+    const h = locationHarness(); Object.assign(h.cities[1], {Belong: 2, PersonQueue: 20, Persons: 3});
+    h.queue[20] = 143; h.queue[21] = 139; h.queue[22] = 139;
+    const before = plain(h.raw); h.renderLocation(); assertLocation(h, 1, {queueStart: 20, queueCount: 3, queueOffset: 21});
+    assert.equal(h.hud.state.personDetail.ownership.value, 4, 'GetPersonCity does not filter by allegiance'); assert.deepEqual(plain(h.raw), before);
+});
+
+test('person location refreshes when only real city queues move the current person', () => {
+    const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); const old = locationNodes(h)[0], owner = h.hud.state.deepMenuOwner.key, menu = plain(h.menu);
+    h.queue[100] = 143; Object.assign(h.cities[31], {PersonQueue: 200, Persons: 1}); h.queue[200] = 139;
+    const before = plain(h.raw); h.renderLocation(); assertLocation(h, 31);
+    assert.notEqual(locationNodes(h)[0], old); assert.equal(h.hud.state.deepMenuOwner.key, owner); assert.deepEqual(plain(h.menu), menu); assert.deepEqual(plain(h.raw), before);
+});
+
+test('person location accepts city zero and withholds missing255 without guessing the active city or travel state', () => {
+    const h = locationHarness(); Object.assign(h.cities[0], {PersonQueue: 30, Persons: 1}); h.queue[30] = 139;
+    h.renderLocation(); assertLocation(h, 0); h.cities[0].Persons = 0; h.queue[100] = 143;
+    const before = plain(h.raw); h.renderLocation(); assertLocationAbsent(h, 'no city queue contains the selected ID');
+    assert.deepEqual(plain(h.raw), before); assert.equal(h.hud.state.cityIndex, 4);
+    const fields = h.document.getElementById('hd-city-menu-person-fields'); assert.doesNotMatch(fields.textContent, /在途|正在移动|所在城市晋阳/);
+});
+
+test('person location withdraws for malformed original tables ranges and used IDs including data after the first match', () => {
+    for (const [label, mutate] of [
+        ['city count config', h => {h.raw.g_engineConfig.citiesCount = 37;}],
+        ['city table length', h => {h.cities.length = 37;}], ['truncated physical person binding', h => {h.people.length = 200;}],
+        ['queue ABI length', h => {h.queue.length = 1999;}], ['missing later city', h => {delete h.cities[37];}],
+        ['negative later range', h => {h.cities[37].PersonQueue = -1;}],
+        ['overflowing later range', h => {Object.assign(h.cities[37], {PersonQueue: 1999, Persons: 2});}],
+        ['invalid used ID after match', h => {h.queue[101] = 200;}],
+        ['invalid separate later ID', h => {Object.assign(h.cities[37], {PersonQueue: 1900, Persons: 1}); h.queue[1900] = 65535;}]
+    ]) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); mutate(h); h.renderLocation(); assertLocationAbsent(h, label);
+    }
+});
+
+test('person location requires complete current PERSON ownership and never uses name-only or retired tickets', () => {
+    for (const [label, mutate] of [
+        ['retired menu', h => {h.menu.active = 0;}], ['wrong context', h => {h.menu.context = 2;}],
+        ['new sequence', h => {h.menu.seq++;}], ['generation', h => {h.menu.generation++; h.menu.detailGeneration++;}],
+        ['name-only list', h => {h.menu.idsValid = false;}],
+        ['native ID beyond original', h => {h.menu.ids[0] = 200;}], ['partial names', h => {h.menu.names = [h.menu.names[0]];}],
+        ['report takeover', h => {h.report.active = 1;}], ['hidden document', h => {h.document.hidden = true;}]
+    ]) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); mutate(h); h.renderLocation(); assertLocationAbsent(h, label);
+    }
+});
+
+test('person location requires the current original library population and source identity', () => {
+    for (const [label, mutate] of [
+        ['unverified library', h => {h.setIdentity({...h.identity, status: 'pending'});}],
+        ['different library', h => {h.setIdentity({...h.identity, sha256: 'different'});}],
+        ['wrong library size', h => {h.setIdentity({...h.identity, byteLength: 207194});}],
+        ['identity no longer current', h => {h.setIdentity(h.identity, false);}],
+        ['non-original population', h => {h.context.baye.getPersonCount = () => 201;}]
+    ]) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); mutate(h); h.renderLocation(); assertLocationAbsent(h, label);
+    }
+});
+
+test('person location refuses source and getter reference replacement during city-name reading even if values agree', () => {
+    for (const [label, mutate] of [
+        ['config ref', h => {h.raw.g_engineConfig = {...h.raw.g_engineConfig};}],
+        ['cities ref', h => {h.raw.g_Cities = h.cities.slice();}], ['queue ref', h => {h.raw.g_PersonsQueue = h.queue.slice();}],
+        ['people ref', h => {h.raw.g_Persons = h.people.slice();}], ['selected person ref', h => {h.people[139] = {...h.people[139]};}],
+        ['later city struct ref', h => {h.cities[37] = {...h.cities[37]};}],
+        ['person-count function', h => {h.context.baye.getPersonCount = () => 200;}],
+        ['city-name function', h => {h.context.baye.getCityName = id => h.cityNames[id] ?? '';}],
+        ['identity reader function', h => {h.context.BayeHdLibIdentity.read = () => h.identity;}],
+        ['identity current function', h => {h.context.BayeHdLibIdentity.isCurrent = value => value === h.identity;}],
+        ['identity API object', h => {h.context.BayeHdLibIdentity = {...h.context.BayeHdLibIdentity};}]
+    ]) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); const called = installLocationNameFault(h, mutate);
+        h.renderLocation(); assert.equal(called(), true, label + ' fault actually ran'); assertLocationAbsent(h, label);
+    }
+});
+
+test('person location rejects whole relevant queue or range drift during an otherwise matching city-name call', () => {
+    for (const [label, mutate] of [
+        ['matched range', h => {h.cities[30].Persons = 1;}], ['unselected later range', h => {h.cities[37].PersonQueue = 1900;}],
+        ['current person changed during read', h => {h.menu.index = 1;}],
+        ['used queue after first match', h => {h.queue[101] = 29;}],
+        ['new earlier city match', h => {Object.assign(h.cities[1], {PersonQueue: 20, Persons: 1}); h.queue[20] = 139;}]
+    ]) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); const called = installLocationNameFault(h, mutate);
+        h.renderLocation(); assert.equal(called(), true, label); assertLocationAbsent(h, label);
+    }
+});
+
+test('person location withholds same-owner reentrant city-name reads and recovers on the next clean render', () => {
+    const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); const original = h.context.baye.getCityName;
+    let reentered = false; h.context.baye.getCityName = function (id) {if (!reentered) {reentered = true; h.hud.renderPersonDetails();} return original(id);};
+    const before = plain(h.raw); h.renderLocation(); assert.equal(reentered, true); assertLocationAbsent(h, 'one read cannot adopt its reentrant render');
+    assert.deepEqual(plain(h.raw), before); h.context.baye.getCityName = original; h.renderLocation(); assertLocation(h, 30); assert.deepEqual(plain(h.raw), before);
+});
+
+test('person location withdraws on throwing or unusable city-name results without preserving a prior row', () => {
+    for (const value of [null, '', ' ', '-']) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); h.context.baye.getCityName = () => value; h.renderLocation(); assertLocationAbsent(h, String(value));
+    }
+    const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); let called = false;
+    h.context.baye.getCityName = () => {called = true; throw Error('native city name unavailable');};
+    assert.doesNotThrow(() => h.renderLocation()); assert.equal(called, true); assertLocationAbsent(h, 'exception');
+});
+
+test('person location respects current custom-native semantics and relevant hooks without replaying either hook', () => {
+    for (const hook of ['getPersonPropertyTitle', 'getPersonPropertyValue']) {
+        const h = locationHarness(); h.renderLocation(); assertLocation(h, 30); let calls = 0;
+        h.context.baye.hooks = {[hook]() {calls++; throw Error('extra native property hook');}};
+        h.renderLocation(); assertLocationAbsent(h, hook); assert.equal(calls, 0);
+    }
+    const h = locationHarness(); h.renderLocation(); assertLocation(h, 30);
+    const props = {protocolVersion: 1, active: 1, complete: 0, pageComplete: 1, custom: 1, generation: 3, detailGeneration: 3,
+        context: 1, kind: 3, menuSeq: h.menu.seq, paintSeq: 40, index: h.menu.index, person: 139, propertyCount: 13,
+        pageIndex: 0, pageStart: 0, pageEnd: 1, name: h.names.get(139), properties: Array.from({length: 13}, (_, index) => ({index,
+            title: index === 0 ? '原生自定义标题' : '', value: index === 0 ? '原生自定义含义' : '', captured: index === 0,
+            titleCaptured: index === 0, valueCaptured: index === 0, titlePaintSeq: index === 0 ? 40 : 0, valuePaintSeq: index === 0 ? 40 : 0}))};
+    h.context.baye.hd.personProperties = () => plain(props); h.renderLocation(); assertLocationAbsent(h, 'current custom-native property table');
+    assert.equal(h.hud.state.personDetail.corePresentation, 'custom-native'); assert.equal(h.hud.state.personDetail.groups.flatMap(g => g.rows).length, 15);
+    assert.match(h.document.getElementById('hd-city-menu-person-properties').textContent, /原生自定义含义/);
 });
