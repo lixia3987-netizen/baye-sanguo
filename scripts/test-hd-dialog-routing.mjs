@@ -31,6 +31,7 @@ function element(tagName = 'DIV') {
 function harness({ quantitySourceOverrides = false } = {}) {
     const nodes = { 'hd-dialog': element(), 'hd-city-menu': element(), 'hd-battle': element(),
         'hd-dialog-title': element(), 'hd-dialog-body': element(), 'hd-dialog-caption': element(),
+        'hd-dialog-person-identity': element(),
         'hd-dialog-range': element() };
     const listeners = [], timers = new Map(), sent = [], writes = [];
     let timer = 0, onSend = () => {};
@@ -876,6 +877,130 @@ test('VIEW observes native empty pages and known enemy food zero without derivin
     assert.equal(h.nodes['hd-dialog-body'].querySelectorAll('.hd-situation-row').length, 0);
     assert.equal(h.nodes['hd-dialog-body'].textContent.includes('65535'), false);
     assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});
+
+function personReportFixture(belong = 0) {
+    const h = harness(); native(h);
+    const b = h.context.baye;
+    const identity = {status: 'ready', generation: 8, byteLength: 207195,
+        sha256: '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'};
+    h.context.BayeHdLibIdentity = {read: () => identity, isCurrent: value => value === identity};
+    b.getPersonCount = () => 200;
+    b.getPersonName = id => id === 4 ? '朵思大王' : id === 0 ? '董卓' : '人物' + id;
+    // Reuse the production U16 ownership mapper rather than copying its rules.
+    const bridge = readFileSync(new URL('../js/bridge.js', import.meta.url), 'utf8');
+    const begin = bridge.indexOf('    function ownership(value, personIndex, city) {');
+    const end = bridge.indexOf('    baye.printCity =', begin);
+    assert.ok(begin >= 0 && end > begin);
+    vm.runInContext(bridge.slice(begin, end), h.context);
+    const people = Array(2000); people[4] = {Belong: belong};
+    Object.assign(h.report, {active: 1, kind: 2, person: 4, seq: 50, inputSeq: 51, text: '此处只有当前人物的原生报告。'});
+    Object.assign(h.data, {g_hdEngineReady: 1, g_PIdx: 4, g_Persons: people,
+        g_hdReportActive: 1, g_hdReportKind: 2, g_hdReportPerson: 4,
+        g_hdReportSeq: 50, g_hdReportInputSeq: 51, g_hdReportGbk: h.report.text});
+    h.identity = identity; h.line = h.nodes['hd-dialog-person-identity'];
+    h.sent.length = 0; h.writes.length = 0;
+    h.observe();
+    return h;
+}
+
+test('person reports show the current speaker ownership without exposing other people', () => {
+    for (const [belong, kind, label] of [[0, 'free', '在野'], [65535, 'captive', '俘虏'],
+        [5, 'lord', '君主 · 朵思大王'], [1, 'owned', '董卓']]) {
+        const h = personReportFixture(belong);
+        assert.equal(h.nodes['hd-dialog-title'].textContent, '朵思大王');
+        assert.equal(h.nodes['hd-dialog-body'].textContent, h.report.text);
+        assert.equal(h.line.hidden, false);
+        assert.equal(h.line.textContent, '当前归属 · ' + label);
+        assert.equal(h.line.getAttribute('data-hd-report-person'), '4');
+        assert.equal(h.line.getAttribute('data-hd-report-ownership'), kind);
+        assert.equal(h.line.children.length, 0);
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('person report identity retires for non-person, incomplete and non-original reports', () => {
+    const changes = [h => h.report.active = 0, h => h.report.kind = 1,
+        h => h.report.person = 65535, h => h.report.person = 200,
+        h => h.data.g_hdReportGbk = '旧异步缓存', h => h.data.g_hdReportInputSeq++,
+        h => h.identity.sha256 = 'unknown-library', h => h.identity.generation = 0,
+        h => h.context.baye.getPersonCount = () => 786, h => h.data.g_Persons.length = 200,
+        h => h.data.g_Persons[4].Belong = false, h => h.data.g_Persons[4].Belong = '',
+        h => h.data.g_Persons[4].Belong = 999, h => h.data.g_hdEngineReady = 0];
+    for (const change of changes) {
+        const h = personReportFixture(); assert.equal(h.line.hidden, false);
+        change(h); h.observe();
+        assert.equal(h.line.hidden, true); assert.equal(h.line.textContent, '');
+        assert.equal(h.line.getAttribute('data-hd-report-person'), null);
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('person report identity refuses torn callbacks and recovers after getter reentry', () => {
+    const changes = [h => { h.report.seq++; h.data.g_hdReportSeq++; },
+        h => { h.report.inputSeq++; h.data.g_hdReportInputSeq++; },
+        h => { h.report.person = h.data.g_hdReportPerson = 0; },
+        h => { h.report.text = h.data.g_hdReportGbk = '更新后的原生报告'; },
+        h => h.data.g_Persons[4].Belong = 65535, h => h.data.g_PIdx = 1,
+        h => h.identity.generation++, h => h.identity.sha256 = 'changed-library',
+        h => h.context.baye.data = {...h.context.baye.data},
+        h => h.data.g_Persons = h.data.g_Persons.slice(),
+        h => { const f = h.context.baye.getPersonName; h.context.baye.getPersonName = id => f(id); },
+        h => h.context.baye.getPersonCount = () => 200,
+        h => h.context.baye.hd.report = () => ({...h.report}),
+        h => h.context.baye.hooks = {getPersonName: () => '自定义姓名'}];
+    for (const change of changes) {
+        const h = personReportFixture(), original = h.context.baye.personOwnership;
+        let once = true;
+        h.context.baye.personOwnership = (...args) => {
+            if (once) { once = false; change(h); }
+            return original(...args);
+        };
+        h.context.BayeHdDialog.onEngineReport();
+        assert.equal(h.line.hidden, true); assert.equal(h.line.textContent, '');
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    }
+    // The final callback must not be able to publish an already retired value.
+    const lateChanges = [h => h.data.g_Persons[4].Belong = 65535,
+        h => h.identity.generation++, h => h.identity.sha256 = 'late-library',
+        h => h.identity.status = 'pending', h => h.data.g_PIdx = 1,
+        h => { h.report.seq++; h.data.g_hdReportSeq++; },
+        h => { h.report.inputSeq++; h.data.g_hdReportInputSeq++; },
+        h => { h.report.text = h.data.g_hdReportGbk = '末次回调后的新报告'; },
+        h => h.context.BayeHdLibIdentity.isCurrent = () => false];
+    for (const change of lateChanges) {
+        const h = personReportFixture(), original = h.context.baye.personOwnership;
+        let calls = 0;
+        h.context.baye.personOwnership = (...args) => {
+            if (++calls === 3) change(h);
+            return original(...args);
+        };
+        h.context.BayeHdDialog.onEngineReport();
+        assert.equal(calls, 3); assert.equal(h.line.hidden, true); assert.equal(h.line.textContent, '');
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    }
+    const h = personReportFixture(), original = h.context.baye.personOwnership;
+    let once = true;
+    h.context.baye.personOwnership = (...args) => {
+        if (once) { once = false; h.context.BayeHdDialog.poll(); }
+        return original(...args);
+    };
+    h.context.BayeHdDialog.onEngineReport(); assert.equal(h.line.hidden, true);
+    h.context.BayeHdDialog.onEngineReport();
+    assert.equal(h.line.hidden, false); assert.equal(h.line.textContent, '当前归属 · 在野');
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});
+
+test('person report identity observation is read-only and preserves the one-shot confirmation', () => {
+    const h = personReportFixture(65535), body = h.report.text;
+    for (let i = 0; i < 12; i++) h.observe();
+    assert.equal(h.line.textContent, '当前归属 · 俘虏');
+    assert.equal(h.nodes['hd-dialog-body'].textContent, body);
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    h.click('data-hd-dlg-ok'); h.click('data-hd-dlg-ok');
+    assert.deepEqual(h.sent, [0x27]); assert.deepEqual(h.writes, []);
+    h.report.active = h.data.g_hdReportActive = 0; h.data.g_asyncActionID = 0;
+    h.observe(); assert.equal(h.line.hidden, true); assert.equal(h.line.textContent, '');
 });
 
 function mobileReportFixture() {

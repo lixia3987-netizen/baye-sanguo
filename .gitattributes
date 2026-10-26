@@ -727,3 +727,6 @@
 /docs/validation/m5-captive-person-20261026-v73*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-captive-person-20261026-v73*.md -text whitespace=cr-at-eol
 /docs/validation/m5-captive-person-20261026-v73*.png -text
+
+# Preserve the lightweight native-report targeted test output.
+/docs/validation/m5-report-identity-20261026-v74.tap -text

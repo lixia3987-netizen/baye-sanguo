@@ -358,6 +358,103 @@
         return !!(a && b && a.seq === b.seq && a.inputSeq === b.inputSeq);
     }
 
+    var reportIdentityReading = false, reportIdentityEpoch = 0;
+    function readReportIdentity() {
+        if (reportIdentityReading) { reportIdentityEpoch += 1; return null; }
+        reportIdentityReading = true;
+        var epoch = ++reportIdentityEpoch;
+        try {
+            if (!state.open || state.kind !== 'report' || document.hidden || !shouldShowHd() || !hdReady()) { return null; }
+            var api = global.BayeHdLibIdentity, b = global.baye, hd = b && b.hd, data = engineData();
+            if (!api || typeof api.read !== 'function' || typeof api.isCurrent !== 'function' || !hd || !data ||
+                typeof hd.report !== 'function' || typeof b.getPersonName !== 'function' ||
+                typeof b.getPersonCount !== 'function' || typeof b.personOwnership !== 'function') { return null; }
+            var getIdentity = api.read, isCurrentIdentity = api.isCurrent;
+            var library = getIdentity.call(api), people = data.g_Persons, hooks = b.hooks;
+            var libraryKey = library && JSON.stringify([library.status, library.sha256, library.byteLength, library.generation]);
+            var getReport = hd.report, getName = b.getPersonName, getCount = b.getPersonCount, ownership = b.personOwnership;
+            if (!library || library.status !== 'ready' || library.byteLength !== 207195 ||
+                library.sha256 !== '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
+                !helpInteger(library.generation, 1, 0xffffffff) || isCurrentIdentity.call(api, library) !== true ||
+                !people || people.length !== 2000 || hooks && typeof hooks.getPersonName === 'function') { return null; }
+            function sample() {
+                var period = data.g_PIdx, published = getReport.call(hd);
+                if (getCount.call(b) !== 200 || !helpInteger(period, 1, 4) || !published) { return null; }
+                var r = { active: published.active, kind: published.kind, person: published.person,
+                    seq: published.seq, inputSeq: published.inputSeq, text: published.text };
+                if (!r || r.active !== 1 || r.kind !== 2 || !helpInteger(r.person, 0, 199) ||
+                    !helpInteger(r.seq, 1, 0xffffffff) || !helpInteger(r.inputSeq, 1, 0xffffffff) ||
+                    !state.reportOwner || state.reportOwner.seq !== r.seq || state.reportOwner.inputSeq !== r.inputSeq ||
+                    typeof r.text !== 'string' || !r.text || r.text !== state.body || data.g_hdEngineReady !== 1 ||
+                    data.g_hdReportActive !== 1 || data.g_hdReportKind !== 2 || data.g_hdReportPerson !== r.person ||
+                    data.g_hdReportSeq !== r.seq || data.g_hdReportInputSeq !== r.inputSeq || data.g_hdReportGbk !== r.text) { return null; }
+                var person = people[r.person], belong = person && person.Belong;
+                if (belong && typeof belong === 'object' && 'value' in belong) { belong = belong.value; }
+                if (typeof belong !== 'number' && (typeof belong !== 'string' || !belong.trim())) { return null; }
+                belong = Number(belong);
+                if (!person || !helpInteger(belong, 0, 65535)) { return null; }
+                var name = getName.call(b, r.person), owner = ownership.call(b, belong, r.person);
+                var kind = belong === 0 ? 'free' : belong === 65535 ? 'captive' : belong === r.person + 1 ? 'lord' : 'owned';
+                if (typeof name !== 'string' || !name.trim() || name === '-' || name !== state.title ||
+                    !owner || owner.kind !== kind || owner.value !== belong ||
+                    typeof owner.label !== 'string' || !owner.label.trim() || owner.label === '归属未知') { return null; }
+                return { person: person, key: JSON.stringify([r.seq, r.inputSeq, r.kind, r.person, r.text,
+                    period, belong, name, owner.kind, owner.label]), personId: r.person, kind: kind, label: owner.label,
+                    native: r, period: period, belong: belong };
+            }
+            var before = sample(), after = sample();
+            var current = getIdentity.call(api);
+            if (!before || !after || before.person !== after.person || before.key !== after.key ||
+                !current || JSON.stringify([current.status, current.sha256, current.byteLength, current.generation]) !== libraryKey ||
+                isCurrentIdentity.call(api, library) !== true ||
+                epoch !== reportIdentityEpoch || !state.open || state.kind !== 'report' || document.hidden || !shouldShowHd() ||
+                global.BayeHdLibIdentity !== api || global.baye !== b || b.hd !== hd || engineData() !== data ||
+                data.g_Persons !== people || people[after.personId] !== after.person || b.hooks !== hooks ||
+                hd.report !== getReport || b.getPersonName !== getName || b.getPersonCount !== getCount || b.personOwnership !== ownership) { return null; }
+            // Bind the published line to the same native wait after all bridge callbacks.
+            var finalSample = sample();
+            current = getIdentity.call(api);
+            var stillCurrent = isCurrentIdentity.call(api, library);
+            var belongNow = after.person.Belong;
+            if (belongNow && typeof belongNow === 'object' && 'value' in belongNow) { belongNow = belongNow.value; }
+            if (typeof belongNow !== 'number' && (typeof belongNow !== 'string' || !belongNow.trim())) { return null; }
+            // No name/ownership/identity callbacks after this raw native seal.
+            var rawReport = [data.g_hdReportActive, data.g_hdReportKind, data.g_hdReportPerson,
+                data.g_hdReportSeq, data.g_hdReportInputSeq, data.g_hdReportGbk];
+            var sealed = finalSample && data.g_hdEngineReady === 1 && data.g_PIdx === finalSample.period &&
+                Number(belongNow) === finalSample.belong && stillCurrent === true && current &&
+                JSON.stringify([current.status, current.sha256, current.byteLength, current.generation]) === libraryKey &&
+                JSON.stringify([library.status, library.sha256, library.byteLength, library.generation]) === libraryKey &&
+                JSON.stringify(rawReport) === JSON.stringify([1, 2, finalSample.personId,
+                    finalSample.native.seq, finalSample.native.inputSeq, finalSample.native.text]);
+            return finalSample && finalSample.key === after.key && finalSample.person === after.person &&
+                sealed && api.read === getIdentity && api.isCurrent === isCurrentIdentity &&
+                global.BayeHdLibIdentity === api && global.baye === b && b.hd === hd && b.data === data &&
+                data.g_Persons === people && people[after.personId] === after.person && b.hooks === hooks &&
+                hd.report === getReport && b.getPersonName === getName && b.getPersonCount === getCount && b.personOwnership === ownership &&
+                (!hooks || typeof hooks.getPersonName !== 'function') &&
+                !document.hidden && state.open && state.kind === 'report' && state.body === finalSample.native.text &&
+                state.reportOwner && state.reportOwner.seq === finalSample.native.seq &&
+                state.reportOwner.inputSeq === finalSample.native.inputSeq && epoch === reportIdentityEpoch ? after : null;
+        } catch (e) { return null; }
+        finally { reportIdentityReading = false; }
+    }
+
+    function renderReportIdentity() {
+        var node = el('hd-dialog-person-identity');
+        if (!node) { return; }
+        node.hidden = true;
+        node.textContent = '';
+        node.removeAttribute('data-hd-report-person');
+        node.removeAttribute('data-hd-report-ownership');
+        var identity = readReportIdentity();
+        if (!identity) { return; }
+        node.textContent = '当前归属 · ' + identity.label;
+        node.setAttribute('data-hd-report-person', String(identity.personId));
+        node.setAttribute('data-hd-report-ownership', identity.kind);
+        node.hidden = false;
+    }
+
     function isBlockingKeyboard() {
         return !!(!mobileCityMarchOwner() && shouldShowHd() && state.open && (
             state.kind === 'report' && sameReport(state.reportOwner, nativeReportOwner(readAsync())) ||
@@ -996,6 +1093,7 @@
 
     function render() {
         applyChrome();
+        renderReportIdentity();
         if (!(state.open && shouldShowHd())) {
             return;
         }
@@ -1666,6 +1764,7 @@
         state.successorOwner = null;
         state.defenseOwner = null;
         applyChrome();
+        renderReportIdentity();
         document.documentElement.setAttribute('data-baye-dialog-pass', '0');
         if (!opts.silent) {
             console.log('[hd-dialog] close');

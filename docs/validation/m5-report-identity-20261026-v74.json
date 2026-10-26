@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V74",
+  "parentCommit": "78af8124276deada9607c229c0a644f1f78b99f7",
+  "feature": "Current speaker ownership in original-library native person reports",
+  "validationPolicy": "Targeted checks for development; full suite, visual matrix and tuning deferred at user request",
+  "accepted": true,
+  "started": "2026-10-26T07:18:42.531Z",
+  "finished": "2026-10-26T07:18:46.581Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 291,
+  "pass": 291,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": "js/hd-dialog.js",
+      "bytes": 145114,
+      "sha256": "eea1c276fdf857b4da6c37275ccd6386c95520a583a10ab6efd93e210a216576"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 163348,
+      "sha256": "46d7873f4a690079bc2ea82c20f1fd607dcad59c9a34d8e333d99ab27526cf4b"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 474100,
+      "sha256": "8c98904e34836758876bad5dc37b58492e78004b073c4ce8b965eb6c455df84b"
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 82376,
+      "sha256": "4bab92af6cf75284f640be745d2f234bee9ad38d12473ca84fa7ac0b95ae29d9"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 36222,
+      "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+    },
+    {
+      "path": "js/hd-mobile-portraits.js",
+      "bytes": 24568,
+      "sha256": "e390eb2b07f4102576a425305c9a626bc4ac1f64b1935581346edd84527b964f"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 28769,
+      "sha256": "e9d206c9148494a751eeaa5c01d55b13466b73fc8b0d3d65c7e97d734f83a5dc"
+    },
+    {
+      "path": "m.html",
+      "bytes": 18580,
+      "sha256": "b72c08d44a1715b92a11df79c5cea2a4bcb21e7b49b0b371b319317cf59d46c3"
+    },
+    {
+      "path": "scripts/test-hd-dialog-routing.mjs",
+      "bytes": 115911,
+      "sha256": "f2036bb4bddd9b80c4f7924f01b6aeffdaacecd5d57fc3fd8c7aa37fa6d65186"
+    },
+    {
+      "path": "scripts/test-hd-ownership.mjs",
+      "bytes": 5983,
+      "sha256": "5f7dcc52bf904bbbaf02ca4fb05ca7e3c10ca7f5a4f87a59fe31f7c0905dd7ce"
+    },
+    {
+      "path": "scripts/test-hd-mobile-portraits.mjs",
+      "bytes": 31280,
+      "sha256": "74039e6bb55db925cce0a0275ec659cc0cf611bfc8c797b31bd74093e26d5cd1"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "sourceOverrideEnvironmentCleared": true,
+  "scope": "Three relevant unit modules; no full suite or browser acceptance",
+  "fullSuiteRun": false,
+  "browserRuns": 0,
+  "nativeInputs": 0,
+  "globalHdComplete": false,
+  "stdout": {
+    "path": "docs/validation/m5-report-identity-20261026-v74.tap",
+    "bytes": 63950,
+    "sha256": "fe3d79cdd11614bd95cab658ab2ddd208e9650a5fe10e403cee9163579176ae3"
+  },
+  "stderrEmpty": true,
+  "terminalEvidence": {
+    "toolChunk": "1a02aa",
+    "wrapperExitCode": 0,
+    "childExitCode": 0
+  },
+  "newDefaultTests": 4,
+  "defaultRegisteredFilesChanged": false,
+  "staticPeerReview": {
+    "verdict": "GO",
+    "independentReviewer": true,
+    "newExecution": false
+  },
+  "retainedFirstAttempt": {
+    "wrapperAccepted": false,
+    "wrapperExitCode": 1,
+    "childExitCode": 0,
+    "tests": 291,
+    "pass": 291,
+    "fail": 0,
+    "reason": "The child used the spec reporter; the TAP-only receipt parser rejected it.",
+    "result": "build/report-identity-20261026-v74/targeted-v1.json",
+    "stdout": "build/report-identity-20261026-v74/targeted-v1.stdout.tap",
+    "rawTool": "build/report-identity-20261026-v74/raw-light-checks-terminal-v1.json"
+  },
+  "oldHeldNativeInputs": 0,
+  "oldHeldRestarted": false,
+  "engineRebuilt": false,
+  "actualFreePersonDiscoveryAccepted": false,
+  "actualCaptiveReportAccepted": false,
+  "pcVisualAccepted": false,
+  "mobileVisualAccepted": false,
+  "physicalDeviceAccepted": false,
+  "performanceAccepted": false
+}
