@@ -28,6 +28,7 @@
     var sysMenuBinding = null, modeEpoch = 0, pollId = 0, commandTimer = 0, terrainSession = 0;
     var mobileHost = null, mobileMode = 'auto', mobileLifecycleBound = false, mobileRendering = false;
     var mobileRenderOwner = null;
+    var pcNextPress = null;
 
     function el(id) { return document.getElementById(id); }
     function readStorage(key, fallback) {
@@ -153,6 +154,46 @@
         return !!(unit && unit.side === 'player' && unit.active === 0 &&
             unit.state !== 8 && unit.state !== 1 && unit.state !== 6);
     }
+    function nextWaitingUnit(snap) {
+        if (!state.open || state.preview || state.showLcd || document.hidden || state.transaction ||
+            !snap || !snap.ready || snap.kind !== INPUT.PICK || !snap.fight ||
+            snap.fight.wait !== 1 || snap.fight.phase !== 1 || snap.menu && snap.menu.active ||
+            state.lastCommit && state.lastCommit.epoch === modeEpoch && state.lastCommit.seq === snap.seq) { return null; }
+        var bounds = state.terrain;
+        if (!bounds || !(bounds.width > 0) || !(bounds.height > 0)) { return null; }
+        var focused = snap.focus && unitAt(snap.focus.x,snap.focus.y), anchor = focused && focused.i < 10 ? focused.i : -1;
+        for (var offset = 1; offset <= 10; offset++) {
+            var slot = (anchor + offset) % 10;
+            for (var index = 0; index < state.units.length; index++) {
+                var unit = state.units[index];
+                if (unit.i === slot && selectable(unit) && Number.isInteger(unit.x) && Number.isInteger(unit.y) &&
+                    unit.x >= 0 && unit.y >= 0 && unit.x < bounds.width && unit.y < bounds.height && unitAt(unit.x,unit.y) === unit) { return unit; }
+            }
+        }
+        return null;
+    }
+    function canSelectNextUnit() { return !!nextWaitingUnit(inputSnapshot()); }
+    function clickNextUnit(ticket) {
+        var before = inputSnapshot(), b = global.baye, data = b && b.data, lib = global.dynLib;
+        if (!nextWaitingUnit(before)) { return reject('not-picking-next-unit'); }
+        if (mobileHost && !sameMobileTicket(ticket,getInputTicket(),true)) { return reject('mobile-owner-changed'); }
+        refresh();
+        var snap = inputSnapshot(), unit = nextWaitingUnit(snap);
+        if (!unit || global.baye !== b || b.data !== data || global.dynLib !== lib || snap.seq !== before.seq ||
+            snap.actor !== before.actor || snap.kind !== before.kind || !snap.focus || !before.focus ||
+            snap.focus.x !== before.focus.x || snap.focus.y !== before.focus.y ||
+            mobileHost && !sameMobileTicket(ticket,getInputTicket(),true)) { return reject('next-unit-owner-changed'); }
+        return beginRequest('tile',{x:unit.x,y:unit.y,unitSlot:unit.i,personId:unit.id},snap);
+    }
+    function pcNextTicket(node) {
+        var snap = inputSnapshot(), unit = nextWaitingUnit(snap), b = global.baye;
+        if (!unit || !node || node.disabled) { return null; }
+        var data = b && b.data, rect = node.getBoundingClientRect && node.getBoundingClientRect();
+        return {node:node,b:b,data:data,lib:global.dynLib,key:JSON.stringify([modeEpoch,snap.seq,snap.actor,
+            snap.focus && snap.focus.x,snap.focus && snap.focus.y,unit.i,unit.id,unit.x,unit.y,
+            data && data.g_hdDetailGeneration,rect && [rect.left,rect.top,rect.width,rect.height]])};
+    }
+    function samePcNextTicket(a,b) { return !!(a && b && a.node === b.node && a.b === b.b && a.data === b.data && a.lib === b.lib && a.key === b.key); }
     function actorUnit(index) {
         for (var i = 0; i < state.units.length; i += 1) {
             if (state.units[i].i === index && state.units[i].state !== 8) { return state.units[i]; }
@@ -376,6 +417,7 @@
         if (commandTimer) { global.clearTimeout(commandTimer); commandTimer = 0; }
     }
     function invalidateHdWork() {
+        pcNextPress = null;
         modeEpoch += 1;
         mobileRenderOwner = null;
         clearTerrainPaint();
@@ -481,7 +523,9 @@
             if (snap.focus.x === transaction.x && snap.focus.y === transaction.y) {
                 if (transaction.type === 'focus') { finishRequest('acknowledged'); refresh(); return; }
                 refresh();
-                if (!legalEnter({ x: transaction.x, y: transaction.y }, unitAt(transaction.x, transaction.y), snap.fight)) {
+                var targetUnit = unitAt(transaction.x,transaction.y);
+                if (transaction.unitSlot != null && (!targetUnit || targetUnit.i !== transaction.unitSlot || targetUnit.id !== transaction.personId) ||
+                    !legalEnter({ x: transaction.x, y: transaction.y }, targetUnit, snap.fight)) {
                     finishRequest('target-changed'); return;
                 }
                 sendRequestKey(transaction, VK.ENTER); return;
@@ -758,6 +802,8 @@
         var banner = el('hd-battle-result');
         if (banner) { banner.hidden = true; }
         if (root && root.querySelectorAll) {
+            var nextButtons = root.querySelectorAll('[data-hd-battle-next]'), nextAvailable = !!nextWaitingUnit(snap);
+            for (var n = 0; n < nextButtons.length; n++) { nextButtons[n].disabled = !nextAvailable; }
             var buttons = root.querySelectorAll('[data-hd-battle-sys]');
             for (var j = 0; j < buttons.length; j += 1) {
                 buttons[j].disabled = !!state.transaction || !snap.ready || (snap.kind !== INPUT.PICK && snap.kind !== INPUT.SYSTEM);
@@ -815,6 +861,7 @@
         state.visibilityBound = true;
         document.addEventListener('visibilitychange', function () {
             if (document.hidden) {
+                pcNextPress = null;
                 renderFocusCard(false);
                 if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
                 return;
@@ -967,10 +1014,32 @@
         var root = el('hd-battle');
         if (!root) { return; }
         state.bound = true;
+        root.addEventListener('pointerdown',function (event) {
+            pcNextPress = null;
+            if (event.isTrusted !== true || event.isPrimary !== true || event.button !== 0) { return; }
+            for (var node = event.target; node && node !== root; node = node.parentNode) {
+                if (node.getAttribute && node.getAttribute('data-hd-battle-next') != null) {
+                    var ticket = pcNextTicket(node);
+                    if (ticket) { pcNextPress = {ticket:ticket,x:event.clientX,y:event.clientY}; }
+                    return;
+                }
+            }
+        });
+        root.addEventListener('pointercancel',function () { pcNextPress = null; });
+        root.addEventListener('lostpointercapture',function () { pcNextPress = null; });
+        if (global.addEventListener) {
+            ['blur','pagehide','resize'].forEach(function (name) { global.addEventListener(name,function () { pcNextPress = null; }); });
+        }
         root.addEventListener('click', function (event) {
             var node = event.target;
             while (node && node !== root) {
                 if (node.getAttribute) {
+                    if (node.getAttribute('data-hd-battle-next') != null) {
+                        var press = pcNextPress; pcNextPress = null;
+                        if (!node.disabled && event.isTrusted === true && (event.detail === 0 || press &&
+                            Math.hypot(event.clientX-press.x,event.clientY-press.y) <= 10 && samePcNextTicket(press.ticket,pcNextTicket(node)))) { clickNextUnit(); }
+                        event.preventDefault(); return;
+                    }
                     if (node.getAttribute('data-hd-battle-lcd') != null) {
                         state.showLcd = !state.showLcd; applyChrome(); event.preventDefault(); return;
                     }
@@ -1553,6 +1622,7 @@
         enter: enterBattle, close: closeBattle, prepareNewFight: prepareNewFight,
         onEngineHook: onEngineHook, onEngineFight: onEngineFight, occupyBusy: function () { return false; },
         clickTile: clickBattleTile,
+        canSelectNextUnit: canSelectNextUnit, clickNextUnit: clickNextUnit,
         clickOwnUnit: function () {
             refresh();
             for (var i = 0; i < state.units.length; i += 1) {

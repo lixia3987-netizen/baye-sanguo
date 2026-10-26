@@ -745,3 +745,8 @@
 /css/hd-battle.css text eol=lf
 /css/hd-mobile.css text eol=lf
 /scripts/test-hd-battle-commands.mjs text eol=lf
+/scripts/test-hd-battle-mobile-host.mjs text eol=lf
+
+/js/hd-mobile-battle.js text eol=lf
+
+/scripts/test-hd-mobile-battle.mjs text eol=lf

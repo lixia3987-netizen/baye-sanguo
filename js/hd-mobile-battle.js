@@ -160,15 +160,20 @@
                 if(p.tagName==='BUTTON'){
                     if(p.id==='hd-mobile-battle-mode'){return {type:'mode',target:p};}
                     if(p.id==='hd-mobile-battle-focus'){return {type:'focus',target:p};}
-                    for(var name of ['menu','sys','cancel','menu-exit','help','view']){if(p.getAttribute('data-hd-battle-'+name)!==null){return {type:name,target:p};}}
+                    for(var name of ['menu','sys','cancel','menu-exit','help','view','next']){if(p.getAttribute('data-hd-battle-'+name)!==null){return {type:name,target:p};}}
                 }
             }return null;
         }
         function stop(e) {if(e.cancelable!==false){e.preventDefault();}if(e.stopImmediatePropagation){e.stopImmediatePropagation();}else if(e.stopPropagation){e.stopPropagation();}}
+        function canNext(t) {
+            try {var b=battle();return !!(t && t.kind===1 && b && typeof b.clickNextUnit==='function' &&
+                typeof b.canSelectNextUnit==='function' && b.canSelectNextUnit()===true);}catch(e){return false;}
+        }
         function inputTicket(hit) {
             if(hit.type==='detail'){var d=dialog();return d && d.getBattleLcdPresentation && d.getBattleLcdPresentation()==='off'?detailTicket():null;}
             var t=readNativeTicket();if(!t){return null;}
             if((hit.type==='help'||hit.type==='view') && [1,2,5].indexOf(t.kind)<0){return null;}
+            if(hit.type==='next' && (hit.target.disabled || !canNext(t))){return null;}
             return hit.type==='mode'?t:t.presentation==='hd' && sharedShowsHd() && renderMatches(lastRender,t) && battle() && battle().getInputTicket?battle().getInputTicket():null;
         }
         function clampCamera(t) {if(!camera){return;}camera.x=Math.max(0,Math.min(camera.x,Math.max(0,t.native.fight.mapW-camera.cols)));camera.y=Math.max(0,Math.min(camera.y,Math.max(0,t.native.fight.mapH-camera.rows)));}
@@ -203,6 +208,7 @@
             if(hit.type==='help'||hit.type==='view'){b.handleKey({key:hit.type==='help'?'h':'s',keyCode:hit.type==='help'?72:83,
                 target:doc().body,preventDefault:function(){},stopPropagation:function(){},stopImmediatePropagation:function(){}});refresh();return;}
             if(hit.type==='focus'){lastFocus='';render(lastRender);return;}
+            if(hit.type==='next'){if(typeof b.clickNextUnit==='function'){b.clickNextUnit(ticket);}refresh();return;}
             if(hit.type==='sys'){b.openSystemMenu();}
             if(hit.type==='cancel' || hit.type==='menu-exit'){b.cancel();}
             if(hit.type==='menu'){b.pickMenu(Number(hit.target.getAttribute('data-hd-battle-menu')));}
@@ -244,6 +250,7 @@
             var mode=node('hd-mobile-battle-mode');if(mode){mode.textContent=battle() && battle().getMode()==='classic'?'HD战场':'经典战场';}
             var toggle=node('hd-mobile-battle-toggle');if(toggle){toggle.hidden=!active;toggle.textContent=mode?mode.textContent:'HD战场';toggle.setAttribute('aria-pressed',presentation==='hd'?'true':'false');}
             ['help','view'].forEach(function(name){var n=root && root.querySelector('[data-hd-battle-'+name+']');if(n){var t=readNativeTicket();n.disabled=presentation!=='hd'||!t||[1,2,5].indexOf(t.kind)<0;}});
+            var next=root && root.querySelector('[data-hd-battle-next]');if(next){next.disabled=presentation!=='hd'||!canNext(readNativeTicket());}
         }
         function sharedShowsHd() {
             var b=battle();return !!(b && typeof b.getLcdPresentation==='function' && b.getLcdPresentation()==='off');

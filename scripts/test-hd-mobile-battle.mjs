@@ -9,9 +9,9 @@ const ORIGINAL_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a2747
 
 function fixture() {
     const listeners = new Map(), globalListeners = new Map(), timers = new Map(), nodes = new Map();
-    const counts = {actions: [], retired: [], configured: [], keys: [], writes: [], serialized: 0, paints: [], modes: [], sharedReads: 0};
+    const counts = {actions: [], nextTickets: [], retired: [], configured: [], keys: [], writes: [], serialized: 0, paints: [], modes: [], sharedReads: 0};
     const state = {ready: true, menuNames: [], menuHook: null, fightHook: null, readyHook: null,
-        identityHook: null, skillsHook: null, skillsOverride: null, top: null, styleHook: null, mode: 'auto', showLcd: false, data: null};
+        identityHook: null, skillsHook: null, skillsOverride: null, top: null, styleHook: null, mode: 'auto', showLcd: false, data: null, nextAvailable: true};
     let identity = {status: 'ready', sha256: ORIGINAL_SHA, byteLength: 207195, generation: 3};
     const storage = new Map([['baye/battleMode', 'classic'], ['baye/overworldMode', 'classic']]);
     function on(map, name, fn, capture) {
@@ -72,6 +72,7 @@ function fixture() {
     const cancel = element('cancel-button', 'BUTTON', footer, {left: 130, top: 346, width: 110, height: 44}); cancel.setAttribute('data-hd-battle-cancel', '');
     const mode = element('hd-mobile-battle-mode', 'BUTTON', footer, {left: 250, top: 346, width: 110, height: 44});
     const focus = element('hd-mobile-battle-focus', 'BUTTON', footer, {left: 370, top: 346, width: 110, height: 44});
+    const next = element('next-unit-button', 'BUTTON', footer, {left: 490, top: 346, width: 110, height: 44}); next.setAttribute('data-hd-battle-next', '');
     const outside = element('outside', 'DIV', body, {left: 0, top: 0, width: 844, height: 52});
     const headerMode = element('hd-mobile-battle-toggle', 'BUTTON', outside, {left: 650, top: 4, width: 180, height: 44});
     const lcd = element('lcd', 'CANVAS', body, {left: 0, top: 52, width: 640, height: 294});
@@ -132,6 +133,8 @@ function fixture() {
         cancelInteraction(reason){counts.retired.push(reason);},
         clickTile(x,y){counts.actions.push(['tile',x,y]);return {ok:true};},pickMenu(index){counts.actions.push(['menu',index]);return {ok:true};},
         focusTile(x,y){counts.actions.push(['focus-tile',x,y]);return {ok:true};},
+        canSelectNextUnit:()=>state.nextAvailable,
+        clickNextUnit(ticket){counts.actions.push(['next']);counts.nextTickets.push(ticket);return {ok:true};},
         openSystemMenu(){counts.actions.push(['system']);return {ok:true};},cancel(){counts.actions.push(['cancel']);return {ok:true};},
         returnFromHelp(){counts.actions.push(['return-help']);return {ok:true};},viewKey(code){counts.actions.push(['view',code]);return {ok:true};},
         handleKey(event){counts.actions.push(['keyboard',event.key]);return true;},
@@ -185,10 +188,10 @@ function fixture() {
         raw.g_hdMenuKind=kind;raw.g_hdMenuCount=names.length;raw.g_hdMenuIndex=0;state.menuNames=[...names];render();host.refresh();}
     render();counts.paints.length=counts.retired.length=counts.writes.length=0;
     return {host,window,document,raw,data,state,identity:patch=>{identity={...identity,...patch};},counts,storage,nodes,timers,listeners,
-        root,board,canvas,side,sys,cancel,mode,headerMode,focus,outside,lcd,list,title,menu,menuExit,shared,fire,globalEvent,nativeMenu,element,
+        root,board,canvas,side,sys,cancel,mode,headerMode,focus,next,outside,lcd,list,title,menu,menuExit,shared,fire,globalEvent,nativeMenu,element,
         tap(target=canvas,values={}){fire('pointerdown',target,values);fire('pointerup',target,values);fire('click',target,values);},
         render,renderPayload,
-        clean(){counts.actions.length=counts.keys.length=counts.retired.length=counts.writes.length=0;}};
+        clean(){counts.actions.length=counts.nextTickets.length=counts.keys.length=counts.retired.length=counts.writes.length=0;}};
 }
 
 function interactive(f) {
@@ -429,6 +432,41 @@ test('a trusted system button tap dispatches once while every compatibility clic
     const f=fixture();f.tap(f.sys);f.fire('click',f.sys);f.fire('click',f.sys,{isTrusted:false,detail:0});
     assert.deepEqual(f.counts.actions,[['system']]);assert.deepEqual(f.counts.keys,[]);assert.equal(f.counts.serialized,0);
 });
+test('next-unit control stays idle during rendering and forwards one current opaque ticket for a trusted PICK tap',()=>{
+    const f=fixture(),world=()=>JSON.stringify([f.raw.g_GenPos,f.raw.g_Persons,f.raw.g_FgtParam.GenArray,f.raw.g_FoucsX,f.raw.g_FoucsY]);
+    const before=world();f.host.refresh();
+    assert.equal(f.next.disabled,false);
+    for(let i=0;i<3;i++){f.render();f.host.refresh();}noAction(f);
+    const owner=interactive(f);f.tap(f.next);f.fire('click',f.next);f.fire('click',f.next,{isTrusted:false,detail:0});
+    assert.deepEqual(f.counts.actions,[['next']]);assert.equal(f.counts.nextTickets.length,1);
+    const ticket=f.counts.nextTickets[0];
+    for(const field of ['key','stableKey','libraryGeneration','kind','seq','actor'])assert.equal(ticket[field],owner[field]);
+    assert.equal(ticket.data,f.state.data);assert.equal(Object.keys(ticket).includes('data'),false);
+    assert.equal(world(),before);assert.equal(f.counts.serialized,0);assert.deepEqual(f.counts.keys,[]);assert.deepEqual(f.counts.writes,[]);
+});
+
+test('next-unit is disabled outside PICK HD or when the shared candidate API is unavailable',()=>{
+    const changes=[f=>f.state.nextAvailable=false,f=>delete f.shared.canSelectNextUnit,f=>delete f.shared.clickNextUnit,
+        f=>f.shared.canSelectNextUnit=()=>{throw Error('unavailable');},f=>f.state.showLcd=true,f=>f.state.mode='classic',
+        f=>f.raw.g_hdReportActive=1,f=>f.nativeMenu(3)];
+    for(const change of changes){const f=fixture();change(f);f.host.refresh();assert.equal(f.next.disabled,true);f.tap(f.next);noAction(f);}
+    for(const kind of [0,2,4,5,6,7,8,9,10]){
+        const f=fixture();f.raw.g_hdFightInputKind=kind;f.host.refresh();assert.equal(f.next.disabled,true);f.tap(f.next);noAction(f);
+    }
+});
+
+test('next-unit pointer cannot survive old owners, unavailable candidates, drag, disabled state or compatibility clicks',()=>{
+    const changes=[f=>f.raw.g_hdFightInputSeq++,f=>f.raw.g_FoucsX++,f=>f.identity({generation:4}),
+        f=>f.raw.g_hdReportActive=1,f=>f.state.nextAvailable=false,f=>f.next.disabled=true,
+        f=>f.next.rect.left++,f=>f.state.mode='classic',f=>f.document.hidden=true];
+    for(const change of changes){const f=fixture();f.host.refresh();f.fire('pointerdown',f.next);change(f);f.fire('pointerup',f.next);f.fire('click',f.next);noAction(f);}
+    const drag=fixture();drag.host.refresh();drag.fire('pointerdown',drag.next);drag.fire('pointermove',drag.next,{clientX:570});drag.fire('pointerup',drag.next);drag.fire('click',drag.next);noAction(drag);
+    const untrusted=fixture();untrusted.host.refresh();untrusted.tap(untrusted.next,{isTrusted:false});untrusted.fire('click',untrusted.next);noAction(untrusted);
+    const interrupted=fixture();interrupted.host.refresh();interrupted.fire('pointerdown',interrupted.next);interrupted.fire('pointercancel',interrupted.next);interrupted.fire('pointerup',interrupted.next);noAction(interrupted);
+    const f=fixture();f.host.refresh();f.fire('pointerdown',f.next);f.raw.g_hdFightInputSeq++;f.fire('pointerup',f.next);noAction(f);
+    f.render();f.host.refresh();f.tap(f.next);assert.deepEqual(f.counts.actions,[['next']]);
+});
+
 test('bare click or untrusted DOWN-UP cannot reach any shared action',()=>{
     const f=fixture();f.render();for(const target of [f.canvas,f.sys,f.cancel,f.mode]){
         assert.equal(f.fire('click',target,{isTrusted:false}).prevented,true);

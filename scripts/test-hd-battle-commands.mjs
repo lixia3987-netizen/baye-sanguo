@@ -1014,7 +1014,7 @@ test('setting owner, menu and source drift withdraw the note while native button
 
 // Mount the new PC-only detail surface without changing the original command
 // fixture. Native publications remain behind statusFixture's write traps.
-function focusFixture({canvas = false} = {}) {
+function focusFixture({canvas = false, nextButton = false} = {}) {
     const g = statusFixture(), mounted = new Map(), listeners = new Map(), paints = [];
     function make(tag = 'div') {
         const attrs = new Map(); let text = '';
@@ -1043,6 +1043,8 @@ function focusFixture({canvas = false} = {}) {
     const mount = (id, tag) => {const n = make(tag); n.id = id; mounted.set(id, n); return n;};
     const rootNode = mount('hd-battle'), rail = mount('hd-battle-rail'), card = mount('hd-battle-focus', 'section');
     rootNode.appendChild(rail); rail.appendChild(card); card.hidden = true;
+    const next = nextButton ? mount('next-unit', 'button') : null;
+    if (next) {next.setAttribute('data-hd-battle-next', ''); next.disabled = true; rootNode.appendChild(next);}
     if (canvas) {
         const board = mount('hd-battle-canvas', 'canvas'); rootNode.appendChild(board);
         board.getBoundingClientRect = () => ({left: 0, top: 0, width: 1000, height: 562.5, right: 1000, bottom: 562.5});
@@ -1054,12 +1056,16 @@ function focusFixture({canvas = false} = {}) {
     const previous = g.sandbox.document.getElementById;
     g.sandbox.document.getElementById = id => mounted.get(id) || previous(id);
     g.sandbox.document.createElement = make;
+    g.sandbox.document.addEventListener = g.sandbox.addEventListener = (type, fn) => listeners.set(type, [...listeners.get(type) || [], fn]);
     g.baye.getArmType = id => id === 0 ? 2 : 3;
     Object.assign(g.raw.g_GenPos[0], {hp: 65535, mp: 0}); g.raw.g_Persons[0].Arms = 0;
     g.api.start();
-    return Object.assign(g, {card, rail, rootNode, mounted, paints,
+    return Object.assign(g, {card, rail, rootNode, mounted, paints, next,
         fields() {return Object.fromEntries(card.querySelectorAll('[data-hd-focus-field]').map(row => [row.getAttribute('data-hd-focus-field'), row.querySelector('dd')?.textContent]));},
         click(target, coordinates = {}) {const event = {target, preventDefault() {}, ...coordinates}; for (const fn of listeners.get('click') || []) fn(event);},
+        fireRoot(type, target, values = {}) {const event = {target, isTrusted: true, isPrimary: true, pointerId: 1, button: 0, detail: 1,
+            clientX: 800, clientY: 100, preventDefault() {}, stopPropagation() {}, stopImmediatePropagation() {}, ...values};
+            for (const fn of listeners.get(type) || []) fn(event); return event;},
         name() {return card.querySelector('.hd-battle-focus-name')?.textContent;},
         identityText() {return card.querySelector('.hd-battle-focus-identity')?.textContent;}});
 }
@@ -1129,4 +1135,99 @@ test('PC sidebar reserves map pixels and canvas selection uses the same rendered
     assert.deepEqual(g.sent, [K.RIGHT]); const request = g.api.debugSnapshot().transaction;
     assert.equal(request?.type, 'tile'); assert.deepEqual([request.x, request.y], [4, 2]);
     assert.deepEqual(g.writes, []); // The one user request only dispatched its first arrow; no confirmation yet.
+});
+
+test('next waiting general follows native slot order, wraps after focus, and preserves the legacy first-general helper', () => {
+    const cases = [[1, 1, 4, 2], [4, 2, 6, 6], [6, 6, 1, 1], [3, 4, 1, 1], [5, 3, 1, 1]];
+    for (const [fx, fy, x, y] of cases) {
+        const g = game(); g.data.g_FgtParam.GenArray[9] = 4;
+        g.data.g_GenPos[9] = {x: 6, y: 6, hp: 0, mp: 0, active: 0, state: 3};
+        g.data.g_Persons.push({Arms: 0}); g.focus(fx, fy); g.api.recoverMenu();
+        const before = JSON.stringify(g.data);
+        for (let i = 0; i < 4; i++) assert.equal(g.api.canSelectNextUnit(), true);
+        assert.deepEqual(g.sent, []); assert.equal(JSON.stringify(g.data), before, 'availability is read-only and cannot advance a cursor');
+        assert.equal(g.api.clickNextUnit().ok, true);
+        const request = g.api.debugSnapshot().transaction;
+        assert.deepEqual([request.x, request.y], [x, y], 'sparse slot9 remains part of the original native order');
+    }
+    const old = game(); assert.equal(old.api.clickOwnUnit().ok, true); assert.deepEqual(old.sent, [K.ENTER]);
+    const next = game(); assert.equal(next.api.clickNextUnit().ok, true); assert.deepEqual(next.sent, [K.RIGHT]);
+});
+
+test('next-general candidates use C states, first occupant and native bounds without inventing positive HP or troop requirements', () => {
+    for (const change of [g => g.data.g_GenPos[1].active = 1,
+        ...[1, 6, 8].map(state => g => g.data.g_GenPos[1].state = state),
+        g => g.data.g_FgtParam.GenArray[1] = 0,
+        ...[[8, 2], [-1, 2], [1.5, 2], [4, 8]].map(([x, y]) => g => Object.assign(g.data.g_GenPos[1], {x, y})),
+        g => Object.assign(g.data.g_GenPos[1], {x: 1, y: 1})]) {
+        const g = game(); g.data.g_GenPos[0].active = 1; change(g); g.api.recoverMenu();
+        assert.equal(g.api.canSelectNextUnit(), false); assert.equal(g.api.clickNextUnit().ok, false);
+        assert.deepEqual(g.sent, [], 'a later same-position slot or extended visual map cannot bypass native PICK rules');
+    }
+    for (const state of [0, 2, 3, 4, 5, 7]) {
+        const g = game(); g.data.g_GenPos[0].active = 1;
+        Object.assign(g.data.g_GenPos[1], {state, hp: 0, mp: 0}); g.data.g_Persons[1].Arms = 0; g.api.recoverMenu();
+        assert.equal(g.api.canSelectNextUnit(), true, 'C permits this state without checking HP, MP or troops');
+        assert.equal(g.api.clickNextUnit().ok, true); assert.deepEqual(g.sent, [K.RIGHT]);
+    }
+});
+
+test('next-general availability and requests stay silent outside the current unoccupied PICK wait', () => {
+    const changes = [...[I.BUSY, I.MOVE, I.ACT, I.SKILL, I.AIM, I.SYS, I.RETREAT, I.SETTINGS, I.HELP, I.VIEW]
+        .map(kind => g => g.input(kind, kind === I.BUSY ? 255 : 0)),
+        g => g.menu.active = true, g => g.fight.wait = 0, g => g.fight.phase = 0,
+        g => g.baye.hd.ready = () => false, g => g.fight.active = 0, g => g.fight.over = 1,
+        g => g.baye.hd.report = () => ({active: 1}), g => g.sandbox.document.hidden = true,
+        g => g.api.setShowLcd(true), g => g.sandbox.localStorage.setItem('baye/battleMode', 'classic'),
+        g => g.api.debugPreview(), g => g.api.close({force: true})];
+    for (const change of changes) {
+        const g = game(); change(g); g.api.recoverMenu();
+        const world = () => JSON.stringify([g.data.g_Persons, g.data.g_GenPos, g.data.g_FgtParam, g.data.g_FoucsX, g.data.g_FoucsY, g.data.g_FgtOver]);
+        const before = world();
+        assert.equal(g.api.canSelectNextUnit(), false); assert.equal(g.api.clickNextUnit().ok, false);
+        g.poll(); g.tick(32); assert.deepEqual(g.sent, []); assert.equal(world(), before, 'ordinary mode-control retirement is separate from world state');
+    }
+    const g = game(); assert.equal(g.api.clickTile(4, 2).ok, true);
+    const sent = g.sent.slice(); assert.equal(g.api.canSelectNextUnit(), false); assert.equal(g.api.clickNextUnit().ok, false);
+    assert.deepEqual(g.sent, sent, 'a second control cannot replace or duplicate an in-flight selection');
+});
+
+test('next-general selection waits for actual arrow ACKs, confirms once and refuses a replacement target', () => {
+    const g = game(); assert.equal(g.api.clickNextUnit().ok, true); assert.deepEqual(g.sent, [K.RIGHT]);
+    for (let i = 0; i < 5; i++) g.tick(16); assert.deepEqual(g.sent, [K.RIGHT], 'timers cannot synthesize cursor progress');
+    g.focus(2, 1); g.tick(); g.focus(3, 1); g.tick(); g.focus(4, 1); g.tick();
+    assert.deepEqual(g.sent, [K.RIGHT, K.RIGHT, K.RIGHT, K.DOWN]);
+    g.focus(4, 2); g.tick(); assert.deepEqual(g.sent, [K.RIGHT, K.RIGHT, K.RIGHT, K.DOWN, K.ENTER]);
+    assert.equal(g.api.clickNextUnit().ok, false); g.tick(500); g.poll();
+    assert.equal(g.sent.filter(key => key === K.ENTER).length, 1);
+    for (const change of [h => h.data.g_FgtParam.GenArray[1] = 3,
+        h => {h.data.g_FgtParam.GenArray[1] = 0; h.data.g_FgtParam.GenArray[2] = 2; h.data.g_GenPos[2] = {...h.data.g_GenPos[1]};}]) {
+        const h = game(); assert.equal(h.api.clickNextUnit().ok, true);
+        h.focus(2, 1); h.tick(); h.focus(3, 1); h.tick(); h.focus(4, 1); h.tick();
+        change(h); h.focus(4, 2); h.tick();
+        assert.deepEqual(h.sent, [K.RIGHT, K.RIGHT, K.RIGHT, K.DOWN], 'same tile with another person or slot cannot consume the intended next-general confirmation');
+        assert.equal(h.api.debugSnapshot().transaction, null);
+    }
+});
+
+test('PC next-general button reflects availability and delegates only an explicit current click', () => {
+    const g = focusFixture({nextButton: true}); g.observe(); assert.equal(g.next.disabled, false);
+    const before = JSON.stringify(g.raw); for (let i = 0; i < 4; i++) {g.poll(); g.observe();}
+    assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []); assert.equal(JSON.stringify(g.raw), before);
+    g.fireRoot('pointerdown', g.next); g.fireRoot('click', g.next); assert.deepEqual(g.sent, [K.RIGHT]); g.observe(); assert.equal(g.next.disabled, true);
+    g.fireRoot('pointerdown', g.next); g.fireRoot('click', g.next); assert.deepEqual(g.sent, [K.RIGHT], 'pending duplicate clicks cannot advance another selection');
+    const h = focusFixture({nextButton: true}); h.raw.g_GenPos[0].active = h.raw.g_GenPos[1].active = 1; h.observe();
+    assert.equal(h.next.disabled, true); h.fireRoot('pointerdown', h.next); h.fireRoot('click', h.next); assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    for (const change of [p => {p.input(I.PICK); p.mirror(); p.observe();},
+        p => p.next.getBoundingClientRect = () => ({left: 721, top: 56, width: 260, height: 420, right: 981, bottom: 476}),
+        p => p.fireRoot('pointercancel', p.next), p => p.fireRoot('blur', p.next),
+        p => {p.sandbox.document.hidden = true; p.fireRoot('visibilitychange', p.rootNode); p.sandbox.document.hidden = false; p.observe();}]) {
+        const p = focusFixture({nextButton: true}); p.observe(); p.fireRoot('pointerdown', p.next); change(p); p.fireRoot('click', p.next);
+        assert.deepEqual(p.sent, [], 'an old press cannot select a general in a new owner, geometry or lifecycle'); assert.deepEqual(p.writes, []);
+    }
+    const plain = focusFixture({nextButton: true}); plain.observe(); plain.fireRoot('click', plain.next);
+    plain.fireRoot('pointerdown', plain.next, {isTrusted: false}); plain.fireRoot('click', plain.next, {isTrusted: false});
+    assert.deepEqual(plain.sent, [], 'mouse clicks require a current trusted press');
+    const keyboard = focusFixture({nextButton: true}); keyboard.observe(); keyboard.fireRoot('click', keyboard.next, {detail: 0});
+    assert.deepEqual(keyboard.sent, [K.RIGHT], 'browser keyboard activation enters the same current next-general request');
 });
