@@ -1005,6 +1005,27 @@
         if (mobileBattleHost) { renderBattlePortrait(body); }
     }
 
+    function renderTerrainHelp(body, detail) {
+        var key = JSON.stringify([state.viewEpoch,detail,state.body]), first = body.children && body.children[0];
+        if (body._hdTerrainView === key && first && first.getAttribute('data-hd-help-terrain') === String(detail.terrain)) { return; }
+        body._hdTerrainView = key; body.textContent = '';
+        var names = ['草地','平原','山地','森林','村庄','城池','营寨','河流'];
+        var symbols = ['草','田','山','林','村','城','营','水'];
+        var card = document.createElement('section'); card.className = 'hd-terrain-help-card';
+        card.setAttribute('data-hd-help-terrain',String(detail.terrain));
+        card.setAttribute('data-hd-help-x',String(detail.x)); card.setAttribute('data-hd-help-y',String(detail.y));
+        var header = document.createElement('div'); header.className = 'hd-terrain-help-header';
+        var symbol = document.createElement('span'); symbol.className = 'hd-terrain-help-symbol';
+        symbol.setAttribute('aria-hidden','true'); symbol.textContent = symbols[detail.terrain]; header.appendChild(symbol);
+        var identity = document.createElement('div');
+        var name = document.createElement('h2'); name.className = 'hd-help-name'; name.textContent = names[detail.terrain];
+        var position = document.createElement('p'); position.className = 'hd-help-summary';
+        position.textContent = '位置 ' + detail.x + ',' + detail.y;
+        identity.appendChild(name); identity.appendChild(position); header.appendChild(identity); card.appendChild(header);
+        var description = document.createElement('p'); description.className = 'hd-terrain-help-description';
+        description.textContent = state.body; card.appendChild(description); body.appendChild(card);
+    }
+
     function renderViewDetail(body, detail) {
         var token = viewToken(detail.owner), key = JSON.stringify([token, detail]);
         if (body._hdSituationView !== key) {
@@ -1122,6 +1143,8 @@
                 renderViewDetail(body, state.viewDetail);
             } else if (state.kind === 'help' && state.helpDetail && state.helpDetail.kind === 1) {
                 renderHelpDetail(body, state.helpDetail);
+            } else if (state.kind === 'help' && state.helpDetail && state.helpDetail.kind === 2) {
+                renderTerrainHelp(body, state.helpDetail);
             } else if (state.kind === 'defenders' && state.defenseOwner) {
                 if (body._hdDefendersView !== state.viewEpoch) {
                     body._hdDefendersView = state.viewEpoch;

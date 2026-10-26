@@ -10,6 +10,7 @@ function element(tagName = 'DIV') {
     const attrs = new Map(), listeners = new Map(), classes = new Set();
     let text = '';
     return { tagName, attrs, listeners, style: {}, parentElement: null, parentNode: null, children: [],
+        get firstChild() { return this.children[0] ?? null; },
         classList: { contains(key) { return classes.has(key); },
             toggle(key, on) { if (on) classes.add(key); else classes.delete(key); },
             add(key) { classes.add(key); }, remove(key) { classes.delete(key); } },
@@ -252,6 +253,17 @@ function detailedHelp(h, changes = {}) {
         levelMax: 0, x: 0, y: 0, terrain: 255,
         text: '原生武将帮助|兵力与状态', ...changes });
     h.context.BayeHdDialog.onEngineHelp();
+}
+function terrainHelp(h, changes = {}) {
+    detailedHelp(h, { kind: 2, person: 65535, slot: 255, name: '', arm: '', state: '',
+        fields: Array(10).fill(0), x: 3, y: 4, terrain: 0, text: '原生地形说明|第二行', ...changes });
+}
+function terrainCard(h) {
+    const body = h.nodes['hd-dialog-body'], cards = body.querySelectorAll('[data-hd-help-terrain]');
+    assert.equal(cards.length, 1, 'one current terrain card');
+    assert.equal(body.firstChild, cards[0], 'terrain card is the first visible body child');
+    assert.equal(cards[0].tagName, 'SECTION');
+    return cards[0];
 }
 function detailedView(h, changes = {}) {
     native(h); Object.assign(h.fight, { active: 1, over: 0, inputKind: 10, inputSeq: 60 });
@@ -542,7 +554,8 @@ test('actual terrain help displays its complete native description while custom 
     detailedHelp(h, { kind: 2, person: 65535, slot: 255, x: 3, y: 4, terrain: 0,
         text: '地形：平原|原生完整说明' });
     assert.equal(h.nodes['hd-dialog-title'].textContent, '地形帮助');
-    assert.equal(h.nodes['hd-dialog-body'].textContent, '地形：平原\n原生完整说明');
+    assert.equal(h.nodes['hd-dialog-body'].querySelectorAll('.hd-terrain-help-description')[0].textContent,
+        '地形：平原\n原生完整说明');
     assert.equal(h.snapshot().helpDetail.terrain, 0);
     assert.equal(h.snapshot().showLcd, false);
     h.help.complete = 0; h.help.seq++; h.help.text = 'Custom terrain help, no inferred bonuses';
@@ -555,6 +568,75 @@ test('actual terrain help displays its complete native description while custom 
     h.context.BayeHdDialog.onEngineHelp();
     assert.equal(h.snapshot().helpDetail, null, 'unknown native terrain class cannot become complete HD terrain');
     assert.equal(h.snapshot().showLcd, true);
+});
+
+test('terrain HELP card presents all eight native classes and boundary coordinates with literal untrimmed descriptions', () => {
+    const labels = ['草地', '平原', '山地', '森林', '村庄', '城池', '营寨', '河流'];
+    for (const [terrain, label] of labels.entries()) {
+        const h = harness(), x = terrain % 2 ? 255 : 0, y = terrain % 2 ? 0 : 255;
+        const text = ' \t原生 <img src=x onerror=attack()> & ' + terrain + '|第二段 >\n  尾空白\t ';
+        terrainHelp(h, { terrain, x, y, text });
+        const card = terrainCard(h), heading = card.querySelectorAll('.hd-help-name')[0],
+            summary = card.querySelectorAll('.hd-help-summary')[0],
+            description = card.querySelectorAll('.hd-terrain-help-description')[0];
+        assert.equal(card.getAttribute('data-hd-help-terrain'), String(terrain));
+        assert.equal(card.getAttribute('data-hd-help-x'), String(x));
+        assert.equal(card.getAttribute('data-hd-help-y'), String(y));
+        assert.equal(heading.tagName, 'H2'); assert.equal(heading.textContent, label);
+        assert.equal(summary.tagName, 'P'); assert.equal(summary.textContent, '位置 ' + x + ',' + y);
+        assert.equal(description.tagName, 'P'); assert.equal(description.textContent, text.replace(/\|/g, '\n'));
+        assert.equal(description.children.length, 0, 'native markup stays literal text');
+        assert.equal(card.querySelectorAll('[data-hd-dlg-ok]').length, 0);
+        assert.equal(card.querySelectorAll('[data-hd-dlg-back]').length, 0);
+        for (const decorative of card.querySelectorAll('[aria-hidden]')) {
+            assert.equal(decorative.getAttribute('aria-hidden'), 'true');
+        }
+        const before = JSON.stringify({help: h.help, fight: h.fight, data: h.data});
+        Object.freeze(h.help.fields); Object.freeze(h.help);
+        for (let i = 0; i < 3; i++) h.context.BayeHdDialog.poll();
+        assert.equal(terrainCard(h), card, 'polling retains the current rendered card');
+        assert.equal(JSON.stringify({help: h.help, fight: h.fight, data: h.data}), before);
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('terrain HELP card retires on native fallback and unit changes and rebuilds its current description after replacement', () => {
+    const h = harness(), d = h.context.BayeHdDialog, body = h.nodes['hd-dialog-body'];
+    terrainHelp(h); const initial = terrainCard(h), epoch = h.snapshot().viewEpoch;
+    body.textContent = h.snapshot().body;
+    d.poll();
+    assert.equal(h.snapshot().viewEpoch, epoch, 'DOM repair does not create a new native publication');
+    assert.notEqual(terrainCard(h), initial, 'a cached card cannot survive replacement by plain fallback text');
+    const previous = terrainCard(h), owner = h.snapshot().helpOwner;
+    h.help.seq++; h.help.text = ' 新的原生说明|同一HELP等待 ';
+    d.onEngineHelp();
+    assert.deepEqual(h.snapshot().helpOwner, owner);
+    assert.equal(terrainCard(h).querySelectorAll('.hd-terrain-help-description')[0].textContent, ' 新的原生说明\n同一HELP等待 ');
+    assert.equal(previous.parentNode, null, 'a newer native publication retires the previous card');
+    detailedHelp(h);
+    assert.equal(body.querySelectorAll('[data-hd-help-terrain]').length, 0);
+    assert.equal(body.children[0].textContent, '原生姓名');
+    assert.equal(h.snapshot().helpDetail.kind, 1);
+    terrainHelp(h, { terrain: 7 });
+    assert.equal(terrainCard(h).querySelectorAll('.hd-help-name')[0].textContent, '河流');
+    assert.equal(body.querySelectorAll('.hd-help-fields').length, 0, 'terrain does not retain unit fields');
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    for (const changes of [{complete: 0}, {kind: 3}, {terrain: 8}, {terrain: 255}, {x: -1}, {x: 256},
+        {y: NaN}, {generation: 6}, {inputSeq: 19}]) {
+        const fallback = harness(); terrainHelp(fallback);
+        const old = terrainCard(fallback);
+        Object.assign(fallback.help, {seq: fallback.help.seq + 1, text: ' 原生回退|保留说明 ', ...changes});
+        fallback.context.BayeHdDialog.onEngineHelp();
+        assert.equal(fallback.snapshot().helpDetail, null, JSON.stringify(changes));
+        assert.equal(fallback.snapshot().showLcd, true, JSON.stringify(changes));
+        assert.equal(fallback.nodes['hd-dialog-body'].querySelectorAll('[data-hd-help-terrain]').length, 0);
+        assert.equal(old.parentNode, null);
+        if ('generation' in changes || 'inputSeq' in changes) {
+            assert.equal(fallback.snapshot().body, '', 'stale native text is not displayed');
+            assert.doesNotMatch(fallback.nodes['hd-dialog-body'].textContent, /原生回退|保留说明/);
+        } else assert.equal(fallback.nodes['hd-dialog-body'].textContent, ' 原生回退\n保留说明 ');
+        assert.deepEqual(fallback.sent, []); assert.deepEqual(fallback.writes, []);
+    }
 });
 
 test('LCD choice survives polling but a new help publication retires its former fields', () => {
@@ -1364,6 +1446,20 @@ function mobileBattleDetailFixture(kind = 9) {
     h.context.BayeHdDialog.attachMobileBattleHost({isAvailable:()=>h.available,readTicket:h.provider});
     h.context.BayeHdDialog.poll();h.writes.length=0;return h;
 }
+function mobileTerrainHelpFixture() {
+    const h = mobileBattleDetailFixture(), d = h.context.BayeHdDialog;
+    h.borrowedPersonSources = [];
+    h.context.baye.getPersonName = () => { h.borrowedPersonSources.push('name'); return '不应借用武将姓名'; };
+    h.context.BayeHdPortraits = {
+        loadManifest: () => { h.borrowedPersonSources.push('manifest'); return Promise.resolve({entries: []}); },
+        chooseSource: () => { h.borrowedPersonSources.push('portrait'); return Promise.resolve({mode: 'lcd'}); }
+    };
+    Object.assign(h.help, {seq: h.help.seq + 1, kind: 2, person: 65535, slot: 255,
+        x: 2, y: 1, terrain: 6, name: '', arm: '', state: '', fields: Array(10).fill(0), text: ' 营寨原生说明|<>& '});
+    h.data.g_FoucsX = 2; h.data.g_FoucsY = 1; h.syncRaw(); d.onEngineHelp();
+    h.writes.length = 0;
+    return h;
+}
 
 for (const kind of [9, 10]) {
     test('mobile ' + (kind === 9 ? 'HELP' : 'VIEW') + ' keeps its battle owner across polls when the CITY host is unavailable', () => {
@@ -1418,6 +1514,47 @@ test('mobile terrain HELP reads only the current empty tile publication and neve
     const t=d.getBattleInputTicket();assert.ok(t);assert.equal(t.detail.kind,2);assert.equal(t.detail.rows,undefined);
     assert.match(h.nodes['hd-dialog-body'].textContent,/平原/);assert.equal(d.dispatchBattleDetail(34,t),false);
     assert.equal(d.dispatchBattleDetail(40,t),true);assert.deepEqual(h.sent,[40]);
+});
+
+test('mobile terrain HELP card binds only the current empty tile and preserves one-shot return without person sources', () => {
+    const h = mobileTerrainHelpFixture(), d = h.context.BayeHdDialog, ticket = d.getBattleInputTicket();
+    assert.ok(ticket); assert.equal(ticket.ownerType, 'battle-help'); assert.equal(ticket.detail.kind, 2);
+    assert.equal(ticket.detail.person, undefined); assert.equal(ticket.detail.rows, undefined);
+    assert.equal(ticket.data, h.context.baye.data);
+    const card = terrainCard(h);
+    assert.equal(card.getAttribute('data-hd-help-terrain'), '6');
+    assert.equal(card.getAttribute('data-hd-help-x'), '2'); assert.equal(card.getAttribute('data-hd-help-y'), '1');
+    assert.equal(card.querySelectorAll('.hd-help-name')[0].textContent, '营寨');
+    assert.equal(card.querySelectorAll('.hd-help-summary')[0].textContent, '位置 2,1');
+    assert.equal(card.querySelectorAll('.hd-terrain-help-description')[0].textContent, ' 营寨原生说明\n<>& ');
+    assert.equal(h.nodes['hd-dialog-body'].querySelectorAll('.hd-help-fields').length, 0);
+    assert.equal(h.nodes['hd-dialog-body'].querySelectorAll('.hd-battle-help-portrait').length, 0);
+    assert.equal(h.nodes['hd-dialog'].getAttribute('data-hd-help-person'), '');
+    assert.doesNotMatch(h.nodes['hd-dialog-body'].textContent, /原生姓名|不应借用武将姓名|骑兵/);
+    for (let i = 0; i < 3; i++) {
+        d.poll(); assert.equal(d.getBattleInputTicket().key, ticket.key);
+        assert.equal(terrainCard(h), card);
+    }
+    assert.deepEqual(h.borrowedPersonSources, []); assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    assert.equal(d.dispatchBattleDetail(34, ticket), false);
+    assert.equal(d.dispatchBattleDetail(40, ticket), true); assert.equal(d.dispatchBattleDetail(40, ticket), false);
+    assert.deepEqual(h.sent, [40]); assert.deepEqual(h.writes, []);
+    for (const reason of ['unknown-terrain', 'stale-publication', 'stale-input', 'occupied-tile']) {
+        const stale = mobileTerrainHelpFixture(), dialog = stale.context.BayeHdDialog, oldTicket = dialog.getBattleInputTicket();
+        assert.ok(oldTicket);
+        if (reason === 'unknown-terrain') { stale.help.terrain = 255; stale.help.seq++; }
+        if (reason === 'stale-publication') stale.help.seq++;
+        if (reason === 'stale-input') stale.help.inputSeq--;
+        if (reason === 'occupied-tile') {
+            stale.help.x = 0; stale.help.y = 0; stale.data.g_FoucsX = 0; stale.data.g_FoucsY = 0;
+        }
+        stale.syncRaw();
+        if (reason !== 'stale-publication') dialog.onEngineHelp();
+        assert.equal(dialog.getBattleInputTicket(), null, reason);
+        assert.equal(dialog.dispatchBattleDetail(40, oldTicket), false, reason);
+        assert.deepEqual(stale.sent, [], reason); assert.deepEqual(stale.writes, [], reason);
+        assert.deepEqual(stale.borrowedPersonSources, [], reason);
+    }
 });
 
 for(const mutation of ['raw','partial','slot','hp','person','focus','blocker','menu','hidden','identity','library','data','torn']){

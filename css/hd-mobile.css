@@ -444,6 +444,10 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
 .hd-mobile-page .hd-help-fields { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .hd-mobile-page .hd-help-name { font-size: 20px; }
 .hd-mobile-page .hd-help-summary { margin: 4px 0 8px; }
+.hd-mobile-page .hd-terrain-help-header { gap: 10px; }
+.hd-mobile-page .hd-terrain-help-symbol { flex-basis: 48px; width: 48px; height: 48px; font-size: 26px; border-radius: 8px; }
+.hd-mobile-page .hd-terrain-help-card .hd-help-summary { margin: 4px 0 0; }
+.hd-mobile-page .hd-terrain-help-description { margin-top: 10px; padding: 10px 12px; }
 .hd-mobile-page .hd-help-field { padding: 6px 10px; }
 .hd-mobile-page .hd-help-field dd { font-size: 18px; }
 .hd-mobile-page[data-hd-mobile-lcd="off"] #lcd { visibility: hidden; pointer-events: none; }
