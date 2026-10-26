@@ -1,0 +1,568 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V94",
+  "parentCommit": "c4b27f69c073efd821aaec8aa744292a7d0033cd",
+  "feature": "Passive original tactic prelude in a compact HD status strip",
+  "accepted": true,
+  "acceptanceScope": "Selected actual C functions, controlled readonly bridge/UI contracts, linked no-main initialization and two controlled layouts",
+  "targeted": {
+    "accepted": true,
+    "started": "2026-10-26T14:20:43.603Z",
+    "finished": "2026-10-26T14:20:51.786Z",
+    "processExitCode": 0,
+    "signal": null,
+    "tests": 144,
+    "pass": 144,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "modules": [
+      "scripts/test-hd-tactic-prelude-engine.mjs",
+      "scripts/test-hd-tactic-prelude-bridge.mjs",
+      "scripts/test-hd-battle-note.mjs",
+      "scripts/test-hd-battle-announcements-engine.mjs",
+      "scripts/test-hd-battle-announcements-bridge.mjs",
+      "scripts/test-hd-campaign-engine.mjs",
+      "scripts/test-hd-engine-protocol.mjs"
+    ],
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 47254,
+        "sha256": "09793815e62d42499ed189510ed6befad4c849f1929e063a56b7bfd33907c21a"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 3008,
+        "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+      },
+      {
+        "path": "css/flex.css",
+        "bytes": 11480,
+        "sha256": "362ebb627e1453bb074f6c71afbff91832d0cab18ef962fdc813b2cadb69cace"
+      },
+      {
+        "path": "css/hd-battle-note.css",
+        "bytes": 2146,
+        "sha256": "b35da40a6a0535b7ed1ba33a103eaeed35fc51d5f314974a167a3fa196b966a3"
+      },
+      {
+        "path": "css/hd-battle.css",
+        "bytes": 9203,
+        "sha256": "a193bdf938a16b4741251ec6a670872fe3cfcf899592aa69461b438ef51ffab1"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 15762,
+        "sha256": "54f3de618facd3a5d561e9927f7256a500811f246d2aea4262f2d5d1d95b6f44"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 10606,
+        "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+      },
+      {
+        "path": "css/hd-graphics.css",
+        "bytes": 4567,
+        "sha256": "5941d014ada1e3fcc889031640dde97fa1f542d5c213c1e62ae0f7dc29e2d43a"
+      },
+      {
+        "path": "css/hd-minimap.css",
+        "bytes": 4222,
+        "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 32773,
+        "sha256": "17f9ed7318684b0cbd8c16e9926312f22ca59d31a6a92db6afe6e72e20c1f85c"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 5226,
+        "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-spe.css",
+        "bytes": 3150,
+        "sha256": "bc462f1197dfc69c9d5a15403207630ef79886f79dc979aa0ee5e23de672e221"
+      },
+      {
+        "path": "css/hd-system-ui.css",
+        "bytes": 7088,
+        "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 23843,
+        "sha256": "a8c5979e309fa44083f789f42a37550b054750aa7f8efee6d3a18ae635ae270d"
+      },
+      {
+        "path": "js/baye.js",
+        "bytes": 193437,
+        "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4577121,
+        "sha256": "7ec79d5a3274317dcc3ace2fb39f4fc1adf3fcad56f96259c8b1932a6662be5b"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "d7eaa92c1cf9dc102a3812243ad0bf080751e7e3b440febfe3b1d5b6690e7010"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 164775,
+        "sha256": "181951601b5a8ae3ca533c3e9be729eb0d69441cb3935a11110496f8ecccceee"
+      },
+      {
+        "path": "js/hd-battle-note.js",
+        "bytes": 12632,
+        "sha256": "5deb3917c08f49b244cfbebca8222653a798e7f52c12996d8e6ed06daff025d4"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "m.html",
+        "bytes": 21541,
+        "sha256": "3180987d710b5f770d8ae0e87dda9e724f15b3dff05cd18cafd2d4caf0f11d46"
+      },
+      {
+        "path": "package.json",
+        "bytes": 23073,
+        "sha256": "b064ebb0df4f2fa59950eacc69e5cc078aaf827d77663977bf307352b86dee6b"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 31760,
+        "sha256": "db853983c2402155a1acadce990c7f0f43b0d73f8e6052b0f9115ea05bede565"
+      },
+      {
+        "path": "scripts/test-hd-battle-announcements-bridge.mjs",
+        "bytes": 7133,
+        "sha256": "7a012488af0995b0c7b8c1ad6ed33022e1c69197e6f865d5f814f3d1aa85303f"
+      },
+      {
+        "path": "scripts/test-hd-battle-announcements-engine.mjs",
+        "bytes": 17396,
+        "sha256": "81ca6e32e97eee4944faea40802952f2fb75296e291ecb6662d84be31e8111a9"
+      },
+      {
+        "path": "scripts/test-hd-battle-note.mjs",
+        "bytes": 26264,
+        "sha256": "2c01a34316b93b8d4908eb89aff5679c9257b420ebefd08cf12ad908a4edd61f"
+      },
+      {
+        "path": "scripts/test-hd-campaign-engine.mjs",
+        "bytes": 53057,
+        "sha256": "f61e28dfbe8d36830445166d3a934966c26f14b6b80da78249d93574fac0b6d5"
+      },
+      {
+        "path": "scripts/test-hd-engine-protocol.mjs",
+        "bytes": 57449,
+        "sha256": "b3af31fcb2fd0771f8a0f771a6afa468bcc80e86fc00bc0d919157bde49b9404"
+      },
+      {
+        "path": "scripts/test-hd-tactic-prelude-bridge.mjs",
+        "bytes": 6680,
+        "sha256": "a1f8fbe183ef5ede8f61826251a95b5c66cbf3205b51081ca1ea335d7160f151"
+      },
+      {
+        "path": "scripts/test-hd-tactic-prelude-engine.mjs",
+        "bytes": 14153,
+        "sha256": "769df980810244dabdd2988cb7f4624e3b28660fba693aa27cedc09ea522b1d0"
+      },
+      {
+        "path": "scripts/write-wasm-manifest.mjs",
+        "bytes": 21486,
+        "sha256": "b85837f4e0d0352a2999c97bade46a71484120f3fa9fbb46289dfbe5f1506d5d"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdd.c",
+        "bytes": 38292,
+        "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+      },
+      {
+        "path": "vendor/iBaye/src/comIn.c",
+        "bytes": 12480,
+        "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 205860,
+        "sha256": "bab255c1d07ae031cc3d345b2e18a379fac5e344f5d3b1704e5ada7e8a2f496d"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 21136,
+        "sha256": "926a4e2d2f473fe7798b870fbfe300cba651ceffaac52e7f40fa138e8ebfb19b"
+      },
+      {
+        "path": "vendor/iBaye/src/tactic.c",
+        "bytes": 43864,
+        "sha256": "cd12096c8e63db0e969f9eba23e9e0d4db013709f9a1fe18f7d8107cfc17a294"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 20,
+    "newDefaultModules": 2,
+    "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+    "compilerVersion": "clang version 18.0.0git (https://github.com/llvm/llvm-project f2464ca317bfeeedddb7cbdea3c2c8ec487890bb)",
+    "actualCCompiled": true,
+    "nativeSourceCount": 128,
+    "nativeSourcesStable": true,
+    "fullSuiteRun": false,
+    "actualGameplayAccepted": false,
+    "globalHdComplete": false
+  },
+  "newDefaultNodeTests": 20,
+  "newDefaultModules": 2,
+  "negativeControl": {
+    "accepted": true,
+    "expectedNegativeControl": true,
+    "started": "2026-10-26T14:20:14.257Z",
+    "finished": "2026-10-26T14:20:15.353Z",
+    "processExitCode": 1,
+    "signal": null,
+    "tests": 10,
+    "pass": 4,
+    "fail": 6,
+    "skipped": 0,
+    "compileFailure": false,
+    "actualCAssertionObserved": true,
+    "oldSource": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\tactic-prelude-20261026-v94\\negative-v1-tactic.c",
+    "productSourceMutated": false,
+    "actualGameplayAccepted": false
+  },
+  "protocol": {
+    "version": 1,
+    "newType": {
+      "tacticPrelude": 5
+    },
+    "winner": 65535,
+    "legacyTypesPreserved": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "originalWait": "GamDelay(5,false) once per original queue item",
+    "publication": "After actual GamStrShowS and before real ComputerTactic",
+    "progressCalculated": false,
+    "inputOrAiExecutionAdded": false,
+    "retainedLastText": false
+  },
+  "native": {
+    "sourceCount": 128,
+    "changedFiles": [
+      "vendor/iBaye/src/tactic.c",
+      "vendor/iBaye/src/hd-bridge.c"
+    ],
+    "previousEngineSourceSha256": "d2eb9e64772ff874eb34a4408f77dbf884f704c32563f95791a61462bb9f90d1",
+    "engineSourceSha256": "56a9c2705b61380b8f36505ea8a6bbdadff80c9527d12b49ab5ee78202c36d56",
+    "otherSourcesUnchanged": true,
+    "sourcesStableDuringBuild": true,
+    "sourceRevision": "c4b27f69c073efd821aaec8aa744292a7d0033cd",
+    "sourceModified": true,
+    "emscriptenVersion": "3.1.51",
+    "cmakeVersion": "cmake version 3.31.6"
+  },
+  "runtime": {
+    "accepted": true,
+    "stageAndInstalledBytesExact": true,
+    "method": "Atomic replacement of the four explicitly checked runtime paths; previous runtime retained",
+    "files": [
+      {
+        "path": "js/baye.js",
+        "bytes": 193437,
+        "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4577121,
+        "sha256": "7ec79d5a3274317dcc3ace2fb39f4fc1adf3fcad56f96259c8b1932a6662be5b"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "d7eaa92c1cf9dc102a3812243ad0bf080751e7e3b440febfe3b1d5b6690e7010"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 23843,
+        "sha256": "a8c5979e309fa44083f789f42a37550b054750aa7f8efee6d3a18ae635ae270d"
+      }
+    ],
+    "engineSourceSha256": "56a9c2705b61380b8f36505ea8a6bbdadff80c9527d12b49ab5ee78202c36d56",
+    "sourceRevision": "c4b27f69c073efd821aaec8aa744292a7d0033cd",
+    "engineSourceModified": true,
+    "linkedNoMainSmoke": {
+      "accepted": true,
+      "noInitialRun": true,
+      "shouldRunNow": false,
+      "moduleExportFunctions": 83,
+      "gameMainRun": false,
+      "nativeInputs": 0
+    }
+  },
+  "layout": {
+    "accepted": true,
+    "browserRuns": 2,
+    "productionDomCssBridgeAndNote": true,
+    "controlledNativeSnapshots": true,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "results": [
+      {
+        "name": "pc-prelude",
+        "accepted": true,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "active": true,
+          "type": 5,
+          "text": "曹操策略中",
+          "label": "电脑策略预告",
+          "bodyKind": "5",
+          "background": "rgba(0, 0, 0, 0)",
+          "hidden": false,
+          "visibility": "visible",
+          "pointerEvents": "none",
+          "root": {
+            "x": 0,
+            "y": 0,
+            "right": 1264,
+            "bottom": 625,
+            "width": 1264,
+            "height": 625
+          },
+          "panel": {
+            "x": 558,
+            "y": 555.109375,
+            "right": 706,
+            "bottom": 609,
+            "width": 148,
+            "height": 53.890625
+          },
+          "textRect": {
+            "x": 577,
+            "y": 566.109375,
+            "right": 687,
+            "bottom": 598,
+            "width": 110,
+            "height": 31.890625
+          },
+          "buttons": 0,
+          "lcdOpacity": "1",
+          "horizontalOverflow": false,
+          "keys": [],
+          "errors": [],
+          "extraReads": [],
+          "rawUnchanged": true
+        },
+        "chromeExitCode": 0,
+        "screenshot": "build/tactic-prelude-20261026-v94/pc-prelude-layout-v1.png"
+      },
+      {
+        "name": "mobile-prelude",
+        "accepted": true,
+        "metrics": {
+          "viewport": {
+            "width": 828,
+            "height": 295
+          },
+          "active": true,
+          "type": 5,
+          "text": "刘备策略中",
+          "label": "电脑策略预告",
+          "bodyKind": "5",
+          "background": "rgba(0, 0, 0, 0)",
+          "hidden": false,
+          "visibility": "visible",
+          "pointerEvents": "none",
+          "root": {
+            "x": 0,
+            "y": 52,
+            "right": 828,
+            "bottom": 295,
+            "width": 828,
+            "height": 243
+          },
+          "panel": {
+            "x": 353.59375,
+            "y": 238.984375,
+            "right": 474.40625,
+            "bottom": 285,
+            "width": 120.8125,
+            "height": 46.015625
+          },
+          "textRect": {
+            "x": 372.59375,
+            "y": 249.984375,
+            "right": 455.40625,
+            "bottom": 274,
+            "width": 82.8125,
+            "height": 24.015625
+          },
+          "buttons": 0,
+          "lcdOpacity": "1",
+          "horizontalOverflow": false,
+          "keys": [],
+          "errors": [],
+          "extraReads": [],
+          "rawUnchanged": true
+        },
+        "chromeExitCode": 0,
+        "screenshot": "build/tactic-prelude-20261026-v94/mobile-prelude-layout-v1.png"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "path": "build/tactic-prelude-20261026-v94/targeted-v1.json",
+      "bytes": 7247,
+      "sha256": "b168a33656a85fd7cf2ee423a659494f81153ba84a21d4e6b265970c3c636944"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/targeted-v1.stdout.tap",
+      "bytes": 34363,
+      "sha256": "bfbe24847785d0b7a8b5325b27c071845206f80352f9a07b2b992b3a52e75f58"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/negative-v1.json",
+      "bytes": 516,
+      "sha256": "387ed706c412ef5d91ba048fb8114928a8298e58907bf9eb33dae2cda6980c95"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/negative-v1.stdout.tap",
+      "bytes": 7780,
+      "sha256": "a9459a0962d74c8c72a20eb48baaac086e9f0b25734978ff86ec918cabec3e43"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/negative-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/negative-v1-tactic.c",
+      "bytes": 43617,
+      "sha256": "72b55f5d4c3582601759151af12580faea0282e170685d8cce6ca5abb37dbb87"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/source-baseline-v1.json",
+      "bytes": 22194,
+      "sha256": "91d993aca04751b42e7cd70d5b93e7fc6e794866a6e241516b35cb16c1241243"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/build-v1.json",
+      "bytes": 25491,
+      "sha256": "e3fa3d4b1aae26715a1b1af536ec6da92347c6acf21255ef21c9f6529eeed6c5"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/build-v1.stdout.log",
+      "bytes": 660,
+      "sha256": "6066e753cbc35b196c53a1900cee967a23d17429357dba30a891905dc5d1a93a"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/build-v1.stderr.log",
+      "bytes": 1393,
+      "sha256": "e85937636e98298c355b7ba88092a0a8bb3ae1bbe08eeab4b4b2565226ee9822"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/linked-smoke-v1.json",
+      "bytes": 2446,
+      "sha256": "db640fa2efa2abb25d99fd789a12bd47dec04e04114dbeebff02f9f9e49da626"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/install-v1.json",
+      "bytes": 976,
+      "sha256": "311c3f948b3e722647806ea152f83c3ce1625e04b747f178d2f2104f4db47e81"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/native-subagent-v1.json",
+      "bytes": 1357,
+      "sha256": "cc43aa8fc1feb5906f9c1877a1d6fae148574e2d9e8406704e14ab9ca2f38232"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/review-bridge-v1.json",
+      "bytes": 1723,
+      "sha256": "39da27d007a1fe2b7368d64546d5ca37a3d4167d54b10e73df52c4ca15583cf9"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/next-feature-audit.md",
+      "bytes": 6061,
+      "sha256": "70e7fca0d9ba1f2b66c54dd2f5b9845de61c5975800f5a2dbfb0868e202bf3be"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/preview-layout-v1.json",
+      "bytes": 2781,
+      "sha256": "c775e50a0f3ba6af8be4bfe8ae62b200ac596fd8fdfc1b9507d3170900b74658"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/pc-prelude-layout-v1.png",
+      "bytes": 31791,
+      "sha256": "365722560503f979601f1ac12b6bfd760028c81b60425d1e64b493d066791695"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/pc-prelude-layout-v1.dom.html",
+      "bytes": 23843,
+      "sha256": "e0a0d0e7d4045c8b5d2feefbd5215501f50e6b9da2c1bfc22d3c2e0c5bbc7c93"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/mobile-prelude-layout-v1.png",
+      "bytes": 26252,
+      "sha256": "3795e061b99da83d5bd39e189bdefd385aa01deae4e3e85906a734c268a70666"
+    },
+    {
+      "path": "build/tactic-prelude-20261026-v94/mobile-prelude-layout-v1.dom.html",
+      "bytes": 20057,
+      "sha256": "25fcea33c513b7d0e93dcda958695a267f4248404c574c04bf24dd4f7c3f7d0d"
+    }
+  ],
+  "fullSuiteRun": false,
+  "actualGameplayAccepted": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "globalHdComplete": false,
+  "held": {
+    "privateInterfaceInspected": false,
+    "inputs": 0,
+    "closed": false,
+    "restarted": false
+  },
+  "remaining": [
+    "Natural original END and short-notice timing acceptance on a fresh authorized game",
+    "Real mobile and full layout matrix",
+    "Original day/weather transition graphics",
+    "Expand missing original ruler and frequent-person HD portraits",
+    "Full regression and tuning later"
+  ]
+}

@@ -162,7 +162,7 @@ int main(int argc,char**argv){
         reset(2,3,"ours lost");g_engineConfig.responseNoteOfBettle=2;add(VM_TOUCH,VT_TOUCH_UP);ShowFightLossNote();finished(1);assert(countCalls==1&&!personCalls&&resourceCalls==2);
     }else if(scenario==8){
         reset(3,0,"unused");U8 text[]="original";U32 seq=g_hdBattleNoteSeq;
-        assert(!baye_hd_battle_note_begin(0,65535,text));assert(!baye_hd_battle_note_begin(5,65535,text));assert(!baye_hd_battle_note_begin(255,65535,text));
+        assert(!baye_hd_battle_note_begin(0,65535,text));assert(!baye_hd_battle_note_begin(6,65535,text));assert(!baye_hd_battle_note_begin(255,65535,text));
         assert(!baye_hd_battle_note_begin(1,600,text));assert(!baye_hd_battle_note_begin(2,0,text));assert(!baye_hd_battle_note_begin(3,0,text));assert(!baye_hd_battle_note_begin(4,199,text));
         assert(!baye_hd_battle_note_begin(3,65535,NULL));assert(!baye_hd_battle_note_begin(4,65535,(U8*)""));g_hdDetailGeneration=0;assert(!baye_hd_battle_note_begin(3,65535,text));
         assert(!notifications&&g_hdBattleNoteSeq==seq&&!g_hdBattleNoteActive);g_hdDetailGeneration=7;mutationTriggered=1;

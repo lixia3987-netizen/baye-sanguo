@@ -61,10 +61,11 @@ const manifest = {
         version: 1,
         publicApi: 'baye.hd.battleNote()',
         fields: ['g_hdBattleNoteProtocolVersion','g_hdBattleNoteActive','g_hdBattleNoteSeq','g_hdBattleNoteGeneration','g_hdBattleNoteOutcome','g_hdBattleNoteWinner','g_hdBattleNoteText'],
-        types: {victory: 1, defeat: 2, attack: 3, confrontation: 4},
+        types: {victory: 1, defeat: 2, attack: 3, confrontation: 4, tacticPrelude: 5},
         winner: 'actual zero-based winner only for victory; all other types require unpublished 65535',
         publication: 'actual complete native sentence after original draw; no extra name, city or person-count reads for pre-battle announcements',
-        input: 'passive observer; original attack delay100/keyflag0 and confrontation delay300/configured keyflag remain unchanged',
+        input: 'passive observer; original attack100/keyflag0, confrontation300/configured keyflag and tactic-prelude5/keyflag0 waits remain unchanged',
+        tacticPrelude: 'actual ShowTacticNote sentences before ComputerTactic; no percent, retained last item, AI execution or timer extension',
         retirement: 'local generation and sequence; a draw-time world change cannot publish the old pre-battle sentence; stale ends do not retire replacements'
     },
     hdTransferProtocol: {

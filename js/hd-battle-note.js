@@ -49,7 +49,7 @@
                 note[name] = nativeValue;
             }
             if (note.protocolVersion !== 1 || note.active !== 1 || !note.seq || !note.generation ||
-                !uint(note.outcome, 4) || !note.outcome ||
+                !uint(note.outcome, 5) || !note.outcome ||
                 (note.outcome === 1 ? !uint(note.winner, 199) : note.winner !== 65535) ||
                 !note.text.trim() || note.text.length > 512 || note.text.indexOf('\u0000') >= 0) { return null; }
             for (var b = 0; b < BLOCKERS.length; b++) {
@@ -123,8 +123,12 @@
                 root.hidden = !show;
                 root.setAttribute('aria-hidden', show ? 'false' : 'true');
                 root.setAttribute('data-outcome', show ? String(value.note.outcome) : '');
+                root.setAttribute('aria-label', show && value.note.outcome === 5 ? '电脑策略预告' : '战事公告');
             }
-            if (body) { body.setAttribute('data-hd-battle-note', show ? 'hd' : 'off'); }
+            if (body) {
+                body.setAttribute('data-hd-battle-note', show ? 'hd' : 'off');
+                body.setAttribute('data-hd-battle-note-kind', show ? String(value.note.outcome) : '');
+            }
             last = show ? {active: true, presentation: 'hd', reason: '', seq: value.note.seq,
                 generation: value.note.generation, libraryGeneration: value.libraryGeneration,
                 outcome: value.note.outcome, winner: value.note.winner, text: value.note.text} :

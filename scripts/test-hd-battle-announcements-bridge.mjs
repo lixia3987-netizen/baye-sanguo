@@ -60,7 +60,7 @@ test('new announcements require their sentinel and reject malformed or unknown c
         assert.equal(h.read(), null, outcome + '/' + winner); assert.equal(h.personCountReads(), 0); h.untouched();
     }
     for (const [name,value] of [['ProtocolVersion',2],['Active',2],['Seq',0],['Seq',0x100000000],
-        ['Generation',6],['Outcome',0],['Outcome',5],['Outcome','3'],['Text',''],['Text','x'.repeat(512)],['Text',[]]]) {
+        ['Generation',6],['Outcome',0],['Outcome',6],['Outcome','3'],['Text',''],['Text','x'.repeat(512)],['Text',[]]]) {
         const h = fixture(); h.raw['g_hdBattleNote'+name] = value;
         assert.equal(h.read(), null, name + '/' + value); h.untouched();
     }

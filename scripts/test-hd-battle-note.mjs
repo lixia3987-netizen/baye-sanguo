@@ -145,7 +145,7 @@ for (const blocker of blockers) {
     });
 }
 for (const [name, value] of [['protocolVersion', 0], ['active', 2], ['seq', 0], ['seq', 4294967296],
-    ['generation', 0], ['generation', 4], ['outcome', 0], ['outcome', 5], ['winner', 200],
+    ['generation', 0], ['generation', 4], ['outcome', 0], ['outcome', 6], ['winner', 200],
     ['winner', 65535], ['text', ''], ['text', '\u0000旧缓冲'], ['text', 'x'.repeat(513)], ['text', ['fake bytes']]]) {
     test('Invalid or unbound native note is LCD-only: ' + name + '=' + String(value).slice(0, 22), () => {
         const f = fixture(); f.set(name, value); f.api.init(); f.off(); f.noSideEffects();
@@ -208,7 +208,7 @@ test('pre-battle announcement kinds retain the unknown-winner sentinel and rejec
         const f = fixture(); f.set('outcome', outcome); f.set('winner', winner);
         f.api.init(); f.off(); f.noSideEffects();
     }
-    for (const outcome of [0, 5, 255, '3']) {
+    for (const outcome of [0, 6, 255, '3']) {
         const f = fixture(); f.set('outcome', outcome); f.set('winner', 65535);
         f.api.init(); f.off(); f.noSideEffects();
     }
@@ -295,4 +295,68 @@ test('The panel preserves native LCD hit testing and the original delay input co
     const canvasRules = [...css.matchAll(/[^{}]*#lcd\s*\{([^}]*)\}/g)].map(match => match[1]);
     assert.ok(canvasRules.some(rule => /opacity:\s*0/.test(rule)), 'Only native pixels are hidden behind the HD panel');
     for (const rule of canvasRules) assert.doesNotMatch(rule, /visibility|display|pointer-events|width|height|position/);
+});
+
+test('PC and mobile tactic preludes follow each actual begin/end immediately without waiting for the poll', () => {
+    for (const mobile of [false, true]) {
+        const f = fixture({mobile}); f.set('active', 0); f.api.init(); f.off();
+        const poll = [...f.timers.entries()];
+        f.environment.baye.getPersonName = f.environment.baye.getCityName = f.environment.baye.getPersonCount = () => {
+            throw Error('The prelude already contains its actual native text');
+        };
+        for (const [index, text] of ['曹操电脑策略预告', '孙权电脑策略预告'].entries()) {
+            f.set('outcome', 5); f.set('winner', 65535); f.set('seq', 12 + index * 2); f.set('text', text); f.set('active', 1);
+            f.api.onEngineNote(); f.on();
+            assert.equal(f.api.debugSnapshot().text, text);
+            assert.equal(f.body.attrs['data-hd-battle-note-kind'], '5');
+            assert.equal(f.nodes.get('hd-battle-note').attrs['aria-label'], '电脑策略预告');
+            assert.deepEqual([...f.timers.entries()], poll, 'Synchronous notification does not wait for or stretch the 80ms observer poll');
+            for (const name of ['progress', 'percentage', 'computedKing', 'remaining', 'count']) assert.equal(Object.hasOwn(f.api.debugSnapshot(), name), false);
+            f.set('active', 0); f.set('outcome', 0); f.set('seq', 13 + index * 2); f.set('text', '');
+            f.api.onEngineNote(); f.off();
+            assert.equal(f.body.attrs['data-hd-battle-note-kind'], '');
+            assert.deepEqual([...f.timers.entries()], poll);
+        }
+        f.noSideEffects();
+    }
+});
+
+test('tactic preludes require the unpublished winner sentinel and retain mode, owner and lifecycle fences', () => {
+    for (const winner of [0, 199, 200, 65534, '65535']) {
+        const f = fixture(); f.set('outcome', 5); f.set('winner', winner); f.api.init(); f.off(); f.noSideEffects();
+    }
+    const f = fixture(); f.set('outcome', 5); f.set('winner', 65535); f.api.init(); f.on();
+    for (const blocker of blockers.concat('g_hdCityInfoActive')) {
+        f.raw[blocker] = 1; f.api.onEngineNote(); f.off(); f.raw[blocker] = 0; f.api.onEngineNote(); f.on();
+    }
+    f.state.mode = 'classic'; f.api.onEngineNote(); f.off(); f.state.mode = 'hd'; f.api.onEngineNote(); f.on();
+    f.fire('blur'); f.off(); f.set('active', 0); f.fire('focus'); f.off();
+    assert.equal(f.listeners.has('keydown'), false); assert.equal(f.windowListeners.has('keydown'), false); f.noSideEffects();
+});
+
+test('a prelude cannot leave its compact mode or accessibility label on a following battle announcement', () => {
+    const f = fixture(); f.set('outcome', 5); f.set('winner', 65535); f.api.init(); f.on();
+    assert.equal(f.body.attrs['data-hd-battle-note-kind'], '5');
+    for (const outcome of [1, 2, 3, 4]) {
+        f.set('outcome', outcome); f.set('winner', outcome === 1 ? 0 : 65535); f.set('seq', f.note.seq + 1);
+        f.set('text', '实际原生公告 ' + outcome); f.api.onEngineNote(); f.on();
+        assert.equal(f.body.attrs['data-hd-battle-note-kind'], String(outcome));
+        assert.equal(f.nodes.get('hd-battle-note').attrs['aria-label'], '战事公告');
+    }
+    f.set('active', 0); f.api.onEngineNote(); f.off();
+    assert.equal(f.body.attrs['data-hd-battle-note-kind'], ''); f.noSideEffects();
+});
+
+test('the tactic prelude is a transparent passive bottom strip and never hides the underlying LCD', () => {
+    const css = readFileSync(new URL('../css/hd-battle-note.css', import.meta.url), 'utf8');
+    assert.match(css, /body\[data-hd-battle-note="hd"\]:not\(\[data-hd-battle-note-kind="5"\]\) #lcd\s*\{\s*opacity:\s*0/);
+    const strip = css.match(/#hd-battle-note\[data-outcome="5"\]\s*\{([^}]*)\}/)[1];
+    assert.match(strip, /align-items:\s*flex-end/); assert.match(strip, /background:\s*transparent/);
+    assert.doesNotMatch(strip, /animation|transition|pointer-events:\s*auto/);
+    assert.match(css, /#hd-battle-note\[data-outcome="5"\] #hd-battle-note-text\s*\{[^}]*font-size:\s*clamp\(16px, 2vw, 22px\)/);
+    const selectors = [...css.matchAll(/([^{}]+)#lcd\s*\{([^}]*)\}/g)];
+    for (const [, selector, declarations] of selectors) {
+        if (/opacity:\s*0/.test(declarations)) assert.match(selector, /:not\(\[data-hd-battle-note-kind="5"\]\)/);
+        assert.doesNotMatch(declarations, /visibility|display|pointer-events|width|height|position/);
+    }
 });

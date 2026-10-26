@@ -30,10 +30,30 @@
 }
 /* Keep the real canvas hit box and its existing input gates. The read-only
    panel covers its pixels without changing the original delay's input. */
-body[data-hd-battle-note="hd"] #lcd { opacity: 0 !important; }
+body[data-hd-battle-note="hd"]:not([data-hd-battle-note-kind="5"]) #lcd { opacity: 0 !important; }
 .hd-mobile-page #hd-battle-note { position: absolute; padding: 16px; }
 .hd-mobile-page #hd-battle-note .hd-battle-note-panel { max-width: 600px; padding: 20px 16px; }
 .hd-mobile-page #hd-battle-note-text { font-size: clamp(24px, 4vw, 34px); }
+/* The native tactic prelude precedes computation. Keep its short-lived text
+   in a passive bottom strip without covering the map or hiding its pixels. */
+#hd-battle-note[data-outcome="5"] {
+    align-items: flex-end;
+    padding: 16px 28px;
+    background: transparent;
+}
+#hd-battle-note[data-outcome="5"] .hd-battle-note-panel {
+    width: auto;
+    max-width: min(760px, 100%);
+    padding: 10px 18px;
+    border: 1px solid #bfa16a;
+    border-radius: 8px;
+    background: rgba(16, 23, 33, .94);
+}
+#hd-battle-note[data-outcome="5"] #hd-battle-note-text {
+    font-size: clamp(16px, 2vw, 22px);
+    line-height: 1.45;
+}
+.hd-mobile-page #hd-battle-note[data-outcome="5"] { padding: 10px 16px; }
 @media (orientation: portrait) {
     .hd-mobile-page #hd-battle-note { display: none !important; }
     .hd-mobile-page[data-hd-battle-note="hd"] #lcd { opacity: 1 !important; }

@@ -2359,10 +2359,10 @@ function baye_bridge_init() {
                 var detailGeneration = reader.num('g_hdDetailGeneration');
                 var fields = [['protocolVersion', 'ProtocolVersion', 255], ['active', 'Active', 1],
                     ['seq', 'Seq', 0xffffffff], ['generation', 'Generation', 0xffffffff],
-                    ['outcome', 'Outcome', 4], ['winner', 'Winner', 65535]];
+                    ['outcome', 'Outcome', 5], ['winner', 'Winner', 65535]];
                 var value = {};
                 fields.forEach(function (f) { value[f[0]] = reader.num('g_hdBattleNote' + f[1], f[2]); });
-                var announcement = value.active === 1 && (value.outcome === 3 || value.outcome === 4);
+                var announcement = value.active === 1 && [3, 4, 5].indexOf(value.outcome) >= 0;
                 var persons = announcement ? null : hdPersonLimit();
                 var text = d && d.g_hdBattleNoteText;
                 if (!d || !detailGeneration || !announcement && !persons || value.protocolVersion !== 1 ||
@@ -2371,7 +2371,7 @@ function baye_bridge_init() {
                 if (value.active) {
                     if (!value.seq || value.generation !== detailGeneration || !text.length ||
                         (value.outcome === 1 ? value.winner >= persons :
-                            [2, 3, 4].indexOf(value.outcome) < 0 || value.winner !== 65535)) return null;
+                            [2, 3, 4, 5].indexOf(value.outcome) < 0 || value.winner !== 65535)) return null;
                 } else if (value.outcome !== 0 || value.winner !== 65535 || text !== '') return null;
                 value.text = text;
                 return reader.stable() && d.g_hdBattleNoteText === text && baye.data === d ? value : null;

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "c53a31c3127c0689fd555bdc97afc814abb53bf5",
-  "engineSourceSha256": "d2eb9e64772ff874eb34a4408f77dbf884f704c32563f95791a61462bb9f90d1",
+  "sourceRevision": "c4b27f69c073efd821aaec8aa744292a7d0033cd",
+  "engineSourceSha256": "56a9c2705b61380b8f36505ea8a6bbdadff80c9527d12b49ab5ee78202c36d56",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1793022232,
+  "sourceDateEpoch": 1793023617,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -99,11 +99,13 @@
       "victory": 1,
       "defeat": 2,
       "attack": 3,
-      "confrontation": 4
+      "confrontation": 4,
+      "tacticPrelude": 5
     },
     "winner": "actual zero-based winner only for victory; all other types require unpublished 65535",
     "publication": "actual complete native sentence after original draw; no extra name, city or person-count reads for pre-battle announcements",
-    "input": "passive observer; original attack delay100/keyflag0 and confrontation delay300/configured keyflag remain unchanged",
+    "input": "passive observer; original attack100/keyflag0, confrontation300/configured keyflag and tactic-prelude5/keyflag0 waits remain unchanged",
+    "tacticPrelude": "actual ShowTacticNote sentences before ComputerTactic; no percent, retained last item, AI execution or timer extension",
     "retirement": "local generation and sequence; a draw-time world change cannot publish the old pre-battle sentence; stale ends do not retire replacements"
   },
   "hdTransferProtocol": {
@@ -652,12 +654,12 @@
       "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
     },
     "baye.wasm": {
-      "bytes": 4576607,
-      "sha256": "fd7aa18ab0b9ab366331bf1546231998df334c91309e10271258436508216ed6"
+      "bytes": 4577121,
+      "sha256": "7ec79d5a3274317dcc3ace2fb39f4fc1adf3fcad56f96259c8b1932a6662be5b"
     },
     "baye.wasm.map": {
       "bytes": 29995,
-      "sha256": "8f53a3fd3df98bd08aa56b17fa40b9b9780937b3326df16524f2d661a35e05c3"
+      "sha256": "d7eaa92c1cf9dc102a3812243ad0bf080751e7e3b440febfe3b1d5b6690e7010"
     }
   }
 }

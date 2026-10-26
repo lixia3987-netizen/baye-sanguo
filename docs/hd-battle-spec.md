@@ -190,3 +190,10 @@ HD 地图 → 己方城 → 军备 → 出征 →（LCD）选将 / 目标 → �
 baye.hd.battleNote沿version1保留胜1／败2，追加进攻3／交锋4，后两者winner必须65535，不代表任何已知胜者；UI只呈现该次原生已拼好并绘出的全文。原ShowAttackNote的100tick／flag0与ShowFightNote的300tick／原响应配置保持，被动面板没有按钮或发键，也不改变LCD命中。
 
 绘制前generation与发布序号保护新入口；begin保存自身序号后才同步通知，旧end不会因通知重入拿到替换序号。PC／手机原LIB身份、data／API引用、全文raw、模式与生命周期严格读封口，报告／战场等高owner仍优先。原型与真实流程验收边界见[V93记录](validation/m5-battle-announcements-20261026-v93.md)。
+
+
+## 计算前的策略预告（V94）
+
+ShowTacticNote每条原生文字绘制后以battleNote version1类型5发布，winner65535；原5tick／flag0、队列顺序、原读取／绘制／清图保持，函数世代与局部序号阻旧条目复活。该预告在ComputerTactic之前，不是实际逐君主计算进度，不补END、确认或延长等待。
+
+PC／手机复用只读公告观察器，同步begin／end立即显退；type5透明根与紧凑底条、不隐藏LCD，原1..4全屏行为保持，ARIA为电脑策略预告。状态条无按钮、不拦截输入、不持留最后一条；真实END、短帧及真机边界见[V94记录](validation/m5-tactic-prelude-20261026-v94.md)。

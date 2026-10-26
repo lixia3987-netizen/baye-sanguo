@@ -1357,10 +1357,10 @@ void baye_hd_battle_note_retire(void)
 
 U32 baye_hd_battle_note_begin(U8 outcome, U16 winner, const U8* text)
 {
-    U32 limit = (outcome == 3 || outcome == 4) ? 0 : GamGetPersonCount();
+    U32 limit = (outcome >= 3 && outcome <= 5) ? 0 : GamGetPersonCount();
     U32 seq;
     if (!g_hdDetailGeneration || !text || !text[0] ||
-        (outcome < 1 || outcome > 4) ||
+        (outcome < 1 || outcome > 5) ||
         (outcome == 1 && (!limit || winner >= limit || winner >= PERSON_MAX)) ||
         (outcome != 1 && winner != 0xffff)) return 0;
     copy_gbk(g_hdBattleNoteText, sizeof(g_hdBattleNoteText), text);

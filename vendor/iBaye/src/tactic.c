@@ -1394,19 +1394,24 @@ void ShowTacticNote(void)
     U8 str[512], astr[512];
     PersonID *kq;
     U32 i,kc;
+    U32 hdGeneration = g_hdDetailGeneration;
     
     ShowMapClear();
     kq = (PersonID*)SHARE_MEM;
     kc = GetEnemyKing(g_PlayerKing,kq);
     for (i = 0;i < kc;i ++)
     {
+        U32 hdNoteSeq = 0;
         GetPersonName(kq[i],str);
         ResLoadToMem(STRING_CONST,TACTIC_STR,astr);
         gam_strcat(str,astr);
         gam_clrlcd(WK_SX + WK_EX / 2 - (WK_SX + ASC_WID * 19 + 4) / 2,WK_EY - 2 - ASC_HGT - 2,WK_SX + WK_EX / 2 - (WK_SX + ASC_WID * 19 + 4) / 2 + ASC_WID * 19 + 4,WK_EY - 2);
         gam_rect(WK_SX + WK_EX / 2 - (WK_SX + ASC_WID * 19 + 4) / 2,WK_EY - 2 - ASC_HGT - 2,WK_SX + WK_EX / 2 - (WK_SX + ASC_WID * 19 + 4) / 2 + ASC_WID * 19 + 4,WK_EY - 2);
         GamStrShowS(WK_SX + (WK_EX - (WK_SX + ASC_WID * 19)) / 2,WK_EY - 2 - ASC_HGT,str);
+        if (hdGeneration == g_hdDetailGeneration)
+            hdNoteSeq = baye_hd_battle_note_begin(5, 0xffff, str);
         GamDelay(5,false);
+        baye_hd_battle_note_end(hdGeneration, hdNoteSeq);
     }
     ShowMapClear();
 }
