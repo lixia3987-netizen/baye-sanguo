@@ -1357,19 +1357,21 @@ void baye_hd_battle_note_retire(void)
 
 U32 baye_hd_battle_note_begin(U8 outcome, U16 winner, const U8* text)
 {
-    U32 limit = GamGetPersonCount();
+    U32 limit = (outcome == 3 || outcome == 4) ? 0 : GamGetPersonCount();
+    U32 seq;
     if (!g_hdDetailGeneration || !text || !text[0] ||
-        (outcome != 1 && outcome != 2) ||
+        (outcome < 1 || outcome > 4) ||
         (outcome == 1 && (!limit || winner >= limit || winner >= PERSON_MAX)) ||
-        (outcome == 2 && winner != 0xffff)) return 0;
+        (outcome != 1 && winner != 0xffff)) return 0;
     copy_gbk(g_hdBattleNoteText, sizeof(g_hdBattleNoteText), text);
     g_hdBattleNoteSeq = hd_next_input_seq(g_hdBattleNoteSeq);
+    seq = g_hdBattleNoteSeq;
     g_hdBattleNoteGeneration = g_hdDetailGeneration;
     g_hdBattleNoteOutcome = outcome;
     g_hdBattleNoteWinner = winner;
     g_hdBattleNoteActive = 1;
     hd_battle_note_notify();
-    return g_hdBattleNoteSeq;
+    return seq;
 }
 
 void baye_hd_battle_note_end(U32 generation, U32 seq)

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "fa2ccd2a06edbc2d689d0b4208118a5d20bf1adc",
-  "engineSourceSha256": "2251979174a889346026a1da4756d7772fa1a94115b2848e7629d46819c1b4d8",
+  "sourceRevision": "c53a31c3127c0689fd555bdc97afc814abb53bf5",
+  "engineSourceSha256": "d2eb9e64772ff874eb34a4408f77dbf884f704c32563f95791a61462bb9f90d1",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1793021022,
+  "sourceDateEpoch": 1793022232,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -82,6 +82,29 @@
       "g_hdQtyStep",
       "g_hdQtyReady"
     ]
+  },
+  "hdBattleNoteProtocol": {
+    "version": 1,
+    "publicApi": "baye.hd.battleNote()",
+    "fields": [
+      "g_hdBattleNoteProtocolVersion",
+      "g_hdBattleNoteActive",
+      "g_hdBattleNoteSeq",
+      "g_hdBattleNoteGeneration",
+      "g_hdBattleNoteOutcome",
+      "g_hdBattleNoteWinner",
+      "g_hdBattleNoteText"
+    ],
+    "types": {
+      "victory": 1,
+      "defeat": 2,
+      "attack": 3,
+      "confrontation": 4
+    },
+    "winner": "actual zero-based winner only for victory; all other types require unpublished 65535",
+    "publication": "actual complete native sentence after original draw; no extra name, city or person-count reads for pre-battle announcements",
+    "input": "passive observer; original attack delay100/keyflag0 and confrontation delay300/configured keyflag remain unchanged",
+    "retirement": "local generation and sequence; a draw-time world change cannot publish the old pre-battle sentence; stale ends do not retire replacements"
   },
   "hdTransferProtocol": {
     "version": 1,
@@ -629,12 +652,12 @@
       "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
     },
     "baye.wasm": {
-      "bytes": 4575025,
-      "sha256": "a65f0dc0fbe11143939a145b75378bab654abbedf50860fbca4056550a0c689b"
+      "bytes": 4576607,
+      "sha256": "fd7aa18ab0b9ab366331bf1546231998df334c91309e10271258436508216ed6"
     },
     "baye.wasm.map": {
       "bytes": 29995,
-      "sha256": "756938c063a193d45a4c2350c36ba5e02cc5b62e0049338f27553c96dd08641c"
+      "sha256": "8f53a3fd3df98bd08aa56b17fa40b9b9780937b3326df16524f2d661a35e05c3"
     }
   }
 }

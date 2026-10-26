@@ -14,6 +14,7 @@
     }
     function createController(environment) {
         var env = environment || global, mounted = false, focused = true, pageActive = true, timer = null, afterInputPending = false;
+        var reading = false, readEpoch = 0;
         var last = {active: false, presentation: 'off', reason: 'not-initialized'};
         function doc() { return env.document; }
         function node(id) { return doc() && doc().getElementById(id); }
@@ -29,15 +30,16 @@
             if (mode === 'hd') { return true; }
             return mode === 'auto' && !!(map && typeof map.getMode === 'function' && map.getMode() === 'hd-map');
         }
-        function identity() {
-            var api = env.BayeHdLibIdentity, value = api && api.read();
-            if (!api || typeof api.isCurrent !== 'function' || !value || value.status !== 'ready' ||
+        function identity(api, read, current) {
+            var value = read.call(api);
+            if (!value || value.status !== 'ready' ||
                 value.sha256 !== ORIGINAL_SHA || value.byteLength !== 207195 || !uint(value.generation) ||
-                !value.generation || !api.isCurrent(value)) { return null; }
-            return {generation: value.generation, sha256: value.sha256, byteLength: value.byteLength, status: value.status};
+                !value.generation || current.call(api, value) !== true) { return null; }
+            return {generation: value.generation, sha256: value.sha256, byteLength: value.byteLength, status: value.status, source: value};
         }
-        function sample(data, hd) {
-            var value = hd.battleNote(), note = {}, raw = {};
+        function identityKey(value) { return JSON.stringify([value.generation, value.sha256, value.byteLength, value.status]); }
+        function sample(data, hd, read) {
+            var value = read.call(hd), note = {}, raw = {};
             if (data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
             if (!value) { return null; }
             for (var i = 0; i < FIELDS.length; i++) {
@@ -47,7 +49,7 @@
                 note[name] = nativeValue;
             }
             if (note.protocolVersion !== 1 || note.active !== 1 || !note.seq || !note.generation ||
-                (note.outcome !== 1 && note.outcome !== 2) ||
+                !uint(note.outcome, 4) || !note.outcome ||
                 (note.outcome === 1 ? !uint(note.winner, 199) : note.winner !== 65535) ||
                 !note.text.trim() || note.text.length > 512 || note.text.indexOf('\u0000') >= 0) { return null; }
             for (var b = 0; b < BLOCKERS.length; b++) {
@@ -63,19 +65,55 @@
             if (raw.g_hdEngineReady !== 1 || note.generation !== raw.g_hdDetailGeneration) { return null; }
             return {note: note, raw: raw};
         }
+        function rawMatches(value, data) {
+            if (!value || data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return false; }
+            return FIELDS.every(function (name) {
+                return data['g_hdBattleNote' + name.charAt(0).toUpperCase() + name.slice(1)] === value.note[name];
+            }) && BLOCKERS.concat(FENCES).every(function (name) { return data[name] === value.raw[name]; });
+        }
         function readCurrent() {
-            if (!available() || !effectiveHd()) { return null; }
+            if (reading) { readEpoch += 1; return null; }
+            reading = true;
+            var ticket = ++readEpoch;
             try {
-                var id = identity(), baye = env.baye, hd = baye && baye.hd;
-                if (!id || !hd || typeof hd.battleNote !== 'function' || typeof hd.ready !== 'function' || hd.ready() !== true) { return null; }
-                var data = typeof baye.ensureData === 'function' ? baye.ensureData() : baye.data;
+                if (!available() || !effectiveHd()) { return null; }
+                var baye = env.baye, hd = baye && baye.hd, identityApi = env.BayeHdLibIdentity,
+                    battle = env.BayeHdBattle, map = env.BayeHdOverworld, lib = env.dynLib, document = doc();
+                if (!hd || !identityApi || typeof identityApi.read !== 'function' || typeof identityApi.isCurrent !== 'function' ||
+                    typeof hd.battleNote !== 'function' || typeof hd.ready !== 'function' ||
+                    typeof lib !== 'string' || lib.length !== 414390) { return null; }
+                var read = hd.battleNote, ready = hd.ready, getData = baye.ensureData, identify = identityApi.read,
+                    current = identityApi.isCurrent, battleMode = battle && battle.getMode, mapMode = map && map.getMode;
+                var id = identity(identityApi, identify, current);
+                if (!id || ready.call(hd) !== true) { return null; }
+                var data = typeof getData === 'function' ? getData.call(baye) : baye.data;
                 if (!data || baye.data !== data) { return null; }
-                var first = sample(data, hd), second = sample(data, hd), latest = identity();
+                var first = sample(data, hd, read), second = sample(data, hd, read), latest = identity(identityApi, identify, current);
+                var stillReady = ready.call(hd), shown = available() && effectiveHd();
                 if (!first || !second || JSON.stringify(first) !== JSON.stringify(second) || !latest ||
-                    JSON.stringify(id) !== JSON.stringify(latest) || baye.data !== data || hd.ready() !== true ||
-                    !available() || !effectiveHd() || data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
+                    identityKey(id) !== identityKey(latest) || identityKey(id) !== identityKey(id.source) ||
+                    identityKey(latest) !== identityKey(latest.source) || stillReady !== true || !shown ||
+                    env.baye !== baye || baye.data !== data || baye.hd !== hd || baye.ensureData !== getData ||
+                    hd.battleNote !== read || hd.ready !== ready || env.BayeHdLibIdentity !== identityApi ||
+                    identityApi.read !== identify || identityApi.isCurrent !== current || env.dynLib !== lib ||
+                    env.BayeHdBattle !== battle || battle && battle.getMode !== battleMode ||
+                    env.BayeHdOverworld !== map || map && map.getMode !== mapMode || doc() !== document ||
+                    !available() || ticket !== readEpoch) { return null; }
+                // Reference getters above may change the actual presentation
+                // mode or lifecycle without changing the function they return.
+                var finalMode = battleMode.call(battle), finalHd = finalMode === 'hd' || finalMode === 'auto' &&
+                    typeof mapMode === 'function' && mapMode.call(map) === 'hd-map';
+                var finalReady = ready.call(hd), finalAvailable = available();
+                // These callbacks can in turn change native/source values.
+                // Keep the primitive publication check after all of them.
+                if (!finalHd || finalReady !== true || !finalAvailable ||
+                    identityKey(id) !== identityKey(id.source) || identityKey(latest) !== identityKey(latest.source) ||
+                    env.baye !== baye || baye.data !== data || baye.hd !== hd || env.dynLib !== lib ||
+                    env.BayeHdLibIdentity !== identityApi || env.BayeHdBattle !== battle || env.BayeHdOverworld !== map ||
+                    !rawMatches(second, data) || ticket !== readEpoch) { return null; }
                 return {data: data, note: second.note, libraryGeneration: latest.generation};
             } catch (error) { return null; }
+            finally { reading = false; }
         }
         function paint(value, reason) {
             var root = node('hd-battle-note'), text = node('hd-battle-note-text'), body = doc() && doc().body;

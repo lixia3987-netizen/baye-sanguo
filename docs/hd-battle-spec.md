@@ -183,3 +183,10 @@ MOVE/AIM 范围轮廓、射程内将领角标、焦点说明和目标连线共�
 真进战斗未在 agent VM 走完（出征选将 / 选目标仍是 M3 LCD 多层对话框）。手动：
 
 HD 地图 → 己方城 → 军备 → 出征 →（LCD）选将 / 目标 → 开打后 `fightOpenMainMenu` / `drawMapUnit` / `drawOneGeneral` 应升 HD 壳；`battleMode=classic` 则不升。
+
+
+## 原生战前公告（V93）
+
+baye.hd.battleNote沿version1保留胜1／败2，追加进攻3／交锋4，后两者winner必须65535，不代表任何已知胜者；UI只呈现该次原生已拼好并绘出的全文。原ShowAttackNote的100tick／flag0与ShowFightNote的300tick／原响应配置保持，被动面板没有按钮或发键，也不改变LCD命中。
+
+绘制前generation与发布序号保护新入口；begin保存自身序号后才同步通知，旧end不会因通知重入拿到替换序号。PC／手机原LIB身份、data／API引用、全文raw、模式与生命周期严格读封口，报告／战场等高owner仍优先。原型与真实流程验收边界见[V93记录](validation/m5-battle-announcements-20261026-v93.md)。

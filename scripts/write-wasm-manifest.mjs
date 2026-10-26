@@ -57,6 +57,16 @@ const manifest = {
         record: ['g_hdRecordActive', 'g_hdRecordMode', 'g_hdRecordIndex', 'g_hdRecordCount', 'g_hdRecordSeq'],
         qty: ['g_hdQtyActive', 'g_hdQtySession', 'g_hdQtyInputSeq', 'g_hdQtyLastKey', 'g_hdQtyCursor', 'g_hdQtyStep', 'g_hdQtyReady']
     },
+    hdBattleNoteProtocol: {
+        version: 1,
+        publicApi: 'baye.hd.battleNote()',
+        fields: ['g_hdBattleNoteProtocolVersion','g_hdBattleNoteActive','g_hdBattleNoteSeq','g_hdBattleNoteGeneration','g_hdBattleNoteOutcome','g_hdBattleNoteWinner','g_hdBattleNoteText'],
+        types: {victory: 1, defeat: 2, attack: 3, confrontation: 4},
+        winner: 'actual zero-based winner only for victory; all other types require unpublished 65535',
+        publication: 'actual complete native sentence after original draw; no extra name, city or person-count reads for pre-battle announcements',
+        input: 'passive observer; original attack delay100/keyflag0 and confrontation delay300/configured keyflag remain unchanged',
+        retirement: 'local generation and sequence; a draw-time world change cannot publish the old pre-battle sentence; stale ends do not retire replacements'
+    },
     hdTransferProtocol: {
         version: 1,
         publicApi: 'baye.hd.transfer()',

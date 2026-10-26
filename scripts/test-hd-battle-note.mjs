@@ -14,6 +14,7 @@ assert.ok(legacyPromiseStart > 0 && legacyPromiseEnd > legacyPromiseStart, 'Actu
 const legacyPromiseSource = '(function(){' + bridgeSource.slice(legacyPromiseStart,
     legacyPromiseEnd + '    window.Promise = Promise;'.length) + '})()';
 const SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
+const originalHex = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url)).toString('hex');
 const fields = ['protocolVersion', 'active', 'seq', 'generation', 'outcome', 'winner', 'text'];
 const blockers = ['g_hdMenuActive', 'g_hdReportActive', 'g_hdRecordActive', 'g_hdQtyActive',
     'g_hdHelpActive', 'g_hdViewActive', 'g_hdMiniMapActive', 'g_hdMovieActive', 'g_hdSpeActive',
@@ -39,7 +40,7 @@ function fixture({mobile = true, mode = 'auto', map = 'hd-map', microtask = true
     const baye = {data, ensureData() { return this.data; }, sendKey() { state.keys++; throw Error('No keys'); },
         hd: {ready: () => state.ready, battleNote() { state.reads++; state.readHook?.(state.reads); return {...note}; }}};
     raw.self = data; raw.toJSON = () => { throw Error('Opaque data serialization forbidden'); };
-    const environment = {document, innerWidth: 844, innerHeight: 390, baye, Promise,
+    const environment = {document, innerWidth: 844, innerHeight: 390, baye, Promise, dynLib: originalHex,
         localStorage: {setItem() { state.storageWrites++; throw Error('No preferences'); }},
         BayeHdBattle: {getMode: () => state.mode, shouldShowHd() { throw Error('Cannot depend on active-fight presentation'); }},
         BayeHdOverworld: {getMode: () => state.map},
@@ -144,7 +145,7 @@ for (const blocker of blockers) {
     });
 }
 for (const [name, value] of [['protocolVersion', 0], ['active', 2], ['seq', 0], ['seq', 4294967296],
-    ['generation', 0], ['generation', 4], ['outcome', 0], ['outcome', 3], ['winner', 200],
+    ['generation', 0], ['generation', 4], ['outcome', 0], ['outcome', 5], ['winner', 200],
     ['winner', 65535], ['text', ''], ['text', '\u0000旧缓冲'], ['text', 'x'.repeat(513)], ['text', ['fake bytes']]]) {
     test('Invalid or unbound native note is LCD-only: ' + name + '=' + String(value).slice(0, 22), () => {
         const f = fixture(); f.set(name, value); f.api.init(); f.off(); f.noSideEffects();
@@ -187,6 +188,102 @@ test('Old ABI, unavailable engine, throwing getter and missing DOM preserve nati
 });
 test('A winner cannot be invented for an actual LossNote', () => {
     const f = fixture(); f.set('outcome', 2); f.set('winner', 0); f.api.init(); f.off(); f.noSideEffects();
+});
+
+test('PC and mobile present actual attack and confrontation text without inventing a winner, city or names', () => {
+    for (const mobile of [false, true]) for (const outcome of [3, 4]) {
+        const f = fixture({mobile}); f.set('outcome', outcome); f.set('winner', 65535);
+        f.set('text', outcome === 3 ? '我军进攻襄阳' : '曹操与刘备大军交战');
+        f.environment.baye.getPersonName = f.environment.baye.getCityName = () => { throw Error('Uncaptured identity lookup'); };
+        f.api.init(); f.on(); const value = f.api.debugSnapshot();
+        assert.equal(value.outcome, outcome); assert.equal(value.winner, 65535);
+        assert.equal(f.nodes.get('hd-battle-note').attrs['data-outcome'], String(outcome));
+        assert.equal(Object.hasOwn(value, 'attacker'), false); assert.equal(Object.hasOwn(value, 'city'), false);
+        f.set('active', 0); f.api.onEngineNote(); f.off(); f.noSideEffects();
+    }
+});
+
+test('pre-battle announcement kinds retain the unknown-winner sentinel and reject unknown kinds', () => {
+    for (const outcome of [3, 4]) for (const winner of [0, 199, 200, 65534]) {
+        const f = fixture(); f.set('outcome', outcome); f.set('winner', winner);
+        f.api.init(); f.off(); f.noSideEffects();
+    }
+    for (const outcome of [0, 5, 255, '3']) {
+        const f = fixture(); f.set('outcome', outcome); f.set('winner', 65535);
+        f.api.init(); f.off(); f.noSideEffects();
+    }
+});
+
+test('attack and confrontation announcements defer to current owners, public mode and lifecycle without handling input', () => {
+    for (const outcome of [3, 4]) {
+        const f = fixture(); f.set('outcome', outcome); f.set('winner', 65535); f.api.init(); f.on();
+        for (const blocker of blockers.concat('g_hdCityInfoActive')) {
+            f.raw[blocker] = 1; f.api.onEngineNote(); f.off(); f.raw[blocker] = 0; f.api.onEngineNote(); f.on();
+        }
+        f.state.mode = 'classic'; f.api.refresh(); f.off(); f.state.mode = 'hd'; f.api.refresh(); f.on();
+        f.fire('blur'); f.off(); f.set('active', 0); f.fire('focus'); f.off();
+        assert.equal(f.listeners.has('keydown'), false); assert.equal(f.windowListeners.has('keydown'), false);
+        f.noSideEffects();
+    }
+});
+
+test('last mode callback cannot publish an old announcement after source, field, provider or API changes', () => {
+    for (const change of [
+        f => f.set('text', 'later native text'), f => { f.raw.g_hdReportActive = 1; },
+        f => { f.environment.baye.data = {...f.raw}; }, f => { f.environment.baye = {...f.environment.baye}; },
+        f => { f.environment.baye.hd = {...f.environment.baye.hd}; },
+        f => { f.environment.baye.hd.battleNote = () => ({...f.note}); },
+        f => { f.environment.baye.hd.ready = () => true; },
+        f => { f.environment.baye.ensureData = () => f.data; },
+        f => { f.environment.BayeHdLibIdentity = {...f.environment.BayeHdLibIdentity}; },
+        f => { f.environment.BayeHdLibIdentity.read = () => f.identity(); },
+        f => { f.environment.BayeHdLibIdentity.isCurrent = () => true; },
+        f => { f.environment.dynLib = '0'.repeat(414390); },
+        f => { f.identity().generation++; }, f => { f.environment.BayeHdBattle = {...f.environment.BayeHdBattle}; },
+        f => { f.environment.BayeHdOverworld = {...f.environment.BayeHdOverworld}; }
+    ]) {
+        const f = fixture(); f.set('outcome', 3); f.set('winner', 65535); let calls = 0;
+        f.environment.BayeHdBattle.getMode = () => { if (++calls === 2) change(f); return f.state.mode; };
+        f.api.init(); f.off(); f.noSideEffects();
+    }
+});
+
+test('identity callback reentry retires the outer announcement read and may later observe the still-current notice', () => {
+    const f = fixture(); f.set('outcome', 4); f.set('winner', 65535); let once = false;
+    f.state.identityHook = () => { if (!once) { once = true; f.api.onEngineNote(); } };
+    f.api.init(); f.off(); f.state.identityHook = null; f.api.refresh(); f.on(); f.noSideEffects();
+    for (const source of [undefined, null, '', '0'.repeat(414388), new Uint8Array(207195)]) {
+        f.environment.dynLib = source; f.api.refresh(); f.off(); f.noSideEffects();
+    }
+});
+
+test('last provider-reference getters cannot paint a stale announcement after changing the publication or source', () => {
+    for (const [target, name, finalRead] of [
+        ['hd', 'ready', 3], ['hd', 'battleNote', 3], ['baye', 'ensureData', 2],
+        ['identity', 'read', 3], ['identity', 'isCurrent', 3], ['battle', 'getMode', 4], ['map', 'getMode', 2]
+    ]) {
+        const f = fixture({mode: 'hd'}); f.set('outcome', 3); f.set('winner', 65535); f.set('text', 'OLD ATTACK');
+        const object = {hd: f.environment.baye.hd, baye: f.environment.baye, identity: f.environment.BayeHdLibIdentity,
+            battle: f.environment.BayeHdBattle, map: f.environment.BayeHdOverworld}[target], original = object[name];
+        let reads = 0;
+        Object.defineProperty(object, name, {configurable: true, get() {
+            if (++reads === finalRead) f.set('text', 'NEW NATIVE ATTACK');
+            return original;
+        }});
+        f.api.init(); assert.ok(reads >= finalRead, target + '.' + name + ' reaches its final reference getter');
+        assert.equal(f.note.text, 'NEW NATIVE ATTACK'); f.off(); f.noSideEffects();
+        Object.defineProperty(object, name, {value: original, configurable: true, writable: true});
+        f.api.refresh(); f.on(); f.noSideEffects();
+    }
+    for (const change of [f => { f.environment.baye.data = {...f.raw}; },
+        f => { f.environment.dynLib = '0'.repeat(414390); }, f => { f.identity().generation++; },
+        f => { f.state.mode = 'classic'; }, f => { f.state.map = 'classic'; },
+        f => { f.document.hidden = true; }, f => { f.state.ready = false; }]) {
+        const f = fixture(); f.set('outcome', 4); f.set('winner', 65535);
+        const ready = f.environment.baye.hd.ready; let reads = 0;
+        Object.defineProperty(f.environment.baye.hd, 'ready', {get() { if (++reads === 3) change(f); return ready; }});
+        f.api.init(); assert.equal(reads, 3); f.off(); f.noSideEffects();
+    }
 });
 test('The lightweight output contains no input handlers or generated winner/name text', () => {
     assert.doesNotMatch(source, /sendKey|dispatchEvent|localStorage|storage\.set|\.value\s*=/);

@@ -237,7 +237,7 @@
                     <canvas id="hd-spe-canvas" class="hd-spe-canvas" width="160" height="96" aria-label="原版战场效果画面"></canvas>
                 </div>
             </section>
-            <section id="hd-battle-note" aria-label="战果" aria-hidden="true" hidden>
+            <section id="hd-battle-note" aria-label="战事公告" aria-hidden="true" hidden>
                 <div class="hd-battle-note-panel"><p id="hd-battle-note-text" role="status"></p></div>
             </section>
         </main>
@@ -249,7 +249,7 @@
     </body>
 </html>
 <script src="js/idbkvstore.min.js?ver=20261008i"></script>
-<script src="js/bridge.js?ver=20261026cityinfo1"></script>
+<script src="js/bridge.js?ver=20261026notice1"></script>
 <script src="js/save-storage.js?ver=20261026save1"></script>
 <script src="js/original-game.js?ver=20261010b"></script>
 <script src="js/lcd.js?ver=20261026cityinfo1"></script>
@@ -281,7 +281,7 @@
 <script src="js/hd-battle-scene.js?ver=20261026cityinfo1"></script>
 <script src="js/hd-spe.js?ver=20261014a"></script>
 <script src="js/hd-mobile-battle.js?ver=20261026graphic1"></script>
-<script src="js/hd-battle-note.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-battle-note.js?ver=20261026notice1"></script>
 <script>
 var mobileTouch = null;
 function reloadLCD(){
@@ -349,7 +349,7 @@ Module.postRun = function (){
 };
 </script>
 <script>
-    window.BAYE_ASSET_VER = '20261026graphic1';
+    window.BAYE_ASSET_VER = '20261026notice1';
     window.Module = window.Module || {};
     window.Module.locateFile = function (path, prefix) {
         prefix = prefix || 'js/';
@@ -359,4 +359,4 @@ Module.postRun = function (){
         return prefix + path;
     };
 </script>
-<script src="js/baye.js?ver=20261026graphic1"></script>
+<script src="js/baye.js?ver=20261026notice1"></script>
