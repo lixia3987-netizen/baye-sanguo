@@ -1,0 +1,1984 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-core-002-archive-part001.json",
+      "bytes": 8332514,
+      "sha256": "f25eb15476307beb09cf2a32a2d3d049349d5059251529ce1e71937e6dd96a79",
+      "blobs": 10
+    },
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-core-002-archive-part002.json",
+      "bytes": 6877931,
+      "sha256": "2544c0902dcbfaa22b75176cbb27ff09ad0a8989dcb39d150be7519b86e01aa1",
+      "blobs": 194
+    }
+  ],
+  "files": [
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/result.json",
+      "bytes": 6552406,
+      "sha256": "5202c012ed5b82a49a6c30ffc12f8f7060e1e4df3e4a4a3b280a0e4b133b9d74",
+      "blob": "5202c012ed5b82a49a6c30ffc12f8f7060e1e4df3e4a4a3b280a0e4b133b9d74",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc1080-fixed-v1/source-verification.json",
+      "bytes": 435149,
+      "sha256": "7847ebf0ce296d69396692015f6816fe0cf0d4f4fc5ed4f4625932740629e725",
+      "blob": "7847ebf0ce296d69396692015f6816fe0cf0d4f4fc5ed4f4625932740629e725",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/source-verification.json",
+      "bytes": 435149,
+      "sha256": "7847ebf0ce296d69396692015f6816fe0cf0d4f4fc5ed4f4625932740629e725",
+      "blob": "7847ebf0ce296d69396692015f6816fe0cf0d4f4fc5ed4f4625932740629e725",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/browser-console.json",
+      "bytes": 15974,
+      "sha256": "cf936d76f97a99e09a2d1fa86d5d6e9b7274a92e8ff65c957c615c05bade588c",
+      "blob": "cf936d76f97a99e09a2d1fa86d5d6e9b7274a92e8ff65c957c615c05bade588c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/pc720-equipment-00-luoyang-root.png",
+      "bytes": 885942,
+      "sha256": "82fd7a8bdbe1ddcef4309215a84de8cd2e8ab5b076c62ac040cce2f69d814578",
+      "blob": "82fd7a8bdbe1ddcef4309215a84de8cd2e8ab5b076c62ac040cce2f69d814578",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/pc720-equipment-01-city-resource-Money.png",
+      "bytes": 855510,
+      "sha256": "a7dda3f997bb0a74156484d1fbe703f24994d457b57a869d4eb94925ea71ecf4",
+      "blob": "a7dda3f997bb0a74156484d1fbe703f24994d457b57a869d4eb94925ea71ecf4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/pc720-equipment-02-city-resource-Tools.png",
+      "bytes": 851234,
+      "sha256": "f20142b7fc400a90641f95da3b60c54edc6785f636b168b12e9ce3cf0a2eeab1",
+      "blob": "f20142b7fc400a90641f95da3b60c54edc6785f636b168b12e9ce3cf0a2eeab1",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/pc720-equipment-03-search-person-list.png",
+      "bytes": 867901,
+      "sha256": "4d0dae12d507c27df5c9c5fec5918498ae6b6b46082f54480e67f4ec88fbbb09",
+      "blob": "4d0dae12d507c27df5c9c5fec5918498ae6b6b46082f54480e67f4ec88fbbb09",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/pc720-equipment-04-equipment-person-20-slot-0.png",
+      "bytes": 796362,
+      "sha256": "62e550f36e43276397c2d030af3697190ddc830171d13e097f1ff36c973b04e2",
+      "blob": "62e550f36e43276397c2d030af3697190ddc830171d13e097f1ff36c973b04e2",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/pc720-equipment-05-equipment-person-20-slot-1.png",
+      "bytes": 796369,
+      "sha256": "8527d4e0ece4b52bb4b3102bdf83263e67fe0262829f120016edd3ee3d7c5fc6",
+      "blob": "8527d4e0ece4b52bb4b3102bdf83263e67fe0262829f120016edd3ee3d7c5fc6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/pc720-equipment-06-equipment-person-0-slot-0.png",
+      "bytes": 773467,
+      "sha256": "ebdca6059272781ca3e27d1ebaeb176e5e047b4f725d666173896cb78aae0dd9",
+      "blob": "ebdca6059272781ca3e27d1ebaeb176e5e047b4f725d666173896cb78aae0dd9",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/pc720-equipment-07-equipment-person-19-empty.png",
+      "bytes": 835585,
+      "sha256": "94af3cf33eee79a66e9b3f346a19758c66169cd8491f3717aa5017b5997e25c9",
+      "blob": "94af3cf33eee79a66e9b3f346a19758c66169cd8491f3717aa5017b5997e25c9",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/pc720-fixed-v1/result.json",
+      "bytes": 6552129,
+      "sha256": "5d4d2bfd94649e0748c12a4b9a06508fc6de595be264ceb30c40705d76776c45",
+      "blob": "5d4d2bfd94649e0748c12a4b9a06508fc6de595be264ceb30c40705d76776c45",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/preserve-failed-publication-v1.mjs",
+      "bytes": 2304,
+      "sha256": "b2b57292a5a35e01c2f861e71ecf03c425a05e27e338a75e0e2d8814f5166c23",
+      "blob": "b2b57292a5a35e01c2f861e71ecf03c425a05e27e338a75e0e2d8814f5166c23",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/public-cli-failure-v1.json",
+      "bytes": 424,
+      "sha256": "bff08ee4fe382bd4840efcb0c05aba3816dda95e4e536ab162fc9dcaf0d9c03e",
+      "blob": "bff08ee4fe382bd4840efcb0c05aba3816dda95e4e536ab162fc9dcaf0d9c03e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/public-cli-v1.stderr.log",
+      "bytes": 1004,
+      "sha256": "c399b7f2a478c7f340518370ea873399f77d9de5255eaa070f4a3bd06b6f720d",
+      "blob": "c399b7f2a478c7f340518370ea873399f77d9de5255eaa070f4a3bd06b6f720d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-engine-build-terminal-tool-v1.json",
+      "bytes": 955,
+      "sha256": "baccb54f00603552e97362a74ee04488197c41d47ffd59e466d482005b1ecc8b",
+      "blob": "baccb54f00603552e97362a74ee04488197c41d47ffd59e466d482005b1ecc8b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-engine-install-terminal-tool-v1.json",
+      "bytes": 373,
+      "sha256": "2c0c5b84791f7f57b72657376e3d56e4b9f4d3b3820f76dd833c0d2566aeb872",
+      "blob": "2c0c5b84791f7f57b72657376e3d56e4b9f4d3b3820f76dd833c0d2566aeb872",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-formal-native-sem-terminal-tool-v1.json",
+      "bytes": 1245,
+      "sha256": "07a6287b4c292e7791cd21ecab6927e335210fc4ff6a66009ed09401ffe3629e",
+      "blob": "07a6287b4c292e7791cd21ecab6927e335210fc4ff6a66009ed09401ffe3629e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-full-initial-tool-v1.json",
+      "bytes": 346,
+      "sha256": "0691b036418a805af0c37dc3b6704fda2dae3e06e255ada1681818c67579b66c",
+      "blob": "0691b036418a805af0c37dc3b6704fda2dae3e06e255ada1681818c67579b66c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-full-terminal-tool-v1.json",
+      "bytes": 405,
+      "sha256": "293691b8e9147f948b32675fab87167a0d8e3b8fe1d910e7f0f755c183a24351",
+      "blob": "293691b8e9147f948b32675fab87167a0d8e3b8fe1d910e7f0f755c183a24351",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-mobile-fixed-initial-tool-v1.json",
+      "bytes": 190,
+      "sha256": "48152d1257104a99e7ee96134735adb90165f58a8645739a521cf12c0a716e66",
+      "blob": "48152d1257104a99e7ee96134735adb90165f58a8645739a521cf12c0a716e66",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-mobile-fixed-terminal-tool-v1.json",
+      "bytes": 1999,
+      "sha256": "406b8c7521353cf95b88930c4273ff2f824d9e68d0bb8c816c4d26e4f8d6807d",
+      "blob": "406b8c7521353cf95b88930c4273ff2f824d9e68d0bb8c816c4d26e4f8d6807d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-mobile-initial-tool-v1.json",
+      "bytes": 190,
+      "sha256": "d47aa3220746ea0b68659a074d6222581b67f7f54f07dce007b7c8c4ddab0365",
+      "blob": "d47aa3220746ea0b68659a074d6222581b67f7f54f07dce007b7c8c4ddab0365",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-mobile-terminal-tool-v1.json",
+      "bytes": 2567,
+      "sha256": "8d274d49a4fb71bcd774c94d8cdedc1d1d4b36823db32ebcd344fa4f4156ee9c",
+      "blob": "8d274d49a4fb71bcd774c94d8cdedc1d1d4b36823db32ebcd344fa4f4156ee9c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-native-integration-terminal-tool-v1.json",
+      "bytes": 611,
+      "sha256": "9cb579e430ca78a80fcf5651900350525174b8e8420c76ce29cad536a74ff4ce",
+      "blob": "9cb579e430ca78a80fcf5651900350525174b8e8420c76ce29cad536a74ff4ce",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-native-sem-terminal-tool-v1.json",
+      "bytes": 422,
+      "sha256": "fc9d43752ee489507e77fa3aa924e50a6efcb028f28b2cdfe885a61df7fbc23e",
+      "blob": "fc9d43752ee489507e77fa3aa924e50a6efcb028f28b2cdfe885a61df7fbc23e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-pc1080-initial-tool-v1.json",
+      "bytes": 502,
+      "sha256": "bfcc87cf87e1f092df799ccf815be2387987a50a5eaae53065c0e4256e5dcde9",
+      "blob": "bfcc87cf87e1f092df799ccf815be2387987a50a5eaae53065c0e4256e5dcde9",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-pc1080-terminal-tool-v1.json",
+      "bytes": 389,
+      "sha256": "aa43ee217fd6ad2a880afe8068b623e9247be6c69de61e501a10b50990136c23",
+      "blob": "aa43ee217fd6ad2a880afe8068b623e9247be6c69de61e501a10b50990136c23",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-pc720-initial-tool-v1.json",
+      "bytes": 502,
+      "sha256": "848a18dc5b219a534dcef9552c592be3233bf97bf0c50448a801246d96eb8ac4",
+      "blob": "848a18dc5b219a534dcef9552c592be3233bf97bf0c50448a801246d96eb8ac4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-pc720-terminal-tool-v1.json",
+      "bytes": 388,
+      "sha256": "0b2858dee9daaa00c0ad07105a23d6c48283474dc175910166567d73778d588d",
+      "blob": "0b2858dee9daaa00c0ad07105a23d6c48283474dc175910166567d73778d588d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-probe-new-v2-terminal-tool-v1.json",
+      "bytes": 364,
+      "sha256": "094770c7df8399d5d1822cadebd5c942847c54286905dd0afe57b192d3d911dc",
+      "blob": "094770c7df8399d5d1822cadebd5c942847c54286905dd0afe57b192d3d911dc",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-probe-old-v1-terminal-tool.json",
+      "bytes": 1300,
+      "sha256": "5741f5d263434be20add3d9a31cc395443e036f7c4ab9ee6724ca8c0c7664ecd",
+      "blob": "5741f5d263434be20add3d9a31cc395443e036f7c4ab9ee6724ca8c0c7664ecd",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-probe-old-v2-terminal-tool-v1.json",
+      "bytes": 364,
+      "sha256": "0b3e102b92dd9ae9f7722ad55bd543a3c13bb650336866ca5ea69e1fd684eb4b",
+      "blob": "0b3e102b92dd9ae9f7722ad55bd543a3c13bb650336866ca5ea69e1fd684eb4b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-public-cli-terminal-tool-v1.json",
+      "bytes": 1170,
+      "sha256": "cd4ead082f7cdabc61d8586cfcbb5a7dd40e9b594999dc47b9c07f29fc84aada",
+      "blob": "cd4ead082f7cdabc61d8586cfcbb5a7dd40e9b594999dc47b9c07f29fc84aada",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-publisher-terminal-tool-v1.json",
+      "bytes": 635,
+      "sha256": "c2f142588b900677372fb65ed3428104b5d484c540eeec7224f51480c09681ab",
+      "blob": "c2f142588b900677372fb65ed3428104b5d484c540eeec7224f51480c09681ab",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-sem-diagnostic-integration-terminal-tool-v1.json",
+      "bytes": 547,
+      "sha256": "af2927b8833df1064cb7edcc847d2ab0f51fa2b6ee853ab40fd183114b820f97",
+      "blob": "af2927b8833df1064cb7edcc847d2ab0f51fa2b6ee853ab40fd183114b820f97",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/raw-shared-cache-after-terminal-tool-v1.json",
+      "bytes": 281,
+      "sha256": "18116fb41fc12ea0a86856ef23988e15d481adffecc1ff50fe41df509c6a02f8",
+      "blob": "18116fb41fc12ea0a86856ef23988e15d481adffecc1ff50fe41df509c6a02f8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/run-engine-build-v1.mjs",
+      "bytes": 3240,
+      "sha256": "6d4c82c134782ca19a3bc9d8e74e16c1c32779d469a41734c990ef8fa6ff86e7",
+      "blob": "6d4c82c134782ca19a3bc9d8e74e16c1c32779d469a41734c990ef8fa6ff86e7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/run-full-default-v1.mjs",
+      "bytes": 3652,
+      "sha256": "12354642edeb22adb02e3058f4830c918748e23b172c664dd79891baa0e1d23b",
+      "blob": "12354642edeb22adb02e3058f4830c918748e23b172c664dd79891baa0e1d23b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/run-native-sem-contracts-v1.mjs",
+      "bytes": 2581,
+      "sha256": "94fc99cf41817a021402b06c9ed2e3ea97957499d44c3d6848cb8b22470235f1",
+      "blob": "94fc99cf41817a021402b06c9ed2e3ea97957499d44c3d6848cb8b22470235f1",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/run-public-cli-v1.mjs",
+      "bytes": 1563,
+      "sha256": "7f6873c61890f19952e5146ec4b272b3ecb7c61e3759a2f24d8ecf3cb62dd2ae",
+      "blob": "7f6873c61890f19952e5146ec4b272b3ecb7c61e3759a2f24d8ecf3cb62dd2ae",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/sem-observations-independent-peer-v1.json",
+      "bytes": 8605,
+      "sha256": "91efbcfc9dc2f83437f080bb4b029d5f9939020c6f637bed21c770c42a0e4d66",
+      "blob": "91efbcfc9dc2f83437f080bb4b029d5f9939020c6f637bed21c770c42a0e4d66",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/sem-observations-v1.json",
+      "bytes": 260906,
+      "sha256": "8bf5392ee1aea4f0704c6ee31d2fd525c11264acd843536db6e57d896efe3049",
+      "blob": "8bf5392ee1aea4f0704c6ee31d2fd525c11264acd843536db6e57d896efe3049",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/shared-cache-after-v1.json",
+      "bytes": 382204,
+      "sha256": "e68a66c2167c653a31fdbf5d79276260c15800dffa2146172a40f2829a86a2d3",
+      "blob": "e68a66c2167c653a31fdbf5d79276260c15800dffa2146172a40f2829a86a2d3",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/shared-cache-before-v1.json",
+      "bytes": 382179,
+      "sha256": "a6df8ff2dd98300766cd11fd8319a4524b290a6d7b2d5d6a081f5cd284dedc54",
+      "blob": "a6df8ff2dd98300766cd11fd8319a4524b290a6d7b2d5d6a081f5cd284dedc54",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/source-epoch-v1.json",
+      "bytes": 7684,
+      "sha256": "33e2e2d61096df843a06263122f2e2f73ef7d60f4ad7a932552bb23400917b9d",
+      "blob": "33e2e2d61096df843a06263122f2e2f73ef7d60f4ad7a932552bb23400917b9d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/tool-capture-extraction-v1.json",
+      "bytes": 2918,
+      "sha256": "8841dfdbc149a6ac096c78778aae61f9664c9a1b406597a69b0ca281d9168350",
+      "blob": "8841dfdbc149a6ac096c78778aae61f9664c9a1b406597a69b0ca281d9168350",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/README-root-validation-v1.md",
+      "bytes": 5065,
+      "sha256": "3a95c5d1389a97871c5e04b1a6ff94d000e3ad16a02bf3d8e0e0a18d9ee7f5a5",
+      "blob": "3a95c5d1389a97871c5e04b1a6ff94d000e3ad16a02bf3d8e0e0a18d9ee7f5a5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/candidate/scripts/test-hd-native-sem.mjs",
+      "bytes": 9885,
+      "sha256": "8d448133725a9f4b62dfb8eae084683d04227ffc9aab14236aaae6d1b320ef60",
+      "blob": "8d448133725a9f4b62dfb8eae084683d04227ffc9aab14236aaae6d1b320ef60",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-native-sem.mjs",
+      "bytes": 9885,
+      "sha256": "8d448133725a9f4b62dfb8eae084683d04227ffc9aab14236aaae6d1b320ef60",
+      "blob": "8d448133725a9f4b62dfb8eae084683d04227ffc9aab14236aaae6d1b320ef60",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/candidate/vendor/iBaye/src/platform/js/sem.c",
+      "bytes": 1196,
+      "sha256": "342bbee3d7fdbf3d17f3cb72f2beb82580a6c7c3de3a55089d1b22ba9170b86b",
+      "blob": "342bbee3d7fdbf3d17f3cb72f2beb82580a6c7c3de3a55089d1b22ba9170b86b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/extracted/asyncify-handleSleep-method.js",
+      "bytes": 3943,
+      "sha256": "6f1cb3ef24b21abed196bf5fe0b0426e355d695ebea03fb24adb9309921ff8fa",
+      "blob": "6f1cb3ef24b21abed196bf5fe0b0426e355d695ebea03fb24adb9309921ff8fa",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/extracted/asyncify-object.js",
+      "bytes": 8158,
+      "sha256": "82482742747904b9c45d3a4b394558670f47655313eecf0eef24c2faf410edd3",
+      "blob": "82482742747904b9c45d3a4b394558670f47655313eecf0eef24c2faf410edd3",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/extracted/before-gam_sem_create.js",
+      "bytes": 188,
+      "sha256": "4f701fed1d472024bc30026cb176f537c83b5a0ad9b3b4b1a9e3da7a6df68d4a",
+      "blob": "4f701fed1d472024bc30026cb176f537c83b5a0ad9b3b4b1a9e3da7a6df68d4a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/extracted/candidate-gam_sem_create.js",
+      "bytes": 188,
+      "sha256": "4f701fed1d472024bc30026cb176f537c83b5a0ad9b3b4b1a9e3da7a6df68d4a",
+      "blob": "4f701fed1d472024bc30026cb176f537c83b5a0ad9b3b4b1a9e3da7a6df68d4a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/extracted/before-gam_sem_signal.js",
+      "bytes": 113,
+      "sha256": "7f14e5ef6e01a0cfe73185e226a753cff1ed7f6ccd38e6fe33586bde4f6e9df4",
+      "blob": "7f14e5ef6e01a0cfe73185e226a753cff1ed7f6ccd38e6fe33586bde4f6e9df4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/extracted/candidate-gam_sem_signal.js",
+      "bytes": 113,
+      "sha256": "7f14e5ef6e01a0cfe73185e226a753cff1ed7f6ccd38e6fe33586bde4f6e9df4",
+      "blob": "7f14e5ef6e01a0cfe73185e226a753cff1ed7f6ccd38e6fe33586bde4f6e9df4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/extracted/before-gam_sem_wait.js",
+      "bytes": 262,
+      "sha256": "7c5c292299bdc6d7700c1704593bd52cecdc3e052602b2c121c6b2206971e637",
+      "blob": "7c5c292299bdc6d7700c1704593bd52cecdc3e052602b2c121c6b2206971e637",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/extracted/candidate-gam_sem_wait.js",
+      "bytes": 284,
+      "sha256": "24f12e7fe3f6fc33a12a099741330d6fc3063fe92db0f1008317a99afd282e68",
+      "blob": "24f12e7fe3f6fc33a12a099741330d6fc3063fe92db0f1008317a99afd282e68",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/prepare-source-v1.cjs",
+      "bytes": 4021,
+      "sha256": "651c3e6ae97b2be6786286494a2a550e4802ac404519eb159b7a07a32c6c4071",
+      "blob": "651c3e6ae97b2be6786286494a2a550e4802ac404519eb159b7a07a32c6c4071",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/source-freeze-v1.json",
+      "bytes": 1874,
+      "sha256": "b75ba07497acb12885c49b4c6043a3722c8c58845a5dda9b3b14d7cb381ddf91",
+      "blob": "b75ba07497acb12885c49b4c6043a3722c8c58845a5dda9b3b14d7cb381ddf91",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/source-mechanical-diff-v1.json",
+      "bytes": 3519,
+      "sha256": "049d83d7a27671a4eae321b2be616d772ea09f97eec24d83f0342316febb559a",
+      "blob": "049d83d7a27671a4eae321b2be616d772ea09f97eec24d83f0342316febb559a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/source-static-peer-v1.json",
+      "bytes": 6791,
+      "sha256": "48cae751d21363d36e6a812b5b2fe9ce20bc56452a04be4c28d23ecf56ccc096",
+      "blob": "48cae751d21363d36e6a812b5b2fe9ce20bc56452a04be4c28d23ecf56ccc096",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/README-v2.md",
+      "bytes": 5315,
+      "sha256": "46980d652a9693b2a8ca2ad74020c402458d14d66dc48bec3c5045651a7cd254",
+      "blob": "46980d652a9693b2a8ca2ad74020c402458d14d66dc48bec3c5045651a7cd254",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/README.md",
+      "bytes": 4913,
+      "sha256": "ea9117b304bae77278376113fe759ab82e44345fc2fa411a48d26bd4d208ae9c",
+      "blob": "ea9117b304bae77278376113fe759ab82e44345fc2fa411a48d26bd4d208ae9c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/mechanical-diff-v2.json",
+      "bytes": 1932,
+      "sha256": "34954c170540f8b5baacc9325122ce2157d905a3bf42c5c31c4e60cca1a119d7",
+      "blob": "34954c170540f8b5baacc9325122ce2157d905a3bf42c5c31c4e60cca1a119d7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/queue-probe-v1.c",
+      "bytes": 5011,
+      "sha256": "4c16b2d87ca1217228ed0b0bb461813bbd2d413e4e1f02941964cf3121b9f439",
+      "blob": "4c16b2d87ca1217228ed0b0bb461813bbd2d413e4e1f02941964cf3121b9f439",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/queue-probe-v2.c",
+      "bytes": 5034,
+      "sha256": "f36438e14842619ffaa3819ab6757f38cc2146c66d071b86ca9a91c29e02e0f8",
+      "blob": "f36438e14842619ffaa3819ab6757f38cc2146c66d071b86ca9a91c29e02e0f8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/run-wasm-probe-v1.mjs",
+      "bytes": 6352,
+      "sha256": "cf65d074c0915050f78ab9a46cf9d72887b495b02d658a4059654047b4ef576a",
+      "blob": "cf65d074c0915050f78ab9a46cf9d72887b495b02d658a4059654047b4ef576a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/run-wasm-probe-v2.mjs",
+      "bytes": 6352,
+      "sha256": "3054f204691de9637c44dd5d89fd76496b2444195b319bd5fa3a4a49f4586a8b",
+      "blob": "3054f204691de9637c44dd5d89fd76496b2444195b319bd5fa3a4a49f4586a8b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/new-v2/compile.stderr.log",
+      "bytes": 144,
+      "sha256": "9dbed67799a8cafd63276909961c3e9b21c22304b9c29863cb0c0d2cfc8b3d2a",
+      "blob": "9dbed67799a8cafd63276909961c3e9b21c22304b9c29863cb0c0d2cfc8b3d2a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v2/compile.stderr.log",
+      "bytes": 144,
+      "sha256": "9dbed67799a8cafd63276909961c3e9b21c22304b9c29863cb0c0d2cfc8b3d2a",
+      "blob": "9dbed67799a8cafd63276909961c3e9b21c22304b9c29863cb0c0d2cfc8b3d2a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/new-v2/invocation.json",
+      "bytes": 10680,
+      "sha256": "bed364cc93b995c8c089c1f21fcc48281e0a6395e5c408a3166cd26029354ffc",
+      "blob": "bed364cc93b995c8c089c1f21fcc48281e0a6395e5c408a3166cd26029354ffc",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/new-v2/package.json",
+      "bytes": 20,
+      "sha256": "dbf8353f77358bc12169b7bb7301e1978d5b503e002ee927229a8993672818fc",
+      "blob": "dbf8353f77358bc12169b7bb7301e1978d5b503e002ee927229a8993672818fc",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v1/package.json",
+      "bytes": 20,
+      "sha256": "dbf8353f77358bc12169b7bb7301e1978d5b503e002ee927229a8993672818fc",
+      "blob": "dbf8353f77358bc12169b7bb7301e1978d5b503e002ee927229a8993672818fc",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v2/package.json",
+      "bytes": 20,
+      "sha256": "dbf8353f77358bc12169b7bb7301e1978d5b503e002ee927229a8993672818fc",
+      "blob": "dbf8353f77358bc12169b7bb7301e1978d5b503e002ee927229a8993672818fc",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/new-v2/probe.js",
+      "bytes": 75839,
+      "sha256": "e8178e70528b660be4257238ab505ad7ac08ee0ffc1fa2643fa67df578f88484",
+      "blob": "e8178e70528b660be4257238ab505ad7ac08ee0ffc1fa2643fa67df578f88484",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/new-v2/probe.wasm",
+      "bytes": 102581,
+      "sha256": "b26d2c10b0e015230dd8cd1a49c5f6695881792c725eaab6e4ac3ea00ff82524",
+      "blob": "b26d2c10b0e015230dd8cd1a49c5f6695881792c725eaab6e4ac3ea00ff82524",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/new-v2/receipt.json",
+      "bytes": 10412,
+      "sha256": "d1ba5b392bd1418858aa3d883d4ccc19d7c28df7e42ab236e40d48dd4d1190dc",
+      "blob": "d1ba5b392bd1418858aa3d883d4ccc19d7c28df7e42ab236e40d48dd4d1190dc",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/new-v2/run.stdout.log",
+      "bytes": 451,
+      "sha256": "74a7cc78ee7f3a05dfb9c7ebfebd68b792ecc44001bd913720c71791f28051a7",
+      "blob": "74a7cc78ee7f3a05dfb9c7ebfebd68b792ecc44001bd913720c71791f28051a7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v1/compile.stderr.log",
+      "bytes": 2513,
+      "sha256": "facfd917388ab00e2d09c098bb3500d05242858048e9c8061cb107bf2066c7b3",
+      "blob": "facfd917388ab00e2d09c098bb3500d05242858048e9c8061cb107bf2066c7b3",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v1/failure.json",
+      "bytes": 75,
+      "sha256": "5a3088ed469cef5b0c6b5adf793186b60046356e796ccf2639d056c10bdccaf9",
+      "blob": "5a3088ed469cef5b0c6b5adf793186b60046356e796ccf2639d056c10bdccaf9",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v1/invocation.json",
+      "bytes": 10579,
+      "sha256": "4d6b34e9da50dc41a5ff18877b4897bd8b70c9e8c0a92fafc4441595e3c0f59a",
+      "blob": "4d6b34e9da50dc41a5ff18877b4897bd8b70c9e8c0a92fafc4441595e3c0f59a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v2/invocation.json",
+      "bytes": 10579,
+      "sha256": "fff9a5d6b14fc2341ef5329989ea6247a2b93a02284cdafac300ad845789e0ef",
+      "blob": "fff9a5d6b14fc2341ef5329989ea6247a2b93a02284cdafac300ad845789e0ef",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v2/probe.js",
+      "bytes": 75825,
+      "sha256": "6e8e41cfe943bfa3877aeca83503dfd7214852743ba5ccb64fefda79bb831d16",
+      "blob": "6e8e41cfe943bfa3877aeca83503dfd7214852743ba5ccb64fefda79bb831d16",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v2/probe.wasm",
+      "bytes": 102406,
+      "sha256": "de71eba86e037925fad7ee35f89a04c8066ccf5c53592f0cf1c0eda6a4c7a1fe",
+      "blob": "de71eba86e037925fad7ee35f89a04c8066ccf5c53592f0cf1c0eda6a4c7a1fe",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v2/receipt.json",
+      "bytes": 10365,
+      "sha256": "5ce790c499176a94d3f6baf720e9c88f4486b58d9db643fa023b00474a4e88cb",
+      "blob": "5ce790c499176a94d3f6baf720e9c88f4486b58d9db643fa023b00474a4e88cb",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/runs/old-v2/run.stdout.log",
+      "bytes": 453,
+      "sha256": "e7fc8b3bd5eb6d98a65be6fbcba07cc3d489ebd58dd57c221b6ed29dd05b5d62",
+      "blob": "e7fc8b3bd5eb6d98a65be6fbcba07cc3d489ebd58dd57c221b6ed29dd05b5d62",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/source-pins-v1.json",
+      "bytes": 9440,
+      "sha256": "157f8270cd1ed7c4f3e61da6e8f7b48eca7913faf88670b8be641181552064f4",
+      "blob": "157f8270cd1ed7c4f3e61da6e8f7b48eca7913faf88670b8be641181552064f4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/source-pins-v2.json",
+      "bytes": 9792,
+      "sha256": "124652567a2da68978d0d327305f4a6c63f2f4bc462e58a1a23ca9cf4fd1f3ba",
+      "blob": "124652567a2da68978d0d327305f4a6c63f2f4bc462e58a1a23ca9cf4fd1f3ba",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/source-pins-v3.json",
+      "bytes": 9888,
+      "sha256": "8cf670b81ffc4ee9a2da290808081c598285052f0f2e85aba7a4bde044d76948",
+      "blob": "8cf670b81ffc4ee9a2da290808081c598285052f0f2e85aba7a4bde044d76948",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/source-preparation-v1.json",
+      "bytes": 2736,
+      "sha256": "a75af06471dc6b1a4ea1faf4b64206a6fe2008ffa4e94e075f141a59a571a07f",
+      "blob": "a75af06471dc6b1a4ea1faf4b64206a6fe2008ffa4e94e075f141a59a571a07f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/source-preparation-v2.json",
+      "bytes": 3845,
+      "sha256": "65a0345b1d9d38dda2fd11286e8d65f66155a690731c52a0f381de6e15114f54",
+      "blob": "65a0345b1d9d38dda2fd11286e8d65f66155a690731c52a0f381de6e15114f54",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/native-sem-fastpath-candidate-v1/wasm-probe/timeout-observer-v1.js",
+      "bytes": 512,
+      "sha256": "5e8dbb1c3ac32e745db31732a4bd2ccfe64e2d28da56f314d4c7d856c8f89d4f",
+      "blob": "5e8dbb1c3ac32e745db31732a4bd2ccfe64e2d28da56f314d4c7d856c8f89d4f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/wasm/src/baye.build.json",
+      "bytes": 21284,
+      "sha256": "41a5dc9b8f4255f7a3ecde1bd6165599a08e5470d6bd293efe7cde694c489b2a",
+      "blob": "41a5dc9b8f4255f7a3ecde1bd6165599a08e5470d6bd293efe7cde694c489b2a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 21284,
+      "sha256": "41a5dc9b8f4255f7a3ecde1bd6165599a08e5470d6bd293efe7cde694c489b2a",
+      "blob": "41a5dc9b8f4255f7a3ecde1bd6165599a08e5470d6bd293efe7cde694c489b2a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/wasm/src/baye.js",
+      "bytes": 193335,
+      "sha256": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0",
+      "blob": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "js/baye.js",
+      "bytes": 193335,
+      "sha256": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0",
+      "blob": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/wasm/src/baye.wasm",
+      "bytes": 4561414,
+      "sha256": "d0614c1fdcd723f83d91de268521fb27ddf6c4205e81343627d5a1b635ab7fee",
+      "blob": "d0614c1fdcd723f83d91de268521fb27ddf6c4205e81343627d5a1b635ab7fee",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "js/baye.wasm",
+      "bytes": 4561414,
+      "sha256": "d0614c1fdcd723f83d91de268521fb27ddf6c4205e81343627d5a1b635ab7fee",
+      "blob": "d0614c1fdcd723f83d91de268521fb27ddf6c4205e81343627d5a1b635ab7fee",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/wasm/src/baye.wasm.map",
+      "bytes": 29995,
+      "sha256": "9db85f7ec1e25ee7c4f0f187132f5caa04faa12a19c4650a3cae8242518e992d",
+      "blob": "9db85f7ec1e25ee7c4f0f187132f5caa04faa12a19c4650a3cae8242518e992d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "js/baye.wasm.map",
+      "bytes": 29995,
+      "sha256": "9db85f7ec1e25ee7c4f0f187132f5caa04faa12a19c4650a3cae8242518e992d",
+      "blob": "9db85f7ec1e25ee7c4f0f187132f5caa04faa12a19c4650a3cae8242518e992d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "css/hd-city-menu.css",
+      "bytes": 15502,
+      "sha256": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7",
+      "blob": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "designer.html",
+      "bytes": 3146,
+      "sha256": "fd22627c90b1cf4a9d50830a24f907a24cb5bfc8c3e75ee0b132d94ce8301ad6",
+      "blob": "fd22627c90b1cf4a9d50830a24f907a24cb5bfc8c3e75ee0b132d94ce8301ad6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "hd-portrait-dump.html",
+      "bytes": 3409,
+      "sha256": "771a19acde84ae4941f4d337c9aa0d26f2e81b796e7a241a0830014dc1895f60",
+      "blob": "771a19acde84ae4941f4d337c9aa0d26f2e81b796e7a241a0830014dc1895f60",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 436244,
+      "sha256": "31ad8b8b99f091e65ec33fe00ce933fb0ec2b9ff6629d49a3a66fc8ecd83f34f",
+      "blob": "31ad8b8b99f091e65ec33fe00ce933fb0ec2b9ff6629d49a3a66fc8ecd83f34f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "blob": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "m-ges.html",
+      "bytes": 6958,
+      "sha256": "a8985b3caf605d3f4752657645904753fe75bd7759a62a110469fae334463cc5",
+      "blob": "a8985b3caf605d3f4752657645904753fe75bd7759a62a110469fae334463cc5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "m-ktouch.html",
+      "bytes": 6460,
+      "sha256": "22f3bfc8fd47dc7e4aaa91ece80ad3f8101ce87fcc1530ed0fa152f0061ab8d4",
+      "blob": "22f3bfc8fd47dc7e4aaa91ece80ad3f8101ce87fcc1530ed0fa152f0061ab8d4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "m-old.html",
+      "bytes": 6514,
+      "sha256": "a81d35deb67b7ea69e688f20895f9b4e27b1d3b4225bb76ca4d6834fd840ae70",
+      "blob": "a81d35deb67b7ea69e688f20895f9b4e27b1d3b4225bb76ca4d6834fd840ae70",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "m.html",
+      "bytes": 18478,
+      "sha256": "e8b80108989eee1ed07083b2828caf2534c68d4cbeb105fe390b2b6be6c884b6",
+      "blob": "e8b80108989eee1ed07083b2828caf2534c68d4cbeb105fe390b2b6be6c884b6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "package.json",
+      "bytes": 21283,
+      "sha256": "8f807f1d9e284cfcb69e9f4de98806c37dee9da4945af95ec32ec245d928be92",
+      "blob": "8f807f1d9e284cfcb69e9f4de98806c37dee9da4945af95ec32ec245d928be92",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "pc.html",
+      "bytes": 28679,
+      "sha256": "52067903716f3d7287f136052f622a09fa75e3d34f67212c4ab20e64d25b6c8d",
+      "blob": "52067903716f3d7287f136052f622a09fa75e3d34f67212c4ab20e64d25b6c8d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "scripts/build-wasm.ps1",
+      "bytes": 3278,
+      "sha256": "04af7c0791628c6649f1dc14a955873403381c44934e0cd39903fee6d2a50a52",
+      "blob": "04af7c0791628c6649f1dc14a955873403381c44934e0cd39903fee6d2a50a52",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 134812,
+      "sha256": "8acfbf697fd5271b6c7c18cd38e039c02b16e97b809b3bacb2c68be00c740efe",
+      "blob": "8acfbf697fd5271b6c7c18cd38e039c02b16e97b809b3bacb2c68be00c740efe",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "scripts/write-wasm-manifest.mjs",
+      "bytes": 19550,
+      "sha256": "f70052a43457dc9bdbb1a37b616547fb9a733b33ad215747c8c5125ee7a98030",
+      "blob": "f70052a43457dc9bdbb1a37b616547fb9a733b33ad215747c8c5125ee7a98030",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/.gitignore",
+      "bytes": 44,
+      "sha256": "43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75",
+      "blob": "43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/.gitmodules",
+      "bytes": 293,
+      "sha256": "ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca",
+      "blob": "ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/ATTRIBUTION.md",
+      "bytes": 495,
+      "sha256": "983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4",
+      "blob": "983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/CMakeLists.txt",
+      "bytes": 82,
+      "sha256": "738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68",
+      "blob": "738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/LICENSE",
+      "bytes": 1091,
+      "sha256": "dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1",
+      "blob": "dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/README.md",
+      "bytes": 2077,
+      "sha256": "f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5",
+      "blob": "f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/UPSTREAM_COMMIT",
+      "bytes": 42,
+      "sha256": "3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659",
+      "blob": "3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/js/.gitignore",
+      "bytes": 62,
+      "sha256": "581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea",
+      "blob": "581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/js/config.sh",
+      "bytes": 61,
+      "sha256": "424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff",
+      "blob": "424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/js/whitelist.json",
+      "bytes": 3368,
+      "sha256": "707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f",
+      "blob": "707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/CMakeLists.txt",
+      "bytes": 3097,
+      "sha256": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774",
+      "blob": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "bytes": 27302,
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f",
+      "blob": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/FgtPkAi.c",
+      "bytes": 44229,
+      "sha256": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953",
+      "blob": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/Fight.c",
+      "bytes": 58254,
+      "sha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e",
+      "blob": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540",
+      "blob": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/Gamhzk.bin",
+      "bytes": 163840,
+      "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "blob": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/font.bin",
+      "bytes": 163840,
+      "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "blob": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 33782,
+      "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c",
+      "blob": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/Size.c",
+      "bytes": 1727,
+      "sha256": "aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6",
+      "blob": "aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d",
+      "blob": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/bind-objects.h",
+      "bytes": 2593,
+      "sha256": "4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca",
+      "blob": "4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/comm.h",
+      "bytes": 5109,
+      "sha256": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b",
+      "blob": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/compa.h",
+      "bytes": 3328,
+      "sha256": "5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d",
+      "blob": "5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f",
+      "blob": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/data-bind.h",
+      "bytes": 4001,
+      "sha256": "c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b",
+      "blob": "c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/datman.h",
+      "bytes": 1158,
+      "sha256": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe",
+      "blob": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/enghead.h",
+      "bytes": 370,
+      "sha256": "8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868",
+      "blob": "8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/errcode.h",
+      "bytes": 985,
+      "sha256": "08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e",
+      "blob": "08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/extern.h",
+      "bytes": 4158,
+      "sha256": "5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd",
+      "blob": "5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fight.h",
+      "bytes": 9611,
+      "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986",
+      "blob": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fsys.h",
+      "bytes": 1185,
+      "sha256": "8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344",
+      "blob": "8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fundec.h",
+      "bytes": 2184,
+      "sha256": "d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163",
+      "blob": "d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fundef.h",
+      "bytes": 200,
+      "sha256": "670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d",
+      "blob": "670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/graph.h",
+      "bytes": 451,
+      "sha256": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446",
+      "blob": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/itoa.h",
+      "bytes": 267,
+      "sha256": "a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c",
+      "blob": "a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4",
+      "blob": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/paccount.h",
+      "bytes": 2251,
+      "sha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30",
+      "blob": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/resource.h",
+      "bytes": 557,
+      "sha256": "8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187",
+      "blob": "8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/sconst.h",
+      "bytes": 4101,
+      "sha256": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea",
+      "blob": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/script.h",
+      "bytes": 873,
+      "sha256": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8",
+      "blob": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/sharefun.h",
+      "bytes": 8365,
+      "sha256": "d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09",
+      "blob": "d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/sources.h",
+      "bytes": 286,
+      "sha256": "ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e",
+      "blob": "ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/stdsys.h",
+      "bytes": 500,
+      "sha256": "14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa",
+      "blob": "14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/bind-objects.c",
+      "bytes": 17734,
+      "sha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0",
+      "blob": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1",
+      "blob": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "bytes": 34493,
+      "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2",
+      "blob": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca",
+      "blob": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e",
+      "blob": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873",
+      "blob": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d",
+      "blob": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/comIn.c",
+      "bytes": 12480,
+      "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63",
+      "blob": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/comOut.c",
+      "bytes": 21378,
+      "sha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f",
+      "blob": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/config.c",
+      "bytes": 179,
+      "sha256": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7",
+      "blob": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/convert_to_c.py",
+      "bytes": 294,
+      "sha256": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e",
+      "blob": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/dat.lib.orig",
+      "bytes": 196890,
+      "sha256": "c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab",
+      "blob": "c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/data-bind.c",
+      "bytes": 4662,
+      "sha256": "2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a",
+      "blob": "2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/data/pconst.h",
+      "bytes": 1761,
+      "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0",
+      "blob": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/data/pstring.h",
+      "bytes": 1524,
+      "sha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df",
+      "blob": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/datman.c",
+      "bytes": 9424,
+      "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c",
+      "blob": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/debug.c",
+      "bytes": 1904,
+      "sha256": "5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac",
+      "blob": "5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/fsys.c",
+      "bytes": 33667,
+      "sha256": "85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da",
+      "blob": "85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/gamEng.c",
+      "bytes": 47517,
+      "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39",
+      "blob": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/genver.py",
+      "bytes": 416,
+      "sha256": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff",
+      "blob": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa",
+      "blob": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.h",
+      "bytes": 19624,
+      "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5",
+      "blob": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/ADDR.H",
+      "bytes": 2468,
+      "sha256": "5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc",
+      "blob": "5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/DictAfx.h",
+      "bytes": 702,
+      "sha256": "9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d",
+      "blob": "9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/DictHelp.h",
+      "bytes": 5664,
+      "sha256": "0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c",
+      "blob": "0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/GuiEdit.h",
+      "bytes": 2021,
+      "sha256": "8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c",
+      "blob": "8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/MEM.H",
+      "bytes": 1207,
+      "sha256": "406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114",
+      "blob": "406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/STDLIB.H",
+      "bytes": 19,
+      "sha256": "a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96",
+      "blob": "a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/SysResv.h",
+      "bytes": 6103,
+      "sha256": "26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8",
+      "blob": "26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/dictsys.h",
+      "bytes": 21754,
+      "sha256": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded",
+      "blob": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/filetype.h",
+      "bytes": 4695,
+      "sha256": "31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf",
+      "blob": "31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/flash.h",
+      "bytes": 17046,
+      "sha256": "50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0",
+      "blob": "50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/fsys.h",
+      "bytes": 1991,
+      "sha256": "24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140",
+      "blob": "24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/keytable.h",
+      "bytes": 3820,
+      "sha256": "9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c",
+      "blob": "9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/shell.h",
+      "bytes": 2138,
+      "sha256": "1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72",
+      "blob": "1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e",
+      "blob": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/itoa.c",
+      "bytes": 1038,
+      "sha256": "6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c",
+      "blob": "6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/main.c",
+      "bytes": 116,
+      "sha256": "1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686",
+      "blob": "1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/miniz.c",
+      "bytes": 327452,
+      "sha256": "ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059",
+      "blob": "ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/miniz.h",
+      "bytes": 70791,
+      "sha256": "7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6",
+      "blob": "7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/paccount.c",
+      "bytes": 3892,
+      "sha256": "6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd",
+      "blob": "6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/pconst.c",
+      "bytes": 4213,
+      "sha256": "f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246",
+      "blob": "f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/picture.asm",
+      "bytes": 9186,
+      "sha256": "8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576",
+      "blob": "8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/bios.c",
+      "bytes": 1053,
+      "sha256": "418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1",
+      "blob": "418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/gui.c",
+      "bytes": 3231,
+      "sha256": "bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495",
+      "blob": "bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/sem.h",
+      "bytes": 522,
+      "sha256": "8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc",
+      "blob": "8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/sys.c",
+      "bytes": 15103,
+      "sha256": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c",
+      "blob": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/timer.h",
+      "bytes": 485,
+      "sha256": "06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc",
+      "blob": "06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/dummy-script.c",
+      "bytes": 424,
+      "sha256": "daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5",
+      "blob": "daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/fsys.c",
+      "bytes": 4119,
+      "sha256": "7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923",
+      "blob": "7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/sem.m",
+      "bytes": 866,
+      "sha256": "40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf",
+      "blob": "40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/sys-ios.c",
+      "bytes": 229,
+      "sha256": "a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673",
+      "blob": "a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/timer.m",
+      "bytes": 1937,
+      "sha256": "7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514",
+      "blob": "7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/dat.lib.c",
+      "bytes": 1181340,
+      "sha256": "472b305c00f2cb0e7eb3c6bd47b8f388ececb73825a6167a58d121a661cb92ac",
+      "blob": "472b305c00f2cb0e7eb3c6bd47b8f388ececb73825a6167a58d121a661cb92ac",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/exportjs.c",
+      "bytes": 9789,
+      "sha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279",
+      "blob": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/font.bin.c",
+      "bytes": 1003524,
+      "sha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401",
+      "blob": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    }
+  ],
+  "logicalFiles": 216,
+  "uniqueBlobs": 204,
+  "rawNamedBytes": 36914543,
+  "uniqueRawBytes": 31499156,
+  "uniqueGzipBytes": 11372657,
+  "serializedPartBytes": 15210445,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

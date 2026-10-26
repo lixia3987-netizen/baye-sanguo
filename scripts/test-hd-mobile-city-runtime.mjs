@@ -194,11 +194,46 @@ function installMobilePreviewKeyDiagnostics() {
   function runtime(){
     const moduleAvailable=typeof Module!=='undefined'&&!!Module,exportsAvailable=typeof wasmExports!=='undefined'&&!!wasmExports;
     const asyncAvailable=typeof Asyncify!=='undefined'&&!!Asyncify;
+    // Whitelist only own data descriptors; never evaluate an accessor or signal.
+    function ownData(object,key){
+      if(object===null||(typeof object!=='object'&&typeof object!=='function'))return{kind:'not-object'};
+      try{const d=Object.getOwnPropertyDescriptor(object,key);if(!d)return{kind:'missing'};
+        return Object.hasOwn(d,'value')?{kind:'data',value:d.value}:{kind:'accessor'};
+      }catch{return{kind:'unreadable'};}
+    }
+    function arrayShape(read){
+      if(read.kind!=='data')return{kind:read.kind};
+      let array;try{array=Array.isArray(read.value);}catch{return{kind:'unreadable'};}
+      if(!array)return{kind:read.value===null?'null-data':typeof read.value==='object'?'non-array-object-data':typeof read.value==='function'?'function-data':'scalar-data'};
+      const length=ownData(read.value,'length');
+      if(length.kind!=='data')return{kind:'array-length-'+length.kind};
+      if(!Number.isSafeInteger(length.value)||length.value<0)return{kind:'array-invalid-length'};
+      return{kind:'data-array',length:length.value};
+    }
+    function semSnapshot(){
+      if(!moduleAvailable)return{kind:'module-unavailable',maximumSlots:16,slots:[]};
+      const read=ownData(Module,'sems'),shape=arrayShape(read),result={...shape,maximumSlots:16,slots:[]};
+      if(shape.kind!=='data-array')return result;
+      result.truncated=shape.length>16;
+      for(let index=0;index<Math.min(shape.length,16);index++){
+        const slot=ownData(read.value,String(index));
+        if(slot.kind!=='data'){result.slots.push({index,kind:slot.kind});continue;}
+        const value=slot.value;
+        if(value===null||typeof value!=='object'){result.slots.push({index,kind:value===null?'null-data':typeof value==='function'?'function-data':'scalar-data'});continue;}
+        const cnt=ownData(value,'cnt'),signal=ownData(value,'signal');
+        result.slots.push({index,kind:'object-data',cnt:cnt.kind==='data'?{kind:'data',type:typeof cnt.value,value:typeof cnt.value==='number'&&Number.isFinite(cnt.value)?cnt.value:null}:{kind:cnt.kind},
+          signal:signal.kind==='data'?{kind:'data',type:typeof signal.value,isNull:signal.value===null}:{kind:signal.kind}});
+      }
+      return result;
+    }
+    const exportStack=asyncAvailable?arrayShape(ownData(Asyncify,'exportCallStack')):{kind:'asyncify-unavailable'};
     return {moduleAvailable,moduleAsmAvailable:moduleAvailable&&typeof Module.asm!=='undefined',
       moduleKeyExportAvailable:moduleAvailable&&typeof Module._bayeSendKey==='function',wasmExportsAvailable:exportsAvailable,
       wasmKeyExportAvailable:exportsAvailable&&typeof wasmExports.bayeSendKey==='function',
       globalKeyExportAvailable:typeof window._bayeSendKey==='function',asyncifyAvailable:asyncAvailable,
-      asyncifyState:asyncAvailable?scalar(Asyncify.state):null,asyncifyCurrDataPresent:asyncAvailable?!!Asyncify.currData:null};
+      asyncifyState:asyncAvailable?scalar(Asyncify.state):null,asyncifyCurrDataPresent:asyncAvailable?!!Asyncify.currData:null,
+      moduleSems:semSnapshot(),asyncifyExportCallStackLength:exportStack.kind==='data-array'?exportStack.length:null,
+      asyncifyExportCallStackKind:exportStack.kind};
   }
   function snapshot(){
     const d=window.baye&&baye.data,native={},read=(name)=>scalar(d&&d[name]);

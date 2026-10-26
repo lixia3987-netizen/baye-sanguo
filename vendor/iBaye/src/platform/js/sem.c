@@ -48,7 +48,8 @@ EM_JS(void, gam_sem_wait, (GAM_SEM semid), {
         setTimeout(wakeUp, 0);
     }
     if (sem.cnt > 0) {
-        signal();
+        sem.cnt -= 1;
+        wakeUp();
     } else {
         sem.signal = signal;
     }

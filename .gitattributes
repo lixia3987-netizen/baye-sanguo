@@ -689,3 +689,16 @@
 /scripts/test-hd-person-equipment-runtime.mjs text eol=lf
 /scripts/test-hd-mobile-city-runtime.mjs text eol=lf
 /scripts/hd-mobile-preview-runtime-checks.mjs text eol=lf
+
+# Preserve exact native build and semaphore regression bytes.
+/vendor/iBaye/src/platform/js/sem.c text eol=lf
+/scripts/test-hd-native-sem.mjs text eol=lf
+/designer.html text eol=lf
+/hd-portrait-dump.html text eol=lf
+/m-old.html text eol=lf
+/m-ktouch.html text eol=lf
+/m-ges.html text eol=lf
+/docs/validation/m5-native-input-queue-20261026-v69*.json -text whitespace=cr-at-eol
+/docs/validation/m5-native-input-queue-20261026-v69*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-native-input-queue-20261026-v69*.md -text whitespace=cr-at-eol
+/docs/validation/m5-native-input-queue-20261026-v69*.png -text

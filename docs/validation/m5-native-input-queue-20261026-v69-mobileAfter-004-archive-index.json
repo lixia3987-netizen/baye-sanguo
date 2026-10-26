@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-mobileAfter-004-archive-part001.json",
+      "bytes": 2090440,
+      "sha256": "090c64c335265d2334527fc2a93ad9893db0cbf234de60c594fdbc26294888d5",
+      "blobs": 1
+    }
+  ],
+  "files": [
+    {
+      "path": "build/mobile-input-20261026-v69/evidence-source-v2/mobileAfter-chunks-v1/chunk-004.raw",
+      "bytes": 33554432,
+      "sha256": "747b6928bf733f9e6c30275bdb1d796d4dae8d51ab67166bc5e56ea4561d56a0",
+      "blob": "747b6928bf733f9e6c30275bdb1d796d4dae8d51ab67166bc5e56ea4561d56a0",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    }
+  ],
+  "logicalFiles": 1,
+  "uniqueBlobs": 1,
+  "rawNamedBytes": 33554432,
+  "uniqueRawBytes": 33554432,
+  "uniqueGzipBytes": 1567597,
+  "serializedPartBytes": 2090440,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}
