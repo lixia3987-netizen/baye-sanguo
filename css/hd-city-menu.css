@@ -119,6 +119,8 @@
     background: #2b3342;
 }
 
+.hd-city-menu .hd-city-menu-item.has-city-rule { min-height: 64px; line-height: 22px; }
+.hd-city-menu-item small[data-hd-city-rule] { display: block; margin-top: 4px; color: #c1cedd; font-size: 12px; line-height: 16px; font-weight: 400; }
 .hd-city-menu-item:hover,
 .hd-city-menu-item:focus {
     background: #3d4b63;

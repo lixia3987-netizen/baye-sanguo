@@ -6578,7 +6578,12 @@
             return;
         }
         var items = preferEngineNames(SUBS[kind] || []);
-        var sig = kind + ':' + items.join(',');
+        var rules = null;
+        if (kind === 'neizheng' && state.open && state.layer === 'sub' && state.subKind === kind && !document.hidden && shouldShowHd() &&
+            global.BayeHdCityRules && typeof BayeHdCityRules.read === 'function') { rules = BayeHdCityRules.read(state.cityIndex); }
+        if (rules && (!state.open || state.layer !== 'sub' || state.subKind !== kind || rules.cityIndex !== state.cityIndex ||
+            document.hidden || JSON.stringify(items) !== JSON.stringify(SUBS.neizheng))) { rules = null; }
+        var sig = kind + ':' + items.join(',') + ':' + (rules ? JSON.stringify(rules.rows) : '');
         if (state.listKind === sig && list.children.length) {
             applyHighlight();
             return;
@@ -6591,6 +6596,13 @@
             btn.className = 'hd-city-menu-item';
             btn.setAttribute('data-hd-sub', String(i));
             btn.textContent = items[i];
+            if (rules && rules.rows[i]) {
+                btn.classList.add('has-city-rule');
+                btn.textContent = '';
+                var label = document.createElement('span'); label.textContent = items[i]; btn.appendChild(label);
+                var rule = document.createElement('small'); rule.setAttribute('data-hd-city-rule',String(rules.rows[i].command));
+                rule.textContent = rules.rows[i].text; btn.appendChild(rule);
+            }
             list.appendChild(btn);
         }
         state.listKind = sig;
@@ -9365,6 +9377,7 @@
                 if (!hdReady() || !state.open) {
                     return;
                 }
+                if (!mobileHost && state.layer === 'sub' && state.subKind === 'neizheng') { fillSubList(state.subKind); }
                 if (retireMobileEquipmentMap()) { return; }
                 if (syncMobileTrade() && !state.open) { return; }
                 // A person-picker cancellation can return directly to GetCitySet

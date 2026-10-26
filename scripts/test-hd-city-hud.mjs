@@ -2665,8 +2665,8 @@ test('SURRENDER PC interval alone observes delayed PERSON ACK with retained depa
 
 // The arranged-orders surface reads the original physical tables. Actors have
 // already left the resident queue after C DelPerson; that is not a missing actor.
-function plansHarness() {
-    const h = harness(), cache = new WeakMap();
+function plansHarness(options) {
+    const h = harness(options), cache = new WeakMap();
     h.people = Array.from({length: 2000}, () => ({Belong: 0}));
     for (const id of [0, 20, 22, 199]) h.people[id].Belong = 1;
     h.people[70].Belong = 2; h.people[71].Belong = 65535;
@@ -2743,6 +2743,196 @@ test('arranged city plans show ordinary actors and all nonzero army members in e
     for (const tag of ['button', 'input', 'a']) assert.equal(plansPane(h).querySelectorAll(tag).length, 0);
     assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
     assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+// Rule hints belong to a real native interior SUB, never to a retained PERSON
+// label. ROOT and SUB are published separately, as the C menus publish them.
+const cityRuleNames = ['开垦', '招商', '搜寻', '治理', '出巡', '招降', '处斩', '流放', '赏赐', '没收', '交易', '宴请', '输送', '移动'];
+const cityRuleHooks = ['cityMakeCommand', 'willOpenMenu', 'willChangeMenuSelection', 'onMenuIdle',
+    'willCloseMenu', 'willAddOrder', 'willExecuteOrder', 'willGiveTool', 'willTakeOffTool'];
+function rulesHarness({spyClicks = false} = {}) {
+    let sourceText = read('js/hd-city-menu.js');
+    if (spyClicks) {
+        assert.ok(sourceText.includes('function chooseSub(index) {'));
+        sourceText = sourceText.replace('function chooseSub(index) {',
+            'function chooseSub(index) { if (global.__ruleChooseSub) { global.__ruleChooseSub(index); return; }');
+    }
+    const h = plansHarness({sourceText});
+    h.config = {citiesCount: 38, enable16bitConsumeMoney: 0, fixConsumeMoney: 0, fixThewOverFlow: 0};
+    h.raw.g_engineConfig = h.config;
+    Object.assign(h.hud.state, {layer: 'root', subKind: '', deepKind: '', deepLabel: '', listKind: ''});
+    Object.assign(h.menu, {index: 0, itemLen: 5, packedNames: h.menu.names.slice()}); h.raw.g_hdMenuIndex = 0;
+    h.root.contains = node => node === h.root || walk(h.root).includes(node);
+    h.subClicks = []; h.context.__ruleChooseSub = index => h.subClicks.push(index);
+    vm.runInContext(read('js/hd-city-rules.js'), h.context, {filename: 'js/hd-city-rules.js'});
+    h.readRules = (cityIndex = 0) => {const dto = h.context.BayeHdCityRules.read(cityIndex); return dto === null ? null : plain(dto);};
+    h.publishRuleSub = (index = 0) => {
+        Object.assign(h.menu, {active: 1, context: 1, kind: 2, seq: 9, count: 14, index,
+            generation: 3, detailGeneration: 3, names: cityRuleNames.slice(), packedNames: cityRuleNames.slice(),
+            itemLen: 5, idsValid: false, ids: []});
+        Object.assign(h.raw, {g_hdMenuActive: 1, g_hdMenuContext: 1, g_hdMenuKind: 2,
+            g_hdMenuSeq: 9, g_hdMenuCount: 14, g_hdMenuIndex: index});
+        Object.assign(h.hud.state, {layer: 'sub', subKind: 'neizheng', idleIndex: index, listKind: ''});
+    };
+    h.renderRules = () => h.hud.render();
+    h.startRules = () => {h.context.BayeHdCityMenu.start(); h.pollRules = h.intervals.at(-1); assert.equal(typeof h.pollRules, 'function');};
+    return h;
+}
+function ruleButtons(h) {return h.nodes['hd-city-menu-sublist'].querySelectorAll('[data-hd-sub]');}
+function ruleHints(h) {return h.nodes['hd-city-menu-sublist'].querySelectorAll('[data-hd-city-rule]');}
+function assertRulesAbsent(h, reason) {
+    assert.equal(ruleHints(h).length, 0, reason); assert.deepEqual(h.keys, [], reason); assert.deepEqual(h.writes, [], reason);
+}
+function ruleLibrary(h, {thew = {}, money = {}, money16 = false} = {}) {
+    // The identity service is a controlled fixture. Synthetic cost bytes exercise
+    // the resource decoder; they are not claimed to be another accepted LIB.
+    const bytes = Buffer.from(h.context.dynLib, 'hex'), base = bytes.readUInt32LE(4), fixed = bytes.readUInt32LE(base + 8);
+    assert.equal(fixed, 0, 'the original IFACE resource uses variable-size items');
+    const record = item => base + 14 + item * 8;
+    const thewOffset = base + bytes.readUInt32LE(record(9)), moneyOffset = base + bytes.readUInt32LE(record(10));
+    const originalMoney = Array.from(bytes.subarray(moneyOffset, moneyOffset + 28));
+    for (const [index, value] of Object.entries(thew)) bytes[thewOffset + Number(index)] = value;
+    if (money16) {
+        assert.ok(moneyOffset + 56 <= base + bytes.readUInt32LE(base), 'the synthetic table stays in the actual IFACE bounds');
+        bytes.writeUInt32LE(56, record(10) + 4);
+        originalMoney.forEach((value, index) => bytes.writeUInt16LE(value, moneyOffset + index * 2));
+    }
+    for (const [index, value] of Object.entries(money)) {
+        if (money16) bytes.writeUInt16LE(value, moneyOffset + Number(index) * 2);
+        else bytes[moneyOffset + Number(index)] = value;
+    }
+    h.context.dynLib = bytes.toString('hex');
+}
+
+test('interior rules cover all fourteen native indices and retain stable SUB nodes and click delegation without input', () => {
+    const h = rulesHarness({spyClicks: true});
+    assert.equal(h.readRules(), null, 'ROOT is not an interior SUB'); h.renderRules(); assertRulesAbsent(h, 'ROOT has no rule hints');
+    h.publishRuleSub(2);
+    const before = plain(h.raw), menu = plain(h.menu); h.startRules();
+    const expected = [[8, 50], [8, 50], [8, 0], [0, 0], [8, 50], [15, 0], [0, 0], [0, 0],
+        [0, 0], [0, 0], [12, null], [0, 100], [8, null], [8, 0]];
+    const dto = h.readRules(); assert.equal(dto.cityIndex, 0);
+    assert.deepEqual(dto.rows.map(row => [row.index, row.command, row.thew, row.checkThew, row.money, row.variable]),
+        expected.map(([thew, money], index) => [index, index + 1, thew, index === 13 ? 0 : thew, money,
+            index === 10 ? 'trade' : index === 12 ? 'transfer' : '']));
+    const buttons = ruleButtons(h), hints = ruleHints(h); assert.equal(buttons.length, 14); assert.equal(hints.length, 14);
+    for (let index = 0; index < 14; index++) {
+        const button = buttons[index], hint = hints[index];
+        assert.equal(button.tagName, 'BUTTON'); assert.equal(button.getAttribute('data-hd-sub'), String(index));
+        assert.equal(button.children[0].tagName, 'SPAN'); assert.equal(button.children[0].textContent, cityRuleNames[index]);
+        assert.equal(hint.tagName, 'SMALL'); assert.equal(hint.parentElement, button);
+        assert.equal(hint.getAttribute('data-hd-city-rule'), String(index + 1)); assert.equal(hint.textContent, dto.rows[index].text);
+        assert.notEqual(button.disabled, true, 'rule hints never disable a native command');
+        assert.equal(button.getAttribute('disabled'), null); assert.equal(button.getAttribute('aria-disabled'), null);
+        dispatch(h, 'click', index % 2 ? hint : button.children[0], {detail: 1});
+    }
+    assert.deepEqual(h.subClicks, Array.from({length: 14}, (_, index) => index));
+    for (let poll = 0; poll < 4; poll++) {h.pollRules(); h.renderRules();}
+    ruleButtons(h).forEach((button, index) => assert.equal(button, buttons[index], 'unchanged polls retain the pressed button node'));
+    ruleHints(h).forEach((hint, index) => assert.equal(hint, hints[index], 'unchanged polls retain rule nodes'));
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('interior rules use actual C fee keys, U8 nonzero flags, conditional surrender fees and U16 money without inventing fixed variable fees', () => {
+    const h = rulesHarness(); h.publishRuleSub();
+    ruleLibrary(h, {thew: {0: 3, 4: 244, 7: 247, 8: 248, 9: 249, 10: 250, 12: 252, 13: 7, 14: 2},
+        money: {0: 17, 4: 244, 7: 247, 8: 248, 9: 249, 10: 250, 11: 251, 13: 253, 14: 254}});
+    let rows = h.readRules().rows;
+    assert.deepEqual([rows[3].thew, rows[3].checkThew, rows[3].money, rows[3].text], [3, 3, 17, '规则：体力 3 · 金钱 17']);
+    for (const index of [6, 7, 8, 9]) assert.deepEqual([rows[index].thew, rows[index].checkThew, rows[index].money], [0, 0, 0]);
+    assert.deepEqual([rows[11].thew, rows[11].checkThew, rows[11].money], [0, 0, 100], '宴请 restores target stamina rather than spending T[12]');
+    assert.equal(rows[10].text, '规则：体力 12 · 金钱随买卖数量'); assert.equal(rows[10].money, null);
+    assert.equal(rows[12].text, '规则：体力 7 · 运送物资另计'); assert.equal(rows[12].money, null);
+    assert.deepEqual([rows[13].checkThew, rows[13].thew, rows[13].money, rows[13].text], [2, 7, 0, '规则：体力检查 2 · 消耗 7']);
+    assert.equal(rows[5].money, 0); h.renderRules(); const oldSurrender = ruleHints(h)[5];
+    for (const flag of [2, 255]) {
+        h.config.fixConsumeMoney = flag; h.config.fixThewOverFlow = flag; rows = h.readRules().rows;
+        assert.equal(rows[5].money, 100); assert.deepEqual([rows[13].checkThew, rows[13].thew], [2, 2]);
+        assert.equal(rows[13].text, '规则：体力 2 · 金钱 0');
+    }
+    h.renderRules(); assert.notEqual(ruleHints(h)[5], oldSurrender, 'the list signature changes when the applicable rule changes');
+    assert.equal(ruleHints(h)[5].textContent, '规则：体力 15 · 金钱 100');
+    ruleLibrary(h, {money16: true, money: {0: 513, 1: 1025, 2: 2049, 3: 0, 4: 64004, 5: 4097, 6: 8193,
+        7: 64007, 8: 64008, 9: 64009, 10: 64010, 11: 64011, 12: 16385, 13: 64013, 14: 64014}});
+    for (const flag of [2, 255]) {
+        h.config.enable16bitConsumeMoney = flag; rows = h.readRules().rows;
+        assert.deepEqual(rows.map(row => row.money), [1025, 2049, 0, 513, 4097, 8193, 0, 0, 0, 0, null, 16385, null, 0]);
+    }
+    h.renderRules(); assert.equal(ruleHints(h)[0].textContent, '规则：体力 8 · 金钱 1025');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('interior rules withdraw all hints for invalid source, menu, config and custom hooks and preserve plain native names', () => {
+    const invalid = [h => h.city.Belong = 2, h => h.raw.g_hdMapCity = 2, h => h.raw.g_hdDetailGeneration = 4,
+        h => h.raw.g_hdMenuSeq++, h => h.raw.g_hdMenuCount = 13, h => h.raw.g_hdMenuIndex = 1,
+        h => h.menu.names[0] = '修改后的开垦', h => h.menu.names.reverse(), h => h.menu.count = 13,
+        h => h.menu.kind = 3, h => h.menu.context = 2, h => h.menu.active = 0, h => h.menu.detailGeneration = 4,
+        h => h.raw.g_hdReportActive = 1, h => h.raw.g_hdHelpActive = 1, h => h.raw.g_hdQtyActive = 1,
+        h => h.raw.g_hdFightActive = 1, h => h.raw.g_hdEngineReady = 0, h => h.cities.pop(),
+        h => h.identity.status = 'pending', h => h.identity.sha256 = 'different-library', h => h.identity.byteLength--,
+        h => h.setIdentity(h.identity, false), h => h.context.dynLib = h.context.dynLib.slice(2),
+        h => h.context.dynLib = h.context.dynLib.slice(0, 8) + 'zz' + h.context.dynLib.slice(10), h => delete h.raw.g_engineConfig,
+        ...['enable16bitConsumeMoney', 'fixConsumeMoney', 'fixThewOverFlow'].flatMap(field =>
+            [h => delete h.config[field], ...[null, false, '0', -1, 1.5, 256].map(value => h => h.config[field] = value)])];
+    for (const change of invalid) {
+        const h = rulesHarness(); h.publishRuleSub(); h.renderRules(); assert.equal(ruleHints(h).length, 14);
+        change(h); assert.equal(h.readRules(), null); h.renderRules(); assertRulesAbsent(h, 'invalid bindings retire every displayed rule');
+    }
+    for (const key of cityRuleHooks) {
+        const h = rulesHarness(); h.publishRuleSub(); let calls = 0;
+        h.context.baye.hooks[key] = function customRuleHook() {calls++; return -1;};
+        h.context.baye.hooks[key].toString = () => 'function () { return -1; }';
+        assert.equal(h.readRules(), null, key + ' cannot spoof canonical source'); h.renderRules(); assertRulesAbsent(h, key);
+        assert.deepEqual(ruleButtons(h).map(button => button.textContent), cityRuleNames, 'failed rule reads leave the original pure native names');
+        assert.equal(calls, 0, key + ' must never be replayed to inspect its behavior');
+        h.context.baye.hooks[key] = vm.runInContext('(function () { return -1; })', h.context);
+        assert.equal(h.readRules().rows.length, 14, key + ' allows only the exact known no-op sentinel');
+        h.renderRules(); assert.equal(ruleHints(h).length, 14);
+    }
+    const h = rulesHarness(); h.publishRuleSub();
+    for (const cityIndex of [-1, 1, 38, '0', 0.5, null]) assert.equal(h.readRules(cityIndex), null, 'only this current owned city has rules');
+    h.document.hidden = true; assert.equal(h.readRules(), null); h.document.hidden = false;
+    h.renderRules(); assert.equal(ruleHints(h).length, 14); h.startRules();
+    h.context.baye.hooks.cityMakeCommand = () => 0; h.pollRules();
+    assertRulesAbsent(h, 'an ordinary poll removes stale hints without requiring a click or layer change');
+    assert.deepEqual(ruleButtons(h).map(button => button.textContent), cityRuleNames);
+});
+
+test('interior rule three-read fences reject last-sample source, menu, hook, config and reference drift and synchronous reader reentry', () => {
+    const seed = rulesHarness(); seed.publishRuleSub(); const originalMenu = seed.context.baye.hd.menuItems; let samples = 0;
+    seed.context.baye.hd.menuItems = function () {samples++; return originalMenu();};
+    assert.equal(seed.readRules().rows.length, 14); assert.ok(samples >= 3, 'a DTO is sealed across three native menu samples');
+    const last = samples;
+    const drifts = [h => h.raw.g_hdMapCity = 2, h => {h.raw.g_hdMenuSeq++; h.menu.seq++;},
+        h => {h.raw.g_hdMenuIndex = 1; h.menu.index = 1;}, h => h.raw.g_hdDetailGeneration++, h => h.city.Belong = 2,
+        h => h.menu.names[4] = '新出巡',
+        h => h.config.fixConsumeMoney = 2, h => h.config.fixThewOverFlow = 2, h => h.config.enable16bitConsumeMoney = 2,
+        h => h.raw.g_engineConfig = {...h.config}, h => h.raw.g_Cities = h.cities.slice(),
+        h => h.cities[0] = {...h.city}, h => h.context.baye.data = h.readonlyPlans({...h.raw}),
+        h => h.context.baye.hooks = {}, h => h.context.baye.hooks.cityMakeCommand = () => 0,
+        h => h.identity.generation++, h => h.context.dynLib = h.context.dynLib.slice(0, -2) + 'ff',
+        h => h.context.BayeHdLibIdentity = {...h.context.BayeHdLibIdentity},
+        h => h.context.baye.hd = {...h.context.baye.hd}, h => h.context.baye = {...h.context.baye},
+        h => h.context.baye.hd.menuItems = () => h.menu];
+    for (const change of drifts) {
+        const h = rulesHarness(); h.publishRuleSub(); const getMenu = h.context.baye.hd.menuItems; let calls = 0, fired = false;
+        h.context.baye.hd.menuItems = function () {if (++calls === last) {fired = true; change(h);} return getMenu();};
+        assert.equal(h.readRules(), null, 'the final external callback cannot revise the sampled source'); assert.equal(fired, true);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    for (const through of ['menu', 'config']) {
+        const h = rulesHarness(); h.publishRuleSub(); let entered = false, nested = 'not entered';
+        const reenter = () => {if (!entered) {entered = true; nested = h.readRules();}};
+        const getMenu = h.context.baye.hd.menuItems;
+        if (through === 'menu') h.context.baye.hd.menuItems = function () {reenter(); return getMenu();};
+        else Object.defineProperty(h.config, 'fixConsumeMoney', {get() {reenter(); return 0;}, configurable: true});
+        assert.equal(h.readRules(), null, through + ' synchronous reentry retires the outer DTO'); assert.equal(entered, true); assert.equal(nested, null);
+        h.context.baye.hd.menuItems = getMenu;
+        Object.defineProperty(h.config, 'fixConsumeMoney', {value: 0, writable: true, configurable: true});
+        assert.equal(h.readRules().rows.length, 14, 'a later independent read recovers after the torn transaction');
+        h.renderRules(); assert.equal(ruleHints(h).length, 14); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
 });
 
 test('arranged plans exclude foreign cities, other allegiances and empty slots before reading their names', () => {

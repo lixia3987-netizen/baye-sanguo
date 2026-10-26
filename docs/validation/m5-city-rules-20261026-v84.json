@@ -1,0 +1,463 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V84",
+  "parentCommit": "380b9b014e88a71c2f74d6980b25805de239fad0",
+  "feature": "Native interior SUB menu rule reference for all 14 orders",
+  "accepted": true,
+  "started": "2026-10-26T10:58:40.103Z",
+  "finished": "2026-10-26T10:58:48.620Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 735,
+  "pass": 735,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44305,
+      "sha256": "ddad2d0457be7a3676ace778b94278cd2ca5269d36a9534fcd87639260aae6f8"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 478465,
+      "sha256": "686ac017ef80df685d9091e5950d0c419817857e490986085058e61d68c74484"
+    },
+    {
+      "path": "js/hd-city-rules.js",
+      "bytes": 8039,
+      "sha256": "f1cb6359af012210234497485746c18b05c73bfba43ab36b18abd2ad7f142a27"
+    },
+    {
+      "path": "js/hd-lib-identity.js",
+      "bytes": 5943,
+      "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+    },
+    {
+      "path": "js/hd-mobile-city.js",
+      "bytes": 35411,
+      "sha256": "71d6997840e7c1f5b2b6f09753db868b1acd8c082763c7d32d5c1ecb229cfeb0"
+    },
+    {
+      "path": "css/hd-city-menu.css",
+      "bytes": 15741,
+      "sha256": "b52fbfba33c8fcf95fb435dbb71aa2a2efa47765438382545086e03c1329619c"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32713,
+      "sha256": "3e359d7e5a9218e145e039a4911a167f22a1ca8154db32839b87c3ee05b406d0"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "m.html",
+      "bytes": 20333,
+      "sha256": "38f69ad94ff0157f3107cfad3fbd216b45bcc2f5a0340fb4c60aaae71f227264"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 30351,
+      "sha256": "7384502b4a0adfd4698c3852a9822513c4d0e8f18441daeee259dbe8f4b55da4"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 163348,
+      "sha256": "46d7873f4a690079bc2ea82c20f1fd607dcad59c9a34d8e333d99ab27526cf4b"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "bytes": 34493,
+      "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 33782,
+      "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "vendor/iBaye/src/data/pconst.h",
+      "bytes": 1761,
+      "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 224529,
+      "sha256": "44841eb8eee9b8c91a066813352f70f9bfa72a1ce89da0a97cc11623b3fe9f71"
+    },
+    {
+      "path": "scripts/test-hd-city-mobile-host.mjs",
+      "bytes": 195248,
+      "sha256": "7d2e172ecfc4c3e3d8f65bf107b65e36d867d2e1bc165b08ae17f0bac122e21d"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 4,
+  "fullSuiteRun": false,
+  "scope": "HUD and mobile city-host targeted modules; no browser gameplay, C compilation or full-suite run",
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "contract": {
+    "menu": "Current original-library CITY context1 SUB kind2 count14 with canonical names and raw mirror",
+    "scope": "Rule reference on SUB menu, not a proved current PERSON command or executable/affordable decision",
+    "readOnly": true,
+    "newNativeFields": false,
+    "nativeResources": "Resource2 IFACE items9 Thew U8 and10 Money U8/U16LE selected by nonzero U8 engine flag",
+    "governingCostIndex": 0,
+    "surrenderMoneyConditionalOnFixConsumeMoney": true,
+    "zeroBranches": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "trade": "Thew11 and quantity-dependent money; Money11 not read",
+    "banquet": "Money12 only; Thew12 not read",
+    "transport": "Thew13 and selected materials; Money13 not read",
+    "move": "Check Thew14; deduct Thew14 when fixThewOverFlow is nonzero, otherwise Thew13; money0",
+    "u8FlagsUseNonzeroSemantics": true,
+    "captures": 3,
+    "hookFunctionsInvoked": 0,
+    "customHooks": "Reject callable overrides except exact internal no-op sentinel; Function.prototype.toString used",
+    "insufficiencyJudgments": false,
+    "inputHandlersChanged": false
+  },
+  "layout": {
+    "accepted": true,
+    "kind": "Isolated production SUB renderer and rule reader with original LIB and mock native menu/config; no game runtime",
+    "results": [
+      {
+        "name": "pc",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "stage": {
+            "x": 110,
+            "y": 23,
+            "width": 1044,
+            "height": 579
+          },
+          "list": {
+            "x": 142,
+            "y": 144,
+            "width": 980,
+            "height": 366
+          },
+          "back": {
+            "x": 142,
+            "y": 526,
+            "width": 68,
+            "height": 44
+          },
+          "listScrollHeight": 508,
+          "listClientHeight": 366,
+          "listOverflowY": "auto",
+          "buttonCount": 14,
+          "ruleCount": 14,
+          "minButtonHeight": 64,
+          "ruleContentContained": true,
+          "firstRule": "规则：体力 8 · 金钱 50",
+          "lastRule": "规则：体力检查 0 · 消耗 8",
+          "horizontalOverflow": false
+        },
+        "screenshot": "build/city-rules-20261026-v84/pc-layout-v4.png",
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      {
+        "name": "mobile",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 651,
+            "height": 280
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 651,
+            "height": 280
+          },
+          "list": {
+            "x": 14,
+            "y": 62,
+            "width": 623,
+            "height": 160
+          },
+          "back": {
+            "x": 14,
+            "y": 230,
+            "width": 80,
+            "height": 44
+          },
+          "listScrollHeight": 484,
+          "listClientHeight": 160,
+          "listOverflowY": "auto",
+          "buttonCount": 14,
+          "ruleCount": 14,
+          "minButtonHeight": 64,
+          "ruleContentContained": true,
+          "firstRule": "规则：体力 8 · 金钱 50",
+          "lastRule": "规则：体力检查 0 · 消耗 8",
+          "horizontalOverflow": false
+        },
+        "screenshot": "build/city-rules-20261026-v84/mobile-layout-v4.png",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      }
+    ],
+    "browserRuns": 2,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false,
+    "finalAttemptTool": "f2d4cc",
+    "finalAttemptExitCode": 0,
+    "visualInspectionAccepted": true,
+    "ruleContentContainedInEveryButton": true,
+    "ruleButtonsMinHeight": 64,
+    "controlledBrowserRunsFinal": 2,
+    "controlledBrowserRunsTotal": 6,
+    "allSixOwnedProfilesRemaining": 0,
+    "cleanupTool": "df8200",
+    "nativeGameRuntimeLaunched": false
+  },
+  "retainedAttempts": [
+    {
+      "tool": "0f5169",
+      "exitCode": 1,
+      "artifact": "build/city-rules-20261026-v84/targeted-v1.json",
+      "accepted": false,
+      "tests": 735,
+      "pass": 734,
+      "fail": 1,
+      "cause": "PC ordinary SUB poll did not refresh stale rule hints; production poll refresh added before later runs"
+    },
+    {
+      "tool": "01dbec",
+      "exitCode": 1,
+      "script": "build/city-rules-20261026-v84/preview-layout-v1.mjs",
+      "accepted": false,
+      "chromeRuns": 1,
+      "cause": "Isolated extracted renderer lacked its global binding; PC Chrome exited 0 but Rendered geometry assertion failed; mobile not launched"
+    },
+    {
+      "tool": "588115",
+      "exitCode": 1,
+      "script": "build/city-rules-20261026-v84/preview-layout-v2.mjs",
+      "accepted": false,
+      "chromeRuns": 1,
+      "cause": "PC rendered; mobile source-bound assertion used div instead of actual section battle root; mobile Chrome not launched"
+    },
+    {
+      "tool": "20909c",
+      "exitCode": 0,
+      "artifact": "build/city-rules-20261026-v84/preview-layout-v3.json",
+      "automatedGeometryAccepted": true,
+      "visualAccepted": false,
+      "chromeRuns": 2,
+      "cause": "Mobile notes extended below button edge; geometric min-height check was insufficient; final layout v4 additionally checks label/note containment and non-overlap"
+    }
+  ],
+  "intermediatePassingRunsNotAddedToFinalTestTotal": [
+    "targeted-v2.json",
+    "targeted-v3.json"
+  ],
+  "finalTargetedTool": "a15cda",
+  "finalTargetedExitCode": 0,
+  "artifacts": [
+    {
+      "path": "build/city-rules-20261026-v84/run-targeted-v4.mjs",
+      "bytes": 2214,
+      "sha256": "82a3ff11b20644a2f8bde9a4aaab1edd569adc4e74de6f4e64617c22f30815c6"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/targeted-v4.json",
+      "bytes": 3680,
+      "sha256": "b703f2ade5fbe6ddafa088df03c80b105df5cec16bc6b71d99e81efec4943daf"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/targeted-v4.stdout.tap",
+      "bytes": 166407,
+      "sha256": "05b8f33435cc0440cda943888522c8c33f888c7a5951817946975ab25356719f"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/targeted-v4.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/preview-layout-v4.mjs",
+      "bytes": 7170,
+      "sha256": "7fb8287f6397ff890ecb81052018d3c1bb7fc2caceb119a65fa4da60792719ba"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/preview-layout-v4.json",
+      "bytes": 2410,
+      "sha256": "96dadf67c6585b31b489536287a12043456dc8889e4808dc0efe221ebe1faf40"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/sub-renderer-v4.js",
+      "bytes": 1838,
+      "sha256": "766f3d868413aa4cbc8d3cad2420ea331aaabf87dc377e8fcc83c34a6184342b"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/pc-layout-v4.html",
+      "bytes": 421201,
+      "sha256": "31295e884b489204fb04f119343fce04827f26484d93e1812944a64cc16834cc"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/pc-layout-v4.dom.html",
+      "bytes": 424242,
+      "sha256": "50056730e39089bcfc9e370d7c40f9bb1cb61ba68525e4f3223ac0e23f02c775"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/pc-layout-v4.png",
+      "bytes": 72900,
+      "sha256": "783f7b97d6b0fd7c217b64b34b5adbe34a567a7645e308cb4f96df165f34182f"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/pc-layout-v4.stderr.log",
+      "bytes": 531,
+      "sha256": "69255e13e140d14421d7252406331a873fca6b78880f190e10b1d4315e1c369e"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/mobile-layout-v4.html",
+      "bytes": 421512,
+      "sha256": "2660097083abed324a7462bacd35bb56061f028fcada6964a32c3ef3e3d4a592"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/mobile-layout-v4.dom.html",
+      "bytes": 424544,
+      "sha256": "6bfe639e343615396670d325f36491b2b09a1358478541cf0342574c2d1dcebc"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/mobile-layout-v4.png",
+      "bytes": 39924,
+      "sha256": "5620cea5b54ed85c86926176ff502231648dfd9472c25a022e46b141c43b7057"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/mobile-layout-v4.stderr.log",
+      "bytes": 535,
+      "sha256": "a421521602a24835d297611b63e2d4c03cab764fb3aec5abf10e2a43fbbdeb25"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/targeted-v1.json",
+      "bytes": 3681,
+      "sha256": "e3757718006c397cf7b31b41ead4a28cf9752cd4e1f21ccedfe68a2ec222fb08"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/targeted-v1.stdout.tap",
+      "bytes": 167381,
+      "sha256": "a706bc7212df8ac17de6c60bd541c301a8fb54854e7c1f2bc14db9142a8969b2"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/targeted-v2.json",
+      "bytes": 3680,
+      "sha256": "e290d77f489d237d6619a4893589ccd9d9e31f5d137c50402a4d4f9e46720776"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/targeted-v3.json",
+      "bytes": 3680,
+      "sha256": "6a28c8e9693365f637888bf1ed5af0b62073fa62f8adbaef7f43fed7f8892f91"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/preview-layout-v1.mjs",
+      "bytes": 6700,
+      "sha256": "36efded9bec3ff1bd571cd8f088c29aab8ae1854b99f60ab168fae1a765d8453"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/pc-layout-v1.dom.html",
+      "bytes": 420898,
+      "sha256": "bfda66dc06f15e2453f6628461e3f957e4816d75351da91acc0fb098ec7ff490"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/preview-layout-v2.mjs",
+      "bytes": 6714,
+      "sha256": "3d63b6af845e5da0c9bd5a24a8b63c84ad431c54b139232fd511c7b728bf56c6"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/pc-layout-v2.dom.html",
+      "bytes": 423609,
+      "sha256": "deb59d1e6a064d95c103e2078919eed345926486d5e21b62cf775ca90d5dfda4"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/preview-layout-v3.json",
+      "bytes": 2334,
+      "sha256": "9a11c563fa6998e4eef573a2d0abad093ddc7edfdff4ec05c08bc0d1b6e7e059"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/pc-layout-v3.png",
+      "bytes": 79536,
+      "sha256": "670863a12cb54eb1d52b59a35295ee6b7050eea37fa71376b51594a9c16d39e3"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/mobile-layout-v3.png",
+      "bytes": 50012,
+      "sha256": "8edfaddda955f9d63e6d448a840da929b00e2feeb89b0ea077d2129d82346693"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/retained-failures-v1.json",
+      "bytes": 1471,
+      "sha256": "21ca0c6c5358372fef6ae8391dcc4118b8d45ee2c1e523f8ba48474843f17be7"
+    },
+    {
+      "path": "build/city-rules-20261026-v84/owned-profile-cleanup-v1.json",
+      "bytes": 573,
+      "sha256": "772968f7c0a2610903e187d5e0ef4dfa39350ef6e1ef6e0e9edeabf971e5f5e1"
+    }
+  ],
+  "publicScreenshots": [
+    {
+      "path": "docs/validation/m5-city-rules-20261026-v84-pc.png",
+      "bytes": 72900,
+      "sha256": "783f7b97d6b0fd7c217b64b34b5adbe34a567a7645e308cb4f96df165f34182f"
+    },
+    {
+      "path": "docs/validation/m5-city-rules-20261026-v84-mobile.png",
+      "bytes": 39924,
+      "sha256": "5620cea5b54ed85c86926176ff502231648dfd9472c25a022e46b141c43b7057"
+    }
+  ],
+  "oldHeldPrivateInterfacesInspected": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false,
+  "cCompiled": false,
+  "wasmChanged": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "wholeCampaignAccepted": false
+}
