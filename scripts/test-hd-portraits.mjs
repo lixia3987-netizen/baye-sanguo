@@ -278,6 +278,51 @@ test('period-one HD coverage contains every selectable ruler derived from actual
     }
 });
 
+test('all fifty selectable rulers across four original periods have unique native identities and genuine large HD files', () => {
+    const counts = [18, 16, 11, 5], roms = counts.map((_, index) => readOriginalPersonIdentityRom(dictionaryBytes, index + 1));
+    const entries = manifest.entries.filter(entry => !entry.missing), keys = new Set();
+    for (const entry of entries) {
+        assert.ok(Number.isInteger(entry.period) && entry.period >= 1 && entry.period <= 4);
+        assert.ok(Number.isInteger(entry.personId) && entry.personId >= 0 && entry.personId < 200);
+        const key = entry.period + ':' + entry.personId;
+        assert.ok(!keys.has(key), 'one manifest binding for original identity ' + key);
+        keys.add(key);
+        const rom = roms[entry.period - 1], exported = references.periods.find(block => block.period === entry.period);
+        const native = exported.people.filter(person => !person.skipped && person.id === entry.personId);
+        assert.equal(native.length, 1, 'one captured native reference for ' + key);
+        assert.ok(rom.names200[entry.personId], 'a declared identity names a real original person');
+        assert.equal(entry.name, rom.names200[entry.personId], 'manifest name follows actual period ROM at ' + key);
+        assert.equal(native[0].name, rom.names200[entry.personId]);
+        assert.equal(entry.ref, 'refs/' + native[0].file, 'reference belongs to the current period and person');
+    }
+    let total = 0;
+    for (const [index, rom] of roms.entries()) {
+        const period = index + 1;
+        assert.equal(rom.cities.length, 38);
+        // This is GetAllKings' real city rule. Person self-ownership neither
+        // adds a cityless ruler nor supplies a portrait for a different period.
+        const rulers = [...new Set(rom.cities.map(city => city.Belong).filter(Boolean))].map(belong => belong - 1);
+        assert.equal(rulers.length, counts[index], 'original selectable-ruler count in period ' + period);
+        total += rulers.length;
+        for (const id of rulers) {
+            const matches = entries.filter(entry => entry.period === period && entry.personId === id);
+            assert.equal(matches.length, 1, 'exactly one HD binding for selectable ruler ' + period + ':' + id);
+            const entry = matches[0], hdPath = path.join(root, asset(entry.hd)), nativePath = path.join(root, asset(entry.ref));
+            assert.ok(existsSync(hdPath), 'shipped HD file for ' + period + ':' + id);
+            assert.ok(existsSync(nativePath), 'shipped native reference for ' + period + ':' + id);
+            const hd = readFileSync(hdPath), original = readFileSync(nativePath);
+            assert.ok(hd.length >= 24 && original.length >= 24);
+            assert.equal(hd.subarray(0, 8).toString('hex'), '89504e470d0a1a0a', 'actual PNG signature');
+            assert.equal(original.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+            assert.equal(original.readUInt32BE(16), 24); assert.equal(original.readUInt32BE(20), 24);
+            assert.ok(hd.readUInt32BE(16) > 100 && hd.readUInt32BE(20) > 100, 'HD file is larger than the native 24-pixel reference');
+            assert.notEqual(createHash('sha256').update(hd).digest('hex'), createHash('sha256').update(original).digest('hex'),
+                'a copied native PNG is not HD artwork');
+        }
+    }
+    assert.equal(total, 50, 'all period-specific selectable rulers, not fifty distinct people');
+});
+
 test('cross-period shared HD files retain current native identity and require byte-identical same-person references', async () => {
     const canonical = manifest.entries.filter(entry => entry.expansion === 'period-1-rulers-v97');
     assert.equal(canonical.length, 13);

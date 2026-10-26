@@ -644,6 +644,236 @@
       "missing": false,
       "ref": "refs/period-1/4-孙坚.png",
       "hd": "hd/period-1/4-孙坚.png"
+    },
+    {
+      "name": "李傕",
+      "personId": 23,
+      "period": 1,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-1/23-李傕.png",
+      "hd": "hd/period-2/0-李傕.png"
+    },
+    {
+      "name": "李傕",
+      "personId": 0,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-rulers-v98",
+      "missing": false,
+      "ref": "refs/period-2/0-李傕.png",
+      "hd": "hd/period-2/0-李傕.png"
+    },
+    {
+      "name": "刘璋",
+      "personId": 113,
+      "period": 1,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-1/113-刘璋.png",
+      "hd": "hd/period-2/13-刘璋.png"
+    },
+    {
+      "name": "刘璋",
+      "personId": 13,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-rulers-v98",
+      "missing": false,
+      "ref": "refs/period-2/13-刘璋.png",
+      "hd": "hd/period-2/13-刘璋.png"
+    },
+    {
+      "name": "刘璋",
+      "personId": 9,
+      "period": 3,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-3/9-刘璋.png",
+      "hd": "hd/period-2/13-刘璋.png"
+    },
+    {
+      "name": "张绣",
+      "personId": 161,
+      "period": 1,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-1/161-张绣.png",
+      "hd": "hd/period-2/7-张绣.png"
+    },
+    {
+      "name": "张绣",
+      "personId": 7,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-rulers-v98",
+      "missing": false,
+      "ref": "refs/period-2/7-张绣.png",
+      "hd": "hd/period-2/7-张绣.png"
+    },
+    {
+      "name": "张绣",
+      "personId": 67,
+      "period": 3,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-3/67-张绣.png",
+      "hd": "hd/period-2/7-张绣.png"
+    },
+    {
+      "name": "张绣",
+      "personId": 52,
+      "period": 4,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-4/52-张绣.png",
+      "hd": "hd/period-2/7-张绣.png"
+    },
+    {
+      "name": "孙策",
+      "personId": 54,
+      "period": 1,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-1/54-孙策.png",
+      "hd": "hd/period-2/5-孙策.png"
+    },
+    {
+      "name": "孙策",
+      "personId": 5,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-rulers-v98",
+      "missing": false,
+      "ref": "refs/period-2/5-孙策.png",
+      "hd": "hd/period-2/5-孙策.png"
+    },
+    {
+      "name": "韩玄",
+      "personId": 9,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-rulers-v98",
+      "missing": false,
+      "ref": "refs/period-2/9-韩玄.png",
+      "hd": "hd/period-2/9-韩玄.png"
+    },
+    {
+      "name": "韩玄",
+      "personId": 0,
+      "period": 3,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-3/0-韩玄.png",
+      "hd": "hd/period-2/9-韩玄.png"
+    },
+    {
+      "name": "张邈",
+      "personId": 12,
+      "period": 1,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-1/12-张邈.png",
+      "hd": "hd/period-2/6-张邈.png"
+    },
+    {
+      "name": "张邈",
+      "personId": 6,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-rulers-v98",
+      "missing": false,
+      "ref": "refs/period-2/6-张邈.png",
+      "hd": "hd/period-2/6-张邈.png"
+    },
+    {
+      "name": "公孙康",
+      "personId": 103,
+      "period": 1,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-1/103-公孙康.png",
+      "hd": "hd/period-4/4-公孙康.png"
+    },
+    {
+      "name": "公孙康",
+      "personId": 96,
+      "period": 2,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-2/96-公孙康.png",
+      "hd": "hd/period-4/4-公孙康.png"
+    },
+    {
+      "name": "公孙康",
+      "personId": 10,
+      "period": 3,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-3/10-公孙康.png",
+      "hd": "hd/period-4/4-公孙康.png"
+    },
+    {
+      "name": "金旋",
+      "personId": 3,
+      "period": 3,
+      "pilot": false,
+      "expansion": "remaining-rulers-v98",
+      "missing": false,
+      "ref": "refs/period-3/3-金旋.png",
+      "hd": "hd/period-3/3-金旋.png"
+    },
+    {
+      "name": "刘度",
+      "personId": 1,
+      "period": 3,
+      "pilot": false,
+      "expansion": "remaining-rulers-v98",
+      "missing": false,
+      "ref": "refs/period-3/1-刘度.png",
+      "hd": "hd/period-3/1-刘度.png"
+    },
+    {
+      "name": "刘度",
+      "personId": 167,
+      "period": 4,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-4/167-刘度.png",
+      "hd": "hd/period-3/1-刘度.png"
+    },
+    {
+      "name": "赵范",
+      "personId": 2,
+      "period": 3,
+      "pilot": false,
+      "expansion": "remaining-rulers-v98",
+      "missing": false,
+      "ref": "refs/period-3/2-赵范.png",
+      "hd": "hd/period-3/2-赵范.png"
+    },
+    {
+      "name": "赵范",
+      "personId": 170,
+      "period": 4,
+      "pilot": false,
+      "expansion": "rulers-identical-reference-v98",
+      "missing": false,
+      "ref": "refs/period-4/170-赵范.png",
+      "hd": "hd/period-3/2-赵范.png"
     }
   ]
 }
