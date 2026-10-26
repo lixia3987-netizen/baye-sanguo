@@ -88,13 +88,19 @@
                         if (!actor(executor)) { continue; }
                         actors.push(executor);
                     }
-                    var destination = null;
+                    var destination = null, targetPerson = null;
                     if ([13,14,23,27].indexOf(command) >= 0) {
                         destination = queue[slot].Object;
                         if (!uint(destination,37) || !cities[destination]) { return null; }
                         values.push(destination); refs.push(cities[destination]);
                     }
-                    rows.push({slot:slot,command:command,actors:actors,destination:destination});
+                    if ([6,15,16,17,19].indexOf(command) >= 0) {
+                        targetPerson = queue[slot].Object;
+                        if (!uint(targetPerson,199) || !people[targetPerson]) { return null; }
+                        // Object retains the selected person even if their allegiance later changes.
+                        values.push(targetPerson); refs.push(people[targetPerson]);
+                    }
+                    rows.push({slot:slot,command:command,actors:actors,destination:destination,targetPerson:targetPerson});
                 }
                 var seal = [data.g_hdEngineReady,data.g_hdDetailGeneration,data.g_hdMapCity,data.g_hdMenuActive,
                     data.g_hdMenuContext,data.g_hdMenuKind,data.g_hdMenuSeq,data.g_hdMenuCount,data.g_hdMenuIndex,
@@ -116,7 +122,10 @@
                     if (row.destination !== null) { var destinationName = getCity.call(b,row.destination);
                         if (typeof destinationName !== 'string' || !destinationName.trim() || destinationName === '-') { throw Error('Missing destination'); }
                         text += ' → ' + destinationName; }
-                    return {slot:row.slot,command:row.command,label:LABELS[row.command],text:text};
+                    if (row.targetPerson !== null) { var targetName = getName.call(b,row.targetPerson);
+                        if (typeof targetName !== 'string' || !targetName.trim() || targetName === '-') { throw Error('Missing target name'); }
+                        text += ' → ' + targetName; }
+                    return {slot:row.slot,command:row.command,label:LABELS[row.command],text:text,targetPerson:row.targetPerson};
                 });
             }
             function same(a,b) { return a && b && a.key === b.key && a.refs.length === b.refs.length && a.refs.every(function (v,i) { return v === b.refs[i]; }); }

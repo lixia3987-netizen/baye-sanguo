@@ -2764,7 +2764,7 @@ test('arranged plans use only order-relevant fields and never invent countdowns 
     const h = plansHarness(); let unusedReads = 0;
     labels.forEach(([id], slot) => {
         const order = h.plan(slot, id, 20, {Object: 16});
-        for (const field of ['Money', 'Food', 'Arms', 'Consume', 'TimeCount', ...([13, 14, 23].includes(id) ? [] : ['Object'])]) {
+        for (const field of ['Money', 'Food', 'Arms', 'Consume', 'TimeCount', ...([6, 13, 14, 15, 16, 17, 19, 23].includes(id) ? [] : ['Object'])]) {
             Object.defineProperty(order, field, {get() {unusedReads++; throw Error('unused original field read');}, configurable: true});
         }
     });
@@ -2772,7 +2772,7 @@ test('arranged plans use only order-relevant fields and never invent countdowns 
         get() {unusedReads++; throw Error('empty slot metadata read');}, configurable: true});
     h.renderPlans();
     assert.deepEqual(planRows(h).map(row => [row.order, row.label, row.value]), labels.map(([id, label]) =>
-        [id, label, '吕布' + ([13, 14, 23].includes(id) ? ' → 许昌' : '')]));
+        [id, label, '吕布' + ([13, 14, 23].includes(id) ? ' → 许昌' : [6, 15, 16, 17, 19].includes(id) ? ' → 人物16' : '')]));
     assert.equal(unusedReads, 0); assert.doesNotMatch(plansPane(h).textContent, /TimeCount|倒计时|剩余.*月|Money|Food|Arms/);
     assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
     const empty = plansHarness(); empty.renderPlans();
@@ -2820,5 +2820,70 @@ test('arranged plans reject malformed local orders and ambiguous or incomplete n
         const h = plansHarness(); h.plan(2, 24); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16});
         mutate(h); h.renderPlans(); assertPlansAbsent(h, 'invalid local plan or native army');
         assert.equal(h.personCalls.includes(70), false, 'enemy army members are not resolved to hidden names');
+    }
+});
+
+test('arranged person-target orders show exact zero-based targets independently of their present allegiance', () => {
+    const h = plansHarness(), entries = [[2, 6, 71], [4, 15, 70], [6, 16, 0], [8, 17, 72], [10, 19, 199]];
+    h.people[199].Belong = 3;
+    for (const [slot, command, target] of entries) h.plan(slot, command, 20, {Object: target});
+    h.plan(12, 13, 22, {Object: 16}); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16});
+    const before = plain(h.raw), menu = plain(h.menu); h.renderPlans();
+    assert.deepEqual(planRows(h).map(row => [row.slot, row.value]), [[2, '吕布 → 人物71'], [4, '吕布 → 人物70'],
+        [6, '吕布 → 董卓'], [8, '吕布 → 人物72'], [10, '吕布 → 人物199'], [12, '张辽 → 许昌'], [170, '吕布、张辽 → 许昌']]);
+    const dto = h.context.BayeHdCityPlans.read(0); assert.ok(dto);
+    assert.deepEqual(plain(dto.rows.map(row => [row.slot, row.targetPerson])),
+        [[2, 71], [4, 70], [6, 0], [8, 72], [10, 199], [12, null], [170, null]]);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    for (const belong of [0, 1, 4, 65535]) {
+        h.people[70].Belong = belong; h.renderPlans();
+        assert.equal(planRows(h).find(row => row.slot === 4)?.value, '吕布 → 人物70', 'a queued target is not re-filtered as an allied actor');
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged person-target payloads stay unread for other cities, other actors, empty slots and unrelated commands', () => {
+    const h = plansHarness(); h.plan(2, 16, 20, {Object: 70});
+    h.plan(3, 16, 20, {City: 1}); h.plan(4, 6, 70); h.plan(5, 19, 71);
+    h.plan(6, 255); h.plan(7, 24, 22);
+    let unusedTargets = 0;
+    for (const slot of [3, 4, 5, 6, 7]) Object.defineProperty(h.orders[slot], 'Object', {
+        get() {unusedTargets++; throw Error('excluded or unrelated order target was read');}, configurable: true});
+    h.renderPlans();
+    assert.deepEqual(planRows(h).map(row => [row.slot, row.value]), [[2, '吕布 → 人物70'], [7, '张辽']]);
+    const dto = h.context.BayeHdCityPlans.read(0); assert.ok(dto);
+    assert.deepEqual(plain(dto.rows.map(row => row.targetPerson)), [70, null]);
+    assert.equal(unusedTargets, 0); assert.equal(h.personCalls.includes(71), false);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged person targets withdraw malformed or torn references, names and reentrant callbacks as a whole', () => {
+    const invalid = [h => delete h.orders[2].Object, h => h.orders[2].Object = null,
+        h => h.orders[2].Object = false, h => h.orders[2].Object = '70', h => h.orders[2].Object = -1,
+        h => h.orders[2].Object = 200, h => h.orders[2].Object = 1.5,
+        h => h.people[70] = undefined, h => h.names.set(70, ''), h => h.names.set(70, '-'), h => h.names.set(70, '   ')];
+    for (const change of invalid) {
+        const h = plansHarness(); h.plan(2, 16, 20, {Object: 70}); h.renderPlans(); assert.equal(planRows(h).length, 1);
+        change(h); h.renderPlans(); assertPlansAbsent(h, 'invalid person target cannot leave a partial plan pane');
+    }
+    const seed = plansHarness(); seed.plan(2, 16, 20, {Object: 70}); seed.renderPlans();
+    const last = seed.personCalls.filter(id => id === 70).length; assert.ok(last >= 2);
+    const drifts = [h => h.orders[2].Object = 71, h => h.people[70] = {...h.people[70]},
+        h => h.names.set(70, '更新姓名'), h => h.raw.g_Persons = h.people.slice(),
+        h => {const name = h.context.baye.getPersonName; h.context.baye.getPersonName = id => name(id); }];
+    for (const change of drifts) {
+        const h = plansHarness(); h.plan(2, 16, 20, {Object: 70}); let calls = 0, fired = false;
+        h.nameHook(id => {if (id === 70 && ++calls === last) {fired = true; change(h);}});
+        h.renderPlans(); assert.equal(fired, true); assertPlansAbsent(h, 'last target-name callback changed the observed source');
+    }
+    for (const from of ['target-name', 'target-object']) {
+        const h = plansHarness(); h.plan(2, 16, 20, {Object: 70}); let reentered = false;
+        const enter = () => {if (!reentered) {reentered = true; h.renderPlans();}};
+        if (from === 'target-name') h.nameHook(id => {if (id === 70) enter();});
+        else Object.defineProperty(h.orders[2], 'Object', {get() {enter(); return 70;}, configurable: true});
+        h.renderPlans(); assert.equal(reentered, true); assertPlansAbsent(h, from + ' synchronous reentry');
+        h.nameHook(null); Object.defineProperty(h.orders[2], 'Object', {value: 70, writable: true, configurable: true});
+        h.renderPlans(); assert.equal(planRows(h)[0]?.value, '吕布 → 人物70');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
     }
 });
