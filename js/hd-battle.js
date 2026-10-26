@@ -170,6 +170,41 @@
             ' · HP ' + (unit.hp == null ? '—' : unit.hp) +
             ' · MP ' + (unit.mp == null ? '—' : unit.mp) + ' · ' + unitStatus(unit);
     }
+    function renderFocusCard(show, snap, targetLabel) {
+        var node = el('hd-battle-focus');
+        if (!node) { return; }
+        var unit = show && !mobileHost && !document.hidden && !state.preview && !state.showLcd &&
+            snap && snap.ready && snap.kind !== INPUT.HELP && snap.kind !== INPUT.VIEW &&
+            snap.focus && unitAt(snap.focus.x,snap.focus.y);
+        if (!unit) { node.hidden = true; node.textContent = ''; node._focusCardSignature = ''; return; }
+        function number(value) { return value == null ? '未读取' : String(value); }
+        var terrain = unit.terrain, terrainText = terrain && terrain.label || '未知地形';
+        if (terrain && terrain.kind === 'unknown' && terrain.raw != null) { terrainText += ' · 图块 ' + terrain.raw; }
+        var fields = [['arms','兵力',number(unit.arms)],['hp','HP',number(unit.hp)],['mp','MP',number(unit.mp)],
+            ['state','状态',UNIT_STATES[unit.state] || '未读取'],
+            ['action','本回合',unit.active === 0 ? '未行动' : unit.active === 1 ? '已行动' : '未读取'],['terrain','地形',terrainText]];
+        var name = unit.name || '#' + unit.i,
+            identity = (unit.side === 'player' ? '我方' : '敌方') + ' · ' + (ARM_NAMES[unit.armType] || '兵种未知') +
+                ' · 位置 ' + unit.x + ',' + unit.y,
+            signature = JSON.stringify([unit.id,unit.i,name,identity,fields]);
+        node.hidden = false;
+        if (node._focusCardSignature !== signature || node.children.length !== 4) {
+            node.textContent = '';
+            var title = document.createElement('h2'); title.className = 'hd-battle-focus-name'; title.textContent = name; node.appendChild(title);
+            var description = document.createElement('p'); description.className = 'hd-battle-focus-identity'; description.textContent = identity; node.appendChild(description);
+            var list = document.createElement('dl'); list.className = 'hd-battle-focus-fields';
+            fields.forEach(function (field) {
+                var row = document.createElement('div'); row.setAttribute('data-hd-focus-field',field[0]);
+                var label = document.createElement('dt'); label.textContent = field[1];
+                var value = document.createElement('dd'); value.textContent = field[2];
+                row.appendChild(label); row.appendChild(value); list.appendChild(row);
+            });
+            node.appendChild(list);
+            var target = document.createElement('p'); target.className = 'hd-battle-focus-target'; target.hidden = true; node.appendChild(target);
+            node._focusCardSignature = signature;
+        }
+        var note = node.children[3]; note.textContent = targetLabel || ''; note.hidden = !targetLabel;
+    }
     function terrainAt(x, y, snapshot) {
         if (global.BayeHdBattleTerrain) { return global.BayeHdBattleTerrain.inspect(snapshot || state.terrain, x, y); }
         return { kind: 'unknown', label: '未知地形', index: null, raw: null, x: x, y: y };
@@ -704,6 +739,9 @@
         }
         var root = el('hd-battle');
         if (root) { root.classList.toggle('is-open', show); root.setAttribute('aria-hidden', show ? 'false' : 'true'); }
+        var rail = el('hd-battle-rail');
+        if (rail) { rail.hidden = !show || state.preview; }
+        renderFocusCard(show,snap);
         var actor = actorUnit(snap.actor);
         var guidance = { 0: '正在处理战场行动…', 1: '选择己方将领', 2: '选择移动位置（可选择原地）',
             3: '选择将领行动', 4: '选择计谋', 5: '选择射程内目标', 6: '战场系统', 7: '确认全军撤退', 8: '选择战场设置',
@@ -777,6 +815,7 @@
         state.visibilityBound = true;
         document.addEventListener('visibilitychange', function () {
             if (document.hidden) {
+                renderFocusCard(false);
                 if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
                 return;
             }
@@ -1198,6 +1237,17 @@
         }
     }
 
+    function boardGeometry(canvas) {
+        var board = {ox:80,oy:72,width:DESIGN_W-160,height:DESIGN_H-160};
+        var rail = !mobileHost && !state.preview && el('hd-battle-rail');
+        if (rail && !rail.hidden && typeof rail.getBoundingClientRect === 'function') {
+            var bounds = canvas.getBoundingClientRect(), sidebar = rail.getBoundingClientRect();
+            if (bounds.width > 0 && sidebar.width > 0 && sidebar.left > bounds.left && sidebar.left < bounds.right) {
+                board.width = Math.max(80,(sidebar.left-bounds.left)/bounds.width*DESIGN_W-24-board.ox);
+            }
+        }
+        return board;
+    }
     function eventToTile(ev) {
         var canvas = el('hd-battle-canvas');
         if (!canvas || !state.mapW || !state.mapH) {
@@ -1209,15 +1259,13 @@
         }
         var sx = (ev.clientX - rect.left) / rect.width * DESIGN_W;
         var sy = (ev.clientY - rect.top) / rect.height * DESIGN_H;
-        var pad = 80;
-        var boardW = DESIGN_W - pad * 2;
-        var boardH = DESIGN_H - 160;
+        var board = boardGeometry(canvas);
         var cols = state.viewW || state.mapW;
         var rows = state.viewH || state.mapH;
-        var cw = boardW / cols;
-        var ch = boardH / rows;
-        var ox = pad;
-        var oy = 72;
+        var cw = board.width / cols;
+        var ch = board.height / rows;
+        var ox = board.ox;
+        var oy = board.oy;
         var c = Math.floor((sx - ox) / cw);
         var r = Math.floor((sy - oy) / ch);
         if (c < 0 || r < 0 || c >= cols || r >= rows) {
@@ -1330,17 +1378,16 @@
         ctx.fillStyle = '#12161d';
         ctx.fillRect(0, 0, DESIGN_W, DESIGN_H);
 
-        var pad = 80;
-        var boardW = DESIGN_W - pad * 2;
-        var boardH = DESIGN_H - 160;
+        var board = boardGeometry(canvas);
+        var boardW = board.width, boardH = board.height;
         var cols = state.viewW || state.mapW || 16;
         var rows = state.viewH || state.mapH || 12;
         var viewOx = state.viewOx || 0;
         var viewOy = state.viewOy || 0;
         var cw = boardW / cols;
         var ch = boardH / rows;
-        var ox = pad;
-        var oy = 72;
+        var ox = board.ox;
+        var oy = board.oy;
         var r;
         var c;
         var terrainPainted = global.BayeHdBattleTerrain && global.BayeHdBattleTerrain.paint(ctx,
@@ -1468,7 +1515,9 @@
         }
         drawUnitLegend(ctx, canvas, oy + rows * ch, ox);
         var focusUnit = visualSnap.focus && unitAt(visualSnap.focus.x, visualSnap.focus.y);
-        if (!state.preview && visualSnap.focus) {
+        var focusCard = el('hd-battle-focus');
+        renderFocusCard(state.open && shouldShowHd(),visualSnap,targetPreview && targetPreview.label);
+        if (!state.preview && visualSnap.focus && (!focusCard || !focusUnit)) {
             var focusedTerrain = terrainAt(visualSnap.focus.x, visualSnap.focus.y);
             ctx.fillStyle = 'rgba(15,20,29,0.94)';
             ctx.fillRect(ox + 650, focusUnit ? DESIGN_H - 78 : DESIGN_H - 52, boardW - 650, 25);
@@ -1478,7 +1527,7 @@
             if (focusedTerrain.kind === 'unknown' && focusedTerrain.raw != null) { terrainText += ' · 图块 ' + focusedTerrain.raw; }
             ctx.fillText(terrainText, ox + boardW - 8, focusUnit ? DESIGN_H - 59 : DESIGN_H - 33, boardW - 666);
         }
-        if (!state.preview && focusUnit) {
+        if (!state.preview && focusUnit && !focusCard) {
             ctx.fillStyle = 'rgba(15,20,29,0.94)';
             ctx.fillRect(ox + 650, DESIGN_H - 52, boardW - 650, 30);
             ctx.textAlign = 'right';

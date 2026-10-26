@@ -1,0 +1,546 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V86",
+  "parentCommit": "3122f859e8d32961c8c75c81809867dbfd5f7d7d",
+  "feature": "PC DOM focus-unit detail card and reserved information rail",
+  "accepted": true,
+  "started": "2026-10-26T11:23:51.088Z",
+  "finished": "2026-10-26T11:23:53.059Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 294,
+  "pass": 294,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44305,
+      "sha256": "ddad2d0457be7a3676ace778b94278cd2ca5269d36a9534fcd87639260aae6f8"
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 88831,
+      "sha256": "f784453891a678549abccd7282c8c963cf2de3167dcf7863aa664d0c6c922a73"
+    },
+    {
+      "path": "js/hd-battle-status.js",
+      "bytes": 6394,
+      "sha256": "0c51f784cf4f8931e6f9deaa2b7c3a136ac8f8724a9d1428ed227cb50bcef036"
+    },
+    {
+      "path": "js/hd-skill-hints.js",
+      "bytes": 9456,
+      "sha256": "e93726a452d2edbf4268d2ba7494a68983097e3563935a4d66cac2dd2a828ebe"
+    },
+    {
+      "path": "js/hd-battle-feedback.js",
+      "bytes": 12380,
+      "sha256": "c57a04c36bfef7ff0060156b9895a1ae1357f302207efdd297b1516295c2ce6f"
+    },
+    {
+      "path": "js/hd-battle-terrain.js",
+      "bytes": 12866,
+      "sha256": "92e43378ae56aa71a71423f2a91a64c14318334f784d1ce845538adb845ea9e1"
+    },
+    {
+      "path": "js/hd-mobile-battle.js",
+      "bytes": 32143,
+      "sha256": "4250784387a08cd6d27c31172af0099db6c5a722e7312ea88e2866155131dd9b"
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+    },
+    {
+      "path": "js/hd-lib-identity.js",
+      "bytes": 5943,
+      "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 36222,
+      "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+    },
+    {
+      "path": "css/hd-battle.css",
+      "bytes": 9203,
+      "sha256": "a193bdf938a16b4741251ec6a670872fe3cfcf899592aa69461b438ef51ffab1"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32713,
+      "sha256": "3e359d7e5a9218e145e039a4911a167f22a1ca8154db32839b87c3ee05b406d0"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 30597,
+      "sha256": "9b8944cc4d1c5170b535a183c5a7a4970f96b657fdcc671e9d53cf24e2871999"
+    },
+    {
+      "path": "m.html",
+      "bytes": 20330,
+      "sha256": "cfd3c82f3c9432ead70cec9240d8f7096e8561597a1f1280bbec7ddf5f4a05aa"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fight.h",
+      "bytes": 9611,
+      "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986"
+    },
+    {
+      "path": "scripts/test-hd-battle-commands.mjs",
+      "bytes": 71051,
+      "sha256": "956975408fbb150e4a84430a8cb7ca423947e795262367e99a677607ad34a8b8"
+    },
+    {
+      "path": "scripts/test-hd-battle-mobile-host.mjs",
+      "bytes": 17259,
+      "sha256": "1497765ab181e5fd3e22a7d688dd607cc29e8c9dca3c5235b92cab352e778141"
+    },
+    {
+      "path": "scripts/test-hd-mobile-battle.mjs",
+      "bytes": 52239,
+      "sha256": "30379f5a5c400b355ca8598ac036fe534b8a6d4f3d7ddc30e498b264213cb69b"
+    },
+    {
+      "path": "scripts/test-hd-render-visibility.mjs",
+      "bytes": 50865,
+      "sha256": "b0c719632013200dc197fd02e59f5ebfaec5de0fa26cb70c998c7851d7fe346f"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 5,
+  "fullSuiteRun": false,
+  "cCompiled": false,
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "scope": "Commands, mobile battle host, mobile renderer and render visibility modules; no game, native rebuild or full suite",
+  "contract": {
+    "scope": "PC presentation of the existing sampleFight/state.units snapshot; no new native reader, field, authentication or independent snapshot guarantee",
+    "mobilePresentationChanged": false,
+    "fields": [
+      "exact name",
+      "side",
+      "effective arm type",
+      "zero-based native coordinates",
+      "arms",
+      "hp",
+      "mp",
+      "state",
+      "round action flag",
+      "existing terrain"
+    ],
+    "hpMpNativeType": "U16 in baye/fight.h JLPOS",
+    "noAssumed100Cap": true,
+    "zeroValuesPreserved": true,
+    "unknownValuesRetained": true,
+    "textContentOnly": true,
+    "action": "active0 means not yet acted, active1 means acted; does not assert selectable",
+    "source": "Same sampled unit and focus used by the prior canvas details; source/unknown-LIB behavior remains inherited from the existing renderer",
+    "retirement": [
+      "empty tile",
+      "dead unit",
+      "report",
+      "HELP",
+      "VIEW",
+      "not ready",
+      "battle inactive or over",
+      "hidden",
+      "classic",
+      "LCD",
+      "preview",
+      "close"
+    ],
+    "stableNodesOnUnchangedContent": true,
+    "terrainPreserved": "Unit terrain moves to card; empty-tile terrain remains on canvas",
+    "boardGeometry": "Both production drawing and eventToTile use boardGeometry; right edge precedes actual rail left by24 design pixels; no rail or preview keeps legacy geometry",
+    "pointer": "No buttons or native commands added; only existing canvas clicks can request map input",
+    "newNativeReads": false,
+    "cOrWasmChanged": false
+  },
+  "finalTargetedTool": "2a0786",
+  "finalTargetedExitCode": 0,
+  "commandOnlyEarlierRun": {
+    "tests": 55,
+    "pass": 55,
+    "tool": "5a8d1c",
+    "includedInFinalTotal": true
+  },
+  "layout": {
+    "accepted": true,
+    "kind": "Complete production PC battle renderer with controlled native snapshots; no game runtime",
+    "results": [
+      {
+        "name": "wide",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "expectedEmpty": false,
+          "terrainRect": null,
+          "terrainFooterOverlap": null,
+          "viewport": {
+            "width": 1904,
+            "height": 985
+          },
+          "stage": {
+            "x": 76.4375,
+            "y": 0,
+            "width": 1751.109375,
+            "height": 985,
+            "right": 1827.546875,
+            "bottom": 985
+          },
+          "rail": {
+            "x": 1487.546875,
+            "y": 56,
+            "width": 320,
+            "height": 865,
+            "right": 1807.546875,
+            "bottom": 921
+          },
+          "card": {
+            "x": 1487.546875,
+            "y": 56,
+            "width": 320,
+            "height": 325,
+            "right": 1807.546875,
+            "bottom": 381
+          },
+          "footer": {
+            "x": 180.4375,
+            "y": 929,
+            "width": 386.1875,
+            "height": 40,
+            "right": 566.625,
+            "bottom": 969
+          },
+          "cardHidden": false,
+          "name": "朵思大王·焦点将领长姓名排版检查",
+          "fieldCount": 6,
+          "cardContentContained": true,
+          "horizontalOverflow": false,
+          "railScrollHeight": 865,
+          "railClientHeight": 865,
+          "railOverflow": "auto",
+          "listScrollHeight": 0,
+          "listClientHeight": 0,
+          "listOverflow": "visible",
+          "menuButtons": 0,
+          "boardRight": 1465.6580078125,
+          "boardPaint": [
+            80,
+            72,
+            180.40096902856226,
+            115
+          ],
+          "keys": [],
+          "controlledWorldStable": true
+        },
+        "screenshot": "build/pc-focus-card-20261026-v86/wide-layout-v2.png",
+        "screenshotPixels": {
+          "width": 1920,
+          "height": 1080
+        }
+      },
+      {
+        "name": "short",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "expectedEmpty": false,
+          "terrainRect": null,
+          "terrainFooterOverlap": null,
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "stage": {
+            "x": 76.4375,
+            "y": 0,
+            "width": 1111.109375,
+            "height": 625,
+            "right": 1187.546875,
+            "bottom": 625
+          },
+          "rail": {
+            "x": 847.546875,
+            "y": 56,
+            "width": 320,
+            "height": 505,
+            "right": 1167.546875,
+            "bottom": 561
+          },
+          "card": {
+            "x": 847.546875,
+            "y": 56,
+            "width": 320,
+            "height": 325,
+            "right": 1167.546875,
+            "bottom": 381
+          },
+          "footer": {
+            "x": 180.4375,
+            "y": 585,
+            "width": 347.90625,
+            "height": 36,
+            "right": 528.34375,
+            "bottom": 621
+          },
+          "cardHidden": false,
+          "name": "朵思大王·焦点将领长姓名排版检查",
+          "fieldCount": 6,
+          "cardContentContained": true,
+          "horizontalOverflow": false,
+          "railScrollHeight": 874,
+          "railClientHeight": 505,
+          "railOverflow": "auto",
+          "listScrollHeight": 662,
+          "listClientHeight": 351,
+          "listOverflow": "auto",
+          "menuButtons": 10,
+          "boardRight": 833.6580078124999,
+          "boardPaint": [
+            80,
+            72,
+            153.5598852498207,
+            115
+          ],
+          "keys": [],
+          "controlledWorldStable": true
+        },
+        "screenshot": "build/pc-focus-card-20261026-v86/short-layout-v2.png",
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      {
+        "name": "empty",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "expectedEmpty": true,
+          "terrainRect": {
+            "x": 696.4244351275265,
+            "right": 829.0283854166667,
+            "y": 596.6435185185186,
+            "bottom": 608.2175925925926
+          },
+          "terrainFooterOverlap": false,
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "stage": {
+            "x": 76.4375,
+            "y": 0,
+            "width": 1111.109375,
+            "height": 625,
+            "right": 1187.546875,
+            "bottom": 625
+          },
+          "rail": {
+            "x": 847.546875,
+            "y": 56,
+            "width": 320,
+            "height": 505,
+            "right": 1167.546875,
+            "bottom": 561
+          },
+          "card": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "footer": {
+            "x": 180.4375,
+            "y": 585,
+            "width": 347.90625,
+            "height": 36,
+            "right": 528.34375,
+            "bottom": 621
+          },
+          "cardHidden": true,
+          "fieldCount": 0,
+          "cardContentContained": true,
+          "horizontalOverflow": false,
+          "railScrollHeight": 505,
+          "railClientHeight": 505,
+          "railOverflow": "auto",
+          "listScrollHeight": 0,
+          "listClientHeight": 0,
+          "listOverflow": "visible",
+          "menuButtons": 0,
+          "boardRight": 833.6580078124999,
+          "boardPaint": [
+            80,
+            72,
+            153.5598852498207,
+            115
+          ],
+          "keys": [],
+          "controlledWorldStable": true
+        },
+        "screenshot": "build/pc-focus-card-20261026-v86/empty-layout-v2.png",
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      }
+    ],
+    "browserRuns": 3,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false,
+    "tool": "11e97d",
+    "exitCode": 0,
+    "visualInspectionAccepted": true,
+    "finalBrowserRuns": 3,
+    "totalBrowserRuns": 5,
+    "allOwnedProfilesRemaining": 0,
+    "nativeGameRuntimeLaunched": false,
+    "earlierPass": {
+      "path": "build/pc-focus-card-20261026-v86/preview-layout-v1.json",
+      "tool": "4962dc",
+      "browserRuns": 2,
+      "scope": "Wide focus and short plain ten-item menu; mock hint DTO lacked owner fields, so enhanced hints were not displayed",
+      "laterCoverage": "Final layout uses complete controlled hint owner fields and adds empty-focus terrain/footer bounds; no product changes between layout attempts"
+    }
+  },
+  "artifacts": [
+    {
+      "path": "build/pc-focus-card-20261026-v86/run-targeted-v1.mjs",
+      "bytes": 2213,
+      "sha256": "69f14805b4b20c161b918e79f3cf8112cd82560c90f8e668a0d6be779d007dff"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/targeted-v1.json",
+      "bytes": 3707,
+      "sha256": "3ddca8f32f2594862cff49a06e5c14ef4bd11a04c8d81432f11430710e34f46e"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/targeted-v1.stdout.tap",
+      "bytes": 64866,
+      "sha256": "cbca5110cfac4249472113ef575751637a5b2d7e0439232f2bf67a1ccb3a4b83"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/preview-layout-v1.mjs",
+      "bytes": 7151,
+      "sha256": "513e401a6ed5b196a261d847992d46200041dc1cfb9248800620dee39b18d95b"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/preview-layout-v1.json",
+      "bytes": 3671,
+      "sha256": "f663ba7908176c26a9c00c24c8faecb3b7fe6f71e1897ebdc224049618ff2bdc"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/preview-layout-v2.mjs",
+      "bytes": 8226,
+      "sha256": "8e562a53da037f154368a853520303a856345213c09524f66cb8b3a3ec917f5b"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/preview-layout-v2.json",
+      "bytes": 5745,
+      "sha256": "7f88d65c5fb0d9d7dada7ce4a3837f87f772f4b28cf0a5c1c852339e0d8b3e51"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/wide-layout-v2.html",
+      "bytes": 6577,
+      "sha256": "d6b2a2c2ce610c61907480157b3ec1216d1d9c953ad7315cc1bcf79cdab4d32a"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/wide-layout-v2.dom.html",
+      "bytes": 8532,
+      "sha256": "971b5282a5da062d647b64ed3cdaacf726d2f7cf5fb0315e24a947916990642e"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/wide-layout-v2.png",
+      "bytes": 83824,
+      "sha256": "4fab44f558d79c2d7b9412c1131566e3c6ea4f035efeba44d96a122fec52a19f"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/wide-layout-v2.stderr.log",
+      "bytes": 536,
+      "sha256": "85ecc3a5abbc790f68c9d15823aae2aede96b4e12f95a107de9b02195f0709d2"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/short-layout-v2.html",
+      "bytes": 6575,
+      "sha256": "1cdabee43c97c7708a65451fe37ce08d7fe5687fcf505283e100cd4ea3a0ac0f"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/short-layout-v2.dom.html",
+      "bytes": 13973,
+      "sha256": "ce38a70086c301b9e33725d34ca8152a713a0dd9b121d41ce0b0eed605fe4e0a"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/short-layout-v2.png",
+      "bytes": 99319,
+      "sha256": "7b4600289a510b66e33e5726bb3f0565603b5d8ee3ecaf79cceed9312115469c"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/short-layout-v2.stderr.log",
+      "bytes": 537,
+      "sha256": "2a7c044134eeed3db8943249d7c2440ae2b0a3979d1dbad163967f9d10c3c57d"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/empty-layout-v2.html",
+      "bytes": 6576,
+      "sha256": "6563ed9b12b9dc74f2e43b068add8dd62afc80eb011d2e30fe2ec15e2b16af2b"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/empty-layout-v2.dom.html",
+      "bytes": 7903,
+      "sha256": "0a73c9f448b7bda6d16e011715d985f1c7656e53db87313b9eb8e26d835ee14c"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/empty-layout-v2.png",
+      "bytes": 46386,
+      "sha256": "1e44eb484f08237296b86a7a7036c90da0ed2bba227d1a6907298aea13a5d744"
+    },
+    {
+      "path": "build/pc-focus-card-20261026-v86/empty-layout-v2.stderr.log",
+      "bytes": 537,
+      "sha256": "5e3c1390608c1d2d77ba8875b9a5cb750a4f021d627e9c9db1d8fb7fc3be5241"
+    }
+  ],
+  "publicScreenshots": [
+    {
+      "path": "docs/validation/m5-pc-focus-card-20261026-v86-wide.png",
+      "bytes": 83824,
+      "sha256": "4fab44f558d79c2d7b9412c1131566e3c6ea4f035efeba44d96a122fec52a19f"
+    },
+    {
+      "path": "docs/validation/m5-pc-focus-card-20261026-v86-short.png",
+      "bytes": 99319,
+      "sha256": "7b4600289a510b66e33e5726bb3f0565603b5d8ee3ecaf79cceed9312115469c"
+    },
+    {
+      "path": "docs/validation/m5-pc-focus-card-20261026-v86-empty.png",
+      "bytes": 46386,
+      "sha256": "1e44eb484f08237296b86a7a7036c90da0ed2bba227d1a6907298aea13a5d744"
+    }
+  ],
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "wholeCampaignAccepted": false,
+  "oldHeldPrivateInterfacesInspected": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false
+}

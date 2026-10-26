@@ -1011,3 +1011,122 @@ test('setting owner, menu and source drift withdraw the note while native button
     confirmed.api.pickMenu(0); confirmed.tick(1000); confirmed.observe();
     assert.deepEqual(confirmed.sent, [K.ENTER], 'pending setting confirmation is never retried'); assertSettingsButtons(confirmed, true);
 });
+
+// Mount the new PC-only detail surface without changing the original command
+// fixture. Native publications remain behind statusFixture's write traps.
+function focusFixture({canvas = false} = {}) {
+    const g = statusFixture(), mounted = new Map(), listeners = new Map(), paints = [];
+    function make(tag = 'div') {
+        const attrs = new Map(); let text = '';
+        const n = {tagName: tag.toUpperCase(), children: [], hidden: false, className: '',
+            setAttribute(k, v) {attrs.set(k, String(v)); if (k === 'id') this.id = String(v); if (k === 'class') this.className = String(v);},
+            getAttribute(k) {return k === 'class' ? this.className : attrs.get(k) ?? null;},
+            removeAttribute(k) {attrs.delete(k);},
+            appendChild(child) {this.children.push(child); child.parentNode = child.parentElement = this; return child;},
+            addEventListener(type, fn) {listeners.set(type, [...listeners.get(type) || [], fn]);},
+            querySelectorAll(selector) {
+                const match = node => {
+                    if (selector.startsWith('.')) return node.className.split(/\s+/).includes(selector.slice(1));
+                    const attr = /^\[([^=\]]+)(?:=["']?([^"'\]]+)["']?)?\]$/.exec(selector);
+                    if (attr) return node.getAttribute(attr[1]) !== null && (attr[2] === undefined || node.getAttribute(attr[1]) === attr[2]);
+                    return node.tagName.toLowerCase() === selector.toLowerCase();
+                };
+                const result = []; function walk(node) {for (const child of node.children) {if (match(child)) result.push(child); walk(child);}} walk(this); return result;
+            }, querySelector(selector) {return this.querySelectorAll(selector)[0] ?? null;},
+            getBoundingClientRect() {return {left: 720, top: 56, width: 260, height: 420, right: 980, bottom: 476};}};
+        Object.defineProperty(n, 'textContent', {get() {return text + n.children.map(child => child.textContent).join('');},
+            set(value) {text = String(value); n.children = [];}});
+        n.classList = {toggle(name, on) {const set = new Set(n.className.split(/\s+/).filter(Boolean)); const active = on ?? !set.has(name); if (active) set.add(name); else set.delete(name); n.className = [...set].join(' '); return active;},
+            add(name) {this.toggle(name, true);}, remove(name) {this.toggle(name, false);}, contains(name) {return n.className.split(/\s+/).includes(name);}};
+        return n;
+    }
+    const mount = (id, tag) => {const n = make(tag); n.id = id; mounted.set(id, n); return n;};
+    const rootNode = mount('hd-battle'), rail = mount('hd-battle-rail'), card = mount('hd-battle-focus', 'section');
+    rootNode.appendChild(rail); rail.appendChild(card); card.hidden = true;
+    if (canvas) {
+        const board = mount('hd-battle-canvas', 'canvas'); rootNode.appendChild(board);
+        board.getBoundingClientRect = () => ({left: 0, top: 0, width: 1000, height: 562.5, right: 1000, bottom: 562.5});
+        const ctx = new Proxy({measureText: value => ({width: String(value).length * 7}),
+            fillRect(...args) {paints.push(['fillRect', ...args]);}, strokeRect(...args) {paints.push(['strokeRect', ...args]);}},
+            {get(target, key) {return key in target ? target[key] : () => {};}});
+        board.getContext = () => ctx;
+    }
+    const previous = g.sandbox.document.getElementById;
+    g.sandbox.document.getElementById = id => mounted.get(id) || previous(id);
+    g.sandbox.document.createElement = make;
+    g.baye.getArmType = id => id === 0 ? 2 : 3;
+    Object.assign(g.raw.g_GenPos[0], {hp: 65535, mp: 0}); g.raw.g_Persons[0].Arms = 0;
+    g.api.start();
+    return Object.assign(g, {card, rail, rootNode, mounted, paints,
+        fields() {return Object.fromEntries(card.querySelectorAll('[data-hd-focus-field]').map(row => [row.getAttribute('data-hd-focus-field'), row.querySelector('dd')?.textContent]));},
+        click(target, coordinates = {}) {const event = {target, preventDefault() {}, ...coordinates}; for (const fn of listeners.get('click') || []) fn(event);},
+        name() {return card.querySelector('.hd-battle-focus-name')?.textContent;},
+        identityText() {return card.querySelector('.hd-battle-focus-identity')?.textContent;}});
+}
+function assertFocusHidden(g, message) {
+    assert.equal(g.card.hidden, true, message); assert.equal(g.card.textContent, '', message);
+    assert.deepEqual(g.sent, [], message); assert.deepEqual(g.writes, [], message);
+}
+
+test('PC focus card preserves exact name, allegiance, native U16 values, zero and current state in separate text rows', () => {
+    const g = focusFixture(); const special = '朵思<大王>&"'; g.baye.getPersonName = id => id === 0 ? special : '敌方长姓名';
+    const before = JSON.stringify(g.raw); g.observe(); assert.equal(g.card.hidden, false); assert.equal(g.name(), special);
+    assert.match(g.identityText(), /我方|己方/); assert.match(g.identityText(), /弓兵/); assert.match(g.identityText(), /1\s*[,，]\s*1/);
+    const fields = g.fields(); assert.deepEqual(Object.keys(fields).sort(), ['action', 'arms', 'hp', 'mp', 'state', 'terrain']);
+    assert.equal(fields.arms, '0'); assert.equal(fields.hp, '65535'); assert.equal(fields.mp, '0');
+    assert.match(fields.state, /正常/); assert.match(fields.action, /未行动/);
+    assert.match(fields.terrain, /未知地形/);
+    assert.equal(g.card.querySelectorAll('button').length, 0); assert.equal(g.card.querySelectorAll('input').length, 0);
+    assert.equal(JSON.stringify(g.raw), before); assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
+});
+
+test('PC focus card follows the real focused enemy and keeps state separate from action and unavailable values', () => {
+    const g = focusFixture(); g.observe(); const oldName = g.name();
+    g.focus(5, 3); Object.assign(g.raw.g_GenPos[10], {hp: 0, mp: 65535, active: 0, state: 2}); g.observe();
+    assert.notEqual(g.name(), oldName); assert.match(g.identityText(), /敌方/); assert.match(g.identityText(), /水军/);
+    assert.equal(g.fields().hp, '0'); assert.equal(g.fields().mp, '65535'); assert.match(g.fields().state, /禁咒/);
+    assert.doesNotMatch(g.fields().action, /已行动/);
+    g.raw.g_GenPos[10].active = 1; g.observe(); assert.match(g.fields().action, /已行动/); assert.match(g.fields().state, /禁咒/);
+    g.raw.g_GenPos[10].hp = null; g.raw.g_GenPos[10].mp = undefined; g.raw.g_Persons[2].Arms = null;
+    g.raw.g_GenPos[10].active = 255; g.raw.g_GenPos[10].state = 255; g.observe();
+    for (const key of ['hp', 'mp', 'arms', 'action', 'state']) assert.match(g.fields()[key], /未读取|未知/, key);
+    assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
+});
+
+test('PC focus details retire for empty or dead focus, higher owners, hidden/classic/LCD presentation and battle closure', () => {
+    const changes = [g => g.focus(3, 4), g => g.raw.g_GenPos[0].state = 8,
+        g => g.raw.g_hdReportActive = 1, g => {g.input(I.HELP); g.mirror();}, g => {g.input(I.VIEW); g.mirror();},
+        g => g.sandbox.document.hidden = true, g => g.api.setShowLcd(true),
+        g => g.sandbox.localStorage.setItem('baye/battleMode', 'classic'), g => g.api.close({force: true}),
+        g => g.baye.hd.ready = () => false, g => g.fight.active = 0, g => g.fight.over = 1];
+    for (const change of changes) {
+        const g = focusFixture(); g.observe(); assert.equal(g.card.hidden, false); change(g); g.observe();
+        assertFocusHidden(g, 'old focused identity cannot remain after its owner or presentation ends');
+    }
+    const g = focusFixture(); g.observe(); g.focus(3, 4); g.observe(); assertFocusHidden(g);
+    g.focus(1, 1); g.observe(); assert.equal(g.card.hidden, false); assert.equal(g.fields().mp, '0');
+});
+
+test('unchanged focus observations retain detail nodes and idle rendering never submits a native selection', () => {
+    const g = focusFixture(); g.observe(); const nodes = g.card.children.slice(), rows = g.card.querySelectorAll('[data-hd-focus-field]');
+    const before = JSON.stringify(g.raw);
+    for (let i = 0; i < 8; i++) {g.observe(); g.poll();}
+    assert.equal(g.card.hidden, false); assert.equal(g.card.children.length, nodes.length);
+    nodes.forEach((node, i) => assert.equal(g.card.children[i], node));
+    rows.forEach((node, i) => assert.equal(g.card.querySelectorAll('[data-hd-focus-field]')[i], node));
+    assert.equal(JSON.stringify(g.raw), before); assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
+});
+
+test('PC sidebar reserves map pixels and canvas selection uses the same rendered tile geometry', () => {
+    const g = focusFixture({canvas: true}); g.observe();
+    const cell = g.paints.find(p => p[0] === 'fillRect' && p[1] === 80 && p[2] === 72 && p[3] < 500);
+    assert.ok(cell, 'real production map paints its first cell');
+    const [, ox, oy, paintWidth, paintHeight] = cell, cw = paintWidth - 0.5, ch = paintHeight - 0.5;
+    assert.ok((ox + cw * 8) * 1000 / 1920 < 720, 'right sidebar never covers the painted board');
+    const board = g.mounted.get('hd-battle-canvas'); const x = (ox + cw * 4.5) * 1000 / 1920, y = (oy + ch * 2.5) * 562.5 / 1080;
+    assert.deepEqual(g.sent, []); g.click(g.card, {clientX: 800, clientY: 100}); assert.deepEqual(g.sent, [], 'detail surface is not a map click');
+    g.click(board, {clientX: x, clientY: y});
+    assert.deepEqual(g.sent, [K.RIGHT]); const request = g.api.debugSnapshot().transaction;
+    assert.equal(request?.type, 'tile'); assert.deepEqual([request.x, request.y], [4, 2]);
+    assert.deepEqual(g.writes, []); // The one user request only dispatched its first arrow; no confirmation yet.
+});

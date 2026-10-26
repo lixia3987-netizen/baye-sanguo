@@ -109,6 +109,43 @@ html[data-baye-battle="hd"] #hd-overworld {
     .hd-battle-context { bottom: 8px; max-width: calc(100% - 580px); font-size: 13px; gap: 4px 8px; }
 }
 
+.hd-battle-rail[hidden],
+.hd-battle-focus[hidden],
+.hd-battle-focus-target[hidden] { display: none !important; }
+.hd-battle-rail {
+    position: absolute; right: 20px; top: 56px; bottom: 64px;
+    width: min(320px, 30%); min-width: 0;
+    display: flex; flex-direction: column; gap: 12px;
+    overflow: auto; overscroll-behavior: contain;
+    pointer-events: none;
+}
+.hd-battle-focus {
+    box-sizing: border-box; flex: 0 0 auto; min-width: 0;
+    padding: 16px; border: 1px solid #43536b; border-radius: 14px;
+    color: #edf3fa; background: linear-gradient(180deg, #202c3a, #151e2a);
+    font: 14px/1.5 BayeUI, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+    overflow-wrap: anywhere; pointer-events: auto;
+}
+.hd-battle-focus-name { margin: 0; color: #f5deb0; font-size: 24px; line-height: 1.25; }
+.hd-battle-focus-identity { margin: 6px 0 12px; color: #b7c9dd; }
+.hd-battle-focus-fields { margin: 0; }
+.hd-battle-focus-fields > div {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 12px; padding: 5px 0; border-top: 1px solid #ffffff12;
+}
+.hd-battle-focus-fields dt { color: #a9bed5; }
+.hd-battle-focus-fields dd { margin: 0; text-align: right; color: #f2f5fa; }
+.hd-battle-focus-target { margin: 12px 0 0; color: #e9c98b; }
+.hd-battle-rail .hd-battle-context {
+    position: static; max-width: none; margin-top: auto;
+    flex: 0 0 auto; justify-content: flex-start;
+}
+.hd-battle-rail .hd-battle-menu {
+    position: static; box-sizing: border-box; width: 100%;
+    flex: 0 0 auto; transform: none;
+}
+.hd-battle-rail .hd-battle-menu:has(.hd-battle-skill-note:not([hidden])) { max-height: 100%; }
+
 .hd-battle-menu {
     position: absolute;
     left: auto;
