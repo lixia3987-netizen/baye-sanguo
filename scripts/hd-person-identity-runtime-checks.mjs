@@ -47,7 +47,7 @@ function expectedIdentity(personId, person, rom, nativeTitle) {
   return {personId, period: rom.period, name, belong, oldBelong: previous, ownership, priorOwnership, nativeOwnership, nativeTitle};
 }
 
-function assertCurrent(sample, personId, expected) {
+function assertCurrent(sample, personId, expected, expectedMarchPhase) {
   const {world, native, state} = sample, menu = state.menu, ui = state.cityUi;
   assert.equal(world.people.length, 200);assert.equal(world.period, expected.period);
   assert.deepEqual(native.menu, menu, 'The sampled native and UI menu are the same complete current ticket');
@@ -61,7 +61,7 @@ function assertCurrent(sample, personId, expected) {
   assert.ok(menu.ids.every(id => Number.isInteger(id) && id >= 0 && id < world.people.length));
   assert.ok(Number.isInteger(menu.index) && menu.index >= 0 && menu.index < menu.count);
   assert.equal(menu.ids[menu.index], personId);assert.equal(menu.names[menu.index], expected.name);
-  assert.equal(native.march.phase, 0);assert.equal(native.march.pick, 0);assert.equal(native.march.battlePick, 0);
+  assert.equal(native.march.phase, expectedMarchPhase);assert.equal(native.march.pick, 0);assert.equal(native.march.battlePick, 0);
   assert.equal(native.report.active, 0);assert.equal(native.qty.active, 0);
   assert.ok(ui.open === true && ui.showHd === true && ui.layer === 'deep' && !ui.sending && !ui.queueLen && !ui.personPagePending);
   const owner = ui.deepMenuOwner, detail = ui.personDetail, properties = ui.personProperties, p = native.person;
@@ -170,7 +170,8 @@ export function assertGeometry(g, text, label) {
 }
 
 export async function checkPersonIdentity(ctx, driver, entry, personId, rom) {
-  const {evaluate, until, readKeys, libBytes} = ctx;
+  const {evaluate, until, readKeys, libBytes, expectedMarchPhase = 0} = ctx;
+  assert.ok(expectedMarchPhase === 0 || expectedMarchPhase === 7, 'Only observed IDLE or DEPARTED PERSON contexts are allowed');
   const lib = Buffer.from(libBytes);assert.equal(lib.length, 207195);assert.equal(createHash('sha256').update(lib).digest('hex'), ORIGINAL_SHA);
   assert.ok(Number.isInteger(personId) && personId >= 0 && personId < 200);
   assert.ok(rom && Array.isArray(rom.names) && rom.names.length === 200 && rom.names.every(n => typeof n === 'string'));
@@ -180,14 +181,14 @@ export async function checkPersonIdentity(ctx, driver, entry, personId, rom) {
   const evidence = entry.identity = {personId, accepted: false, observations: []};
   await until('current original person identity and complete native first page', `(() => {const m=baye.hd.menuItems(),p=baye.hd.personProperties(),u=BayeHdCityMenu.debugSnapshot();return m.active===1&&m.context===1&&m.kind===3&&m.idsValid&&m.ids[m.index]===${personId}&&p.active===1&&p.person===${personId}&&p.pageIndex===0&&p.pageStart===0&&p.pageComplete===1&&u.personDetail?.personIndex===${personId}&&u.personDetail.corePresentation==='default'&&!u.sending&&!u.queueLen&&!u.personPagePending;})()`);
   const before = evidence.before = await driver.sample(), expected = evidence.expected = expectedIdentity(personId, before.world.people[personId], rom, originalOwnershipTitle(lib));
-  assertCurrent(before, personId, expected);
+  assertCurrent(before, personId, expected, expectedMarchPhase);
   evidence.menuName = {index: before.state.menu.index, fullName: before.state.menu.names[before.state.menu.index],
     packedName: before.state.menu.packedNames[before.state.menu.index], itemLen: before.state.menu.itemLen,
     packedDiffersFromFullName: before.state.menu.packedNames[before.state.menu.index] !== expected.name,
     note: 'The original fixed-width packed name is retained as evidence, never used as the complete-name oracle'};
   const unchanged = async label => {
     const measured = await driver.sample(), keys = await readKeys(before.state.keyCount);
-    assertCurrent(measured, personId, expected);assert.deepEqual(measured.native, before.native, label + ' preserves the complete sampled native owner/cursor/paint');
+    assertCurrent(measured, personId, expected, expectedMarchPhase);assert.deepEqual(measured.native, before.native, label + ' preserves the complete sampled native owner/cursor/paint');
     assert.deepEqual(measured.world, before.world, label + ' preserves every measured world field');assert.deepEqual(keys, [], label + ' sends no native keys');
     assert.equal(measured.state.keyCount, before.state.keyCount);assert.equal(measured.state.touchCount, before.state.touchCount, label + ' sends no original LCD touches');
     return {sample: measured, keys};

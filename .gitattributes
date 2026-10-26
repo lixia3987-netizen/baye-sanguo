@@ -721,3 +721,9 @@
 /docs/validation/m5-person-location-20261026-v72*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-person-location-20261026-v72*.md -text whitespace=cr-at-eol
 /docs/validation/m5-person-location-20261026-v72*.png -text
+/scripts/test-hd-campaign-runtime.mjs text eol=lf
+/scripts/hd-captive-person-runtime-checks.mjs text eol=lf
+/docs/validation/m5-captive-person-20261026-v73*.json -text whitespace=cr-at-eol
+/docs/validation/m5-captive-person-20261026-v73*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-captive-person-20261026-v73*.md -text whitespace=cr-at-eol
+/docs/validation/m5-captive-person-20261026-v73*.png -text

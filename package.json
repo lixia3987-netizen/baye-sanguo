@@ -49,6 +49,7 @@
     "test:person-identity-runtime": "node scripts/test-hd-person-identity-runtime.mjs",
     "test:person-roles-runtime": "node scripts/test-hd-person-identity-runtime.mjs --foreign-ownership",
     "test:person-location-runtime": "node scripts/test-hd-person-identity-runtime.mjs --person-location",
+    "test:captives-runtime": "node scripts/test-hd-campaign-runtime.mjs --scenario captives",
     "test:person-equipment-mobile-runtime": "node scripts/test-hd-mobile-city-runtime.mjs --preview-only",
     "test:idb-mod-compat": "node --test scripts/test-hd-idb-mod-compat.mjs",
     "test:library-runtime": "node scripts/test-hd-runtime.mjs --library-identity",

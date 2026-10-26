@@ -1,0 +1,2185 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-020-archive-part001.json",
+      "bytes": 6063919,
+      "sha256": "f0862c9be7bc8b956aad3c54ec5a3bae09c4f5f604a63fe3a6e23eeb0e521839",
+      "blobs": 4
+    },
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-020-archive-part002.json",
+      "bytes": 5853351,
+      "sha256": "7049679fa890bea0dd631140d977c2d7681d753ad42fafbfdb4aafdb9d7a440d",
+      "blobs": 4
+    },
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-020-archive-part003.json",
+      "bytes": 5207828,
+      "sha256": "9425dc12be8de4ccd9b87a518d17a60b85eca7e38eac1b1e1bc3c26b02efb297",
+      "blobs": 110
+    },
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-020-archive-part004.json",
+      "bytes": 4481654,
+      "sha256": "c155982c6a306f761386b717d377426a4615026ac41d6deca34e3747c3c42664",
+      "blobs": 118
+    }
+  ],
+  "files": [
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/march-1-select-0-ready.png",
+      "bytes": 2285805,
+      "sha256": "52a0560da670eb2ddfe643111738c8961ebd779c538b462167a7624527d73438",
+      "blob": "52a0560da670eb2ddfe643111738c8961ebd779c538b462167a7624527d73438",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/march-1-select-1-ack.json",
+      "bytes": 68361,
+      "sha256": "ff7d2aae5b8b5601ce3a472ab2076cdddadb468843ce553de7df72e30809f152",
+      "blob": "ff7d2aae5b8b5601ce3a472ab2076cdddadb468843ce553de7df72e30809f152",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/march-1-select-1-ack.png",
+      "bytes": 2243469,
+      "sha256": "7bf9857063e6150b8ff80b9498023ee0146e4de10cccc6a6adf3693c736d5aa2",
+      "blob": "7bf9857063e6150b8ff80b9498023ee0146e4de10cccc6a6adf3693c736d5aa2",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/march-1-select-1-ready.json",
+      "bytes": 68621,
+      "sha256": "861a97560bba6faa5698f5ef515b31072243336ad88d4d940b3c73de5ac316d6",
+      "blob": "861a97560bba6faa5698f5ef515b31072243336ad88d4d940b3c73de5ac316d6",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/march-1-select-1-ready.png",
+      "bytes": 2184930,
+      "sha256": "ae677dc7d8719901b942110718b2bb21e412756c7b0b192ab3f688abf8157596",
+      "blob": "ae677dc7d8719901b942110718b2bb21e412756c7b0b192ab3f688abf8157596",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/march-1-select-2-ack.json",
+      "bytes": 68089,
+      "sha256": "39cc14e3b234811781c4e057ee873946ac8e8099cfa16373de36c341e5e88801",
+      "blob": "39cc14e3b234811781c4e057ee873946ac8e8099cfa16373de36c341e5e88801",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/march-1-select-2-ack.png",
+      "bytes": 2187293,
+      "sha256": "3e95bd9c31f6d053be473ddc0c9276301ebbc2fe8a875a34da002ce38cb7936e",
+      "blob": "3e95bd9c31f6d053be473ddc0c9276301ebbc2fe8a875a34da002ce38cb7936e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/march-1-select-2-ready.json",
+      "bytes": 68361,
+      "sha256": "15f34126e9880e8c24d1e6716a86f11be01649ed6edf5e9aa7a7348babcbc908",
+      "blob": "15f34126e9880e8c24d1e6716a86f11be01649ed6edf5e9aa7a7348babcbc908",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/march-1-select-2-ready.png",
+      "bytes": 2184233,
+      "sha256": "ab0549da4ea02850a0e46ecc0a7e97ce1be313d2e5389a16e73c79a397dc9074",
+      "blob": "ab0549da4ea02850a0e46ecc0a7e97ce1be313d2e5389a16e73c79a397dc9074",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/owned-process-samples.jsonl",
+      "bytes": 31607,
+      "sha256": "833bfdf2d135a435dc4e20faf76e155f88b62ddac3920edea8fb54800bc97173",
+      "blob": "833bfdf2d135a435dc4e20faf76e155f88b62ddac3920edea8fb54800bc97173",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/progress-native-report-1.json",
+      "bytes": 64506,
+      "sha256": "6f02b3e69eaf1f3eaab5aa518accaced8b3fc58734ff10578b6cce603d0b0b41",
+      "blob": "6f02b3e69eaf1f3eaab5aa518accaced8b3fc58734ff10578b6cce603d0b0b41",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/progress-native-report-1.png",
+      "bytes": 220418,
+      "sha256": "293a13f4d7378e5c75f67908963761dad63fb2b1760e414b91664fc2c9a75799",
+      "blob": "293a13f4d7378e5c75f67908963761dad63fb2b1760e414b91664fc2c9a75799",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/progress-native-report-2.json",
+      "bytes": 64508,
+      "sha256": "62470b9a760a00cce0296f5988fd92a586c11d1d74c1542db6a38798209ad58e",
+      "blob": "62470b9a760a00cce0296f5988fd92a586c11d1d74c1542db6a38798209ad58e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/progress-native-report-2.png",
+      "bytes": 146256,
+      "sha256": "29a446be50288739206ecefcdf4cb83139ae0ba658ccaf165575a81b0ddd3b2c",
+      "blob": "29a446be50288739206ecefcdf4cb83139ae0ba658ccaf165575a81b0ddd3b2c",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/progress-native-report-3.json",
+      "bytes": 64518,
+      "sha256": "78dff10165b9d1d81bc6a7f20733593074c6f6c5167330b2e484681696188068",
+      "blob": "78dff10165b9d1d81bc6a7f20733593074c6f6c5167330b2e484681696188068",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/progress-native-report-3.png",
+      "bytes": 186909,
+      "sha256": "32d692ebadad93dacbe41a701355fb12dac2a6b71addd06bac6b55fcff355002",
+      "blob": "32d692ebadad93dacbe41a701355fb12dac2a6b71addd06bac6b55fcff355002",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-before-v2/source-verification.json",
+      "bytes": 436334,
+      "sha256": "9ed144bc419de88e08914a36e5bac334e9f57e3105f55cc4587f79b57280083a",
+      "blob": "9ed144bc419de88e08914a36e5bac334e9f57e3105f55cc4587f79b57280083a",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/preflight-before-v1/browser-console.json",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "blob": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/prepare-final-check-runners-v2.mjs",
+      "bytes": 846,
+      "sha256": "3683a24424df6507a041b7a1812d85f7c658a232d816bb931e66e593e2ed8db2",
+      "blob": "3683a24424df6507a041b7a1812d85f7c658a232d816bb931e66e593e2ed8db2",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/prepare-surrender-controlled-source-v1.mjs",
+      "bytes": 3845,
+      "sha256": "ee68eea4795d76c1f03b467607f5157b4035ff43574fd36087bdc5aace1048ec",
+      "blob": "ee68eea4795d76c1f03b467607f5157b4035ff43574fd36087bdc5aace1048ec",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/prepare-surrender-v7-v1.mjs",
+      "bytes": 5592,
+      "sha256": "b1a2dcf7bf2bfbe8cce9e73abd48d596e0d2bd130f705529cd30c7f05e27ce3b",
+      "blob": "b1a2dcf7bf2bfbe8cce9e73abd48d596e0d2bd130f705529cd30c7f05e27ce3b",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/preserved-state-after-v1.json",
+      "bytes": 681,
+      "sha256": "8e72c27c3e625c6dda8702d7a48918e742a3d7135771c19b75414e7fdee155ca",
+      "blob": "8e72c27c3e625c6dda8702d7a48918e742a3d7135771c19b75414e7fdee155ca",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/preserved-state-before-v1.json",
+      "bytes": 681,
+      "sha256": "1c37e2598d8402194818274c4ea2a7e3e93512059ba00a2253711b4c1fdc1132",
+      "blob": "1c37e2598d8402194818274c4ea2a7e3e93512059ba00a2253711b4c1fdc1132",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/product-install-v1.json",
+      "bytes": 719,
+      "sha256": "a94d02fb1414b343272d62eea7264f37c9f2c0143d10d6a03b471ed7b1776ddb",
+      "blob": "a94d02fb1414b343272d62eea7264f37c9f2c0143d10d6a03b471ed7b1776ddb",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/product-install-v2.json",
+      "bytes": 4248,
+      "sha256": "daae00e43c1f93ba903c9879941fd20e8cac0338fd10db537f2906fe9b52d8cc",
+      "blob": "daae00e43c1f93ba903c9879941fd20e8cac0338fd10db537f2906fe9b52d8cc",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-closed-cases-inspection-v1.json",
+      "bytes": 2992,
+      "sha256": "60f8c4d28558d029ca8810bf57536573b5c8fb3d8e40d08b45a102fde1bfd8a9",
+      "blob": "60f8c4d28558d029ca8810bf57536573b5c8fb3d8e40d08b45a102fde1bfd8a9",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-documentation-terminal-v1.json",
+      "bytes": 617,
+      "sha256": "d69cbf6b09f2e2a676627e11e0a2ba8979c5b0b012dde14376bd7f52be299a13",
+      "blob": "d69cbf6b09f2e2a676627e11e0a2ba8979c5b0b012dde14376bd7f52be299a13",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-final-cases-inspection-v2.json",
+      "bytes": 4722,
+      "sha256": "396b69b54f6ac99e2728993d328b87f00784c6c19f9600c6d20462b301ea3ab0",
+      "blob": "396b69b54f6ac99e2728993d328b87f00784c6c19f9600c6d20462b301ea3ab0",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-final-source-install-v2-corrected.json",
+      "bytes": 783,
+      "sha256": "4a46341b43697bac6785ea9379ade303861b292af70fba3df5e9321f15648934",
+      "blob": "4a46341b43697bac6785ea9379ade303861b292af70fba3df5e9321f15648934",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-final-source-install-v2.json",
+      "bytes": 1030,
+      "sha256": "02a4db1f0b9440b1265220b7c32e5a645af68ad068f935287651d1f8a347bace",
+      "blob": "02a4db1f0b9440b1265220b7c32e5a645af68ad068f935287651d1f8a347bace",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-full-default-initial-v1.json",
+      "bytes": 346,
+      "sha256": "6d11ef68462a5a55abba16a94829943b837be9f10cd019af47193d10f903e130",
+      "blob": "6d11ef68462a5a55abba16a94829943b837be9f10cd019af47193d10f903e130",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-full-default-initial-v2.json",
+      "bytes": 346,
+      "sha256": "7be711cf84ff2c68151569ff5b15fc8600eb79a4acbf60d53d92690958e44260",
+      "blob": "7be711cf84ff2c68151569ff5b15fc8600eb79a4acbf60d53d92690958e44260",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-full-default-progress-1-v1.json",
+      "bytes": 129,
+      "sha256": "65cab6df71b5886918511a7015cb5219337fa1a4928657f5a28cb69480b8695d",
+      "blob": "65cab6df71b5886918511a7015cb5219337fa1a4928657f5a28cb69480b8695d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-full-default-progress-1-v2.json",
+      "bytes": 129,
+      "sha256": "54337037b49af5d34d8ee71d60528ec4a5159b2f5ccfec9124726455265f153b",
+      "blob": "54337037b49af5d34d8ee71d60528ec4a5159b2f5ccfec9124726455265f153b",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-full-default-progress-2-v1.json",
+      "bytes": 129,
+      "sha256": "edcd017f1fa854b2f8076d8ab74a80c42b5984d3fc4ac249e838dacf5b786e5d",
+      "blob": "edcd017f1fa854b2f8076d8ab74a80c42b5984d3fc4ac249e838dacf5b786e5d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-full-default-progress-3-v1.json",
+      "bytes": 129,
+      "sha256": "dd5305e9ba26f4c936dc6dd1d042c02624ab914521205feb5aadfa04a91b630c",
+      "blob": "dd5305e9ba26f4c936dc6dd1d042c02624ab914521205feb5aadfa04a91b630c",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-full-default-progress-4-v1.json",
+      "bytes": 128,
+      "sha256": "0660e4288a6bef83e7d006cb89c4a42ae3293f1caf9ddacc7ed4d0a481156528",
+      "blob": "0660e4288a6bef83e7d006cb89c4a42ae3293f1caf9ddacc7ed4d0a481156528",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-full-default-progress-5-v1.json",
+      "bytes": 129,
+      "sha256": "8c8005631702dc585bc668d973c58c20025e67e07563f4774d9bfe8a80087ed1",
+      "blob": "8c8005631702dc585bc668d973c58c20025e67e07563f4774d9bfe8a80087ed1",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-full-default-progress-6-v1.json",
+      "bytes": 129,
+      "sha256": "991cdce57c040ee55f7f59ec67b2a45d9586f6b5b3188bf0b8341b2f7297f5d2",
+      "blob": "991cdce57c040ee55f7f59ec67b2a45d9586f6b5b3188bf0b8341b2f7297f5d2",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-full-default-terminal-v1.json",
+      "bytes": 408,
+      "sha256": "9221d717d7256d9be89f84c1fb7e1367e83e98b5711357efdae45d200a3b942c",
+      "blob": "9221d717d7256d9be89f84c1fb7e1367e83e98b5711357efdae45d200a3b942c",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-full-default-terminal-v2.json",
+      "bytes": 407,
+      "sha256": "ccd7a4de6ebf900be07f3c93ddf1727621121b5b1b2f38ac003534de81b007df",
+      "blob": "ccd7a4de6ebf900be07f3c93ddf1727621121b5b1b2f38ac003534de81b007df",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-hud-candidate-negative-terminal-v1.json",
+      "bytes": 423,
+      "sha256": "0aec02a155bd940d07bbfd9fb3457e009b50d0075f1e97169b1174cc9545aa02",
+      "blob": "0aec02a155bd940d07bbfd9fb3457e009b50d0075f1e97169b1174cc9545aa02",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-hud-candidate-negative-terminal-v2.json",
+      "bytes": 423,
+      "sha256": "80d76d094ee8e9daa673e4c19e95f50b6fc3223e1cc3011360ad2220bc6d7f4b",
+      "blob": "80d76d094ee8e9daa673e4c19e95f50b6fc3223e1cc3011360ad2220bc6d7f4b",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-hud-current-terminal-v1.json",
+      "bytes": 410,
+      "sha256": "3a386cd537a5d2224f0ba4cfddcd84b66c3516a7226f5223a09ad96fa722cc88",
+      "blob": "3a386cd537a5d2224f0ba4cfddcd84b66c3516a7226f5223a09ad96fa722cc88",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-hud-current-terminal-v2.json",
+      "bytes": 399,
+      "sha256": "900007f0dafacdebeb5250f58b3d0aaff2eea28f000e92c21ead99069983ca37",
+      "blob": "900007f0dafacdebeb5250f58b3d0aaff2eea28f000e92c21ead99069983ca37",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-hud-parent-negative-terminal-v1.json",
+      "bytes": 418,
+      "sha256": "1e44cc9bd54c8338a7124692e2cf679dbcbda830d4b81cc6eba63914aa174858",
+      "blob": "1e44cc9bd54c8338a7124692e2cf679dbcbda830d4b81cc6eba63914aa174858",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-hud-parent-negative-terminal-v2.json",
+      "bytes": 418,
+      "sha256": "c72c8020806d09ed7e035e56fb566f7c51dd37ad2d26eaa1768c97c06b1925f8",
+      "blob": "c72c8020806d09ed7e035e56fb566f7c51dd37ad2d26eaa1768c97c06b1925f8",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-mobile-host-final-terminal-v2.json",
+      "bytes": 354,
+      "sha256": "4359740086b264f9769e18c3cec03af7faf8862804e76fcc209da347c2df92b2",
+      "blob": "4359740086b264f9769e18c3cec03af7faf8862804e76fcc209da347c2df92b2",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-parent-campaign-source-v1.json",
+      "bytes": 995,
+      "sha256": "2cd94bfbe37fad96db25e987fea0b9c6b92bca44746a7b4747489895c345d139",
+      "blob": "2cd94bfbe37fad96db25e987fea0b9c6b92bca44746a7b4747489895c345d139",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-after-initial-v1.json",
+      "bytes": 718,
+      "sha256": "1c4cb35565b9f7d1e54167b89fb17065d7d3f55dea35cad160e63c969dfa92cb",
+      "blob": "1c4cb35565b9f7d1e54167b89fb17065d7d3f55dea35cad160e63c969dfa92cb",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-after-initial-v2.json",
+      "bytes": 717,
+      "sha256": "f0c7e15200a500495aa5c59b23436a75da0509817509297089c6939e02dae064",
+      "blob": "f0c7e15200a500495aa5c59b23436a75da0509817509297089c6939e02dae064",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-after-progress-1-v1.json",
+      "bytes": 2167,
+      "sha256": "6a4de6df0771428c02ee6bba5a97ff9a645eb36831ae3f86b6d583bdb1ad2db8",
+      "blob": "6a4de6df0771428c02ee6bba5a97ff9a645eb36831ae3f86b6d583bdb1ad2db8",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-after-progress-1-v2.json",
+      "bytes": 1710,
+      "sha256": "39767d8e0154c0cedb91f11f79c2c6fecd5b742c806527e2669f353069327362",
+      "blob": "39767d8e0154c0cedb91f11f79c2c6fecd5b742c806527e2669f353069327362",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-after-progress-2-v2.json",
+      "bytes": 579,
+      "sha256": "f1870910f8b96ef204407bf58132af872daeec09350f47c794252603439f9ae0",
+      "blob": "f1870910f8b96ef204407bf58132af872daeec09350f47c794252603439f9ae0",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-after-terminal-v1.json",
+      "bytes": 1332,
+      "sha256": "9fa7ad8529e28c94a36427a0599fe43a55487fcf85db38dc5c575c5568e37153",
+      "blob": "9fa7ad8529e28c94a36427a0599fe43a55487fcf85db38dc5c575c5568e37153",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-after-terminal-v2.json",
+      "bytes": 396,
+      "sha256": "2453e3c0167881e0270fa45cf3f56dd8a304d6c460f7c1f844da10230a18f95a",
+      "blob": "2453e3c0167881e0270fa45cf3f56dd8a304d6c460f7c1f844da10230a18f95a",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-before-initial-v1.json",
+      "bytes": 796,
+      "sha256": "89ddac4856c6cc3d4a1407345c30690912fa47cdd818b5e9d8751d1e27f612c4",
+      "blob": "89ddac4856c6cc3d4a1407345c30690912fa47cdd818b5e9d8751d1e27f612c4",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-before-initial-v2.json",
+      "bytes": 794,
+      "sha256": "b0e71c2681cc82beb64bb7840ee7a8a451d9cd429750bcb5313bda62bc3c054d",
+      "blob": "b0e71c2681cc82beb64bb7840ee7a8a451d9cd429750bcb5313bda62bc3c054d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-before-progress-v2-1.json",
+      "bytes": 1412,
+      "sha256": "286a1a5d9a5f6512f1be0926000779a4f379443c9204cd6914584d1bd80f05b8",
+      "blob": "286a1a5d9a5f6512f1be0926000779a4f379443c9204cd6914584d1bd80f05b8",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-before-progress-v2-2.json",
+      "bytes": 355,
+      "sha256": "20e35353db9309c30c964ceb48895dceb4bebdd0cc14c06844ecd50580cd54ea",
+      "blob": "20e35353db9309c30c964ceb48895dceb4bebdd0cc14c06844ecd50580cd54ea",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-before-terminal-v1.json",
+      "bytes": 1730,
+      "sha256": "99ea5284ffb2676b50d426045b46a53f745343268b709206da406657acd62b66",
+      "blob": "99ea5284ffb2676b50d426045b46a53f745343268b709206da406657acd62b66",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-pc1080-before-terminal-v2.json",
+      "bytes": 1638,
+      "sha256": "d517cb197786ddded567455aa27adf0807131470527d94ffb73f743c0dac3727",
+      "blob": "d517cb197786ddded567455aa27adf0807131470527d94ffb73f743c0dac3727",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-preflight-before-v1.json",
+      "bytes": 503,
+      "sha256": "86854a6a090eae7cdb9a264eadf6a8662de288f42f592229b030fb5e4c909f94",
+      "blob": "86854a6a090eae7cdb9a264eadf6a8662de288f42f592229b030fb5e4c909f94",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-preserved-state-after-terminal-v1.json",
+      "bytes": 345,
+      "sha256": "0a46dfede9327324a0888eae9fa45ff6034a302afe49a65230b4ffd8117313e7",
+      "blob": "0a46dfede9327324a0888eae9fa45ff6034a302afe49a65230b4ffd8117313e7",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-preserved-state-before-v1.json",
+      "bytes": 346,
+      "sha256": "e3d4f4eea238685bb4ee563a777fae0b863344eb451b7373dbe2af69f9f06d1d",
+      "blob": "e3d4f4eea238685bb4ee563a777fae0b863344eb451b7373dbe2af69f9f06d1d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-product-install-v1.json",
+      "bytes": 794,
+      "sha256": "dc73093b848918320e45a7af0430a62980639fa7c1856d10f13e0557de21f7cc",
+      "blob": "dc73093b848918320e45a7af0430a62980639fa7c1856d10f13e0557de21f7cc",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-product-install-v2.json",
+      "bytes": 333,
+      "sha256": "3d02b82d97bedf2edff5886f1237aa88b911448f27cea91dc70cfd09aa522db7",
+      "blob": "3d02b82d97bedf2edff5886f1237aa88b911448f27cea91dc70cfd09aa522db7",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-source-epoch-terminal-v1.json",
+      "bytes": 816,
+      "sha256": "cd59fb214b7bebb0b68e097502766c235360c6650b06a3ec19ea7f1e17f5eb8b",
+      "blob": "cd59fb214b7bebb0b68e097502766c235360c6650b06a3ec19ea7f1e17f5eb8b",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/raw-source-epoch-terminal-v2.json",
+      "bytes": 916,
+      "sha256": "b798f97a60be2a2c7b3bb5fcf9eae89373b3d25e2e7baf0847d24950cc6d1d10",
+      "blob": "b798f97a60be2a2c7b3bb5fcf9eae89373b3d25e2e7baf0847d24950cc6d1d10",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/repair-mobile-renderer-fixture-v2.mjs",
+      "bytes": 1462,
+      "sha256": "59a2e6d25140e933128fd277a9537fc3ddbbf93f12e8f8117e572a4f04ce9292",
+      "blob": "59a2e6d25140e933128fd277a9537fc3ddbbf93f12e8f8117e572a4f04ce9292",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/run-full-default-v1.mjs",
+      "bytes": 4088,
+      "sha256": "d48323e34c8cb0aab74f4798fbb4b01946a02d7fd09be84be74cef120641bbf3",
+      "blob": "d48323e34c8cb0aab74f4798fbb4b01946a02d7fd09be84be74cef120641bbf3",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/run-full-default-v2.mjs",
+      "bytes": 4229,
+      "sha256": "1b02ec7717e5bdce42d2bd829d79470a39f85a8e9860313932f65b933575a0bf",
+      "blob": "1b02ec7717e5bdce42d2bd829d79470a39f85a8e9860313932f65b933575a0bf",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/run-hud-control-v1.mjs",
+      "bytes": 2899,
+      "sha256": "203b4405170aeecf89aeb11025304a4ee2542f77e45b155d7cd44f9900512cbe",
+      "blob": "203b4405170aeecf89aeb11025304a4ee2542f77e45b155d7cd44f9900512cbe",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/run-hud-control-v2.mjs",
+      "bytes": 2899,
+      "sha256": "f9b6cb24347dde437ec92adf91fab8a23ee90a6b50ff805239890999b306ec30",
+      "blob": "f9b6cb24347dde437ec92adf91fab8a23ee90a6b50ff805239890999b306ec30",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/run-mobile-host-final-v2.mjs",
+      "bytes": 2535,
+      "sha256": "6157e1bea9f6ab1f564e02365b7149ef776de973c55b3d9423d2bb2363790d98",
+      "blob": "6157e1bea9f6ab1f564e02365b7149ef776de973c55b3d9423d2bb2363790d98",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/run-publication-step-v1.mjs",
+      "bytes": 1409,
+      "sha256": "48ff0841a55ed1b55b12cd5a386d5cc8332932d78b02bc3e01474dc467e5f2bf",
+      "blob": "48ff0841a55ed1b55b12cd5a386d5cc8332932d78b02bc3e01474dc467e5f2bf",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/run-surrender-hud-unit-v1.mjs",
+      "bytes": 3388,
+      "sha256": "dde00c8ab94694fbd9bbf8aa2d26082203d33b67473ca13e9c8e49b1b93fab7e",
+      "blob": "dde00c8ab94694fbd9bbf8aa2d26082203d33b67473ca13e9c8e49b1b93fab7e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/run-surrender-hud-unit-v2.mjs",
+      "bytes": 3388,
+      "sha256": "828c81a9f021fbd662ba727156f2af83e069487e3df8d9b3b0b9710f63cfbf73",
+      "blob": "828c81a9f021fbd662ba727156f2af83e069487e3df8d9b3b0b9710f63cfbf73",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/run-surrender-hud-unit-v3.mjs",
+      "bytes": 3423,
+      "sha256": "04b3f2066a73aa93dc988b5abafd23db4a48021bf1e32444e705036a09f94f0d",
+      "blob": "04b3f2066a73aa93dc988b5abafd23db4a48021bf1e32444e705036a09f94f0d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/save-parent-runner-v1.mjs",
+      "bytes": 1522,
+      "sha256": "b5bf4ee807aa1cf32f45b51ebcf3abc29bebd16173a7cccc7cc42f0eadb5b765",
+      "blob": "b5bf4ee807aa1cf32f45b51ebcf3abc29bebd16173a7cccc7cc42f0eadb5b765",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/source-epoch-v1.json",
+      "bytes": 34506,
+      "sha256": "8f0370bb8e742fb8d200e5f71a46735caac9ff5a538dcf9e99bcaeded3a969c8",
+      "blob": "8f0370bb8e742fb8d200e5f71a46735caac9ff5a538dcf9e99bcaeded3a969c8",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/source-epoch-v2.json",
+      "bytes": 36362,
+      "sha256": "68620737409722c247bdcd295734de8dd85e7279c4127e5ba13b772b8456ce0b",
+      "blob": "68620737409722c247bdcd295734de8dd85e7279c4127e5ba13b772b8456ce0b",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/source-preliminary-peer-v1.json",
+      "bytes": 5643,
+      "sha256": "d7b7a089e4e6547ded74f1fe9e0c6352725cb1d2348acfaf8650f980ec65a4a8",
+      "blob": "d7b7a089e4e6547ded74f1fe9e0c6352725cb1d2348acfaf8650f980ec65a4a8",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/stage-delivery-v1.mjs",
+      "bytes": 3567,
+      "sha256": "ac16049663737f88c1c90462c78e493cd2699069193ff24f6205d4fb9ed3f8ad",
+      "blob": "ac16049663737f88c1c90462c78e493cd2699069193ff24f6205d4fb9ed3f8ad",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-candidate-v1.js",
+      "bytes": 470431,
+      "sha256": "d5056469404b40e5e40462619a5dd4ec9ff8a8fef555d2b8ef06660ea7d4f86c",
+      "blob": "d5056469404b40e5e40462619a5dd4ec9ff8a8fef555d2b8ef06660ea7d4f86c",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-candidate-v2-mechanical.json",
+      "bytes": 8031,
+      "sha256": "a2f1335343c216139e7deee1e977810a3a787446b1da43800fbbf7434d39f79d",
+      "blob": "a2f1335343c216139e7deee1e977810a3a787446b1da43800fbbf7434d39f79d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-candidate-v2.js",
+      "bytes": 472412,
+      "sha256": "32c68658d9f899dd987060a53c07fa81e65060bb9e4e2a0e8e4fa085bcd0b8f4",
+      "blob": "32c68658d9f899dd987060a53c07fa81e65060bb9e4e2a0e8e4fa085bcd0b8f4",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-candidate-v3-mechanical.json",
+      "bytes": 3158,
+      "sha256": "984701bfd2619754edf70c8945c047340df22bebfd13d7e565a84c9a0045e421",
+      "blob": "984701bfd2619754edf70c8945c047340df22bebfd13d7e565a84c9a0045e421",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-candidate-v3.js",
+      "bytes": 473498,
+      "sha256": "8add541725822085ca6a9c1ce3b6279ffe2cd98c2b9fed033282ef16a369334d",
+      "blob": "8add541725822085ca6a9c1ce3b6279ffe2cd98c2b9fed033282ef16a369334d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-candidate-v4-mechanical.json",
+      "bytes": 17110,
+      "sha256": "d362a3c5749cbefdc1a29a8f952219dba448917bbe1d78091a017e7c07fb31b4",
+      "blob": "d362a3c5749cbefdc1a29a8f952219dba448917bbe1d78091a017e7c07fb31b4",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-candidate-v4.js",
+      "bytes": 473607,
+      "sha256": "c7784af9bcafa08c9e2c22a35e90da336b0d2660034a8a6c772ad831432e93b2",
+      "blob": "c7784af9bcafa08c9e2c22a35e90da336b0d2660034a8a6c772ad831432e93b2",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-candidate-v5-mechanical.json",
+      "bytes": 1738,
+      "sha256": "b9f2b55edd0f5bfebde3103eb366f84ed78cfc46383a4ccd444e0684654a97fb",
+      "blob": "b9f2b55edd0f5bfebde3103eb366f84ed78cfc46383a4ccd444e0684654a97fb",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-candidate-v5.js",
+      "bytes": 473906,
+      "sha256": "2aab4ec1178a05dc23811ff08f1836a7151f90eeac4790a0c273b202b5e61507",
+      "blob": "2aab4ec1178a05dc23811ff08f1836a7151f90eeac4790a0c273b202b5e61507",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-candidate-v6-mechanical.json",
+      "bytes": 1973,
+      "sha256": "48011b950ef02a89026f9db08facc72d94234da447f5d706f017cd44c378e254",
+      "blob": "48011b950ef02a89026f9db08facc72d94234da447f5d706f017cd44c378e254",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-controlled-source-preparation-v1.json",
+      "bytes": 3858,
+      "sha256": "a293f116a94ec5bbb67c0c652294be3bee6a947c070cfc45e1dd09ae19fc9201",
+      "blob": "a293f116a94ec5bbb67c0c652294be3bee6a947c070cfc45e1dd09ae19fc9201",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-flow-v1.inc",
+      "bytes": 12942,
+      "sha256": "57ac0f40242ffaee938cf3537739ea46e429a26544f6303277fdc8b4a6250c70",
+      "blob": "57ac0f40242ffaee938cf3537739ea46e429a26544f6303277fdc8b4a6250c70",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/surrender-v7-preparation-v1.json",
+      "bytes": 5072,
+      "sha256": "82f8e10e06282a75d05afab17b6f745229e8fc4557311b55e88cf64c9b46f7a8",
+      "blob": "82f8e10e06282a75d05afab17b6f745229e8fc4557311b55e88cf64c9b46f7a8",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/test-hd-city-hud-surrender-v7.mjs",
+      "bytes": 183601,
+      "sha256": "abbd9f0f0344341d571272a32d603438a3535a87d9a8ba929e0bc4681c62d149",
+      "blob": "abbd9f0f0344341d571272a32d603438a3535a87d9a8ba929e0bc4681c62d149",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/unit-fixture-v7-before/test-hd-city-hud.mjs",
+      "bytes": 180974,
+      "sha256": "d1575efb747ec6cabc67945c91f513cba8b12289c195660b7b1fcb7c29962599",
+      "blob": "d1575efb747ec6cabc67945c91f513cba8b12289c195660b7b1fcb7c29962599",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/unit-fixture-v7-before/test-hd-city-mobile-host-invalid-v1.mjs",
+      "bytes": 195248,
+      "sha256": "8ced4d2a42995a058d520b97c303d8e70bdcc49b659ca5a9250e8e20421a338e",
+      "blob": "8ced4d2a42995a058d520b97c303d8e70bdcc49b659ca5a9250e8e20421a338e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/unit-fixture-v7-integration-v1.json",
+      "bytes": 6130,
+      "sha256": "bfd3f67ce3fd09a9dab5a1866a01f38c698901a74c3b46d4dcc52ae03e348139",
+      "blob": "bfd3f67ce3fd09a9dab5a1866a01f38c698901a74c3b46d4dcc52ae03e348139",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/unit-fixture-v7-quoting-repair-v2.json",
+      "bytes": 932,
+      "sha256": "64ec4de6486832b7480773f1401fb200f8a85eea81badc8b565ad7e883641643",
+      "blob": "64ec4de6486832b7480773f1401fb200f8a85eea81badc8b565ad7e883641643",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/unit-fixture-v7-target-v1.json",
+      "bytes": 2465,
+      "sha256": "d4c902807154feafb4fc645f4d5075643eac44af6786d375fbcadd22f56c3b4e",
+      "blob": "d4c902807154feafb4fc645f4d5075643eac44af6786d375fbcadd22f56c3b4e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/verify-git-delivery-v1.mjs",
+      "bytes": 4443,
+      "sha256": "a4d85d4a6645a01a70a1b149300e3db45217abc5558f2a2f8b38fe752fae7ecc",
+      "blob": "a4d85d4a6645a01a70a1b149300e3db45217abc5558f2a2f8b38fe752fae7ecc",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/verify-portable-controls-v1.mjs",
+      "bytes": 4382,
+      "sha256": "55b689427caf35008d52359d19123de63a88ac4fc9bc522bb9a9442f9e2e91c6",
+      "blob": "55b689427caf35008d52359d19123de63a88ac4fc9bc522bb9a9442f9e2e91c6",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/write-final-docs-v1.mjs",
+      "bytes": 11569,
+      "sha256": "71a598091ffe2e434c4b8053c970f9a5b9b3cb7cd3b0756d0065edcef5a3f405",
+      "blob": "71a598091ffe2e434c4b8053c970f9a5b9b3cb7cd3b0756d0065edcef5a3f405",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/full-default-v1.before.json",
+      "bytes": 278960,
+      "sha256": "140ef538fb2c8ca41134a90fa234afaf6fa27891749cbabf4f2488f83cc88345",
+      "blob": "140ef538fb2c8ca41134a90fa234afaf6fa27891749cbabf4f2488f83cc88345",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-location-20261026-v72/source-epoch-v1.json",
+      "bytes": 31459,
+      "sha256": "5e2b0e7f58b389ce04d0844603942b3238bf268afd768d63241f21b3cbed58fb",
+      "blob": "5e2b0e7f58b389ce04d0844603942b3238bf268afd768d63241f21b3cbed58fb",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "css/hd-city-menu.css",
+      "bytes": 15502,
+      "sha256": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7",
+      "blob": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32211,
+      "sha256": "e8677806b2efea7d1f8037d61960adc5543e185f08fda0af7e5884616d202b5b",
+      "blob": "e8677806b2efea7d1f8037d61960adc5543e185f08fda0af7e5884616d202b5b",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "designer.html",
+      "bytes": 3146,
+      "sha256": "fd22627c90b1cf4a9d50830a24f907a24cb5bfc8c3e75ee0b132d94ce8301ad6",
+      "blob": "fd22627c90b1cf4a9d50830a24f907a24cb5bfc8c3e75ee0b132d94ce8301ad6",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "docs/hd-development-plan.md",
+      "bytes": 239327,
+      "sha256": "804ec1f34047eda7a285a233f4e981be66e06fdd3b167e4b8b4429027164b46a",
+      "blob": "804ec1f34047eda7a285a233f4e981be66e06fdd3b167e4b8b4429027164b46a",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "docs/hd-remaining-work.md",
+      "bytes": 270354,
+      "sha256": "e1d5c7dde5599d64d7c3350f82040fd0e160b4929418b0124ee07f7256ff1055",
+      "blob": "e1d5c7dde5599d64d7c3350f82040fd0e160b4929418b0124ee07f7256ff1055",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-person-location-20261026-v72.json",
+      "bytes": 121282,
+      "sha256": "36e81b97fb1f78068664e8079426c21d8b97f692bad3ce9b844492bcdf79a9c3",
+      "blob": "36e81b97fb1f78068664e8079426c21d8b97f692bad3ce9b844492bcdf79a9c3",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-quantity-ack-refresh-20261024-v45-verify.mjs",
+      "bytes": 32262,
+      "sha256": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca",
+      "blob": "c22ce639e99bd9da91977ebcb5a982ec7b2df20480c947290d73cc70457b37ca",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "hd-portrait-dump.html",
+      "bytes": 3409,
+      "sha256": "771a19acde84ae4941f4d337c9aa0d26f2e81b796e7a241a0830014dc1895f60",
+      "blob": "771a19acde84ae4941f4d337c9aa0d26f2e81b796e7a241a0830014dc1895f60",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 21284,
+      "sha256": "41a5dc9b8f4255f7a3ecde1bd6165599a08e5470d6bd293efe7cde694c489b2a",
+      "blob": "41a5dc9b8f4255f7a3ecde1bd6165599a08e5470d6bd293efe7cde694c489b2a",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/baye.js",
+      "bytes": 193335,
+      "sha256": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0",
+      "blob": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/baye.wasm",
+      "bytes": 4561414,
+      "sha256": "d0614c1fdcd723f83d91de268521fb27ddf6c4205e81343627d5a1b635ab7fee",
+      "blob": "d0614c1fdcd723f83d91de268521fb27ddf6c4205e81343627d5a1b635ab7fee",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/baye.wasm.map",
+      "bytes": 29995,
+      "sha256": "9db85f7ec1e25ee7c4f0f187132f5caa04faa12a19c4650a3cae8242518e992d",
+      "blob": "9db85f7ec1e25ee7c4f0f187132f5caa04faa12a19c4650a3cae8242518e992d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/hd-dialog.js",
+      "bytes": 136991,
+      "sha256": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "blob": "1d96216d2bf71ee31e4c992c7b99995cc33e47587193fc4a7d883c3e820934b7",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/hd-mobile-city.js",
+      "bytes": 35411,
+      "sha256": "71d6997840e7c1f5b2b6f09753db868b1acd8c082763c7d32d5c1ecb229cfeb0",
+      "blob": "71d6997840e7c1f5b2b6f09753db868b1acd8c082763c7d32d5c1ecb229cfeb0",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 36222,
+      "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8",
+      "blob": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "blob": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "m-ges.html",
+      "bytes": 6958,
+      "sha256": "a8985b3caf605d3f4752657645904753fe75bd7759a62a110469fae334463cc5",
+      "blob": "a8985b3caf605d3f4752657645904753fe75bd7759a62a110469fae334463cc5",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "m-ktouch.html",
+      "bytes": 6460,
+      "sha256": "22f3bfc8fd47dc7e4aaa91ece80ad3f8101ce87fcc1530ed0fa152f0061ab8d4",
+      "blob": "22f3bfc8fd47dc7e4aaa91ece80ad3f8101ce87fcc1530ed0fa152f0061ab8d4",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "m-old.html",
+      "bytes": 6514,
+      "sha256": "a81d35deb67b7ea69e688f20895f9b4e27b1d3b4225bb76ca4d6834fd840ae70",
+      "blob": "a81d35deb67b7ea69e688f20895f9b4e27b1d3b4225bb76ca4d6834fd840ae70",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "m.html",
+      "bytes": 18478,
+      "sha256": "7ca91594be170aa1e886e4ca15df615b1429b8808a2e941baff4edb0f01315ab",
+      "blob": "7ca91594be170aa1e886e4ca15df615b1429b8808a2e941baff4edb0f01315ab",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "package.json",
+      "bytes": 21676,
+      "sha256": "c97fe3b23d10dc82b4ced176a17e43553fab984080eb116b80d64cb8df710c6b",
+      "blob": "c97fe3b23d10dc82b4ced176a17e43553fab984080eb116b80d64cb8df710c6b",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "pc.html",
+      "bytes": 28679,
+      "sha256": "5db71297329e65f8dac358646e18c4af6b72a9dbff4deb920d91a7db22abe682",
+      "blob": "5db71297329e65f8dac358646e18c4af6b72a9dbff4deb920d91a7db22abe682",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-city-resource-runtime-checks.mjs",
+      "bytes": 6880,
+      "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "blob": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-mobile-preview-runtime-checks.mjs",
+      "bytes": 19409,
+      "sha256": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "blob": "ee6074a49a9377f32502c6d5d31119f0dd65f4971b1f3d3103c4e5a736ce3d0e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-person-equipment-runtime-checks.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-person-location-runtime-checks.mjs",
+      "bytes": 8874,
+      "sha256": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "blob": "4d90245f4da232e6064f1c4d2de5dad505554b38cb5bdc9c8fe6a6e976df60a7",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-person-roles-runtime-checks.mjs",
+      "bytes": 12931,
+      "sha256": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "blob": "8b59f80cd9be242e8f64c73b9b8c264d015783a4298e584455b41b1fafab5f44",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 183589,
+      "sha256": "0fbbc58f2796e1eaa6aea496730a0aebdec0cdeb9cf824f8798a9e98d5f01c34",
+      "blob": "0fbbc58f2796e1eaa6aea496730a0aebdec0cdeb9cf824f8798a9e98d5f01c34",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-city-mobile-host.mjs",
+      "bytes": 195248,
+      "sha256": "7d2e172ecfc4c3e3d8f65bf107b65e36d867d2e1bc165b08ae17f0bac122e21d",
+      "blob": "7d2e172ecfc4c3e3d8f65bf107b65e36d867d2e1bc165b08ae17f0bac122e21d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 127263,
+      "sha256": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9",
+      "blob": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-native-sem.mjs",
+      "bytes": 9885,
+      "sha256": "8d448133725a9f4b62dfb8eae084683d04227ffc9aab14236aaae6d1b320ef60",
+      "blob": "8d448133725a9f4b62dfb8eae084683d04227ffc9aab14236aaae6d1b320ef60",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-person-equipment-runtime.mjs",
+      "bytes": 35763,
+      "sha256": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "blob": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-person-identity-runtime.mjs",
+      "bytes": 50631,
+      "sha256": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "blob": "99167a25ea94acaee1c12383a1780e06c6ec5b829b4c12bf0cc6af7da3aa2381",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/.gitignore",
+      "bytes": 44,
+      "sha256": "43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75",
+      "blob": "43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/.gitmodules",
+      "bytes": 293,
+      "sha256": "ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca",
+      "blob": "ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/ATTRIBUTION.md",
+      "bytes": 495,
+      "sha256": "983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4",
+      "blob": "983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/CMakeLists.txt",
+      "bytes": 82,
+      "sha256": "738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68",
+      "blob": "738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/LICENSE",
+      "bytes": 1091,
+      "sha256": "dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1",
+      "blob": "dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/README.md",
+      "bytes": 2077,
+      "sha256": "f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5",
+      "blob": "f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/UPSTREAM_COMMIT",
+      "bytes": 42,
+      "sha256": "3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659",
+      "blob": "3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/js/.gitignore",
+      "bytes": 62,
+      "sha256": "581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea",
+      "blob": "581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/js/config.sh",
+      "bytes": 61,
+      "sha256": "424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff",
+      "blob": "424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/js/whitelist.json",
+      "bytes": 3368,
+      "sha256": "707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f",
+      "blob": "707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/CMakeLists.txt",
+      "bytes": 3097,
+      "sha256": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774",
+      "blob": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "bytes": 27302,
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f",
+      "blob": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/FgtPkAi.c",
+      "bytes": 44229,
+      "sha256": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953",
+      "blob": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/Fight.c",
+      "bytes": 58254,
+      "sha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e",
+      "blob": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540",
+      "blob": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/Gamhzk.bin",
+      "bytes": 163840,
+      "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "blob": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 33782,
+      "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c",
+      "blob": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/Size.c",
+      "bytes": 1727,
+      "sha256": "aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6",
+      "blob": "aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d",
+      "blob": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/bind-objects.h",
+      "bytes": 2593,
+      "sha256": "4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca",
+      "blob": "4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/comm.h",
+      "bytes": 5109,
+      "sha256": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b",
+      "blob": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/compa.h",
+      "bytes": 3328,
+      "sha256": "5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d",
+      "blob": "5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f",
+      "blob": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/data-bind.h",
+      "bytes": 4001,
+      "sha256": "c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b",
+      "blob": "c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/datman.h",
+      "bytes": 1158,
+      "sha256": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe",
+      "blob": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/enghead.h",
+      "bytes": 370,
+      "sha256": "8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868",
+      "blob": "8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/errcode.h",
+      "bytes": 985,
+      "sha256": "08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e",
+      "blob": "08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/extern.h",
+      "bytes": 4158,
+      "sha256": "5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd",
+      "blob": "5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fight.h",
+      "bytes": 9611,
+      "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986",
+      "blob": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fsys.h",
+      "bytes": 1185,
+      "sha256": "8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344",
+      "blob": "8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fundec.h",
+      "bytes": 2184,
+      "sha256": "d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163",
+      "blob": "d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fundef.h",
+      "bytes": 200,
+      "sha256": "670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d",
+      "blob": "670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/graph.h",
+      "bytes": 451,
+      "sha256": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446",
+      "blob": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/itoa.h",
+      "bytes": 267,
+      "sha256": "a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c",
+      "blob": "a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4",
+      "blob": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/paccount.h",
+      "bytes": 2251,
+      "sha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30",
+      "blob": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/resource.h",
+      "bytes": 557,
+      "sha256": "8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187",
+      "blob": "8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/sconst.h",
+      "bytes": 4101,
+      "sha256": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea",
+      "blob": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/script.h",
+      "bytes": 873,
+      "sha256": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8",
+      "blob": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/sharefun.h",
+      "bytes": 8365,
+      "sha256": "d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09",
+      "blob": "d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/sources.h",
+      "bytes": 286,
+      "sha256": "ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e",
+      "blob": "ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/stdsys.h",
+      "bytes": 500,
+      "sha256": "14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa",
+      "blob": "14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/bind-objects.c",
+      "bytes": 17734,
+      "sha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0",
+      "blob": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1",
+      "blob": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "bytes": 34493,
+      "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2",
+      "blob": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca",
+      "blob": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e",
+      "blob": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873",
+      "blob": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d",
+      "blob": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/comIn.c",
+      "bytes": 12480,
+      "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63",
+      "blob": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/comOut.c",
+      "bytes": 21378,
+      "sha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f",
+      "blob": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/config.c",
+      "bytes": 179,
+      "sha256": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7",
+      "blob": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/convert_to_c.py",
+      "bytes": 294,
+      "sha256": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e",
+      "blob": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/dat.lib.orig",
+      "bytes": 196890,
+      "sha256": "c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab",
+      "blob": "c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/data-bind.c",
+      "bytes": 4662,
+      "sha256": "2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a",
+      "blob": "2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/data/pconst.h",
+      "bytes": 1761,
+      "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0",
+      "blob": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/data/pstring.h",
+      "bytes": 1524,
+      "sha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df",
+      "blob": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/datman.c",
+      "bytes": 9424,
+      "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c",
+      "blob": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/debug.c",
+      "bytes": 1904,
+      "sha256": "5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac",
+      "blob": "5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/font.bin",
+      "bytes": 163840,
+      "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "blob": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/fsys.c",
+      "bytes": 33667,
+      "sha256": "85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da",
+      "blob": "85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/gamEng.c",
+      "bytes": 47517,
+      "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39",
+      "blob": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/genver.py",
+      "bytes": 416,
+      "sha256": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff",
+      "blob": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa",
+      "blob": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.h",
+      "bytes": 19624,
+      "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5",
+      "blob": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/ADDR.H",
+      "bytes": 2468,
+      "sha256": "5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc",
+      "blob": "5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/DictAfx.h",
+      "bytes": 702,
+      "sha256": "9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d",
+      "blob": "9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/DictHelp.h",
+      "bytes": 5664,
+      "sha256": "0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c",
+      "blob": "0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/GuiEdit.h",
+      "bytes": 2021,
+      "sha256": "8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c",
+      "blob": "8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/MEM.H",
+      "bytes": 1207,
+      "sha256": "406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114",
+      "blob": "406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/STDLIB.H",
+      "bytes": 19,
+      "sha256": "a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96",
+      "blob": "a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/SysResv.h",
+      "bytes": 6103,
+      "sha256": "26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8",
+      "blob": "26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/dictsys.h",
+      "bytes": 21754,
+      "sha256": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded",
+      "blob": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/filetype.h",
+      "bytes": 4695,
+      "sha256": "31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf",
+      "blob": "31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/flash.h",
+      "bytes": 17046,
+      "sha256": "50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0",
+      "blob": "50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/fsys.h",
+      "bytes": 1991,
+      "sha256": "24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140",
+      "blob": "24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/keytable.h",
+      "bytes": 3820,
+      "sha256": "9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c",
+      "blob": "9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/shell.h",
+      "bytes": 2138,
+      "sha256": "1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72",
+      "blob": "1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e",
+      "blob": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/itoa.c",
+      "bytes": 1038,
+      "sha256": "6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c",
+      "blob": "6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/main.c",
+      "bytes": 116,
+      "sha256": "1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686",
+      "blob": "1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/miniz.c",
+      "bytes": 327452,
+      "sha256": "ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059",
+      "blob": "ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/miniz.h",
+      "bytes": 70791,
+      "sha256": "7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6",
+      "blob": "7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/paccount.c",
+      "bytes": 3892,
+      "sha256": "6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd",
+      "blob": "6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/pconst.c",
+      "bytes": 4213,
+      "sha256": "f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246",
+      "blob": "f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/picture.asm",
+      "bytes": 9186,
+      "sha256": "8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576",
+      "blob": "8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/bios.c",
+      "bytes": 1053,
+      "sha256": "418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1",
+      "blob": "418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/gui.c",
+      "bytes": 3231,
+      "sha256": "bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495",
+      "blob": "bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/sem.h",
+      "bytes": 522,
+      "sha256": "8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc",
+      "blob": "8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/sys.c",
+      "bytes": 15103,
+      "sha256": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c",
+      "blob": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/timer.h",
+      "bytes": 485,
+      "sha256": "06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc",
+      "blob": "06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/dummy-script.c",
+      "bytes": 424,
+      "sha256": "daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5",
+      "blob": "daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/fsys.c",
+      "bytes": 4119,
+      "sha256": "7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923",
+      "blob": "7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/sem.m",
+      "bytes": 866,
+      "sha256": "40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf",
+      "blob": "40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/sys-ios.c",
+      "bytes": 229,
+      "sha256": "a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673",
+      "blob": "a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/timer.m",
+      "bytes": 1937,
+      "sha256": "7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514",
+      "blob": "7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    }
+  ],
+  "logicalFiles": 237,
+  "uniqueBlobs": 236,
+  "rawNamedBytes": 24672562,
+  "uniqueRawBytes": 24508722,
+  "uniqueGzipBytes": 16164251,
+  "serializedPartBytes": 21606752,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

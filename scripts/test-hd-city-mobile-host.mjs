@@ -215,11 +215,18 @@ test('mobile attr refresh restores the root after native picker publication beco
 
 test('mobile poll restores the complete deep layer after delayed picker publication',()=>{
     const renderBegin=source.indexOf('    function render() {');
-    const renderEnd=source.indexOf('    function bindOpenedCity(',renderBegin);
+    const renderFacadeEnd=source.indexOf('\n',renderBegin)+1;
+    const renderBodyBegin=source.indexOf('    function renderSurrenderBody() {');
+    const renderEnd=source.indexOf('    function bindOpenedCity(',renderBodyBegin);
+    const guardBegin=source.indexOf('    function surrenderUiCall(body, args) {');
+    const guardEnd=source.indexOf('    function surrenderUiReadCall(body, args) {',guardBegin);
+    const flowSyncBegin=source.indexOf('    function syncSurrender() {');
+    const flowSyncEnd=source.indexOf('    function getSurrenderPresentation() {',flowSyncBegin);
     const pollPrefix='        startTimer = setInterval(';
     const pollBegin=source.indexOf(pollPrefix,source.indexOf('    function start() {'));
     const pollEnd=source.indexOf('        }, 280);',pollBegin);
-    assert.ok(renderBegin>=0 && renderEnd>renderBegin && pollBegin>=0 && pollEnd>pollBegin);
+    assert.ok(renderBegin>=0 && renderFacadeEnd>renderBegin && renderBodyBegin>renderFacadeEnd && renderEnd>renderBodyBegin &&
+        guardBegin>=0 && guardEnd>guardBegin && flowSyncBegin>=0 && flowSyncEnd>flowSyncBegin && pollBegin>=0 && pollEnd>pollBegin);
     const nodes={};
     for(const id of ['hd-city-menu','hd-city-menu-title','hd-city-menu-sub','hd-city-menu-root',
         'hd-city-menu-sublist','hd-city-menu-status','hd-city-menu-deep','hd-city-menu-probe']){
@@ -244,7 +251,12 @@ test('mobile poll restores the complete deep layer after delayed picker publicat
         fightIsActive(){return false;},leftoverMarchAfterFight(){return false;},sweepStickyMarch:noOp,
         hdReady(){return false;},sendKey(){throw Error('unexpected input');}};
     context.global=context;
-    vm.runInNewContext(source.slice(renderBegin,renderEnd),context);
+    // Preserve the actual no-flow branch of the private guard and observer.
+    // The thin ordinary-mobile renderer fixture does not mint a SURRENDER flow.
+    Object.assign(context,{surrenderFlow:null,surrenderReading:false,surrenderReadEpoch:0,surrenderSending:false,
+        surrenderUiDepth:0,surrenderUiEpoch:0,surrenderUiToken:0});
+    vm.runInNewContext(source.slice(guardBegin,guardEnd)+source.slice(flowSyncBegin,flowSyncEnd)+
+        source.slice(renderBegin,renderFacadeEnd)+source.slice(renderBodyBegin,renderEnd),context);
     const pollExpression=source.slice(pollBegin+pollPrefix.length,pollEnd)+'}';
     vm.runInNewContext('poll = '+pollExpression,context);
     context.render();assert.equal(nodes['hd-city-menu-sublist'].hidden,false);assert.equal(nodes['hd-city-menu-deep'].hidden,true);

@@ -119,7 +119,8 @@ function harness({sourceText} = {}) {
         toolDetails: () => null, personArmType: id => { derivedCalls.push(id); return null; } });
     let identity = { status: 'ready', generation: 1, sha256: standardHash }, current = true;
     context.BayeHdLibIdentity = { read: () => identity, isCurrent: value => current && value === identity };
-    let source = sourceText === undefined ? read('js/hd-city-menu.js') : sourceText;
+    const selectedHudSource = process.env.BAYE_HD_CITY_HUD_SOURCE;
+    let source = sourceText !== undefined ? sourceText : selectedHudSource ? readFileSync(selectedHudSource, 'utf8') : read('js/hd-city-menu.js');
     source = source.replace(/\}\)\(window\);\s*$/, `
         global.__hud = { state: state, cityDetails: cityDetails, personDetails: personDetails,
             renderStatus: renderStatus, renderPersonDetails: renderPersonDetails,
@@ -2025,9 +2026,9 @@ function originalLocationNames() {
     assert.deepEqual([locationRomNames.people[29], locationRomNames.people[139], locationRomNames.cities[4], locationRomNames.cities[30]], ['崔琰', '朵思大王', '晋阳', '云南']);
     return locationRomNames;
 }
-function locationHarness(personId = 139) {
+function locationHarness(personId = 139, {sourceText} = {}) {
     const oldSource = process.env.BAYE_HD_PERSON_LOCATION_SOURCE;
-    const h = harness(oldSource ? {sourceText: readFileSync(oldSource, 'utf8')} : undefined), rom = originalLocationNames();
+    const h = harness(sourceText !== undefined ? {sourceText} : oldSource ? {sourceText: readFileSync(oldSource, 'utf8')} : undefined), rom = originalLocationNames();
     // C PERSON_MAX is physical2000; the verified original ROM exposes logical200.
     h.people = Array.from({length: 2000}, () => ({...h.person, Belong: 0, OldBelong: 0, Equip: [0, 0], Tool1: 0, Tool2: 0}));
     h.people[29].Belong = 1; h.people[139].Belong = 4; h.people[143].Belong = 4;
@@ -2229,4 +2230,435 @@ test('person location respects current custom-native semantics and relevant hook
     h.context.baye.hd.personProperties = () => plain(props); h.renderLocation(); assertLocationAbsent(h, 'current custom-native property table');
     assert.equal(h.hud.state.personDetail.corePresentation, 'custom-native'); assert.equal(h.hud.state.personDetail.groups.flatMap(g => g.rows).length, 15);
     assert.match(h.document.getElementById('hd-city-menu-person-properties').textContent, /原生自定义含义/);
+});
+
+// SURRENDER is the original target-first, actor-second ShowPersonControl loop.
+// These are normal renderer/input tests with a controlled C publication model;
+// the model never supplies a private JS role, approval flag or input ticket.
+// Its captive rows are synthetic test data, not evidence of a real capture.
+const surrenderSubNames = ['开垦', '招商', '搜寻', '治理', '出巡', '招降', '处斩', '流放', '赏赐', '没收', '交易', '宴请', '输送', '移动'];
+const surrenderRawFields = ['g_hdEngineReady', 'g_hdMapPick', 'g_hdMapCity', 'g_hdMapInputSeq', 'g_hdBattlePick',
+    'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind', 'g_hdMenuSeq', 'g_hdMenuCount', 'g_hdMenuIndex',
+    'g_hdDetailGeneration', 'g_hdQtyActive', 'g_hdQtySession', 'g_hdQtyInputSeq', 'g_hdQtyLastKey',
+    'g_hdQtyCursor', 'g_hdQtyStep', 'g_hdQtyReady', 'g_hdQtyMin', 'g_hdQtyMax', 'g_hdQtyValue',
+    'g_hdMarchPhase', 'g_hdMarchSession', 'g_hdMarchInputSeq', 'g_hdMarchOrigin', 'g_hdMarchSelected',
+    'g_hdMarchSeq', 'g_hdMarchOk', 'g_hdMarchCity', 'g_hdMarchObj', 'g_hdReportActive', 'g_hdReportSeq',
+    'g_hdReportInputSeq', 'g_hdReportKind', 'g_hdReportPerson', 'g_hdHelpActive', 'g_hdHelpInputSeq',
+    'g_hdFightActive', 'g_hdRecordActive', 'g_hdMovieActive', 'g_hdSpeActive', 'g_hdSkillActive',
+    'g_hdAttackActive', 'g_hdSkillResultActive', 'g_hdMakerActive', 'g_hdViewActive', 'g_hdMiniMapActive',
+    'g_hdGoodsActive', 'g_hdPersonPropertiesActive', 'g_hdResultOwnerKind', 'g_hdResultOwnerValid'];
+
+function surrenderHarness({mobile = false, subIndex = 5, seq = 10, duplicate = false, singleActor = false} = {}) {
+    const selectedSource = process.env.BAYE_HD_SURRENDER_SOURCE;
+    const h = locationHarness(139, {sourceText: selectedSource ? readFileSync(selectedSource, 'utf8') : read('js/hd-city-menu.js')});
+    const storage = new Map([['baye/cityMenuMode', 'hd'], ['baye/mobileCityMenuMode', 'hd'], ['baye/overworldMode', 'hd-map']]);
+    h.context.localStorage = {getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, String(value))};
+    h.context.innerWidth = mobile ? 844 : 1280; h.context.innerHeight = mobile ? 390 : 720;
+    h.context.dynLib = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url)).toString('hex');
+    h.context.baye.hooks = {};
+    h.raw.g_engineConfig.fixConsumeMoney = 0;
+    h.context.bayeQtyNativeClosed = () => false;
+    h.context.bayeQtyCloseInput = () => {};
+    let nameReadHook = null;
+    h.context.baye.getPersonName = id => {if (nameReadHook) nameReadHook(); return h.names.get(id) ?? '';};
+    h.people[139].Belong = h.people[143].Belong = 65535;
+    h.people[139].OldBelong = h.people[143].OldBelong = 4;
+    h.people[139].Arms = h.people[143].Arms = 0;
+    h.people[29].Belong = h.people[33].Belong = 1;
+    h.people[29].Thew = h.people[33].Thew = 100;
+    h.people[150].Belong = 0;
+    h.queue.fill(0);
+    const residents = singleActor ? [139, 29, 143, 150] : duplicate ? [139, 29, 139, 143, 33, 150] : [139, 29, 143, 33, 150];
+    residents.forEach((id, index) => {h.queue[5 + index] = id;});
+    Object.assign(h.cities[4], {Persons: residents.length, PersonQueue: 5, Belong: 1});
+    Object.assign(h.cities[30], {Persons: 0, PersonQueue: 100});
+    h.raw.g_OrderQueue = Array.from({length: 200}, () => ({OrderId: 255, City: 0, Person: 0, Object: 0, Money: 0, Food: 0, Arms: 0}));
+    for (const field of surrenderRawFields) h.raw[field] = 0;
+    Object.assign(h.raw, {g_hdEngineReady: 1, g_hdMapCity: 5, g_hdMapInputSeq: 40, g_hdDetailGeneration: 3,
+        g_hdQtySession: 2, g_hdQtyLastKey: 65535, g_hdQtyStep: 1, g_hdMarchOrigin: 255,
+        g_hdReportPerson: 65535, g_asyncActionID: 0});
+    Object.assign(h.qty, {protocol: true, active: 0, session: 2, inputSeq: 0, lastKey: 65535,
+        cursor: 0, step: 1, ready: 0, min: 0, max: 0, value: 0});
+    Object.assign(h.report, {active: 0, seq: 0, inputSeq: 0, kind: 0, person: 65535, text: ''});
+    Object.assign(h.help, {active: 0, seq: 0, inputSeq: 0});
+    const march = {pick: 0, battlePick: 0, mapCity: 5, mapInputSeq: 40, phase: 0, session: 0, inputSeq: 0,
+        origin: 255, selected: 0, seq: 0, ok: 0, city: 0, obj: 0};
+    h.context.baye.hd.march = () => plain(march);
+    h.context.baye.hd.fight = () => ({active: 0});
+    let propertyPaint = 40;
+    h.context.baye.hd.personProperties = () => {
+        if (!h.menu.active || h.menu.kind !== 3) return null;
+        const id = h.menu.ids[h.menu.index];
+        return {protocolVersion: 1, active: 1, complete: 0, pageComplete: 1, custom: 0,
+            generation: 3, detailGeneration: 3, context: 1, kind: 3, menuSeq: h.menu.seq,
+            paintSeq: propertyPaint, index: h.menu.index, person: id, propertyCount: 13, pageIndex: 0, pageStart: 0, pageEnd: 1,
+            name: h.names.get(id), properties: Array.from({length: 13}, (_, index) => ({index,
+                title: index === 0 ? ' 归属 ' : '', value: index === 0 ? (h.people[id].Belong === 65535 ? '俘虏' : '曹丕') : '',
+                captured: index === 0, titleCaptured: index === 0, valueCaptured: index === 0,
+                titlePaintSeq: index === 0 ? propertyPaint : 0, valuePaintSeq: index === 0 ? propertyPaint : 0}))};
+    };
+    const next = n => n === 0xffffffff ? 1 : n + 1;
+    const nativePending = [];
+    let role = 'sub', error = null, freezeKey = false, actorCommits = 0, actorCommitEffect = null;
+    function roleIds(which) {
+        return h.queue.slice(h.city.PersonQueue, h.city.PersonQueue + h.city.Persons)
+            .filter(id => h.people[id].Belong === (which === 'target' ? 65535 : h.city.Belong));
+    }
+    function publish(which, {menuSeq = h.menu.seq, index = 0, ids = null} = {}) {
+        role = which;
+        const active = which !== 'transition' && which !== 'map';
+        const values = ids || (which === 'sub' ? [] : active ? roleIds(which) : []);
+        const names = !active ? (h.menu.packedNames || h.menu.names).slice() : which === 'sub' ? surrenderSubNames.slice() : values.map(id => h.names.get(id));
+        const count = active ? names.length : h.menu.count, currentIndex = active ? index : h.menu.index;
+        Object.assign(h.menu, {active: active ? 1 : 0, context: active ? 1 : 0, kind: which === 'sub' ? 2 : active ? 3 : 0,
+            seq: menuSeq, count, index: currentIndex,
+            generation: 3, detailGeneration: 3, idsValid: active && which !== 'sub', ids: values.slice(),
+            names, packedNames: names.map(name => name.length === 4 ? name.slice(0, 3) + '�' : name), itemLen: 8});
+        Object.assign(h.raw, {g_hdMenuActive: h.menu.active, g_hdMenuContext: h.menu.context,
+            g_hdMenuKind: h.menu.kind, g_hdMenuSeq: h.menu.seq, g_hdMenuCount: h.menu.count, g_hdMenuIndex: h.menu.index,
+            g_hdPersonPropertiesActive: h.menu.kind === 3 ? 1 : 0, g_hdMapPick: which === 'map' ? 1 : 0});
+        march.pick = h.raw.g_hdMapPick;
+        if (active && which !== 'sub') propertyPaint = next(propertyPaint);
+        if (which === 'map') {march.mapInputSeq = h.raw.g_hdMapInputSeq = next(h.raw.g_hdMapInputSeq);}
+    }
+    function consume(key) {
+        if (freezeKey) return;
+        if (key === 34 || key === 35) {
+            nativePending.push(() => {h.menu.index += key === 34 ? -1 : 1; h.raw.g_hdMenuIndex = h.menu.index;}); return;
+        }
+        const old = h.menu.seq, before = role;
+        if (key !== 39 && key !== 40) return;
+        if (before === 'actor' && key === 39) {
+            actorCommits++;
+            if (!actorCommitEffect) return;
+            actorCommitEffect(h.menu.ids[h.menu.index]);
+        }
+        publish('transition', {menuSeq: next(old)});
+        if (before === 'target' && key === 39 && !roleIds('actor').length) {
+            // Native SurrenderMake reaches its no-person report before MAP.
+            Object.assign(h.raw, {g_hdReportActive: 1, g_hdReportKind: 1, g_hdReportPerson: 65535});
+            Object.assign(h.report, {active: 1, kind: 1, person: 65535, text: '本城没有可执行命令的将领'});
+            return;
+        }
+        if (before === 'sub' && key === 39) nativePending.push(() => publish('target', {menuSeq: next(next(old))}));
+        else if (before === 'target' && key === 39) nativePending.push(() => publish('actor', {menuSeq: next(next(old))}));
+        else if (before === 'actor' && key === 40) nativePending.push(() => publish('target', {menuSeq: next(next(old))}));
+        else if (before === 'actor' && key === 39) nativePending.push(() => publish('target', {menuSeq: next(next(old))}));
+        else if (before === 'target' && key === 40) nativePending.push(() => publish('map', {menuSeq: next(old)}));
+        else assert.fail('unexpected controlled SURRENDER key ' + key + ' at ' + before);
+    }
+    h.sendStacks = [];
+    h.context.sendKey = key => {h.keys.push(key); h.sendStacks.push(new Error('controlled send ' + key).stack); if (error) throw error; consume(key);};
+    h.context.baye.sendKey = h.context.sendKey;
+    h.backButton = element('button'); h.backButton.setAttribute('data-hd-menu-back', ''); h.root.appendChild(h.backButton);
+    h.root.contains = node => node === h.root || walk(h.root).includes(node);
+    const api = h.context.BayeHdCityMenu;
+    publish('sub', {menuSeq: seq, index: subIndex});
+    if (mobile) api.configureMobileHost({isAvailable: () => true});
+    Object.assign(h.hud.state, {open: true, cityIndex: 4, cityName: h.cityNames[4], layer: 'sub', subKind: 'neizheng',
+        deepKind: '', deepLabel: '', deepStep: 0, deepMenuOwner: null, deepSelectionPending: null, wizardStep: 'none'});
+    api.start();
+    const poll = h.intervals.at(-1);
+    const event = {detail: 1, isPrimary: true, button: 0, pointerId: 7};
+    function refresh() {poll(); h.hud.render();}
+    function click(button) {assert.ok(button, 'a current rendered button exists'); dispatch(h, 'click', button, event);}
+    function down(button) {assert.ok(button, 'a current rendered button exists'); dispatch(h, 'pointerdown', button, event); return button;}
+    function press(button) {down(button); click(button);}
+    function deep(index = 0) {
+        return h.document.querySelectorAll('[data-hd-deep]').find(button => button.getAttribute('data-hd-deep') === String(index));
+    }
+    function timersOnce() {const tasks = h.timers.splice(0); for (const task of tasks) task();}
+    function flush() {
+        // Each modeled C publication is explicit. There is no auto-reset or
+        // replay; production's own queued ACK continuation observes it next.
+        const tasks = nativePending.splice(0); for (const task of tasks) task();
+        timersOnce(); refresh();
+    }
+    function enter() {
+        const button = h.document.querySelectorAll('[data-hd-sub]').find(node => node.getAttribute('data-hd-sub') === '5');
+        press(button);
+    }
+    function world() {return plain({people: h.people, cities: h.cities, queue: h.queue, orders: h.raw.g_OrderQueue,
+        player: h.raw.g_PlayerKing, period: h.raw.g_PIdx, config: h.raw.g_engineConfig});}
+    return Object.assign(h, {api, storage, march, next, publish, roleIds, refresh, flush, timersOnce, enter,
+        deep, down, click, press, back: () => press(h.backButton), poll, nativePending, world,
+        stage: () => role, actorCommits: () => actorCommits,
+        setActorCommitEffect(value) {actorCommitEffect = value;},
+        setNameReadHook(value) {nameReadHook = value;},
+        setSendError(value) {error = value;}, setFreezeKey(value) {freezeKey = value;}});
+}
+function surrenderPresentation(h) {return h.api.debugSnapshot().surrenderPresentation ?? null;}
+function assertSurrender(h, role) {
+    const p = surrenderPresentation(h), title = role === 'target' ? '招降 · 选择俘虏' : '招降 · 选择招降将领';
+    assert.ok(p, 'source-bound SURRENDER presentation for ' + role);
+    assert.equal(p.role, role); assert.equal(p.title, title); assert.equal(p.cityIndex, 4);
+    assert.equal(p.menuSeq, h.menu.seq); assert.equal(p.detailGeneration, 3);
+    assert.deepEqual(plain(p.ids), h.roleIds(role));
+    const node = h.document.querySelectorAll('[data-hd-surrender-role]').find(item => item.getAttribute('data-hd-surrender-role') === role);
+    assert.ok(node); assert.equal(node.tagName, 'P'); assert.equal(node.textContent, title);
+    assert.equal(h.api.debugSnapshot().mobileHost, h.context.innerWidth === 844);
+    if (!h.api.debugSnapshot().mobileHost) assert.equal(h.api.getInputTicket(), null, 'PC does not acquire a mobile adapter capability');
+    return p;
+}
+function surrenderTarget(options) {
+    const h = surrenderHarness(options); h.enter(); assert.deepEqual(h.keys, [39]);
+    assert.equal(surrenderPresentation(h), null, 'no role is inferred before native target publication');
+    h.flush(); assertSurrender(h, 'target'); return h;
+}
+function surrenderActor(options) {
+    const h = surrenderTarget(options); h.press(h.deep(0));
+    assert.deepEqual(h.keys, [39, 39]); assert.equal(surrenderPresentation(h), null);
+    h.flush(); assertSurrender(h, 'actor'); return h;
+}
+function reopenSurrender(h) {
+    h.api.close({silent: true}); h.refresh();
+    h.api.setMode('classic'); h.api.setMode('hd'); h.refresh();
+}
+
+test('SURRENDER PC normal SUB entry follows captive target, actor cancellation, fresh target and MAP without business writes', () => {
+    const h = surrenderTarget(), before = h.world(), oldButton = h.deep(0), targetSeq = h.menu.seq;
+    assert.equal(h.hud.state.personDetail.personIndex, 139);
+    assert.equal(h.hud.state.personDetail.ownership.kind, 'captive');
+    h.press(oldButton); assert.equal(h.hud.state.layer, 'deep'); assert.equal(surrenderPresentation(h), null);
+    h.flush(); assertSurrender(h, 'actor'); assert.equal(h.menu.seq, h.next(h.next(targetSeq)));
+    assert.equal(h.hud.state.personDetail.personIndex, 29); assert.equal(h.actorCommits(), 0);
+    h.back(); assert.equal(surrenderPresentation(h), null); assert.equal(h.hud.state.layer, 'deep', 'EXIT waits for the new target owner');
+    h.flush(); assertSurrender(h, 'target');
+    h.click(oldButton); assert.deepEqual(h.keys, [39, 39, 40], 'old target DOM cannot confirm the newly published target');
+    h.back(); assert.equal(h.hud.state.layer, 'deep', 'target cancellation waits for native MAP');
+    h.flush(); assert.equal(surrenderPresentation(h), null); assert.equal(h.api.isOpen(), false);
+    assert.equal(h.march.pick, 1); assert.equal(h.menu.active, 0); assert.deepEqual(h.keys, [39, 39, 40, 40]);
+    assert.equal(h.actorCommits(), 0); assert.deepEqual(h.world(), before); assert.deepEqual(h.writes, []);
+    const classic = surrenderTarget(), classicWorld = classic.world(), classicSeq = classic.menu.seq;
+    classic.api.setMode('classic');
+    // A real classic target cancellation is observed, without fabricating a
+    // private HD send/ACK receipt or replaying its EXIT through this model.
+    classic.publish('map', {menuSeq: classic.next(classicSeq)});
+    classic.api.setMode('hd'); classic.refresh();
+    assert.equal(classic.api.isOpen(), false); assert.equal(surrenderPresentation(classic), null);
+    assert.deepEqual(classic.keys, [39]); assert.deepEqual(classic.world(), classicWorld);
+    classic.publish('sub', {menuSeq: classic.next(classic.next(classic.menu.seq)), index: 5});
+    Object.assign(classic.hud.state, {open: true, cityIndex: 4, cityName: classic.cityNames[4], layer: 'sub', subKind: 'neizheng', deepKind: '', deepLabel: ''});
+    classic.refresh(); classic.enter();
+    assert.deepEqual(classic.keys, [39, 39], 'fresh classic return SUB entry sends one ENTER ' + JSON.stringify({
+        layer: classic.hud.state.layer, deepKind: classic.hud.state.deepKind, open: classic.hud.state.open,
+        nativeMenuRequest: classic.hud.state.nativeMenuRequest, nativeMenuCommit: classic.hud.state.nativeMenuCommit,
+        subKind: classic.hud.state.subKind, menu: classic.menu, mapPick: classic.raw.g_hdMapPick}));
+    classic.flush(); assertSurrender(classic, 'target');
+    assert.deepEqual(classic.keys, [39, 39], 'the retired classic flow does not block a fresh normal SUB entry');
+    assert.deepEqual(classic.writes, []);
+});
+
+test('SURRENDER explicitly configured mobile uses the same target-first flow and retains its own host boundary', () => {
+    const h = surrenderTarget({mobile: true}), before = h.world();
+    assert.equal(h.api.debugSnapshot().mobileHost, true);
+    h.press(h.deep(0)); h.flush(); assertSurrender(h, 'actor');
+    h.back(); h.flush(); assertSurrender(h, 'target'); h.back(); h.flush();
+    assert.deepEqual(h.keys, [39, 39, 40, 40]); assert.equal(h.api.isOpen(), false);
+    assert.equal(h.actorCommits(), 0); assert.deepEqual(h.world(), before); assert.deepEqual(h.writes, []);
+});
+
+test('SURRENDER cannot adopt an unbound PERSON menu or a label-only generic pane', () => {
+    for (const mobile of [false, true]) {
+        const h = surrenderHarness({mobile}); h.publish('target', {menuSeq: 12});
+        Object.assign(h.hud.state, {layer: 'deep', deepKind: 'person', deepLabel: '招降'}); h.refresh();
+        assert.equal(surrenderPresentation(h), null);
+        assert.deepEqual(h.keys, [], 'a label and native IDs do not mint the private SURRENDER origin'); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('SURRENDER derives ordered native captive and allied IDs including legal duplicate queue entries', () => {
+    const h = surrenderTarget({duplicate: true});
+    assert.deepEqual(plain(assertSurrender(h, 'target').ids), [139, 139, 143]);
+    assert.equal(h.deep(0).textContent.includes(h.names.get(139)), true);
+    assert.equal(h.deep(1).textContent.includes(h.names.get(139)), true);
+    h.press(h.deep(0)); h.flush(); assert.deepEqual(plain(assertSurrender(h, 'actor').ids), [29, 33]);
+    assert.equal(h.actorCommits(), 0); assert.deepEqual(h.writes, []);
+});
+
+test('SURRENDER SUB index selection requires native arrow ACK before ENTER and rechecks the original source', () => {
+    const h = surrenderHarness({subIndex: 4}); h.enter(); assert.deepEqual(h.keys, [35]);
+    assert.equal(surrenderPresentation(h), null); assert.equal(h.stage(), 'sub');
+    h.flush(); assert.deepEqual(h.keys, [35, 39]); assert.equal(surrenderPresentation(h), null);
+    h.flush(); assertSurrender(h, 'target');
+    const bad = surrenderHarness({subIndex: 4}); bad.enter(); assert.deepEqual(bad.keys, [35]);
+    bad.raw.g_engineConfig = {...bad.raw.g_engineConfig}; bad.flush();
+    assert.deepEqual(bad.keys, [35], 'config replacement between the acknowledged arrow and ENTER retires the request');
+    assert.equal(surrenderPresentation(bad), null); assert.deepEqual(bad.writes, []);
+});
+
+test('SURRENDER pending accepted ENTER cannot be reused by close or classic/HD before native role ACK', () => {
+    const h = surrenderTarget(), before = h.world(); h.setFreezeKey(true); h.press(h.deep(0));
+    assert.deepEqual(h.keys, [39, 39]); assert.equal(surrenderPresentation(h), null);
+    reopenSurrender(h); h.back(); const button = h.deep(0); if (button) h.press(button);
+    assert.deepEqual(h.keys, [39, 39]); assert.equal(surrenderPresentation(h), null);
+    assert.equal(h.actorCommits(), 0); assert.deepEqual(h.world(), before); assert.deepEqual(h.writes, []);
+});
+
+test('SURRENDER unknown ENTER preserves the exact exception and consumed role through close and mode cycles', () => {
+    for (const role of ['target', 'actor']) {
+        const h = role === 'target' ? surrenderTarget() : surrenderActor();
+        const original = new Error('unknown SURRENDER ' + role + ' ENTER transport'), before = h.keys.slice();
+        h.setSendError(original); assert.throws(() => h.press(h.deep(0)), error => error === original);
+        assert.deepEqual(h.keys, before.concat(39)); h.setSendError(null); reopenSurrender(h);
+        h.back(); const button = h.deep(0); if (button) h.press(button);
+        assert.deepEqual(h.keys, before.concat(39)); assert.equal(surrenderPresentation(h), null); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('SURRENDER pending and unknown EXIT from either role remain one-shot across public presentation retirement', () => {
+    for (const role of ['target', 'actor']) for (const unknown of [false, true]) {
+        const h = role === 'target' ? surrenderTarget() : surrenderActor(), before = h.keys.slice();
+        const original = new Error('unknown SURRENDER ' + role + ' EXIT transport');
+        if (unknown) h.setSendError(original); else h.setFreezeKey(true);
+        if (unknown) assert.throws(() => h.back(), error => error === original); else h.back();
+        assert.deepEqual(h.keys, before.concat(40)); h.setSendError(null); reopenSurrender(h); h.back();
+        assert.deepEqual(h.keys, before.concat(40)); assert.equal(surrenderPresentation(h), null);
+        assert.equal(h.actorCommits(), 0); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('SURRENDER true fresh actor and target ACKs retire consumed reservations without authorizing a stale menu', () => {
+    const h = surrenderTarget(), original = new Error('unknown but later observed native target ENTER');
+    const targetSeq = h.menu.seq; h.setSendError(original);
+    assert.throws(() => h.press(h.deep(0)), error => error === original); h.setSendError(null);
+    h.publish('actor', {menuSeq: h.next(h.next(targetSeq))}); h.refresh(); assertSurrender(h, 'actor');
+    h.back(); h.flush(); assertSurrender(h, 'target');
+    h.press(h.deep(0)); h.flush(); assertSurrender(h, 'actor'); h.back(); h.flush();
+    h.back(); h.flush(); assert.deepEqual(h.keys, [39, 39, 40, 39, 40, 40]);
+    assert.equal(h.actorCommits(), 0); assert.equal(h.api.isOpen(), false); assert.deepEqual(h.writes, []);
+});
+
+test('SURRENDER paired presses reject source, sender, queue, native owner and library drift before any new key', () => {
+    const changes = {
+        data(h) {h.context.baye.data = h.readonlyLocation({...h.raw});},
+        config(h) {h.raw.g_engineConfig = {...h.raw.g_engineConfig};},
+        cities(h) {h.raw.g_Cities = h.cities.slice();},
+        queue(h) {h.raw.g_PersonsQueue = h.queue.slice();},
+        'queue-content'(h) {h.queue[5] = 143;},
+        'queue-range'(h) {h.city.Persons--;},
+        sender(h) {h.context.sendKey = key => h.keys.push(key);},
+        'engine-sender'(h) {h.context.baye.sendKey = key => h.keys.push(key);},
+        library(h) {h.setIdentity({...h.identity, generation: 2});},
+        'identity-reader'(h) {h.context.BayeHdLibIdentity.read = () => h.identity;},
+        'identity-current'(h) {h.context.BayeHdLibIdentity.isCurrent = () => true;},
+        'person-name-reader'(h) {h.context.baye.getPersonName = id => h.names.get(id) ?? '';},
+        'person-count-reader'(h) {h.context.baye.getPersonCount = () => 200;},
+        'hooks-object'(h) {h.context.baye.hooks = {};},
+        'city-command'(h) {h.context.baye.hooks.cityMakeCommand = () => {assert.fail('custom command hook must not be replayed');};},
+        hooks(h) {h.context.baye.hooks.getPersonPropertyValue = () => {throw Error('must not invoke custom hook');};},
+        'native-seq'(h) {h.menu.seq = h.raw.g_hdMenuSeq = h.next(h.menu.seq);},
+        'native-ids'(h) {h.menu.ids.reverse(); h.menu.names.reverse(); h.menu.packedNames.reverse();},
+        'detail-generation'(h) {h.menu.generation = h.menu.detailGeneration = h.raw.g_hdDetailGeneration = 4;}
+    };
+    for (const [name, change] of Object.entries(changes)) {
+        const h = surrenderTarget(), button = h.down(h.deep(0)), before = h.keys.slice();
+        change(h); h.click(button);
+        assert.deepEqual(h.keys, before, name); h.refresh();
+        assert.equal(surrenderPresentation(h), null, name); assert.deepEqual(h.writes, [], name);
+    }
+});
+
+test('SURRENDER rejects wrong role members, sequence jumps and active overlays rather than guessing a return', () => {
+    for (const problem of ['allied-target', 'captive-actor', 'seq-jump', 'report', 'help', 'qty']) {
+        const h = surrenderTarget(), before = h.keys.slice();
+        if (problem === 'allied-target') h.publish('target', {ids: [29, 33]});
+        if (problem === 'captive-actor' || problem === 'seq-jump') {
+            h.press(h.deep(0)); before.push(39);
+            h.nativePending.splice(0);
+            h.publish('actor', {menuSeq: problem === 'seq-jump' ? h.next(h.menu.seq) + 2 : h.next(h.menu.seq),
+                ids: problem === 'captive-actor' ? [139, 143] : [29, 33]});
+        }
+        if (problem === 'report') {h.raw.g_hdReportActive = h.report.active = 1;}
+        if (problem === 'help') {h.raw.g_hdHelpActive = h.help.active = 1;}
+        if (problem === 'qty') {h.raw.g_hdQtyActive = h.qty.active = 1;}
+        h.refresh(); assert.equal(surrenderPresentation(h), null, problem); h.back();
+        const button = h.deep(0); if (button) h.press(button);
+        assert.deepEqual(h.keys, before, problem); assert.equal(h.actorCommits(), 0); assert.deepEqual(h.writes, [], problem);
+    }
+});
+
+test('SURRENDER same-owner synchronous bridge reentry cannot publish or consume a partially read source', () => {
+    for (const method of ['render-and-back', 'person-detail', 'person-properties', 'public-diagnostic']) {
+        const h = surrenderTarget(); let reads = 0, inside = false;
+        // The native name reader's original reference is installed before entry.
+        // Its callback changes behavior without a replacement-ref shortcut.
+        h.setNameReadHook(() => {
+            if (inside) return;
+            inside = true;
+            try {
+                reads++;
+                if (method === 'render-and-back') {h.hud.render(); h.back();}
+                if (method === 'person-detail') h.hud.renderPersonDetails();
+                if (method === 'person-properties') h.hud.renderPersonProperties();
+                if (method === 'public-diagnostic') h.api.debugSnapshot();
+            } finally {inside = false;}
+        });
+        const traceLimit = Error.stackTraceLimit; Error.stackTraceLimit = 64;
+        try {h.refresh();} finally {Error.stackTraceLimit = traceLimit;}
+        assert.ok(reads > 0, method); assert.equal(surrenderPresentation(h), null, method);
+        assert.deepEqual(h.keys, [39], method + '\n' + h.sendStacks.join('\n')); assert.deepEqual(h.writes, [], method);
+        h.setNameReadHook(null); h.refresh(); assertSurrender(h, 'target'); assert.equal(h.actorCommits(), 0);
+    }
+});
+
+test('SURRENDER actor confirmation can remove the final allied resident before a fresh captive target and its single EXIT', () => {
+    for (const terminalKey of [40, 39]) {
+        const h = surrenderActor({singleActor: true}), oldSeq = h.menu.seq;
+        assert.deepEqual(h.roleIds('actor'), [29]);
+        h.setActorCommitEffect(id => {
+            // Model only C DelPerson's resident-list effect. This is not an actual
+            // recruitment/order/fee result and earns no real business credit.
+            const start = h.city.PersonQueue, count = h.city.Persons;
+            const offset = h.queue.slice(start, start + count).indexOf(id); assert.ok(offset >= 0);
+            for (let i = start + offset; i < start + count - 1; i++) h.queue[i] = h.queue[i + 1];
+            h.queue[start + count - 1] = 0; h.city.Persons--;
+        });
+        h.press(h.deep(0)); assert.deepEqual(h.keys, [39, 39, 39]); assert.equal(surrenderPresentation(h), null);
+        h.flush(); assert.equal(h.menu.seq, h.next(h.next(oldSeq))); assert.deepEqual(h.roleIds('actor'), []);
+        assertSurrender(h, 'target'); assert.deepEqual(h.roleIds('target'), [139, 143]);
+        if (terminalKey === 40) {h.back(); h.flush();}
+        else {
+            h.press(h.deep(0)); h.refresh(); assert.equal(surrenderPresentation(h), null); assert.equal(h.api.isOpen(), true);
+            // Observe only the eventual C report completion/MAP publication.
+            // No HD report ACK or report-success assertion is supplied here.
+            Object.assign(h.raw, {g_hdReportActive: 0, g_hdReportKind: 0}); Object.assign(h.report, {active: 0, kind: 0, text: ''});
+            h.publish('map'); h.refresh();
+        }
+        assert.equal(h.api.isOpen(), false); assert.equal(surrenderPresentation(h), null);
+        assert.deepEqual(h.keys, [39, 39, 39, terminalKey]); assert.equal(h.actorCommits(), 1); assert.deepEqual(h.writes, []);
+    }
+});
+
+// Real interval observation, without the fixture's refresh()/forced render.
+// A DEPARTED march and inactive quantity/report retain their original payloads.
+test('SURRENDER PC interval alone observes delayed PERSON ACK with retained departed-march report and quantity', () => {
+    const h = surrenderHarness(), before = h.world();
+    Object.assign(h.march, {phase: 7, session: 1, inputSeq: 12, origin: 15, selected: 3, seq: 1,
+        ok: 0, city: 15, obj: 16, mapInputSeq: 7});
+    Object.assign(h.raw, {g_hdMarchPhase: 7, g_hdMarchSession: 1, g_hdMarchInputSeq: 12, g_hdMarchOrigin: 15,
+        g_hdMarchSelected: 3, g_hdMarchSeq: 1, g_hdMarchOk: 0, g_hdMarchCity: 15, g_hdMarchObj: 16, g_hdMapInputSeq: 7,
+        g_hdReportSeq: 12, g_hdReportInputSeq: 26, g_hdReportKind: 2, g_hdReportPerson: 20,
+        g_hdQtySession: 13, g_hdQtyInputSeq: 1, g_hdQtyLastKey: 39, g_hdQtyCursor: 3, g_hdQtyMin: 1,
+        g_hdQtyMax: 1140, g_hdQtyValue: 1140});
+    Object.assign(h.report, {active: 0, seq: 12, inputSeq: 26, kind: 2, person: 20, text: '许昌  出现  暴动，须尽快治理。'});
+    Object.assign(h.qty, {active: 0, session: 13, inputSeq: 1, lastKey: 39, cursor: 3, min: 1, max: 1140, value: 1140});
+    h.hud.state.consumedMarchSeq = 1;
+    const reportBefore = plain(h.report), quantityBefore = plain(h.qty);
+    function nativePublicationAndPoll() {
+        const callbacks = h.nativePending.splice(0); assert.equal(callbacks.length, 1, 'one native publication');
+        callbacks[0](); h.poll();
+    }
+    h.enter(); assert.deepEqual(h.keys, [39]); assert.equal(surrenderPresentation(h), null);
+    nativePublicationAndPoll(); assertSurrender(h, 'target');
+    assert.equal(h.hud.state.deepMenuOwner.seq, h.menu.seq); assert.equal(h.hud.state.personDetail.personIndex, 139);
+    assert.equal(h.hud.state.personProperties.paintSeq, h.context.baye.hd.personProperties().paintSeq);
+    h.press(h.deep(0)); assert.equal(surrenderPresentation(h), null);
+    nativePublicationAndPoll(); assertSurrender(h, 'actor');
+    assert.equal(h.hud.state.personDetail.personIndex, 29);
+    h.back(); nativePublicationAndPoll(); assertSurrender(h, 'target');
+    h.back(); nativePublicationAndPoll(); assert.equal(surrenderPresentation(h), null); assert.equal(h.api.isOpen(), false);
+    assert.deepEqual(h.keys, [39, 39, 40, 40]); assert.deepEqual(h.world(), before); assert.deepEqual(h.writes, []);
+    assert.deepEqual(plain(h.report), reportBefore); assert.deepEqual(plain(h.qty), quantityBefore);
+    assert.equal(h.march.phase, 7); assert.equal(h.march.inputSeq, 12); assert.equal(h.actorCommits(), 0);
 });
