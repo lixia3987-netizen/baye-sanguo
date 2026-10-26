@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70-mobile667-raw-003-archive-part001.json",
+      "bytes": 852775,
+      "sha256": "1bb7f1dd83c9d99aa9c06cd4bf5b864b0480bd9c38ddaf0b762b72bdf55541ce",
+      "blobs": 1
+    }
+  ],
+  "files": [
+    {
+      "path": "build/person-identity-20261026-v70/evidence-source-v2/mobile667-chunks/raw-002.bin",
+      "bytes": 18932747,
+      "sha256": "2589271fe07a6bbbb19b71249073cf4b9f8c0a831222ebbfb650ec0a38001bdd",
+      "blob": "2589271fe07a6bbbb19b71249073cf4b9f8c0a831222ebbfb650ec0a38001bdd",
+      "roles": [
+        "Exact V70 original bytes; archived sources are data"
+      ]
+    }
+  ],
+  "logicalFiles": 1,
+  "uniqueBlobs": 1,
+  "rawNamedBytes": 18932747,
+  "uniqueRawBytes": 18932747,
+  "uniqueGzipBytes": 639349,
+  "serializedPartBytes": 852775,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

@@ -702,3 +702,11 @@
 /docs/validation/m5-native-input-queue-20261026-v69*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-native-input-queue-20261026-v69*.md -text whitespace=cr-at-eol
 /docs/validation/m5-native-input-queue-20261026-v69*.png -text
+
+/scripts/test-hd-person-identity-runtime.mjs text eol=lf
+/scripts/hd-person-identity-runtime-checks.mjs text eol=lf
+/scripts/hd-person-identity-rom.mjs text eol=lf
+/docs/validation/m5-person-identity-20261026-v70*.json -text whitespace=cr-at-eol
+/docs/validation/m5-person-identity-20261026-v70*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-person-identity-20261026-v70*.md -text whitespace=cr-at-eol
+/docs/validation/m5-person-identity-20261026-v70*.png -text
