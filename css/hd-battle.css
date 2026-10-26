@@ -167,8 +167,8 @@ html[data-baye-battle="hd"] #hd-overworld {
     background: #3d5a8c;
     box-shadow: inset 0 0 0 2px #f0c75a;
 }
-.hd-battle-skill-note { margin: 0 0 10px; color: #c0d0df; font-size: 13px; line-height: 18px; }
-.hd-battle-skill-note[hidden] { display: none !important; }
+.hd-battle-menu-note { margin: 0 0 10px; color: #c0d0df; font-size: 13px; line-height: 18px; }
+.hd-battle-menu-note[hidden] { display: none !important; }
 .hd-battle-menu-item small { display: block; margin-top: 3px; font-size: 12px; line-height: 16px; color: #c0d0df; }
 .hd-battle-menu-item:has([data-hd-skill-cost]) { padding-top: 7px; padding-bottom: 7px; }
 .hd-battle-menu-item small:is([data-hd-skill-condition="mp"],[data-hd-skill-condition="terrain"],[data-hd-skill-condition="weather"]) { color: #ffbf9d; }

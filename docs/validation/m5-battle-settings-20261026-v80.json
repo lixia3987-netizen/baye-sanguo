@@ -1,0 +1,401 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V80",
+  "parentCommit": "ac70ddb773abd053cfea9c4ad54ce941bb6b2976",
+  "feature": "Current native battle animation, movement speed and enemy movement settings summary",
+  "accepted": true,
+  "started": "2026-10-26T09:28:35.227Z",
+  "finished": "2026-10-26T09:28:36.984Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 265,
+  "pass": 265,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44170,
+      "sha256": "5eed2f8654eb4560e6391eaa5f371ed2a6c5219beb7be380b6e92b7b9ce13c21"
+    },
+    {
+      "path": "js/hd-battle-status.js",
+      "bytes": 6394,
+      "sha256": "0c51f784cf4f8931e6f9deaa2b7c3a136ac8f8724a9d1428ed227cb50bcef036"
+    },
+    {
+      "path": "js/hd-skill-hints.js",
+      "bytes": 9456,
+      "sha256": "e93726a452d2edbf4268d2ba7494a68983097e3563935a4d66cac2dd2a828ebe"
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 85057,
+      "sha256": "8cb822700352b29355cee0555c4f47b888af71114b9e551bf5e5e7b7df8a17f4"
+    },
+    {
+      "path": "js/hd-mobile-battle.js",
+      "bytes": 32143,
+      "sha256": "4250784387a08cd6d27c31172af0099db6c5a722e7312ea88e2866155131dd9b"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 36222,
+      "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+    },
+    {
+      "path": "css/hd-battle.css",
+      "bytes": 7560,
+      "sha256": "1da041ab4ceea8ec88b717259b649aa3ea6bb428742b21090d0f2169b7029b68"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32369,
+      "sha256": "3bdc52b0266c97a7e12acb6ed2b9e648e31772db9f7e6a280a69de098599a4b3"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 29828,
+      "sha256": "5ef1f9fdff9cda6a17f22cdd2dea32d4429b6a95cbca8666cdf2d6e631790484"
+    },
+    {
+      "path": "m.html",
+      "bytes": 19751,
+      "sha256": "581dcc155687c0a4d5e930f409a0f11cf1777a51d8496f477fb7abcc45d69320"
+    },
+    {
+      "path": "vendor/iBaye/src/pstring.c",
+      "bytes": 4189,
+      "sha256": "0628ef2aec01f810c45402ff59da3f189b3ce4e0c3f56a2a87bbf54c23c4665a"
+    },
+    {
+      "path": "vendor/iBaye/src/bind-objects.c",
+      "bytes": 17734,
+      "sha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0"
+    },
+    {
+      "path": "vendor/iBaye/src/gamEng.c",
+      "bytes": 47517,
+      "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.h",
+      "bytes": 19624,
+      "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5"
+    },
+    {
+      "path": "scripts/test-hd-battle-commands.mjs",
+      "bytes": 61347,
+      "sha256": "5e3ca897d304d12d8283db6b6b947e1bba7fafac524486f446cb23b48bd30b0a"
+    },
+    {
+      "path": "scripts/test-hd-battle-mode.mjs",
+      "bytes": 21291,
+      "sha256": "e2aa72a57fa815189b513a32f9ab9d8beaa071574a51cea95a175e9beb0ca222"
+    },
+    {
+      "path": "scripts/test-hd-battle-mobile-host.mjs",
+      "bytes": 17259,
+      "sha256": "1497765ab181e5fd3e22a7d688dd607cc29e8c9dca3c5235b92cab352e778141"
+    },
+    {
+      "path": "scripts/test-hd-mobile-battle.mjs",
+      "bytes": 52239,
+      "sha256": "30379f5a5c400b355ca8598ac036fe534b8a6d4f3d7ddc30e498b264213cb69b"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 3,
+  "fullSuiteRun": false,
+  "scope": "Four relevant battle modules including the existing C main-menu contract; no campaign, WASM rebuild or full suite",
+  "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+  "compilerVersion": 18,
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "nativeSettings": {
+    "movie": {
+      "0": "不看",
+      "1": "观看"
+    },
+    "moveSpeed": {
+      "0": "快速",
+      "1": "慢速"
+    },
+    "enemy": {
+      "0": "不看",
+      "1": "观看"
+    },
+    "defaultValues": [
+      1,
+      1,
+      1
+    ],
+    "canonicalValuesOnly": true,
+    "menuHighlightIsCommittedValue": false,
+    "submenuSettingTypeInferred": false
+  },
+  "controlledLayouts": {
+    "accepted": true,
+    "kind": "Controlled static DOM/CSS five-item settings summary; mock unread values, no game runtime",
+    "results": [
+      {
+        "name": "pc",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "menu": {
+            "x": 847.546875,
+            "y": 87.5,
+            "width": 320,
+            "height": 434
+          },
+          "note": {
+            "x": 867.546875,
+            "y": 149.5,
+            "width": 280,
+            "height": 36
+          },
+          "list": {
+            "x": 867.546875,
+            "y": 195.5,
+            "width": 280,
+            "height": 262
+          },
+          "action": {
+            "x": 867.546875,
+            "y": 469.5,
+            "width": 280,
+            "height": 36
+          },
+          "buttons": [
+            {
+              "x": 867.546875,
+              "y": 195.5,
+              "width": 280,
+              "height": 46
+            },
+            {
+              "x": 867.546875,
+              "y": 249.5,
+              "width": 280,
+              "height": 46
+            },
+            {
+              "x": 867.546875,
+              "y": 303.5,
+              "width": 280,
+              "height": 46
+            },
+            {
+              "x": 867.546875,
+              "y": 357.5,
+              "width": 280,
+              "height": 46
+            },
+            {
+              "x": 867.546875,
+              "y": 411.5,
+              "width": 280,
+              "height": 46
+            }
+          ],
+          "noteScrollHeight": 36,
+          "noteClientHeight": 36,
+          "listScrollHeight": 262,
+          "listClientHeight": 262,
+          "horizontalOverflow": false,
+          "menuInsideViewport": true,
+          "actionInsideViewport": true,
+          "listReadable": true,
+          "minButtonHeight": 46
+        },
+        "screenshot": "build/battle-settings-20261026-v80/pc-layout-v1.png",
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      {
+        "name": "mobile",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 651,
+            "height": 280
+          },
+          "menu": {
+            "x": 463,
+            "y": 30,
+            "width": 184,
+            "height": 194
+          },
+          "note": {
+            "x": 463,
+            "y": 54,
+            "width": 184,
+            "height": 28
+          },
+          "list": {
+            "x": 463,
+            "y": 86,
+            "width": 184,
+            "height": 90
+          },
+          "action": {
+            "x": 463,
+            "y": 180,
+            "width": 184,
+            "height": 44
+          },
+          "buttons": [
+            {
+              "x": 463,
+              "y": 86,
+              "width": 184,
+              "height": 44
+            },
+            {
+              "x": 463,
+              "y": 134,
+              "width": 184,
+              "height": 44
+            },
+            {
+              "x": 463,
+              "y": 182,
+              "width": 184,
+              "height": 44
+            },
+            {
+              "x": 463,
+              "y": 230,
+              "width": 184,
+              "height": 44
+            },
+            {
+              "x": 463,
+              "y": 278,
+              "width": 184,
+              "height": 44
+            }
+          ],
+          "noteScrollHeight": 28,
+          "noteClientHeight": 28,
+          "listScrollHeight": 236,
+          "listClientHeight": 90,
+          "horizontalOverflow": false,
+          "menuInsideViewport": true,
+          "actionInsideViewport": true,
+          "listReadable": true,
+          "minButtonHeight": 44
+        },
+        "screenshot": "build/battle-settings-20261026-v80/mobile-layout-v1.png",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      }
+    ],
+    "browserRuns": 2,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false
+  },
+  "artifactPins": [
+    {
+      "path": "build/battle-settings-20261026-v80/run-targeted-v1.mjs",
+      "bytes": 2325,
+      "sha256": "5272a873b070a47823f5ab089edb63a59f0cd1a3da62387c6c40cbf6084d6671"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/targeted-v1.json",
+      "bytes": 3826,
+      "sha256": "f571ade8d67a2ad463716a99e2a809e5eae1cbbab46d3bfe1b759a2561b46e3f"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/targeted-v1.stdout.tap",
+      "bytes": 56831,
+      "sha256": "ab108bfcd215ff2d3c00ecc02238b4e53f8faa4b24e5ec253f37d1b5ed6252a8"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/preview-layout-v1.mjs",
+      "bytes": 5381,
+      "sha256": "bc1676c7d0680e809a2cb9484ec6fc6f35d74ba2a4eb8e1f893e91b7c725c30c"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/preview-layout-v1.json",
+      "bytes": 3839,
+      "sha256": "7ccab842eedead2812f8fb487581fcc6358ab6d41a11baf62b6d47bef67b12b6"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/pc-layout-v1.html",
+      "bytes": 3719,
+      "sha256": "6e542939b0589440a1a918a6f0106efac67a263a91ae2d9c4ec1f1c8aaf5c94b"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/pc-layout-v1.dom.html",
+      "bytes": 5059,
+      "sha256": "52ece941f090b694d8619d3ae671b1c52da1bb0451292d156bde39519dee3c39"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/pc-layout-v1.png",
+      "bytes": 52119,
+      "sha256": "562b0e2c870563a661164e2c3dad7cc4427f3e5403024470ebd4f016d9793527"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/pc-layout-v1.stderr.log",
+      "bytes": 536,
+      "sha256": "0ae426c822cb07436f112a92c679e10e8cd4e2e6c06a99ef4fe11434eaac145c"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/mobile-layout-v1.html",
+      "bytes": 4634,
+      "sha256": "ae0e31a22a774b3d19b3ffdcd7df692ea87180cb9cb07c83002f2f46a1fb4062"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/mobile-layout-v1.dom.html",
+      "bytes": 5894,
+      "sha256": "9577e0bf28d745b35204aec8de5eb47a15eab13eb9a8dad7675664a02daad99e"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/mobile-layout-v1.png",
+      "bytes": 15751,
+      "sha256": "34af24f4de6c23e582fff31118875dcf23dad2f6ccd9a3a0d2389e468c8da41e"
+    },
+    {
+      "path": "build/battle-settings-20261026-v80/mobile-layout-v1.stderr.log",
+      "bytes": 540,
+      "sha256": "7216d45973e9092e0fe5b397f1df96f61b9331e8415036af65087363da2296fc"
+    }
+  ],
+  "browserRuns": 2,
+  "engineRebuilt": false,
+  "oldHeldPrivateInterfacesInspected": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false,
+  "actualSettingChangeAccepted": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false
+}

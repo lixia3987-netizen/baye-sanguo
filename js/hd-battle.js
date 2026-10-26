@@ -615,6 +615,8 @@
         state.menuNames = info ? info.names : []; state.menuIndex = info ? info.index : 0;
         var note = el('hd-battle-skill-note');
         if (note) { note.hidden = true; note.textContent = ''; }
+        var settingsNote = el('hd-battle-settings-note'), settings = null;
+        if (settingsNote) { settingsNote.hidden = true; settingsNote.textContent = ''; }
         if (!panel || !list) { return; }
         panel.hidden = !info;
         if (!info) { return; }
@@ -624,6 +626,19 @@
         if (hints && (hints.actor !== snap.actor || hints.menuSeq !== info.seq || hints.inputSeq !== info.inputSeq ||
             hints.index !== info.index || JSON.stringify(hints.names) !== JSON.stringify(info.names))) { hints = null; }
         if (hints && note) { note.textContent = '当前 MP ' + hints.mp + ' · 目标与实际效果以原版判定为准。'; note.hidden = false; }
+        try {
+            if ((info.kind === 'sys' || info.kind === 'settings') && global.BayeHdBattleStatus &&
+                typeof BayeHdBattleStatus.readSettings === 'function') { settings = BayeHdBattleStatus.readSettings(); }
+        } catch (e) {}
+        if (settings && (settings.actor !== snap.actor || settings.kind !== snap.kind || settings.menuSeq !== info.seq ||
+            settings.inputSeq !== info.inputSeq || settings.index !== info.index ||
+            JSON.stringify(settings.names) !== JSON.stringify(info.names))) { settings = null; }
+        if (settings && settingsNote) {
+            function choice(value, labels) { return value === 0 || value === 1 ? labels[value] : '未读取'; }
+            settingsNote.textContent = '当前设置：动画 ' + choice(settings.movie,['不看','观看']) + ' · 移速 ' +
+                choice(settings.moveSpeed,['快速','慢速']) + ' · 敌军移动 ' + choice(settings.enemy,['不看','观看']);
+            settingsNote.hidden = false;
+        }
         if (title) { title.textContent = info.title; }
         var html = '';
         for (var i = 0; i < info.names.length; i += 1) {
