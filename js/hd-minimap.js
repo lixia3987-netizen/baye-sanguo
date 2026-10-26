@@ -1,9 +1,10 @@
 /* A native SEARCH overlay owns this read-only overview and one return key. */
 (function (global) {
     var state = { open: false, owner: '', epoch: 0, native: null, data: null, showLcd: false,
-        committed: '', pressed: null, paint: '', bound: false, timer: 0, ownerData: null,
+        committed: '', pressed: null, paint: '', filter: 'all', bound: false, timer: 0, ownerData: null,
         grant: null, blocked: false, pointers: {}, focused: true, dispatch: false, retireReason: '' };
     var mobileHost = null;
+    var FILTERS = { all: '全部', owned: '我方', neutral: '他方', empty: '空城' };
     var LIB_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
     var MINI_FIELDS = ['protocolVersion','active','complete','custom','defaultDraw','seq','generation','mapInputSeq',
         'resourceId','imageIndex','width','height','mask','cursorX','cursorY','viewX','viewY','viewWidth','viewHeight','city1'];
@@ -15,6 +16,21 @@
         27: 0x28, 32: 0x28, 70: 0x33, 83: 0x33, 72: 0x26 };
     function node(id) { return document.getElementById(id); }
     function integer(value, min, max) { return Number.isInteger(value) && value >= min && value <= max; }
+    function matchesFilter(city) { return state.filter === 'all' || city.kind === state.filter; }
+    function filterButton(target) {
+        return !!target && Object.keys(FILTERS).some(function (key) { return target === node('hd-mini-map-filter-' + key); });
+    }
+    function chooseFilter(value) {
+        if (!Object.prototype.hasOwnProperty.call(FILTERS, value)) { return; }
+        poll();
+        if (!state.open || !state.data || state.committed === state.owner) { return; }
+        var oldPress = state.pressed;
+        retireInput('filter');
+        // Keep an already pressed PC control stale until its release is seen.
+        if (!mobileHost && oldPress && !filterButton(oldPress.target)) { state.pressed = oldPress; }
+        state.filter = value; state.paint = '';
+        render();
+    }
     function token(value) { return value ? JSON.stringify(value._mobileKey ?
         [value.generation, value.seq, value.mapInputSeq, value._mobileKey, value._libraryGeneration] :
         [value.generation, value.seq, value.mapInputSeq]) : ''; }
@@ -103,10 +119,16 @@
         }
         var back = node('hd-mini-map-return');
         if (back) { back.disabled = state.committed === state.owner; }
+        var filters = node('hd-mini-map-filters');
+        if (filters) { filters.hidden = !state.data; }
+        Object.keys(FILTERS).forEach(function (key) {
+            var button = node('hd-mini-map-filter-' + key);
+            if (button) { button.disabled = !state.data || state.committed === state.owner; }
+        });
     }
     function close() {
         state.epoch += 1;
-        state.open = false; state.owner = ''; state.native = state.data = null;
+        state.open = false; state.owner = ''; state.native = state.data = null; state.filter = 'all';
         state.ownerData = null; state.grant = null;
         if (mobileHost) { state.pressed = null; }
         state.paint = ''; chrome();
@@ -124,6 +146,7 @@
         if (!rect.width || !rect.height) { state.paint = ''; return; }
         canvas.width = Math.round(rect.width * dpr); canvas.height = Math.round(rect.height * dpr);
         var ctx = canvas.getContext('2d');
+        ctx.globalAlpha = 1;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.fillStyle = '#16242b'; ctx.fillRect(0, 0, rect.width, rect.height);
         var scale = Math.min(rect.width / data.width, rect.height / data.height),
@@ -133,26 +156,40 @@
             data.paintEnvironment(ctx, { x: x, y: y, w: data.width * scale, h: data.height * scale });
         }
         data.cities.forEach(function (city) {
+            ctx.globalAlpha = matchesFilter(city) ? 1 : 0.2;
             var cx = x + city.x * scale, cy = y + city.y * scale;
             var current = state.native.city1 === city.index + 1;
             ctx.beginPath(); ctx.arc(cx, cy, current ? 7 : 4, 0, Math.PI * 2);
             ctx.fillStyle = city.color; ctx.fill(); ctx.lineWidth = current ? 2.5 : 1;
             ctx.strokeStyle = current ? '#fff5ce' : '#0c1725'; ctx.stroke();
         });
+        ctx.globalAlpha = 1;
     }
     function render() {
         var list = node('hd-mini-map-cities'), summary = node('hd-mini-map-summary'),
             body = node('hd-mini-map-content'), fallback = node('hd-mini-map-fallback');
         if (body) { body.hidden = !state.data; }
         if (fallback) { fallback.hidden = !!state.data; }
+        var matches = state.data ? state.data.cities.filter(matchesFilter) : [];
+        var filters = node('hd-mini-map-filters');
+        if (filters) { filters.hidden = !state.data; }
+        Object.keys(FILTERS).forEach(function (key) {
+            var button = node('hd-mini-map-filter-' + key);
+            if (!button) { return; }
+            var count = state.data ? state.data.cities.filter(function (city) { return key === 'all' || city.kind === key; }).length : 0;
+            button.textContent = FILTERS[key] + '（' + count + '）';
+            button.setAttribute('aria-pressed', state.filter === key ? 'true' : 'false');
+            button.disabled = !state.data || state.committed === state.owner;
+        });
         var selected = state.data && state.data.cities.find(function (city) { return city.index + 1 === state.native.city1; });
-        if (summary) { summary.textContent = state.data ? '全部 ' + state.data.cities.length + ' 座城池' +
+        if (summary) { summary.textContent = state.data ? '匹配 ' + matches.length + ' / ' + state.data.cities.length + ' 座城池' +
             (selected ? ' · 当前位置：' + selected.name : ' · 当前游标未在城池上') : '请在经典画面查看当前小地图。'; }
         var signature = JSON.stringify([state.owner, state.data && state.data.generation,
-            state.data && state.data.cities, state.native.city1]);
+            state.data && state.data.cities, state.native.city1, state.filter]);
         if (list && state.paint !== signature) {
-            list.textContent = '';
-            if (state.data) { state.data.cities.forEach(function (city) {
+            list.textContent = state.data && !matches.length ? '暂无匹配城池' : '';
+            list.setAttribute('aria-label', FILTERS[state.filter] + '城池');
+            if (state.data) { matches.forEach(function (city) {
                 var item = document.createElement('li'), dot = document.createElement('span'), name = document.createElement('span');
                 item.setAttribute('data-hd-mini-city', String(city.index));
                 item.className = city.index + 1 === state.native.city1 ? 'is-current' : '';
@@ -177,11 +214,11 @@
             state.epoch++; state.grant = null;
             if (mobileHost) { state.pressed = null; }
             state.owner = owner; state.committed = '';
-            state.showLcd = !data; state.paint = '';
+            state.showLcd = !data; state.paint = ''; state.filter = 'all';
         }
         state.ownerData = mobileHost ? value._mobileData : null;
         state.open = true; state.native = value; state.data = data;
-        if (!data) { state.showLcd = true; }
+        if (!data) { state.showLcd = true; state.filter = 'all'; }
         chrome(); render();
     }
     function returnKey(code, owner) {
@@ -304,6 +341,12 @@
         // consumed until C retires the exact overlay, never becoming movement.
         global.addEventListener('keydown', function (event) {
             var live = readNative();
+            if (live && state.open && filterButton(event.target)) {
+                // Enter/Space activate the local button; Tab keeps native focus navigation.
+                if (!event.isComposing && event.keyCode !== 229 && [9, 13, 32].indexOf(event.keyCode) < 0 &&
+                    (keys[event.keyCode] != null || event.keyCode >= 48 && event.keyCode <= 57)) { bayeConsumeKeyEvent(event); }
+                return;
+            }
             if (!live || event.isComposing || event.keyCode === 229 ||
                 typeof global.bayeInputIgnored === 'function' && bayeInputIgnored(event)) { return; }
             var code = event.keyCode >= 48 && event.keyCode <= 57 ? 0x40 + event.keyCode - 48 : keys[event.keyCode];
@@ -314,6 +357,12 @@
             if (!event.repeat) { returnKey(code, token(live)); }
         }, true);
         var root = node('hd-mini-map');
+        Object.keys(FILTERS).forEach(function (key) {
+            var button = node('hd-mini-map-filter-' + key);
+            if (button) { button.addEventListener('click', function (event) {
+                event.preventDefault(); event.stopPropagation(); chooseFilter(key);
+            }); }
+        });
         root.addEventListener('pointerdown', function (event) {
             if (mobileHost) { return; }
             state.pressed = { owner: state.owner, epoch: state.epoch, target: event.target };
@@ -364,5 +413,6 @@
         debugSnapshot: function () { return { open: state.open, owner: state.owner, native: state.native,
             presentationEpoch: state.epoch, mobileHost: !!mobileHost, retireReason: state.retireReason,
             showLcd: state.showLcd, complete: !!state.data, committed: state.committed === state.owner,
+            filter: state.filter, matchingCities: state.data ? state.data.cities.filter(matchesFilter).length : 0,
             cities: state.data ? state.data.cities : [] }; } };
 })(window);

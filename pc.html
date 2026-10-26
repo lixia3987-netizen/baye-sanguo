@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261026resources1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20261008j"/>
     <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20261024king1"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261008k"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261026filter1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261008k"/>
     <link rel="stylesheet" type="text/css" href="css/hd-spe.css?ver=20261010c"/>
     <link rel="stylesheet" type="text/css" href="css/hd-portraits.css?ver=20261008i"/>
@@ -213,6 +213,12 @@
     <section class="hd-mini-map-stage" role="dialog" aria-modal="true" aria-labelledby="hd-mini-map-title">
         <h2 id="hd-mini-map-title">地图概览</h2>
         <p id="hd-mini-map-summary" class="hd-mini-map-summary"></p>
+        <div id="hd-mini-map-filters" class="hd-mini-map-filters" role="group" aria-label="按城池归属筛选" hidden>
+            <button id="hd-mini-map-filter-all" type="button" aria-pressed="true">全部</button>
+            <button id="hd-mini-map-filter-owned" type="button" aria-pressed="false">我方</button>
+            <button id="hd-mini-map-filter-neutral" type="button" aria-pressed="false">他方</button>
+            <button id="hd-mini-map-filter-empty" type="button" aria-pressed="false">空城</button>
+        </div>
         <div id="hd-mini-map-content" class="hd-mini-map-content">
             <canvas id="hd-mini-map-canvas" class="hd-mini-map-canvas" aria-label="全图城池位置"></canvas>
             <ul id="hd-mini-map-cities" class="hd-mini-map-cities" aria-label="全部城池"></ul>
@@ -322,7 +328,7 @@
 <script src="js/hd-lib-identity.js?ver=20261008i"></script>
 <script src="js/hd-overworld-probe.js?ver=20260923j"></script>
 <script src="js/hd-overworld-layers.js?ver=20261008l"></script>
-<script src="js/hd-minimap.js?ver=20261011a"></script>
+<script src="js/hd-minimap.js?ver=20261026filter1"></script>
 <script src="js/hd-overworld.js?ver=20261011d"></script>
 <script src="js/hd-city-menu.js?ver=20261026surrender1"></script>
     <script src="js/hd-battle-terrain.js?ver=20261008i"></script>

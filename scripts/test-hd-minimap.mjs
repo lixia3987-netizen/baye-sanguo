@@ -6,22 +6,37 @@ import { createHash } from 'node:crypto';
 
 const source = fs.readFileSync(new URL('../js/hd-minimap.js', import.meta.url), 'utf8');
 function fixture({ canvasRect } = {}) {
-    const listeners = {}, keys = [], draws = [], elements = new Map();
-    function element(id = '') {
+    const listeners = {}, keys = [], draws = [], markers = [], elements = new Map();
+    let arc = null;
+    const canvasContext = { globalAlpha: 1, setTransform(){}, fillRect(){},
+        drawImage(...v){draws.push(v);}, beginPath(){},
+        arc(...args){arc=args;}, fill(){},
+        stroke(){markers.push({arc:[...arc],alpha:this.globalAlpha,fill:this.fillStyle,
+            stroke:this.strokeStyle,lineWidth:this.lineWidth});} };
+    function element(id = '', tagName = 'DIV') {
         const attrs = {}, classes = new Set(), handlers = {};
-        const value = { id, hidden: false, disabled: false, textContent: '', style: {}, children: [], handlers,
+        const value = { id, tagName, hidden: false, disabled: false, style: {}, children: [], handlers,
             setAttribute(k,v) { attrs[k]=v; }, getAttribute(k) { return attrs[k]; },
             classList: { toggle(k,on) { on ? classes.add(k) : classes.delete(k); }, contains:k=>classes.has(k) },
             addEventListener(k,fn) { const previous=handlers[k];handlers[k]=previous?event=>{previous(event);fn(event);}:fn; },
             appendChild(child) { child.parentElement=this;this.children.push(child); },
             contains: other=>{for(let p=other;p;p=p.parentElement)if(p===value)return true;return false;},
-            closest:()=>value, getBoundingClientRect:()=>({left:0,top:0,width:480,height:500}),
-            getContext:()=>({ setTransform(){}, fillRect(){}, drawImage(...v){draws.push(v);},
-                beginPath(){},arc(){},fill(){},stroke(){} }) };
+            closest(selector){for(let p=value;p;p=p.parentElement)if(p.tagName.toLowerCase()===selector)return p;return null;},
+            getBoundingClientRect:()=>({left:0,top:0,width:480,height:500}), getContext:()=>canvasContext };
+        let text = '';
+        Object.defineProperty(value,'textContent',{get(){return text+value.children.map(child=>child.textContent).join('');},
+            set(next){text=String(next);for(const child of value.children)child.parentElement=null;value.children=[];}});
         return value;
     }
     for (const id of ['hd-mini-map','hd-mini-map-classic','hd-mini-map-return','hd-mini-map-canvas',
-        'hd-mini-map-content','hd-mini-map-summary','hd-mini-map-cities','hd-mini-map-fallback']) elements.set(id,element(id));
+        'hd-mini-map-content','hd-mini-map-summary','hd-mini-map-cities','hd-mini-map-fallback','hd-mini-map-filters',
+        'hd-mini-map-filter-all','hd-mini-map-filter-owned','hd-mini-map-filter-neutral','hd-mini-map-filter-empty']) {
+        elements.set(id,element(id,/hd-mini-map-(?:filter-|classic$|return$)/.test(id)?'BUTTON':'DIV'));
+    }
+    const root=elements.get('hd-mini-map'),filters=elements.get('hd-mini-map-filters');
+    for(const [id,value] of elements)if(value!==root) {
+        (id.startsWith('hd-mini-map-filter-')?filters:root).appendChild(value);
+    }
     if (canvasRect) elements.get('hd-mini-map-canvas').getBoundingClientRect=canvasRect;
     const native={protocolVersion:1,active:1,complete:1,custom:0,defaultDraw:1,seq:4,generation:7,
         detailGeneration:7,mapInputSeq:9,resourceId:75,imageIndex:0,width:84,height:64,mask:0,city1:1};
@@ -31,7 +46,7 @@ function fixture({ canvasRect } = {}) {
             engineX:i%10,engineY:i%8,belong:1,kind:'owned',color:'#3d8bfd'}))};
     let mode='hd-map',hidden=false,reportActive=0,menuActive=0,qtyActive=0,assetsReady=true;
     const document={get hidden(){return hidden;},documentElement:element(),getElementById:id=>elements.get(id),
-        createElement:()=>element(),addEventListener(k,fn){listeners['document:'+k]=fn;}};
+        createElement:tag=>element('',tag.toUpperCase()),addEventListener(k,fn){listeners['document:'+k]=fn;}};
     const context=vm.createContext({document,Number,JSON,console,
         baye:{hd:{ready:()=>true,miniMap:()=>native,march:()=>({pick:1,mapInputSeq:9}),report:()=>({active:reportActive}),
             menuItems:()=>({active:menuActive}),qty:()=>({active:qtyActive}),fight:()=>({active:0})}},
@@ -40,11 +55,17 @@ function fixture({ canvasRect } = {}) {
         bayeConsumeKeyEvent:e=>{e.preventDefault();e.consumed=true;},
         addEventListener(k,fn){listeners[k]=fn;},setInterval:()=>1,devicePixelRatio:1});
     context.window=context;vm.runInContext(source,context);const api=context.BayeHdMiniMap;api.start();
-    function key(code,repeat=false) {
-        const event={keyCode:code,repeat,preventDefault(){this.defaultPrevented=true;}};
+    function key(code,repeat=false,options={}) {
+        const event={keyCode:code,repeat,preventDefault(){this.defaultPrevented=true;},...options};
         listeners.keydown(event);return event;
     }
-    return {api,native,data,keys,draws,elements,listeners,key,context,
+    function localClick(target) {
+        const event={target,isTrusted:true,detail:1,preventDefault(){this.defaultPrevented=true;},
+            stopPropagation(){this.stopped=true;}};
+        for(let p=target;p&&!event.stopped;p=p.parentElement)p.handlers.click?.(event);
+        return event;
+    }
+    return {api,native,data,keys,draws,markers,canvasContext,elements,listeners,key,localClick,context,
         mode:v=>{mode=v;},hidden:v=>{hidden=v;},report:v=>{reportActive=v;},menu:v=>{menuActive=v;},qty:v=>{qtyActive=v;},assets:v=>{assetsReady=v;}};
 }
 test('native mini-map owner displays all authorized cities without sending game input',()=>{
@@ -301,4 +322,107 @@ for(const problem of ['assets','custom','incomplete','unknown-geography'])test('
     h.mirror();h.api.poll();assert.equal(h.api.debugSnapshot().complete,false);assert.equal(h.api.debugSnapshot().showLcd,true);
     assert.equal(h.elements.get('hd-mini-map').hidden,true);assert.equal(h.api.getInputTicket(),null);h.tap();assert.deepEqual(h.keys,[]);
     assert.equal(h.key(27).consumed,undefined,'physical LCD keeps its original keyboard handler');
+});
+
+function categorizedOverview(mobile) {
+    const h=mobile?mobileFixture():fixture();
+    h.data.cities.forEach((city,index)=>{
+        city.kind=index<10?'owned':index<22?'neutral':index<30?'empty':'unknown';
+        city.belong=index<10?1:index<22?2:index<30?0:null;
+    });
+    h.api.poll();
+    h.filter=value=>h.localClick(h.elements.get('hd-mini-map-filter-'+value));
+    h.cityIds=()=>h.elements.get('hd-mini-map-cities').children.map(row=>Number(row.getAttribute('data-hd-mini-city')));
+    return h;
+}
+
+test('local overview categories filter authorized cities and counts on PC and mobile without native input',()=>{
+    for(const mobile of [false,true]) {
+        const h=categorizedOverview(mobile),native=JSON.stringify(h.native),cities=JSON.stringify(h.data.cities),
+            owner=h.api.debugSnapshot().owner;
+        const cases=[['all',Array.from({length:38},(_,i)=>i),'全部'],
+            ['owned',Array.from({length:10},(_,i)=>i),'我方'],
+            ['neutral',Array.from({length:12},(_,i)=>i+10),'他方'],
+            ['empty',Array.from({length:8},(_,i)=>i+22),'空城']];
+        for(const [kind,ids,label] of cases) {
+            h.filter(kind);
+            assert.deepEqual(h.cityIds(),ids);
+            assert.equal(h.elements.get('hd-mini-map-summary').textContent,
+                '匹配 '+ids.length+' / 38 座城池 · 当前位置：city0');
+            assert.equal(h.elements.get('hd-mini-map-cities').getAttribute('aria-label'),label+'城池');
+            for(const key of ['all','owned','neutral','empty'])assert.equal(
+                h.elements.get('hd-mini-map-filter-'+key).getAttribute('aria-pressed'),String(key===kind));
+            assert.equal(h.api.debugSnapshot().owner,owner);
+            assert.equal(h.api.debugSnapshot().committed,false);
+        }
+        assert.equal(h.elements.get('hd-mini-map-filter-all').textContent,'全部（38）');
+        assert.equal(h.elements.get('hd-mini-map-filter-neutral').textContent,'他方（12）');
+        h.filter('all');assert.deepEqual(h.cityIds().slice(-8),[30,31,32,33,34,35,36,37]);
+        assert.deepEqual(h.keys,[]);assert.equal(JSON.stringify(h.native),native);
+        assert.equal(JSON.stringify(h.data.cities),cities);if(mobile)assert.deepEqual(h.writes,[]);
+    }
+});
+
+test('local category emphasis preserves all map points and the real current-city marker',()=>{
+    for(const mobile of [false,true]) {
+        const h=categorizedOverview(mobile),native=JSON.stringify(h.native);
+        h.filter('empty');
+        const points=h.markers.slice(-38);
+        assert.equal(points.length,38);
+        for(let i=0;i<38;i++)assert.equal(points[i].alpha,i>=22&&i<30?1:0.2);
+        assert.equal(points[0].arc[2],7);assert.equal(points[0].lineWidth,2.5);
+        assert.equal(points[0].stroke,'#fff5ce');
+        assert.ok(points.slice(1).every(point=>point.arc[2]===4&&point.lineWidth===1));
+        assert.equal(h.canvasContext.globalAlpha,1);
+        assert.equal(h.native.city1,1);assert.equal(h.api.debugSnapshot().native.city1,1);
+        assert.match(h.elements.get('hd-mini-map-summary').textContent,/当前位置：city0$/);
+        assert.ok(h.elements.get('hd-mini-map-cities').children.every(row=>row.tagName==='LI'&&!row.handlers.click));
+        assert.deepEqual(h.keys,[]);assert.equal(JSON.stringify(h.native),native);
+    }
+});
+
+test('changing a local category retires old Return presses and grants while preserving its one-shot commit',()=>{
+    const pc=categorizedOverview(false),root=pc.elements.get('hd-mini-map'),back=pc.elements.get('hd-mini-map-return'),
+        owner=pc.api.debugSnapshot().owner,native=JSON.stringify(pc.native);
+    root.handlers.pointerdown({target:back});pc.filter('neutral');root.handlers.click({target:back});
+    assert.deepEqual(pc.keys,[]);assert.equal(pc.api.debugSnapshot().owner,owner);
+    root.handlers.pointerdown({target:back});root.handlers.click({target:back});
+    assert.deepEqual(pc.keys,[40]);assert.equal(pc.api.debugSnapshot().committed,true);
+    pc.filter('empty');assert.equal(pc.elements.get('hd-mini-map-filter-neutral').getAttribute('aria-pressed'),'true');
+    root.handlers.click({target:back});assert.deepEqual(pc.keys,[40]);assert.equal(JSON.stringify(pc.native),native);
+    for(const completedUp of [false,true]) {
+        const h=categorizedOverview(true),before=JSON.stringify(h.native),owner=h.api.debugSnapshot().owner;
+        h.down();if(completedUp)h.up();h.filter('neutral');if(!completedUp)h.up();h.click();
+        assert.deepEqual(h.keys,[]);assert.equal(h.api.debugSnapshot().owner,owner);
+        h.tap();assert.deepEqual(h.keys,[40]);assert.equal(h.api.debugSnapshot().committed,true);
+        h.filter('empty');h.tap();assert.deepEqual(h.keys,[40]);
+        assert.equal(h.elements.get('hd-mini-map-filter-neutral').getAttribute('aria-pressed'),'true');
+        assert.equal(JSON.stringify(h.native),before);assert.deepEqual(h.writes,[]);
+    }
+});
+
+test('local filters keep keyboard ownership, reset on a new overview and disable for unsupported data',()=>{
+    for(const mobile of [false,true]) {
+        const h=categorizedOverview(mobile),button=h.elements.get('hd-mini-map-filter-owned');
+        for(const code of [9,13,32])assert.equal(h.key(code,false,{target:button}).consumed,undefined);
+        for(const code of [27,37,38,39,40,53,70,72,83])assert.equal(h.key(code,false,{target:button}).consumed,true);
+        assert.deepEqual(h.keys,[]);h.filter('owned');
+        h.native.active=0;if(mobile)h.mirror();h.api.poll();assert.equal(h.api.isOpen(),false);
+        h.native.active=1;h.native.seq++;if(mobile)h.mirror();h.api.poll();
+        assert.deepEqual(h.cityIds(),Array.from({length:38},(_,i)=>i));
+        assert.equal(h.elements.get('hd-mini-map-filter-all').getAttribute('aria-pressed'),'true');
+        h.filter('owned');
+        for(let i=0;i<10;i++){h.data.cities[i].kind='neutral';h.data.cities[i].belong=2;}
+        h.api.poll();assert.deepEqual(h.cityIds(),[]);
+        assert.equal(h.elements.get('hd-mini-map-cities').textContent,'暂无匹配城池');
+        assert.match(h.elements.get('hd-mini-map-summary').textContent,/^匹配 0 \/ 38 座城池/);
+        h.native.custom=1;if(mobile)h.mirror();h.api.poll();
+        assert.equal(h.elements.get('hd-mini-map-filters').hidden,true);
+        for(const key of ['all','owned','neutral','empty'])assert.equal(h.elements.get('hd-mini-map-filter-'+key).disabled,true);
+        h.filter('neutral');assert.equal(h.api.debugSnapshot().complete,false);assert.deepEqual(h.keys,[]);
+        h.native.custom=0;if(mobile)h.mirror();h.api.poll();
+        assert.equal(h.elements.get('hd-mini-map-filters').hidden,false);
+        assert.equal(h.elements.get('hd-mini-map-filter-all').getAttribute('aria-pressed'),'true');
+        assert.deepEqual(h.cityIds(),Array.from({length:38},(_,i)=>i));if(mobile)assert.deepEqual(h.writes,[]);
+    }
 });

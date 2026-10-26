@@ -7,6 +7,14 @@
     background: linear-gradient(145deg, #273345, #14202d); box-shadow: 0 20px 60px #0008; }
 .hd-mini-map h2 { margin: 0; color: #f0d99f; font-size: 28px; }
 .hd-mini-map-summary { margin: 5px 0 12px; color: #bac8d8; font-size: 16px; }
+.hd-mini-map-filters { display: flex; gap: 8px; flex-shrink: 0; margin: 0 0 10px; }
+.hd-mini-map .hd-mini-map-filters button { min-width: 0; min-height: 44px; padding: 0 12px; touch-action: manipulation; }
+.hd-mini-map-filters button[aria-pressed="true"] { background: #725d35; color: #fff2ca; box-shadow: inset 0 0 0 1px #d8bc78; }
+.hd-mini-map-filters button:focus-visible { outline: 2px solid #fff2ca; outline-offset: 2px; }
+@media (max-width: 900px) {
+    .hd-mini-map-filters { gap: 6px; margin-bottom: 6px; }
+    .hd-mini-map .hd-mini-map-filters button { flex: 1; padding: 0 8px; font-size: 13px; }
+}
 .hd-mini-map-content { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px;
     min-height: 0; height: min(560px, calc(100vh - 210px)); }
 .hd-mini-map-canvas { width: 100%; height: 100%; min-height: 0; border-radius: 10px; }
