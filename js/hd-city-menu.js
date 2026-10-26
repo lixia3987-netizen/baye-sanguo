@@ -5261,6 +5261,28 @@
             return;
         }
         appendHudGroups(box, state.cityDetails.groups);
+        var inventory = null;
+        if (state.open && state.layer === 'status' && !document.hidden && shouldShowHd() &&
+            global.BayeHdCityInventory && typeof BayeHdCityInventory.read === 'function') {
+            inventory = BayeHdCityInventory.read(state.cityIndex);
+        }
+        if (inventory && state.open && state.layer === 'status' && !document.hidden &&
+            inventory.cityIndex === state.cityIndex && shouldShowHd()) {
+            var stock = document.createElement('section');
+            stock.className = 'hd-city-menu-info-group'; stock.setAttribute('data-hd-city-inventory','1');
+            var stockTitle = document.createElement('h3');
+            stockTitle.textContent = '已发现城内道具（' + inventory.total + '件）'; stock.appendChild(stockTitle);
+            var stockNote = document.createElement('p'); stockNote.className = 'hd-city-menu-info-note';
+            stockNote.textContent = inventory.total ? '已发现并留在城内的道具。' : '本城暂无已发现的道具。';
+            stock.appendChild(stockNote);
+            var stockRows = document.createElement('div'); stockRows.className = 'hd-city-menu-info-rows';
+            inventory.rows.forEach(function (item) {
+                var stockRow = appendStat(stockRows,item.name,item.count + ' 件');
+                stockRow.setAttribute('data-hd-city-tool',String(item.id));
+                stockRow.setAttribute('data-hd-city-tool-count',String(item.count));
+            });
+            stock.appendChild(stockRows); box.appendChild(stock);
+        }
         var plans = null;
         if (state.open && state.layer === 'status' && !document.hidden && shouldShowHd() &&
             global.BayeHdCityPlans && typeof BayeHdCityPlans.read === 'function') {

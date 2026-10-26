@@ -2887,3 +2887,124 @@ test('arranged person targets withdraw malformed or torn references, names and r
         assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
     }
 });
+
+// Inventory uses only found city-queue instances. Equipment and undiscovered
+// IDs are deliberately outside this read-only status surface.
+function inventoryHarness() {
+    const h = plansHarness();
+    h.goods = Array(2000).fill(0xffff); h.raw.g_GoodsQueue = h.goods;
+    Object.assign(h.city, {ToolQueue: 40, Tools: 0});
+    h.inventoryNames = new Map(Array.from({length: 33}, (_, id) => [id, '道具' + id]));
+    h.inventoryNameCalls = []; let nameHook = null, toolCount = 33;
+    h.context.baye.getToolCount = () => toolCount;
+    h.context.baye.getToolName = id => {
+        h.inventoryNameCalls.push(id); if (nameHook) nameHook(id); return h.inventoryNames.get(id) ?? '';
+    };
+    h.inventoryNameHook = value => {nameHook = value;}; h.inventoryToolCount = value => {toolCount = value;};
+    h.inventory = (values, start = 40) => {
+        Object.assign(h.city, {ToolQueue: start, Tools: values.length});
+        values.forEach((value, index) => {h.goods[start + index] = value;});
+    };
+    h.renderInventory = () => h.hud.renderStatus();
+    vm.runInContext(read('js/hd-city-inventory.js'), h.context, {filename: 'js/hd-city-inventory.js'});
+    h.readInventory = (cityIndex = 0) => {
+        const value = h.context.BayeHdCityInventory.read(cityIndex); return value === null ? null : plain(value);
+    };
+    return h;
+}
+function inventoryPane(h) {return h.nodes['hd-city-menu-status'].querySelector('[data-hd-city-inventory]');}
+function inventoryRows(h) {
+    const pane = inventoryPane(h); return pane ? pane.querySelectorAll('[data-hd-city-tool]').map(row => {
+        assert.equal(row.children[0].tagName, 'SPAN'); assert.equal(row.children[1].tagName, 'STRONG');
+        return {id: Number(row.getAttribute('data-hd-city-tool')), count: Number(row.getAttribute('data-hd-city-tool-count')),
+            name: row.children[0].textContent, value: row.children[1].textContent};
+    }) : [];
+}
+function assertInventoryAbsent(h, reason) {
+    assert.equal(inventoryPane(h), null, reason); assert.deepEqual(h.keys, [], reason); assert.deepEqual(h.writes, [], reason);
+}
+
+test('discovered city inventory preserves full names, first occurrence and per-ID quantities without counting hidden duplicates', () => {
+    const h = inventoryHarness(), lastName = '三十二号完整道具名称甲乙丙丁戊己庚辛壬癸';
+    h.inventoryNames.set(0, '零号完整道具'); h.inventoryNames.set(32, lastName);
+    h.inventoryNames.set(1, '同名道具'); h.inventoryNames.set(2, '同名道具');
+    h.inventory([0x8020, 32, 0x8000, 0x8020, 0x8001, 0x8002, 0x7fff, 0, 0x8001]);
+    h.cities[1].ToolQueue = 300; h.cities[1].Tools = 2; h.goods[300] = 0x8009; h.goods[301] = 0x8020;
+    const before = plain(h.raw), menu = plain(h.menu); h.renderInventory();
+    assert.equal(inventoryPane(h)?.tagName, 'SECTION'); assert.equal(inventoryPane(h).getAttribute('data-hd-city-inventory'), '1');
+    assert.equal(inventoryPane(h).querySelector('h3').textContent, '已发现城内道具（6件）');
+    assert.deepEqual(inventoryRows(h), [{id: 32, name: lastName, count: 2, value: '2 件'},
+        {id: 0, name: '零号完整道具', count: 1, value: '1 件'}, {id: 1, name: '同名道具', count: 2, value: '2 件'},
+        {id: 2, name: '同名道具', count: 1, value: '1 件'}]);
+    assert.deepEqual(h.readInventory(), {cityIndex: 0, total: 6, rows: [{id: 32, name: lastName, count: 2},
+        {id: 0, name: '零号完整道具', count: 1}, {id: 1, name: '同名道具', count: 2}, {id: 2, name: '同名道具', count: 1}]});
+    assert.deepEqual([...new Set(h.inventoryNameCalls)], [32, 0, 1, 2]);
+    for (const id of [32, 0, 1, 2]) assert.ok(h.inventoryNameCalls.filter(value => value === id).length >= 2);
+    for (const tag of ['button', 'input', 'a']) assert.equal(inventoryPane(h).querySelectorAll(tag).length, 0);
+    assert.doesNotMatch(inventoryPane(h).textContent, /32767|65535|未发现|隐藏|TimeCount/);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('empty, hidden-only, foreign and out-of-range inventory never ask for hidden names or equipment attributes', () => {
+    for (const [values, start] of [[[], 40], [[], 2000], [[0, 32, 0x7fff], 40]]) {
+        const h = inventoryHarness(); h.inventory(values, start); let outsideReads = 0, propertyReads = 0;
+        h.context.baye.hd.toolDetails = () => {propertyReads++; throw Error('inventory does not inspect tool properties');};
+        for (const field of ['Equip', 'Tool1', 'Tool2']) Object.defineProperty(h.people[0], field, {
+            get() {propertyReads++; throw Error('equipped tools are not city inventory');}, configurable: true});
+        for (const offset of [0, 1999]) Object.defineProperty(h.goods, offset, {
+            get() {outsideReads++; throw Error('another range was inspected');}, configurable: true});
+        h.renderInventory();
+        assert.ok(inventoryPane(h)); assert.equal(inventoryPane(h).querySelector('h3').textContent, '已发现城内道具（0件）');
+        assert.match(inventoryPane(h).textContent, /本城暂无已发现的道具。/); assert.deepEqual(inventoryRows(h), []);
+        assert.deepEqual(h.readInventory(), {cityIndex: 0, total: 0, rows: []});
+        assert.deepEqual(h.inventoryNameCalls, []); assert.equal(outsideReads, 0); assert.equal(propertyReads, 0);
+        assert.doesNotMatch(inventoryPane(h).textContent, /32767|65535|未发现|隐藏|库存3/);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    const foreign = inventoryHarness(); foreign.inventory([0x8000]); foreign.city.Belong = 2;
+    foreign.renderInventory(); assert.equal(foreign.readInventory(), null); assertInventoryAbsent(foreign, 'selected city is not player owned');
+    assert.deepEqual(foreign.inventoryNameCalls, []);
+    const other = inventoryHarness(); other.inventory([0x8000]);
+    other.cities[1].ToolQueue = 300; other.cities[1].Tools = 1; other.goods[300] = 0x8009;
+    assert.equal(other.readInventory(1), null, 'a public read cannot inspect a city other than the current ROOT owner');
+    other.hud.state.cityIndex = 1; other.renderInventory(); assertInventoryAbsent(other, 'HD city and native current city disagree');
+    assert.deepEqual(other.inventoryNameCalls, []);
+});
+
+test('city inventory rejects invalid found IDs, bounds and torn sources, then recovers after read-only reentry', () => {
+    const invalid = [h => h.inventory([0xffff]), h => h.inventory([0x8021]), h => h.inventory([-1]),
+        h => h.inventory([65536]), h => h.inventory(['32768']), h => h.inventory([NaN]),
+        h => h.city.ToolQueue = -1, h => h.city.ToolQueue = 1.5, h => h.city.ToolQueue = '40',
+        h => h.city.ToolQueue = 65536, h => h.city.Tools = -1, h => h.city.Tools = 1.5,
+        h => h.city.Tools = '1', h => h.city.Tools = 65536,
+        h => {h.city.ToolQueue = 1999; h.city.Tools = 2;}, h => {h.city.ToolQueue = 2000; h.city.Tools = 1;},
+        h => h.goods.pop(), h => h.goods.push(0), h => h.cities.pop(), h => delete h.raw.g_GoodsQueue,
+        h => h.inventoryToolCount(32), h => h.inventoryToolCount(34), h => h.inventoryToolCount('33')];
+    for (const change of invalid) {
+        const h = inventoryHarness(); h.inventory([0x8000]); change(h); h.renderInventory();
+        assert.equal(h.readInventory(), null); assertInventoryAbsent(h, 'invalid inventory is not published as an empty list');
+    }
+    const seed = inventoryHarness(); seed.inventory([0x8000]); seed.renderInventory();
+    const last = seed.inventoryNameCalls.filter(id => id === 0).length; assert.ok(last >= 2);
+    const drifts = [h => h.goods[40] = 0, h => h.goods[40] = 0x8020, h => h.city.ToolQueue++, h => h.city.Tools++,
+        h => h.raw.g_GoodsQueue = h.goods.slice(), h => h.raw.g_Cities = h.cities.slice(),
+        h => h.cities[0] = {...h.city}, h => h.context.baye.data = h.readonlyPlans({...h.raw}),
+        h => h.identity.generation++, h => h.identity.sha256 = 'changed-library',
+        h => {h.raw.g_hdMenuSeq++; h.menu.seq++;}, h => h.raw.g_hdMenuIndex = 0,
+        h => h.raw.g_hdMapCity = 2, h => h.city.Belong = 2, h => h.inventoryNames.set(0, '更新道具名'),
+        h => h.context.baye.getToolCount = () => 33,
+        h => {const name = h.context.baye.getToolName; h.context.baye.getToolName = id => name(id);},
+        h => h.context.baye.hooks = {}];
+    for (const change of drifts) {
+        const h = inventoryHarness(); h.inventory([0x8000]); let calls = 0, fired = false;
+        h.inventoryNameHook(id => {if (id === 0 && ++calls === last) {fired = true; change(h);}});
+        h.renderInventory(); assert.equal(fired, true); assertInventoryAbsent(h, 'last name callback changed the sampled inventory');
+    }
+    const h = inventoryHarness(); h.inventory([0x8000]); let reentered = false;
+    h.inventoryNameHook(() => {if (!reentered) {reentered = true; h.renderInventory();}});
+    h.renderInventory(); assert.equal(reentered, true); assertInventoryAbsent(h, 'synchronous status render reentry');
+    h.inventoryNameHook(null); h.renderInventory();
+    assert.deepEqual(inventoryRows(h), [{id: 0, name: '道具0', count: 1, value: '1 件'}]);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
