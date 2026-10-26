@@ -736,6 +736,7 @@
 /scripts/test-hd-minimap.mjs text eol=lf
 /js/hd-city-plans.js text eol=lf
 /js/hd-battle-status.js text eol=lf
+/js/hd-skill-hints.js text eol=lf
 /js/hd-battle.js text eol=lf
 /css/hd-battle.css text eol=lf
 /css/hd-mobile.css text eol=lf

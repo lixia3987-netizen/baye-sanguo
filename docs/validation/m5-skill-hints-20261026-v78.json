@@ -1,0 +1,1007 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V78",
+  "parentCommit": "d213670ae78e8da34b3602a834a9cc66aa7fd4c4",
+  "feature": "Original skill menu MP rule costs and caster MP/terrain/weather hints",
+  "accepted": true,
+  "started": "2026-10-26T09:06:07.432Z",
+  "finished": "2026-10-26T09:06:08.861Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 262,
+  "pass": 262,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44170,
+      "sha256": "5eed2f8654eb4560e6391eaa5f371ed2a6c5219beb7be380b6e92b7b9ce13c21"
+    },
+    {
+      "path": "js/hd-battle-status.js",
+      "bytes": 4434,
+      "sha256": "64717be1119c1eaa84302dda309e10038ba087634d774831769d1ff665678d44"
+    },
+    {
+      "path": "js/hd-skill-hints.js",
+      "bytes": 9456,
+      "sha256": "e93726a452d2edbf4268d2ba7494a68983097e3563935a4d66cac2dd2a828ebe"
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 83873,
+      "sha256": "c17eaf180d601f378bbcc43cb2aaa4a51ad8c3471fb67079a6978f933761e649"
+    },
+    {
+      "path": "js/hd-mobile-battle.js",
+      "bytes": 32143,
+      "sha256": "4250784387a08cd6d27c31172af0099db6c5a722e7312ea88e2866155131dd9b"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 36222,
+      "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+    },
+    {
+      "path": "css/hd-battle.css",
+      "bytes": 7562,
+      "sha256": "1319a38189ead08b48c216d6de040e2a7fc752dd0a2f05bcbeebea677700a279"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32371,
+      "sha256": "287ce8cf0328fb84f7c1a10ad154c5736c077e8d330de4100783da6aec7bd935"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 29716,
+      "sha256": "82c11114df5da91b82dc307be963aa86317f871e5818196ffa575655a1e08544"
+    },
+    {
+      "path": "m.html",
+      "bytes": 19623,
+      "sha256": "484d4ae6897f2b7bddbe526d0708c314ae23de556eb917e631f720dd6f7e2d24"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.h",
+      "bytes": 19624,
+      "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5"
+    },
+    {
+      "path": "scripts/test-hd-battle-commands.mjs",
+      "bytes": 51235,
+      "sha256": "bf011f719bb6e81fc9b0cc932ee2bf6e64bbba9c9befd758e4181efc269b7a5f"
+    },
+    {
+      "path": "scripts/test-hd-battle-mode.mjs",
+      "bytes": 21291,
+      "sha256": "e2aa72a57fa815189b513a32f9ab9d8beaa071574a51cea95a175e9beb0ca222"
+    },
+    {
+      "path": "scripts/test-hd-battle-mobile-host.mjs",
+      "bytes": 17259,
+      "sha256": "1497765ab181e5fd3e22a7d688dd607cc29e8c9dca3c5235b92cab352e778141"
+    },
+    {
+      "path": "scripts/test-hd-mobile-battle.mjs",
+      "bytes": 52239,
+      "sha256": "30379f5a5c400b355ca8598ac036fe534b8a6d4f3d7ddc30e498b264213cb69b"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 5,
+  "fullSuiteRun": false,
+  "scope": "Four relevant battle modules including the existing C main-menu contract; no campaign, WASM rebuild or full suite",
+  "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+  "compilerVersion": 18,
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "rules": {
+    "librarySha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "libraryBytes": 207195,
+    "logicalSkillEffects": 30,
+    "effectRecordBytes": 34,
+    "useMpOffset": 6,
+    "nameResourceItems": 43,
+    "bridgeVirtualCapacity": 2000,
+    "order": [
+      "mp",
+      "caster terrain",
+      "weather"
+    ],
+    "targetLegalityPredicted": false,
+    "actualDeductionGuaranteed": false
+  },
+  "controlledLayouts": {
+    "accepted": true,
+    "kind": "Controlled static DOM/CSS ten-item layout checks; mock skills and costs, no game runtime",
+    "results": [
+      {
+        "name": "pc",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "menu": {
+            "x": 887.546875,
+            "y": 87.5,
+            "width": 280,
+            "height": 517.5
+          },
+          "note": {
+            "x": 907.546875,
+            "y": 149.5,
+            "width": 240,
+            "height": 36
+          },
+          "list": {
+            "x": 907.546875,
+            "y": 195.5,
+            "width": 240,
+            "height": 345.5
+          },
+          "action": {
+            "x": 907.546875,
+            "y": 553,
+            "width": 240,
+            "height": 36
+          },
+          "buttons": [
+            {
+              "x": 907.546875,
+              "y": 195.5,
+              "width": 240,
+              "height": 59
+            },
+            {
+              "x": 907.546875,
+              "y": 262.5,
+              "width": 240,
+              "height": 59
+            },
+            {
+              "x": 907.546875,
+              "y": 329.5,
+              "width": 240,
+              "height": 59
+            },
+            {
+              "x": 907.546875,
+              "y": 396.5,
+              "width": 240,
+              "height": 59
+            },
+            {
+              "x": 907.546875,
+              "y": 463.5,
+              "width": 240,
+              "height": 59
+            },
+            {
+              "x": 907.546875,
+              "y": 530.5,
+              "width": 240,
+              "height": 59
+            },
+            {
+              "x": 907.546875,
+              "y": 597.5,
+              "width": 240,
+              "height": 59
+            },
+            {
+              "x": 907.546875,
+              "y": 664.5,
+              "width": 240,
+              "height": 59
+            },
+            {
+              "x": 907.546875,
+              "y": 731.5,
+              "width": 240,
+              "height": 59
+            },
+            {
+              "x": 907.546875,
+              "y": 798.5,
+              "width": 240,
+              "height": 59
+            }
+          ],
+          "listScrollHeight": 662,
+          "listClientHeight": 346,
+          "horizontalOverflow": false,
+          "menuInsideViewport": true,
+          "actionInsideViewport": true,
+          "listScrollable": true,
+          "minButtonHeight": 59
+        },
+        "screenshot": "build/skill-hints-20261026-v78/pc-layout-v2.png",
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      {
+        "name": "mobile",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 651,
+            "height": 280
+          },
+          "menu": {
+            "x": 463,
+            "y": 30,
+            "width": 184,
+            "height": 194
+          },
+          "note": {
+            "x": 463,
+            "y": 54,
+            "width": 184,
+            "height": 28
+          },
+          "list": {
+            "x": 463,
+            "y": 86,
+            "width": 184,
+            "height": 90
+          },
+          "action": {
+            "x": 463,
+            "y": 180,
+            "width": 184,
+            "height": 44
+          },
+          "buttons": [
+            {
+              "x": 463,
+              "y": 86,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 139,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 192,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 245,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 298,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 351,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 404,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 457,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 510,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 563,
+              "width": 184,
+              "height": 49
+            }
+          ],
+          "listScrollHeight": 526,
+          "listClientHeight": 90,
+          "horizontalOverflow": false,
+          "menuInsideViewport": true,
+          "actionInsideViewport": true,
+          "listScrollable": true,
+          "minButtonHeight": 49
+        },
+        "screenshot": "build/skill-hints-20261026-v78/mobile-layout-v2.png",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      }
+    ],
+    "browserRuns": 2,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false
+  },
+  "retainedLayoutFailure": {
+    "accepted": false,
+    "kind": "Controlled static DOM/CSS ten-item layout checks; mock skills and costs, no game runtime",
+    "results": [
+      {
+        "name": "pc",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "menu": {
+            "x": 847.546875,
+            "y": 87.5,
+            "width": 320,
+            "height": 816
+          },
+          "note": {
+            "x": 867.546875,
+            "y": 149.5,
+            "width": 280,
+            "height": 18
+          },
+          "list": {
+            "x": 867.546875,
+            "y": 177.5,
+            "width": 280,
+            "height": 662
+          },
+          "action": {
+            "x": 867.546875,
+            "y": 851.5,
+            "width": 280,
+            "height": 36
+          },
+          "buttons": [
+            {
+              "x": 867.546875,
+              "y": 177.5,
+              "width": 280,
+              "height": 59
+            },
+            {
+              "x": 867.546875,
+              "y": 244.5,
+              "width": 280,
+              "height": 59
+            },
+            {
+              "x": 867.546875,
+              "y": 311.5,
+              "width": 280,
+              "height": 59
+            },
+            {
+              "x": 867.546875,
+              "y": 378.5,
+              "width": 280,
+              "height": 59
+            },
+            {
+              "x": 867.546875,
+              "y": 445.5,
+              "width": 280,
+              "height": 59
+            },
+            {
+              "x": 867.546875,
+              "y": 512.5,
+              "width": 280,
+              "height": 59
+            },
+            {
+              "x": 867.546875,
+              "y": 579.5,
+              "width": 280,
+              "height": 59
+            },
+            {
+              "x": 867.546875,
+              "y": 646.5,
+              "width": 280,
+              "height": 59
+            },
+            {
+              "x": 867.546875,
+              "y": 713.5,
+              "width": 280,
+              "height": 59
+            },
+            {
+              "x": 867.546875,
+              "y": 780.5,
+              "width": 280,
+              "height": 59
+            }
+          ],
+          "listScrollHeight": 662,
+          "listClientHeight": 662,
+          "horizontalOverflow": false,
+          "menuInsideViewport": false,
+          "actionInsideViewport": false,
+          "listScrollable": false,
+          "minButtonHeight": 59
+        },
+        "screenshot": "build/skill-hints-20261026-v78/pc-layout-v1.png",
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      {
+        "name": "mobile",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 651,
+            "height": 280
+          },
+          "menu": {
+            "x": 463,
+            "y": 30,
+            "width": 184,
+            "height": 194
+          },
+          "note": {
+            "x": 463,
+            "y": 54,
+            "width": 184,
+            "height": 28
+          },
+          "list": {
+            "x": 463,
+            "y": 86,
+            "width": 184,
+            "height": 90
+          },
+          "action": {
+            "x": 463,
+            "y": 180,
+            "width": 184,
+            "height": 44
+          },
+          "buttons": [
+            {
+              "x": 463,
+              "y": 86,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 139,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 192,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 245,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 298,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 351,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 404,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 457,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 510,
+              "width": 184,
+              "height": 49
+            },
+            {
+              "x": 463,
+              "y": 563,
+              "width": 184,
+              "height": 49
+            }
+          ],
+          "listScrollHeight": 526,
+          "listClientHeight": 90,
+          "horizontalOverflow": false,
+          "menuInsideViewport": true,
+          "actionInsideViewport": true,
+          "listScrollable": true,
+          "minButtonHeight": 49
+        },
+        "screenshot": "build/skill-hints-20261026-v78/mobile-layout-v1.png",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      }
+    ],
+    "browserRuns": 2,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false
+  },
+  "retainedFirstTargetedRun": {
+    "accepted": true,
+    "started": "2026-10-26T09:00:29.784Z",
+    "finished": "2026-10-26T09:00:31.381Z",
+    "processExitCode": 0,
+    "signal": null,
+    "tests": 262,
+    "pass": 262,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 44170,
+        "sha256": "5eed2f8654eb4560e6391eaa5f371ed2a6c5219beb7be380b6e92b7b9ce13c21"
+      },
+      {
+        "path": "js/hd-battle-status.js",
+        "bytes": 4434,
+        "sha256": "64717be1119c1eaa84302dda309e10038ba087634d774831769d1ff665678d44"
+      },
+      {
+        "path": "js/hd-skill-hints.js",
+        "bytes": 9359,
+        "sha256": "ebb0f0e7391b2ac7c23eeaac9a757c6fe4c0f4d348f0dfbb0a493bbecb8e101a"
+      },
+      {
+        "path": "js/hd-battle.js",
+        "bytes": 83594,
+        "sha256": "85fa7c94bc96f6abe4d75c334745bea9ce13167e35108b0a04a7c29dc82e5954"
+      },
+      {
+        "path": "js/hd-mobile-battle.js",
+        "bytes": 32143,
+        "sha256": "4250784387a08cd6d27c31172af0099db6c5a722e7312ea88e2866155131dd9b"
+      },
+      {
+        "path": "js/lcd.js",
+        "bytes": 36222,
+        "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+      },
+      {
+        "path": "css/hd-battle.css",
+        "bytes": 7060,
+        "sha256": "009d55f47f947db9d10f2e440d28bee73c020e5d0289f24f53a6a8bed185b9b0"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 32371,
+        "sha256": "287ce8cf0328fb84f7c1a10ad154c5736c077e8d330de4100783da6aec7bd935"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 29716,
+        "sha256": "82c11114df5da91b82dc307be963aa86317f871e5818196ffa575655a1e08544"
+      },
+      {
+        "path": "m.html",
+        "bytes": 19623,
+        "sha256": "484d4ae6897f2b7bddbe526d0708c314ae23de556eb917e631f720dd6f7e2d24"
+      },
+      {
+        "path": "vendor/iBaye/src/FightSub.c",
+        "bytes": 36284,
+        "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 199154,
+        "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 19624,
+        "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5"
+      },
+      {
+        "path": "scripts/test-hd-battle-commands.mjs",
+        "bytes": 50225,
+        "sha256": "0a2fa9ab76f0b2f93f7906f20e5d22e43602449e32be0d81dd21a443b2fdb64e"
+      },
+      {
+        "path": "scripts/test-hd-battle-mode.mjs",
+        "bytes": 21291,
+        "sha256": "e2aa72a57fa815189b513a32f9ab9d8beaa071574a51cea95a175e9beb0ca222"
+      },
+      {
+        "path": "scripts/test-hd-battle-mobile-host.mjs",
+        "bytes": 17259,
+        "sha256": "1497765ab181e5fd3e22a7d688dd607cc29e8c9dca3c5235b92cab352e778141"
+      },
+      {
+        "path": "scripts/test-hd-mobile-battle.mjs",
+        "bytes": 52239,
+        "sha256": "30379f5a5c400b355ca8598ac036fe534b8a6d4f3d7ddc30e498b264213cb69b"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 5,
+    "fullSuiteRun": false,
+    "scope": "Earlier passing source; followed by caster getter sampling and PC layout fixes",
+    "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+    "compilerVersion": 18,
+    "actualGameplayAccepted": false,
+    "globalHdComplete": false
+  },
+  "browserRuns": 4,
+  "acceptedLayoutBrowserRuns": 2,
+  "actualToolTerminals": [
+    {
+      "step": "first-targeted",
+      "chunk": "5c26a8",
+      "exitCode": 0
+    },
+    {
+      "step": "first-layout",
+      "chunk": "c07918",
+      "exitCode": 1
+    },
+    {
+      "step": "final-layout",
+      "chunk": "5cf254",
+      "exitCode": 0
+    },
+    {
+      "step": "intermediate-targeted",
+      "chunk": "c0bdab",
+      "exitCode": 0
+    },
+    {
+      "step": "final-targeted",
+      "chunk": "7266fe",
+      "exitCode": 0
+    }
+  ],
+  "artifactPins": [
+    {
+      "path": "build/skill-hints-20261026-v78/run-targeted-v1.mjs",
+      "bytes": 2230,
+      "sha256": "44659a777f980e9a2a21e0cd1be4110d52b5694b088ba7527783960fb693d6ab"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/targeted-v1.json",
+      "bytes": 3337,
+      "sha256": "25df0a8a1da45fa9e827c3925e6ad064ce536ee9e18658b48c7fe1952582e6bb"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/targeted-v1.stdout.tap",
+      "bytes": 55915,
+      "sha256": "ef1e841eee15f7c1b833d8753884b3f26cacb99f8ce8eb16dbce7aafef88c4ee"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/run-targeted-v2.mjs",
+      "bytes": 2230,
+      "sha256": "201214c10c4abc7f90c360ae51020759f8bd3589ca8df8ada9258c4b46bbb454"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/targeted-v2.json",
+      "bytes": 3337,
+      "sha256": "d17bd6d6b5a3abcb2c68a803cebf9309b460e60d2c5b527a13a94d73361ba6ce"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/targeted-v2.stdout.tap",
+      "bytes": 55924,
+      "sha256": "0eb7425bb7f8e6e479b6e949ace036627eb92718738ea9978fa0f02e105a3f0c"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/targeted-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/preview-layout-v1.mjs",
+      "bytes": 5497,
+      "sha256": "f6c1e716285e4a61f5d5e9f19d81b615d437039bf31cbea6fc4ca33db94bef9a"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/preview-layout-v1.json",
+      "bytes": 4955,
+      "sha256": "01741b198028387205f59136dc1a97d7c53bf71f64cbe810266d3358efc81cf0"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/preview-layout-v2.mjs",
+      "bytes": 5497,
+      "sha256": "0987295c8fa31b4ba368778907fcb90bc4fddad8b5bd631b7a9757ace22e9617"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/preview-layout-v2.json",
+      "bytes": 4953,
+      "sha256": "9b6bae40cf028f2509ae24476f4c16c6d1d99cbf862ecb489613026abd9a465b"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/hd-battle-before-layout-fix.css",
+      "bytes": 7060,
+      "sha256": "009d55f47f947db9d10f2e440d28bee73c020e5d0289f24f53a6a8bed185b9b0"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/pc-layout-v1.html",
+      "bytes": 3790,
+      "sha256": "8e2f43b0100c601b6eb86ad7e92e0022640e8763d2fde69138ca266521f296ab"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/pc-layout-v1.dom.html",
+      "bytes": 6809,
+      "sha256": "374efc1f9818b6a2d0fce594a152726600355f47789cc2f8ae9344aaf9cb3869"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/pc-layout-v1.png",
+      "bytes": 66039,
+      "sha256": "033e0cc5b4a7a4775929bf75a7e45b4122ab11d157eccff95d1f5fa8ea29c37c"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/pc-layout-v1.stderr.log",
+      "bytes": 532,
+      "sha256": "e8769e74056d3cf917944dd54c167cfe4b359d0b52e2651adc28ef8476e6febf"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/pc-layout-v2.html",
+      "bytes": 3790,
+      "sha256": "8e2f43b0100c601b6eb86ad7e92e0022640e8763d2fde69138ca266521f296ab"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/pc-layout-v2.dom.html",
+      "bytes": 6808,
+      "sha256": "895664da50eedd9159f233b2cec89c7731954c123c992cd7f7ae887fe59d8e0f"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/pc-layout-v2.png",
+      "bytes": 60244,
+      "sha256": "d00a6fe388c9b99e0de6ed0f61c70606d8d212383f60390f77f0e98da5320550"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/pc-layout-v2.stderr.log",
+      "bytes": 532,
+      "sha256": "e88ef7f0b7148d10b059b314381e657ee68231b7c1f284ba34febfa17efaa490"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/mobile-layout-v1.html",
+      "bytes": 4689,
+      "sha256": "1100bab8eeb1dd7d0906eb6545b9ffc31826fbceae808cf03d0ef7ac78a2aae5"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/mobile-layout-v1.dom.html",
+      "bytes": 7580,
+      "sha256": "417e757b5c86f6540205a1eb8d7409cf210ab85908c412458d262ecd444eed9b"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/mobile-layout-v1.png",
+      "bytes": 18173,
+      "sha256": "896403fca95ba8d28104985733b98d50db8adf7e83397926824b10debd2ec01b"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/mobile-layout-v1.stderr.log",
+      "bytes": 536,
+      "sha256": "bc5d8bca881f6340c1cabca6b4854f2e85cdad2559e07a165b83395df71511f2"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/mobile-layout-v2.html",
+      "bytes": 4689,
+      "sha256": "1100bab8eeb1dd7d0906eb6545b9ffc31826fbceae808cf03d0ef7ac78a2aae5"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/mobile-layout-v2.dom.html",
+      "bytes": 7580,
+      "sha256": "417e757b5c86f6540205a1eb8d7409cf210ab85908c412458d262ecd444eed9b"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/mobile-layout-v2.png",
+      "bytes": 18173,
+      "sha256": "896403fca95ba8d28104985733b98d50db8adf7e83397926824b10debd2ec01b"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/mobile-layout-v2.stderr.log",
+      "bytes": 536,
+      "sha256": "391f2b164433c584a4e880cada5ba95c10462922a41bf688bd92ffb3ec4eedf9"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/run-targeted-v3.mjs",
+      "bytes": 2230,
+      "sha256": "c6904636b9b3da2f8e20cfff4bd1396b6039b0c80a1ea33bf45a744e67ed43e2"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/targeted-v3.json",
+      "bytes": 3337,
+      "sha256": "4d89e366eb930af442116530f87b4fa1238cf806a0acd3a9128a1027952096a0"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/targeted-v3.stdout.tap",
+      "bytes": 55915,
+      "sha256": "44e5e93f4e1a6e8b4ed52be8a9db67b0ff20ff84f0290cb857e74d8e2eeca712"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/targeted-v3.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/skill-hints-20261026-v78/hd-battle-before-pc-scroll-scope.js",
+      "bytes": 83858,
+      "sha256": "484e864220b79b8743556c8a30e8aa205106b03149c43357693b5205d8f0bc65"
+    }
+  ],
+  "oldHeldPrivateInterfacesInspected": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false,
+  "engineRebuilt": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "retainedIntermediateTargetedRun": {
+    "accepted": true,
+    "started": "2026-10-26T09:04:30.411Z",
+    "finished": "2026-10-26T09:04:31.862Z",
+    "processExitCode": 0,
+    "signal": null,
+    "tests": 262,
+    "pass": 262,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 44170,
+        "sha256": "5eed2f8654eb4560e6391eaa5f371ed2a6c5219beb7be380b6e92b7b9ce13c21"
+      },
+      {
+        "path": "js/hd-battle-status.js",
+        "bytes": 4434,
+        "sha256": "64717be1119c1eaa84302dda309e10038ba087634d774831769d1ff665678d44"
+      },
+      {
+        "path": "js/hd-skill-hints.js",
+        "bytes": 9456,
+        "sha256": "e93726a452d2edbf4268d2ba7494a68983097e3563935a4d66cac2dd2a828ebe"
+      },
+      {
+        "path": "js/hd-battle.js",
+        "bytes": 83858,
+        "sha256": "484e864220b79b8743556c8a30e8aa205106b03149c43357693b5205d8f0bc65"
+      },
+      {
+        "path": "js/hd-mobile-battle.js",
+        "bytes": 32143,
+        "sha256": "4250784387a08cd6d27c31172af0099db6c5a722e7312ea88e2866155131dd9b"
+      },
+      {
+        "path": "js/lcd.js",
+        "bytes": 36222,
+        "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+      },
+      {
+        "path": "css/hd-battle.css",
+        "bytes": 7562,
+        "sha256": "1319a38189ead08b48c216d6de040e2a7fc752dd0a2f05bcbeebea677700a279"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 32371,
+        "sha256": "287ce8cf0328fb84f7c1a10ad154c5736c077e8d330de4100783da6aec7bd935"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 29716,
+        "sha256": "82c11114df5da91b82dc307be963aa86317f871e5818196ffa575655a1e08544"
+      },
+      {
+        "path": "m.html",
+        "bytes": 19623,
+        "sha256": "484d4ae6897f2b7bddbe526d0708c314ae23de556eb917e631f720dd6f7e2d24"
+      },
+      {
+        "path": "vendor/iBaye/src/FightSub.c",
+        "bytes": 36284,
+        "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 199154,
+        "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 19624,
+        "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5"
+      },
+      {
+        "path": "scripts/test-hd-battle-commands.mjs",
+        "bytes": 51235,
+        "sha256": "bf011f719bb6e81fc9b0cc932ee2bf6e64bbba9c9befd758e4181efc269b7a5f"
+      },
+      {
+        "path": "scripts/test-hd-battle-mode.mjs",
+        "bytes": 21291,
+        "sha256": "e2aa72a57fa815189b513a32f9ab9d8beaa071574a51cea95a175e9beb0ca222"
+      },
+      {
+        "path": "scripts/test-hd-battle-mobile-host.mjs",
+        "bytes": 17259,
+        "sha256": "1497765ab181e5fd3e22a7d688dd607cc29e8c9dca3c5235b92cab352e778141"
+      },
+      {
+        "path": "scripts/test-hd-mobile-battle.mjs",
+        "bytes": 52239,
+        "sha256": "30379f5a5c400b355ca8598ac036fe534b8a6d4f3d7ddc30e498b264213cb69b"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 5,
+    "fullSuiteRun": false,
+    "scope": "Passing source before scoping automatic selected-row scrolling to PC",
+    "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+    "compilerVersion": 18,
+    "actualGameplayAccepted": false,
+    "globalHdComplete": false
+  },
+  "finalReview": "PC-only automatic selected-row scrolling preserves the existing mobile scroll/press retirement contract"
+}

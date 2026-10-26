@@ -167,6 +167,14 @@ html[data-baye-battle="hd"] #hd-overworld {
     background: #3d5a8c;
     box-shadow: inset 0 0 0 2px #f0c75a;
 }
+.hd-battle-skill-note { margin: 0 0 10px; color: #c0d0df; font-size: 13px; line-height: 18px; }
+.hd-battle-skill-note[hidden] { display: none !important; }
+.hd-battle-menu-item small { display: block; margin-top: 3px; font-size: 12px; line-height: 16px; color: #c0d0df; }
+.hd-battle-menu-item:has([data-hd-skill-cost]) { padding-top: 7px; padding-bottom: 7px; }
+.hd-battle-menu-item small:is([data-hd-skill-condition="mp"],[data-hd-skill-condition="terrain"],[data-hd-skill-condition="weather"]) { color: #ffbf9d; }
+.hd-battle-menu:has(.hd-battle-skill-note:not([hidden])) { box-sizing: border-box; max-height: calc(86% - 20px); overflow: hidden; display: flex; flex-direction: column; }
+.hd-battle-menu:has(.hd-battle-skill-note:not([hidden])) .hd-battle-menu-list { flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; }
+.hd-battle-menu:has(.hd-battle-skill-note:not([hidden])) :is(.hd-battle-menu-title,.hd-battle-skill-note,.hd-battle-menu-actions,.hd-battle-menu-item) { flex-shrink: 0; }
 
 .hd-battle-menu-item:disabled,
 .hd-battle-footer button:disabled {

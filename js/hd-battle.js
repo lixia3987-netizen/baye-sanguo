@@ -610,22 +610,44 @@
     }
     function renderFightMenu() {
         var panel = el('hd-battle-menu'), list = el('hd-battle-menu-list'), title = el('hd-battle-menu-title');
-        var info = menuSnapshot(inputSnapshot());
+        var snap = inputSnapshot(), info = menuSnapshot(snap), hints = null;
         state.menuKind = info ? info.kind : ''; state.menuTitle = info ? info.title : '';
         state.menuNames = info ? info.names : []; state.menuIndex = info ? info.index : 0;
+        var note = el('hd-battle-skill-note');
+        if (note) { note.hidden = true; note.textContent = ''; }
         if (!panel || !list) { return; }
         panel.hidden = !info;
         if (!info) { return; }
+        try {
+            if (info.kind === 'skill' && global.BayeHdSkillHints && typeof BayeHdSkillHints.read === 'function') { hints = BayeHdSkillHints.read(); }
+        } catch (e) {}
+        if (hints && (hints.actor !== snap.actor || hints.menuSeq !== info.seq || hints.inputSeq !== info.inputSeq ||
+            hints.index !== info.index || JSON.stringify(hints.names) !== JSON.stringify(info.names))) { hints = null; }
+        if (hints && note) { note.textContent = '当前 MP ' + hints.mp + ' · 目标与实际效果以原版判定为准。'; note.hidden = false; }
         if (title) { title.textContent = info.title; }
         var html = '';
         for (var i = 0; i < info.names.length; i += 1) {
             var text = String(info.names[i]).replace(/[&<>"']/g, function (c) {
                 return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
             });
+            var hint = hints && hints.rows[i], detail = '';
+            if (hint) {
+                var reasons = {mp:'MP不足',terrain:'地形不符',weather:'天候不符',unknown:'条件未读取'};
+                detail = '<small data-hd-skill-cost="' + hint.id + '" data-hd-skill-condition="' + hint.reason + '">' +
+                    '规则消耗 ' + (hint.cost == null ? '未读取' : hint.cost) + ' MP' +
+                    (reasons[hint.reason] ? ' · ' + reasons[hint.reason] : '') + '</small>';
+                text = '<span>' + text + '</span>';
+            }
             html += '<button type="button" class="hd-battle-menu-item' + (i === info.index ? ' is-on' : '') +
-                '" data-hd-battle-menu="' + i + '"' + (state.transaction ? ' disabled' : '') + '>' + text + '</button>';
+                '" data-hd-battle-menu="' + i + '"' + (state.transaction ? ' disabled' : '') + '>' + text + detail + '</button>';
         }
-        if (list.getAttribute('data-sig') !== html) { list.setAttribute('data-sig', html); list.innerHTML = html; }
+        if (list.getAttribute('data-sig') !== html) {
+            list.setAttribute('data-sig', html); list.innerHTML = html;
+            if (hints && !mobileHost && list.querySelector) {
+                var selected = list.querySelector('.is-on');
+                if (selected && selected.scrollIntoView) { selected.scrollIntoView({block:'nearest',inline:'nearest'}); }
+            }
+        }
     }
     function paintRuntimeBadge() {
         global.HD_BATTLE_VER = HD_BATTLE_VER;

@@ -722,3 +722,166 @@ test('battle context refuses final callback source drift and synchronous reentry
     assert.deepEqual(statusDto(g), {weather: 1, food: 0, day: 3, limit: 20});
     g.api.close({force: true, preserveEngine: true}); assertStatusHidden(g, 'closed HD battle shell');
 });
+
+// Mount only the existing menu surfaces; the production renderFightMenu writes
+// the HTML observed below, and native confirmation still uses its real adapter.
+function skillHintsFixture() {
+    const g = statusFixture(), document = g.sandbox.document, previousNode = document.getElementById, mounted = new Map();
+    for (const id of ['hd-battle-menu', 'hd-battle-menu-list', 'hd-battle-menu-title', 'hd-battle-skill-note']) {
+        const value = document.createElement(id === 'hd-battle-skill-note' ? 'p' : 'div'); value.id = id;
+        let html = '';
+        Object.defineProperty(value, 'innerHTML', {get: () => html, set(next) {html = String(next);}});
+        mounted.set(id, value);
+    }
+    document.getElementById = id => mounted.get(id) ?? previousNode(id);
+    Object.assign(g.fight, {inputKind: I.SKILL, inputSeq: 31, actorIndex: 0, phase: 0, wait: 0}); g.mirror();
+    Object.assign(g.menu, {active: 1, context: 3, kind: I.SKILL, seq: 8, generation: 7, detailGeneration: 7,
+        index: 0, count: 2, itemLen: 4, names: ['SAME', 'SAME']});
+    Object.assign(g.raw, {g_hdMenuActive: 1, g_hdMenuContext: 3, g_hdMenuKind: I.SKILL, g_hdMenuSeq: 8,
+        g_hdMenuIndex: 0, g_hdMenuCount: 2, g_hdMenuItemLen: 4,
+        g_hdMenuBytes: [83, 65, 77, 69, 83, 65, 77, 69],
+        g_hdSkillActive: 1, g_hdSkillCount: 2, g_hdSkillNameLen: 4,
+        g_hdSkillIds: [1, 30, 0, 0, 0, 0, 0, 0, 0, 0], g_hdSkillNameBytes: Array(80).fill(0),
+        g_FightMapData: Array(64).fill(1), g_Skills: Array(2000)});
+    for (const offset of [0, 8]) g.raw.g_hdSkillNameBytes.splice(offset, 4, 83, 65, 77, 69);
+    g.raw.g_Skills[0] = {useMp: 0, oland: Array(8).fill(1), weather: Array(5).fill(1)};
+    g.raw.g_Skills[29] = {useMp: 30, oland: Array(8).fill(1), weather: Array(5).fill(1)};
+    Object.assign(g.raw.g_GenPos[0], {mp: 30, x: 1, y: 1, state: 0});
+    const skills = {active: 1, count: 2, ids: [1, 30], names: ['SAME', 'SAME']};
+    let terrain = 1, terrainHook = null, skillsHook = null;
+    g.baye.getTerrainByGeneralIndex = actor => {assert.equal(actor, 0); if (terrainHook) terrainHook(); return terrain;};
+    g.baye.hd.skills = () => {
+        const value = {...skills, ids: skills.ids.slice(), names: skills.names.slice()};
+        if (skillsHook) skillsHook(); return value;
+    };
+    vm.runInNewContext(readFileSync(join(root, 'js/hd-skill-hints.js'), 'utf8'), g.sandbox,
+        {filename: 'hd-skill-hints.js', timeout: 5000});
+    return Object.assign(g, {skills, skillMenu: mounted.get('hd-battle-menu'), skillList: mounted.get('hd-battle-menu-list'),
+        skillTitle: mounted.get('hd-battle-menu-title'), skillNote: mounted.get('hd-battle-skill-note'),
+        readHints() {const value = g.sandbox.BayeHdSkillHints.read(); return value === null ? null : JSON.parse(JSON.stringify(value));},
+        terrain(value) {terrain = value;}, terrainHook(value) {terrainHook = value;}, skillsHook(value) {skillsHook = value;}});
+}
+function renderedSkillButtons(g) {
+    return [...g.skillList.innerHTML.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/g)].map(([, attrs, body]) => {
+        const index = /\bdata-hd-battle-menu="([0-9]+)"/.exec(attrs);
+        const hint = /<small\b([^>]*)>([\s\S]*?)<\/small>/.exec(body);
+        return {index: index ? Number(index[1]) : null, disabled: /\sdisabled(?:\s|$|=)/.test(attrs),
+            text: body.replace(/<[^>]*>/g, ''), hint: hint ? {id: Number(/data-hd-skill-cost="([0-9]+)"/.exec(hint[1])?.[1]),
+                reason: /data-hd-skill-condition="([a-z]+)"/.exec(hint[1])?.[1], text: hint[2].replace(/<[^>]*>/g, '')} : null};
+    });
+}
+function assertSkillButtonsUnchanged(g) {
+    assert.equal(g.skillMenu.hidden, false); assert.equal(g.skillTitle.textContent, '计谋');
+    const buttons = renderedSkillButtons(g); assert.deepEqual(buttons.map(button => [button.index, button.disabled]), [[0, false], [1, false]]);
+    assert.ok(buttons.every(button => button.text.startsWith('SAME')));
+    assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []); return buttons;
+}
+
+test('skill MP hints bind duplicate native names to exact one-based IDs including zero cost and equality', () => {
+    const g = skillHintsFixture(); g.observe();
+    assert.deepEqual(g.readHints(), {actor: 0, mp: 30, menuSeq: 8, inputSeq: 31, index: 0,
+        names: ['SAME', 'SAME'], rows: [{id: 1, cost: 0, reason: 'ready'}, {id: 30, cost: 30, reason: 'ready'}]});
+    const buttons = assertSkillButtonsUnchanged(g);
+    assert.deepEqual(buttons.map(button => button.hint), [{id: 1, reason: 'ready', text: '规则消耗 0 MP'},
+        {id: 30, reason: 'ready', text: '规则消耗 30 MP'}]);
+    assert.equal(g.skillNote.hidden, false);
+    assert.equal(g.skillNote.textContent, '当前 MP 30 · 目标与实际效果以原版判定为准。');
+    g.raw.g_GenPos[0].mp = 0; g.observe();
+    assert.equal(g.readHints().rows[0].reason, 'ready'); assert.equal(g.readHints().rows[1].reason, 'mp');
+    assertSkillButtonsUnchanged(g);
+    g.raw.g_Skills[29].useMp = 255; g.raw.g_GenPos[0].mp = 65535; g.observe();
+    assert.deepEqual(g.readHints().rows[1], {id: 30, cost: 255, reason: 'ready'});
+    assert.match(g.skillNote.textContent, /^当前 MP 65535 /); assertSkillButtonsUnchanged(g);
+});
+
+test('skill MP, own terrain and weather hints preserve native rejection priority without disabling the choice', () => {
+    const g = skillHintsFixture(), rule = g.raw.g_Skills[29]; rule.oland[1] = 0; rule.weather[0] = 0;
+    for (const [mp, land, weather, reason, suffix] of [[29, 0, 0, 'mp', 'MP不足'],
+        [30, 0, 0, 'terrain', '地形不符'], [30, 1, 0, 'weather', '天候不符'], [30, 1, 1, 'ready', '']]) {
+        g.raw.g_GenPos[0].mp = mp; rule.oland[1] = land; rule.weather[0] = weather; g.observe();
+        assert.equal(g.readHints().rows[1].reason, reason);
+        const buttons = assertSkillButtonsUnchanged(g);
+        assert.equal(buttons[1].hint.reason, reason);
+        assert.equal(buttons[1].hint.text, '规则消耗 30 MP' + (suffix ? ' · ' + suffix : ''));
+        assert.doesNotMatch(buttons[1].text, /命中|概率|可施放|施放成功/);
+    }
+});
+
+test('uncertain skill terrain, weather or cost stays advisory and target-specific coefficients are never evaluated', () => {
+    const changes = [g => delete g.baye.getTerrainByGeneralIndex, g => g.terrain(255), g => g.terrain(0),
+        g => delete g.raw.g_FightMapData, g => g.raw.g_FgtWeather = 0, g => g.raw.g_FgtWeather = 6];
+    for (const change of changes) {
+        const g = skillHintsFixture(); let targetReads = 0;
+        for (const id of [0, 29]) for (const field of ['earm', 'eland', 'aim', 'power', 'destroy', 'state']) {
+            Object.defineProperty(g.raw.g_Skills[id], field, {get() {targetReads++; throw Error('target rules are not menu hints');}});
+        }
+        change(g); g.observe();
+        assert.deepEqual(g.readHints().rows, [{id: 1, cost: 0, reason: 'unknown'}, {id: 30, cost: 30, reason: 'unknown'}]);
+        assert.ok(assertSkillButtonsUnchanged(g).every(button => button.hint.reason === 'unknown' && /条件未读取/.test(button.hint.text)));
+        assert.equal(targetReads, 0);
+    }
+    const g = skillHintsFixture(); g.raw.g_Skills[29].useMp = '30'; g.observe();
+    assert.deepEqual(g.readHints().rows, [{id: 1, cost: 0, reason: 'ready'}, {id: 30, cost: null, reason: 'unknown'}]);
+    assertSkillButtonsUnchanged(g);
+    for (const field of ['useMp', 'oland', 'weather']) {
+        const h = skillHintsFixture(), rule = h.raw.g_Skills[29]; let reads = 0;
+        const target = field === 'useMp' ? rule : rule[field], key = field === 'useMp' ? field : field === 'oland' ? 1 : 0;
+        Object.defineProperty(target, key, {get() {return ++reads % 2 ? field === 'useMp' ? 30 : 1 : -1;}});
+        h.observe(); const value = h.readHints(); assert.ok(reads > 0, field);
+        if (value !== null) {
+            assert.equal(value.rows[1].reason, 'unknown', field + ' cannot validate one value and publish another');
+            assert.ok(value.rows[1].cost === null || Number.isInteger(value.rows[1].cost) &&
+                value.rows[1].cost >= 0 && value.rows[1].cost <= 255, field);
+        }
+        const hint = assertSkillButtonsUnchanged(h)[1].hint;
+        if (hint !== null) {
+            assert.equal(hint.reason, 'unknown', field);
+            assert.doesNotMatch(hint.text, /规则消耗 -/, field);
+        }
+    }
+});
+
+test('skill source and menu drift withdraw only the enhancement while preserving native names, indices and one-shot confirmation', () => {
+    const changes = [g => g.identity.sha256 = 'unknown-library', g => g.raw.g_hdSkillActive = 0,
+        g => g.skills.active = 0, g => g.raw.g_hdSkillIds[0] = 0, g => g.raw.g_hdSkillIds[1] = 31,
+        g => g.skills.names[1] = 'DIFF', g => g.raw.g_hdSkillNameBytes[8] = 68,
+        g => g.raw.g_hdMenuBytes[0] = 68, g => g.menu.seq++, g => g.raw.g_hdMenuIndex = 1,
+        g => g.raw.g_FgtParam.Mode = 2, g => g.raw.g_FgtParam.GenArray[0] = 0,
+        g => g.raw.g_GenPos[0].state = 8];
+    for (const change of changes) {
+        const g = skillHintsFixture(); g.observe(); assert.ok(g.readHints());
+        change(g); g.observe(); assert.equal(g.readHints(), null);
+        assert.ok(assertSkillButtonsUnchanged(g).every(button => button.hint === null));
+        assert.equal(g.skillNote.hidden, true); assert.equal(g.skillNote.textContent, '');
+    }
+    const g = skillHintsFixture(); g.observe();
+    assert.equal(g.api.pickMenu(0).ok, true); assert.deepEqual(g.sent, [K.ENTER]);
+    g.api.pickMenu(0); g.tick(1000); assert.deepEqual(g.sent, [K.ENTER], 'one native confirmation remains consumed');
+    Object.assign(g.fight, {inputKind: I.AIM, inputSeq: 32, wait: 1, phase: 3}); g.mirror(); g.menu.active = 0;
+    g.raw.g_hdMenuActive = 0; g.raw.g_hdSkillActive = 0; g.skills.active = 0; g.observe();
+    assert.equal(g.skillNote.hidden, true); assert.deepEqual(g.sent, [K.ENTER]); assert.deepEqual(g.writes, []);
+});
+
+test('skill hints reject final observer drift, throwing or reentrant terrain readers and recover on a fresh source', () => {
+    const seed = skillHintsFixture(); seed.identityHook(null); assert.ok(seed.readHints()); const last = seed.identityCalls();
+    assert.ok(last >= 2);
+    const changes = [g => g.raw.g_GenPos[0].mp--, g => g.raw.g_Skills[29].useMp++,
+        g => g.raw.g_Skills[29].oland[1] = 0, g => g.raw.g_FgtWeather = 2,
+        g => g.raw.g_hdMenuSeq++, g => g.raw.g_hdFightInputSeq++,
+        g => g.raw.g_hdSkillIds[0] = 2, g => g.identity.generation++,
+        g => g.baye.data = {...g.raw}, g => g.raw.g_Skills = g.raw.g_Skills.slice()];
+    for (const change of changes) {
+        const g = skillHintsFixture(); let fired = false;
+        g.identityHook(count => {if (count === last) {fired = true; change(g);}});
+        assert.equal(g.readHints(), null); assert.equal(fired, true); assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
+    }
+    for (const fault of ['throw', 'reenter']) {
+        const g = skillHintsFixture(); let fired = false;
+        g.terrainHook(() => {fired = true; if (fault === 'throw') throw Error('native terrain unavailable'); g.readHints();});
+        assert.equal(g.readHints(), null); assert.equal(fired, true); g.observe();
+        assert.ok(assertSkillButtonsUnchanged(g).every(button => button.hint === null));
+        assert.equal(g.skillNote.hidden, true); g.terrainHook(null); g.observe();
+        assert.deepEqual(g.readHints().rows, [{id: 1, cost: 0, reason: 'ready'}, {id: 30, cost: 30, reason: 'ready'}]);
+        assertSkillButtonsUnchanged(g);
+    }
+});
