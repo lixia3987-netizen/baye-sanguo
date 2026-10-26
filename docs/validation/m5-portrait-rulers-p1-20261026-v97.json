@@ -1,0 +1,2763 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V97",
+  "parentCommit": "92fc32408b6a42f80c0a52330cef16ccf48b33ac",
+  "feature": "Complete original period-one selectable rulers with exact-native-reference reuse across periods",
+  "accepted": true,
+  "acceptanceScope": "Thirteen generated PNGs, original ROM identities, 66 by three controlled protocols, export regressions and thirteen shipped manual PNG previews",
+  "targeted": {
+    "accepted": true,
+    "started": "2026-10-26T15:47:22.854Z",
+    "finished": "2026-10-26T15:47:35.252Z",
+    "processExitCode": 0,
+    "signal": null,
+    "tests": 152,
+    "pass": 152,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "modules": [
+      "scripts/test-hd-portraits.mjs",
+      "scripts/test-hd-mobile-portraits.mjs",
+      "scripts/test-hd-lib-identity.mjs"
+    ],
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 49418,
+        "sha256": "8fe96b0ae5b6cb1addd19e1176e6946ebb22980d3c7f5af90ce935b28813aba1"
+      },
+      {
+        "path": "assets/hd-portraits/GENERATED-RULERS-P1-20261026.json",
+        "bytes": 49925,
+        "sha256": "807151a081c9693276abb7e882e1f053594aa4d2c9a1f021c280738951706eb0"
+      },
+      {
+        "path": "assets/hd-portraits/GENERATED-RULERS-P1-20261026.md",
+        "bytes": 3876,
+        "sha256": "23b6c73dbee397db906790314b1bd05a19b962395a2f2e58735c5473f9c02aaa"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0000_董卓.png",
+        "bytes": 1607223,
+        "sha256": "1de400c70f00b1cd2ca6ccb0d9574cbe3d5a169cc42778895bce8432c8689b26"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0001_曹操.png",
+        "bytes": 1227801,
+        "sha256": "e75fdd2ebeec7464e85291c99cd48cd2602d96f52963205899fc16e40fd11895"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0005_马腾.png",
+        "bytes": 1577920,
+        "sha256": "dd470ee27ffaafd446cf4e79554379190d19cc23579aae215cd5d8b7a0181d1c"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0011_王匡.png",
+        "bytes": 1675176,
+        "sha256": "4aa7721b2a7b49d0f47059e9b2238ad84303a9a4ff562027615dfcf4b21f7f46"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0013_刘备.png",
+        "bytes": 1891484,
+        "sha256": "7a6a7b2698676a40ca89cd724a7c9ae95d3e6b8b1fdbae121ac07e676507449b"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0020_吕布.png",
+        "bytes": 1717569,
+        "sha256": "e63384b470a20f841f7399f616fdb1b4d15a7672a5de956081d172788027e2a3"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0055_孙权.png",
+        "bytes": 1341436,
+        "sha256": "f279cd93659697b8037858a9f960c5947d90d0153477ded78dd0410165d52390"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0058_庞德.png",
+        "bytes": 1510681,
+        "sha256": "ba3ca8d20a8e480a6b3ee1be8fc67962969be8d0bed6bb43a2102a66f711d4eb"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0063_梁兴.png",
+        "bytes": 1510754,
+        "sha256": "660fbbc55c24929e7afe9358a3a03e77b2efe67231e97a5a5631ca71c80b6b2e"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0066_杨秋.png",
+        "bytes": 1532204,
+        "sha256": "f7dc35ced2587c9b452e1fde1277ec87b60b36cbbead47a5299fc06897feac0c"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0085_方悦.png",
+        "bytes": 1454347,
+        "sha256": "004b401ae744ce72f459ee2fb8cd90eb33928cf151f39000d7308a305b3407da"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0089_关羽.png",
+        "bytes": 1698030,
+        "sha256": "d07917d012f038864f45008d0b5e855e3fae25f2f356803b8323424979a942ab"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0090_张飞.png",
+        "bytes": 1776983,
+        "sha256": "2930db46892eac95439878fbae29258ba58716fb75b8ee35c26cb9fdcce1ce8d"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0157_诸葛亮.png",
+        "bytes": 1654540,
+        "sha256": "316c52a355b07a13afa8919e8741d8b4764b2b2e8861acf949f78070ad3474fa"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/10-韩馥.png",
+        "bytes": 2047299,
+        "sha256": "fc5e52012f4fa00468eb1ced893404c2f384a6dd64950462fe88edc756b7ffd2"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/14-刘表.png",
+        "bytes": 2262630,
+        "sha256": "05d6516c3111501a858330fa1bcda9f6238b676a0df67061b4f2c39f592d69a9"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/15-刘焉.png",
+        "bytes": 2250229,
+        "sha256": "9541571dd488a7f0fdfd6bd02229b802478ca94a9d991b815c9f4e5542c64f0b"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/16-公孙瓒.png",
+        "bytes": 2456208,
+        "sha256": "4414e06439270bfdb33a5e214b4785956b18defd7db9aa82a10bcf3f2c3e772e"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/17-公孙度.png",
+        "bytes": 2409337,
+        "sha256": "0179d164d3eb0133bb084d1f1551cea2fff6c878567af7e62c180a4931895d5f"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/18-张鲁.png",
+        "bytes": 2375035,
+        "sha256": "d85afe5f41582518c70517736441c587d4fe73e0d334d2697f8b605d0b19f688"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/2-袁绍.png",
+        "bytes": 2216029,
+        "sha256": "cc82a6ce102a47da72eb5e5abea78bf99f60e9074ce934849b5bd663e8ac3092"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/3-袁术.png",
+        "bytes": 2205929,
+        "sha256": "7d6df85da428aee052c9e61fda8f2eaef0ab3167c16eae9b0d84299935d47aad"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/4-孙坚.png",
+        "bytes": 2308946,
+        "sha256": "c4bfb1a91a95eec43785e1615415b58c5f237f9894858e448ab6dcc1801b50e9"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/6-陶谦.png",
+        "bytes": 2172951,
+        "sha256": "040725b99dc378d975e9d14dfb7387314b868c8b6e5a7b9a3eb8ccb727082d10"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/7-孔融.png",
+        "bytes": 2150689,
+        "sha256": "1316f028f47478b80443d69e91b64a97ee79bce1bc8e14e2b1885d984d966365"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/8-刘岱.png",
+        "bytes": 2073266,
+        "sha256": "260ee58c636c16d50f2c2c564c14a42002b666b8e39effd5b7dbe98f25c4e218"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/9-张杨.png",
+        "bytes": 2204064,
+        "sha256": "c6d9ba211ebfe1ab3e0257bde7451f726e157c0ddecf69949737d85ff577392d"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/1-曹操.png",
+        "bytes": 2098066,
+        "sha256": "46f40cfef67b20102bb9635ec52572986a2863feebcdd5d81c82cde481fa25c4"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/101-庞德.png",
+        "bytes": 2237722,
+        "sha256": "8e77cc6ad3c8ce050572e74e029c5e32afb862f6040a773df201b349826302f1"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/106-梁兴.png",
+        "bytes": 2284421,
+        "sha256": "2193c51e49e77c5aace51592caff455acee73b8ae9859b4f9dbcc2c52ff1c01c"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/109-杨秋.png",
+        "bytes": 2098682,
+        "sha256": "df852bc7c1ae88cb607fed62130bf9666de14993e11280cfb4ce2b03a894d5ed"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/11-马腾.png",
+        "bytes": 2276439,
+        "sha256": "fb40055ae442449f0c7d65f5e30d0d01fe9ebb1d6651b9bbf268b604af7cbb88"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/182-诸葛亮.png",
+        "bytes": 2337496,
+        "sha256": "2088996dae0b0e9d065ee659d1093b7161b42df43cfe26ac630f9bbb925531fb"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/2-刘备.png",
+        "bytes": 2127883,
+        "sha256": "32f610893a31bcefd6df00b325c90a2aab96183db8710197d452b88ddae45cb6"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/31-关羽.png",
+        "bytes": 2201445,
+        "sha256": "53a62a8fedb85621fbece7bccdc0e64245d5c8102c52c341f39267de0d993b9c"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/32-张飞.png",
+        "bytes": 2322531,
+        "sha256": "919aa005615c245bf820ae08ad29896ff343acdf7a72c629bb6be8277b042509"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/78-周瑜.png",
+        "bytes": 2118888,
+        "sha256": "bcb616bfba580661f6ec31b4c8346f32100c9e16306e340f2bb044b4802e3974"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/8-吕布.png",
+        "bytes": 2048304,
+        "sha256": "ec778a4b6412c863d9dacb0b679133572e10a3d919569533afbe1bc4229c0daf"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/104-周瑜.png",
+        "bytes": 2014389,
+        "sha256": "40d027b881019716318b0b436836bbc54ec22694bfe74e6389dd2eecd34e33fa"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/126-庞德.png",
+        "bytes": 2270954,
+        "sha256": "1b5cf39df730336fc9eab161cfb79cd240e24d624ce9f506b17bc59d4ace64d2"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/131-梁兴.png",
+        "bytes": 2084077,
+        "sha256": "e17ce0a0a532398bd5961ea0493cd69362a56d74a2e9d5e68303fd92965f3c36"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/134-杨秋.png",
+        "bytes": 2265978,
+        "sha256": "218cfecc0e498ccc7c81557234fe442c8dc9b1f2ad695a2106d126c618394a38"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/4-曹操.png",
+        "bytes": 1867602,
+        "sha256": "c4052fc2c2c197026a3e8e3be909b13094b14c0b4134db875db921448d474480"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/5-刘备.png",
+        "bytes": 2276994,
+        "sha256": "53327267000a021cb09e8a5c9e085c888489e41f63d9f4284c0a75941ace6e6a"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/6-孙权.png",
+        "bytes": 2139262,
+        "sha256": "bb91833252ec7e8454d6307f1297a3c3188cd26790c15caa5bdd53dd0d0e41c6"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/7-马腾.png",
+        "bytes": 2201462,
+        "sha256": "5225ddfc81d6842a19e3a7c0d4d9d4c7642ef13eaedef4572992c8fb8d1568f5"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/79-关羽.png",
+        "bytes": 2502937,
+        "sha256": "ec730ec188b01d9ee80c6c52045b688ff9b1eeb15e512f17e63cd1096a2bea38"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/80-张飞.png",
+        "bytes": 2384867,
+        "sha256": "41b70a084f8fd28040aba5c05cfe13c1a3e761083c18f036156e39494f80c1c9"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/90-诸葛亮.png",
+        "bytes": 2301661,
+        "sha256": "c7095a2cce45d16d915771d0d3858f1733195cc3a2dddb72d216d74096c185bb"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/0-曹丕.png",
+        "bytes": 2217247,
+        "sha256": "4c475a5e2a611db41f46eb33352f9b61c5f515c56bda5c1ad3df2f71223d7b49"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/1-刘禅.png",
+        "bytes": 2138121,
+        "sha256": "79a00872f9115db17acaab1e286278441e6ac29b698a10cd6822f0d0a332ee30"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/13-庞德.png",
+        "bytes": 2226799,
+        "sha256": "d8e0cd26c60b4b1438503bb35b0b2c6ee502c076ef06abe7e0a06c11c0960222"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/2-孙权.png",
+        "bytes": 2107379,
+        "sha256": "674e90bcc67f23a0a825aab5b755b50bbe7ac7ab3582f13887838825fcb3bdff"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/3-孟获.png",
+        "bytes": 2283106,
+        "sha256": "1c96dc8f1df9e2361a7af067ea71d12bfa2537d5af55a6a597f42fd11da9490a"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/4-公孙康.png",
+        "bytes": 2193287,
+        "sha256": "e19ceb4968243de0d1766e628784b3a1006f1914b9ffe9b846dbf27193fb45c5"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/72-诸葛亮.png",
+        "bytes": 2348284,
+        "sha256": "638c412475aea1860a3456e7b4ee4902ba17a47d3758c20748bf5561ab4771bc"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 15593,
+        "sha256": "51639bb56ee8b3e04146c3df45b11077503c40a3381bff4cd6720d13900312a1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 234072,
+        "sha256": "d14a836a1bf1045ec920ab8996cfa40681a6841e0961cc6e9b16b54ba7d96f85"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/0-董卓.png",
+        "bytes": 513,
+        "sha256": "8df590f9451a40d51f3ac004fbd5f3e714a0980e16cec586068cca2af310fb43"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/1-曹操.png",
+        "bytes": 469,
+        "sha256": "18846bdd8c718f770d9172adffd0dc0d4b369c016b4d2e117e895b169f214fed"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/10-韩馥.png",
+        "bytes": 429,
+        "sha256": "444de590738cc01b30dbea88c5497149e4557958083d1bdebaca9680868114cb"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/11-王匡.png",
+        "bytes": 432,
+        "sha256": "c115c1feb0869d5be6fa0f83f8d9e65f73a0cd7dfc517421a842098579a3d16d"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/13-刘备.png",
+        "bytes": 470,
+        "sha256": "c8a1f5b85d94c9c65277073e971236e083267524fcf6bb9169574c878ed5f8f2"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/14-刘表.png",
+        "bytes": 475,
+        "sha256": "f25593edf4908a66d120e1117a59ac29b5dbaf4276271d22e8ad116f7a34fec1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/15-刘焉.png",
+        "bytes": 455,
+        "sha256": "78998110f2a6d9c5cfa037d0ebc806e2677ab47d452a8c9da8437a087dc4b2a7"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/157-诸葛亮.png",
+        "bytes": 488,
+        "sha256": "1d65c6fd0fb986134515f816bd19a6101fa7dccf56c7ba89c302fdf4463d38cc"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/16-公孙瓒.png",
+        "bytes": 529,
+        "sha256": "82c610557e699c40bf9912a227d51b562113e595203c013bb3d1e42f30ccc443"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/17-公孙度.png",
+        "bytes": 468,
+        "sha256": "2f5220bac717965d31d966a823009a3a28fb412f006b040b775524a524129074"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/18-张鲁.png",
+        "bytes": 449,
+        "sha256": "e4ddebd6dd0f6efe87159641eee1890b1f31f074fd51520912dd9fde424fd4c9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/2-袁绍.png",
+        "bytes": 514,
+        "sha256": "5115f9e266089b9e039399d4b0bd3b7294623817922eeb65902b4f532f6455e9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/20-吕布.png",
+        "bytes": 453,
+        "sha256": "12638f011a2ef8b510f86140291fbf6a4884e14a08d3722deb3b8274c53d8a16"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/3-袁术.png",
+        "bytes": 465,
+        "sha256": "8536007513d1ef5fc709c48d37ecbae9232368ec93bab90e3d943540126ee68e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/4-孙坚.png",
+        "bytes": 508,
+        "sha256": "7989d3d7aa6f58aacce7afcd4c5597f11556faac8ef6c45912a421846db108e6"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/5-马腾.png",
+        "bytes": 514,
+        "sha256": "3bb0f9684e7727be1809ae34def94099ef4521a7cae4bb7cc0b0c41ba5ed13d9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/55-孙权.png",
+        "bytes": 457,
+        "sha256": "4133015bd026dea546f0cfa87ae1e46c92b61c3ea1a45d8c43b325c1c86abf1a"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/58-庞德.png",
+        "bytes": 399,
+        "sha256": "b40381a82c5ffa4eeb77040945aea046daca3e60d4710c9c90a0025017c6513c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/6-陶谦.png",
+        "bytes": 517,
+        "sha256": "6fcda7a832e1aa18a0eeb42503f77e31d64d8f2e46daeda31bbc34de57564a2b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/63-梁兴.png",
+        "bytes": 482,
+        "sha256": "b93b00b2be9fe95a36356f2e71296ce69b39721e4ddfd3221caab91cba622ef6"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/66-杨秋.png",
+        "bytes": 409,
+        "sha256": "1069873fd47bf787c97bfc75a95111cedb0c41dabc8cbdc3a5fb637fcdafad6b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/7-孔融.png",
+        "bytes": 497,
+        "sha256": "70f85de7b37d47ac84a8b093d2262ae56145d646c4286853d093a4f1cf7ea127"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/8-刘岱.png",
+        "bytes": 474,
+        "sha256": "f641049cb4a0e4a8b4c8cdaf3e4725987e078340aa0eee496afb7d5c1ea3e7e5"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/85-方悦.png",
+        "bytes": 463,
+        "sha256": "822bb5d7d8be498ef417e61c5c5f6d0bb548ba547169a160f679a0a85ba0ce86"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/89-关羽.png",
+        "bytes": 488,
+        "sha256": "5f0336f89d935f9568744d2aaf05f7bb19a569c37ed492d3f528ed768f244126"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/9-张杨.png",
+        "bytes": 470,
+        "sha256": "1ced3f865d19d659ec7e7e6dc7349825468c5f7a90ce87cc36ed60f00de00c9a"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/90-张飞.png",
+        "bytes": 504,
+        "sha256": "f71a24fe2b99268251a6047f9d7ded1b8ee898186b3e36e057af87b04acc8059"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/1-曹操.png",
+        "bytes": 469,
+        "sha256": "18846bdd8c718f770d9172adffd0dc0d4b369c016b4d2e117e895b169f214fed"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/10-公孙度.png",
+        "bytes": 468,
+        "sha256": "2f5220bac717965d31d966a823009a3a28fb412f006b040b775524a524129074"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/101-庞德.png",
+        "bytes": 399,
+        "sha256": "b40381a82c5ffa4eeb77040945aea046daca3e60d4710c9c90a0025017c6513c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/106-梁兴.png",
+        "bytes": 482,
+        "sha256": "b93b00b2be9fe95a36356f2e71296ce69b39721e4ddfd3221caab91cba622ef6"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/109-杨秋.png",
+        "bytes": 409,
+        "sha256": "1069873fd47bf787c97bfc75a95111cedb0c41dabc8cbdc3a5fb637fcdafad6b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/11-马腾.png",
+        "bytes": 514,
+        "sha256": "3bb0f9684e7727be1809ae34def94099ef4521a7cae4bb7cc0b0c41ba5ed13d9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/12-刘表.png",
+        "bytes": 475,
+        "sha256": "f25593edf4908a66d120e1117a59ac29b5dbaf4276271d22e8ad116f7a34fec1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/14-张鲁.png",
+        "bytes": 449,
+        "sha256": "e4ddebd6dd0f6efe87159641eee1890b1f31f074fd51520912dd9fde424fd4c9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/15-孔融.png",
+        "bytes": 497,
+        "sha256": "70f85de7b37d47ac84a8b093d2262ae56145d646c4286853d093a4f1cf7ea127"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/182-诸葛亮.png",
+        "bytes": 317,
+        "sha256": "707fbc370eccda004b5d6a84994388dc346a137d3d499edf651920361165b24e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/2-刘备.png",
+        "bytes": 470,
+        "sha256": "c8a1f5b85d94c9c65277073e971236e083267524fcf6bb9169574c878ed5f8f2"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/26-刘岱.png",
+        "bytes": 474,
+        "sha256": "f641049cb4a0e4a8b4c8cdaf3e4725987e078340aa0eee496afb7d5c1ea3e7e5"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/3-袁绍.png",
+        "bytes": 514,
+        "sha256": "5115f9e266089b9e039399d4b0bd3b7294623817922eeb65902b4f532f6455e9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/31-关羽.png",
+        "bytes": 488,
+        "sha256": "5f0336f89d935f9568744d2aaf05f7bb19a569c37ed492d3f528ed768f244126"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/32-张飞.png",
+        "bytes": 504,
+        "sha256": "f71a24fe2b99268251a6047f9d7ded1b8ee898186b3e36e057af87b04acc8059"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/4-袁术.png",
+        "bytes": 465,
+        "sha256": "8536007513d1ef5fc709c48d37ecbae9232368ec93bab90e3d943540126ee68e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/78-周瑜.png",
+        "bytes": 501,
+        "sha256": "039510e7765a00f0d2fc53618ac9d0e8fea32fb3233bab5138390b9d4b34040d"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/8-吕布.png",
+        "bytes": 453,
+        "sha256": "12638f011a2ef8b510f86140291fbf6a4884e14a08d3722deb3b8274c53d8a16"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/82-韩馥.png",
+        "bytes": 429,
+        "sha256": "444de590738cc01b30dbea88c5497149e4557958083d1bdebaca9680868114cb"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/104-周瑜.png",
+        "bytes": 501,
+        "sha256": "039510e7765a00f0d2fc53618ac9d0e8fea32fb3233bab5138390b9d4b34040d"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/126-庞德.png",
+        "bytes": 399,
+        "sha256": "b40381a82c5ffa4eeb77040945aea046daca3e60d4710c9c90a0025017c6513c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/131-梁兴.png",
+        "bytes": 482,
+        "sha256": "b93b00b2be9fe95a36356f2e71296ce69b39721e4ddfd3221caab91cba622ef6"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/134-杨秋.png",
+        "bytes": 409,
+        "sha256": "1069873fd47bf787c97bfc75a95111cedb0c41dabc8cbdc3a5fb637fcdafad6b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/26-孔融.png",
+        "bytes": 497,
+        "sha256": "70f85de7b37d47ac84a8b093d2262ae56145d646c4286853d093a4f1cf7ea127"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/4-曹操.png",
+        "bytes": 469,
+        "sha256": "18846bdd8c718f770d9172adffd0dc0d4b369c016b4d2e117e895b169f214fed"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/5-刘备.png",
+        "bytes": 470,
+        "sha256": "c8a1f5b85d94c9c65277073e971236e083267524fcf6bb9169574c878ed5f8f2"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/6-孙权.png",
+        "bytes": 457,
+        "sha256": "4133015bd026dea546f0cfa87ae1e46c92b61c3ea1a45d8c43b325c1c86abf1a"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/7-马腾.png",
+        "bytes": 514,
+        "sha256": "3bb0f9684e7727be1809ae34def94099ef4521a7cae4bb7cc0b0c41ba5ed13d9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/79-关羽.png",
+        "bytes": 488,
+        "sha256": "5f0336f89d935f9568744d2aaf05f7bb19a569c37ed492d3f528ed768f244126"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/8-张鲁.png",
+        "bytes": 449,
+        "sha256": "e4ddebd6dd0f6efe87159641eee1890b1f31f074fd51520912dd9fde424fd4c9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/80-张飞.png",
+        "bytes": 504,
+        "sha256": "f71a24fe2b99268251a6047f9d7ded1b8ee898186b3e36e057af87b04acc8059"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/90-诸葛亮.png",
+        "bytes": 488,
+        "sha256": "1d65c6fd0fb986134515f816bd19a6101fa7dccf56c7ba89c302fdf4463d38cc"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/0-曹丕.png",
+        "bytes": 468,
+        "sha256": "2eebd2f8934485282587aa237e323ea93b9f59c9e4507f7c39dd9de1d224985b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/1-刘禅.png",
+        "bytes": 469,
+        "sha256": "38f5fb85957dcdb04e9b55c7f12c5b0b9c1355c5fb0779564144e926e50b5297"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/13-庞德.png",
+        "bytes": 399,
+        "sha256": "b40381a82c5ffa4eeb77040945aea046daca3e60d4710c9c90a0025017c6513c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/2-孙权.png",
+        "bytes": 457,
+        "sha256": "4133015bd026dea546f0cfa87ae1e46c92b61c3ea1a45d8c43b325c1c86abf1a"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/3-孟获.png",
+        "bytes": 471,
+        "sha256": "fd38879f094944b5648ce5a2e680bfda90e369057440ad47d2f75dab16b1f0f3"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/4-公孙康.png",
+        "bytes": 426,
+        "sha256": "1585af658aee1d7917df9f6fa62d483abcc421fbf19187eb99a288dde82cec3f"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/72-诸葛亮.png",
+        "bytes": 488,
+        "sha256": "1d65c6fd0fb986134515f816bd19a6101fa7dccf56c7ba89c302fdf4463d38cc"
+      },
+      {
+        "path": "assets/hd-portraits/review.html",
+        "bytes": 5985,
+        "sha256": "c94c3f14bf0475ed711c0ccaa66e7830f4503cab593b0a66190a7ea0adba3d86"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "hd-portrait-smoke.html",
+        "bytes": 5844,
+        "sha256": "671f27cd0dee42aaf0a4013bda5b313c3edd576f28f4f9ff9c26ce8b34cfc6b6"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 24444,
+        "sha256": "15a51c82f97acf1494b5d8537c9d7cddcda28bd2811990170ac46ab06e0e4ab0"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "scripts/dump-hd-portraits.mjs",
+        "bytes": 25708,
+        "sha256": "6aaad6597e2e969a3e72e13fb9c38d7ed94c883d30fef7ec86a48cc6684be98d"
+      },
+      {
+        "path": "scripts/hd-person-identity-rom.mjs",
+        "bytes": 6532,
+        "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+      },
+      {
+        "path": "scripts/test-hd-lib-identity.mjs",
+        "bytes": 8080,
+        "sha256": "eec6871ca35529549b5af7a69489c504a478919ff78d9a4b0e4c1c2ed2d4a3d3"
+      },
+      {
+        "path": "scripts/test-hd-mobile-portraits.mjs",
+        "bytes": 31280,
+        "sha256": "74039e6bb55db925cce0a0275ec659cc0cf611bfc8c797b31bd74093e26d5cd1"
+      },
+      {
+        "path": "scripts/test-hd-portraits-runtime.mjs",
+        "bytes": 52537,
+        "sha256": "0c4adf5eb8b7290e36228757ca4edf721f3e81a6986e7cca459c76e9d0bb1e35"
+      },
+      {
+        "path": "scripts/test-hd-portraits.mjs",
+        "bytes": 66821,
+        "sha256": "a975069e260cf736bfd57dc9f6a13efe99d8ea7adebffa5363d9632bc396db60"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 2,
+    "newDefaultModules": 0,
+    "all66TimesThreeIdentityProtocols": true,
+    "nativeSourcesUnchanged": 128,
+    "runtimeArtifactsUnchanged": 4,
+    "fullSuiteRun": false,
+    "actualGameplayAccepted": false,
+    "globalHdComplete": false
+  },
+  "newDefaultNodeTests": 2,
+  "newDefaultModules": 0,
+  "historicalPilotsPreserved": 39,
+  "previous43EntriesAndImagesPreserved": true,
+  "manifestMappings": 66,
+  "distinctHdFiles": 56,
+  "uniqueNames": 32,
+  "originalNonemptyPeriodSlots": 736,
+  "remainingUnmappedPeriodSlots": 670,
+  "periods": [
+    {
+      "period": 1,
+      "nonemptyOriginalSlots": 187,
+      "hdMappings": 27,
+      "selectableKings": [
+        {
+          "id": 5,
+          "name": "马腾",
+          "hd": "hd/hd_p1_0005_马腾.png",
+          "present": true
+        },
+        {
+          "id": 16,
+          "name": "公孙瓒",
+          "hd": "hd/period-1/16-公孙瓒.png",
+          "present": true
+        },
+        {
+          "id": 17,
+          "name": "公孙度",
+          "hd": "hd/period-1/17-公孙度.png",
+          "present": true
+        },
+        {
+          "id": 9,
+          "name": "张杨",
+          "hd": "hd/period-1/9-张杨.png",
+          "present": true
+        },
+        {
+          "id": 13,
+          "name": "刘备",
+          "hd": "hd/hd_p1_0013_刘备.png",
+          "present": true
+        },
+        {
+          "id": 2,
+          "name": "袁绍",
+          "hd": "hd/period-1/2-袁绍.png",
+          "present": true
+        },
+        {
+          "id": 7,
+          "name": "孔融",
+          "hd": "hd/period-1/7-孔融.png",
+          "present": true
+        },
+        {
+          "id": 11,
+          "name": "王匡",
+          "hd": "hd/hd_p1_0011_王匡.png",
+          "present": true
+        },
+        {
+          "id": 0,
+          "name": "董卓",
+          "hd": "hd/hd_p1_0000_董卓.png",
+          "present": true
+        },
+        {
+          "id": 10,
+          "name": "韩馥",
+          "hd": "hd/period-1/10-韩馥.png",
+          "present": true
+        },
+        {
+          "id": 1,
+          "name": "曹操",
+          "hd": "hd/hd_p1_0001_曹操.png",
+          "present": true
+        },
+        {
+          "id": 6,
+          "name": "陶谦",
+          "hd": "hd/period-1/6-陶谦.png",
+          "present": true
+        },
+        {
+          "id": 18,
+          "name": "张鲁",
+          "hd": "hd/period-1/18-张鲁.png",
+          "present": true
+        },
+        {
+          "id": 8,
+          "name": "刘岱",
+          "hd": "hd/period-1/8-刘岱.png",
+          "present": true
+        },
+        {
+          "id": 3,
+          "name": "袁术",
+          "hd": "hd/period-1/3-袁术.png",
+          "present": true
+        },
+        {
+          "id": 15,
+          "name": "刘焉",
+          "hd": "hd/period-1/15-刘焉.png",
+          "present": true
+        },
+        {
+          "id": 14,
+          "name": "刘表",
+          "hd": "hd/period-1/14-刘表.png",
+          "present": true
+        },
+        {
+          "id": 4,
+          "name": "孙坚",
+          "hd": "hd/period-1/4-孙坚.png",
+          "present": true
+        }
+      ],
+      "selectableKingCount": 18,
+      "kingsWithHd": 18
+    },
+    {
+      "period": 2,
+      "nonemptyOriginalSlots": 184,
+      "hdMappings": 19,
+      "selectableKings": [
+        {
+          "id": 11,
+          "name": "马腾",
+          "hd": "hd/period-2/11-马腾.png",
+          "present": true
+        },
+        {
+          "id": 3,
+          "name": "袁绍",
+          "hd": "hd/period-1/2-袁绍.png",
+          "present": true
+        },
+        {
+          "id": 10,
+          "name": "公孙度",
+          "hd": "hd/period-1/17-公孙度.png",
+          "present": true
+        },
+        {
+          "id": 15,
+          "name": "孔融",
+          "hd": "hd/period-1/7-孔融.png",
+          "present": true
+        },
+        {
+          "id": 0,
+          "name": "李傕",
+          "hd": null,
+          "present": false
+        },
+        {
+          "id": 8,
+          "name": "吕布",
+          "hd": "hd/period-2/8-吕布.png",
+          "present": true
+        },
+        {
+          "id": 2,
+          "name": "刘备",
+          "hd": "hd/period-2/2-刘备.png",
+          "present": true
+        },
+        {
+          "id": 14,
+          "name": "张鲁",
+          "hd": "hd/period-1/18-张鲁.png",
+          "present": true
+        },
+        {
+          "id": 1,
+          "name": "曹操",
+          "hd": "hd/period-2/1-曹操.png",
+          "present": true
+        },
+        {
+          "id": 13,
+          "name": "刘璋",
+          "hd": null,
+          "present": false
+        },
+        {
+          "id": 7,
+          "name": "张绣",
+          "hd": null,
+          "present": false
+        },
+        {
+          "id": 4,
+          "name": "袁术",
+          "hd": "hd/period-1/3-袁术.png",
+          "present": true
+        },
+        {
+          "id": 5,
+          "name": "孙策",
+          "hd": null,
+          "present": false
+        },
+        {
+          "id": 12,
+          "name": "刘表",
+          "hd": "hd/period-1/14-刘表.png",
+          "present": true
+        },
+        {
+          "id": 9,
+          "name": "韩玄",
+          "hd": null,
+          "present": false
+        },
+        {
+          "id": 6,
+          "name": "张邈",
+          "hd": null,
+          "present": false
+        }
+      ],
+      "selectableKingCount": 16,
+      "kingsWithHd": 10
+    },
+    {
+      "period": 3,
+      "nonemptyOriginalSlots": 189,
+      "hdMappings": 13,
+      "selectableKings": [
+        {
+          "id": 7,
+          "name": "马腾",
+          "hd": "hd/period-3/7-马腾.png",
+          "present": true
+        },
+        {
+          "id": 4,
+          "name": "曹操",
+          "hd": "hd/period-3/4-曹操.png",
+          "present": true
+        },
+        {
+          "id": 10,
+          "name": "公孙康",
+          "hd": null,
+          "present": false
+        },
+        {
+          "id": 8,
+          "name": "张鲁",
+          "hd": "hd/period-1/18-张鲁.png",
+          "present": true
+        },
+        {
+          "id": 9,
+          "name": "刘璋",
+          "hd": null,
+          "present": false
+        },
+        {
+          "id": 6,
+          "name": "孙权",
+          "hd": "hd/period-3/6-孙权.png",
+          "present": true
+        },
+        {
+          "id": 5,
+          "name": "刘备",
+          "hd": "hd/period-3/5-刘备.png",
+          "present": true
+        },
+        {
+          "id": 3,
+          "name": "金旋",
+          "hd": null,
+          "present": false
+        },
+        {
+          "id": 0,
+          "name": "韩玄",
+          "hd": null,
+          "present": false
+        },
+        {
+          "id": 1,
+          "name": "刘度",
+          "hd": null,
+          "present": false
+        },
+        {
+          "id": 2,
+          "name": "赵范",
+          "hd": null,
+          "present": false
+        }
+      ],
+      "selectableKingCount": 11,
+      "kingsWithHd": 5
+    },
+    {
+      "period": 4,
+      "nonemptyOriginalSlots": 176,
+      "hdMappings": 7,
+      "selectableKings": [
+        {
+          "id": 0,
+          "name": "曹丕",
+          "hd": "hd/period-4/0-曹丕.png",
+          "present": true
+        },
+        {
+          "id": 4,
+          "name": "公孙康",
+          "hd": "hd/period-4/4-公孙康.png",
+          "present": true
+        },
+        {
+          "id": 1,
+          "name": "刘禅",
+          "hd": "hd/period-4/1-刘禅.png",
+          "present": true
+        },
+        {
+          "id": 2,
+          "name": "孙权",
+          "hd": "hd/period-4/2-孙权.png",
+          "present": true
+        },
+        {
+          "id": 3,
+          "name": "孟获",
+          "hd": "hd/period-4/3-孟获.png",
+          "present": true
+        }
+      ],
+      "selectableKingCount": 5,
+      "kingsWithHd": 5
+    }
+  ],
+  "selectableKingPeriodSlots": 50,
+  "selectableKingPeriodSlotsWithHd": 38,
+  "generation": {
+    "tool": "built-in image_gen",
+    "calls": 15,
+    "finalImages": 13,
+    "rejectedCandidates": 2,
+    "postProcessing": false,
+    "sourceCopiesExact": true,
+    "totalFinalBytes": 29132612,
+    "provenancePins": [
+      {
+        "path": "assets/hd-portraits/GENERATED-RULERS-P1-20261026.md",
+        "bytes": 3876,
+        "sha256": "23b6c73dbee397db906790314b1bd05a19b962395a2f2e58735c5473f9c02aaa"
+      },
+      {
+        "path": "assets/hd-portraits/GENERATED-RULERS-P1-20261026.json",
+        "bytes": 49925,
+        "sha256": "807151a081c9693276abb7e882e1f053594aa4d2c9a1f021c280738951706eb0"
+      }
+    ],
+    "finalAssetPins": [
+      {
+        "path": "assets/hd-portraits/hd/period-1/2-袁绍.png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2216029,
+        "sha256": "cc82a6ce102a47da72eb5e5abea78bf99f60e9074ce934849b5bd663e8ac3092"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/3-袁术.png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2205929,
+        "sha256": "7d6df85da428aee052c9e61fda8f2eaef0ab3167c16eae9b0d84299935d47aad"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/4-孙坚.png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2308946,
+        "sha256": "c4bfb1a91a95eec43785e1615415b58c5f237f9894858e448ab6dcc1801b50e9"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/6-陶谦.png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2172951,
+        "sha256": "040725b99dc378d975e9d14dfb7387314b868c8b6e5a7b9a3eb8ccb727082d10"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/7-孔融.png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2150689,
+        "sha256": "1316f028f47478b80443d69e91b64a97ee79bce1bc8e14e2b1885d984d966365"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/8-刘岱.png",
+        "width": 1672,
+        "height": 940,
+        "bytes": 2073266,
+        "sha256": "260ee58c636c16d50f2c2c564c14a42002b666b8e39effd5b7dbe98f25c4e218"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/9-张杨.png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2204064,
+        "sha256": "c6d9ba211ebfe1ab3e0257bde7451f726e157c0ddecf69949737d85ff577392d"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/10-韩馥.png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2047299,
+        "sha256": "fc5e52012f4fa00468eb1ced893404c2f384a6dd64950462fe88edc756b7ffd2"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/14-刘表.png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2262630,
+        "sha256": "05d6516c3111501a858330fa1bcda9f6238b676a0df67061b4f2c39f592d69a9"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/15-刘焉.png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2250229,
+        "sha256": "9541571dd488a7f0fdfd6bd02229b802478ca94a9d991b815c9f4e5542c64f0b"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/16-公孙瓒.png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2456208,
+        "sha256": "4414e06439270bfdb33a5e214b4785956b18defd7db9aa82a10bcf3f2c3e772e"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/17-公孙度.png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2409337,
+        "sha256": "0179d164d3eb0133bb084d1f1551cea2fff6c878567af7e62c180a4931895d5f"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/18-张鲁.png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2375035,
+        "sha256": "d85afe5f41582518c70517736441c587d4fe73e0d334d2697f8b605d0b19f688"
+      }
+    ]
+  },
+  "aliases": [
+    {
+      "period": 2,
+      "personId": 10,
+      "name": "公孙度",
+      "ref": {
+        "path": "assets/hd-portraits/refs/period-2/10-公孙度.png",
+        "bytes": 468,
+        "sha256": "2f5220bac717965d31d966a823009a3a28fb412f006b040b775524a524129074"
+      },
+      "canonicalPeriod1Id": 17,
+      "canonicalRef": {
+        "path": "assets/hd-portraits/refs/period-1/17-公孙度.png",
+        "bytes": 468,
+        "sha256": "2f5220bac717965d31d966a823009a3a28fb412f006b040b775524a524129074"
+      },
+      "hd": "hd/period-1/17-公孙度.png",
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "period": 2,
+      "personId": 3,
+      "name": "袁绍",
+      "ref": {
+        "path": "assets/hd-portraits/refs/period-2/3-袁绍.png",
+        "bytes": 514,
+        "sha256": "5115f9e266089b9e039399d4b0bd3b7294623817922eeb65902b4f532f6455e9"
+      },
+      "canonicalPeriod1Id": 2,
+      "canonicalRef": {
+        "path": "assets/hd-portraits/refs/period-1/2-袁绍.png",
+        "bytes": 514,
+        "sha256": "5115f9e266089b9e039399d4b0bd3b7294623817922eeb65902b4f532f6455e9"
+      },
+      "hd": "hd/period-1/2-袁绍.png",
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "period": 2,
+      "personId": 15,
+      "name": "孔融",
+      "ref": {
+        "path": "assets/hd-portraits/refs/period-2/15-孔融.png",
+        "bytes": 497,
+        "sha256": "70f85de7b37d47ac84a8b093d2262ae56145d646c4286853d093a4f1cf7ea127"
+      },
+      "canonicalPeriod1Id": 7,
+      "canonicalRef": {
+        "path": "assets/hd-portraits/refs/period-1/7-孔融.png",
+        "bytes": 497,
+        "sha256": "70f85de7b37d47ac84a8b093d2262ae56145d646c4286853d093a4f1cf7ea127"
+      },
+      "hd": "hd/period-1/7-孔融.png",
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "period": 3,
+      "personId": 26,
+      "name": "孔融",
+      "ref": {
+        "path": "assets/hd-portraits/refs/period-3/26-孔融.png",
+        "bytes": 497,
+        "sha256": "70f85de7b37d47ac84a8b093d2262ae56145d646c4286853d093a4f1cf7ea127"
+      },
+      "canonicalPeriod1Id": 7,
+      "canonicalRef": {
+        "path": "assets/hd-portraits/refs/period-1/7-孔融.png",
+        "bytes": 497,
+        "sha256": "70f85de7b37d47ac84a8b093d2262ae56145d646c4286853d093a4f1cf7ea127"
+      },
+      "hd": "hd/period-1/7-孔融.png",
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "period": 2,
+      "personId": 82,
+      "name": "韩馥",
+      "ref": {
+        "path": "assets/hd-portraits/refs/period-2/82-韩馥.png",
+        "bytes": 429,
+        "sha256": "444de590738cc01b30dbea88c5497149e4557958083d1bdebaca9680868114cb"
+      },
+      "canonicalPeriod1Id": 10,
+      "canonicalRef": {
+        "path": "assets/hd-portraits/refs/period-1/10-韩馥.png",
+        "bytes": 429,
+        "sha256": "444de590738cc01b30dbea88c5497149e4557958083d1bdebaca9680868114cb"
+      },
+      "hd": "hd/period-1/10-韩馥.png",
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "period": 2,
+      "personId": 14,
+      "name": "张鲁",
+      "ref": {
+        "path": "assets/hd-portraits/refs/period-2/14-张鲁.png",
+        "bytes": 449,
+        "sha256": "e4ddebd6dd0f6efe87159641eee1890b1f31f074fd51520912dd9fde424fd4c9"
+      },
+      "canonicalPeriod1Id": 18,
+      "canonicalRef": {
+        "path": "assets/hd-portraits/refs/period-1/18-张鲁.png",
+        "bytes": 449,
+        "sha256": "e4ddebd6dd0f6efe87159641eee1890b1f31f074fd51520912dd9fde424fd4c9"
+      },
+      "hd": "hd/period-1/18-张鲁.png",
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "period": 3,
+      "personId": 8,
+      "name": "张鲁",
+      "ref": {
+        "path": "assets/hd-portraits/refs/period-3/8-张鲁.png",
+        "bytes": 449,
+        "sha256": "e4ddebd6dd0f6efe87159641eee1890b1f31f074fd51520912dd9fde424fd4c9"
+      },
+      "canonicalPeriod1Id": 18,
+      "canonicalRef": {
+        "path": "assets/hd-portraits/refs/period-1/18-张鲁.png",
+        "bytes": 449,
+        "sha256": "e4ddebd6dd0f6efe87159641eee1890b1f31f074fd51520912dd9fde424fd4c9"
+      },
+      "hd": "hd/period-1/18-张鲁.png",
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "period": 2,
+      "personId": 26,
+      "name": "刘岱",
+      "ref": {
+        "path": "assets/hd-portraits/refs/period-2/26-刘岱.png",
+        "bytes": 474,
+        "sha256": "f641049cb4a0e4a8b4c8cdaf3e4725987e078340aa0eee496afb7d5c1ea3e7e5"
+      },
+      "canonicalPeriod1Id": 8,
+      "canonicalRef": {
+        "path": "assets/hd-portraits/refs/period-1/8-刘岱.png",
+        "bytes": 474,
+        "sha256": "f641049cb4a0e4a8b4c8cdaf3e4725987e078340aa0eee496afb7d5c1ea3e7e5"
+      },
+      "hd": "hd/period-1/8-刘岱.png",
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "period": 2,
+      "personId": 4,
+      "name": "袁术",
+      "ref": {
+        "path": "assets/hd-portraits/refs/period-2/4-袁术.png",
+        "bytes": 465,
+        "sha256": "8536007513d1ef5fc709c48d37ecbae9232368ec93bab90e3d943540126ee68e"
+      },
+      "canonicalPeriod1Id": 3,
+      "canonicalRef": {
+        "path": "assets/hd-portraits/refs/period-1/3-袁术.png",
+        "bytes": 465,
+        "sha256": "8536007513d1ef5fc709c48d37ecbae9232368ec93bab90e3d943540126ee68e"
+      },
+      "hd": "hd/period-1/3-袁术.png",
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "period": 2,
+      "personId": 12,
+      "name": "刘表",
+      "ref": {
+        "path": "assets/hd-portraits/refs/period-2/12-刘表.png",
+        "bytes": 475,
+        "sha256": "f25593edf4908a66d120e1117a59ac29b5dbaf4276271d22e8ad116f7a34fec1"
+      },
+      "canonicalPeriod1Id": 14,
+      "canonicalRef": {
+        "path": "assets/hd-portraits/refs/period-1/14-刘表.png",
+        "bytes": 475,
+        "sha256": "f25593edf4908a66d120e1117a59ac29b5dbaf4276271d22e8ad116f7a34fec1"
+      },
+      "hd": "hd/period-1/14-刘表.png",
+      "rawReferenceBytesEqual": true
+    }
+  ],
+  "earlierUnitFailure": {
+    "tests": 51,
+    "pass": 48,
+    "fail": 3,
+    "reason": "Three old fixtures assumed newly mapped period-one Yuan Shao remained unmapped; replace with an actual currently unmapped original identity, preserve original fallback semantics",
+    "failedSourceSnapshotRetained": false,
+    "originalSourceShaAndRawResultsRetained": true,
+    "final51IsSubsetOfRoot152": true
+  },
+  "preview": {
+    "accepted": true,
+    "kind": "Actual shipped manual smoke page, real PNG decoding, original controller/CSS; no engine/main or runtime identity",
+    "browserRuns": 13,
+    "serverClosed": true,
+    "privateEphemeralPort": 12277,
+    "controlledPreviewOnly": true,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "results": [
+      {
+        "name": "袁绍",
+        "id": 2,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 2,
+          "period": 1,
+          "name": "袁绍",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/2-袁绍.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 941,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/2-袁绍.png",
+          "caption": "袁绍 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.734375,
+            "width": 480,
+            "height": 270.140625
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 423.28125,
+            "width": 500,
+            "height": 313.6875
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-2-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-2-profile-v1",
+        "exitCode": 0
+      },
+      {
+        "name": "袁术",
+        "id": 3,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 3,
+          "period": 1,
+          "name": "袁术",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/3-袁术.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 941,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/3-袁术.png",
+          "caption": "袁术 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 828,
+            "height": 295
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.734375,
+            "width": 480,
+            "height": 270.140625
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 423.28125,
+            "width": 500,
+            "height": 313.6875
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-3-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-3-profile-v1",
+        "exitCode": 0
+      },
+      {
+        "name": "孙坚",
+        "id": 4,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 4,
+          "period": 1,
+          "name": "孙坚",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/4-孙坚.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 941,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/4-孙坚.png",
+          "caption": "孙坚 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.734375,
+            "width": 480,
+            "height": 270.140625
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 423.28125,
+            "width": 500,
+            "height": 313.6875
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-4-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-4-profile-v1",
+        "exitCode": 0
+      },
+      {
+        "name": "陶谦",
+        "id": 6,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 6,
+          "period": 1,
+          "name": "陶谦",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/6-陶谦.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 941,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/6-陶谦.png",
+          "caption": "陶谦 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 828,
+            "height": 295
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.734375,
+            "width": 480,
+            "height": 270.140625
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 423.28125,
+            "width": 500,
+            "height": 313.6875
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-6-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-6-profile-v1",
+        "exitCode": 0
+      },
+      {
+        "name": "孔融",
+        "id": 7,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 7,
+          "period": 1,
+          "name": "孔融",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/7-孔融.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 941,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/7-孔融.png",
+          "caption": "孔融 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.734375,
+            "width": 480,
+            "height": 270.140625
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 423.28125,
+            "width": 500,
+            "height": 313.6875
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-7-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-7-profile-v1",
+        "exitCode": 0
+      },
+      {
+        "name": "刘岱",
+        "id": 8,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 8,
+          "period": 1,
+          "name": "刘岱",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/8-刘岱.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 940,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/8-刘岱.png",
+          "caption": "刘岱 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 828,
+            "height": 295
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.4375,
+            "width": 480,
+            "height": 269.84375
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 422.984375,
+            "width": 500,
+            "height": 313.390625
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-8-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-8-profile-v1",
+        "exitCode": 0
+      },
+      {
+        "name": "张杨",
+        "id": 9,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 9,
+          "period": 1,
+          "name": "张杨",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/9-张杨.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 941,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/9-张杨.png",
+          "caption": "张杨 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.734375,
+            "width": 480,
+            "height": 270.140625
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 423.28125,
+            "width": 500,
+            "height": 313.6875
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-9-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-9-profile-v1",
+        "exitCode": 0
+      },
+      {
+        "name": "韩馥",
+        "id": 10,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 10,
+          "period": 1,
+          "name": "韩馥",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/10-韩馥.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 941,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/10-韩馥.png",
+          "caption": "韩馥 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 828,
+            "height": 295
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.734375,
+            "width": 480,
+            "height": 270.140625
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 423.28125,
+            "width": 500,
+            "height": 313.6875
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-10-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-10-profile-v1",
+        "exitCode": 0
+      },
+      {
+        "name": "刘表",
+        "id": 14,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 14,
+          "period": 1,
+          "name": "刘表",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/14-刘表.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 941,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/14-刘表.png",
+          "caption": "刘表 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.734375,
+            "width": 480,
+            "height": 270.140625
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 423.28125,
+            "width": 500,
+            "height": 313.6875
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-14-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-14-profile-v1",
+        "exitCode": 0
+      },
+      {
+        "name": "刘焉",
+        "id": 15,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 15,
+          "period": 1,
+          "name": "刘焉",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/15-刘焉.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 941,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/15-刘焉.png",
+          "caption": "刘焉 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 828,
+            "height": 295
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.734375,
+            "width": 480,
+            "height": 270.140625
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 423.28125,
+            "width": 500,
+            "height": 313.6875
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-15-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-15-profile-v1",
+        "exitCode": 0
+      },
+      {
+        "name": "公孙瓒",
+        "id": 16,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 16,
+          "period": 1,
+          "name": "公孙瓒",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/16-公孙瓒.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 941,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/16-公孙瓒.png",
+          "caption": "公孙瓒 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.734375,
+            "width": 480,
+            "height": 270.140625
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 423.28125,
+            "width": 500,
+            "height": 313.6875
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-16-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-16-profile-v1",
+        "exitCode": 0
+      },
+      {
+        "name": "公孙度",
+        "id": 17,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 17,
+          "period": 1,
+          "name": "公孙度",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/17-公孙度.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 941,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/17-公孙度.png",
+          "caption": "公孙度 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 828,
+            "height": 295
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.734375,
+            "width": 480,
+            "height": 270.140625
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 423.28125,
+            "width": 500,
+            "height": 313.6875
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-17-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-17-profile-v1",
+        "exitCode": 0
+      },
+      {
+        "name": "张鲁",
+        "id": 18,
+        "accepted": true,
+        "metrics": {
+          "ok": true,
+          "previewOnly": true,
+          "personId": 18,
+          "period": 1,
+          "name": "张鲁",
+          "expect": "hd",
+          "actualMode": "hd",
+          "url": "assets/hd-portraits/hd/period-1/18-张鲁.png",
+          "errors": [],
+          "naturalWidth": 1672,
+          "naturalHeight": 941,
+          "complete": true,
+          "src": "assets/hd-portraits/hd/period-1/18-张鲁.png",
+          "caption": "张鲁 · 董卓弄权 · HD 立绘 · 素材预览",
+          "visible": true,
+          "objectFit": "contain",
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "imageRect": {
+            "x": 34,
+            "y": 119.59375,
+            "right": 514,
+            "bottom": 389.734375,
+            "width": 480,
+            "height": 270.140625
+          },
+          "slotRect": {
+            "x": 24,
+            "y": 109.59375,
+            "right": 524,
+            "bottom": 423.28125,
+            "width": 500,
+            "height": 313.6875
+          },
+          "overflow": false
+        },
+        "screenshot": "build/portrait-rulers-p1-20261026-v97/portrait-18-preview-v1.png",
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\portrait-rulers-p1-20261026-v97\\portrait-18-profile-v1",
+        "exitCode": 0
+      }
+    ],
+    "requests": [
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/2-袁绍.png",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      },
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/3-袁术.png",
+        "status": 200
+      },
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/4-孙坚.png",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      },
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/6-陶谦.png",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      },
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/7-孔融.png",
+        "status": 200
+      },
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/8-刘岱.png",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      },
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/9-张杨.png",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      },
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/10-韩馥.png",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      },
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/14-刘表.png",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      },
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/15-刘焉.png",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      },
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/16-公孙瓒.png",
+        "status": 200
+      },
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/17-公孙度.png",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      },
+      {
+        "rel": "hd-portrait-smoke.html",
+        "status": 200
+      },
+      {
+        "rel": "css/hd-portraits.css",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-lib-identity.js",
+        "status": 200
+      },
+      {
+        "rel": "js/hd-portraits.js",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/manifest.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/refs/index.json",
+        "status": 200
+      },
+      {
+        "rel": "assets/hd-portraits/hd/period-1/18-张鲁.png",
+        "status": 200
+      },
+      {
+        "rel": "favicon.ico",
+        "status": 404
+      }
+    ],
+    "selectedSources": [
+      {
+        "path": "hd-portrait-smoke.html",
+        "bytes": 5844,
+        "sha256": "671f27cd0dee42aaf0a4013bda5b313c3edd576f28f4f9ff9c26ce8b34cfc6b6"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 15593,
+        "sha256": "51639bb56ee8b3e04146c3df45b11077503c40a3381bff4cd6720d13900312a1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 234072,
+        "sha256": "d14a836a1bf1045ec920ab8996cfa40681a6841e0961cc6e9b16b54ba7d96f85"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/2-袁绍.png",
+        "bytes": 2216029,
+        "sha256": "cc82a6ce102a47da72eb5e5abea78bf99f60e9074ce934849b5bd663e8ac3092"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/3-袁术.png",
+        "bytes": 2205929,
+        "sha256": "7d6df85da428aee052c9e61fda8f2eaef0ab3167c16eae9b0d84299935d47aad"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/4-孙坚.png",
+        "bytes": 2308946,
+        "sha256": "c4bfb1a91a95eec43785e1615415b58c5f237f9894858e448ab6dcc1801b50e9"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/6-陶谦.png",
+        "bytes": 2172951,
+        "sha256": "040725b99dc378d975e9d14dfb7387314b868c8b6e5a7b9a3eb8ccb727082d10"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/7-孔融.png",
+        "bytes": 2150689,
+        "sha256": "1316f028f47478b80443d69e91b64a97ee79bce1bc8e14e2b1885d984d966365"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/8-刘岱.png",
+        "bytes": 2073266,
+        "sha256": "260ee58c636c16d50f2c2c564c14a42002b666b8e39effd5b7dbe98f25c4e218"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/9-张杨.png",
+        "bytes": 2204064,
+        "sha256": "c6d9ba211ebfe1ab3e0257bde7451f726e157c0ddecf69949737d85ff577392d"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/10-韩馥.png",
+        "bytes": 2047299,
+        "sha256": "fc5e52012f4fa00468eb1ced893404c2f384a6dd64950462fe88edc756b7ffd2"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/14-刘表.png",
+        "bytes": 2262630,
+        "sha256": "05d6516c3111501a858330fa1bcda9f6238b676a0df67061b4f2c39f592d69a9"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/15-刘焉.png",
+        "bytes": 2250229,
+        "sha256": "9541571dd488a7f0fdfd6bd02229b802478ca94a9d991b815c9f4e5542c64f0b"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/16-公孙瓒.png",
+        "bytes": 2456208,
+        "sha256": "4414e06439270bfdb33a5e214b4785956b18defd7db9aa82a10bcf3f2c3e772e"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/17-公孙度.png",
+        "bytes": 2409337,
+        "sha256": "0179d164d3eb0133bb084d1f1551cea2fff6c878567af7e62c180a4931895d5f"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/18-张鲁.png",
+        "bytes": 2375035,
+        "sha256": "d85afe5f41582518c70517736441c587d4fe73e0d334d2697f8b605d0b19f688"
+      }
+    ],
+    "sourceBytesStable": true
+  },
+  "evidence": [
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/targeted-v1.json",
+      "bytes": 25870,
+      "sha256": "b3ee7af3c59474fa3ae383991fabac46011e56bcebcd9ff74a90e0b4f53db199"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/targeted-v1.stdout.tap",
+      "bytes": 34959,
+      "sha256": "df35cd637d1a3f405fe7eb7339f4bf2c7c9b15f9c15caa6007ab7cc2fe1c8bad"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/asset-install-v1.json",
+      "bytes": 51596,
+      "sha256": "91782a72ffec2a33a739452d041a511c0021db036c15e43865af1282a82e268c"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/asset-preview-v1.json",
+      "bytes": 29769,
+      "sha256": "b1455088e190f4fd044ebfbd32f5593974349b8dd8aea7e5ee9a6a319a92a4cb"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/audit.json",
+      "bytes": 21814,
+      "sha256": "6dc9026513d06b0094084139cf41e76bde9e375d2975ba3db0c0d1e55192f50a"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/mapping-v1.json",
+      "bytes": 14665,
+      "sha256": "c87dfdb7485a08c8c8a17641006e7515cddf6a699f4fa3815fee850247efd72f"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/art-review-v1.json",
+      "bytes": 14382,
+      "sha256": "d3a73e7896e918508723bdc4f351d49718700b137e3d632d95cc31c0237b61c9"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/art-review-v2.json",
+      "bytes": 15533,
+      "sha256": "c53da85e021144c618c03c18aa17f5afd92f822fc1847aa8933099a1d7f7a1cd"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portraits-unit-v1.json",
+      "bytes": 24038,
+      "sha256": "a30140a1ba7b193de6d491ae299ab183837d00bcf620390059e2add4591b8daf"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portraits-unit-v1.stdout.tap",
+      "bytes": 15053,
+      "sha256": "c400ad2f9322ca72814735776f836e5a03f453e4861f723564436d44e08d95f8"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portraits-unit-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portraits-unit-v2.json",
+      "bytes": 24037,
+      "sha256": "5b109761d408394c743677d8950153ba22fa185e97dbd82d96b2afd517d0ae2d"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portraits-unit-v2.stdout.tap",
+      "bytes": 13087,
+      "sha256": "2beea163ce7c5a43320789d35c1e4964b4417fea7fe3ed2f793b9eac9c6bb62a"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portraits-unit-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-unit-evidence.md",
+      "bytes": 2384,
+      "sha256": "3073a94ec197c573ef898ecf63331825471646db723a00445523774f8ab3e82b"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-2-preview-v1.png",
+      "bytes": 243773,
+      "sha256": "1f18218c4224cfdf787f5d5c14aed8851980036efb2588311751f09b39a7da77"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-2-preview-v1.dom.html",
+      "bytes": 7821,
+      "sha256": "b347736b9fd74c590b3b82a512f5fc6a5551334413a76c5d793afe037ec5fd55"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-3-preview-v1.png",
+      "bytes": 238556,
+      "sha256": "a910b05c973ea947fe6abad56974be7ea7de950eee04d941457d890ac92b4b91"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-3-preview-v1.dom.html",
+      "bytes": 7820,
+      "sha256": "4ced5e1d36a7ed7e20c77b4538fc42868ee91b7e5eaf144a16ccd1a0da661f83"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-4-preview-v1.png",
+      "bytes": 259838,
+      "sha256": "fdd03c41f064eeba2f66d9ff15a7b47262a4b1ebada11bd8aee0902ec9aab39c"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-4-preview-v1.dom.html",
+      "bytes": 7821,
+      "sha256": "048764fa9065108191a642ec74193560353a836a747b33d0bc4e1e21482c2039"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-6-preview-v1.png",
+      "bytes": 228124,
+      "sha256": "6aae833aa7c0eab64eadba6e18a5907a022cbef130067480ec2f3e02bb30d4d2"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-6-preview-v1.dom.html",
+      "bytes": 7820,
+      "sha256": "dd7d5eb30b29c66f134e181bf0940fbb3357cdbc71e3f948b33998e5a8eb20e3"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-7-preview-v1.png",
+      "bytes": 238294,
+      "sha256": "af7c190cbbb7b3ecc044f472ae9ea8d0b433b7e23d6b62d223da93e3fcec99bd"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-7-preview-v1.dom.html",
+      "bytes": 7821,
+      "sha256": "dd8693da5bac5aaf9ce17b08c5c2fa54c9000d96544d0dafd980c8bf6c78cc37"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-8-preview-v1.png",
+      "bytes": 217433,
+      "sha256": "4a050f4474e0c0a411a95482a5e2fa9cd563fc83c830217d1af777c4d6f00e51"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-8-preview-v1.dom.html",
+      "bytes": 7820,
+      "sha256": "eb59c7492b1cec5d6a778da317bf0c966dd061ac369d4458eeaa0f0097c22b83"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-9-preview-v1.png",
+      "bytes": 248061,
+      "sha256": "0dccf1605b83ff474942a31bc6ec6e4ed5c58cd540ad5eef7940ba8ae2596c55"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-9-preview-v1.dom.html",
+      "bytes": 7821,
+      "sha256": "a1500666955ebe9b55c9245e89b3ba073b4972358f80897303273c72a5c6a820"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-10-preview-v1.png",
+      "bytes": 231346,
+      "sha256": "c90624bc0a00856d59ef668a836df1b442f417775447603befedc16c597746a4"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-10-preview-v1.dom.html",
+      "bytes": 7825,
+      "sha256": "782a71c450ca05696ffb00aa11d4d4850ba8c380da6a6d7a63acb4308732bb7d"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-14-preview-v1.png",
+      "bytes": 250914,
+      "sha256": "8106ed028f7fba01e2e4847fbfa7a61ceeeed00f272b6d99d7f4218eb08d75c3"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-14-preview-v1.dom.html",
+      "bytes": 7826,
+      "sha256": "b0114e02bc25b9dd7a9d5da2954c0dbd1789786c609ae17afbd82e796b2b43db"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-15-preview-v1.png",
+      "bytes": 237138,
+      "sha256": "a112c037a238878aa25f3955c4811acd78a1f33dec7630bf6526278db61aa875"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-15-preview-v1.dom.html",
+      "bytes": 7825,
+      "sha256": "8728d5ff647b0dbdce7779e72f78ba86d33fefa7a6b6f665fee603e83e10bd3b"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-16-preview-v1.png",
+      "bytes": 272665,
+      "sha256": "090f48f5ddd93210de8cecceb3f241ab3589917ba49375ae3bc98bb4f8538a38"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-16-preview-v1.dom.html",
+      "bytes": 7850,
+      "sha256": "01c4086dd110ca7a795469c8c2554448a9bb558f0dae6133c755680314b05040"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-17-preview-v1.png",
+      "bytes": 238967,
+      "sha256": "50a969119215d65205cb13124ec33cacfbe46514da9b38dbeb80ff7d3f3de629"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-17-preview-v1.dom.html",
+      "bytes": 7849,
+      "sha256": "aff3f63ae6fd5eb9632b35ecdddf1a32732ab0d46fea728e1e822e8b7f528d82"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-18-preview-v1.png",
+      "bytes": 254303,
+      "sha256": "31ec3a7998304b793f7b26dc5be8fe68649a71771f11ce0b2a0124f24bb8ee4d"
+    },
+    {
+      "path": "build/portrait-rulers-p1-20261026-v97/portrait-18-preview-v1.dom.html",
+      "bytes": 7826,
+      "sha256": "d2824ea70c12f2c65f3429f1fbfe6076d170ce7007354bb0a5be284a86f3894b"
+    }
+  ],
+  "nativeSourcesUnchanged": 128,
+  "runtimeArtifactsUnchanged": 4,
+  "productionJsCssUnchanged": true,
+  "fullSuiteRun": false,
+  "actualGameplayAccepted": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "globalHdComplete": false,
+  "held": {
+    "privateInterfaceInspected": false,
+    "inputs": 0,
+    "closed": false,
+    "restarted": false
+  },
+  "remaining": [
+    "Remaining selectable rulers in periods two and three",
+    "Other original people retain reference fallback",
+    "Natural new-ruler map/report/help and mobile runtime acceptance",
+    "Full regression, real devices and tuning later"
+  ]
+}
