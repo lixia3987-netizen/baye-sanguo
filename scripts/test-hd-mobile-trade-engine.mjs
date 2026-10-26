@@ -120,7 +120,7 @@ static void ShowConstStrMsg(U16 id) { assert(id==STR_NOPERSON || id==NOTE_STR9);
 static void GamMsgBox(U8* text,U8 delay) { assert(text && delay==1); ++fullMessages; }
 static U8 canAddOrder(OrderType* order) { assert(order->OrderId==EXCHANGE); ++addCalls; return 1; }
 ` + globals + '\n' + [
-    'hd_next_input_seq', 'baye_hd_person_properties_retire', 'hd_goods_clear', 'hd_menu_ids_clear',
+    'hd_next_input_seq', 'hd_battle_note_notify', 'baye_hd_battle_note_retire', 'baye_hd_person_properties_retire', 'hd_goods_clear', 'hd_menu_ids_clear',
     'hd_help_detail_clear', 'hd_city_info_notify','baye_hd_city_info_retire','baye_hd_view_retire', 'baye_hd_mini_map_retire',
     'baye_hd_menu_scope', 'baye_hd_menu_scope_default', 'baye_hd_menu_begin', 'baye_hd_menu_end',
     'baye_hd_set_menu', 'baye_hd_set_menu_index', 'baye_hd_menu_ids',

@@ -60,13 +60,16 @@ const manifest = {
     hdBattleNoteProtocol: {
         version: 1,
         publicApi: 'baye.hd.battleNote()',
-        fields: ['g_hdBattleNoteProtocolVersion','g_hdBattleNoteActive','g_hdBattleNoteSeq','g_hdBattleNoteGeneration','g_hdBattleNoteOutcome','g_hdBattleNoteWinner','g_hdBattleNoteText'],
-        types: {victory: 1, defeat: 2, attack: 3, confrontation: 4, tacticPrelude: 5},
+        fields: ['g_hdBattleNoteProtocolVersion','g_hdBattleNoteActive','g_hdBattleNoteSeq','g_hdBattleNoteGeneration','g_hdBattleNoteOutcome','g_hdBattleNoteWinner','g_hdBattleNoteValue','g_hdBattleNoteText'],
+        types: {victory: 1, defeat: 2, attack: 3, confrontation: 4, tacticPrelude: 5, weatherTransition: 6, dayTransition: 7},
         winner: 'actual zero-based winner only for victory; all other types require unpublished 65535',
-        publication: 'actual complete native sentence after original draw; no extra name, city or person-count reads for pre-battle announcements',
-        input: 'passive observer; original attack100/keyflag0, confrontation300/configured keyflag and tactic-prelude5/keyflag0 waits remain unchanged',
+        value: {field: 'g_hdBattleNoteValue', type: 'U16', dto: 'only active types 6 and 7 add value; types 1 through 5 and inactive DTOs retain their existing shape', reset: 'native Value resets to 0 on legacy type 1 through 5 begin and all retirements'},
+        publication: 'actual complete native sentence or typed weather/day after original draw; no extra name, city or person-count reads for types 3 through 7',
+        weatherTransition: 'type 6 observes actual FgtChgWeather value 1 through 5 after all three original picture draws; text is empty; no additional RNG or weather changes',
+        dayTransition: 'type 7 observes actual U16 day 0 through 65535 and the canonical gam_itoa numeral passed to the original day draw; text must equal String(value)',
+        input: 'passive observer; original attack100/keyflag0, confrontation300/configured keyflag, tactic-prelude5/keyflag0 and separate weather/day fifty-tick/keyflag-false waits remain unchanged',
         tacticPrelude: 'actual ShowTacticNote sentences before ComputerTactic; no percent, retained last item, AI execution or timer extension',
-        retirement: 'local generation and sequence; a draw-time world change cannot publish the old pre-battle sentence; stale ends do not retire replacements'
+        retirement: 'local generation and sequence; draw-time world or note owner changes cannot publish stale weather/day; active note, report, help, menu and quantity owners block transitions; stale ends do not retire replacements'
     },
     hdTransferProtocol: {
         version: 1,

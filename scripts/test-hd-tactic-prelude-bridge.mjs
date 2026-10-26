@@ -45,7 +45,7 @@ test('prelude requires the unknown-winner sentinel and rejects malformed or futu
         const f=fixture();f.raw.g_hdBattleNoteWinner=winner;assert.equal(f.read(),null,String(winner));
         assert.equal(f.countReads(),0);f.untouched();
     }
-    for(const [name,value]of [['Outcome',0],['Outcome',6],['Outcome',255],['Outcome','5'],['Outcome',5.5],
+    for(const [name,value]of [['Outcome',0],['Outcome',8],['Outcome',255],['Outcome','5'],['Outcome',5.5],
         ['ProtocolVersion',2],['Active',2],['Seq',0],['Seq',0x100000000],['Generation',6],
         ['Text',''],['Text','x'.repeat(512)],['Text',[]]]){
         const f=fixture();f.raw['g_hdBattleNote'+name]=value;assert.equal(f.read(),null,name);f.untouched();

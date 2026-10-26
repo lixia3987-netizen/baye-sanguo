@@ -13,10 +13,11 @@ const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),native=join(roo
 const read=file=>readFileSync(file==='PublicFun.c'&&process.env.BAYE_GRAPHIC_MESSAGE_SOURCE||join(native,file),'utf8').replace(/\r\n/g,'\n');
 function actual(file,name){const source=read(file),match=new RegExp('^(?:static\\s+)?(?:inline\\s+)?(?:FAR\\s+)?[A-Za-z0-9_ *]+\\b'+name+'\\([^;]*?\\)\\s*\\{','m').exec(source);assert.ok(match,`actual ${file}::${name}`);const end=source.indexOf('\n}',match.index);assert.ok(end>match.index);return source.slice(match.index,end+2);}
 const header=read('hd-bridge.h'),bridge=read('hd-bridge.c');
-const constants=[header,read('baye/comm.h'),read('baye/consdef.h')].join('\n').split('\n').filter(line=>/^#define\s+(?:BAYE_HD_REPORT_MAX|BAYE_HD_REPORT_NONE|BAYE_HD_REPORT_MSGBOX|BAYE_HD_REPORT_GREPORT|VM_CHAR_ASC|VM_CHAR_FUN|VM_TIMER|VM_TOUCH|VT_TOUCH_DOWN|VT_TOUCH_UP|VT_TOUCH_MOVE|VT_TOUCH_CANCEL|VK_ENTER|VK_EXIT|MSGBOX_PIC|TIMER_DLY)\b/.test(line)).join('\n');
+const constants=[header,read('baye/comm.h'),read('baye/consdef.h')].join('\n').split('\n').filter(line=>/^#define\s+(?:BAYE_HD_BATTLE_NOTE_VERSION|BAYE_HD_BATTLE_NOTE_TEXT_MAX|BAYE_HD_REPORT_MAX|BAYE_HD_REPORT_NONE|BAYE_HD_REPORT_MSGBOX|BAYE_HD_REPORT_GREPORT|VM_CHAR_ASC|VM_CHAR_FUN|VM_TIMER|VM_TOUCH|VT_TOUCH_DOWN|VT_TOUCH_UP|VT_TOUCH_MOVE|VT_TOUCH_CANCEL|VK_ENTER|VK_EXIT|MSGBOX_PIC|TIMER_DLY)\b/.test(line)).join('\n');
 const picture=read('baye/graph.h').match(/typedef struct PictureHead\s*\{[^}]*\}\s*PictureHeadType;/)[0];
 const reportGlobals=bridge.slice(bridge.indexOf('U8 g_hdReportGbk['),bridge.indexOf('U8 g_hdRecordActive ='));
-const helpers=['copy_gbk','hd_next_input_seq','baye_hd_set_report','baye_hd_report_begin','baye_hd_report_end'].map(name=>actual('hd-bridge.c',name));
+const noteGlobals=bridge.slice(bridge.indexOf('U8 g_hdBattleNoteProtocolVersion ='),bridge.indexOf('U16 g_hdMenuIds['));
+const helpers=['copy_gbk','hd_next_input_seq','hd_battle_note_notify','baye_hd_battle_note_retire','baye_hd_set_report','baye_hd_report_begin','baye_hd_report_end'].map(name=>actual('hd-bridge.c',name));
 const funcs=[actual('baye/comm.h','GamMsgIsTimer0'),...helpers,actual('comIn.c','GamDelay'),actual('PublicFun.c','PlcGraMsgBox'),actual('Fight.c','FgtShowGetExp')];
 const fixture=String.raw`
 #define _CRT_SECURE_NO_WARNINGS
@@ -38,7 +39,8 @@ typedef struct {U8 type;U16 param;} GMType;
 #define gam_strlen(text) strlen((const char*)(text))
 #define gam_strcat(dst,src) strcat((char*)(dst),(const char*)(src))
 #define dFgtGetExp 4
-`+constants+'\n#pragma pack(push,1)\n'+picture+'\n#pragma pack(pop)\n'+reportGlobals+String.raw`
+`+constants+'\n#pragma pack(push,1)\n'+picture+'\n#pragma pack(pop)\n'+reportGlobals+'\n'+noteGlobals+String.raw`
+static U32 g_hdDetailGeneration=7;
 static struct {U16 mp,xp;U32 rng;} world={99,77,0xabcdef01},worldBefore;
 static U8 resourceBuffer[256],*g_CBnkPtr=resourceBuffer;
 static PictureHeadType head={120,64,1,0};

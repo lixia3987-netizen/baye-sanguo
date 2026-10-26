@@ -1,0 +1,45 @@
+/* Native weather/day waits own this passive surface for their original duration. */
+#hd-battle-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 121;
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    padding: 24px;
+    color: #f4d582;
+    background: radial-gradient(ellipse at 50% 35%, #3c423f, #101b23 78%);
+    pointer-events: none;
+    font-family: system-ui, "Microsoft YaHei", sans-serif;
+}
+#hd-battle-transition[hidden] { display: none !important; }
+#hd-battle-transition .hd-battle-transition-panel {
+    width: min(560px, 100%);
+    box-sizing: border-box;
+    padding: 24px 32px;
+    text-align: center;
+    border-block: 2px solid currentColor;
+    background: linear-gradient(90deg, transparent, #111d27b3, transparent);
+}
+#hd-battle-transition-graphic { margin: 0 auto 12px; width: clamp(96px, 13vw, 160px); }
+#hd-battle-transition-graphic svg { display: block; width: 100%; height: auto; }
+#hd-battle-transition-label { margin: 0 0 6px; font-size: clamp(16px, 2vw, 22px); letter-spacing: .3em; }
+#hd-battle-transition-value { margin: 0; font-size: clamp(40px, 6vw, 72px); font-weight: 700; line-height: 1.2; }
+#hd-battle-transition[data-weather="2"] { color: #d7e0e7; background: radial-gradient(ellipse at 50% 35%, #495b68, #101922 78%); }
+#hd-battle-transition[data-weather="3"] { color: #bbe7d9; background: radial-gradient(ellipse at 50% 35%, #28594f, #0c2026 78%); }
+#hd-battle-transition[data-weather="4"] { color: #b9d8f6; background: radial-gradient(ellipse at 50% 35%, #254968, #0b1828 78%); }
+#hd-battle-transition[data-weather="5"] { color: #d5eff5; background: radial-gradient(ellipse at 50% 35%, #416576, #10202e 78%); }
+#hd-battle-transition[data-kind="day"] { color: #f2d9a4; background: radial-gradient(ellipse at 50% 45%, #573c2b, #211a18 78%); }
+#hd-battle-transition[data-kind="day"] .hd-battle-transition-panel { padding-block: 54px; border: 2px solid #bda16d; outline: 1px solid #bda16d66; outline-offset: 8px; }
+#hd-battle-transition[data-kind="day"] #hd-battle-transition-graphic { display: none; }
+/* Only pixels are covered. The real canvas keeps its hit box and native gates. */
+body[data-hd-battle-transition="hd"] #lcd { opacity: 0 !important; }
+.hd-mobile-page #hd-battle-transition { position: absolute; padding: 16px; }
+.hd-mobile-page #hd-battle-transition .hd-battle-transition-panel { max-width: 520px; padding: 16px 24px; }
+.hd-mobile-page #hd-battle-transition-graphic { width: clamp(72px, 15vh, 112px); margin-bottom: 6px; }
+.hd-mobile-page #hd-battle-transition-value { font-size: clamp(32px, 8vh, 52px); }
+.hd-mobile-page #hd-battle-transition[data-kind="day"] .hd-battle-transition-panel { padding-block: 30px; }
+@media (orientation: portrait) {
+    .hd-mobile-page #hd-battle-transition { display: none !important; }
+    .hd-mobile-page[data-hd-battle-transition="hd"] #lcd { opacity: 1 !important; }
+}

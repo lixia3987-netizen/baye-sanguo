@@ -1,0 +1,690 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V95",
+  "parentCommit": "0a6e4aaade5f6909a352b888add7710a4398a1d0",
+  "feature": "Passive original weather and U16 battle-day graphical transitions",
+  "accepted": true,
+  "acceptanceScope": "Selected production C functions, readonly bridge/UI contracts, linked no-main initialization and two controlled layouts",
+  "targeted": {
+    "accepted": true,
+    "started": "2026-10-26T14:47:29.782Z",
+    "finished": "2026-10-26T14:47:38.748Z",
+    "processExitCode": 0,
+    "signal": null,
+    "tests": 208,
+    "pass": 208,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "modules": [
+      "scripts/test-hd-battle-transition-engine.mjs",
+      "scripts/test-hd-battle-transition-bridge.mjs",
+      "scripts/test-hd-battle-transition-ui.mjs",
+      "scripts/test-hd-battle-note.mjs",
+      "scripts/test-hd-battle-announcements-engine.mjs",
+      "scripts/test-hd-battle-announcements-bridge.mjs",
+      "scripts/test-hd-tactic-prelude-engine.mjs",
+      "scripts/test-hd-tactic-prelude-bridge.mjs",
+      "scripts/test-hd-campaign-engine.mjs",
+      "scripts/test-hd-engine-protocol.mjs",
+      "scripts/test-hd-graphic-message-engine.mjs",
+      "scripts/test-hd-mobile-trade-engine.mjs"
+    ],
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 47728,
+        "sha256": "f70156ae01c56fa46e1bb3804615c1fc318f634f2affede9cc368631b25903d3"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 3008,
+        "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+      },
+      {
+        "path": "css/flex.css",
+        "bytes": 11480,
+        "sha256": "362ebb627e1453bb074f6c71afbff91832d0cab18ef962fdc813b2cadb69cace"
+      },
+      {
+        "path": "css/hd-battle-note.css",
+        "bytes": 2146,
+        "sha256": "b35da40a6a0535b7ed1ba33a103eaeed35fc51d5f314974a167a3fa196b966a3"
+      },
+      {
+        "path": "css/hd-battle-transition.css",
+        "bytes": 2896,
+        "sha256": "eee994dd0a8541dac4b3c7f11277326b3d6aa0dfb099131b7cd358bc4872573a"
+      },
+      {
+        "path": "css/hd-battle.css",
+        "bytes": 9203,
+        "sha256": "a193bdf938a16b4741251ec6a670872fe3cfcf899592aa69461b438ef51ffab1"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 15762,
+        "sha256": "54f3de618facd3a5d561e9927f7256a500811f246d2aea4262f2d5d1d95b6f44"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 10606,
+        "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+      },
+      {
+        "path": "css/hd-graphics.css",
+        "bytes": 4567,
+        "sha256": "5941d014ada1e3fcc889031640dde97fa1f542d5c213c1e62ae0f7dc29e2d43a"
+      },
+      {
+        "path": "css/hd-minimap.css",
+        "bytes": 4222,
+        "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 32773,
+        "sha256": "17f9ed7318684b0cbd8c16e9926312f22ca59d31a6a92db6afe6e72e20c1f85c"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 5226,
+        "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-spe.css",
+        "bytes": 3150,
+        "sha256": "bc462f1197dfc69c9d5a15403207630ef79886f79dc979aa0ee5e23de672e221"
+      },
+      {
+        "path": "css/hd-system-ui.css",
+        "bytes": 7088,
+        "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 24700,
+        "sha256": "b81fcca954e6bb5d88ff6cb12e5133f8e873c244a6ff4c5a9144d77fce3bd775"
+      },
+      {
+        "path": "js/baye.js",
+        "bytes": 193652,
+        "sha256": "0d54a9d4d89daf397375a22d6d6ddfe10232a9525111e0bf079c0978d3eb727f"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4583234,
+        "sha256": "c0c6567ab9545cb7e0ca0163ea3eb2ec05a31d100a607be63a02736b6abe93a3"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "289926f9605993fa4079dc95d1477a3763b5be679179a45f0b5453159454b084"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 165558,
+        "sha256": "4d516b7771dda321b98fc35111ce31b1b71da5de484626c89035cd4f2c29c183"
+      },
+      {
+        "path": "js/hd-battle-transition.js",
+        "bytes": 14525,
+        "sha256": "43d07e356e28ce117570b9050ba56227be4419c1e61cd73a438c45ec3a8894d9"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "m.html",
+        "bytes": 22167,
+        "sha256": "801ac9920f4677f529ad24fcc1f05554103f8ec412d5909e6eb4db173f528b4f"
+      },
+      {
+        "path": "package.json",
+        "bytes": 23433,
+        "sha256": "f375bae49a460c1124633fa2211182337b1c9bbf0e2acffe4be7e77dc9ca0467"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 32340,
+        "sha256": "9b1478e0ffb0439652d69f81ca5df893e4e088fe2c3a652c9cce837389b4e020"
+      },
+      {
+        "path": "scripts/test-hd-battle-announcements-bridge.mjs",
+        "bytes": 7133,
+        "sha256": "877a9757668e08687beffee3ab1508a9262213e053319462ef92c594c3946e69"
+      },
+      {
+        "path": "scripts/test-hd-battle-announcements-engine.mjs",
+        "bytes": 17396,
+        "sha256": "81ca6e32e97eee4944faea40802952f2fb75296e291ecb6662d84be31e8111a9"
+      },
+      {
+        "path": "scripts/test-hd-battle-note.mjs",
+        "bytes": 26264,
+        "sha256": "2c01a34316b93b8d4908eb89aff5679c9257b420ebefd08cf12ad908a4edd61f"
+      },
+      {
+        "path": "scripts/test-hd-battle-transition-bridge.mjs",
+        "bytes": 7675,
+        "sha256": "8177dd52db30249ff233c7c38490747b7fb4ad6606388451bef8b16c4beffda9"
+      },
+      {
+        "path": "scripts/test-hd-battle-transition-engine.mjs",
+        "bytes": 24452,
+        "sha256": "b2e6db67d73d9572aeda78ce514124480d6a2a685547ca511819417ab71ba7c6"
+      },
+      {
+        "path": "scripts/test-hd-battle-transition-ui.mjs",
+        "bytes": 18358,
+        "sha256": "e3e605b83eb042d6e9fa9b7e27f43fb2f127336e61a23ca309f215b6d4839f99"
+      },
+      {
+        "path": "scripts/test-hd-campaign-engine.mjs",
+        "bytes": 53110,
+        "sha256": "47b169799925cc2382cee16071696c628615696be78024c6ca1d052e1de31342"
+      },
+      {
+        "path": "scripts/test-hd-engine-protocol.mjs",
+        "bytes": 57449,
+        "sha256": "b3af31fcb2fd0771f8a0f771a6afa468bcc80e86fc00bc0d919157bde49b9404"
+      },
+      {
+        "path": "scripts/test-hd-graphic-message-engine.mjs",
+        "bytes": 14268,
+        "sha256": "0d3ed555580046d27eca6fc61c3c7a05ec3dbb437379f1c9df065069d3d88a94"
+      },
+      {
+        "path": "scripts/test-hd-mobile-trade-engine.mjs",
+        "bytes": 18359,
+        "sha256": "ead1aeec7cea908b303678137cc3f7f4b4e70b1a32a9b63be4a64d6789f912df"
+      },
+      {
+        "path": "scripts/test-hd-tactic-prelude-bridge.mjs",
+        "bytes": 6680,
+        "sha256": "9751b2efa4bb824fec3ef97a7db5d47992c446c059a89bb99ab192534a797af8"
+      },
+      {
+        "path": "scripts/test-hd-tactic-prelude-engine.mjs",
+        "bytes": 14153,
+        "sha256": "769df980810244dabdd2988cb7f4624e3b28660fba693aa27cedc09ea522b1d0"
+      },
+      {
+        "path": "scripts/write-wasm-manifest.mjs",
+        "bytes": 22288,
+        "sha256": "1300a4e8ad8f408434e1db699180764623ca600296ea0f30e55d256c963396fe"
+      },
+      {
+        "path": "vendor/iBaye/src/Fight.c",
+        "bytes": 56872,
+        "sha256": "1d54526bfebe2c237ef40a2aaa3c51a1ba14cc5f9f8a31492ab5239620929a95"
+      },
+      {
+        "path": "vendor/iBaye/src/FightSub.c",
+        "bytes": 36812,
+        "sha256": "22cab37f4aa4271dd10731d43622a070c7f02099ee95729421d0271997857ad6"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdd.c",
+        "bytes": 38292,
+        "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+      },
+      {
+        "path": "vendor/iBaye/src/comIn.c",
+        "bytes": 12480,
+        "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 208504,
+        "sha256": "307cfdfda07f115c2c588aa63926c95d5690fe901ecffb948bb74f297fd5560d"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 21241,
+        "sha256": "8fd4339f17f0883fa8875d274e22588c08b0feea1284d05976ea1473d3fb0b54"
+      },
+      {
+        "path": "vendor/iBaye/src/tactic.c",
+        "bytes": 43864,
+        "sha256": "cd12096c8e63db0e969f9eba23e9e0d4db013709f9a1fe18f7d8107cfc17a294"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 42,
+    "newDefaultModules": 3,
+    "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+    "compilerVersion": "clang version 18.0.0git (https://github.com/llvm/llvm-project f2464ca317bfeeedddb7cbdea3c2c8ec487890bb)",
+    "actualCCompiled": true,
+    "nativeSourceCount": 128,
+    "nativeSourcesStable": true,
+    "fullSuiteRun": false,
+    "actualGameplayAccepted": false,
+    "globalHdComplete": false
+  },
+  "newDefaultNodeTests": 42,
+  "newDefaultModules": 3,
+  "negativeControl": {
+    "accepted": true,
+    "sourceRevision": "0a6e4aaade5f6909a352b888add7710a4398a1d0",
+    "cases": [
+      {
+        "source": "Fight.c",
+        "status": 1,
+        "summary": [
+          "# tests 15",
+          "# pass 12",
+          "# fail 3"
+        ],
+        "failed": [
+          "not ok 3 - actual daily progress retains weather then day ordering, exact centering, all active resets and complete U16 decimal values",
+          "not ok 5 - enemy food, own food and both-empty precedence preserve original notices and state processing after both stages retire",
+          "not ok 6 - timer0, function keys, ASCII and touch cannot shorten either original fifty-tick passive wait or consume the following key"
+        ],
+        "assertions": [
+          "    Assertion failed: g_hdBattleNoteActive, file C:\\Users\\75112\\AppData\\Local\\Temp\\baye-hd-battle-transition-JyebkQ\\transition.c, line 195"
+        ]
+      },
+      {
+        "source": "FightSub.c",
+        "status": 1,
+        "summary": [
+          "# tests 15",
+          "# pass 7",
+          "# fail 8"
+        ],
+        "failed": [
+          "not ok 1 - all five actual weather outcomes publish after three original LCD draws with one RNG call and a complete passive wait",
+          "not ok 2 - disabled weather retains the actual value, consumes no RNG and invalid native values remain unpublished",
+          "not ok 3 - actual daily progress retains weather then day ordering, exact centering, all active resets and complete U16 decimal values",
+          "not ok 5 - enemy food, own food and both-empty precedence preserve original notices and state processing after both stages retire",
+          "not ok 6 - timer0, function keys, ASCII and touch cannot shorten either original fifty-tick passive wait or consume the following key",
+          "not ok 8 - world replacement during every LCD boundary suppresses stale stages and day source changes suppress mismatched decimal text",
+          "not ok 9 - same-world and new-world replacements during native waits survive late stage ends and old-world daily continuation",
+          "not ok 10 - synchronous notification reentry keeps the replacement and stage begin returns its own local sequence"
+        ],
+        "assertions": [
+          "    Assertion failed: g_hdBattleNoteActive, file C:\\Users\\75112\\AppData\\Local\\Temp\\baye-hd-battle-transition-WpQYgY\\transition.c, line 195"
+        ]
+      }
+    ],
+    "safeDaysOnly": true,
+    "oldFiveByteBufferNeverGivenFiveDigitDays": true,
+    "actualCAssertionReached": true,
+    "compilationPassed": true,
+    "rawTapRetained": false,
+    "provenance": "Subagent original compact result lines; original old sources retained separately; current full U16 positive test is in root TAP"
+  },
+  "protocol": {
+    "version": 1,
+    "newTypes": {
+      "weatherTransition": 6,
+      "dayTransition": 7
+    },
+    "winner": 65535,
+    "value": "native U16; only active 6/7 DTO adds value",
+    "weather": {
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "labels": [
+        "晴",
+        "阴",
+        "风",
+        "雨",
+        "冰雹"
+      ],
+      "text": ""
+    },
+    "day": {
+      "range": [
+        0,
+        65535
+      ],
+      "text": "canonical actual gam_itoa draw",
+      "bufferBytes": 6
+    },
+    "legacyTypesPreserved": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "originalWait": "Each original GamDelay(SHOW_DLYBASE*5,false), separately fifty ticks",
+    "rngTurnFoodInputChanged": false,
+    "retirement": "World generation, local sequence, source and owner fences; current high report/menu/help/qty activation retires only 6/7"
+  },
+  "native": {
+    "sourceCount": 128,
+    "changedFiles": [
+      "vendor/iBaye/src/Fight.c",
+      "vendor/iBaye/src/FightSub.c",
+      "vendor/iBaye/src/hd-bridge.c",
+      "vendor/iBaye/src/hd-bridge.h"
+    ],
+    "previousEngineSourceSha256": "56a9c2705b61380b8f36505ea8a6bbdadff80c9527d12b49ab5ee78202c36d56",
+    "engineSourceSha256": "d13e8eefbbc0d2847133cca7b22ff28f73b994eb87327268dd8fe0b7c18d5a76",
+    "otherSourcesUnchanged": true,
+    "sourcesStableDuringBuild": true,
+    "sourceRevision": "0a6e4aaade5f6909a352b888add7710a4398a1d0",
+    "sourceModified": true,
+    "emscriptenVersion": "3.1.51",
+    "cmakeVersion": "cmake version 3.31.6"
+  },
+  "additionalNativeRegression": {
+    "modules": 17,
+    "tests": 414,
+    "pass": 414,
+    "fail": 0,
+    "overlapsRootTargeted": true,
+    "addedToRootTotal": false,
+    "fullTapRetained": false,
+    "evidence": "build/battle-transition-20261026-v95/native-positive-414.tool-result.json"
+  },
+  "runtime": {
+    "accepted": true,
+    "stageAndInstalledBytesExact": true,
+    "method": "Atomic replacement of the four explicitly checked runtime paths; previous runtime retained",
+    "files": [
+      {
+        "path": "js/baye.js",
+        "bytes": 193652,
+        "sha256": "0d54a9d4d89daf397375a22d6d6ddfe10232a9525111e0bf079c0978d3eb727f"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4583234,
+        "sha256": "c0c6567ab9545cb7e0ca0163ea3eb2ec05a31d100a607be63a02736b6abe93a3"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "289926f9605993fa4079dc95d1477a3763b5be679179a45f0b5453159454b084"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 24700,
+        "sha256": "b81fcca954e6bb5d88ff6cb12e5133f8e873c244a6ff4c5a9144d77fce3bd775"
+      }
+    ],
+    "engineSourceSha256": "d13e8eefbbc0d2847133cca7b22ff28f73b994eb87327268dd8fe0b7c18d5a76",
+    "sourceRevision": "0a6e4aaade5f6909a352b888add7710a4398a1d0",
+    "engineSourceModified": true,
+    "linkedNoMainSmoke": {
+      "accepted": true,
+      "noInitialRun": true,
+      "shouldRunNow": false,
+      "moduleExportFunctions": 83,
+      "gameMainRun": false,
+      "nativeInputs": 0
+    }
+  },
+  "layout": {
+    "accepted": true,
+    "browserRuns": 2,
+    "productionDomCssBridgeAndTransition": true,
+    "controlledNativeSnapshots": true,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "results": [
+      {
+        "name": "pc-hail",
+        "accepted": true,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "active": true,
+          "type": 6,
+          "value": 5,
+          "text": "冰雹",
+          "label": "战斗过场",
+          "bodyMode": "hd",
+          "svgCount": 1,
+          "hidden": false,
+          "visibility": "visible",
+          "pointerEvents": "none",
+          "root": {
+            "x": 0,
+            "y": 0,
+            "right": 1264,
+            "bottom": 625,
+            "width": 1264,
+            "height": 625
+          },
+          "panel": {
+            "x": 352,
+            "y": 140.296875,
+            "right": 912,
+            "bottom": 484.6875,
+            "width": 560,
+            "height": 344.390625
+          },
+          "textRect": {
+            "x": 384,
+            "y": 372.296875,
+            "right": 880,
+            "bottom": 458.6875,
+            "width": 496,
+            "height": 86.390625
+          },
+          "buttons": 0,
+          "lcdOpacity": "0",
+          "lcdVisibility": "visible",
+          "lcdPointerEvents": "auto",
+          "horizontalOverflow": false,
+          "keys": [],
+          "errors": [],
+          "extraReads": [],
+          "rawUnchanged": true
+        },
+        "chromeExitCode": 0,
+        "screenshot": "build/battle-transition-20261026-v95/pc-hail-layout-v1.png"
+      },
+      {
+        "name": "mobile-day",
+        "accepted": true,
+        "metrics": {
+          "viewport": {
+            "width": 828,
+            "height": 295
+          },
+          "active": true,
+          "type": 7,
+          "value": 65535,
+          "text": "第 65535 天",
+          "label": "战斗过场",
+          "bodyMode": "hd",
+          "svgCount": 0,
+          "hidden": false,
+          "visibility": "visible",
+          "pointerEvents": "none",
+          "root": {
+            "x": 0,
+            "y": 52,
+            "right": 828,
+            "bottom": 295,
+            "width": 828,
+            "height": 243
+          },
+          "panel": {
+            "x": 154,
+            "y": 108.796875,
+            "right": 674,
+            "bottom": 238.1875,
+            "width": 520,
+            "height": 129.390625
+          },
+          "textRect": {
+            "x": 180,
+            "y": 167.796875,
+            "right": 648,
+            "bottom": 206.1875,
+            "width": 468,
+            "height": 38.390625
+          },
+          "buttons": 0,
+          "lcdOpacity": "0",
+          "lcdVisibility": "visible",
+          "lcdPointerEvents": "auto",
+          "horizontalOverflow": false,
+          "keys": [],
+          "errors": [],
+          "extraReads": [],
+          "rawUnchanged": true
+        },
+        "chromeExitCode": 0,
+        "screenshot": "build/battle-transition-20261026-v95/mobile-day-layout-v1.png"
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "path": "build/battle-transition-20261026-v95/targeted-v1.json",
+      "bytes": 8876,
+      "sha256": "712235add0bfe50bdd0458c6b1cfcb39bb39416d487a961469d0cf285b9a98a7"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/targeted-v1.stdout.tap",
+      "bytes": 50769,
+      "sha256": "970096b94e5ab97f4512baf68508e1a70b84557742dec88591c701f183e5cc39"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/source-baseline-v1.json",
+      "bytes": 26191,
+      "sha256": "3eb14e8975ef526d5e1aaa64fef4756c0526724cd64458b6344bba30158ab9c4"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/build-v1.json",
+      "bytes": 26370,
+      "sha256": "0a659dee906491fc96887c19a519530acde3b4d9f6b5bfad68ca56e89cd31176"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/build-v1.stdout.log",
+      "bytes": 1730,
+      "sha256": "780fea16417ca98074f199463d5122672631bad331220bbd26b84dca7271595e"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/build-v1.stderr.log",
+      "bytes": 1393,
+      "sha256": "e85937636e98298c355b7ba88092a0a8bb3ae1bbe08eeab4b4b2565226ee9822"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/linked-smoke-v1.json",
+      "bytes": 2446,
+      "sha256": "db640fa2efa2abb25d99fd789a12bd47dec04e04114dbeebff02f9f9e49da626"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/install-v1.json",
+      "bytes": 976,
+      "sha256": "2586b288defd38e0fec6300862cfecbae2098f6fd311c6b9d4135048f58a95dc"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/native-positive-15.captured.log",
+      "bytes": 2061,
+      "sha256": "fd5bdafffd228269cf19c3e1111485a7e9e27f5e73cb1f54c20e92e9d208fb34"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/native-positive-414.tool-result.json",
+      "bytes": 101,
+      "sha256": "9d87a5954fad76b490b47b74e020e693b59e1bd11218ee3a97afd891e100579e"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/native-negative-source.tool-result.jsonl",
+      "bytes": 1949,
+      "sha256": "add58619f584e96243962c35183663187e4d3acaabf7ad26e899c55f2e3bc287"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/native-cc-version.log",
+      "bytes": 227,
+      "sha256": "fa51ab0979214b0209235700274ac960dd46f2092146d5ac28c6a6134b8ce3f1"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/native-validation-index.md",
+      "bytes": 4070,
+      "sha256": "047a8942f939a14bad15f6f9b190bbf0b1138c1b758f88ea57b409c6b68d3099"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/negative-v1-Fight.c",
+      "bytes": 56525,
+      "sha256": "b853595fbe06ca06fb8d877e966ca45c50e67cfd4f36b6a394a696000a361bcc"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/negative-v1-FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/preview-layout-v1.json",
+      "bytes": 2897,
+      "sha256": "e4641d3fdbac19e52b1a8de7f796acd77d8293ec4b18a00e28e7ddc965edf4fa"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/pc-hail-layout-v1.png",
+      "bytes": 419106,
+      "sha256": "9e0fbf95ad3c6e0d4e254b4b2dc64df35fd592a782c436d6d18398d47c1e1f6f"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/pc-hail-layout-v1.dom.html",
+      "bytes": 25118,
+      "sha256": "135b142b167da6f6910aa7ac0dafb9349a9c021c9bafb8142cd020c94a66f6ef"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/mobile-day-layout-v1.png",
+      "bytes": 157017,
+      "sha256": "2e312b38551dec8405e1ab355e23818cc7f81e51831b0ea88c1876a050490d3a"
+    },
+    {
+      "path": "build/battle-transition-20261026-v95/mobile-day-layout-v1.dom.html",
+      "bytes": 20991,
+      "sha256": "18a40135729617f6660c68d064fd0653e46d227f699b684cfbe8b4ad58c5983c"
+    }
+  ],
+  "fullSuiteRun": false,
+  "actualGameplayAccepted": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "globalHdComplete": false,
+  "held": {
+    "privateInterfaceInspected": false,
+    "inputs": 0,
+    "closed": false,
+    "restarted": false
+  },
+  "remaining": [
+    "Natural weather/day and successful skill22 transition timing on a fresh authorized game",
+    "Real mobile and full layout matrix",
+    "Expand missing original ruler and frequent-person HD portraits",
+    "Full regression and tuning later"
+  ]
+}

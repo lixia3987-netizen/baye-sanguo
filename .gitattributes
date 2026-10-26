@@ -837,3 +837,21 @@
 /docs/validation/m5-tactic-prelude-20261026-v94.md text eol=lf
 
 /docs/validation/m5-tactic-prelude-20261026-v94.json text eol=lf
+
+/vendor/iBaye/src/Fight.c text eol=lf
+
+/vendor/iBaye/src/FightSub.c text eol=lf
+
+/js/hd-battle-transition.js text eol=lf
+
+/css/hd-battle-transition.css text eol=lf
+
+/scripts/test-hd-battle-transition-engine.mjs text eol=lf
+
+/scripts/test-hd-battle-transition-bridge.mjs text eol=lf
+
+/scripts/test-hd-battle-transition-ui.mjs text eol=lf
+
+/docs/validation/m5-battle-transition-20261026-v95.md text eol=lf
+
+/docs/validation/m5-battle-transition-20261026-v95.json text eol=lf

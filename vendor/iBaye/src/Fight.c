@@ -1049,8 +1049,10 @@ bool FgtChkRng(void)
  ***********************************************************************/
 void FgtDealBout(void)
 {
-    U8	idx,numb[5],xof;
+    U8	idx,numb[6],xof;
     U8	tbuf[30];
+    U32 hdGeneration = g_hdDetailGeneration, hdNoteSeq, hdStageSeq = 0;
+    U16 hdDay;
 
     g_FgtBoutCnt += 1;	/* 战斗天数增加 */
     g_EneTmpProv = 0;	/* 敌人粮草临时变量 */
@@ -1068,11 +1070,16 @@ void FgtDealBout(void)
 
     /* 转变天气 */
     FgtChgWeather();
+    hdNoteSeq = g_hdBattleNoteSeq;
     PlcRPicShow(DAYS_PIC,1,FGT_SPESX + 46,FGT_SPESY + 18,true);
+    hdDay = g_FgtBoutCnt;
     gam_itoa(g_FgtBoutCnt,numb,10);
     xof = 64 - (gam_strlen(numb) - 1) * ASC_WID / 2;
     GamStrShowS(FGT_SPESX + xof,FGT_SPESY + 22,numb);
+    if (hdNoteSeq == g_hdBattleNoteSeq && hdDay == g_FgtBoutCnt)
+        hdStageSeq = baye_hd_battle_stage_begin(hdGeneration, 7, hdDay, numb);
     GamDelay(SHOW_DLYBASE * 5,false);
+    baye_hd_battle_note_end(hdGeneration, hdStageSeq);
 
     if(g_FgtParam.EProvender == 0)
     {

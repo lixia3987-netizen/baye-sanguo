@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "c4b27f69c073efd821aaec8aa744292a7d0033cd",
-  "engineSourceSha256": "56a9c2705b61380b8f36505ea8a6bbdadff80c9527d12b49ab5ee78202c36d56",
+  "sourceRevision": "0a6e4aaade5f6909a352b888add7710a4398a1d0",
+  "engineSourceSha256": "d13e8eefbbc0d2847133cca7b22ff28f73b994eb87327268dd8fe0b7c18d5a76",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1793023617,
+  "sourceDateEpoch": 1793024758,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -93,6 +93,7 @@
       "g_hdBattleNoteGeneration",
       "g_hdBattleNoteOutcome",
       "g_hdBattleNoteWinner",
+      "g_hdBattleNoteValue",
       "g_hdBattleNoteText"
     ],
     "types": {
@@ -100,13 +101,23 @@
       "defeat": 2,
       "attack": 3,
       "confrontation": 4,
-      "tacticPrelude": 5
+      "tacticPrelude": 5,
+      "weatherTransition": 6,
+      "dayTransition": 7
     },
     "winner": "actual zero-based winner only for victory; all other types require unpublished 65535",
-    "publication": "actual complete native sentence after original draw; no extra name, city or person-count reads for pre-battle announcements",
-    "input": "passive observer; original attack100/keyflag0, confrontation300/configured keyflag and tactic-prelude5/keyflag0 waits remain unchanged",
+    "value": {
+      "field": "g_hdBattleNoteValue",
+      "type": "U16",
+      "dto": "only active types 6 and 7 add value; types 1 through 5 and inactive DTOs retain their existing shape",
+      "reset": "native Value resets to 0 on legacy type 1 through 5 begin and all retirements"
+    },
+    "publication": "actual complete native sentence or typed weather/day after original draw; no extra name, city or person-count reads for types 3 through 7",
+    "weatherTransition": "type 6 observes actual FgtChgWeather value 1 through 5 after all three original picture draws; text is empty; no additional RNG or weather changes",
+    "dayTransition": "type 7 observes actual U16 day 0 through 65535 and the canonical gam_itoa numeral passed to the original day draw; text must equal String(value)",
+    "input": "passive observer; original attack100/keyflag0, confrontation300/configured keyflag, tactic-prelude5/keyflag0 and separate weather/day fifty-tick/keyflag-false waits remain unchanged",
     "tacticPrelude": "actual ShowTacticNote sentences before ComputerTactic; no percent, retained last item, AI execution or timer extension",
-    "retirement": "local generation and sequence; a draw-time world change cannot publish the old pre-battle sentence; stale ends do not retire replacements"
+    "retirement": "local generation and sequence; draw-time world or note owner changes cannot publish stale weather/day; active note, report, help, menu and quantity owners block transitions; stale ends do not retire replacements"
   },
   "hdTransferProtocol": {
     "version": 1,
@@ -650,16 +661,16 @@
   },
   "artifacts": {
     "baye.js": {
-      "bytes": 193437,
-      "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
+      "bytes": 193652,
+      "sha256": "0d54a9d4d89daf397375a22d6d6ddfe10232a9525111e0bf079c0978d3eb727f"
     },
     "baye.wasm": {
-      "bytes": 4577121,
-      "sha256": "7ec79d5a3274317dcc3ace2fb39f4fc1adf3fcad56f96259c8b1932a6662be5b"
+      "bytes": 4583234,
+      "sha256": "c0c6567ab9545cb7e0ca0163ea3eb2ec05a31d100a607be63a02736b6abe93a3"
     },
     "baye.wasm.map": {
       "bytes": 29995,
-      "sha256": "d7eaa92c1cf9dc102a3812243ad0bf080751e7e3b440febfe3b1d5b6690e7010"
+      "sha256": "289926f9605993fa4079dc95d1477a3763b5be679179a45f0b5453159454b084"
     }
   }
 }

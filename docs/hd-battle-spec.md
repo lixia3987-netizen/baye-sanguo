@@ -197,3 +197,10 @@ baye.hd.battleNote沿version1保留胜1／败2，追加进攻3／交锋4，后�
 ShowTacticNote每条原生文字绘制后以battleNote version1类型5发布，winner65535；原5tick／flag0、队列顺序、原读取／绘制／清图保持，函数世代与局部序号阻旧条目复活。该预告在ComputerTactic之前，不是实际逐君主计算进度，不补END、确认或延长等待。
 
 PC／手机复用只读公告观察器，同步begin／end立即显退；type5透明根与紧凑底条、不隐藏LCD，原1..4全屏行为保持，ARIA为电脑策略预告。状态条无按钮、不拦截输入、不持留最后一条；真实END、短帧及真机边界见[V94记录](validation/m5-tactic-prelude-20261026-v94.md)。
+
+
+## 天气与战斗日数过场（V95）
+
+FgtChgWeather在三次原图片绘制之后发布battleNote version1类型6，Value1..5、空text，依次晴／阴／风／雨／冰雹；FgtDealBout在原数字绘制后发布类型7，Value与规范十进制text一致，完整U16范围0..65535，局部缓冲六字节。两类winner65535，仅新active6/7 DTO扩value，旧型保持。原RNG／禁变天气、回合／粮草顺序、居中与各50tick／false等待不改。
+
+过场通过独立只读controller在PC与手机stage显示，原生begin/end立即显退；世界／seq／owner／数据来源失效回退。高report/menu/help/qty入口仅同步退休6/7。无按钮与输入拦截，LCD仅opacity变化、原输入命中保持，手机竖屏恢复LCD。自然战斗／天变22与真机仍待，轻量证据见[V95记录](validation/m5-battle-transition-20261026-v95.md)。

@@ -853,12 +853,21 @@ FAR U8 FgtGetGenIdx(U8 x,U8 y)
  ***********************************************************************/
 FAR void FgtChgWeather(void)
 {
+    U32 hdGeneration = g_hdDetailGeneration, hdNoteSeq = g_hdBattleNoteSeq, hdStageSeq = 0;
+    U8 hdWeather, hdScreenWeather, hdVirtualWeather;
     if (!g_engineConfig.batlleDisableWeatherChange)
         g_FgtWeather = gam_rand() % 5 + 1;
+    hdWeather = g_FgtWeather;
     PlcRPicShow(WEATHER_PIC1 - 1 + g_FgtWeather,1,FGT_SPESX,FGT_SPESY,true);
+    hdScreenWeather = g_FgtWeather;
     PlcRPicShow(WEATHER_PIC,g_FgtWeather,STA_TQX,STA_TQY,true);		/* 显示天气 */
+    hdVirtualWeather = g_FgtWeather;
     PlcRPicShow(WEATHER_PIC,g_FgtWeather,STA_TQX,STA_TQY,false);		/* 显示天气 */
+    if (hdNoteSeq == g_hdBattleNoteSeq && hdWeather == hdScreenWeather &&
+        hdWeather == hdVirtualWeather && hdWeather == g_FgtWeather)
+        hdStageSeq = baye_hd_battle_stage_begin(hdGeneration, 6, hdWeather, NULL);
     GamDelay(SHOW_DLYBASE * 5,false);
+    baye_hd_battle_note_end(hdGeneration, hdStageSeq);
 }
 /***********************************************************************
  * 说明:     处理战斗主菜单
