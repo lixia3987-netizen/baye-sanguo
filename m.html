@@ -25,7 +25,7 @@
         <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261011a" />
         <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261026resources1" />
         <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261008k" />
-        <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261026filter1" />
+        <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261026search1" />
         <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261026settings1" />
         <link rel="stylesheet" type="text/css" href="css/hd-battle-note.css?ver=20261011a" />
         <link rel="icon" href="favicon.png">
@@ -102,11 +102,16 @@
                 <section class="hd-mini-map-stage" role="dialog" aria-modal="true" aria-labelledby="hd-mini-map-title">
                     <h2 id="hd-mini-map-title">地图概览</h2>
                     <p id="hd-mini-map-summary" class="hd-mini-map-summary"></p>
+                    <div id="hd-mini-map-tools" class="hd-mini-map-tools" hidden>
+                    <label id="hd-mini-map-search-wrap" class="hd-mini-map-search-wrap" for="hd-mini-map-search">城名
+                        <input id="hd-mini-map-search" type="search" maxlength="32" placeholder="输入城名" autocomplete="off" spellcheck="false" aria-controls="hd-mini-map-cities" />
+                    </label>
                     <div id="hd-mini-map-filters" class="hd-mini-map-filters" role="group" aria-label="按城池归属筛选" hidden>
                         <button id="hd-mini-map-filter-all" type="button" aria-pressed="true">全部</button>
                         <button id="hd-mini-map-filter-owned" type="button" aria-pressed="false">我方</button>
                         <button id="hd-mini-map-filter-neutral" type="button" aria-pressed="false">他方</button>
                         <button id="hd-mini-map-filter-empty" type="button" aria-pressed="false">空城</button>
+                    </div>
                     </div>
                     <div id="hd-mini-map-content" class="hd-mini-map-content">
                         <canvas id="hd-mini-map-canvas" class="hd-mini-map-canvas" aria-label="全图城池位置"></canvas>
@@ -240,7 +245,7 @@
 <script src="js/hd-overworld-layers.js?ver=20261008l"></script>
 <script src="js/hd-overworld.js?ver=20261011d"></script>
 <script src="js/hd-mobile-map.js?ver=20261011f"></script>
-<script src="js/hd-minimap.js?ver=20261026filter1"></script>
+<script src="js/hd-minimap.js?ver=20261026search1"></script>
 <script src="js/hd-mobile-minimap.js?ver=20261011a"></script>
 <script src="js/hd-city-plans.js?ver=20261026targets1"></script>
 <script src="js/hd-city-inventory.js?ver=20261026inventory1"></script>

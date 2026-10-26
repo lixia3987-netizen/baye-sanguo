@@ -15,7 +15,7 @@ function fixture({ canvasRect } = {}) {
             stroke:this.strokeStyle,lineWidth:this.lineWidth});} };
     function element(id = '', tagName = 'DIV') {
         const attrs = {}, classes = new Set(), handlers = {};
-        const value = { id, tagName, hidden: false, disabled: false, style: {}, children: [], handlers,
+        const value = { id, tagName, value: '', hidden: false, disabled: false, style: {}, children: [], handlers,
             setAttribute(k,v) { attrs[k]=v; }, getAttribute(k) { return attrs[k]; },
             classList: { toggle(k,on) { on ? classes.add(k) : classes.delete(k); }, contains:k=>classes.has(k) },
             addEventListener(k,fn) { const previous=handlers[k];handlers[k]=previous?event=>{previous(event);fn(event);}:fn; },
@@ -30,12 +30,15 @@ function fixture({ canvasRect } = {}) {
     }
     for (const id of ['hd-mini-map','hd-mini-map-classic','hd-mini-map-return','hd-mini-map-canvas',
         'hd-mini-map-content','hd-mini-map-summary','hd-mini-map-cities','hd-mini-map-fallback','hd-mini-map-filters',
+        'hd-mini-map-search','hd-mini-map-search-wrap','hd-mini-map-tools',
         'hd-mini-map-filter-all','hd-mini-map-filter-owned','hd-mini-map-filter-neutral','hd-mini-map-filter-empty']) {
-        elements.set(id,element(id,/hd-mini-map-(?:filter-|classic$|return$)/.test(id)?'BUTTON':'DIV'));
+        elements.set(id,element(id,id==='hd-mini-map-search'?'INPUT':/hd-mini-map-(?:filter-|classic$|return$)/.test(id)?'BUTTON':'DIV'));
     }
-    const root=elements.get('hd-mini-map'),filters=elements.get('hd-mini-map-filters');
+    const root=elements.get('hd-mini-map'),filters=elements.get('hd-mini-map-filters'),
+        tools=elements.get('hd-mini-map-tools'),searchWrap=elements.get('hd-mini-map-search-wrap');
     for(const [id,value] of elements)if(value!==root) {
-        (id.startsWith('hd-mini-map-filter-')?filters:root).appendChild(value);
+        (id.startsWith('hd-mini-map-filter-')?filters:id==='hd-mini-map-search'?searchWrap:
+            id==='hd-mini-map-search-wrap'||id==='hd-mini-map-filters'?tools:root).appendChild(value);
     }
     if (canvasRect) elements.get('hd-mini-map-canvas').getBoundingClientRect=canvasRect;
     const native={protocolVersion:1,active:1,complete:1,custom:0,defaultDraw:1,seq:4,generation:7,
@@ -45,7 +48,7 @@ function fixture({ canvasRect } = {}) {
         cities:Array.from({length:38},(_,i)=>({index:i,name:'city'+i,x:100+i*40,y:500+i*50,
             engineX:i%10,engineY:i%8,belong:1,kind:'owned',color:'#3d8bfd'}))};
     let mode='hd-map',hidden=false,reportActive=0,menuActive=0,qtyActive=0,assetsReady=true;
-    const document={get hidden(){return hidden;},documentElement:element(),getElementById:id=>elements.get(id),
+    const document={get hidden(){return hidden;},activeElement:null,documentElement:element(),getElementById:id=>elements.get(id),
         createElement:tag=>element('',tag.toUpperCase()),addEventListener(k,fn){listeners['document:'+k]=fn;}};
     const context=vm.createContext({document,Number,JSON,console,
         baye:{hd:{ready:()=>true,miniMap:()=>native,march:()=>({pick:1,mapInputSeq:9}),report:()=>({active:reportActive}),
@@ -56,8 +59,21 @@ function fixture({ canvasRect } = {}) {
         addEventListener(k,fn){listeners[k]=fn;},setInterval:()=>1,devicePixelRatio:1});
     context.window=context;vm.runInContext(source,context);const api=context.BayeHdMiniMap;api.start();
     function key(code,repeat=false,options={}) {
-        const event={keyCode:code,repeat,preventDefault(){this.defaultPrevented=true;},...options};
+        const event={keyCode:code,repeat,preventDefault(){this.defaultPrevented=true;},
+            stopPropagation(){this.stopped=true;},...options};
         listeners.keydown(event);return event;
+    }
+    function localEvent(type,target,options={}) {
+        const event={target,isTrusted:true,isPrimary:true,button:0,pointerId:1,clientX:50,clientY:50,detail:1,
+            preventDefault(){this.defaultPrevented=true;},stopPropagation(){this.stopped=true;},...options};
+        if(type==='focus')document.activeElement=target;
+        if(type==='blur'&&document.activeElement===target)document.activeElement=null;
+        if(type==='keydown'||type==='keyup')listeners[type]?.(event);
+        else {
+            listeners['document:'+type]?.(event);
+            for(let p=target;p&&!event.stopped;p=p.parentElement)p.handlers[type]?.(event);
+        }
+        return event;
     }
     function localClick(target) {
         const event={target,isTrusted:true,detail:1,preventDefault(){this.defaultPrevented=true;},
@@ -65,7 +81,7 @@ function fixture({ canvasRect } = {}) {
         for(let p=target;p&&!event.stopped;p=p.parentElement)p.handlers.click?.(event);
         return event;
     }
-    return {api,native,data,keys,draws,markers,canvasContext,elements,listeners,key,localClick,context,
+    return {api,native,data,keys,draws,markers,canvasContext,elements,listeners,key,localClick,localEvent,context,
         mode:v=>{mode=v;},hidden:v=>{hidden=v;},report:v=>{reportActive=v;},menu:v=>{menuActive=v;},qty:v=>{qtyActive=v;},assets:v=>{assetsReady=v;}};
 }
 test('native mini-map owner displays all authorized cities without sending game input',()=>{
@@ -333,6 +349,7 @@ function categorizedOverview(mobile) {
     h.api.poll();
     h.filter=value=>h.localClick(h.elements.get('hd-mini-map-filter-'+value));
     h.cityIds=()=>h.elements.get('hd-mini-map-cities').children.map(row=>Number(row.getAttribute('data-hd-mini-city')));
+    h.search=value=>{const input=h.elements.get('hd-mini-map-search');input.value=value;return h.localEvent('input',input);};
     return h;
 }
 
@@ -425,4 +442,178 @@ test('local filters keep keyboard ownership, reset on a new overview and disable
         assert.equal(h.elements.get('hd-mini-map-filter-all').getAttribute('aria-pressed'),'true');
         assert.deepEqual(h.cityIds(),Array.from({length:38},(_,i)=>i));if(mobile)assert.deepEqual(h.writes,[]);
     }
+});
+
+test('local city-name search uses one literal substring and category predicate on PC and mobile',()=>{
+    for(const mobile of [false,true]) {
+        const h=categorizedOverview(mobile),input=h.elements.get('hd-mini-map-search');
+        for(const [index,name] of [[0,'洛阳'],[1,'北平'],[10,'北海'],[22,'江陵[1]'],[30,'北平']])h.data.cities[index].name=name;
+        h.api.poll();
+        const native=JSON.stringify(h.native),cities=JSON.stringify(h.data.cities),owner=h.api.debugSnapshot().owner;
+        const check=(raw,ids)=>{
+            h.localEvent('focus',input);h.search(raw);
+            const snapshot=h.api.debugSnapshot(),points=h.markers.slice(-38);
+            assert.equal(snapshot.query,raw);assert.equal(snapshot.matchingCities,ids.length);
+            assert.deepEqual(h.cityIds(),ids);assert.equal(snapshot.cities.length,38);
+            assert.equal(h.elements.get('hd-mini-map-summary').textContent,'匹配 '+ids.length+' / 38 座城池 · 当前位置：洛阳');
+            for(let i=0;i<38;i++)assert.equal(points[i].alpha,ids.includes(i)?1:0.2);
+            assert.equal(points[0].arc[2],7);assert.equal(points[0].stroke,'#fff5ce');
+            assert.equal(h.native.city1,1);assert.equal(snapshot.owner,owner);
+        };
+        check('cItY1',Array.from({length:9},(_,i)=>i+11));
+        check('  北  ',[1,10,30]);
+        check(' \t  ',Array.from({length:38},(_,i)=>i));
+        check('[1]',[22]);
+        check('no city matched',[]);
+        assert.equal(h.elements.get('hd-mini-map-cities').textContent,'暂无匹配城池');
+        check('北',[1,10,30]);
+        for(const [kind,ids] of [['owned',[1]],['neutral',[10]],['empty',[]],['all',[1,10,30]]]) {
+            h.filter(kind);assert.deepEqual(h.cityIds(),ids);assert.equal(h.api.debugSnapshot().matchingCities,ids.length);
+            const points=h.markers.slice(-38);
+            for(let i=0;i<38;i++)assert.equal(points[i].alpha,ids.includes(i)?1:0.2);
+        }
+        assert.equal(h.elements.get('hd-mini-map-filter-all').textContent,'全部（38）');
+        assert.equal(h.elements.get('hd-mini-map-filter-owned').textContent,'我方（10）');
+        assert.equal(h.elements.get('hd-mini-map-filter-neutral').textContent,'他方（12）');
+        assert.equal(h.elements.get('hd-mini-map-filter-empty').textContent,'空城（8）');
+        assert.equal(JSON.stringify(h.native),native);assert.equal(JSON.stringify(h.data.cities),cities);
+        assert.deepEqual(h.keys,[]);if(mobile)assert.deepEqual(h.writes,[]);
+    }
+});
+
+test('city-name editing requires a trusted exact focused input and isolates IME and native keys',()=>{
+    for(const mobile of [false,true]) {
+        const h=categorizedOverview(mobile),input=h.elements.get('hd-mini-map-search'),document=h.context.document,
+            native=JSON.stringify(h.native);
+        h.search('city1');assert.equal(h.api.debugSnapshot().query,'','input alone cannot establish an editor');
+        h.localEvent('focus',input,{isTrusted:false});h.search('city1');assert.equal(h.api.debugSnapshot().query,'');
+        const other=document.createElement('input');h.localEvent('focus',input,{target:other});document.activeElement=input;
+        h.search('city1');assert.equal(h.api.debugSnapshot().query,'','a different input cannot establish the local editor');
+        for(const options of [{keyCode:229},{keyCode:65,isComposing:true},{keyCode:65,isTrusted:false}]) {
+            h.localEvent('keydown',input,options);h.search('city1');assert.equal(h.api.debugSnapshot().query,'');
+        }
+        h.localEvent('focus',input);h.search('  cItY1  ');assert.equal(h.api.debugSnapshot().query,'  cItY1  ');
+        input.value='forged';h.localEvent('input',input,{isTrusted:false});assert.equal(h.api.debugSnapshot().query,'  cItY1  ');
+        h.localEvent('input',input,{target:other});assert.equal(h.api.debugSnapshot().query,'  cItY1  ');
+        document.activeElement=other;h.search('city2');assert.equal(h.api.debugSnapshot().query,'  cItY1  ');
+        h.localEvent('focus',input);h.search('city1');
+        for(const keyCode of [37,38,39,40,48,49,50,51,52,53,54,55,56,57,32,13,27,229]) {
+            const event=h.localEvent('keydown',input,{keyCode,isComposing:keyCode===229});
+            assert.equal(event.stopped,true);assert.equal(event.defaultPrevented,undefined);assert.equal(event.consumed,undefined);
+            const up=h.localEvent('keyup',input,{keyCode,isComposing:keyCode===229});
+            assert.equal(up.stopped,true);assert.equal(up.defaultPrevented,undefined);
+        }
+        const tab=h.localEvent('keydown',input,{keyCode:9});
+        assert.equal(tab.defaultPrevented,undefined);assert.equal(tab.consumed,undefined);
+        h.localEvent('compositionstart',input);input.value='北';h.localEvent('input',input,{isComposing:true});
+        assert.equal(h.api.debugSnapshot().query,'city1');
+        input.value='北平';h.localEvent('compositionend',input);assert.equal(h.api.debugSnapshot().query,'北平');
+        h.localEvent('input',input);assert.equal(h.api.debugSnapshot().query,'北平');
+        const long='  '+('北'.repeat(34));h.search(long);assert.equal(h.api.debugSnapshot().query,long.slice(0,32));
+        assert.equal(JSON.stringify(h.native),native);assert.deepEqual(h.keys,[]);if(mobile)assert.deepEqual(h.writes,[]);
+        for(const source of ['focus','pointerdown','keydown']) {
+            const fresh=categorizedOverview(mobile),field=fresh.elements.get('hd-mini-map-search');
+            fresh.context.document.activeElement=field;
+            fresh.localEvent(source,field,source==='keydown'?{keyCode:65}:{});
+            if(source==='pointerdown')fresh.localEvent('pointerup',field);
+            fresh.search('city2');assert.equal(fresh.api.debugSnapshot().query,'city2',source+' establishes the editor');
+            assert.deepEqual(fresh.keys,[]);if(mobile)assert.deepEqual(fresh.writes,[]);
+        }
+    }
+});
+
+test('query changes retire old Return gestures and editor lifetimes reject stale composition and input',()=>{
+    for(const mobile of [false,true]) {
+        for(const completedUp of mobile?[false,true]:[false]) {
+            const h=categorizedOverview(mobile),input=h.elements.get('hd-mini-map-search'),back=h.elements.get('hd-mini-map-return'),
+                owner=h.api.debugSnapshot().owner,native=JSON.stringify(h.native);
+            h.localEvent('focus',input);
+            if(mobile){h.down();if(completedUp)h.up();}else h.localEvent('pointerdown',back);
+            h.search('city1');assert.equal(h.api.debugSnapshot().query,'city1');
+            if(mobile){if(!completedUp)h.up();h.click();}else h.localClick(back);
+            assert.deepEqual(h.keys,[]);assert.equal(h.api.debugSnapshot().owner,owner);
+            if(mobile)h.tap();else {h.localEvent('pointerdown',back);h.localClick(back);}
+            assert.deepEqual(h.keys,[40]);assert.equal(h.api.debugSnapshot().committed,true);
+            h.search('city2');assert.equal(h.api.debugSnapshot().committed,true);
+            h.data.generation++;h.api.poll();assert.equal(h.api.debugSnapshot().committed,true,'source refresh cannot reset a committed Exit');
+            if(mobile)h.tap();else {h.localEvent('pointerdown',back);h.localClick(back);}
+            assert.deepEqual(h.keys,[40]);assert.equal(JSON.stringify(h.native),native);if(mobile)assert.deepEqual(h.writes,[]);
+        }
+        for(const reason of ['blur','window-blur','close','owner','source-generation','source-cities','unsupported','classic','hidden']) {
+            const h=categorizedOverview(mobile),input=h.elements.get('hd-mini-map-search');
+            if(reason==='classic')h.filter('neutral');
+            h.localEvent('focus',input);h.search('city1');h.localEvent('compositionstart',input);input.value='city12';
+            const mirror=()=>{if(mobile)h.mirror();};
+            if(reason==='blur')h.localEvent('blur',input);
+            if(reason==='window-blur'){h.listeners.blur();h.listeners.focus();}
+            if(reason==='close'){h.native.active=0;mirror();h.api.poll();h.native.active=1;mirror();h.api.poll();}
+            if(reason==='owner'){h.native.seq++;mirror();h.api.poll();}
+            if(reason==='source-generation'){h.data.generation++;h.api.poll();}
+            if(reason==='source-cities'){h.data.cities[5].name='changed city';h.api.poll();}
+            if(reason==='unsupported') {
+                h.native.custom=1;mirror();h.api.poll();
+                assert.equal(h.elements.get('hd-mini-map-search').disabled,true);
+                h.native.custom=0;mirror();h.api.poll();
+                if(mobile) {
+                    assert.equal(h.api.debugSnapshot().showLcd,false,'mobile custom changes create a fresh receipt owner');
+                    assert.equal(input.disabled,false,'mobile restored data enables search on its new owner');
+                    assert.equal(h.api.debugSnapshot().query,'','mobile owner changes retire the former query');
+                } else {
+                    assert.equal(h.api.debugSnapshot().showLcd,true,'PC restored data retains its classic presentation');
+                    assert.equal(input.disabled,true,'PC classic presentation keeps search disabled');
+                    h.localEvent('focus',input);h.search('city2');
+                    assert.equal(h.api.debugSnapshot().query,'','PC restored data rejects search in classic presentation');
+                    h.localClick(h.elements.get('hd-mini-map-classic'));
+                }
+            }
+            if(reason==='classic') {
+                if(mobile){h.available(false);h.api.poll();h.available(true);h.api.poll();}
+                else {
+                    h.localClick(h.elements.get('hd-mini-map-classic'));
+                    assert.equal(h.api.debugSnapshot().query,'');assert.equal(h.api.debugSnapshot().filter,'neutral');
+                    h.localClick(h.elements.get('hd-mini-map-classic'));
+                }
+            }
+            if(reason==='hidden'){h.hidden(true);h.listeners['document:visibilitychange']();h.hidden(false);h.listeners['document:visibilitychange']();}
+            const retainedQuery=reason==='blur'?'city1':'';
+            assert.equal(h.api.debugSnapshot().query,retainedQuery,reason==='blur'?
+                'input blur preserves the submitted query for category filtering':reason+' clears the former query');
+            const native=JSON.stringify(h.native);h.context.document.activeElement=input;
+            input.value='city12';h.localEvent('compositionend',input);h.localEvent('input',input);
+            assert.equal(h.api.debugSnapshot().query,retainedQuery,reason+' rejects the old IME completion and its trailing input');
+            h.localEvent('focus',input);h.search('city2');
+            assert.equal(h.api.debugSnapshot().query,'city2',reason+' fresh editor on '+(mobile?'mobile':'PC'));
+            assert.equal(JSON.stringify(h.native),native);assert.deepEqual(h.keys,[]);if(mobile)assert.deepEqual(h.writes,[]);
+        }
+    }
+});
+
+test('focused city-name editing preserves query caret and scroll across polls resize and scroll while retiring Return',()=>{
+    for(const mobile of [false,true])for(const trigger of ['resize','scroll'])for(const completedUp of mobile?[false,true]:[false]) {
+        const h=categorizedOverview(mobile),input=h.elements.get('hd-mini-map-search'),list=h.elements.get('hd-mini-map-cities'),
+            back=h.elements.get('hd-mini-map-return'),owner=h.api.debugSnapshot().owner,native=JSON.stringify(h.native);
+        h.localEvent('focus',input);h.search('  city1  ');
+        list.scrollTop=137;input.selectionStart=2;input.selectionEnd=5;input.selectionDirection='backward';
+        const first=list.children[0];h.api.poll();h.api.poll();
+        assert.equal(h.api.debugSnapshot().query,'  city1  ');assert.equal(input.value,'  city1  ');
+        assert.equal(input.selectionStart,2);assert.equal(input.selectionEnd,5);assert.equal(input.selectionDirection,'backward');
+        assert.equal(list.scrollTop,137);assert.equal(list.children[0],first);
+        h.localEvent('compositionstart',input);input.value='city12';h.localEvent('input',input,{isComposing:true});
+        if(mobile){h.down();if(completedUp)h.up();}else h.localEvent('pointerdown',back);
+        const epoch=h.api.debugSnapshot().presentationEpoch;
+        if(trigger==='resize')h.listeners.resize();else h.listeners['document:scroll']();
+        assert.equal(h.api.isOpen(),true);assert.equal(h.api.debugSnapshot().owner,owner);
+        assert.ok(h.api.debugSnapshot().presentationEpoch>epoch);assert.equal(h.api.debugSnapshot().query,'  city1  ');
+        assert.equal(input.value,'city12');assert.equal(input.selectionStart,2);assert.equal(input.selectionEnd,5);
+        assert.equal(list.scrollTop,137);assert.equal(list.children[0],first);
+        if(mobile){if(!completedUp)h.up();h.click();}else h.localClick(back);
+        assert.deepEqual(h.keys,[]);
+        h.localEvent('compositionend',input);assert.equal(h.api.debugSnapshot().query,'city12','the current editor survives '+trigger);
+        h.search('city13');assert.equal(h.api.debugSnapshot().query,'city13');
+        if(mobile)h.tap();else {h.localEvent('pointerdown',back);h.localClick(back);}
+        assert.deepEqual(h.keys,[40]);assert.equal(JSON.stringify(h.native),native);if(mobile)assert.deepEqual(h.writes,[]);
+    }
+    const h=categorizedOverview(true);h.listeners.resize();
+    assert.equal(h.api.isOpen(),false,'mobile resize without an editor keeps the existing retirement contract');
+    h.api.poll();assert.equal(h.api.isOpen(),true);assert.equal(h.api.debugSnapshot().query,'');assert.deepEqual(h.keys,[]);
 });

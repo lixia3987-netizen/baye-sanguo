@@ -1,7 +1,8 @@
 /* A native SEARCH overlay owns this read-only overview and one return key. */
 (function (global) {
     var state = { open: false, owner: '', epoch: 0, native: null, data: null, showLcd: false,
-        committed: '', pressed: null, paint: '', filter: 'all', bound: false, timer: 0, ownerData: null,
+        committed: '', pressed: null, paint: '', filter: 'all', query: '', editor: null, composing: false, source: '',
+        bound: false, timer: 0, ownerData: null,
         grant: null, blocked: false, pointers: {}, focused: true, dispatch: false, retireReason: '' };
     var mobileHost = null;
     var FILTERS = { all: '全部', owned: '我方', neutral: '他方', empty: '空城' };
@@ -16,9 +17,63 @@
         27: 0x28, 32: 0x28, 70: 0x33, 83: 0x33, 72: 0x26 };
     function node(id) { return document.getElementById(id); }
     function integer(value, min, max) { return Number.isInteger(value) && value >= min && value <= max; }
-    function matchesFilter(city) { return state.filter === 'all' || city.kind === state.filter; }
+    function matchesFilter(city) {
+        var term = state.query.trim().toLowerCase();
+        return (state.filter === 'all' || city.kind === state.filter) &&
+            (!term || typeof city.name === 'string' && city.name.toLowerCase().indexOf(term) >= 0);
+    }
     function filterButton(target) {
         return !!target && Object.keys(FILTERS).some(function (key) { return target === node('hd-mini-map-filter-' + key); });
+    }
+    function searchTarget(target) { return !!target && target === node('hd-mini-map-search'); }
+    function searchReady() {
+        var input = node('hd-mini-map-search'), root = node('hd-mini-map');
+        return !!(input && root && root.contains(input) && input.isConnected !== false && state.focused && !document.hidden &&
+            state.open && state.data && !state.showLcd && state.committed !== state.owner && !input.disabled);
+    }
+    function editorTicket() { return {owner:state.owner,epoch:state.epoch,source:state.source}; }
+    function validEditor(value) {
+        return !!(value && state.editor === value && searchReady() && document.activeElement === node('hd-mini-map-search') &&
+            value.owner === state.owner && value.epoch === state.epoch && value.source === state.source);
+    }
+    function clearSearch() {
+        state.query = ''; state.editor = null; state.composing = false;
+        var input = node('hd-mini-map-search');
+        if (input) { input.value = ''; input.disabled = true; }
+    }
+    function retireForSearch(reason) {
+        var oldPress = state.pressed;
+        retireInput(reason);
+        if (!mobileHost && oldPress && !searchTarget(oldPress.target)) { state.pressed = oldPress; }
+    }
+    function armSearch(event) {
+        if (event.isTrusted !== true || event.repeat || event.isComposing || event.keyCode === 229) { return; }
+        poll();
+        if (!searchTarget(event.target) || !searchReady()) { return; }
+        retireForSearch('search-focus'); state.editor = editorTicket();
+    }
+    function updateQuery(event) {
+        var input = node('hd-mini-map-search'), editor = state.editor, value = input && input.value;
+        if (event.isTrusted !== true || !searchTarget(event.target) || state.composing || event.isComposing) { return; }
+        poll();
+        if (!validEditor(editor) || typeof value !== 'string') { if (input) { input.value = state.query; } return; }
+        value = value.slice(0,32);
+        if (value !== state.query) {
+            retireForSearch('search'); state.query = value; state.paint = ''; state.editor = editorTicket(); render();
+        }
+        if (input.value !== value) { input.value = value; }
+    }
+    function retireKeepingEditor(reason) {
+        var keep = validEditor(state.editor);
+        retireForSearch(reason);
+        if (keep) { state.editor = editorTicket(); }
+        else { state.editor = null; state.composing = false; }
+        return keep;
+    }
+    function sourceKey(data) { return data ? JSON.stringify([data.generation,data.libraryGeneration,data.libSha256,data.cities]) : ''; }
+    function adoptSource(data) {
+        var next = sourceKey(data);
+        if (next !== state.source) { retireForSearch('overview-data'); clearSearch(); state.source = next; state.paint = ''; }
     }
     function chooseFilter(value) {
         if (!Object.prototype.hasOwnProperty.call(FILTERS, value)) { return; }
@@ -121,6 +176,11 @@
         if (back) { back.disabled = state.committed === state.owner; }
         var filters = node('hd-mini-map-filters');
         if (filters) { filters.hidden = !state.data; }
+        var search = node('hd-mini-map-search'), searchWrap = node('hd-mini-map-search-wrap');
+        var tools = node('hd-mini-map-tools');
+        if (tools) { tools.hidden = !state.data; }
+        if (searchWrap) { searchWrap.hidden = !state.open || !state.data || state.showLcd; }
+        if (search) { search.disabled = !state.open || !state.data || state.showLcd || !state.focused || state.committed === state.owner; }
         Object.keys(FILTERS).forEach(function (key) {
             var button = node('hd-mini-map-filter-' + key);
             if (button) { button.disabled = !state.data || state.committed === state.owner; }
@@ -129,6 +189,7 @@
     function close() {
         state.epoch += 1;
         state.open = false; state.owner = ''; state.native = state.data = null; state.filter = 'all';
+        clearSearch(); state.source = '';
         state.ownerData = null; state.grant = null;
         if (mobileHost) { state.pressed = null; }
         state.paint = ''; chrome();
@@ -137,7 +198,8 @@
         var canvas = node('hd-mini-map-canvas'), live = readNative();
         if (!live || token(live) !== state.owner || mobileHost && live._mobileData !== state.ownerData) { close(); return; }
         var data = overview(live);
-        if (!data) { state.data = null; state.showLcd = true; state.paint = ''; chrome(); return; }
+        if (!data) { adoptSource(null); state.data = null; state.showLcd = true; state.paint = ''; chrome(); return; }
+        adoptSource(data);
         state.data = data;
         if (!canvas || document.hidden) { return; }
         var rect = canvas.getBoundingClientRect(), dpr = Math.min(global.devicePixelRatio || 1, 2);
@@ -171,6 +233,8 @@
         if (body) { body.hidden = !state.data; }
         if (fallback) { fallback.hidden = !!state.data; }
         var matches = state.data ? state.data.cities.filter(matchesFilter) : [];
+        var search = node('hd-mini-map-search');
+        if (search && !state.composing && !validEditor(state.editor)) { search.value = state.query; }
         var filters = node('hd-mini-map-filters');
         if (filters) { filters.hidden = !state.data; }
         Object.keys(FILTERS).forEach(function (key) {
@@ -185,7 +249,7 @@
         if (summary) { summary.textContent = state.data ? '匹配 ' + matches.length + ' / ' + state.data.cities.length + ' 座城池' +
             (selected ? ' · 当前位置：' + selected.name : ' · 当前游标未在城池上') : '请在经典画面查看当前小地图。'; }
         var signature = JSON.stringify([state.owner, state.data && state.data.generation,
-            state.data && state.data.cities, state.native.city1, state.filter]);
+            state.data && state.data.cities, state.native.city1, state.filter, state.query]);
         if (list && state.paint !== signature) {
             list.textContent = state.data && !matches.length ? '暂无匹配城池' : '';
             list.setAttribute('aria-label', FILTERS[state.filter] + '城池');
@@ -215,7 +279,9 @@
             if (mobileHost) { state.pressed = null; }
             state.owner = owner; state.committed = '';
             state.showLcd = !data; state.paint = ''; state.filter = 'all';
+            clearSearch(); state.source = sourceKey(data);
         }
+        adoptSource(data);
         state.ownerData = mobileHost ? value._mobileData : null;
         state.open = true; state.native = value; state.data = data;
         if (!data) { state.showLcd = true; state.filter = 'all'; }
@@ -279,6 +345,7 @@
         }, true);
         root.addEventListener('pointerdown', function (event) {
             if (!mobileHost) { return; }
+            if (searchTarget(event.target)) { return; }
             var target = mobileTarget(event), ticket = getInputTicket(), rect = target && geometry(target);
             state.grant = null;
             if (event.isTrusted !== true || event.isPrimary !== true || event.button !== 0 || !integer(event.pointerId, 0, 0xffffffff) || state.blocked ||
@@ -319,7 +386,7 @@
             // Only a lost capture during an unfinished press cancels its grant.
             if (mobileHost && (state.pressed || state.pointers[event.pointerId])) { retireInput('lost-capture'); }
         }, true);
-        document.addEventListener('scroll', function () { if (mobileHost) { retireInput('scroll'); } }, true);
+        document.addEventListener('scroll', function () { retireKeepingEditor('scroll'); }, true);
         root.addEventListener('click', function (event) {
             if (!mobileHost) { return; }
             var target = mobileTarget(event), grant = state.grant; state.grant = null;
@@ -340,6 +407,12 @@
         // Registered on window before city/battle listeners. Repeats stay
         // consumed until C retires the exact overlay, never becoming movement.
         global.addEventListener('keydown', function (event) {
+            if (searchTarget(event.target)) {
+                if (!validEditor(state.editor)) { armSearch(event); }
+                if (event.stopImmediatePropagation) { event.stopImmediatePropagation(); }
+                else if (event.stopPropagation) { event.stopPropagation(); }
+                return;
+            }
             var live = readNative();
             if (live && state.open && filterButton(event.target)) {
                 // Enter/Space activate the local button; Tab keeps native focus navigation.
@@ -356,7 +429,27 @@
             if (mobileHost) { return; }
             if (!event.repeat) { returnKey(code, token(live)); }
         }, true);
+        global.addEventListener('keyup', function (event) {
+            if (!searchTarget(event.target)) { return; }
+            if (event.stopImmediatePropagation) { event.stopImmediatePropagation(); }
+            else if (event.stopPropagation) { event.stopPropagation(); }
+        }, true);
         var root = node('hd-mini-map');
+        var search = node('hd-mini-map-search');
+        if (search) {
+            search.addEventListener('focus',armSearch);
+            search.addEventListener('blur',function () { state.editor = null; state.composing = false; search.value = state.query; });
+            search.addEventListener('input',updateQuery);
+            search.addEventListener('compositionstart',function (event) {
+                if (event.isTrusted === true && searchTarget(event.target)) { state.composing = validEditor(state.editor); }
+            });
+            search.addEventListener('compositionend',function (event) {
+                if (event.isTrusted !== true || !searchTarget(event.target)) { return; }
+                var composing = state.composing; state.composing = false;
+                if (composing) { updateQuery(event); }
+                else { search.value = state.query; }
+            });
+        }
         Object.keys(FILTERS).forEach(function (key) {
             var button = node('hd-mini-map-filter-' + key);
             if (button) { button.addEventListener('click', function (event) {
@@ -364,6 +457,7 @@
             }); }
         });
         root.addEventListener('pointerdown', function (event) {
+            if (searchTarget(event.target)) { armSearch(event); return; }
             if (mobileHost) { return; }
             state.pressed = { owner: state.owner, epoch: state.epoch, target: event.target };
         });
@@ -377,22 +471,30 @@
                 !target.contains(pressed.target)) ||
                 token(readNative()) !== state.owner || !state.open) { return; }
             if (target.id === 'hd-mini-map-return') { returnKey(0x28, state.owner); }
-            if (target.id === 'hd-mini-map-classic' && state.data) { state.showLcd = !state.showLcd; chrome(); draw(); }
+            if (target.id === 'hd-mini-map-classic' && state.data) {
+                state.showLcd = !state.showLcd;
+                if (state.showLcd) { retireInput('classic'); clearSearch(); }
+                chrome(); draw();
+            }
         });
         bindMobileInput(root);
         global.addEventListener('resize', function () {
-            if (mobileHost) { retireInput('resize'); close(); }
+            var editing = retireKeepingEditor('resize');
+            if (mobileHost && !editing) { close(); }
             if (state.open) { poll(); draw(); }
         });
         ['orientationchange','pagehide','blur'].forEach(function (event) {
             global.addEventListener(event, function () {
-                if (!mobileHost) { return; }
+                if (!mobileHost) { retireForSearch(event); }
+                clearSearch();
                 if (event === 'blur' || event === 'pagehide') { state.focused = false; }
+                chrome();
+                if (!mobileHost) { return; }
                 retireInput(event); close();
             });
         });
         ['focus','pageshow'].forEach(function (event) {
-            global.addEventListener(event, function () { if (mobileHost) { state.focused = true; poll(); } });
+            global.addEventListener(event, function () { state.focused = true; if (state.open || mobileHost) { poll(); } });
         });
         document.addEventListener('visibilitychange', function () {
             if (mobileHost) { retireInput('visibility'); close(); }
@@ -413,6 +515,6 @@
         debugSnapshot: function () { return { open: state.open, owner: state.owner, native: state.native,
             presentationEpoch: state.epoch, mobileHost: !!mobileHost, retireReason: state.retireReason,
             showLcd: state.showLcd, complete: !!state.data, committed: state.committed === state.owner,
-            filter: state.filter, matchingCities: state.data ? state.data.cities.filter(matchesFilter).length : 0,
+            filter: state.filter, query: state.query, matchingCities: state.data ? state.data.cities.filter(matchesFilter).length : 0,
             cities: state.data ? state.data.cities : [] }; } };
 })(window);
