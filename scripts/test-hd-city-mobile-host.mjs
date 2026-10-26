@@ -2205,9 +2205,16 @@ test('trade MAP receipt keeps its original deadline while another overlay remain
     assert.equal(f.api.getTradePresentation(),null);assert.deepEqual(f.keys,[...before,39]);assert.deepEqual(f.writes,[]);
 });
 
-function diplomacyFixture(command=15,{phase=1,seq=10,mobile=true}={}) {
-    const f=fixture({marchState:true,sourceText:diplomacySource});if(mobile)f.configure();f.state=f.internals.state;
+function diplomacyFixture(command=15,{phase=1,seq=10,mobile=true,pcHd=false}={}) {
+    const f=fixture({marchState:true,sourceText:diplomacySource});if(mobile)f.configure();
+    if(pcHd){assert.equal(mobile,false);f.stored.set('baye/cityMenuMode','hd');f.raw.g_PlayerKing=0;}
+    f.state=f.internals.state;
     const actor={names:['董卓','李儒','吕布'],ids:[0,19,20]}, target={names:['敌方甲','敌方乙'],ids:[45,62]};
+    if(pcHd){
+        Object.assign(f.raw.g_Cities[0],{Money:500,Food:900,MothballArms:40,Persons:3,PersonQueue:0});
+        f.raw.g_Persons=Array.from({length:200},(_,id)=>({Belong:actor.ids.includes(id)?1:target.ids.includes(id)?2:0,Thew:100,Arms:100,Tool1:0,Tool2:0}));
+        f.raw.g_PersonsQueue=actor.ids.slice();f.raw.g_OrderQueue=[{OrderId:255,City:0,Person:0,Object:0,Money:0,Food:0,Arms:0}];
+    }
     const suffixes=['ProtocolVersion','Active','Command','Phase','Session','InputSeq','Generation','Origin','Actor','Target','CommitSeq','CommitResult'];
     let ids=[],hook=null,deferred=null;
     Object.assign(f.raw,{g_asyncActionID:0,g_hdMapInputSeq:4,g_hdMenuSeq:seq,g_hdMarchPhase:7,g_hdSpeGeneration:2,g_hdHelpSeq:0,
@@ -2253,10 +2260,13 @@ function diplomacyFixture(command=15,{phase=1,seq=10,mobile=true}={}) {
     assert.equal(typeof f.internals.syncDiplomacy,'function','current diplomacy observation integration');
     f.internals.syncDiplomacy();f.internals.fill();
     function all(attr,value=dom.list,out=[]){if(value.getAttribute(attr)!==null)out.push(value);for(const child of value.children)all(attr,child,out);return out;}
+    function event(button){return {target:button,detail:1,isPrimary:true,button:0,pointerId:7,preventDefault(){},stopPropagation(){}};}
+    function down(index){const button=all('data-hd-deep')[index];assert.ok(button,'complete current native PERSON button');
+        dom.root.emit('pointerdown',event(button));return button;}
+    function click(button){dom.root.emit('click',event(button));}
     function press(index){const button=all('data-hd-deep')[index];assert.ok(button,'complete current native PERSON button');
-        const event={target:button,detail:1,isPrimary:true,button:0,pointerId:7,preventDefault(){},stopPropagation(){}};
-        dom.root.emit('pointerdown',event);dom.root.emit('click',event);return button;}
-    return Object.assign(f,{dom,actor,target,publish,advance,all,press,next,consume,
+        const e=event(button);dom.root.emit('pointerdown',e);dom.root.emit('click',e);return button;}
+    return Object.assign(f,{dom,actor,target,publish,advance,all,event,down,click,press,next,consume,
         setDiplomacyHook(fn){hook=fn;},setDeferred(fn){deferred=fn;},back(){f.internals.back(f.internals.backOwner());}});
 }
 for(const command of [15,16,17,19])test('diplomacy actor to target uses the actual two PERSON publications: '+command,()=>{
@@ -2374,7 +2384,168 @@ test('diplomacy delivered dispatch retires its receipt on the real MAP while the
     assert.ok(f.api.getInputTicket());assert.equal(f.internals.send(35,'city-root'),true);
     assert.deepEqual(f.keys,[39,39,35]);assert.deepEqual(f.writes,[]);
 });
-test('diplomacy mobile extension neither claims PC input nor promotes the native empty counter-spy command',()=>{
-    const f=diplomacyFixture(15,{mobile:false});assert.equal(f.api.getInputTicket(),null);
-    assert.equal(f.api.getDiplomacyPresentation(),null);assert.equal(f.state.deepLabel,'');assert.deepEqual(f.keys,[]);
+// PC has its own verified read-only diplomacy observation; it never receives a mobile adapter ticket.
+// These callbacks model native publications only. They do not execute C or prove its resource costs.
+function pcDiplomacyFixture({fromSub=false}={}) {
+    const f=diplomacyFixture(16,{mobile:false,pcHd:true});
+    f.world=()=>JSON.parse(JSON.stringify({playerKing:f.raw.g_PlayerKing,cities:f.raw.g_Cities,people:f.raw.g_Persons,queue:f.raw.g_PersonsQueue,orders:f.raw.g_OrderQueue,config:f.raw.g_engineConfig}));
+    f.initialWorld=f.world();
+    if(!fromSub)return f;
+    f.advance(5,{map:true});
+    const seq=f.next(f.raw.g_hdMenuSeq),labels=['离间','招揽','策反','反间','劝降'];
+    Object.assign(f.raw,{g_hdMapPick:0,g_hdMenuActive:1,g_hdMenuContext:1,g_hdMenuKind:2,
+        g_hdMenuSeq:seq,g_hdMenuIndex:0,g_hdMenuCount:labels.length});
+    f.names.splice(0,f.names.length,...labels);Object.assign(f.state,{open:true,layer:'sub',subKind:'waijiao',cityIndex:0,deepKind:'',deepLabel:'',deepStep:0});
+    f.setAfterKey(key=>{
+        if(key===35){f.env.setTimeout(()=>f.raw.g_hdMenuIndex++,60);return;}
+        assert.equal(key,39);assert.equal(f.raw.g_hdMenuIndex,1,'CANVASS Enter waits for the real SUB Arrow ACK');
+        Object.assign(f.raw,{g_hdMenuActive:0,g_hdMenuContext:0,g_hdMenuKind:0,g_hdMenuCount:0,g_hdMenuSeq:f.next(seq)});
+        f.names.splice(0);f.env.setTimeout(()=>{
+            Object.assign(f.raw,{g_hdDiplomacySession:f.next(f.raw.g_hdDiplomacySession),g_hdDiplomacyCommand:16});
+            f.advance(1,{menuSeq:f.next(f.next(seq))});
+        },60);
+    });
+    f.internals.chooseSub(1);assert.deepEqual(f.keys,[35]);
+    f.tick(1000);f.setAfterKey(f.consume);assert.deepEqual(f.keys,[35,39]);
+    return f;
+}
+function assertPcRole(f,role,ids) {
+    assert.equal(f.api.debugSnapshot().mobileHost,false,'PC is never configured as a mobile host');
+    assert.equal(f.api.getInputTicket(),null,'Public adapter ticket retains its mobile-only brand');
+    const before=f.world(),p=f.api.getDiplomacyPresentation();assert.ok(p,'verified PC native diplomacy role');
+    assert.equal(p.command,16);assert.equal(p.commandName,'招揽');assert.equal(p.role,role);
+    assert.equal(p.moneyCost,50);assert.equal(p.thewCost,20);assert.equal(p.thewPayer,'actor');
+    assert.deepEqual(Array.from(p.ids),ids);assert.ok(Object.isFrozen(p)&&Object.isFrozen(p.ids));
+    assert.equal(f.state.layer,'deep');assert.equal(f.state.deepKind,'person-diplomacy');assert.equal(f.state.deepLabel,'招揽');
+    assert.equal(f.internals.personKind(f.state.deepKind),true,'PC diplomacy uses a native-ID person detail owner');
+    assert.equal(f.state.deepMenuOwner.kind,3);assert.equal(f.state.deepMenuOwner.seq,p.menuSeq);
+    assert.deepEqual(Array.from(f.state.deepItems,item=>item.pind),ids);
+    assert.equal(f.dom.find('data-hd-diplomacy-role').getAttribute('data-hd-diplomacy-role'),role);
+    assert.deepEqual(f.world(),before,'Role, costs, labels and detail-owner reads do not write game data');
+    assert.deepEqual(f.world(),f.initialWorld);assert.deepEqual(f.writes,[]);return p;
+}
+test('PC CANVASS enters from real SUB and cancels TARGET to fresh ACTOR then MAP with two EXITs',()=>{
+    const f=pcDiplomacyFixture({fromSub:true}),actor=assertPcRole(f,'actor',f.actor.ids),oldActor=f.all('data-hd-deep')[1];
+    assert.equal(actor.index,0);f.press(1);f.tick(200);
+    const target=assertPcRole(f,'target',f.target.ids);assert.equal(target.actor,19);
+    assert.equal(oldActor.isConnected,false);assert.deepEqual(f.keys,[35,39,35,39]);
+    const targetBack=f.internals.backOwner();f.back();f.back();assert.equal(f.state.layer,'deep','Cancel keeps its owner until the native ACK');
+    f.tick(200);const returned=assertPcRole(f,'actor',f.actor.ids);
+    assert.equal(returned.index,0);assert.equal(returned.actor,65535);assert.equal(returned.target,65535);
+    assert.equal(returned.session,target.session);assert.notEqual(returned.inputSeq,target.inputSeq);assert.notEqual(returned.menuSeq,target.menuSeq);
+    const keys=f.keys.slice();f.internals.back(targetBack);assert.deepEqual(f.keys,keys,'Old target Back cannot cancel the new actor');
+    f.back();f.back();f.tick(200);assert.equal(f.state.open,false);assert.equal(f.raw.g_hdMapPick,1);
+    assert.equal(f.raw.g_hdMenuActive,0);assert.equal(f.raw.g_hdDiplomacyPhase,5);
+    assert.equal(f.api.getDiplomacyPresentation(),null);assert.equal(f.api.getInputTicket(),null);
+    assert.deepEqual(f.keys,[35,39,35,39,40,40]);assert.equal(f.raw.g_hdDiplomacyCommitSeq,0);assert.equal(f.raw.g_hdDiplomacyCommitResult,0);
+    assert.deepEqual(f.world(),f.initialWorld);assert.deepEqual(f.writes,[]);
+});
+test('PC diplomacy delayed native ACK does not invent SUB, replay Enter or accept retired buttons',()=>{
+    const f=pcDiplomacyFixture(),pending=[];f.setDeferred(fn=>pending.push(fn));
+    const actorButton=f.press(0);assert.deepEqual(f.keys,[39]);assert.equal(pending.length,1);
+    f.tick(40);assert.equal(f.state.layer,'deep');assert.equal(f.api.getDiplomacyPresentation(),null);
+    f.dom.root.emit('pointerdown',f.event(actorButton));f.click(actorButton);f.back();assert.deepEqual(f.keys,[39]);
+    pending.shift()();f.tick(120);assertPcRole(f,'target',f.target.ids);
+    const oldTarget=f.all('data-hd-deep')[0],oldBack=f.internals.backOwner();f.back();f.back();
+    assert.deepEqual(f.keys,[39,40]);assert.equal(pending.length,1);f.tick(120);
+    assert.equal(f.state.open,true);assert.equal(f.state.layer,'deep','No synthetic submenu while TARGET cancellation is pending');
+    assert.equal(f.state.deepKind,'person-diplomacy');assert.equal(f.api.getDiplomacyPresentation(),null);
+    pending.shift()();f.tick(120);assertPcRole(f,'actor',f.actor.ids);
+    assert.equal(oldTarget.isConnected,false);f.dom.root.emit('pointerdown',f.event(oldTarget));f.click(oldTarget);f.internals.back(oldBack);
+    assert.deepEqual(f.keys,[39,40],'Retired target button and old Back owner emit no input');
+    f.back();f.back();assert.deepEqual(f.keys,[39,40,40]);assert.equal(pending.length,1);
+    f.tick(120);assert.equal(f.state.open,true,'Actor cancel also waits for native DONE/MAP');
+    pending.shift()();f.tick(120);assert.equal(f.state.open,false);assert.equal(f.raw.g_hdMapPick,1);
+    assert.equal(f.raw.g_hdDiplomacyCommitSeq,0);assert.deepEqual(f.world(),f.initialWorld);assert.deepEqual(f.writes,[]);
+});
+test('PC diplomacy reservation survives unknown EXIT, silent close and role re-adoption',()=>{
+    const f=pcDiplomacyFixture(),failure=new Error('unknown EXIT after native sender');let calls=0;
+    assertPcRole(f,'actor',f.actor.ids);f.setAfterKey(key=>{assert.equal(key,40);calls++;throw failure;});
+    assert.throws(()=>f.back(),error=>error===failure,'The exact sender exception object escapes unchanged');
+    assert.deepEqual(f.keys,[40]);assert.equal(calls,1);
+    f.api.close({silent:true});assert.equal(f.state.open,false,'Presentation can close while its input reservation remains');
+    f.internals.syncDiplomacy();f.internals.fill();
+    assert.doesNotThrow(()=>{f.back();f.back();},'Re-adopting the same native role cannot retry its unknown EXIT');
+    assert.deepEqual(f.keys,[40]);assert.equal(calls,1);assert.equal(f.api.getInputTicket(),null);
+    assert.deepEqual(f.world(),f.initialWorld);assert.deepEqual(f.writes,[]);
+});
+test('PC diplomacy reservation survives a pending EXIT before native consumption',()=>{
+    const f=pcDiplomacyFixture(),accepted=[];assertPcRole(f,'actor',f.actor.ids);
+    // The export returns after accepting a key; C may not consume it or change its menu yet.
+    f.setAfterKey(key=>{assert.equal(key,40);accepted.push(()=>f.consume(key));});
+    f.back();assert.deepEqual(f.keys,[40]);assert.equal(f.raw.g_hdMenuActive,1);
+    f.api.close({silent:true});assert.equal(f.state.open,false);
+    f.internals.syncDiplomacy();f.internals.fill();f.back();f.back();f.tick(120);
+    assert.deepEqual(f.keys,[40],'Successful export without native ACK remains consumed across close/sync');assert.equal(accepted.length,1);
+    f.setAfterKey(f.consume);accepted.shift()();f.tick(200);
+    assert.equal(f.raw.g_hdDiplomacyPhase,5);assert.equal(f.raw.g_hdMapPick,1);assert.equal(f.state.open,false);
+    assert.deepEqual(f.keys,[40]);assert.deepEqual(f.world(),f.initialWorld);assert.deepEqual(f.writes,[]);
+});
+test('PC diplomacy reservation survives unknown ENTER through classic and HD adoption',()=>{
+    const f=pcDiplomacyFixture(),failure=new Error('unknown ENTER after native sender');let calls=0;
+    assertPcRole(f,'actor',f.actor.ids);f.setAfterKey(key=>{assert.equal(key,39);calls++;throw failure;});
+    assert.throws(()=>f.press(0),error=>error===failure,'Unknown ENTER retains the exact exception object');
+    f.api.close({silent:true,force:true});assert.equal(f.state.open,false);
+    f.api.setMode('classic');assert.equal(f.api.getDiplomacyPresentation(),null);
+    f.api.setMode('hd');f.internals.syncDiplomacy();f.internals.fill();
+    assert.doesNotThrow(()=>{f.internals.chooseDeep(0);f.back();},'A mode cycle cannot reuse an unacknowledged native role');
+    assert.deepEqual(f.keys,[39]);assert.equal(calls,1);assert.equal(f.raw.g_hdDiplomacyCommitSeq,0);
+    assert.equal(f.api.debugSnapshot().mobileHost,false);assert.equal(f.api.getInputTicket(),null);
+    assert.deepEqual(f.world(),f.initialWorld);assert.deepEqual(f.writes,[]);
+});
+test('PC diplomacy reservation releases only after a real TARGET then fresh ACTOR ACK',()=>{
+    const f=pcDiplomacyFixture(),failure=new Error('ENTER may have reached C'),forwarded=[];
+    const first=assertPcRole(f,'actor',f.actor.ids);
+    f.setAfterKey(key=>{assert.equal(key,39);forwarded.push(()=>f.consume(key));throw failure;});
+    assert.throws(()=>f.press(0),error=>error===failure);assert.deepEqual(f.keys,[39]);
+    // A later actual publication may establish that this unknown export did reach C.
+    f.setAfterKey(f.consume);forwarded.shift()();f.tick(200);
+    const target=assertPcRole(f,'target',f.target.ids);assert.notEqual(target.inputSeq,first.inputSeq);
+    f.back();f.back();f.tick(200);const actor=assertPcRole(f,'actor',f.actor.ids);
+    assert.notEqual(actor.inputSeq,target.inputSeq);assert.notEqual(actor.menuSeq,first.menuSeq);assert.equal(actor.index,0);
+    f.press(0);f.tick(200);const next=assertPcRole(f,'target',f.target.ids);assert.notEqual(next.inputSeq,target.inputSeq);
+    assert.deepEqual(f.keys,[39,40,39],'Fresh native roles are usable; reservation is not a permanent busy latch');
+    f.back();f.tick(200);f.back();f.tick(200);assert.equal(f.state.open,false);assert.equal(f.raw.g_hdMapPick,1);
+    assert.deepEqual(f.keys,[39,40,39,40,40]);assert.equal(f.raw.g_hdDiplomacyCommitSeq,0);
+    assert.deepEqual(f.world(),f.initialWorld);assert.deepEqual(f.writes,[]);
+});
+for(const problem of ['identity','generation','session','inputSeq','data','menu-seq','menu-membership'])
+    test('PC diplomacy paired press rejects owner drift before click: '+problem,()=>{
+        const f=pcDiplomacyFixture(),button=f.down(0);
+        if(problem==='identity')f.setIdentity({...f.identity(),generation:2});
+        if(problem==='generation')f.raw.g_hdDetailGeneration++;
+        if(problem==='session')f.raw.g_hdDiplomacySession++;
+        if(problem==='inputSeq')f.raw.g_hdDiplomacyInputSeq++;
+        if(problem==='data')f.env.baye.data={...f.raw};
+        if(problem==='menu-seq')f.raw.g_hdMenuSeq++;
+        if(problem==='menu-membership')f.setMenuHook(m=>{m.ids[0]=99;});
+        f.click(button);f.tick(300);assert.deepEqual(f.keys,[],'Stale paired press cannot Enter');
+        assert.equal(f.api.getInputTicket(),null);assert.equal(f.api.debugSnapshot().mobileHost,false);
+        assert.deepEqual(f.world(),f.initialWorld);assert.deepEqual(f.writes,[]);
+    });
+for(const problem of ['identity','generation','session','inputSeq','data'])
+    test('PC diplomacy Arrow queue refuses drift at the actual cursor ACK: '+problem,()=>{
+        const f=pcDiplomacyFixture();f.setAfterKey(key=>{assert.equal(key,35);f.env.setTimeout(()=>{
+            f.raw.g_hdMenuIndex++;
+            if(problem==='identity')f.setIdentity({...f.identity(),generation:2});
+            if(problem==='generation')f.raw.g_hdDetailGeneration++;
+            if(problem==='session')f.raw.g_hdDiplomacySession++;
+            if(problem==='inputSeq')f.raw.g_hdDiplomacyInputSeq++;
+            if(problem==='data')f.env.baye.data={...f.raw};
+        },60);});
+        f.press(2);f.tick(600);assert.deepEqual(f.keys,[35],'No queued arrow or Enter after a different owner ACK');
+        assert.equal(f.raw.g_hdDiplomacyCommitSeq,0);assert.deepEqual(f.world(),f.initialWorld);assert.deepEqual(f.writes,[]);
+    });
+test('PC diplomacy classic, unverified and nondiplomacy owners keep readonly presentation closed and mobile ticket null',()=>{
+    for(const problem of ['classic','missing-identity','wrong-library','identity-not-current','missing-diplomacy','not-diplomacy','counter-spy']){
+        const f=diplomacyFixture(problem==='counter-spy'?18:16,{mobile:false,pcHd:problem!=='classic'});
+        if(problem==='missing-identity')delete f.env.BayeHdLibIdentity;
+        if(problem==='wrong-library')f.setIdentity({...f.identity(),sha256:'f'.repeat(64)});
+        if(problem==='identity-not-current')f.env.BayeHdLibIdentity.isCurrent=()=>false;
+        if(problem==='missing-diplomacy')delete f.env.baye.hd.diplomacy;
+        if(problem==='not-diplomacy')Object.assign(f.raw,{g_hdDiplomacyActive:0,g_hdDiplomacyPhase:0,g_hdDiplomacyCommand:0});
+        assert.equal(f.api.getInputTicket(),null);assert.equal(f.api.getDiplomacyPresentation(),null,problem);
+        assert.equal(f.api.debugSnapshot().mobileHost,false);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+        if(problem==='classic')assert.equal(f.state.deepLabel,'');
+    }
 });

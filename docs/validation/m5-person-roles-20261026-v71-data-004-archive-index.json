@@ -1,0 +1,1639 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-person-roles-20261026-v71-data-004-archive-part001.json",
+      "bytes": 6451093,
+      "sha256": "5a3782fc38d57cec1a1109f626c900a5ba3a4ebe35356a9928c227b13002eba5",
+      "blobs": 6
+    },
+    {
+      "path": "docs/validation/m5-person-roles-20261026-v71-data-004-archive-part002.json",
+      "bytes": 8384067,
+      "sha256": "21fb035722253d5e95dc756233efe44cea18d1c9acbaa8e93611f6f8b9c4b812",
+      "blobs": 69
+    },
+    {
+      "path": "docs/validation/m5-person-roles-20261026-v71-data-004-archive-part003.json",
+      "bytes": 1852365,
+      "sha256": "1b9fc69e8fa50bc6fca105af7865fcb0020e9aa1eb1d4116ff32b2f28c7c5ad3",
+      "blobs": 101
+    }
+  ],
+  "files": [
+    {
+      "path": "build/person-roles-20261026-v71/pc720-after-v3/pc720-identity-12-identity-person-143-listName.png",
+      "bytes": 802994,
+      "sha256": "adf259a4040c30b7cd22ac57f7108e29a9aa54a58119eb904a13216aec1f0894",
+      "blob": "adf259a4040c30b7cd22ac57f7108e29a9aa54a58119eb904a13216aec1f0894",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc720-after-v3/pc720-identity-13-identity-person-143-heading.png",
+      "bytes": 787482,
+      "sha256": "65aeea3142d1240390743576a1ebd8f9fb1685208c608ded5bc5a9b0f10cf0ac",
+      "blob": "65aeea3142d1240390743576a1ebd8f9fb1685208c608ded5bc5a9b0f10cf0ac",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc720-after-v3/pc720-identity-14-identity-person-143-ownership.png",
+      "bytes": 787426,
+      "sha256": "9379722a382152c2a16f243c220a3fd169e8817a781bb396472fd3aa44f0fcb8",
+      "blob": "9379722a382152c2a16f243c220a3fd169e8817a781bb396472fd3aa44f0fcb8",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc720-after-v3/pc720-identity-15-identity-person-143-priorOwnership.png",
+      "bytes": 787460,
+      "sha256": "6ff06d43ecd71aef1adf4997c806b99fd57ab869eef9c8e0d1fdb78964f53feb",
+      "blob": "6ff06d43ecd71aef1adf4997c806b99fd57ab869eef9c8e0d1fdb78964f53feb",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc720-after-v3/pc720-identity-16-identity-person-143-nativeOwnership.png",
+      "bytes": 805715,
+      "sha256": "fea98f0e368d90c6c520d001e3fb088bc678019ecf2e6d018e2bc00c44331f90",
+      "blob": "fea98f0e368d90c6c520d001e3fb088bc678019ecf2e6d018e2bc00c44331f90",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc720-after-v3/pc720-identity-17-canvass-target-cancel-actor.png",
+      "bytes": 864796,
+      "sha256": "324a51bd4af5e6cb6f6d02a472a51aa75a5ba2665640a944e9a61f69b0c7b68f",
+      "blob": "324a51bd4af5e6cb6f6d02a472a51aa75a5ba2665640a944e9a61f69b0c7b68f",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc720-after-v3/pc720-identity-18-canvass-cancel-map.png",
+      "bytes": 1492650,
+      "sha256": "32b9a35a2a85075586935b34ff9d6fba7f8b14b74877bdc1a4b085e5cdc9b3c2",
+      "blob": "32b9a35a2a85075586935b34ff9d6fba7f8b14b74877bdc1a4b085e5cdc9b3c2",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc720-before-v1/browser-console.json",
+      "bytes": 15419,
+      "sha256": "9cb78e7fb96ae1d4ca0366078b93442030c0a421d2f39af789f4641b8b151787",
+      "blob": "9cb78e7fb96ae1d4ca0366078b93442030c0a421d2f39af789f4641b8b151787",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc720-before-v1/failure-identity.png",
+      "bytes": 964393,
+      "sha256": "2904d88aea4505dabc9bceb357c403c344e920893ebffa08cb728b7a00181e64",
+      "blob": "2904d88aea4505dabc9bceb357c403c344e920893ebffa08cb728b7a00181e64",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc720-before-v1/owned-process-samples.jsonl",
+      "bytes": 36635,
+      "sha256": "d360c1d720ffe4e46965e92c7a70dab66d4ae0aa046a426d82301fd2be978a07",
+      "blob": "d360c1d720ffe4e46965e92c7a70dab66d4ae0aa046a426d82301fd2be978a07",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc720-before-v1/pc720-identity-00-jinyang-root.png",
+      "bytes": 878754,
+      "sha256": "c1d719afcce68887db2c192ee355c4913853e3d6dd367a9d251548607aed8110",
+      "blob": "c1d719afcce68887db2c192ee355c4913853e3d6dd367a9d251548607aed8110",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc720-before-v1/source-verification.json",
+      "bytes": 436734,
+      "sha256": "150649e4026d1bc168c5fd7e991bbb68b18bf000fcf2c24d2dd83a8441650796",
+      "blob": "150649e4026d1bc168c5fd7e991bbb68b18bf000fcf2c24d2dd83a8441650796",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/preserve-tested-host-bytes-v1.mjs",
+      "bytes": 3718,
+      "sha256": "67906b04e83161b0d1fc66b8fbfa4d6d1306308ba5fdb794a7961eb974c6a28b",
+      "blob": "67906b04e83161b0d1fc66b8fbfa4d6d1306308ba5fdb794a7961eb974c6a28b",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/preserved-state-before-v2.json",
+      "bytes": 614,
+      "sha256": "4e25db5bfcd00c72424cc2c4530f59223848f4d187ff1c23dd2e5eb1b6a7d124",
+      "blob": "4e25db5bfcd00c72424cc2c4530f59223848f4d187ff1c23dd2e5eb1b6a7d124",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-delivery-metadata-terminal-v1.json",
+      "bytes": 909,
+      "sha256": "eff0c92d32d724ea8a0a98600af4e88a64e08934885c6d04d4f371c1b0546225",
+      "blob": "eff0c92d32d724ea8a0a98600af4e88a64e08934885c6d04d4f371c1b0546225",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-epoch-freeze-terminal-v2.json",
+      "bytes": 644,
+      "sha256": "4eeb60b4cc89604321315254725506ad88190fe732fd2dfab47d7ed84f5bbe82",
+      "blob": "4eeb60b4cc89604321315254725506ad88190fe732fd2dfab47d7ed84f5bbe82",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-full-default-initial-v1.json",
+      "bytes": 346,
+      "sha256": "9c36160b336db92dfeffc07a684a1f46e340793022c3cc1adc7d7607d62d0c1c",
+      "blob": "9c36160b336db92dfeffc07a684a1f46e340793022c3cc1adc7d7607d62d0c1c",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-full-default-terminal-v1.json",
+      "bytes": 404,
+      "sha256": "312d4272c94f8a5600ebffaf433eade9a010fd4dd2790919dd35a0f356a96a1f",
+      "blob": "312d4272c94f8a5600ebffaf433eade9a010fd4dd2790919dd35a0f356a96a1f",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-mobile667-after-initial-v3.json",
+      "bytes": 504,
+      "sha256": "4530c11248ba96a55344c3a99949cc8c7077fc20200b77192d1e817cf539b773",
+      "blob": "4530c11248ba96a55344c3a99949cc8c7077fc20200b77192d1e817cf539b773",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-mobile667-after-terminal-v3.json",
+      "bytes": 392,
+      "sha256": "cb87b1916ae78d5ad550fc0a8dcc4ed0519cca8f60687270d4f31fc8aabedcd5",
+      "blob": "cb87b1916ae78d5ad550fc0a8dcc4ed0519cca8f60687270d4f31fc8aabedcd5",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-mobile844-after-initial-v3.json",
+      "bytes": 503,
+      "sha256": "240b01439529a0dfad5bf8facd3fb457b80f861f5404adeb02e8d3e978dcf954",
+      "blob": "240b01439529a0dfad5bf8facd3fb457b80f861f5404adeb02e8d3e978dcf954",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-mobile844-after-initial-v4.json",
+      "bytes": 504,
+      "sha256": "78d22e49a0a6ddecea6c12ebb15963e5c14a85315184509fdce527762bdd58ef",
+      "blob": "78d22e49a0a6ddecea6c12ebb15963e5c14a85315184509fdce527762bdd58ef",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-mobile844-after-progress-v3.json",
+      "bytes": 409,
+      "sha256": "8b6b7bd90b14a9b63b48925cda402b5695c343bda9ee1b11c2594f498cf2c317",
+      "blob": "8b6b7bd90b14a9b63b48925cda402b5695c343bda9ee1b11c2594f498cf2c317",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-mobile844-after-terminal-v3.json",
+      "bytes": 394,
+      "sha256": "c550c8dbb0e7e4b4aa492c0059e38ee3000cb1b4c754231a64f2d17682fa63da",
+      "blob": "c550c8dbb0e7e4b4aa492c0059e38ee3000cb1b4c754231a64f2d17682fa63da",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-mobile844-after-terminal-v4.json",
+      "bytes": 391,
+      "sha256": "e31b0c9c9595e1e05be97b8b66aa0a1a9fb981811c7a5f0b9d7d3312b07542b9",
+      "blob": "e31b0c9c9595e1e05be97b8b66aa0a1a9fb981811c7a5f0b9d7d3312b07542b9",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-pc1080-after-initial-v3.json",
+      "bytes": 501,
+      "sha256": "3f2c9e662ec81bc941516fa1774c77b4c83dee6a3432d863a78b609046f2eb71",
+      "blob": "3f2c9e662ec81bc941516fa1774c77b4c83dee6a3432d863a78b609046f2eb71",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-pc1080-after-terminal-v3.json",
+      "bytes": 389,
+      "sha256": "9018f1e6574bd5f37cb6094679f2259652506a0483d99ca6f868ead368c07d7b",
+      "blob": "9018f1e6574bd5f37cb6094679f2259652506a0483d99ca6f868ead368c07d7b",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-pc720-after-initial-v1.json",
+      "bytes": 1199,
+      "sha256": "3234501ac6e34a52c4343194d1c859b44c021df41c8020afd4f182d7fbfc8f70",
+      "blob": "3234501ac6e34a52c4343194d1c859b44c021df41c8020afd4f182d7fbfc8f70",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-pc720-after-initial-v2.json",
+      "bytes": 500,
+      "sha256": "35d33decb0828e8b4d6b437e378f7c70a0870fe219e3e537bf6a525116187a1b",
+      "blob": "35d33decb0828e8b4d6b437e378f7c70a0870fe219e3e537bf6a525116187a1b",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-pc720-after-initial-v3.json",
+      "bytes": 502,
+      "sha256": "92bba808c53613360f6a0598d884418b6d5dbf469ab6991f7645dce5c8a83b59",
+      "blob": "92bba808c53613360f6a0598d884418b6d5dbf469ab6991f7645dce5c8a83b59",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-pc720-after-terminal-v1.json",
+      "bytes": 390,
+      "sha256": "cd315740f1b429d022d257a35621e73691462be5531f9fad5a8aa35470fcc805",
+      "blob": "cd315740f1b429d022d257a35621e73691462be5531f9fad5a8aa35470fcc805",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-pc720-after-terminal-v2.json",
+      "bytes": 1080,
+      "sha256": "7c044811afe7cfbf1f234a14e4ee4e0c8936735dde4da86a588fc566802e9cc5",
+      "blob": "7c044811afe7cfbf1f234a14e4ee4e0c8936735dde4da86a588fc566802e9cc5",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-pc720-after-terminal-v3.json",
+      "bytes": 388,
+      "sha256": "b579061a8fe64188eab9e025f9b9a1d8b6cf7c3719599ff1afda70f6ecadcb7a",
+      "blob": "b579061a8fe64188eab9e025f9b9a1d8b6cf7c3719599ff1afda70f6ecadcb7a",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-pc720-before-initial-tool-v1.json",
+      "bytes": 1197,
+      "sha256": "3e91b941fa381ba5c7f6f54de1e0646e5733b846e89799b256a8a517e7f5bd3c",
+      "blob": "3e91b941fa381ba5c7f6f54de1e0646e5733b846e89799b256a8a517e7f5bd3c",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-pc720-before-terminal-tool-v1.json",
+      "bytes": 391,
+      "sha256": "b18494af8fefff70a3311bc24695b2b2a2eccfc4507ef0bcbded1a6c2999c678",
+      "blob": "b18494af8fefff70a3311bc24695b2b2a2eccfc4507ef0bcbded1a6c2999c678",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-preserved-state-terminal-v2.json",
+      "bytes": 656,
+      "sha256": "70d84365b7b5e77776f38d874df1fdf6f067c331efc633b57c8b47e6fbe83f6c",
+      "blob": "70d84365b7b5e77776f38d874df1fdf6f067c331efc633b57c8b47e6fbe83f6c",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-target-current-terminal-tool-v1.json",
+      "bytes": 1016,
+      "sha256": "5ea547abee0bb37ce6e062a76929e77ea89f35da748afa3523828895cbe1c3bf",
+      "blob": "5ea547abee0bb37ce6e062a76929e77ea89f35da748afa3523828895cbe1c3bf",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-target-current-terminal-v2.json",
+      "bytes": 1016,
+      "sha256": "c51d35186a4397bcfb15cd465ea94d74c70237a394574f641db7da21e73212ed",
+      "blob": "c51d35186a4397bcfb15cd465ea94d74c70237a394574f641db7da21e73212ed",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-target-current-terminal-v3.json",
+      "bytes": 1016,
+      "sha256": "5821c88e3eed39fd3d32b9bbb44e3f8da71b8d550111f95aa4315f873c171d5d",
+      "blob": "5821c88e3eed39fd3d32b9bbb44e3f8da71b8d550111f95aa4315f873c171d5d",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-target-parent-negative-terminal-tool-v1.json",
+      "bytes": 1211,
+      "sha256": "bdd9fb230ed1f791a3608ab4c4898d91acc204f65db1b8ac7a1da7265ed2b823",
+      "blob": "bdd9fb230ed1f791a3608ab4c4898d91acc204f65db1b8ac7a1da7265ed2b823",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-target-parent-negative-terminal-v3.json",
+      "bytes": 1210,
+      "sha256": "d7cf7518a5b9b411aa0dcdd59f8bc80b782dada1d93f85f8f39ffdbc4d11ab4c",
+      "blob": "d7cf7518a5b9b411aa0dcdd59f8bc80b782dada1d93f85f8f39ffdbc4d11ab4c",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/raw-target-stage1-negative-terminal-v3.json",
+      "bytes": 1220,
+      "sha256": "33fe2b477337263372f3a34ed385192a68e75a0bcc7d4e98c45341b1b36b48ac",
+      "blob": "33fe2b477337263372f3a34ed385192a68e75a0bcc7d4e98c45341b1b36b48ac",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/repair-role-adoption-wait-v2.mjs",
+      "bytes": 1771,
+      "sha256": "ef3015f1d9fe04af41f8146df82ecb5a8390f2cae05b4db80ce554dd8f470d1d",
+      "blob": "ef3015f1d9fe04af41f8146df82ecb5a8390f2cae05b4db80ce554dd8f470d1d",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/repair-role-banner-wait-v3.mjs",
+      "bytes": 1263,
+      "sha256": "70a92d873119f10192704d3866955f134bbdccf18f339bb00bcc61516f321418",
+      "blob": "70a92d873119f10192704d3866955f134bbdccf18f339bb00bcc61516f321418",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/role-adoption-wait-v2.json",
+      "bytes": 1605,
+      "sha256": "a4299faf60c933fc242fa4eb5cdbf7a16d22a85d174b1a72019f2ac1a83c40ec",
+      "blob": "a4299faf60c933fc242fa4eb5cdbf7a16d22a85d174b1a72019f2ac1a83c40ec",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/role-banner-wait-v3.json",
+      "bytes": 908,
+      "sha256": "18125dc45cdd709a3b5e8a8217f65a958b18ff74c761bef989e73777a88a915b",
+      "blob": "18125dc45cdd709a3b5e8a8217f65a958b18ff74c761bef989e73777a88a915b",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/rom-role-matrix-v1.json",
+      "bytes": 8950,
+      "sha256": "fdac1882352fbd85840573d2583fd0691606d33a8a47ba3e7e80aa3b8d0606a7",
+      "blob": "fdac1882352fbd85840573d2583fd0691606d33a8a47ba3e7e80aa3b8d0606a7",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/run-diplomacy-targets-v1.mjs",
+      "bytes": 2192,
+      "sha256": "38fe56c8a0c96fa108b67612db0f7995d41d893e7b6405820027907b77435aac",
+      "blob": "38fe56c8a0c96fa108b67612db0f7995d41d893e7b6405820027907b77435aac",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/run-diplomacy-targets-v2.mjs",
+      "bytes": 2272,
+      "sha256": "1822dc3106b1bbc03ebdf2b806c3e3cc961a50a0d015b0204c3c273fa890763f",
+      "blob": "1822dc3106b1bbc03ebdf2b806c3e3cc961a50a0d015b0204c3c273fa890763f",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/run-diplomacy-targets-v3.mjs",
+      "bytes": 2272,
+      "sha256": "c4a590f57ea4b93259f9abdaf01310873062ce62bca2ff9ecba77c8898da48bc",
+      "blob": "c4a590f57ea4b93259f9abdaf01310873062ce62bca2ff9ecba77c8898da48bc",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/run-full-default-v1.mjs",
+      "bytes": 4066,
+      "sha256": "51749d1487a5ec4b9373f3892fc0e0077eaa73ac572d6f1b3e61109b21b4b473",
+      "blob": "51749d1487a5ec4b9373f3892fc0e0077eaa73ac572d6f1b3e61109b21b4b473",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/runner-labels-v2.json",
+      "bytes": 968,
+      "sha256": "34174c067a88b13676c248f50f8958d43c60826b2704be120cdf1936785a64a7",
+      "blob": "34174c067a88b13676c248f50f8958d43c60826b2704be120cdf1936785a64a7",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/save-pc-stage1-product-v1.mjs",
+      "bytes": 519,
+      "sha256": "b629d3b0e4cf828f1c0c0787830e5f53e23ef424c0cec467d5dccf7f5210294d",
+      "blob": "b629d3b0e4cf828f1c0c0787830e5f53e23ef424c0cec467d5dccf7f5210294d",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/source-epoch-v1.json",
+      "bytes": 30090,
+      "sha256": "525e9c81a5611edc72bb3add6c29f3653120482a5ee2701bab9130e7915ab955",
+      "blob": "525e9c81a5611edc72bb3add6c29f3653120482a5ee2701bab9130e7915ab955",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/source-epoch-v2.json",
+      "bytes": 30313,
+      "sha256": "36ad6969dbf2e0dfa77b88dcebdd9a6eb95539fe892cbd584b2dcaf6a1607a80",
+      "blob": "36ad6969dbf2e0dfa77b88dcebdd9a6eb95539fe892cbd584b2dcaf6a1607a80",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "css/hd-city-menu.css",
+      "bytes": 15502,
+      "sha256": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7",
+      "blob": "90d8a85ce10e2f812997177301db78c5831a6695af67c3239e295787169db9b7",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "designer.html",
+      "bytes": 3146,
+      "sha256": "fd22627c90b1cf4a9d50830a24f907a24cb5bfc8c3e75ee0b132d94ce8301ad6",
+      "blob": "fd22627c90b1cf4a9d50830a24f907a24cb5bfc8c3e75ee0b132d94ce8301ad6",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-person-identity-20261026-v70.json",
+      "bytes": 154092,
+      "sha256": "18756b43cbf4bcdb5a701ae8ad48abb0d1a1197df620c732492a269947730bbb",
+      "blob": "18756b43cbf4bcdb5a701ae8ad48abb0d1a1197df620c732492a269947730bbb",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "hd-portrait-dump.html",
+      "bytes": 3409,
+      "sha256": "771a19acde84ae4941f4d337c9aa0d26f2e81b796e7a241a0830014dc1895f60",
+      "blob": "771a19acde84ae4941f4d337c9aa0d26f2e81b796e7a241a0830014dc1895f60",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 21284,
+      "sha256": "41a5dc9b8f4255f7a3ecde1bd6165599a08e5470d6bd293efe7cde694c489b2a",
+      "blob": "41a5dc9b8f4255f7a3ecde1bd6165599a08e5470d6bd293efe7cde694c489b2a",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/baye.js",
+      "bytes": 193335,
+      "sha256": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0",
+      "blob": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/baye.wasm",
+      "bytes": 4561414,
+      "sha256": "d0614c1fdcd723f83d91de268521fb27ddf6c4205e81343627d5a1b635ab7fee",
+      "blob": "d0614c1fdcd723f83d91de268521fb27ddf6c4205e81343627d5a1b635ab7fee",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "js/baye.wasm.map",
+      "bytes": 29995,
+      "sha256": "9db85f7ec1e25ee7c4f0f187132f5caa04faa12a19c4650a3cae8242518e992d",
+      "blob": "9db85f7ec1e25ee7c4f0f187132f5caa04faa12a19c4650a3cae8242518e992d",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "blob": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "m-ges.html",
+      "bytes": 6958,
+      "sha256": "a8985b3caf605d3f4752657645904753fe75bd7759a62a110469fae334463cc5",
+      "blob": "a8985b3caf605d3f4752657645904753fe75bd7759a62a110469fae334463cc5",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "m-ktouch.html",
+      "bytes": 6460,
+      "sha256": "22f3bfc8fd47dc7e4aaa91ece80ad3f8101ce87fcc1530ed0fa152f0061ab8d4",
+      "blob": "22f3bfc8fd47dc7e4aaa91ece80ad3f8101ce87fcc1530ed0fa152f0061ab8d4",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "m-old.html",
+      "bytes": 6514,
+      "sha256": "a81d35deb67b7ea69e688f20895f9b4e27b1d3b4225bb76ca4d6834fd840ae70",
+      "blob": "a81d35deb67b7ea69e688f20895f9b4e27b1d3b4225bb76ca4d6834fd840ae70",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "m.html",
+      "bytes": 18480,
+      "sha256": "c6091467e7b92aeba9b07636836b4d526aa6fcd32193324c80bdda8a364249f9",
+      "blob": "c6091467e7b92aeba9b07636836b4d526aa6fcd32193324c80bdda8a364249f9",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "package.json",
+      "bytes": 21476,
+      "sha256": "37d5d464028fdcdffc753d9eeace27f2e2ef5ff6c120866bce1241a84957f720",
+      "blob": "37d5d464028fdcdffc753d9eeace27f2e2ef5ff6c120866bce1241a84957f720",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "pc.html",
+      "bytes": 28681,
+      "sha256": "3f1b98d58396f42b832888a0dfcf7d8fd62ae3b076ffda5cbb8567f452c686d7",
+      "blob": "3f1b98d58396f42b832888a0dfcf7d8fd62ae3b076ffda5cbb8567f452c686d7",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-city-resource-runtime-checks.mjs",
+      "bytes": 6880,
+      "sha256": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "blob": "f948623f072246368521707a7ec44ff18b4bff47a2c6b40551324cc1cfdbf41f",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/hd-person-equipment-runtime-checks.mjs",
+      "bytes": 10661,
+      "sha256": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "blob": "6e27d7094185dd69dec1cb746a78b39b4596899ab6edd8d13e09680a5a4953fe",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 134812,
+      "sha256": "8acfbf697fd5271b6c7c18cd38e039c02b16e97b809b3bacb2c68be00c740efe",
+      "blob": "8acfbf697fd5271b6c7c18cd38e039c02b16e97b809b3bacb2c68be00c740efe",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-city-mobile-host.mjs",
+      "bytes": 194102,
+      "sha256": "60ee1b3a5322b13a2d8ca8543bd2986f28ebdea2477f0617bd7923ef9fc6a224",
+      "blob": "60ee1b3a5322b13a2d8ca8543bd2986f28ebdea2477f0617bd7923ef9fc6a224",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 127263,
+      "sha256": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9",
+      "blob": "d12acc04456c10c03b04051f0ef475a40c98ac2f30280995fbd739557acbacc9",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-native-sem.mjs",
+      "bytes": 9885,
+      "sha256": "8d448133725a9f4b62dfb8eae084683d04227ffc9aab14236aaae6d1b320ef60",
+      "blob": "8d448133725a9f4b62dfb8eae084683d04227ffc9aab14236aaae6d1b320ef60",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-person-equipment-runtime.mjs",
+      "bytes": 35763,
+      "sha256": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "blob": "66f31182da329a0c7acc66e0dc4c8ac2be686bd559f3c759af2f4db2d6bda23a",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/.gitignore",
+      "bytes": 44,
+      "sha256": "43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75",
+      "blob": "43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/.gitmodules",
+      "bytes": 293,
+      "sha256": "ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca",
+      "blob": "ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/ATTRIBUTION.md",
+      "bytes": 495,
+      "sha256": "983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4",
+      "blob": "983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/CMakeLists.txt",
+      "bytes": 82,
+      "sha256": "738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68",
+      "blob": "738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/LICENSE",
+      "bytes": 1091,
+      "sha256": "dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1",
+      "blob": "dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/README.md",
+      "bytes": 2077,
+      "sha256": "f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5",
+      "blob": "f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/UPSTREAM_COMMIT",
+      "bytes": 42,
+      "sha256": "3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659",
+      "blob": "3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/js/.gitignore",
+      "bytes": 62,
+      "sha256": "581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea",
+      "blob": "581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/js/config.sh",
+      "bytes": 61,
+      "sha256": "424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff",
+      "blob": "424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/js/whitelist.json",
+      "bytes": 3368,
+      "sha256": "707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f",
+      "blob": "707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/CMakeLists.txt",
+      "bytes": 3097,
+      "sha256": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774",
+      "blob": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "bytes": 27302,
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f",
+      "blob": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/FgtPkAi.c",
+      "bytes": 44229,
+      "sha256": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953",
+      "blob": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/Fight.c",
+      "bytes": 58254,
+      "sha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e",
+      "blob": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540",
+      "blob": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/Gamhzk.bin",
+      "bytes": 163840,
+      "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "blob": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 33782,
+      "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c",
+      "blob": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/Size.c",
+      "bytes": 1727,
+      "sha256": "aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6",
+      "blob": "aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d",
+      "blob": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/bind-objects.h",
+      "bytes": 2593,
+      "sha256": "4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca",
+      "blob": "4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/comm.h",
+      "bytes": 5109,
+      "sha256": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b",
+      "blob": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/compa.h",
+      "bytes": 3328,
+      "sha256": "5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d",
+      "blob": "5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f",
+      "blob": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/data-bind.h",
+      "bytes": 4001,
+      "sha256": "c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b",
+      "blob": "c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/datman.h",
+      "bytes": 1158,
+      "sha256": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe",
+      "blob": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/enghead.h",
+      "bytes": 370,
+      "sha256": "8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868",
+      "blob": "8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/errcode.h",
+      "bytes": 985,
+      "sha256": "08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e",
+      "blob": "08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/extern.h",
+      "bytes": 4158,
+      "sha256": "5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd",
+      "blob": "5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fight.h",
+      "bytes": 9611,
+      "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986",
+      "blob": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fsys.h",
+      "bytes": 1185,
+      "sha256": "8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344",
+      "blob": "8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fundec.h",
+      "bytes": 2184,
+      "sha256": "d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163",
+      "blob": "d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/fundef.h",
+      "bytes": 200,
+      "sha256": "670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d",
+      "blob": "670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/graph.h",
+      "bytes": 451,
+      "sha256": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446",
+      "blob": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/itoa.h",
+      "bytes": 267,
+      "sha256": "a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c",
+      "blob": "a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4",
+      "blob": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/paccount.h",
+      "bytes": 2251,
+      "sha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30",
+      "blob": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/resource.h",
+      "bytes": 557,
+      "sha256": "8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187",
+      "blob": "8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/sconst.h",
+      "bytes": 4101,
+      "sha256": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea",
+      "blob": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/script.h",
+      "bytes": 873,
+      "sha256": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8",
+      "blob": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/sharefun.h",
+      "bytes": 8365,
+      "sha256": "d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09",
+      "blob": "d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/sources.h",
+      "bytes": 286,
+      "sha256": "ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e",
+      "blob": "ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/stdsys.h",
+      "bytes": 500,
+      "sha256": "14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa",
+      "blob": "14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/bind-objects.c",
+      "bytes": 17734,
+      "sha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0",
+      "blob": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1",
+      "blob": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "bytes": 34493,
+      "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2",
+      "blob": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca",
+      "blob": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e",
+      "blob": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873",
+      "blob": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d",
+      "blob": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/comIn.c",
+      "bytes": 12480,
+      "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63",
+      "blob": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/comOut.c",
+      "bytes": 21378,
+      "sha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f",
+      "blob": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/config.c",
+      "bytes": 179,
+      "sha256": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7",
+      "blob": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/convert_to_c.py",
+      "bytes": 294,
+      "sha256": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e",
+      "blob": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/dat.lib.orig",
+      "bytes": 196890,
+      "sha256": "c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab",
+      "blob": "c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/data-bind.c",
+      "bytes": 4662,
+      "sha256": "2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a",
+      "blob": "2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/data/pconst.h",
+      "bytes": 1761,
+      "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0",
+      "blob": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/data/pstring.h",
+      "bytes": 1524,
+      "sha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df",
+      "blob": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/datman.c",
+      "bytes": 9424,
+      "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c",
+      "blob": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/debug.c",
+      "bytes": 1904,
+      "sha256": "5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac",
+      "blob": "5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/font.bin",
+      "bytes": 163840,
+      "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "blob": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/fsys.c",
+      "bytes": 33667,
+      "sha256": "85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da",
+      "blob": "85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/gamEng.c",
+      "bytes": 47517,
+      "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39",
+      "blob": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/genver.py",
+      "bytes": 416,
+      "sha256": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff",
+      "blob": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa",
+      "blob": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.h",
+      "bytes": 19624,
+      "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5",
+      "blob": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/ADDR.H",
+      "bytes": 2468,
+      "sha256": "5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc",
+      "blob": "5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/DictAfx.h",
+      "bytes": 702,
+      "sha256": "9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d",
+      "blob": "9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/DictHelp.h",
+      "bytes": 5664,
+      "sha256": "0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c",
+      "blob": "0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/GuiEdit.h",
+      "bytes": 2021,
+      "sha256": "8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c",
+      "blob": "8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/MEM.H",
+      "bytes": 1207,
+      "sha256": "406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114",
+      "blob": "406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/STDLIB.H",
+      "bytes": 19,
+      "sha256": "a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96",
+      "blob": "a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/SysResv.h",
+      "bytes": 6103,
+      "sha256": "26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8",
+      "blob": "26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/dictsys.h",
+      "bytes": 21754,
+      "sha256": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded",
+      "blob": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/filetype.h",
+      "bytes": 4695,
+      "sha256": "31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf",
+      "blob": "31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/flash.h",
+      "bytes": 17046,
+      "sha256": "50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0",
+      "blob": "50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/fsys.h",
+      "bytes": 1991,
+      "sha256": "24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140",
+      "blob": "24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/keytable.h",
+      "bytes": 3820,
+      "sha256": "9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c",
+      "blob": "9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/inc/shell.h",
+      "bytes": 2138,
+      "sha256": "1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72",
+      "blob": "1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e",
+      "blob": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/itoa.c",
+      "bytes": 1038,
+      "sha256": "6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c",
+      "blob": "6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/main.c",
+      "bytes": 116,
+      "sha256": "1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686",
+      "blob": "1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/miniz.c",
+      "bytes": 327452,
+      "sha256": "ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059",
+      "blob": "ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/miniz.h",
+      "bytes": 70791,
+      "sha256": "7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6",
+      "blob": "7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/paccount.c",
+      "bytes": 3892,
+      "sha256": "6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd",
+      "blob": "6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/pconst.c",
+      "bytes": 4213,
+      "sha256": "f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246",
+      "blob": "f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/picture.asm",
+      "bytes": 9186,
+      "sha256": "8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576",
+      "blob": "8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/bios.c",
+      "bytes": 1053,
+      "sha256": "418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1",
+      "blob": "418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/gui.c",
+      "bytes": 3231,
+      "sha256": "bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495",
+      "blob": "bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/sem.h",
+      "bytes": 522,
+      "sha256": "8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc",
+      "blob": "8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/sys.c",
+      "bytes": 15103,
+      "sha256": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c",
+      "blob": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/common/timer.h",
+      "bytes": 485,
+      "sha256": "06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc",
+      "blob": "06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/dummy-script.c",
+      "bytes": 424,
+      "sha256": "daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5",
+      "blob": "daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/fsys.c",
+      "bytes": 4119,
+      "sha256": "7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923",
+      "blob": "7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/sem.m",
+      "bytes": 866,
+      "sha256": "40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf",
+      "blob": "40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/sys-ios.c",
+      "bytes": 229,
+      "sha256": "a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673",
+      "blob": "a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/ios/timer.m",
+      "bytes": 1937,
+      "sha256": "7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514",
+      "blob": "7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/dat.lib.c",
+      "bytes": 1181340,
+      "sha256": "472b305c00f2cb0e7eb3c6bd47b8f388ececb73825a6167a58d121a661cb92ac",
+      "blob": "472b305c00f2cb0e7eb3c6bd47b8f388ececb73825a6167a58d121a661cb92ac",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/exportjs.c",
+      "bytes": 9789,
+      "sha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279",
+      "blob": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/font.bin.c",
+      "bytes": 1003524,
+      "sha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401",
+      "blob": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/platform/js/font24.1.bin.c",
+      "bytes": 3616965,
+      "sha256": "c148af90be086b12307333b7b776c264de221015d0447790b0e305c9e3edfeae",
+      "blob": "c148af90be086b12307333b7b776c264de221015d0447790b0e305c9e3edfeae",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    }
+  ],
+  "logicalFiles": 177,
+  "uniqueBlobs": 176,
+  "rawNamedBytes": 22308613,
+  "uniqueRawBytes": 22144773,
+  "uniqueGzipBytes": 12485222,
+  "serializedPartBytes": 16687525,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

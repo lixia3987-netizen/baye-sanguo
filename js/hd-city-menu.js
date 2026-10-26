@@ -16,6 +16,7 @@
     var mobileTrade = null;
     var mobileTransfer = null;
     var mobileDiplomacy = null;
+    var pcDiplomacyEpoch = 0, pcDiplomacySending = false, pcDiplomacyReservation = null;
     var DIPLOMACY_FIELDS = ['ProtocolVersion','Active','Command','Phase','Session','InputSeq','Generation',
         'Origin','Actor','Target','CommitSeq','CommitResult'];
     var TRANSFER_FIELDS = ['ProtocolVersion','Active','Command','Session','InputSeq','Phase','Origin','Target',
@@ -128,8 +129,7 @@
             return {origin: origin, mask: actual, belongs: belongs, playerKing: data.g_PlayerKing, targets: targets};
         } catch (e) { return null; }
     }
-    function mobileNativeSnapshot() {
-        var base = mobileBase();
+    function nativeSnapshot(base, readBase) {
         if (!base) { return null; }
         try {
             var before = mobileRaw(base.data), menu = baye.hd.menuItems(), march = baye.hd.march(), qty = baye.hd.qty();
@@ -137,7 +137,7 @@
             var transferBefore = transferRaw(base.data), transfer = readTransfer(base.data);
             var diplomacyBefore = diplomacyRaw(base.data), diplomacy = readDiplomacy(base.data);
             var route = march && march.phase === MARCH.TARGET_PICK ? mobileMarchLinks(base.data, march.origin) : null;
-            var after = mobileRaw(base.data), latest = mobileBase();
+            var after = mobileRaw(base.data), latest = readBase();
             if (JSON.stringify(before) !== JSON.stringify(after) ||
                 JSON.stringify(transferBefore) !== JSON.stringify(transferRaw(base.data)) ||
                 JSON.stringify(diplomacyBefore) !== JSON.stringify(diplomacyRaw(base.data)) ||
@@ -168,6 +168,9 @@
             return {libraryGeneration: base.identity.generation, data: base.data, raw: before, menu: menu, march: march, qty: qty,
                 report: report, route: route, transfer: transfer, diplomacy: diplomacy};
         } catch (e) { return null; }
+    }
+    function mobileNativeSnapshot() {
+        return nativeSnapshot(mobileBase(), mobileBase);
     }
     function mobileTicketFrom(value, reason) {
         if (!value) { return null; }
@@ -270,10 +273,55 @@
             return value;
         } catch (e) { return null; }
     }
+    // PC observes the same native protocol without acquiring a mobile host or
+    // its public input capability. Lazy bridge structs retain their identity.
+    function pcDiplomacyBase() {
+        if (mobileHost || document.hidden || !shouldShowHd()) { return null; }
+        try {
+            var api = global.BayeHdLibIdentity, identity = api && api.read(), engine = global.baye, hd = engine && engine.hd;
+            if (!identity || identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA ||
+                identity.byteLength !== 207195 || !mobileInteger(identity.generation, 0xffffffff) || !identity.generation ||
+                !api.isCurrent(identity) || !hd || typeof hd.ready !== 'function' || hd.ready() !== true ||
+                typeof hd.menuItems !== 'function' || typeof hd.march !== 'function' || typeof hd.qty !== 'function') { return null; }
+            var data = typeof engine.ensureData === 'function' ? engine.ensureData() : engine.data;
+            if (!data || !MOBILE_RAW_FIELDS.every(function (key) { return mobileInteger(data[key], 0xffffffff); }) ||
+                data.g_hdEngineReady !== 1 || !data.g_hdDetailGeneration) { return null; }
+            var config = data.g_engineConfig, cities = data.g_Cities, origin = data.g_hdDiplomacyOrigin, king = data.g_PlayerKing;
+            if (!config || !mobileInteger(config.enable16bitConsumeMoney, 1) || !mobileInteger(config.fixAlienateComsumeThew, 1) ||
+                !mobileInteger(origin, 37) || !mobileInteger(king, 199) || !cities || !cities[origin] ||
+                cities[origin].Belong !== king + 1) { return null; }
+            var binding = {api: api, engine: engine, hd: hd, data: data, config: config, cities: cities, city: cities[origin],
+                origin: origin, king: king, belong: cities[origin].Belong, money16: config.enable16bitConsumeMoney,
+                alienateFix: config.fixAlienateComsumeThew, send: typeof global.sendKey === 'function' ? global.sendKey : null,
+                engineSend: typeof engine.sendKey === 'function' ? engine.sendKey : null};
+            if (!binding.send && !binding.engineSend || global.BayeHdLibIdentity !== api || global.baye !== engine || engine.hd !== hd ||
+                engine.data !== data || data.g_engineConfig !== config || data.g_Cities !== cities || cities[origin] !== binding.city ||
+                config.enable16bitConsumeMoney !== binding.money16 || config.fixAlienateComsumeThew !== binding.alienateFix ||
+                data.g_PlayerKing !== king || binding.city.Belong !== binding.belong || !api.isCurrent(identity) ||
+                mobileHost || document.hidden || !shouldShowHd()) { return null; }
+            return {identity: identity, data: data, pcBinding: binding};
+        } catch (e) { return null; }
+    }
+    function samePcDiplomacyBinding(a, b) {
+        if (!a || !b) { return !a && !b; }
+        return ['api','engine','hd','data','config','cities','city','origin','king','belong','money16','alienateFix','send','engineSend'].every(function (key) {
+            return a[key] === b[key];
+        });
+    }
+    function pcDiplomacySnapshot() {
+        var base = pcDiplomacyBase();
+        if (!base) { return null; }
+        var value = nativeSnapshot(base, pcDiplomacyBase), after = pcDiplomacyBase();
+        if (!value || !after || !value.diplomacy || value.diplomacy.origin !== base.pcBinding.origin ||
+            !samePcDiplomacyBinding(base.pcBinding, after.pcBinding)) { return null; }
+        value.pcBinding = base.pcBinding;
+        return value;
+    }
     function diplomacyReading() {
-        if (!mobileHost) { return null; }
-        var a = mobileNativeSnapshot(), b = mobileNativeSnapshot();
+        var read = mobileHost ? mobileNativeSnapshot : pcDiplomacySnapshot;
+        var a = read(), b = read();
         if (!a || !b || !b.diplomacy || a.data !== b.data || a.libraryGeneration !== b.libraryGeneration ||
+            !samePcDiplomacyBinding(a.pcBinding, b.pcBinding) ||
             JSON.stringify([a.raw,a.menu,a.qty,a.report,a.march,a.diplomacy]) !==
                 JSON.stringify([b.raw,b.menu,b.qty,b.report,b.march,b.diplomacy])) { return null; }
         return b;
@@ -282,7 +330,7 @@
         var d = value && value.diplomacy, flow = mobileDiplomacy;
         return !!(flow && d && value.data === flow.data && value.libraryGeneration === flow.generation &&
             d.generation === flow.detailGeneration && d.session === flow.session && d.command === flow.command &&
-            d.origin === flow.origin);
+            d.origin === flow.origin && samePcDiplomacyBinding(value.pcBinding, flow.pcBinding));
     }
     function diplomacyBound(value) {
         return diplomacySameFlow(value) && state.open && state.layer === 'deep' &&
@@ -303,11 +351,63 @@
             diplomacyCommand: d.command, diplomacyPhase: d.phase, actor: d.actor, target: d.target};
         ticket.key = JSON.stringify([value.libraryGeneration,value.raw,menu,value.march,value.qty,value.report,d]);
         Object.defineProperty(ticket, 'data', {value: value.data, enumerable: false});
+        if (value.pcBinding) {
+            if (!mobileInteger(mobileDiplomacy.pcEpoch, 0xffffffff) || !mobileDiplomacy.pcEpoch) { return null; }
+            ticket.pcEpoch = mobileDiplomacy.pcEpoch;
+            ticket.key = JSON.stringify([ticket.key, ticket.pcEpoch]);
+            Object.defineProperty(ticket, 'pcBinding', {value: value.pcBinding, enumerable: false});
+        }
         return ticket;
+    }
+    function pcDiplomacyTicket() {
+        if (mobileHost) { return null; }
+        var value = diplomacyReading();
+        return value && value.pcBinding ? diplomacyTicketFrom(value) : null;
+    }
+    function samePcDiplomacyRole(before, after) {
+        return !!(before && after && before.pcBinding && after.pcBinding && before.data === after.data &&
+            samePcDiplomacyBinding(before.pcBinding, after.pcBinding) &&
+            ['pcEpoch','libraryGeneration','cityIndex','menuContext','menuKind','menuSeq','detailGeneration',
+                'session','inputSeq','diplomacyCommand','diplomacyPhase','actor','target'].every(function (key) {
+                return before[key] === after[key];
+            }));
+    }
+    function reservePcDiplomacyInput(ticket, flow) {
+        flow.sent = ticket.key;
+        if (!pcDiplomacyReservation) { pcDiplomacyReservation = ticket; }
+    }
+    function pcDiplomacyAdvanced(before, after) {
+        var delta = (after - before) >>> 0;
+        return delta > 0 && delta < 0x80000000;
+    }
+    function observePcDiplomacyReservation(value) {
+        var before = pcDiplomacyReservation;
+        if (!before || !value.pcBinding) { return true; }
+        // Closing a presentation cannot settle a native input. Its original
+        // source references remain authoritative until a complete native ACK.
+        if (value.data !== before.data || value.libraryGeneration !== before.libraryGeneration ||
+            !samePcDiplomacyBinding(value.pcBinding, before.pcBinding)) { return false; }
+        var d = value.diplomacy, sameEpoch = d.generation === before.detailGeneration &&
+            d.session === before.session && d.command === before.diplomacyCommand && d.origin === before.origin;
+        var nextEpoch = pcDiplomacyAdvanced(before.session, d.session) &&
+            (d.generation === before.detailGeneration || pcDiplomacyAdvanced(before.detailGeneration, d.generation));
+        var quiet = !(value.transfer && value.transfer.active) && !value.raw.g_hdHelpActive && !value.raw.g_hdReportActive &&
+            !value.qty.active && !value.march.battlePick &&
+            [MARCH.IDLE,MARCH.DEPARTED].indexOf(value.march.phase) >= 0 && value.march.mapCity === d.origin + 1;
+        var roleAck = quiet && d.active === 1 && [1,2].indexOf(d.phase) >= 0 && (sameEpoch || nextEpoch) &&
+            pcDiplomacyAdvanced(before.inputSeq, d.inputSeq) && pcDiplomacyAdvanced(before.menuSeq, value.menu.seq) &&
+            !value.march.pick && value.menu.active === 1 && value.menu.context === 1 && value.menu.kind === 3 &&
+            mobileMenuComplete(value.menu) && actualMenuIds(value.menu).every(function (id) { return mobileInteger(id,199); });
+        var mapAck = quiet && sameEpoch && !d.active && d.phase === 5 && !value.menu.active && value.march.pick === 1 &&
+            pcDiplomacyAdvanced(before.inputSeq, d.inputSeq) &&
+            pcDiplomacyAdvanced(before.mapInputSeq, value.march.mapInputSeq) && retiredCityMapOwner();
+        if (roleAck || mapAck) { pcDiplomacyReservation = null; }
+        return true;
     }
     function syncMobileDiplomacy() {
         var value = diplomacyReading(), d = value && value.diplomacy;
         if (!value || !d) { return false; }
+        if (!observePcDiplomacyReservation(value)) { return false; }
         if (!d.active) {
             if (diplomacySameFlow(value) && d.phase === 5 && !value.menu.active &&
                 !value.qty.active && !value.raw.g_hdReportActive && value.march.pick === 1 &&
@@ -320,18 +420,30 @@
         }
         if (value.transfer && value.transfer.active || value.march.battlePick ||
             [MARCH.IDLE,MARCH.DEPARTED].indexOf(value.march.phase) < 0 || value.march.mapCity !== d.origin + 1) { return false; }
+        // A replaced PC binding in this same native session cannot reopen a
+        // chance to resend an input whose result is still unknown.
+        if (mobileDiplomacy && value.data === mobileDiplomacy.data && value.libraryGeneration === mobileDiplomacy.generation &&
+            d.session === mobileDiplomacy.session && d.command === mobileDiplomacy.command &&
+            d.origin === mobileDiplomacy.origin && d.generation === mobileDiplomacy.detailGeneration &&
+            !samePcDiplomacyBinding(value.pcBinding, mobileDiplomacy.pcBinding)) { return false; }
         if (!mobileDiplomacy || value.data !== mobileDiplomacy.data || value.libraryGeneration !== mobileDiplomacy.generation ||
             d.session !== mobileDiplomacy.session || d.command !== mobileDiplomacy.command ||
             d.origin !== mobileDiplomacy.origin || d.generation !== mobileDiplomacy.detailGeneration) {
             mobileDiplomacy = {data: value.data, generation: value.libraryGeneration, detailGeneration: d.generation,
                 session: d.session, command: d.command, origin: d.origin, inputSeq: d.inputSeq, phase: d.phase,
                 mapInputSeq: value.march.mapInputSeq, sent: ''};
+            if (value.pcBinding) {
+                pcDiplomacyEpoch = (pcDiplomacyEpoch + 1) >>> 0 || 1;
+                mobileDiplomacy.pcBinding = value.pcBinding;
+                mobileDiplomacy.pcEpoch = pcDiplomacyEpoch;
+            }
         }
         var flow = mobileDiplomacy;
         if (flow.inputSeq !== d.inputSeq || flow.phase !== d.phase) {
             flow.inputSeq = d.inputSeq; flow.phase = d.phase; flow.sent = '';
             state.deepSig = ''; state.deepSelectionPending = null;
         }
+        if (value.pcBinding && pcDiplomacyReservation) { flow.sent = pcDiplomacyReservation.key; }
         if (!shouldShowHd()) { return true; }
         state.open = true; state.layer = 'deep'; state.subKind = 'waijiao'; state.cityIndex = d.origin;
         state.deepKind = 'person-diplomacy'; state.deepLabel = {15:'离间',16:'招揽',17:'策反',19:'劝降'}[d.command];
@@ -340,9 +452,10 @@
         return true;
     }
     function getDiplomacyPresentation() {
-        if (!mobileHost || !shouldShowHd()) { return null; }
+        if (!shouldShowHd()) { return null; }
         var first = diplomacyReading(), second = diplomacyReading();
         if (!first || !second || first.data !== second.data || !diplomacyBound(second) ||
+            !samePcDiplomacyBinding(first.pcBinding, second.pcBinding) ||
             JSON.stringify(first.diplomacy) !== JSON.stringify(second.diplomacy)) { return null; }
         var d = second.diplomacy, ticket = diplomacyTicketFrom(second), role = d.phase === 1 ? 'actor' :
             d.phase === 2 ? 'target' : d.phase === 3 ? 'commit' : d.phase === 4 ? 'reject' : 'done';
@@ -351,6 +464,7 @@
         var cost = diplomacyCosts(d.command, second.data);
         var after = diplomacyReading();
         if (!after || after.data !== second.data || after.libraryGeneration !== second.libraryGeneration ||
+            !samePcDiplomacyBinding(second.pcBinding, after.pcBinding) ||
             JSON.stringify([after.raw,after.menu,after.diplomacy]) !== JSON.stringify([second.raw,second.menu,second.diplomacy])) { return null; }
         return Object.freeze({command: d.command, commandName: commandName, phase: d.phase, role: role,
             origin: d.origin, session: d.session, inputSeq: d.inputSeq, generation: d.generation,
@@ -403,6 +517,16 @@
         if (!engineSendKey(VK.EXIT, 'diplomacy-back', function () {
             var current = mobileInputTicket(); return !!current && current.data === ticket.data && current.key === ticket.key;
         })) { flow.sent = ''; }
+        return true;
+    }
+    function backPcDiplomacy() {
+        if (mobileHost || state.deepKind !== 'person-diplomacy') { return false; }
+        var ticket = pcDiplomacyTicket(), flow = mobileDiplomacy;
+        if (!ticket || !flow || flow.sent || state.nativeMenuRequest || state.queue.length || state.sending) { return true; }
+        engineSendKey(VK.EXIT, 'pc-diplomacy-back', function () {
+            var current = pcDiplomacyTicket();
+            return mobileDiplomacy === flow && samePcDiplomacyRole(ticket, current) && current.key === ticket.key;
+        });
         return true;
     }
     function transferRoutes(data, origin) {
@@ -1483,7 +1607,33 @@
             reason === 'dismiss-leftover-help';
     }
 
+    function sendPcDiplomacyKey(code, reason, currentOwner) {
+        if (mobileHost || pcDiplomacySending || state.deepKind !== 'person-diplomacy' ||
+            [VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT,VK.HELP].indexOf(code) < 0) { return false; }
+        pcDiplomacySending = true;
+        var flow = null, before = null;
+        try {
+            before = pcDiplomacyTicket(); flow = mobileDiplomacy;
+            if (!before || !flow || flow.sent || pcDiplomacyReservation || currentOwner && !currentOwner()) { return false; }
+            var after = pcDiplomacyTicket();
+            if (mobileDiplomacy !== flow || !samePcDiplomacyRole(before, after) || before.key !== after.key) { return false; }
+            var binding = before.pcBinding, sender = binding.send || binding.engineSend;
+            if (!sender) { return false; }
+            // Reserve before the export: an exception cannot prove that C did
+            // not receive ENTER/EXIT. Never retry that same native role.
+            if (code === VK.ENTER || code === VK.EXIT) { reservePcDiplomacyInput(before, flow); }
+            if (code === VK.EXIT) { state.lastExit = reason || 'pc-diplomacy'; distributionFlow = null; }
+            if (code === VK.ENTER || code === VK.EXIT || code === VK.HELP) { state.engineHelpOpen = false; }
+            sender.call(binding.send ? global : binding.engine, code);
+            return true;
+        } catch (error) {
+            if (flow && before) { reservePcDiplomacyInput(before, flow); }
+            throw error;
+        } finally { pcDiplomacySending = false; }
+    }
+
     function engineSendKey(code, reason, currentOwner) {
+        if (!mobileHost && state.deepKind === 'person-diplomacy') { return sendPcDiplomacyKey(code, reason, currentOwner); }
         if (mobileHost && mobileDiplomacy && mobileDiplomacy.sent && reason !== 'diplomacy-back') { return false; }
         if (mobileHost && mobileEquipmentFlow) { return false; }
         if (mobileHost && mobileTrade && mobileTrade.wait) { return false; }
@@ -4349,7 +4499,7 @@
         var expected = state.deepKind === 'person-trade' && state.deepStep === 1 ? 5 :
             usesGoodsMenu(state.deepKind, state.deepStep) ? 4 : 3;
         if (kind !== expected) { return null; }
-        var diplomacy = state.deepKind === 'person-diplomacy' ? mobileInputTicket() : null;
+        var diplomacy = state.deepKind === 'person-diplomacy' ? (mobileHost ? mobileInputTicket() : pcDiplomacyTicket()) : null;
         if (state.deepKind === 'person-diplomacy' && (!diplomacy || !diplomacy.diplomacyCommand || kind !== 3)) { return null; }
         if (kind === 5 && !tradeExchangeOwner(mobileNativeSnapshot())) { return null; }
         if (state.deepKind === 'person-city') {
@@ -4360,6 +4510,7 @@
         var ownerKey = [marchEpoch, 1, kind, Number(menu.seq), menu.names, generation, actualMenuIds(menu)];
         if (diplomacy) { ownerKey.push([diplomacy.diplomacyCommand,diplomacy.diplomacyPhase,
             diplomacy.session,diplomacy.inputSeq,diplomacy.actor,diplomacy.target]); }
+        if (diplomacy && diplomacy.pcEpoch) { ownerKey.push(diplomacy.pcEpoch); }
         return { context: 1, kind: kind, seq: Number(menu.seq), detailGeneration: generation,
             key: JSON.stringify(ownerKey) };
     }
@@ -5686,7 +5837,7 @@
         }
         state.deepSig = sig;
         list.innerHTML = '';
-        if (mobileHost && state.deepKind === 'person-diplomacy') {
+        if (state.deepKind === 'person-diplomacy') {
             var diplomacyPresentation = getDiplomacyPresentation();
             if (diplomacyPresentation) {
                 var diplomacyHeading = document.createElement('p');
@@ -6307,6 +6458,10 @@
 
     function cityBackPressOwner() {
         try {
+            if (!mobileHost && state.deepKind === 'person-diplomacy') {
+                var diplomacy = pcDiplomacyTicket();
+                return diplomacy ? 'pc-diplomacy:' + diplomacy.key : null;
+            }
             var menu = engineMenuItems(), qty = engineQty(), march = engineMarch();
             return JSON.stringify([marchEpoch, state.open, state.cityIndex, state.layer, state.deepKind,
                 menu.active, menu.context, menu.kind, menu.seq, menu.detailGeneration, menu.names, actualMenuIds(menu),
@@ -6833,6 +6988,11 @@
     }
 
     function back(pressedOwner) {
+        if (!mobileHost && state.deepKind === 'person-diplomacy') {
+            var pcBackOwner = cityBackPressOwner();
+            if (!pcBackOwner || pressedOwner != null && pressedOwner !== pcBackOwner) { return; }
+            backPcDiplomacy(); return;
+        }
         if (mobileHost && state.deepKind === 'person-diplomacy') {
             var diplomacyBackOwner = cityBackPressOwner();
             if (pressedOwner != null && pressedOwner !== diplomacyBackOwner) { return; }
@@ -7729,6 +7889,7 @@
     }
 
     function chooseDeep(index, pressedOwner) {
+        if (!mobileHost && state.deepKind === 'person-diplomacy' && mobileDiplomacy && mobileDiplomacy.sent) { return false; }
         if (mobileHost && state.deepKind === 'person-diplomacy' && mobileDiplomacy && mobileDiplomacy.sent) { return false; }
         if (mobileHost && (state.goodsBackPending || mobileEquipmentFlow || mobileTrade && mobileTrade.wait)) { return false; }
         var item = state.deepItems[index];
@@ -7745,6 +7906,13 @@
                 fillDeepList();
                 return false;
             }
+        }
+        if (!mobileHost && state.deepKind === 'person-diplomacy') {
+            var pcOwner = pcDiplomacyTicket(), pcFlow = mobileDiplomacy;
+            if (!pcOwner || !pcFlow || pcFlow.sent || state.nativeMenuRequest || state.queue.length || state.sending) { return false; }
+            return selectLiveMenu(nativeIndex, true, 'pc-diplomacy-person', native, function () {
+                return mobileDiplomacy === pcFlow && !pcFlow.sent && samePcDiplomacyRole(pcOwner, pcDiplomacyTicket());
+            });
         }
         if (mobileHost && state.deepKind === 'person-transfer') {
             var transferOwner = mobileInputTicket();
@@ -8548,7 +8716,7 @@
     }
 
     function syncMode(resume) {
-        if (mobileHost && syncMobileDiplomacy() && mobileDiplomacy) { applyDocAttr(); render(); return; }
+        if (syncMobileDiplomacy() && mobileDiplomacy) { applyDocAttr(); render(); return; }
         if (mobileHost && syncMobileTransfer() && mobileTransfer) { applyDocAttr(); render(); return; }
         if (state.personModeResume && !shouldShowHd() &&
             (!personModeStateMatches(state.personModeResume) || personModeOwner() !== state.personModeResume.key)) {
