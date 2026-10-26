@@ -5249,6 +5249,37 @@
         });
     }
 
+    function renderCityGarrison() {
+        var box = el('hd-city-menu-status');
+        if (!box) { return; }
+        var value = null;
+        if (state.open && state.layer === 'status' && !document.hidden && shouldShowHd() &&
+            global.BayeHdCityGarrison && typeof BayeHdCityGarrison.read === 'function') { value = BayeHdCityGarrison.read(state.cityIndex); }
+        var section = box.querySelector('[data-hd-city-garrison]');
+        if (!value || !state.open || state.layer !== 'status' || document.hidden || value.cityIndex !== state.cityIndex) {
+            if (section && section.parentNode === box) { box.removeChild(section); }
+            return;
+        }
+        var signature = JSON.stringify(value);
+        if (section && section._garrisonSignature === signature) { return; }
+        if (!section) {
+            section = document.createElement('section'); section.className = 'hd-city-menu-info-group';
+            section.setAttribute('data-hd-city-garrison','1');
+            var anchor = box.querySelector('[data-hd-city-inventory]') || box.querySelector('[data-hd-city-plans]');
+            if (anchor && anchor.parentNode === box) { box.insertBefore(section,anchor); } else { box.appendChild(section); }
+        }
+        section.textContent = ''; section._garrisonSignature = signature;
+        var title = document.createElement('h3'); title.textContent = '在任将领（' + value.rows.length + '）'; section.appendChild(title);
+        var rows = document.createElement('div'); rows.className = 'hd-city-menu-info-rows';
+        value.rows.forEach(function (person) {
+            var row = appendStat(rows,person.name,'兵力 ' + (person.arms == null ? '未读取' : person.arms) + ' · 体力 ' + (person.thew == null ? '未读取' : person.thew));
+            row.setAttribute('data-hd-city-general',String(person.id)); row.setAttribute('data-hd-city-queue-slot',String(person.queueSlot));
+        });
+        section.appendChild(rows);
+        var note = document.createElement('p'); note.className = 'hd-city-menu-info-note';
+        note.textContent = value.rows.length ? '按原生驻城名册顺序显示。' : '本城暂无在任将领。'; section.appendChild(note);
+    }
+
     function renderStatusSurrenderBody() {
         var box = el('hd-city-menu-status');
         if (!box) { return; }
@@ -5261,6 +5292,7 @@
             return;
         }
         appendHudGroups(box, state.cityDetails.groups);
+        renderCityGarrison();
         var inventory = null;
         if (state.open && state.layer === 'status' && !document.hidden && shouldShowHd() &&
             global.BayeHdCityInventory && typeof BayeHdCityInventory.read === 'function') {
@@ -9374,6 +9406,7 @@
                     /* 菜单关着也要扫：完成选将 / GetFood / 部队已出发 leftover 不能卡住横幅。 */
                     sweepStickyMarch('poll');
                 }
+                if (!mobileHost && state.layer === 'status') { renderCityGarrison(); }
                 if (!hdReady() || !state.open) {
                     return;
                 }

@@ -123,7 +123,8 @@ function harness({sourceText} = {}) {
     let source = sourceText !== undefined ? sourceText : selectedHudSource ? readFileSync(selectedHudSource, 'utf8') : read('js/hd-city-menu.js');
     source = source.replace(/\}\)\(window\);\s*$/, `
         global.__hud = { state: state, cityDetails: cityDetails, personDetails: personDetails,
-            renderStatus: renderStatus, renderPersonDetails: renderPersonDetails,
+            renderStatus: renderStatus, renderCityGarrison: typeof renderCityGarrison === 'function' ? renderCityGarrison : null,
+            renderPersonDetails: renderPersonDetails,
             renderToolDetails: renderToolDetails, renderPersonProperties: renderPersonProperties,
             deepMenuOwner: deepMenuOwner, fillDeepList: fillDeepList, applyHighlight: applyHighlight,
             chooseRoot: chooseRoot, chooseSub: chooseSub, back: back, bind: bindUi,
@@ -3192,6 +3193,176 @@ test('arranged person targets withdraw malformed or torn references, names and r
         h.renderPlans(); assert.equal(reentered, true); assertPlansAbsent(h, from + ' synchronous reentry');
         h.nameHook(null); Object.defineProperty(h.orders[2], 'Object', {value: 70, writable: true, configurable: true});
         h.renderPlans(); assert.equal(planRows(h)[0]?.value, '吕布 → 人物70');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+function garrisonHarness() {
+    const h = plansHarness();
+    for (const id of [0, 20, 22, 199]) Object.assign(h.people[id], {Arms: 0, Thew: 0});
+    h.garrison = (ids, start = 10) => {
+        Object.assign(h.city, {PersonQueue: start, Persons: ids.length});
+        ids.forEach((id, index) => {h.queue[start + index] = id;});
+    };
+    h.renderGarrison = () => h.hud.renderStatus();
+    h.startGarrison = () => {h.context.BayeHdCityMenu.start(); h.pollGarrison = h.intervals.at(-1); assert.equal(typeof h.pollGarrison, 'function');};
+    vm.runInContext(read('js/hd-city-garrison.js'), h.context, {filename: 'js/hd-city-garrison.js'});
+    h.readGarrison = (cityIndex = 0) => {
+        const value = h.context.BayeHdCityGarrison.read(cityIndex); return value === null ? null : plain(value);
+    };
+    return h;
+}
+function garrisonPane(h) {return h.nodes['hd-city-menu-status'].querySelector('[data-hd-city-garrison]');}
+function garrisonRows(h) {
+    const pane = garrisonPane(h); return pane ? pane.querySelectorAll('[data-hd-city-general]').map(row => {
+        assert.equal(row.children[0].tagName, 'SPAN'); assert.equal(row.children[1].tagName, 'STRONG');
+        return {id: Number(row.getAttribute('data-hd-city-general')), queueSlot: Number(row.getAttribute('data-hd-city-queue-slot')),
+            name: row.children[0].textContent, value: row.children[1].textContent};
+    }) : [];
+}
+function assertGarrisonAbsent(h, reason) {
+    assert.equal(garrisonPane(h), null, reason); assert.deepEqual(h.keys, [], reason); assert.deepEqual(h.writes, [], reason);
+}
+
+test('current-city garrison preserves exact resident queue order, duplicates, IDs0 and199, zero/max stats and plain-text names', () => {
+    const h = garrisonHarness(), special = '朵思<大王>&"完整姓名';
+    h.names.set(199, special); Object.assign(h.people[199], {Arms: 65535, Thew: 255});
+    Object.assign(h.people[20], {Arms: undefined, Thew: null}); h.garrison([199, 0, 20, 199], 1996);
+    const before = plain(h.raw), menu = plain(h.menu), dto = h.readGarrison();
+    assert.deepEqual(dto, {cityIndex: 0, rows: [
+        {id: 199, queueSlot: 1996, name: special, arms: 65535, thew: 255},
+        {id: 0, queueSlot: 1997, name: '董卓', arms: 0, thew: 0},
+        {id: 20, queueSlot: 1998, name: '吕布', arms: null, thew: null},
+        {id: 199, queueSlot: 1999, name: special, arms: 65535, thew: 255}]});
+    h.renderGarrison(); assert.equal(garrisonPane(h)?.tagName, 'SECTION');
+    assert.equal(garrisonPane(h).getAttribute('data-hd-city-garrison'), '1');
+    assert.equal(garrisonPane(h).querySelector('h3').textContent, '在任将领（4）');
+    assert.deepEqual(garrisonRows(h), dto.rows.map(row => ({id: row.id, queueSlot: row.queueSlot, name: row.name,
+        value: '兵力 ' + (row.arms === null ? '未读取' : row.arms) + ' · 体力 ' + (row.thew === null ? '未读取' : row.thew)})));
+    for (const tag of ['button', 'input', 'a', 'img']) assert.equal(garrisonPane(h).querySelectorAll(tag).length, 0);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('garrison filters wild, captive and other-allegiance residents before reading their names or private stats', () => {
+    const h = garrisonHarness(); h.people[72].Belong = 0; h.garrison([70, 0, 71, 20, 72]);
+    let excludedReads = 0, outsideReads = 0;
+    for (const id of [70, 71, 72]) for (const field of ['Arms', 'Thew']) Object.defineProperty(h.people[id], field, {
+        get() {excludedReads++; throw Error('excluded resident stats must not be read');}, configurable: true});
+    for (const slot of [9, 15]) Object.defineProperty(h.queue, slot, {get() {outsideReads++; throw Error('unrelated queue range');}, configurable: true});
+    const dto = h.readGarrison(); assert.deepEqual(dto.rows.map(row => row.id), [0, 20]);
+    assert.equal(excludedReads, 0); assert.equal(outsideReads, 0);
+    assert.equal(h.personCalls.some(id => [70, 71, 72].includes(id)), false);
+    h.renderGarrison(); assert.deepEqual(garrisonRows(h).map(row => row.id), [0, 20]);
+    assert.equal(excludedReads, 0); assert.equal(outsideReads, 0);
+    assert.equal(h.personCalls.some(id => [70, 71, 72].includes(id)), false);
+    for (const ids of [[], [70, 71, 72]]) {
+        const empty = garrisonHarness(); empty.people[72].Belong = 0; empty.garrison(ids, ids.length ? 10 : 2000);
+        empty.renderGarrison(); assert.equal(garrisonPane(empty).querySelector('h3').textContent, '在任将领（0）');
+        assert.match(garrisonPane(empty).textContent, /暂无|没有/); assert.deepEqual(garrisonRows(empty), []);
+        assert.deepEqual(empty.readGarrison(), {cityIndex: 0, rows: []});
+        assert.equal(empty.personCalls.some(id => [70, 71, 72].includes(id)), false);
+        assert.deepEqual(empty.keys, []); assert.deepEqual(empty.writes, []);
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('garrison withdraws malformed ranges, IDs, ROOT mirrors, library and table bindings rather than publishing a partial list', () => {
+    const invalid = [h => h.city.Belong = 2, h => h.raw.g_hdMapCity = 2, h => h.raw.g_hdDetailGeneration++,
+        h => h.raw.g_hdMenuSeq++, h => h.raw.g_hdMenuCount = 3, h => h.raw.g_hdMenuIndex = 0,
+        h => h.menu.kind = 2, h => h.menu.context = 3, h => h.menu.active = 0, h => h.menu.count = 3,
+        h => h.menu.names.reverse(), h => h.menu.detailGeneration++, h => h.raw.g_hdEngineReady = 0,
+        ...['g_hdReportActive', 'g_hdQtyActive', 'g_hdHelpActive', 'g_hdFightActive'].map(field => h => h.raw[field] = 1),
+        h => h.identity.status = 'pending', h => h.identity.sha256 = 'different-library', h => h.identity.byteLength--,
+        h => h.context.baye.hd.ready = () => false, h => h.context.baye.getPersonCount = () => 2000,
+        h => h.context.baye.hooks.getPersonName = () => 'custom',
+        h => h.people.pop(), h => h.queue.pop(), h => h.cities.pop(), h => delete h.raw.g_PersonsQueue,
+        h => h.city.PersonQueue = -1, h => h.city.PersonQueue = 1.5, h => h.city.PersonQueue = '10',
+        h => h.city.PersonQueue = 2001, h => h.city.Persons = -1, h => h.city.Persons = '1',
+        h => {h.city.PersonQueue = 1999; h.city.Persons = 2;}, h => {h.city.PersonQueue = 2000; h.city.Persons = 1;},
+        ...[-1, 0.5, '0', 200, 65535].map(value => h => h.queue[10] = value),
+        h => h.people[0] = null, h => h.people[0].Belong = '1', h => h.names.set(0, '')];
+    for (const change of invalid) {
+        const h = garrisonHarness(); h.renderGarrison(); assert.equal(garrisonRows(h).length, 1);
+        change(h); assert.equal(h.readGarrison(), null); h.renderGarrison();
+        assertGarrisonAbsent(h, 'invalid current garrison cannot retain old rows');
+    }
+    for (const change of [h => h.hud.state.open = false, h => h.hud.state.layer = 'root', h => h.document.hidden = true,
+        h => h.context.localStorage.getItem = () => 'classic']) {
+        const h = garrisonHarness(); h.renderGarrison(); assert.equal(garrisonRows(h).length, 1);
+        change(h); h.renderGarrison(); assertGarrisonAbsent(h, 'local presentation boundary clears the new section');
+    }
+    const other = garrisonHarness(); assert.equal(other.readGarrison(1), null);
+    assert.deepEqual(other.personCalls, [], 'another city is rejected before any garrison name is requested');
+    const readySeed = garrisonHarness(); let readyCalls = 0; const ready = readySeed.context.baye.hd.ready;
+    readySeed.context.baye.hd.ready = () => {readyCalls++; return ready();};
+    assert.ok(readySeed.readGarrison()); assert.ok(readyCalls >= 2);
+    const libraryDrift = garrisonHarness(), originalReady = libraryDrift.context.baye.hd.ready; let reads = 0, changed = false;
+    libraryDrift.context.baye.hd.ready = () => {
+        if (++reads === readyCalls) {changed = true; libraryDrift.context.dynLib = 'replacement-after-isCurrent';}
+        return originalReady();
+    };
+    assert.equal(libraryDrift.readGarrison(), null, 'the last ready callback after isCurrent cannot replace the loaded library');
+    assert.equal(changed, true); assert.deepEqual(libraryDrift.keys, []); assert.deepEqual(libraryDrift.writes, []);
+    const polled = garrisonHarness(); polled.startGarrison(); polled.renderGarrison();
+    const section = garrisonPane(polled), rows = section.querySelectorAll('[data-hd-city-general]');
+    for (let i = 0; i < 4; i++) polled.pollGarrison();
+    assert.equal(garrisonPane(polled), section, 'same-owner PC status poll preserves the section');
+    section.querySelectorAll('[data-hd-city-general]').forEach((row, index) => assert.equal(row, rows[index], 'stable poll preserves rows'));
+    const sectionIndex = polled.nodes['hd-city-menu-status'].children.indexOf(section);
+    polled.people[0].Arms = 4321; polled.pollGarrison();
+    assert.equal(garrisonPane(polled), section, 'changed roster fields update the existing section node');
+    assert.equal(polled.nodes['hd-city-menu-status'].children.indexOf(section), sectionIndex, 'changed roster stays at the same section position');
+    assert.equal(garrisonRows(polled)[0].value, '兵力 4321 · 体力 0');
+    polled.identity.sha256 = 'changed-library'; polled.pollGarrison();
+    assertGarrisonAbsent(polled, 'normal status poll withdraws a now-invalid garrison without full status rendering');
+});
+
+test('garrison rejects final-name callback drift and read/render reentry, then recovers with an independent current observation', () => {
+    const seed = garrisonHarness(); seed.garrison([20]); seed.readGarrison();
+    const last = seed.personCalls.filter(id => id === 20).length; assert.ok(last >= 2);
+    const mutations = [h => h.queue[10] = 22, h => h.city.PersonQueue++, h => h.city.Persons++,
+        h => h.people[20].Belong = 2, h => h.people[20].Arms++, h => h.people[20].Thew++,
+        h => h.names.set(20, '更新后的姓名'), h => h.raw.g_PersonsQueue = h.queue.slice(),
+        h => h.raw.g_Persons = h.people.slice(), h => h.cities[0] = {...h.city},
+        h => h.context.baye.data = h.readonlyPlans({...h.raw}), h => h.identity.generation++,
+        h => h.raw.g_hdMapCity = 2, h => {h.raw.g_hdMenuSeq++; h.menu.seq++;},
+        h => h.context.baye.hooks.getPersonName = () => 'custom'];
+    for (const change of mutations) {
+        const h = garrisonHarness(); h.garrison([20]); let calls = 0, fired = false;
+        h.nameHook(id => {if (id === 20 && ++calls === last) {fired = true; change(h);}});
+        assert.equal(h.readGarrison(), null, 'last external callback cannot publish mixed resident data'); assert.equal(fired, true);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    for (const target of ['reader', 'renderer']) {
+        const h = garrisonHarness(); h.garrison([20]); let entered = false, nested = 'not entered';
+        h.nameHook(id => {if (id === 20 && !entered) {entered = true; nested = target === 'reader' ? h.readGarrison() : h.renderGarrison();}});
+        h.renderGarrison(); assert.equal(entered, true); if (target === 'reader') assert.equal(nested, null);
+        assertGarrisonAbsent(h, 'synchronous reentry invalidates the active garrison read');
+        h.nameHook(null); h.renderGarrison(); assert.deepEqual(garrisonRows(h).map(row => row.id), [20]);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    for (const outer of ['direct', 'poll']) {
+        const h = garrisonHarness(); h.garrison([20]); h.plan(2, 3, 22);
+        h.raw.g_GoodsQueue = Array(2000).fill(0xffff); h.raw.g_GoodsQueue[40] = 0x8000;
+        Object.assign(h.city, {ToolQueue: 40, Tools: 1});
+        h.context.baye.getToolCount = () => 33; h.context.baye.getToolName = () => '已发现库存';
+        vm.runInContext(read('js/hd-city-inventory.js'), h.context, {filename: 'js/hd-city-inventory.js'});
+        h.startGarrison(); h.renderGarrison(); assert.equal(garrisonRows(h).length, 1);
+        assert.ok(inventoryPane(h)); assert.ok(plansPane(h));
+        const box = h.nodes['hd-city-menu-status'], remove = box.removeChild; let detachedRemovals = 0, entered = false;
+        box.removeChild = function (child) {
+            if (!this.children.includes(child)) {detachedRemovals++; throw new Error('NotFoundError: node is not a child');}
+            return remove.call(this, child);
+        };
+        h.nameHook(id => {if (id === 20 && !entered) {entered = true; h.renderGarrison();}});
+        assert.doesNotThrow(() => outer === 'direct' ? h.hud.renderCityGarrison() : h.pollGarrison(), 'reentrant render can detach the captured section');
+        assert.equal(entered, true); assert.equal(detachedRemovals, 0, 'detached old section is never removed twice');
+        assertGarrisonAbsent(h, 'reentrant existing section is retired');
+        assert.ok(inventoryPane(h), 'nested render preserves its fresh inventory section');
+        assert.ok(plansPane(h), 'nested render preserves its fresh arranged-order section');
+        h.nameHook(null); h.pollGarrison(); assert.deepEqual(garrisonRows(h).map(row => row.id), [20]);
+        assert.ok(inventoryPane(h)); assert.ok(plansPane(h));
         assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
     }
 });

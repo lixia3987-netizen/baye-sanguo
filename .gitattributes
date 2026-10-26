@@ -738,6 +738,7 @@
 /js/hd-battle-status.js text eol=lf
 /js/hd-skill-hints.js text eol=lf
 /js/hd-city-inventory.js text eol=lf
+/js/hd-city-garrison.js text eol=lf
 /css/hd-dialog.css text eol=lf
 /css/hd-city-menu.css text eol=lf
 /js/hd-city-rules.js text eol=lf
