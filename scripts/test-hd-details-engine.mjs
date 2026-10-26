@@ -195,6 +195,25 @@ static void prepare(void){memset(resource,0,sizeof(resource));file.length=2048;f
     personCount=700;baye_hd_set_ready(1);assert(sizeof(GOODS)==66&&sizeof(RCHEAD)==14&&sizeof(RIDX)==8);}
 static int messageIndex,scenario,delayMode,delayCalls;static U32 expectedMenuSeq;
 static ToolID goodsList[3]={2,0,1};
+static ToolID capacityGoods[2048],capacityGoodsBefore[2048];
+static U32 capacityCount,capacityPublished;static int capacityClipped;
+static void checkCapacityPublication(void){
+    U32 selected=capacityCount-2+(U32)messageIndex;
+    assert(g_hdMenuActive&&g_hdMenuContext==BAYE_HD_MENU_CONTEXT_CITY&&g_hdMenuKind==BAYE_HD_MENU_GOODS);
+    assert(g_hdMenuItemLen==BAYE_HD_NAME_SLOT&&g_hdMenuCount==capacityPublished&&g_hdMenuIndex==selected);
+    assert(g_hdMenuSeq==expectedMenuSeq&&g_hdGoodsActive&&g_hdGoodsIndex==selected&&g_hdGoodsTool==capacityGoods[selected]);
+    if(capacityClipped){assert(!g_hdMenuIdsCount&&!g_hdMenuIdsKind&&!g_hdMenuIdsGeneration&&!g_hdMenuIdsSeq);}
+    else{
+        assert(g_hdMenuIdsCount==capacityCount&&g_hdMenuIdsKind==BAYE_HD_MENU_GOODS);
+        assert(g_hdMenuIdsGeneration==g_hdDetailGeneration&&g_hdMenuIdsSeq==expectedMenuSeq);
+        for(U32 i=0;i<capacityCount;i++)assert(g_hdMenuIds[i]==capacityGoods[i]);
+    }
+    for(U32 i=0;i<capacityPublished;i++){
+        char expected[32];snprintf(expected,sizeof(expected),"tool-%u",capacityGoods[i]);
+        assert(!strcmp((char*)g_hdMenuGbk+i*BAYE_HD_NAME_SLOT,expected));
+    }
+    for(U32 i=capacityPublished*BAYE_HD_NAME_SLOT;i<BAYE_HD_MENU_MAX;i++)assert(!g_hdMenuGbk[i]);
+}
 static void checkRow(int index,int complete){assert(g_hdGoodsActive&&g_hdGoodsIndex==index&&g_hdGoodsTool==goodsList[index]);
     assert(g_hdGoodsComplete==complete&&g_hdMenuIdsCount==3&&g_hdMenuIds[0]==2&&g_hdMenuIds[1]==0&&g_hdMenuIds[2]==1);
     assert(g_hdGoodsGeneration==g_hdDetailGeneration&&g_hdGoodsMenuSeq==g_hdMenuSeq);}
@@ -230,6 +249,7 @@ static void GamGetMsg(GMType*m){assert(messageIndex<300);m->type=VM_CHAR_FUN;
         assert(g_hdMenuIdsKind==g_hdMenuKind&&g_hdMenuIdsCount==2&&g_hdMenuIds[0]==0&&g_hdMenuIds[1]==699);
         assert(g_hdMenuIdsGeneration==g_hdDetailGeneration&&g_hdMenuIdsSeq==g_hdMenuSeq);
         assert(g_hdMenuIndex==(messageIndex?1:0));m->param=messageIndex?VK_ENTER:VK_DOWN;}
+    else if(scenario==9||scenario==10){checkCapacityPublication();m->param=messageIndex?VK_ENTER:VK_DOWN;}
     else assert(0);messageIndex++;}
 static U8 GamDelay(U16 ticks,U8 flag){assert(ticks==0&&flag==2);delayCalls++;
     if(delayMode==1){assert(g_hdHelpActive&&g_hdHelpKind==BAYE_HD_HELP_PERSON&&g_hdHelpComplete);
@@ -374,6 +394,22 @@ static void toolFields(void){prepare();U8 before[2048];memcpy(before,resource,si
     assert(!memcmp(before,resource,sizeof(before))&&file.position==file.length&&hookProbeCalls==0);
     GOODS*tools=(GOODS*)(resource+512+sizeof(RCHEAD));tools[2].at=77;
     assert(bayeHdGetToolField(2,1)==77);goodsHeader()->ResKey=1;assert(bayeHdGetToolField(2,1)==0xffff);}
+static void capacityPicker(U32 count,int clipped){
+    prepare();scenario=clipped?10:9;messageIndex=0;capacityCount=count;capacityClipped=clipped;
+    assert(BAYE_HD_DETAIL_IDS_MAX==2000&&(BAYE_HD_MENU_MAX-1)/BAYE_HD_NAME_SLOT>=2000&&count<=2048);
+    capacityPublished=clipped?2000:count;
+    for(U32 i=0;i<2048;i++)capacityGoods[i]=(ToolID)((i*7+2)%3);
+    memcpy(capacityGoodsBefore,capacityGoods,sizeof(capacityGoods));
+    static PersonType beforePeople[PERSON_MAX];memcpy(beforePeople,g_Persons,sizeof(g_Persons));
+    baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CITY,BAYE_HD_MENU_GOODS);baye_hd_menu_begin();expectedMenuSeq=g_hdMenuSeq;
+    ToolID result=ShowGoodsControlInner(capacityGoods,(ToolID)count,(ToolID)(count-2),0,0,80,80);
+    assert(result==count-1&&messageIndex==2&&g_hdMenuIndex==count-1);
+    assert(!memcmp(capacityGoodsBefore,capacityGoods,sizeof(capacityGoods))&&!memcmp(beforePeople,g_Persons,sizeof(g_Persons)));
+    assert(file.position==file.length&&hookProbeCalls==0&&hookTitleCalls==0&&hookValueCalls==0);
+    baye_hd_menu_end();assert(!g_hdMenuActive&&!g_hdGoodsActive&&!g_hdMenuIdsCount);
+}
+static void goodsCapacity(void){capacityPicker(80,0);capacityPicker(81,0);capacityPicker(2000,0);}
+static void goodsOverCapacity(void){capacityPicker(2001,1);capacityPicker(2047,1);capacityPicker(2048,1);}
 int main(int argc,char**argv){assert(argc>=2);switch(atoi(argv[1])){
     case 1:resources();break;case 2:arms();break;case 3:picker(1,0);break;case 4:picker(1,1);break;
     case 5:picker(2,0);break;case 6:picker(3,0);break;case 7:lifecycle();break;
@@ -382,7 +418,8 @@ int main(int argc,char**argv){assert(argc>=2);switch(atoi(argv[1])){
     case 13:personPicker();break;case 14:malformedCapture();break;
     case 15:manyGoodsPages();break;case 16:noProgressGoodsPage();break;case 17:manyPersonPages();break;
     case 18:toolFields();break;case 19:campaignPicker(BAYE_HD_MENU_SUCCESSOR);break;
-    case 20:campaignPicker(BAYE_HD_CAMPAIGN_DEFENDERS);break;case 21:campaignIdsScope();break;default:assert(0);}
+    case 20:campaignPicker(BAYE_HD_CAMPAIGN_DEFENDERS);break;case 21:campaignIdsScope();break;
+    case 22:goodsCapacity();break;case 23:goodsOverCapacity();break;default:assert(0);}
     puts("actual native details fixture passed");return 0;}
 `;
 
@@ -415,7 +452,9 @@ for(const [id,name] of [
     [18,'actual tool field export reads current validated bytes without hooks or resource writes'],
     [19,'actual successor picker publishes zero and high U16 IDs, Arrow ACK and selected list index'],
     [20,'actual defenders picker publishes zero and high U16 IDs without changing native selection semantics'],
-    [21,'campaign person IDs reject wrong context, stale generation/seq/kind/count and invalid IDs; reset retires them']
+    [21,'campaign person IDs reject wrong context, stale generation/seq/kind/count and invalid IDs; reset retires them'],
+    [22,'actual native goods picker preserves complete 80, 81 and 2000-instance capacity, duplicates and last-row selection'],
+    [23,'actual native goods picker clips over-capacity publications without assigning incomplete IDs or changing the native cursor']
 ])test(name,async()=>{const result=await run(await executable(),[String(id)],{timeout:20000});assert.match(result.stdout,/actual native details fixture passed/);});
 for(const [file,count] of [['dat-mod.lib',33],['sc-mod.lib',101]])test(`actual ${file} tool count/last record uses the compiled 66-byte native ABI`,async()=>{
     const result=await run(await executable(),['12',join(root,'libs',file),String(count)],{timeout:20000});assert.match(result.stdout,/actual native details fixture passed/);

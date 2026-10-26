@@ -360,9 +360,13 @@ FAR ToolID ShowGoodsControlInner(ToolID *goods,ToolID gcount, ToolID init, U8 x0
                 U8 packed[BAYE_HD_MENU_MAX];
                 U8 tname[32];
                 U32 n = gcount;
+                U32 capacity = (BAYE_HD_MENU_MAX - 1) / BAYE_HD_NAME_SLOT;
                 U32 gi;
-                if (n > 80) {
-                    n = 80;
+                if (capacity > BAYE_HD_DETAIL_IDS_MAX) {
+                    capacity = BAYE_HD_DETAIL_IDS_MAX;
+                }
+                if (n > capacity) {
+                    n = capacity;
                 }
                 memset(packed, 0, sizeof(packed));
                 for (gi = 0; gi < n; gi++) {

@@ -44,6 +44,32 @@ test('native menu IDs preserve reordered goods and same-name full U16 people',()
     assert.equal(value.detailGeneration,7);h.menu(3,[699,600]);value=plain(h.baye.hd.menuItems());
     assert.deepEqual(value.ids,[699,600]);assert.equal(value.index,0);assert.deepEqual(h.writes,[]);assert.deepEqual(h.keys,[]);
 });
+test('complete goods menus preserve 81 and 2000 native positions including the final ID and highlight without input',()=>{
+    for(const length of [81,2000]) {
+        const h=fixture(),ids=Array.from({length},(_,index)=>(index*7)%33),lookups=[];
+        ids[length-1]=32;h.menu(4,ids);h.raw.g_hdMenuIndex=length-1;
+        h.baye.getToolName=id=>{lookups.push(id);return '道具-'+id;};
+        let value=plain(h.baye.hd.menuItems());
+        assert.equal(value.idsValid,true);assert.equal(value.count,length);assert.equal(value.index,length-1);
+        assert.deepEqual(value.ids,ids,'native order and repeated tool IDs are not sorted or deduplicated');
+        assert.deepEqual(value.names,ids.map(id=>'道具-'+id));assert.deepEqual(value.packedNames,Array(length).fill('same'));
+        assert.equal(value.ids.at(-1),32);assert.equal(value.names.at(-1),'道具-32');
+        h.raw.g_hdMenuIndex=0;assert.equal(h.baye.hd.menuItems().index,0);
+        h.raw.g_hdMenuIndex=length-1;value=plain(h.baye.hd.menuItems());
+        assert.equal(value.index,length-1);assert.deepEqual(value.ids,ids);assert.deepEqual(lookups,ids,'highlight changes retain the complete cached name list');
+        assert.deepEqual(h.writes,[]);assert.deepEqual(h.keys,[]);
+    }
+    for(const change of [h=>h.raw.g_hdMenuIds=h.raw.g_hdMenuIds.slice(0,-1),
+        h=>h.raw.g_hdMenuBytes=h.raw.g_hdMenuBytes.slice(0,-1),h=>h.raw.g_hdMenuIds[1999]=33,
+        h=>h.raw.g_hdMenuIndex=2000,h=>h.raw.g_hdMenuCount=2001]) {
+        const h=fixture();h.menu(4,Array.from({length:2000},(_,index)=>index%33));h.raw.g_hdMenuIndex=1999;
+        let nameReads=0;h.baye.getToolName=()=>{nameReads++;return 'unverified';};change(h);
+        const value=plain(h.baye.hd.menuItems());assert.equal(value.idsValid,false);assert.deepEqual(value.ids,[]);
+        assert.equal(nameReads,0,'unknown or truncated publications never resolve unproved IDs');
+        assert.deepEqual(h.writes,[]);assert.deepEqual(h.keys,[]);
+    }
+});
+
 test('proven IDs resolve full native names once per owner and retire a reentrant name read',()=>{
     const h=fixture();h.menu();const lookups=[];
     h.baye.getToolName=id=>{lookups.push(id);return id===31?'方天画戟':'赤兔';};

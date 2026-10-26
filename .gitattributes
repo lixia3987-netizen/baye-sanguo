@@ -751,3 +751,9 @@
 /js/hd-mobile-battle.js text eol=lf
 
 /scripts/test-hd-mobile-battle.mjs text eol=lf
+
+/vendor/iBaye/src/showface.c text eol=lf
+
+/scripts/test-hd-details-engine.mjs text eol=lf
+
+/scripts/test-hd-details-bridge.mjs text eol=lf
