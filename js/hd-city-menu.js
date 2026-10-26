@@ -5261,6 +5261,33 @@
             return;
         }
         appendHudGroups(box, state.cityDetails.groups);
+        var plans = null;
+        if (state.open && state.layer === 'status' && !document.hidden && shouldShowHd() &&
+            global.BayeHdCityPlans && typeof BayeHdCityPlans.read === 'function') {
+            plans = BayeHdCityPlans.read(state.cityIndex);
+        }
+        if (plans && state.open && state.layer === 'status' && plans.cityIndex === state.cityIndex && shouldShowHd()) {
+            var section = document.createElement('section');
+            section.className = 'hd-city-menu-info-group';
+            section.setAttribute('data-hd-city-plans', '1');
+            var heading = document.createElement('h3');
+            heading.textContent = '本月已安排事务（' + plans.rows.length + '）';
+            section.appendChild(heading);
+            var note = document.createElement('p');
+            note.className = 'hd-city-menu-info-note';
+            note.textContent = plans.year + '年' + plans.month + '月 · ' +
+                (plans.rows.length ? '记录本城己方已安排事务，结果以原生月结为准。' : '本城暂无己方已安排事务。');
+            section.appendChild(note);
+            var rows = document.createElement('div');
+            rows.className = 'hd-city-menu-info-rows';
+            plans.rows.forEach(function (plan) {
+                var row = appendStat(rows, plan.label, plan.text);
+                row.setAttribute('data-hd-city-order', String(plan.slot));
+                row.setAttribute('data-hd-city-order-id', String(plan.command));
+            });
+            section.appendChild(rows);
+            box.appendChild(section);
+        }
     }
 
     function equipmentLabel(person, slot) {

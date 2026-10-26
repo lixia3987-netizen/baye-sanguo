@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V76",
+  "parentCommit": "d05ce05371a5a4d87a37fdcb7d000da1b9143d41",
+  "feature": "Read-only current own-city arrangements, including native marching armies",
+  "accepted": true,
+  "started": "2026-10-26T08:00:12.390Z",
+  "finished": "2026-10-26T08:00:16.840Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 725,
+  "pass": 725,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 43960,
+      "sha256": "24d12d8a4611c06ab46b28c347318a25a6196652f33480ef3fb7118592ed12b9"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 475717,
+      "sha256": "c7a55664c39a165e21e562454cc514e2b048b6dd531e2e1b168040ebf213c181"
+    },
+    {
+      "path": "js/hd-city-plans.js",
+      "bytes": 10529,
+      "sha256": "c6734db4ed3a01da6baf3d8b7299380a00f4fec9c4a6138ecdde24d1709736c1"
+    },
+    {
+      "path": "js/hd-dialog.js",
+      "bytes": 145114,
+      "sha256": "eea1c276fdf857b4da6c37275ccd6386c95520a583a10ab6efd93e210a216576"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 36222,
+      "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+    },
+    {
+      "path": "js/hd-mobile-city.js",
+      "bytes": 35411,
+      "sha256": "71d6997840e7c1f5b2b6f09753db868b1acd8c082763c7d32d5c1ecb229cfeb0"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32211,
+      "sha256": "e8677806b2efea7d1f8037d61960adc5543e185f08fda0af7e5884616d202b5b"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "m.html",
+      "bytes": 19263,
+      "sha256": "f3f00f1f78aca4f2a6fb8a4a63e3fcf456b0340694747ad4a5989581604b0804"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 29380,
+      "sha256": "ef09e35e3aa5b71d959c855fc864a6e252d15c24757ed0f34027cdc806e42cf0"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 163348,
+      "sha256": "46d7873f4a690079bc2ea82c20f1fd607dcad59c9a34d8e333d99ab27526cf4b"
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 195013,
+      "sha256": "e4e5a2bb8d551617f0e7ae28e657766c18949dc5b6fd41cc9dc600d45e86cddc"
+    },
+    {
+      "path": "scripts/test-hd-city-mobile-host.mjs",
+      "bytes": 195248,
+      "sha256": "7d2e172ecfc4c3e3d8f65bf107b65e36d867d2e1bc165b08ae17f0bac122e21d"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 5,
+  "fullSuiteRun": false,
+  "scope": "Current HUD and mobile-host targeted modules; no browser, C compilation or full-suite run",
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "modules": [
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "tests": 221,
+      "newDefaultTests": 5
+    },
+    {
+      "path": "scripts/test-hd-city-mobile-host.mjs",
+      "tests": 504,
+      "newDefaultTests": 0
+    }
+  ],
+  "targetedTool": {
+    "chunk": "67b67f",
+    "exitCode": 0
+  },
+  "rawTap": {
+    "path": "build/city-plans-20261026-v76/targeted-final-v1.stdout.tap",
+    "bytes": 163407,
+    "sha256": "862496508b4b61d1f14ea9677a54813edd5e8e94abfe44da184342a4d90c1672"
+  },
+  "stderr": {
+    "path": "build/city-plans-20261026-v76/targeted-final-v1.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "retainedEarlierChecks": [
+    {
+      "path": "build/city-plans-20261026-v76/hud-peer-v1.exit.json",
+      "bytes": 575,
+      "sha256": "9dd125850042bd25ee4cfa469bbaf6ee99efeba70b772005834dd7d17a686128"
+    },
+    {
+      "path": "build/city-plans-20261026-v76/hud-peer-v1.stdout.log",
+      "bytes": 55034,
+      "sha256": "015b0c18e9962824836f118cf779c3c916383317bd48bdd87182a95037452bd5"
+    },
+    {
+      "path": "build/city-plans-20261026-v76/mobile-v1.json",
+      "bytes": 2217,
+      "sha256": "3299e0f999dcfad206ee1410995beb2b50645f1a8ee43191d503f008426998ea"
+    }
+  ],
+  "semanticReferences": [
+    "vendor/iBaye/src/baye/order.h",
+    "vendor/iBaye/src/citycmd.c",
+    "vendor/iBaye/src/citycmdd.c",
+    "vendor/iBaye/src/bind-objects.c"
+  ],
+  "standardOrderQueueSlots": 200,
+  "physicalPeople": 2000,
+  "logicalPeople": 200,
+  "cities": 38,
+  "nativeArmySlots": 30,
+  "nativeArmyBytes": 600,
+  "armyMemberSlots": 10,
+  "armyIdEncoding": "Little-endian U16, one-based; all 10 nonzero entries retained",
+  "uninitializedUnrelatedFieldsRead": false,
+  "countdownClaimed": false,
+  "resourceEffectsPredicted": false,
+  "additionalNativeInputs": 0,
+  "engineRebuilt": false,
+  "browserRuns": 0,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false,
+  "realDeviceAccepted": false,
+  "stablePerformanceAccepted": false,
+  "validationPolicy": "Targeted checks only; full suite, actual-game layouts and tuning deferred"
+}

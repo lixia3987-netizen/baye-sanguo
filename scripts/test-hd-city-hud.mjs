@@ -2662,3 +2662,163 @@ test('SURRENDER PC interval alone observes delayed PERSON ACK with retained depa
     assert.deepEqual(plain(h.report), reportBefore); assert.deepEqual(plain(h.qty), quantityBefore);
     assert.equal(h.march.phase, 7); assert.equal(h.march.inputSeq, 12); assert.equal(h.actorCommits(), 0);
 });
+
+// The arranged-orders surface reads the original physical tables. Actors have
+// already left the resident queue after C DelPerson; that is not a missing actor.
+function plansHarness() {
+    const h = harness(), cache = new WeakMap();
+    h.people = Array.from({length: 2000}, () => ({Belong: 0}));
+    for (const id of [0, 20, 22, 199]) h.people[id].Belong = 1;
+    h.people[70].Belong = 2; h.people[71].Belong = 65535;
+    h.cities = Array.from({length: 38}, () => ({...h.city, Belong: 2, SatrapId: 0, Persons: 0, PersonQueue: 0}));
+    h.city = h.cities[0]; Object.assign(h.city, {Belong: 1, Persons: 1, PersonQueue: 10});
+    h.queue = Array(2000).fill(0); h.queue[10] = 0;
+    h.orders = Array.from({length: 200}, () => ({OrderId: 255, Person: 0, City: 0,
+        Object: 0, Money: 0, Food: 0, Arms: 0, Consume: 0, TimeCount: 0}));
+    h.fighterIndex = Array(30).fill(0); h.fighters = Array(600).fill(0);
+    Object.assign(h.raw, {g_Cities: h.cities, g_Persons: h.people, g_PersonsQueue: h.queue,
+        g_OrderQueue: h.orders, FIGHTERS_IDX: h.fighterIndex, FIGHTERS: h.fighters,
+        g_engineConfig: {citiesCount: 38}, g_PlayerKing: 0, g_PIdx: 1, g_YearDate: 190, g_MonthDate: 1,
+        g_hdEngineReady: 1, g_hdDetailGeneration: 3, g_hdMapCity: 1, g_hdMapPick: 0,
+        g_hdMenuActive: 1, g_hdMenuContext: 1, g_hdMenuKind: 1, g_hdMenuSeq: 8,
+        g_hdMenuCount: 4, g_hdMenuIndex: 3, g_hdReportActive: 0, g_hdHelpActive: 0,
+        g_hdQtyActive: 0, g_hdFightActive: 0, g_hdMarchPhase: 0});
+    h.readonlyPlans = function readonly(value, at = '') {
+        if (!value || typeof value !== 'object') return value;
+        if (cache.has(value)) return cache.get(value);
+        const proxy = new Proxy(value, {get(target, key) {return readonly(target[key], at + '.' + String(key));},
+            set(target, key) {h.writes.push(at + '.' + String(key)); throw Error('plans reader wrote native data');}});
+        cache.set(value, proxy); return proxy;
+    };
+    h.context.baye.data = h.readonlyPlans(h.raw); h.context.baye.ensureData = () => h.context.baye.data;
+    h.context.baye.hooks = {};
+    h.context.dynLib = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url)).toString('hex');
+    h.context.baye.getPersonCount = () => 200; h.context.baye.hdCityLimit = () => 38;
+    h.names.clear(); for (let id = 0; id < 200; id++) h.names.set(id, '人物' + id);
+    h.names.set(0, '董卓'); h.names.set(20, '吕布'); h.names.set(22, '张辽');
+    h.personCalls = []; h.cityCalls = []; let nameHook = null;
+    h.context.baye.getPersonName = id => {h.personCalls.push(id); if (nameHook) nameHook(id); return h.names.get(id) ?? '';};
+    h.context.baye.getCityName = id => {h.cityCalls.push(id); return id === 0 ? '洛阳' : id === 16 ? '许昌' : '城' + id;};
+    Object.assign(h.menu, {active: 1, context: 1, kind: 1, seq: 8, generation: 3, detailGeneration: 3,
+        count: 4, index: 3, names: ['内政', '外交', '军备', '状况'], idsValid: false, ids: []});
+    h.identity = {status: 'ready', sha256: standardHash, byteLength: 207195, generation: 1}; h.setIdentity(h.identity);
+    Object.assign(h.hud.state, {open: true, cityIndex: 0, cityName: '洛阳', layer: 'status', deepKind: '',
+        deepMenuOwner: null, deepSelectionPending: null});
+    h.renderPlans = () => h.hud.renderStatus();
+    h.plan = (slot, orderId, person = 20, values = {}) => Object.assign(h.orders[slot], {OrderId: orderId, City: 0, Person: person}, values);
+    h.army = (slot, personIds) => {
+        h.fighterIndex[slot] = 1;
+        for (let i = 0; i < 10; i++) {
+            const id = personIds[i] == null ? 0 : personIds[i] + 1, offset = slot * 20 + i * 2;
+            h.fighters[offset] = id & 255; h.fighters[offset + 1] = id >>> 8;
+        }
+    };
+    h.nameHook = value => {nameHook = value;};
+    vm.runInContext(read('js/hd-city-plans.js'), h.context, {filename: 'js/hd-city-plans.js'});
+    return h;
+}
+function plansPane(h) {return h.nodes['hd-city-menu-status'].querySelector('[data-hd-city-plans]');}
+function planRows(h) {
+    const pane = plansPane(h); return pane ? pane.querySelectorAll('[data-hd-city-order]').map(row => {
+        assert.equal(row.children[0].tagName, 'SPAN'); assert.equal(row.children[1].tagName, 'STRONG');
+        return {slot: Number(row.getAttribute('data-hd-city-order')), order: Number(row.getAttribute('data-hd-city-order-id')),
+            label: row.children[0].textContent, value: row.children[1].textContent};
+    }) : [];
+}
+function assertPlansAbsent(h, reason) {
+    assert.equal(plansPane(h), null, reason); assert.deepEqual(h.keys, [], reason); assert.deepEqual(h.writes, [], reason);
+}
+
+test('arranged city plans show ordinary actors and all nonzero army members in exact queue order', () => {
+    const h = plansHarness();
+    h.plan(3, 24); h.plan(7, 13, 22, {Object: 16}); h.army(2, [20, null, 22, 20, null, null, null, null, null, 199]);
+    h.plan(170, 27, 2, {Object: 16});
+    const before = plain(h.raw), menu = plain(h.menu); h.renderPlans();
+    assert.equal(plansPane(h)?.tagName, 'SECTION');
+    assert.match(plansPane(h).querySelector('h3').textContent, /^本月已安排事务（3）$/);
+    assert.deepEqual(planRows(h), [{slot: 3, order: 24, label: '征兵', value: '吕布'},
+        {slot: 7, order: 13, label: '输送', value: '张辽 → 许昌'},
+        {slot: 170, order: 27, label: '出征', value: '吕布、张辽、吕布、人物199 → 许昌'}]);
+    assert.equal(h.queue.slice(h.city.PersonQueue, h.city.PersonQueue + h.city.Persons).includes(20), false);
+    for (const tag of ['button', 'input', 'a']) assert.equal(plansPane(h).querySelectorAll(tag).length, 0);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged plans exclude foreign cities, other allegiances and empty slots before reading their names', () => {
+    const h = plansHarness(); h.plan(4, 1); h.plan(5, 1); // Repeated native slots remain separate rows.
+    h.plan(6, 3, 70, {City: 1}); h.plan(7, 3, 70); h.plan(8, 6, 71); h.plan(9, 3, 72);
+    h.plan(10, 255, 73); h.plan(171, 27, 29, {City: 1, Object: 16});
+    h.army(2, [20, 70]); h.plan(170, 27, 2, {Object: 16});
+    h.renderPlans();
+    assert.deepEqual(planRows(h).map(row => [row.slot, row.order, row.value]), [[4, 1, '吕布'], [5, 1, '吕布']]);
+    for (const hiddenId of [70, 71, 72, 73]) assert.equal(h.personCalls.includes(hiddenId), false, String(hiddenId));
+    h.city.Belong = 2; h.renderPlans(); assertPlansAbsent(h, 'the selected city is no longer owned');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged plans use only order-relevant fields and never invent countdowns or pending resource amounts', () => {
+    const labels = [[0, '归队'], [1, '开垦'], [2, '招商'], [3, '搜寻'], [4, '治理'], [5, '出巡'], [6, '招降'],
+        [11, '交易'], [13, '输送'], [14, '移动'], [15, '离间'], [16, '招揽'], [17, '策反'], [19, '劝降'],
+        [23, '侦察'], [24, '征兵'], [26, '掠夺']];
+    const h = plansHarness(); let unusedReads = 0;
+    labels.forEach(([id], slot) => {
+        const order = h.plan(slot, id, 20, {Object: 16});
+        for (const field of ['Money', 'Food', 'Arms', 'Consume', 'TimeCount', ...([13, 14, 23].includes(id) ? [] : ['Object'])]) {
+            Object.defineProperty(order, field, {get() {unusedReads++; throw Error('unused original field read');}, configurable: true});
+        }
+    });
+    for (const field of ['Person', 'City', 'Object'])Object.defineProperty(h.orders[199], field, {
+        get() {unusedReads++; throw Error('empty slot metadata read');}, configurable: true});
+    h.renderPlans();
+    assert.deepEqual(planRows(h).map(row => [row.order, row.label, row.value]), labels.map(([id, label]) =>
+        [id, label, '吕布' + ([13, 14, 23].includes(id) ? ' → 许昌' : '')]));
+    assert.equal(unusedReads, 0); assert.doesNotMatch(plansPane(h).textContent, /TimeCount|倒计时|剩余.*月|Money|Food|Arms/);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    const empty = plansHarness(); empty.renderPlans();
+    assert.ok(plansPane(empty)); assert.match(plansPane(empty).textContent, /本月已安排事务（0）/);
+    assert.match(plansPane(empty).textContent, /暂无/); assert.deepEqual(planRows(empty), []);
+});
+
+test('arranged plans withdraw torn queue/source reads and synchronous name-reader reentry, then recover cleanly', () => {
+    const seed = plansHarness(); seed.plan(2, 24); seed.renderPlans();
+    assert.equal(planRows(seed).length, 1);
+    const lastNameCall = seed.personCalls.filter(id => id === 20).length; assert.ok(lastNameCall >= 2);
+    const mutations = [h => {h.orders[199].OrderId = 1; h.orders[199].Person = 22;},
+        h => h.orders[2].OrderId = 3, h => h.people[20].Belong = 2,
+        h => h.raw.g_OrderQueue = h.orders.slice(), h => h.raw.g_Persons = h.people.slice(),
+        h => h.context.baye.data = h.readonlyPlans({...h.raw}),
+        h => h.people.pop(), h => h.cities.pop(), h => h.orders.push({OrderId: 255}),
+        h => h.identity.generation++, h => h.identity.sha256 = 'changed-library',
+        h => h.raw.g_MonthDate++, h => h.raw.g_PlayerKing = 1,
+        h => {h.raw.g_hdMenuSeq++; h.menu.seq++;}, h => h.raw.g_hdMapCity = 2];
+    for (const mutate of mutations) {
+        const h = plansHarness(); h.plan(2, 24); let calls = 0, fired = false;
+        h.nameHook(id => {if (id === 20 && ++calls === lastNameCall) {fired = true; mutate(h);}});
+        h.renderPlans(); assert.equal(fired, true); assertPlansAbsent(h, 'last name callback changed the observed source');
+    }
+    const h = plansHarness(); h.plan(2, 24); let reentered = false;
+    h.nameHook(id => {if (id === 20 && !reentered) {reentered = true; h.renderPlans();}});
+    h.renderPlans(); assert.equal(reentered, true); assertPlansAbsent(h, 'synchronous render reentry');
+    h.nameHook(null); h.renderPlans(); assert.equal(planRows(h).length, 1);
+    Object.assign(h.hud.state, {open: false}); h.renderPlans(); assertPlansAbsent(h, 'closed city shell');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged plans reject malformed local orders and ambiguous or incomplete native armies as a whole', () => {
+    const mutations = [h => delete h.raw.FIGHTERS_IDX, h => delete h.raw.FIGHTERS,
+        h => h.fighterIndex.pop(), h => h.fighters.pop(), h => h.fighterIndex[2] = 0, h => h.fighterIndex[2] = 2,
+        h => {h.fighters[40] = h.fighters[41] = 0;}, h => h.fighters[40] = -1,
+        h => {h.fighters[42] = 201; h.fighters[43] = 0;},
+        h => h.people[22].Belong = null,
+        h => h.orders[170].Person = 30, h => h.plan(171, 27, 2, {Object: 16}),
+        h => h.orders[170].Object = 38, h => h.orders[2].OrderId = 20,
+        h => h.orders[2].Person = 200, h => h.names.set(20, ''),
+        h => h.orders.pop(), h => h.people.pop(), h => h.cities.pop(),
+        h => h.context.baye.getPersonCount = () => 2000];
+    for (const mutate of mutations) {
+        const h = plansHarness(); h.plan(2, 24); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16});
+        mutate(h); h.renderPlans(); assertPlansAbsent(h, 'invalid local plan or native army');
+        assert.equal(h.personCalls.includes(70), false, 'enemy army members are not resolved to hidden names');
+    }
+});
