@@ -6579,10 +6579,10 @@
         }
         var items = preferEngineNames(SUBS[kind] || []);
         var rules = null;
-        if (kind === 'neizheng' && state.open && state.layer === 'sub' && state.subKind === kind && !document.hidden && shouldShowHd() &&
-            global.BayeHdCityRules && typeof BayeHdCityRules.read === 'function') { rules = BayeHdCityRules.read(state.cityIndex); }
+        if (SUBS[kind] && state.open && state.layer === 'sub' && state.subKind === kind && !document.hidden && shouldShowHd() &&
+            global.BayeHdCityRules && typeof BayeHdCityRules.read === 'function') { rules = BayeHdCityRules.read(state.cityIndex,kind); }
         if (rules && (!state.open || state.layer !== 'sub' || state.subKind !== kind || rules.cityIndex !== state.cityIndex ||
-            document.hidden || JSON.stringify(items) !== JSON.stringify(SUBS.neizheng))) { rules = null; }
+            rules.kind !== kind || document.hidden || JSON.stringify(items) !== JSON.stringify(SUBS[kind]))) { rules = null; }
         var sig = kind + ':' + items.join(',') + ':' + (rules ? JSON.stringify(rules.rows) : '');
         if (state.listKind === sig && list.children.length) {
             applyHighlight();
@@ -9377,7 +9377,7 @@
                 if (!hdReady() || !state.open) {
                     return;
                 }
-                if (!mobileHost && state.layer === 'sub' && state.subKind === 'neizheng') { fillSubList(state.subKind); }
+                if (!mobileHost && state.layer === 'sub' && SUBS[state.subKind]) { fillSubList(state.subKind); }
                 if (retireMobileEquipmentMap()) { return; }
                 if (syncMobileTrade() && !state.open) { return; }
                 // A person-picker cancellation can return directly to GetCitySet

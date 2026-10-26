@@ -2745,9 +2745,11 @@ test('arranged city plans show ordinary actors and all nonzero army members in e
     assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
 });
 
-// Rule hints belong to a real native interior SUB, never to a retained PERSON
+// Rule hints belong to a real native city SUB, never to a retained PERSON
 // label. ROOT and SUB are published separately, as the C menus publish them.
 const cityRuleNames = ['开垦', '招商', '搜寻', '治理', '出巡', '招降', '处斩', '流放', '赏赐', '没收', '交易', '宴请', '输送', '移动'];
+const cityRuleGroups = {neizheng: cityRuleNames, waijiao: ['离间', '招揽', '策反', '反间', '劝降'],
+    junbei: ['侦察', '征兵', '分配', '掠夺', '出征']};
 const cityRuleHooks = ['cityMakeCommand', 'willOpenMenu', 'willChangeMenuSelection', 'onMenuIdle',
     'willCloseMenu', 'willAddOrder', 'willExecuteOrder', 'willGiveTool', 'willTakeOffTool'];
 function rulesHarness({spyClicks = false} = {}) {
@@ -2758,21 +2760,23 @@ function rulesHarness({spyClicks = false} = {}) {
             'function chooseSub(index) { if (global.__ruleChooseSub) { global.__ruleChooseSub(index); return; }');
     }
     const h = plansHarness({sourceText});
-    h.config = {citiesCount: 38, enable16bitConsumeMoney: 0, fixConsumeMoney: 0, fixThewOverFlow: 0};
+    h.config = {citiesCount: 38, enable16bitConsumeMoney: 0, fixConsumeMoney: 0, fixThewOverFlow: 0,
+        fixAlienateComsumeThew: 0, armsPerMoney: 10};
     h.raw.g_engineConfig = h.config;
     Object.assign(h.hud.state, {layer: 'root', subKind: '', deepKind: '', deepLabel: '', listKind: ''});
     Object.assign(h.menu, {index: 0, itemLen: 5, packedNames: h.menu.names.slice()}); h.raw.g_hdMenuIndex = 0;
     h.root.contains = node => node === h.root || walk(h.root).includes(node);
     h.subClicks = []; h.context.__ruleChooseSub = index => h.subClicks.push(index);
     vm.runInContext(read('js/hd-city-rules.js'), h.context, {filename: 'js/hd-city-rules.js'});
-    h.readRules = (cityIndex = 0) => {const dto = h.context.BayeHdCityRules.read(cityIndex); return dto === null ? null : plain(dto);};
-    h.publishRuleSub = (index = 0) => {
-        Object.assign(h.menu, {active: 1, context: 1, kind: 2, seq: 9, count: 14, index,
-            generation: 3, detailGeneration: 3, names: cityRuleNames.slice(), packedNames: cityRuleNames.slice(),
+    h.readRules = (cityIndex = 0, kind = 'neizheng') => {const dto = h.context.BayeHdCityRules.read(cityIndex, kind); return dto === null ? null : plain(dto);};
+    h.publishRuleSub = (index = 0, kind = 'neizheng') => {
+        const names = cityRuleGroups[kind]; assert.ok(names);
+        Object.assign(h.menu, {active: 1, context: 1, kind: 2, seq: 9, count: names.length, index,
+            generation: 3, detailGeneration: 3, names: names.slice(), packedNames: names.slice(),
             itemLen: 5, idsValid: false, ids: []});
         Object.assign(h.raw, {g_hdMenuActive: 1, g_hdMenuContext: 1, g_hdMenuKind: 2,
-            g_hdMenuSeq: 9, g_hdMenuCount: 14, g_hdMenuIndex: index});
-        Object.assign(h.hud.state, {layer: 'sub', subKind: 'neizheng', idleIndex: index, listKind: ''});
+            g_hdMenuSeq: 9, g_hdMenuCount: names.length, g_hdMenuIndex: index});
+        Object.assign(h.hud.state, {layer: 'sub', subKind: kind, idleIndex: index, listKind: ''});
     };
     h.renderRules = () => h.hud.render();
     h.startRules = () => {h.context.BayeHdCityMenu.start(); h.pollRules = h.intervals.at(-1); assert.equal(typeof h.pollRules, 'function');};
@@ -2932,6 +2936,120 @@ test('interior rule three-read fences reject last-sample source, menu, hook, con
         Object.defineProperty(h.config, 'fixConsumeMoney', {value: 0, writable: true, configurable: true});
         assert.equal(h.readRules().rows.length, 14, 'a later independent read recovers after the torn transaction');
         h.renderRules(); assert.equal(ruleHints(h).length, 14); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('diplomacy and military rule references retain all ten exact native names, IDs, click indices and stable nodes without input', () => {
+    const expected = {waijiao: [[15, 20, 50, ''], [16, 20, 50, ''], [17, 20, 50, ''], [18, 0, 0, ''], [19, 10, 50, '']],
+        junbei: [[23, 10, 20, ''], [24, 12, null, 'recruit'], [25, 0, 0, ''], [26, 12, 0, ''], [27, 0, 0, 'march']]};
+    for (const kind of ['waijiao', 'junbei']) {
+        const h = rulesHarness({spyClicks: true}); h.publishRuleSub(2, kind);
+        const before = plain(h.raw), menu = plain(h.menu); h.startRules(); const dto = h.readRules(0, kind);
+        assert.equal(dto.kind, kind); assert.equal(dto.cityIndex, 0);
+        assert.deepEqual(dto.rows.map(row => [row.command, row.thew, row.money, row.variable]), expected[kind]);
+        const buttons = ruleButtons(h), hints = ruleHints(h); assert.equal(buttons.length, 5); assert.equal(hints.length, 5);
+        for (let index = 0; index < 5; index++) {
+            assert.equal(buttons[index].getAttribute('data-hd-sub'), String(index));
+            assert.equal(buttons[index].children[0].textContent, cityRuleGroups[kind][index]);
+            assert.equal(hints[index].getAttribute('data-hd-city-rule'), String(expected[kind][index][0]));
+            assert.equal(hints[index].textContent, dto.rows[index].text); assert.equal(hints[index].parentElement, buttons[index]);
+            assert.notEqual(buttons[index].disabled, true); assert.equal(buttons[index].getAttribute('aria-disabled'), null);
+            dispatch(h, 'click', index % 2 ? hints[index] : buttons[index].children[0], {detail: 1});
+        }
+        assert.deepEqual(h.subClicks, [0, 1, 2, 3, 4]);
+        for (let count = 0; count < 3; count++) h.pollRules();
+        ruleButtons(h).forEach((button, index) => assert.equal(button, buttons[index], 'ordinary same-owner polls retain every button'));
+        assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('diplomacy distinguishes actor checks from legacy enemy-target stamina consumption and never charges the empty realienate branch', () => {
+    const h = rulesHarness(); h.publishRuleSub(0, 'waijiao');
+    ruleLibrary(h, {thew: {15: 7, 16: 8, 17: 9, 18: 245, 19: 11}, money: {15: 31, 16: 32, 17: 33, 18: 246, 19: 34}});
+    let dto = h.readRules(0, 'waijiao'), row = dto.rows[0];
+    assert.deepEqual([row.checkThew, row.thew, row.money, row.thewSubject], [7, 7, 31, 'target']);
+    assert.match(row.text, /己将.*检查.*7/); assert.match(row.text, /敌将.*(?:体力|消耗).*7/); assert.match(row.text, /金钱 31/);
+    const inactive = dto.rows[3]; assert.deepEqual([inactive.command, inactive.checkThew, inactive.thew, inactive.money], [18, 0, 0, 0]);
+    assert.match(inactive.text, /原版暂未实现/); assert.doesNotMatch(inactive.text, /245|246/);
+    h.renderRules(); const old = ruleHints(h)[0];
+    for (const flag of [2, 255]) {
+        h.config.fixAlienateComsumeThew = flag; row = h.readRules(0, 'waijiao').rows[0];
+        assert.deepEqual([row.checkThew, row.thew, row.money, row.thewSubject], [7, 7, 31, 'actor']);
+        assert.match(row.text, /体力.*7/); assert.doesNotMatch(row.text, /敌将.*(?:体力|消耗)/);
+    }
+    h.renderRules(); assert.notEqual(ruleHints(h)[0], old, 'changing the charged subject updates the visible rule');
+    ruleLibrary(h, {money16: true, money: {15: 513, 16: 1025, 17: 2049, 18: 65535, 19: 4097}});
+    for (const flag of [2, 255]) {
+        h.config.enable16bitConsumeMoney = flag;
+        assert.deepEqual(h.readRules(0, 'waijiao').rows.map(row => row.money), [513, 1025, 2049, 0, 4097]);
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('military uses recruitment money checks and quantity division, the actual plunder T24 key, free distribution and selected march food', () => {
+    const h = rulesHarness(); h.publishRuleSub(1, 'junbei');
+    ruleLibrary(h, {thew: {23: 5, 24: 7, 25: 251, 26: 252, 27: 253},
+        money16: true, money: {23: 2049, 24: 513, 25: 65533, 26: 65534, 27: 1025}});
+    h.config.enable16bitConsumeMoney = 255;
+    for (const rate of [1, 10, 255]) {
+        h.config.armsPerMoney = rate; const rows = h.readRules(0, 'junbei').rows;
+        assert.deepEqual([rows[0].thew, rows[0].money], [5, 2049]);
+        assert.deepEqual([rows[1].thew, rows[1].checkThew, rows[1].money, rows[1].checkMoney, rows[1].armsPerMoney, rows[1].variable],
+            [7, 7, null, 513, rate, 'recruit']);
+        assert.match(rows[1].text, /金钱检查 513/); assert.ok(rows[1].text.includes('每 ' + rate + ' 兵 1 钱')); assert.match(rows[1].text, /余数不计/);
+        assert.deepEqual([rows[2].thew, rows[2].checkThew, rows[2].money], [0, 0, 0], 'distribution changes allocation without spending T25 or M25');
+        assert.deepEqual([rows[3].thew, rows[3].checkThew, rows[3].money], [7, 7, 0], 'plunder checks and spends CONSCRIPTION stamina rather than T26');
+        assert.deepEqual([rows[4].thew, rows[4].checkThew, rows[4].money, rows[4].variable], [0, 0, 1025, 'march']);
+        assert.match(rows[4].text, /粮草.*另计/); assert.doesNotMatch(rows[4].text, /253/);
+    }
+    h.renderRules(); assert.equal(ruleHints(h).length, 5);
+    for (const value of [0, null, false, '10', -1, 1.5, 256]) {
+        h.config.armsPerMoney = value; assert.equal(h.readRules(0, 'junbei'), null, 'zero or malformed divisor cannot produce a recruitment rule');
+        h.renderRules(); assertRulesAbsent(h, 'invalid recruitment config withdraws the whole military enhancement');
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('new SUB rules reject equal-count cross-group publications, malformed bindings and ordinary-poll invalidation without changing native names', () => {
+    const invalid = [h => h.menu.names.reverse(), h => h.menu.names[0] = '同名自定义', h => h.menu.count = 14,
+        h => h.raw.g_hdMenuCount = 14, h => h.raw.g_hdMenuSeq++, h => h.menu.index = 5,
+        h => h.raw.g_hdQtyActive = 1, h => h.raw.g_hdReportActive = 1, h => h.city.Belong = 2,
+        h => h.identity.sha256 = 'other-library', h => h.context.baye.hooks.willAddOrder = () => -1];
+    for (const kind of ['waijiao', 'junbei']) {
+        for (const change of invalid) {
+            const h = rulesHarness(); h.publishRuleSub(0, kind); h.renderRules(); assert.equal(ruleHints(h).length, 5);
+            change(h); assert.equal(h.readRules(0, kind), null); h.renderRules(); assertRulesAbsent(h, 'stale source cannot retain any rule');
+            assert.deepEqual(ruleButtons(h).map(button => button.textContent), h.menu.names, 'plain native labels remain available');
+        }
+        const h = rulesHarness(); h.publishRuleSub(0, kind);
+        for (const other of ['neizheng', kind === 'waijiao' ? 'junbei' : 'waijiao', '', 'constructor', '__proto__', null]) {
+            assert.equal(h.readRules(0, other), null, 'same count and retained UI labels cannot identify another command group');
+        }
+        h.startRules(); assert.equal(ruleHints(h).length, 5); h.context.baye.hooks.cityMakeCommand = () => 0; h.pollRules();
+        assertRulesAbsent(h, 'ordinary PC SUB poll withdraws invalid diplomacy/military rules');
+        assert.deepEqual(ruleButtons(h).map(button => button.textContent), cityRuleGroups[kind]);
+    }
+    const h = rulesHarness(); h.publishRuleSub(0, 'waijiao'); h.startRules();
+    h.publishRuleSub(0, 'junbei'); h.pollRules(); assert.deepEqual(ruleHints(h).map(hint => Number(hint.getAttribute('data-hd-city-rule'))), [23, 24, 25, 26, 27]);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('new rule configs are fenced against final-sample changes and synchronous getter reentry, with independent-read recovery', () => {
+    for (const [kind, field, changed] of [['waijiao', 'fixAlienateComsumeThew', 2], ['junbei', 'armsPerMoney', 11]]) {
+        const h = rulesHarness(); h.publishRuleSub(0, kind); const getMenu = h.context.baye.hd.menuItems; let samples = 0;
+        h.context.baye.hd.menuItems = function () {samples++; return getMenu();};
+        assert.equal(h.readRules(0, kind).rows.length, 5); const last = samples; assert.ok(last >= 3);
+        let calls = 0, fired = false;
+        h.context.baye.hd.menuItems = function () {if (++calls === last) {fired = true; h.config[field] = changed;} return getMenu();};
+        assert.equal(h.readRules(0, kind), null, 'the last native callback cannot change the rule config'); assert.equal(fired, true);
+        h.context.baye.hd.menuItems = getMenu; assert.equal(h.readRules(0, kind).rows.length, 5);
+        const original = h.config[field]; let entered = false, nested = 'not entered';
+        Object.defineProperty(h.config, field, {get() {if (!entered) {entered = true; nested = h.readRules(0, kind);} return original;}, configurable: true});
+        assert.equal(h.readRules(0, kind), null); assert.equal(entered, true); assert.equal(nested, null);
+        Object.defineProperty(h.config, field, {value: original, configurable: true, writable: true});
+        assert.equal(h.readRules(0, kind).rows.length, 5, 'fresh reader recovers after the nested read');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
     }
 });
 
