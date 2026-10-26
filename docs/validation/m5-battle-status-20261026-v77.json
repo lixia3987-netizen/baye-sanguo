@@ -1,0 +1,288 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V77",
+  "parentCommit": "ced47c90d8959843c8f39b007b9e81f4f0fd4f41",
+  "feature": "Current player battle weather, own supplies and native day/limit",
+  "accepted": true,
+  "started": "2026-10-26T08:26:14.280Z",
+  "finished": "2026-10-26T08:26:16.667Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 257,
+  "pass": 257,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44136,
+      "sha256": "8f8a2630155d1f2a388bca40b37b801b88e3024dd70a8440c06e7dcb8832981c"
+    },
+    {
+      "path": "js/hd-battle-status.js",
+      "bytes": 4434,
+      "sha256": "64717be1119c1eaa84302dda309e10038ba087634d774831769d1ff665678d44"
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 82293,
+      "sha256": "3b296e444c300bf212297777049e1a256593d1c38530097ed96f1bc19c9b097a"
+    },
+    {
+      "path": "js/hd-mobile-battle.js",
+      "bytes": 32143,
+      "sha256": "4250784387a08cd6d27c31172af0099db6c5a722e7312ea88e2866155131dd9b"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 36222,
+      "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+    },
+    {
+      "path": "css/hd-battle.css",
+      "bytes": 6544,
+      "sha256": "e973e1064bd5d0a49d1673a723b2b39a1945f14ac525cca9e0afdc571ffce747"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 31872,
+      "sha256": "17cab5d5fdac4b97e665db92af0ca01e712b0701c77677b75ac6a35cf74480b7"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 29565,
+      "sha256": "b7e0b78e4ab788ea8af1a363cf5365dcec7106fabb9baa1e9b83cc0c02787a30"
+    },
+    {
+      "path": "m.html",
+      "bytes": 19460,
+      "sha256": "a9da39fbb3802c0b8d20c79897d77be354d06274a47cd00be6086660d8be95e6"
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.h",
+      "bytes": 19624,
+      "sha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5"
+    },
+    {
+      "path": "scripts/test-hd-battle-commands.mjs",
+      "bytes": 39629,
+      "sha256": "310310fa662f5705ff0a917a57377427cebb32b0143c5331c6f9cd1234df8f81"
+    },
+    {
+      "path": "scripts/test-hd-battle-mode.mjs",
+      "bytes": 21291,
+      "sha256": "e2aa72a57fa815189b513a32f9ab9d8beaa071574a51cea95a175e9beb0ca222"
+    },
+    {
+      "path": "scripts/test-hd-battle-mobile-host.mjs",
+      "bytes": 17259,
+      "sha256": "1497765ab181e5fd3e22a7d688dd607cc29e8c9dca3c5235b92cab352e778141"
+    },
+    {
+      "path": "scripts/test-hd-mobile-battle.mjs",
+      "bytes": 52239,
+      "sha256": "30379f5a5c400b355ca8598ac036fe534b8a6d4f3d7ddc30e498b264213cb69b"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 5,
+  "fullSuiteRun": false,
+  "scope": "Four relevant battle modules including the existing C main-menu contract; no campaign, WASM rebuild or full suite",
+  "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+  "compilerVersion": 18,
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "targetedTool": {
+    "chunk": "3f30d4",
+    "exitCode": 0
+  },
+  "rawTap": {
+    "path": "build/battle-status-20261026-v77/targeted-v2.stdout.tap",
+    "bytes": 54488,
+    "sha256": "15bd53c91644145e3faedc385bb0ce1a70d7a6e3c00a43aa5be9ada9692e4746"
+  },
+  "stderr": {
+    "path": "build/battle-status-20261026-v77/targeted-v2.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "retainedFirstAttempt": {
+    "result": {
+      "path": "build/battle-status-20261026-v77/targeted-v1.json",
+      "bytes": 2548,
+      "sha256": "edc8abd8cc0b7a47e6f3080c7c0d1a14bfe75d56abf674d86ed7219ce15b7928"
+    },
+    "stdout": {
+      "path": "build/battle-status-20261026-v77/targeted-v1.stdout.tap",
+      "bytes": 55782,
+      "sha256": "9c5094a85c68f58007893f2322e291d12ef0b253431b208ab85396490d5b4deb"
+    },
+    "exactFailedTestSource": {
+      "path": "build/battle-status-20261026-v77/test-hd-battle-commands-failed-v1.mjs",
+      "bytes": 39446,
+      "sha256": "741e048da9acd685c5f71d4a8e3a521317bd8a6345f58a9cce0f2b847a9a80a1"
+    },
+    "tool": {
+      "path": "build/battle-status-20261026-v77/raw-targeted-terminal-v1.json",
+      "bytes": 3079,
+      "sha256": "16989057f3420fcfd0e25477b12b9d8faa3a4f7ae4b8447a54be274646fc6f73"
+    },
+    "tests": 257,
+    "pass": 255,
+    "fail": 2,
+    "reasons": [
+      "New test incorrectly expected the main battle status during HELP/VIEW ownership",
+      "Existing C menu contract could not find default cc on PATH"
+    ],
+    "fixes": [
+      "Assert hidden and cleared UI for HELP/VIEW while retaining direct current DTO and zero-input checks",
+      "Select the existing Clang 18 executable with CC"
+    ]
+  },
+  "layout": {
+    "kind": "Controlled static DOM/CSS layout checks; mock values, no game runtime",
+    "toolChunk": "e86b4d",
+    "results": [
+      {
+        "name": "pc",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 1264,
+            "height": 625
+          },
+          "status": {
+            "x": 847.234375,
+            "y": 597,
+            "width": 320.3125,
+            "height": 20
+          },
+          "footer": {
+            "x": 180.4375,
+            "y": 585,
+            "width": 347.90625,
+            "height": 36
+          },
+          "side": null,
+          "statusText": "第65535天 / 上限65535天天气 冰雹我方粮草 65535",
+          "statusScrollHeight": 20,
+          "statusClientHeight": 20,
+          "horizontalOverflow": false,
+          "statusFooterOverlap": false
+        },
+        "screenshot": {
+          "path": "docs/validation/m5-battle-status-20261026-v77-pc.png",
+          "bytes": 21949,
+          "sha256": "11548159dd869e4f22075e420981294c17dd6acde9413f9c05e36405079bc08d"
+        },
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      {
+        "name": "mobile",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 651,
+            "height": 280
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 651,
+            "height": 280
+          },
+          "status": {
+            "x": 463,
+            "y": 26,
+            "width": 184,
+            "height": 34
+          },
+          "footer": {
+            "x": 4,
+            "y": 232,
+            "width": 643,
+            "height": 48
+          },
+          "side": {
+            "x": 463,
+            "y": 0,
+            "width": 184,
+            "height": 228
+          },
+          "statusText": "第65535天 / 上限65535天天气 冰雹我方粮草 65535",
+          "statusScrollHeight": 34,
+          "statusClientHeight": 34,
+          "horizontalOverflow": false,
+          "statusFooterOverlap": false
+        },
+        "screenshot": {
+          "path": "docs/validation/m5-battle-status-20261026-v77-mobile.png",
+          "bytes": 9856,
+          "sha256": "cc85cd4a064f4e41b463f5bdd8838543f6b7645ec3a7dfa63b5c5ad7d7f64528"
+        },
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      }
+    ],
+    "browserRuns": 2,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false,
+    "viewportNote": "Initial DOM geometry and final headless PNG output dimensions are separate observations"
+  },
+  "nativeModeScope": [
+    0,
+    1
+  ],
+  "automaticNpcModeAccepted": false,
+  "ownFoodSource": "g_FgtParam.MProvender",
+  "enemyFoodRead": false,
+  "rawDayFields": [
+    "g_FgtBoutCnt",
+    "g_FgtBoutMax"
+  ],
+  "dayFieldBits": 16,
+  "weatherLabels": {
+    "1": "晴",
+    "2": "阴",
+    "3": "风",
+    "4": "雨",
+    "5": "冰雹"
+  },
+  "staticPeerReview": {
+    "verdict": "GO",
+    "newExecution": false
+  },
+  "engineRebuilt": false,
+  "nativeSourcesChanged": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false,
+  "realDeviceAccepted": false,
+  "stablePerformanceAccepted": false,
+  "validationPolicy": "Four relevant modules plus controlled static layout; full suite, actual battles and tuning deferred"
+}

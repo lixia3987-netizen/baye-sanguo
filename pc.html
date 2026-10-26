@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/hd-graphics.css?ver=20261024focus1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261023a"/>
     <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261026resources1"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20261008j"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20261026status1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20261024king1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261026filter1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261008k"/>
@@ -159,6 +159,7 @@
     <div class="hd-battle-stage">
         <canvas id="hd-battle-canvas" width="1920" height="1080"></canvas>
         <div id="hd-battle-hud" class="hd-battle-hud">HD 战场</div>
+        <div id="hd-battle-context" class="hd-battle-context" aria-label="战场概况" hidden></div>
         <div id="hd-battle-tip" class="hd-battle-tip" data-hd-battle-tip hidden></div>
         <div id="hd-battle-result" class="hd-battle-result" hidden></div>
         <div id="hd-battle-menu" class="hd-battle-menu" hidden>
@@ -334,7 +335,8 @@
 <script src="js/hd-city-menu.js?ver=20261026plans1"></script>
     <script src="js/hd-battle-terrain.js?ver=20261008i"></script>
     <script src="js/hd-battle-feedback.js?ver=20261008a"></script>
-    <script src="js/hd-battle.js?ver=20261011c"></script>
+    <script src="js/hd-battle-status.js?ver=20261026status1"></script>
+    <script src="js/hd-battle.js?ver=20261026status1"></script>
     <script src="js/hd-system-ui.js?ver=20261024king1"></script>
 <script src="js/hd-dialog.js?ver=20261026report1"></script>
 <script src="js/hd-battle-scene.js?ver=20261011a"></script>

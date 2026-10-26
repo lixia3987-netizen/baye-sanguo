@@ -18,6 +18,10 @@ HELP 9 和 VIEW 10 保留原生 LCD，置于 HD 战场上方。返回只发送�
 
 专项回归：`npm run test:battle-commands`、`npm run test:battle-mode`、`npm run test:engine-protocol`。真实流程：`npm run test:battle-runtime`。实际通过范围记录在开发计划中。
 
+## 原版战场概况
+
+PC与手机共用只读天气／我方粮草／战斗天数状态条。仅当前原版活动战场及玩家Mode0／1显示；我方粮草来自MProvender，不读取EProvender。天气1..5遵循原C，天数与上限保留原始U16值，零粮不误判为缺失；非法字段标未读取。报告、HELP／VIEW、结束、经典模式与来源漂移撤行。界面只展示当前状态，不判断剩余回合或胜败，不改变原生输入。开发验证与限制见[V77记录](validation/m5-battle-status-20261026-v77.md)。
+
 ## M4 战场识别与目标预览
 
 将领以阵营旗标显示原生有效兵种、姓名和实际兵力，并区分待行动、已行动及当前将领。焦点详情显示原生 HP、MP 和状态，不以固定 100 为属性上限。兵种来自包含装备修正的 `getArmType`；当前导出只接受 U8 人物索引，超过 256 的人物编号或缺少字段时显示通用旗标，避免截断后读到另一人物。

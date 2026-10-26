@@ -97,6 +97,18 @@ html[data-baye-battle="hd"] #hd-overworld {
     pointer-events: none;
 }
 
+.hd-battle-context[hidden] { display: none !important; }
+.hd-battle-context {
+    position: absolute; right: 20px; bottom: 20px; max-width: calc(100% - 620px);
+    display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 12px;
+    color: #dfebf6; font: 14px/20px BayeUI, "Microsoft YaHei", sans-serif;
+    text-shadow: 0 1px 2px #000; pointer-events: none;
+}
+.hd-battle-context > span { white-space: nowrap; }
+@container (max-height: 800px) {
+    .hd-battle-context { bottom: 8px; max-width: calc(100% - 580px); font-size: 13px; gap: 4px 8px; }
+}
+
 .hd-battle-menu {
     position: absolute;
     left: auto;

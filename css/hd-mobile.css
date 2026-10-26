@@ -643,6 +643,14 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
     overscroll-behavior: contain;
     touch-action: pan-y;
 }
+
+.hd-mobile-page #hd-battle-context {
+    position: static; display: flex; flex-wrap: wrap; flex: 0 0 auto; gap: 2px 8px;
+    max-width: 100%; max-height: 64px; overflow: auto; color: #dfebf6;
+    font-size: 12px; line-height: 16px; overscroll-behavior: contain; touch-action: pan-y; pointer-events: auto;
+}
+.hd-mobile-page #hd-battle-context > span { white-space: normal; overflow-wrap: anywhere; }
+.hd-mobile-page #hd-battle-context[hidden] { display: none !important; }
 .hd-mobile-page #hd-mobile-battle-details strong { font-size: 14px; }
 .hd-mobile-page #hd-mobile-battle-details p { margin: 0 0 4px; }
 .hd-mobile-page #hd-battle-menu {

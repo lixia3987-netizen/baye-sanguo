@@ -547,3 +547,178 @@ test('unknown aim kinds and coerced metadata cannot confirm an otherwise marked 
         g.tick(1000);g.poll();assert.deepEqual(g.sent,[]);
     }
 });
+
+// The context bar is observed through the complete battle renderer. The old
+// command fixture stays unchanged; only this fixture mounts its three spans.
+function statusFixture() {
+    const g = game(), document = g.sandbox.document, cache = new WeakMap(), writes = [];
+    function node(tagName = 'div') {
+        const attrs = new Map(); let text = '';
+        const value = {tagName: tagName.toUpperCase(), hidden: false, children: [],
+            setAttribute(name, next) {attrs.set(name, String(next));}, getAttribute: name => attrs.get(name) ?? null,
+            removeAttribute(name) {attrs.delete(name);},
+            appendChild(child) {this.children.push(child); child.parentElement = this; return child;},
+            querySelectorAll(selector) {
+                const match = /^\[data-hd-battle-stat(?:=["']?([^"'\]]+)["']?)?\]$/.exec(selector);
+                return match ? this.children.filter(child => child.getAttribute('data-hd-battle-stat') !== null &&
+                    (match[1] === undefined || child.getAttribute('data-hd-battle-stat') === match[1])) : [];
+            }, querySelector(selector) {return this.querySelectorAll(selector)[0] ?? null;}};
+        Object.defineProperty(value, 'textContent', {get() {return text + value.children.map(child => child.textContent).join('');},
+            set(next) {text = String(next); value.children = [];}});
+        return value;
+    }
+    const context = node(); context.id = 'hd-battle-context'; context.hidden = true;
+    for (const field of ['day', 'weather', 'food']) {const span = node('span'); span.setAttribute('data-hd-battle-stat', field); context.appendChild(span);}
+    const previousNode = document.getElementById;
+    document.hidden = false; document.createElement = node;
+    document.getElementById = id => id === context.id ? context : previousNode(id);
+    const raw = g.data;
+    Object.assign(raw, {g_hdEngineReady: 1, g_hdDetailGeneration: 7, g_PIdx: 1, g_FgtOver: 0,
+        g_FgtWeather: 1, g_FgtBoutCnt: 3, g_FgtBoutMax: 20,
+        g_hdReportActive: 0, g_hdHelpActive: 0, g_hdViewActive: 0});
+    Object.assign(raw.g_FgtParam, {Mode: 1, CityIndex: 16, MProvender: 0});
+    Object.assign(g.fight, {active: 1, over: 0, inputKind: I.PICK, inputSeq: 21, actorIndex: 255,
+        cityIndex: 16, bout: 3, boutMax: 20});
+    function mirror() {
+        for (const [field, target] of Object.entries({active: 'Active', over: 'Over', inputKind: 'InputKind',
+            inputSeq: 'InputSeq', actorIndex: 'Actor'})) raw['g_hdFight' + target] = g.fight[field];
+    }
+    mirror();
+    function readonly(value, at = '') {
+        if (!value || typeof value !== 'object') return value;
+        if (cache.has(value)) return cache.get(value);
+        const proxy = new Proxy(value, {get(target, field) {return readonly(target[field], at + '.' + String(field));},
+            set(target, field) {writes.push(at + '.' + String(field)); throw Error('status observer wrote native data');}});
+        cache.set(value, proxy); return proxy;
+    }
+    g.baye.data = readonly(raw); g.baye.ensureData = () => g.baye.data;
+    const identity = {status: 'ready', generation: 1, byteLength: 207195,
+        sha256: '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'};
+    let current = true, identityHook = null, fightHook = null, currentCalls = 0;
+    g.sandbox.BayeHdLibIdentity = {read: () => identity, isCurrent(value) {
+        const valid = current && value === identity;
+        currentCalls++; if (identityHook) identityHook(currentCalls); return valid;
+    }};
+    g.baye.hd.fight = () => {const value = {...g.fight}; if (fightHook) fightHook(); return value;};
+    g.baye.hd.report = () => ({active: raw.g_hdReportActive});
+    vm.runInNewContext(readFileSync(join(root, 'js/hd-battle-status.js'), 'utf8'), g.sandbox,
+        {filename: 'hd-battle-status.js', timeout: 5000});
+    return Object.assign(g, {raw, context, writes, identity, mirror,
+        observe() {g.api.recoverMenu();}, readStatus() {return g.sandbox.BayeHdBattleStatus.read();},
+        values() {return Object.fromEntries(context.querySelectorAll('[data-hd-battle-stat]')
+            .map(span => [span.getAttribute('data-hd-battle-stat'), span.textContent]));},
+        current(value) {current = value;}, identityHook(value) {identityHook = value; currentCalls = 0;},
+        identityCalls() {return currentCalls;}, fightHook(value) {fightHook = value;}});
+}
+function statusDto(g) {const value = g.readStatus(); return value === null ? null : JSON.parse(JSON.stringify(value));}
+function assertStatusHidden(g, reason) {
+    assert.equal(g.context.hidden, true, reason); assert.equal(g.context.textContent, '', reason);
+    assert.deepEqual(g.sent, [], reason); assert.deepEqual(g.writes, [], reason);
+}
+
+test('native battle context shows all five weather names, exact U16 food and unclamped days for player attack or defence', () => {
+    const g = statusFixture();
+    for (const [weather, label] of [[1, '晴'], [2, '阴'], [3, '风'], [4, '雨'], [5, '冰雹']]) {
+        g.raw.g_FgtWeather = weather;
+        for (const mode of [0, 1]) {
+            g.raw.g_FgtParam.Mode = mode; g.observe();
+            assert.equal(g.context.hidden, false);
+            assert.deepEqual(g.values(), {day: '第3天 / 上限20天', weather: '天气 ' + label, food: '我方粮草 0'});
+            assert.deepEqual(statusDto(g), {weather, food: 0, day: 3, limit: 20});
+        }
+    }
+    g.raw.g_FgtParam.MProvender = 65535; g.raw.g_FgtBoutCnt = 65535; g.raw.g_FgtBoutMax = 0; g.observe();
+    assert.deepEqual(g.values(), {day: '第65535天 / 上限0天', weather: '天气 冰雹', food: '我方粮草 65535'});
+    g.raw.g_FgtBoutCnt = 0; g.raw.g_FgtBoutMax = 65535; g.observe();
+    assert.equal(g.values().day, '第0天 / 上限65535天');
+    assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
+});
+
+test('battle context invalid or absent values become unread independently without hiding a valid owner', () => {
+    const fields = [['weather', 'g_FgtWeather', 5], ['food', 'MProvender', 65535],
+        ['day', 'g_FgtBoutCnt', 65535], ['limit', 'g_FgtBoutMax', 65535]];
+    for (const [field, sourceField, max] of fields) {
+        for (const value of [undefined, null, false, '', '3', -1, max + 1, 1.5, NaN, ...(field === 'weather' ? [0] : [])]) {
+            const g = statusFixture(), target = field === 'food' ? g.raw.g_FgtParam : g.raw;
+            target[sourceField] = value; g.observe();
+            assert.equal(g.context.hidden, false, field + ':' + String(value));
+            assert.deepEqual(statusDto(g), {weather: field === 'weather' ? null : 1,
+                food: field === 'food' ? null : 0, day: field === 'day' ? null : 3, limit: field === 'limit' ? null : 20});
+            assert.match(g.values()[field === 'limit' ? 'day' : field], /未读取/);
+            if (field !== 'food') assert.equal(g.values().food, '我方粮草 0');
+            if (field !== 'weather') assert.equal(g.values().weather, '天气 晴');
+            assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
+        }
+    }
+});
+
+test('battle context withdraws on native higher owners, ended or automatic battles, incomplete owners and unknown sources', () => {
+    const changes = [g => g.raw.g_hdReportActive = 1, g => g.raw.g_hdHelpActive = 1,
+        g => g.raw.g_hdViewActive = 1, g => {g.fight.over = 1; g.mirror();}, g => g.raw.g_FgtOver = 1,
+        g => {g.fight.active = 0; g.mirror();}, g => g.raw.g_FgtParam.Mode = 2,
+        g => delete g.raw.g_FgtParam.Mode, g => g.raw.g_FgtParam.Mode = false, g => g.raw.g_FgtParam.CityIndex = 38,
+        g => g.fight.cityIndex = 15, g => {g.fight.inputKind = 11; g.mirror();},
+        g => {g.fight.inputSeq = 0; g.mirror();}, g => {g.fight.actorIndex = 20; g.mirror();},
+        g => g.raw.g_hdFightInputSeq++, g => g.raw.g_hdFightActor = 0,
+        g => g.raw.g_hdEngineReady = 0, g => g.raw.g_hdDetailGeneration = 0,
+        g => g.raw.g_PIdx = 0, g => g.identity.sha256 = 'unknown-library',
+        g => g.identity.generation = 0, g => g.current(false),
+        g => g.baye.hooks.didShowFightStateBar = () => {throw Error('custom native state bar must not be invoked');}];
+    for (const change of changes) {
+        const g = statusFixture(); g.observe(); assert.equal(g.context.hidden, false);
+        change(g); g.observe(); assertStatusHidden(g, 'withdraw stale native battle context');
+        assert.equal(g.readStatus(), null);
+    }
+});
+
+test('battle context follows live counters in busy and menu phases without reading enemy supplies or delivering inputs', () => {
+    const g = statusFixture(); let enemyReads = 0;
+    Object.defineProperty(g.raw.g_FgtParam, 'EProvender', {get() {enemyReads++; throw Error('enemy supplies are not a public state-bar value');}});
+    const before = JSON.stringify(g.raw, (key, value) => key === 'g_FgtParam' ? {Mode: value.Mode,
+        CityIndex: value.CityIndex, MProvender: value.MProvender, GenArray: value.GenArray} : value);
+    for (let kind = 0; kind <= 10; kind++) {
+        Object.assign(g.fight, {inputKind: kind, inputSeq: 30 + kind, actorIndex: kind >= 2 && kind <= 5 ? 0 : 255,
+            phase: 0, wait: 0}); g.mirror();
+        g.raw.g_FgtBoutCnt = kind; g.raw.g_FgtBoutMax = 20; g.raw.g_FgtWeather = kind % 5 + 1;
+        g.raw.g_FgtParam.MProvender = 1000 - kind;
+        g.observe();
+        if (kind === I.HELP || kind === I.VIEW) {
+            assertStatusHidden(g, 'native HELP/VIEW owns the higher detail surface');
+        } else {
+            assert.equal(g.context.hidden, false);
+            assert.equal(g.values().food, '我方粮草 ' + (1000 - kind));
+            assert.equal(g.values().day, '第' + kind + '天 / 上限20天');
+        }
+        assert.deepEqual(statusDto(g), {weather: kind % 5 + 1, food: 1000 - kind, day: kind, limit: 20});
+    }
+    const observed = JSON.stringify(g.raw, (key, value) => key === 'g_FgtParam' ? {Mode: value.Mode,
+        CityIndex: value.CityIndex, MProvender: value.MProvender, GenArray: value.GenArray} : value);
+    for (let i = 0; i < 12; i++) g.observe();
+    assert.equal(JSON.stringify(g.raw, (key, value) => key === 'g_FgtParam' ? {Mode: value.Mode,
+        CityIndex: value.CityIndex, MProvender: value.MProvender, GenArray: value.GenArray} : value), observed);
+    assert.notEqual(before, observed, 'only the controlled native publications above change the fixture');
+    assert.equal(enemyReads, 0); assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
+});
+
+test('battle context refuses final callback source drift and synchronous reentry, then accepts a fresh clean observation', () => {
+    const seed = statusFixture(); seed.identityHook(null); assert.ok(seed.readStatus());
+    const last = seed.identityCalls(); assert.ok(last >= 3, 'identity is checked across three complete source samples');
+    const changes = [g => g.raw.g_FgtWeather = 2, g => g.raw.g_FgtParam.MProvender = 1,
+        g => g.raw.g_FgtBoutCnt++, g => g.raw.g_FgtBoutMax++, g => g.raw.g_FgtParam.Mode = 2,
+        g => g.raw.g_hdReportActive = 1, g => g.raw.g_FgtOver = 1,
+        g => g.raw.g_hdDetailGeneration++, g => g.raw.g_hdFightInputSeq++,
+        g => g.identity.generation++, g => g.identity.sha256 = 'late-library',
+        g => g.baye.data = {...g.raw}, g => g.raw.g_FgtParam = {...g.raw.g_FgtParam}];
+    for (const change of changes) {
+        const g = statusFixture(); let fired = false;
+        g.identityHook(count => {if (count === last) {fired = true; change(g);}});
+        assert.equal(g.readStatus(), null); assert.equal(fired, true);
+        assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
+    }
+    const g = statusFixture(); g.observe(); assert.equal(g.context.hidden, false); let inside = false, reentered = false;
+    g.fightHook(() => {if (!inside) {inside = true; reentered = true; try {g.readStatus();} finally {inside = false;}}});
+    assert.equal(g.readStatus(), null); g.observe(); assert.equal(reentered, true); assertStatusHidden(g, 'reentrant current-owner callback');
+    g.fightHook(null); g.observe(); assert.equal(g.context.hidden, false);
+    assert.deepEqual(statusDto(g), {weather: 1, food: 0, day: 3, limit: 20});
+    g.api.close({force: true, preserveEngine: true}); assertStatusHidden(g, 'closed HD battle shell');
+});
