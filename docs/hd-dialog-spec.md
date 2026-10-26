@@ -27,3 +27,10 @@
 `ShowConstStrMsg`「部队已出发」第一次（引擎卡住、`pick=0`）发一次回车关掉；之后只是残留文本。全屏壳在 `pick=0`、城菜单开着、策略结束交接、`全军撤退` / `fight` 未激活时都必须关掉，且 `data-baye-dialog-pass=1` 不拦截招商/开垦。残留期间不再回车，避免打进 FunctionMenu 或战场。覆没后再出征时，关掉的壳不得把残留「部队已出发」正文交给城菜单当新行军（`clearLeftoverMarch` 清 `state.body`）。
 
 过月策略结束残留的人物台词（如「我虽不愿如此，但也是不得已。」）不是出征步骤。出征向导里 `dismissLeftoverSpeech`：打开出征时若壳开着可回车一次；完成选将之后、以及残留「农业开发度 / 天灾 / 归降 / 部队已出发」一律只关壳。回车这些残留等于策略结束或点进开垦将表。`g_hdMenuBytes` 残留「策略结束」不当活 FunctionMenu。poll 先开 GetFood 数量壳，再处理残留报告 / leftover pick。
+
+
+## 图形消息与手机战场报告（V92）
+
+真实PlcGraMsgBox在原文字绘制后发布kind1，原GamDelay(delay*100,2)前后建立和结束报告owner。delay0并不等同GamMsgBox的直接返回；原无限等待和有限等待的消息区别保持，原图片／line／计时器不变。经验与计谋提示用实际原文，不解析或猜测施法结果。
+
+手机战场报告由getBattleInputTicket返回独立kind:"report"／ownerType:"battle-report"，复用detail=hd表面与原确认39／返回40；原LIB、raw全文与双序号、data／fight／detail代次、模式与生命周期封口，spent按真正native report owner跨blur保留。自然结束撤窗口，旧按压与最后sender回调改变模式／来源均拒发，不依赖完整单位列表、不补发按键。它不扩大既有通用report stack对任意跨reset旧end的保证。具体受控与真实流程边界见[V92记录](validation/m5-graphic-message-20261026-v92.md)。

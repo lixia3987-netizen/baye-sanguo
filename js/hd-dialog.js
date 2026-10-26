@@ -8,6 +8,7 @@
     var mobileHost = null, mobileBattleHost = null, started = false;
     var mobileBattleCommit = null, mobileBattleData = null, mobileCampaignData = null,
         battlePortrait = {key: '', data: null, phase: 'off', serial: 0};
+    var mobileReportReading = false, mobileReportEpoch = 0, mobileReportSpent = null;
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
 
     var state = {
@@ -2458,7 +2459,72 @@
         if (cityInfoOwns(data)) { return null; }
         return {info:info,detail:detail,raw:raw,arrays:arrays};
     }
+    function getBattleReportTicket() {
+        if (mobileReportReading) { mobileReportEpoch += 1; return null; }
+        mobileReportReading = true;
+        var epoch = ++mobileReportEpoch;
+        try {
+            if (!state.open || state.kind !== 'report' || !state.reportOwner || !battleMobileAvailable()) { return null; }
+            var b=global.baye, hd=b && b.hd, api=global.BayeHdLibIdentity, host=mobileBattleHost,
+                battle=global.BayeHdBattle, lib=global.dynLib;
+            if (!b || !hd || !api || !host || !battle || typeof hd.report!=='function' || typeof hd.fight!=='function' ||
+                typeof hd.ready!=='function' || typeof api.read!=='function' || typeof api.isCurrent!=='function') { return null; }
+            var report=hd.report, fight=hd.fight, ready=hd.ready, identify=api.read, current=api.isCurrent,
+                getData=b.ensureData, available=host.isAvailable, show=battle.shouldShowHd,
+                data=typeof getData==='function'?getData.call(b):b.data;
+            var identity=identify.call(api), stamp=JSON.stringify(identity), local=JSON.stringify([state.viewEpoch,state.body,state.reportOwner]);
+            if (!identity || identity.status!=='ready' || identity.byteLength!==207195 ||
+                identity.sha256!=='3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
+                !helpInteger(identity.generation,1,0xffffffff) || current.call(api,identity)!==true ||
+                typeof lib!=='string' || lib.length!==414390 || !data || data!==b.data || ready.call(hd)!==true) { return null; }
+            var fields=['g_hdEngineReady','g_hdDetailGeneration','g_hdFightActive','g_hdFightOver','g_hdFightInputKind',
+                'g_hdFightInputSeq','g_hdReportActive','g_hdReportKind','g_hdReportPerson','g_hdReportSeq','g_hdReportInputSeq'];
+            function raw() {
+                var values=fields.map(function(name){return data[name];});
+                if (!values.every(function(value){return helpInteger(value,0,0xffffffff);}) || cityInfoOwns(data) ||
+                    data.g_hdEngineReady!==1 || !data.g_hdDetailGeneration || data.g_hdFightActive!==1 || data.g_hdFightOver!==0 ||
+                    !helpInteger(data.g_hdFightInputKind,0,10) || !data.g_hdFightInputSeq || data.g_hdReportActive!==1 ||
+                    !helpInteger(data.g_hdReportSeq,1,65535) || !data.g_hdReportInputSeq ||
+                    (data.g_hdReportKind===1 ? data.g_hdReportPerson!==65535 :
+                        data.g_hdReportKind!==2 || !helpInteger(data.g_hdReportPerson,0,199)) ||
+                    typeof data.g_hdReportGbk!=='string' || !looksLikeSpeech(data.g_hdReportGbk)) { return null; }
+                return JSON.stringify([values,data.g_hdReportGbk]);
+            }
+            function sample() {
+                var r=report.call(hd), f=fight.call(hd), source=raw();
+                if (!source || !r || !f || r.active!==1 || r.seq!==data.g_hdReportSeq || r.inputSeq!==data.g_hdReportInputSeq ||
+                    r.kind!==data.g_hdReportKind || r.person!==data.g_hdReportPerson || r.text!==data.g_hdReportGbk ||
+                    f.active!==1 || f.over!==0 || f.inputKind!==data.g_hdFightInputKind || f.inputSeq!==data.g_hdFightInputSeq ||
+                    !sameReport(state.reportOwner,{seq:r.seq,inputSeq:r.inputSeq}) || state.body!==r.text) { return null; }
+                return source;
+            }
+            var first=sample(), second=sample(), again=identify.call(api), valid=current.call(api,identity), shown=battleMobileAvailable();
+            if (!first || first!==second || !shown || valid!==true || stamp!==JSON.stringify(identity) || stamp!==JSON.stringify(again) ||
+                first!==raw() || global.baye!==b || b.hd!==hd || b.data!==data || b.ensureData!==getData ||
+                hd.report!==report || hd.fight!==fight || hd.ready!==ready || global.BayeHdLibIdentity!==api ||
+                api.read!==identify || api.isCurrent!==current || global.dynLib!==lib || mobileBattleHost!==host ||
+                host.isAvailable!==available || global.BayeHdBattle!==battle || battle.shouldShowHd!==show ||
+                !state.open || state.kind!=='report' || local!==JSON.stringify([state.viewEpoch,state.body,state.reportOwner]) ||
+                document.hidden || epoch!==mobileReportEpoch) { return null; }
+            var ownerKey=JSON.stringify([identity.generation,data.g_hdDetailGeneration,data.g_hdReportSeq,data.g_hdReportInputSeq]);
+            var ticket={kind:'report',ownerType:'battle-report',seq:data.g_hdReportInputSeq,detailSeq:data.g_hdReportSeq,
+                generation:data.g_hdDetailGeneration,libraryGeneration:identity.generation,
+                ownerKey:ownerKey,key:JSON.stringify([ownerKey,state.viewEpoch,first]),text:state.body};
+            Object.defineProperty(ticket,'data',{value:data,enumerable:false});
+            Object.defineProperty(ticket,'seal',{value:function(){
+                var isReady=ready.call(hd), shown=battleMobileAvailable();
+                return isReady===true && shown && first===raw() && global.baye===b && b.hd===hd && b.data===data && b.ensureData===getData &&
+                    hd.report===report && hd.fight===fight && hd.ready===ready && global.BayeHdLibIdentity===api &&
+                    api.read===identify && api.isCurrent===current && global.dynLib===lib &&
+                    mobileBattleHost===host && host.isAvailable===available && global.BayeHdBattle===battle && battle.shouldShowHd===show &&
+                    state.open && state.kind==='report' && local===JSON.stringify([state.viewEpoch,state.body,state.reportOwner]) &&
+                    !document.hidden && epoch===mobileReportEpoch;
+            }});return Object.freeze(ticket);
+        } catch(e) { return null; }
+        finally { mobileReportReading=false; }
+    }
     function getBattleInputTicket() {
+        if (state.kind==='report') { return getBattleReportTicket(); }
         if (!battleMobileAvailable() || !state.open || (state.kind !== 'help' && state.kind !== 'view')) { return null; }
         try {
             var identityApi=global.BayeHdLibIdentity, identity=identityApi && identityApi.read();
@@ -2481,6 +2547,18 @@
     }
     function dispatchBattleDetail(code, expected) {
         var t = getBattleInputTicket();
+        if (t && t.kind==='report') {
+            if ([VK.ENTER,VK.EXIT].indexOf(code)<0 || !sameBattleTicket(expected,t) ||
+                !sameBattleTicket(t,getBattleInputTicket()) || mobileReportSpent &&
+                    mobileReportSpent.data===t.data && mobileReportSpent.ownerKey===t.ownerKey) { return false; }
+            var globalSend=global.sendKey, send=typeof globalSend==='function'?globalSend:global.baye && baye.sendKey, receiver=globalSend===send?global:global.baye;
+            if (typeof send!=='function') { return false; }
+            mobileReportSpent={data:t.data,ownerKey:t.ownerKey};
+            var latest=getBattleInputTicket();
+            if (!sameBattleTicket(t,latest) ||
+                (receiver===global?global.sendKey:global.baye && baye.sendKey)!==send || !latest.seal()) { return false; }
+            try { send.call(receiver,code); return true; } catch(e) { return false; }
+        }
         if (!sameBattleTicket(expected,t) || !sameBattleTicket(t,getBattleInputTicket()) ||
             (t.kind === 9 ? code !== VK.EXIT : [VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT].indexOf(code)<0) ||
             sameBattleTicket(mobileBattleCommit,t)) { return false; }
@@ -2643,7 +2721,7 @@
         attachMobileBattleHost: function (options) { mobileBattleHost=options || null; retireInteraction(); start(); },
         getBattleInputTicket: getBattleInputTicket,
         dispatchBattleDetail: dispatchBattleDetail,
-        getBattleLcdPresentation: function () { return getBattleInputTicket() && battlePortrait.phase!=='lcd' ? 'off' : 'passthrough'; },
+        getBattleLcdPresentation: function () { var t=getBattleInputTicket();return t && (t.kind==='report' || battlePortrait.phase!=='lcd') ? 'off' : 'passthrough'; },
         configureMobileHost: function (options) { mobileHost = options || {}; retireInteraction(); },
         retireInteraction: retireInteraction,
         retireCampaignInput: retireCampaignInput,

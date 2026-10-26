@@ -22,7 +22,7 @@
         function battle() { return environment.BayeHdBattle; }
         function dialog() { return environment.BayeHdDialog; }
         function detailTicket() {var d=dialog();return d && d.getBattleInputTicket ? d.getBattleInputTicket() : null;}
-        function ownsDetailSurface() {var t=readNativeTicket();return !!(t && [9,10].indexOf(t.kind)>=0);}
+        function ownsDetailSurface() {var d=detailTicket();if(d && d.kind==='report'){return true;}var t=readNativeTicket();return !!(t && [9,10].indexOf(t.kind)>=0);}
         function available() {
             return !!(doc() && doc().body && doc().body.classList.contains('hd-mobile-page') &&
                 !doc().hidden && focused && pageActive && environment.innerWidth > environment.innerHeight);
@@ -153,7 +153,7 @@
                     if(p.tagName!=='BUTTON'){continue;}
                     var code=p.getAttribute('data-hd-view-key');
                     if(code!==null){return {type:'detail',target:p,code:Number(code)};}
-                    if(p.getAttribute('data-hd-dlg-back')!==null || p.getAttribute('data-hd-dlg-ok')!==null){return {type:'detail',target:p,code:40};}
+                    if(p.getAttribute('data-hd-dlg-back')!==null || p.getAttribute('data-hd-dlg-ok')!==null){var dt=detailTicket();return {type:'detail',target:p,code:dt && dt.kind==='report' && p.getAttribute('data-hd-dlg-ok')!==null?39:40};}
                 }return null;
             }
             var root=node('hd-battle');if(!root || !root.contains(target)){return null;}
@@ -273,15 +273,15 @@
                 lastData=t && t.data;lastStable=t?t.stableKey:'';
                 var presentation=t?(t.presentation==='hd' && sharedShowsHd() && renderMatches(lastRender,t)?'hd':'lcd'):'off';
                 var d=dialog();if(d && d.poll){d.poll();}
-                var dt=detailTicket(), detailPresentation=t && [9,10].indexOf(t.kind)>=0 ?
+                var dt=detailTicket(), reportDetail=dt && dt.kind==='report', detailPresentation=reportDetail || t && [9,10].indexOf(t.kind)>=0 ?
                     dt && d && d.getBattleLcdPresentation && d.getBattleLcdPresentation()==='off'?'hd':'lcd':'off';
                 if(detailOwner && !same(detailOwner,dt) && arm && arm.hit.type==='detail'){retire('detail-owner-changed');}
                 detailOwner=dt;
                 if(presentation!=='hd' && arm && !(detailPresentation==='hd' && arm.hit.type==='detail')){retire('LCD-handoff');}
                 if(presentation!=='hd'){lastRender=null;}
-                paint(presentation);
+                if(reportDetail && !t){presentation='lcd';}paint(presentation);
                 if(doc().body){doc().body.setAttribute('data-hd-mobile-battle-detail',detailPresentation);}
-                last={active:!!t,presentation:presentation,reason:!t?'unavailable':t.presentation==='lcd'?'native-LCD':'',
+                last={active:!!t || !!reportDetail,presentation:presentation,reason:!t?'unavailable':t.presentation==='lcd'?'native-LCD':'',
                     detailPresentation:detailPresentation,detailType:dt?dt.ownerType:null,
                     detailOwner:dt?{kind:dt.kind,seq:dt.seq,detailSeq:dt.detailSeq,generation:dt.generation,libraryGeneration:dt.libraryGeneration}:null,
                     personContext:null,inputKind:t && t.kind,inputSeq:t && t.seq,libraryGeneration:t && t.libraryGeneration,
@@ -342,7 +342,9 @@
                 if(last.detailPresentation==='hd'){
                     var dt=detailTicket(), code=({ArrowUp:34,ArrowDown:35,ArrowLeft:36,ArrowRight:37,Enter:39,Escape:40,' ':40,Spacebar:40})[e.key];
                     if(code==null || e.isComposing){return;}
-                    stop(e);if(e.isTrusted===true&&!e.repeat&&dt && (dt.kind!==9 || code===39 || code===40)){dialog().dispatchBattleDetail(dt.kind===9?40:code,dt);refresh();}return;
+                    stop(e);if(e.isTrusted===true&&!e.repeat&&dt && (dt.kind!==9 || code===39 || code===40)){
+                        if(dt.kind==='report' && (e.key===' ' || e.key==='Spacebar')){code=39;}
+                        dialog().dispatchBattleDetail(dt.kind===9?40:code,dt);refresh();}return;
                 }
                 if(last.presentation!=='hd'){return;}
                 var recognized=/^(ArrowUp|ArrowDown|ArrowLeft|ArrowRight|Enter|Escape| |Spacebar|[hHfFsS0-9])$/.test(e.key||'') ||
