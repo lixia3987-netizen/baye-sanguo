@@ -789,3 +789,17 @@
 /scripts/test-hd-mobile-transfer-engine.mjs text eol=lf
 /scripts/test-hd-overviews-engine.mjs text eol=lf
 /scripts/test-hd-person-properties-engine.mjs text eol=lf
+
+/js/hd-saved-ruler.js text eol=lf
+
+/js/save-storage.js text eol=lf
+
+/scripts/test-hd-save-summary-storage.mjs text eol=lf
+
+/scripts/test-hd-saved-ruler.mjs text eol=lf
+
+/scripts/test-hd-mobile-system.mjs text eol=lf
+
+/docs/validation/m5-save-summary-20261026-v91.md text eol=lf
+
+/docs/validation/m5-save-summary-20261026-v91.json text eol=lf

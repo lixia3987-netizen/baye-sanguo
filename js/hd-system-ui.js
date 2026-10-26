@@ -794,6 +794,36 @@
         }
     }
 
+    function savedItemText(s) {
+        var label = '存档 ' + (Number(s.slot) + 1) + ' · ';
+        if (s.status === 'empty') { return label + '空'; }
+        if (s.status === 'wrong-lib') { return label + '属于其他版本'; }
+        if (s.status === 'incomplete') { return label + '文件不完整'; }
+        if (!s.canLoad) { return label + '无法读取'; }
+        function integer(value,min,max) { return typeof value === 'number' && Number.isInteger(value) && value >= min && value <= max; }
+        var saved = [s.status,s.canLoad,s.king,s.period,s.year,s.month,s.slot], api = global.BayeHdSavedRuler;
+        var b = global.baye, hooks = b && b.hooks, nameHook = hooks && hooks.getPersonName;
+        var read = api && api.read, name = null;
+        if (s.status === 'ready' && !nameHook && integer(saved[2],0,199) && integer(saved[3],1,4) && typeof read === 'function') {
+            try { name = read.call(api,saved[3],saved[2]); } catch (e) {}
+        }
+        // Saved metadata, provider and slot identity must survive the read.
+        // The summary never consults today's world or changes its period.
+        if (global.BayeHdSavedRuler !== api || api && api.read !== read ||
+            global.baye !== b || b && b.hooks !== hooks || hooks && hooks.getPersonName !== nameHook ||
+            JSON.stringify(saved) !== JSON.stringify([s.status,s.canLoad,s.king,s.period,s.year,s.month,s.slot]) ||
+            state.saves.indexOf(s) < 0) { return label + '资料更新中'; }
+        var period = integer(saved[3],1,4) ? PERIODS[saved[3]-1] : '';
+        var parts = [];
+        if (typeof name === 'string' && name.trim()) { parts.push(name); }
+        if (period) { parts.push(period); }
+        if (!parts.length) { parts.push('已有进度'); }
+        if (integer(saved[4],0,65535)) {
+            parts.push(saved[4] + ' 年' + (integer(saved[5],1,12) ? ' ' + saved[5] + ' 月' : ''));
+        }
+        return label + parts.join(' · ');
+    }
+
     function currentItems() {
         if (isMobilePage() && state.screen !== 'saveload') {
             var mobileOwner = inputOwner();
@@ -813,19 +843,7 @@
         }
         if (state.screen === 'saveload') {
             var count = state.recordMode === 1 ? 3 : 4;
-            return state.saves.slice(0, count).map(function (s) {
-                var label = '存档 ' + (Number(s.slot) + 1) + ' · ';
-                if (s.status === 'empty') { return label + '空'; }
-                if (s.status === 'wrong-lib') { return label + '属于其他版本'; }
-                if (s.status === 'incomplete') { return label + '文件不完整'; }
-                if (!s.canLoad) { return label + '无法读取'; }
-                var data = engineData();
-                var currentPeriod = data && readNumber(data, 'g_PIdx');
-                var samePeriod = s.period == null || Number(s.period) === currentPeriod;
-                var name = s.king != null && samePeriod ? personNameById(Number(s.king) + 1) : '';
-                var period = PERIODS[Number(s.period) - 1] || '';
-                return label + (name || period || '已有进度') + (s.year != null ? ' · ' + s.year + ' 年' : '');
-            });
+            return state.saves.slice(0, count).map(savedItemText);
         }
         return TITLE;
     }

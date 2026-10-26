@@ -1,0 +1,335 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V91",
+  "parentCommit": "a151cd5de85341daf24cc04c232c1d8b4227f874",
+  "feature": "Save-slot month and original ruler name from the saved period",
+  "accepted": true,
+  "acceptanceScope": "Read-only metadata and resource/UI contracts in controlled storage and selector fixtures",
+  "targeted": {
+    "accepted": true,
+    "started": "2026-10-26T13:19:40.891Z",
+    "finished": "2026-10-26T13:19:46.453Z",
+    "processExitCode": 0,
+    "signal": null,
+    "tests": 269,
+    "pass": 269,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "modules": [
+      "scripts/test-hd-save-summary-storage.mjs",
+      "scripts/test-hd-saved-ruler.mjs",
+      "scripts/test-hd-save-transaction.mjs",
+      "scripts/test-hd-saveload-ui.mjs",
+      "scripts/test-hd-mobile-system.mjs",
+      "scripts/test-hd-save-pages.mjs",
+      "scripts/test-hd-input.mjs",
+      "scripts/test-original-game-entry.mjs"
+    ],
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 46296,
+        "sha256": "b143cbafef5f1434b650c104887ff8bfa32ea1351874b1babfe6e9550ae1e555"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 164600,
+        "sha256": "90bcc5d299882b632608e33486b3e3664f5c6caac56470fcc1eac243a943ff24"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "js/hd-mobile-system.js",
+        "bytes": 32447,
+        "sha256": "4eca3f65ca811736aa60a10f990f9d1180a6cc644c7dca879e0a6b06dee813af"
+      },
+      {
+        "path": "js/hd-saved-ruler.js",
+        "bytes": 4116,
+        "sha256": "5ae7d27d3f8188fe71ae506e9157712d65df847b89a7bdeeab8c5446bb7c9594"
+      },
+      {
+        "path": "js/hd-system-ui.js",
+        "bytes": 77871,
+        "sha256": "769284d3ff8defae8b1ca7a72327d977baea248142318b5b0edfda61c0411674"
+      },
+      {
+        "path": "js/lcd.js",
+        "bytes": 35200,
+        "sha256": "d59a000918942ab1489f1a69627916a14aee2c7551c7dc0113093b011bf48899"
+      },
+      {
+        "path": "js/original-game.js",
+        "bytes": 7573,
+        "sha256": "e6c23e3b07f33d0144a209c4a54251693595e1013029a44eac4cf373402f2e07"
+      },
+      {
+        "path": "js/save-storage.js",
+        "bytes": 11948,
+        "sha256": "df45bc1ad2391ee4a8787e890dbed66c5c77c87effc42614f245d681af014a3d"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "m.html",
+        "bytes": 21534,
+        "sha256": "596185fbcdb8803222a0ebf2c4f20f970f4156c44328918438a9ef253fc2eb90"
+      },
+      {
+        "path": "package.json",
+        "bytes": 22289,
+        "sha256": "5148487bcbc06b4c494f5927c3de412e2706b73121a93a0a55b6832d20c32d8d"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 31752,
+        "sha256": "041888d6b9229bc4e6de7bd687595de2ea791a10cdfccb6958bc7bca12fe86e4"
+      },
+      {
+        "path": "scripts/hd-person-identity-rom.mjs",
+        "bytes": 6532,
+        "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+      },
+      {
+        "path": "scripts/test-hd-input.mjs",
+        "bytes": 31944,
+        "sha256": "2a9a23d8a423a83e56b9ba081fc41fbca0e6be5bd2126a1a17f61a85c61f44d4"
+      },
+      {
+        "path": "scripts/test-hd-mobile-system.mjs",
+        "bytes": 53430,
+        "sha256": "fd6601e80a6ca51094a733f343f38f1e1000b50c2cbf8449e944d0d4e244f864"
+      },
+      {
+        "path": "scripts/test-hd-save-pages.mjs",
+        "bytes": 28528,
+        "sha256": "43b00054c648ad7e7f454a00e3ab6be241209fa5e4dd9ea6bcfecdbac0c7ae49"
+      },
+      {
+        "path": "scripts/test-hd-save-summary-storage.mjs",
+        "bytes": 6496,
+        "sha256": "77e0662bb414527502306e29cdfe12d0396eb917ddd2ef5373aab29cc75f4536"
+      },
+      {
+        "path": "scripts/test-hd-save-transaction.mjs",
+        "bytes": 33669,
+        "sha256": "460a159c139678ffa3611eea39dd7268379ac0215cd25c532b1f8e2a6c565b7e"
+      },
+      {
+        "path": "scripts/test-hd-saved-ruler.mjs",
+        "bytes": 7231,
+        "sha256": "86879c25727ac465cbde773ad615b346f3c7fabd242e09f751dffb262bf709e1"
+      },
+      {
+        "path": "scripts/test-hd-saveload-ui.mjs",
+        "bytes": 71686,
+        "sha256": "141c25ef51d248c10cf2b2eaa3381030c6949f8d3f39a6eaa77c6fa560d6fdf9"
+      },
+      {
+        "path": "scripts/test-original-game-entry.mjs",
+        "bytes": 13609,
+        "sha256": "94798183d009b8c621ea97d0dc04c9be6603ec2286881655ec7766421dfbc196"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/consdef.h",
+        "bytes": 6048,
+        "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/datman.h",
+        "bytes": 1158,
+        "sha256": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe"
+      },
+      {
+        "path": "vendor/iBaye/src/gamEng.c",
+        "bytes": 47517,
+        "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+      },
+      {
+        "path": "vendor/iBaye/src/showface.c",
+        "bytes": 44299,
+        "sha256": "49d16a86891a712c675409c8377f234bc69d2d9c13d56da865dc83a5eab87895"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 14,
+    "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+    "compilerVersion": "clang version 18.0.0git (https://github.com/llvm/llvm-project f2464ca317bfeeedddb7cbdea3c2c8ec487890bb)",
+    "actualNativeChecks": true,
+    "nativeSourceCount": 128,
+    "nativeSourcesUnchanged": true,
+    "installedRuntimeUnchanged": true,
+    "engineSourceSha256": "9fadee559357f8552b355c690e0006ec6d1c49cd7e1798db3f2d90b0c763a9ec",
+    "runtimeArtifacts": [
+      {
+        "path": "js/baye.js",
+        "bytes": 193437,
+        "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4574812,
+        "sha256": "8c3dcad9bf7f4eb419affa821dc23226968e44fd6a6a5b01fbef1137b726b163"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "88984eaed2eb416f3d56c5ace5fd0bf85f62359a7a6b3d17e5ad19548e2ff3e3"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 22679,
+        "sha256": "25b26f83af78875742f77a41d19076f6bbe595eafd7f260a45d227fd93b7c406"
+      }
+    ],
+    "fullSuiteRun": false,
+    "browserRuns": 0,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "globalHdComplete": false,
+    "newPcInternalCases": 6,
+    "newGroupsAcrossHarnesses": 20
+  },
+  "testCounts": {
+    "kind": "Test count clarification only; test output is unchanged",
+    "rawNewDefaultTestsField": 20,
+    "newNodeTests": 14,
+    "newPcHarnessInternalCases": 6,
+    "newGroupsAcrossHarnesses": 20,
+    "pcHarnessInternalCases": 75,
+    "inputHarnessInternalCases": 33,
+    "nodeRunnerUnits": 269,
+    "nodeRunnerUnitsIncludeTwoStandaloneHarnessWrappers": true,
+    "newDefaultModules": 2,
+    "reason": "PC save/load uses its existing synchronous test harness; its six added cases do not increase Node runner units"
+  },
+  "evidence": [
+    {
+      "path": "build/save-summary-20261026-v91/targeted-v1.stdout.tap",
+      "bytes": 69831,
+      "sha256": "05acc444f277ccbb0e4a0335909ac53505c65559a40642d012522babb422d114"
+    },
+    {
+      "path": "build/save-summary-20261026-v91/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/save-summary-20261026-v91/targeted-v1.json",
+      "bytes": 6015,
+      "sha256": "499d4bc801e226aa24a27fed1f7518085d7458ca92ad406e09c32bbe55c18763"
+    },
+    {
+      "path": "build/save-summary-20261026-v91/test-count-clarification-v1.json",
+      "bytes": 502,
+      "sha256": "e549d4a9be0a0e35324956a3478f6f9bda2e54724965624477224cdfc60a51a5"
+    },
+    {
+      "path": "build/save-summary-20261026-v91/audit-ruler-v2.json",
+      "bytes": 20215,
+      "sha256": "02cfd4cee798ce3e84d7cc19de31e05137d0ed54be103d76ab21cf757f82c256"
+    },
+    {
+      "path": "build/save-summary-20261026-v91/entry-registration-v1.json",
+      "bytes": 247,
+      "sha256": "ad1a561c426f536c77c6aebddc1fa829c4a0e8c407bcc71c23645dd1bd825868"
+    },
+    {
+      "path": "build/save-summary-20261026-v91/next-feature-audit.md",
+      "bytes": 5192,
+      "sha256": "bb45f6c2d68fc10b0c9b53d04e65896f7a1f5fa58324109389da68158d85fa39"
+    }
+  ],
+  "nameSource": {
+    "library": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "periodResources": [
+      62,
+      70,
+      71,
+      72
+    ],
+    "personIds": "zero-based 0..199",
+    "comparedRealNameSlots": 800,
+    "emptyNamesRemainUnknown": true,
+    "readsCurrentWorld": false,
+    "callsNativeNameGetter": false
+  },
+  "storage": {
+    "monthOffsetInFirstFile": 11,
+    "validatedMonthRange": [
+      1,
+      12
+    ],
+    "supportedSaveVersions": [
+      "0x90",
+      "0x91",
+      "0x92",
+      "0x93",
+      "0x94",
+      "0x95"
+    ],
+    "payloadAndTransactionFormatChanged": false,
+    "realStorageAccessed": false
+  },
+  "native": {
+    "changed": false,
+    "sourceCount": 128,
+    "engineSourceSha256": "9fadee559357f8552b355c690e0006ec6d1c49cd7e1798db3f2d90b0c763a9ec",
+    "runtimeArtifacts": [
+      {
+        "path": "js/baye.js",
+        "bytes": 193437,
+        "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4574812,
+        "sha256": "8c3dcad9bf7f4eb419affa821dc23226968e44fd6a6a5b01fbef1137b726b163"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "88984eaed2eb416f3d56c5ace5fd0bf85f62359a7a6b3d17e5ad19548e2ff3e3"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 22679,
+        "sha256": "25b26f83af78875742f77a41d19076f6bbe595eafd7f260a45d227fd93b7c406"
+      }
+    ],
+    "artifactBytesUnchanged": true,
+    "rebuildRun": false,
+    "newLinkedInitializationRun": false
+  },
+  "browserRuns": 0,
+  "actualGameplayAccepted": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "fullSuiteRun": false,
+  "globalHdComplete": false,
+  "held": {
+    "privateInterfaceInspected": false,
+    "inputs": 0,
+    "restarted": false,
+    "closed": false
+  },
+  "remaining": [
+    "Natural save/load menu display and physical input acceptance",
+    "Real mobile and layout validation later",
+    "Full regression and tuning later",
+    "PlcGraMsgBox graphical messages: experience and skill notices",
+    "Native pre-battle attack/confrontation notices",
+    "Passive pre-computation AI tactic notices"
+  ]
+}

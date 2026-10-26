@@ -99,3 +99,10 @@
 3. 「重返沙场」出存读档壳：有 `sango*.sav` 才列槽，不造假档。
 4. `overworldMode=classic` 且 `systemUiMode≠hd` 不强迫。
 5. 不改 WASM / `dat.lib`。
+
+
+## 保存槽的年月与原版姓名（V91）
+
+BayeSaveStorage.inspectSlot在现有完整双文件验证后返回king／period／year／month，month取sav0字节11，原范围1..12不变。UI按保存period和零基king调用BayeHdSavedRuler.read；后者只读已认证原版LIB的62／70／71／72姓名资源（每期200槽），不切时期、不读取当前人物或调用getPersonName。资源缓存仍逐次授权，未知／空项无姓名。
+
+列表显示保存君主、时期及年月，缺月只显示年；自定义姓名hook或未知资源保留已知保存元数据。slot／provider／hook／元数据在读取中变化会撤摘要，标签不充当输入授权。PC／手机共用格式，既有三保存槽／四读取槽、原生ACK、最终可读性重查及双存档事务保持。具体检查与实际流程／真机后验边界见[V91记录](validation/m5-save-summary-20261026-v91.md)。

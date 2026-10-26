@@ -241,6 +241,34 @@ test('save slots are three; load slots four and empty/wrong-LIB/corrupt are disa
         h.slots[0]={slot:0,status,canLoad:false}; h.refresh(); assert.equal(h.button(0).disabled,true); h.click(h.button(0));
     } assert.deepEqual(h.keys,[]);
 });
+
+test('mobile shared saved summaries use stored period names and month while retaining explicit touch ACK input',()=>{
+    const h=fixture({screen:'load'}),calls=[],liveReads=[];
+    h.env.BayeHdSavedRuler={read(period,king){calls.push([period,king]);return period===1?'保存一期零号':'保存二期零号';}};
+    h.env.baye.getPersonNameByID=h.env.baye.getPersonName=()=>{liveReads.push('name');throw Error('live summary name');};
+    const original=h.data.g_PIdx;Object.defineProperty(h.data,'g_PIdx',{configurable:true,get(){liveReads.push('period');throw Error('live summary period');}});
+    Object.assign(h.slots[0],{status:'ready',canLoad:true,period:1,king:0,year:190,month:1});
+    Object.assign(h.slots[1],{status:'ready',canLoad:true,period:2,king:0,year:199,month:12});h.refresh();
+    assert.equal(h.button(0).textContent,'存档 1 · 保存一期零号 · 董卓弄权 · 190 年 1 月');
+    assert.equal(h.button(1).textContent,'存档 2 · 保存二期零号 · 曹操崛起 · 199 年 12 月');
+    assert.deepEqual(h.keys,[]);assert.deepEqual(liveReads,[]);assert.ok(calls.every(([p,k])=>(p===1||p===2)&&k===0));
+    Object.assign(h.slots[1],{month:11});h.refresh();assert.equal(h.data.g_hdRecordIndex,0);assert.deepEqual(h.keys,[]);
+    h.click(h.button(1));h.tick();assert.deepEqual(h.keys,[35,39]);assert.equal(h.data.g_hdRecordIndex,1);
+    h.click(h.button(1));h.tick();assert.deepEqual(h.keys,[35,39]);assert.deepEqual(liveReads,[]);assert.deepEqual(h.writes,[]);
+    Object.defineProperty(h.data,'g_PIdx',{value:original,writable:true,configurable:true});
+});
+
+test('mobile saved summary fallback and unavailable rows keep date knowledge separate from input eligibility',()=>{
+    const h=fixture({screen:'load'});Object.assign(h.slots[0],{status:'ready',canLoad:true,period:4,king:0,year:237});
+    h.refresh();assert.equal(h.button(0).textContent,'存档 1 · 三国鼎立 · 237 年');
+    h.env.BayeHdSavedRuler={read(){throw Error('captured resource unavailable');}};h.slots[0].month=12;h.refresh();
+    assert.equal(h.button(0).textContent,'存档 1 · 三国鼎立 · 237 年 12 月');
+    for(const status of ['empty','wrong-lib','incomplete','invalid']) {
+        h.slots[0].status=status;h.slots[0].canLoad=false;h.refresh();assert.equal(h.button(0).disabled,true);
+        h.click(h.button(0));
+    }
+    assert.deepEqual(h.keys,[]);assert.deepEqual(h.writes,[]);
+});
 test('load revalidates the actual slot immediately before final Enter',()=>{
     const h=fixture({screen:'load'}); h.slots[1]={slot:1,status:'valid',canLoad:true}; h.refresh(); h.click(h.button(1));
     h.slots[1].canLoad=false; h.tick(); assert.deepEqual(h.keys,[35]);
