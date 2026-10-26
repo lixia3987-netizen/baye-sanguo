@@ -39,9 +39,9 @@ function actualFunction(filename, name) {
 const bridge = read('hd-bridge.c');
 const detailGlobals = bridge.slice(bridge.indexOf('U32 g_hdDetailGeneration ='), bridge.indexOf('static U8 hdMenuNextContext')) +
     bridge.slice(bridge.indexOf('U8 g_hdHelpProtocolVersion ='), bridge.indexOf('U8 g_hdMovieActive ='));
-const detailClears = ['hd_next_input_seq','baye_hd_person_properties_retire','hd_goods_clear','hd_menu_ids_clear','hd_help_detail_clear',
-    'baye_hd_view_retire','baye_hd_mini_map_retire']
-    .map(name => actualFunction('hd-bridge.c', name)).join('\n');
+const detailClears = '#define EM_ASM(...) ((void)0)\n' + ['hd_next_input_seq','baye_hd_person_properties_retire','hd_goods_clear','hd_menu_ids_clear','hd_help_detail_clear',
+    'hd_city_info_notify','baye_hd_city_info_retire','baye_hd_view_retire','baye_hd_mini_map_retire']
+    .map(name => actualFunction('hd-bridge.c', name)).join('\n') + '\n#undef EM_ASM\n';
 
 async function compile(source) {
     const temporary = mkdtempSync(join(tmpdir(), 'baye-hd-campaign-'));

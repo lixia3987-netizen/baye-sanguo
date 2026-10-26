@@ -226,6 +226,11 @@
         return ensureEngineData();
     }
 
+    function cityInfoOwns(data) {
+        var active = data ? data.g_hdCityInfoActive : undefined;
+        return active !== undefined && active !== 0;
+    }
+
     function identityApi() { return global.BayeHdLibIdentity || null; }
 
     function readIdentity() {
@@ -255,6 +260,7 @@
     function mapInputAuthorized() {
         if (!mapAuthorized() || miniMapActive()) { return false; }
         var data = engineData(), positions = data && data.g_CityPositions;
+        if (cityInfoOwns(data)) { return false; }
         if (data && data.g_hdTransferActive !== undefined && data.g_hdTransferActive !== 0 && !transferMapTicket()) { return false; }
         var matching = cityCount() === state.cities.length && !!positions;
         for (var i = 0; matching && i < state.cities.length; i++) {
@@ -264,7 +270,7 @@
         }
         // Name getters can run Mod code. Recheck the actual loaded library
         // after those reads before granting any input to the engine.
-        if (!mapAuthorized()) {
+        if (!mapAuthorized() || cityInfoOwns(data) || cityInfoOwns(global.baye && baye.data)) {
             cancelAlign();
             return false;
         }
@@ -2334,6 +2340,7 @@
     }
 
     function engineSendKey(code) {
+        if (cityInfoOwns(global.baye && baye.data)) { cancelAlign(); return false; }
         if (document.hidden) { cancelAlign(); return false; }
         if (!mapInputAuthorized()) { cancelAlign(); return false; }
         var exitCode = (window.baye && baye.VK_EXIT) || VK.EXIT;
@@ -2345,6 +2352,7 @@
             console.warn('[hd-overworld] blocked EXIT during BattleMake');
             return false;
         }
+        if (cityInfoOwns(global.baye && baye.data)) { cancelAlign(); return false; }
         if (typeof sendKey === 'function') {
             sendKey(code);
             return true;
@@ -2362,7 +2370,9 @@
             return false;
         }
         try {
+            if (cityInfoOwns(global.baye && baye.data)) { return false; }
             _bayeSendTouchEvent(1, x, y);
+            if (cityInfoOwns(global.baye && baye.data)) { return false; }
             _bayeSendTouchEvent(2, x, y);
             return true;
         } catch (e) {
@@ -2441,16 +2451,18 @@
     }
 
     function readMapPick() {
+        if (cityInfoOwns(global.baye && baye.data)) { return 0; }
         try {
             if (window.baye && baye.hd && typeof baye.hd.march === 'function') {
                 var m = baye.hd.march();
+                if (cityInfoOwns(global.baye && baye.data)) { return 0; }
                 if (m && m.pick != null) {
                     return Number(m.pick) || 0;
                 }
             }
         } catch (e) {}
         var data = engineData();
-        var v = data ? readNumber(data, 'g_hdMapPick') : null;
+        var v = data && !cityInfoOwns(data) ? readNumber(data, 'g_hdMapPick') : null;
         return v == null ? 0 : v;
     }
 
@@ -3795,7 +3807,7 @@
             if (document.hidden || state.aligning || state.mode !== 'hd-map' || battleCoversMapCanvas() ||
                 !mapInputAuthorized()) { return null; }
             var data = engineData();
-            if (!data) { return null; }
+            if (!data || cityInfoOwns(data)) { return null; }
             if (data !== inputData) { inputData = data; inputDataGeneration++; }
             var values = ownerFields.map(function (name) { return data[name]; });
             if (!values.every(function (n) {
@@ -3818,6 +3830,7 @@
                 !ownerFields.every(function (name, i) { return data[name] === values[i]; })) { return null; }
             var transferAgain = transferTarget ? transferMapTicket() : null;
             if (transferTarget && (!transferAgain || transferAgain.data !== transfer.data || transferAgain.key !== transfer.key)) { return null; }
+            if (cityInfoOwns(data) || cityInfoOwns(global.baye && baye.data)) { return null; }
             return JSON.stringify([inputDataGeneration, identity.generation, identity.sha256, state.assetGeneration, state.phase,
                 values, activeTransfer, transferAgain && transferAgain.key]);
         }

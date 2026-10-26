@@ -49,3 +49,10 @@
 ## 验证
 
 `test-hd-person-properties-engine.mjs` 实际编译选中人物绘制、原生菜单及票据观察代码，检查选中行、U16 高编号、默认与自定义列、分页、重入和退休；外部 ROM、LCD、hook 和消息边界使用夹具。`test-hd-details-engine.mjs` 实际编译运行原生资源校验、U16 身份与兵种、道具属性 hook 捕获、255 页和零列翻页、帮助生命周期；`test-hd-details-bridge.mjs` 检查公开读取接口的边界与缺字段行为。`test-hd-person-properties-runtime.mjs` 支持 `--staged`、`--library standard|sc-mod` 和 `--preflight-only`，通过独立浏览器的真实开局、选将及手动翻页核对属性、旧指针退休与世界不变。真实流程、截图、产物身份及全量统计单独保存于本批验收记录，模拟夹具和静态预检不计作真实库存或 Mod 流程通过。
+
+
+## 原生城市详情
+
+`baye.hd.cityInfo()` 独立观察真正 ShowCityPro 的当前页，返回协议1、active／complete／custom／wait、session／seq／generation／inputSeq、实际cityIndex、propertyCount／pageStart／pageSize与连续属性索引、GBK原文。标题64字节、32行×128字节；不重新调用原生属性或名字。零城号有效，未知字段不当零。原来的末页空白绘制保留，但不作为超范围属性。
+
+PC／手机新面板仅接原版默认11项且完整无自定义输出，直接显示整行文字，分页沿实际native pageSize；按键只消费一次当前输入回执，未确认不补发。旧菜单／地图／对话等在city-info active期间退让；缺失新字段的旧ABI照旧。原侦察查看ENTER／EXIT均会继续原扣费与订单，HD只提供「返回」，不伪作取消。受控检查、真实流程与真机的边界见[V90记录](validation/m5-city-info-20261026-v90.md)。

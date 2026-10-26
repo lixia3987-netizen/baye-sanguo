@@ -38,6 +38,12 @@
         'g_hdSkillActive', 'g_hdAttackActive', 'g_hdSkillResultActive', 'g_hdMakerActive',
         'g_hdViewActive', 'g_hdMiniMapActive', 'g_hdResultOwnerKind', 'g_hdResultOwnerValid'];
 
+    function cityInfoOwns(data) {
+        // Older ABIs omit this owner; any defined value other than U8 zero blocks.
+        var active = data ? data.g_hdCityInfoActive : undefined;
+        return active !== undefined && active !== 0;
+    }
+
     function mobileInteger(value, max) {
         return typeof value === 'number' && isFinite(value) && Math.floor(value) === value && value >= 0 && value <= max;
     }
@@ -57,14 +63,15 @@
                 baye.hd.ready() !== true || typeof baye.hd.menuItems !== 'function' ||
                 typeof baye.hd.march !== 'function' || typeof baye.hd.qty !== 'function') { return null; }
             var data = typeof baye.ensureData === 'function' ? baye.ensureData() : baye.data;
-            if (!data || !MOBILE_RAW_FIELDS.every(function (key) { return mobileInteger(data[key], 0xffffffff); }) ||
+            if (!data || cityInfoOwns(data) || !MOBILE_RAW_FIELDS.every(function (key) { return mobileInteger(data[key], 0xffffffff); }) ||
                 data.g_hdEngineReady !== 1 || !data.g_hdDetailGeneration ||
                 !api.isCurrent(identity) || baye.data !== data || !mobileLifecycleAvailable()) { return null; }
+            if (cityInfoOwns(data)) { return null; }
             return {identity: identity, data: data};
         } catch (e) { return null; }
     }
     function mobileRaw(data) {
-        var value = {};
+        var value = {g_hdCityInfoActive: data.g_hdCityInfoActive};
         MOBILE_RAW_FIELDS.forEach(function (key) { value[key] = data[key]; });
         return value;
     }
@@ -165,6 +172,7 @@
                 (!report || report.active !== 1 || report.seq !== before.g_hdReportSeq || !report.seq ||
                     report.inputSeq !== before.g_hdReportInputSeq || report.kind !== before.g_hdReportKind ||
                     report.person !== before.g_hdReportPerson || typeof report.text !== 'string' || !report.text)) { return null; }
+            if (cityInfoOwns(base.data) || cityInfoOwns(before)) { return null; }
             return {libraryGeneration: base.identity.generation, data: base.data, raw: before, menu: menu, march: march, qty: qty,
                 report: report, route: route, transfer: transfer, diplomacy: diplomacy};
         } catch (e) { return null; }
@@ -487,7 +495,7 @@
                     if (person.Belong === king + 1) { alliedIds.push(id); }
                 }
                 var menu = engineMenuItems(), raw = mobileRaw(data);
-                if (!MOBILE_RAW_FIELDS.every(function (field) { return mobileInteger(raw[field],0xffffffff); }) ||
+                if (cityInfoOwns(raw) || !MOBILE_RAW_FIELDS.every(function (field) { return mobileInteger(raw[field],0xffffffff); }) ||
                     raw.g_hdMenuActive !== menu.active || raw.g_hdMenuContext !== menu.context || raw.g_hdMenuKind !== menu.kind ||
                     raw.g_hdMenuSeq !== menu.seq || raw.g_hdMenuCount !== menu.count || raw.g_hdMenuIndex !== menu.index ||
                     !current() || !persons.every(function (p,i) { return people[rows[i][0]] === p; })) { return null; }
@@ -514,7 +522,7 @@
     }
     function quietSurrender(value) {
         var raw=value.raw;
-        return MOBILE_BLOCKERS.every(function (field) { return raw[field] === 0; }) && !raw.g_hdQtyActive && !raw.g_hdReportActive && !raw.g_hdHelpActive &&
+        return !cityInfoOwns(raw) && MOBILE_BLOCKERS.every(function (field) { return raw[field] === 0; }) && !raw.g_hdQtyActive && !raw.g_hdReportActive && !raw.g_hdHelpActive &&
             !raw.g_hdBattlePick && !raw.g_hdGoodsActive && [MARCH.IDLE,MARCH.DEPARTED].indexOf(raw.g_hdMarchPhase)>=0;
     }
     function surrenderRole(value) {
@@ -580,6 +588,7 @@
             menuSeq:b.menu.seq,detailGeneration:b.detailGeneration,libraryGeneration:b.libraryGeneration,ids:actualMenuIds(b.menu).slice()};
     }
     function sendSurrenderKey(code,reason,currentOwner) {
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (!surrenderUiCurrent() || surrenderSending || surrenderReading || !surrenderFlow || !shouldShowHd() || !mobileShellReady() || document.hidden ||
             [VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT,VK.HELP].indexOf(code)<0) { return false; }
         surrenderSending=true;
@@ -593,6 +602,7 @@
             var after=surrenderSnapshot();
             if (!surrenderUiCurrent() || flow!==surrenderFlow || flow.pending || !sameSurrenderRows(before,after) ||
                 JSON.stringify([before.raw,before.menu,before.rows])!==JSON.stringify([after.raw,after.menu,after.rows])) { return false; }
+            if (cityInfoOwns(global.baye && baye.data)) { return false; }
             if (code===VK.ENTER || code===VK.EXIT) {
                 flow.pending={seq:m.seq,action:entry?'entry':flow.role+(code===VK.ENTER?'-enter':'-exit')};
             }
@@ -636,7 +646,7 @@
                 !api.isCurrent(identity) || !hd || typeof hd.ready !== 'function' || hd.ready() !== true ||
                 typeof hd.menuItems !== 'function' || typeof hd.march !== 'function' || typeof hd.qty !== 'function') { return null; }
             var data = typeof engine.ensureData === 'function' ? engine.ensureData() : engine.data;
-            if (!data || !MOBILE_RAW_FIELDS.every(function (key) { return mobileInteger(data[key], 0xffffffff); }) ||
+            if (!data || cityInfoOwns(data) || !MOBILE_RAW_FIELDS.every(function (key) { return mobileInteger(data[key], 0xffffffff); }) ||
                 data.g_hdEngineReady !== 1 || !data.g_hdDetailGeneration) { return null; }
             var config = data.g_engineConfig, cities = data.g_Cities, origin = data.g_hdDiplomacyOrigin, king = data.g_PlayerKing;
             if (!config || !mobileInteger(config.enable16bitConsumeMoney, 1) || !mobileInteger(config.fixAlienateComsumeThew, 1) ||
@@ -1606,6 +1616,7 @@
     }
 
     function shouldShowHd() {
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (mobileHost && !mobileBase()) { return false; }
         var mode = getMenuMode();
         if (mode === 'classic') {
@@ -1960,6 +1971,7 @@
     }
 
     function sendPcDiplomacyKey(code, reason, currentOwner) {
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (mobileHost || pcDiplomacySending || state.deepKind !== 'person-diplomacy' ||
             [VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT,VK.HELP].indexOf(code) < 0) { return false; }
         pcDiplomacySending = true;
@@ -1971,6 +1983,7 @@
             if (mobileDiplomacy !== flow || !samePcDiplomacyRole(before, after) || before.key !== after.key) { return false; }
             var binding = before.pcBinding, sender = binding.send || binding.engineSend;
             if (!sender) { return false; }
+            if (cityInfoOwns(global.baye && baye.data)) { return false; }
             // Reserve before the export: an exception cannot prove that C did
             // not receive ENTER/EXIT. Never retry that same native role.
             if (code === VK.ENTER || code === VK.EXIT) { reservePcDiplomacyInput(before, flow); }
@@ -1985,6 +1998,7 @@
     }
 
     function engineSendKey(code, reason, currentOwner) {
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (state.deepKind === 'person-surrender' || surrenderFlow && surrenderFlow.role === 'entry' && reason === 'surrender-start') { return sendSurrenderKey(code, reason, currentOwner); }
         if (!mobileHost && state.deepKind === 'person-diplomacy') { return sendPcDiplomacyKey(code, reason, currentOwner); }
         if (mobileHost && mobileDiplomacy && mobileDiplomacy.sent && reason !== 'diplomacy-back') { return false; }
@@ -2033,6 +2047,7 @@
             var mobileCurrent = mobileInputTicket(reason);
             if (!mobileCurrent || mobileCurrent.data !== mobilePress.data || mobileCurrent.key !== mobilePress.key) { retireInteraction('send-owner-changed'); return false; }
         }
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (code === VK.EXIT && reason !== 'qty-cancel') { distributionFlow = null; }
         if (typeof sendKey === 'function') {
             if (mobileHost && mobileDiplomacy && reason === 'diplomacy-person' && code === VK.ENTER) { mobileDiplomacy.sent = mobilePress.key; }

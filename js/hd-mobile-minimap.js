@@ -29,9 +29,9 @@
                 ? {status:i.status,sha256:i.sha256,byteLength:i.byteLength,generation:i.generation} : null;
         }
         function mode() { try{return environment.BayeHdOverworld.getMode()==='hd-map';}catch(e){return false;} }
-        function raw(data) { var r={};ZERO.concat(BASE).forEach(function(f){r[f]=data[f];});Object.keys(MINI).forEach(function(f){r['g_hdMiniMap'+f]=data['g_hdMiniMap'+f];});return r; }
+        function raw(data) { var r={g_hdCityInfoActive:data.g_hdCityInfoActive};ZERO.concat(BASE).forEach(function(f){r[f]=data[f];});Object.keys(MINI).forEach(function(f){r['g_hdMiniMap'+f]=data['g_hdMiniMap'+f];});return r; }
         function neutralNative(data,r,n) {
-            return n && ZERO.every(function(f){return r[f]===0;}) && BASE.every(function(f){return uint(r[f]);}) &&
+            return n && (r.g_hdCityInfoActive===undefined || r.g_hdCityInfoActive===0) && ZERO.every(function(f){return r[f]===0;}) && BASE.every(function(f){return uint(r[f]);}) &&
                 r.g_hdEngineReady===1 && r.g_hdMapPick===1 && uint(r.g_hdMapCity,38) && r.g_hdMapInputSeq>0 &&
                 r.g_hdDetailGeneration>0 && r.g_hdSpeGeneration>0 && [0,7].indexOf(r.g_hdMarchPhase)>=0 &&
                 r.g_hdTransferProtocolVersion===1 && r.g_hdTransferActive===0 &&
@@ -51,7 +51,8 @@
                 var before=raw(data),n=hd.miniMap();if(!neutralNative(data,before,n))return null;
                 var first=key([before,n]),after=raw(data),again=hd.miniMap();
                 if(!neutralNative(data,after,again) || first!==key([after,again]) || key(i)!==key(identity()) ||
-                    b!==environment.baye || b.data!==data || hd.ready()!==true || !available() || !mode())return null;
+                    b!==environment.baye || b.data!==data || hd.ready()!==true || !available() || !mode() ||
+                    data.g_hdCityInfoActive!==undefined && data.g_hdCityInfoActive!==0)return null;
                 var ticket={native:Object.freeze(Object.assign({},again)),key:key([i,after,again]),libraryGeneration:i.generation};
                 Object.defineProperty(ticket,'data',{value:data,enumerable:false});return Object.freeze(ticket);
             }catch(e){return null;}

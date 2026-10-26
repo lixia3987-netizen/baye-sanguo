@@ -757,3 +757,35 @@
 /scripts/test-hd-details-engine.mjs text eol=lf
 
 /scripts/test-hd-details-bridge.mjs text eol=lf
+
+# Native city-detail publication and focused checks.
+/js/hd-city-info.js text eol=lf
+/css/hd-city-info.css text eol=lf
+/scripts/test-hd-city-info.mjs text eol=lf
+/scripts/test-hd-city-info-engine.mjs text eol=lf
+/scripts/test-hd-city-info-bridge.mjs text eol=lf
+/scripts/test-hd-city-info-owners.mjs text eol=lf
+/vendor/iBaye/src/bind-objects.c text eol=lf
+/vendor/iBaye/src/hd-bridge.c text eol=lf
+/vendor/iBaye/src/hd-bridge.h text eol=lf
+/scripts/write-wasm-manifest.mjs text eol=lf
+/docs/validation/m5-city-info-20261026-v90.md text eol=lf
+/docs/validation/m5-city-info-20261026-v90.json text eol=lf
+/js/bridge.js text eol=lf
+/js/hd-battle-note.js text eol=lf
+/js/hd-battle-scene.js text eol=lf
+/js/hd-mobile-city.js text eol=lf
+/js/hd-mobile-map.js text eol=lf
+/js/hd-mobile-minimap.js text eol=lf
+/js/hd-mobile-portraits.js text eol=lf
+/js/hd-mobile-system.js text eol=lf
+/js/hd-mobile.js text eol=lf
+/js/hd-overworld.js text eol=lf
+/js/lcd.js text eol=lf
+/scripts/test-hd-campaign-engine.mjs text eol=lf
+/scripts/test-hd-engine-protocol.mjs text eol=lf
+/scripts/test-hd-mobile-diplomacy-engine.mjs text eol=lf
+/scripts/test-hd-mobile-trade-engine.mjs text eol=lf
+/scripts/test-hd-mobile-transfer-engine.mjs text eol=lf
+/scripts/test-hd-overviews-engine.mjs text eol=lf
+/scripts/test-hd-person-properties-engine.mjs text eol=lf

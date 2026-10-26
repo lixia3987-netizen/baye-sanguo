@@ -45,7 +45,8 @@
                 ? {status: value.status, sha256: value.sha256, byteLength: value.byteLength, generation: value.generation} : null;
         }
         function nativeReading(data, hd) {
-            var raw = {};
+            var raw = {g_hdCityInfoActive: data.g_hdCityInfoActive};
+            if (raw.g_hdCityInfoActive !== undefined && raw.g_hdCityInfoActive !== 0) { return null; }
             RAW.concat(BLOCKERS).forEach(function (field) { raw[field] = data[field]; });
             var transfer = null;
             if (data.g_hdTransferProtocolVersion !== undefined || data.g_hdTransferActive !== undefined) {
@@ -109,6 +110,7 @@
                 report.kind !== raw.g_hdReportKind || report.person !== raw.g_hdReportPerson || typeof report.text !== 'string' || !report.text)) { return null; }
             if (help.active && (help.seq !== raw.g_hdHelpSeq || help.inputSeq !== raw.g_hdHelpInputSeq ||
                 help.detailGeneration !== raw.g_hdDetailGeneration)) { return null; }
+            if (data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
             return {raw: raw, menu: menu, qty: qty, report: report, help: help, transfer: transfer};
         }
         function sample() {
@@ -120,7 +122,8 @@
                 if (!data) { return null; }
                 var before = nativeReading(data, hd), after = nativeReading(data, hd), latest = identity();
                 if (!before || !after || !available() || baye.data !== data || hd.ready() !== true ||
-                    key(before) !== key(after) || key(first) !== key(latest)) { return null; }
+                    key(before) !== key(after) || key(first) !== key(latest) ||
+                    data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 return {data: data, identity: first, owner: before, key: key([first, before])};
             } catch (e) { return null; }
         }

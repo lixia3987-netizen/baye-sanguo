@@ -96,6 +96,7 @@
                     hd.fight!==getFight || hd.menuItems!==getMenu || hd.skills!==getSkills || hd.ready!==getReady ||
                     b.getTerrainByGeneralIndex!==getTerrain || global.BayeHdLibIdentity!==api || api.read!==getLibrary || api.isCurrent!==isCurrent ||
                     document.hidden || token!==epoch) { return null; }
+                if (data.g_hdCityInfoActive!==undefined && data.g_hdCityInfoActive!==0) { return null; }
                 return {refs:refs,key:JSON.stringify([library,owner,packed,rows]),
                     value:{actor:actor,mp:mp,menuSeq:menuSeq,inputSeq:seq,index:index,names:m.names.slice(),
                         rows:rows.map(function (r) {return{id:r.id,cost:r.cost,reason:r.reason};})}};

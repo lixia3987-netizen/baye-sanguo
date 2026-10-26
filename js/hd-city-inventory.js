@@ -57,6 +57,7 @@
                     data.g_GoodsQueue !== queue || cities.length !== 38 || queue.length !== 2000 ||
                     hd.menuItems !== getMenu || hd.ready !== getReady || b.getToolCount !== getCount || b.getToolName !== getName || b.hooks !== hooks ||
                     global.BayeHdLibIdentity !== api || api.read !== getIdentity || api.isCurrent !== isCurrent || document.hidden || token !== epoch) { return null; }
+                if (data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 return {key:JSON.stringify([library,owner,raw]),total:total,rows:rows};
             }
             function present(snapshot) {

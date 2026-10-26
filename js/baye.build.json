@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "85d9fbdc4ff147f3baae5200b46593dc10eb0740",
-  "engineSourceSha256": "2a59a39c368656962ddae2c1a9409317b1213046dfba244823bda92909a67aee",
+  "sourceRevision": "f0d9e83252412f3f47436e0097cfac75e21cc22e",
+  "engineSourceSha256": "9fadee559357f8552b355c690e0006ec6d1c49cd7e1798db3f2d90b0c763a9ec",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1793016508,
+  "sourceDateEpoch": 1793017854,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -228,6 +228,39 @@
       "bayeHdGetToolField",
       "bayeHdGetArmType"
     ]
+  },
+  "hdCityInfoProtocol": {
+    "version": 1,
+    "publicApi": "baye.hd.cityInfo()",
+    "fields": [
+      "g_hdCityInfoProtocolVersion",
+      "g_hdCityInfoActive",
+      "g_hdCityInfoComplete",
+      "g_hdCityInfoCustom",
+      "g_hdCityInfoWait",
+      "g_hdCityInfoSeq",
+      "g_hdCityInfoSession",
+      "g_hdCityInfoGeneration",
+      "g_hdCityInfoInputSeq",
+      "g_hdCityInfoCity",
+      "g_hdCityInfoPropertyCount",
+      "g_hdCityInfoPageStart",
+      "g_hdCityInfoPageSize",
+      "g_hdCityInfoRowCount",
+      "g_hdCityInfoTitleGbk",
+      "g_hdCityInfoRowIndices",
+      "g_hdCityInfoRowText"
+    ],
+    "text": {
+      "titleBytes": 64,
+      "rows": 32,
+      "rowBytes": 128,
+      "encoding": "bounded NUL-terminated raw GBK"
+    },
+    "publication": "actual ShowCityPro title and GetCityProStr draw results; actual native page size and zero-based property indices; no extra getter or hook execution",
+    "input": "independent session/inputSeq; Wait only inside actual GamGetMsg; CHAR and completed TOUCH_UP acknowledge once, including boundary and ignored short swipes",
+    "retirement": "local suspended snapshot ticket retires on end, native reset, world commit or higher native owner; no revival",
+    "compatibility": "original return values, property hook counts, extra final-page blank draw calls and timer restore preserved; unsupported/custom pages retain LCD"
   },
   "hdPersonPropertiesProtocol": {
     "version": 1,
@@ -592,16 +625,16 @@
   },
   "artifacts": {
     "baye.js": {
-      "bytes": 193335,
-      "sha256": "04c382173eea0af5657fbaa5c1fb8546ee9dd1dfb90b6b6c74fd844584767dd0"
+      "bytes": 193437,
+      "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
     },
     "baye.wasm": {
-      "bytes": 4561650,
-      "sha256": "f3f05338148740f9c855be88515ac411849c786c6dc25253ffb13985672d00ef"
+      "bytes": 4574812,
+      "sha256": "8c3dcad9bf7f4eb419affa821dc23226968e44fd6a6a5b01fbef1137b726b163"
     },
     "baye.wasm.map": {
       "bytes": 29995,
-      "sha256": "15214ab2f469f9ddd8fbf4fd3e8d4ecc1766ee8f10c990c5ecc18e9d752f13ea"
+      "sha256": "88984eaed2eb416f3d56c5ace5fd0bf85f62359a7a6b3d17e5ad19548e2ff3e3"
     }
   }
 }

@@ -38,6 +38,7 @@
         }
         function sample(data, hd) {
             var value = hd.battleNote(), note = {}, raw = {};
+            if (data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
             if (!value) { return null; }
             for (var i = 0; i < FIELDS.length; i++) {
                 var name = FIELDS[i], nativeName = 'g_hdBattleNote' + name.charAt(0).toUpperCase() + name.slice(1);
@@ -72,7 +73,7 @@
                 var first = sample(data, hd), second = sample(data, hd), latest = identity();
                 if (!first || !second || JSON.stringify(first) !== JSON.stringify(second) || !latest ||
                     JSON.stringify(id) !== JSON.stringify(latest) || baye.data !== data || hd.ready() !== true ||
-                    !available() || !effectiveHd()) { return null; }
+                    !available() || !effectiveHd() || data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 return {data: data, note: second.note, libraryGeneration: latest.generation};
             } catch (error) { return null; }
         }

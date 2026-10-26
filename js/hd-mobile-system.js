@@ -114,7 +114,8 @@
                 ? {status: value.status, sha256: value.sha256, byteLength: value.byteLength, generation: value.generation} : null;
         }
         function nativeReading(data, hd, allowMap) {
-            var raw = {};
+            var raw = {g_hdCityInfoActive: data.g_hdCityInfoActive};
+            if (raw.g_hdCityInfoActive !== undefined && raw.g_hdCityInfoActive !== 0) { return null; }
             RAW.forEach(function (name) { raw[name] = data[name]; });
             if (!RAW.every(function (name) { return uint(raw[name]); }) || raw.g_hdEngineReady !== 1 ||
                 !raw.g_hdDetailGeneration || !raw.g_hdSpeGeneration || !BLOCKERS.every(function (name) { return raw[name] === 0; }) ||
@@ -175,7 +176,7 @@
                 if (!data || baye.data !== data) { return null; }
                 var before = nativeReading(data, hd, allowMap), after = nativeReading(data, hd, allowMap), latest = identity();
                 if (!before || !after || !available() || hd.ready() !== true || baye.data !== data || signature(first) !== signature(latest) ||
-                    signature(before) !== signature(after)) { return null; }
+                    signature(before) !== signature(after) || data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 before.owner.stableKey = signature([first, before.owner.stableKey]);
                 var keyReading = before;
                 if (before.owner.type === 'menu' && (before.owner.screen === 'title' || before.owner.screen === 'period')) {

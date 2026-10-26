@@ -105,6 +105,17 @@ const manifest = {
             'g_hdHelpKind', 'g_hdHelpComplete', 'g_hdHelpPerson', 'g_hdHelpSlot', 'g_hdHelpFields'],
         toolAccess: ['bayeHdGetToolCount', 'bayeHdGetToolField', 'bayeHdGetArmType']
     },
+    hdCityInfoProtocol: {
+        version: 1,
+        publicApi: 'baye.hd.cityInfo()',
+        fields: ['ProtocolVersion','Active','Complete','Custom','Wait','Seq','Session','Generation','InputSeq',
+            'City','PropertyCount','PageStart','PageSize','RowCount','TitleGbk','RowIndices','RowText'].map(name => 'g_hdCityInfo'+name),
+        text: {titleBytes: 64, rows: 32, rowBytes: 128, encoding: 'bounded NUL-terminated raw GBK'},
+        publication: 'actual ShowCityPro title and GetCityProStr draw results; actual native page size and zero-based property indices; no extra getter or hook execution',
+        input: 'independent session/inputSeq; Wait only inside actual GamGetMsg; CHAR and completed TOUCH_UP acknowledge once, including boundary and ignored short swipes',
+        retirement: 'local suspended snapshot ticket retires on end, native reset, world commit or higher native owner; no revival',
+        compatibility: 'original return values, property hook counts, extra final-page blank draw calls and timer restore preserved; unsupported/custom pages retain LCD'
+    },
     hdPersonPropertiesProtocol: {
         version: 1,
         publicApi: 'baye.hd.personProperties()',

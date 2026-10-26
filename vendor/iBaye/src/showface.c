@@ -1129,20 +1129,22 @@ FAR void GetCityName(U8 city,U8 *str)
  *		----		----			-----------
  *		陈泽伟		2005-6-10 9:47	基本功能完成
  ******************************************************************************/
-void GetCityProStr(U8 city,U8 pro,U8 *str)
+static void GetCityProStrCaptured(U8 city,U8 pro,U8 *str,U8* custom)
 {
     U8 strbuf[20];
     str[0] = '\0';
 
     IF_HAS_HOOK("getCityPropertyDisplay") {
+        U8 present = 0;
+        int result;
         U8* display = str;
 
         BIND_U8EX("cityIndex", &city);
         BIND_U8EX("propertyIndex", &pro);
         BIND_GBKARR(display, 128);
-        if (CALL_HOOK() == 0) {
-            HOOK_RETURN();
-        }
+        result = call_hook_a_observed("getCityPropertyDisplay", __v, &present);
+        if (present && custom) *custom = 1;
+        if (result == 0) HOOK_RETURN();
     }
 
     switch (pro)
@@ -1225,6 +1227,11 @@ void GetCityProStr(U8 city,U8 pro,U8 *str)
     }
 }
 
+void GetCityProStr(U8 city,U8 pro,U8 *str)
+{
+    GetCityProStrCaptured(city,pro,str,NULL);
+}
+
 FAR void GetCityState(U8 city,U8 *str)
 {
     U8 state = '\0';
@@ -1276,12 +1283,16 @@ FAR U8 ShowCityProInner(U8 city)
     U8 str[128];
     GMType Msg;
     Touch touch = {0};
+    HdCityInfoSnapshot hdCityInfo;
 
+    baye_hd_city_info_begin(&hdCityInfo, city);
     IF_HAS_HOOK("willShowCityInfo") {
+        U8 present = 0;
+        int result;
         BIND_U8(&city);
-        if (CALL_HOOK_A() == 0) {
-            HOOK_RETURN(0);
-        }
+        result = call_hook_a_observed("willShowCityInfo", __v, &present);
+        hdCityInfo.custom |= present;
+        if (result == 0) { baye_hd_city_info_end(&hdCityInfo); HOOK_RETURN(0); }
     }
 
     showtop = 0;
@@ -1290,20 +1301,27 @@ FAR U8 ShowCityProInner(U8 city)
     {
         if (showflag)
         {
+            baye_hd_city_info_page(&hdCityInfo, city, cfg.cityPropertiesCount, showtop,
+                ((WK_EY - 1 - 2 - (WK_SY + 2)) / (ASC_HGT + 1)) - 1);
             gam_clrlcd((WK_EX - WK_SX - ASC_WID * 15) / 2 + WK_SX - 5,WK_SY + 2,(WK_EX - WK_SX - ASC_WID * 15) / 2 + WK_SX + ASC_WID * 15 + 5,WK_SY + 2 + (ASC_HGT + 1) * ((WK_EY - 1 - 2 - (WK_SY + 2)) / (ASC_HGT + 1)));
             gam_rect((WK_EX - WK_SX - ASC_WID * 15) / 2 + WK_SX - 5 - 1,WK_SY + 2 - 1,(WK_EX - WK_SX - ASC_WID * 15) / 2 + WK_SX + ASC_WID * 15 + 5 + 1,WK_SY + 2 + (ASC_HGT + 1) * ((WK_EY - 1 - 2 - (WK_SY + 2)) / (ASC_HGT + 1)) + 1);
             GetCityName(city,str);
             GamStrShowS((WK_EX - WK_SX - ASC_WID * 15) / 2 + WK_SX,WK_SY + 2,str);
+            baye_hd_city_info_title(&hdCityInfo, str, sizeof(str));
             for (i = 0;i < ((WK_EY - 1 - 2 - (WK_SY + 2)) / (ASC_HGT + 1)) - 1;i ++)
             {
                 if (i >= cfg.cityPropertiesCount) break;
-                GetCityProStr(city,showtop + i,str);
+                GetCityProStrCaptured(city,showtop + i,str,&hdCityInfo.custom);
                 GamStrShowS((WK_EX - WK_SX - ASC_WID * 15) / 2 + WK_SX,WK_SY + 2 + ASC_HGT + (ASC_HGT + 1) * i,str);
+                baye_hd_city_info_row(&hdCityInfo, (U16)showtop + i, str, sizeof(str));
             }
             showflag = 0;
+            baye_hd_city_info_publish(&hdCityInfo);
         }
         
+        baye_hd_city_info_wait(&hdCityInfo, 1);
         GamGetMsg(&Msg);
+        baye_hd_city_info_wait(&hdCityInfo, 0);
     tagHandleMsg:
         if (VM_CHAR_FUN == Msg.type)
         {
@@ -1326,10 +1344,15 @@ FAR U8 ShowCityProInner(U8 city)
                     }
                     break;
                 case VK_ENTER:
+                    baye_hd_city_info_ack(&hdCityInfo);
+                    baye_hd_city_info_end(&hdCityInfo);
                     return(1);
                 case VK_EXIT:
+                    baye_hd_city_info_ack(&hdCityInfo);
+                    baye_hd_city_info_end(&hdCityInfo);
                     return(0);
             }
+            baye_hd_city_info_ack(&hdCityInfo);
         } else if (VM_TOUCH == Msg.type) {
             touchUpdate(&touch, Msg);
 
@@ -1346,8 +1369,11 @@ FAR U8 ShowCityProInner(U8 city)
                         goto tagHandleMsg;
                     }
                 } else {
+                    baye_hd_city_info_ack(&hdCityInfo);
+                    baye_hd_city_info_end(&hdCityInfo);
                     return 0;
                 }
+                baye_hd_city_info_ack(&hdCityInfo);
             }
         }
     }

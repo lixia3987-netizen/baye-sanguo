@@ -52,6 +52,7 @@
                     hd.menuItems !== getMenu || hd.ready !== getReady || b.getPersonCount !== getCount || b.getPersonName !== getName ||
                     b.hooks !== hooks || hooks && hooks.getPersonName !== nameHook || global.BayeHdLibIdentity !== api ||
                     api.read !== getIdentity || api.isCurrent !== isCurrent || document.hidden || token !== epoch) { return null; }
+                if (data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 return {key:JSON.stringify([library,owner,raw,rows]),rows:rows,refs:refs};
             }
             function present(snapshot) {

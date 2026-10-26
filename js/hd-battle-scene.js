@@ -36,6 +36,7 @@
             require(b && data && b.data===data && b.hd && b.hd.ready()===true,'native-data-retired');
             require(typeof options.validateCurrent==='function' && options.validateCurrent()===true,'event-retired');
             require(b.data===data && same(identity(),id),'lib-or-data-retired');
+            require(data.g_hdCityInfoActive===undefined || data.g_hdCityInfoActive===0,'city-info-owner');
         }
         function plan(options) {
             var e=options.event, s=options.source, entry=options.entry, assets=options.assets;

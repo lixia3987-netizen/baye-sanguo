@@ -62,6 +62,7 @@
                     global.BayeHdLibIdentity !== api || hd.fight !== getFight || settings && hd.menuItems !== getMenu ||
                     hd.ready !== getReady || api.read !== getIdentity || api.isCurrent !== isCurrent ||
                     document.hidden || epoch !== token) { return null; }
+                if (data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 return {value:value,key:JSON.stringify([library,owner,seal,value,settings ? [data.g_hdFightWait,data.g_hdFightPhase] : null])};
             }
             var first = capture(), second = capture(), final = capture();

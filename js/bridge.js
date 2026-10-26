@@ -2504,6 +2504,66 @@ function baye_bridge_init() {
             try { d = baye.ensureData(); } catch (e) {}
             return hdPersonPropertiesSnapshot(d);
         },
+        cityInfo: function () {
+            try {
+                var d = baye.ensureData(), reader = hdObserverReader(d), value = {}, rows = [];
+                var fields = [['protocolVersion', 'ProtocolVersion', 255], ['active', 'Active', 1],
+                    ['complete', 'Complete', 1], ['custom', 'Custom', 1], ['wait', 'Wait', 1],
+                    ['seq', 'Seq', 0xffffffff], ['session', 'Session', 0xffffffff],
+                    ['generation', 'Generation', 0xffffffff], ['inputSeq', 'InputSeq', 0xffffffff],
+                    ['cityIndex', 'City', 255], ['propertyCount', 'PropertyCount', 255],
+                    ['pageStart', 'PageStart', 255], ['pageSize', 'PageSize', 255], ['rowCount', 'RowCount', 255]];
+                fields.forEach(function (field) { value[field[0]] = reader.num('g_hdCityInfo' + field[1], field[2]); });
+                value.detailGeneration = reader.num('g_hdDetailGeneration');
+                if (!d || value.protocolVersion !== 1 || value.detailGeneration == null ||
+                    fields.some(function (field) { return value[field[0]] == null; })) return null;
+                value.title = ''; value.rows = [];
+                if (!value.active) {
+                    value.complete = 0;
+                    return reader.stable() && baye.data === d ? value : null;
+                }
+                var config = d.g_engineConfig, cities = hdDetailNum(config, 'citiesCount', 255);
+                var current = value.seq > 0 && value.session > 0 && value.inputSeq > 0 &&
+                    value.generation > 0 && value.generation === value.detailGeneration && cities > 0 &&
+                    value.cityIndex < Math.min(cities, 38) && value.propertyCount > 0 &&
+                    value.pageSize > 0 && value.pageSize <= 32 && value.pageStart < value.propertyCount &&
+                    value.rowCount <= 32 && value.rowCount === Math.min(value.pageSize, value.propertyCount - value.pageStart);
+                function capturedText(name, start, length) {
+                    var buffer = d[name], bytes = [], ended = false;
+                    if (!buffer || typeof buffer !== 'object') return null;
+                    for (var i = 0; i < length; i++) {
+                        var byte = reader.num(name, 255, start + i);
+                        if (byte == null) return null;
+                        if (byte === 0) { ended = true; break; }
+                        bytes.push(byte);
+                    }
+                    if (!ended) return null;
+                    var text = gbkDecoder.decode(new Uint8Array(bytes));
+                    return text.indexOf('\ufffd') < 0 ? text : null;
+                }
+                var title = capturedText('g_hdCityInfoTitleGbk', 0, 64);
+                current = current && title != null && !!d.g_hdCityInfoRowIndices &&
+                    typeof d.g_hdCityInfoRowIndices === 'object' && !!d.g_hdCityInfoRowText &&
+                    typeof d.g_hdCityInfoRowText === 'object';
+                if (current) {
+                    for (var i = 0; i < value.rowCount; i++) {
+                        var index = reader.num('g_hdCityInfoRowIndices', 255, i);
+                        var text = capturedText('g_hdCityInfoRowText', i * 128, 128);
+                        if (index !== value.pageStart + i || text == null) { current = false; break; }
+                        rows.push({index: index, text: text});
+                    }
+                }
+                current = current && reader.stable() && baye.data === d &&
+                    cities === hdDetailNum(d.g_engineConfig, 'citiesCount', 255) &&
+                    fields.every(function (field) {
+                        return value[field[0]] === hdDetailNum(d, 'g_hdCityInfo' + field[1], field[2]);
+                    }) && value.detailGeneration === hdDetailNum(d, 'g_hdDetailGeneration');
+                value.complete = current ? value.complete : 0;
+                value.title = current ? title : '';
+                value.rows = current ? rows : [];
+                return value;
+            } catch (e) { return null; }
+        },
         goods: function () {
             var d = baye.ensureData(), count = hdDetailNum(d, 'g_hdGoodsPropertyCount', 255), rows = [];
             if (count != null) {

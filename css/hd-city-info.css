@@ -1,0 +1,81 @@
+/* Native city-detail owner; also releases the classic canvas on fallback. */
+body.hd-city-info-owner #hd-city-menu,
+body.hd-city-info-owner #hd-overworld,
+body.hd-city-info-owner #hd-dialog,
+body.hd-city-info-owner #hd-system-ui,
+body.hd-city-info-owner #hd-mini-map {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+body.hd-city-info-owner:not(.hd-city-info-hd) .container.js-baye-pc-lcd,
+body.hd-city-info-owner:not(.hd-city-info-hd) #lcd {
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+body.hd-city-info-hd #lcd {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+#hd-city-info[hidden] { display: none !important; }
+#hd-city-info {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+    background: rgba(8,10,16,.72);
+    color: #f3f6fb;
+    font-family: BayeUI,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+}
+.hd-city-info-stage {
+    width: min(640px,100%);
+    max-height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border: 1px solid #566077;
+    border-radius: 16px;
+    background: linear-gradient(160deg,#252c3b,#111824);
+    box-shadow: 0 18px 64px #0008;
+}
+#hd-city-info-title { margin: 0; font-size: 28px; color: #f1d99d; overflow-wrap: anywhere; }
+#hd-city-info-page { margin: 8px 0 16px; color: #bec9db; }
+#hd-city-info-rows {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    min-height: 0;
+    font-size: 19px;
+    line-height: 1.55;
+}
+#hd-city-info-rows li { white-space: pre-wrap; overflow-wrap: anywhere; padding: 9px 12px; border-bottom: 1px solid #ffffff12; }
+#hd-city-info-rows li:nth-child(odd) { background: #ffffff05; }
+.hd-city-info-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hd-city-info-actions button {
+    flex: 1 1 90px;
+    min-height: 44px;
+    border: 1px solid #64718b;
+    border-radius: 8px;
+    background: #344258;
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+.hd-city-info-actions button:disabled { opacity: .4; cursor: default; }
+.hd-city-info-actions button:focus-visible { outline: 3px solid #f1d99d; outline-offset: 2px; }
+@media (max-width:600px),(max-height:500px) {
+    #hd-city-info { padding: 12px; }
+    .hd-city-info-stage { padding: 16px; border-radius: 12px; }
+    #hd-city-info-title { font-size: 23px; }
+    #hd-city-info-page { margin: 5px 0 8px; font-size: 13px; }
+    #hd-city-info-rows { font-size: 16px; }
+    #hd-city-info-rows li { padding: 5px 8px; }
+    .hd-city-info-actions { margin-top: 10px; }
+}

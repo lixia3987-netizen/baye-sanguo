@@ -1,0 +1,942 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V90",
+  "parentCommit": "f0d9e83252412f3f47436e0097cfac75e21cc22e",
+  "feature": "Native ShowCityPro HD page with original captured GBK rows and acknowledged input",
+  "accepted": true,
+  "acceptanceScope": "Implementation plus targeted C/bridge/controller/owner regressions, no-main linked initialization, controlled layout only",
+  "targeted": {
+    "accepted": true,
+    "started": "2026-10-26T13:03:27.403Z",
+    "finished": "2026-10-26T13:03:58.707Z",
+    "processExitCode": 0,
+    "signal": null,
+    "tests": 2404,
+    "pass": 2404,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "modules": [
+      "scripts/test-hd-city-info-engine.mjs",
+      "scripts/test-hd-city-info-bridge.mjs",
+      "scripts/test-hd-city-info.mjs",
+      "scripts/test-hd-city-info-owners.mjs",
+      "scripts/test-hd-details-engine.mjs",
+      "scripts/test-hd-details-bridge.mjs",
+      "scripts/test-hd-person-properties-engine.mjs",
+      "scripts/test-hd-engine-protocol.mjs",
+      "scripts/test-hd-mobile-trade-engine.mjs",
+      "scripts/test-hd-mobile-transfer-engine.mjs",
+      "scripts/test-hd-mobile-diplomacy-engine.mjs",
+      "scripts/test-hd-overviews-engine.mjs",
+      "scripts/test-hd-campaign-engine.mjs",
+      "scripts/test-hd-ai-target-engine.mjs",
+      "scripts/test-hd-status-effect-engine.mjs",
+      "scripts/test-hd-city-mobile-host.mjs",
+      "scripts/test-hd-mobile-map.mjs",
+      "scripts/test-hd-mobile-city.mjs",
+      "scripts/test-hd-mobile-system.mjs",
+      "scripts/test-hd-mobile-minimap.mjs",
+      "scripts/test-hd-mobile-battle.mjs",
+      "scripts/test-hd-minimap.mjs",
+      "scripts/test-hd-city-hud.mjs",
+      "scripts/test-hd-battle-note.mjs",
+      "scripts/test-hd-battle-scene.mjs",
+      "scripts/test-hd-dialog-routing.mjs",
+      "scripts/test-hd-overworld-touch.mjs",
+      "scripts/test-hd-overworld-identity.mjs",
+      "scripts/test-hd-mobile.mjs",
+      "scripts/test-hd-mobile-portraits.mjs",
+      "scripts/test-hd-battle-mobile-host.mjs",
+      "scripts/test-hd-input.mjs"
+    ],
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 45953,
+        "sha256": "bb29cd20c0d4b002933086d253052d5d02feb925ff06caeeabf2d6cbed39480c"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 22679,
+        "sha256": "25b26f83af78875742f77a41d19076f6bbe595eafd7f260a45d227fd93b7c406"
+      },
+      {
+        "path": "js/baye.js",
+        "bytes": 193437,
+        "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 164600,
+        "sha256": "90bcc5d299882b632608e33486b3e3664f5c6caac56470fcc1eac243a943ff24"
+      },
+      {
+        "path": "js/hd-battle-note.js",
+        "bytes": 9171,
+        "sha256": "9902f7ae3520a20a3c5f0fd9b53b10c97ef889d8d85b61158a0230c2937e626f"
+      },
+      {
+        "path": "js/hd-battle-scene.js",
+        "bytes": 18295,
+        "sha256": "62765d45534fce08ce4be8c0f3dba1446a9296d6fe9a1328fb6cb2584ba4451a"
+      },
+      {
+        "path": "js/hd-battle-status.js",
+        "bytes": 6503,
+        "sha256": "f0beaf7e5cc4974c40b8c986ed433212537c37704fcf4f2bcff2996a2d136cca"
+      },
+      {
+        "path": "js/hd-city-garrison.js",
+        "bytes": 6703,
+        "sha256": "353e41fb6ce88c6f73cc031125edc597dd57d23d9d57992d813f72c234b20971"
+      },
+      {
+        "path": "js/hd-city-info.js",
+        "bytes": 16336,
+        "sha256": "9f58b3e99a7b63a6c41b5b2a5c07730515be6f882c0d3cea2e16eef6c2cf3334"
+      },
+      {
+        "path": "js/hd-city-inventory.js",
+        "bytes": 6270,
+        "sha256": "c42a59ee80324d8d2afdd522f90456701ed9037ef97078a9de2ed618e6ff6e85"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 481814,
+        "sha256": "ded0ea6ec412cbab4226e504e7fab5eab4d02fe98b7e0c7038b72682f63cfa27"
+      },
+      {
+        "path": "js/hd-city-plans.js",
+        "bytes": 11446,
+        "sha256": "f11ed3892cf018435fc1204657a73e00b6a3296227040b0d16636fd1ad8a28f1"
+      },
+      {
+        "path": "js/hd-city-rules.js",
+        "bytes": 10306,
+        "sha256": "9a01b53242f6163a7b3bc7620bd17b06a399f49cd64f72306b7c7688ae817721"
+      },
+      {
+        "path": "js/hd-dialog.js",
+        "bytes": 147748,
+        "sha256": "0a58c7ba375a22f8dcdb5d29b5b780b789ba14d53de80a9d8cc2bb99c5777433"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "js/hd-minimap.js",
+        "bytes": 33512,
+        "sha256": "e591521e5d8a6a3271e51a370ec7076db62415a0903ee9f46f2f0f60f8763e81"
+      },
+      {
+        "path": "js/hd-mobile-battle.js",
+        "bytes": 32581,
+        "sha256": "25d75bb475fc7abe290f9b2e9ccd30133f2c1da4c19f01c58d187a721648fe77"
+      },
+      {
+        "path": "js/hd-mobile-city.js",
+        "bytes": 35285,
+        "sha256": "0efaaf5c81638f01e80ad2a008aaee4ee25e8420632d64d52f5083d278fd6786"
+      },
+      {
+        "path": "js/hd-mobile-map.js",
+        "bytes": 32782,
+        "sha256": "2588a2c1372d57ee2ce433d9685be5a200c3098ba7eea6225628a0e9433a8a20"
+      },
+      {
+        "path": "js/hd-mobile-minimap.js",
+        "bytes": 11681,
+        "sha256": "79fd30835fb40c9c0d45db76954aed66013f771f5a1fe73fa5f6f79134eb6999"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 24444,
+        "sha256": "15a51c82f97acf1494b5d8537c9d7cddcda28bd2811990170ac46ab06e0e4ab0"
+      },
+      {
+        "path": "js/hd-mobile-system.js",
+        "bytes": 32447,
+        "sha256": "4eca3f65ca811736aa60a10f990f9d1180a6cc644c7dca879e0a6b06dee813af"
+      },
+      {
+        "path": "js/hd-mobile.js",
+        "bytes": 10426,
+        "sha256": "edc1b05dd7d0fa793deac95fe11573e0afb7646d90a4b62ed0afbe8426aabb5d"
+      },
+      {
+        "path": "js/hd-overworld.js",
+        "bytes": 168634,
+        "sha256": "ee23ee349763d6af1c1f6f4aa8bca4c28c2262e65dceb74a4fa87d7ce1d8f0f6"
+      },
+      {
+        "path": "js/hd-skill-hints.js",
+        "bytes": 9561,
+        "sha256": "2a5804c7eb94b1676fde98953a3b3ca2ac094350dc06081ff7de786550a55cad"
+      },
+      {
+        "path": "js/lcd.js",
+        "bytes": 35200,
+        "sha256": "d59a000918942ab1489f1a69627916a14aee2c7551c7dc0113093b011bf48899"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "m.html",
+        "bytes": 21467,
+        "sha256": "42d4389eb323b469e1774a9c62fe87fc79fabca2e617575652ea1f85ef6946cf"
+      },
+      {
+        "path": "package.json",
+        "bytes": 22016,
+        "sha256": "2e86dce3c10e0694995ce9c2151baf914118b288f05e2d2f8dfdf8c5c3c8eda5"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 31685,
+        "sha256": "bdfca6a238ccb189a9ff0ede0275358c0bb7c921a61fe751a3555807c575f13b"
+      },
+      {
+        "path": "scripts/test-hd-ai-target-engine.mjs",
+        "bytes": 25418,
+        "sha256": "15970547098049abe2c7f11ab031fd2b4c3ce55f67dabb34ce1d5292dfe721df"
+      },
+      {
+        "path": "scripts/test-hd-battle-mobile-host.mjs",
+        "bytes": 18771,
+        "sha256": "2296166ffe576cba6053d1dd0b8b4fa352570900654869e11bfd5745ca8a19a4"
+      },
+      {
+        "path": "scripts/test-hd-battle-note.mjs",
+        "bytes": 15733,
+        "sha256": "fc503d02532b0bafe34d08525da1a0eb98ab5048b6bee3a38cef8e3e882cf077"
+      },
+      {
+        "path": "scripts/test-hd-battle-scene.mjs",
+        "bytes": 15203,
+        "sha256": "609e1b81727cf38d09b98f9ec7afd4b6a02aab95bac0fdb7b5b07dc55f8f369b"
+      },
+      {
+        "path": "scripts/test-hd-campaign-engine.mjs",
+        "bytes": 53057,
+        "sha256": "f61e28dfbe8d36830445166d3a934966c26f14b6b80da78249d93574fac0b6d5"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 247579,
+        "sha256": "4d3e451e17668c94cd951f1d19f427ee5d85b09d723fc9c623be0b3c01a94240"
+      },
+      {
+        "path": "scripts/test-hd-city-info-bridge.mjs",
+        "bytes": 10542,
+        "sha256": "fdf3ed46266ed4d509e460d61ce288cb1878a05e58da41da99a632249602df5d"
+      },
+      {
+        "path": "scripts/test-hd-city-info-engine.mjs",
+        "bytes": 16277,
+        "sha256": "e8adb0accb57c6d5d2604961cb53774d78049055150ddc403a44301df4b55de9"
+      },
+      {
+        "path": "scripts/test-hd-city-info-owners.mjs",
+        "bytes": 4482,
+        "sha256": "bcf855cbc28d35be9f0f030dfb048686cd0a99e4f9032710d8062e0f66d8578d"
+      },
+      {
+        "path": "scripts/test-hd-city-info.mjs",
+        "bytes": 15913,
+        "sha256": "4e27a1d28eb6f7dd79d8ad1f75a61b85a56c7e4bce04610c36bfc81d39c2623c"
+      },
+      {
+        "path": "scripts/test-hd-city-mobile-host.mjs",
+        "bytes": 195248,
+        "sha256": "7d2e172ecfc4c3e3d8f65bf107b65e36d867d2e1bc165b08ae17f0bac122e21d"
+      },
+      {
+        "path": "scripts/test-hd-details-bridge.mjs",
+        "bytes": 31940,
+        "sha256": "75231e084acb21bef96b715238ae4b69025ac50c5450e1c726a911b9fc449bf9"
+      },
+      {
+        "path": "scripts/test-hd-details-engine.mjs",
+        "bytes": 39859,
+        "sha256": "ebf0acc42b7da1203f2084675d5753b4e7ce9ae42ef4251243169dfe56d2f344"
+      },
+      {
+        "path": "scripts/test-hd-dialog-routing.mjs",
+        "bytes": 125353,
+        "sha256": "dc4fadb0b93fd733e9a25a3ef1af7592fc6bf52307ae9b4d811b5d90c88731c4"
+      },
+      {
+        "path": "scripts/test-hd-engine-protocol.mjs",
+        "bytes": 57449,
+        "sha256": "b3af31fcb2fd0771f8a0f771a6afa468bcc80e86fc00bc0d919157bde49b9404"
+      },
+      {
+        "path": "scripts/test-hd-input.mjs",
+        "bytes": 31944,
+        "sha256": "2a9a23d8a423a83e56b9ba081fc41fbca0e6be5bd2126a1a17f61a85c61f44d4"
+      },
+      {
+        "path": "scripts/test-hd-minimap.mjs",
+        "bytes": 47054,
+        "sha256": "e8ac342f6986ad883f8468bf62fafac9fc0a9401b87487bc0d1ac5f376055e5c"
+      },
+      {
+        "path": "scripts/test-hd-mobile-battle.mjs",
+        "bytes": 55154,
+        "sha256": "1f194d387f5fa45a08b5d15eb97e06bf0c0da3ccd04e6b12be96d354a1500df5"
+      },
+      {
+        "path": "scripts/test-hd-mobile-city.mjs",
+        "bytes": 42083,
+        "sha256": "3ee57188847151e5344fb4556fa2dad77923072e411c99ee14038c9f1b361547"
+      },
+      {
+        "path": "scripts/test-hd-mobile-diplomacy-engine.mjs",
+        "bytes": 21981,
+        "sha256": "9fe1b9919494ac10b05aa56f2412f52b117d7f92d65e12d676f9e11efaff36fe"
+      },
+      {
+        "path": "scripts/test-hd-mobile-map.mjs",
+        "bytes": 43914,
+        "sha256": "c6f35391bbca7068563eca877dfc318b330ecb6f544973fdc6f686b2585b5dd6"
+      },
+      {
+        "path": "scripts/test-hd-mobile-minimap.mjs",
+        "bytes": 17999,
+        "sha256": "2bf6fff307639780ce62367ec60e46164695e106c1d9f2bc9a1927736ceffae6"
+      },
+      {
+        "path": "scripts/test-hd-mobile-portraits.mjs",
+        "bytes": 31280,
+        "sha256": "74039e6bb55db925cce0a0275ec659cc0cf611bfc8c797b31bd74093e26d5cd1"
+      },
+      {
+        "path": "scripts/test-hd-mobile-system.mjs",
+        "bytes": 51689,
+        "sha256": "208fa8325b2efc6c0bd0656b2bcc7b38128356f436a6b1967ad95d0ba13abe0b"
+      },
+      {
+        "path": "scripts/test-hd-mobile-trade-engine.mjs",
+        "bytes": 18304,
+        "sha256": "801a1656b84ae9851d5d6a6a52740c9b7918b3909c9758231673b1df6dc4b11a"
+      },
+      {
+        "path": "scripts/test-hd-mobile-transfer-engine.mjs",
+        "bytes": 25556,
+        "sha256": "163f9e599ce2d22e629f3363f772538d371f8038a6481b0ea73d9fd925eed0f3"
+      },
+      {
+        "path": "scripts/test-hd-mobile.mjs",
+        "bytes": 16653,
+        "sha256": "d036dc223eeb4a431e7b5a8364883fb34dc7a1a52c23b99878477e92d911f01b"
+      },
+      {
+        "path": "scripts/test-hd-overviews-engine.mjs",
+        "bytes": 35508,
+        "sha256": "7cf67849df86099615bba678c27eadfc467b2e6708f468d060f883b74856764d"
+      },
+      {
+        "path": "scripts/test-hd-overworld-identity.mjs",
+        "bytes": 22580,
+        "sha256": "d7a66233392b889adc415c80ad3d781103f6f2131569a55124371551de5a11a5"
+      },
+      {
+        "path": "scripts/test-hd-overworld-touch.mjs",
+        "bytes": 29082,
+        "sha256": "a114150042a15a34a1c19122a83325535162897fd2e84ad365b866383133053e"
+      },
+      {
+        "path": "scripts/test-hd-person-properties-engine.mjs",
+        "bytes": 25445,
+        "sha256": "3e1a707496ca22d1f335e326123973bcbcf6409a59fef34fd8bc2de5335c4c50"
+      },
+      {
+        "path": "scripts/test-hd-status-effect-engine.mjs",
+        "bytes": 27300,
+        "sha256": "abb6bc53f873c0ca08b8bfe4574a727b46964dbf5a375fe881992da8fccee1ea"
+      },
+      {
+        "path": "scripts/write-wasm-manifest.mjs",
+        "bytes": 20402,
+        "sha256": "1bb135cb1fa8e10901e23d79f963f5ea8c058c74b604dfa60c4314bfc661acf1"
+      },
+      {
+        "path": "vendor/iBaye/src/bind-objects.c",
+        "bytes": 18495,
+        "sha256": "1bcf05ce980b26df368f3dc399e1ad256a3bbd315024ae065947860c98b28959"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 205797,
+        "sha256": "1083b8a5119d079e5aba4de5104d5cb8acf76e3ea3373ea7e94dfae7751f9e72"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 21136,
+        "sha256": "926a4e2d2f473fe7798b870fbfe300cba651ceffaac52e7f40fa138e8ebfb19b"
+      },
+      {
+        "path": "vendor/iBaye/src/showface.c",
+        "bytes": 44299,
+        "sha256": "49d16a86891a712c675409c8377f234bc69d2d9c13d56da865dc83a5eab87895"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 40,
+    "fullSuiteRun": false,
+    "compilerPath": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+    "compilerVersion": "clang version 18.0.0git (https://github.com/llvm/llvm-project f2464ca317bfeeedddb7cbdea3c2c8ec487890bb)",
+    "cCompiled": true,
+    "actualGameplayAccepted": false,
+    "globalHdComplete": false
+  },
+  "nativeBuild": {
+    "sourceCount": 128,
+    "baselineEngineSourceSha256": "2a59a39c368656962ddae2c1a9409317b1213046dfba244823bda92909a67aee",
+    "engineSourceSha256": "9fadee559357f8552b355c690e0006ec6d1c49cd7e1798db3f2d90b0c763a9ec",
+    "changedFiles": [
+      "vendor/iBaye/src/hd-bridge.c",
+      "vendor/iBaye/src/hd-bridge.h",
+      "vendor/iBaye/src/showface.c",
+      "vendor/iBaye/src/bind-objects.c"
+    ],
+    "otherNativeSourcesUnchanged": true,
+    "sourceRevision": "f0d9e83252412f3f47436e0097cfac75e21cc22e",
+    "sourceModified": true,
+    "emscriptenVersion": "3.1.51",
+    "cmakeVersion": "cmake version 3.31.6",
+    "sourceDateEpoch": 1793017854,
+    "buildExitCode": 0
+  },
+  "runtime": {
+    "accepted": true,
+    "stageAndInstalledBytesExact": true,
+    "method": "Atomic replacement of the four explicitly checked runtime paths; previous runtime retained",
+    "files": [
+      {
+        "path": "js/baye.js",
+        "bytes": 193437,
+        "sha256": "8aa2f37787b906e27349cfd63d66c86dcc563de0259584e368ba5adbc5775d58"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4574812,
+        "sha256": "8c3dcad9bf7f4eb419affa821dc23226968e44fd6a6a5b01fbef1137b726b163"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "88984eaed2eb416f3d56c5ace5fd0bf85f62359a7a6b3d17e5ad19548e2ff3e3"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 22679,
+        "sha256": "25b26f83af78875742f77a41d19076f6bbe595eafd7f260a45d227fd93b7c406"
+      }
+    ],
+    "engineSourceSha256": "9fadee559357f8552b355c690e0006ec6d1c49cd7e1798db3f2d90b0c763a9ec",
+    "sourceRevision": "f0d9e83252412f3f47436e0097cfac75e21cc22e",
+    "engineSourceModified": true,
+    "linkedNoMainSmoke": {
+      "accepted": true,
+      "noInitialRun": true,
+      "shouldRunNow": false,
+      "moduleExportFunctions": 83,
+      "gameMainRun": false,
+      "nativeInputs": 0
+    }
+  },
+  "layout": {
+    "accepted": true,
+    "browserRuns": 3,
+    "productionControllerAndBridge": true,
+    "productionEntryPanelAndCss": true,
+    "noGameRuntime": true,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false,
+    "results": [
+      {
+        "name": "pc",
+        "accepted": true,
+        "chromeExitCode": 0,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "panelHidden": false,
+          "title": "襄阳",
+          "stage": {
+            "x": 312,
+            "y": 93.90625,
+            "right": 952,
+            "bottom": 531.09375,
+            "width": 640,
+            "height": 437.1875
+          },
+          "rows": {
+            "x": 337,
+            "y": 201.90625,
+            "right": 927,
+            "bottom": 444.09375,
+            "width": 590,
+            "height": 242.1875
+          },
+          "rowCount": 5,
+          "rowsScrollHeight": 242,
+          "rowsClientHeight": 242,
+          "rowsOverflow": "auto",
+          "buttons": [
+            {
+              "text": "上一页",
+              "disabled": true,
+              "rect": {
+                "x": 337,
+                "y": 462.09375,
+                "right": 478.5,
+                "bottom": 506.09375,
+                "width": 141.5,
+                "height": 44
+              }
+            },
+            {
+              "text": "下一页",
+              "disabled": false,
+              "rect": {
+                "x": 486.5,
+                "y": 462.09375,
+                "right": 628,
+                "bottom": 506.09375,
+                "width": 141.5,
+                "height": 44
+              }
+            },
+            {
+              "text": "经典画面",
+              "disabled": false,
+              "rect": {
+                "x": 636,
+                "y": 462.09375,
+                "right": 777.5,
+                "bottom": 506.09375,
+                "width": 141.5,
+                "height": 44
+              }
+            },
+            {
+              "text": "返回",
+              "disabled": false,
+              "rect": {
+                "x": 785.5,
+                "y": 462.09375,
+                "right": 927,
+                "bottom": 506.09375,
+                "width": 141.5,
+                "height": 44
+              }
+            }
+          ],
+          "lcdVisibility": "hidden",
+          "previousOwnerVisibility": "hidden",
+          "horizontalOverflow": false,
+          "keys": [],
+          "errors": [],
+          "rawBytesStable": true
+        },
+        "screenshot": "build/city-info-20261026-v90/pc-layout-v3.png",
+        "controlledSnapshot": true
+      },
+      {
+        "name": "mobile-small",
+        "accepted": true,
+        "chromeExitCode": 0,
+        "metrics": {
+          "viewport": {
+            "width": 500,
+            "height": 545
+          },
+          "panelHidden": false,
+          "title": "襄阳",
+          "stage": {
+            "x": 12,
+            "y": 12,
+            "right": 488,
+            "bottom": 533,
+            "width": 476,
+            "height": 521
+          },
+          "rows": {
+            "x": 29,
+            "y": 90,
+            "right": 471,
+            "bottom": 462,
+            "width": 442,
+            "height": 372
+          },
+          "rowCount": 11,
+          "rowsScrollHeight": 394,
+          "rowsClientHeight": 372,
+          "rowsOverflow": "auto",
+          "buttons": [
+            {
+              "text": "上一页",
+              "disabled": true,
+              "rect": {
+                "x": 29,
+                "y": 472,
+                "right": 133.5,
+                "bottom": 516,
+                "width": 104.5,
+                "height": 44
+              }
+            },
+            {
+              "text": "下一页",
+              "disabled": true,
+              "rect": {
+                "x": 141.5,
+                "y": 472,
+                "right": 246,
+                "bottom": 516,
+                "width": 104.5,
+                "height": 44
+              }
+            },
+            {
+              "text": "经典画面",
+              "disabled": false,
+              "rect": {
+                "x": 254,
+                "y": 472,
+                "right": 358.5,
+                "bottom": 516,
+                "width": 104.5,
+                "height": 44
+              }
+            },
+            {
+              "text": "返回",
+              "disabled": false,
+              "rect": {
+                "x": 366.5,
+                "y": 472,
+                "right": 471,
+                "bottom": 516,
+                "width": 104.5,
+                "height": 44
+              }
+            }
+          ],
+          "lcdVisibility": "hidden",
+          "previousOwnerVisibility": "hidden",
+          "horizontalOverflow": false,
+          "keys": [],
+          "errors": [],
+          "rawBytesStable": true
+        },
+        "screenshot": "build/city-info-20261026-v90/mobile-small-layout-v3.png",
+        "controlledSnapshot": true
+      },
+      {
+        "name": "mobile-wide",
+        "accepted": true,
+        "chromeExitCode": 0,
+        "metrics": {
+          "viewport": {
+            "width": 828,
+            "height": 295
+          },
+          "panelHidden": false,
+          "title": "襄阳",
+          "stage": {
+            "x": 94,
+            "y": 12,
+            "right": 734,
+            "bottom": 283,
+            "width": 640,
+            "height": 271
+          },
+          "rows": {
+            "x": 111,
+            "y": 90,
+            "right": 717,
+            "bottom": 212,
+            "width": 606,
+            "height": 122
+          },
+          "rowCount": 11,
+          "rowsScrollHeight": 394,
+          "rowsClientHeight": 122,
+          "rowsOverflow": "auto",
+          "buttons": [
+            {
+              "text": "上一页",
+              "disabled": true,
+              "rect": {
+                "x": 111,
+                "y": 222,
+                "right": 256.5,
+                "bottom": 266,
+                "width": 145.5,
+                "height": 44
+              }
+            },
+            {
+              "text": "下一页",
+              "disabled": true,
+              "rect": {
+                "x": 264.5,
+                "y": 222,
+                "right": 410,
+                "bottom": 266,
+                "width": 145.5,
+                "height": 44
+              }
+            },
+            {
+              "text": "经典画面",
+              "disabled": false,
+              "rect": {
+                "x": 418,
+                "y": 222,
+                "right": 563.5,
+                "bottom": 266,
+                "width": 145.5,
+                "height": 44
+              }
+            },
+            {
+              "text": "返回",
+              "disabled": false,
+              "rect": {
+                "x": 571.5,
+                "y": 222,
+                "right": 717,
+                "bottom": 266,
+                "width": 145.5,
+                "height": 44
+              }
+            }
+          ],
+          "lcdVisibility": "hidden",
+          "previousOwnerVisibility": "hidden",
+          "horizontalOverflow": false,
+          "keys": [],
+          "errors": [],
+          "rawBytesStable": true
+        },
+        "screenshot": "build/city-info-20261026-v90/mobile-wide-layout-v3.png",
+        "controlledSnapshot": true
+      }
+    ],
+    "actualViewportNote": "Chrome CLI clamps the requested narrow 360px window: actual CSS width was 500px; this is a narrow-window check, not 360px emulation or real mobile acceptance",
+    "totalBrowserLaunchAttempts": 5,
+    "retainedFailedAttempts": [
+      {
+        "accepted": false,
+        "browserRuns": 1,
+        "kind": "Isolated fixture failed to supply native bridge imports; default bridge error alert blocked headless dump",
+        "chromeTimedOut": true,
+        "productAcceptance": false,
+        "heldInspected": false,
+        "retainedFiles": [
+          "pc-layout-v1.html",
+          "pc-layout-v1.dom.html",
+          "pc-layout-v1.stderr.log"
+        ]
+      },
+      {
+        "accepted": false,
+        "browserRuns": 1,
+        "chromeExitCode": 0,
+        "kind": "Panel rendered but second animation frame did not run before headless virtual-time dump; metric output empty",
+        "productAcceptance": false,
+        "heldInspected": false,
+        "retainedFiles": [
+          "pc-layout-v2.html",
+          "pc-layout-v2.dom.html",
+          "pc-layout-v2.png",
+          "pc-layout-v2.stderr.log"
+        ]
+      }
+    ]
+  },
+  "preflightCorrections": [
+    {
+      "accepted": false,
+      "testRunnerStarted": false,
+      "kind": "Explicit source pin preflight rejected two nonexistent module paths reported by the owner subagent",
+      "missing": [
+        "scripts/test-hd-battle-status.mjs",
+        "scripts/test-hd-skill-hints.mjs"
+      ],
+      "correctedExistingOwnerModules": 13,
+      "actualTestsClaimed": false
+    },
+    {
+      "accepted": false,
+      "testRunnerStarted": false,
+      "kind": "Windows refused redundant write to installed generated loader; preparation now skips byte-identical normalization writes",
+      "path": "js/baye.js",
+      "error": "UNKNOWN -4094",
+      "runtimeHashMustRemainInstalled": true,
+      "actualTestsClaimed": false
+    }
+  ],
+  "evidence": [
+    {
+      "path": "build/city-info-20261026-v90/targeted-v2.stdout.tap",
+      "bytes": 533720,
+      "sha256": "05a6ab37fd0422d8d578d31313fb6e2b5679008b8c0f194701944066c0bc74ae"
+    },
+    {
+      "path": "build/city-info-20261026-v90/targeted-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/city-info-20261026-v90/targeted-v2.json",
+      "bytes": 13073,
+      "sha256": "b6f4f6a0bbac094ee271aaab05f4db30a389403f6e07ffa79e59bedc3456003e"
+    },
+    {
+      "path": "build/city-info-20261026-v90/source-baseline-v1.json",
+      "bytes": 22824,
+      "sha256": "df46a1897848de7de51fe30b4037b02d4eb3fc8538c0652bdbbb85363097094d"
+    },
+    {
+      "path": "build/city-info-20261026-v90/build-v1.stdout.log",
+      "bytes": 1730,
+      "sha256": "08171f5061328274d80b6a02a4d16ea21f6d6cbfca501347ee4006ac21eddf72"
+    },
+    {
+      "path": "build/city-info-20261026-v90/build-v1.stderr.log",
+      "bytes": 1393,
+      "sha256": "e85937636e98298c355b7ba88092a0a8bb3ae1bbe08eeab4b4b2565226ee9822"
+    },
+    {
+      "path": "build/city-info-20261026-v90/build-v1.json",
+      "bytes": 24277,
+      "sha256": "72db933def5caa8dc55a4f46c8f1645230c00f184c2b8e90d19163aeb2ab577b"
+    },
+    {
+      "path": "build/city-info-20261026-v90/linked-smoke-v1.json",
+      "bytes": 2446,
+      "sha256": "db640fa2efa2abb25d99fd789a12bd47dec04e04114dbeebff02f9f9e49da626"
+    },
+    {
+      "path": "build/city-info-20261026-v90/install-v1.json",
+      "bytes": 976,
+      "sha256": "f7946647c3b618ef4838546474c46d7af645cb3897953f2a801cc16e95576af9"
+    },
+    {
+      "path": "build/city-info-20261026-v90/preview-layout-v3.json",
+      "bytes": 6880,
+      "sha256": "6c31c6ce59603234a74d3a73f0a28e662ba3ef01503dd1d5810ba4aa3370f2c9"
+    },
+    {
+      "path": "build/city-info-20261026-v90/preview-attempt-v1.json",
+      "bytes": 355,
+      "sha256": "7dd4cee61e89bc8cd3d34155b3649fc173035533d5e097e25c5914a54d2dcbb4"
+    },
+    {
+      "path": "build/city-info-20261026-v90/preview-attempt-v2.json",
+      "bytes": 379,
+      "sha256": "a5cb8523b028cb5fbbb54ad18a836d5e5a8de8a8d27426c41120ffa6dbf828c2"
+    },
+    {
+      "path": "build/city-info-20261026-v90/targeted-preflight-v1.json",
+      "bytes": 335,
+      "sha256": "cbddcb314aff98a72e2ce500f76fb7872428002ef7dfeabec4c5f3d53f69e5e4"
+    },
+    {
+      "path": "build/city-info-20261026-v90/targeted-preflight-v2.json",
+      "bytes": 313,
+      "sha256": "3c76f1b8e5a61c7128bdced3863f7d1480da34873d60b1273b27858d45e78495"
+    },
+    {
+      "path": "build/city-info-20261026-v90/pc-layout-v3.png",
+      "bytes": 115871,
+      "sha256": "3f5df09258092fe29593e7623bf3bc6409f4dda2ff1e35036250ab827042ae56"
+    },
+    {
+      "path": "build/city-info-20261026-v90/pc-layout-v3.dom.html",
+      "bytes": 8861,
+      "sha256": "92cb74497ac743fa6d195d5eec1fd0ee040db51ae6b8a104ac35b52d1e8996e0"
+    },
+    {
+      "path": "build/city-info-20261026-v90/mobile-small-layout-v3.png",
+      "bytes": 89908,
+      "sha256": "99a99114b3925b8e9d7d6f99de3e7be4e20b7b6df5f0a129b28aee6557481f37"
+    },
+    {
+      "path": "build/city-info-20261026-v90/mobile-small-layout-v3.dom.html",
+      "bytes": 8964,
+      "sha256": "c4012ab07a9585475babbfec3bd618876960155f29467bad5b431f00eede5d64"
+    },
+    {
+      "path": "build/city-info-20261026-v90/mobile-wide-layout-v3.png",
+      "bytes": 92928,
+      "sha256": "437041de8ee5e510ac7d73aa0a767b74ede17802a37b643e4b7d13174d8f53b2"
+    },
+    {
+      "path": "build/city-info-20261026-v90/mobile-wide-layout-v3.dom.html",
+      "bytes": 8966,
+      "sha256": "16b32afd2cf8b72d12c020acea98531b379ea83cf40396cec551ebf79d8b360c"
+    },
+    {
+      "path": "build/city-info-20261026-v90/entry-cache-v1.json",
+      "bytes": 2644,
+      "sha256": "bc8ffbbcab46000429063c5d0a8a1590d8268f7a9a85017ce337bc014b59cef7"
+    },
+    {
+      "path": "build/city-info-20261026-v90/targeted-v1.json",
+      "bytes": 13073,
+      "sha256": "09fda563bc62078d6ab62f7288c0a5af926e99e1af5ccafea1d754677bfa40f0"
+    }
+  ],
+  "currentChecksOnly": true,
+  "newDefaultTests": 40,
+  "fullSuiteRun": false,
+  "actualGameplayAccepted": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "saveRngAccepted": false,
+  "globalHdComplete": false,
+  "held": {
+    "privateInterfaceInspected": false,
+    "inputs": 0,
+    "restarted": false,
+    "closed": false,
+    "decision": "Keep existing battle; continue other HD development"
+  },
+  "remaining": [
+    "Natural original-game reconnaissance and own-city entry validation",
+    "Real mobile 360px/touch and browser input acceptance",
+    "Full regression and performance tuning later",
+    "Save-slot month and cross-period ruler summaries remain a development candidate"
+  ],
+  "entryCache": {
+    "version": "20261026cityinfo1",
+    "changedReferences": 33,
+    "allTouchedReferencedScriptsUpdated": true
+  },
+  "priorTargetedRun": {
+    "tests": 2404,
+    "addedToFinalTotal": false,
+    "reason": "Entry cache versions were subsequently updated, so the same 32 modules were rerun against final entry bytes"
+  }
+}

@@ -66,6 +66,7 @@
     }
 
     function shouldShowHd() {
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (mobileHost && !(fightActive() && mobileBattleHost ? battleMobileAvailable() : mobileAvailable())) { return false; }
         if (fightActive()) {
             // A live battle owns its presentation mode. Falling back to the
@@ -92,10 +93,14 @@
         if (!hdReady()) {
             return null;
         }
-        if (window.baye && typeof baye.ensureData === 'function') {
-            return baye.ensureData();
-        }
-        return window.baye && baye.data ? baye.data : null;
+        var data = window.baye && typeof baye.ensureData === 'function' ? baye.ensureData() :
+            window.baye && baye.data ? baye.data : null;
+        return cityInfoOwns(data) ? null : data;
+    }
+
+    function cityInfoOwns(data) {
+        var active = data ? data.g_hdCityInfoActive : undefined;
+        return active !== undefined && active !== 0;
     }
 
     function readNumber(obj, name) {
@@ -135,6 +140,7 @@
     }
 
     function engineSendKey(code) {
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (yieldToMobileMarch()) { return false; }
         var mobileSource = state.open ? 'dialog' : 'city', mobileOwner = null;
         function currentMobileOwner() {
@@ -164,6 +170,7 @@
                 retireInteraction(); return false;
             }
         }
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (typeof sendKey === 'function') {
             sendKey(code);
             return true;
@@ -421,7 +428,7 @@
             // No name/ownership/identity callbacks after this raw native seal.
             var rawReport = [data.g_hdReportActive, data.g_hdReportKind, data.g_hdReportPerson,
                 data.g_hdReportSeq, data.g_hdReportInputSeq, data.g_hdReportGbk];
-            var sealed = finalSample && data.g_hdEngineReady === 1 && data.g_PIdx === finalSample.period &&
+            var sealed = finalSample && !cityInfoOwns(data) && data.g_hdEngineReady === 1 && data.g_PIdx === finalSample.period &&
                 Number(belongNow) === finalSample.belong && stillCurrent === true && current &&
                 JSON.stringify([current.status, current.sha256, current.byteLength, current.generation]) === libraryKey &&
                 JSON.stringify([library.status, library.sha256, library.byteLength, library.generation]) === libraryKey &&
@@ -527,7 +534,7 @@
             var first = sample(), second = sample(), latest = api.read();
             if (!first || !second || JSON.stringify(first) !== JSON.stringify(second) || baye.data !== data ||
                 !mobileAvailable() || !api.isCurrent(identity) || !api.isCurrent(latest) ||
-                JSON.stringify(identity) !== JSON.stringify(latest)) { return null; }
+                JSON.stringify(identity) !== JSON.stringify(latest) || cityInfoOwns(data)) { return null; }
             second.signature = JSON.stringify([second.libraryGeneration, second.generation, second.ids, second.names, second.packedNames, second.bytes]);
             Object.defineProperty(second, 'data', {value: data});
             return second;
@@ -2448,6 +2455,7 @@
             if (info.totalCount !== total || info.leaderPerson !== belong - 1 ||
                 info.points.length !== base.native.units.filter(function (u) { return u.id>0 && u.id<=200 && u.state!==8; }).length) { return null; }
         }
+        if (cityInfoOwns(data)) { return null; }
         return {info:info,detail:detail,raw:raw,arrays:arrays};
     }
     function getBattleInputTicket() {
@@ -2467,6 +2475,7 @@
             var t = {key:JSON.stringify([a.key,state.viewEpoch,first]), libraryGeneration:a.libraryGeneration,
                 ownerType:a.kind===9?'battle-help':'battle-view',kind:a.kind,seq:a.seq,detailSeq:first.info.seq,
                 generation:first.info.generation,period:a.native.period,detail:first.detail};
+            if (cityInfoOwns(a.data)) { return null; }
             Object.defineProperty(t,'data',{value:a.data,enumerable:false}); return Object.freeze(t);
         } catch (e) { return null; }
     }
@@ -2479,6 +2488,7 @@
         try {
             // No queue or retry: the next native inputSeq/publication is the ACK.
             if (!sameBattleTicket(t,getBattleInputTicket())) { mobileBattleCommit=null; return false; }
+            if (cityInfoOwns(t.data)) { mobileBattleCommit=null; return false; }
             if (typeof global.sendKey === 'function') { global.sendKey(code); }
             else if (global.baye && typeof baye.sendKey === 'function') { baye.sendKey(code); }
             else { mobileBattleCommit=null; return false; }
@@ -2555,7 +2565,7 @@
                 'g_hdHelpActive', 'g_hdHelpSeq', 'g_hdHelpInputSeq', 'g_hdMarchSession', 'g_hdMarchInputSeq',
                 'g_hdMarchPhase', 'g_hdFightActive', 'g_hdMovieActive', 'g_hdRecordActive'];
             function read() {
-                if (!data) { return null; }
+                if (!data || cityInfoOwns(data)) { return null; }
                 var values = fields.map(function (key) { return data[key]; });
                 return values.every(function (value) { return helpInteger(value, 0, 0xffffffff); }) ? values : null;
             }
@@ -2601,7 +2611,7 @@
             if (!mobileAvailable() || baye.data !== data || !rawAfter || JSON.stringify(raw) !== JSON.stringify(rawAfter) ||
                 JSON.stringify(owner) !== JSON.stringify(ownerAfter) ||
                 !identityApi.isCurrent(identity) || !identityApi.isCurrent(identityAfter) ||
-                JSON.stringify(identity) !== JSON.stringify(identityAfter)) { return null; }
+                JSON.stringify(identity) !== JSON.stringify(identityAfter) || cityInfoOwns(data)) { return null; }
             var ticket = { key: JSON.stringify([identity.generation, state.viewEpoch, state.kind, raw, owner]),
                 libraryGeneration: identity.generation, ownerType: state.kind };
             if (state.kind === 'successor' || state.kind === 'defenders') {

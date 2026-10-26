@@ -103,6 +103,7 @@
                 if (global.baye !== b || b.hd !== hd || b.data !== data || data.g_Cities !== cities || cities.length !== 38 || cities[cityIndex] !== city ||
                     data.g_engineConfig !== config || b.hooks !== hooks || global.dynLib !== hex || hd.menuItems !== getMenu || hd.ready !== getReady ||
                     global.BayeHdLibIdentity !== api || api.read !== getIdentity || api.isCurrent !== isCurrent || document.hidden || token !== epoch) { return null; }
+                if (data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 return {key:JSON.stringify([kind,library,owner,flags,rows]),refs:hookValues,rows:rows};
             }
             function same(a,b) { return a && b && a.key === b.key && a.refs.every(function (v,i) { return v === b.refs[i]; }); }

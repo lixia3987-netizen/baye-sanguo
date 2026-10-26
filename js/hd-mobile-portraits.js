@@ -84,6 +84,7 @@
                 if ((mode !== 'auto' && mode !== 'hd') || !before || !hd || typeof hd.ready !== 'function' || hd.ready() !== true || !baye.data ||
                     !h || typeof h.readInputTicket !== 'function' || typeof baye.getPersonCount !== 'function') { return null; }
                 var data = baye.data, period = data.g_PIdx;
+                if (data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 if (!uint(period, 4) || period < 1) { return null; }
                 var ticket = h.readInputTicket('dialog'), kind = 'dialog';
                 if (!ticket) { ticket = h.readInputTicket('city'); kind = 'city'; }
@@ -96,7 +97,8 @@
                 var person = nativePerson(kind, ticket, data, count), after = identity();
                 if (!person || !available() || baye.data !== data || hd.ready() !== true || data.g_PIdx !== period ||
                     !after || before.generation !== after.generation || !environment.BayeHdLibIdentity.isCurrent(before) ||
-                    city !== environment.BayeHdCityMenu || city.getMode() !== mode) { return null; }
+                    city !== environment.BayeHdCityMenu || city.getMode() !== mode ||
+                    data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 return {kind: kind, data: data, key: ticket.key, period: period, personId: person.personId,
                     nativeName: person.nativeName, count: count, generation: before.generation,
                     stamp: person.stamp, identity: before, mode: mode};

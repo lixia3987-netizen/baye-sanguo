@@ -111,6 +111,7 @@
                     cities.length !== 38 || people.length !== 2000 || queue.length !== 200 ||
                     hd.menuItems !== getMenu || b.getPersonCount !== getCount || b.getPersonName !== getName || b.getCityName !== getCity ||
                     api.read !== getLibrary || api.isCurrent !== isCurrent || b.hooks !== hooks || document.hidden || epoch !== token) { return null; }
+                if (data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 return {rows:rows,refs:refs,year:year,month:month,
                     key:JSON.stringify([identityKey,menu.seq,menu.index,menu.generation,seal,raw,personValues,armies,flags])};
             }

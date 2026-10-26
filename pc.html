@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="css/hd-portraits.css?ver=20261008i"/>
     <link rel="stylesheet" type="text/css" href="css/hd-battle-note.css?ver=20261011a"/>
     <script>
-        window.BAYE_ASSET_VER = '20261026goods1';
+        window.BAYE_ASSET_VER = '20261026cityinfo1';
         window.__bayeLastHdCall = window.__bayeLastHdCall || null;
         window.onerror = function (msg, url, line, col, error) {
             var last = window.__bayeLastHdCall;
@@ -105,6 +105,7 @@
             } catch (e) {}
         })();
     </script>
+<link rel="stylesheet" href="css/hd-city-info.css?ver=20261026cityinfo1" />
 </head>
 <body style="height: auto;">
 <div id="baye-build-badge" data-baye-asset-ver="">…</div>
@@ -242,6 +243,19 @@
         </div>
     </section>
 </div>
+<div id="hd-city-info" hidden aria-hidden="true">
+    <section class="hd-city-info-stage" role="dialog" aria-modal="true" aria-labelledby="hd-city-info-title">
+        <h2 id="hd-city-info-title">城池详情</h2>
+        <p id="hd-city-info-page"></p>
+        <ul id="hd-city-info-rows"></ul>
+        <div class="hd-city-info-actions">
+            <button type="button" data-hd-city-info-key="34">上一页</button>
+            <button type="button" data-hd-city-info-key="35">下一页</button>
+            <button type="button" id="hd-city-info-classic">经典画面</button>
+            <button type="button" data-hd-city-info-key="40">返回</button>
+        </div>
+    </section>
+</div>
 <div id="hd-dialog" class="hd-dialog" aria-hidden="true">
     <div id="hd-dialog-stage" class="hd-dialog-stage" role="dialog" aria-labelledby="hd-dialog-title" tabindex="-1">
         <div id="hd-dialog-title" class="hd-dialog-title">报告</div>
@@ -332,31 +346,32 @@
 </body>
 </html>
 <script src="js/idbkvstore.min.js?ver=20261008i"></script>
-<script src="js/bridge.js?ver=20261014a"></script>
+<script src="js/bridge.js?ver=20261026cityinfo1"></script>
 <script src="js/save-storage.js?ver=20261008h"></script>
 <script src="js/original-game.js?ver=20261010b"></script>
-<script src="js/lcd.js?ver=20261011f"></script>
+<script src="js/lcd.js?ver=20261026cityinfo1"></script>
 <script src="js/hd-graphics.js?ver=20261024focus1"></script>
 <script src="js/hd-lib-identity.js?ver=20261008i"></script>
 <script src="js/hd-overworld-probe.js?ver=20260923j"></script>
 <script src="js/hd-overworld-layers.js?ver=20261008l"></script>
-<script src="js/hd-minimap.js?ver=20261026search1"></script>
-<script src="js/hd-overworld.js?ver=20261011d"></script>
-<script src="js/hd-city-plans.js?ver=20261026targets1"></script>
-<script src="js/hd-city-inventory.js?ver=20261026inventory1"></script>
-<script src="js/hd-city-garrison.js?ver=20261026garrison1"></script>
-<script src="js/hd-city-rules.js?ver=20261026rules2"></script>
-<script src="js/hd-city-menu.js?ver=20261026garrison1"></script>
+<script src="js/hd-minimap.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-overworld.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-city-plans.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-city-inventory.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-city-garrison.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-city-rules.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-city-menu.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-city-info.js?ver=20261026cityinfo1"></script>
     <script src="js/hd-battle-terrain.js?ver=20261008i"></script>
     <script src="js/hd-battle-feedback.js?ver=20261008a"></script>
-    <script src="js/hd-battle-status.js?ver=20261026settings1"></script>
-    <script src="js/hd-skill-hints.js?ver=20261026skills1"></script>
+    <script src="js/hd-battle-status.js?ver=20261026cityinfo1"></script>
+    <script src="js/hd-skill-hints.js?ver=20261026cityinfo1"></script>
     <script src="js/hd-battle.js?ver=20261026next1"></script>
     <script src="js/hd-system-ui.js?ver=20261024king1"></script>
-<script src="js/hd-dialog.js?ver=20261026terrain1"></script>
-<script src="js/hd-battle-scene.js?ver=20261011a"></script>
+<script src="js/hd-dialog.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-battle-scene.js?ver=20261026cityinfo1"></script>
 <script src="js/hd-spe.js?ver=20261024a"></script>
-<script src="js/hd-battle-note.js?ver=20261011b"></script>
+<script src="js/hd-battle-note.js?ver=20261026cityinfo1"></script>
 <script src="js/hd-portraits.js?ver=20261008j"></script>
 <script src="js/hd-portrait-dump.js?ver=20260924a"></script>
 <script src="https://img.bbkgames.com/script/js-sdk.js?ver=20260329"></script>
@@ -407,6 +422,7 @@
             BayeHdSpe.start();
         }
         if (window.BayeHdBattleNote) { BayeHdBattleNote.init(); }
+        BayeHdCityInfo.start();
         bayeMain();
     }
     document.onkeydown = onKeyDown;
@@ -561,4 +577,4 @@
         });
     });
 </script>
-<script src="js/baye.js?ver=20261026goods1"></script>
+<script src="js/baye.js?ver=20261026cityinfo1"></script>

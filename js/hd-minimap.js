@@ -86,6 +86,10 @@
         state.filter = value; state.paint = '';
         render();
     }
+    function cityInfoOwns() {
+        var data = global.baye && baye.data, active = data ? data.g_hdCityInfoActive : undefined;
+        return active !== undefined && active !== 0;
+    }
     function token(value) { return value ? JSON.stringify(value._mobileKey ?
         [value.generation, value.seq, value.mapInputSeq, value._mobileKey, value._libraryGeneration] :
         [value.generation, value.seq, value.mapInputSeq]) : ''; }
@@ -120,7 +124,7 @@
                     (data.g_hdTransferProtocolVersion !== 1 || data.g_hdTransferActive !== 0)) { return null; }
                 ['g_hdEngineReady','g_hdDetailGeneration','g_hdMapPick','g_hdMapInputSeq','g_hdMarchPhase',
                     'g_hdTransferProtocolVersion','g_hdTransferActive'].forEach(function (field) { raw[field] = data[field]; });
-                if (baye.data !== data || !BayeHdLibIdentity.isCurrent(identity) || !mobileHost.available()) { return null; }
+                if (baye.data !== data || !BayeHdLibIdentity.isCurrent(identity) || !mobileHost.available() || cityInfoOwns()) { return null; }
                 return {data: data, native: native, key: JSON.stringify([receipt.key, native, raw]), libraryGeneration: identity.generation};
             }
             var first = sample(), second = sample();
@@ -133,6 +137,7 @@
         } catch (e) { return null; }
     }
     function readNative() {
+        if (cityInfoOwns()) { return null; }
         if (mobileHost) { return mobileReading(); }
         try {
             if (!global.baye || !baye.hd || !baye.hd.ready() || !baye.hd.miniMap || document.hidden ||
@@ -143,7 +148,7 @@
                 !integer(value.generation, 1, 0xffffffff) || value.generation !== value.detailGeneration ||
                 !integer(value.seq, 1, 0xffffffff) || !integer(value.mapInputSeq, 1, 0xffffffff) ||
                 !march || march.pick !== 1 || march.mapInputSeq !== value.mapInputSeq ||
-                report && report.active || menu && menu.active || qty && qty.active || fight && fight.active) { return null; }
+                report && report.active || menu && menu.active || qty && qty.active || fight && fight.active || cityInfoOwns()) { return null; }
             return value;
         } catch (e) { return null; }
     }
@@ -294,6 +299,7 @@
             (!state.dispatch || code !== 0x28 || !state.data || state.showLcd || live._mobileData !== state.ownerData)) { return false; }
         state.committed = owner;
         chrome();
+        if (cityInfoOwns()) { return false; }
         // The native tpicflag consumes this one key solely to dismiss the map.
         if (global.sendKey) { sendKey(code); }
         else if (baye.sendKey) { baye.sendKey(code); }

@@ -63,6 +63,7 @@ const headerConstants = ['baye/sconst.h', 'baye/consdef.h', 'baye/order.h', 'bay
     read(name).split('\n').filter(s => /^#define\s+(EXCHANGE|ORDER_MAX|IFACE_CONID|STRING_CONST|MENU_TSTR|ATRR_STR60|STR_NOPERSON|NOTE_STR9|ADD16|ASC_WID|ASC_HGT|TACTIC_ICON)\b/.test(s))).join('\n');
 
 const fixture = String.raw`
+#define EM_ASM(...) ((void)0)
 #include <assert.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -120,7 +121,7 @@ static void GamMsgBox(U8* text,U8 delay) { assert(text && delay==1); ++fullMessa
 static U8 canAddOrder(OrderType* order) { assert(order->OrderId==EXCHANGE); ++addCalls; return 1; }
 ` + globals + '\n' + [
     'hd_next_input_seq', 'baye_hd_person_properties_retire', 'hd_goods_clear', 'hd_menu_ids_clear',
-    'hd_help_detail_clear', 'baye_hd_view_retire', 'baye_hd_mini_map_retire',
+    'hd_help_detail_clear', 'hd_city_info_notify','baye_hd_city_info_retire','baye_hd_view_retire', 'baye_hd_mini_map_retire',
     'baye_hd_menu_scope', 'baye_hd_menu_scope_default', 'baye_hd_menu_begin', 'baye_hd_menu_end',
     'baye_hd_set_menu', 'baye_hd_set_menu_index', 'baye_hd_menu_ids',
     'baye_hd_set_qty', 'baye_hd_qty_begin', 'baye_hd_qty_publish', 'baye_hd_qty_busy', 'baye_hd_qty_end'

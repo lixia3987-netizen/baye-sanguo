@@ -38,6 +38,7 @@
         }
         function observation(data, hd, id) {
             var fight=hd.fight(), menu=hd.menuItems(), f={}, raw={}, blockers={};
+            if (data.g_hdCityInfoActive!==undefined && data.g_hdCityInfoActive!==0) { return null; }
             if (!fight || !menu) { return null; }
             Object.keys(FIELDS).forEach(function (name) {
                 var value=data[FIELDS[name]];
@@ -122,7 +123,8 @@
                 var data=typeof b.ensureData==='function'?b.ensureData():b.data;
                 if(!data) { return null; }
                 var a=observation(data,hd,id), z=observation(data,hd,id), latest=identity();
-                if(!a || !z || key(a)!==key(z) || key(id)!==key(latest) || b.data!==data || hd.ready()!==true || !available()) { return null; }
+                if(!a || !z || key(a)!==key(z) || key(id)!==key(latest) || b.data!==data || hd.ready()!==true || !available() ||
+                    data.g_hdCityInfoActive!==undefined && data.g_hdCityInfoActive!==0) { return null; }
                 var stable=key(z), full=stable;
                 // Only the shared command's expected cursor/menu-index ACK may vary.
                 var sf=Object.assign({},z.fight), sm=Object.assign({},z.menu);delete sf.focusX;delete sf.focusY;delete sm.index;
