@@ -855,3 +855,31 @@
 /docs/validation/m5-battle-transition-20261026-v95.md text eol=lf
 
 /docs/validation/m5-battle-transition-20261026-v95.json text eol=lf
+
+/assets/hd-portraits/manifest.json text eol=lf
+
+/assets/hd-portraits/review.html text eol=lf
+
+
+/assets/hd-portraits/GENERATED-RULERS-P4-20261026.md text eol=lf
+
+/assets/hd-portraits/GENERATED-RULERS-P4-20261026.json text eol=lf
+
+/scripts/dump-hd-portraits.mjs text eol=lf
+
+/scripts/test-hd-portraits.mjs text eol=lf
+
+/scripts/test-hd-portraits-runtime.mjs text eol=lf
+
+/docs/validation/m5-portrait-rulers-20261026-v96.md text eol=lf
+
+/docs/validation/m5-portrait-rulers-20261026-v96.json text eol=lf
+
+
+/assets/hd-portraits/hd/period-4/0-曹丕.png -text
+
+/assets/hd-portraits/hd/period-4/1-刘禅.png -text
+
+/assets/hd-portraits/hd/period-4/3-孟获.png -text
+
+/assets/hd-portraits/hd/period-4/4-公孙康.png -text

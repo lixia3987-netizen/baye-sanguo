@@ -7,9 +7,10 @@
  *   node scripts/dump-hd-portraits.mjs --smoke-only
  *   CHROME may point to a Windows Chrome executable. Default server and CDP
  *   ports are ephemeral. --smoke-only never exports or rewrites references;
- *   it delegates to the isolated real-PNG runner and requires all 39 HD slots.
+ *   it delegates to the isolated real-PNG runner and requires every manifest HD slot,
+ *   including the 39 historical pilots.
  *   Partial or other-LIB exports retain their verified dump result without
- *   running the standard-dictionary 39-slot acceptance.
+ *   running the standard-dictionary full-manifest acceptance.
  *
  * Serves the repo, opens hd-portrait-dump.html in headless Chrome, and writes
  * assets/hd-portraits/refs/period-{1..4}/{id}-{name}.png plus manifest.json.
@@ -65,18 +66,23 @@ function safeRef(file) {
     if (typeof file !== 'string' || file.includes('..') || path.isAbsolute(file)) {
         return null;
     }
-    if (!/^period-[1-4]\/\d+(?:-.+)?\.png$/.test(file)) {
+    if (!/^period-[1-4]\/\d+(?:-[^/\\?#%:\0]+)?\.png$/.test(file)) {
         return null;
     }
     return file;
 }
 
+function safeHd(file) {
+    return typeof file === 'string' && !file.includes('..') && !path.isAbsolute(file) &&
+        /^hd\/(?:[^/\\?#%:\0]+\/)*[^/\\?#%:\0]+\.png$/.test(file);
+}
+
 function hasStandardSmokeExport(manifest, references) {
     const standardSha = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
     if (!manifest || !references || manifest.libSha256 !== standardSha || references.libSha256 !== standardSha ||
-        !Array.isArray(manifest.entries) || manifest.entries.length !== 39 ||
+        !Array.isArray(manifest.entries) || manifest.entries.length < 39 ||
         !Array.isArray(references.periods) || (manifest.missingPilots || []).length) return false;
-    const expected = new Map(), seenPeriods = new Set();
+    const expected = new Map(), allReferences = new Map(), seenPeriods = new Set();
     for (const block of references.periods) {
         if (!block || !Number.isInteger(block.period) || block.period < 1 || block.period > 4 ||
             seenPeriods.has(block.period) || !Array.isArray(block.people)) return false;
@@ -84,28 +90,32 @@ function hasStandardSmokeExport(manifest, references) {
         const seenIds = new Set();
         for (const person of block.people) {
             if (!person || person.skipped) continue;
-            if (!Number.isInteger(person.id) || person.id < 0 || seenIds.has(person.id)) return false;
+            if (!Number.isInteger(person.id) || person.id < 0 || seenIds.has(person.id) || typeof person.name !== 'string' ||
+                !safeRef(person.file) || ![ 'period-' + block.period + '/' + person.id + '.png',
+                    'period-' + block.period + '/' + person.id + '-' + person.name + '.png' ].includes(person.file)) return false;
             seenIds.add(person.id);
+            allReferences.set(block.period + ':' + person.id, person);
             if (!PILOT_NAMES.includes(person.name)) continue;
-            if (!safeRef(person.file) || !person.file.startsWith('period-' + block.period + '/')) return false;
             expected.set(block.period + ':' + person.id, person);
         }
     }
-    if (expected.size !== 39) return false;
-    const matched = new Set();
+    if (seenPeriods.size !== 4 || expected.size !== 39) return false;
+    const matched = new Set(), matchedPilots = new Set();
     for (const entry of manifest.entries) {
-        if (!entry || entry.missing !== false || entry.pilot !== true || !Number.isInteger(entry.period) ||
-            !Number.isInteger(entry.personId) || typeof entry.hd !== 'string' || !entry.hd) return false;
-        const key = entry.period + ':' + entry.personId, person = expected.get(key);
+        if (!entry || entry.missing !== false || !Number.isInteger(entry.period) ||
+            !Number.isInteger(entry.personId) || !safeHd(entry.hd)) return false;
+        const key = entry.period + ':' + entry.personId, person = allReferences.get(key), pilot = expected.has(key);
         if (!person || matched.has(key) || entry.name !== person.name || entry.ref !== 'refs/' + person.file) return false;
+        if (entry.pilot !== pilot) return false;
         matched.add(key);
+        if (pilot) matchedPilots.add(key);
     }
-    return true;
+    return matchedPilots.size === 39;
 }
 
-function existingHdPaths(libSha256) {
+function existingHdEntries(libSha256) {
     const dest = path.join(root, 'assets/hd-portraits/manifest.json');
-    const kept = new Map();
+    const kept = new Map(), duplicated = new Set();
     let prev;
     try {
         prev = JSON.parse(fs.readFileSync(dest, 'utf8'));
@@ -114,11 +124,16 @@ function existingHdPaths(libSha256) {
     }
     if (prev.libSha256 !== libSha256) { return kept; }
     for (const entry of prev.entries || []) {
-        if (!entry || entry.missing || !entry.hd || entry.period == null || entry.personId == null) {
+        if (!entry || entry.missing !== false || !safeHd(entry.hd) || !Number.isInteger(entry.period) ||
+            entry.period < 1 || entry.period > 4 || !Number.isInteger(entry.personId) || entry.personId < 0 ||
+            typeof entry.name !== 'string' || !safeRef(String(entry.ref || '').replace(/^refs\//, '')) ||
+            !entry.ref.startsWith('refs/') || typeof entry.pilot !== 'boolean') {
             continue;
         }
+        const key = entry.period + ':' + entry.personId;
+        if (kept.has(key) || duplicated.has(key)) { kept.delete(key); duplicated.add(key); continue; }
         if (fs.existsSync(path.join(root, 'assets/hd-portraits', entry.hd))) {
-            kept.set(entry.period + ':' + entry.personId, entry.hd);
+            kept.set(key, entry);
         }
     }
     return kept;
@@ -126,13 +141,18 @@ function existingHdPaths(libSha256) {
 
 function buildManifest(summary) {
     if (!/^[0-9a-f]{64}$/.test(summary.libSha256 || '')) { throw new Error('portrait dump has no actual LIB SHA'); }
-    const keptHd = existingHdPaths(summary.libSha256);
-    const byName = new Map();
+    const keptHd = existingHdEntries(summary.libSha256);
+    const byName = new Map(), byKey = new Map();
     for (const block of summary.periods || []) {
+        if (!Number.isInteger(block.period) || block.period < 1 || block.period > 4) continue;
         for (const person of block.people || []) {
-            if (person.skipped || !person.name || !person.file) {
+            if (person.skipped || !person.name || !Number.isInteger(person.id) || person.id < 0 || !safeRef(person.file) ||
+                ![ 'period-' + block.period + '/' + person.id + '.png',
+                    'period-' + block.period + '/' + person.id + '-' + person.name + '.png' ].includes(person.file)) {
                 continue;
             }
+            const key = block.period + ':' + person.id;
+            byKey.set(key, byKey.has(key) ? null : { ...person, period: block.period });
             const list = byName.get(person.name) || [];
             list.push({ period: block.period, id: person.id, file: person.file, name: person.name });
             byName.set(person.name, list);
@@ -161,9 +181,22 @@ function buildManifest(summary) {
                 pilot: true,
                 missing: false,
                 ref: 'refs/' + hit.file,
-                hd: keptHd.get(key) || ('hd/by-lib/' + summary.libSha256 + '/' + hit.file)
+                hd: keptHd.get(key)?.name === name && keptHd.get(key)?.ref === 'refs/' + hit.file ?
+                    keptHd.get(key).hd : ('hd/by-lib/' + summary.libSha256 + '/' + hit.file)
             });
         }
+    }
+    // New coverage is separate from the historical pilots. Retain it only for
+    // the same actual LIB and an identity present in this particular export.
+    const keys = new Set(entries.filter(entry => !entry.missing).map(entry => entry.period + ':' + entry.personId));
+    for (const [key, previous] of keptHd) {
+        if (previous.pilot || keys.has(key)) continue;
+        const person = byKey.get(key);
+        if (!person || person.name !== previous.name || previous.ref !== 'refs/' + person.file) continue;
+        const entry = { name: person.name, personId: person.id, period: person.period,
+            pilot: false, missing: false, ref: previous.ref, hd: previous.hd };
+        if (typeof previous.expansion === 'string' && previous.expansion) entry.expansion = previous.expansion;
+        entries.push(entry); keys.add(key);
     }
     const manifest = {
         version: 1,
@@ -501,7 +534,7 @@ async function main() {
         await runPortraitSmoke();
         console.log('portrait dump and isolated asset smoke ok');
     } else {
-        console.log('本次为部分或其他LIB导出，未运行标准39素材smoke');
+        console.log('本次为部分或其他LIB导出，未运行标准全清单素材smoke（含39历史试点）');
         console.log('portrait dump ok');
     }
 }

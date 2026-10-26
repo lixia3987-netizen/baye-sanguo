@@ -374,6 +374,46 @@
       "missing": false,
       "ref": "refs/period-1/11-王匡.png",
       "hd": "hd/hd_p1_0011_王匡.png"
+    },
+    {
+      "name": "曹丕",
+      "personId": 0,
+      "period": 4,
+      "pilot": false,
+      "expansion": "period-4-rulers-v96",
+      "missing": false,
+      "ref": "refs/period-4/0-曹丕.png",
+      "hd": "hd/period-4/0-曹丕.png"
+    },
+    {
+      "name": "刘禅",
+      "personId": 1,
+      "period": 4,
+      "pilot": false,
+      "expansion": "period-4-rulers-v96",
+      "missing": false,
+      "ref": "refs/period-4/1-刘禅.png",
+      "hd": "hd/period-4/1-刘禅.png"
+    },
+    {
+      "name": "孟获",
+      "personId": 3,
+      "period": 4,
+      "pilot": false,
+      "expansion": "period-4-rulers-v96",
+      "missing": false,
+      "ref": "refs/period-4/3-孟获.png",
+      "hd": "hd/period-4/3-孟获.png"
+    },
+    {
+      "name": "公孙康",
+      "personId": 4,
+      "period": 4,
+      "pilot": false,
+      "expansion": "period-4-rulers-v96",
+      "missing": false,
+      "ref": "refs/period-4/4-公孙康.png",
+      "hd": "hd/period-4/4-公孙康.png"
     }
   ]
 }

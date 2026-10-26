@@ -209,11 +209,14 @@ test('all 800 shipped references resolve through their exported filenames', asyn
     assert.equal(f.requests.length, new Set(f.requests).size, 'each URL is requested at most once');
 });
 
-test('all 39 period/person slots obey each of the three native identity protocols independently', async () => {
+test('all 43 period/person slots obey each of the three native identity protocols independently', async () => {
     // This is the VM protocol matrix. Real native menus, queues and battle
     // actors are independently exercised by test-hd-portraits-runtime.mjs.
     const entries = manifest.entries.filter(e => !e.missing);
-    assert.equal(entries.length, 39);
+    assert.equal(entries.length, 43);
+    assert.equal(entries.filter(e => e.pilot === true).length, 39, 'historical pilot coverage stays distinct');
+    assert.deepEqual(entries.filter(e => e.pilot === false).map(e => [e.period, e.personId, e.name, e.expansion]).sort((a,b) => a[1]-b[1]),
+        [[4,0,'曹丕','period-4-rulers-v96'],[4,1,'刘禅','period-4-rulers-v96'],[4,3,'孟获','period-4-rulers-v96'],[4,4,'公孙康','period-4-rulers-v96']]);
     for (const entry of entries) {
         const expect = existsSync(path.join(root, asset(entry.hd))) ? 'hd' : 'ref';
         for (const context of ['map-king', 'person-info', 'battle-note']) {
@@ -851,13 +854,15 @@ function dumpSmokePolicy() {
     // Execute the actual policy with in-memory indexes; never run a native
     // export or change any of the shipped 800 references for this regression.
     const context = vm.createContext({ Map, Set, path, PILOT_NAMES: manifest.pilotNames });
-    for (const name of ['safeRef', 'hasStandardSmokeExport']) vm.runInContext(actualDumpFunction(name), context, { timeout: 1000 });
+    for (const name of ['safeRef', 'safeHd', 'hasStandardSmokeExport']) vm.runInContext(actualDumpFunction(name), context, { timeout: 1000 });
     return context.hasStandardSmokeExport;
 }
 
-test('normal full standard export permits strict39 smoke only with all matching native identities', () => {
+test('normal full standard export keeps strict39 historical pilots while checking all expanded identities', () => {
     const policy = dumpSmokePolicy();
     assert.equal(policy(manifest, references), true);
+    assert.equal(policy({ ...manifest, entries: manifest.entries.filter(e => e.pilot) }, references), true,
+        'the original 39-pilot contract remains independently valid');
     assert.equal(policy({ ...manifest, lib: 'preferred/custom-alias.lib' }, { ...references, lib: 'cached/alias.lib' }), true,
         'actual SHA and captured reference identities decide, not the preferred path');
     assert.equal(policy({ ...manifest, entries: [...manifest.entries].reverse() }, references), true,
@@ -880,7 +885,7 @@ test('normal period/limit subsets and other actual libraries retain export succe
     assert.equal(exported.writes.size, 2, 'other-LIB export still commits its own verified reference index and manifest');
 });
 
-test('standard smoke refuses mismatched references, duplicate identities and incomplete39 metadata', () => {
+test('standard smoke refuses mismatched references, duplicate identities and incomplete historical pilots', () => {
     const policy = dumpSmokePolicy(), clone = value => JSON.parse(JSON.stringify(value));
     assert.equal(policy(manifest, { ...references, libSha256: '0'.repeat(64) }), false);
     for (const mutate of [
@@ -889,6 +894,7 @@ test('standard smoke refuses mismatched references, duplicate identities and inc
         m => { m.entries[0].name = '另一位武将'; },
         m => { m.entries[0].ref = m.entries[1].ref; },
         m => { m.entries[0] = clone(m.entries[1]); },
+        m => { m.entries = m.entries.filter(e => !e.pilot || e.personId !== pilot.personId || e.period !== pilot.period); },
         m => { m.missingPilots = ['马腾']; }
     ]) {
         const changed = clone(manifest); mutate(changed); assert.equal(policy(changed, references), false);
@@ -904,16 +910,32 @@ test('standard smoke refuses mismatched references, duplicate identities and inc
     }
 });
 
-async function dumpFixture(hex) {
+test('standard smoke validates the four added identities and rejects unsafe HD paths and false pilot labels', () => {
+    const policy = dumpSmokePolicy(), clone = value => JSON.parse(JSON.stringify(value));
+    for (const mutate of [
+        e => { e.name = '另一位君主'; }, e => { e.pilot = true; }, e => { delete e.pilot; },
+        e => { e.ref = 'refs/period-4/2-孙权.png'; }, e => { e.hd = 'hd/../outside.png'; },
+        e => { e.hd = '/absolute.png'; }, e => { e.hd = 'hd/portrait.png?other'; },
+        e => { e.hd = 'hd/%2e%2e/outside.png'; }, e => { e.hd = 'hd/C:/outside.png'; },
+        e => { e.personId = 199; }, e => { e.missing = true; }
+    ]) {
+        const changed = clone(manifest), entry = changed.entries.find(e => e.pilot === false);
+        mutate(entry); assert.equal(policy(changed, references), false);
+    }
+    const duplicate = clone(manifest); duplicate.entries.push(clone(duplicate.entries.find(e => e.pilot === false)));
+    assert.equal(policy(duplicate, references), false);
+});
+
+async function dumpFixture(hex, options = {}) {
     let handler;
     const writes = new Map();
     const server = { listen(port, host, ready) { ready(); } };
     const context = vm.createContext({ root, path, Buffer, Map, URL, createHash, port: 8765, MIME: {},
-        PILOT_NAMES: ['董卓'], http: { createServer(fn) { handler = fn; return server; } },
+        PILOT_NAMES: options.pilotNames || ['董卓'], http: { createServer(fn) { handler = fn; return server; } },
         fs: { existsSync: () => true, mkdirSync() {},
-            readFileSync: () => JSON.stringify(manifest),
+            readFileSync: () => JSON.stringify(options.previousManifest || manifest),
             writeFileSync(filename, bytes) { writes.set(filename, bytes); } } });
-    for (const name of ['safeRef', 'existingHdPaths', 'buildManifest', 'startServer']) {
+    for (const name of ['safeRef', 'safeHd', 'existingHdEntries', 'buildManifest', 'startServer']) {
         vm.runInContext(actualDumpFunction(name), context);
     }
     await context.startServer();
@@ -935,6 +957,51 @@ async function dumpFixture(hex) {
 }
 const dumpSummary = { lib: 'libs/sc-mod.lib', periods: [{ period: 1,
     people: [{ id: 0, name: '董卓', file: 'period-1/0-董卓.png' }] }] };
+
+test('same-LIB full exports preserve all four nonpilot portraits with their captured identities and metadata', async () => {
+    const f = await dumpFixture(dictionaryHex,{pilotNames:manifest.pilotNames}), before = manifest.entries.filter(e => e.pilot === false);
+    assert.equal(before.length, 4);
+    assert.equal((await f.post({kind:'summary',summary:references})).code, 200);
+    const kept = f.server.manifest.entries.filter(e => e.pilot === false);
+    assert.equal(f.server.manifest.entries.length, 43);
+    assert.equal(f.server.manifest.entries.filter(e => e.pilot === true).length, 39);
+    assert.deepEqual(JSON.parse(JSON.stringify(f.server.manifest.entries.filter(e => e.pilot === true))),
+        manifest.entries.filter(e => e.pilot === true), 'all 39 existing pilot paths and identities survive the full export');
+    assert.deepEqual(JSON.parse(JSON.stringify(kept)), before);
+    assert.ok(kept.every(e => e.missing === false && e.expansion === 'period-4-rulers-v96'));
+    assert.equal(f.writes.size, 2, 'only the verified index and manifest are committed by a summary');
+});
+
+test('partial captured exports retain only present expanded identities and never revive unexported periods', async () => {
+    const f = await dumpFixture(dictionaryHex), people = references.periods.find(p => p.period === 4).people.filter(p => p.id <= 1);
+    assert.equal((await f.post({kind:'summary',summary:{...references,periods:[{period:4,people}]}})).code, 200);
+    const kept = f.server.manifest.entries.filter(e => e.pilot === false);
+    assert.deepEqual(Array.from(kept,e => e.personId), [0,1]);
+    assert.ok(kept.every(e => e.period === 4));
+    assert.equal(dumpSmokePolicy()(f.server.manifest,f.server.summary), false);
+});
+
+test('export preservation rejects wrong libraries, stale names, wrong references, unsafe paths and duplicate expanded identities', async () => {
+    const clone = value => JSON.parse(JSON.stringify(value));
+    const other = await dumpFixture(modifiedHex);
+    assert.equal((await other.post({kind:'summary',summary:references})).code, 200);
+    assert.equal(other.server.manifest.entries.filter(e => e.pilot === false).length, 0);
+    for (const mutate of [
+        e => { e.name = '不同君主'; }, e => { e.ref = 'refs/period-4/2-孙权.png'; },
+        e => { e.hd = 'hd/../outside.png'; }, e => { e.hd = 'hd/absolute\\outside.png'; },
+        e => { e.period = 1; }, e => { e.personId = 199; }
+    ]) {
+        const previous = clone(manifest), item = previous.entries.find(e => e.pilot === false);
+        mutate(item); const f = await dumpFixture(dictionaryHex,{previousManifest:previous});
+        assert.equal((await f.post({kind:'summary',summary:references})).code, 200);
+        assert.equal(f.server.manifest.entries.filter(e => e.pilot === false).length, 3);
+    }
+    const previous = clone(manifest); previous.entries.push(clone(previous.entries.find(e => e.pilot === false)));
+    const duplicate = await dumpFixture(dictionaryHex,{previousManifest:previous});
+    assert.equal((await duplicate.post({kind:'summary',summary:references})).code, 200);
+    assert.equal(duplicate.server.manifest.entries.filter(e => e.pilot === false).length, 3,
+        'an ambiguous old identity is not retained by first- or last-entry wins');
+});
 
 test('actual dump backend stages PNGs and binds generated indexes to live loaded bytes rather than the summary path', async () => {
     const f = await dumpFixture(dictionaryHex);

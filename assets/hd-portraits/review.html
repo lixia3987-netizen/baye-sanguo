@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>三国霸业 · 试点立绘对照</title>
+  <title>三国霸业 · HD 立绘对照</title>
   <style>
     :root { color-scheme: dark; font-family: system-ui, "Microsoft YaHei", sans-serif; background: #151a20; color: #e9e5da; }
     body { margin: 0; padding: 28px; }
@@ -30,10 +30,11 @@
 </head>
 <body>
 <main>
-  <h1>试点立绘素材对照</h1>
-  <p>逐项核对当前时期原生头像、已接受的时期一画风与当前高清成品。原生参考按像素显示；高清图使用完整原始 PNG。</p>
-  <p>生成记录：<a href="GENERATED-PERIOD-2.md">曹操崛起</a> · <a href="GENERATED-PERIOD-3.md">赤壁之战</a> · <a href="GENERATED-PERIOD-4.md">三足鼎立</a>。实际游戏身份与回退见 <a href="../../docs/validation/m4-portraits-20261008.json">本批验收记录</a>。</p>
-  <label for="period">时期<select id="period"><option value="all">全部试点</option><option value="1">1 · 董卓弄权</option><option value="2">2 · 曹操崛起</option><option value="3">3 · 赤壁之战</option><option value="4">4 · 三足鼎立</option></select></label><span id="count" aria-live="polite">正在读取索引…</span>
+  <h1>HD 立绘素材对照</h1>
+  <p>逐项核对当前时期原生头像、历史试点已接受的时期一画风与当前高清成品。原生参考按像素显示；高清图使用完整原始 PNG。本页仅供素材对照，不代表实际游戏验收。</p>
+  <p>历史 39 试点的生成记录：<a href="GENERATED-PERIOD-2.md">曹操崛起</a> · <a href="GENERATED-PERIOD-3.md">赤壁之战</a> · <a href="GENERATED-PERIOD-4.md">三足鼎立</a>；其实际游戏身份与回退见 <a href="../../docs/validation/m4-portraits-20261008.json">历史试点验收记录</a>，不扩大为新增人物的验收结论。</p>
+  <p>新增时期四君主的生成来源与独立检查见 <a href="GENERATED-RULERS-P4-20261026.md">V96 君主立绘记录</a>。</p>
+  <label for="period">时期<select id="period"><option value="all">全部人物</option><option value="1">1 · 董卓弄权</option><option value="2">2 · 曹操崛起</option><option value="3">3 · 赤壁之战</option><option value="4">4 · 三足鼎立</option></select></label><span id="count" aria-live="polite">正在读取索引…</span>
   <section id="gallery"></section>
 </main>
 <script>
@@ -57,7 +58,7 @@
   function render() {
     gallery.replaceChildren();
     const selected = entries.filter(e => periodFilter.value === 'all' || e.period === Number(periodFilter.value));
-    count.textContent = selected.length + ' 个试点组合';
+    count.textContent = selected.length + ' 个时期人物组合';
     for (const entry of selected) {
       const card = document.createElement('article');
       const title = document.createElement('h2'); title.textContent = entry.name;
