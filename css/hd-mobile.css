@@ -205,8 +205,24 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
     font-size: 12px;
     pointer-events: none;
 }
+/* Keep complete strategy values on their own row when map controls and the
+   brand cannot share a compact bar. A hidden HUD creates no second grid row. */
+@media (max-width: 900px) and (orientation: landscape) {
+    #hd-mobile-bar {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        flex-basis: auto;
+        min-height: var(--mobile-bar-height);
+        column-gap: 10px;
+        row-gap: 4px;
+    }
+    .hd-mobile-brand { grid-column: 1; grid-row: 1; }
+    #hd-mobile-status { grid-column: 2; grid-row: 1; min-width: 0; }
+    .hd-mobile-controls { grid-column: 3; grid-row: 1; }
+    #hd-mobile-hud { grid-column: 1 / -1; grid-row: 2; }
+}
 @media (max-width: 700px) {
-    #hd-mobile-bar { gap: 10px; padding-inline: 8px; }
+    #hd-mobile-bar { column-gap: 10px; padding-inline: 8px; }
     .hd-mobile-brand { font-size: 14px; }
     #hd-mobile-hud { gap: 7px; }
     #hd-mobile-hud strong { font-size: 13px; }

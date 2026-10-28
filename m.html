@@ -26,7 +26,7 @@
         <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261026rules2" />
         <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261026terrain1" />
         <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261026search1" />
-        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261028king1" />
+        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261028header1" />
         <link rel="stylesheet" type="text/css" href="css/hd-battle-note.css?ver=20261026prelude1" />
         <link rel="stylesheet" type="text/css" href="css/hd-battle-transition.css?ver=20261026stage1" />
         <link rel="icon" href="favicon.png">
@@ -300,6 +300,7 @@
 <script src="js/hd-battle-transition.js?ver=20261026stage1"></script>
 <script>
 var mobileTouch = null;
+var mobileStageResizeObserver = null;
 function reloadLCD(){
     if (mobileTouch) { mobileTouch.cancel(); }
     var rect = document.getElementById('hd-mobile-stage').getBoundingClientRect();
@@ -332,10 +333,34 @@ function reloadLCD(){
     }
 }
 
+function bindMobileStageResize(){
+    if (mobileStageResizeObserver) { return; }
+    var stage = document.getElementById('hd-mobile-stage');
+    if (!stage) { return; }
+    var size = stage.getBoundingClientRect(), width = size.width, height = size.height;
+    function resized() {
+        var next = stage.getBoundingClientRect();
+        if (!(next.width > 0 && next.height > 0) || next.width === width && next.height === height) { return; }
+        width = next.width; height = next.height;
+        reloadLCD();
+    }
+    if (typeof window.ResizeObserver === 'function') {
+        mobileStageResizeObserver = new window.ResizeObserver(resized);
+        mobileStageResizeObserver.observe(stage);
+    } else {
+        var hud = document.getElementById('hd-mobile-hud');
+        if (hud && typeof window.MutationObserver === 'function') {
+            mobileStageResizeObserver = new window.MutationObserver(resized);
+            mobileStageResizeObserver.observe(hud, {attributes: true, attributeFilter: ['hidden']});
+        }
+    }
+}
+
 Module.postRun = function (){
     lcdInit();
     mobileTouch = touchScreenInit("lcd");
     reloadLCD();
+    bindMobileStageResize();
     BayeHdMobile.init();
     BayeHdMobileMap.init();
     BayeHdMobileMiniMap.init();

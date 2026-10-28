@@ -1,0 +1,2837 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-28",
+  "batch": "V108",
+  "baselineHead": "0a581f397acd3a60c033bbe4429622075514f4a8",
+  "scope": "Full legal mobile HUD values and classic LCD stage resizing; lightweight existing checks",
+  "change": {
+    "landscapeMaxWidth": 900,
+    "layout": "Brand and controls first row; visible HUD spans independent second implicit row",
+    "visibleHeaderHeight": 89,
+    "hiddenHeaderHeight": 52,
+    "maxNativeNameChars": 4,
+    "maxDate": "65535年12月",
+    "maxResources": 65535,
+    "stageObserver": "ResizeObserver; MutationObserver on HUD hidden fallback",
+    "unchangedSizeDoesNotCancel": true,
+    "repeatBindIdempotent": true,
+    "existingGestureCancelPreserved": true,
+    "newStrategyCommands": 0,
+    "cssCache": "20261028header1"
+  },
+  "tests": {
+    "accepted": true,
+    "started": "2026-10-28T11:46:34.586Z",
+    "finished": "2026-10-28T11:46:34.912Z",
+    "exitCode": 0,
+    "tests": 103,
+    "pass": 103,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "modules": [
+      "scripts/test-hd-mobile.mjs",
+      "scripts/test-lcd-touch.mjs"
+    ],
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 56741,
+        "sha256": "94e00af906f932a57333751f97ee135a2e613f737188b14deb169caca4b6363b"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 71882,
+        "sha256": "68df5116b32a4dafc5cbb36a518310fe8ca00e450c33562580b4b6a2623622db"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 234072,
+        "sha256": "d14a836a1bf1045ec920ab8996cfa40681a6841e0961cc6e9b16b54ba7d96f85"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 34814,
+        "sha256": "90bdc66e3224e683afca17f7aaf950a007bbcadea9d80ba7bbc9162ae0750d77"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 481814,
+        "sha256": "ded0ea6ec412cbab4226e504e7fab5eab4d02fe98b7e0c7038b72682f63cfa27"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "js/hd-mobile-map.js",
+        "bytes": 32782,
+        "sha256": "2588a2c1372d57ee2ce433d9685be5a200c3098ba7eea6225628a0e9433a8a20"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 30377,
+        "sha256": "070ecd4412f981998f39af66a4e600db911fc6b689928d1add9f0e66108884ba"
+      },
+      {
+        "path": "js/hd-mobile.js",
+        "bytes": 10426,
+        "sha256": "edc1b05dd7d0fa793deac95fe11573e0afb7646d90a4b62ed0afbe8426aabb5d"
+      },
+      {
+        "path": "js/hd-overworld.js",
+        "bytes": 168634,
+        "sha256": "ee23ee349763d6af1c1f6f4aa8bca4c28c2262e65dceb74a4fa87d7ce1d8f0f6"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "js/lcd.js",
+        "bytes": 35200,
+        "sha256": "d59a000918942ab1489f1a69627916a14aee2c7551c7dc0113093b011bf48899"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "m.html",
+        "bytes": 23677,
+        "sha256": "5995c2a99126addd545066916c37e5fd09fec8ed633b00f3ec34f2758f9f4f7c"
+      },
+      {
+        "path": "scripts/test-hd-mobile.mjs",
+        "bytes": 16653,
+        "sha256": "d036dc223eeb4a431e7b5a8364883fb34dc7a1a52c23b99878477e92d911f01b"
+      },
+      {
+        "path": "scripts/test-lcd-touch.mjs",
+        "bytes": 13053,
+        "sha256": "b3aec655599532ea841db66dc1f16487bb5e17a2ea69c4ce5a2991b0926cddeb"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 0,
+    "newDefaultModules": 0,
+    "nativeSourcesUnchanged": 128,
+    "runtimeArtifactsUnchanged": 4,
+    "portraitManifestUnchanged": true,
+    "fullSuiteRun": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "globalHdComplete": false,
+    "stdout": {
+      "path": "build/mobile-header-20261028-v108/targeted-v2.stdout.tap",
+      "bytes": 20380,
+      "sha256": "cffdf7bcdf5ef6f0730ae346c1e7f5152749eb272d783abb33c31373b7cdeaf2",
+      "text": "TAP version 13\n# Subtest: transfer target MAP never publishes ordinary city HUD, and actual retirement restores it\nok 1 - transfer target MAP never publishes ordinary city HUD, and actual retirement restores it\n  ---\n  duration_ms: 2.2625\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/undefined\nok 2 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/undefined\n  ---\n  duration_ms: 0.562\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD undefined/0\nok 3 - incomplete or invalid transfer protocol cannot authorize ordinary HUD undefined/0\n  ---\n  duration_ms: 0.5044\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 0/0\nok 4 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 0/0\n  ---\n  duration_ms: 0.4787\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 2/0\nok 5 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 2/0\n  ---\n  duration_ms: 0.4573\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/NaN\nok 6 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/NaN\n  ---\n  duration_ms: 0.4769\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/null\nok 7 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/null\n  ---\n  duration_ms: 0.4739\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/0\nok 8 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/0\n  ---\n  duration_ms: 0.6151\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/2\nok 9 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/2\n  ---\n  duration_ms: 0.9241\n  type: 'test'\n  ...\n# Subtest: transfer becomes active during a city-name read and retires the stale ordinary HUD\nok 10 - transfer becomes active during a city-name read and retires the stale ordinary HUD\n  ---\n  duration_ms: 0.613\n  type: 'test'\n  ...\n# Subtest: verified original dictionary current map uses one-based city/owner and actual reserve troops\nok 11 - verified original dictionary current map uses one-based city/owner and actual reserve troops\n  ---\n  duration_ms: 1.3442\n  type: 'test'\n  ...\n# Subtest: native 2000-slot person capacity is not a HUD data dependency\nok 12 - native 2000-slot person capacity is not a HUD data dependency\n  ---\n  duration_ms: 0.6096\n  type: 'test'\n  ...\n# Subtest: zero resources and unowned city are legitimate, without a ruler name call\nok 13 - zero resources and unowned city are legitimate, without a ruler name call\n  ---\n  duration_ms: 0.6014\n  type: 'test'\n  ...\n# Subtest: U16 maximum resources and full native year survive a long campaign\nok 14 - U16 maximum resources and full native year survive a long campaign\n  ---\n  duration_ms: 1.3096\n  type: 'test'\n  ...\n# Subtest: unverified library never binds native data: {\"status\":\"pending\"}\nok 15 - unverified library never binds native data: {\"status\":\"pending\"}\n  ---\n  duration_ms: 0.4476\n  type: 'test'\n  ...\n# Subtest: unverified library never binds native data: {\"status\":\"error\"}\nok 16 - unverified library never binds native data: {\"status\":\"error\"}\n  ---\n  duration_ms: 0.3935\n  type: 'test'\n  ...\n# Subtest: unverified library never binds native data: {\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}\nok 17 - unverified library never binds native data: {\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}\n  ---\n  duration_ms: 0.3561\n  type: 'test'\n  ...\n# Subtest: unverified library never binds native data: {\"byteLength\":1}\nok 18 - unverified library never binds native data: {\"byteLength\":1}\n  ---\n  duration_ms: 0.4463\n  type: 'test'\n  ...\n# Subtest: unverified library never binds native data: {\"generation\":0}\nok 19 - unverified library never binds native data: {\"generation\":0}\n  ---\n  duration_ms: 0.3834\n  type: 'test'\n  ...\n# Subtest: a stale digest is rejected before native binding\nok 20 - a stale digest is rejected before native binding\n  ---\n  duration_ms: 0.4869\n  type: 'test'\n  ...\n# Subtest: ready false never binds the data object\nok 21 - ready false never binds the data object\n  ---\n  duration_ms: 0.3997\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdBattlePick\nok 22 - current native owner blocks the city HUD: g_hdBattlePick\n  ---\n  duration_ms: 0.5647\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdMenuActive\nok 23 - current native owner blocks the city HUD: g_hdMenuActive\n  ---\n  duration_ms: 0.523\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdReportActive\nok 24 - current native owner blocks the city HUD: g_hdReportActive\n  ---\n  duration_ms: 0.5588\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdQtyActive\nok 25 - current native owner blocks the city HUD: g_hdQtyActive\n  ---\n  duration_ms: 0.5332\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdFightActive\nok 26 - current native owner blocks the city HUD: g_hdFightActive\n  ---\n  duration_ms: 0.5595\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdHelpActive\nok 27 - current native owner blocks the city HUD: g_hdHelpActive\n  ---\n  duration_ms: 0.5023\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdRecordActive\nok 28 - current native owner blocks the city HUD: g_hdRecordActive\n  ---\n  duration_ms: 0.5729\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdMovieActive\nok 29 - current native owner blocks the city HUD: g_hdMovieActive\n  ---\n  duration_ms: 0.6077\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdSpeActive\nok 30 - current native owner blocks the city HUD: g_hdSpeActive\n  ---\n  duration_ms: 0.5246\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdSkillActive\nok 31 - current native owner blocks the city HUD: g_hdSkillActive\n  ---\n  duration_ms: 0.555\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdAttackActive\nok 32 - current native owner blocks the city HUD: g_hdAttackActive\n  ---\n  duration_ms: 0.5508\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdSkillResultActive\nok 33 - current native owner blocks the city HUD: g_hdSkillResultActive\n  ---\n  duration_ms: 0.5366\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdMakerActive\nok 34 - current native owner blocks the city HUD: g_hdMakerActive\n  ---\n  duration_ms: 0.6405\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdViewActive\nok 35 - current native owner blocks the city HUD: g_hdViewActive\n  ---\n  duration_ms: 0.5446\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdMiniMapActive\nok 36 - current native owner blocks the city HUD: g_hdMiniMapActive\n  ---\n  duration_ms: 0.5541\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdGoodsActive\nok 37 - current native owner blocks the city HUD: g_hdGoodsActive\n  ---\n  duration_ms: 1.2621\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdPersonPropertiesActive\nok 38 - current native owner blocks the city HUD: g_hdPersonPropertiesActive\n  ---\n  duration_ms: 0.5672\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdResultOwnerKind\nok 39 - current native owner blocks the city HUD: g_hdResultOwnerKind\n  ---\n  duration_ms: 0.7048\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdResultOwnerValid\nok 40 - current native owner blocks the city HUD: g_hdResultOwnerValid\n  ---\n  duration_ms: 0.6384\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdMarchPhase\nok 41 - current native owner blocks the city HUD: g_hdMarchPhase\n  ---\n  duration_ms: 0.5581\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdMapPick=0\nok 42 - unknown/stale map ticket fails closed: g_hdMapPick=0\n  ---\n  duration_ms: 0.4832\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdMapCity=0\nok 43 - unknown/stale map ticket fails closed: g_hdMapCity=0\n  ---\n  duration_ms: 0.4497\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdMapCity=39\nok 44 - unknown/stale map ticket fails closed: g_hdMapCity=39\n  ---\n  duration_ms: 0.46\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdMapInputSeq=0\nok 45 - unknown/stale map ticket fails closed: g_hdMapInputSeq=0\n  ---\n  duration_ms: 0.615\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdDetailGeneration=0\nok 46 - unknown/stale map ticket fails closed: g_hdDetailGeneration=0\n  ---\n  duration_ms: 0.4221\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdSpeGeneration=0\nok 47 - unknown/stale map ticket fails closed: g_hdSpeGeneration=0\n  ---\n  duration_ms: 1.5244\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdEngineReady=0\nok 48 - unknown/stale map ticket fails closed: g_hdEngineReady=0\n  ---\n  duration_ms: 0.421\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_PIdx=0\nok 49 - unknown/stale map ticket fails closed: g_PIdx=0\n  ---\n  duration_ms: 0.4386\n  type: 'test'\n  ...\n# Subtest: missing owner field cannot be inferred as zero\nok 50 - missing owner field cannot be inferred as zero\n  ---\n  duration_ms: 0.5121\n  type: 'test'\n  ...\n# Subtest: invalid native field is not coerced: Money=-1\nok 51 - invalid native field is not coerced: Money=-1\n  ---\n  duration_ms: 0.4675\n  type: 'test'\n  ...\n# Subtest: invalid native field is not coerced: Food=65536\nok 52 - invalid native field is not coerced: Food=65536\n  ---\n  duration_ms: 0.3968\n  type: 'test'\n  ...\n# Subtest: invalid native field is not coerced: MothballArms=NaN\nok 53 - invalid native field is not coerced: MothballArms=NaN\n  ---\n  duration_ms: 0.4453\n  type: 'test'\n  ...\n# Subtest: invalid native field is not coerced: Money=5\nok 54 - invalid native field is not coerced: Money=5\n  ---\n  duration_ms: 0.5411\n  type: 'test'\n  ...\n# Subtest: invalid native field is not coerced: Food=null\nok 55 - invalid native field is not coerced: Food=null\n  ---\n  duration_ms: 0.4304\n  type: 'test'\n  ...\n# Subtest: invalid native field is not coerced: Belong=65535\nok 56 - invalid native field is not coerced: Belong=65535\n  ---\n  duration_ms: 0.4156\n  type: 'test'\n  ...\n# Subtest: invalid native date is rejected: g_YearDate=65536\nok 57 - invalid native date is rejected: g_YearDate=65536\n  ---\n  duration_ms: 0.4584\n  type: 'test'\n  ...\n# Subtest: invalid native date is rejected: g_MonthDate=0\nok 58 - invalid native date is rejected: g_MonthDate=0\n  ---\n  duration_ms: 0.4384\n  type: 'test'\n  ...\n# Subtest: invalid native date is rejected: g_MonthDate=13\nok 59 - invalid native date is rejected: g_MonthDate=13\n  ---\n  duration_ms: 0.4226\n  type: 'test'\n  ...\n# Subtest: invalid native date is rejected: g_YearDate=236.5\nok 60 - invalid native date is rejected: g_YearDate=236.5\n  ---\n  duration_ms: 0.4538\n  type: 'test'\n  ...\n# Subtest: name call owner handoff clears all previously displayed fields\nok 61 - name call owner handoff clears all previously displayed fields\n  ---\n  duration_ms: 0.6528\n  type: 'test'\n  ...\n# Subtest: name call generation handoff is rejected even if map and names remain unchanged\nok 62 - name call generation handoff is rejected even if map and names remain unchanged\n  ---\n  duration_ms: 0.5487\n  type: 'test'\n  ...\n# Subtest: name call LIB replacement retires the original reading\nok 63 - name call LIB replacement retires the original reading\n  ---\n  duration_ms: 0.4954\n  type: 'test'\n  ...\n# Subtest: name call city resources changing causes a torn-read rejection\nok 64 - name call city resources changing causes a torn-read rejection\n  ---\n  duration_ms: 0.6174\n  type: 'test'\n  ...\n# Subtest: name call data rebinding never mixes old city and new world\nok 65 - name call data rebinding never mixes old city and new world\n  ---\n  duration_ms: 0.6086\n  type: 'test'\n  ...\n# Subtest: name call map input sequence change fails closed\nok 66 - name call map input sequence change fails closed\n  ---\n  duration_ms: 0.4801\n  type: 'test'\n  ...\n# Subtest: a resource getter changing after its initial read cannot publish mixed fields\nok 67 - a resource getter changing after its initial read cannot publish mixed fields\n  ---\n  duration_ms: 0.5032\n  type: 'test'\n  ...\n# Subtest: unavailable or invalid names do not display a partial city\nok 68 - unavailable or invalid names do not display a partial city\n  ---\n  duration_ms: 1.6301\n  type: 'test'\n  ...\n# Subtest: mounting is idempotent, uses one 80ms timer and pauses immediately while hidden\nok 69 - mounting is idempotent, uses one 80ms timer and pauses immediately while hidden\n  ---\n  duration_ms: 0.9046\n  type: 'test'\n  ...\n# Subtest: initial hidden document does not bind native data or start polling\nok 70 - initial hidden document does not bind native data or start polling\n  ---\n  duration_ms: 0.4745\n  type: 'test'\n  ...\n# Subtest: identity notifications retire a visible HUD without waiting for the next timer\nok 71 - identity notifications retire a visible HUD without waiting for the next timer\n  ---\n  duration_ms: 0.7144\n  type: 'test'\n  ...\n# Subtest: snapshot is immutable and does not perform native or storage reads\nok 72 - snapshot is immutable and does not perform native or storage reads\n  ---\n  duration_ms: 0.6459\n  type: 'test'\n  ...\n# Subtest: pure model and sampler agree and preserve native data without input or writes\nok 73 - pure model and sampler agree and preserve native data without input or writes\n  ---\n  duration_ms: 2.2899\n  type: 'test'\n  ...\n# Subtest: missing UI nodes do not prevent safe sampling or create any nodes\nok 74 - missing UI nodes do not prevent safe sampling or create any nodes\n  ---\n  duration_ms: 0.8063\n  type: 'test'\n  ...\n# Subtest: retained native DEPARTED phase restores a fresh strategy-map HUD without clearing native fields\nok 75 - retained native DEPARTED phase restores a fresh strategy-map HUD without clearing native fields\n  ---\n  duration_ms: 0.8485\n  type: 'test'\n  ...\n# Subtest: DEPARTED is not map authority while battle, settlement report or a menu still owns the screen\nok 76 - DEPARTED is not map authority while battle, settlement report or a menu still owns the screen\n  ---\n  duration_ms: 0.9023\n  type: 'test'\n  ...\n# Subtest: every active march phase and unknown phase remains a closed HUD owner\nok 77 - every active march phase and unknown phase remains a closed HUD owner\n  ---\n  duration_ms: 6.279\n  type: 'test'\n  ...\n# Subtest: terminal-to-idle phase handoff during a name read cannot publish a mixed MAP ticket\nok 78 - terminal-to-idle phase handoff during a name read cannot publish a mixed MAP ticket\n  ---\n  duration_ms: 0.66\n  type: 'test'\n  ...\n# Subtest: one native gesture maps the visible LCD rectangle to bounded game coordinates\nok 79 - one native gesture maps the visible LCD rectangle to bounded game coordinates\n  ---\n  duration_ms: 1.8901\n  type: 'test'\n  ...\n# Subtest: rotated native LCD touch mapping 1\nok 80 - rotated native LCD touch mapping 1\n  ---\n  duration_ms: 0.5483\n  type: 'test'\n  ...\n# Subtest: rotated native LCD touch mapping 2\nok 81 - rotated native LCD touch mapping 2\n  ---\n  duration_ms: 0.4307\n  type: 'test'\n  ...\n# Subtest: cancel uses the last accepted coordinates, sends no UP, and is idempotent\nok 82 - cancel uses the last accepted coordinates, sends no UP, and is idempotent\n  ---\n  duration_ms: 0.9856\n  type: 'test'\n  ...\n# Subtest: blur retires only an existing touch once\nok 83 - blur retires only an existing touch once\n  ---\n  duration_ms: 0.5564\n  type: 'test'\n  ...\n# Subtest: resize retires only an existing touch once\nok 84 - resize retires only an existing touch once\n  ---\n  duration_ms: 0.376\n  type: 'test'\n  ...\n# Subtest: orientationchange retires only an existing touch once\nok 85 - orientationchange retires only an existing touch once\n  ---\n  duration_ms: 0.3796\n  type: 'test'\n  ...\n# Subtest: hidden document cancels an active gesture and cannot start another one\nok 86 - hidden document cancels an active gesture and cannot start another one\n  ---\n  duration_ms: 0.4523\n  type: 'test'\n  ...\n# Subtest: changed left cancels rather than reprojects the release\nok 87 - changed left cancels rather than reprojects the release\n  ---\n  duration_ms: 0.4919\n  type: 'test'\n  ...\n# Subtest: changed top cancels rather than reprojects the release\nok 88 - changed top cancels rather than reprojects the release\n  ---\n  duration_ms: 0.439\n  type: 'test'\n  ...\n# Subtest: changed width cancels rather than reprojects the release\nok 89 - changed width cancels rather than reprojects the release\n  ---\n  duration_ms: 0.418\n  type: 'test'\n  ...\n# Subtest: changed height cancels rather than reprojects the release\nok 90 - changed height cancels rather than reprojects the release\n  ---\n  duration_ms: 0.3709\n  type: 'test'\n  ...\n# Subtest: changed rotation cancels rather than reprojects the release\nok 91 - changed rotation cancels rather than reprojects the release\n  ---\n  duration_ms: 0.349\n  type: 'test'\n  ...\n# Subtest: geometry drift is compared with the original gesture, not accumulated between moves\nok 92 - geometry drift is compared with the original gesture, not accumulated between moves\n  ---\n  duration_ms: 0.5431\n  type: 'test'\n  ...\n# Subtest: a second finger cancels the gesture and blocks reuse until every finger is lifted\nok 93 - a second finger cancels the gesture and blocks reuse until every finger is lifted\n  ---\n  duration_ms: 0.4273\n  type: 'test'\n  ...\n# Subtest: unrelated changed touch does not release the selected finger\nok 94 - unrelated changed touch does not release the selected finger\n  ---\n  duration_ms: 0.389\n  type: 'test'\n  ...\n# Subtest: a second finger outside the LCD cancels without preventing other controls and global lift unblocks\nok 95 - a second finger outside the LCD cancels without preventing other controls and global lift unblocks\n  ---\n  duration_ms: 0.4596\n  type: 'test'\n  ...\n# Subtest: native lcdWidth changing during the gesture cancels instead of reprojecting UP\nok 96 - native lcdWidth changing during the gesture cancels instead of reprojecting UP\n  ---\n  duration_ms: 0.3724\n  type: 'test'\n  ...\n# Subtest: native lcdHeight changing during the gesture cancels instead of reprojecting UP\nok 97 - native lcdHeight changing during the gesture cancels instead of reprojecting UP\n  ---\n  duration_ms: 0.3943\n  type: 'test'\n  ...\n# Subtest: invalid native dimensions and nonfinite rectangles never send DOWN\nok 98 - invalid native dimensions and nonfinite rectangles never send DOWN\n  ---\n  duration_ms: 2.6975\n  type: 'test'\n  ...\n# Subtest: platform touchCancel with an empty changed list still retires the active gesture\nok 99 - platform touchCancel with an empty changed list still retires the active gesture\n  ---\n  duration_ms: 0.4962\n  type: 'test'\n  ...\n# Subtest: outside or invalid coordinates cannot start; leaving the LCD cancels before release\nok 100 - outside or invalid coordinates cannot start; leaving the LCD cancels before release\n  ---\n  duration_ms: 0.4226\n  type: 'test'\n  ...\n# Subtest: zero coordinates remain valid and collapsed geometry sends no native event\nok 101 - zero coordinates remain valid and collapsed geometry sends no native event\n  ---\n  duration_ms: 0.4063\n  type: 'test'\n  ...\n# Subtest: mounting twice adds no duplicate input and destroy removes listeners\nok 102 - mounting twice adds no duplicate input and destroy removes listeners\n  ---\n  duration_ms: 0.5067\n  type: 'test'\n  ...\n# Subtest: page lock permits only the currently displayed mobile HD scroll surface\nok 103 - page lock permits only the currently displayed mobile HD scroll surface\n  ---\n  duration_ms: 0.6157\n  type: 'test'\n  ...\n1..103\n# tests 103\n# suites 0\n# pass 103\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 210.3369\n"
+    },
+    "stderr": {
+      "path": "build/mobile-header-20261028-v108/targeted-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    }
+  },
+  "earlierPinSelectionRun": {
+    "record": {
+      "path": "build/mobile-header-20261028-v108/targeted-v1.json",
+      "bytes": 2989,
+      "sha256": "1314a5b7c3f832b18737eb420271f5057fdd7496f5634f83d459ab9bfd9c4645"
+    },
+    "reason": "Final rerun additionally pins unchanged js/lcd.js, the source loaded by existing touch checks; no product code changed between runs.",
+    "includedInPassingTotal": false
+  },
+  "originalFieldAudit": {
+    "schemaVersion": 1,
+    "recordedAt": "2026-10-28T11:37:07.826Z",
+    "baselineHead": "0a581f397acd3a60c033bbe4429622075514f4a8",
+    "readOnly": true,
+    "sourceLibrary": {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    "personNonemptyPeriodSlots": 736,
+    "longestPersonNameCodepoints": 4,
+    "longestPersonNames": [
+      "南方小鬼",
+      "朵思大王",
+      "金环三结",
+      "祝融夫人",
+      "带来洞主"
+    ],
+    "longestPersonRows": [
+      {
+        "period": 1,
+        "id": 186,
+        "name": "南方小鬼",
+        "codepoints": 4
+      },
+      {
+        "period": 2,
+        "id": 184,
+        "name": "南方小鬼",
+        "codepoints": 4
+      },
+      {
+        "period": 3,
+        "id": 188,
+        "name": "南方小鬼",
+        "codepoints": 4
+      },
+      {
+        "period": 4,
+        "id": 139,
+        "name": "朵思大王",
+        "codepoints": 4
+      },
+      {
+        "period": 4,
+        "id": 140,
+        "name": "金环三结",
+        "codepoints": 4
+      },
+      {
+        "period": 4,
+        "id": 143,
+        "name": "祝融夫人",
+        "codepoints": 4
+      },
+      {
+        "period": 4,
+        "id": 144,
+        "name": "带来洞主",
+        "codepoints": 4
+      },
+      {
+        "period": 4,
+        "id": 175,
+        "name": "南方小鬼",
+        "codepoints": 4
+      }
+    ],
+    "longestCityNameCodepoints": 2,
+    "cityNames": [
+      {
+        "id": 0,
+        "name": "西凉",
+        "codepoints": 2
+      },
+      {
+        "id": 1,
+        "name": "北平",
+        "codepoints": 2
+      },
+      {
+        "id": 2,
+        "name": "襄平",
+        "codepoints": 2
+      },
+      {
+        "id": 3,
+        "name": "安定",
+        "codepoints": 2
+      },
+      {
+        "id": 4,
+        "name": "晋阳",
+        "codepoints": 2
+      },
+      {
+        "id": 5,
+        "name": "平原",
+        "codepoints": 2
+      },
+      {
+        "id": 6,
+        "name": "南皮",
+        "codepoints": 2
+      },
+      {
+        "id": 7,
+        "name": "北海",
+        "codepoints": 2
+      },
+      {
+        "id": 8,
+        "name": "天水",
+        "codepoints": 2
+      },
+      {
+        "id": 9,
+        "name": "河内",
+        "codepoints": 2
+      },
+      {
+        "id": 10,
+        "name": "长安",
+        "codepoints": 2
+      },
+      {
+        "id": 11,
+        "name": "邺",
+        "codepoints": 1
+      },
+      {
+        "id": 12,
+        "name": "濮阳",
+        "codepoints": 2
+      },
+      {
+        "id": 13,
+        "name": "徐州",
+        "codepoints": 2
+      },
+      {
+        "id": 14,
+        "name": "汉中",
+        "codepoints": 2
+      },
+      {
+        "id": 15,
+        "name": "洛阳",
+        "codepoints": 2
+      },
+      {
+        "id": 16,
+        "name": "许昌",
+        "codepoints": 2
+      },
+      {
+        "id": 17,
+        "name": "小沛",
+        "codepoints": 2
+      },
+      {
+        "id": 18,
+        "name": "下邳",
+        "codepoints": 2
+      },
+      {
+        "id": 19,
+        "name": "梓潼",
+        "codepoints": 2
+      },
+      {
+        "id": 20,
+        "name": "宛城",
+        "codepoints": 2
+      },
+      {
+        "id": 21,
+        "name": "寿春",
+        "codepoints": 2
+      },
+      {
+        "id": 22,
+        "name": "建业",
+        "codepoints": 2
+      },
+      {
+        "id": 23,
+        "name": "吴",
+        "codepoints": 1
+      },
+      {
+        "id": 24,
+        "name": "成都",
+        "codepoints": 2
+      },
+      {
+        "id": 25,
+        "name": "棉竹",
+        "codepoints": 2
+      },
+      {
+        "id": 26,
+        "name": "襄阳",
+        "codepoints": 2
+      },
+      {
+        "id": 27,
+        "name": "江夏",
+        "codepoints": 2
+      },
+      {
+        "id": 28,
+        "name": "庐江",
+        "codepoints": 2
+      },
+      {
+        "id": 29,
+        "name": "会稽",
+        "codepoints": 2
+      },
+      {
+        "id": 30,
+        "name": "云南",
+        "codepoints": 2
+      },
+      {
+        "id": 31,
+        "name": "巴郡",
+        "codepoints": 2
+      },
+      {
+        "id": 32,
+        "name": "武陵",
+        "codepoints": 2
+      },
+      {
+        "id": 33,
+        "name": "长沙",
+        "codepoints": 2
+      },
+      {
+        "id": 34,
+        "name": "柴桑",
+        "codepoints": 2
+      },
+      {
+        "id": 35,
+        "name": "零陵",
+        "codepoints": 2
+      },
+      {
+        "id": 36,
+        "name": "桂阳",
+        "codepoints": 2
+      },
+      {
+        "id": 37,
+        "name": "建宁",
+        "codepoints": 2
+      }
+    ],
+    "hudAllowedFields": {
+      "year": {
+        "min": 0,
+        "max": 65535
+      },
+      "month": {
+        "min": 1,
+        "max": 12
+      },
+      "dateMaxSample": "65535年12月",
+      "dateSampleCodepoints": 9,
+      "money": {
+        "min": 0,
+        "max": 65535,
+        "maxSample": "65535"
+      },
+      "food": {
+        "min": 0,
+        "max": 65535,
+        "maxSample": "65535"
+      },
+      "reserveArms": {
+        "min": 0,
+        "max": 65535,
+        "maxSample": "65535"
+      },
+      "nativePersonNameMaxCodepoints": 4,
+      "nativeCityNameMaxCodepoints": 2,
+      "neutralOwnerLabel": "无主"
+    },
+    "layoutReview": {
+      "proposalViableAtSupportedNarrowViewports": [
+        {
+          "width": 667,
+          "height": 375
+        },
+        {
+          "width": 844,
+          "height": 390
+        }
+      ],
+      "newMediaShouldBeLandscapeOnly": true,
+      "headerFirstRowChildren": [
+        "brand",
+        "status",
+        "controls"
+      ],
+      "hudSecondRowSpan": "1 / -1",
+      "useImplicitRowsSoHiddenHudCreatesNoSecondTrack": true,
+      "hiddenHudTargetHeaderHeight": 52,
+      "secondRowWidthAvailable": {
+        "at667": 651,
+        "at844": 820
+      },
+      "internalHudGridWeights": [
+        1.25,
+        1,
+        1.55,
+        0.9,
+        0.9,
+        0.9
+      ],
+      "internalHudTrackWidthEstimate": {
+        "at667": [
+          118.46,
+          94.77,
+          146.89,
+          85.29,
+          85.29,
+          85.29
+        ],
+        "at844": [
+          148.08,
+          118.46,
+          183.62,
+          106.62,
+          106.62,
+          106.62
+        ]
+      },
+      "widthEstimateBoundary": "CSS arithmetic using existing padding/gaps and no safe-area inset. Actual glyph widths and visible button groups require the controlled browser preview; this audit does not assign a universal minimum supported viewport."
+    },
+    "risks": [
+      {
+        "kind": "dynamic-stage-height",
+        "evidence": "m.html reloadLCD reads hd-mobile-stage once at postRun and on window/orientation/visualViewport resize, with no ResizeObserver. HUD show/hide changes header and stage height even without those events.",
+        "impact": "Classic MAP can have a visible HUD; the LCD can retain previous dimensions/centering after header height changes.",
+        "suggestion": "Observe stage size with a read-only ResizeObserver and call existing reloadLCD, or otherwise explicitly reflow that existing function on actual stage dimensions. Do not synthesize global resize or native input."
+      },
+      {
+        "kind": "portrait-cascade",
+        "evidence": "Existing @media orientation:portrait hides #hd-mobile-bar. A later max-width900 #hd-mobile-bar display:grid rule at equal specificity can unhide it.",
+        "suggestion": "Constrain the new grid rule to landscape or keep portrait hiding after it."
+      },
+      {
+        "kind": "empty-explicit-row",
+        "evidence": "Defining two explicit grid rows or two template-area rows can retain a row gap when HUD has display:none.",
+        "suggestion": "Set HUD grid-row:2 / grid-column:1 / -1 but keep rows implicit; retain #hud[hidden] display:none."
+      },
+      {
+        "kind": "control-min-content",
+        "evidence": "Minimum 44px buttons and 4px gaps remain. Map normally has six visible controls; battle retains disabled map controls plus battle toggle.",
+        "suggestion": "Do not claim arbitrary tiny landscape widths. Verify normal and maximal visible control states at 667 and 844, then let status shrink safely; ensure first-row status does not force a third row."
+      }
+    ],
+    "browserRun": false,
+    "gameOrPortAccessed": false,
+    "newTestsWritten": false,
+    "testsRun": false,
+    "productFilesEdited": false
+  },
+  "controlledPreview": {
+    "accepted": true,
+    "previewOnly": true,
+    "baselineHead": "0a581f397acd3a60c033bbe4429622075514f4a8",
+    "browserLaunches": 1,
+    "isolatedPages": 5,
+    "navigations": 6,
+    "automation": "Bundled Playwright launching one task-owned installed Chrome persistent context over own pipe",
+    "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\mobile-header-20261028-v108\\own-chrome-profile-v1",
+    "ownedBrowserClosed": true,
+    "privateEphemeralPort": 1997,
+    "serverClosed": true,
+    "sourceBytesStable": true,
+    "pins": [
+      {
+        "path": "m.html",
+        "bytes": 23677,
+        "sha256": "5995c2a99126addd545066916c37e5fd09fec8ed633b00f3ec34f2758f9f4f7c"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 3008,
+        "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+      },
+      {
+        "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 5226,
+        "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 15762,
+        "sha256": "54f3de618facd3a5d561e9927f7256a500811f246d2aea4262f2d5d1d95b6f44"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 10606,
+        "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+      },
+      {
+        "path": "css/hd-minimap.css",
+        "bytes": 4222,
+        "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 34814,
+        "sha256": "90bdc66e3224e683afca17f7aaf950a007bbcadea9d80ba7bbc9162ae0750d77"
+      },
+      {
+        "path": "css/hd-battle-note.css",
+        "bytes": 2146,
+        "sha256": "b35da40a6a0535b7ed1ba33a103eaeed35fc51d5f314974a167a3fa196b966a3"
+      },
+      {
+        "path": "css/hd-battle-transition.css",
+        "bytes": 2896,
+        "sha256": "eee994dd0a8541dac4b3c7f11277326b3d6aa0dfb099131b7cd358bc4872573a"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "build/mobile-header-20261028-v108/production-lcd-inline-v1.js",
+        "bytes": 3257,
+        "sha256": "3bc9c7f59abcf66d23c1590cd10afad460d5fdcf1f9d50f5c2d9315ab0b26459"
+      },
+      {
+        "path": "js/jquery.min.js",
+        "bytes": 92633,
+        "sha256": "20638e363fcc5152155f24b281303e17da62da62d24ef5dcf863b184d9a25734"
+      },
+      {
+        "path": "js/hd-mobile.js",
+        "bytes": 10426,
+        "sha256": "edc1b05dd7d0fa793deac95fe11573e0afb7646d90a4b62ed0afbe8426aabb5d"
+      },
+      {
+        "path": "js/hd-mobile-map.js",
+        "bytes": 32782,
+        "sha256": "2588a2c1372d57ee2ce433d9685be5a200c3098ba7eea6225628a0e9433a8a20"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 30377,
+        "sha256": "070ecd4412f981998f39af66a4e600db911fc6b689928d1add9f0e66108884ba"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 71882,
+        "sha256": "68df5116b32a4dafc5cbb36a518310fe8ca00e450c33562580b4b6a2623622db"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 234072,
+        "sha256": "d14a836a1bf1045ec920ab8996cfa40681a6841e0961cc6e9b16b54ba7d96f85"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/143-祝融夫人.png",
+        "bytes": 2201295,
+        "sha256": "89b7c5f9de7613a78eac6a4376ad5c4d6b6f7156949c67cb2f7d6fbd7158b2f7"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/143-祝融夫人.png",
+        "bytes": 437,
+        "sha256": "b49966cd75cbfadb18eedae26687b7a8d1929a01bfeb0ada2f7ee83c8a6161a5"
+      },
+      {
+        "path": "assets/hd-overworld/terrain/base_plains.jpg",
+        "bytes": 2538377,
+        "sha256": "522f661bfdcc5ecc54be83c081e446dfbe5caaf554fe8ef08f15a07a8f61c445"
+      },
+      {
+        "path": "favicon.png",
+        "bytes": 7349,
+        "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22"
+      }
+    ],
+    "oldCss": {
+      "path": "build/mobile-header-20261028-v108/old-css-v1.css",
+      "bytes": 34127,
+      "sha256": "7849bab1ac4b701caa6bc96098b2c0726d80e2d3affaabdf5568d2ad4372729f",
+      "committedSource": "0a581f397acd3a60c033bbe4429622075514f4a8:css/hd-mobile.css",
+      "isolatedRoute": "/__old_css/hd-mobile.css",
+      "productReplaced": false,
+      "entry": {
+        "path": "build/mobile-header-20261028-v108/old-m-v1.html",
+        "bytes": 22571,
+        "sha256": "a7e693316dc40dcb80d9b731f10ebc303886a4f018938693ee8cf939352e86b8"
+      },
+      "entryCommittedSource": "0a581f397acd3a60c033bbe4429622075514f4a8:m.html"
+    },
+    "classicLcd": [
+      {
+        "observerMode": "ResizeObserver",
+        "accepted": true,
+        "manualResizeEventsDuringHudTransitions": 0,
+        "duplicateBindingsAndSameValueRefreshesDoNotCancel": true,
+        "states": [
+          {
+            "step": "hidden-initial",
+            "accepted": true,
+            "metrics": {
+              "viewport": {
+                "width": 667,
+                "height": 375
+              },
+              "headerHeight": 52,
+              "stage": {
+                "x": 0,
+                "y": 52,
+                "width": 667,
+                "height": 323,
+                "right": 667,
+                "bottom": 375
+              },
+              "lcd": {
+                "x": 64.328125,
+                "y": 52,
+                "width": 538.328125,
+                "height": 323,
+                "right": 602.65625,
+                "bottom": 375
+              },
+              "hudHidden": true,
+              "cancels": 1,
+              "windowResizes": 0,
+              "lcdRotateMode": 0,
+              "observerMode": "ResizeObserver",
+              "controlledWorldStable": true,
+              "nativeReadOnly": true,
+              "mockIdentity": true,
+              "counts": {
+                "nativeKeys": 0,
+                "nativeWrites": 0,
+                "nativeActions": 0,
+                "storageWrites": 0
+              },
+              "errors": [],
+              "postRunExecuted": false,
+              "engineLoaded": false
+            },
+            "sameValueRefreshes": 4,
+            "repeatedCancels": 1,
+            "screenshot": "build/mobile-header-20261028-v108/classic-ro-hidden-initial-v1.png",
+            "screenshotSha256": "77f462791c99749b3d1af9be15f13f175b847df55d8a9e264dcfefbc9ab5d6f6",
+            "screenshotPixels": {
+              "width": 667,
+              "height": 375
+            }
+          },
+          {
+            "step": "hud-visible",
+            "accepted": true,
+            "metrics": {
+              "viewport": {
+                "width": 667,
+                "height": 375
+              },
+              "headerHeight": 89,
+              "stage": {
+                "x": 0,
+                "y": 89,
+                "width": 667,
+                "height": 286,
+                "right": 667,
+                "bottom": 375
+              },
+              "lcd": {
+                "x": 95.15625,
+                "y": 89,
+                "width": 476.65625,
+                "height": 286,
+                "right": 571.8125,
+                "bottom": 375
+              },
+              "hudHidden": false,
+              "cancels": 2,
+              "windowResizes": 0,
+              "lcdRotateMode": 0,
+              "observerMode": "ResizeObserver",
+              "controlledWorldStable": true,
+              "nativeReadOnly": true,
+              "mockIdentity": true,
+              "counts": {
+                "nativeKeys": 0,
+                "nativeWrites": 0,
+                "nativeActions": 0,
+                "storageWrites": 0
+              },
+              "errors": [],
+              "postRunExecuted": false,
+              "engineLoaded": false
+            },
+            "sameValueRefreshes": 4,
+            "repeatedCancels": 2,
+            "screenshot": "build/mobile-header-20261028-v108/classic-ro-hud-visible-v1.png",
+            "screenshotSha256": "bd2fe8d4cf9067ffd82bb7f2d5ee847cdb19dce39c43121f1d8a02ea9078e701",
+            "screenshotPixels": {
+              "width": 667,
+              "height": 375
+            }
+          },
+          {
+            "step": "hidden-restored",
+            "accepted": true,
+            "metrics": {
+              "viewport": {
+                "width": 667,
+                "height": 375
+              },
+              "headerHeight": 52,
+              "stage": {
+                "x": 0,
+                "y": 52,
+                "width": 667,
+                "height": 323,
+                "right": 667,
+                "bottom": 375
+              },
+              "lcd": {
+                "x": 64.328125,
+                "y": 52,
+                "width": 538.328125,
+                "height": 323,
+                "right": 602.65625,
+                "bottom": 375
+              },
+              "hudHidden": true,
+              "cancels": 3,
+              "windowResizes": 0,
+              "lcdRotateMode": 0,
+              "observerMode": "ResizeObserver",
+              "controlledWorldStable": true,
+              "nativeReadOnly": true,
+              "mockIdentity": true,
+              "counts": {
+                "nativeKeys": 0,
+                "nativeWrites": 0,
+                "nativeActions": 0,
+                "storageWrites": 0
+              },
+              "errors": [],
+              "postRunExecuted": false,
+              "engineLoaded": false
+            },
+            "sameValueRefreshes": 4,
+            "repeatedCancels": 3,
+            "screenshot": "build/mobile-header-20261028-v108/classic-ro-hidden-restored-v1.png",
+            "screenshotSha256": "77f462791c99749b3d1af9be15f13f175b847df55d8a9e264dcfefbc9ab5d6f6",
+            "screenshotPixels": {
+              "width": 667,
+              "height": 375
+            }
+          }
+        ],
+        "raw": {
+          "path": "build/mobile-header-20261028-v108/classic-ro-raw-v1.json",
+          "bytes": 4140,
+          "sha256": "c928667af5a4c79ea393af022700d0a415ae2e42bceed90096b3a98f3529131b"
+        },
+        "dom": {
+          "path": "build/mobile-header-20261028-v108/classic-ro-v1.dom.html",
+          "bytes": 21570,
+          "sha256": "985936ca4780928c25897f71c7c75c2214e487e1b5ed3b5163b5ff393e75a41c"
+        }
+      },
+      {
+        "observerMode": "MutationObserver fallback",
+        "accepted": true,
+        "manualResizeEventsDuringHudTransitions": 0,
+        "duplicateBindingsAndSameValueRefreshesDoNotCancel": true,
+        "states": [
+          {
+            "step": "hidden-initial",
+            "accepted": true,
+            "metrics": {
+              "viewport": {
+                "width": 667,
+                "height": 375
+              },
+              "headerHeight": 52,
+              "stage": {
+                "x": 0,
+                "y": 52,
+                "width": 667,
+                "height": 323,
+                "right": 667,
+                "bottom": 375
+              },
+              "lcd": {
+                "x": 64.328125,
+                "y": 52,
+                "width": 538.328125,
+                "height": 323,
+                "right": 602.65625,
+                "bottom": 375
+              },
+              "hudHidden": true,
+              "cancels": 1,
+              "windowResizes": 0,
+              "lcdRotateMode": 0,
+              "observerMode": "MutationObserver fallback",
+              "controlledWorldStable": true,
+              "nativeReadOnly": true,
+              "mockIdentity": true,
+              "counts": {
+                "nativeKeys": 0,
+                "nativeWrites": 0,
+                "nativeActions": 0,
+                "storageWrites": 0
+              },
+              "errors": [],
+              "postRunExecuted": false,
+              "engineLoaded": false
+            },
+            "sameValueRefreshes": 4,
+            "repeatedCancels": 1,
+            "screenshot": "build/mobile-header-20261028-v108/classic-mo-hidden-initial-v1.png",
+            "screenshotSha256": "77f462791c99749b3d1af9be15f13f175b847df55d8a9e264dcfefbc9ab5d6f6",
+            "screenshotPixels": {
+              "width": 667,
+              "height": 375
+            }
+          },
+          {
+            "step": "hud-visible",
+            "accepted": true,
+            "metrics": {
+              "viewport": {
+                "width": 667,
+                "height": 375
+              },
+              "headerHeight": 89,
+              "stage": {
+                "x": 0,
+                "y": 89,
+                "width": 667,
+                "height": 286,
+                "right": 667,
+                "bottom": 375
+              },
+              "lcd": {
+                "x": 95.15625,
+                "y": 89,
+                "width": 476.65625,
+                "height": 286,
+                "right": 571.8125,
+                "bottom": 375
+              },
+              "hudHidden": false,
+              "cancels": 2,
+              "windowResizes": 0,
+              "lcdRotateMode": 0,
+              "observerMode": "MutationObserver fallback",
+              "controlledWorldStable": true,
+              "nativeReadOnly": true,
+              "mockIdentity": true,
+              "counts": {
+                "nativeKeys": 0,
+                "nativeWrites": 0,
+                "nativeActions": 0,
+                "storageWrites": 0
+              },
+              "errors": [],
+              "postRunExecuted": false,
+              "engineLoaded": false
+            },
+            "sameValueRefreshes": 4,
+            "repeatedCancels": 2,
+            "screenshot": "build/mobile-header-20261028-v108/classic-mo-hud-visible-v1.png",
+            "screenshotSha256": "bd2fe8d4cf9067ffd82bb7f2d5ee847cdb19dce39c43121f1d8a02ea9078e701",
+            "screenshotPixels": {
+              "width": 667,
+              "height": 375
+            }
+          },
+          {
+            "step": "hidden-restored",
+            "accepted": true,
+            "metrics": {
+              "viewport": {
+                "width": 667,
+                "height": 375
+              },
+              "headerHeight": 52,
+              "stage": {
+                "x": 0,
+                "y": 52,
+                "width": 667,
+                "height": 323,
+                "right": 667,
+                "bottom": 375
+              },
+              "lcd": {
+                "x": 64.328125,
+                "y": 52,
+                "width": 538.328125,
+                "height": 323,
+                "right": 602.65625,
+                "bottom": 375
+              },
+              "hudHidden": true,
+              "cancels": 3,
+              "windowResizes": 0,
+              "lcdRotateMode": 0,
+              "observerMode": "MutationObserver fallback",
+              "controlledWorldStable": true,
+              "nativeReadOnly": true,
+              "mockIdentity": true,
+              "counts": {
+                "nativeKeys": 0,
+                "nativeWrites": 0,
+                "nativeActions": 0,
+                "storageWrites": 0
+              },
+              "errors": [],
+              "postRunExecuted": false,
+              "engineLoaded": false
+            },
+            "sameValueRefreshes": 4,
+            "repeatedCancels": 3,
+            "screenshot": "build/mobile-header-20261028-v108/classic-mo-hidden-restored-v1.png",
+            "screenshotSha256": "77f462791c99749b3d1af9be15f13f175b847df55d8a9e264dcfefbc9ab5d6f6",
+            "screenshotPixels": {
+              "width": 667,
+              "height": 375
+            }
+          }
+        ],
+        "raw": {
+          "path": "build/mobile-header-20261028-v108/classic-mo-raw-v1.json",
+          "bytes": 4173,
+          "sha256": "27c3c1debd6b03c86b75f3012d325818a0cab81903ce388e70dc4b94bdddad3f"
+        },
+        "dom": {
+          "path": "build/mobile-header-20261028-v108/classic-mo-v1.dom.html",
+          "bytes": 21570,
+          "sha256": "985936ca4780928c25897f71c7c75c2214e487e1b5ed3b5163b5ff393e75a41c"
+        }
+      }
+    ],
+    "productionLcdInline": {
+      "path": "build/mobile-header-20261028-v108/production-lcd-inline-v1.js",
+      "bytes": 3257,
+      "sha256": "3bc9c7f59abcf66d23c1590cd10afad460d5fdcf1f9d50f5c2d9315ab0b26459"
+    },
+    "maxOriginalNameLength": 4,
+    "realPortrait": {
+      "name": "祝融夫人",
+      "period": 4,
+      "personId": 143,
+      "path": "assets/hd-portraits/hd/period-4/143-祝融夫人.png"
+    },
+    "results": [
+      {
+        "name": "map-max-667x375",
+        "expectedNegative": false,
+        "accepted": true,
+        "layoutPassed": true,
+        "metrics": {
+          "viewport": {
+            "width": 667,
+            "height": 375
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 667,
+            "height": 89,
+            "right": 667,
+            "bottom": 89
+          },
+          "stage": {
+            "x": 0,
+            "y": 89,
+            "width": 667,
+            "height": 286,
+            "right": 667,
+            "bottom": 375
+          },
+          "hud": {
+            "hidden": false,
+            "visible": true,
+            "x": 8,
+            "y": 51,
+            "width": 651,
+            "height": 34,
+            "right": 659,
+            "bottom": 85
+          },
+          "fields": [
+            {
+              "id": "hd-mobile-city",
+              "text": "许昌",
+              "clientWidth": 118,
+              "scrollWidth": 118,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-owner",
+              "text": "祝融夫人",
+              "clientWidth": 95,
+              "scrollWidth": 95,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-date",
+              "text": "65535年12月",
+              "clientWidth": 147,
+              "scrollWidth": 147,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-money",
+              "text": "65535",
+              "clientWidth": 85,
+              "scrollWidth": 85,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-food",
+              "text": "65535",
+              "clientWidth": 85,
+              "scrollWidth": 85,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-arms",
+              "text": "65535",
+              "clientWidth": 85,
+              "scrollWidth": 85,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            }
+          ],
+          "controls": [
+            {
+              "id": "hd-mobile-map-mode",
+              "text": "经典地图",
+              "x": 379,
+              "y": 3,
+              "width": 66,
+              "height": 44,
+              "right": 445,
+              "bottom": 47
+            },
+            {
+              "id": "hd-mobile-menu-mode",
+              "text": "经典菜单",
+              "x": 449,
+              "y": 3,
+              "width": 66,
+              "height": 44,
+              "right": 515,
+              "bottom": 47
+            },
+            {
+              "id": "hd-mobile-map-focus",
+              "text": "定位",
+              "x": 519,
+              "y": 3,
+              "width": 44,
+              "height": 44,
+              "right": 563,
+              "bottom": 47
+            },
+            {
+              "id": "hd-mobile-map-overview",
+              "text": "概览",
+              "x": 567,
+              "y": 3,
+              "width": 44,
+              "height": 44,
+              "right": 611,
+              "bottom": 47
+            },
+            {
+              "id": "hd-mobile-exit",
+              "text": "返回",
+              "x": 615,
+              "y": 3,
+              "width": 44,
+              "height": 44,
+              "right": 659,
+              "bottom": 47
+            }
+          ],
+          "portrait": {
+            "visible": true,
+            "x": 6,
+            "y": 231.640625,
+            "width": 80.375,
+            "height": 48.71875,
+            "right": 86.375,
+            "bottom": 280.359375,
+            "src": "assets/hd-portraits/hd/period-4/143-祝融夫人.png",
+            "naturalWidth": 1672,
+            "naturalHeight": 941,
+            "complete": true,
+            "objectFit": "contain"
+          },
+          "ruler": {
+            "text": "祝融夫人",
+            "visible": true,
+            "x": 6,
+            "y": 205.640625,
+            "width": 80.375,
+            "height": 20,
+            "right": 86.375,
+            "bottom": 225.640625
+          },
+          "mapCanvas": {
+            "x": 93.375,
+            "y": 89,
+            "width": 573.625,
+            "height": 286,
+            "right": 667,
+            "bottom": 375
+          },
+          "mapTip": {
+            "x": 105.375,
+            "y": 344,
+            "width": 227.984375,
+            "height": 23,
+            "right": 333.359375,
+            "bottom": 367
+          },
+          "overlaps": {
+            "portraitCanvas": 0,
+            "portraitHeader": 0,
+            "headerStage": 0,
+            "maxControlFieldArea": 0
+          },
+          "horizontalOverflow": false,
+          "errors": [],
+          "counts": {
+            "nativeKeys": 0,
+            "nativeWrites": 0,
+            "nativeActions": 0,
+            "storageWrites": 0
+          },
+          "controlledWorldStable": true,
+          "mockIdentity": true,
+          "nativeReadOnly": true,
+          "sharedRendererStub": true,
+          "battleHeaderPresentationStub": false,
+          "loadedScripts": [
+            "/js/hd-mobile.js",
+            "/js/hd-mobile-map.js",
+            "/js/hd-portraits.js",
+            "/js/hd-mobile-portraits.js"
+          ],
+          "realMainPresent": false
+        },
+        "resize": [
+          {
+            "viewport": {
+              "width": 844,
+              "height": 390
+            },
+            "accepted": true
+          },
+          {
+            "viewport": {
+              "width": 667,
+              "height": 375
+            },
+            "accepted": true
+          }
+        ],
+        "raw": {
+          "path": "build/mobile-header-20261028-v108/map-max-667x375-raw-v1.json",
+          "bytes": 44213,
+          "sha256": "125eb6b6c184db953449314d61e056570ee6edcc76cc50f2b6b6befb644cb4d7"
+        },
+        "dom": {
+          "path": "build/mobile-header-20261028-v108/map-max-667x375-v1.dom.html",
+          "bytes": 23928,
+          "sha256": "c10245938cd973398a453dbc127d727b3750c3ee23314fbfcf83e96beb7af10e"
+        },
+        "console": {
+          "path": "build/mobile-header-20261028-v108/map-max-667x375-v1.console.log",
+          "bytes": 1,
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        },
+        "screenshot": "build/mobile-header-20261028-v108/map-max-667x375-v1.png",
+        "screenshotSha256": "cc98ff5bb07b87fb4763b56d17c3a75c79e5b5e27c506c1c6a86f10170f34221",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      },
+      {
+        "name": "map-max-844x390",
+        "expectedNegative": false,
+        "accepted": true,
+        "layoutPassed": true,
+        "metrics": {
+          "viewport": {
+            "width": 844,
+            "height": 390
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 844,
+            "height": 89,
+            "right": 844,
+            "bottom": 89
+          },
+          "stage": {
+            "x": 0,
+            "y": 89,
+            "width": 844,
+            "height": 301,
+            "right": 844,
+            "bottom": 390
+          },
+          "hud": {
+            "hidden": false,
+            "visible": true,
+            "x": 12,
+            "y": 51,
+            "width": 820,
+            "height": 34,
+            "right": 832,
+            "bottom": 85
+          },
+          "fields": [
+            {
+              "id": "hd-mobile-city",
+              "text": "许昌",
+              "clientWidth": 148,
+              "scrollWidth": 148,
+              "fontSize": "15px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-owner",
+              "text": "祝融夫人",
+              "clientWidth": 118,
+              "scrollWidth": 118,
+              "fontSize": "15px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-date",
+              "text": "65535年12月",
+              "clientWidth": 184,
+              "scrollWidth": 184,
+              "fontSize": "15px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-money",
+              "text": "65535",
+              "clientWidth": 107,
+              "scrollWidth": 107,
+              "fontSize": "15px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-food",
+              "text": "65535",
+              "clientWidth": 107,
+              "scrollWidth": 107,
+              "fontSize": "15px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-arms",
+              "text": "65535",
+              "clientWidth": 107,
+              "scrollWidth": 107,
+              "fontSize": "15px",
+              "textOverflow": "ellipsis"
+            }
+          ],
+          "controls": [
+            {
+              "id": "hd-mobile-map-mode",
+              "text": "经典地图",
+              "x": 552,
+              "y": 3,
+              "width": 66,
+              "height": 44,
+              "right": 618,
+              "bottom": 47
+            },
+            {
+              "id": "hd-mobile-menu-mode",
+              "text": "经典菜单",
+              "x": 622,
+              "y": 3,
+              "width": 66,
+              "height": 44,
+              "right": 688,
+              "bottom": 47
+            },
+            {
+              "id": "hd-mobile-map-focus",
+              "text": "定位",
+              "x": 692,
+              "y": 3,
+              "width": 44,
+              "height": 44,
+              "right": 736,
+              "bottom": 47
+            },
+            {
+              "id": "hd-mobile-map-overview",
+              "text": "概览",
+              "x": 740,
+              "y": 3,
+              "width": 44,
+              "height": 44,
+              "right": 784,
+              "bottom": 47
+            },
+            {
+              "id": "hd-mobile-exit",
+              "text": "返回",
+              "x": 788,
+              "y": 3,
+              "width": 44,
+              "height": 44,
+              "right": 832,
+              "bottom": 47
+            }
+          ],
+          "portrait": {
+            "visible": true,
+            "x": 6,
+            "y": 232.203125,
+            "width": 105,
+            "height": 62.578125,
+            "right": 111,
+            "bottom": 294.78125,
+            "src": "assets/hd-portraits/hd/period-4/143-祝融夫人.png",
+            "naturalWidth": 1672,
+            "naturalHeight": 941,
+            "complete": true,
+            "objectFit": "contain"
+          },
+          "ruler": {
+            "text": "祝融夫人",
+            "visible": true,
+            "x": 6,
+            "y": 206.203125,
+            "width": 105,
+            "height": 20,
+            "right": 111,
+            "bottom": 226.203125
+          },
+          "mapCanvas": {
+            "x": 118,
+            "y": 89,
+            "width": 726,
+            "height": 301,
+            "right": 844,
+            "bottom": 390
+          },
+          "mapTip": {
+            "x": 130,
+            "y": 359,
+            "width": 227.984375,
+            "height": 23,
+            "right": 357.984375,
+            "bottom": 382
+          },
+          "overlaps": {
+            "portraitCanvas": 0,
+            "portraitHeader": 0,
+            "headerStage": 0,
+            "maxControlFieldArea": 0
+          },
+          "horizontalOverflow": false,
+          "errors": [],
+          "counts": {
+            "nativeKeys": 0,
+            "nativeWrites": 0,
+            "nativeActions": 0,
+            "storageWrites": 0
+          },
+          "controlledWorldStable": true,
+          "mockIdentity": true,
+          "nativeReadOnly": true,
+          "sharedRendererStub": true,
+          "battleHeaderPresentationStub": false,
+          "loadedScripts": [
+            "/js/hd-mobile.js",
+            "/js/hd-mobile-map.js",
+            "/js/hd-portraits.js",
+            "/js/hd-mobile-portraits.js"
+          ],
+          "realMainPresent": false
+        },
+        "resize": [],
+        "raw": {
+          "path": "build/mobile-header-20261028-v108/map-max-844x390-raw-v1.json",
+          "bytes": 20176,
+          "sha256": "5d3bf1b84d9a765cb307b86218158e71b888d232eb014537291ccf69ec515755"
+        },
+        "dom": {
+          "path": "build/mobile-header-20261028-v108/map-max-844x390-v1.dom.html",
+          "bytes": 23928,
+          "sha256": "8b9b5457f39310fca68dcbb36572e6399df7da8a5363e4d6cc64a15d6dcdd16e"
+        },
+        "console": {
+          "path": "build/mobile-header-20261028-v108/map-max-844x390-v1.console.log",
+          "bytes": 1,
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        },
+        "screenshot": "build/mobile-header-20261028-v108/map-max-844x390-v1.png",
+        "screenshotSha256": "eda38a4894634069193f23fa236e08a8a662b6a54c5986e4efde4ea3f5ea868c",
+        "screenshotPixels": {
+          "width": 844,
+          "height": 390
+        }
+      },
+      {
+        "name": "hud-hidden-667x375",
+        "expectedNegative": false,
+        "accepted": true,
+        "layoutPassed": true,
+        "metrics": {
+          "viewport": {
+            "width": 667,
+            "height": 375
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 667,
+            "height": 52,
+            "right": 667,
+            "bottom": 52
+          },
+          "stage": {
+            "x": 0,
+            "y": 52,
+            "width": 667,
+            "height": 323,
+            "right": 667,
+            "bottom": 375
+          },
+          "hud": {
+            "hidden": true,
+            "visible": false,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "fields": [
+            {
+              "id": "hd-mobile-city",
+              "text": "",
+              "clientWidth": 0,
+              "scrollWidth": 0,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-owner",
+              "text": "",
+              "clientWidth": 0,
+              "scrollWidth": 0,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-date",
+              "text": "",
+              "clientWidth": 0,
+              "scrollWidth": 0,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-money",
+              "text": "",
+              "clientWidth": 0,
+              "scrollWidth": 0,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-food",
+              "text": "",
+              "clientWidth": 0,
+              "scrollWidth": 0,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-arms",
+              "text": "",
+              "clientWidth": 0,
+              "scrollWidth": 0,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            }
+          ],
+          "controls": [
+            {
+              "id": "hd-mobile-map-mode",
+              "text": "经典地图",
+              "x": 309,
+              "y": 3.5,
+              "width": 66,
+              "height": 44,
+              "right": 375,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-menu-mode",
+              "text": "经典菜单",
+              "x": 379,
+              "y": 3.5,
+              "width": 66,
+              "height": 44,
+              "right": 445,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-battle-toggle",
+              "text": "经典战场",
+              "x": 449,
+              "y": 3.5,
+              "width": 66,
+              "height": 44,
+              "right": 515,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-map-focus",
+              "text": "定位",
+              "x": 519,
+              "y": 3.5,
+              "width": 44,
+              "height": 44,
+              "right": 563,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-map-overview",
+              "text": "概览",
+              "x": 567,
+              "y": 3.5,
+              "width": 44,
+              "height": 44,
+              "right": 611,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-exit",
+              "text": "返回",
+              "x": 615,
+              "y": 3.5,
+              "width": 44,
+              "height": 44,
+              "right": 659,
+              "bottom": 47.5
+            }
+          ],
+          "portrait": {
+            "visible": false,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0,
+            "src": null,
+            "naturalWidth": 0,
+            "naturalHeight": 0,
+            "complete": true,
+            "objectFit": "contain"
+          },
+          "ruler": {
+            "text": "",
+            "visible": false,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "mapCanvas": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "mapTip": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          },
+          "overlaps": {
+            "portraitCanvas": 0,
+            "portraitHeader": 0,
+            "headerStage": 0,
+            "maxControlFieldArea": 0
+          },
+          "horizontalOverflow": false,
+          "errors": [],
+          "counts": {
+            "nativeKeys": 0,
+            "nativeWrites": 0,
+            "nativeActions": 0,
+            "storageWrites": 0
+          },
+          "controlledWorldStable": true,
+          "mockIdentity": true,
+          "nativeReadOnly": true,
+          "sharedRendererStub": true,
+          "battleHeaderPresentationStub": true,
+          "loadedScripts": [
+            "/js/hd-mobile.js",
+            "/js/hd-mobile-map.js",
+            "/js/hd-portraits.js",
+            "/js/hd-mobile-portraits.js"
+          ],
+          "realMainPresent": false
+        },
+        "resize": [],
+        "raw": {
+          "path": "build/mobile-header-20261028-v108/hud-hidden-667x375-raw-v1.json",
+          "bytes": 21320,
+          "sha256": "c2094c3f119db5ceab9cb5443a8af57417a564b94cf1b783d84c41f933441080"
+        },
+        "dom": {
+          "path": "build/mobile-header-20261028-v108/hud-hidden-667x375-v1.dom.html",
+          "bytes": 23761,
+          "sha256": "72f138c4b072d83cf613b97bba5ae83a7070c6a85fa5370eaf510305c48d2461"
+        },
+        "console": {
+          "path": "build/mobile-header-20261028-v108/hud-hidden-667x375-v1.console.log",
+          "bytes": 1,
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        },
+        "screenshot": "build/mobile-header-20261028-v108/hud-hidden-667x375-v1.png",
+        "screenshotSha256": "b954070b9eff90251aabec6420663cd276aab4f067893a689a15289973139265",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      },
+      {
+        "name": "negative-old-css-667x375",
+        "expectedNegative": true,
+        "accepted": true,
+        "layoutPassed": false,
+        "metrics": {
+          "viewport": {
+            "width": 667,
+            "height": 375
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 667,
+            "height": 52,
+            "right": 667,
+            "bottom": 52
+          },
+          "stage": {
+            "x": 0,
+            "y": 52,
+            "width": 667,
+            "height": 323,
+            "right": 667,
+            "bottom": 375
+          },
+          "hud": {
+            "hidden": false,
+            "visible": true,
+            "x": 74,
+            "y": 8.5,
+            "width": 295,
+            "height": 34,
+            "right": 369,
+            "bottom": 42.5
+          },
+          "fields": [
+            {
+              "id": "hd-mobile-city",
+              "text": "许昌",
+              "clientWidth": 50,
+              "scrollWidth": 50,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-owner",
+              "text": "祝融夫人",
+              "clientWidth": 40,
+              "scrollWidth": 52,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-date",
+              "text": "65535年12月",
+              "clientWidth": 62,
+              "scrollWidth": 82,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-money",
+              "text": "65535",
+              "clientWidth": 36,
+              "scrollWidth": 40,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-food",
+              "text": "65535",
+              "clientWidth": 36,
+              "scrollWidth": 40,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            },
+            {
+              "id": "hd-mobile-arms",
+              "text": "65535",
+              "clientWidth": 36,
+              "scrollWidth": 40,
+              "fontSize": "13px",
+              "textOverflow": "ellipsis"
+            }
+          ],
+          "controls": [
+            {
+              "id": "hd-mobile-map-mode",
+              "text": "经典地图",
+              "x": 379,
+              "y": 3.5,
+              "width": 66,
+              "height": 44,
+              "right": 445,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-menu-mode",
+              "text": "经典菜单",
+              "x": 449,
+              "y": 3.5,
+              "width": 66,
+              "height": 44,
+              "right": 515,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-map-focus",
+              "text": "定位",
+              "x": 519,
+              "y": 3.5,
+              "width": 44,
+              "height": 44,
+              "right": 563,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-map-overview",
+              "text": "概览",
+              "x": 567,
+              "y": 3.5,
+              "width": 44,
+              "height": 44,
+              "right": 611,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-exit",
+              "text": "返回",
+              "x": 615,
+              "y": 3.5,
+              "width": 44,
+              "height": 44,
+              "right": 659,
+              "bottom": 47.5
+            }
+          ],
+          "portrait": {
+            "visible": true,
+            "x": 6,
+            "y": 213.140625,
+            "width": 80.375,
+            "height": 48.71875,
+            "right": 86.375,
+            "bottom": 261.859375,
+            "src": "assets/hd-portraits/hd/period-4/143-祝融夫人.png",
+            "naturalWidth": 1672,
+            "naturalHeight": 941,
+            "complete": true,
+            "objectFit": "contain"
+          },
+          "ruler": {
+            "text": "祝融夫人",
+            "visible": true,
+            "x": 6,
+            "y": 187.140625,
+            "width": 80.375,
+            "height": 20,
+            "right": 86.375,
+            "bottom": 207.140625
+          },
+          "mapCanvas": {
+            "x": 93.375,
+            "y": 52,
+            "width": 573.625,
+            "height": 323,
+            "right": 667,
+            "bottom": 375
+          },
+          "mapTip": {
+            "x": 105.375,
+            "y": 344,
+            "width": 227.984375,
+            "height": 23,
+            "right": 333.359375,
+            "bottom": 367
+          },
+          "overlaps": {
+            "portraitCanvas": 0,
+            "portraitHeader": 0,
+            "headerStage": 0,
+            "maxControlFieldArea": 0
+          },
+          "horizontalOverflow": false,
+          "errors": [],
+          "counts": {
+            "nativeKeys": 0,
+            "nativeWrites": 0,
+            "nativeActions": 0,
+            "storageWrites": 0
+          },
+          "controlledWorldStable": true,
+          "mockIdentity": true,
+          "nativeReadOnly": true,
+          "sharedRendererStub": true,
+          "battleHeaderPresentationStub": false,
+          "loadedScripts": [
+            "/js/hd-mobile.js",
+            "/js/hd-mobile-map.js",
+            "/js/hd-portraits.js",
+            "/js/hd-mobile-portraits.js"
+          ],
+          "realMainPresent": false
+        },
+        "resize": [],
+        "raw": {
+          "path": "build/mobile-header-20261028-v108/negative-old-css-667x375-raw-v1.json",
+          "bytes": 20134,
+          "sha256": "94868920da2526993c430fd215677f504da0e21f9e9cf34e566c3206532527ff"
+        },
+        "dom": {
+          "path": "build/mobile-header-20261028-v108/negative-old-css-667x375-v1.dom.html",
+          "bytes": 23943,
+          "sha256": "63f02a6b7db391a5d27e9a0f8531a42f5c5bd49d9e2e7c4a157b9ed40860c76a"
+        },
+        "console": {
+          "path": "build/mobile-header-20261028-v108/negative-old-css-667x375-v1.console.log",
+          "bytes": 1,
+          "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        },
+        "screenshot": "build/mobile-header-20261028-v108/negative-old-css-667x375-v1.png",
+        "screenshotSha256": "e37b036f1b115e0da16bcb69915fc98d88a230d2cc26d8a613b07340aee25c65",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      }
+    ],
+    "requestSummary": {
+      "count": 109,
+      "unserved": [],
+      "paths": [
+        "/build/mobile-header-20261028-v108/map-max-667x375-v1.html",
+        "/css/baye.css",
+        "/css/hd-overworld.css",
+        "/css/hd-city-menu.css",
+        "/css/hd-dialog.css",
+        "/css/hd-minimap.css",
+        "/css/hd-mobile.css",
+        "/css/hd-battle-note.css",
+        "/css/hd-battle-transition.css",
+        "/css/hd-city-info.css",
+        "/js/hd-mobile.js",
+        "/js/hd-mobile-map.js",
+        "/js/hd-portraits.js",
+        "/js/hd-mobile-portraits.js",
+        "/assets/hd-portraits/manifest.json",
+        "/assets/hd-portraits/refs/index.json",
+        "/assets/hd-overworld/terrain/base_plains.jpg",
+        "/assets/hd-portraits/hd/period-4/143-祝融夫人.png",
+        "/favicon.png",
+        "/build/mobile-header-20261028-v108/map-max-844x390-v1.html",
+        "/build/mobile-header-20261028-v108/hud-hidden-667x375-v1.html",
+        "/build/mobile-header-20261028-v108/negative-old-css-667x375-v1.html",
+        "/__old_css/hd-mobile.css",
+        "/build/mobile-header-20261028-v108/classic-lcd-667x375-v1.html",
+        "/js/jquery.min.js",
+        "/build/mobile-header-20261028-v108/production-lcd-inline-v1.js"
+      ]
+    },
+    "visualReviewPending": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "mainLoaded": false,
+    "wasmLoaded": false,
+    "originalLibLoaded": false,
+    "globalHdComplete": false,
+    "heldBattleAccessed": false,
+    "heldBattleInputs": 0,
+    "boundary": "Production m.html DOM/CSS, four production HUD/map/portrait scripts; classic geometry additionally loads production jQuery and unchanged m.html inline LCD definitions with Module={} and guarded postRun (not executed), real existing HD PNG, explicit mock original identity and deep read-only world. Shared overworld rendering is a labeled controlled diagram; HUD-hidden battle-header presentation is a DOM-only stub. No engine/main/WASM/real LIB/natural play/physical device/full-HD acceptance. Old CSS negative uses committed parent m.html DOM and parent CSS without executing new observer; no product files replaced. Classic HUD transitions select among prebuilt immutable fixture snapshots; no existing native world is mutated.",
+    "processBoundary": "One new owned Chrome persistent context with retained isolated profile; all owned pages and context closed, private HTTP closed. No existing browser, game, CDP endpoint, 8080 or process inventory accessed.",
+    "rawEvidence": {
+      "path": "build/mobile-header-20261028-v108/preview-v1-raw.json",
+      "bytes": 72017,
+      "sha256": "4dd7b169802ae009af6c7800966288ff9cc5ea77cdaa3cc587c2f23eade8459e"
+    },
+    "rawEvidenceCopiedExact": true,
+    "visualReview": {
+      "accepted": true,
+      "reviewer": "portrait_core_b",
+      "reviewedAt": "2026-10-28T11:45:42.573Z",
+      "method": "All 10 saved PNG paths individually opened with tools.view_image; RO/MO matching states additionally have identical screenshot SHA.",
+      "notes": [
+        "Both exact MAP viewports visibly show all six maximum HUD values, including original four-character name, full 65535年12月 and three 65535 values; true HD portrait and map remain separate.",
+        "The HUD-hidden battle-header presentation keeps a 52px bar and six 44px header controls. This is a controlled DOM presentation, not a running battle.",
+        "Parent DOM/CSS negative screenshot visibly truncates owner/date/three resource values, matching scrollWidth measurements; it never loads the new observer inline.",
+        "Classic LCD fits the remaining stage at both 52px and 89px header heights with 160:96 ratio, in RO and forced MO fallback paths; hidden/restored pictures and RO/MO corresponding pictures match exactly."
+      ]
+    },
+    "negativeSummary": {
+      "source": "Committed parent m.html DOM and committed parent css/hd-mobile.css at 0a581f397acd3a60c033bbe4429622075514f4a8",
+      "newObserverExecuted": false,
+      "truncatedFields": [
+        {
+          "id": "hd-mobile-owner",
+          "text": "祝融夫人",
+          "clientWidth": 40,
+          "scrollWidth": 52
+        },
+        {
+          "id": "hd-mobile-date",
+          "text": "65535年12月",
+          "clientWidth": 62,
+          "scrollWidth": 82
+        },
+        {
+          "id": "hd-mobile-money",
+          "text": "65535",
+          "clientWidth": 36,
+          "scrollWidth": 40
+        },
+        {
+          "id": "hd-mobile-food",
+          "text": "65535",
+          "clientWidth": 36,
+          "scrollWidth": 40
+        },
+        {
+          "id": "hd-mobile-arms",
+          "text": "65535",
+          "clientWidth": 36,
+          "scrollWidth": 40
+        }
+      ],
+      "expectedFailure": true,
+      "passedAsPositiveLayout": false
+    },
+    "evidenceScripts": [
+      {
+        "path": "build/mobile-header-20261028-v108/preview-v1.mjs",
+        "bytes": 27285,
+        "sha256": "d180f0b862977446500d623c93b25dd9fcb2dfff8ad4f96278256af6ebff179b"
+      },
+      {
+        "path": "build/mobile-header-20261028-v108/finalize-preview-v1.mjs",
+        "bytes": 5057,
+        "sha256": "fe7632f52aede9f45c9fafc4b644d25159be151f031fb2ec1d74d5f547566bbd"
+      }
+    ],
+    "scopeLimit": "Only 667x375 and 844x390 rendered layouts, the specified viewport round trip, and classic HUD-only geometry transitions at 667x375 are covered. No claim for arbitrary narrower widths, physical phones, natural play, observer wiring through real game postRun, or full HD completion."
+  },
+  "rootVisualReview": {
+    "accepted": true,
+    "reviewedAt": "2026-10-28T11:48:09.711Z",
+    "method": "Root viewed five representative original PNGs with tools.view_image; preview reviewer separately viewed all ten. RO/MO corresponding states have exact equal screenshot hashes.",
+    "screenshots": [
+      {
+        "path": "build/mobile-header-20261028-v108/map-max-667x375-v1.png",
+        "bytes": 251323,
+        "sha256": "cc98ff5bb07b87fb4763b56d17c3a75c79e5b5e27c506c1c6a86f10170f34221"
+      },
+      {
+        "path": "build/mobile-header-20261028-v108/map-max-844x390-v1.png",
+        "bytes": 316877,
+        "sha256": "eda38a4894634069193f23fa236e08a8a662b6a54c5986e4efde4ea3f5ea868c"
+      },
+      {
+        "path": "build/mobile-header-20261028-v108/hud-hidden-667x375-v1.png",
+        "bytes": 25126,
+        "sha256": "b954070b9eff90251aabec6420663cd276aab4f067893a689a15289973139265"
+      },
+      {
+        "path": "build/mobile-header-20261028-v108/negative-old-css-667x375-v1.png",
+        "bytes": 265350,
+        "sha256": "e37b036f1b115e0da16bcb69915fc98d88a230d2cc26d8a613b07340aee25c65"
+      },
+      {
+        "path": "build/mobile-header-20261028-v108/classic-ro-hud-visible-v1.png",
+        "bytes": 36721,
+        "sha256": "bd2fe8d4cf9067ffd82bb7f2d5ee847cdb19dce39c43121f1d8a02ea9078e701"
+      }
+    ],
+    "notes": "Maximum fields readable, hidden HUD compact, old CSS negative visibly truncates, classic LCD contained. Controlled diagrams and geometry only."
+  },
+  "preservation": {
+    "baselineHead": "0a581f397acd3a60c033bbe4429622075514f4a8",
+    "recordedAt": "2026-10-28T11:35:08.519Z",
+    "beforeSource": "exact git show baseline, independent of concurrent implementation working files",
+    "committedBefore": [
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 34127,
+        "sha256": "7849bab1ac4b701caa6bc96098b2c0726d80e2d3affaabdf5568d2ad4372729f"
+      },
+      {
+        "path": "m.html",
+        "bytes": 22571,
+        "sha256": "a7e693316dc40dcb80d9b731f10ebc303886a4f018938693ee8cf939352e86b8"
+      }
+    ],
+    "nativeSources": [
+      {
+        "path": "vendor/iBaye/.gitignore",
+        "bytes": 44,
+        "sha256": "43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75"
+      },
+      {
+        "path": "vendor/iBaye/.gitmodules",
+        "bytes": 293,
+        "sha256": "ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca"
+      },
+      {
+        "path": "vendor/iBaye/ATTRIBUTION.md",
+        "bytes": 495,
+        "sha256": "983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4"
+      },
+      {
+        "path": "vendor/iBaye/CMakeLists.txt",
+        "bytes": 82,
+        "sha256": "738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68"
+      },
+      {
+        "path": "vendor/iBaye/LICENSE",
+        "bytes": 1091,
+        "sha256": "dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1"
+      },
+      {
+        "path": "vendor/iBaye/README.md",
+        "bytes": 2077,
+        "sha256": "f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5"
+      },
+      {
+        "path": "vendor/iBaye/UPSTREAM_COMMIT",
+        "bytes": 42,
+        "sha256": "3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659"
+      },
+      {
+        "path": "vendor/iBaye/js/.gitignore",
+        "bytes": 62,
+        "sha256": "581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea"
+      },
+      {
+        "path": "vendor/iBaye/js/config.sh",
+        "bytes": 61,
+        "sha256": "424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff"
+      },
+      {
+        "path": "vendor/iBaye/js/whitelist.json",
+        "bytes": 3368,
+        "sha256": "707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f"
+      },
+      {
+        "path": "vendor/iBaye/src/CMakeLists.txt",
+        "bytes": 3097,
+        "sha256": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774"
+      },
+      {
+        "path": "vendor/iBaye/src/FgtCount.c",
+        "bytes": 27302,
+        "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+      },
+      {
+        "path": "vendor/iBaye/src/FgtPkAi.c",
+        "bytes": 44229,
+        "sha256": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953"
+      },
+      {
+        "path": "vendor/iBaye/src/Fight.c",
+        "bytes": 56872,
+        "sha256": "1d54526bfebe2c237ef40a2aaa3c51a1ba14cc5f9f8a31492ab5239620929a95"
+      },
+      {
+        "path": "vendor/iBaye/src/FightSub.c",
+        "bytes": 36812,
+        "sha256": "22cab37f4aa4271dd10731d43622a070c7f02099ee95729421d0271997857ad6"
+      },
+      {
+        "path": "vendor/iBaye/src/Gamhzk.bin",
+        "bytes": 163840,
+        "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8"
+      },
+      {
+        "path": "vendor/iBaye/src/PublicFun.c",
+        "bytes": 33917,
+        "sha256": "86e5966d22c05e09d6f6cbcc4804b30b8befcc6f52d6c303758719e1c12e3acf"
+      },
+      {
+        "path": "vendor/iBaye/src/Size.c",
+        "bytes": 1727,
+        "sha256": "aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/attribute.h",
+        "bytes": 8930,
+        "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/bind-objects.h",
+        "bytes": 2593,
+        "sha256": "4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/comm.h",
+        "bytes": 5109,
+        "sha256": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/compa.h",
+        "bytes": 3328,
+        "sha256": "5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/consdef.h",
+        "bytes": 6048,
+        "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/data-bind.h",
+        "bytes": 4001,
+        "sha256": "c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/datman.h",
+        "bytes": 1158,
+        "sha256": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/enghead.h",
+        "bytes": 370,
+        "sha256": "8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/errcode.h",
+        "bytes": 985,
+        "sha256": "08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/extern.h",
+        "bytes": 4158,
+        "sha256": "5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fight.h",
+        "bytes": 9611,
+        "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fsys.h",
+        "bytes": 1185,
+        "sha256": "8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fundec.h",
+        "bytes": 2184,
+        "sha256": "d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fundef.h",
+        "bytes": 200,
+        "sha256": "670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/graph.h",
+        "bytes": 451,
+        "sha256": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/itoa.h",
+        "bytes": 267,
+        "sha256": "a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/order.h",
+        "bytes": 2916,
+        "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/paccount.h",
+        "bytes": 2251,
+        "sha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/resource.h",
+        "bytes": 557,
+        "sha256": "8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/sconst.h",
+        "bytes": 4101,
+        "sha256": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/script.h",
+        "bytes": 873,
+        "sha256": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/sharefun.h",
+        "bytes": 8365,
+        "sha256": "d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/sources.h",
+        "bytes": 286,
+        "sha256": "ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/stdsys.h",
+        "bytes": 500,
+        "sha256": "14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa"
+      },
+      {
+        "path": "vendor/iBaye/src/bind-objects.c",
+        "bytes": 18495,
+        "sha256": "1bcf05ce980b26df368f3dc399e1ad256a3bbd315024ae065947860c98b28959"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmd.c",
+        "bytes": 39212,
+        "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdb.c",
+        "bytes": 34493,
+        "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdc.c",
+        "bytes": 39495,
+        "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdd.c",
+        "bytes": 38292,
+        "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmde.c",
+        "bytes": 15835,
+        "sha256": "0833452c305f584254d3a93c6b00923c2b274f50b9626e182e11129402840821"
+      },
+      {
+        "path": "vendor/iBaye/src/cityedit.c",
+        "bytes": 41528,
+        "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+      },
+      {
+        "path": "vendor/iBaye/src/comIn.c",
+        "bytes": 12480,
+        "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63"
+      },
+      {
+        "path": "vendor/iBaye/src/comOut.c",
+        "bytes": 21378,
+        "sha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f"
+      },
+      {
+        "path": "vendor/iBaye/src/config.c",
+        "bytes": 179,
+        "sha256": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7"
+      },
+      {
+        "path": "vendor/iBaye/src/convert_to_c.py",
+        "bytes": 294,
+        "sha256": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e"
+      },
+      {
+        "path": "vendor/iBaye/src/dat.lib.orig",
+        "bytes": 196890,
+        "sha256": "c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab"
+      },
+      {
+        "path": "vendor/iBaye/src/data-bind.c",
+        "bytes": 4662,
+        "sha256": "2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a"
+      },
+      {
+        "path": "vendor/iBaye/src/data/pconst.h",
+        "bytes": 1761,
+        "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+      },
+      {
+        "path": "vendor/iBaye/src/data/pstring.h",
+        "bytes": 1524,
+        "sha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df"
+      },
+      {
+        "path": "vendor/iBaye/src/datman.c",
+        "bytes": 9424,
+        "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c"
+      },
+      {
+        "path": "vendor/iBaye/src/debug.c",
+        "bytes": 1904,
+        "sha256": "5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac"
+      },
+      {
+        "path": "vendor/iBaye/src/font.bin",
+        "bytes": 163840,
+        "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8"
+      },
+      {
+        "path": "vendor/iBaye/src/fsys.c",
+        "bytes": 33667,
+        "sha256": "85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da"
+      },
+      {
+        "path": "vendor/iBaye/src/gamEng.c",
+        "bytes": 47517,
+        "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+      },
+      {
+        "path": "vendor/iBaye/src/genver.py",
+        "bytes": 416,
+        "sha256": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 208504,
+        "sha256": "307cfdfda07f115c2c588aa63926c95d5690fe901ecffb948bb74f297fd5560d"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 21241,
+        "sha256": "8fd4339f17f0883fa8875d274e22588c08b0feea1284d05976ea1473d3fb0b54"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/ADDR.H",
+        "bytes": 2468,
+        "sha256": "5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/DictAfx.h",
+        "bytes": 702,
+        "sha256": "9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/DictHelp.h",
+        "bytes": 5664,
+        "sha256": "0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/GuiEdit.h",
+        "bytes": 2021,
+        "sha256": "8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/MEM.H",
+        "bytes": 1207,
+        "sha256": "406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/STDLIB.H",
+        "bytes": 19,
+        "sha256": "a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/SysResv.h",
+        "bytes": 6103,
+        "sha256": "26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/dictsys.h",
+        "bytes": 21754,
+        "sha256": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/filetype.h",
+        "bytes": 4695,
+        "sha256": "31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/flash.h",
+        "bytes": 17046,
+        "sha256": "50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/fsys.h",
+        "bytes": 1991,
+        "sha256": "24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/keytable.h",
+        "bytes": 3820,
+        "sha256": "9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/shell.h",
+        "bytes": 2138,
+        "sha256": "1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72"
+      },
+      {
+        "path": "vendor/iBaye/src/infdeal.c",
+        "bytes": 26196,
+        "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+      },
+      {
+        "path": "vendor/iBaye/src/itoa.c",
+        "bytes": 1038,
+        "sha256": "6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c"
+      },
+      {
+        "path": "vendor/iBaye/src/main.c",
+        "bytes": 116,
+        "sha256": "1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686"
+      },
+      {
+        "path": "vendor/iBaye/src/miniz.c",
+        "bytes": 327452,
+        "sha256": "ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059"
+      },
+      {
+        "path": "vendor/iBaye/src/miniz.h",
+        "bytes": 70791,
+        "sha256": "7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6"
+      },
+      {
+        "path": "vendor/iBaye/src/paccount.c",
+        "bytes": 3892,
+        "sha256": "6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd"
+      },
+      {
+        "path": "vendor/iBaye/src/pconst.c",
+        "bytes": 4213,
+        "sha256": "f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246"
+      },
+      {
+        "path": "vendor/iBaye/src/picture.asm",
+        "bytes": 9186,
+        "sha256": "8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/bios.c",
+        "bytes": 1053,
+        "sha256": "418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/gui.c",
+        "bytes": 3231,
+        "sha256": "bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/sem.h",
+        "bytes": 522,
+        "sha256": "8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/sys.c",
+        "bytes": 15103,
+        "sha256": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/timer.h",
+        "bytes": 485,
+        "sha256": "06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/dummy-script.c",
+        "bytes": 424,
+        "sha256": "daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/fsys.c",
+        "bytes": 4119,
+        "sha256": "7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/sem.m",
+        "bytes": 866,
+        "sha256": "40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/sys-ios.c",
+        "bytes": 229,
+        "sha256": "a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/timer.m",
+        "bytes": 1937,
+        "sha256": "7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/dat.lib.c",
+        "bytes": 1181340,
+        "sha256": "472b305c00f2cb0e7eb3c6bd47b8f388ececb73825a6167a58d121a661cb92ac"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/exportjs.c",
+        "bytes": 9789,
+        "sha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font.bin.c",
+        "bytes": 1003524,
+        "sha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.1.bin.c",
+        "bytes": 3616965,
+        "sha256": "c148af90be086b12307333b7b776c264de221015d0447790b0e305c9e3edfeae"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.2.bin.c",
+        "bytes": 3616965,
+        "sha256": "0e395fe309f7f77e05ca9f2baeb26af4668f2059add614f746427c1a344a54fd"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.3.bin.c",
+        "bytes": 3616965,
+        "sha256": "f7114e49e490b4a7e0ee96e2a88138bfb8f923058fbc1a33e8bb8408a6309260"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.4.bin.c",
+        "bytes": 3616965,
+        "sha256": "7ccb54b27689be0156dd16b3bc52ee5598b03ed68a0b2bacdc17e44d4d6c9c5f"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24_ascii.1.c",
+        "bytes": 117817,
+        "sha256": "c1b598a6c3ad3a6acb17262b7c69059f554a03868bdd030b71a5e103a374679d"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24_ascii.2.c",
+        "bytes": 117817,
+        "sha256": "41f36a07c5a5d492cb295a2fdbe09a6cacfe2f131204200de5c24525e1e63d98"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/fsys.c",
+        "bytes": 11703,
+        "sha256": "144c73f1b8981440e93ee18b551bbaad5154e8add19a3a9dae64bede9565c4dd"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/main.c",
+        "bytes": 1046,
+        "sha256": "a98768003fe8031cd0aebba35fac57ecf70b83cd997a5a1f203a9d65f193f524"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/script.c",
+        "bytes": 7078,
+        "sha256": "b5f67e6918048f8418fac117307c76d7fd01699a3249cef3b4dc2ebf74455759"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/sem.c",
+        "bytes": 1132,
+        "sha256": "fe6b0d8ce49b41b54a1f0976576c6267e2476a274d2d178d1062f2dc3ea7461f"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/sys-js.c",
+        "bytes": 312,
+        "sha256": "be27ecaf6a9163255c164f299644bf446449e3a5ab1cc73b0d36c509b5850e18"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/timer.c",
+        "bytes": 1797,
+        "sha256": "178ee07a04887470fd0b74365a69074d326312f488866f858a58e8e6e76add61"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/fsys.c",
+        "bytes": 24,
+        "sha256": "da9a32a673d1146f77059f39f2d22100d12ba0903a991d08c9d5e2050ac78b85"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/game.c",
+        "bytes": 827,
+        "sha256": "d6ee8b107092d9da73c7134e327b86b00a5df209745c47866408a061e2fb09a6"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/script.c",
+        "bytes": 32,
+        "sha256": "81c45d0a607ce2322ff97f7af64a969c5c90245b8e881d53c78015d3e9dccbd4"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/sem.c",
+        "bytes": 850,
+        "sha256": "5196931a8e2edd7b7ef889d69ef56b998f43189a31f8a66f5f97c613b302a4b4"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/sys.c",
+        "bytes": 27,
+        "sha256": "2a99e1ddebabf86de81ee7c8aadfffa83dff8b9fa6437556baffe165b839675c"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/timer.c",
+        "bytes": 1274,
+        "sha256": "34bf9e67c2acc86024b048ab419cae1345fb3f082cd09194fef9cc71f8bacf71"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/window.c",
+        "bytes": 6742,
+        "sha256": "2be0f448b277612de225eef280ffa2275f99120adeb86c60ce441e1e6266e0ac"
+      },
+      {
+        "path": "vendor/iBaye/src/pstring.c",
+        "bytes": 4189,
+        "sha256": "0628ef2aec01f810c45402ff59da3f189b3ce4e0c3f56a2a87bbf54c23c4665a"
+      },
+      {
+        "path": "vendor/iBaye/src/res-msgpack.c",
+        "bytes": 135,
+        "sha256": "6363b3c737304dce00a3a99f97146409e01442a83572b41e286afd41cf47c61b"
+      },
+      {
+        "path": "vendor/iBaye/src/res-msgpack.h",
+        "bytes": 183,
+        "sha256": "d60ce596bc67e076cb6a2c3553d941ea32106ecfbf08a0b64718a9e1466f7a34"
+      },
+      {
+        "path": "vendor/iBaye/src/showface.c",
+        "bytes": 44299,
+        "sha256": "49d16a86891a712c675409c8377f234bc69d2d9c13d56da865dc83a5eab87895"
+      },
+      {
+        "path": "vendor/iBaye/src/strcnt.c",
+        "bytes": 7932,
+        "sha256": "b256123404c245685a627140ac701468110bc658ed95c628ee97d99f90d1d952"
+      },
+      {
+        "path": "vendor/iBaye/src/tactic.c",
+        "bytes": 43864,
+        "sha256": "cd12096c8e63db0e969f9eba23e9e0d4db013709f9a1fe18f7d8107cfc17a294"
+      },
+      {
+        "path": "vendor/iBaye/src/touch.c",
+        "bytes": 6575,
+        "sha256": "cb11fb0418e30bbc8bad77b12eba3fd2129ad5b80a608d5649e10743efbd8236"
+      },
+      {
+        "path": "vendor/iBaye/src/touch.h",
+        "bytes": 1559,
+        "sha256": "559aa49aa660246a5d96fe9a64662b0f6f1871813373e9fdff62d22ed3980a73"
+      },
+      {
+        "path": "vendor/iBaye/src/varma.c",
+        "bytes": 4162,
+        "sha256": "4168c5379cfb2de7166b3b38d394da414658a92543898ef7fa53128dc1242508"
+      },
+      {
+        "path": "vendor/iBaye/src/version.c",
+        "bytes": 242,
+        "sha256": "3d224ec37575c1e42c641d9b9778c95a5c978c4fa168e75f07b3c09ee5c637a8"
+      }
+    ],
+    "runtimeArtifacts": [
+      {
+        "path": "js/baye.js",
+        "bytes": 193652,
+        "sha256": "0d54a9d4d89daf397375a22d6d6ddfe10232a9525111e0bf079c0978d3eb727f"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4583234,
+        "sha256": "c0c6567ab9545cb7e0ca0163ea3eb2ec05a31d100a607be63a02736b6abe93a3"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "289926f9605993fa4079dc95d1477a3763b5be679179a45f0b5453159454b084"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 24700,
+        "sha256": "b81fcca954e6bb5d88ff6cb12e5133f8e873c244a6ff4c5a9144d77fce3bd775"
+      }
+    ],
+    "preserved": [
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 71882,
+        "sha256": "68df5116b32a4dafc5cbb36a518310fe8ca00e450c33562580b4b6a2623622db"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "js/hd-mobile-map.js",
+        "bytes": 32782,
+        "sha256": "2588a2c1372d57ee2ce433d9685be5a200c3098ba7eea6225628a0e9433a8a20"
+      },
+      {
+        "path": "js/hd-mobile.js",
+        "bytes": 10426,
+        "sha256": "edc1b05dd7d0fa793deac95fe11573e0afb7646d90a4b62ed0afbe8426aabb5d"
+      }
+    ]
+  },
+  "heldBattleAccessed": false,
+  "heldBattleInputs": 0,
+  "limits": {
+    "sharedMapRendererStub": true,
+    "hudHiddenBattleHeaderIsDomStub": true,
+    "classicLcdIsControlledCanvas": true,
+    "realPostRunNotExecuted": true,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "performanceAccepted": false,
+    "fullSuiteRun": false,
+    "globalHdComplete": false
+  },
+  "remaining": "Continue other original HD assets and UI; real game/device/performance/full acceptance remain pending; goal active"
+}
