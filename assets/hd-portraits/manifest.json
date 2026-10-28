@@ -1034,6 +1034,236 @@
       "missing": false,
       "ref": "refs/period-4/63-司马懿.png",
       "hd": "hd/period-3/169-司马懿.png"
+    },
+    {
+      "name": "荀彧",
+      "personId": 138,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/138-荀彧.png",
+      "hd": "hd/period-1/138-荀彧.png"
+    },
+    {
+      "name": "郭嘉",
+      "personId": 126,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/126-郭嘉.png",
+      "hd": "hd/period-1/126-郭嘉.png"
+    },
+    {
+      "name": "贾诩",
+      "personId": 132,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/132-贾诩.png",
+      "hd": "hd/period-1/132-贾诩.png"
+    },
+    {
+      "name": "庞统",
+      "personId": 124,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/124-庞统.png",
+      "hd": "hd/period-1/124-庞统.png"
+    },
+    {
+      "name": "庞统",
+      "personId": 170,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-2/170-庞统.png",
+      "hd": "hd/period-2/170-庞统.png"
+    },
+    {
+      "name": "鲁肃",
+      "personId": 171,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/171-鲁肃.png",
+      "hd": "hd/period-1/171-鲁肃.png"
+    },
+    {
+      "name": "鲁肃",
+      "personId": 173,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-2/173-鲁肃.png",
+      "hd": "hd/period-2/173-鲁肃.png"
+    },
+    {
+      "name": "陆逊",
+      "personId": 115,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/115-陆逊.png",
+      "hd": "hd/period-1/115-陆逊.png"
+    },
+    {
+      "name": "徐庶",
+      "personId": 135,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-1/135-徐庶.png",
+      "hd": "hd/period-1/135-徐庶.png"
+    },
+    {
+      "name": "徐庶",
+      "personId": 171,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-advisers-v100",
+      "missing": false,
+      "ref": "refs/period-2/171-徐庶.png",
+      "hd": "hd/period-2/171-徐庶.png"
+    },
+    {
+      "name": "荀彧",
+      "personId": 29,
+      "period": 2,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-2/29-荀彧.png",
+      "hd": "hd/period-1/138-荀彧.png"
+    },
+    {
+      "name": "荀彧",
+      "personId": 38,
+      "period": 3,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-3/38-荀彧.png",
+      "hd": "hd/period-1/138-荀彧.png"
+    },
+    {
+      "name": "郭嘉",
+      "personId": 141,
+      "period": 2,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-2/141-郭嘉.png",
+      "hd": "hd/period-1/126-郭嘉.png"
+    },
+    {
+      "name": "贾诩",
+      "personId": 85,
+      "period": 2,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-2/85-贾诩.png",
+      "hd": "hd/period-1/132-贾诩.png"
+    },
+    {
+      "name": "贾诩",
+      "personId": 68,
+      "period": 3,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-3/68-贾诩.png",
+      "hd": "hd/period-1/132-贾诩.png"
+    },
+    {
+      "name": "贾诩",
+      "personId": 53,
+      "period": 4,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-4/53-贾诩.png",
+      "hd": "hd/period-1/132-贾诩.png"
+    },
+    {
+      "name": "庞统",
+      "personId": 165,
+      "period": 3,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-3/165-庞统.png",
+      "hd": "hd/period-1/124-庞统.png"
+    },
+    {
+      "name": "鲁肃",
+      "personId": 110,
+      "period": 3,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-3/110-鲁肃.png",
+      "hd": "hd/period-1/171-鲁肃.png"
+    },
+    {
+      "name": "鲁肃",
+      "personId": 120,
+      "period": 4,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-4/120-鲁肃.png",
+      "hd": "hd/period-1/171-鲁肃.png"
+    },
+    {
+      "name": "陆逊",
+      "personId": 122,
+      "period": 3,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-3/122-陆逊.png",
+      "hd": "hd/period-1/115-陆逊.png"
+    },
+    {
+      "name": "陆逊",
+      "personId": 133,
+      "period": 4,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-4/133-陆逊.png",
+      "hd": "hd/period-1/115-陆逊.png"
+    },
+    {
+      "name": "徐庶",
+      "personId": 20,
+      "period": 3,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-3/20-徐庶.png",
+      "hd": "hd/period-1/135-徐庶.png"
+    },
+    {
+      "name": "徐庶",
+      "personId": 5,
+      "period": 4,
+      "pilot": false,
+      "expansion": "advisers-identical-reference-v100",
+      "missing": false,
+      "ref": "refs/period-4/5-徐庶.png",
+      "hd": "hd/period-1/135-徐庶.png"
     }
   ]
 }
