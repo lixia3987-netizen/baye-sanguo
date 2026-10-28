@@ -5674,6 +5674,636 @@
       "missing": false,
       "ref": "refs/period-3/129-李堪.png",
       "hd": "hd/period-1/61-李堪.png"
+    },
+    {
+      "name": "管辂",
+      "personId": 183,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/183-管辂.png",
+      "hd": "hd/period-1/183-管辂.png"
+    },
+    {
+      "name": "管辂",
+      "personId": 168,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-2/168-管辂.png",
+      "hd": "hd/period-2/168-管辂.png"
+    },
+    {
+      "name": "华佗",
+      "personId": 184,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/184-华佗.png",
+      "hd": "hd/period-1/184-华佗.png"
+    },
+    {
+      "name": "华佗",
+      "personId": 169,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-2/169-华佗.png",
+      "hd": "hd/period-2/169-华佗.png"
+    },
+    {
+      "name": "张横",
+      "personId": 62,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/62-张横.png",
+      "hd": "hd/period-1/62-张横.png"
+    },
+    {
+      "name": "成宜",
+      "personId": 64,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/64-成宜.png",
+      "hd": "hd/period-1/64-成宜.png"
+    },
+    {
+      "name": "马玩",
+      "personId": 65,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/65-马玩.png",
+      "hd": "hd/period-1/65-马玩.png"
+    },
+    {
+      "name": "纪灵",
+      "personId": 46,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/46-纪灵.png",
+      "hd": "hd/period-1/46-纪灵.png"
+    },
+    {
+      "name": "淳于琼",
+      "personId": 40,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/40-淳于琼.png",
+      "hd": "hd/period-1/40-淳于琼.png"
+    },
+    {
+      "name": "李肃",
+      "personId": 25,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/25-李肃.png",
+      "hd": "hd/period-1/25-李肃.png"
+    },
+    {
+      "name": "陈圭",
+      "personId": 67,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/67-陈圭.png",
+      "hd": "hd/period-1/67-陈圭.png"
+    },
+    {
+      "name": "武安国",
+      "personId": 74,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/74-武安国.png",
+      "hd": "hd/period-1/74-武安国.png"
+    },
+    {
+      "name": "荀谌",
+      "personId": 81,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/81-荀谌.png",
+      "hd": "hd/period-1/81-荀谌.png"
+    },
+    {
+      "name": "辛评",
+      "personId": 82,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/82-辛评.png",
+      "hd": "hd/period-1/82-辛评.png"
+    },
+    {
+      "name": "蒯良",
+      "personId": 91,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/91-蒯良.png",
+      "hd": "hd/period-1/91-蒯良.png"
+    },
+    {
+      "name": "黄祖",
+      "personId": 95,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/95-黄祖.png",
+      "hd": "hd/period-1/95-黄祖.png"
+    },
+    {
+      "name": "袁尚",
+      "personId": 148,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/148-袁尚.png",
+      "hd": "hd/period-1/148-袁尚.png"
+    },
+    {
+      "name": "袁谭",
+      "personId": 149,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/149-袁谭.png",
+      "hd": "hd/period-1/149-袁谭.png"
+    },
+    {
+      "name": "袁熙",
+      "personId": 150,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-1/150-袁熙.png",
+      "hd": "hd/period-1/150-袁熙.png"
+    },
+    {
+      "name": "刘琦",
+      "personId": 115,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-2/115-刘琦.png",
+      "hd": "hd/period-2/115-刘琦.png"
+    },
+    {
+      "name": "夏侯尚",
+      "personId": 23,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-3/23-夏侯尚.png",
+      "hd": "hd/period-3/23-夏侯尚.png"
+    },
+    {
+      "name": "牛金",
+      "personId": 32,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-3/32-牛金.png",
+      "hd": "hd/period-3/32-牛金.png"
+    },
+    {
+      "name": "曹植",
+      "personId": 36,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-3/36-曹植.png",
+      "hd": "hd/period-3/36-曹植.png"
+    },
+    {
+      "name": "蒋干",
+      "personId": 49,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-3/49-蒋干.png",
+      "hd": "hd/period-3/49-蒋干.png"
+    },
+    {
+      "name": "严畯",
+      "personId": 118,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-3/118-严畯.png",
+      "hd": "hd/period-3/118-严畯.png"
+    },
+    {
+      "name": "张温",
+      "personId": 120,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-3/120-张温.png",
+      "hd": "hd/period-3/120-张温.png"
+    },
+    {
+      "name": "公孙渊",
+      "personId": 159,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-3/159-公孙渊.png",
+      "hd": "hd/period-3/159-公孙渊.png"
+    },
+    {
+      "name": "潘浚",
+      "personId": 164,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-3/164-潘浚.png",
+      "hd": "hd/period-3/164-潘浚.png"
+    },
+    {
+      "name": "董和",
+      "personId": 177,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-3/177-董和.png",
+      "hd": "hd/period-3/177-董和.png"
+    },
+    {
+      "name": "王双",
+      "personId": 183,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-remaining-officers-v121",
+      "missing": false,
+      "ref": "refs/period-3/183-王双.png",
+      "hd": "hd/period-3/183-王双.png"
+    },
+    {
+      "name": "管辂",
+      "personId": 186,
+      "period": 3,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-3/186-管辂.png",
+      "hd": "hd/period-1/183-管辂.png"
+    },
+    {
+      "name": "管辂",
+      "personId": 153,
+      "period": 4,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-4/153-管辂.png",
+      "hd": "hd/period-1/183-管辂.png"
+    },
+    {
+      "name": "华佗",
+      "personId": 185,
+      "period": 3,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-3/185-华佗.png",
+      "hd": "hd/period-1/184-华佗.png"
+    },
+    {
+      "name": "华佗",
+      "personId": 152,
+      "period": 4,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-4/152-华佗.png",
+      "hd": "hd/period-1/184-华佗.png"
+    },
+    {
+      "name": "张横",
+      "personId": 105,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/105-张横.png",
+      "hd": "hd/period-1/62-张横.png"
+    },
+    {
+      "name": "张横",
+      "personId": 130,
+      "period": 3,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-3/130-张横.png",
+      "hd": "hd/period-1/62-张横.png"
+    },
+    {
+      "name": "成宜",
+      "personId": 107,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/107-成宜.png",
+      "hd": "hd/period-1/64-成宜.png"
+    },
+    {
+      "name": "成宜",
+      "personId": 132,
+      "period": 3,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-3/132-成宜.png",
+      "hd": "hd/period-1/64-成宜.png"
+    },
+    {
+      "name": "马玩",
+      "personId": 108,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/108-马玩.png",
+      "hd": "hd/period-1/65-马玩.png"
+    },
+    {
+      "name": "马玩",
+      "personId": 133,
+      "period": 3,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-3/133-马玩.png",
+      "hd": "hd/period-1/65-马玩.png"
+    },
+    {
+      "name": "纪灵",
+      "personId": 64,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/64-纪灵.png",
+      "hd": "hd/period-1/46-纪灵.png"
+    },
+    {
+      "name": "淳于琼",
+      "personId": 43,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/43-淳于琼.png",
+      "hd": "hd/period-1/40-淳于琼.png"
+    },
+    {
+      "name": "李肃",
+      "personId": 16,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/16-李肃.png",
+      "hd": "hd/period-1/25-李肃.png"
+    },
+    {
+      "name": "陈圭",
+      "personId": 34,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/34-陈圭.png",
+      "hd": "hd/period-1/67-陈圭.png"
+    },
+    {
+      "name": "武安国",
+      "personId": 139,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/139-武安国.png",
+      "hd": "hd/period-1/74-武安国.png"
+    },
+    {
+      "name": "荀谌",
+      "personId": 63,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/63-荀谌.png",
+      "hd": "hd/period-1/81-荀谌.png"
+    },
+    {
+      "name": "辛评",
+      "personId": 59,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/59-辛评.png",
+      "hd": "hd/period-1/82-辛评.png"
+    },
+    {
+      "name": "蒯良",
+      "personId": 110,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/110-蒯良.png",
+      "hd": "hd/period-1/91-蒯良.png"
+    },
+    {
+      "name": "黄祖",
+      "personId": 120,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/120-黄祖.png",
+      "hd": "hd/period-1/95-黄祖.png"
+    },
+    {
+      "name": "袁尚",
+      "personId": 51,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/51-袁尚.png",
+      "hd": "hd/period-1/148-袁尚.png"
+    },
+    {
+      "name": "袁谭",
+      "personId": 48,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/48-袁谭.png",
+      "hd": "hd/period-1/149-袁谭.png"
+    },
+    {
+      "name": "袁熙",
+      "personId": 49,
+      "period": 2,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-2/49-袁熙.png",
+      "hd": "hd/period-1/150-袁熙.png"
+    },
+    {
+      "name": "刘琦",
+      "personId": 91,
+      "period": 3,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-3/91-刘琦.png",
+      "hd": "hd/period-2/115-刘琦.png"
+    },
+    {
+      "name": "夏侯尚",
+      "personId": 7,
+      "period": 4,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-4/7-夏侯尚.png",
+      "hd": "hd/period-3/23-夏侯尚.png"
+    },
+    {
+      "name": "牛金",
+      "personId": 19,
+      "period": 4,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-4/19-牛金.png",
+      "hd": "hd/period-3/32-牛金.png"
+    },
+    {
+      "name": "曹植",
+      "personId": 12,
+      "period": 4,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-4/12-曹植.png",
+      "hd": "hd/period-3/36-曹植.png"
+    },
+    {
+      "name": "蒋干",
+      "personId": 32,
+      "period": 4,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-4/32-蒋干.png",
+      "hd": "hd/period-3/49-蒋干.png"
+    },
+    {
+      "name": "严畯",
+      "personId": 127,
+      "period": 4,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-4/127-严畯.png",
+      "hd": "hd/period-3/118-严畯.png"
+    },
+    {
+      "name": "张温",
+      "personId": 130,
+      "period": 4,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-4/130-张温.png",
+      "hd": "hd/period-3/120-张温.png"
+    },
+    {
+      "name": "公孙渊",
+      "personId": 149,
+      "period": 4,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-4/149-公孙渊.png",
+      "hd": "hd/period-3/159-公孙渊.png"
+    },
+    {
+      "name": "潘浚",
+      "personId": 129,
+      "period": 4,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-4/129-潘浚.png",
+      "hd": "hd/period-3/164-潘浚.png"
+    },
+    {
+      "name": "董和",
+      "personId": 97,
+      "period": 4,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-4/97-董和.png",
+      "hd": "hd/period-3/177-董和.png"
+    },
+    {
+      "name": "王双",
+      "personId": 46,
+      "period": 4,
+      "pilot": false,
+      "expansion": "remaining-officers-identical-reference-v121",
+      "missing": false,
+      "ref": "refs/period-4/46-王双.png",
+      "hd": "hd/period-3/183-王双.png"
     }
   ]
 }
