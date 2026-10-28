@@ -1264,6 +1264,336 @@
       "missing": false,
       "ref": "refs/period-4/5-徐庶.png",
       "hd": "hd/period-1/135-徐庶.png"
+    },
+    {
+      "name": "夏侯惇",
+      "personId": 32,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-commanders-v101",
+      "missing": false,
+      "ref": "refs/period-1/32-夏侯惇.png",
+      "hd": "hd/period-1/32-夏侯惇.png"
+    },
+    {
+      "name": "夏侯渊",
+      "personId": 33,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-commanders-v101",
+      "missing": false,
+      "ref": "refs/period-1/33-夏侯渊.png",
+      "hd": "hd/period-1/33-夏侯渊.png"
+    },
+    {
+      "name": "张郃",
+      "personId": 165,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-commanders-v101",
+      "missing": false,
+      "ref": "refs/period-1/165-张郃.png",
+      "hd": "hd/period-1/165-张郃.png"
+    },
+    {
+      "name": "甘宁",
+      "personId": 96,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-commanders-v101",
+      "missing": false,
+      "ref": "refs/period-1/96-甘宁.png",
+      "hd": "hd/period-1/96-甘宁.png"
+    },
+    {
+      "name": "太史慈",
+      "personId": 73,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-commanders-v101",
+      "missing": false,
+      "ref": "refs/period-1/73-太史慈.png",
+      "hd": "hd/period-1/73-太史慈.png"
+    },
+    {
+      "name": "徐晃",
+      "personId": 163,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-commanders-v101",
+      "missing": false,
+      "ref": "refs/period-1/163-徐晃.png",
+      "hd": "hd/period-1/163-徐晃.png"
+    },
+    {
+      "name": "徐晃",
+      "personId": 150,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-commanders-v101",
+      "missing": false,
+      "ref": "refs/period-2/150-徐晃.png",
+      "hd": "hd/period-2/150-徐晃.png"
+    },
+    {
+      "name": "程普",
+      "personId": 50,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-commanders-v101",
+      "missing": false,
+      "ref": "refs/period-1/50-程普.png",
+      "hd": "hd/period-1/50-程普.png"
+    },
+    {
+      "name": "黄盖",
+      "personId": 52,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-commanders-v101",
+      "missing": false,
+      "ref": "refs/period-1/52-黄盖.png",
+      "hd": "hd/period-1/52-黄盖.png"
+    },
+    {
+      "name": "周泰",
+      "personId": 155,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-commanders-v101",
+      "missing": false,
+      "ref": "refs/period-1/155-周泰.png",
+      "hd": "hd/period-1/155-周泰.png"
+    },
+    {
+      "name": "夏侯惇",
+      "personId": 19,
+      "period": 2,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-2/19-夏侯惇.png",
+      "hd": "hd/period-1/32-夏侯惇.png"
+    },
+    {
+      "name": "夏侯惇",
+      "personId": 21,
+      "period": 3,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-3/21-夏侯惇.png",
+      "hd": "hd/period-1/32-夏侯惇.png"
+    },
+    {
+      "name": "夏侯渊",
+      "personId": 20,
+      "period": 2,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-2/20-夏侯渊.png",
+      "hd": "hd/period-1/33-夏侯渊.png"
+    },
+    {
+      "name": "夏侯渊",
+      "personId": 22,
+      "period": 3,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-3/22-夏侯渊.png",
+      "hd": "hd/period-1/33-夏侯渊.png"
+    },
+    {
+      "name": "张郃",
+      "personId": 42,
+      "period": 2,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-2/42-张郃.png",
+      "hd": "hd/period-1/165-张郃.png"
+    },
+    {
+      "name": "张郃",
+      "personId": 50,
+      "period": 3,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-3/50-张郃.png",
+      "hd": "hd/period-1/165-张郃.png"
+    },
+    {
+      "name": "张郃",
+      "personId": 33,
+      "period": 4,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-4/33-张郃.png",
+      "hd": "hd/period-1/165-张郃.png"
+    },
+    {
+      "name": "甘宁",
+      "personId": 121,
+      "period": 2,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-2/121-甘宁.png",
+      "hd": "hd/period-1/96-甘宁.png"
+    },
+    {
+      "name": "甘宁",
+      "personId": 93,
+      "period": 3,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-3/93-甘宁.png",
+      "hd": "hd/period-1/96-甘宁.png"
+    },
+    {
+      "name": "甘宁",
+      "personId": 103,
+      "period": 4,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-4/103-甘宁.png",
+      "hd": "hd/period-1/96-甘宁.png"
+    },
+    {
+      "name": "太史慈",
+      "personId": 70,
+      "period": 2,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-2/70-太史慈.png",
+      "hd": "hd/period-1/73-太史慈.png"
+    },
+    {
+      "name": "太史慈",
+      "personId": 92,
+      "period": 3,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-3/92-太史慈.png",
+      "hd": "hd/period-1/73-太史慈.png"
+    },
+    {
+      "name": "徐晃",
+      "personId": 47,
+      "period": 3,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-3/47-徐晃.png",
+      "hd": "hd/period-1/163-徐晃.png"
+    },
+    {
+      "name": "徐晃",
+      "personId": 30,
+      "period": 4,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-4/30-徐晃.png",
+      "hd": "hd/period-1/163-徐晃.png"
+    },
+    {
+      "name": "程普",
+      "personId": 71,
+      "period": 2,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-2/71-程普.png",
+      "hd": "hd/period-1/50-程普.png"
+    },
+    {
+      "name": "程普",
+      "personId": 95,
+      "period": 3,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-3/95-程普.png",
+      "hd": "hd/period-1/50-程普.png"
+    },
+    {
+      "name": "程普",
+      "personId": 105,
+      "period": 4,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-4/105-程普.png",
+      "hd": "hd/period-1/50-程普.png"
+    },
+    {
+      "name": "黄盖",
+      "personId": 72,
+      "period": 2,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-2/72-黄盖.png",
+      "hd": "hd/period-1/52-黄盖.png"
+    },
+    {
+      "name": "黄盖",
+      "personId": 94,
+      "period": 3,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-3/94-黄盖.png",
+      "hd": "hd/period-1/52-黄盖.png"
+    },
+    {
+      "name": "黄盖",
+      "personId": 104,
+      "period": 4,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-4/104-黄盖.png",
+      "hd": "hd/period-1/52-黄盖.png"
+    },
+    {
+      "name": "周泰",
+      "personId": 75,
+      "period": 2,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-2/75-周泰.png",
+      "hd": "hd/period-1/155-周泰.png"
+    },
+    {
+      "name": "周泰",
+      "personId": 98,
+      "period": 3,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-3/98-周泰.png",
+      "hd": "hd/period-1/155-周泰.png"
+    },
+    {
+      "name": "周泰",
+      "personId": 108,
+      "period": 4,
+      "pilot": false,
+      "expansion": "commanders-identical-reference-v101",
+      "missing": false,
+      "ref": "refs/period-4/108-周泰.png",
+      "hd": "hd/period-1/155-周泰.png"
     }
   ]
 }
