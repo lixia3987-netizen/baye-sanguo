@@ -88,7 +88,7 @@
                         if (!actor(executor)) { continue; }
                         actors.push(executor);
                     }
-                    var destination = null, targetPerson = null;
+                    var destination = null, targetPerson = null, cargo = null;
                     if ([13,14,23,27].indexOf(command) >= 0) {
                         destination = queue[slot].Object;
                         if (!uint(destination,37) || !cities[destination]) { return null; }
@@ -100,7 +100,14 @@
                         // Object retains the selected person even if their allegiance later changes.
                         values.push(targetPerson); refs.push(people[targetPerson]);
                     }
-                    rows.push({slot:slot,command:command,actors:actors,destination:destination,targetPerson:targetPerson});
+                    // Other commands can leave these payloads uninitialized.
+                    // Read cargo only after the local allied-actor filter.
+                    if (command === 13) {
+                        var food = queue[slot].Food, money = queue[slot].Money, arms = queue[slot].Arms;
+                        if (!uint(food,65535) || !uint(money,65535) || !uint(arms,65535)) { return null; }
+                        cargo = [food,money,arms]; values.push(food,money,arms);
+                    }
+                    rows.push({slot:slot,command:command,actors:actors,destination:destination,targetPerson:targetPerson,cargo:cargo});
                 }
                 var seal = [data.g_hdEngineReady,data.g_hdDetailGeneration,data.g_hdMapCity,data.g_hdMenuActive,
                     data.g_hdMenuContext,data.g_hdMenuKind,data.g_hdMenuSeq,data.g_hdMenuCount,data.g_hdMenuIndex,
@@ -126,6 +133,7 @@
                     if (row.targetPerson !== null) { var targetName = getName.call(b,row.targetPerson);
                         if (typeof targetName !== 'string' || !targetName.trim() || targetName === '-') { throw Error('Missing target name'); }
                         text += ' → ' + targetName; }
+                    if (row.cargo !== null) { text += ' · 粮食 ' + row.cargo[0] + ' · 金钱 ' + row.cargo[1] + ' · 预备兵 ' + row.cargo[2]; }
                     return {slot:row.slot,command:row.command,label:LABELS[row.command],text:text,targetPerson:row.targetPerson};
                 });
             }
