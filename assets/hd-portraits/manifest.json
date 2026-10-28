@@ -3714,6 +3714,556 @@
       "missing": false,
       "ref": "refs/period-4/114-潘璋.png",
       "hd": "hd/period-3/102-潘璋.png"
+    },
+    {
+      "name": "文聘",
+      "personId": 131,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/131-文聘.png",
+      "hd": "hd/period-1/131-文聘.png"
+    },
+    {
+      "name": "臧霸",
+      "personId": 167,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/167-臧霸.png",
+      "hd": "hd/period-1/167-臧霸.png"
+    },
+    {
+      "name": "钟繇",
+      "personId": 162,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/162-钟繇.png",
+      "hd": "hd/period-1/162-钟繇.png"
+    },
+    {
+      "name": "辛毗",
+      "personId": 134,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/134-辛毗.png",
+      "hd": "hd/period-1/134-辛毗.png"
+    },
+    {
+      "name": "董昭",
+      "personId": 78,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/78-董昭.png",
+      "hd": "hd/period-1/78-董昭.png"
+    },
+    {
+      "name": "华歆",
+      "personId": 129,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/129-华歆.png",
+      "hd": "hd/period-1/129-华歆.png"
+    },
+    {
+      "name": "华歆",
+      "personId": 176,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-2/176-华歆.png",
+      "hd": "hd/period-2/176-华歆.png"
+    },
+    {
+      "name": "马良",
+      "personId": 121,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/121-马良.png",
+      "hd": "hd/period-1/121-马良.png"
+    },
+    {
+      "name": "马良",
+      "personId": 160,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-2/160-马良.png",
+      "hd": "hd/period-2/160-马良.png"
+    },
+    {
+      "name": "邓芝",
+      "personId": 152,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-2/152-邓芝.png",
+      "hd": "hd/period-2/152-邓芝.png"
+    },
+    {
+      "name": "邓芝",
+      "personId": 152,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-3/152-邓芝.png",
+      "hd": "hd/period-3/152-邓芝.png"
+    },
+    {
+      "name": "简雍",
+      "personId": 176,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/176-简雍.png",
+      "hd": "hd/period-1/176-简雍.png"
+    },
+    {
+      "name": "伊籍",
+      "personId": 146,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/146-伊籍.png",
+      "hd": "hd/period-1/146-伊籍.png"
+    },
+    {
+      "name": "吴懿",
+      "personId": 143,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/143-吴懿.png",
+      "hd": "hd/period-1/143-吴懿.png"
+    },
+    {
+      "name": "孟达",
+      "personId": 141,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/141-孟达.png",
+      "hd": "hd/period-1/141-孟达.png"
+    },
+    {
+      "name": "张松",
+      "personId": 140,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/140-张松.png",
+      "hd": "hd/period-1/140-张松.png"
+    },
+    {
+      "name": "张纮",
+      "personId": 151,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/151-张纮.png",
+      "hd": "hd/period-1/151-张纮.png"
+    },
+    {
+      "name": "吕范",
+      "personId": 117,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-1/117-吕范.png",
+      "hd": "hd/period-1/117-吕范.png"
+    },
+    {
+      "name": "顾雍",
+      "personId": 117,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-retainers2-v115",
+      "missing": false,
+      "ref": "refs/period-3/117-顾雍.png",
+      "hd": "hd/period-3/117-顾雍.png"
+    },
+    {
+      "name": "文聘",
+      "personId": 122,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-2/122-文聘.png",
+      "hd": "hd/period-1/131-文聘.png"
+    },
+    {
+      "name": "文聘",
+      "personId": 77,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/77-文聘.png",
+      "hd": "hd/period-1/131-文聘.png"
+    },
+    {
+      "name": "文聘",
+      "personId": 57,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/57-文聘.png",
+      "hd": "hd/period-1/131-文聘.png"
+    },
+    {
+      "name": "臧霸",
+      "personId": 87,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-2/87-臧霸.png",
+      "hd": "hd/period-1/167-臧霸.png"
+    },
+    {
+      "name": "臧霸",
+      "personId": 61,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/61-臧霸.png",
+      "hd": "hd/period-1/167-臧霸.png"
+    },
+    {
+      "name": "臧霸",
+      "personId": 44,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/44-臧霸.png",
+      "hd": "hd/period-1/167-臧霸.png"
+    },
+    {
+      "name": "钟繇",
+      "personId": 65,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/65-钟繇.png",
+      "hd": "hd/period-1/162-钟繇.png"
+    },
+    {
+      "name": "钟繇",
+      "personId": 49,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/49-钟繇.png",
+      "hd": "hd/period-1/162-钟繇.png"
+    },
+    {
+      "name": "辛毗",
+      "personId": 60,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-2/60-辛毗.png",
+      "hd": "hd/period-1/134-辛毗.png"
+    },
+    {
+      "name": "辛毗",
+      "personId": 56,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/56-辛毗.png",
+      "hd": "hd/period-1/134-辛毗.png"
+    },
+    {
+      "name": "辛毗",
+      "personId": 40,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/40-辛毗.png",
+      "hd": "hd/period-1/134-辛毗.png"
+    },
+    {
+      "name": "董昭",
+      "personId": 72,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/72-董昭.png",
+      "hd": "hd/period-1/78-董昭.png"
+    },
+    {
+      "name": "董昭",
+      "personId": 56,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/56-董昭.png",
+      "hd": "hd/period-1/78-董昭.png"
+    },
+    {
+      "name": "华歆",
+      "personId": 113,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/113-华歆.png",
+      "hd": "hd/period-1/129-华歆.png"
+    },
+    {
+      "name": "华歆",
+      "personId": 123,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/123-华歆.png",
+      "hd": "hd/period-1/129-华歆.png"
+    },
+    {
+      "name": "马良",
+      "personId": 161,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/161-马良.png",
+      "hd": "hd/period-1/121-马良.png"
+    },
+    {
+      "name": "邓芝",
+      "personId": 86,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/86-邓芝.png",
+      "hd": "hd/period-3/152-邓芝.png"
+    },
+    {
+      "name": "简雍",
+      "personId": 33,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-2/33-简雍.png",
+      "hd": "hd/period-1/176-简雍.png"
+    },
+    {
+      "name": "简雍",
+      "personId": 86,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/86-简雍.png",
+      "hd": "hd/period-1/176-简雍.png"
+    },
+    {
+      "name": "简雍",
+      "personId": 78,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/78-简雍.png",
+      "hd": "hd/period-1/176-简雍.png"
+    },
+    {
+      "name": "伊籍",
+      "personId": 113,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-2/113-伊籍.png",
+      "hd": "hd/period-1/146-伊籍.png"
+    },
+    {
+      "name": "吴懿",
+      "personId": 126,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-2/126-吴懿.png",
+      "hd": "hd/period-1/143-吴懿.png"
+    },
+    {
+      "name": "吴懿",
+      "personId": 141,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/141-吴懿.png",
+      "hd": "hd/period-1/143-吴懿.png"
+    },
+    {
+      "name": "吴懿",
+      "personId": 83,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/83-吴懿.png",
+      "hd": "hd/period-1/143-吴懿.png"
+    },
+    {
+      "name": "孟达",
+      "personId": 132,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-2/132-孟达.png",
+      "hd": "hd/period-1/141-孟达.png"
+    },
+    {
+      "name": "孟达",
+      "personId": 149,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/149-孟达.png",
+      "hd": "hd/period-1/141-孟达.png"
+    },
+    {
+      "name": "孟达",
+      "personId": 62,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/62-孟达.png",
+      "hd": "hd/period-1/141-孟达.png"
+    },
+    {
+      "name": "张松",
+      "personId": 133,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-2/133-张松.png",
+      "hd": "hd/period-1/140-张松.png"
+    },
+    {
+      "name": "张松",
+      "personId": 150,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/150-张松.png",
+      "hd": "hd/period-1/140-张松.png"
+    },
+    {
+      "name": "张纮",
+      "personId": 80,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-2/80-张纮.png",
+      "hd": "hd/period-1/151-张纮.png"
+    },
+    {
+      "name": "张纮",
+      "personId": 106,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/106-张纮.png",
+      "hd": "hd/period-1/151-张纮.png"
+    },
+    {
+      "name": "张纮",
+      "personId": 116,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/116-张纮.png",
+      "hd": "hd/period-1/151-张纮.png"
+    },
+    {
+      "name": "吕范",
+      "personId": 81,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-2/81-吕范.png",
+      "hd": "hd/period-1/117-吕范.png"
+    },
+    {
+      "name": "吕范",
+      "personId": 109,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-3/109-吕范.png",
+      "hd": "hd/period-1/117-吕范.png"
+    },
+    {
+      "name": "吕范",
+      "personId": 119,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/119-吕范.png",
+      "hd": "hd/period-1/117-吕范.png"
+    },
+    {
+      "name": "顾雍",
+      "personId": 126,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers2-identical-reference-v115",
+      "missing": false,
+      "ref": "refs/period-4/126-顾雍.png",
+      "hd": "hd/period-3/117-顾雍.png"
     }
   ]
 }
