@@ -1844,6 +1844,196 @@
       "expansion": "retainers-identical-reference-v102",
       "ref": "refs/period-3/34-曹丕.png",
       "hd": "hd/period-4/0-曹丕.png"
+    },
+    {
+      "name": "孙尚香",
+      "personId": 115,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-late-characters-v103",
+      "missing": false,
+      "ref": "refs/period-3/115-孙尚香.png",
+      "hd": "hd/period-3/115-孙尚香.png"
+    },
+    {
+      "name": "祝融夫人",
+      "personId": 143,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-late-characters-v103",
+      "missing": false,
+      "ref": "refs/period-4/143-祝融夫人.png",
+      "hd": "hd/period-4/143-祝融夫人.png"
+    },
+    {
+      "name": "邓艾",
+      "personId": 167,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-late-characters-v103",
+      "missing": false,
+      "ref": "refs/period-3/167-邓艾.png",
+      "hd": "hd/period-3/167-邓艾.png"
+    },
+    {
+      "name": "钟会",
+      "personId": 168,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-late-characters-v103",
+      "missing": false,
+      "ref": "refs/period-3/168-钟会.png",
+      "hd": "hd/period-3/168-钟会.png"
+    },
+    {
+      "name": "陆抗",
+      "personId": 174,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-late-characters-v103",
+      "missing": false,
+      "ref": "refs/period-3/174-陆抗.png",
+      "hd": "hd/period-3/174-陆抗.png"
+    },
+    {
+      "name": "羊祜",
+      "personId": 154,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-late-characters-v103",
+      "missing": false,
+      "ref": "refs/period-4/154-羊祜.png",
+      "hd": "hd/period-4/154-羊祜.png"
+    },
+    {
+      "name": "王平",
+      "personId": 168,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-late-characters-v103",
+      "missing": false,
+      "ref": "refs/period-1/168-王平.png",
+      "hd": "hd/period-1/168-王平.png"
+    },
+    {
+      "name": "马岱",
+      "personId": 100,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-late-characters-v103",
+      "missing": false,
+      "ref": "refs/period-2/100-马岱.png",
+      "hd": "hd/period-2/100-马岱.png"
+    },
+    {
+      "name": "法正",
+      "personId": 139,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-late-characters-v103",
+      "missing": false,
+      "ref": "refs/period-1/139-法正.png",
+      "hd": "hd/period-1/139-法正.png"
+    },
+    {
+      "name": "陈宫",
+      "personId": 86,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-late-characters-v103",
+      "missing": false,
+      "ref": "refs/period-1/86-陈宫.png",
+      "hd": "hd/period-1/86-陈宫.png"
+    },
+    {
+      "name": "邓艾",
+      "personId": 150,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-characters-identical-reference-v103",
+      "missing": false,
+      "ref": "refs/period-4/150-邓艾.png",
+      "hd": "hd/period-3/167-邓艾.png"
+    },
+    {
+      "name": "钟会",
+      "personId": 151,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-characters-identical-reference-v103",
+      "missing": false,
+      "ref": "refs/period-4/151-钟会.png",
+      "hd": "hd/period-3/168-钟会.png"
+    },
+    {
+      "name": "陆抗",
+      "personId": 135,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-characters-identical-reference-v103",
+      "missing": false,
+      "ref": "refs/period-4/135-陆抗.png",
+      "hd": "hd/period-3/174-陆抗.png"
+    },
+    {
+      "name": "王平",
+      "personId": 71,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-characters-identical-reference-v103",
+      "missing": false,
+      "ref": "refs/period-4/71-王平.png",
+      "hd": "hd/period-1/168-王平.png"
+    },
+    {
+      "name": "马岱",
+      "personId": 125,
+      "period": 3,
+      "pilot": false,
+      "expansion": "late-characters-identical-reference-v103",
+      "missing": false,
+      "ref": "refs/period-3/125-马岱.png",
+      "hd": "hd/period-2/100-马岱.png"
+    },
+    {
+      "name": "马岱",
+      "personId": 76,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-characters-identical-reference-v103",
+      "missing": false,
+      "ref": "refs/period-4/76-马岱.png",
+      "hd": "hd/period-2/100-马岱.png"
+    },
+    {
+      "name": "法正",
+      "personId": 134,
+      "period": 2,
+      "pilot": false,
+      "expansion": "late-characters-identical-reference-v103",
+      "missing": false,
+      "ref": "refs/period-2/134-法正.png",
+      "hd": "hd/period-1/139-法正.png"
+    },
+    {
+      "name": "法正",
+      "personId": 151,
+      "period": 3,
+      "pilot": false,
+      "expansion": "late-characters-identical-reference-v103",
+      "missing": false,
+      "ref": "refs/period-3/151-法正.png",
+      "hd": "hd/period-1/139-法正.png"
+    },
+    {
+      "name": "陈宫",
+      "personId": 92,
+      "period": 2,
+      "pilot": false,
+      "expansion": "late-characters-identical-reference-v103",
+      "missing": false,
+      "ref": "refs/period-2/92-陈宫.png",
+      "hd": "hd/period-1/86-陈宫.png"
     }
   ]
 }
