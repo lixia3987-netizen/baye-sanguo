@@ -2034,6 +2034,336 @@
       "missing": false,
       "ref": "refs/period-2/92-陈宫.png",
       "hd": "hd/period-1/86-陈宫.png"
+    },
+    {
+      "name": "徐盛",
+      "personId": 100,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-officers-v104",
+      "missing": false,
+      "ref": "refs/period-3/100-徐盛.png",
+      "hd": "hd/period-3/100-徐盛.png"
+    },
+    {
+      "name": "凌统",
+      "personId": 109,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-officers-v104",
+      "missing": false,
+      "ref": "refs/period-1/109-凌统.png",
+      "hd": "hd/period-1/109-凌统.png"
+    },
+    {
+      "name": "蒋钦",
+      "personId": 133,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-officers-v104",
+      "missing": false,
+      "ref": "refs/period-1/133-蒋钦.png",
+      "hd": "hd/period-1/133-蒋钦.png"
+    },
+    {
+      "name": "韩当",
+      "personId": 51,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-officers-v104",
+      "missing": false,
+      "ref": "refs/period-1/51-韩当.png",
+      "hd": "hd/period-1/51-韩当.png"
+    },
+    {
+      "name": "朱桓",
+      "personId": 160,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-officers-v104",
+      "missing": false,
+      "ref": "refs/period-1/160-朱桓.png",
+      "hd": "hd/period-1/160-朱桓.png"
+    },
+    {
+      "name": "陈武",
+      "personId": 114,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-officers-v104",
+      "missing": false,
+      "ref": "refs/period-1/114-陈武.png",
+      "hd": "hd/period-1/114-陈武.png"
+    },
+    {
+      "name": "董袭",
+      "personId": 108,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-officers-v104",
+      "missing": false,
+      "ref": "refs/period-3/108-董袭.png",
+      "hd": "hd/period-3/108-董袭.png"
+    },
+    {
+      "name": "荀攸",
+      "personId": 31,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-officers-v104",
+      "missing": false,
+      "ref": "refs/period-1/31-荀攸.png",
+      "hd": "hd/period-1/31-荀攸.png"
+    },
+    {
+      "name": "程昱",
+      "personId": 116,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-officers-v104",
+      "missing": false,
+      "ref": "refs/period-1/116-程昱.png",
+      "hd": "hd/period-1/116-程昱.png"
+    },
+    {
+      "name": "陈群",
+      "personId": 112,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-officers-v104",
+      "missing": false,
+      "ref": "refs/period-1/112-陈群.png",
+      "hd": "hd/period-1/112-陈群.png"
+    },
+    {
+      "name": "徐盛",
+      "personId": 110,
+      "period": 4,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-4/110-徐盛.png",
+      "hd": "hd/period-3/100-徐盛.png"
+    },
+    {
+      "name": "凌统",
+      "personId": 103,
+      "period": 3,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-3/103-凌统.png",
+      "hd": "hd/period-1/109-凌统.png"
+    },
+    {
+      "name": "凌统",
+      "personId": 113,
+      "period": 4,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-4/113-凌统.png",
+      "hd": "hd/period-1/109-凌统.png"
+    },
+    {
+      "name": "蒋钦",
+      "personId": 74,
+      "period": 2,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-2/74-蒋钦.png",
+      "hd": "hd/period-1/133-蒋钦.png"
+    },
+    {
+      "name": "蒋钦",
+      "personId": 97,
+      "period": 3,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-3/97-蒋钦.png",
+      "hd": "hd/period-1/133-蒋钦.png"
+    },
+    {
+      "name": "蒋钦",
+      "personId": 107,
+      "period": 4,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-4/107-蒋钦.png",
+      "hd": "hd/period-1/133-蒋钦.png"
+    },
+    {
+      "name": "韩当",
+      "personId": 73,
+      "period": 2,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-2/73-韩当.png",
+      "hd": "hd/period-1/51-韩当.png"
+    },
+    {
+      "name": "韩当",
+      "personId": 96,
+      "period": 3,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-3/96-韩当.png",
+      "hd": "hd/period-1/51-韩当.png"
+    },
+    {
+      "name": "韩当",
+      "personId": 106,
+      "period": 4,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-4/106-韩当.png",
+      "hd": "hd/period-1/51-韩当.png"
+    },
+    {
+      "name": "朱桓",
+      "personId": 119,
+      "period": 3,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-3/119-朱桓.png",
+      "hd": "hd/period-1/160-朱桓.png"
+    },
+    {
+      "name": "朱桓",
+      "personId": 128,
+      "period": 4,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-4/128-朱桓.png",
+      "hd": "hd/period-1/160-朱桓.png"
+    },
+    {
+      "name": "陈武",
+      "personId": 77,
+      "period": 2,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-2/77-陈武.png",
+      "hd": "hd/period-1/114-陈武.png"
+    },
+    {
+      "name": "陈武",
+      "personId": 101,
+      "period": 3,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-3/101-陈武.png",
+      "hd": "hd/period-1/114-陈武.png"
+    },
+    {
+      "name": "陈武",
+      "personId": 112,
+      "period": 4,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-4/112-陈武.png",
+      "hd": "hd/period-1/114-陈武.png"
+    },
+    {
+      "name": "董袭",
+      "personId": 118,
+      "period": 4,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-4/118-董袭.png",
+      "hd": "hd/period-3/108-董袭.png"
+    },
+    {
+      "name": "荀攸",
+      "personId": 30,
+      "period": 2,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-2/30-荀攸.png",
+      "hd": "hd/period-1/31-荀攸.png"
+    },
+    {
+      "name": "荀攸",
+      "personId": 39,
+      "period": 3,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-3/39-荀攸.png",
+      "hd": "hd/period-1/31-荀攸.png"
+    },
+    {
+      "name": "荀攸",
+      "personId": 22,
+      "period": 4,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-4/22-荀攸.png",
+      "hd": "hd/period-1/31-荀攸.png"
+    },
+    {
+      "name": "程昱",
+      "personId": 140,
+      "period": 2,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-2/140-程昱.png",
+      "hd": "hd/period-1/116-程昱.png"
+    },
+    {
+      "name": "程昱",
+      "personId": 40,
+      "period": 3,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-3/40-程昱.png",
+      "hd": "hd/period-1/116-程昱.png"
+    },
+    {
+      "name": "程昱",
+      "personId": 23,
+      "period": 4,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-4/23-程昱.png",
+      "hd": "hd/period-1/116-程昱.png"
+    },
+    {
+      "name": "陈群",
+      "personId": 42,
+      "period": 3,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-3/42-陈群.png",
+      "hd": "hd/period-1/112-陈群.png"
+    },
+    {
+      "name": "陈群",
+      "personId": 25,
+      "period": 4,
+      "pilot": false,
+      "expansion": "officers-identical-reference-v104",
+      "missing": false,
+      "ref": "refs/period-4/25-陈群.png",
+      "hd": "hd/period-1/112-陈群.png"
     }
   ]
 }
