@@ -5692,8 +5692,10 @@
                     if (token !== personListStatsEpoch || state.deepItems !== items) { return null; }
                     var person = base.people[base.ids[i]], force = detailNumber(person.Force, 255);
                     var iq = detailNumber(person.IQ, 255), thew = detailNumber(person.Thew, 255);
-                    if (force == null || iq == null || thew == null || token !== personListStatsEpoch) { return null; }
-                    rows.push([base.ids[i], force, iq, thew]);
+                    var level = detailNumber(person.Level, 255), arms = detailNumber(person.Arms, 65535);
+                    if (force == null || iq == null || thew == null || level == null || arms == null ||
+                        token !== personListStatsEpoch) { return null; }
+                    rows.push([base.ids[i], force, iq, thew, level, arms]);
                 }
                 return base.current() ? rows : null;
             }
@@ -5721,7 +5723,9 @@
                         var person = last.people[second[i][0]];
                         if (detailNumber(person.Force, 255) !== second[i][1] ||
                             detailNumber(person.IQ, 255) !== second[i][2] ||
-                            detailNumber(person.Thew, 255) !== second[i][3]) { return false; }
+                            detailNumber(person.Thew, 255) !== second[i][3] ||
+                            detailNumber(person.Level, 255) !== second[i][4] ||
+                            detailNumber(person.Arms, 65535) !== second[i][5]) { return false; }
                     }
                     return last.current(true) && token === personListStatsEpoch;
                 } catch (e) { return false; }
@@ -6935,6 +6939,10 @@
                 var stats = personStats.rows[i], summary = document.createElement('small');
                 summary.setAttribute('data-hd-person-summary', '1');
                 summary.textContent = '武力 ' + stats[1] + ' · 智力 ' + stats[2] + ' · 体力 ' + stats[3];
+                var unitSummary = document.createElement('span');
+                unitSummary.setAttribute('data-hd-person-unit-summary', '1');
+                unitSummary.textContent = '等级 ' + stats[4] + ' · 兵力 ' + stats[5];
+                summary.appendChild(unitSummary);
                 btn.classList.add('has-person-summary'); btn.appendChild(summary);
             }
             if (toolStats && toolStats.rows[i] && toolStats.rows[i][0] === it.toolIndex) {

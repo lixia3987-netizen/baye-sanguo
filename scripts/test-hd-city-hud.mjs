@@ -3612,9 +3612,9 @@ function personListSummaryHarness(ids = [199, 0]) {
     const h = locationHarness(29);
     for (const id of [0, 18, 20, 199]) h.people[id].Belong = 1;
     h.people[77].Belong = 2;
-    Object.assign(h.people[0], {Force: 0, IQ: 255, Thew: 0});
-    Object.assign(h.people[20], {Force: 91, IQ: 88, Thew: 0});
-    Object.assign(h.people[199], {Force: 255, IQ: 0, Thew: 255});
+    Object.assign(h.people[0], {Force: 0, IQ: 255, Thew: 0, Level: 0, Arms: 0});
+    Object.assign(h.people[20], {Force: 91, IQ: 88, Thew: 0, Level: 7, Arms: 1234});
+    Object.assign(h.people[199], {Force: 255, IQ: 0, Thew: 255, Level: 255, Arms: 65535});
     Object.assign(h.city, {PersonQueue: 5, Persons: 5});
     h.queue.splice(5, 5, 0, 77, 20, 199, 18);
     h.names.set(0, '同名将领'); h.names.set(199, '同名将领');
@@ -3642,48 +3642,62 @@ function personListSummaryText(h) {
 function assertPersonListPlain(h, names, message) {
     assert.deepEqual(personListButtons(h).map(button => button.textContent), names, message);
     assert.equal(h.nodes['hd-city-menu-deep'].querySelectorAll('[data-hd-person-summary]').length, 0, message);
+    assert.equal(h.nodes['hd-city-menu-deep'].querySelectorAll('[data-hd-person-unit-summary]').length, 0, message);
     assert.deepEqual(h.keys, [], message); assert.deepEqual(h.writes, [], message);
 }
 
 test('person list summary follows filtered reordered native IDs and duplicate names without changing public items or input', () => {
-    const h = personListSummaryHarness(), before = plain(h.raw), menuBefore = plain(h.menu);
+    const h = personListSummaryHarness(), before = plain(h.raw), menuBefore = plain(h.menu), profileBefore = plain(h.personProps);
     h.hud.fillDeepList();
     assert.deepEqual(plain(h.hud.state.deepItems), [
         {i: 0, name: '同名将领', nativeId: true, pind: 199},
         {i: 1, name: '同名将领', nativeId: true, pind: 0}]);
-    assert.deepEqual(personListSummaryText(h), ['武力 255 · 智力 0 · 体力 255', '武力 0 · 智力 255 · 体力 0']);
+    const stats = ['武力 255 · 智力 0 · 体力 255', '武力 0 · 智力 255 · 体力 0'],
+        units = ['等级 255 · 兵力 65535', '等级 0 · 兵力 0'];
+    assert.deepEqual(personListSummaryText(h), stats.map((text, index) => text + units[index]));
     const buttons = personListButtons(h);
     assert.deepEqual(buttons.map(button => button.getAttribute('data-hd-deep-pind')), ['199', '0']);
-    for (const button of buttons) {
+    for (const [index, button] of buttons.entries()) {
         const summaries = button.querySelectorAll('[data-hd-person-summary]');
         assert.equal(summaries.length, 1); assert.equal(summaries[0].tagName, 'SMALL');
         assert.equal(summaries[0].parentElement, button);
+        const unit = summaries[0].querySelectorAll('[data-hd-person-unit-summary]');
+        assert.equal(unit.length, 1); assert.equal(unit[0].tagName, 'SPAN');
+        assert.equal(unit[0].parentElement, summaries[0]); assert.equal(unit[0].textContent, units[index]);
+        assert.equal(summaries[0].textContent.slice(0, -unit[0].textContent.length), stats[index], 'first line preserves the original three native values');
+        assert.equal(button.textContent, h.menu.names[index] + stats[index] + units[index]);
         for (const tag of ['button', 'input', 'a']) assert.equal(summaries[0].querySelectorAll(tag).length, 0);
     }
     h.hud.fillDeepList();
     assert.ok(personListButtons(h).every((button, index) => button === buttons[index]), 'stable source polls keep native button nodes');
-    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assert.deepEqual(plain(h.personProps), profileBefore);
     assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
 });
 
 test('person list summary refreshes changed same-owner values and rejects a press held across the real list refresh', () => {
-    const h = personListSummaryHarness(); h.hud.fillDeepList();
-    const oldButtons = personListButtons(h), owner = h.hud.state.deepMenuOwner.key,
-        items = plain(h.hud.state.deepItems), menuBefore = plain(h.menu), signature = h.hud.state.deepSig;
-    dispatch(h, 'pointerdown', oldButtons[1].querySelector('[data-hd-person-summary]'), {button: 0, isPrimary: true});
-    Object.assign(h.people[0], {Force: 17, IQ: 38, Thew: 64});
-    h.hud.fillDeepList();
-    const currentButtons = personListButtons(h);
-    assert.equal(h.hud.state.deepMenuOwner.key, owner); assert.notEqual(h.hud.state.deepSig, signature);
-    assert.notEqual(currentButtons[1], oldButtons[1]); assert.equal(oldButtons[1].parentElement, null);
-    assert.deepEqual(personListSummaryText(h), ['武力 255 · 智力 0 · 体力 255', '武力 17 · 智力 38 · 体力 64']);
-    assert.deepEqual(plain(h.hud.state.deepItems), items); assert.deepEqual(plain(h.menu), menuBefore);
-    assert.deepEqual(h.keys, [], 'refresh never confirms a native person'); assert.deepEqual(h.writes, []);
-    dispatch(h, 'click', currentButtons[1], {detail: 1});
-    assert.deepEqual(h.keys, [], 'the old held pointer cannot confirm the replacement button');
-    assert.deepEqual(h.writes, []); assert.equal(h.hud.state.nativeMenuRequest, null);
-    h.hud.fillDeepList();
-    assert.ok(personListButtons(h).every((button, index) => button === currentButtons[index]), 'fresh stable polling does not rebuild again');
+    for (const [label, change, expected] of [
+        ['three existing stats', h => Object.assign(h.people[0], {Force: 17, IQ: 38, Thew: 64}), '武力 17 · 智力 38 · 体力 64等级 0 · 兵力 0'],
+        ['Level only', h => h.people[0].Level = 255, '武力 0 · 智力 255 · 体力 0等级 255 · 兵力 0'],
+        ['Arms only', h => h.people[0].Arms = 65535, '武力 0 · 智力 255 · 体力 0等级 0 · 兵力 65535']]) {
+        const h = personListSummaryHarness(); h.hud.fillDeepList();
+        const oldButtons = personListButtons(h), owner = h.hud.state.deepMenuOwner.key,
+            items = plain(h.hud.state.deepItems), menuBefore = plain(h.menu), signature = h.hud.state.deepSig;
+        dispatch(h, 'pointerdown', oldButtons[1].querySelector(label === 'three existing stats' ? '[data-hd-person-summary]' : '[data-hd-person-unit-summary]'), {button: 0, isPrimary: true});
+        change(h); const changedRaw = plain(h.raw);
+        h.hud.fillDeepList();
+        const currentButtons = personListButtons(h);
+        assert.equal(h.hud.state.deepMenuOwner.key, owner, label); assert.notEqual(h.hud.state.deepSig, signature, label);
+        assert.notEqual(currentButtons[1], oldButtons[1], label); assert.equal(oldButtons[1].parentElement, null, label);
+        assert.deepEqual(personListSummaryText(h), ['武力 255 · 智力 0 · 体力 255等级 255 · 兵力 65535', expected], label);
+        assert.deepEqual(plain(h.hud.state.deepItems), items, label); assert.deepEqual(plain(h.menu), menuBefore, label);
+        assert.deepEqual(plain(h.raw), changedRaw, label + ' refresh does not rewrite any native source');
+        assert.deepEqual(h.keys, [], 'refresh never confirms a native person'); assert.deepEqual(h.writes, []);
+        dispatch(h, 'click', currentButtons[1], {detail: 1});
+        assert.deepEqual(h.keys, [], label + ': the old held pointer cannot confirm the replacement button');
+        assert.deepEqual(h.writes, []); assert.equal(h.hud.state.nativeMenuRequest, null);
+        h.hud.fillDeepList();
+        assert.ok(personListButtons(h).every((button, index) => button === currentButtons[index]), label + ': fresh stable polling does not rebuild again');
+    }
 });
 
 test('person list summary withdraws invalid sources before private stat reads and recovers after renderer reentry', () => {
@@ -3723,10 +3737,10 @@ test('person list summary withdraws invalid sources before private stat reads an
         let privateReads = 0;
         // The existing right-side person panel reads only highlighted ID199.
         // Guard unhighlighted ID20, so these failures belong to list enhancement.
-        for (const field of ['Force', 'IQ', 'Thew']) Object.defineProperty(h.people[20], field, {
+        for (const field of ['Force', 'IQ', 'Thew', 'Level', 'Arms']) Object.defineProperty(h.people[20], field, {
             configurable: true, get() {privateReads++; throw Error('unauthorized list stat read');}});
         h.hud.fillDeepList(); assertPersonListPlain(h, names, label);
-        assert.equal(privateReads, 0, label + ' is rejected before the three private fields');
+        assert.equal(privateReads, 0, label + ' is rejected before the five private fields');
         assert.equal(h.summaryHookCalls, 0, label + ' never replays native hooks');
     }
     for (const field of ['Force', 'IQ', 'Thew']) for (const value of [-1, 256, '0', false]) {
@@ -3734,6 +3748,21 @@ test('person list summary withdraws invalid sources before private stat reads an
         assert.equal(personListSummaryText(h).filter(Boolean).length, 3, field + ' valid prerequisite');
         h.people[20][field] = value; h.hud.fillDeepList();
         assertPersonListPlain(h, h.menu.names, field + '=' + String(value) + ' is not a native U8 number');
+    }
+    for (const [field, max] of [['Level', 255], ['Arms', 65535]]) for (const value of [-1, max + 1, 0.5, '0', false, null, undefined, NaN, Infinity]) {
+        const h = personListSummaryHarness([199, 20, 0]); h.hud.fillDeepList();
+        assert.equal(personListSummaryText(h).filter(Boolean).length, 3, field + ' valid prerequisite');
+        h.people[20][field] = value; h.hud.fillDeepList();
+        assertPersonListPlain(h, h.menu.names, field + '=' + String(value) + ' fails the native unsigned integer type or range');
+    }
+    for (const field of ['Level', 'Arms']) {
+        const torn = personListSummaryHarness([199, 20, 0]); torn.hud.fillDeepList();
+        const value = torn.people[20][field]; let reads = 0;
+        Object.defineProperty(torn.people[20], field, {configurable: true, get() {return ++reads === 1 ? value : value + 1;}});
+        torn.hud.fillDeepList(); assert.ok(reads >= 2, field + ' is observed twice in the real reader');
+        assertPersonListPlain(torn, torn.menu.names, field + ' changed between the two value reads');
+        delete torn.people[20][field]; torn.people[20][field] = value; torn.hud.fillDeepList();
+        assert.equal(personListSummaryText(torn).filter(Boolean).length, 3, field + ' recovers after an independent stable read');
     }
     const h = personListSummaryHarness([199, 20, 0]); h.hud.fillDeepList();
     let entered = false;
@@ -3744,34 +3773,42 @@ test('person list summary withdraws invalid sources before private stat reads an
     assertPersonListPlain(h, h.menu.names, 'synchronous renderer reentry cannot publish a partly read list');
     delete h.people[20].Force; h.people[20].Force = 91; h.hud.fillDeepList();
     assert.deepEqual(personListSummaryText(h), [
-        '武力 255 · 智力 0 · 体力 255', '武力 91 · 智力 88 · 体力 0', '武力 0 · 智力 255 · 体力 0']);
+        '武力 255 · 智力 0 · 体力 255等级 255 · 兵力 65535', '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 1234', '武力 0 · 智力 255 · 体力 0等级 0 · 兵力 0']);
     assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
 
-    const finalSample = personListSummaryHarness([199, 20, 0]); finalSample.hud.fillDeepList();
-    const profile = finalSample.personProps, menuBefore = plain(finalSample.menu), profileBefore = plain(profile),
-        people = finalSample.raw.g_Persons, cities = finalSample.raw.g_Cities, data = finalSample.context.baye.data,
-        getProperties = finalSample.context.baye.hd.personProperties;
-    let sampleCalls = 0, changedAtFinalSample = false;
-    finalSample.context.baye.hd.personProperties = () => {
-        if (/\breadPersonListStats\b/.test(new Error().stack) && ++sampleCalls === 3) {
-            finalSample.people[20].Force = 73; changedAtFinalSample = true;
-        }
-        return getProperties();
-    };
-    finalSample.hud.fillDeepList();
-    assert.equal(changedAtFinalSample, true, 'the third summary sample really changed a stat after the first two value reads');
-    assert.equal(finalSample.personProps, profile); assert.equal(finalSample.raw.g_Persons, people);
-    assert.equal(finalSample.raw.g_Cities, cities); assert.equal(finalSample.context.baye.data, data);
-    assert.deepEqual(plain(finalSample.menu), menuBefore); assert.deepEqual(plain(profile), profileBefore);
-    assertPersonListPlain(finalSample, finalSample.menu.names, 'the final source callback cannot leave old stat text authorized');
-    finalSample.hud.fillDeepList();
-    assert.deepEqual(personListSummaryText(finalSample), [
-        '武力 255 · 智力 0 · 体力 255', '武力 73 · 智力 88 · 体力 0', '武力 0 · 智力 255 · 体力 0']);
-    assert.deepEqual(finalSample.keys, []); assert.deepEqual(finalSample.writes, []);
+    for (const [field, value, expected] of [['Force', 73, '武力 73 · 智力 88 · 体力 0等级 7 · 兵力 1234'],
+        ['Level', 73, '武力 91 · 智力 88 · 体力 0等级 73 · 兵力 1234'],
+        ['Arms', 4321, '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 4321']]) {
+        const finalSample = personListSummaryHarness([199, 20, 0]); finalSample.hud.fillDeepList();
+        const profile = finalSample.personProps, menuBefore = plain(finalSample.menu), profileBefore = plain(profile),
+            people = finalSample.raw.g_Persons, cities = finalSample.raw.g_Cities, data = finalSample.context.baye.data,
+            getProperties = finalSample.context.baye.hd.personProperties;
+        let sampleCalls = 0, changedAtFinalSample = false;
+        finalSample.context.baye.hd.personProperties = () => {
+            if (/\breadPersonListStats\b/.test(new Error().stack) && ++sampleCalls === 3) {
+                finalSample.people[20][field] = value; changedAtFinalSample = true;
+            }
+            return getProperties();
+        };
+        finalSample.hud.fillDeepList();
+        assert.equal(changedAtFinalSample, true, field + ': the third summary sample really changed the value after the first two reads');
+        assert.equal(finalSample.personProps, profile); assert.equal(finalSample.raw.g_Persons, people);
+        assert.equal(finalSample.raw.g_Cities, cities); assert.equal(finalSample.context.baye.data, data);
+        assert.deepEqual(plain(finalSample.menu), menuBefore); assert.deepEqual(plain(profile), profileBefore);
+        assertPersonListPlain(finalSample, finalSample.menu.names, field + ': the final source callback cannot leave old stat text authorized');
+        finalSample.hud.fillDeepList();
+        assert.deepEqual(personListSummaryText(finalSample), [
+            '武力 255 · 智力 0 · 体力 255等级 255 · 兵力 65535', expected, '武力 0 · 智力 255 · 体力 0等级 0 · 兵力 0']);
+        assert.deepEqual(finalSample.keys, []); assert.deepEqual(finalSample.writes, []);
+    }
 
-    for (const change of ['stat', 'source reference']) {
+    for (const [change, expected] of [['stat', '武力 91 · 智力 88 · 体力 73等级 7 · 兵力 1234'],
+        ['source reference', '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 1234'],
+        ['Level', '武力 91 · 智力 88 · 体力 0等级 73 · 兵力 1234'],
+        ['Arms', '武力 91 · 智力 88 · 体力 0等级 7 · 兵力 4321']]) {
         const late = personListSummaryHarness([199, 20, 0]); late.hud.fillDeepList();
-        const getProps = late.context.baye.hd.personProperties, getMarch = late.context.baye.hd.march;
+        const getProps = late.context.baye.hd.personProperties, getMarch = late.context.baye.hd.march,
+            menuBefore = plain(late.menu), profileBefore = plain(late.personProps);
         let summarySamples = 0, lateChanged = false;
         late.context.baye.hd.personProperties = () => {
             if (/\breadPersonListStats\b/.test(new Error().stack)) summarySamples++;
@@ -3782,6 +3819,8 @@ test('person list summary withdraws invalid sources before private stat reads an
             if (!lateChanged && summarySamples >= 3 && /\bfillDeepListSurrenderBody\b/.test(stack) && !/\breadPersonListStats\b/.test(stack)) {
                 lateChanged = true;
                 if (change === 'stat') late.people[20].Thew = 73;
+                else if (change === 'Level') late.people[20].Level = 73;
+                else if (change === 'Arms') late.people[20].Arms = 4321;
                 else late.raw.g_Cities = late.cities = late.cities.slice();
             }
             return getMarch();
@@ -3789,11 +3828,10 @@ test('person list summary withdraws invalid sources before private stat reads an
         late.hud.fillDeepList();
         assert.equal(lateChanged, true, change + ' really changed in the caller after the summary reader');
         assertPersonListPlain(late, late.menu.names, change + ' late caller callback revokes the rendered enhancement');
+        assert.deepEqual(plain(late.menu), menuBefore); assert.deepEqual(plain(late.personProps), profileBefore);
         late.hud.fillDeepList();
         assert.deepEqual(personListSummaryText(late), [
-            '武力 255 · 智力 0 · 体力 255',
-            change === 'stat' ? '武力 91 · 智力 88 · 体力 73' : '武力 91 · 智力 88 · 体力 0',
-            '武力 0 · 智力 255 · 体力 0']);
+            '武力 255 · 智力 0 · 体力 255等级 255 · 兵力 65535', expected, '武力 0 · 智力 255 · 体力 0等级 0 · 兵力 0']);
         assert.deepEqual(late.keys, []); assert.deepEqual(late.writes, []);
     }
 });
