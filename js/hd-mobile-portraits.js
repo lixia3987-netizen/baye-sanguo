@@ -1,4 +1,4 @@
-/** Read-only mobile portrait presentation for current native city/report owners. */
+/** Read-only mobile portraits for current native map, city and report owners. */
 (function (global) {
     'use strict';
     var SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
@@ -76,7 +76,7 @@
             return {personId: report.person, nativeName: '', stamp: JSON.stringify([report.active, report.kind,
                 report.person, report.seq, report.inputSeq, report.text, metadata.key, metadata.libraryGeneration, metadata.ownerType])};
         }
-        function readOne() {
+        function readPersonOne() {
             try {
                 if (!available()) { return null; }
                 var before = identity(), baye = environment.baye, hd = baye && baye.hd, h = host(), city = environment.BayeHdCityMenu;
@@ -104,9 +104,55 @@
                     stamp: person.stamp, identity: before, mode: mode};
             } catch (e) { return null; }
         }
+        function readMapOne() {
+            try {
+                if (!available()) { return null; }
+                var api = environment.BayeHdLibIdentity, before = identity(), bridge = environment.baye,
+                    hd = bridge && bridge.hd, map = environment.BayeHdMobileMap, portraits = environment.BayeHdPortraits;
+                if (!before || !api || !bridge || !hd || !map || typeof map.getInputTicket !== 'function' ||
+                    typeof hd.ready !== 'function' || typeof bridge.getPersonCount !== 'function' ||
+                    typeof bridge.getPersonName !== 'function') { return null; }
+                var data = bridge.data, documentSource = documentNow(), getTicket = map.getInputTicket, ready = hd.ready,
+                    getCount = bridge.getPersonCount, getName = bridge.getPersonName,
+                    identify = api.read, isCurrent = api.isCurrent,
+                    chooseSource = portraits && portraits.chooseSource, loadManifest = portraits && portraits.loadManifest;
+                if (!data) { return null; }
+                function sample() {
+                    var first = getTicket.call(map), count = getCount.call(bridge), engineReady = ready.call(hd), after = identity(),
+                        period = data.g_PIdx, person = data.g_PlayerKing, second = getTicket.call(map);
+                    function valid(ticket) {
+                        return ticket && ticket.ownerType === 'map' && ticket.data === data &&
+                            ticket.libraryGeneration === before.generation && typeof ticket.key === 'string' && !!ticket.key;
+                    }
+                    // The map key deliberately has no person or period. Seal both
+                    // native fields separately, including after name/image callbacks.
+                    if (!valid(first) || !valid(second) || first.key !== second.key || count !== 200 || engineReady !== true ||
+                        !uint(period, 4) || !period || !uint(person, 199) || !after || after.generation !== before.generation ||
+                        data.g_PIdx !== period || data.g_PlayerKing !== person || !available() || documentNow() !== documentSource ||
+                        environment.baye !== bridge || bridge.data !== data || bridge.hd !== hd || hd.ready !== ready ||
+                        bridge.getPersonCount !== getCount || bridge.getPersonName !== getName ||
+                        environment.BayeHdMobileMap !== map || map.getInputTicket !== getTicket ||
+                        environment.BayeHdLibIdentity !== api || api.read !== identify || api.isCurrent !== isCurrent ||
+                        environment.BayeHdPortraits !== portraits || portraits &&
+                        (portraits.chooseSource !== chooseSource || portraits.loadManifest !== loadManifest)) { return null; }
+                    return {key:first.key, period:period, person:person, count:count};
+                }
+                var first = sample(), second = sample();
+                if (!first || !second || JSON.stringify(first) !== JSON.stringify(second)) { return null; }
+                return {kind:'map', data:data, key:second.key, period:second.period, personId:second.person,
+                    nativeName:'', count:second.count, generation:before.generation, identity:before, mode:'hd-map',
+                    stamp:JSON.stringify([second.key, second.period, second.person, second.count]),
+                    bridge:bridge, hd:hd, ready:ready, documentSource:documentSource, mapApi:map, getTicket:getTicket, identityApi:api,
+                    identify:identify, isCurrent:isCurrent, getCount:getCount, getName:getName,
+                    portraitApi:portraits, chooseSource:chooseSource, loadManifest:loadManifest};
+            } catch (e) { return null; }
+        }
+        function readOne() { return readPersonOne() || readMapOne(); }
         function same(a, b) {
             return !!a && !!b && a.data === b.data && a.kind === b.kind && a.key === b.key && a.period === b.period &&
-                a.personId === b.personId && a.count === b.count && a.generation === b.generation && a.stamp === b.stamp && a.mode === b.mode;
+                a.personId === b.personId && a.count === b.count && a.generation === b.generation && a.stamp === b.stamp && a.mode === b.mode &&
+                (a.kind !== 'map' || ['bridge','hd','ready','documentSource','mapApi','getTicket','identityApi','identify','isCurrent',
+                    'getCount','getName','portraitApi','chooseSource','loadManifest'].every(function (field) { return a[field] === b[field]; }));
         }
         function view() {
             var before = readOne();
@@ -140,7 +186,23 @@
         }
         function retire(why) {
             requestSeq += 1; clearOwnFallback(); hideImage(); current = null;
+            paintMapOwner(null);
             phase = 'idle'; sourceMode = 'none'; sourceUrl = ''; reason = why || 'owner-unavailable';
+        }
+        function paintMapOwner(v) {
+            var rail = node('hd-mobile-map-ruler'), name = node('hd-mobile-map-ruler-name');
+            if (!v || v.kind !== 'map') {
+                if (rail) { rail.hidden = true; }
+                if (name) { name.textContent = ''; }
+                return true;
+            }
+            if (!rail || !name || !still(v)) { return false; }
+            if (name.textContent !== v.name) { name.textContent = v.name; }
+            rail.hidden = false;
+            if (!still(v) || rail !== node('hd-mobile-map-ruler') || name !== node('hd-mobile-map-ruler-name')) {
+                rail.hidden = true; name.textContent = ''; return false;
+            }
+            return true;
         }
         function snapshot() {
             return Object.freeze({initialized: mounted, available: available(), context: current ? current.kind : null,
@@ -156,6 +218,9 @@
             var latest = still(v);
             if (!latest || !sameView(current, latest)) { retire('owner-changed'); return; }
             hideImage(); sourceMode = 'lcd'; sourceUrl = ''; phase = 'lcd'; reason = why;
+            // A missing map portrait is optional art. Keep the verified ruler
+            // name and the current map; city/report LCD receipts cannot own it.
+            if (latest.kind === 'map') { clearOwnFallback(); sourceMode = 'none'; phase = 'missing'; return; }
             if (fallback && sameView(fallback.view, latest)) { return; }
             clearOwnFallback();
             try {
@@ -170,6 +235,7 @@
             } catch (e) { reason = 'lcd-fallback-unavailable'; lastError = 'fallback-request-failed'; }
         }
         function slotFor(v) {
+            if (v.kind === 'map') { return node('hd-mobile-map-portrait-slot'); }
             if (v.kind === 'dialog') { return node('hd-dialog-portrait'); }
             var pane = node('hd-city-menu-person-details');
             return pane && !pane.hidden ? node('hd-city-menu-person-portrait') : null;
@@ -210,7 +276,15 @@
             if (seq !== requestSeq || !latest || !sameView(current, latest)) { return; }
             if (!figure || !img || !node('hd-mobile-portrait-cap')) { useLcd(latest, 'portrait-dom-unavailable'); return; }
             hideImage(); phase = 'image-pending'; reason = 'image-pending'; image = {seq: seq, url: src.url};
-            function active() { return seq === requestSeq && image && image.seq === seq && image.url === src.url && still(v); }
+            function active() {
+                if (seq !== requestSeq || !image || image.seq !== seq || image.url !== src.url) { return null; }
+                if (v.kind === 'map' && (figure !== node('hd-mobile-portrait') || img !== node('hd-mobile-portrait-img'))) {
+                    retire('portrait-dom-changed'); return null;
+                }
+                var value = still(v);
+                if (!value && v.kind === 'map') { retire('owner-changed'); }
+                return value;
+            }
             function failed(why) {
                 var now = active();
                 if (!now || !sameView(current, now)) { return; }
@@ -234,6 +308,7 @@
                 figure.setAttribute('data-hd-portrait', src.mode); figure.setAttribute('data-context', now.kind);
                 figure.setAttribute('data-person-id', String(now.personId)); figure.setAttribute('data-period', String(now.period));
                 img.alt = now.name; cap.textContent = now.name;
+                if (now.kind === 'map' && !still(now)) { retire('owner-changed'); return; }
                 phase = 'painted'; reason = ''; sourceMode = src.mode; sourceUrl = src.url;
             };
             img.onerror = function () { failed('portrait-image-error'); };
@@ -285,10 +360,12 @@
                 if (!sameView(current, next)) {
                     retire('owner-changed'); current = next;
                 }
+                if (!paintMapOwner(next)) { retire('owner-changed'); return snapshot(); }
                 if (manifestStatus === 'unrequested' || manifestStatus === 'loading') {
                     phase = 'source-pending'; reason = 'manifest-pending'; return snapshot();
                 }
                 if (manifestStatus !== 'ready') { useLcd(next, 'portrait-manifest-unavailable'); return snapshot(); }
+                if (phase === 'missing' && next.kind === 'map') { return snapshot(); }
                 if (phase === 'lcd') { if (!fallback) { useLcd(next, reason || 'portrait-sources-missing'); } return snapshot(); }
                 if (phase === 'source-pending' && reason !== 'manifest-pending' || phase === 'image-pending' || phase === 'painted') { return snapshot(); }
                 if (!slotFor(next)) { phase = 'slot-pending'; reason = 'slot-pending'; return snapshot(); }

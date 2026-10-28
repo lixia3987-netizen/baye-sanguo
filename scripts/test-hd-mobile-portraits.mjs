@@ -6,6 +6,7 @@ import {readFileSync} from 'node:fs';
 import {createHash, webcrypto} from 'node:crypto';
 
 const moduleSource = readFileSync(new URL('../js/hd-mobile-portraits.js', import.meta.url), 'utf8');
+const mapSource = readFileSync(new URL('../js/hd-mobile-map.js', import.meta.url), 'utf8');
 const identitySource = readFileSync(new URL('../js/hd-lib-identity.js', import.meta.url), 'utf8');
 const library = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url));
 const manifest = JSON.parse(readFileSync(new URL('../assets/hd-portraits/manifest.json', import.meta.url), 'utf8'));
@@ -19,6 +20,8 @@ const RAW = ['g_hdEngineReady', 'g_hdDetailGeneration', 'g_hdMapInputSeq', 'g_hd
 const BLOCKERS = ['g_hdFightActive', 'g_hdRecordActive', 'g_hdMovieActive', 'g_hdSpeActive', 'g_hdSkillActive',
     'g_hdAttackActive', 'g_hdSkillResultActive', 'g_hdMakerActive', 'g_hdMiniMapActive', 'g_hdViewActive',
     'g_hdResultOwnerKind', 'g_hdResultOwnerValid'];
+const MAP_ONLY = ['g_hdSpeGeneration', 'g_hdFightInputSeq', 'g_hdRecordSeq',
+    'g_hdGoodsActive', 'g_hdPersonPropertiesActive'];
 const flush = () => new Promise(resolve => setImmediate(resolve));
 const deferred = () => {
     let resolve, reject;
@@ -42,7 +45,8 @@ async function fixture(options = {}) {
         names: [person(5, 1).name, person(0, 1).name, person(186, 1).name], idsValid: true,
         period: 1, count: 200, identityOverride: null, periodReads: 0, ticketReads: 0,
         ticketHook: null, countHook: null, nameHook: null, identityHook: null, periodHook: null,
-        sourceMode: options.sourceMode, sourceDeferred: !!options.sourceDeferred};
+        sourceMode: options.sourceMode, sourceDeferred: !!options.sourceDeferred,
+        mapMode: 'hd-map', mapTicketHook: null, mapTicketReads: 0};
     function element(id, tagName, parent) {
         const attributes = new Map(), classes = new Set();
         const node = {id, tagName, nodeType: 1, hidden: false, disabled: false, isConnected: true,
@@ -75,16 +79,20 @@ async function fixture(options = {}) {
     const city = element('hd-city-menu', 'DIV', body), details = element('hd-city-menu-person-details', 'DIV', city);
     const citySlot = element('hd-city-menu-person-portrait', 'DIV', details);
     const dialog = element('hd-dialog', 'DIV', body), reportSlot = element('hd-dialog-portrait', 'DIV', dialog);
+    const mapRuler = element('hd-mobile-map-ruler', 'DIV', body);
+    const mapName = element('hd-mobile-map-ruler-name', 'STRONG', mapRuler);
+    const mapSlot = element('hd-mobile-map-portrait-slot', 'DIV', mapRuler);
     const figure = element('hd-mobile-portrait', 'FIGURE', body), image = element('hd-mobile-portrait-img', 'IMG', figure);
     const cap = element('hd-mobile-portrait-cap', 'FIGCAPTION', figure);
     image.naturalWidth = 128; image.naturalHeight = 192;
-    figure.hidden = true; citySlot.hidden = true; reportSlot.hidden = true;
-    const rawData = Object.fromEntries(RAW.concat(BLOCKERS).map(field => [field, 0]));
+    figure.hidden = true; citySlot.hidden = true; reportSlot.hidden = true; mapSlot.hidden = true; mapRuler.hidden = true;
+    const rawData = Object.fromEntries(RAW.concat(BLOCKERS, MAP_ONLY).map(field => [field, 0]));
     Object.assign(rawData, {g_hdEngineReady: 1, g_hdDetailGeneration: 4, g_hdMapInputSeq: 8,
         g_hdMapCity: 11, g_hdMenuActive: 1, g_hdMenuContext: 1, g_hdMenuKind: 3, g_hdMenuSeq: 12,
         g_hdMenuCount: 3, g_hdMenuIndex: 0, g_hdMarchSession: 5, g_hdMarchInputSeq: 11,
         g_hdReportSeq: 3, g_hdReportInputSeq: 6, g_hdQtySession: 4, g_hdQtyInputSeq: 2,
-        g_hdQtyValue: 10, g_hdQtyMax: 100, g_hdQtyReady: 1, g_hdHelpSeq: 2, g_hdHelpInputSeq: 3});
+        g_hdQtyValue: 10, g_hdQtyMax: 100, g_hdQtyReady: 1, g_hdHelpSeq: 2, g_hdHelpInputSeq: 3,
+        g_hdSpeGeneration: 4, g_hdFightInputSeq: 20, g_hdRecordSeq: 2, g_PlayerKing: 5});
     Object.defineProperty(rawData, 'g_PIdx', {get() {
         state.periodReads++; if (state.periodHook) state.periodHook(state.periodReads); return state.period;
     }});
@@ -128,7 +136,8 @@ async function fixture(options = {}) {
     let currentFallback = null, nextHandle = 0;
     function ticket(kind) {
         state.ticketReads++;
-        if (!state.hostAvailable || state.mode === 'classic' || kind !== (state.context === 'report' ? 'dialog' : 'city')) return null;
+        if (!state.hostAvailable || state.mode === 'classic' || state.context === 'map' ||
+            kind !== (state.context === 'report' ? 'dialog' : 'city')) return null;
         const d = environment.baye.data, raw = Object.fromEntries(RAW.concat(BLOCKERS).map(field => [field, d[field]]));
         const native = {raw, menu: {active: d.g_hdMenuActive, context: d.g_hdMenuContext, kind: d.g_hdMenuKind,
             seq: d.g_hdMenuSeq, generation: d.g_hdDetailGeneration, detailGeneration: d.g_hdDetailGeneration, count: d.g_hdMenuCount, index: d.g_hdMenuIndex,
@@ -169,16 +178,34 @@ async function fixture(options = {}) {
     environment.Image = class { constructor() { throw Error('the adapter must validate the visible DOM image'); } };
     function report(id = 0) {
         state.context = 'report';
-        Object.assign(rawData, {g_hdMenuActive: 0, g_hdMenuContext: 0, g_hdMenuKind: 0, g_hdMenuCount: 0,
+        Object.assign(rawData, {g_hdMapPick: 0, g_hdMapCity: rawData.g_hdMapCity || 11,
+            g_hdMenuActive: 0, g_hdMenuContext: 0, g_hdMenuKind: 0, g_hdMenuCount: 0,
             g_hdMenuIndex: 0, g_hdReportActive: 1, g_hdReportKind: 2, g_hdReportPerson: id});
         state.ids = []; state.names = [];
     }
+    function map(id = 0) {
+        state.context = 'map';
+        Object.assign(rawData, {g_hdMapPick: 1, g_hdMapCity: 0, g_PlayerKing: id,
+            g_hdMenuActive: 0, g_hdMenuContext: 0, g_hdMenuKind: 0, g_hdMenuCount: 0,
+            g_hdMenuIndex: 0, g_hdReportActive: 0, g_hdMarchPhase: 0});
+        state.ids = []; state.names = [];
+    }
+    environment.BayeHdOverworld = {getMode: () => state.mapMode};
+    // Use the production MAP host, including its real opaque data reference and
+    // key which intentionally does not contain player king or period.
+    vm.runInNewContext(mapSource, {window: environment, console, Object, Number, Math, JSON, isFinite});
+    const actualMap = environment.BayeHdMobileMap;
+    environment.BayeHdMobileMap = {...actualMap, getInputTicket() {
+        const current = actualMap.getInputTicket(); state.mapTicketReads++;
+        return state.mapTicketHook ? state.mapTicketHook(current, state.mapTicketReads) : current;
+    }};
+    if (options.map) map(options.personId ?? 0);
     if (options.report) report(options.personId ?? 0);
-    if (options.setup) options.setup({state, rawData, environment, data, report, nodes});
+    if (options.setup) options.setup({state, rawData, environment, data, report, map, actualMap, nodes});
     vm.runInNewContext(moduleSource, {window: environment, console, Promise, Object, Number, Math, JSON, isFinite});
     const controller = environment.BayeHdMobilePortraits.createController(environment);
-    const api = {controller, environment, document, state, data, rawData, counts, nodes, figure, image, cap, citySlot, reportSlot,
-        timers, listeners, globalListeners, subscribers, manifestWait, sources, report,
+    const api = {controller, environment, document, state, data, rawData, counts, nodes, figure, image, cap, citySlot, reportSlot, mapSlot, mapRuler, mapName,
+        timers, listeners, globalListeners, subscribers, manifestWait, sources, report, map, actualMap,
         fallback: () => currentFallback,
         emit(type) { for (const fn of [...(listeners.get(type) || []), ...(globalListeners.get(type) || [])]) fn({type}); },
         async settle() { await flush(); await flush(); },
@@ -188,12 +215,12 @@ async function fixture(options = {}) {
     if (options.init !== false) { controller.init(); await api.settle(); }
     return api;
 }
-function retired(h) { assert.equal(h.figure.hidden, true); assert.equal(h.citySlot.hidden, true); assert.equal(h.reportSlot.hidden, true); h.assertReadonly(); }
+function retired(h) { assert.equal(h.figure.hidden, true); assert.equal(h.citySlot.hidden, true); assert.equal(h.reportSlot.hidden, true); assert.equal(h.mapSlot.hidden, true); h.assertReadonly(); }
 function painted(h, context, id, mode) {
     assert.equal(h.figure.hidden, false); const view = h.controller.debugSnapshot();
     assert.equal(view.context, context); assert.equal(view.personId, id); assert.equal(view.sourceMode, mode);
     assert.equal(h.image.getAttribute('src'), sourceFor(id, view.period, mode).url);
-    assert.equal(h.figure.parentNode, context === 'dialog' ? h.reportSlot : h.citySlot);
+    assert.equal(h.figure.parentNode, context === 'map' ? h.mapSlot : context === 'dialog' ? h.reportSlot : h.citySlot);
     h.assertReadonly();
 }
 
@@ -416,4 +443,72 @@ for (const [name, boundary] of [
 ]) test(name + ' retires an in-flight image without keys or stale resurrection', async () => {
     const h = await fixture({deferImages: true}); boundary(h); retired(h);
     h.resolveImage(0); await h.settle(); retired(h); assert.equal(h.counts.requests.length, 0);
+});
+
+test('production MAP owner paints its zero-ID ruler from the real manifest and follows king and period outside the map key', async () => {
+    const h = await fixture({map: true, deferImages: true});
+    const first = h.actualMap.getInputTicket();
+    assert.equal(first.ownerType, 'map'); assert.equal(first.data, h.data); assert.ok(Object.isFrozen(first));
+    assert.deepEqual(Object.keys(first).sort(), ['key', 'libraryGeneration', 'ownerType']);
+    assert.equal(h.rawData.g_hdMapCity, 0, 'blank ground remains an ordinary MAP owner');
+    retired(h); assert.equal(h.counts.images.length, 1); assert.equal(h.mapRuler.hidden, false);
+    assert.equal(h.mapName.textContent, person(0, 1).name);
+    h.resolveImage(0); await h.settle(); painted(h, 'map', 0, 'hd');
+    assert.equal(h.cap.textContent, person(0, 1).name); assert.equal(h.citySlot.hidden, true); assert.equal(h.reportSlot.hidden, true);
+    h.rawData.g_PlayerKing = 11; h.state.period = 2;
+    assert.equal(h.actualMap.getInputTicket().key, first.key, 'ruler/period are independently fenced, not invented MAP metadata');
+    h.controller.refresh(); await h.settle(); retired(h); assert.equal(h.counts.images.length, 2);
+    h.resolveImage(1); await h.settle(); painted(h, 'map', 11, 'hd');
+    assert.equal(h.controller.debugSnapshot().period, 2); assert.equal(h.mapName.textContent, person(11, 2).name);
+    assert.deepEqual(h.counts.sources, [{id: 0, period: 1}, {id: 11, period: 2}]);
+    h.state.sourceMode = 'lcd'; h.rawData.g_hdMapInputSeq++; h.controller.refresh(); await h.settle(); retired(h);
+    assert.equal(h.mapRuler.hidden, false, 'valid ruler name stays useful without an optional image');
+    assert.equal(h.mapName.textContent, person(11, 2).name); assert.equal(h.counts.requests.length, 0);
+    assert.equal(h.controller.debugSnapshot().fallbackActive, false); h.assertReadonly();
+});
+
+test('painted MAP ruler rejects classic, non-map, foreign ownership and invalid native identity without a city LCD handoff', async () => {
+    for (const [name, mutate] of [
+        ['classic map', h => { h.state.mapMode = 'classic'; }],
+        ['non-map picker', h => { h.rawData.g_hdMapPick = 0; }],
+        ['march target', h => { h.rawData.g_hdMarchPhase = 4; }],
+        ['transfer target', h => { h.rawData.g_hdTransferActive = 1; }],
+        ['foreign data', h => { h.state.mapTicketHook = t => t && {...t, data: {}}; }],
+        ['foreign generation', h => { h.state.mapTicketHook = t => t && {...t, data: t.data, libraryGeneration: t.libraryGeneration + 1}; }],
+        ['foreign owner', h => { h.state.mapTicketHook = t => t && {...t, data: t.data, ownerType: 'march-target'}; }],
+        ['unverified library', h => { h.state.identityOverride = {sha256: '0'.repeat(64)}; }],
+        ['wrong resource count', h => { h.state.count = 199; }],
+        ['sentinel ruler', h => { h.rawData.g_PlayerKing = 65535; }],
+        ['unnamed original slot', h => { h.rawData.g_PlayerKing = 199; }],
+        ['invalid period', h => { h.state.period = 5; }],
+        ['name getter changes ruler', h => { h.state.nameHook = () => { h.rawData.g_PlayerKing = h.rawData.g_PlayerKing === 0 ? 5 : 0; }; }]
+    ]) {
+        const h = await fixture({map: true}); painted(h, 'map', 0, 'hd');
+        mutate(h); h.controller.refresh(); await h.settle(); retired(h);
+        assert.equal(h.mapRuler.hidden, true, name); assert.equal(h.counts.images.length, 1, name);
+        assert.equal(h.counts.sources.length, 1, name); assert.equal(h.counts.requests.length, 0, name);
+    }
+});
+
+test('late MAP sources and images cannot resurrect a former ruler, data object, API or report owner', async () => {
+    const h = await fixture({map: true, sourceDeferred: true, deferImages: true});
+    assert.equal(h.sources.length, 1);
+    h.rawData.g_PlayerKing = 5; h.controller.refresh(); await h.settle(); assert.equal(h.sources.length, 2);
+    h.sources[0].resolve(sourceFor(0, 1)); await h.settle(); retired(h); assert.equal(h.counts.images.length, 0);
+    h.sources[1].resolve(sourceFor(5, 1)); await h.settle(); assert.equal(h.counts.images.length, 1);
+    const before = h.actualMap.getInputTicket();
+    h.environment.baye.data = new Proxy(h.rawData, {set(_target, key) { h.counts.writes.push(key); throw Error('native mutation'); }});
+    const rebound = h.actualMap.getInputTicket(); assert.equal(rebound.key, before.key); assert.notEqual(rebound.data, before.data);
+    h.controller.refresh(); await h.settle(); assert.equal(h.sources.length, 3);
+    h.resolveImage(0); await h.settle(); retired(h);
+    h.sources[2].resolve(sourceFor(5, 1)); await h.settle(); h.resolveImage(1); await h.settle(); painted(h, 'map', 5, 'hd');
+    h.rawData.g_hdMapInputSeq++; h.controller.refresh(); await h.settle(); assert.equal(h.sources.length, 4);
+    h.environment.BayeHdMobileMap = {...h.environment.BayeHdMobileMap};
+    h.sources[3].resolve(sourceFor(5, 1)); await h.settle(); retired(h); assert.equal(h.counts.images.length, 2);
+    assert.equal(h.counts.requests.length, 0);
+    const image = await fixture({map: true, deferImages: true}); assert.equal(image.counts.images.length, 1);
+    image.report(0); image.controller.refresh(); await image.settle(); assert.equal(image.counts.images.length, 2);
+    image.resolveImage(1); await image.settle(); painted(image, 'dialog', 0, 'hd');
+    image.resolveImage(0); image.resolveImage(0, false); await image.settle(); painted(image, 'dialog', 0, 'hd');
+    assert.equal(image.mapRuler.hidden, true); assert.equal(image.counts.requests.length, 0); image.assertReadonly();
 });

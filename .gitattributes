@@ -1155,3 +1155,9 @@
 /assets/hd-portraits/hd/period-1/98-严颜.png -text
 
 /assets/hd-portraits/hd/period-1/144-黄权.png -text
+
+/docs/validation/m5-mobile-map-king-20261028-v107.md text eol=lf
+
+/docs/validation/m5-mobile-map-king-20261028-v107.json text eol=lf
+
+/scripts/test-hd-mobile-portraits.mjs text eol=lf

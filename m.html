@@ -26,7 +26,7 @@
         <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261026rules2" />
         <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261026terrain1" />
         <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261026search1" />
-        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261028focus1" />
+        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261028king1" />
         <link rel="stylesheet" type="text/css" href="css/hd-battle-note.css?ver=20261026prelude1" />
         <link rel="stylesheet" type="text/css" href="css/hd-battle-transition.css?ver=20261026stage1" />
         <link rel="icon" href="favicon.png">
@@ -138,8 +138,15 @@
             </section>
             <div id="hd-overworld" class="hd-overworld" aria-label="原版高清策略地图" aria-hidden="true" hidden>
                 <div class="hd-overworld-stage">
-                    <canvas id="hd-overworld-canvas" width="844" height="338" aria-label="拖动平移，轻点己方城进入"></canvas>
-                    <div id="hd-mobile-map-tip" class="hd-mobile-map-tip">拖动地图 · 点己方城进入 · 道路仅作装饰</div>
+                    <aside id="hd-mobile-map-ruler" aria-label="当前玩家君主" hidden>
+                        <small>当前君主</small>
+                        <strong id="hd-mobile-map-ruler-name"></strong>
+                        <div id="hd-mobile-map-portrait-slot" hidden></div>
+                    </aside>
+                    <div class="hd-mobile-map-board">
+                        <canvas id="hd-overworld-canvas" width="844" height="338" aria-label="拖动平移，轻点己方城进入"></canvas>
+                        <div id="hd-mobile-map-tip" class="hd-mobile-map-tip">拖动地图 · 点己方城进入 · 道路仅作装饰</div>
+                    </div>
                 </div>
             </div>
             <div id="hd-city-menu" class="hd-city-menu" aria-hidden="true">
@@ -280,7 +287,7 @@
 <script src="js/hd-dialog.js?ver=20261026graphic1"></script>
 <script src="js/hd-mobile-city.js?ver=20261026cityinfo1"></script>
 <script src="js/hd-portraits.js?ver=20261008i"></script>
-<script src="js/hd-mobile-portraits.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-mobile-portraits.js?ver=20261028king1"></script>
 <script src="js/hd-battle-terrain.js?ver=20261008i"></script>
 <script src="js/hd-battle-feedback.js?ver=20261008a"></script>
 <script src="js/hd-battle-status.js?ver=20261026cityinfo1"></script>

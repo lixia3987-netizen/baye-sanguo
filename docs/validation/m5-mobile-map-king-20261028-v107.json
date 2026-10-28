@@ -1,0 +1,2061 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-28",
+  "batch": "V107",
+  "baselineHead": "04e34510f2e8665859b29eed5fff4ee41b1d79f2",
+  "scope": "Mobile current-player ruler portrait on existing original MAP owner; lightweight checks",
+  "change": {
+    "nativePerson": "g_PlayerKing, zero-based 0..199",
+    "period": "g_PIdx 1..4",
+    "existingMapTicket": true,
+    "independentPersonPeriodFence": true,
+    "sourceAndDomEpochFence": true,
+    "independentRail": true,
+    "cityReportPriorityPreserved": true,
+    "missingHdUsesNativeReference": true,
+    "bothImagesMissing": "Hide optional image; preserve verified ruler name and map, no city/report LCD request",
+    "newNativeFields": 0,
+    "nativeWrites": 0,
+    "inputs": 0,
+    "cache": "20261028king1"
+  },
+  "tests": {
+    "accepted": true,
+    "started": "2026-10-28T11:28:29.140Z",
+    "finished": "2026-10-28T11:28:32.489Z",
+    "exitCode": 0,
+    "tests": 260,
+    "pass": 260,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "modules": [
+      "scripts/test-hd-mobile-portraits.mjs",
+      "scripts/test-hd-mobile-map.mjs",
+      "scripts/test-hd-mobile.mjs"
+    ],
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 56611,
+        "sha256": "7242fc6941da6303c6e7bbbfe4bbfe66f86d37b0050c10595478153b395e8bfe"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 71882,
+        "sha256": "68df5116b32a4dafc5cbb36a518310fe8ca00e450c33562580b4b6a2623622db"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 234072,
+        "sha256": "d14a836a1bf1045ec920ab8996cfa40681a6841e0961cc6e9b16b54ba7d96f85"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 34127,
+        "sha256": "7849bab1ac4b701caa6bc96098b2c0726d80e2d3affaabdf5568d2ad4372729f"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 481814,
+        "sha256": "ded0ea6ec412cbab4226e504e7fab5eab4d02fe98b7e0c7038b72682f63cfa27"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "js/hd-mobile-map.js",
+        "bytes": 32782,
+        "sha256": "2588a2c1372d57ee2ce433d9685be5a200c3098ba7eea6225628a0e9433a8a20"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 30377,
+        "sha256": "070ecd4412f981998f39af66a4e600db911fc6b689928d1add9f0e66108884ba"
+      },
+      {
+        "path": "js/hd-mobile.js",
+        "bytes": 10426,
+        "sha256": "edc1b05dd7d0fa793deac95fe11573e0afb7646d90a4b62ed0afbe8426aabb5d"
+      },
+      {
+        "path": "js/hd-overworld.js",
+        "bytes": 168634,
+        "sha256": "ee23ee349763d6af1c1f6f4aa8bca4c28c2262e65dceb74a4fa87d7ce1d8f0f6"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "m.html",
+        "bytes": 22571,
+        "sha256": "a7e693316dc40dcb80d9b731f10ebc303886a4f018938693ee8cf939352e86b8"
+      },
+      {
+        "path": "scripts/test-hd-mobile-map.mjs",
+        "bytes": 43914,
+        "sha256": "c6f35391bbca7068563eca877dfc318b330ecb6f544973fdc6f686b2585b5dd6"
+      },
+      {
+        "path": "scripts/test-hd-mobile-portraits.mjs",
+        "bytes": 38343,
+        "sha256": "c5f1371dcbb87c34e2b419541d935a9ea86992a404947ed34d6e7664d0ff916b"
+      },
+      {
+        "path": "scripts/test-hd-mobile.mjs",
+        "bytes": 16653,
+        "sha256": "d036dc223eeb4a431e7b5a8364883fb34dc7a1a52c23b99878477e92d911f01b"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 3,
+    "newDefaultModules": 0,
+    "nativeSourcesUnchanged": 128,
+    "runtimeArtifactsUnchanged": 4,
+    "portraitManifestUnchanged": true,
+    "fullSuiteRun": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "globalHdComplete": false,
+    "stdout": {
+      "path": "build/mobile-map-king-20261028-v107/targeted-v2.stdout.tap",
+      "bytes": 54728,
+      "sha256": "02393a0ac4beafc123e5b067e4ea683f4a4a95280fa93fe4b17b47e1ec7c4a95",
+      "text": "TAP version 13\n# Subtest: ordinary MAP export keeps the data reference opaque and rejects target owners\nok 1 - ordinary MAP export keeps the data reference opaque and rejects target owners\n  ---\n  duration_ms: 4.2778\n  type: 'test'\n  ...\n# Subtest: ordinary MAP export refuses torn native counters and same-value data rebinding stays distinguishable\nok 2 - ordinary MAP export refuses torn native counters and same-value data rebinding stays distinguishable\n  ---\n  duration_ms: 0.8337\n  type: 'test'\n  ...\n# Subtest: transfer target uses its own current protocol owner, not battle phase4 or ordinary MAP HUD: 13\nok 3 - transfer target uses its own current protocol owner, not battle phase4 or ordinary MAP HUD: 13\n  ---\n  duration_ms: 1.4372\n  type: 'test'\n  ...\n# Subtest: transfer target uses its own current protocol owner, not battle phase4 or ordinary MAP HUD: 14\nok 4 - transfer target uses its own current protocol owner, not battle phase4 or ordinary MAP HUD: 14\n  ---\n  duration_ms: 1.3986\n  type: 'test'\n  ...\n# Subtest: transfer target diagnostics do not authorize stale selection or send an action\nok 5 - transfer target diagnostics do not authorize stale selection or send an action\n  ---\n  duration_ms: 0.9733\n  type: 'test'\n  ...\n# Subtest: transfer target requires complete shared API getTransferTargetTicket\nok 6 - transfer target requires complete shared API getTransferTargetTicket\n  ---\n  duration_ms: 0.6756\n  type: 'test'\n  ...\n# Subtest: transfer target requires complete shared API selectTransferTarget\nok 7 - transfer target requires complete shared API selectTransferTarget\n  ---\n  duration_ms: 0.6128\n  type: 'test'\n  ...\n# Subtest: transfer target requires complete shared API confirmTransferTarget\nok 8 - transfer target requires complete shared API confirmTransferTarget\n  ---\n  duration_ms: 1.2435\n  type: 'test'\n  ...\n# Subtest: transfer target requires complete shared API cancelTransfer\nok 9 - transfer target requires complete shared API cancelTransfer\n  ---\n  duration_ms: 0.5952\n  type: 'test'\n  ...\n# Subtest: transfer map rejects protocol\nok 10 - transfer map rejects protocol\n  ---\n  duration_ms: 0.7373\n  type: 'test'\n  ...\n# Subtest: transfer map rejects inactive\nok 11 - transfer map rejects inactive\n  ---\n  duration_ms: 0.599\n  type: 'test'\n  ...\n# Subtest: transfer map rejects phase\nok 12 - transfer map rejects phase\n  ---\n  duration_ms: 0.5326\n  type: 'test'\n  ...\n# Subtest: transfer map rejects command\nok 13 - transfer map rejects command\n  ---\n  duration_ms: 0.5981\n  type: 'test'\n  ...\n# Subtest: transfer map rejects origin\nok 14 - transfer map rejects origin\n  ---\n  duration_ms: 0.5816\n  type: 'test'\n  ...\n# Subtest: transfer map rejects map-seq\nok 15 - transfer map rejects map-seq\n  ---\n  duration_ms: 0.5984\n  type: 'test'\n  ...\n# Subtest: transfer map rejects data\nok 16 - transfer map rejects data\n  ---\n  duration_ms: 0.663\n  type: 'test'\n  ...\n# Subtest: transfer map rejects identity\nok 17 - transfer map rejects identity\n  ---\n  duration_ms: 0.6445\n  type: 'test'\n  ...\n# Subtest: transfer map rejects torn\nok 18 - transfer map rejects torn\n  ---\n  duration_ms: 0.6263\n  type: 'test'\n  ...\n# Subtest: transfer map rejects menu\nok 19 - transfer map rejects menu\n  ---\n  duration_ms: 0.6222\n  type: 'test'\n  ...\n# Subtest: transfer map rejects report\nok 20 - transfer map rejects report\n  ---\n  duration_ms: 0.5962\n  type: 'test'\n  ...\n# Subtest: transfer map rejects battle\nok 21 - transfer map rejects battle\n  ---\n  duration_ms: 1.4211\n  type: 'test'\n  ...\n# Subtest: transfer map rejects classic\nok 22 - transfer map rejects classic\n  ---\n  duration_ms: 0.5862\n  type: 'test'\n  ...\n# Subtest: transfer map rejects hidden\nok 23 - transfer map rejects hidden\n  ---\n  duration_ms: 0.5782\n  type: 'test'\n  ...\n# Subtest: transfer map rejects portrait\nok 24 - transfer map rejects portrait\n  ---\n  duration_ms: 0.4729\n  type: 'test'\n  ...\n# Subtest: active transfer without a target proof can never use ordinary MAP or header city EXIT\nok 25 - active transfer without a target proof can never use ordinary MAP or header city EXIT\n  ---\n  duration_ms: 1.2\n  type: 'test'\n  ...\n# Subtest: mounts shared implementation once and centers the current strict HUD city once per LIB generation\nok 26 - mounts shared implementation once and centers the current strict HUD city once per LIB generation\n  ---\n  duration_ms: 2.5316\n  type: 'test'\n  ...\n# Subtest: menu handoff hides the map immediately without changing native data or a PC preference\nok 27 - menu handoff hides the map immediately without changing native data or a PC preference\n  ---\n  duration_ms: 1.6939\n  type: 'test'\n  ...\n# Subtest: HD city local pages own Back and cannot leak a header EXIT into the native root\nok 28 - HD city local pages own Back and cannot leak a header EXIT into the native root\n  ---\n  duration_ms: 1.4906\n  type: 'test'\n  ...\n# Subtest: current native g_hdReportActive cannot expose a map or a return control\nok 29 - current native g_hdReportActive cannot expose a map or a return control\n  ---\n  duration_ms: 1.2624\n  type: 'test'\n  ...\n# Subtest: current native g_hdQtyActive cannot expose a map or a return control\nok 30 - current native g_hdQtyActive cannot expose a map or a return control\n  ---\n  duration_ms: 1.141\n  type: 'test'\n  ...\n# Subtest: current native g_hdFightActive cannot expose a map or a return control\nok 31 - current native g_hdFightActive cannot expose a map or a return control\n  ---\n  duration_ms: 1.1785\n  type: 'test'\n  ...\n# Subtest: current native g_hdHelpActive cannot expose a map or a return control\nok 32 - current native g_hdHelpActive cannot expose a map or a return control\n  ---\n  duration_ms: 1.1195\n  type: 'test'\n  ...\n# Subtest: current native g_hdBattlePick cannot expose a map or a return control\nok 33 - current native g_hdBattlePick cannot expose a map or a return control\n  ---\n  duration_ms: 1.0856\n  type: 'test'\n  ...\n# Subtest: current native g_hdMakerActive cannot expose a map or a return control\nok 34 - current native g_hdMakerActive cannot expose a map or a return control\n  ---\n  duration_ms: 1.1693\n  type: 'test'\n  ...\n# Subtest: current native g_hdSpeActive cannot expose a map or a return control\nok 35 - current native g_hdSpeActive cannot expose a map or a return control\n  ---\n  duration_ms: 1.2561\n  type: 'test'\n  ...\n# Subtest: stale library/identity and ready false close a previously visible map\nok 36 - stale library/identity and ready false close a previously visible map\n  ---\n  duration_ms: 4.7187\n  type: 'test'\n  ...\n# Subtest: shared presentation, mode and actual phase must all agree\nok 37 - shared presentation, mode and actual phase must all agree\n  ---\n  duration_ms: 4.1194\n  type: 'test'\n  ...\n# Subtest: shared getter changing the native owner invalidates the second strict HUD reading\nok 38 - shared getter changing the native owner invalidates the second strict HUD reading\n  ---\n  duration_ms: 1.0835\n  type: 'test'\n  ...\n# Subtest: portrait/visibility retire both gestures and pending alignment; returning does not overwrite user pan\nok 39 - portrait/visibility retire both gestures and pending alignment; returning does not overwrite user pan\n  ---\n  duration_ms: 2.3867\n  type: 'test'\n  ...\n# Subtest: explicit focus is presentation only and uses fresh current HUD city\nok 40 - explicit focus is presentation only and uses fresh current HUD city\n  ---\n  duration_ms: 1.5436\n  type: 'test'\n  ...\n# Subtest: mode button delegates to shared mobile preference and retires interaction\nok 41 - mode button delegates to shared mobile preference and retires interaction\n  ---\n  duration_ms: 1.4719\n  type: 'test'\n  ...\n# Subtest: one current city menu kind 1 returns exactly once and waits for owner retirement\nok 42 - one current city menu kind 1 returns exactly once and waits for owner retirement\n  ---\n  duration_ms: 1.4344\n  type: 'test'\n  ...\n# Subtest: one current city menu kind 2 returns exactly once and waits for owner retirement\nok 43 - one current city menu kind 2 returns exactly once and waits for owner retirement\n  ---\n  duration_ms: 1.3251\n  type: 'test'\n  ...\n# Subtest: one current city menu kind 3 returns exactly once and waits for owner retirement\nok 44 - one current city menu kind 3 returns exactly once and waits for owner retirement\n  ---\n  duration_ms: 1.4454\n  type: 'test'\n  ...\n# Subtest: one current city menu kind 4 returns exactly once and waits for owner retirement\nok 45 - one current city menu kind 4 returns exactly once and waits for owner retirement\n  ---\n  duration_ms: 1.4827\n  type: 'test'\n  ...\n# Subtest: DOWN/UP cannot cross native menu sequence, context, index or generation\nok 46 - DOWN/UP cannot cross native menu sequence, context, index or generation\n  ---\n  duration_ms: 9.2366\n  type: 'test'\n  ...\n# Subtest: native touch cancel changing an owner before EXIT is checked again\nok 47 - native touch cancel changing an owner before EXIT is checked again\n  ---\n  duration_ms: 1.3173\n  type: 'test'\n  ...\n# Subtest: pointer cancel, wrong pointer and a second touch cannot return from a menu\nok 48 - pointer cancel, wrong pointer and a second touch cannot return from a menu\n  ---\n  duration_ms: 4.3371\n  type: 'test'\n  ...\n# Subtest: secondary pointer and compatibility click never generate EXIT\nok 49 - secondary pointer and compatibility click never generate EXIT\n  ---\n  duration_ms: 1.1194\n  type: 'test'\n  ...\n# Subtest: keyboard DOWN/UP uses the same owner fence without replaying compatibility click\nok 50 - keyboard DOWN/UP uses the same owner fence without replaying compatibility click\n  ---\n  duration_ms: 1.3512\n  type: 'test'\n  ...\n# Subtest: reports, quantity, fights and system/title menus are not broadened into an EXIT owner\nok 51 - reports, quantity, fights and system/title menus are not broadened into an EXIT owner\n  ---\n  duration_ms: 13.4231\n  type: 'test'\n  ...\n# Subtest: hidden or portrait transition between DOWN/UP cancels the captured return\nok 52 - hidden or portrait transition between DOWN/UP cancels the captured return\n  ---\n  duration_ms: 2.5518\n  type: 'test'\n  ...\n# Subtest: blur and pagehide retire a DOWN ticket even when the menu owner remains the same\nok 53 - blur and pagehide retire a DOWN ticket even when the menu owner remains the same\n  ---\n  duration_ms: 2.5296\n  type: 'test'\n  ...\n# Subtest: snapshot is immutable and does not read native data\nok 54 - snapshot is immutable and does not read native data\n  ---\n  duration_ms: 1.1797\n  type: 'test'\n  ...\n# Subtest: missing optional controls fail closed and mounting adds no DOM\nok 55 - missing optional controls fail closed and mounting adds no DOM\n  ---\n  duration_ms: 1.1163\n  type: 'test'\n  ...\n# Subtest: player tip names a selected non-owned city without exposing shared internal hints\nok 56 - player tip names a selected non-owned city without exposing shared internal hints\n  ---\n  duration_ms: 1.4064\n  type: 'test'\n  ...\n# Subtest: optional city tip getter changing the owner invalidates the visible surface\nok 57 - optional city tip getter changing the owner invalidates the visible surface\n  ---\n  duration_ms: 1.1265\n  type: 'test'\n  ...\n# Subtest: native MAP blank ground retains the HD surface while the HUD clears and alignment continues\nok 58 - native MAP blank ground retains the HD surface while the HUD clears and alignment continues\n  ---\n  duration_ms: 1.4188\n  type: 'test'\n  ...\n# Subtest: first native MAP blank ground never centers a stale city; the first actual city can center later\nok 59 - first native MAP blank ground never centers a stale city; the first actual city can center later\n  ---\n  duration_ms: 1.417\n  type: 'test'\n  ...\n# Subtest: blank ground is authorized only by current native MAP, never shared aligning\nok 60 - blank ground is authorized only by current native MAP, never shared aligning\n  ---\n  duration_ms: 8.7776\n  type: 'test'\n  ...\n# Subtest: all native blockers close blank-ground MAP despite an agreeing shared presentation\nok 61 - all native blockers close blank-ground MAP despite an agreeing shared presentation\n  ---\n  duration_ms: 7.5702\n  type: 'test'\n  ...\n# Subtest: blank-ground native tickets require actual positive map/detail/SPE generations and integer fence fields\nok 62 - blank-ground native tickets require actual positive map/detail/SPE generations and integer fence fields\n  ---\n  duration_ms: 5.291\n  type: 'test'\n  ...\n# Subtest: stable but forged city HUD tickets cannot authorize a current native MAP\nok 63 - stable but forged city HUD tickets cannot authorize a current native MAP\n  ---\n  duration_ms: 4.5446\n  type: 'test'\n  ...\n# Subtest: blank ground rejects a stale visible city HUD instead of borrowing its city\nok 64 - blank ground rejects a stale visible city HUD instead of borrowing its city\n  ---\n  duration_ms: 0.9966\n  type: 'test'\n  ...\n# Subtest: HUD getter owner change and data-object replacement invalidate independent native MAP\nok 65 - HUD getter owner change and data-object replacement invalidate independent native MAP\n  ---\n  duration_ms: 5.7583\n  type: 'test'\n  ...\n# Subtest: blank-ground shared and city-list getters must retain the same native owner\nok 66 - blank-ground shared and city-list getters must retain the same native owner\n  ---\n  duration_ms: 1.9396\n  type: 'test'\n  ...\n# Subtest: blank ground still retires on library, ready, menu, rotation and hidden transitions\nok 67 - blank ground still retires on library, ready, menu, rotation and hidden transitions\n  ---\n  duration_ms: 4.9498\n  type: 'test'\n  ...\n# Subtest: battle and settlement report retire before DEPARTED can restore the current strategy map\nok 68 - battle and settlement report retire before DEPARTED can restore the current strategy map\n  ---\n  duration_ms: 1.8308\n  type: 'test'\n  ...\n# Subtest: DEPARTED never overrides a competing native owner on city or blank-ground MAP\nok 69 - DEPARTED never overrides a competing native owner on city or blank-ground MAP\n  ---\n  duration_ms: 25.5955\n  type: 'test'\n  ...\n# Subtest: all six active and unknown march phases block both MAP and header city EXIT\nok 70 - all six active and unknown march phases block both MAP and header city EXIT\n  ---\n  duration_ms: 8.1253\n  type: 'test'\n  ...\n# Subtest: a retained terminal phase preserves only the separately verified current city-menu EXIT\nok 71 - a retained terminal phase preserves only the separately verified current city-menu EXIT\n  ---\n  duration_ms: 1.7584\n  type: 'test'\n  ...\n# Subtest: terminal-to-idle handoff in shared or HUD getters rejects the otherwise valid old MAP reading\nok 72 - terminal-to-idle handoff in shared or HUD getters rejects the otherwise valid old MAP reading\n  ---\n  duration_ms: 4.317\n  type: 'test'\n  ...\n# Subtest: DEPARTED MAP still retires on hidden, rotation, classic preference and unverified identity\nok 73 - DEPARTED MAP still retires on hidden, rotation, classic preference and unverified identity\n  ---\n  duration_ms: 4.9779\n  type: 'test'\n  ...\n# Subtest: TARGET_PICK owns a separate HD map and origin center without borrowing a normal city HUD\nok 74 - TARGET_PICK owns a separate HD map and origin center without borrowing a normal city HUD\n  ---\n  duration_ms: 1.6185\n  type: 'test'\n  ...\n# Subtest: target state displays only a matching session diagnostic and never confirms selection\nok 75 - target state displays only a matching session diagnostic and never confirms selection\n  ---\n  duration_ms: 1.2873\n  type: 'test'\n  ...\n# Subtest: target picker does not depend on the unavailable ordinary HUD or share its city ticket\nok 76 - target picker does not depend on the unavailable ordinary HUD or share its city ticket\n  ---\n  duration_ms: 0.9179\n  type: 'test'\n  ...\n# Subtest: an actual phase4 requires the complete city target ticket and explicit select/confirm/cancel APIs\nok 77 - an actual phase4 requires the complete city target ticket and explicit select/confirm/cancel APIs\n  ---\n  duration_ms: 2.354\n  type: 'test'\n  ...\n# Subtest: phase4 rejects every competing native modal instead of borrowing an agreeing target ticket\nok 78 - phase4 rejects every competing native modal instead of borrowing an agreeing target ticket\n  ---\n  duration_ms: 13.1388\n  type: 'test'\n  ...\n# Subtest: phase4 requires actual MAP/battle picker, no menu and positive exact origin/session/input generations\nok 79 - phase4 requires actual MAP/battle picker, no menu and positive exact origin/session/input generations\n  ---\n  duration_ms: 9.362\n  type: 'test'\n  ...\n# Subtest: target links cannot be absent, duplicate, unbounded or include the origin; no all-cities fallback\nok 80 - target links cannot be absent, duplicate, unbounded or include the origin; no all-cities fallback\n  ---\n  duration_ms: 5.0546\n  type: 'test'\n  ...\n# Subtest: target ticket raw fields, opaque data, generation and key must match the actual owner\nok 81 - target ticket raw fields, opaque data, generation and key must match the actual owner\n  ---\n  duration_ms: 6.4494\n  type: 'test'\n  ...\n# Subtest: a torn target ticket or getter-side native/library/data change cannot expose the target map\nok 82 - a torn target ticket or getter-side native/library/data change cannot expose the target map\n  ---\n  duration_ms: 5.7727\n  type: 'test'\n  ...\n# Subtest: shared render, target presentation and center getters must leave the target ticket current\nok 83 - shared render, target presentation and center getters must leave the target ticket current\n  ---\n  duration_ms: 2.5635\n  type: 'test'\n  ...\n# Subtest: switching ordinary MAP to TARGET_PICK retires a gesture even though the HD surface remains active\nok 84 - switching ordinary MAP to TARGET_PICK retires a gesture even though the HD surface remains active\n  ---\n  duration_ms: 2.0201\n  type: 'test'\n  ...\n# Subtest: an armed city header return never crosses into a target picker or replays its click\nok 85 - an armed city header return never crosses into a target picker or replays its click\n  ---\n  duration_ms: 1.8013\n  type: 'test'\n  ...\n# Subtest: target picker retires on portrait, hidden, blur, identity or classic mode without cancelling native march\nok 86 - target picker retires on portrait, hidden, blur, identity or classic mode without cancelling native march\n  ---\n  duration_ms: 5.2905\n  type: 'test'\n  ...\n# Subtest: target cursor crossing blank ground does not recenter or retire an otherwise current march\nok 87 - target cursor crossing blank ground does not recenter or retire an otherwise current march\n  ---\n  duration_ms: 1.1918\n  type: 'test'\n  ...\n# Subtest: fixture verifies the complete real standard LIB and original zero-ID person\nok 88 - fixture verifies the complete real standard LIB and original zero-ID person\n  ---\n  duration_ms: 1.3506\n  type: 'test'\n  ...\n# Subtest: explicit init is idempotent and never sends input or serializes native data\nok 89 - explicit init is idempotent and never sends input or serializes native data\n  ---\n  duration_ms: 33.5354\n  type: 'test'\n  ...\n# Subtest: current city person renders its actual HD entry only after image load\nok 90 - current city person renders its actual HD entry only after image load\n  ---\n  duration_ms: 25.42\n  type: 'test'\n  ...\n# Subtest: zero person ID is legal and a true reference attaches to the city slot\nok 91 - zero person ID is legal and a true reference attaches to the city slot\n  ---\n  duration_ms: 24.7408\n  type: 'test'\n  ...\n# Subtest: last named original person retains its real index rather than a masked or off-by-one ID\nok 92 - last named original person retains its real index rather than a masked or off-by-one ID\n  ---\n  duration_ms: 26.2979\n  type: 'test'\n  ...\n# Subtest: selected native order chooses the indexed ID rather than the first ID or name\nok 93 - selected native order chooses the indexed ID rather than the first ID or name\n  ---\n  duration_ms: 24.8363\n  type: 'test'\n  ...\n# Subtest: kind-2 current report with zero person ID renders in the report slot\nok 94 - kind-2 current report with zero person ID renders in the report slot\n  ---\n  duration_ms: 24.9631\n  type: 'test'\n  ...\n# Subtest: an actual later-period entry follows independently read g_PIdx rather than cached period one\nok 95 - an actual later-period entry follows independently read g_PIdx rather than cached period one\n  ---\n  duration_ms: 24.6609\n  type: 'test'\n  ...\n# Subtest: manifest still pending is not an asset miss or a native LCD request\nok 96 - manifest still pending is not an asset miss or a native LCD request\n  ---\n  duration_ms: 24.5238\n  type: 'test'\n  ...\n# Subtest: an authoritative LCD source requests the real host fallback with an opaque current owner\nok 97 - an authoritative LCD source requests the real host fallback with an opaque current owner\n  ---\n  duration_ms: 24.9301\n  type: 'test'\n  ...\n# Subtest: engine not ready fails closed without image or LCD authority\nok 98 - engine not ready fails closed without image or LCD authority\n  ---\n  duration_ms: 24.2901\n  type: 'test'\n  ...\n# Subtest: identity pending fails closed without image or LCD authority\nok 99 - identity pending fails closed without image or LCD authority\n  ---\n  duration_ms: 24.3365\n  type: 'test'\n  ...\n# Subtest: identity error fails closed without image or LCD authority\nok 100 - identity error fails closed without image or LCD authority\n  ---\n  duration_ms: 24.1765\n  type: 'test'\n  ...\n# Subtest: wrong standard SHA fails closed without image or LCD authority\nok 101 - wrong standard SHA fails closed without image or LCD authority\n  ---\n  duration_ms: 23.593\n  type: 'test'\n  ...\n# Subtest: wrong standard byte length fails closed without image or LCD authority\nok 102 - wrong standard byte length fails closed without image or LCD authority\n  ---\n  duration_ms: 23.714\n  type: 'test'\n  ...\n# Subtest: missing original identity generation fails closed without image or LCD authority\nok 103 - missing original identity generation fails closed without image or LCD authority\n  ---\n  duration_ms: 23.9909\n  type: 'test'\n  ...\n# Subtest: missing current host ticket fails closed without image or LCD authority\nok 104 - missing current host ticket fails closed without image or LCD authority\n  ---\n  duration_ms: 23.5746\n  type: 'test'\n  ...\n# Subtest: city owner is not person picker fails closed without image or LCD authority\nok 105 - city owner is not person picker fails closed without image or LCD authority\n  ---\n  duration_ms: 23.9053\n  type: 'test'\n  ...\n# Subtest: title owner cannot authorize a city portrait fails closed without image or LCD authority\nok 106 - title owner cannot authorize a city portrait fails closed without image or LCD authority\n  ---\n  duration_ms: 24.0132\n  type: 'test'\n  ...\n# Subtest: inactive native city owner fails closed without image or LCD authority\nok 107 - inactive native city owner fails closed without image or LCD authority\n  ---\n  duration_ms: 23.7598\n  type: 'test'\n  ...\n# Subtest: IDs not published fails closed without image or LCD authority\nok 108 - IDs not published fails closed without image or LCD authority\n  ---\n  duration_ms: 25.7692\n  type: 'test'\n  ...\n# Subtest: person resource count is unavailable fails closed without image or LCD authority\nok 109 - person resource count is unavailable fails closed without image or LCD authority\n  ---\n  duration_ms: 24.3289\n  type: 'test'\n  ...\n# Subtest: count disagrees with complete IDs fails closed without image or LCD authority\nok 110 - count disagrees with complete IDs fails closed without image or LCD authority\n  ---\n  duration_ms: 25.2841\n  type: 'test'\n  ...\n# Subtest: negative current index fails closed without image or LCD authority\nok 111 - negative current index fails closed without image or LCD authority\n  ---\n  duration_ms: 23.6907\n  type: 'test'\n  ...\n# Subtest: current index is outside native list fails closed without image or LCD authority\nok 112 - current index is outside native list fails closed without image or LCD authority\n  ---\n  duration_ms: 24.106\n  type: 'test'\n  ...\n# Subtest: full U16 256 is not silently truncated to person zero fails closed without image or LCD authority\nok 113 - full U16 256 is not silently truncated to person zero fails closed without image or LCD authority\n  ---\n  duration_ms: 24.6299\n  type: 'test'\n  ...\n# Subtest: U16 sentinel cannot authorize a portrait fails closed without image or LCD authority\nok 114 - U16 sentinel cannot authorize a portrait fails closed without image or LCD authority\n  ---\n  duration_ms: 23.6416\n  type: 'test'\n  ...\n# Subtest: negative person ID fails closed without image or LCD authority\nok 115 - negative person ID fails closed without image or LCD authority\n  ---\n  duration_ms: 23.9544\n  type: 'test'\n  ...\n# Subtest: fractional person ID fails closed without image or LCD authority\nok 116 - fractional person ID fails closed without image or LCD authority\n  ---\n  duration_ms: 26.8304\n  type: 'test'\n  ...\n# Subtest: unnamed original slot cannot impersonate a named person fails closed without image or LCD authority\nok 117 - unnamed original slot cannot impersonate a named person fails closed without image or LCD authority\n  ---\n  duration_ms: 23.5632\n  type: 'test'\n  ...\n# Subtest: period zero fails closed without image or LCD authority\nok 118 - period zero fails closed without image or LCD authority\n  ---\n  duration_ms: 23.4904\n  type: 'test'\n  ...\n# Subtest: period five fails closed without image or LCD authority\nok 119 - period five fails closed without image or LCD authority\n  ---\n  duration_ms: 24.944\n  type: 'test'\n  ...\n# Subtest: missing native data fails closed without image or LCD authority\nok 120 - missing native data fails closed without image or LCD authority\n  ---\n  duration_ms: 23.6344\n  type: 'test'\n  ...\n# Subtest: wrong shared owner metadata fails closed without image or LCD authority\nok 121 - wrong shared owner metadata fails closed without image or LCD authority\n  ---\n  duration_ms: 23.4437\n  type: 'test'\n  ...\n# Subtest: raw and public menu sequence disagree fails closed without image or LCD authority\nok 122 - raw and public menu sequence disagree fails closed without image or LCD authority\n  ---\n  duration_ms: 24.7295\n  type: 'test'\n  ...\n# Subtest: city shared metadata key must match current native publication\nok 123 - city shared metadata key must match current native publication\n  ---\n  duration_ms: 26.2361\n  type: 'test'\n  ...\n# Subtest: city shared metadata libraryGeneration must match current native publication\nok 124 - city shared metadata libraryGeneration must match current native publication\n  ---\n  duration_ms: 23.3886\n  type: 'test'\n  ...\n# Subtest: city shared metadata cityIndex must match current native publication\nok 125 - city shared metadata cityIndex must match current native publication\n  ---\n  duration_ms: 24.5235\n  type: 'test'\n  ...\n# Subtest: city shared metadata menuContext must match current native publication\nok 126 - city shared metadata menuContext must match current native publication\n  ---\n  duration_ms: 23.752\n  type: 'test'\n  ...\n# Subtest: city shared metadata menuKind must match current native publication\nok 127 - city shared metadata menuKind must match current native publication\n  ---\n  duration_ms: 23.3525\n  type: 'test'\n  ...\n# Subtest: city shared metadata menuSeq must match current native publication\nok 128 - city shared metadata menuSeq must match current native publication\n  ---\n  duration_ms: 24.2378\n  type: 'test'\n  ...\n# Subtest: city shared metadata detailGeneration must match current native publication\nok 129 - city shared metadata detailGeneration must match current native publication\n  ---\n  duration_ms: 23.7951\n  type: 'test'\n  ...\n# Subtest: city shared metadata session must match current native publication\nok 130 - city shared metadata session must match current native publication\n  ---\n  duration_ms: 24.0532\n  type: 'test'\n  ...\n# Subtest: city shared metadata inputSeq must match current native publication\nok 131 - city shared metadata inputSeq must match current native publication\n  ---\n  duration_ms: 23.94\n  type: 'test'\n  ...\n# Subtest: a changed opaque shared key between two reads invalidates an otherwise unchanged native owner\nok 132 - a changed opaque shared key between two reads invalidates an otherwise unchanged native owner\n  ---\n  duration_ms: 26.3932\n  type: 'test'\n  ...\n# Subtest: inactive report never invents a report portrait\nok 133 - inactive report never invents a report portrait\n  ---\n  duration_ms: 23.7085\n  type: 'test'\n  ...\n# Subtest: non-person report kind never invents a report portrait\nok 134 - non-person report kind never invents a report portrait\n  ---\n  duration_ms: 23.7119\n  type: 'test'\n  ...\n# Subtest: missing report sequence never invents a report portrait\nok 135 - missing report sequence never invents a report portrait\n  ---\n  duration_ms: 23.9981\n  type: 'test'\n  ...\n# Subtest: missing report input sequence never invents a report portrait\nok 136 - missing report input sequence never invents a report portrait\n  ---\n  duration_ms: 23.5102\n  type: 'test'\n  ...\n# Subtest: invalid report person never invents a report portrait\nok 137 - invalid report person never invents a report portrait\n  ---\n  duration_ms: 23.5055\n  type: 'test'\n  ...\n# Subtest: torn report sequence never invents a report portrait\nok 138 - torn report sequence never invents a report portrait\n  ---\n  duration_ms: 23.9446\n  type: 'test'\n  ...\n# Subtest: torn report input sequence never invents a report portrait\nok 139 - torn report input sequence never invents a report portrait\n  ---\n  duration_ms: 26.2527\n  type: 'test'\n  ...\n# Subtest: torn report person never invents a report portrait\nok 140 - torn report person never invents a report portrait\n  ---\n  duration_ms: 23.5106\n  type: 'test'\n  ...\n# Subtest: g_hdFightActive takeover retires an already painted person without native input\nok 141 - g_hdFightActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 25.4252\n  type: 'test'\n  ...\n# Subtest: g_hdRecordActive takeover retires an already painted person without native input\nok 142 - g_hdRecordActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 25.9714\n  type: 'test'\n  ...\n# Subtest: g_hdMovieActive takeover retires an already painted person without native input\nok 143 - g_hdMovieActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.7531\n  type: 'test'\n  ...\n# Subtest: g_hdSpeActive takeover retires an already painted person without native input\nok 144 - g_hdSpeActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.9668\n  type: 'test'\n  ...\n# Subtest: g_hdSkillActive takeover retires an already painted person without native input\nok 145 - g_hdSkillActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.8819\n  type: 'test'\n  ...\n# Subtest: g_hdAttackActive takeover retires an already painted person without native input\nok 146 - g_hdAttackActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.5539\n  type: 'test'\n  ...\n# Subtest: g_hdSkillResultActive takeover retires an already painted person without native input\nok 147 - g_hdSkillResultActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 25.0497\n  type: 'test'\n  ...\n# Subtest: g_hdMakerActive takeover retires an already painted person without native input\nok 148 - g_hdMakerActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.8459\n  type: 'test'\n  ...\n# Subtest: g_hdMiniMapActive takeover retires an already painted person without native input\nok 149 - g_hdMiniMapActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.0437\n  type: 'test'\n  ...\n# Subtest: g_hdViewActive takeover retires an already painted person without native input\nok 150 - g_hdViewActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.8352\n  type: 'test'\n  ...\n# Subtest: g_hdResultOwnerKind takeover retires an already painted person without native input\nok 151 - g_hdResultOwnerKind takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.8533\n  type: 'test'\n  ...\n# Subtest: g_hdResultOwnerValid takeover retires an already painted person without native input\nok 152 - g_hdResultOwnerValid takeover retires an already painted person without native input\n  ---\n  duration_ms: 26.8873\n  type: 'test'\n  ...\n# Subtest: g_hdQtyActive takeover retires an already painted person without native input\nok 153 - g_hdQtyActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.3111\n  type: 'test'\n  ...\n# Subtest: g_hdHelpActive takeover retires an already painted person without native input\nok 154 - g_hdHelpActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.726\n  type: 'test'\n  ...\n# Subtest: g_hdBattlePick takeover retires an already painted person without native input\nok 155 - g_hdBattlePick takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.8673\n  type: 'test'\n  ...\n# Subtest: period changes during independent reads reject rather than publishing a different period\nok 156 - period changes during independent reads reject rather than publishing a different period\n  ---\n  duration_ms: 23.8584\n  type: 'test'\n  ...\n# Subtest: person-count getter changes current native owner is caught by the final fence\nok 157 - person-count getter changes current native owner is caught by the final fence\n  ---\n  duration_ms: 24.3697\n  type: 'test'\n  ...\n# Subtest: person-name getter changes current native owner is caught by the final fence\nok 158 - person-name getter changes current native owner is caught by the final fence\n  ---\n  duration_ms: 23.6792\n  type: 'test'\n  ...\n# Subtest: person-name getter rebinds native data is caught by the final fence\nok 159 - person-name getter rebinds native data is caught by the final fence\n  ---\n  duration_ms: 23.7061\n  type: 'test'\n  ...\n# Subtest: person-name getter changes verified LIB generation is caught by the final fence\nok 160 - person-name getter changes verified LIB generation is caught by the final fence\n  ---\n  duration_ms: 23.5096\n  type: 'test'\n  ...\n# Subtest: a failed DOM HD image tries the actual manifest reference before requesting LCD\nok 161 - a failed DOM HD image tries the actual manifest reference before requesting LCD\n  ---\n  duration_ms: 24.0838\n  type: 'test'\n  ...\n# Subtest: only failure of both actual DOM HD and manifest reference requests current-owner LCD\nok 162 - only failure of both actual DOM HD and manifest reference requests current-owner LCD\n  ---\n  duration_ms: 26.0574\n  type: 'test'\n  ...\n# Subtest: an external portrait URL cannot become a loaded mobile portrait\nok 163 - an external portrait URL cannot become a loaded mobile portrait\n  ---\n  duration_ms: 23.7563\n  type: 'test'\n  ...\n# Subtest: wrong source person cannot paint or bypass the true LCD handoff\nok 164 - wrong source person cannot paint or bypass the true LCD handoff\n  ---\n  duration_ms: 24.3815\n  type: 'test'\n  ...\n# Subtest: wrong source period cannot paint or bypass the true LCD handoff\nok 165 - wrong source period cannot paint or bypass the true LCD handoff\n  ---\n  duration_ms: 23.9897\n  type: 'test'\n  ...\n# Subtest: preview image is not runtime authority cannot paint or bypass the true LCD handoff\nok 166 - preview image is not runtime authority cannot paint or bypass the true LCD handoff\n  ---\n  duration_ms: 23.7768\n  type: 'test'\n  ...\n# Subtest: parent traversal cannot escape portrait assets cannot paint or bypass the true LCD handoff\nok 167 - parent traversal cannot escape portrait assets cannot paint or bypass the true LCD handoff\n  ---\n  duration_ms: 24.2661\n  type: 'test'\n  ...\n# Subtest: an empty currentSrc remains compatible while a positive mismatching currentSrc is rejected\nok 168 - an empty currentSrc remains compatible while a positive mismatching currentSrc is rejected\n  ---\n  duration_ms: 24.1539\n  type: 'test'\n  ...\n# Subtest: invalid loaded dimensions cannot make an opaque empty portrait visible\nok 169 - invalid loaded dimensions cannot make an opaque empty portrait visible\n  ---\n  duration_ms: 24.3034\n  type: 'test'\n  ...\n# Subtest: a delayed old source cannot overwrite a new indexed owner\nok 170 - a delayed old source cannot overwrite a new indexed owner\n  ---\n  duration_ms: 23.8511\n  type: 'test'\n  ...\n# Subtest: a delayed old image cannot replace a new report owner\nok 171 - a delayed old image cannot replace a new report owner\n  ---\n  duration_ms: 26.8699\n  type: 'test'\n  ...\n# Subtest: an old image error cannot request LCD or clear the newer fallback handle\nok 172 - an old image error cannot request LCD or clear the newer fallback handle\n  ---\n  duration_ms: 25.5484\n  type: 'test'\n  ...\n# Subtest: retiring a current fallback passes its exact opaque handle and never a new owner handle\nok 173 - retiring a current fallback passes its exact opaque handle and never a new owner handle\n  ---\n  duration_ms: 24.1575\n  type: 'test'\n  ...\n# Subtest: adapter retirement passes only its old handle and cannot clear a newer host grant\nok 174 - adapter retirement passes only its old handle and cannot clear a newer host grant\n  ---\n  duration_ms: 23.7437\n  type: 'test'\n  ...\n# Subtest: hidden retires an in-flight image without keys or stale resurrection\nok 175 - hidden retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 23.7271\n  type: 'test'\n  ...\n# Subtest: portrait retires an in-flight image without keys or stale resurrection\nok 176 - portrait retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 23.5864\n  type: 'test'\n  ...\n# Subtest: blur retires an in-flight image without keys or stale resurrection\nok 177 - blur retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 24.2546\n  type: 'test'\n  ...\n# Subtest: pagehide retires an in-flight image without keys or stale resurrection\nok 178 - pagehide retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 23.7534\n  type: 'test'\n  ...\n# Subtest: classic retires an in-flight image without keys or stale resurrection\nok 179 - classic retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 23.6142\n  type: 'test'\n  ...\n# Subtest: production MAP owner paints its zero-ID ruler from the real manifest and follows king and period outside the map key\nok 180 - production MAP owner paints its zero-ID ruler from the real manifest and follows king and period outside the map key\n  ---\n  duration_ms: 36.8305\n  type: 'test'\n  ...\n# Subtest: painted MAP ruler rejects classic, non-map, foreign ownership and invalid native identity without a city LCD handoff\nok 181 - painted MAP ruler rejects classic, non-map, foreign ownership and invalid native identity without a city LCD handoff\n  ---\n  duration_ms: 363.2299\n  type: 'test'\n  ...\n# Subtest: late MAP sources and images cannot resurrect a former ruler, data object, API or report owner\nok 182 - late MAP sources and images cannot resurrect a former ruler, data object, API or report owner\n  ---\n  duration_ms: 55.8755\n  type: 'test'\n  ...\n# Subtest: transfer target MAP never publishes ordinary city HUD, and actual retirement restores it\nok 183 - transfer target MAP never publishes ordinary city HUD, and actual retirement restores it\n  ---\n  duration_ms: 2.1928\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/undefined\nok 184 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/undefined\n  ---\n  duration_ms: 0.5987\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD undefined/0\nok 185 - incomplete or invalid transfer protocol cannot authorize ordinary HUD undefined/0\n  ---\n  duration_ms: 0.5503\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 0/0\nok 186 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 0/0\n  ---\n  duration_ms: 0.4948\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 2/0\nok 187 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 2/0\n  ---\n  duration_ms: 0.46\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/NaN\nok 188 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/NaN\n  ---\n  duration_ms: 0.5952\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/null\nok 189 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/null\n  ---\n  duration_ms: 0.4946\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/0\nok 190 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/0\n  ---\n  duration_ms: 0.6549\n  type: 'test'\n  ...\n# Subtest: incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/2\nok 191 - incomplete or invalid transfer protocol cannot authorize ordinary HUD 1/2\n  ---\n  duration_ms: 1.0536\n  type: 'test'\n  ...\n# Subtest: transfer becomes active during a city-name read and retires the stale ordinary HUD\nok 192 - transfer becomes active during a city-name read and retires the stale ordinary HUD\n  ---\n  duration_ms: 0.6398\n  type: 'test'\n  ...\n# Subtest: verified original dictionary current map uses one-based city/owner and actual reserve troops\nok 193 - verified original dictionary current map uses one-based city/owner and actual reserve troops\n  ---\n  duration_ms: 1.3791\n  type: 'test'\n  ...\n# Subtest: native 2000-slot person capacity is not a HUD data dependency\nok 194 - native 2000-slot person capacity is not a HUD data dependency\n  ---\n  duration_ms: 0.6309\n  type: 'test'\n  ...\n# Subtest: zero resources and unowned city are legitimate, without a ruler name call\nok 195 - zero resources and unowned city are legitimate, without a ruler name call\n  ---\n  duration_ms: 0.6015\n  type: 'test'\n  ...\n# Subtest: U16 maximum resources and full native year survive a long campaign\nok 196 - U16 maximum resources and full native year survive a long campaign\n  ---\n  duration_ms: 1.2988\n  type: 'test'\n  ...\n# Subtest: unverified library never binds native data: {\"status\":\"pending\"}\nok 197 - unverified library never binds native data: {\"status\":\"pending\"}\n  ---\n  duration_ms: 0.4413\n  type: 'test'\n  ...\n# Subtest: unverified library never binds native data: {\"status\":\"error\"}\nok 198 - unverified library never binds native data: {\"status\":\"error\"}\n  ---\n  duration_ms: 0.3617\n  type: 'test'\n  ...\n# Subtest: unverified library never binds native data: {\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}\nok 199 - unverified library never binds native data: {\"sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\"}\n  ---\n  duration_ms: 0.3422\n  type: 'test'\n  ...\n# Subtest: unverified library never binds native data: {\"byteLength\":1}\nok 200 - unverified library never binds native data: {\"byteLength\":1}\n  ---\n  duration_ms: 0.4126\n  type: 'test'\n  ...\n# Subtest: unverified library never binds native data: {\"generation\":0}\nok 201 - unverified library never binds native data: {\"generation\":0}\n  ---\n  duration_ms: 0.391\n  type: 'test'\n  ...\n# Subtest: a stale digest is rejected before native binding\nok 202 - a stale digest is rejected before native binding\n  ---\n  duration_ms: 0.4334\n  type: 'test'\n  ...\n# Subtest: ready false never binds the data object\nok 203 - ready false never binds the data object\n  ---\n  duration_ms: 0.4165\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdBattlePick\nok 204 - current native owner blocks the city HUD: g_hdBattlePick\n  ---\n  duration_ms: 0.6248\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdMenuActive\nok 205 - current native owner blocks the city HUD: g_hdMenuActive\n  ---\n  duration_ms: 0.5512\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdReportActive\nok 206 - current native owner blocks the city HUD: g_hdReportActive\n  ---\n  duration_ms: 0.5835\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdQtyActive\nok 207 - current native owner blocks the city HUD: g_hdQtyActive\n  ---\n  duration_ms: 0.5459\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdFightActive\nok 208 - current native owner blocks the city HUD: g_hdFightActive\n  ---\n  duration_ms: 0.552\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdHelpActive\nok 209 - current native owner blocks the city HUD: g_hdHelpActive\n  ---\n  duration_ms: 0.5113\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdRecordActive\nok 210 - current native owner blocks the city HUD: g_hdRecordActive\n  ---\n  duration_ms: 0.5876\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdMovieActive\nok 211 - current native owner blocks the city HUD: g_hdMovieActive\n  ---\n  duration_ms: 0.6278\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdSpeActive\nok 212 - current native owner blocks the city HUD: g_hdSpeActive\n  ---\n  duration_ms: 0.5129\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdSkillActive\nok 213 - current native owner blocks the city HUD: g_hdSkillActive\n  ---\n  duration_ms: 0.5344\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdAttackActive\nok 214 - current native owner blocks the city HUD: g_hdAttackActive\n  ---\n  duration_ms: 0.5439\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdSkillResultActive\nok 215 - current native owner blocks the city HUD: g_hdSkillResultActive\n  ---\n  duration_ms: 0.5153\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdMakerActive\nok 216 - current native owner blocks the city HUD: g_hdMakerActive\n  ---\n  duration_ms: 0.584\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdViewActive\nok 217 - current native owner blocks the city HUD: g_hdViewActive\n  ---\n  duration_ms: 0.555\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdMiniMapActive\nok 218 - current native owner blocks the city HUD: g_hdMiniMapActive\n  ---\n  duration_ms: 0.5742\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdGoodsActive\nok 219 - current native owner blocks the city HUD: g_hdGoodsActive\n  ---\n  duration_ms: 1.4219\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdPersonPropertiesActive\nok 220 - current native owner blocks the city HUD: g_hdPersonPropertiesActive\n  ---\n  duration_ms: 0.5625\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdResultOwnerKind\nok 221 - current native owner blocks the city HUD: g_hdResultOwnerKind\n  ---\n  duration_ms: 0.6074\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdResultOwnerValid\nok 222 - current native owner blocks the city HUD: g_hdResultOwnerValid\n  ---\n  duration_ms: 0.5806\n  type: 'test'\n  ...\n# Subtest: current native owner blocks the city HUD: g_hdMarchPhase\nok 223 - current native owner blocks the city HUD: g_hdMarchPhase\n  ---\n  duration_ms: 0.5153\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdMapPick=0\nok 224 - unknown/stale map ticket fails closed: g_hdMapPick=0\n  ---\n  duration_ms: 0.4648\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdMapCity=0\nok 225 - unknown/stale map ticket fails closed: g_hdMapCity=0\n  ---\n  duration_ms: 0.415\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdMapCity=39\nok 226 - unknown/stale map ticket fails closed: g_hdMapCity=39\n  ---\n  duration_ms: 0.4694\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdMapInputSeq=0\nok 227 - unknown/stale map ticket fails closed: g_hdMapInputSeq=0\n  ---\n  duration_ms: 0.412\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdDetailGeneration=0\nok 228 - unknown/stale map ticket fails closed: g_hdDetailGeneration=0\n  ---\n  duration_ms: 0.406\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdSpeGeneration=0\nok 229 - unknown/stale map ticket fails closed: g_hdSpeGeneration=0\n  ---\n  duration_ms: 1.285\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_hdEngineReady=0\nok 230 - unknown/stale map ticket fails closed: g_hdEngineReady=0\n  ---\n  duration_ms: 0.4117\n  type: 'test'\n  ...\n# Subtest: unknown/stale map ticket fails closed: g_PIdx=0\nok 231 - unknown/stale map ticket fails closed: g_PIdx=0\n  ---\n  duration_ms: 0.4855\n  type: 'test'\n  ...\n# Subtest: missing owner field cannot be inferred as zero\nok 232 - missing owner field cannot be inferred as zero\n  ---\n  duration_ms: 0.4737\n  type: 'test'\n  ...\n# Subtest: invalid native field is not coerced: Money=-1\nok 233 - invalid native field is not coerced: Money=-1\n  ---\n  duration_ms: 0.4454\n  type: 'test'\n  ...\n# Subtest: invalid native field is not coerced: Food=65536\nok 234 - invalid native field is not coerced: Food=65536\n  ---\n  duration_ms: 0.385\n  type: 'test'\n  ...\n# Subtest: invalid native field is not coerced: MothballArms=NaN\nok 235 - invalid native field is not coerced: MothballArms=NaN\n  ---\n  duration_ms: 0.4252\n  type: 'test'\n  ...\n# Subtest: invalid native field is not coerced: Money=5\nok 236 - invalid native field is not coerced: Money=5\n  ---\n  duration_ms: 0.5083\n  type: 'test'\n  ...\n# Subtest: invalid native field is not coerced: Food=null\nok 237 - invalid native field is not coerced: Food=null\n  ---\n  duration_ms: 0.404\n  type: 'test'\n  ...\n# Subtest: invalid native field is not coerced: Belong=65535\nok 238 - invalid native field is not coerced: Belong=65535\n  ---\n  duration_ms: 0.3916\n  type: 'test'\n  ...\n# Subtest: invalid native date is rejected: g_YearDate=65536\nok 239 - invalid native date is rejected: g_YearDate=65536\n  ---\n  duration_ms: 0.4442\n  type: 'test'\n  ...\n# Subtest: invalid native date is rejected: g_MonthDate=0\nok 240 - invalid native date is rejected: g_MonthDate=0\n  ---\n  duration_ms: 0.549\n  type: 'test'\n  ...\n# Subtest: invalid native date is rejected: g_MonthDate=13\nok 241 - invalid native date is rejected: g_MonthDate=13\n  ---\n  duration_ms: 0.4409\n  type: 'test'\n  ...\n# Subtest: invalid native date is rejected: g_YearDate=236.5\nok 242 - invalid native date is rejected: g_YearDate=236.5\n  ---\n  duration_ms: 0.4397\n  type: 'test'\n  ...\n# Subtest: name call owner handoff clears all previously displayed fields\nok 243 - name call owner handoff clears all previously displayed fields\n  ---\n  duration_ms: 0.7025\n  type: 'test'\n  ...\n# Subtest: name call generation handoff is rejected even if map and names remain unchanged\nok 244 - name call generation handoff is rejected even if map and names remain unchanged\n  ---\n  duration_ms: 0.5325\n  type: 'test'\n  ...\n# Subtest: name call LIB replacement retires the original reading\nok 245 - name call LIB replacement retires the original reading\n  ---\n  duration_ms: 0.4715\n  type: 'test'\n  ...\n# Subtest: name call city resources changing causes a torn-read rejection\nok 246 - name call city resources changing causes a torn-read rejection\n  ---\n  duration_ms: 0.5898\n  type: 'test'\n  ...\n# Subtest: name call data rebinding never mixes old city and new world\nok 247 - name call data rebinding never mixes old city and new world\n  ---\n  duration_ms: 0.6382\n  type: 'test'\n  ...\n# Subtest: name call map input sequence change fails closed\nok 248 - name call map input sequence change fails closed\n  ---\n  duration_ms: 0.4931\n  type: 'test'\n  ...\n# Subtest: a resource getter changing after its initial read cannot publish mixed fields\nok 249 - a resource getter changing after its initial read cannot publish mixed fields\n  ---\n  duration_ms: 0.5027\n  type: 'test'\n  ...\n# Subtest: unavailable or invalid names do not display a partial city\nok 250 - unavailable or invalid names do not display a partial city\n  ---\n  duration_ms: 1.6398\n  type: 'test'\n  ...\n# Subtest: mounting is idempotent, uses one 80ms timer and pauses immediately while hidden\nok 251 - mounting is idempotent, uses one 80ms timer and pauses immediately while hidden\n  ---\n  duration_ms: 0.9001\n  type: 'test'\n  ...\n# Subtest: initial hidden document does not bind native data or start polling\nok 252 - initial hidden document does not bind native data or start polling\n  ---\n  duration_ms: 0.4647\n  type: 'test'\n  ...\n# Subtest: identity notifications retire a visible HUD without waiting for the next timer\nok 253 - identity notifications retire a visible HUD without waiting for the next timer\n  ---\n  duration_ms: 0.6933\n  type: 'test'\n  ...\n# Subtest: snapshot is immutable and does not perform native or storage reads\nok 254 - snapshot is immutable and does not perform native or storage reads\n  ---\n  duration_ms: 0.6569\n  type: 'test'\n  ...\n# Subtest: pure model and sampler agree and preserve native data without input or writes\nok 255 - pure model and sampler agree and preserve native data without input or writes\n  ---\n  duration_ms: 2.1626\n  type: 'test'\n  ...\n# Subtest: missing UI nodes do not prevent safe sampling or create any nodes\nok 256 - missing UI nodes do not prevent safe sampling or create any nodes\n  ---\n  duration_ms: 0.6929\n  type: 'test'\n  ...\n# Subtest: retained native DEPARTED phase restores a fresh strategy-map HUD without clearing native fields\nok 257 - retained native DEPARTED phase restores a fresh strategy-map HUD without clearing native fields\n  ---\n  duration_ms: 0.7744\n  type: 'test'\n  ...\n# Subtest: DEPARTED is not map authority while battle, settlement report or a menu still owns the screen\nok 258 - DEPARTED is not map authority while battle, settlement report or a menu still owns the screen\n  ---\n  duration_ms: 0.9066\n  type: 'test'\n  ...\n# Subtest: every active march phase and unknown phase remains a closed HUD owner\nok 259 - every active march phase and unknown phase remains a closed HUD owner\n  ---\n  duration_ms: 6.2896\n  type: 'test'\n  ...\n# Subtest: terminal-to-idle phase handoff during a name read cannot publish a mixed MAP ticket\nok 260 - terminal-to-idle phase handoff during a name read cannot publish a mixed MAP ticket\n  ---\n  duration_ms: 0.6952\n  type: 'test'\n  ...\n1..260\n# tests 260\n# suites 0\n# pass 260\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 3211.4668\n"
+    },
+    "stderr": {
+      "path": "build/mobile-map-king-20261028-v107/targeted-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    }
+  },
+  "negative": {
+    "expectedNegative": true,
+    "accepted": true,
+    "exitCode": 1,
+    "tests": 3,
+    "pass": 0,
+    "fail": 3,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "testSource": "scripts/test-hd-mobile-portraits.mjs",
+    "pattern": "production MAP owner|painted MAP ruler|late MAP sources",
+    "baselineSource": "build/mobile-map-king-20261028-v107/before-js_hd-mobile-portraits.js",
+    "baselineSha256": "15a51c82f97acf1494b5d8537c9d7cddcda28bd2811990170ac46ab06e0e4ab0",
+    "sourceCompiled": true,
+    "productFilesReplaced": false,
+    "productSourceUnchanged": true,
+    "notCountedAsPassingTests": true,
+    "stdout": {
+      "path": "build/mobile-map-king-20261028-v107/negative-old-v2.stdout.tap",
+      "bytes": 3163,
+      "sha256": "628bd1232355192dce78427ab0c72ebc32b66943300d75d14cb4f740fa18c426",
+      "text": "TAP version 13\n# Subtest: production MAP owner paints its zero-ID ruler from the real manifest and follows king and period outside the map key\nnot ok 1 - production MAP owner paints its zero-ID ruler from the real manifest and follows king and period outside the map key\n  ---\n  duration_ms: 30.7508\n  type: 'test'\n  location: 'C:\\\\Users\\\\75112\\\\.codex\\\\worktrees\\\\hd-equipment-icons\\\\baye-sanguo\\\\build\\\\mobile-map-king-20261028-v107\\\\negative-old-v2.mjs:448:1'\n  failureType: 'testCodeFailure'\n  error: |-\n    Expected values to be strictly equal:\n    \n    0 !== 1\n    \n  code: 'ERR_ASSERTION'\n  name: 'AssertionError'\n  expected: 1\n  actual: 0\n  operator: 'strictEqual'\n  stack: |-\n    TestContext.<anonymous> (file:///C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/build/mobile-map-king-20261028-v107/negative-old-v2.mjs:454:24)\n    async Test.run (node:internal/test_runner/test:1125:7)\n    async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3)\n  ...\n# Subtest: painted MAP ruler rejects classic, non-map, foreign ownership and invalid native identity without a city LCD handoff\nnot ok 2 - painted MAP ruler rejects classic, non-map, foreign ownership and invalid native identity without a city LCD handoff\n  ---\n  duration_ms: 25.4906\n  type: 'test'\n  location: 'C:\\\\Users\\\\75112\\\\.codex\\\\worktrees\\\\hd-equipment-icons\\\\baye-sanguo\\\\build\\\\mobile-map-king-20261028-v107\\\\negative-old-v2.mjs:470:1'\n  failureType: 'testCodeFailure'\n  error: |-\n    Expected values to be strictly equal:\n    \n    true !== false\n    \n  code: 'ERR_ASSERTION'\n  name: 'AssertionError'\n  expected: false\n  actual: true\n  operator: 'strictEqual'\n  stack: |-\n    painted (file:///C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/build/mobile-map-king-20261028-v107/negative-old-v2.mjs:220:12)\n    TestContext.<anonymous> (file:///C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/build/mobile-map-king-20261028-v107/negative-old-v2.mjs:486:47)\n    async Test.run (node:internal/test_runner/test:1125:7)\n    async Test.processPendingSubtests (node:internal/test_runner/test:787:7)\n  ...\n# Subtest: late MAP sources and images cannot resurrect a former ruler, data object, API or report owner\nnot ok 3 - late MAP sources and images cannot resurrect a former ruler, data object, API or report owner\n  ---\n  duration_ms: 24.8308\n  type: 'test'\n  location: 'C:\\\\Users\\\\75112\\\\.codex\\\\worktrees\\\\hd-equipment-icons\\\\baye-sanguo\\\\build\\\\mobile-map-king-20261028-v107\\\\negative-old-v2.mjs:493:1'\n  failureType: 'testCodeFailure'\n  error: |-\n    Expected values to be strictly equal:\n    \n    0 !== 1\n    \n  code: 'ERR_ASSERTION'\n  name: 'AssertionError'\n  expected: 1\n  actual: 0\n  operator: 'strictEqual'\n  stack: |-\n    TestContext.<anonymous> (file:///C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/build/mobile-map-king-20261028-v107/negative-old-v2.mjs:495:12)\n    async Test.run (node:internal/test_runner/test:1125:7)\n    async Test.processPendingSubtests (node:internal/test_runner/test:787:7)\n  ...\n1..3\n# tests 3\n# suites 0\n# pass 0\n# fail 3\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 147.4527\n"
+    },
+    "stderr": {
+      "path": "build/mobile-map-king-20261028-v107/negative-old-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    }
+  },
+  "exploratory": {
+    "firstModule": {
+      "path": "build/mobile-map-ruler-20261028-v107/agent-a-targeted-v1.stdout.tap",
+      "bytes": 21451,
+      "sha256": "ff7f8d5a0ff00d77ab96d1b04ca8010f8119765952a57148bd8da6f8c5346b92",
+      "text": "TAP version 13\n# Subtest: fixture verifies the complete real standard LIB and original zero-ID person\nok 1 - fixture verifies the complete real standard LIB and original zero-ID person\n  ---\n  duration_ms: 1.2773\n  type: 'test'\n  ...\n# Subtest: explicit init is idempotent and never sends input or serializes native data\nok 2 - explicit init is idempotent and never sends input or serializes native data\n  ---\n  duration_ms: 32.703\n  type: 'test'\n  ...\n# Subtest: current city person renders its actual HD entry only after image load\nok 3 - current city person renders its actual HD entry only after image load\n  ---\n  duration_ms: 25.3525\n  type: 'test'\n  ...\n# Subtest: zero person ID is legal and a true reference attaches to the city slot\nok 4 - zero person ID is legal and a true reference attaches to the city slot\n  ---\n  duration_ms: 24.7266\n  type: 'test'\n  ...\n# Subtest: last named original person retains its real index rather than a masked or off-by-one ID\nok 5 - last named original person retains its real index rather than a masked or off-by-one ID\n  ---\n  duration_ms: 26.0379\n  type: 'test'\n  ...\n# Subtest: selected native order chooses the indexed ID rather than the first ID or name\nok 6 - selected native order chooses the indexed ID rather than the first ID or name\n  ---\n  duration_ms: 25.0247\n  type: 'test'\n  ...\n# Subtest: kind-2 current report with zero person ID renders in the report slot\nok 7 - kind-2 current report with zero person ID renders in the report slot\n  ---\n  duration_ms: 24.9429\n  type: 'test'\n  ...\n# Subtest: an actual later-period entry follows independently read g_PIdx rather than cached period one\nok 8 - an actual later-period entry follows independently read g_PIdx rather than cached period one\n  ---\n  duration_ms: 25.2777\n  type: 'test'\n  ...\n# Subtest: manifest still pending is not an asset miss or a native LCD request\nok 9 - manifest still pending is not an asset miss or a native LCD request\n  ---\n  duration_ms: 24.8231\n  type: 'test'\n  ...\n# Subtest: an authoritative LCD source requests the real host fallback with an opaque current owner\nok 10 - an authoritative LCD source requests the real host fallback with an opaque current owner\n  ---\n  duration_ms: 24.8144\n  type: 'test'\n  ...\n# Subtest: engine not ready fails closed without image or LCD authority\nok 11 - engine not ready fails closed without image or LCD authority\n  ---\n  duration_ms: 26.0611\n  type: 'test'\n  ...\n# Subtest: identity pending fails closed without image or LCD authority\nok 12 - identity pending fails closed without image or LCD authority\n  ---\n  duration_ms: 26.2339\n  type: 'test'\n  ...\n# Subtest: identity error fails closed without image or LCD authority\nok 13 - identity error fails closed without image or LCD authority\n  ---\n  duration_ms: 26.0285\n  type: 'test'\n  ...\n# Subtest: wrong standard SHA fails closed without image or LCD authority\nok 14 - wrong standard SHA fails closed without image or LCD authority\n  ---\n  duration_ms: 25.3291\n  type: 'test'\n  ...\n# Subtest: wrong standard byte length fails closed without image or LCD authority\nok 15 - wrong standard byte length fails closed without image or LCD authority\n  ---\n  duration_ms: 25.7133\n  type: 'test'\n  ...\n# Subtest: missing original identity generation fails closed without image or LCD authority\nok 16 - missing original identity generation fails closed without image or LCD authority\n  ---\n  duration_ms: 25.8224\n  type: 'test'\n  ...\n# Subtest: missing current host ticket fails closed without image or LCD authority\nok 17 - missing current host ticket fails closed without image or LCD authority\n  ---\n  duration_ms: 26.9228\n  type: 'test'\n  ...\n# Subtest: city owner is not person picker fails closed without image or LCD authority\nok 18 - city owner is not person picker fails closed without image or LCD authority\n  ---\n  duration_ms: 25.6281\n  type: 'test'\n  ...\n# Subtest: title owner cannot authorize a city portrait fails closed without image or LCD authority\nok 19 - title owner cannot authorize a city portrait fails closed without image or LCD authority\n  ---\n  duration_ms: 26.1106\n  type: 'test'\n  ...\n# Subtest: inactive native city owner fails closed without image or LCD authority\nok 20 - inactive native city owner fails closed without image or LCD authority\n  ---\n  duration_ms: 26.4533\n  type: 'test'\n  ...\n# Subtest: IDs not published fails closed without image or LCD authority\nok 21 - IDs not published fails closed without image or LCD authority\n  ---\n  duration_ms: 25.8376\n  type: 'test'\n  ...\n# Subtest: person resource count is unavailable fails closed without image or LCD authority\nok 22 - person resource count is unavailable fails closed without image or LCD authority\n  ---\n  duration_ms: 26.4916\n  type: 'test'\n  ...\n# Subtest: count disagrees with complete IDs fails closed without image or LCD authority\nok 23 - count disagrees with complete IDs fails closed without image or LCD authority\n  ---\n  duration_ms: 27.0079\n  type: 'test'\n  ...\n# Subtest: negative current index fails closed without image or LCD authority\nok 24 - negative current index fails closed without image or LCD authority\n  ---\n  duration_ms: 25.5214\n  type: 'test'\n  ...\n# Subtest: current index is outside native list fails closed without image or LCD authority\nok 25 - current index is outside native list fails closed without image or LCD authority\n  ---\n  duration_ms: 26.0985\n  type: 'test'\n  ...\n# Subtest: full U16 256 is not silently truncated to person zero fails closed without image or LCD authority\nok 26 - full U16 256 is not silently truncated to person zero fails closed without image or LCD authority\n  ---\n  duration_ms: 26.44\n  type: 'test'\n  ...\n# Subtest: U16 sentinel cannot authorize a portrait fails closed without image or LCD authority\nok 27 - U16 sentinel cannot authorize a portrait fails closed without image or LCD authority\n  ---\n  duration_ms: 25.2176\n  type: 'test'\n  ...\n# Subtest: negative person ID fails closed without image or LCD authority\nok 28 - negative person ID fails closed without image or LCD authority\n  ---\n  duration_ms: 25.6956\n  type: 'test'\n  ...\n# Subtest: fractional person ID fails closed without image or LCD authority\nok 29 - fractional person ID fails closed without image or LCD authority\n  ---\n  duration_ms: 26.6081\n  type: 'test'\n  ...\n# Subtest: unnamed original slot cannot impersonate a named person fails closed without image or LCD authority\nok 30 - unnamed original slot cannot impersonate a named person fails closed without image or LCD authority\n  ---\n  duration_ms: 25.5915\n  type: 'test'\n  ...\n# Subtest: period zero fails closed without image or LCD authority\nok 31 - period zero fails closed without image or LCD authority\n  ---\n  duration_ms: 25.4232\n  type: 'test'\n  ...\n# Subtest: period five fails closed without image or LCD authority\nok 32 - period five fails closed without image or LCD authority\n  ---\n  duration_ms: 26.7746\n  type: 'test'\n  ...\n# Subtest: missing native data fails closed without image or LCD authority\nok 33 - missing native data fails closed without image or LCD authority\n  ---\n  duration_ms: 25.2606\n  type: 'test'\n  ...\n# Subtest: wrong shared owner metadata fails closed without image or LCD authority\nok 34 - wrong shared owner metadata fails closed without image or LCD authority\n  ---\n  duration_ms: 25.3338\n  type: 'test'\n  ...\n# Subtest: raw and public menu sequence disagree fails closed without image or LCD authority\nok 35 - raw and public menu sequence disagree fails closed without image or LCD authority\n  ---\n  duration_ms: 26.2929\n  type: 'test'\n  ...\n# Subtest: city shared metadata key must match current native publication\nok 36 - city shared metadata key must match current native publication\n  ---\n  duration_ms: 25.7108\n  type: 'test'\n  ...\n# Subtest: city shared metadata libraryGeneration must match current native publication\nok 37 - city shared metadata libraryGeneration must match current native publication\n  ---\n  duration_ms: 25.2923\n  type: 'test'\n  ...\n# Subtest: city shared metadata cityIndex must match current native publication\nok 38 - city shared metadata cityIndex must match current native publication\n  ---\n  duration_ms: 25.7712\n  type: 'test'\n  ...\n# Subtest: city shared metadata menuContext must match current native publication\nok 39 - city shared metadata menuContext must match current native publication\n  ---\n  duration_ms: 25.4145\n  type: 'test'\n  ...\n# Subtest: city shared metadata menuKind must match current native publication\nok 40 - city shared metadata menuKind must match current native publication\n  ---\n  duration_ms: 25.4954\n  type: 'test'\n  ...\n# Subtest: city shared metadata menuSeq must match current native publication\nok 41 - city shared metadata menuSeq must match current native publication\n  ---\n  duration_ms: 25.936\n  type: 'test'\n  ...\n# Subtest: city shared metadata detailGeneration must match current native publication\nok 42 - city shared metadata detailGeneration must match current native publication\n  ---\n  duration_ms: 28.1785\n  type: 'test'\n  ...\n# Subtest: city shared metadata session must match current native publication\nok 43 - city shared metadata session must match current native publication\n  ---\n  duration_ms: 25.4964\n  type: 'test'\n  ...\n# Subtest: city shared metadata inputSeq must match current native publication\nok 44 - city shared metadata inputSeq must match current native publication\n  ---\n  duration_ms: 25.6128\n  type: 'test'\n  ...\n# Subtest: a changed opaque shared key between two reads invalidates an otherwise unchanged native owner\nok 45 - a changed opaque shared key between two reads invalidates an otherwise unchanged native owner\n  ---\n  duration_ms: 26.1649\n  type: 'test'\n  ...\n# Subtest: inactive report never invents a report portrait\nok 46 - inactive report never invents a report portrait\n  ---\n  duration_ms: 25.2995\n  type: 'test'\n  ...\n# Subtest: non-person report kind never invents a report portrait\nok 47 - non-person report kind never invents a report portrait\n  ---\n  duration_ms: 25.5801\n  type: 'test'\n  ...\n# Subtest: missing report sequence never invents a report portrait\nok 48 - missing report sequence never invents a report portrait\n  ---\n  duration_ms: 25.8198\n  type: 'test'\n  ...\n# Subtest: missing report input sequence never invents a report portrait\nok 49 - missing report input sequence never invents a report portrait\n  ---\n  duration_ms: 26.1861\n  type: 'test'\n  ...\n# Subtest: invalid report person never invents a report portrait\nok 50 - invalid report person never invents a report portrait\n  ---\n  duration_ms: 25.648\n  type: 'test'\n  ...\n# Subtest: torn report sequence never invents a report portrait\nok 51 - torn report sequence never invents a report portrait\n  ---\n  duration_ms: 27.4733\n  type: 'test'\n  ...\n# Subtest: torn report input sequence never invents a report portrait\nok 52 - torn report input sequence never invents a report portrait\n  ---\n  duration_ms: 25.7175\n  type: 'test'\n  ...\n# Subtest: torn report person never invents a report portrait\nok 53 - torn report person never invents a report portrait\n  ---\n  duration_ms: 25.8229\n  type: 'test'\n  ...\n# Subtest: g_hdFightActive takeover retires an already painted person without native input\nok 54 - g_hdFightActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.8521\n  type: 'test'\n  ...\n# Subtest: g_hdRecordActive takeover retires an already painted person without native input\nok 55 - g_hdRecordActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 25.4717\n  type: 'test'\n  ...\n# Subtest: g_hdMovieActive takeover retires an already painted person without native input\nok 56 - g_hdMovieActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 25.9232\n  type: 'test'\n  ...\n# Subtest: g_hdSpeActive takeover retires an already painted person without native input\nok 57 - g_hdSpeActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.8285\n  type: 'test'\n  ...\n# Subtest: g_hdSkillActive takeover retires an already painted person without native input\nok 58 - g_hdSkillActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.8812\n  type: 'test'\n  ...\n# Subtest: g_hdAttackActive takeover retires an already painted person without native input\nok 59 - g_hdAttackActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.8745\n  type: 'test'\n  ...\n# Subtest: g_hdSkillResultActive takeover retires an already painted person without native input\nok 60 - g_hdSkillResultActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 25.3909\n  type: 'test'\n  ...\n# Subtest: g_hdMakerActive takeover retires an already painted person without native input\nok 61 - g_hdMakerActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 26.0806\n  type: 'test'\n  ...\n# Subtest: g_hdMiniMapActive takeover retires an already painted person without native input\nok 62 - g_hdMiniMapActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.7955\n  type: 'test'\n  ...\n# Subtest: g_hdViewActive takeover retires an already painted person without native input\nok 63 - g_hdViewActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.5695\n  type: 'test'\n  ...\n# Subtest: g_hdResultOwnerKind takeover retires an already painted person without native input\nok 64 - g_hdResultOwnerKind takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.6496\n  type: 'test'\n  ...\n# Subtest: g_hdResultOwnerValid takeover retires an already painted person without native input\nok 65 - g_hdResultOwnerValid takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.4825\n  type: 'test'\n  ...\n# Subtest: g_hdQtyActive takeover retires an already painted person without native input\nok 66 - g_hdQtyActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 25.5419\n  type: 'test'\n  ...\n# Subtest: g_hdHelpActive takeover retires an already painted person without native input\nok 67 - g_hdHelpActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.9666\n  type: 'test'\n  ...\n# Subtest: g_hdBattlePick takeover retires an already painted person without native input\nok 68 - g_hdBattlePick takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.7058\n  type: 'test'\n  ...\n# Subtest: period changes during independent reads reject rather than publishing a different period\nok 69 - period changes during independent reads reject rather than publishing a different period\n  ---\n  duration_ms: 26.2372\n  type: 'test'\n  ...\n# Subtest: person-count getter changes current native owner is caught by the final fence\nok 70 - person-count getter changes current native owner is caught by the final fence\n  ---\n  duration_ms: 27.9496\n  type: 'test'\n  ...\n# Subtest: person-name getter changes current native owner is caught by the final fence\nok 71 - person-name getter changes current native owner is caught by the final fence\n  ---\n  duration_ms: 25.3378\n  type: 'test'\n  ...\n# Subtest: person-name getter rebinds native data is caught by the final fence\nok 72 - person-name getter rebinds native data is caught by the final fence\n  ---\n  duration_ms: 25.723\n  type: 'test'\n  ...\n# Subtest: person-name getter changes verified LIB generation is caught by the final fence\nok 73 - person-name getter changes verified LIB generation is caught by the final fence\n  ---\n  duration_ms: 25.5505\n  type: 'test'\n  ...\n# Subtest: a failed DOM HD image tries the actual manifest reference before requesting LCD\nok 74 - a failed DOM HD image tries the actual manifest reference before requesting LCD\n  ---\n  duration_ms: 26.4776\n  type: 'test'\n  ...\n# Subtest: only failure of both actual DOM HD and manifest reference requests current-owner LCD\nok 75 - only failure of both actual DOM HD and manifest reference requests current-owner LCD\n  ---\n  duration_ms: 26.3613\n  type: 'test'\n  ...\n# Subtest: an external portrait URL cannot become a loaded mobile portrait\nok 76 - an external portrait URL cannot become a loaded mobile portrait\n  ---\n  duration_ms: 25.6069\n  type: 'test'\n  ...\n# Subtest: wrong source person cannot paint or bypass the true LCD handoff\nok 77 - wrong source person cannot paint or bypass the true LCD handoff\n  ---\n  duration_ms: 24.5004\n  type: 'test'\n  ...\n# Subtest: wrong source period cannot paint or bypass the true LCD handoff\nok 78 - wrong source period cannot paint or bypass the true LCD handoff\n  ---\n  duration_ms: 24.6533\n  type: 'test'\n  ...\n# Subtest: preview image is not runtime authority cannot paint or bypass the true LCD handoff\nok 79 - preview image is not runtime authority cannot paint or bypass the true LCD handoff\n  ---\n  duration_ms: 24.5796\n  type: 'test'\n  ...\n# Subtest: parent traversal cannot escape portrait assets cannot paint or bypass the true LCD handoff\nok 80 - parent traversal cannot escape portrait assets cannot paint or bypass the true LCD handoff\n  ---\n  duration_ms: 24.7857\n  type: 'test'\n  ...\n# Subtest: an empty currentSrc remains compatible while a positive mismatching currentSrc is rejected\nok 81 - an empty currentSrc remains compatible while a positive mismatching currentSrc is rejected\n  ---\n  duration_ms: 29.6008\n  type: 'test'\n  ...\n# Subtest: invalid loaded dimensions cannot make an opaque empty portrait visible\nok 82 - invalid loaded dimensions cannot make an opaque empty portrait visible\n  ---\n  duration_ms: 26.5524\n  type: 'test'\n  ...\n# Subtest: a delayed old source cannot overwrite a new indexed owner\nok 83 - a delayed old source cannot overwrite a new indexed owner\n  ---\n  duration_ms: 24.7919\n  type: 'test'\n  ...\n# Subtest: a delayed old image cannot replace a new report owner\nok 84 - a delayed old image cannot replace a new report owner\n  ---\n  duration_ms: 24.9884\n  type: 'test'\n  ...\n# Subtest: an old image error cannot request LCD or clear the newer fallback handle\nok 85 - an old image error cannot request LCD or clear the newer fallback handle\n  ---\n  duration_ms: 24.5988\n  type: 'test'\n  ...\n# Subtest: retiring a current fallback passes its exact opaque handle and never a new owner handle\nok 86 - retiring a current fallback passes its exact opaque handle and never a new owner handle\n  ---\n  duration_ms: 25.4997\n  type: 'test'\n  ...\n# Subtest: adapter retirement passes only its old handle and cannot clear a newer host grant\nok 87 - adapter retirement passes only its old handle and cannot clear a newer host grant\n  ---\n  duration_ms: 25.7781\n  type: 'test'\n  ...\n# Subtest: hidden retires an in-flight image without keys or stale resurrection\nok 88 - hidden retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 25.8608\n  type: 'test'\n  ...\n# Subtest: portrait retires an in-flight image without keys or stale resurrection\nok 89 - portrait retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 25.5648\n  type: 'test'\n  ...\n# Subtest: blur retires an in-flight image without keys or stale resurrection\nok 90 - blur retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 25.7259\n  type: 'test'\n  ...\n# Subtest: pagehide retires an in-flight image without keys or stale resurrection\nok 91 - pagehide retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 27.7695\n  type: 'test'\n  ...\n# Subtest: classic retires an in-flight image without keys or stale resurrection\nok 92 - classic retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 25.6996\n  type: 'test'\n  ...\n# Subtest: production MAP owner paints its zero-ID ruler from the real manifest and follows king and period outside the map key\nok 93 - production MAP owner paints its zero-ID ruler from the real manifest and follows king and period outside the map key\n  ---\n  duration_ms: 32.3473\n  type: 'test'\n  ...\n# Subtest: painted MAP ruler rejects classic, non-map, foreign ownership and invalid native identity without a city LCD handoff\nok 94 - painted MAP ruler rejects classic, non-map, foreign ownership and invalid native identity without a city LCD handoff\n  ---\n  duration_ms: 355.617\n  type: 'test'\n  ...\n# Subtest: late MAP sources and images cannot resurrect a former ruler, data object, API or report owner\nnot ok 95 - late MAP sources and images cannot resurrect a former ruler, data object, API or report owner\n  ---\n  duration_ms: 60.4907\n  type: 'test'\n  location: 'C:\\\\Users\\\\75112\\\\.codex\\\\worktrees\\\\hd-equipment-icons\\\\baye-sanguo\\\\scripts\\\\test-hd-mobile-portraits.mjs:492:1'\n  failureType: 'testCodeFailure'\n  error: |-\n    Expected values to be strictly equal:\n    \n    1 !== 2\n    \n  code: 'ERR_ASSERTION'\n  name: 'AssertionError'\n  expected: 2\n  actual: 1\n  operator: 'strictEqual'\n  stack: |-\n    TestContext.<anonymous> (file:///C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/scripts/test-hd-mobile-portraits.mjs:509:79)\n    async Test.run (node:internal/test_runner/test:1125:7)\n    async Test.processPendingSubtests (node:internal/test_runner/test:787:7)\n  ...\n1..95\n# tests 95\n# suites 0\n# pass 94\n# fail 1\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 2862.0047\n",
+      "pass": 94,
+      "fail": 1,
+      "reason": "New fixture changed from blank-ground MAP (mapCity0) to report without restoring its valid native city. Fixture corrected; no product workaround."
+    },
+    "newCasesAfterFixtureFix": {
+      "path": "build/mobile-map-ruler-20261028-v107/agent-a-new-cases-v2.stdout.tap",
+      "bytes": 978,
+      "sha256": "404953ff93187abefeb473cb560425bfcbfe852b8f875acd202f50c16c212626",
+      "text": "TAP version 13\n# Subtest: production MAP owner paints its zero-ID ruler from the real manifest and follows king and period outside the map key\nok 1 - production MAP owner paints its zero-ID ruler from the real manifest and follows king and period outside the map key\n  ---\n  duration_ms: 38.5692\n  type: 'test'\n  ...\n# Subtest: painted MAP ruler rejects classic, non-map, foreign ownership and invalid native identity without a city LCD handoff\nok 2 - painted MAP ruler rejects classic, non-map, foreign ownership and invalid native identity without a city LCD handoff\n  ---\n  duration_ms: 354.2673\n  type: 'test'\n  ...\n# Subtest: late MAP sources and images cannot resurrect a former ruler, data object, API or report owner\nok 3 - late MAP sources and images cannot resurrect a former ruler, data object, API or report owner\n  ---\n  duration_ms: 56.8555\n  type: 'test'\n  ...\n1..3\n# tests 3\n# suites 0\n# pass 3\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 509.9489\n",
+      "pass": 3,
+      "fail": 0
+    },
+    "includedInFinalPassingTotal": false
+  },
+  "controlledPreview": {
+    "accepted": true,
+    "previewOnly": true,
+    "kind": "Production m.html mobile map DOM/CSS and production HUD/map host/portrait source+mobile controllers; explicit mock original identity, deeply read-only fixture world, shared overworld renderer stub with labeled controlled map diagram and existing terrain texture",
+    "browserRuns": 2,
+    "automation": "bundled Playwright launching own installed Chrome with isolated persistent profile and pipe",
+    "privateEphemeralPort": 5264,
+    "serverClosed": true,
+    "pins": [
+      {
+        "path": "m.html",
+        "bytes": 22571,
+        "sha256": "a7e693316dc40dcb80d9b731f10ebc303886a4f018938693ee8cf939352e86b8"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 3008,
+        "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+      },
+      {
+        "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 5226,
+        "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 15762,
+        "sha256": "54f3de618facd3a5d561e9927f7256a500811f246d2aea4262f2d5d1d95b6f44"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 10606,
+        "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+      },
+      {
+        "path": "css/hd-minimap.css",
+        "bytes": 4222,
+        "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 34127,
+        "sha256": "7849bab1ac4b701caa6bc96098b2c0726d80e2d3affaabdf5568d2ad4372729f"
+      },
+      {
+        "path": "css/hd-battle-note.css",
+        "bytes": 2146,
+        "sha256": "b35da40a6a0535b7ed1ba33a103eaeed35fc51d5f314974a167a3fa196b966a3"
+      },
+      {
+        "path": "css/hd-battle-transition.css",
+        "bytes": 2896,
+        "sha256": "eee994dd0a8541dac4b3c7f11277326b3d6aa0dfb099131b7cd358bc4872573a"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "js/hd-mobile.js",
+        "bytes": 10426,
+        "sha256": "edc1b05dd7d0fa793deac95fe11573e0afb7646d90a4b62ed0afbe8426aabb5d"
+      },
+      {
+        "path": "js/hd-mobile-map.js",
+        "bytes": 32782,
+        "sha256": "2588a2c1372d57ee2ce433d9685be5a200c3098ba7eea6225628a0e9433a8a20"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 30377,
+        "sha256": "070ecd4412f981998f39af66a4e600db911fc6b689928d1add9f0e66108884ba"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 71882,
+        "sha256": "68df5116b32a4dafc5cbb36a518310fe8ca00e450c33562580b4b6a2623622db"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 234072,
+        "sha256": "d14a836a1bf1045ec920ab8996cfa40681a6841e0961cc6e9b16b54ba7d96f85"
+      },
+      {
+        "path": "assets/hd-overworld/terrain/base_plains.jpg",
+        "bytes": 2538377,
+        "sha256": "522f661bfdcc5ecc54be83c081e446dfbe5caaf554fe8ef08f15a07a8f61c445"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0001_曹操.png",
+        "bytes": 1227801,
+        "sha256": "e75fdd2ebeec7464e85291c99cd48cd2602d96f52963205899fc16e40fd11895"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/1-曹操.png",
+        "bytes": 469,
+        "sha256": "18846bdd8c718f770d9172adffd0dc0d4b369c016b4d2e117e895b169f214fed"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0013_刘备.png",
+        "bytes": 1891484,
+        "sha256": "7a6a7b2698676a40ca89cd724a7c9ae95d3e6b8b1fdbae121ac07e676507449b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/13-刘备.png",
+        "bytes": 470,
+        "sha256": "c8a1f5b85d94c9c65277073e971236e083267524fcf6bb9169574c878ed5f8f2"
+      }
+    ],
+    "sourceBytesStable": true,
+    "results": [
+      {
+        "name": "caocao-844x390",
+        "accepted": true,
+        "metrics": {
+          "previewOnly": true,
+          "name": "caocao-844x390",
+          "viewport": {
+            "width": 844,
+            "height": 390
+          },
+          "requestedViewport": {
+            "width": 844,
+            "height": 390
+          },
+          "devicePixelRatio": 1,
+          "body": {
+            "x": 0,
+            "y": 0,
+            "width": 844,
+            "height": 390,
+            "right": 844,
+            "bottom": 390
+          },
+          "stage": {
+            "x": 0,
+            "y": 52,
+            "width": 844,
+            "height": 338,
+            "right": 844,
+            "bottom": 390
+          },
+          "mapLayer": {
+            "x": 0,
+            "y": 52,
+            "width": 844,
+            "height": 338,
+            "right": 844,
+            "bottom": 390
+          },
+          "mapCanvas": {
+            "x": 118,
+            "y": 52,
+            "width": 726,
+            "height": 338,
+            "right": 844,
+            "bottom": 390
+          },
+          "mapTip": {
+            "x": 130,
+            "y": 359,
+            "width": 227.984375,
+            "height": 23,
+            "right": 357.984375,
+            "bottom": 382,
+            "text": "拖动地图 · 点己方城进入 · 道路仅作装饰"
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 844,
+            "height": 52,
+            "right": 844,
+            "bottom": 52
+          },
+          "hud": {
+            "x": 90,
+            "y": 8.5,
+            "width": 448,
+            "height": 34,
+            "right": 538,
+            "bottom": 42.5
+          },
+          "hudFields": [
+            {
+              "id": "hd-mobile-city",
+              "text": "许昌",
+              "x": 90,
+              "y": 22.5,
+              "width": 76.53125,
+              "height": 20,
+              "right": 166.53125,
+              "bottom": 42.5,
+              "scrollWidth": 77,
+              "clientWidth": 77
+            },
+            {
+              "id": "hd-mobile-owner",
+              "text": "曹操",
+              "x": 176.53125,
+              "y": 22.5,
+              "width": 61.234375,
+              "height": 20,
+              "right": 237.765625,
+              "bottom": 42.5,
+              "scrollWidth": 61,
+              "clientWidth": 61
+            },
+            {
+              "id": "hd-mobile-date",
+              "text": "190年12月",
+              "x": 247.765625,
+              "y": 22.5,
+              "width": 94.90625,
+              "height": 20,
+              "right": 342.671875,
+              "bottom": 42.5,
+              "scrollWidth": 95,
+              "clientWidth": 95
+            },
+            {
+              "id": "hd-mobile-money",
+              "text": "65535",
+              "x": 352.671875,
+              "y": 22.5,
+              "width": 55.109375,
+              "height": 20,
+              "right": 407.78125,
+              "bottom": 42.5,
+              "scrollWidth": 55,
+              "clientWidth": 55
+            },
+            {
+              "id": "hd-mobile-food",
+              "text": "65535",
+              "x": 417.78125,
+              "y": 22.5,
+              "width": 55.109375,
+              "height": 20,
+              "right": 472.890625,
+              "bottom": 42.5,
+              "scrollWidth": 55,
+              "clientWidth": 55
+            },
+            {
+              "id": "hd-mobile-arms",
+              "text": "65535",
+              "x": 482.890625,
+              "y": 22.5,
+              "width": 55.109375,
+              "height": 20,
+              "right": 538,
+              "bottom": 42.5,
+              "scrollWidth": 55,
+              "clientWidth": 55
+            }
+          ],
+          "controls": [
+            {
+              "id": "hd-mobile-map-mode",
+              "text": "经典地图",
+              "disabled": false,
+              "x": 552,
+              "y": 3.5,
+              "width": 66,
+              "height": 44,
+              "right": 618,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-menu-mode",
+              "text": "经典菜单",
+              "disabled": false,
+              "x": 622,
+              "y": 3.5,
+              "width": 66,
+              "height": 44,
+              "right": 688,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-map-focus",
+              "text": "定位",
+              "disabled": false,
+              "x": 692,
+              "y": 3.5,
+              "width": 44,
+              "height": 44,
+              "right": 736,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-map-overview",
+              "text": "概览",
+              "disabled": false,
+              "x": 740,
+              "y": 3.5,
+              "width": 44,
+              "height": 44,
+              "right": 784,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-exit",
+              "text": "返回",
+              "disabled": true,
+              "x": 788,
+              "y": 3.5,
+              "width": 44,
+              "height": 44,
+              "right": 832,
+              "bottom": 47.5
+            }
+          ],
+          "portrait": {
+            "visible": true,
+            "slot": "hd-mobile-map-portrait-slot",
+            "figure": {
+              "x": 6,
+              "y": 213.71875,
+              "width": 105,
+              "height": 62.5625,
+              "right": 111,
+              "bottom": 276.28125
+            },
+            "image": {
+              "x": 10,
+              "y": 217.71875,
+              "width": 97,
+              "height": 54.5625,
+              "right": 107,
+              "bottom": 272.28125
+            },
+            "caption": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "right": 0,
+              "bottom": 0,
+              "text": "曹操",
+              "fontSize": "12px",
+              "scrollWidth": 0,
+              "clientWidth": 0
+            },
+            "src": "assets/hd-portraits/hd/hd_p1_0001_曹操.png",
+            "currentSrc": "http://127.0.0.1:5264/assets/hd-portraits/hd/hd_p1_0001_%E6%9B%B9%E6%93%8D.png",
+            "naturalWidth": 1280,
+            "naturalHeight": 720,
+            "complete": true,
+            "objectFit": "contain",
+            "context": "map",
+            "mode": "hd",
+            "pointerEvents": "none"
+          },
+          "ruler": {
+            "rail": {
+              "x": 0,
+              "y": 52,
+              "width": 118,
+              "height": 338,
+              "right": 118,
+              "bottom": 390
+            },
+            "name": {
+              "x": 6,
+              "y": 187.71875,
+              "width": 105,
+              "height": 20,
+              "right": 111,
+              "bottom": 207.71875,
+              "text": "曹操",
+              "visible": true,
+              "fontSize": "14px",
+              "scrollWidth": 105,
+              "clientWidth": 105
+            },
+            "captionDisplay": "none"
+          },
+          "overlaps": {
+            "canvas": 0,
+            "tip": 0,
+            "header": 0,
+            "controls": [
+              {
+                "id": "hd-mobile-map-mode",
+                "area": 0
+              },
+              {
+                "id": "hd-mobile-menu-mode",
+                "area": 0
+              },
+              {
+                "id": "hd-mobile-map-focus",
+                "area": 0
+              },
+              {
+                "id": "hd-mobile-map-overview",
+                "area": 0
+              },
+              {
+                "id": "hd-mobile-exit",
+                "area": 0
+              }
+            ]
+          },
+          "horizontalOverflow": false,
+          "portraitState": {
+            "initialized": true,
+            "available": true,
+            "context": "map",
+            "personId": 1,
+            "period": 1,
+            "libraryGeneration": 3,
+            "sourceMode": "hd",
+            "visible": true,
+            "pending": false,
+            "manifestStatus": "ready",
+            "fallbackActive": false,
+            "reason": "",
+            "error": ""
+          },
+          "mapState": {
+            "active": true,
+            "ownerType": "map",
+            "mode": "hd-map",
+            "landscape": true,
+            "cityIndex": 10,
+            "libraryGeneration": 3,
+            "reason": ""
+          },
+          "errors": [],
+          "nativeKeys": [],
+          "nativeWrites": [],
+          "nativeActions": [],
+          "storageWrites": [],
+          "controlledWorldStable": true,
+          "mockOriginalIdentity": true,
+          "nativeReadOnly": true,
+          "sharedRendererStub": true,
+          "loadedScripts": [
+            "/js/hd-mobile.js",
+            "/js/hd-mobile-map.js",
+            "/js/hd-portraits.js",
+            "/js/hd-mobile-portraits.js"
+          ],
+          "loadedResourcePaths": [
+            "/css/baye.css",
+            "/css/hd-overworld.css",
+            "/css/hd-city-menu.css",
+            "/css/hd-dialog.css",
+            "/css/hd-minimap.css",
+            "/css/hd-mobile.css",
+            "/css/hd-battle-note.css",
+            "/css/hd-battle-transition.css",
+            "/css/hd-city-info.css",
+            "/js/hd-mobile.js",
+            "/js/hd-mobile-map.js",
+            "/js/hd-portraits.js",
+            "/js/hd-mobile-portraits.js",
+            "/assets/hd-portraits/manifest.json",
+            "/assets/hd-portraits/refs/index.json",
+            "/assets/hd-overworld/terrain/base_plains.jpg",
+            "/assets/hd-portraits/hd/hd_p1_0001_曹操.png",
+            "/favicon.ico",
+            "/preview-metrics/caocao-844x390"
+          ],
+          "realMainPresent": false
+        },
+        "screenshot": "build/mobile-map-king-20261028-v107/caocao-844x390-v2.png",
+        "screenshotSha256": "bcb771644876897bd06cf3333e2252ef425fa3f3b58fd42586896dc2d415addc",
+        "screenshotPixels": {
+          "width": 844,
+          "height": 390
+        },
+        "rawMetrics": {
+          "path": "build/mobile-map-king-20261028-v107/caocao-844x390-v2.metrics.json",
+          "bytes": 30795,
+          "sha256": "b37a30f743ae55515eab9c931757cc8e643052cdb8eaf68d44e6b3b206da0c19"
+        },
+        "renderedDom": {
+          "path": "build/mobile-map-king-20261028-v107/caocao-844x390-v2.dom.html",
+          "bytes": 24113,
+          "sha256": "8f75fe3b84a2034309e3cd572467b122dff2f551940a41aa9505eadc5207e642"
+        },
+        "consoleLog": {
+          "path": "build/mobile-map-king-20261028-v107/caocao-844x390-v2.stderr.log",
+          "bytes": 85,
+          "sha256": "64e30aa9a1e31c388c63c0419ac31f84bd23cbcb479503eb34ca28116c0f4867"
+        },
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\mobile-map-king-20261028-v107\\caocao-844x390-profile-v2",
+        "chromeExitCode": 0,
+        "ownedBrowserClosed": true,
+        "transport": "task-owned Chrome pipe",
+        "closedWith": "Playwright persistent context.close",
+        "visualReview": {
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Full real Cao Cao portrait and 14px outer name in separate 118px ruler rail; map, tip and five 44px header buttons unobstructed."
+        }
+      },
+      {
+        "name": "liubei-667x375",
+        "accepted": true,
+        "metrics": {
+          "previewOnly": true,
+          "name": "liubei-667x375",
+          "viewport": {
+            "width": 667,
+            "height": 375
+          },
+          "requestedViewport": {
+            "width": 667,
+            "height": 375
+          },
+          "devicePixelRatio": 1,
+          "body": {
+            "x": 0,
+            "y": 0,
+            "width": 667,
+            "height": 375,
+            "right": 667,
+            "bottom": 375
+          },
+          "stage": {
+            "x": 0,
+            "y": 52,
+            "width": 667,
+            "height": 323,
+            "right": 667,
+            "bottom": 375
+          },
+          "mapLayer": {
+            "x": 0,
+            "y": 52,
+            "width": 667,
+            "height": 323,
+            "right": 667,
+            "bottom": 375
+          },
+          "mapCanvas": {
+            "x": 93.375,
+            "y": 52,
+            "width": 573.625,
+            "height": 323,
+            "right": 667,
+            "bottom": 375
+          },
+          "mapTip": {
+            "x": 105.375,
+            "y": 344,
+            "width": 227.984375,
+            "height": 23,
+            "right": 333.359375,
+            "bottom": 367,
+            "text": "拖动地图 · 点己方城进入 · 道路仅作装饰"
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 667,
+            "height": 52,
+            "right": 667,
+            "bottom": 52
+          },
+          "hud": {
+            "x": 74,
+            "y": 8.5,
+            "width": 295,
+            "height": 34,
+            "right": 369,
+            "bottom": 42.5
+          },
+          "hudFields": [
+            {
+              "id": "hd-mobile-city",
+              "text": "许昌",
+              "x": 74,
+              "y": 22.5,
+              "width": 50,
+              "height": 20,
+              "right": 124,
+              "bottom": 42.5,
+              "scrollWidth": 50,
+              "clientWidth": 50
+            },
+            {
+              "id": "hd-mobile-owner",
+              "text": "刘备",
+              "x": 131,
+              "y": 22.5,
+              "width": 40,
+              "height": 20,
+              "right": 171,
+              "bottom": 42.5,
+              "scrollWidth": 40,
+              "clientWidth": 40
+            },
+            {
+              "id": "hd-mobile-date",
+              "text": "190年12月",
+              "x": 178,
+              "y": 22.5,
+              "width": 62,
+              "height": 20,
+              "right": 240,
+              "bottom": 42.5,
+              "scrollWidth": 66,
+              "clientWidth": 62
+            },
+            {
+              "id": "hd-mobile-money",
+              "text": "65535",
+              "x": 247,
+              "y": 22.5,
+              "width": 36,
+              "height": 20,
+              "right": 283,
+              "bottom": 42.5,
+              "scrollWidth": 40,
+              "clientWidth": 36
+            },
+            {
+              "id": "hd-mobile-food",
+              "text": "65535",
+              "x": 290,
+              "y": 22.5,
+              "width": 36,
+              "height": 20,
+              "right": 326,
+              "bottom": 42.5,
+              "scrollWidth": 40,
+              "clientWidth": 36
+            },
+            {
+              "id": "hd-mobile-arms",
+              "text": "65535",
+              "x": 333,
+              "y": 22.5,
+              "width": 36,
+              "height": 20,
+              "right": 369,
+              "bottom": 42.5,
+              "scrollWidth": 40,
+              "clientWidth": 36
+            }
+          ],
+          "controls": [
+            {
+              "id": "hd-mobile-map-mode",
+              "text": "经典地图",
+              "disabled": false,
+              "x": 379,
+              "y": 3.5,
+              "width": 66,
+              "height": 44,
+              "right": 445,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-menu-mode",
+              "text": "经典菜单",
+              "disabled": false,
+              "x": 449,
+              "y": 3.5,
+              "width": 66,
+              "height": 44,
+              "right": 515,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-map-focus",
+              "text": "定位",
+              "disabled": false,
+              "x": 519,
+              "y": 3.5,
+              "width": 44,
+              "height": 44,
+              "right": 563,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-map-overview",
+              "text": "概览",
+              "disabled": false,
+              "x": 567,
+              "y": 3.5,
+              "width": 44,
+              "height": 44,
+              "right": 611,
+              "bottom": 47.5
+            },
+            {
+              "id": "hd-mobile-exit",
+              "text": "返回",
+              "disabled": true,
+              "x": 615,
+              "y": 3.5,
+              "width": 44,
+              "height": 44,
+              "right": 659,
+              "bottom": 47.5
+            }
+          ],
+          "portrait": {
+            "visible": true,
+            "slot": "hd-mobile-map-portrait-slot",
+            "figure": {
+              "x": 6,
+              "y": 213.140625,
+              "width": 80.375,
+              "height": 48.703125,
+              "right": 86.375,
+              "bottom": 261.84375
+            },
+            "image": {
+              "x": 10,
+              "y": 217.140625,
+              "width": 72.375,
+              "height": 40.703125,
+              "right": 82.375,
+              "bottom": 257.84375
+            },
+            "caption": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "right": 0,
+              "bottom": 0,
+              "text": "刘备",
+              "fontSize": "12px",
+              "scrollWidth": 0,
+              "clientWidth": 0
+            },
+            "src": "assets/hd-portraits/hd/hd_p1_0013_刘备.png",
+            "currentSrc": "http://127.0.0.1:5264/assets/hd-portraits/hd/hd_p1_0013_%E5%88%98%E5%A4%87.png",
+            "naturalWidth": 1280,
+            "naturalHeight": 720,
+            "complete": true,
+            "objectFit": "contain",
+            "context": "map",
+            "mode": "hd",
+            "pointerEvents": "none"
+          },
+          "ruler": {
+            "rail": {
+              "x": 0,
+              "y": 52,
+              "width": 93.375,
+              "height": 323,
+              "right": 93.375,
+              "bottom": 375
+            },
+            "name": {
+              "x": 6,
+              "y": 187.140625,
+              "width": 80.375,
+              "height": 20,
+              "right": 86.375,
+              "bottom": 207.140625,
+              "text": "刘备",
+              "visible": true,
+              "fontSize": "14px",
+              "scrollWidth": 80,
+              "clientWidth": 80
+            },
+            "captionDisplay": "none"
+          },
+          "overlaps": {
+            "canvas": 0,
+            "tip": 0,
+            "header": 0,
+            "controls": [
+              {
+                "id": "hd-mobile-map-mode",
+                "area": 0
+              },
+              {
+                "id": "hd-mobile-menu-mode",
+                "area": 0
+              },
+              {
+                "id": "hd-mobile-map-focus",
+                "area": 0
+              },
+              {
+                "id": "hd-mobile-map-overview",
+                "area": 0
+              },
+              {
+                "id": "hd-mobile-exit",
+                "area": 0
+              }
+            ]
+          },
+          "horizontalOverflow": false,
+          "portraitState": {
+            "initialized": true,
+            "available": true,
+            "context": "map",
+            "personId": 13,
+            "period": 1,
+            "libraryGeneration": 3,
+            "sourceMode": "hd",
+            "visible": true,
+            "pending": false,
+            "manifestStatus": "ready",
+            "fallbackActive": false,
+            "reason": "",
+            "error": ""
+          },
+          "mapState": {
+            "active": true,
+            "ownerType": "map",
+            "mode": "hd-map",
+            "landscape": true,
+            "cityIndex": 10,
+            "libraryGeneration": 3,
+            "reason": ""
+          },
+          "errors": [],
+          "nativeKeys": [],
+          "nativeWrites": [],
+          "nativeActions": [],
+          "storageWrites": [],
+          "controlledWorldStable": true,
+          "mockOriginalIdentity": true,
+          "nativeReadOnly": true,
+          "sharedRendererStub": true,
+          "loadedScripts": [
+            "/js/hd-mobile.js",
+            "/js/hd-mobile-map.js",
+            "/js/hd-portraits.js",
+            "/js/hd-mobile-portraits.js"
+          ],
+          "loadedResourcePaths": [
+            "/css/baye.css",
+            "/css/hd-overworld.css",
+            "/css/hd-city-menu.css",
+            "/css/hd-dialog.css",
+            "/css/hd-minimap.css",
+            "/css/hd-mobile.css",
+            "/css/hd-battle-note.css",
+            "/css/hd-battle-transition.css",
+            "/css/hd-city-info.css",
+            "/js/hd-mobile.js",
+            "/js/hd-mobile-map.js",
+            "/js/hd-portraits.js",
+            "/js/hd-mobile-portraits.js",
+            "/assets/hd-portraits/manifest.json",
+            "/assets/hd-portraits/refs/index.json",
+            "/assets/hd-overworld/terrain/base_plains.jpg",
+            "/assets/hd-portraits/hd/hd_p1_0013_刘备.png",
+            "/favicon.ico",
+            "/preview-metrics/liubei-667x375"
+          ],
+          "realMainPresent": false
+        },
+        "screenshot": "build/mobile-map-king-20261028-v107/liubei-667x375-v2.png",
+        "screenshotSha256": "eb660d7d25efc13ce000afc62ce3fee9e528a46ab18b840a23f5f1c7e4af3bfd",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        },
+        "rawMetrics": {
+          "path": "build/mobile-map-king-20261028-v107/liubei-667x375-v2.metrics.json",
+          "bytes": 20343,
+          "sha256": "fb724a7e6650a7f4e7332126b99d28702e537ae513b55922f342285b92406a6e"
+        },
+        "renderedDom": {
+          "path": "build/mobile-map-king-20261028-v107/liubei-667x375-v2.dom.html",
+          "bytes": 24118,
+          "sha256": "80b6ff73934271776a7953954806b423499ac6c0dd2d4ab324a410150118e181"
+        },
+        "consoleLog": {
+          "path": "build/mobile-map-king-20261028-v107/liubei-667x375-v2.stderr.log",
+          "bytes": 85,
+          "sha256": "64e30aa9a1e31c388c63c0419ac31f84bd23cbcb479503eb34ca28116c0f4867"
+        },
+        "profileRetained": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\mobile-map-king-20261028-v107\\liubei-667x375-profile-v2",
+        "chromeExitCode": 0,
+        "ownedBrowserClosed": true,
+        "transport": "task-owned Chrome pipe",
+        "closedWith": "Playwright persistent context.close",
+        "visualReview": {
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Full real Liu Bei portrait and 14px outer name in separate 93.375px ruler rail; map, tip and five 44px header buttons unobstructed. Existing header ellipsis for long date/65535 fields is visible and not granted full-value legibility credit."
+        }
+      }
+    ],
+    "visualReviewPending": false,
+    "initialCliAttempt": {
+      "record": {
+        "path": "build/mobile-map-king-20261028-v107/preview-v1.json",
+        "bytes": 708784,
+        "sha256": "1fb0aedca7a70dbd17668497d5b1ef521998abc1790ee45ec175df80bc4420b0"
+      },
+      "accepted": false,
+      "browserRuns": 2,
+      "serverClosed": true,
+      "reason": "CLI capture changed CSS viewport after layout collection, triggering normal asynchronous portrait reload; images absent in screenshots. Both initial layouts rejected and all original evidence retained.",
+      "results": [
+        {
+          "name": "caocao-844x390",
+          "accepted": false,
+          "chromeExitCode": 0,
+          "chromeExitedNaturally": true,
+          "screenshot": "build/mobile-map-king-20261028-v107/caocao-844x390-v1.png",
+          "screenshotSha256": "bb79650b93cdb24fab860e75d9c3eeb1a59781c72e53b7e00e4b40ad4ced9ec1",
+          "screenshotPixels": {
+            "width": 844,
+            "height": 390
+          },
+          "observedViewports": [
+            {
+              "width": 828,
+              "height": 295
+            }
+          ],
+          "rawMetrics": {
+            "path": "build/mobile-map-king-20261028-v107/caocao-844x390-v1.metrics.json",
+            "bytes": 287017,
+            "sha256": "215b27bd87454594837d2fa818bddb6da07732db029aa37d518aa845ccf9cf7f"
+          }
+        },
+        {
+          "name": "liubei-667x375",
+          "accepted": false,
+          "chromeExitCode": 0,
+          "chromeExitedNaturally": true,
+          "screenshot": "build/mobile-map-king-20261028-v107/liubei-667x375-v1.png",
+          "screenshotSha256": "1ee98ca71991308ba040ee7e5b534496ff0ee5e15f667ae772bf5f4f306a38de",
+          "screenshotPixels": {
+            "width": 667,
+            "height": 375
+          },
+          "observedViewports": [
+            {
+              "width": 651,
+              "height": 280
+            }
+          ],
+          "rawMetrics": {
+            "path": "build/mobile-map-king-20261028-v107/liubei-667x375-v1.metrics.json",
+            "bytes": 286497,
+            "sha256": "d83a08f3b7fad25c16f2f1624cab5e05231524c6be39b7b5078bb29dcea9c9f5"
+          }
+        }
+      ]
+    },
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "wasmLoaded": false,
+    "originalLibLoaded": false,
+    "mainLoaded": false,
+    "nativeInputs": 0,
+    "nativeWrites": 0,
+    "boundary": "Controlled production layout and real PNG loading only; no engine/main/WASM/real original LIB, natural battle/game, physical mobile device, real identity verification, RNG continuity, or full HD acceptance.",
+    "processBoundary": "Only two new task-owned Playwright Chrome launches with isolated retained profiles and own pipe; persistent contexts closed after screenshots. Own HTTP server closed. No existing browser, game, CDP endpoint, 8080 or process inventory accessed.",
+    "visualReview": {
+      "accepted": true,
+      "reviewedAt": "2026-10-28T11:21:41.654Z",
+      "reviewer": "portrait_core_b",
+      "method": "Both exact final viewport PNGs individually opened with tools.view_image; source assets are real existing 1280x720 HD portraits, not placeholders."
+    },
+    "rawEvidence": {
+      "path": "build/mobile-map-king-20261028-v107/preview-v2-raw.json",
+      "bytes": 96199,
+      "sha256": "5f46d6f8186dbd2f54bf7a83445bb303470095afe0add230da8cf18e28f29612"
+    },
+    "rawEvidenceCopiedExact": true,
+    "totalBrowserLaunches": 4,
+    "acceptedBrowserLayouts": 2,
+    "nonBrowserPreparationFailure": {
+      "record": {
+        "path": "build/mobile-map-king-20261028-v107/preparation-failure-v2.json",
+        "bytes": 271,
+        "sha256": "0abeb85386e443ebcedb061fc34d18602e0d3ff0dc83051cb8cc9cd1afa99981"
+      },
+      "browserLaunched": false,
+      "serverStarted": false,
+      "reason": "Preview script path replacement typo corrected before starting HTTP or Chrome; original failure record retained."
+    },
+    "resourceNotes": "Browser favicon.ico fallback returned 404 twice; all production stylesheet/controller/index/real portrait and texture resource routes succeeded. No uncaught page error or rejected promise.",
+    "headerLimitation": "At 667x375 the existing header ellipsis truncates long date and 65535 resource fields. This change leaves the header geometry intact and adds no overlap; full narrow-header value legibility is not accepted.",
+    "heldBattleAccessed": false,
+    "heldBattleInputs": 0,
+    "evidenceScripts": [
+      {
+        "path": "build/mobile-map-king-20261028-v107/preview-v1.mjs",
+        "bytes": 17522,
+        "sha256": "3151c5a6d8929552e28a52456ad83f07539ac3275da84bbf153f07d4a1a45850"
+      },
+      {
+        "path": "build/mobile-map-king-20261028-v107/prepare-preview-v2.mjs",
+        "bytes": 4641,
+        "sha256": "2823140fdb9caa7f3b1efe60d1d2ac1bd73fd3fc4921ea6747979127812a57eb"
+      },
+      {
+        "path": "build/mobile-map-king-20261028-v107/preview-v2.mjs",
+        "bytes": 19754,
+        "sha256": "8097bbd7cc6a23edf691e422c53232b58cd0b8b2781384df7d28de86419a51c1"
+      },
+      {
+        "path": "build/mobile-map-king-20261028-v107/finalize-preview-v2.mjs",
+        "bytes": 5659,
+        "sha256": "eb4e19dc87503cca8e8d197ae83d3eb2432911e12982ae5146fb5ab8d90be89d"
+      }
+    ],
+    "requestSummary": {
+      "requests": 38,
+      "unserved": [
+        {
+          "path": "/favicon.ico",
+          "status": 404
+        },
+        {
+          "path": "/favicon.ico",
+          "status": 404
+        }
+      ],
+      "paths": [
+        "/build/mobile-map-king-20261028-v107/caocao-844x390-v2.html",
+        "/css/baye.css",
+        "/css/hd-overworld.css",
+        "/css/hd-city-menu.css",
+        "/css/hd-dialog.css",
+        "/css/hd-minimap.css",
+        "/css/hd-mobile.css",
+        "/css/hd-battle-note.css",
+        "/css/hd-battle-transition.css",
+        "/css/hd-city-info.css",
+        "/js/hd-mobile.js",
+        "/js/hd-mobile-map.js",
+        "/js/hd-portraits.js",
+        "/js/hd-mobile-portraits.js",
+        "/assets/hd-portraits/manifest.json",
+        "/assets/hd-portraits/refs/index.json",
+        "/assets/hd-overworld/terrain/base_plains.jpg",
+        "/assets/hd-portraits/hd/hd_p1_0001_曹操.png",
+        "/favicon.ico",
+        "/build/mobile-map-king-20261028-v107/liubei-667x375-v2.html",
+        "/assets/hd-portraits/hd/hd_p1_0013_刘备.png"
+      ]
+    }
+  },
+  "rootVisualReview": [
+    {
+      "name": "caocao-844x390",
+      "accepted": true,
+      "reviewedWith": "tools.view_image",
+      "screenshot": {
+        "path": "build/mobile-map-king-20261028-v107/caocao-844x390-v2.png",
+        "bytes": 325714,
+        "sha256": "bcb771644876897bd06cf3333e2252ef425fa3f3b58fd42586896dc2d415addc"
+      },
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "notes": "Real existing HD PNG and current ruler name visible in separate rail; no canvas/header/control overlap. At 667px existing header ellipsis remains outside this acceptance."
+    },
+    {
+      "name": "liubei-667x375",
+      "accepted": true,
+      "reviewedWith": "tools.view_image",
+      "screenshot": {
+        "path": "build/mobile-map-king-20261028-v107/liubei-667x375-v2.png",
+        "bytes": 259534,
+        "sha256": "eb660d7d25efc13ce000afc62ce3fee9e528a46ab18b840a23f5f1c7e4af3bfd"
+      },
+      "viewport": {
+        "width": 667,
+        "height": 375
+      },
+      "notes": "Real existing HD PNG and current ruler name visible in separate rail; no canvas/header/control overlap. At 667px existing header ellipsis remains outside this acceptance."
+    }
+  ],
+  "preservation": {
+    "baselineHead": "04e34510f2e8665859b29eed5fff4ee41b1d79f2",
+    "recordedAt": "2026-10-28T11:14:43.042Z",
+    "beforeSource": "exact git show baseline, independent of concurrent implementation working files",
+    "committedBefore": [
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 24444,
+        "sha256": "15a51c82f97acf1494b5d8537c9d7cddcda28bd2811990170ac46ab06e0e4ab0"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 33005,
+        "sha256": "4deccf7fd89a4f33edc278cd5deb2b79087ce3e9aa306205e3927578f255b740"
+      },
+      {
+        "path": "m.html",
+        "bytes": 22166,
+        "sha256": "c017b7094c69a0eda8a0149478acdaf4b63745dd92cf0cbff240f7bd7ec03917"
+      },
+      {
+        "path": "scripts/test-hd-mobile-portraits.mjs",
+        "bytes": 30861,
+        "sha256": "38b3b3f6d92dc6bccf7d4246861f1cb3608896a50c7c43407d2b031cd4f17f21"
+      }
+    ],
+    "nativeSources": [
+      {
+        "path": "vendor/iBaye/.gitignore",
+        "bytes": 44,
+        "sha256": "43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75"
+      },
+      {
+        "path": "vendor/iBaye/.gitmodules",
+        "bytes": 293,
+        "sha256": "ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca"
+      },
+      {
+        "path": "vendor/iBaye/ATTRIBUTION.md",
+        "bytes": 495,
+        "sha256": "983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4"
+      },
+      {
+        "path": "vendor/iBaye/CMakeLists.txt",
+        "bytes": 82,
+        "sha256": "738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68"
+      },
+      {
+        "path": "vendor/iBaye/LICENSE",
+        "bytes": 1091,
+        "sha256": "dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1"
+      },
+      {
+        "path": "vendor/iBaye/README.md",
+        "bytes": 2077,
+        "sha256": "f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5"
+      },
+      {
+        "path": "vendor/iBaye/UPSTREAM_COMMIT",
+        "bytes": 42,
+        "sha256": "3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659"
+      },
+      {
+        "path": "vendor/iBaye/js/.gitignore",
+        "bytes": 62,
+        "sha256": "581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea"
+      },
+      {
+        "path": "vendor/iBaye/js/config.sh",
+        "bytes": 61,
+        "sha256": "424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff"
+      },
+      {
+        "path": "vendor/iBaye/js/whitelist.json",
+        "bytes": 3368,
+        "sha256": "707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f"
+      },
+      {
+        "path": "vendor/iBaye/src/CMakeLists.txt",
+        "bytes": 3097,
+        "sha256": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774"
+      },
+      {
+        "path": "vendor/iBaye/src/FgtCount.c",
+        "bytes": 27302,
+        "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+      },
+      {
+        "path": "vendor/iBaye/src/FgtPkAi.c",
+        "bytes": 44229,
+        "sha256": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953"
+      },
+      {
+        "path": "vendor/iBaye/src/Fight.c",
+        "bytes": 56872,
+        "sha256": "1d54526bfebe2c237ef40a2aaa3c51a1ba14cc5f9f8a31492ab5239620929a95"
+      },
+      {
+        "path": "vendor/iBaye/src/FightSub.c",
+        "bytes": 36812,
+        "sha256": "22cab37f4aa4271dd10731d43622a070c7f02099ee95729421d0271997857ad6"
+      },
+      {
+        "path": "vendor/iBaye/src/Gamhzk.bin",
+        "bytes": 163840,
+        "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8"
+      },
+      {
+        "path": "vendor/iBaye/src/PublicFun.c",
+        "bytes": 33917,
+        "sha256": "86e5966d22c05e09d6f6cbcc4804b30b8befcc6f52d6c303758719e1c12e3acf"
+      },
+      {
+        "path": "vendor/iBaye/src/Size.c",
+        "bytes": 1727,
+        "sha256": "aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/attribute.h",
+        "bytes": 8930,
+        "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/bind-objects.h",
+        "bytes": 2593,
+        "sha256": "4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/comm.h",
+        "bytes": 5109,
+        "sha256": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/compa.h",
+        "bytes": 3328,
+        "sha256": "5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/consdef.h",
+        "bytes": 6048,
+        "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/data-bind.h",
+        "bytes": 4001,
+        "sha256": "c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/datman.h",
+        "bytes": 1158,
+        "sha256": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/enghead.h",
+        "bytes": 370,
+        "sha256": "8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/errcode.h",
+        "bytes": 985,
+        "sha256": "08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/extern.h",
+        "bytes": 4158,
+        "sha256": "5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fight.h",
+        "bytes": 9611,
+        "sha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fsys.h",
+        "bytes": 1185,
+        "sha256": "8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fundec.h",
+        "bytes": 2184,
+        "sha256": "d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/fundef.h",
+        "bytes": 200,
+        "sha256": "670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/graph.h",
+        "bytes": 451,
+        "sha256": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/itoa.h",
+        "bytes": 267,
+        "sha256": "a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/order.h",
+        "bytes": 2916,
+        "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/paccount.h",
+        "bytes": 2251,
+        "sha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/resource.h",
+        "bytes": 557,
+        "sha256": "8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/sconst.h",
+        "bytes": 4101,
+        "sha256": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/script.h",
+        "bytes": 873,
+        "sha256": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/sharefun.h",
+        "bytes": 8365,
+        "sha256": "d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/sources.h",
+        "bytes": 286,
+        "sha256": "ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/stdsys.h",
+        "bytes": 500,
+        "sha256": "14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa"
+      },
+      {
+        "path": "vendor/iBaye/src/bind-objects.c",
+        "bytes": 18495,
+        "sha256": "1bcf05ce980b26df368f3dc399e1ad256a3bbd315024ae065947860c98b28959"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmd.c",
+        "bytes": 39212,
+        "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdb.c",
+        "bytes": 34493,
+        "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdc.c",
+        "bytes": 39495,
+        "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmdd.c",
+        "bytes": 38292,
+        "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+      },
+      {
+        "path": "vendor/iBaye/src/citycmde.c",
+        "bytes": 15835,
+        "sha256": "0833452c305f584254d3a93c6b00923c2b274f50b9626e182e11129402840821"
+      },
+      {
+        "path": "vendor/iBaye/src/cityedit.c",
+        "bytes": 41528,
+        "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+      },
+      {
+        "path": "vendor/iBaye/src/comIn.c",
+        "bytes": 12480,
+        "sha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63"
+      },
+      {
+        "path": "vendor/iBaye/src/comOut.c",
+        "bytes": 21378,
+        "sha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f"
+      },
+      {
+        "path": "vendor/iBaye/src/config.c",
+        "bytes": 179,
+        "sha256": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7"
+      },
+      {
+        "path": "vendor/iBaye/src/convert_to_c.py",
+        "bytes": 294,
+        "sha256": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e"
+      },
+      {
+        "path": "vendor/iBaye/src/dat.lib.orig",
+        "bytes": 196890,
+        "sha256": "c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab"
+      },
+      {
+        "path": "vendor/iBaye/src/data-bind.c",
+        "bytes": 4662,
+        "sha256": "2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a"
+      },
+      {
+        "path": "vendor/iBaye/src/data/pconst.h",
+        "bytes": 1761,
+        "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+      },
+      {
+        "path": "vendor/iBaye/src/data/pstring.h",
+        "bytes": 1524,
+        "sha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df"
+      },
+      {
+        "path": "vendor/iBaye/src/datman.c",
+        "bytes": 9424,
+        "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c"
+      },
+      {
+        "path": "vendor/iBaye/src/debug.c",
+        "bytes": 1904,
+        "sha256": "5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac"
+      },
+      {
+        "path": "vendor/iBaye/src/font.bin",
+        "bytes": 163840,
+        "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8"
+      },
+      {
+        "path": "vendor/iBaye/src/fsys.c",
+        "bytes": 33667,
+        "sha256": "85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da"
+      },
+      {
+        "path": "vendor/iBaye/src/gamEng.c",
+        "bytes": 47517,
+        "sha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39"
+      },
+      {
+        "path": "vendor/iBaye/src/genver.py",
+        "bytes": 416,
+        "sha256": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.c",
+        "bytes": 208504,
+        "sha256": "307cfdfda07f115c2c588aa63926c95d5690fe901ecffb948bb74f297fd5560d"
+      },
+      {
+        "path": "vendor/iBaye/src/hd-bridge.h",
+        "bytes": 21241,
+        "sha256": "8fd4339f17f0883fa8875d274e22588c08b0feea1284d05976ea1473d3fb0b54"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/ADDR.H",
+        "bytes": 2468,
+        "sha256": "5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/DictAfx.h",
+        "bytes": 702,
+        "sha256": "9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/DictHelp.h",
+        "bytes": 5664,
+        "sha256": "0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/GuiEdit.h",
+        "bytes": 2021,
+        "sha256": "8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/MEM.H",
+        "bytes": 1207,
+        "sha256": "406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/STDLIB.H",
+        "bytes": 19,
+        "sha256": "a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/SysResv.h",
+        "bytes": 6103,
+        "sha256": "26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/dictsys.h",
+        "bytes": 21754,
+        "sha256": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/filetype.h",
+        "bytes": 4695,
+        "sha256": "31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/flash.h",
+        "bytes": 17046,
+        "sha256": "50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/fsys.h",
+        "bytes": 1991,
+        "sha256": "24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/keytable.h",
+        "bytes": 3820,
+        "sha256": "9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c"
+      },
+      {
+        "path": "vendor/iBaye/src/inc/shell.h",
+        "bytes": 2138,
+        "sha256": "1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72"
+      },
+      {
+        "path": "vendor/iBaye/src/infdeal.c",
+        "bytes": 26196,
+        "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+      },
+      {
+        "path": "vendor/iBaye/src/itoa.c",
+        "bytes": 1038,
+        "sha256": "6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c"
+      },
+      {
+        "path": "vendor/iBaye/src/main.c",
+        "bytes": 116,
+        "sha256": "1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686"
+      },
+      {
+        "path": "vendor/iBaye/src/miniz.c",
+        "bytes": 327452,
+        "sha256": "ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059"
+      },
+      {
+        "path": "vendor/iBaye/src/miniz.h",
+        "bytes": 70791,
+        "sha256": "7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6"
+      },
+      {
+        "path": "vendor/iBaye/src/paccount.c",
+        "bytes": 3892,
+        "sha256": "6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd"
+      },
+      {
+        "path": "vendor/iBaye/src/pconst.c",
+        "bytes": 4213,
+        "sha256": "f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246"
+      },
+      {
+        "path": "vendor/iBaye/src/picture.asm",
+        "bytes": 9186,
+        "sha256": "8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/bios.c",
+        "bytes": 1053,
+        "sha256": "418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/gui.c",
+        "bytes": 3231,
+        "sha256": "bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/sem.h",
+        "bytes": 522,
+        "sha256": "8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/sys.c",
+        "bytes": 15103,
+        "sha256": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/common/timer.h",
+        "bytes": 485,
+        "sha256": "06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/dummy-script.c",
+        "bytes": 424,
+        "sha256": "daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/fsys.c",
+        "bytes": 4119,
+        "sha256": "7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/sem.m",
+        "bytes": 866,
+        "sha256": "40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/sys-ios.c",
+        "bytes": 229,
+        "sha256": "a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/ios/timer.m",
+        "bytes": 1937,
+        "sha256": "7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/dat.lib.c",
+        "bytes": 1181340,
+        "sha256": "472b305c00f2cb0e7eb3c6bd47b8f388ececb73825a6167a58d121a661cb92ac"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/exportjs.c",
+        "bytes": 9789,
+        "sha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font.bin.c",
+        "bytes": 1003524,
+        "sha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.1.bin.c",
+        "bytes": 3616965,
+        "sha256": "c148af90be086b12307333b7b776c264de221015d0447790b0e305c9e3edfeae"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.2.bin.c",
+        "bytes": 3616965,
+        "sha256": "0e395fe309f7f77e05ca9f2baeb26af4668f2059add614f746427c1a344a54fd"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.3.bin.c",
+        "bytes": 3616965,
+        "sha256": "f7114e49e490b4a7e0ee96e2a88138bfb8f923058fbc1a33e8bb8408a6309260"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24.4.bin.c",
+        "bytes": 3616965,
+        "sha256": "7ccb54b27689be0156dd16b3bc52ee5598b03ed68a0b2bacdc17e44d4d6c9c5f"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24_ascii.1.c",
+        "bytes": 117817,
+        "sha256": "c1b598a6c3ad3a6acb17262b7c69059f554a03868bdd030b71a5e103a374679d"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/font24_ascii.2.c",
+        "bytes": 117817,
+        "sha256": "41f36a07c5a5d492cb295a2fdbe09a6cacfe2f131204200de5c24525e1e63d98"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/fsys.c",
+        "bytes": 11703,
+        "sha256": "144c73f1b8981440e93ee18b551bbaad5154e8add19a3a9dae64bede9565c4dd"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/main.c",
+        "bytes": 1046,
+        "sha256": "a98768003fe8031cd0aebba35fac57ecf70b83cd997a5a1f203a9d65f193f524"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/script.c",
+        "bytes": 7078,
+        "sha256": "b5f67e6918048f8418fac117307c76d7fd01699a3249cef3b4dc2ebf74455759"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/sem.c",
+        "bytes": 1132,
+        "sha256": "fe6b0d8ce49b41b54a1f0976576c6267e2476a274d2d178d1062f2dc3ea7461f"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/sys-js.c",
+        "bytes": 312,
+        "sha256": "be27ecaf6a9163255c164f299644bf446449e3a5ab1cc73b0d36c509b5850e18"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/js/timer.c",
+        "bytes": 1797,
+        "sha256": "178ee07a04887470fd0b74365a69074d326312f488866f858a58e8e6e76add61"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/fsys.c",
+        "bytes": 24,
+        "sha256": "da9a32a673d1146f77059f39f2d22100d12ba0903a991d08c9d5e2050ac78b85"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/game.c",
+        "bytes": 827,
+        "sha256": "d6ee8b107092d9da73c7134e327b86b00a5df209745c47866408a061e2fb09a6"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/script.c",
+        "bytes": 32,
+        "sha256": "81c45d0a607ce2322ff97f7af64a969c5c90245b8e881d53c78015d3e9dccbd4"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/sem.c",
+        "bytes": 850,
+        "sha256": "5196931a8e2edd7b7ef889d69ef56b998f43189a31f8a66f5f97c613b302a4b4"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/sys.c",
+        "bytes": 27,
+        "sha256": "2a99e1ddebabf86de81ee7c8aadfffa83dff8b9fa6437556baffe165b839675c"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/timer.c",
+        "bytes": 1274,
+        "sha256": "34bf9e67c2acc86024b048ab419cae1345fb3f082cd09194fef9cc71f8bacf71"
+      },
+      {
+        "path": "vendor/iBaye/src/platform/win/window.c",
+        "bytes": 6742,
+        "sha256": "2be0f448b277612de225eef280ffa2275f99120adeb86c60ce441e1e6266e0ac"
+      },
+      {
+        "path": "vendor/iBaye/src/pstring.c",
+        "bytes": 4189,
+        "sha256": "0628ef2aec01f810c45402ff59da3f189b3ce4e0c3f56a2a87bbf54c23c4665a"
+      },
+      {
+        "path": "vendor/iBaye/src/res-msgpack.c",
+        "bytes": 135,
+        "sha256": "6363b3c737304dce00a3a99f97146409e01442a83572b41e286afd41cf47c61b"
+      },
+      {
+        "path": "vendor/iBaye/src/res-msgpack.h",
+        "bytes": 183,
+        "sha256": "d60ce596bc67e076cb6a2c3553d941ea32106ecfbf08a0b64718a9e1466f7a34"
+      },
+      {
+        "path": "vendor/iBaye/src/showface.c",
+        "bytes": 44299,
+        "sha256": "49d16a86891a712c675409c8377f234bc69d2d9c13d56da865dc83a5eab87895"
+      },
+      {
+        "path": "vendor/iBaye/src/strcnt.c",
+        "bytes": 7932,
+        "sha256": "b256123404c245685a627140ac701468110bc658ed95c628ee97d99f90d1d952"
+      },
+      {
+        "path": "vendor/iBaye/src/tactic.c",
+        "bytes": 43864,
+        "sha256": "cd12096c8e63db0e969f9eba23e9e0d4db013709f9a1fe18f7d8107cfc17a294"
+      },
+      {
+        "path": "vendor/iBaye/src/touch.c",
+        "bytes": 6575,
+        "sha256": "cb11fb0418e30bbc8bad77b12eba3fd2129ad5b80a608d5649e10743efbd8236"
+      },
+      {
+        "path": "vendor/iBaye/src/touch.h",
+        "bytes": 1559,
+        "sha256": "559aa49aa660246a5d96fe9a64662b0f6f1871813373e9fdff62d22ed3980a73"
+      },
+      {
+        "path": "vendor/iBaye/src/varma.c",
+        "bytes": 4162,
+        "sha256": "4168c5379cfb2de7166b3b38d394da414658a92543898ef7fa53128dc1242508"
+      },
+      {
+        "path": "vendor/iBaye/src/version.c",
+        "bytes": 242,
+        "sha256": "3d224ec37575c1e42c641d9b9778c95a5c978c4fa168e75f07b3c09ee5c637a8"
+      }
+    ],
+    "runtimeArtifacts": [
+      {
+        "path": "js/baye.js",
+        "bytes": 193652,
+        "sha256": "0d54a9d4d89daf397375a22d6d6ddfe10232a9525111e0bf079c0978d3eb727f"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4583234,
+        "sha256": "c0c6567ab9545cb7e0ca0163ea3eb2ec05a31d100a607be63a02736b6abe93a3"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29995,
+        "sha256": "289926f9605993fa4079dc95d1477a3763b5be679179a45f0b5453159454b084"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 24700,
+        "sha256": "b81fcca954e6bb5d88ff6cb12e5133f8e873c244a6ff4c5a9144d77fce3bd775"
+      }
+    ],
+    "preserved": [
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 71882,
+        "sha256": "68df5116b32a4dafc5cbb36a518310fe8ca00e450c33562580b4b6a2623622db"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "js/hd-mobile-map.js",
+        "bytes": 32782,
+        "sha256": "2588a2c1372d57ee2ce433d9685be5a200c3098ba7eea6225628a0e9433a8a20"
+      },
+      {
+        "path": "js/hd-mobile.js",
+        "bytes": 10426,
+        "sha256": "edc1b05dd7d0fa793deac95fe11573e0afb7646d90a4b62ed0afbe8426aabb5d"
+      }
+    ]
+  },
+  "limits": {
+    "browserUsesMockIdentityAndReadOnlyFixture": true,
+    "sharedMapRendererStub": true,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "fullSuiteRun": false,
+    "globalHdComplete": false
+  },
+  "heldBattleAccessed": false,
+  "heldBattleInputs": 0,
+  "remaining": "667px existing header date/resource ellipsis; other original HD work, actual flow/device/performance/full acceptance remain pending; goal active",
+  "eolCorrection": {
+    "reason": "Pre-commit exact disk/index guard rejected auto-CRLF normalization",
+    "newCommitCreated": false,
+    "codeChanges": false,
+    "exactLfTransform": true,
+    "testPath": "scripts/test-hd-mobile-portraits.mjs",
+    "before": {
+      "bytes": 38857,
+      "sha256": "c6d4f5060b6fd58bee403804083abd8ace8ae05f909d1ed5fc3409eb6da19066"
+    },
+    "after": {
+      "bytes": 38343,
+      "sha256": "c5f1371dcbb87c34e2b419541d935a9ea86992a404947ed34d6e7664d0ff916b"
+    },
+    "indexWasExactLf": true,
+    "stagedFilesBefore": [
+      ".gitattributes",
+      "css/hd-mobile.css",
+      "docs/hd-development-plan.md",
+      "docs/hd-remaining-work.md",
+      "docs/validation/m5-mobile-map-king-20261028-v107.json",
+      "docs/validation/m5-mobile-map-king-20261028-v107.md",
+      "js/hd-mobile-portraits.js",
+      "m.html",
+      "scripts/test-hd-mobile-portraits.mjs"
+    ],
+    "onlyTaskFilesUnstaged": true,
+    "explicitLfRuleAdded": true,
+    "finalRelatedChecksRequireRerun": true,
+    "previousRecord": {
+      "path": "build/mobile-map-king-20261028-v107/record-before-lf-v1.json",
+      "bytes": 149899,
+      "sha256": "aedf53bb14af745b99db40c20935c8c7d4cc680e12b42ed1a3b1b9ccc4a52489"
+    },
+    "previousTestSource": {
+      "path": "build/mobile-map-king-20261028-v107/test-before-lf-v1.mjs",
+      "bytes": 38857,
+      "sha256": "c6d4f5060b6fd58bee403804083abd8ace8ae05f909d1ed5fc3409eb6da19066"
+    },
+    "previousFinalRun": {
+      "path": "build/mobile-map-king-20261028-v107/targeted-v1.json",
+      "bytes": 3213,
+      "sha256": "32db4c262e9ac6fd3b3892ea0ded7e2b4ec88abe4bc1bfe2ff31d53f6763e12f"
+    },
+    "previousFinalRunNotAddedToPassingTotal": true,
+    "rerunOnExactFinalLfBytes": true
+  }
+}
