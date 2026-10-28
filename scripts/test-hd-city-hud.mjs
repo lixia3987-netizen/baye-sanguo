@@ -2733,13 +2733,13 @@ function assertPlansAbsent(h, reason) {
 test('arranged city plans show ordinary actors and all nonzero army members in exact queue order', () => {
     const h = plansHarness();
     h.plan(3, 24); h.plan(7, 13, 22, {Object: 16, Food: 1200, Money: 150, Arms: 300}); h.army(2, [20, null, 22, 20, null, null, null, null, null, 199]);
-    h.plan(170, 27, 2, {Object: 16});
+    h.plan(170, 27, 2, {Object: 16, Food: 1200});
     const before = plain(h.raw), menu = plain(h.menu); h.renderPlans();
     assert.equal(plansPane(h)?.tagName, 'SECTION');
     assert.match(plansPane(h).querySelector('h3').textContent, /^本月已安排事务（3）$/);
     assert.deepEqual(planRows(h), [{slot: 3, order: 24, label: '征兵', value: '吕布'},
         {slot: 7, order: 13, label: '输送', value: '张辽 → 许昌 · 粮食 1200 · 金钱 150 · 预备兵 300'},
-        {slot: 170, order: 27, label: '出征', value: '吕布、张辽、吕布、人物199 → 许昌'}]);
+        {slot: 170, order: 27, label: '出征', value: '吕布、张辽、吕布、人物199 → 许昌 · 携粮 1200'}]);
     assert.equal(h.queue.slice(h.city.PersonQueue, h.city.PersonQueue + h.city.Persons).includes(20), false);
     for (const tag of ['button', 'input', 'a']) assert.equal(plansPane(h).querySelectorAll(tag).length, 0);
     assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
@@ -3057,8 +3057,8 @@ test('new rule configs are fenced against final-sample changes and synchronous g
 test('arranged plans exclude foreign cities, other allegiances and empty slots before reading their names', () => {
     const h = plansHarness(); h.plan(4, 1); h.plan(5, 1); // Repeated native slots remain separate rows.
     h.plan(6, 3, 70, {City: 1}); h.plan(7, 3, 70); h.plan(8, 6, 71); h.plan(9, 3, 72);
-    h.plan(10, 255, 73); h.plan(171, 27, 29, {City: 1, Object: 16});
-    h.army(2, [20, 70]); h.plan(170, 27, 2, {Object: 16});
+    h.plan(10, 255, 73); h.plan(171, 27, 29, {City: 1, Object: 16, Food: 1200});
+    h.army(2, [20, 70]); h.plan(170, 27, 2, {Object: 16, Food: 1200});
     h.renderPlans();
     assert.deepEqual(planRows(h).map(row => [row.slot, row.order, row.value]), [[4, 1, '吕布'], [5, 1, '吕布']]);
     for (const hiddenId of [70, 71, 72, 73]) assert.equal(h.personCalls.includes(hiddenId), false, String(hiddenId));
@@ -3107,14 +3107,14 @@ test('arranged transport cargo shows exact zero and U16 maximum amounts with the
 test('arranged transport cargo stays unread outside local allied transport orders', () => {
     const h = plansHarness(); h.plan(2, 13, 22, {Object: 16, Food: 90, Money: 20, Arms: 10});
     h.plan(3, 13, 20, {City: 1}); h.plan(4, 13, 70); h.plan(5, 13, 71); h.plan(6, 13, 72);
-    h.plan(7, 255); h.plan(8, 24); h.plan(9, 14, 20, {Object: 16}); h.army(2, [20]); h.plan(170, 27, 2, {Object: 16});
+    h.plan(7, 255); h.plan(8, 24); h.plan(9, 14, 20, {Object: 16}); h.army(2, [20]); h.plan(170, 27, 2, {Object: 16, Food: 700});
     let excludedReads = 0;
-    for (const slot of [3, 4, 5, 6, 7, 8, 9, 170]) for (const field of ['Food', 'Money', 'Arms']) {
+    for (const slot of [3, 4, 5, 6, 7, 8, 9, 170]) for (const field of slot === 170 ? ['Money', 'Arms'] : ['Food', 'Money', 'Arms']) {
         Object.defineProperty(h.orders[slot], field, {get() {excludedReads++; throw Error('uninitialized cargo read');}, configurable: true});
     }
     h.renderPlans();
     assert.deepEqual(planRows(h).map(row => [row.slot, row.value]), [
-        [2, '张辽 → 许昌 · 粮食 90 · 金钱 20 · 预备兵 10'], [8, '吕布'], [9, '吕布 → 许昌'], [170, '吕布 → 许昌']]);
+        [2, '张辽 → 许昌 · 粮食 90 · 金钱 20 · 预备兵 10'], [8, '吕布'], [9, '吕布 → 许昌'], [170, '吕布 → 许昌 · 携粮 700']]);
     assert.equal(excludedReads, 0);
     for (const id of [70, 71, 72]) assert.equal(h.personCalls.includes(id), false);
     assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
@@ -3135,6 +3135,73 @@ test('arranged transport cargo withdraws malformed values and callback changes a
         h.nameHook(null); h.renderPlans();
         const current = h.orders[2];
         assert.equal(planRows(h)[0]?.value, `张辽 → 许昌 · 粮食 ${current.Food} · 金钱 ${current.Money} · 预备兵 ${current.Arms}`);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('arranged march supplies show exact U16 amounts with duplicate members, queue order and the existing public shape', () => {
+    const h = plansHarness();
+    h.army(2, [20, null, 22, 20, null, null, null, null, null, 199]); h.army(5, [22]); h.army(7, [0, 20]);
+    h.plan(175, 27, 7, {Object: 16, Food: 1200}); h.plan(173, 27, 5, {Object: 16, Food: 65535});
+    h.plan(170, 27, 2, {Object: 16, Food: 0});
+    const before = plain(h.raw), menu = plain(h.menu);
+    const expected = [
+        {slot: 170, command: 27, label: '出征', text: '吕布、张辽、吕布、人物199 → 许昌 · 携粮 0', targetPerson: null},
+        {slot: 173, command: 27, label: '出征', text: '张辽 → 许昌 · 携粮 65535', targetPerson: null},
+        {slot: 175, command: 27, label: '出征', text: '董卓、吕布 → 许昌 · 携粮 1200', targetPerson: null}];
+    assert.deepEqual(plain(h.context.BayeHdCityPlans.read(0)), {cityIndex: 0, year: 190, month: 1, rows: expected});
+    h.renderPlans();
+    assert.deepEqual(planRows(h), expected.map(row => ({slot: row.slot, order: row.command, label: row.label, value: row.text})));
+    assert.doesNotMatch(plansPane(h).textContent, /总兵|剩余粮|到达|倒计时|金钱|预备兵/);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menu);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged march supplies stay unread outside local allied armies and never read uninitialized march cargo', () => {
+    const h = plansHarness(); h.plan(2, 13, 22, {Object: 16, Food: 90, Money: 20, Arms: 10});
+    h.plan(3, 27, 3, {City: 1, Object: 16});
+    h.army(4, [20, 70]); h.plan(4, 27, 4, {Object: 16});
+    h.army(5, [71]); h.plan(5, 27, 5, {Object: 16}); h.army(6, [72]); h.plan(6, 27, 6, {Object: 16});
+    h.plan(7, 255); h.plan(8, 24); h.plan(9, 14, 20, {Object: 16});
+    h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 900});
+    let excludedReads = 0;
+    for (const slot of [3, 4, 5, 6, 7, 8, 9, 170]) for (const field of slot === 170 ?
+        ['Money', 'Arms', 'Consume', 'TimeCount'] : ['Food', 'Money', 'Arms']) {
+        Object.defineProperty(h.orders[slot], field, {get() {excludedReads++; throw Error('excluded march payload read');}, configurable: true});
+    }
+    h.renderPlans();
+    assert.deepEqual(planRows(h).map(row => [row.slot, row.value]), [
+        [2, '张辽 → 许昌 · 粮食 90 · 金钱 20 · 预备兵 10'], [8, '吕布'], [9, '吕布 → 许昌'], [170, '吕布、张辽 → 许昌 · 携粮 900']]);
+    assert.equal(excludedReads, 0);
+    for (const id of [70, 71, 72]) assert.equal(h.personCalls.includes(id), false);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged march supplies withdraw invalid food and final name or city callback changes, then recover', () => {
+    for (const value of [undefined, null, false, '1', -1, 65536, 1.5, NaN, Infinity]) {
+        const h = plansHarness(); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 1200});
+        h.renderPlans(); assert.equal(planRows(h)[0]?.value, '吕布、张辽 → 许昌 · 携粮 1200');
+        h.orders[170].Food = value; h.renderPlans(); assertPlansAbsent(h, 'march food is not a U16');
+        h.orders[170].Food = 1201; h.renderPlans(); assert.equal(planRows(h)[0]?.value, '吕布、张辽 → 许昌 · 携粮 1201');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    const seed = plansHarness(); seed.army(2, [20, 22]); seed.plan(170, 27, 2, {Object: 16, Food: 1200}); seed.renderPlans();
+    const lastNameCall = seed.personCalls.filter(id => id === 22).length, lastCityCall = seed.cityCalls.filter(id => id === 16).length;
+    assert.ok(lastNameCall >= 2); assert.ok(lastCityCall >= 2);
+    for (const callback of ['getPersonName', 'getCityName']) {
+        const h = plansHarness(); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 1200});
+        h.renderPlans(); assert.equal(planRows(h)[0]?.value, '吕布、张辽 → 许昌 · 携粮 1200');
+        const getCity = h.context.baye.getCityName; let calls = 0, fired = false;
+        if (callback === 'getPersonName') h.nameHook(id => {
+            if (id === 22 && ++calls === lastNameCall) {fired = true; h.orders[170].Food++;}
+        });
+        else h.context.baye.getCityName = id => {
+            if (id === 16 && ++calls === lastCityCall) {fired = true; h.orders[170].Food++;}
+            return getCity(id);
+        };
+        h.renderPlans(); assert.equal(fired, true); assertPlansAbsent(h, 'final ' + callback + ' callback changed march food');
+        h.nameHook(null); h.context.baye.getCityName = getCity; h.renderPlans();
+        assert.equal(planRows(h)[0]?.value, '吕布、张辽 → 许昌 · 携粮 1201');
         assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
     }
 });
@@ -3170,13 +3237,13 @@ test('arranged plans reject malformed local orders and ambiguous or incomplete n
         h => {h.fighters[40] = h.fighters[41] = 0;}, h => h.fighters[40] = -1,
         h => {h.fighters[42] = 201; h.fighters[43] = 0;},
         h => h.people[22].Belong = null,
-        h => h.orders[170].Person = 30, h => h.plan(171, 27, 2, {Object: 16}),
+        h => h.orders[170].Person = 30, h => h.plan(171, 27, 2, {Object: 16, Food: 1200}),
         h => h.orders[170].Object = 38, h => h.orders[2].OrderId = 20,
         h => h.orders[2].Person = 200, h => h.names.set(20, ''),
         h => h.orders.pop(), h => h.people.pop(), h => h.cities.pop(),
         h => h.context.baye.getPersonCount = () => 2000];
     for (const mutate of mutations) {
-        const h = plansHarness(); h.plan(2, 24); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16});
+        const h = plansHarness(); h.plan(2, 24); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 1200});
         mutate(h); h.renderPlans(); assertPlansAbsent(h, 'invalid local plan or native army');
         assert.equal(h.personCalls.includes(70), false, 'enemy army members are not resolved to hidden names');
     }
@@ -3186,11 +3253,11 @@ test('arranged person-target orders show exact zero-based targets independently 
     const h = plansHarness(), entries = [[2, 6, 71], [4, 15, 70], [6, 16, 0], [8, 17, 72], [10, 19, 199]];
     h.people[199].Belong = 3;
     for (const [slot, command, target] of entries) h.plan(slot, command, 20, {Object: target});
-    h.plan(12, 13, 22, {Object: 16, Food: 1200, Money: 150, Arms: 300}); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16});
+    h.plan(12, 13, 22, {Object: 16, Food: 1200, Money: 150, Arms: 300}); h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 800});
     const before = plain(h.raw), menu = plain(h.menu); h.renderPlans();
     assert.deepEqual(planRows(h).map(row => [row.slot, row.value]), [[2, '吕布 → 人物71'], [4, '吕布 → 人物70'],
         [6, '吕布 → 董卓'], [8, '吕布 → 人物72'], [10, '吕布 → 人物199'],
-        [12, '张辽 → 许昌 · 粮食 1200 · 金钱 150 · 预备兵 300'], [170, '吕布、张辽 → 许昌']]);
+        [12, '张辽 → 许昌 · 粮食 1200 · 金钱 150 · 预备兵 300'], [170, '吕布、张辽 → 许昌 · 携粮 800']]);
     const dto = h.context.BayeHdCityPlans.read(0); assert.ok(dto);
     assert.deepEqual(plain(dto.rows.map(row => [row.slot, row.targetPerson])),
         [[2, 71], [4, 70], [6, 0], [8, 72], [10, 199], [12, null], [170, null]]);

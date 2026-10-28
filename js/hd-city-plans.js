@@ -88,7 +88,7 @@
                         if (!actor(executor)) { continue; }
                         actors.push(executor);
                     }
-                    var destination = null, targetPerson = null, cargo = null;
+                    var destination = null, targetPerson = null, cargo = null, marchFood = null;
                     if ([13,14,23,27].indexOf(command) >= 0) {
                         destination = queue[slot].Object;
                         if (!uint(destination,37) || !cities[destination]) { return null; }
@@ -106,8 +106,13 @@
                         var food = queue[slot].Food, money = queue[slot].Money, arms = queue[slot].Arms;
                         if (!uint(food,65535) || !uint(money,65535) || !uint(arms,65535)) { return null; }
                         cargo = [food,money,arms]; values.push(food,money,arms);
+                    } else if (command === 27) {
+                        // Native march creation initializes Food, but not Money or Arms.
+                        marchFood = queue[slot].Food;
+                        if (!uint(marchFood,65535)) { return null; }
+                        values.push(marchFood);
                     }
-                    rows.push({slot:slot,command:command,actors:actors,destination:destination,targetPerson:targetPerson,cargo:cargo});
+                    rows.push({slot:slot,command:command,actors:actors,destination:destination,targetPerson:targetPerson,cargo:cargo,marchFood:marchFood});
                 }
                 var seal = [data.g_hdEngineReady,data.g_hdDetailGeneration,data.g_hdMapCity,data.g_hdMenuActive,
                     data.g_hdMenuContext,data.g_hdMenuKind,data.g_hdMenuSeq,data.g_hdMenuCount,data.g_hdMenuIndex,
@@ -134,6 +139,7 @@
                         if (typeof targetName !== 'string' || !targetName.trim() || targetName === '-') { throw Error('Missing target name'); }
                         text += ' → ' + targetName; }
                     if (row.cargo !== null) { text += ' · 粮食 ' + row.cargo[0] + ' · 金钱 ' + row.cargo[1] + ' · 预备兵 ' + row.cargo[2]; }
+                    if (row.marchFood !== null) { text += ' · 携粮 ' + row.marchFood; }
                     return {slot:row.slot,command:row.command,label:LABELS[row.command],text:text,targetPerson:row.targetPerson};
                 });
             }
