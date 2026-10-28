@@ -635,8 +635,9 @@ html[data-baye-city-menu="hd"][data-baye-city-lcd="on"] body.baye-hd-city-menu-o
 .hd-city-menu-person-property-controls button { flex: 1 1 136px; min-height: 44px; padding: 10px 12px; font-size: 14px; }
 .hd-city-menu-person-property-controls button:disabled { opacity: 0.45; cursor: default; }
 
-/* Only source-bound equipment and city resources receive decorative labels. */
+/* Only source-bound equipment, tool properties and city resources receive decorative labels. */
 .hd-city-menu-equipment-card .hd-city-menu-stat .hd-city-menu-equipment-label,
+#hd-city-menu-tool-fields .hd-city-menu-stat .hd-city-menu-equipment-label,
 #hd-city-menu-status .hd-city-menu-stat .hd-city-menu-resource-label {
     display: inline-flex;
     align-items: flex-start;

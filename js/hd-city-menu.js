@@ -5241,7 +5241,7 @@
         return row;
     }
 
-    function appendHudGroups(box, groups, personLocation) {
+    function appendHudGroups(box, groups, personLocation, equipmentFields) {
         groups.forEach(function (group, groupIndex) {
             var section = document.createElement('section');
             section.className = 'hd-city-menu-info-group';
@@ -5250,9 +5250,14 @@
             section.appendChild(heading);
             var rows = document.createElement('div');
             rows.className = 'hd-city-menu-info-rows';
-            group.rows.forEach(function (row) {
+            group.rows.forEach(function (row, rowIndex) {
                 var stat = appendStat(rows, row[0], row[1]);
                 if (cityResourceFields) { appendCityResourceIcon(stat, cityResourceFields.get(row)); }
+                var equipmentField = equipmentFields && equipmentFields[groupIndex] && equipmentFields[groupIndex][rowIndex];
+                if (equipmentField) {
+                    stat.setAttribute('data-hd-equipment-field', equipmentField);
+                    appendPersonEquipmentIcon(stat);
+                }
             });
             if (groupIndex === 0 && personLocation) {
                 var locationRow = appendStat(rows, '所在城市', personLocation.name);
@@ -5663,8 +5668,8 @@
         finally { personEquipmentReading = false; }
     }
 
-    // Decorative only: field identity already belongs to a measured equipment
-    // row. Labels and values remain the original text, including unknown data.
+    // Decorative only: field identity belongs to a measured equipment row or
+    // a verified default tool property. Labels and values remain original text.
     function appendPersonEquipmentIcon(row) {
         var field = row.getAttribute('data-hd-equipment-field'), pathData;
         switch (field) {
@@ -6176,7 +6181,8 @@
             nativeComplete: context.nativeComplete, custom: context.custom, propertyCount: context.propertyCount,
             pageStart: context.pageStart, pageEnd: context.pageEnd, properties: properties, groups: groups,
             source: defaults && !context.nativeComplete ? 'standard-raw' : 'native-capture', pageOwnerKey: context.pageOwnerKey };
-        var signature = JSON.stringify(detail), pane = ensureToolDetailsPane();
+        // Decoration eligibility may change while captured text stays identical.
+        var signature = JSON.stringify([detail, !!defaults]), pane = ensureToolDetailsPane();
         if (!pane) { return; }
         retirePersonDetails();
         pane.hidden = false;
@@ -6192,7 +6198,9 @@
             heading.className = 'hd-city-menu-tool-name';
             heading.textContent = detail.name;
             fields.appendChild(heading);
-            appendHudGroups(fields, groups);
+            appendHudGroups(fields, groups, null, defaults ? [
+                ['useFlag', 'attack', 'iq', 'move', 'arm'], ['changeAttackRange']
+            ] : null);
             var note = document.createElement('p');
             note.className = 'hd-city-menu-info-note';
             var captured = properties.filter(function (property) { return property.captured; }).length;
