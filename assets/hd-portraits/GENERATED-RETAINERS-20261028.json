@@ -1,0 +1,1302 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-28",
+  "batch": "V102",
+  "tool": "built-in image_gen",
+  "transparentBackground": false,
+  "postProcessing": false,
+  "sourceCopiesExact": true,
+  "totalCalls": 14,
+  "initialImages": 10,
+  "correctedImages": 4,
+  "rejectedCandidates": 4,
+  "finalAssets": [
+    {
+      "name": "魏延",
+      "period": 1,
+      "id": 169,
+      "target": "assets/hd-portraits/hd/period-1/169-魏延.png",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/169-魏延.png"
+      ],
+      "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 魏延, game period 1, zero-based PersonID 169. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A seasoned military commander preserving the native long angular face, strong brows, narrowed eyes, native moustache/beard and helmet outline. Restrained worn iron lamellar armor, muted dark red and brown cloth.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-091cf738-df39-4225-8508-3ba80b7c5463.png",
+      "finalPrompt": "Edit image 1, generated portrait of 魏延 / original game period1 / native ID169. Correct ONLY the cropped plume and overly tight framing. Preserve this exact face, expression, beard, helmet/plume design, pose, armor, red cloth, colors, lighting and realistic materials. Image 2 is the native identity reference only; never reproduce it as an inset.\nPull the camera BACK to a relaxed WAIST-UP view with the entire helmet, plume, all hair and beard, both shoulders and upper torso inside the frame. Place the HIGHEST red plume tip around y=22 percent of the landscape. Entire top 15 percent must be only continuous softly defocused courtyard/sky background, no plume, hair, hat or body. Keep person centered and naturally proportioned. Continue the same empty courtyard; no flags, banners, lettering or other people. Wide horizontal16:9 opaque PNG. No cropped headgear, no text, watermark, UI, logo, inset sprite or collage.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-eb5affe0-db01-4b5f-a5be-4a4abe2616fa.png",
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/169-魏延.png"
+      ],
+      "rejected": {
+        "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-eb5affe0-db01-4b5f-a5be-4a4abe2616fa.png",
+        "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 魏延, game period 1, zero-based PersonID 169. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A seasoned military commander preserving the native long angular face, strong brows, narrowed eyes, native moustache/beard and helmet outline. Restrained worn iron lamellar armor, muted dark red and brown cloth.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+        "referencedImagePaths": [
+          "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/169-魏延.png"
+        ],
+        "reason": "Red plume clipped by upper image boundary",
+        "asset": {
+          "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-eb5affe0-db01-4b5f-a5be-4a4abe2616fa.png",
+          "bytes": 2264117,
+          "sha256": "219e53cd88079df785ad501c11946a8ec85c253026928a2a75a58c9a26fa84db"
+        }
+      },
+      "ref": "refs/period-1/169-魏延.png",
+      "slots": [
+        {
+          "name": "魏延",
+          "period": 1,
+          "id": 169,
+          "ref": "refs/period-1/169-魏延.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/169-魏延.png",
+            "bytes": 515,
+            "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "魏延",
+          "period": 2,
+          "id": 94,
+          "ref": "refs/period-2/94-魏延.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-2/94-魏延.png",
+            "bytes": 515,
+            "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "魏延",
+          "period": 3,
+          "id": 12,
+          "ref": "refs/period-3/12-魏延.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-3/12-魏延.png",
+            "bytes": 515,
+            "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "魏延",
+          "period": 4,
+          "id": 74,
+          "ref": "refs/period-4/74-魏延.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-4/74-魏延.png",
+            "bytes": 515,
+            "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/169-魏延.png",
+        "bytes": 515,
+        "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/169-魏延.png",
+        "bytes": 2271152,
+        "sha256": "274c5f3b197e593d99e66cad2952c51a8a45cae2278195486108cfe98e1eea48"
+      },
+      "initialInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/169-魏延.png",
+          "bytes": 515,
+          "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+        }
+      ],
+      "finalInputs": [
+        {
+          "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-eb5affe0-db01-4b5f-a5be-4a4abe2616fa.png",
+          "bytes": 2264117,
+          "sha256": "219e53cd88079df785ad501c11946a8ec85c253026928a2a75a58c9a26fa84db"
+        },
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/169-魏延.png",
+          "bytes": 515,
+          "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "姜维",
+      "period": 3,
+      "id": 170,
+      "target": "assets/hd-portraits/hd/period-3/170-姜维.png",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-3/170-姜维.png"
+      ],
+      "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 姜维, game period 3, zero-based PersonID 170. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A composed youthful military officer preserving the native smooth slim face, alert eyes, native amount of facial hair and simple low headwear outline. Restrained iron lamellar armor and muted slate-blue cloth, quiet attentive expression.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-be9fcdff-2706-4125-b3b3-c81919c341d9.png",
+      "finalPrompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 姜维, game period 3, zero-based PersonID 170. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A composed youthful military officer preserving the native smooth slim face, alert eyes, native amount of facial hair and simple low headwear outline. Restrained iron lamellar armor and muted slate-blue cloth, quiet attentive expression.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "finalReferencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-3/170-姜维.png"
+      ],
+      "rejected": null,
+      "ref": "refs/period-3/170-姜维.png",
+      "slots": [
+        {
+          "name": "姜维",
+          "period": 3,
+          "id": 170,
+          "ref": "refs/period-3/170-姜维.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-3/170-姜维.png",
+            "bytes": 465,
+            "sha256": "48df62fe6af27b9b6f3f690bda6cc4c086ef5550fe9036f14d7141d263f3c369"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "姜维",
+          "period": 4,
+          "id": 157,
+          "ref": "refs/period-4/157-姜维.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-4/157-姜维.png",
+            "bytes": 465,
+            "sha256": "48df62fe6af27b9b6f3f690bda6cc4c086ef5550fe9036f14d7141d263f3c369"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-3/170-姜维.png",
+        "bytes": 465,
+        "sha256": "48df62fe6af27b9b6f3f690bda6cc4c086ef5550fe9036f14d7141d263f3c369"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-3/170-姜维.png",
+        "bytes": 2121437,
+        "sha256": "94439231a9a3c49a0b0521eef0f5c26177d7478506fab212e3d5e6bb21912105"
+      },
+      "initialInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-3/170-姜维.png",
+          "bytes": 465,
+          "sha256": "48df62fe6af27b9b6f3f690bda6cc4c086ef5550fe9036f14d7141d263f3c369"
+        }
+      ],
+      "finalInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-3/170-姜维.png",
+          "bytes": 465,
+          "sha256": "48df62fe6af27b9b6f3f690bda6cc4c086ef5550fe9036f14d7141d263f3c369"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "典韦",
+      "period": 1,
+      "id": 87,
+      "target": "assets/hd-portraits/hd/period-1/87-典韦.png",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/87-典韦.png"
+      ],
+      "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 典韦, game period 1, zero-based PersonID 87. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A formidable robust military officer preserving the native broad face, high exposed forehead or short native hairline, strong brows and the native moustache and beard. Heavy practical weathered dark iron armor and gray cloth; do not invent a tall helmet absent from this specific reference.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-e07b89b6-da29-433e-88af-ab2110c5c877.png",
+      "finalPrompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 典韦, game period 1, zero-based PersonID 87. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A formidable robust military officer preserving the native broad face, high exposed forehead or short native hairline, strong brows and the native moustache and beard. Heavy practical weathered dark iron armor and gray cloth; do not invent a tall helmet absent from this specific reference.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "finalReferencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/87-典韦.png"
+      ],
+      "rejected": null,
+      "ref": "refs/period-1/87-典韦.png",
+      "slots": [
+        {
+          "name": "典韦",
+          "period": 1,
+          "id": 87,
+          "ref": "refs/period-1/87-典韦.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/87-典韦.png",
+            "bytes": 516,
+            "sha256": "04ff7201e0ecdea710952d98e8365f107a23e0e0a0ae2d4dc054c918b4b933c1"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/87-典韦.png",
+        "bytes": 516,
+        "sha256": "04ff7201e0ecdea710952d98e8365f107a23e0e0a0ae2d4dc054c918b4b933c1"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/87-典韦.png",
+        "bytes": 2366608,
+        "sha256": "e9609b41215fb14c6ab96d497bb713bf51d0b516bbc352556e809acb53c5b110"
+      },
+      "initialInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/87-典韦.png",
+          "bytes": 516,
+          "sha256": "04ff7201e0ecdea710952d98e8365f107a23e0e0a0ae2d4dc054c918b4b933c1"
+        }
+      ],
+      "finalInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/87-典韦.png",
+          "bytes": 516,
+          "sha256": "04ff7201e0ecdea710952d98e8365f107a23e0e0a0ae2d4dc054c918b4b933c1"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "典韦",
+      "period": 2,
+      "id": 146,
+      "target": "assets/hd-portraits/hd/period-2/146-典韦.png",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/146-典韦.png"
+      ],
+      "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 典韦, game period 2, zero-based PersonID 146. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. This period-specific original is authoritative. A robust military officer preserving its distinct round cheek and jaw proportions, native eyes, facial hair and close low cloth headwear. Weathered iron armor and muted brown-red cloth.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-51cc49fa-f9d7-4bad-bbfb-6a21a6b7bf99.png",
+      "finalPrompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 典韦, game period 2, zero-based PersonID 146. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. This period-specific original is authoritative. A robust military officer preserving its distinct round cheek and jaw proportions, native eyes, facial hair and close low cloth headwear. Weathered iron armor and muted brown-red cloth.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "finalReferencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/146-典韦.png"
+      ],
+      "rejected": null,
+      "ref": "refs/period-2/146-典韦.png",
+      "slots": [
+        {
+          "name": "典韦",
+          "period": 2,
+          "id": 146,
+          "ref": "refs/period-2/146-典韦.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-2/146-典韦.png",
+            "bytes": 478,
+            "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-2/146-典韦.png",
+        "bytes": 478,
+        "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-2/146-典韦.png",
+        "bytes": 2349175,
+        "sha256": "7e2b27b3ecbc42165ebe6f93d6df8d39c9e273f808be9071cc362182935006d6"
+      },
+      "initialInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/146-典韦.png",
+          "bytes": 478,
+          "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+        }
+      ],
+      "finalInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/146-典韦.png",
+          "bytes": 478,
+          "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "许褚",
+      "period": 1,
+      "id": 137,
+      "target": "assets/hd-portraits/hd/period-1/137-许褚.png",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/137-许褚.png"
+      ],
+      "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 许褚, game period 1, zero-based PersonID 137. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A powerfully built military commander preserving this native broad round face, strong brows, visible moustache and beard and low wrapped headwear. Heavy worn iron armor with muted ochre-gray cloth, resolute expression.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-d42afe7d-ebf8-456d-95de-c81b6242e1eb.png",
+      "finalPrompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 许褚, game period 1, zero-based PersonID 137. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A powerfully built military commander preserving this native broad round face, strong brows, visible moustache and beard and low wrapped headwear. Heavy worn iron armor with muted ochre-gray cloth, resolute expression.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "finalReferencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/137-许褚.png"
+      ],
+      "rejected": null,
+      "ref": "refs/period-1/137-许褚.png",
+      "slots": [
+        {
+          "name": "许褚",
+          "period": 1,
+          "id": 137,
+          "ref": "refs/period-1/137-许褚.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/137-许褚.png",
+            "bytes": 478,
+            "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "许褚",
+          "period": 3,
+          "id": 45,
+          "ref": "refs/period-3/45-许褚.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-3/45-许褚.png",
+            "bytes": 478,
+            "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "许褚",
+          "period": 4,
+          "id": 28,
+          "ref": "refs/period-4/28-许褚.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-4/28-许褚.png",
+            "bytes": 478,
+            "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/137-许褚.png",
+        "bytes": 478,
+        "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/137-许褚.png",
+        "bytes": 2390111,
+        "sha256": "d359b1e1e69ef3588aea811c14e1be3ba10726f6dad8c40727860476e432c0e2"
+      },
+      "initialInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/137-许褚.png",
+          "bytes": 478,
+          "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+        }
+      ],
+      "finalInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/137-许褚.png",
+          "bytes": 478,
+          "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "许褚",
+      "period": 2,
+      "id": 147,
+      "target": "assets/hd-portraits/hd/period-2/147-许褚.png",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/147-许褚.png"
+      ],
+      "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 许褚, game period 2, zero-based PersonID 147. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. This period-specific native portrait is authoritative. Keep its broad facial outline, prominent brows, native mouth shape and moustache/beard, forehead and headwear outline. Heavy late-Han iron armor, dark charcoal and brown cloth, forceful steady expression.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-1a5ea84d-268e-4594-88cb-7a0d5af30b87.png",
+      "finalPrompt": "Edit image 1, the generated portrait of 许褚 / original period2 / native ID147. Correct ONLY the clipped headwear/topknot and tight framing. Preserve this exact broad face, expression, beard, headwear design, armor, colors and natural light. Image 2 is native identity guidance only, never a visible inset.\nPull camera BACK to relaxed WAIST-UP view. Entire highest topknot/headwear point, all hair and beard and both shoulders must be fully visible inside frame. Highest headwear point near y=22 percent of landscape canvas. Upper 15 percent contains only continuous softly blurred courtyard/sky background, no hat, hair or body. Keep realistic proportions, centered man, empty historical courtyard, no flags, banners or other people. Wide horizontal16:9 opaque PNG. No cropped headwear, text, watermark, logo, UI, corner sprite or collage.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-37162465-681a-4292-a91a-8ad9cddcda0c.png",
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/147-许褚.png"
+      ],
+      "rejected": {
+        "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-37162465-681a-4292-a91a-8ad9cddcda0c.png",
+        "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 许褚, game period 2, zero-based PersonID 147. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. This period-specific native portrait is authoritative. Keep its broad facial outline, prominent brows, native mouth shape and moustache/beard, forehead and headwear outline. Heavy late-Han iron armor, dark charcoal and brown cloth, forceful steady expression.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+        "referencedImagePaths": [
+          "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/147-许褚.png"
+        ],
+        "reason": "Topmost headwear/topknot clipped by upper image boundary",
+        "asset": {
+          "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-37162465-681a-4292-a91a-8ad9cddcda0c.png",
+          "bytes": 2414339,
+          "sha256": "651f9c87d4432dd7d617ec8fb1490153693ffd038a75537b1f07d6dbb4b33a4b"
+        }
+      },
+      "ref": "refs/period-2/147-许褚.png",
+      "slots": [
+        {
+          "name": "许褚",
+          "period": 2,
+          "id": 147,
+          "ref": "refs/period-2/147-许褚.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-2/147-许褚.png",
+            "bytes": 464,
+            "sha256": "cd9a65141cb1cc9a7da6047e344cede5efd89038f9c67e6ca6232948cafbde10"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-2/147-许褚.png",
+        "bytes": 464,
+        "sha256": "cd9a65141cb1cc9a7da6047e344cede5efd89038f9c67e6ca6232948cafbde10"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-2/147-许褚.png",
+        "bytes": 2287571,
+        "sha256": "5433ac9c7fa99a14609f6a786402698fe2d0f05b0bb4c968208aa35588878746"
+      },
+      "initialInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/147-许褚.png",
+          "bytes": 464,
+          "sha256": "cd9a65141cb1cc9a7da6047e344cede5efd89038f9c67e6ca6232948cafbde10"
+        }
+      ],
+      "finalInputs": [
+        {
+          "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-37162465-681a-4292-a91a-8ad9cddcda0c.png",
+          "bytes": 2414339,
+          "sha256": "651f9c87d4432dd7d617ec8fb1490153693ffd038a75537b1f07d6dbb4b33a4b"
+        },
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/147-许褚.png",
+          "bytes": 464,
+          "sha256": "cd9a65141cb1cc9a7da6047e344cede5efd89038f9c67e6ca6232948cafbde10"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "乐进",
+      "period": 1,
+      "id": 35,
+      "target": "assets/hd-portraits/hd/period-1/35-乐进.png",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/35-乐进.png"
+      ],
+      "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 乐进, game period 1, zero-based PersonID 35. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A seasoned military officer preserving the native rectangular facial shape, sharply defined eyebrows, native moustache and longer beard, and low broad headwear outline. Practical worn steel lamellar armor and muted olive-gray cloth.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-5ed09c99-7845-40ae-b157-7ae5b47b25de.png",
+      "finalPrompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 乐进, game period 1, zero-based PersonID 35. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A seasoned military officer preserving the native rectangular facial shape, sharply defined eyebrows, native moustache and longer beard, and low broad headwear outline. Practical worn steel lamellar armor and muted olive-gray cloth.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "finalReferencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/35-乐进.png"
+      ],
+      "rejected": null,
+      "ref": "refs/period-1/35-乐进.png",
+      "slots": [
+        {
+          "name": "乐进",
+          "period": 1,
+          "id": 35,
+          "ref": "refs/period-1/35-乐进.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/35-乐进.png",
+            "bytes": 523,
+            "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "乐进",
+          "period": 2,
+          "id": 22,
+          "ref": "refs/period-2/22-乐进.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-2/22-乐进.png",
+            "bytes": 523,
+            "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "乐进",
+          "period": 3,
+          "id": 29,
+          "ref": "refs/period-3/29-乐进.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-3/29-乐进.png",
+            "bytes": 523,
+            "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "乐进",
+          "period": 4,
+          "id": 16,
+          "ref": "refs/period-4/16-乐进.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-4/16-乐进.png",
+            "bytes": 523,
+            "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/35-乐进.png",
+        "bytes": 523,
+        "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/35-乐进.png",
+        "bytes": 2206365,
+        "sha256": "d65a0b2d617c2522e8720ecd8ed401483e554926761caaa7fa66929edb06f0de"
+      },
+      "initialInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/35-乐进.png",
+          "bytes": 523,
+          "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+        }
+      ],
+      "finalInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/35-乐进.png",
+          "bytes": 523,
+          "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "于禁",
+      "period": 1,
+      "id": 147,
+      "target": "assets/hd-portraits/hd/period-1/147-于禁.png",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/147-于禁.png"
+      ],
+      "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 于禁, game period 1, zero-based PersonID 147. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A strict disciplined military officer preserving the native angular broad face, firm brows, native visible facial hair and helmet/headwear silhouette. Worn charcoal iron armor and muted dark green cloth, composed stern expression.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-70ac5a43-a99c-4ebc-8162-79d2834538fe.png",
+      "finalPrompt": "Edit image 1, generated portrait of 于禁 / original period1 / native ID147. Correct ONLY the cropped dark-green plume and overly tight framing. Keep this exact recognizable face, stern expression, facial hair, helmet/plume design, armor, green cloth, colors, natural light and realistic materials. Image 2 is native identity support only, never a visible inset.\nPull camera BACK into a relaxed WAIST-UP portrait. Show the entire highest plume tip, whole helmet, all hair and beard and both shoulders fully within the frame. Place the highest plume tip around y=22 percent. The entire upper 15 percent must contain only continuous softly blurred courtyard/sky background, absolutely no plume/hair/hat/body. Person centered, naturally proportioned; one man, no flags, banners, calligraphy or other people. Wide horizontal16:9 opaque PNG. No crop of headwear, no text, watermark, logo, UI, sprite inset or collage.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-ed58a412-b9cf-4f4b-adb6-dbfbc1c23914.png",
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/147-于禁.png"
+      ],
+      "rejected": {
+        "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-ed58a412-b9cf-4f4b-adb6-dbfbc1c23914.png",
+        "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 于禁, game period 1, zero-based PersonID 147. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A strict disciplined military officer preserving the native angular broad face, firm brows, native visible facial hair and helmet/headwear silhouette. Worn charcoal iron armor and muted dark green cloth, composed stern expression.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+        "referencedImagePaths": [
+          "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/147-于禁.png"
+        ],
+        "reason": "Dark-green plume clipped by upper image boundary",
+        "asset": {
+          "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-ed58a412-b9cf-4f4b-adb6-dbfbc1c23914.png",
+          "bytes": 2283567,
+          "sha256": "c8fad6a375541f64f5e108b7e1619131a1ce93959602078eb662ec5ab2ae4948"
+        }
+      },
+      "ref": "refs/period-1/147-于禁.png",
+      "slots": [
+        {
+          "name": "于禁",
+          "period": 1,
+          "id": 147,
+          "ref": "refs/period-1/147-于禁.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/147-于禁.png",
+            "bytes": 500,
+            "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "于禁",
+          "period": 3,
+          "id": 37,
+          "ref": "refs/period-3/37-于禁.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-3/37-于禁.png",
+            "bytes": 500,
+            "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "于禁",
+          "period": 4,
+          "id": 21,
+          "ref": "refs/period-4/21-于禁.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-4/21-于禁.png",
+            "bytes": 500,
+            "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/147-于禁.png",
+        "bytes": 500,
+        "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/147-于禁.png",
+        "bytes": 2245339,
+        "sha256": "19c5ffe03801050ea9b6553bbf2f08b632a1b3d2e66e1fa18ed7367e7c30f591"
+      },
+      "initialInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/147-于禁.png",
+          "bytes": 500,
+          "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+        }
+      ],
+      "finalInputs": [
+        {
+          "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-ed58a412-b9cf-4f4b-adb6-dbfbc1c23914.png",
+          "bytes": 2283567,
+          "sha256": "c8fad6a375541f64f5e108b7e1619131a1ce93959602078eb662ec5ab2ae4948"
+        },
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/147-于禁.png",
+          "bytes": 500,
+          "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "于禁",
+      "period": 2,
+      "id": 145,
+      "target": "assets/hd-portraits/hd/period-2/145-于禁.png",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/145-于禁.png"
+      ],
+      "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 于禁, game period 2, zero-based PersonID 145. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. This period-specific native portrait is authoritative. Preserve its own broad facial proportions, exposed high forehead or close native hairline, native moustache and beard and exact visible headwear outline; do not borrow the other-period helmet. Restrained weathered iron armor and muted blue-gray cloth.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-4856df05-dfb8-45d7-a475-98288a3c7e49.png",
+      "finalPrompt": "Edit image 1, generated portrait of 于禁 / original game period2 / native ID145. Image 2 is the authoritative native period-two identity reference. Correct ONLY the head silhouette: the generated large metal helmet and tall plume are wrong for this period-specific reference. REMOVE THE ENTIRE METAL HELMET, CHEEK GUARDS AND BLUE PLUME. Replace with the native-style exposed high forehead and natural dark hair gathered simply into a small low topknot, with NO HAT OR HELMET OR PLUME. Keep this exact person's broad face, eyes, nose, moustache/beard, age, expression, blue cloth, armor, pose, lighting, realistic textures and historical courtyard background. Do not change him into another person. Do not reintroduce a helmet because of the famous name.\nRelaxed waist-up wide horizontal16:9 portrait, whole bare head/hair/topknot and all beard and both shoulders within the frame. Leave clear continuous courtyard/sky background above highest hair. One man, opaque PNG. No banners, text, calligraphy, watermark, signature, logo, UI, inset sprite or collage. The native image is identity guidance only and must never appear visibly in the output.",
+      "finalReferencedImagePaths": [
+        "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-d4d2f311-4eb4-4601-ab83-4c1e3304b8a1.png",
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/145-于禁.png"
+      ],
+      "rejected": {
+        "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-d4d2f311-4eb4-4601-ab83-4c1e3304b8a1.png",
+        "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 于禁, game period 2, zero-based PersonID 145. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. This period-specific native portrait is authoritative. Preserve its own broad facial proportions, exposed high forehead or close native hairline, native moustache and beard and exact visible headwear outline; do not borrow the other-period helmet. Restrained weathered iron armor and muted blue-gray cloth.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+        "referencedImagePaths": [
+          "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/145-于禁.png"
+        ],
+        "reason": "Generated helmet/plume did not follow period-two native head silhouette",
+        "asset": {
+          "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-d4d2f311-4eb4-4601-ab83-4c1e3304b8a1.png",
+          "bytes": 2180110,
+          "sha256": "bb37a1218acbbddfa5ffb38fabe9a11928d855949aae47b21ffd2d686f508e4d"
+        }
+      },
+      "ref": "refs/period-2/145-于禁.png",
+      "slots": [
+        {
+          "name": "于禁",
+          "period": 2,
+          "id": 145,
+          "ref": "refs/period-2/145-于禁.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-2/145-于禁.png",
+            "bytes": 516,
+            "sha256": "04ff7201e0ecdea710952d98e8365f107a23e0e0a0ae2d4dc054c918b4b933c1"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-2/145-于禁.png",
+        "bytes": 516,
+        "sha256": "04ff7201e0ecdea710952d98e8365f107a23e0e0a0ae2d4dc054c918b4b933c1"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-2/145-于禁.png",
+        "bytes": 2100625,
+        "sha256": "af250c9476f6b50c4aa900927158eb95be3e3b1289ec580cac50ada21fa1add1"
+      },
+      "initialInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/145-于禁.png",
+          "bytes": 516,
+          "sha256": "04ff7201e0ecdea710952d98e8365f107a23e0e0a0ae2d4dc054c918b4b933c1"
+        }
+      ],
+      "finalInputs": [
+        {
+          "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-d4d2f311-4eb4-4601-ab83-4c1e3304b8a1.png",
+          "bytes": 2180110,
+          "sha256": "bb37a1218acbbddfa5ffb38fabe9a11928d855949aae47b21ffd2d686f508e4d"
+        },
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-2/145-于禁.png",
+          "bytes": 516,
+          "sha256": "04ff7201e0ecdea710952d98e8365f107a23e0e0a0ae2d4dc054c918b4b933c1"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    },
+    {
+      "name": "张昭",
+      "period": 1,
+      "id": 152,
+      "target": "assets/hd-portraits/hd/period-1/152-张昭.png",
+      "referencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/152-张昭.png"
+      ],
+      "prompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 张昭, game period 1, zero-based PersonID 152. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A mature dignified scholarly official preserving the native high forehead, defined brow and cheek lines, native moustache and beard and modest cloth headwear silhouette. Layered warm-gray and muted brown late-Han robes, quiet composed expression, no military armor.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-30456c80-1ec1-4e49-993e-db250e3f1c6e.png",
+      "finalPrompt": "CRITICAL COMPOSITION: wide horizontal 16:9 relaxed WAIST-UP portrait. The ENTIRE headwear, any plume, all hair, beard and both shoulders must fit comfortably within the frame. Highest hat/hair point near y=20 percent; upper 15 percent only continuous softly blurred background. Pull camera BACK enough; never crop helmet/hair or make a tight headshot.\nUse case: historical-scene / identity-preserve. Finished HD portrait for the established original Three Kingdoms game series. The single input is the original 24x24 native portrait of 张昭, game period 1, zero-based PersonID 152. It is ONLY identity guidance: preserve visible facial proportions, apparent age, native eyes/brows/nose, amount of facial hair, headwear shape and facing direction. A mature dignified scholarly official preserving the native high forehead, defined brow and cheek lines, native moustache and beard and modest cloth headwear silhouette. Layered warm-gray and muted brown late-Han robes, quiet composed expression, no military armor.\nRestrained cinematic historical realism, natural skin texture, believable late-Han cloth, leather and metal, soft natural side daylight, muted earthy colors, quiet softly defocused courtyard background with no other people and no banners or calligraphy. A distinct recognizable person, not a generic cloned actor. Person centered horizontally, natural human proportions. Opaque finished PNG.\nNever display the tiny native input as an inset, corner picture, stamp, sprite, overlay or collage. No text, Chinese characters, names, watermark, signature, logo, border, UI, extra people, modern objects, fantasy glow, anime or enlarged pixel art. True original high-resolution realistic artwork.",
+      "finalReferencedImagePaths": [
+        "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/152-张昭.png"
+      ],
+      "rejected": null,
+      "ref": "refs/period-1/152-张昭.png",
+      "slots": [
+        {
+          "name": "张昭",
+          "period": 1,
+          "id": 152,
+          "ref": "refs/period-1/152-张昭.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-1/152-张昭.png",
+            "bytes": 480,
+            "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "张昭",
+          "period": 2,
+          "id": 79,
+          "ref": "refs/period-2/79-张昭.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-2/79-张昭.png",
+            "bytes": 480,
+            "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "张昭",
+          "period": 3,
+          "id": 105,
+          "ref": "refs/period-3/105-张昭.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-3/105-张昭.png",
+            "bytes": 480,
+            "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+          },
+          "rawReferenceBytesEqual": true
+        },
+        {
+          "name": "张昭",
+          "period": 4,
+          "id": 115,
+          "ref": "refs/period-4/115-张昭.png",
+          "reference": {
+            "path": "assets/hd-portraits/refs/period-4/115-张昭.png",
+            "bytes": 480,
+            "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+          },
+          "rawReferenceBytesEqual": true
+        }
+      ],
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-1/152-张昭.png",
+        "bytes": 480,
+        "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+      },
+      "width": 1672,
+      "height": 941,
+      "asset": {
+        "path": "assets/hd-portraits/hd/period-1/152-张昭.png",
+        "bytes": 2250434,
+        "sha256": "7f02619ae6431df304e06d62a90d2623e67025244ad42fdefe2af636b85049d4"
+      },
+      "initialInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/152-张昭.png",
+          "bytes": 480,
+          "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+        }
+      ],
+      "finalInputs": [
+        {
+          "path": "C:/Users/75112/.codex/worktrees/hd-equipment-icons/baye-sanguo/assets/hd-portraits/refs/period-1/152-张昭.png",
+          "bytes": 480,
+          "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+        }
+      ],
+      "accepted": true,
+      "sourceCopiesExact": true
+    }
+  ],
+  "canonicalEntries": [
+    {
+      "name": "魏延",
+      "personId": 169,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers-v102",
+      "missing": false,
+      "ref": "refs/period-1/169-魏延.png",
+      "hd": "hd/period-1/169-魏延.png"
+    },
+    {
+      "name": "姜维",
+      "personId": 170,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-retainers-v102",
+      "missing": false,
+      "ref": "refs/period-3/170-姜维.png",
+      "hd": "hd/period-3/170-姜维.png"
+    },
+    {
+      "name": "典韦",
+      "personId": 87,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers-v102",
+      "missing": false,
+      "ref": "refs/period-1/87-典韦.png",
+      "hd": "hd/period-1/87-典韦.png"
+    },
+    {
+      "name": "典韦",
+      "personId": 146,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-retainers-v102",
+      "missing": false,
+      "ref": "refs/period-2/146-典韦.png",
+      "hd": "hd/period-2/146-典韦.png"
+    },
+    {
+      "name": "许褚",
+      "personId": 137,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers-v102",
+      "missing": false,
+      "ref": "refs/period-1/137-许褚.png",
+      "hd": "hd/period-1/137-许褚.png"
+    },
+    {
+      "name": "许褚",
+      "personId": 147,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-retainers-v102",
+      "missing": false,
+      "ref": "refs/period-2/147-许褚.png",
+      "hd": "hd/period-2/147-许褚.png"
+    },
+    {
+      "name": "乐进",
+      "personId": 35,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers-v102",
+      "missing": false,
+      "ref": "refs/period-1/35-乐进.png",
+      "hd": "hd/period-1/35-乐进.png"
+    },
+    {
+      "name": "于禁",
+      "personId": 147,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers-v102",
+      "missing": false,
+      "ref": "refs/period-1/147-于禁.png",
+      "hd": "hd/period-1/147-于禁.png"
+    },
+    {
+      "name": "于禁",
+      "personId": 145,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-retainers-v102",
+      "missing": false,
+      "ref": "refs/period-2/145-于禁.png",
+      "hd": "hd/period-2/145-于禁.png"
+    },
+    {
+      "name": "张昭",
+      "personId": 152,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-retainers-v102",
+      "missing": false,
+      "ref": "refs/period-1/152-张昭.png",
+      "hd": "hd/period-1/152-张昭.png"
+    }
+  ],
+  "aliases": [
+    {
+      "name": "魏延",
+      "personId": 94,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-2/94-魏延.png",
+      "hd": "hd/period-1/169-魏延.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-2/94-魏延.png",
+        "bytes": 515,
+        "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/169-魏延.png",
+        "bytes": 515,
+        "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "魏延",
+      "personId": 12,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-3/12-魏延.png",
+      "hd": "hd/period-1/169-魏延.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-3/12-魏延.png",
+        "bytes": 515,
+        "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/169-魏延.png",
+        "bytes": 515,
+        "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "魏延",
+      "personId": 74,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-4/74-魏延.png",
+      "hd": "hd/period-1/169-魏延.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-4/74-魏延.png",
+        "bytes": 515,
+        "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/169-魏延.png",
+        "bytes": 515,
+        "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "姜维",
+      "personId": 157,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-4/157-姜维.png",
+      "hd": "hd/period-3/170-姜维.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-4/157-姜维.png",
+        "bytes": 465,
+        "sha256": "48df62fe6af27b9b6f3f690bda6cc4c086ef5550fe9036f14d7141d263f3c369"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-3/170-姜维.png",
+        "bytes": 465,
+        "sha256": "48df62fe6af27b9b6f3f690bda6cc4c086ef5550fe9036f14d7141d263f3c369"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "许褚",
+      "personId": 45,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-3/45-许褚.png",
+      "hd": "hd/period-1/137-许褚.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-3/45-许褚.png",
+        "bytes": 478,
+        "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/137-许褚.png",
+        "bytes": 478,
+        "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "许褚",
+      "personId": 28,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-4/28-许褚.png",
+      "hd": "hd/period-1/137-许褚.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-4/28-许褚.png",
+        "bytes": 478,
+        "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/137-许褚.png",
+        "bytes": 478,
+        "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "乐进",
+      "personId": 22,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-2/22-乐进.png",
+      "hd": "hd/period-1/35-乐进.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-2/22-乐进.png",
+        "bytes": 523,
+        "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/35-乐进.png",
+        "bytes": 523,
+        "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "乐进",
+      "personId": 29,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-3/29-乐进.png",
+      "hd": "hd/period-1/35-乐进.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-3/29-乐进.png",
+        "bytes": 523,
+        "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/35-乐进.png",
+        "bytes": 523,
+        "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "乐进",
+      "personId": 16,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-4/16-乐进.png",
+      "hd": "hd/period-1/35-乐进.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-4/16-乐进.png",
+        "bytes": 523,
+        "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/35-乐进.png",
+        "bytes": 523,
+        "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "于禁",
+      "personId": 37,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-3/37-于禁.png",
+      "hd": "hd/period-1/147-于禁.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-3/37-于禁.png",
+        "bytes": 500,
+        "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/147-于禁.png",
+        "bytes": 500,
+        "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "于禁",
+      "personId": 21,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-4/21-于禁.png",
+      "hd": "hd/period-1/147-于禁.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-4/21-于禁.png",
+        "bytes": 500,
+        "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/147-于禁.png",
+        "bytes": 500,
+        "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "张昭",
+      "personId": 79,
+      "period": 2,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-2/79-张昭.png",
+      "hd": "hd/period-1/152-张昭.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-2/79-张昭.png",
+        "bytes": 480,
+        "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/152-张昭.png",
+        "bytes": 480,
+        "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "张昭",
+      "personId": 105,
+      "period": 3,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-3/105-张昭.png",
+      "hd": "hd/period-1/152-张昭.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-3/105-张昭.png",
+        "bytes": 480,
+        "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/152-张昭.png",
+        "bytes": 480,
+        "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "张昭",
+      "personId": 115,
+      "period": 4,
+      "pilot": false,
+      "expansion": "retainers-identical-reference-v102",
+      "missing": false,
+      "ref": "refs/period-4/115-张昭.png",
+      "hd": "hd/period-1/152-张昭.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-4/115-张昭.png",
+        "bytes": 480,
+        "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-1/152-张昭.png",
+        "bytes": 480,
+        "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+      },
+      "rawReferenceBytesEqual": true
+    },
+    {
+      "name": "曹丕",
+      "period": 3,
+      "personId": 34,
+      "pilot": false,
+      "missing": false,
+      "expansion": "retainers-identical-reference-v102",
+      "ref": "refs/period-3/34-曹丕.png",
+      "hd": "hd/period-4/0-曹丕.png",
+      "reference": {
+        "path": "assets/hd-portraits/refs/period-3/34-曹丕.png",
+        "bytes": 468,
+        "sha256": "2eebd2f8934485282587aa237e323ea93b9f59c9e4507f7c39dd9de1d224985b"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-4/0-曹丕.png",
+        "bytes": 468,
+        "sha256": "2eebd2f8934485282587aa237e323ea93b9f59c9e4507f7c39dd9de1d224985b"
+      },
+      "rawReferenceBytesEqual": true
+    }
+  ],
+  "reuseProof": [
+    {
+      "name": "曹丕",
+      "addedSlot": "3:34",
+      "canonicalSlot": "4:0",
+      "addedReference": {
+        "path": "assets/hd-portraits/refs/period-3/34-曹丕.png",
+        "bytes": 468,
+        "sha256": "2eebd2f8934485282587aa237e323ea93b9f59c9e4507f7c39dd9de1d224985b"
+      },
+      "canonicalReference": {
+        "path": "assets/hd-portraits/refs/period-4/0-曹丕.png",
+        "bytes": 468,
+        "sha256": "2eebd2f8934485282587aa237e323ea93b9f59c9e4507f7c39dd9de1d224985b"
+      },
+      "existingHd": {
+        "path": "assets/hd-portraits/hd/period-4/0-曹丕.png",
+        "bytes": 2217247,
+        "sha256": "4c475a5e2a611db41f46eb33352f9b61c5f515c56bda5c1ad3df2f71223d7b49"
+      },
+      "existingEntry": {
+        "name": "曹丕",
+        "personId": 0,
+        "period": 4,
+        "pilot": false,
+        "expansion": "period-4-rulers-v96",
+        "missing": false,
+        "ref": "refs/period-4/0-曹丕.png",
+        "hd": "hd/period-4/0-曹丕.png"
+      },
+      "sameName": true,
+      "fullReferenceBytesEqual": true,
+      "newHdAssetRequired": false
+    }
+  ],
+  "crossNameSharingForbidden": true,
+  "actualGameplayAccepted": false,
+  "realDeviceAccepted": false
+}
