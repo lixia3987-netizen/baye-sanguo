@@ -874,6 +874,166 @@
       "missing": false,
       "ref": "refs/period-4/170-赵范.png",
       "hd": "hd/period-3/2-赵范.png"
+    },
+    {
+      "name": "赵云",
+      "personId": 166,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-warriors-v99",
+      "missing": false,
+      "ref": "refs/period-1/166-赵云.png",
+      "hd": "hd/period-1/166-赵云.png"
+    },
+    {
+      "name": "赵云",
+      "personId": 163,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-warriors-v99",
+      "missing": false,
+      "ref": "refs/period-2/163-赵云.png",
+      "hd": "hd/period-2/163-赵云.png"
+    },
+    {
+      "name": "马超",
+      "personId": 57,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-warriors-v99",
+      "missing": false,
+      "ref": "refs/period-1/57-马超.png",
+      "hd": "hd/period-1/57-马超.png"
+    },
+    {
+      "name": "张辽",
+      "personId": 22,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-warriors-v99",
+      "missing": false,
+      "ref": "refs/period-1/22-张辽.png",
+      "hd": "hd/period-1/22-张辽.png"
+    },
+    {
+      "name": "黄忠",
+      "personId": 179,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-warriors-v99",
+      "missing": false,
+      "ref": "refs/period-1/179-黄忠.png",
+      "hd": "hd/period-1/179-黄忠.png"
+    },
+    {
+      "name": "司马懿",
+      "personId": 169,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-warriors-v99",
+      "missing": false,
+      "ref": "refs/period-3/169-司马懿.png",
+      "hd": "hd/period-3/169-司马懿.png"
+    },
+    {
+      "name": "赵云",
+      "personId": 81,
+      "period": 3,
+      "pilot": false,
+      "expansion": "warriors-identical-reference-v99",
+      "missing": false,
+      "ref": "refs/period-3/81-赵云.png",
+      "hd": "hd/period-1/166-赵云.png"
+    },
+    {
+      "name": "赵云",
+      "personId": 73,
+      "period": 4,
+      "pilot": false,
+      "expansion": "warriors-identical-reference-v99",
+      "missing": false,
+      "ref": "refs/period-4/73-赵云.png",
+      "hd": "hd/period-1/166-赵云.png"
+    },
+    {
+      "name": "马超",
+      "personId": 99,
+      "period": 2,
+      "pilot": false,
+      "expansion": "warriors-identical-reference-v99",
+      "missing": false,
+      "ref": "refs/period-2/99-马超.png",
+      "hd": "hd/period-1/57-马超.png"
+    },
+    {
+      "name": "马超",
+      "personId": 124,
+      "period": 3,
+      "pilot": false,
+      "expansion": "warriors-identical-reference-v99",
+      "missing": false,
+      "ref": "refs/period-3/124-马超.png",
+      "hd": "hd/period-1/57-马超.png"
+    },
+    {
+      "name": "马超",
+      "personId": 75,
+      "period": 4,
+      "pilot": false,
+      "expansion": "warriors-identical-reference-v99",
+      "missing": false,
+      "ref": "refs/period-4/75-马超.png",
+      "hd": "hd/period-1/57-马超.png"
+    },
+    {
+      "name": "张辽",
+      "personId": 86,
+      "period": 2,
+      "pilot": false,
+      "expansion": "warriors-identical-reference-v99",
+      "missing": false,
+      "ref": "refs/period-2/86-张辽.png",
+      "hd": "hd/period-1/22-张辽.png"
+    },
+    {
+      "name": "张辽",
+      "personId": 60,
+      "period": 3,
+      "pilot": false,
+      "expansion": "warriors-identical-reference-v99",
+      "missing": false,
+      "ref": "refs/period-3/60-张辽.png",
+      "hd": "hd/period-1/22-张辽.png"
+    },
+    {
+      "name": "黄忠",
+      "personId": 93,
+      "period": 2,
+      "pilot": false,
+      "expansion": "warriors-identical-reference-v99",
+      "missing": false,
+      "ref": "refs/period-2/93-黄忠.png",
+      "hd": "hd/period-1/179-黄忠.png"
+    },
+    {
+      "name": "黄忠",
+      "personId": 11,
+      "period": 3,
+      "pilot": false,
+      "expansion": "warriors-identical-reference-v99",
+      "missing": false,
+      "ref": "refs/period-3/11-黄忠.png",
+      "hd": "hd/period-1/179-黄忠.png"
+    },
+    {
+      "name": "司马懿",
+      "personId": 63,
+      "period": 4,
+      "pilot": false,
+      "expansion": "warriors-identical-reference-v99",
+      "missing": false,
+      "ref": "refs/period-4/63-司马懿.png",
+      "hd": "hd/period-3/169-司马懿.png"
     }
   ]
 }
