@@ -3324,6 +3324,396 @@
       "missing": false,
       "ref": "refs/period-4/91-蒋琬.png",
       "hd": "hd/period-1/130-蒋琬.png"
+    },
+    {
+      "name": "曹真",
+      "personId": 35,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-3/35-曹真.png",
+      "hd": "hd/period-3/35-曹真.png"
+    },
+    {
+      "name": "曹休",
+      "personId": 110,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-1/110-曹休.png",
+      "hd": "hd/period-1/110-曹休.png"
+    },
+    {
+      "name": "曹休",
+      "personId": 151,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-2/151-曹休.png",
+      "hd": "hd/period-2/151-曹休.png"
+    },
+    {
+      "name": "诸葛谨",
+      "personId": 156,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-1/156-诸葛谨.png",
+      "hd": "hd/period-1/156-诸葛谨.png"
+    },
+    {
+      "name": "诸葛谨",
+      "personId": 177,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-2/177-诸葛谨.png",
+      "hd": "hd/period-2/177-诸葛谨.png"
+    },
+    {
+      "name": "郭淮",
+      "personId": 46,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-2/46-郭淮.png",
+      "hd": "hd/period-2/46-郭淮.png"
+    },
+    {
+      "name": "廖化",
+      "personId": 154,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-1/154-廖化.png",
+      "hd": "hd/period-1/154-廖化.png"
+    },
+    {
+      "name": "廖化",
+      "personId": 166,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-2/166-廖化.png",
+      "hd": "hd/period-2/166-廖化.png"
+    },
+    {
+      "name": "费祎",
+      "personId": 119,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-1/119-费祎.png",
+      "hd": "hd/period-1/119-费祎.png"
+    },
+    {
+      "name": "费祎",
+      "personId": 154,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-2/154-费祎.png",
+      "hd": "hd/period-2/154-费祎.png"
+    },
+    {
+      "name": "董允",
+      "personId": 120,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-1/120-董允.png",
+      "hd": "hd/period-1/120-董允.png"
+    },
+    {
+      "name": "董允",
+      "personId": 153,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-2/153-董允.png",
+      "hd": "hd/period-2/153-董允.png"
+    },
+    {
+      "name": "李严",
+      "personId": 142,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-1/142-李严.png",
+      "hd": "hd/period-1/142-李严.png"
+    },
+    {
+      "name": "马谡",
+      "personId": 122,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-1/122-马谡.png",
+      "hd": "hd/period-1/122-马谡.png"
+    },
+    {
+      "name": "马谡",
+      "personId": 161,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-2/161-马谡.png",
+      "hd": "hd/period-2/161-马谡.png"
+    },
+    {
+      "name": "朱然",
+      "personId": 116,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-3/116-朱然.png",
+      "hd": "hd/period-3/116-朱然.png"
+    },
+    {
+      "name": "潘璋",
+      "personId": 102,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-3/102-潘璋.png",
+      "hd": "hd/period-3/102-潘璋.png"
+    },
+    {
+      "name": "司马师",
+      "personId": 64,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-4/64-司马师.png",
+      "hd": "hd/period-4/64-司马师.png"
+    },
+    {
+      "name": "司马昭",
+      "personId": 65,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-later-cast-v113",
+      "missing": false,
+      "ref": "refs/period-4/65-司马昭.png",
+      "hd": "hd/period-4/65-司马昭.png"
+    },
+    {
+      "name": "曹真",
+      "personId": 11,
+      "period": 4,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-4/11-曹真.png",
+      "hd": "hd/period-3/35-曹真.png"
+    },
+    {
+      "name": "曹休",
+      "personId": 33,
+      "period": 3,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-3/33-曹休.png",
+      "hd": "hd/period-1/110-曹休.png"
+    },
+    {
+      "name": "曹休",
+      "personId": 20,
+      "period": 4,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-4/20-曹休.png",
+      "hd": "hd/period-1/110-曹休.png"
+    },
+    {
+      "name": "诸葛谨",
+      "personId": 114,
+      "period": 3,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-3/114-诸葛谨.png",
+      "hd": "hd/period-1/156-诸葛谨.png"
+    },
+    {
+      "name": "诸葛谨",
+      "personId": 124,
+      "period": 4,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-4/124-诸葛谨.png",
+      "hd": "hd/period-1/156-诸葛谨.png"
+    },
+    {
+      "name": "郭淮",
+      "personId": 48,
+      "period": 3,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-3/48-郭淮.png",
+      "hd": "hd/period-2/46-郭淮.png"
+    },
+    {
+      "name": "郭淮",
+      "personId": 31,
+      "period": 4,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-4/31-郭淮.png",
+      "hd": "hd/period-2/46-郭淮.png"
+    },
+    {
+      "name": "廖化",
+      "personId": 84,
+      "period": 3,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-3/84-廖化.png",
+      "hd": "hd/period-1/154-廖化.png"
+    },
+    {
+      "name": "廖化",
+      "personId": 77,
+      "period": 4,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-4/77-廖化.png",
+      "hd": "hd/period-1/154-廖化.png"
+    },
+    {
+      "name": "费祎",
+      "personId": 154,
+      "period": 3,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-3/154-费祎.png",
+      "hd": "hd/period-1/119-费祎.png"
+    },
+    {
+      "name": "费祎",
+      "personId": 88,
+      "period": 4,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-4/88-费祎.png",
+      "hd": "hd/period-1/119-费祎.png"
+    },
+    {
+      "name": "董允",
+      "personId": 153,
+      "period": 3,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-3/153-董允.png",
+      "hd": "hd/period-1/120-董允.png"
+    },
+    {
+      "name": "董允",
+      "personId": 87,
+      "period": 4,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-4/87-董允.png",
+      "hd": "hd/period-1/120-董允.png"
+    },
+    {
+      "name": "李严",
+      "personId": 131,
+      "period": 2,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-2/131-李严.png",
+      "hd": "hd/period-1/142-李严.png"
+    },
+    {
+      "name": "李严",
+      "personId": 148,
+      "period": 3,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-3/148-李严.png",
+      "hd": "hd/period-1/142-李严.png"
+    },
+    {
+      "name": "李严",
+      "personId": 85,
+      "period": 4,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-4/85-李严.png",
+      "hd": "hd/period-1/142-李严.png"
+    },
+    {
+      "name": "马谡",
+      "personId": 162,
+      "period": 3,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-3/162-马谡.png",
+      "hd": "hd/period-1/122-马谡.png"
+    },
+    {
+      "name": "马谡",
+      "personId": 92,
+      "period": 4,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-4/92-马谡.png",
+      "hd": "hd/period-1/122-马谡.png"
+    },
+    {
+      "name": "朱然",
+      "personId": 111,
+      "period": 4,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-4/111-朱然.png",
+      "hd": "hd/period-3/116-朱然.png"
+    },
+    {
+      "name": "潘璋",
+      "personId": 114,
+      "period": 4,
+      "pilot": false,
+      "expansion": "later-cast-identical-reference-v113",
+      "missing": false,
+      "ref": "refs/period-4/114-潘璋.png",
+      "hd": "hd/period-3/102-潘璋.png"
     }
   ]
 }
