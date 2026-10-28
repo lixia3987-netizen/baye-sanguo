@@ -11,6 +11,8 @@
         'g_hdMakerActive','g_hdRecordActive','g_hdQtyActive','g_hdResultOwnerKind','g_hdResultOwnerValid'];
     var ARMS = ['骑','步','弓','水','极','玄'];
     var STATES = ['正常','混乱','禁咒','定身','奇门','遁甲','石阵','潜踪','死亡'];
+    var TERRAIN_KINDS = ['grass','plain','hill','forest','village','city','tent','river'];
+    var TERRAIN_LABELS = ['草地','平原','山地','森林','村庄','城池','营寨','河流'];
     function uint(n, max) { return typeof n === 'number' && isFinite(n) && Math.floor(n) === n && n >= 0 && n <= (max === undefined ? 0xffffffff : max); }
     function key(value) { return JSON.stringify(value); }
     function createController(environment) {
@@ -289,6 +291,65 @@
                 return last;
             }finally{refreshing=false;}
         }
+        function renderFocusCard(snapshot,t) {
+            var d=doc(), details=node('hd-mobile-battle-details'), card=null;
+            if(!details){return true;}
+            function current() {
+                return doc()===d && node('hd-mobile-battle-details')===details && sharedShowsHd() &&
+                    renderMatches(snapshot,t) && doc()===d && node('hd-mobile-battle-details')===details;
+            }
+            try {
+                var f=t.native.fight, x=f.focusX, y=f.focusY, units=Array.isArray(snapshot.unitList)?snapshot.unitList:[], u=null;
+                for(var i=0;i<units.length;i++){
+                    var candidate=units[i];
+                    if(candidate && candidate.x===x && candidate.y===y && candidate.state!==8){u=candidate;break;}
+                }
+                function terrainLabel(value) {
+                    if(!value || value.x!==x || value.y!==y){return null;}
+                    var index=value.index;
+                    return uint(index,7) && value.kind===TERRAIN_KINDS[index] && value.label===TERRAIN_LABELS[index]
+                        ? TERRAIN_LABELS[index] : null;
+                }
+                // Reuse shared classifications only. A conflicting publication is
+                // unknown; no raw tile, movement or skill rule is inferred here.
+                var unitTerrain=u && u.terrain, focusTerrain=snapshot.focusTerrain,
+                    terrain=terrainLabel(unitTerrain || focusTerrain);
+                if(unitTerrain && focusTerrain && terrainLabel(focusTerrain)!==terrain){terrain=null;}
+                function number(value){return uint(value,65535)?String(value):'未读取';}
+                var rows=[];
+                if(u){
+                    var name=u.name, side=u.side, armType=u.armType, state=u.state, active=u.active;
+                    rows.push(['name',typeof name==='string' && name.trim()?name:'姓名未读取']);
+                    rows.push(['identity',(side==='player'?'我方':side==='enemy'?'敌方':'阵营未读取')+' · '+
+                        (uint(armType,5)?ARMS[armType]+'兵':'兵种未读取')+' · 位置 '+x+','+y]);
+                    rows.push(['vitals','兵力 '+number(u.arms)+' · HP '+number(u.hp)+' · MP '+number(u.mp)]);
+                    rows.push(['state','状态 '+(uint(state,7)?STATES[state]:'未读取')+' · 行动 '+
+                        (active===0?'待行动':active===1?'已行动':'未读取')]);
+                }else{rows.push(['position','位置 '+x+','+y]);}
+                rows.push(['terrain','地形 '+(terrain || '未知地形')]);
+                if(!u){rows.push(['hint','拖动查看战场 · 轻点选择']);}
+                var signature=key(rows), previous=details._hdMobileFocusCard;
+                if(details._hdMobileFocusSignature===signature && previous && previous.parentNode===details){return current();}
+                card=d.createElement('div');card.className='hd-mobile-battle-focus-card';
+                rows.forEach(function(row){
+                    var item=d.createElement(row[0]==='name'?'strong':'p');
+                    item.setAttribute('data-hd-mobile-focus-field',row[0]);item.textContent=row[1];card.appendChild(item);
+                });
+                // Classification, canvas and DOM callbacks can replace the native
+                // owner. Check the existing ticket after detached construction.
+                if(!current()){return false;}
+                details.replaceChildren(card);
+                if(!current()){
+                    if(card.parentNode===details){details.removeChild(card);}
+                    return false;
+                }
+                details._hdMobileFocusSignature=signature;details._hdMobileFocusCard=card;
+                return true;
+            }catch(e){
+                if(card && card.parentNode===details){details.removeChild(card);}
+                return false;
+            }
+        }
         function render(snapshot) {
             if(drawing || !snapshot){return;}drawing=true;
             try{
@@ -327,8 +388,9 @@
                     ctx.font='10px sans-serif';ctx.fillText(u.active===1?'已行动':u.i===t.actor?'当前':STATES[u.state]||'待行动',px+cell/2,py+cell*.83,cell-8);
                 });
                 var f=t.native.fight;ctx.strokeStyle='#f0c75a';ctx.lineWidth=2;ctx.strokeRect(ox+(f.focusX-camera.x)*cell+1,oy+(f.focusY-camera.y)*cell+1,cell-2,cell-2);
-                var u=(snapshot.unitList||[]).find(function(v){return v.x===f.focusX && v.y===f.focusY && v.state!==8;}),details=node('hd-mobile-battle-details');
-                if(details){details.textContent=u?(u.name+' · '+(ARMS[u.armType]||'兵')+'兵\n兵力 '+u.arms+' · HP '+u.hp+' · MP '+u.mp+'\n'+(STATES[u.state]||'未知')+' · '+(u.active===1?'已行动':'待行动')):'位置 '+f.focusX+','+f.focusY+'\n拖动查看战场 · 轻点选择';}
+                if(!renderFocusCard(snapshot,t)){
+                    lastRender=null;paint('lcd');if(arm){retire('render-owner-changed');}return;
+                }
                 if(last){last.camera=Object.assign({},camera);last.presentation='hd';}
             }finally{drawing=false;}
         }

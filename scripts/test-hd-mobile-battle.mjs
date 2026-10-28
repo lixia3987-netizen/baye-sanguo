@@ -403,6 +403,68 @@ test('renderer exposes cells of at least 44 CSS pixels in both supported landsca
         assert.ok(s.camera.cols*s.camera.cell<=boardWidth);assert.ok(s.camera.rows*s.camera.cell<=boardHeight);noAction(f);
     }
 });
+
+test('mobile focus card shows friendly and enemy identity, native values and first living slot without HTML',()=>{
+    const f=fixture(),details=f.nodes.get('hd-mobile-battle-details');
+    const fields=()=>Object.fromEntries(details.querySelectorAll('[data-hd-mobile-focus-field]').map(n=>[n.getAttribute('data-hd-mobile-focus-field'),n.textContent]));
+    let payload=f.renderPayload();payload.unitList[0].name='<img src=x onerror=alert(1)>';
+    payload.unitList[0].terrain=payload.focusTerrain={x:4,y:16,index:3,kind:'forest',label:'森林'};
+    f.shared.provider.render(payload);
+    assert.deepEqual(fields(),{name:'<img src=x onerror=alert(1)>',identity:'我方 · 步兵 · 位置 4,16',
+        vitals:'兵力 100 · HP 185 · MP 146',state:'状态 正常 · 行动 待行动',terrain:'地形 森林'});
+    assert.equal(details.querySelectorAll('img').length,0);
+    const previous=details.children.at(-1);details.scrollTop=30;f.shared.provider.render(payload);
+    assert.equal(details.children.at(-1),previous);assert.equal(details.scrollTop,30);
+    f.raw.g_GenPos[0].state=8;f.raw.g_GenPos[1].y=16;f.raw.g_GenPos[10].x=4;
+    f.raw.g_GenPos[1].state=3;f.raw.g_GenPos[1].active=1;
+    payload=f.renderPayload();payload.focusTerrain={x:4,y:16,index:7,kind:'river',label:'河流'};
+    f.shared.provider.render(payload);
+    assert.equal(fields().name,'吴兰');assert.equal(fields().identity,'我方 · 步兵 · 位置 4,16');
+    assert.equal(fields().state,'状态 定身 · 行动 已行动');assert.equal(fields().terrain,'地形 河流');
+    f.raw.g_FoucsX=15;f.raw.g_GenPos[10].x=15;payload=f.renderPayload();f.shared.provider.render(payload);
+    assert.equal(fields().name,'吕布');assert.equal(fields().identity,'敌方 · 步兵 · 位置 15,16');
+    assert.equal(fields().vitals,'兵力 1000 · HP 100 · MP 80');noAction(f);
+});
+
+test('mobile focus card keeps empty coordinates and refuses missing, displaced or conflicting terrain and unknown fields',()=>{
+    const f=fixture(),details=f.nodes.get('hd-mobile-battle-details');
+    const field=name=>details.querySelector('[data-hd-mobile-focus-field="'+name+'"]').textContent;
+    f.raw.g_FoucsX=7;f.raw.g_FoucsY=8;
+    let payload=f.renderPayload();payload.focusTerrain={x:7,y:8,index:1,kind:'plain',label:'平原'};
+    f.shared.provider.render(payload);assert.equal(field('position'),'位置 7,8');assert.equal(field('terrain'),'地形 平原');
+    assert.equal(field('hint'),'拖动查看战场 · 轻点选择');
+    for(const terrain of [undefined,{x:6,y:8,index:1,kind:'plain',label:'平原'},
+        {x:7,y:8,index:1,kind:'river',label:'河流'},{x:7,y:8,index:null,kind:'unknown',label:'未知地形'}]){
+        payload=f.renderPayload();payload.focusTerrain=terrain;f.shared.provider.render(payload);
+        assert.equal(field('terrain'),'地形 未知地形');
+    }
+    f.raw.g_FoucsX=4;f.raw.g_FoucsY=16;payload=f.renderPayload();
+    Object.assign(payload.unitList[0],{side:'other',armType:99,arms:null,hp:NaN,mp:-1,state:99,active:2,
+        terrain:{x:3,y:16,index:3,kind:'forest',label:'森林'}});
+    payload.focusTerrain={x:4,y:16,index:3,kind:'forest',label:'森林'};f.shared.provider.render(payload);
+    assert.equal(field('identity'),'阵营未读取 · 兵种未读取 · 位置 4,16');
+    assert.equal(field('vitals'),'兵力 未读取 · HP 未读取 · MP 未读取');
+    assert.equal(field('state'),'状态 未读取 · 行动 未读取');assert.equal(field('terrain'),'地形 未知地形');noAction(f);
+});
+
+test('mobile focus card cannot commit a stale snapshot after display callbacks replace its source',()=>{
+    for(const boundary of ['unit-getter','terrain-paint','card-commit']){
+        const f=fixture(),details=f.nodes.get('hd-mobile-battle-details'),payload=f.renderPayload();
+        payload.unitList[0].name='旧快照不可提交';
+        const rebind=()=>{f.state.data={...f.raw};};
+        if(boundary==='unit-getter')Object.defineProperty(payload.unitList[0],'terrain',{get(){rebind();return null;}});
+        if(boundary==='terrain-paint'){
+            payload.terrainSnapshot={};f.window.BayeHdBattleTerrain={paint(){rebind();return true;}};
+        }
+        if(boundary==='card-commit'){
+            const replace=details.replaceChildren;details.replaceChildren=function(...children){replace.apply(this,children);rebind();};
+        }
+        f.shared.provider.render(payload);f.host.refresh();
+        assert.equal(f.host.debugSnapshot().presentation,'lcd',boundary);
+        assert.ok(!details.querySelectorAll('[data-hd-mobile-focus-field]').some(n=>n.textContent==='旧快照不可提交'),boundary);
+        noAction(f);
+    }
+});
 test('one trusted board DOWN-UP delivers only the native tile under that gesture',()=>{
     const f=fixture(),{camera:c}=f.render();
     const point={clientX:c.left+(4-c.x+.5)*c.cell,clientY:c.top+(16-c.y+.5)*c.cell};

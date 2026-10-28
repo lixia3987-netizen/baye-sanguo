@@ -655,8 +655,11 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
 }
 .hd-mobile-page #hd-battle-context > span { white-space: normal; overflow-wrap: anywhere; }
 .hd-mobile-page #hd-battle-context[hidden] { display: none !important; }
-.hd-mobile-page #hd-mobile-battle-details strong { font-size: 14px; }
-.hd-mobile-page #hd-mobile-battle-details p { margin: 0 0 4px; }
+.hd-mobile-page .hd-mobile-battle-focus-card { display: grid; gap: 2px; }
+.hd-mobile-page #hd-mobile-battle-details strong { display: block; color: #f5deb0; font-size: 14px; }
+.hd-mobile-page #hd-mobile-battle-details p { margin: 0; }
+.hd-mobile-page [data-hd-mobile-focus-field="identity"],
+.hd-mobile-page [data-hd-mobile-focus-field="terrain"] { color: #b7c9dd; }
 .hd-mobile-page #hd-battle-menu {
     display: flex;
     flex-direction: column;
