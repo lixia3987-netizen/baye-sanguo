@@ -293,6 +293,17 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
 .hd-mobile-page .hd-city-menu-status { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .hd-mobile-page .hd-city-menu-stat { font-size: 14px; padding: 6px 8px; }
 .hd-mobile-page .hd-city-menu-info-group h3 { margin: 4px 0 6px; font-size: 15px; }
+@media (max-width: 900px) and (orientation: landscape) {
+    .hd-mobile-page #hd-city-menu-status > .hd-city-menu-info-group:nth-child(3),
+    .hd-mobile-page #hd-city-menu-status > [data-hd-city-plans] { grid-column: 1 / -1; }
+    .hd-mobile-page #hd-city-menu-status > .hd-city-menu-info-group:nth-child(3) > .hd-city-menu-info-rows {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .hd-mobile-page #hd-city-menu-status > [data-hd-city-plans] .hd-city-menu-stat > strong {
+        flex: 1 1 0;
+        text-align: left;
+    }
+}
 .hd-mobile-page .hd-city-menu-person-layout.has-person-details,
 .hd-mobile-page .hd-city-menu-person-layout.has-tool-details {
     display: grid;
