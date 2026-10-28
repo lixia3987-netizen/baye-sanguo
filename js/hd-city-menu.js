@@ -5742,6 +5742,164 @@
         state.deepSig = '';
     }
 
+    var toolListStatsReading = false, toolListStatsEpoch = 0;
+    function readToolListStats(menu, owner, items) {
+        if (toolListStatsReading) { toolListStatsEpoch += 1; return null; }
+        var token = ++toolListStatsEpoch;
+        toolListStatsReading = true;
+        try {
+            function route() {
+                if (state.subKind !== 'neizheng' || mobileTrade || mobileTransfer || mobileEquipmentFlow || surrenderFlow ||
+                    !usesGoodsMenu(state.deepKind, state.deepStep)) { return false; }
+                var labels = SUBS.neizheng, kinds = DEEP.neizheng;
+                return labels[8] === '赏赐' && kinds[8] === 'goods' && state.deepLabel === labels[8] &&
+                    (state.deepKind === kinds[8] || state.deepKind === 'goods-person') && state.deepStep === 0 ||
+                    labels[9] === '没收' && kinds[9] === 'person-goods' && state.deepLabel === labels[9] &&
+                    state.deepKind === kinds[9] && state.deepStep === 1;
+            }
+            function menuKey(value) {
+                var ids = actualMenuIds(value), current = deepMenuOwner(value);
+                if (!ids || !owner || !current || owner.kind !== 4 || current.key !== owner.key ||
+                    value.active !== 1 || value.context !== 1 || value.kind !== 4 ||
+                    detailNumber(value.index, ids.length - 1) == null || !detailNumber(value.seq, 0xffffffff) ||
+                    !detailNumber(value.itemLen, 64) || !owner.detailGeneration ||
+                    value.generation !== owner.detailGeneration || value.detailGeneration !== owner.detailGeneration ||
+                    !ids.every(function (id) { return id < 33; }) ||
+                    !Array.isArray(value.packedNames) || value.packedNames.length !== ids.length ||
+                    !value.names.every(function (name) { return typeof name === 'string' && !!name; }) ||
+                    !value.packedNames.every(function (name) { return typeof name === 'string' && !!name; })) { return null; }
+                return JSON.stringify([value.active, value.context, value.kind, value.seq, value.itemLen, value.count,
+                    value.index, value.generation, value.detailGeneration, ids, value.names, value.packedNames]);
+            }
+            var expectedMenu = menuKey(menu), ids = actualMenuIds(menu);
+            if (!expectedMenu || !items.length || items.length !== ids.length) { return null; }
+            function sample() {
+                var engine = global.baye, hd = engine && engine.hd, api = global.BayeHdLibIdentity;
+                var hooks = engine && engine.hooks;
+                function methods() {
+                    return [api && api.read, api && api.isCurrent, engine && engine.getToolCount,
+                        engine && engine.getPersonCount, engine && engine.ensureData, engine && engine.getToolName,
+                        hd && hd.ready, hd && hd.menuItems, hd && hd.goods, hd && hd.toolDetails,
+                        hooks && hooks.getToolPropertyTitle, hooks && hooks.getToolPropertyValue];
+                }
+                var readers = methods();
+                if (!route() || !state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
+                    state.nativeMenuRequest || state.deepSelectionPending || state.toolPagePending || state.sending ||
+                    state.queue.length || state.closingSub || showingQty() || detailOverlayActive() ||
+                    !state.deepMenuOwner || state.deepMenuOwner.key !== owner.key || !engine || !hd || !api ||
+                    readers.slice(0, 10).some(function (method) { return typeof method !== 'function'; }) ||
+                    !standardHudLabels(['getToolPropertyTitle', 'getToolPropertyValue'])) { return null; }
+                if (!readers[6].call(hd)) { return null; }
+                var identity = readers[0].call(api), data = readers[4].call(engine), cityIndex = detailNumber(state.cityIndex, 37);
+                var config = data && data.g_engineConfig, cities = data && data.g_Cities;
+                var tools = data && data.g_Tools, king = data && detailNumber(data.g_PlayerKing, 199);
+                var city = cities && cities[cityIndex];
+                if (!identity || identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA ||
+                    identity.byteLength !== 207195 || !detailNumber(identity.generation, 0xffffffff) || !readers[1].call(api, identity) ||
+                    readers[2].call(engine) !== 33 || readers[3].call(engine) !== 200 ||
+                    !data || engine.data !== data || !config || config.citiesCount !== 38 || !cities || cities.length !== 38 ||
+                    !tools || tools.length !== 33 || cityIndex == null || king == null || !city || city.Belong !== king + 1 ||
+                    data.g_hdMapCity !== cityIndex + 1 || data.g_hdDetailGeneration !== owner.detailGeneration ||
+                    !items.every(function (item, i) { return item.nativeId === true && item.toolIndex === ids[i] && item.name === menu.names[i]; })) { return null; }
+                if (!readers.every(function (method, i) { return method === methods()[i]; })) { return null; }
+                var profile = liveToolContext();
+                if (!profile || profile.owner.key !== owner.key || profile.index !== menu.index || profile.tool !== ids[menu.index] ||
+                    profile.custom !== false || profile.propertyCount !== 5) { return null; }
+                var toolRefs = ids.map(function (id) { return tools[id]; });
+                if (toolRefs.some(function (tool) { return !tool; })) { return null; }
+                var refs = readers.concat([api, engine, hd, hooks, data, config, cities, city, tools]);
+                var identityKey = JSON.stringify([identity.status, identity.sha256, identity.byteLength, identity.generation]);
+                function current(noCallbacks) {
+                    var visible = noCallbacks || readers[1].call(api, identity) && shouldShowHd() && !showingQty() && !detailOverlayActive();
+                    var live = noCallbacks ? menu : readers[7].call(hd);
+                    return visible && readers.every(function (method, i) { return method === methods()[i]; }) &&
+                        menuKey(live) === expectedMenu && global.baye === engine && engine.hd === hd && engine.data === data &&
+                        engine.hooks === hooks && global.BayeHdLibIdentity === api &&
+                        JSON.stringify([identity.status, identity.sha256, identity.byteLength, identity.generation]) === identityKey &&
+                        data.g_engineConfig === config && config.citiesCount === 38 && data.g_Cities === cities && cities.length === 38 &&
+                        cities[cityIndex] === city && city.Belong === king + 1 && data.g_PlayerKing === king && state.cityIndex === cityIndex &&
+                        data.g_hdMapCity === cityIndex + 1 && data.g_hdDetailGeneration === owner.detailGeneration &&
+                        data.g_Tools === tools && tools.length === 33 && ids.every(function (id, i) { return tools[id] === toolRefs[i]; }) &&
+                        data.g_hdMenuActive === live.active && data.g_hdMenuContext === live.context && data.g_hdMenuKind === live.kind &&
+                        data.g_hdMenuSeq === live.seq && data.g_hdMenuCount === live.count && data.g_hdMenuIndex === live.index &&
+                        data.g_hdMenuItemLen === live.itemLen && data.g_hdGoodsActive === 1 && data.g_hdGoodsCustom === 0 &&
+                        data.g_hdGoodsGeneration === owner.detailGeneration && data.g_hdGoodsMenuSeq === owner.seq &&
+                        data.g_hdGoodsIndex === menu.index && data.g_hdGoodsTool === ids[menu.index] && data.g_hdGoodsPropertyCount === 5 &&
+                        state.deepItems === items && route() && state.open && state.layer === 'deep' && !document.hidden &&
+                        !state.nativeMenuRequest && !state.deepSelectionPending && !state.toolPagePending && !state.sending &&
+                        !state.queue.length && !state.closingSub && state.deepMenuOwner && state.deepMenuOwner.key === owner.key &&
+                        token === toolListStatsEpoch;
+                }
+                if (!current()) { return null; }
+                return {refs: refs, toolRefs: toolRefs, tools: tools, hd: hd, readTool: readers[9],
+                    current: current, profileKey: profile.snapshotKey,
+                    key: JSON.stringify([expectedMenu, identityKey, cityIndex, king, city.Belong, profile.snapshotKey, marchEpoch])};
+            }
+            function same(a, b) {
+                return !!(a && b && a.key === b.key && a.refs.every(function (ref, i) { return b.refs[i] === ref; }) &&
+                    a.toolRefs.every(function (ref, i) { return b.toolRefs[i] === ref; }));
+            }
+            function rawValuesMatch(base, rows) {
+                return rows.every(function (row, i) {
+                    var tool = base.toolRefs[i];
+                    return base.tools[row[0]] === tool && detailNumber(tool.useflag, 1) === row[1] &&
+                        detailNumber(tool.at, 255) === row[2] && detailNumber(tool.iq, 255) === row[3] &&
+                        detailNumber(tool.move, 255) === row[4];
+                });
+            }
+            function values(base) {
+                if (!base.current()) { return null; }
+                var rows = [];
+                for (var i = 0; i < ids.length; i++) {
+                    if (token !== toolListStatsEpoch || state.deepItems !== items) { return null; }
+                    var tool = base.readTool.call(base.hd, ids[i]);
+                    if (!tool || tool.standard !== true || tool.index !== ids[i] || tool.generation !== owner.detailGeneration ||
+                        typeof tool.name !== 'string' || !tool.name || tool.name === '-') { return null; }
+                    var useFlag = detailNumber(tool.useFlag, 1), attack = detailNumber(tool.attack, 255);
+                    var iq = detailNumber(tool.iq, 255), move = detailNumber(tool.move, 255);
+                    if (useFlag == null || attack == null || iq == null || move == null || token !== toolListStatsEpoch) { return null; }
+                    rows.push([ids[i], useFlag, attack, iq, move, tool.name]);
+                }
+                return base.current() && rawValuesMatch(base, rows) && base.current(true) ? rows : null;
+            }
+            // Every native ID and default property receipt is verified before
+            // inspecting other tools. Full names need not equal packed labels.
+            var before = sample();
+            if (!before) { return null; }
+            var first = values(before), middle = sample();
+            if (!first || !same(before, middle)) { return null; }
+            var second = values(middle), after = sample();
+            if (!second || !same(before, after) || !after.current() || token !== toolListStatsEpoch ||
+                JSON.stringify(first) !== JSON.stringify(second)) { return null; }
+            return {rows: second, validate: function () {
+                if (token !== toolListStatsEpoch || toolListStatsReading) { return false; }
+                toolListStatsReading = true;
+                try {
+                    var last = sample();
+                    if (!same(before, last) || !last.current()) { return false; }
+                    // Run the final sticky-custom callback before the raw fence,
+                    // including checks for changes made by the caller's render.
+                    var profile = liveToolContext();
+                    if (!profile || profile.custom !== false || profile.propertyCount !== 5 || profile.snapshotKey !== last.profileKey) { return false; }
+                    return rawValuesMatch(last, second) && last.current(true) && token === toolListStatsEpoch;
+                } catch (e) { return false; }
+                finally { toolListStatsReading = false; }
+            }};
+        } catch (e) { return null; }
+        finally { toolListStatsReading = false; }
+    }
+
+    function finishToolListStats(receipt, list) {
+        if (!receipt || receipt.validate()) { return; }
+        list.classList.remove('has-tool-summaries');
+        var summaries = list.querySelectorAll('[data-hd-tool-summary]');
+        for (var i = 0; i < summaries.length; i++) {
+            var button = summaries[i].parentNode;
+            if (button) { button.removeChild(summaries[i]); button.classList.remove('has-tool-summary'); }
+        }
+        state.deepSig = '';
+    }
+
     // Equipment cards are copies of current standard-LIB fields, never inferred
     // from names or from a previous tool picker. Recheck both slots together so
     // a name/tool getter cannot attach another person's equipment to this pane.
@@ -6464,7 +6622,7 @@
         var signature = JSON.stringify([ticket.key, presentation.pendingTarget, presentation.confirmingTarget, presentation.status]);
         if (state.deepSig === signature && list.children.length) { return true; }
         state.deepSig = signature; state.deepMenuOwner = null; state.deepItems = [];
-        retirePersonDetails(); retireToolDetails(); list.classList.toggle('has-mobile-qty', false); list.classList.remove('has-person-summaries'); list.innerHTML = '';
+        retirePersonDetails(); retireToolDetails(); list.classList.toggle('has-mobile-qty', false); list.classList.remove('has-person-summaries', 'has-tool-summaries'); list.innerHTML = '';
         function text(value, className) {
             var paragraph = document.createElement('p'); paragraph.className = className || 'hd-city-menu-map-hint';
             paragraph.textContent = value; list.appendChild(paragraph);
@@ -6520,7 +6678,9 @@
             ? [liveQty.session, liveQty.min, liveQty.max, !!state.qtyAckFailed].join(':')
             : liveQty && liveQty.value;
         var personStats = !quantityVisible && owner ? readPersonListStats(deepMenu, owner, state.deepItems) : null;
+        var toolStats = !quantityVisible && owner ? readToolListStats(deepMenu, owner, state.deepItems) : null;
         list.classList.toggle('has-person-summaries', !!personStats);
+        list.classList.toggle('has-tool-summaries', !!toolStats);
         var sig = (quantityVisible ? 'qty:' + quantitySig : state.deepKind + ':' + state.deepStep) +
             ':' + (state.pickedPersons || 0) +
             ':' + (mapPickActive() ? 'pick' : '') +
@@ -6539,12 +6699,13 @@
             ':' + (owner ? owner.key : '') +
             ':' + state.deepItems.map(function (it) {
                 return it.name;
-            }).join(',') + ':' + JSON.stringify(personStats && personStats.rows);
+            }).join(',') + ':' + JSON.stringify(personStats && personStats.rows) + ':' + JSON.stringify(toolStats && toolStats.rows);
         if (state.deepSig === sig && list.children.length) {
             if (mobileQty && liveQty) { setText(el('hd-city-qty-val'), liveQty.value); }
             updateQuantityBound(el('hd-city-qty-bound'), liveQty);
             applyHighlight();
             finishPersonListStats(personStats, list);
+            finishToolListStats(toolStats, list);
             return;
         }
         state.deepSig = sig;
@@ -6776,6 +6937,13 @@
                 summary.textContent = '武力 ' + stats[1] + ' · 智力 ' + stats[2] + ' · 体力 ' + stats[3];
                 btn.classList.add('has-person-summary'); btn.appendChild(summary);
             }
+            if (toolStats && toolStats.rows[i] && toolStats.rows[i][0] === it.toolIndex) {
+                var toolStatsRow = toolStats.rows[i], toolSummary = document.createElement('small');
+                toolSummary.setAttribute('data-hd-tool-summary', '1');
+                toolSummary.textContent = (toolStatsRow[1] ? '使用' : '装备') + ' · 武力 +' + toolStatsRow[2] +
+                    ' · 智力 +' + toolStatsRow[3] + ' · 移动 +' + toolStatsRow[4];
+                btn.classList.add('has-tool-summary'); btn.appendChild(toolSummary);
+            }
             if (allowPreview) {
                 var row = document.createElement('div');
                 row.className = 'hd-city-menu-preview-row';
@@ -6794,6 +6962,7 @@
         }
         applyHighlight();
         finishPersonListStats(personStats, list);
+        finishToolListStats(toolStats, list);
     }
 
     function fillSubList(kind) {

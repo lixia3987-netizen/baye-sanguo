@@ -3797,3 +3797,193 @@ test('person list summary withdraws invalid sources before private stat reads an
         assert.deepEqual(late.keys, []); assert.deepEqual(late.writes, []);
     }
 });
+
+// Exercise the real list renderer with the same stable read-only binding shape
+// as V116. The full tool name intentionally differs from the LCD menu slot.
+function toolListSummaryHarness(ids = [17, 2]) {
+    const h = goodsHarness({custom: false}), cache = new WeakMap();
+    h.readonlyTools = function readonly(value, at = '') {
+        if (!value || typeof value !== 'object') return value;
+        if (cache.has(value)) return cache.get(value);
+        const proxy = new Proxy(value, {get(target, key) {return readonly(target[key], at + '.' + String(key));},
+            set(target, key) {h.writes.push(at + '.' + String(key)); throw Error('tool summary wrote native data');}});
+        cache.set(value, proxy); return proxy;
+    };
+    h.nativeTools = Array.from({length: 33}, () => ({useflag: 0, at: 0, iq: 0, move: 0, arm: 0, changeAttackRange: 0}));
+    Object.assign(h.nativeTools[17], {useflag: 0, at: 255, iq: 0, move: 255});
+    Object.assign(h.nativeTools[2], {useflag: 1, at: 0, iq: 255, move: 0});
+    Object.assign(h.nativeTools[31], {useflag: 0, at: 17, iq: 18, move: 19});
+    h.fullToolNames = new Map(Array.from({length: 33}, (_, id) => [id, '同名道具完整名称' + id]));
+    h.cities = Array.from({length: 38}, () => ({...h.city, Belong: 0}));
+    h.city = h.cities[0]; h.city.Belong = 1;
+    Object.assign(h.raw, {g_Cities: h.cities, g_engineConfig: {citiesCount: 38}, g_PlayerKing: 0,
+        g_Tools: h.nativeTools, g_hdMapCity: 1, g_hdDetailGeneration: 3,
+        g_hdMenuActive: 1, g_hdMenuContext: 1, g_hdMenuKind: 4, g_hdMenuSeq: h.menu.seq,
+        g_hdMenuIndex: 0, g_hdMenuItemLen: 8, g_hdReportActive: 0, g_hdHelpActive: 0, g_hdFightActive: 0,
+        g_hdGoodsActive: 1, g_hdGoodsCustom: 0, g_hdGoodsGeneration: 3, g_hdGoodsMenuSeq: h.menu.seq,
+        g_hdGoodsIndex: 0, g_hdGoodsTool: ids[0], g_hdGoodsPropertyCount: 5});
+    h.context.baye.data = h.readonlyTools(h.raw); h.context.baye.ensureData = () => h.context.baye.data;
+    h.context.baye.getPersonCount = () => 200; h.context.baye.getToolCount = () => 33;
+    h.context.baye.getToolName = id => h.fullToolNames.get(id) ?? '';
+    h.summaryDetailCalls = [];
+    h.context.baye.hd.toolDetails = id => {
+        if (inToolListSummary()) h.summaryDetailCalls.push(id);
+        const tool = h.nativeTools[id];
+        const value = tool && {index: id, name: h.fullToolNames.get(id), standard: true, generation: 3,
+            useFlag: tool.useflag, attack: tool.at, iq: tool.iq, move: tool.move,
+            arm: tool.arm, changeAttackRange: tool.changeAttackRange};
+        return h.toolDetailOverride ? h.toolDetailOverride(value, id) : value;
+    };
+    h.identity = {status: 'ready', sha256: standardHash, byteLength: 207195, generation: 1}; h.setIdentity(h.identity);
+    h.setToolMenu = next => {
+        Object.assign(h.menu, {active: 1, context: 1, kind: 4, idsValid: true,
+            generation: 3, detailGeneration: 3, itemLen: 8, count: next.length, index: 0,
+            ids: next.slice(), names: next.map(() => '同名道具'), packedNames: next.map(() => '同名道具')});
+        Object.assign(h.raw, {g_hdMenuCount: next.length, g_hdMenuIndex: 0, g_hdGoodsIndex: 0, g_hdGoodsTool: next[0]});
+        Object.assign(h.goods, {tool: next[0], index: 0, name: h.fullToolNames.get(next[0]), menuSeq: h.menu.seq});
+        h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu);
+    };
+    h.setToolRoute = confiscate => Object.assign(h.hud.state, {subKind: 'neizheng',
+        deepLabel: confiscate ? '没收' : '赏赐', deepKind: confiscate ? 'person-goods' : 'goods-person', deepStep: confiscate ? 1 : 0});
+    h.setToolRoute(false); h.setToolMenu(ids); h.summaryDetailCalls.length = 0;
+    return h;
+}
+function inToolListSummary() { return /\b(?:readToolListStats|finishToolListStats)\b/.test(new Error().stack); }
+function toolListButtons(h) { return h.nodes['hd-city-menu-deep'].querySelectorAll('[data-hd-deep]'); }
+function toolListSummaryText(h) {
+    return toolListButtons(h).map(button => button.querySelector('[data-hd-tool-summary]')?.textContent ?? null);
+}
+function assertToolListPlain(h, message) {
+    assert.equal(h.nodes['hd-city-menu-deep'].querySelectorAll('[data-hd-tool-summary]').length, 0, message);
+    assert.ok(toolListButtons(h).every(button => button.textContent === h.menu.names[Number(button.getAttribute('data-hd-deep'))]), message);
+    assert.deepEqual(h.keys, [], message); assert.deepEqual(h.writes, [], message);
+}
+const toolSummary17 = '装备 · 武力 +255 · 智力 +0 · 移动 +255';
+const toolSummary2 = '使用 · 武力 +0 · 智力 +255 · 移动 +0';
+
+test('tool list summary follows actual reordered subset IDs and duplicate clipped names with strict U8 values and no input', () => {
+    for (const confiscate of [false, true]) for (const ids of [[17, 2], [2], [2, 17, 2]]) {
+        const h = toolListSummaryHarness(ids); h.setToolRoute(confiscate);
+        const before = plain(h.raw), menuBefore = plain(h.menu), goodsBefore = plain(h.goods);
+        h.hud.fillDeepList();
+        assert.deepEqual(plain(h.hud.state.deepItems), ids.map((id, i) => ({i, name: '同名道具', nativeId: true, toolIndex: id})));
+        assert.deepEqual(toolListSummaryText(h), ids.map(id => id === 17 ? toolSummary17 : toolSummary2));
+        assert.deepEqual(toolListButtons(h).map(button => button.getAttribute('data-hd-deep-tool')), ids.map(String));
+        for (const button of toolListButtons(h)) {
+            const summaries = button.querySelectorAll('[data-hd-tool-summary]');
+            assert.equal(summaries.length, 1); assert.equal(summaries[0].tagName, 'SMALL');
+            assert.equal(summaries[0].parentElement, button);
+            for (const tag of ['button', 'input', 'a']) assert.equal(summaries[0].querySelectorAll(tag).length, 0);
+        }
+        assert.ok(ids.every(id => h.summaryDetailCalls.filter(value => value === id).length >= 2), 'both value reads reach each real ID');
+        assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assert.deepEqual(plain(h.goods), goodsBefore);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('tool list summary refreshes same-owner values while stable polling preserves nodes and old presses cannot confirm replacements', () => {
+    const h = toolListSummaryHarness(); h.hud.fillDeepList();
+    const first = toolListButtons(h), owner = h.hud.state.deepMenuOwner.key, items = plain(h.hud.state.deepItems), menuBefore = plain(h.menu);
+    h.hud.fillDeepList(); assert.ok(toolListButtons(h).every((button, index) => button === first[index]));
+    dispatch(h, 'pointerdown', first[1].querySelector('[data-hd-tool-summary]'), {button: 0, isPrimary: true});
+    Object.assign(h.nativeTools[2], {useflag: 0, at: 21, iq: 22, move: 23}); h.hud.fillDeepList();
+    const fresh = toolListButtons(h);
+    assert.equal(h.hud.state.deepMenuOwner.key, owner); assert.notEqual(fresh[1], first[1]); assert.equal(first[1].parentElement, null);
+    assert.deepEqual(toolListSummaryText(h), [toolSummary17, '装备 · 武力 +21 · 智力 +22 · 移动 +23']);
+    assert.deepEqual(plain(h.hud.state.deepItems), items); assert.deepEqual(plain(h.menu), menuBefore);
+    dispatch(h, 'click', fresh[1], {detail: 1});
+    assert.deepEqual(h.keys, [], 'a pointer held across refresh cannot confirm the replacement tool');
+    assert.deepEqual(h.writes, []); assert.equal(h.hud.state.nativeMenuRequest, null);
+    h.hud.fillDeepList(); assert.ok(toolListButtons(h).every((button, index) => button === fresh[index]));
+});
+
+test('tool list summary withdraws invalid routes and sources, torn reads and final callbacks then recovers without input', () => {
+    const gates = [
+        ['other command', h => {h.hud.state.deepLabel = '搜寻';}],
+        ['other branch', h => {h.hud.state.subKind = 'junbei';}],
+        ['unscoped goods', h => {Object.assign(h.hud.state, {deepKind: 'goods', subKind: '', deepLabel: ''});}],
+        ['wrong route step', h => {h.hud.state.deepStep = 1;}],
+        ['pending library', h => h.setIdentity({...h.identity, status: 'pending'})],
+        ['unknown library', h => h.setIdentity({...h.identity, sha256: 'unknown'})],
+        ['wrong library size', h => h.setIdentity({...h.identity, byteLength: 207194})],
+        ['stale library', h => h.setIdentity(h.identity, false)],
+        ['sticky custom goods', h => {h.goods.custom = 1;}],
+        ['non-default profile', h => {h.goods.propertyCount = 4; h.goods.properties.length = 4; h.goods.pageEnd = 3;}],
+        ['missing goods profile', h => {h.context.baye.hd.goods = () => null;}],
+        ['tool title hook', h => {h.context.baye.hooks = {getToolPropertyTitle() {throw Error('must not replay hook');}};}],
+        ['tool value hook', h => {h.context.baye.hooks = {getToolPropertyValue() {throw Error('must not replay hook');}};}],
+        ['name-only menu', h => {h.menu.idsValid = false;}],
+        ['out-of-range ID', h => {h.menu.ids[1] = 33;}],
+        ['clipped menu IDs', h => {h.menu.ids.pop();}],
+        ['clipped packed names', h => {h.menu.packedNames.pop();}],
+        ['empty packed name', h => {h.menu.packedNames[1] = '';}],
+        ['invalid slot width', h => {h.menu.itemLen = 65;}],
+        ['string slot width', h => {h.menu.itemLen = '8';}],
+        ['raw menu mismatch', h => {h.raw.g_hdMenuCount++;}],
+        ['raw generation', h => {h.raw.g_hdDetailGeneration++;}],
+        ['foreign current city', h => {h.city.Belong = 2;}]
+    ];
+    for (const [label, change] of gates) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); assert.equal(toolListSummaryText(h).filter(Boolean).length, 2, label + ' prerequisite');
+        change(h); h.summaryDetailCalls.length = 0; h.hud.fillDeepList(); assertToolListPlain(h, label);
+        assert.equal(h.summaryDetailCalls.length, 0, label + ' rejects the source before tool detail reads');
+    }
+    for (const [field, value] of [['useFlag', 2], ['attack', -1], ['iq', 256], ['move', 0.5], ['attack', '0'],
+        ['move', false], ['name', ''], ['name', 17], ['index', 17], ['generation', 4], ['standard', 1]]) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); let reached = false;
+        h.toolDetailOverride = (tool, id) => {if (id === 2 && inToolListSummary()) {reached = true; return {...tool, [field]: value};} return tool;};
+        h.hud.fillDeepList(); assert.equal(reached, true, field + ' malformed detail reached the summary'); assertToolListPlain(h, field + '=' + String(value));
+        h.toolDetailOverride = null; h.hud.fillDeepList(); assert.deepEqual(toolListSummaryText(h), [toolSummary17, toolSummary2]);
+    }
+    for (const mode of ['exception', 'data table', 'value', 'reentry']) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); let reached = false;
+        h.toolDetailOverride = (tool, id) => {
+            if (id === 2 && inToolListSummary() && !reached) {
+                reached = true;
+                if (mode === 'exception') throw Error('temporary native tool failure');
+                if (mode === 'data table') h.raw.g_Tools = h.nativeTools.slice();
+                if (mode === 'value') h.nativeTools[17].at = 73;
+                if (mode === 'reentry') h.hud.fillDeepList();
+            }
+            return tool;
+        };
+        h.hud.fillDeepList(); assert.equal(reached, true, mode + ' really occurred inside the list reader'); assertToolListPlain(h, mode);
+        h.toolDetailOverride = null; h.hud.fillDeepList();
+        assert.deepEqual(toolListSummaryText(h), [mode === 'value' ? '装备 · 武力 +73 · 智力 +0 · 移动 +255' : toolSummary17, toolSummary2]);
+    }
+    const seed = toolListSummaryHarness(), seedGoods = seed.context.baye.hd.goods; let profileCalls = 0;
+    seed.context.baye.hd.goods = () => {if (inToolListSummary()) profileCalls++; return seedGoods();}; seed.hud.fillDeepList();
+    assert.ok(profileCalls >= 4, 'calibration reached both value reads and the final receipt profile');
+    for (const mode of ['sticky profile', 'data reference', 'table reference', 'value']) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); const getGoods = h.context.baye.hd.goods; let calls = 0, reached = false;
+        h.context.baye.hd.goods = () => {
+            if (inToolListSummary() && ++calls === profileCalls) {
+                reached = true;
+                if (mode === 'sticky profile') h.goods.custom = 1;
+                if (mode === 'data reference') h.context.baye.data = h.readonlyTools({...h.raw});
+                if (mode === 'table reference') h.raw.g_Tools = h.nativeTools.slice();
+                if (mode === 'value') h.nativeTools[17].at = 74;
+            }
+            return getGoods();
+        };
+        h.hud.fillDeepList(); assert.equal(reached, true, mode + ' really reached the final profile callback'); assertToolListPlain(h, mode);
+        h.context.baye.hd.goods = getGoods; h.goods.custom = 0; h.hud.fillDeepList();
+        assert.deepEqual(toolListSummaryText(h), [mode === 'value' ? '装备 · 武力 +74 · 智力 +0 · 移动 +255' : toolSummary17, toolSummary2]);
+    }
+    for (const mode of ['value', 'table reference']) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); const getGoods = h.context.baye.hd.goods, getMarch = h.context.baye.hd.march;
+        let summaryProfiles = 0, reached = false;
+        h.context.baye.hd.goods = () => {if (inToolListSummary()) summaryProfiles++; return getGoods();};
+        h.context.baye.hd.march = () => {
+            if (!reached && summaryProfiles >= 3 && /\bfillDeepListSurrenderBody\b/.test(new Error().stack) && !inToolListSummary()) {
+                reached = true;
+                if (mode === 'value') h.nativeTools[17].at = 75;
+                else h.raw.g_Tools = h.nativeTools.slice();
+            }
+            return getMarch();
+        };
+        h.hud.fillDeepList(); assert.equal(reached, true, mode + ' really changed in the caller after the reader'); assertToolListPlain(h, mode);
+        h.hud.fillDeepList();
+        assert.deepEqual(toolListSummaryText(h), [mode === 'value' ? '装备 · 武力 +75 · 智力 +0 · 移动 +255' : toolSummary17, toolSummary2]);
+    }
+});

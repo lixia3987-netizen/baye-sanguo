@@ -123,8 +123,13 @@
 .hd-city-menu-item small[data-hd-city-rule] { display: block; margin-top: 4px; color: #c1cedd; font-size: 12px; line-height: 16px; font-weight: 400; }
 .hd-city-menu .hd-city-menu-item.has-person-summary { min-height: 64px; height: max-content; line-height: 22px; }
 .hd-city-menu-item small[data-hd-person-summary] { display: block; margin-top: 4px; color: #c1cedd; font-size: 12px; line-height: 18px; font-weight: 400; }
+.hd-city-menu .hd-city-menu-item.has-tool-summary { min-height: 64px; height: max-content; line-height: 22px; }
+.hd-city-menu-item small[data-hd-tool-summary] { display: block; margin-top: 4px; color: #c1cedd; font-size: 12px; line-height: 18px; font-weight: 400; }
 @media (max-width: 900px) {
     .hd-mobile-page .hd-city-menu-person-layout.has-person-details .hd-city-menu-deep.has-person-summaries {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .hd-mobile-page .hd-city-menu-person-layout.has-tool-details .hd-city-menu-deep.has-tool-summaries {
         grid-template-columns: minmax(0, 1fr);
     }
 }
