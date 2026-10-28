@@ -2794,6 +2794,536 @@
       "missing": false,
       "ref": "refs/period-4/162-黄权.png",
       "hd": "hd/period-1/144-黄权.png"
+    },
+    {
+      "name": "许攸",
+      "personId": 45,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/45-许攸.png",
+      "hd": "hd/period-1/45-许攸.png"
+    },
+    {
+      "name": "郭图",
+      "personId": 158,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/158-郭图.png",
+      "hd": "hd/period-1/158-郭图.png"
+    },
+    {
+      "name": "刘晔",
+      "personId": 111,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/111-刘晔.png",
+      "hd": "hd/period-1/111-刘晔.png"
+    },
+    {
+      "name": "满宠",
+      "personId": 123,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/123-满宠.png",
+      "hd": "hd/period-1/123-满宠.png"
+    },
+    {
+      "name": "毛玠",
+      "personId": 144,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-2/144-毛玠.png",
+      "hd": "hd/period-2/144-毛玠.png"
+    },
+    {
+      "name": "郭汜",
+      "personId": 24,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/24-郭汜.png",
+      "hd": "hd/period-1/24-郭汜.png"
+    },
+    {
+      "name": "华雄",
+      "personId": 21,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/21-华雄.png",
+      "hd": "hd/period-1/21-华雄.png"
+    },
+    {
+      "name": "牛辅",
+      "personId": 29,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/29-牛辅.png",
+      "hd": "hd/period-1/29-牛辅.png"
+    },
+    {
+      "name": "徐荣",
+      "personId": 28,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/28-徐荣.png",
+      "hd": "hd/period-1/28-徐荣.png"
+    },
+    {
+      "name": "王允",
+      "personId": 30,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/30-王允.png",
+      "hd": "hd/period-1/30-王允.png"
+    },
+    {
+      "name": "曹仁",
+      "personId": 37,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/37-曹仁.png",
+      "hd": "hd/period-1/37-曹仁.png"
+    },
+    {
+      "name": "曹洪",
+      "personId": 36,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/36-曹洪.png",
+      "hd": "hd/period-1/36-曹洪.png"
+    },
+    {
+      "name": "李典",
+      "personId": 34,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/34-李典.png",
+      "hd": "hd/period-1/34-李典.png"
+    },
+    {
+      "name": "高顺",
+      "personId": 27,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/27-高顺.png",
+      "hd": "hd/period-1/27-高顺.png"
+    },
+    {
+      "name": "吕蒙",
+      "personId": 118,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/118-吕蒙.png",
+      "hd": "hd/period-1/118-吕蒙.png"
+    },
+    {
+      "name": "孙乾",
+      "personId": 69,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/69-孙乾.png",
+      "hd": "hd/period-1/69-孙乾.png"
+    },
+    {
+      "name": "糜竺",
+      "personId": 70,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/70-糜竺.png",
+      "hd": "hd/period-1/70-糜竺.png"
+    },
+    {
+      "name": "蒋琬",
+      "personId": 130,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-1/130-蒋琬.png",
+      "hd": "hd/period-1/130-蒋琬.png"
+    },
+    {
+      "name": "蒋琬",
+      "personId": 159,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-regional-cast-v109",
+      "missing": false,
+      "ref": "refs/period-2/159-蒋琬.png",
+      "hd": "hd/period-2/159-蒋琬.png"
+    },
+    {
+      "name": "许攸",
+      "personId": 56,
+      "period": 2,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-2/56-许攸.png",
+      "hd": "hd/period-1/45-许攸.png"
+    },
+    {
+      "name": "郭图",
+      "personId": 57,
+      "period": 2,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-2/57-郭图.png",
+      "hd": "hd/period-1/158-郭图.png"
+    },
+    {
+      "name": "刘晔",
+      "personId": 142,
+      "period": 2,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-2/142-刘晔.png",
+      "hd": "hd/period-1/111-刘晔.png"
+    },
+    {
+      "name": "刘晔",
+      "personId": 41,
+      "period": 3,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-3/41-刘晔.png",
+      "hd": "hd/period-1/111-刘晔.png"
+    },
+    {
+      "name": "刘晔",
+      "personId": 24,
+      "period": 4,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-4/24-刘晔.png",
+      "hd": "hd/period-1/111-刘晔.png"
+    },
+    {
+      "name": "满宠",
+      "personId": 143,
+      "period": 2,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-2/143-满宠.png",
+      "hd": "hd/period-1/123-满宠.png"
+    },
+    {
+      "name": "满宠",
+      "personId": 43,
+      "period": 3,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-3/43-满宠.png",
+      "hd": "hd/period-1/123-满宠.png"
+    },
+    {
+      "name": "满宠",
+      "personId": 26,
+      "period": 4,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-4/26-满宠.png",
+      "hd": "hd/period-1/123-满宠.png"
+    },
+    {
+      "name": "毛玠",
+      "personId": 44,
+      "period": 3,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-3/44-毛玠.png",
+      "hd": "hd/period-2/144-毛玠.png"
+    },
+    {
+      "name": "毛玠",
+      "personId": 27,
+      "period": 4,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-4/27-毛玠.png",
+      "hd": "hd/period-2/144-毛玠.png"
+    },
+    {
+      "name": "郭汜",
+      "personId": 17,
+      "period": 2,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-2/17-郭汜.png",
+      "hd": "hd/period-1/24-郭汜.png"
+    },
+    {
+      "name": "牛辅",
+      "personId": 18,
+      "period": 2,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-2/18-牛辅.png",
+      "hd": "hd/period-1/29-牛辅.png"
+    },
+    {
+      "name": "曹仁",
+      "personId": 24,
+      "period": 2,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-2/24-曹仁.png",
+      "hd": "hd/period-1/37-曹仁.png"
+    },
+    {
+      "name": "曹仁",
+      "personId": 31,
+      "period": 3,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-3/31-曹仁.png",
+      "hd": "hd/period-1/37-曹仁.png"
+    },
+    {
+      "name": "曹仁",
+      "personId": 18,
+      "period": 4,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-4/18-曹仁.png",
+      "hd": "hd/period-1/37-曹仁.png"
+    },
+    {
+      "name": "曹洪",
+      "personId": 23,
+      "period": 2,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-2/23-曹洪.png",
+      "hd": "hd/period-1/36-曹洪.png"
+    },
+    {
+      "name": "曹洪",
+      "personId": 30,
+      "period": 3,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-3/30-曹洪.png",
+      "hd": "hd/period-1/36-曹洪.png"
+    },
+    {
+      "name": "曹洪",
+      "personId": 17,
+      "period": 4,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-4/17-曹洪.png",
+      "hd": "hd/period-1/36-曹洪.png"
+    },
+    {
+      "name": "李典",
+      "personId": 21,
+      "period": 2,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-2/21-李典.png",
+      "hd": "hd/period-1/34-李典.png"
+    },
+    {
+      "name": "李典",
+      "personId": 27,
+      "period": 3,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-3/27-李典.png",
+      "hd": "hd/period-1/34-李典.png"
+    },
+    {
+      "name": "李典",
+      "personId": 14,
+      "period": 4,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-4/14-李典.png",
+      "hd": "hd/period-1/34-李典.png"
+    },
+    {
+      "name": "高顺",
+      "personId": 91,
+      "period": 2,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-2/91-高顺.png",
+      "hd": "hd/period-1/27-高顺.png"
+    },
+    {
+      "name": "高顺",
+      "personId": 64,
+      "period": 3,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-3/64-高顺.png",
+      "hd": "hd/period-1/27-高顺.png"
+    },
+    {
+      "name": "高顺",
+      "personId": 48,
+      "period": 4,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-4/48-高顺.png",
+      "hd": "hd/period-1/27-高顺.png"
+    },
+    {
+      "name": "吕蒙",
+      "personId": 121,
+      "period": 3,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-3/121-吕蒙.png",
+      "hd": "hd/period-1/118-吕蒙.png"
+    },
+    {
+      "name": "吕蒙",
+      "personId": 132,
+      "period": 4,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-4/132-吕蒙.png",
+      "hd": "hd/period-1/118-吕蒙.png"
+    },
+    {
+      "name": "孙乾",
+      "personId": 36,
+      "period": 2,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-2/36-孙乾.png",
+      "hd": "hd/period-1/69-孙乾.png"
+    },
+    {
+      "name": "孙乾",
+      "personId": 87,
+      "period": 3,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-3/87-孙乾.png",
+      "hd": "hd/period-1/69-孙乾.png"
+    },
+    {
+      "name": "孙乾",
+      "personId": 79,
+      "period": 4,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-4/79-孙乾.png",
+      "hd": "hd/period-1/69-孙乾.png"
+    },
+    {
+      "name": "糜竺",
+      "personId": 37,
+      "period": 2,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-2/37-糜竺.png",
+      "hd": "hd/period-1/70-糜竺.png"
+    },
+    {
+      "name": "糜竺",
+      "personId": 88,
+      "period": 3,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-3/88-糜竺.png",
+      "hd": "hd/period-1/70-糜竺.png"
+    },
+    {
+      "name": "糜竺",
+      "personId": 80,
+      "period": 4,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-4/80-糜竺.png",
+      "hd": "hd/period-1/70-糜竺.png"
+    },
+    {
+      "name": "蒋琬",
+      "personId": 160,
+      "period": 3,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-3/160-蒋琬.png",
+      "hd": "hd/period-1/130-蒋琬.png"
+    },
+    {
+      "name": "蒋琬",
+      "personId": 91,
+      "period": 4,
+      "pilot": false,
+      "expansion": "regional-cast-identical-reference-v109",
+      "missing": false,
+      "ref": "refs/period-4/91-蒋琬.png",
+      "hd": "hd/period-1/130-蒋琬.png"
     }
   ]
 }
