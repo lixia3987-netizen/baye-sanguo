@@ -4264,6 +4264,376 @@
       "missing": false,
       "ref": "refs/period-4/126-顾雍.png",
       "hd": "hd/period-3/117-顾雍.png"
+    },
+    {
+      "name": "张嶷",
+      "personId": 171,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-3/171-张嶷.png",
+      "hd": "hd/period-3/171-张嶷.png"
+    },
+    {
+      "name": "张翼",
+      "personId": 100,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-4/100-张翼.png",
+      "hd": "hd/period-4/100-张翼.png"
+    },
+    {
+      "name": "夏侯霸",
+      "personId": 25,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-3/25-夏侯霸.png",
+      "hd": "hd/period-3/25-夏侯霸.png"
+    },
+    {
+      "name": "郝昭",
+      "personId": 70,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-4/70-郝昭.png",
+      "hd": "hd/period-4/70-郝昭.png"
+    },
+    {
+      "name": "文钦",
+      "personId": 67,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-4/67-文钦.png",
+      "hd": "hd/period-4/67-文钦.png"
+    },
+    {
+      "name": "毋丘俭",
+      "personId": 68,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-4/68-毋丘俭.png",
+      "hd": "hd/period-4/68-毋丘俭.png"
+    },
+    {
+      "name": "马忠",
+      "personId": 93,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-4/93-马忠.png",
+      "hd": "hd/period-4/93-马忠.png"
+    },
+    {
+      "name": "诸葛恪",
+      "personId": 138,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-4/138-诸葛恪.png",
+      "hd": "hd/period-4/138-诸葛恪.png"
+    },
+    {
+      "name": "全琮",
+      "personId": 125,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-4/125-全琮.png",
+      "hd": "hd/period-4/125-全琮.png"
+    },
+    {
+      "name": "吕岱",
+      "personId": 137,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-4/137-吕岱.png",
+      "hd": "hd/period-4/137-吕岱.png"
+    },
+    {
+      "name": "曹叡",
+      "personId": 156,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-4/156-曹叡.png",
+      "hd": "hd/period-4/156-曹叡.png"
+    },
+    {
+      "name": "杨仪",
+      "personId": 165,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-4/165-杨仪.png",
+      "hd": "hd/period-4/165-杨仪.png"
+    },
+    {
+      "name": "虞翻",
+      "personId": 128,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-1/128-虞翻.png",
+      "hd": "hd/period-1/128-虞翻.png"
+    },
+    {
+      "name": "虞翻",
+      "personId": 174,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-2/174-虞翻.png",
+      "hd": "hd/period-2/174-虞翻.png"
+    },
+    {
+      "name": "阚泽",
+      "personId": 178,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-1/178-阚泽.png",
+      "hd": "hd/period-1/178-阚泽.png"
+    },
+    {
+      "name": "阚泽",
+      "personId": 175,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-2/175-阚泽.png",
+      "hd": "hd/period-2/175-阚泽.png"
+    },
+    {
+      "name": "向朗",
+      "personId": 177,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-1/177-向朗.png",
+      "hd": "hd/period-1/177-向朗.png"
+    },
+    {
+      "name": "向朗",
+      "personId": 157,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-2/157-向朗.png",
+      "hd": "hd/period-2/157-向朗.png"
+    },
+    {
+      "name": "郭攸之",
+      "personId": 156,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-2/156-郭攸之.png",
+      "hd": "hd/period-2/156-郭攸之.png"
+    },
+    {
+      "name": "郭攸之",
+      "personId": 155,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-3/155-郭攸之.png",
+      "hd": "hd/period-3/155-郭攸之.png"
+    },
+    {
+      "name": "崔琰",
+      "personId": 148,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-2/148-崔琰.png",
+      "hd": "hd/period-2/148-崔琰.png"
+    },
+    {
+      "name": "崔琰",
+      "personId": 46,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-3/46-崔琰.png",
+      "hd": "hd/period-3/46-崔琰.png"
+    },
+    {
+      "name": "李恢",
+      "personId": 147,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-3/147-李恢.png",
+      "hd": "hd/period-3/147-李恢.png"
+    },
+    {
+      "name": "吴班",
+      "personId": 127,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-late-officers-v117",
+      "missing": false,
+      "ref": "refs/period-2/127-吴班.png",
+      "hd": "hd/period-2/127-吴班.png"
+    },
+    {
+      "name": "张嶷",
+      "personId": 94,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-4/94-张嶷.png",
+      "hd": "hd/period-3/171-张嶷.png"
+    },
+    {
+      "name": "夏侯霸",
+      "personId": 9,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-4/9-夏侯霸.png",
+      "hd": "hd/period-3/25-夏侯霸.png"
+    },
+    {
+      "name": "虞翻",
+      "personId": 111,
+      "period": 3,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-3/111-虞翻.png",
+      "hd": "hd/period-1/128-虞翻.png"
+    },
+    {
+      "name": "虞翻",
+      "personId": 121,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-4/121-虞翻.png",
+      "hd": "hd/period-1/128-虞翻.png"
+    },
+    {
+      "name": "阚泽",
+      "personId": 112,
+      "period": 3,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-3/112-阚泽.png",
+      "hd": "hd/period-1/178-阚泽.png"
+    },
+    {
+      "name": "阚泽",
+      "personId": 122,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-4/122-阚泽.png",
+      "hd": "hd/period-1/178-阚泽.png"
+    },
+    {
+      "name": "向朗",
+      "personId": 156,
+      "period": 3,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-3/156-向朗.png",
+      "hd": "hd/period-1/177-向朗.png"
+    },
+    {
+      "name": "向朗",
+      "personId": 90,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-4/90-向朗.png",
+      "hd": "hd/period-1/177-向朗.png"
+    },
+    {
+      "name": "郭攸之",
+      "personId": 89,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-4/89-郭攸之.png",
+      "hd": "hd/period-3/155-郭攸之.png"
+    },
+    {
+      "name": "崔琰",
+      "personId": 29,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-4/29-崔琰.png",
+      "hd": "hd/period-3/46-崔琰.png"
+    },
+    {
+      "name": "李恢",
+      "personId": 101,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-4/101-李恢.png",
+      "hd": "hd/period-3/147-李恢.png"
+    },
+    {
+      "name": "吴班",
+      "personId": 142,
+      "period": 3,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-3/142-吴班.png",
+      "hd": "hd/period-2/127-吴班.png"
+    },
+    {
+      "name": "吴班",
+      "personId": 84,
+      "period": 4,
+      "pilot": false,
+      "expansion": "late-officers-identical-reference-v117",
+      "missing": false,
+      "ref": "refs/period-4/84-吴班.png",
+      "hd": "hd/period-2/127-吴班.png"
     }
   ]
 }
