@@ -127,6 +127,7 @@
 .hd-city-menu-item [data-hd-person-loyalty-summary] { display: inline-block; margin-left: 3px; white-space: nowrap; }
 .hd-city-menu .hd-city-menu-item.has-tool-summary { min-height: 64px; height: max-content; line-height: 22px; }
 .hd-city-menu-item small[data-hd-tool-summary] { display: block; margin-top: 4px; color: #c1cedd; font-size: 12px; line-height: 18px; font-weight: 400; }
+.hd-city-menu-item [data-hd-tool-arm-summary] { display: inline-block; margin-left: 3px; white-space: nowrap; }
 @media (max-width: 900px) {
     .hd-mobile-page .hd-city-menu-person-layout.has-person-details .hd-city-menu-deep {
         grid-template-columns: minmax(0, 1fr);

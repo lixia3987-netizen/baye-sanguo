@@ -5853,7 +5853,7 @@
                     var tool = base.toolRefs[i];
                     return base.tools[row[0]] === tool && detailNumber(tool.useflag, 1) === row[1] &&
                         detailNumber(tool.at, 255) === row[2] && detailNumber(tool.iq, 255) === row[3] &&
-                        detailNumber(tool.move, 255) === row[4];
+                        detailNumber(tool.move, 255) === row[4] && detailNumber(tool.arm, 255) === row[6];
                 });
             }
             function values(base) {
@@ -5865,9 +5865,9 @@
                     if (!tool || tool.standard !== true || tool.index !== ids[i] || tool.generation !== owner.detailGeneration ||
                         typeof tool.name !== 'string' || !tool.name || tool.name === '-') { return null; }
                     var useFlag = detailNumber(tool.useFlag, 1), attack = detailNumber(tool.attack, 255);
-                    var iq = detailNumber(tool.iq, 255), move = detailNumber(tool.move, 255);
-                    if (useFlag == null || attack == null || iq == null || move == null || token !== toolListStatsEpoch) { return null; }
-                    rows.push([ids[i], useFlag, attack, iq, move, tool.name]);
+                    var iq = detailNumber(tool.iq, 255), move = detailNumber(tool.move, 255), arm = detailNumber(tool.arm, 255);
+                    if (useFlag == null || attack == null || iq == null || move == null || arm == null || token !== toolListStatsEpoch) { return null; }
+                    rows.push([ids[i], useFlag, attack, iq, move, tool.name, arm]);
                 }
                 return base.current() && rawValuesMatch(base, rows) && base.current(true) ? rows : null;
             }
@@ -6456,13 +6456,17 @@
         return pane;
     }
 
+    function standardToolArmName(value) {
+        var arms = ['骑兵', '步兵', '弓箭兵', '水军', '极兵', '玄兵'];
+        return value === 0 ? '无' : value === 1 ? '水军' : value === 2 ? '玄兵' :
+            value === 3 ? '极兵' : arms[value - 4] || '原始码 ' + value;
+    }
+
     function standardToolRows(tool) {
         if (!tool ||
             ['attack', 'iq', 'move', 'arm'].some(function (key) { return detailNumber(tool[key], 255) == null; }) ||
             detailNumber(tool.useFlag, 1) == null) { return null; }
-        var arms = ['骑兵', '步兵', '弓箭兵', '水军', '极兵', '玄兵'];
-        var arm = tool.arm === 0 ? '无' : tool.arm === 1 ? '水军' : tool.arm === 2 ? '玄兵' :
-            tool.arm === 3 ? '极兵' : arms[tool.arm - 4] || '原始码 ' + tool.arm;
+        var arm = standardToolArmName(tool.arm);
         var properties = [ ['用法', tool.useFlag ? '使用' : '装备'], ['武力加成', String(tool.attack)],
             ['智力加成', String(tool.iq)], ['移动加成', String(tool.move)], ['兵种变化', arm] ];
         var rangeFlag = detailNumber(tool.changeAttackRange, 255);
@@ -6959,6 +6963,10 @@
                 toolSummary.setAttribute('data-hd-tool-summary', '1');
                 toolSummary.textContent = (toolStatsRow[1] ? '使用' : '装备') + ' · 武力 +' + toolStatsRow[2] +
                     ' · 智力 +' + toolStatsRow[3] + ' · 移动 +' + toolStatsRow[4];
+                var armSummary = document.createElement('span');
+                armSummary.setAttribute('data-hd-tool-arm-summary', '1');
+                armSummary.textContent = ' · 兵种变化 ' + standardToolArmName(toolStatsRow[6]);
+                toolSummary.appendChild(armSummary);
                 btn.classList.add('has-tool-summary'); btn.appendChild(toolSummary);
             }
             if (allowPreview) {

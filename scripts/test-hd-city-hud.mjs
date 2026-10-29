@@ -560,10 +560,10 @@ test('same-name goods use actual selected tool ID and preserve native captured v
 });
 
 test('standard current raw tool fields supplement unread default properties, preserving real zero values', () => {
-    const h = goodsHarness({custom: false}), calls = [];
+    const h = goodsHarness({custom: false}), calls = []; let arm = 2;
     h.context.baye.hd.toolDetails = id => {
         calls.push(id); return {index: id, standard: true, generation: 3, name: '道具',
-            attack: 0, iq: 0, move: 0, arm: 2, useFlag: 0, changeAttackRange: 1};
+            attack: 0, iq: 0, move: 0, arm, useFlag: 0, changeAttackRange: 1};
     };
     h.goods.properties.forEach(property => { property.captured = false; property.title = property.value = ''; });
     h.hud.renderToolDetails();
@@ -574,6 +574,13 @@ test('standard current raw tool fields supplement unread default properties, pre
     assert.equal(values.改变攻击范围标志, '改变（码 1）');
     h.goods.complete = 1; h.goods.properties.forEach(property => { property.captured = true; }); h.hud.renderToolDetails();
     assert.equal(rows(h.hud.state.toolDetail).改变攻击范围标志, '改变（码 1）');
+    h.goods.complete = 0; h.goods.properties.forEach(property => { property.captured = false; });
+    for (const [code, expected] of [[0, '无'], [1, '水军'], [2, '玄兵'], [3, '极兵'], [4, '骑兵'], [5, '步兵'],
+        [6, '弓箭兵'], [7, '水军'], [8, '极兵'], [9, '玄兵'], [10, '原始码 10'], [255, '原始码 255']]) {
+        arm = code; h.hud.renderToolDetails();
+        assert.deepEqual(rows(h.hud.state.toolDetail), {用法: '装备', 武力加成: '0', 智力加成: '0', 移动加成: '0',
+            兵种变化: expected, 改变攻击范围标志: '改变（码 1）'}, 'default detail keeps its existing semantics for arm ' + code);
+    }
     assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
 });
 
@@ -3898,11 +3905,14 @@ test('person list summary withdraws invalid sources before private stat reads an
 // as V116. The full tool name intentionally differs from the LCD menu slot.
 function toolListSummaryHarness(ids = [17, 2]) {
     const h = goodsHarness({custom: false}), cache = new WeakMap();
+    h.personTableReads = [];
     h.readonlyTools = function readonly(value, at = '') {
         if (!value || typeof value !== 'object') return value;
         if (cache.has(value)) return cache.get(value);
-        const proxy = new Proxy(value, {get(target, key) {return readonly(target[key], at + '.' + String(key));},
-            set(target, key) {h.writes.push(at + '.' + String(key)); throw Error('tool summary wrote native data');}});
+        const proxy = new Proxy(value, {get(target, key) {
+            if (at === '' && key === 'g_Persons') h.personTableReads.push(String(key));
+            return readonly(target[key], at + '.' + String(key));
+        }, set(target, key) {h.writes.push(at + '.' + String(key)); throw Error('tool summary wrote native data');}});
         cache.set(value, proxy); return proxy;
     };
     h.nativeTools = Array.from({length: 33}, () => ({useflag: 0, at: 0, iq: 0, move: 0, arm: 0, changeAttackRange: 0}));
@@ -3921,13 +3931,15 @@ function toolListSummaryHarness(ids = [17, 2]) {
     h.context.baye.data = h.readonlyTools(h.raw); h.context.baye.ensureData = () => h.context.baye.data;
     h.context.baye.getPersonCount = () => 200; h.context.baye.getToolCount = () => 33;
     h.context.baye.getToolName = id => h.fullToolNames.get(id) ?? '';
-    h.summaryDetailCalls = [];
+    h.summaryDetailCalls = []; h.toolDetailDtos = new Map();
     h.context.baye.hd.toolDetails = id => {
         if (inToolListSummary()) h.summaryDetailCalls.push(id);
         const tool = h.nativeTools[id];
-        const value = tool && {index: id, name: h.fullToolNames.get(id), standard: true, generation: 3,
+        if (!tool) return null;
+        if (!h.toolDetailDtos.has(id)) h.toolDetailDtos.set(id, {});
+        const value = Object.assign(h.toolDetailDtos.get(id), {index: id, name: h.fullToolNames.get(id), standard: true, generation: 3,
             useFlag: tool.useflag, attack: tool.at, iq: tool.iq, move: tool.move,
-            arm: tool.arm, changeAttackRange: tool.changeAttackRange};
+            arm: tool.arm, changeAttackRange: tool.changeAttackRange});
         return h.toolDetailOverride ? h.toolDetailOverride(value, id) : value;
     };
     h.identity = {status: 'ready', sha256: standardHash, byteLength: 207195, generation: 1}; h.setIdentity(h.identity);
@@ -3951,11 +3963,31 @@ function toolListSummaryText(h) {
 }
 function assertToolListPlain(h, message) {
     assert.equal(h.nodes['hd-city-menu-deep'].querySelectorAll('[data-hd-tool-summary]').length, 0, message);
+    assert.equal(h.nodes['hd-city-menu-deep'].querySelectorAll('[data-hd-tool-arm-summary]').length, 0, message);
     assert.ok(toolListButtons(h).every(button => button.textContent === h.menu.names[Number(button.getAttribute('data-hd-deep'))]), message);
-    assert.deepEqual(h.keys, [], message); assert.deepEqual(h.writes, [], message);
+    assert.deepEqual(h.keys, [], message); assert.deepEqual(h.writes, [], message); assert.deepEqual(h.personTableReads, [], message);
 }
-const toolSummary17 = '装备 · 武力 +255 · 智力 +0 · 移动 +255';
-const toolSummary2 = '使用 · 武力 +0 · 智力 +255 · 移动 +0';
+function assertToolListSummaryShape(button, baseText, armText) {
+    const summaries = button.querySelectorAll('[data-hd-tool-summary]');
+    assert.equal(summaries.length, 1); assert.equal(summaries[0].tagName, 'SMALL');
+    assert.equal(summaries[0].parentElement, button);
+    const arm = summaries[0].querySelectorAll('[data-hd-tool-arm-summary]');
+    assert.equal(arm.length, 1); assert.equal(arm[0].tagName, 'SPAN'); assert.equal(arm[0].parentElement, summaries[0]);
+    assert.deepEqual(summaries[0].children, [arm[0]], 'the original summary prefix stays direct text with one child span');
+    assert.equal(arm[0].textContent, ' · 兵种变化 ' + armText);
+    assert.equal(summaries[0].textContent, baseText + arm[0].textContent, 'the original plus-prefixed stats remain direct text');
+    assert.equal(arm[0].getAttribute('role'), null); assert.equal(arm[0].getAttribute('tabindex'), null); assert.equal(arm[0].listeners.size, 0);
+    for (const tag of ['button', 'input', 'a']) assert.equal(summaries[0].querySelectorAll(tag).length, 0);
+}
+function assertToolListSignature(h) {
+    const expected = h.menu.ids.map(id => {const tool = h.nativeTools[id];
+        return [id, tool.useflag, tool.at, tool.iq, tool.move, h.fullToolNames.get(id), tool.arm];});
+    assert.ok(h.hud.state.deepSig.endsWith(':' + JSON.stringify(expected)), 'the private row signature keeps full name at column 5 and arm at column 6');
+}
+const toolSummary17Base = '装备 · 武力 +255 · 智力 +0 · 移动 +255';
+const toolSummary2Base = '使用 · 武力 +0 · 智力 +255 · 移动 +0';
+const toolSummary17 = toolSummary17Base + ' · 兵种变化 无';
+const toolSummary2 = toolSummary2Base + ' · 兵种变化 无';
 
 test('tool list summary follows actual reordered subset IDs and duplicate clipped names with strict U8 values and no input', () => {
     for (const confiscate of [false, true]) for (const ids of [[17, 2], [2], [2, 17, 2]]) {
@@ -3965,32 +3997,58 @@ test('tool list summary follows actual reordered subset IDs and duplicate clippe
         assert.deepEqual(plain(h.hud.state.deepItems), ids.map((id, i) => ({i, name: '同名道具', nativeId: true, toolIndex: id})));
         assert.deepEqual(toolListSummaryText(h), ids.map(id => id === 17 ? toolSummary17 : toolSummary2));
         assert.deepEqual(toolListButtons(h).map(button => button.getAttribute('data-hd-deep-tool')), ids.map(String));
-        for (const button of toolListButtons(h)) {
-            const summaries = button.querySelectorAll('[data-hd-tool-summary]');
-            assert.equal(summaries.length, 1); assert.equal(summaries[0].tagName, 'SMALL');
-            assert.equal(summaries[0].parentElement, button);
-            for (const tag of ['button', 'input', 'a']) assert.equal(summaries[0].querySelectorAll(tag).length, 0);
+        for (const [index, button] of toolListButtons(h).entries()) {
+            assertToolListSummaryShape(button, ids[index] === 17 ? toolSummary17Base : toolSummary2Base, '无');
         }
+        assertToolListSignature(h);
         assert.ok(ids.every(id => h.summaryDetailCalls.filter(value => value === id).length >= 2), 'both value reads reach each real ID');
         assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assert.deepEqual(plain(h.goods), goodsBefore);
-        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
+        assert.deepEqual(h.armCalls, []); assert.deepEqual(h.derivedCalls, []);
+    }
+    for (const confiscate of [false, true]) {
+        const h = toolListSummaryHarness(); h.setToolRoute(confiscate);
+        for (const [code, expected] of [[0, '无'], [1, '水军'], [2, '玄兵'], [3, '极兵'], [4, '骑兵'], [5, '步兵'],
+            [6, '弓箭兵'], [7, '水军'], [8, '极兵'], [9, '玄兵'], [10, '原始码 10'], [255, '原始码 255']]) {
+            h.nativeTools[17].arm = h.nativeTools[2].arm = code;
+            const before = plain(h.raw), menuBefore = plain(h.menu), goodsBefore = plain(h.goods);
+            h.hud.fillDeepList();
+            assert.deepEqual(toolListSummaryText(h), [toolSummary17Base, toolSummary2Base].map(base => base + ' · 兵种变化 ' + expected));
+            toolListButtons(h).forEach((button, index) => assertToolListSummaryShape(button, index ? toolSummary2Base : toolSummary17Base, expected));
+            assert.equal(rows(h.hud.state.toolDetail).兵种变化, expected, 'list and existing selected-tool details agree for arm ' + code);
+            assertToolListSignature(h);
+            assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assert.deepEqual(plain(h.goods), goodsBefore);
+            assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
+        }
     }
 });
 
 test('tool list summary refreshes same-owner values while stable polling preserves nodes and old presses cannot confirm replacements', () => {
-    const h = toolListSummaryHarness(); h.hud.fillDeepList();
-    const first = toolListButtons(h), owner = h.hud.state.deepMenuOwner.key, items = plain(h.hud.state.deepItems), menuBefore = plain(h.menu);
-    h.hud.fillDeepList(); assert.ok(toolListButtons(h).every((button, index) => button === first[index]));
-    dispatch(h, 'pointerdown', first[1].querySelector('[data-hd-tool-summary]'), {button: 0, isPrimary: true});
-    Object.assign(h.nativeTools[2], {useflag: 0, at: 21, iq: 22, move: 23}); h.hud.fillDeepList();
-    const fresh = toolListButtons(h);
-    assert.equal(h.hud.state.deepMenuOwner.key, owner); assert.notEqual(fresh[1], first[1]); assert.equal(first[1].parentElement, null);
-    assert.deepEqual(toolListSummaryText(h), [toolSummary17, '装备 · 武力 +21 · 智力 +22 · 移动 +23']);
-    assert.deepEqual(plain(h.hud.state.deepItems), items); assert.deepEqual(plain(h.menu), menuBefore);
-    dispatch(h, 'click', fresh[1], {detail: 1});
-    assert.deepEqual(h.keys, [], 'a pointer held across refresh cannot confirm the replacement tool');
-    assert.deepEqual(h.writes, []); assert.equal(h.hud.state.nativeMenuRequest, null);
-    h.hud.fillDeepList(); assert.ok(toolListButtons(h).every((button, index) => button === fresh[index]));
+    for (const mode of ['three existing stats', 'arm only', 'full name only']) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList();
+        const first = toolListButtons(h), spans = first.map(button => button.querySelector('[data-hd-tool-arm-summary]'));
+        const owner = h.hud.state.deepMenuOwner.key, signature = h.hud.state.deepSig;
+        const items = plain(h.hud.state.deepItems), menuBefore = plain(h.menu), dto = h.toolDetailDtos.get(2);
+        h.hud.fillDeepList(); assert.ok(toolListButtons(h).every((button, index) => button === first[index]));
+        assert.ok(toolListButtons(h).every((button, index) => button.querySelector('[data-hd-tool-arm-summary]') === spans[index]));
+        dispatch(h, 'pointerdown', first[1].querySelector(mode === 'arm only' ? '[data-hd-tool-arm-summary]' : '[data-hd-tool-summary]'), {button: 0, isPrimary: true});
+        if (mode === 'three existing stats') Object.assign(h.nativeTools[2], {useflag: 0, at: 21, iq: 22, move: 23});
+        if (mode === 'arm only') h.nativeTools[2].arm = 9;
+        if (mode === 'full name only') h.fullToolNames.set(2, '同一LCD名称下变化的完整道具名');
+        h.hud.fillDeepList(); const fresh = toolListButtons(h);
+        assert.equal(h.hud.state.deepMenuOwner.key, owner); assert.notEqual(fresh[1], first[1]); assert.equal(first[1].parentElement, null);
+        assert.equal(h.toolDetailDtos.get(2), dto, mode + ' updates the same DTO object');
+        assert.notEqual(h.hud.state.deepSig, signature, mode + ' changes the deep signature'); assertToolListSignature(h);
+        assert.deepEqual(toolListSummaryText(h), [toolSummary17, mode === 'three existing stats' ? '装备 · 武力 +21 · 智力 +22 · 移动 +23 · 兵种变化 无' :
+            mode === 'arm only' ? toolSummary2Base + ' · 兵种变化 玄兵' : toolSummary2]);
+        assert.deepEqual(plain(h.hud.state.deepItems), items); assert.deepEqual(plain(h.menu), menuBefore);
+        dispatch(h, 'click', fresh[1], {detail: 1});
+        assert.deepEqual(h.keys, [], 'a pointer held across ' + mode + ' refresh cannot confirm the replacement tool');
+        assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []); assert.equal(h.hud.state.nativeMenuRequest, null);
+        const freshSpans = fresh.map(button => button.querySelector('[data-hd-tool-arm-summary]'));
+        h.hud.fillDeepList(); assert.ok(toolListButtons(h).every((button, index) => button === fresh[index]));
+        assert.ok(toolListButtons(h).every((button, index) => button.querySelector('[data-hd-tool-arm-summary]') === freshSpans[index]));
+    }
 });
 
 test('tool list summary withdraws invalid routes and sources, torn reads and final callbacks then recovers without input', () => {
@@ -4021,36 +4079,63 @@ test('tool list summary withdraws invalid routes and sources, torn reads and fin
     ];
     for (const [label, change] of gates) {
         const h = toolListSummaryHarness(); h.hud.fillDeepList(); assert.equal(toolListSummaryText(h).filter(Boolean).length, 2, label + ' prerequisite');
+        const rawBefore = {...h.raw}, menuBefore = plain(h.menu), goodsBefore = plain(h.goods), getGoods = h.context.baye.hd.goods;
         change(h); h.summaryDetailCalls.length = 0; h.hud.fillDeepList(); assertToolListPlain(h, label);
         assert.equal(h.summaryDetailCalls.length, 0, label + ' rejects the source before tool detail reads');
+        Object.assign(h.raw, rawBefore); Object.assign(h.menu, menuBefore); Object.assign(h.goods, goodsBefore); h.city.Belong = 1;
+        h.context.baye.hd.goods = getGoods; delete h.context.baye.hooks; h.setIdentity(h.identity); h.setToolRoute(false);
+        h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu); h.hud.fillDeepList();
+        assert.deepEqual(toolListSummaryText(h), [toolSummary17, toolSummary2], label + ' recovers after restoring the native source');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
     }
     for (const [field, value] of [['useFlag', 2], ['attack', -1], ['iq', 256], ['move', 0.5], ['attack', '0'],
-        ['move', false], ['name', ''], ['name', 17], ['index', 17], ['generation', 4], ['standard', 1]]) {
+        ['move', false], ['name', ''], ['name', 17], ['index', 17], ['generation', 4], ['standard', 1],
+        ...[-1, 256, 0.5, '0', false, true, null, undefined, NaN, Infinity].map(value => ['arm', value])]) {
         const h = toolListSummaryHarness(); h.hud.fillDeepList(); let reached = false;
         h.toolDetailOverride = (tool, id) => {if (id === 2 && inToolListSummary()) {reached = true; return {...tool, [field]: value};} return tool;};
         h.hud.fillDeepList(); assert.equal(reached, true, field + ' malformed detail reached the summary'); assertToolListPlain(h, field + '=' + String(value));
         h.toolDetailOverride = null; h.hud.fillDeepList(); assert.deepEqual(toolListSummaryText(h), [toolSummary17, toolSummary2]);
     }
-    for (const mode of ['exception', 'data table', 'value', 'reentry']) {
+    for (const value of [-1, 256, 0.5, '0', false, true, null, undefined, NaN, Infinity]) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); h.nativeTools[2].arm = value; let reached = false;
+        h.toolDetailOverride = (tool, id) => {if (id === 2 && inToolListSummary()) {reached = true; return {...tool, arm: 0};} return tool;};
+        h.hud.fillDeepList(); assert.equal(reached, true, 'valid DTO reaches the malformed raw arm fence'); assertToolListPlain(h, 'raw arm=' + String(value));
+        h.nativeTools[2].arm = 0; h.toolDetailOverride = null; h.hud.fillDeepList();
+        assert.deepEqual(toolListSummaryText(h), [toolSummary17, toolSummary2]);
+    }
+    {
         const h = toolListSummaryHarness(); h.hud.fillDeepList(); let reached = false;
+        h.toolDetailOverride = (tool, id) => {if (id === 2 && inToolListSummary()) {reached = true; return {...tool, arm: 7};} return tool;};
+        h.hud.fillDeepList(); assert.equal(reached, true); assertToolListPlain(h, 'valid but unequal DTO and raw arm values');
+        h.toolDetailOverride = null; h.hud.fillDeepList(); assert.deepEqual(toolListSummaryText(h), [toolSummary17, toolSummary2]);
+    }
+    for (const mode of ['exception', 'data table', 'value', 'arm value', 'arm dual read', 'reentry']) {
+        const h = toolListSummaryHarness(); h.hud.fillDeepList(); let reached = false, armReads = 0;
         h.toolDetailOverride = (tool, id) => {
-            if (id === 2 && inToolListSummary() && !reached) {
+            if (mode === 'arm dual read' && id === 17 && inToolListSummary() && ++armReads === 2) {
+                reached = true; h.nativeTools[17].arm = tool.arm = 7;
+            }
+            if (mode !== 'arm dual read' && id === 2 && inToolListSummary() && !reached) {
                 reached = true;
                 if (mode === 'exception') throw Error('temporary native tool failure');
                 if (mode === 'data table') h.raw.g_Tools = h.nativeTools.slice();
                 if (mode === 'value') h.nativeTools[17].at = 73;
+                if (mode === 'arm value') h.nativeTools[17].arm = 6;
                 if (mode === 'reentry') h.hud.fillDeepList();
             }
             return tool;
         };
         h.hud.fillDeepList(); assert.equal(reached, true, mode + ' really occurred inside the list reader'); assertToolListPlain(h, mode);
+        if (mode === 'arm dual read') assert.equal(armReads, 2, 'two individually matching raw/DTO reads disagree across samples');
         h.toolDetailOverride = null; h.hud.fillDeepList();
-        assert.deepEqual(toolListSummaryText(h), [mode === 'value' ? '装备 · 武力 +73 · 智力 +0 · 移动 +255' : toolSummary17, toolSummary2]);
+        const expected17 = mode === 'value' ? '装备 · 武力 +73 · 智力 +0 · 移动 +255 · 兵种变化 无' :
+            mode === 'arm value' ? toolSummary17Base + ' · 兵种变化 弓箭兵' : mode === 'arm dual read' ? toolSummary17Base + ' · 兵种变化 水军' : toolSummary17;
+        assert.deepEqual(toolListSummaryText(h), [expected17, toolSummary2]);
     }
     const seed = toolListSummaryHarness(), seedGoods = seed.context.baye.hd.goods; let profileCalls = 0;
     seed.context.baye.hd.goods = () => {if (inToolListSummary()) profileCalls++; return seedGoods();}; seed.hud.fillDeepList();
     assert.ok(profileCalls >= 4, 'calibration reached both value reads and the final receipt profile');
-    for (const mode of ['sticky profile', 'data reference', 'table reference', 'value']) {
+    for (const mode of ['sticky profile', 'data reference', 'table reference', 'value', 'arm value']) {
         const h = toolListSummaryHarness(); h.hud.fillDeepList(); const getGoods = h.context.baye.hd.goods; let calls = 0, reached = false;
         h.context.baye.hd.goods = () => {
             if (inToolListSummary() && ++calls === profileCalls) {
@@ -4059,14 +4144,16 @@ test('tool list summary withdraws invalid routes and sources, torn reads and fin
                 if (mode === 'data reference') h.context.baye.data = h.readonlyTools({...h.raw});
                 if (mode === 'table reference') h.raw.g_Tools = h.nativeTools.slice();
                 if (mode === 'value') h.nativeTools[17].at = 74;
+                if (mode === 'arm value') h.nativeTools[17].arm = 8;
             }
             return getGoods();
         };
         h.hud.fillDeepList(); assert.equal(reached, true, mode + ' really reached the final profile callback'); assertToolListPlain(h, mode);
         h.context.baye.hd.goods = getGoods; h.goods.custom = 0; h.hud.fillDeepList();
-        assert.deepEqual(toolListSummaryText(h), [mode === 'value' ? '装备 · 武力 +74 · 智力 +0 · 移动 +255' : toolSummary17, toolSummary2]);
+        assert.deepEqual(toolListSummaryText(h), [mode === 'value' ? '装备 · 武力 +74 · 智力 +0 · 移动 +255 · 兵种变化 无' :
+            mode === 'arm value' ? toolSummary17Base + ' · 兵种变化 极兵' : toolSummary17, toolSummary2]);
     }
-    for (const mode of ['value', 'table reference']) {
+    for (const mode of ['value', 'arm value', 'table reference']) {
         const h = toolListSummaryHarness(); h.hud.fillDeepList(); const getGoods = h.context.baye.hd.goods, getMarch = h.context.baye.hd.march;
         let summaryProfiles = 0, reached = false;
         h.context.baye.hd.goods = () => {if (inToolListSummary()) summaryProfiles++; return getGoods();};
@@ -4074,12 +4161,14 @@ test('tool list summary withdraws invalid routes and sources, torn reads and fin
             if (!reached && summaryProfiles >= 3 && /\bfillDeepListSurrenderBody\b/.test(new Error().stack) && !inToolListSummary()) {
                 reached = true;
                 if (mode === 'value') h.nativeTools[17].at = 75;
-                else h.raw.g_Tools = h.nativeTools.slice();
+                if (mode === 'arm value') h.nativeTools[17].arm = 9;
+                if (mode === 'table reference') h.raw.g_Tools = h.nativeTools.slice();
             }
             return getMarch();
         };
         h.hud.fillDeepList(); assert.equal(reached, true, mode + ' really changed in the caller after the reader'); assertToolListPlain(h, mode);
         h.hud.fillDeepList();
-        assert.deepEqual(toolListSummaryText(h), [mode === 'value' ? '装备 · 武力 +75 · 智力 +0 · 移动 +255' : toolSummary17, toolSummary2]);
+        assert.deepEqual(toolListSummaryText(h), [mode === 'value' ? '装备 · 武力 +75 · 智力 +0 · 移动 +255 · 兵种变化 无' :
+            mode === 'arm value' ? toolSummary17Base + ' · 兵种变化 玄兵' : toolSummary17, toolSummary2]);
     }
 });
