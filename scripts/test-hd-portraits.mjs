@@ -24,9 +24,34 @@ const manifest = JSON.parse(readFileSync(path.join(root, manifestUrl), 'utf8'));
 const references = JSON.parse(readFileSync(path.join(root, referencesUrl), 'utf8'));
 const asset = (rel) => 'assets/hd-portraits/' + rel;
 const pilot = manifest.entries.find((entry) => entry.period === 1 && entry.personId === 5);
-const referenceOnly = references.periods.flatMap(block => block.people.filter(person => !person.skipped && person.name)
-    .map(person => ({period:block.period, personId:person.id, name:person.name, ref:'refs/' + person.file})))
-    .find(person => !manifest.entries.some(entry => !entry.missing && entry.period === person.period && entry.personId === person.personId));
+// This real native identity is omitted only from a read-only test manifest. The shipped manifest stays complete.
+const referenceOnly = (() => {
+    const period = 1, personId = 53;
+    const person = references.periods.find(block => block.period === period)?.people.find(person => person.id === personId);
+    assert.ok(person && !person.skipped);
+    assert.equal(person.name, '祖茂');
+    assert.equal(readOriginalPersonIdentityRom(dictionaryBytes, period).names200[personId], person.name);
+    const ref = 'refs/' + person.file;
+    assert.equal(ref, 'refs/period-1/53-祖茂.png');
+    const entries = manifest.entries.filter(entry => entry.period === period && entry.personId === personId);
+    assert.equal(entries.length, 1);
+    assert.equal(entries[0].name, person.name); assert.equal(entries[0].ref, ref); assert.equal(entries[0].missing, false);
+    assert.ok(existsSync(path.join(root, asset(ref)))); assert.ok(existsSync(path.join(root, asset(entries[0].hd))));
+    return Object.freeze({ period, personId, name: person.name, ref });
+})();
+const omittedManifest = (() => {
+    const value = JSON.parse(JSON.stringify(manifest));
+    value.entries = value.entries.filter(entry => entry.period !== referenceOnly.period || entry.personId !== referenceOnly.personId);
+    assert.equal(value.entries.length, manifest.entries.length - 1);
+    assert.deepEqual(value.entries, manifest.entries.filter(entry => entry.period !== referenceOnly.period || entry.personId !== referenceOnly.personId));
+    const { entries: originalEntries, ...originalMeta } = manifest, { entries: omittedEntries, ...omittedMeta } = value;
+    assert.deepEqual(omittedMeta, originalMeta);
+    const freeze = item => {
+        if (item && typeof item === 'object') { Object.values(item).forEach(freeze); Object.freeze(item); }
+        return item;
+    };
+    return freeze(value);
+})();
 const flush = () => new Promise((resolve) => setImmediate(resolve));
 
 function fixture(options = {}) {
@@ -408,9 +433,10 @@ test('manual art preview never mounts into a runtime person detail slot', async 
     assert.equal(f.elements['hd-portrait'].hidden, false);
 });
 
-test('a genuinely unlisted named person has a real reference fallback without guessed requests', async () => {
-    assert.ok(referenceOnly, 'use an actually unmapped native identity after coverage expands');
-    const f = fixture();
+test('an explicitly omitted real identity fixture has a real reference fallback without guessed requests', async () => {
+    assert.ok(referenceOnly, 'use a real native identity omitted explicitly from this fixture only');
+    assert.equal(omittedManifest.entries.some(entry => entry.period === referenceOnly.period && entry.personId === referenceOnly.personId), false);
+    const f = fixture({ manifest: omittedManifest });
     await f.load();
     const results = await Promise.all(Array.from({ length: 12 }, () => f.api.chooseSource(referenceOnly.personId, referenceOnly.period)));
     assert.ok(results.every((src) => src.mode === 'ref' && src.url === asset(referenceOnly.ref)));
@@ -586,16 +612,16 @@ test('missing both pictures hides the slot and caches misses; invalid IDs and pe
 
 test('missing or mismatched indexes do not guess identities', async () => {
     assert.ok(referenceOnly);
-    const noManifest = fixture({ missing: new Set([manifestUrl]) });
+    const noManifest = fixture({ manifest: omittedManifest, missing: new Set([manifestUrl]) });
     await noManifest.load();
     assert.equal((await noManifest.api.chooseSource(0, 1)).mode, 'lcd');
     assert.equal(noManifest.requests.length, 0);
     const secondPeriod = manifest.entries.find(e => e.period === 2 && e.personId === 11);
-    const noRefs = fixture({ missing: new Set([referencesUrl, asset(secondPeriod.hd)]) });
+    const noRefs = fixture({ manifest: omittedManifest, missing: new Set([referencesUrl, asset(secondPeriod.hd)]) });
     await noRefs.load();
     assert.equal((await noRefs.api.chooseSource(referenceOnly.personId, referenceOnly.period)).mode, 'lcd');
     assert.equal((await noRefs.api.chooseSource(11, 2)).mode, 'ref', 'pilot manifest fallback still works');
-    const mismatched = fixture({ references: { ...references, libSha256: '0'.repeat(64) } });
+    const mismatched = fixture({ manifest: omittedManifest, references: { ...references, libSha256: '0'.repeat(64) } });
     await mismatched.load();
     assert.equal((await mismatched.api.chooseSource(referenceOnly.personId, referenceOnly.period)).mode, 'lcd');
     assert.equal(mismatched.requests.length, 0);
@@ -618,7 +644,7 @@ test('parallel index loading shares requests; an explicit reload retries previou
 test('engine Promise replacement before or after module loading cannot break native async work', async () => {
     assert.ok(referenceOnly);
     for (const beforeLoad of [false, true]) {
-        const f = fixture({ enginePromiseOverride: beforeLoad });
+        const f = fixture({ manifest: omittedManifest, enginePromiseOverride: beforeLoad });
         if (!beforeLoad) {
             vm.runInContext('window.Promise = function EnginePromise() { throw new Error("engine callback shim cannot load portraits"); };', f.context);
         }

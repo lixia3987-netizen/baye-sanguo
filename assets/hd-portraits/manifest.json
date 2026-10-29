@@ -6854,6 +6854,496 @@
       "missing": false,
       "ref": "refs/period-4/158-诸葛均.png",
       "hd": "hd/period-3/184-诸葛均.png"
+    },
+    {
+      "name": "祖茂",
+      "personId": 53,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-1/53-祖茂.png",
+      "hd": "hd/period-1/53-祖茂.png"
+    },
+    {
+      "name": "穆顺",
+      "personId": 79,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-1/79-穆顺.png",
+      "hd": "hd/period-1/79-穆顺.png"
+    },
+    {
+      "name": "潘凤",
+      "personId": 80,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-1/80-潘凤.png",
+      "hd": "hd/period-1/80-潘凤.png"
+    },
+    {
+      "name": "关纯",
+      "personId": 83,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-1/83-关纯.png",
+      "hd": "hd/period-1/83-关纯.png"
+    },
+    {
+      "name": "耿武",
+      "personId": 84,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-1/84-耿武.png",
+      "hd": "hd/period-1/84-耿武.png"
+    },
+    {
+      "name": "公孙越",
+      "personId": 99,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-1/99-公孙越.png",
+      "hd": "hd/period-1/99-公孙越.png"
+    },
+    {
+      "name": "严纲",
+      "personId": 100,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-1/100-严纲.png",
+      "hd": "hd/period-1/100-严纲.png"
+    },
+    {
+      "name": "王门",
+      "personId": 101,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-1/101-王门.png",
+      "hd": "hd/period-1/101-王门.png"
+    },
+    {
+      "name": "田楷",
+      "personId": 102,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-1/102-田楷.png",
+      "hd": "hd/period-1/102-田楷.png"
+    },
+    {
+      "name": "凌操",
+      "personId": 164,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-1/164-凌操.png",
+      "hd": "hd/period-1/164-凌操.png"
+    },
+    {
+      "name": "王忠",
+      "personId": 182,
+      "period": 1,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-1/182-王忠.png",
+      "hd": "hd/period-1/182-王忠.png"
+    },
+    {
+      "name": "夏侯恩",
+      "personId": 25,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-2/25-夏侯恩.png",
+      "hd": "hd/period-2/25-夏侯恩.png"
+    },
+    {
+      "name": "胡车儿",
+      "personId": 84,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-2/84-胡车儿.png",
+      "hd": "hd/period-2/84-胡车儿.png"
+    },
+    {
+      "name": "曹性",
+      "personId": 88,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-2/88-曹性.png",
+      "hd": "hd/period-2/88-曹性.png"
+    },
+    {
+      "name": "车胄",
+      "personId": 149,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-2/149-车胄.png",
+      "hd": "hd/period-2/149-车胄.png"
+    },
+    {
+      "name": "胡班",
+      "personId": 167,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-2/167-胡班.png",
+      "hd": "hd/period-2/167-胡班.png"
+    },
+    {
+      "name": "刘琮",
+      "personId": 172,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-2/172-刘琮.png",
+      "hd": "hd/period-2/172-刘琮.png"
+    },
+    {
+      "name": "吕旷",
+      "personId": 180,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-2/180-吕旷.png",
+      "hd": "hd/period-2/180-吕旷.png"
+    },
+    {
+      "name": "吕翔",
+      "personId": 181,
+      "period": 2,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-2/181-吕翔.png",
+      "hd": "hd/period-2/181-吕翔.png"
+    },
+    {
+      "name": "杨龄",
+      "personId": 13,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-3/13-杨龄.png",
+      "hd": "hd/period-3/13-杨龄.png"
+    },
+    {
+      "name": "刘贤",
+      "personId": 15,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-3/15-刘贤.png",
+      "hd": "hd/period-3/15-刘贤.png"
+    },
+    {
+      "name": "陈应",
+      "personId": 17,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-3/17-陈应.png",
+      "hd": "hd/period-3/17-陈应.png"
+    },
+    {
+      "name": "鲍隆",
+      "personId": 18,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-3/18-鲍隆.png",
+      "hd": "hd/period-3/18-鲍隆.png"
+    },
+    {
+      "name": "巩志",
+      "personId": 19,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-3/19-巩志.png",
+      "hd": "hd/period-3/19-巩志.png"
+    },
+    {
+      "name": "马延",
+      "personId": 66,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-3/66-马延.png",
+      "hd": "hd/period-3/66-马延.png"
+    },
+    {
+      "name": "刘封",
+      "personId": 83,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-3/83-刘封.png",
+      "hd": "hd/period-3/83-刘封.png"
+    },
+    {
+      "name": "赵累",
+      "personId": 166,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-3/166-赵累.png",
+      "hd": "hd/period-3/166-赵累.png"
+    },
+    {
+      "name": "贾华",
+      "personId": 175,
+      "period": 3,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-3/175-贾华.png",
+      "hd": "hd/period-3/175-贾华.png"
+    },
+    {
+      "name": "曹彰",
+      "personId": 10,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/10-曹彰.png",
+      "hd": "hd/period-4/10-曹彰.png"
+    },
+    {
+      "name": "沙摩柯",
+      "personId": 102,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/102-沙摩柯.png",
+      "hd": "hd/period-4/102-沙摩柯.png"
+    },
+    {
+      "name": "张休",
+      "personId": 131,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/131-张休.png",
+      "hd": "hd/period-4/131-张休.png"
+    },
+    {
+      "name": "孙浩",
+      "personId": 134,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/134-孙浩.png",
+      "hd": "hd/period-4/134-孙浩.png"
+    },
+    {
+      "name": "朵思大王",
+      "personId": 139,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/139-朵思大王.png",
+      "hd": "hd/period-4/139-朵思大王.png"
+    },
+    {
+      "name": "金环三结",
+      "personId": 140,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/140-金环三结.png",
+      "hd": "hd/period-4/140-金环三结.png"
+    },
+    {
+      "name": "朱褒",
+      "personId": 141,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/141-朱褒.png",
+      "hd": "hd/period-4/141-朱褒.png"
+    },
+    {
+      "name": "孟优",
+      "personId": 142,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/142-孟优.png",
+      "hd": "hd/period-4/142-孟优.png"
+    },
+    {
+      "name": "带来洞主",
+      "personId": 144,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/144-带来洞主.png",
+      "hd": "hd/period-4/144-带来洞主.png"
+    },
+    {
+      "name": "董荼那",
+      "personId": 145,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/145-董荼那.png",
+      "hd": "hd/period-4/145-董荼那.png"
+    },
+    {
+      "name": "阿会喃",
+      "personId": 146,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/146-阿会喃.png",
+      "hd": "hd/period-4/146-阿会喃.png"
+    },
+    {
+      "name": "忙牙长",
+      "personId": 147,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/147-忙牙长.png",
+      "hd": "hd/period-4/147-忙牙长.png"
+    },
+    {
+      "name": "何晏",
+      "personId": 155,
+      "period": 4,
+      "pilot": false,
+      "expansion": "common-original-portrait-completion-v125",
+      "missing": false,
+      "ref": "refs/period-4/155-何晏.png",
+      "hd": "hd/period-4/155-何晏.png"
+    },
+    {
+      "name": "王忠",
+      "personId": 27,
+      "period": 2,
+      "pilot": false,
+      "expansion": "original-portrait-completion-identical-reference-v125",
+      "missing": false,
+      "ref": "refs/period-2/27-王忠.png",
+      "hd": "hd/period-1/182-王忠.png"
+    },
+    {
+      "name": "杨龄",
+      "personId": 6,
+      "period": 4,
+      "pilot": false,
+      "expansion": "original-portrait-completion-identical-reference-v125",
+      "missing": false,
+      "ref": "refs/period-4/6-杨龄.png",
+      "hd": "hd/period-3/13-杨龄.png"
+    },
+    {
+      "name": "刘贤",
+      "personId": 168,
+      "period": 4,
+      "pilot": false,
+      "expansion": "original-portrait-completion-identical-reference-v125",
+      "missing": false,
+      "ref": "refs/period-4/168-刘贤.png",
+      "hd": "hd/period-3/15-刘贤.png"
+    },
+    {
+      "name": "陈应",
+      "personId": 171,
+      "period": 4,
+      "pilot": false,
+      "expansion": "original-portrait-completion-identical-reference-v125",
+      "missing": false,
+      "ref": "refs/period-4/171-陈应.png",
+      "hd": "hd/period-3/17-陈应.png"
+    },
+    {
+      "name": "鲍隆",
+      "personId": 172,
+      "period": 4,
+      "pilot": false,
+      "expansion": "original-portrait-completion-identical-reference-v125",
+      "missing": false,
+      "ref": "refs/period-4/172-鲍隆.png",
+      "hd": "hd/period-3/18-鲍隆.png"
+    },
+    {
+      "name": "巩志",
+      "personId": 173,
+      "period": 4,
+      "pilot": false,
+      "expansion": "original-portrait-completion-identical-reference-v125",
+      "missing": false,
+      "ref": "refs/period-4/173-巩志.png",
+      "hd": "hd/period-3/19-巩志.png"
+    },
+    {
+      "name": "马延",
+      "personId": 51,
+      "period": 4,
+      "pilot": false,
+      "expansion": "original-portrait-completion-identical-reference-v125",
+      "missing": false,
+      "ref": "refs/period-4/51-马延.png",
+      "hd": "hd/period-3/66-马延.png"
+    },
+    {
+      "name": "贾华",
+      "personId": 136,
+      "period": 4,
+      "pilot": false,
+      "expansion": "original-portrait-completion-identical-reference-v125",
+      "missing": false,
+      "ref": "refs/period-4/136-贾华.png",
+      "hd": "hd/period-3/175-贾华.png"
     }
   ]
 }
