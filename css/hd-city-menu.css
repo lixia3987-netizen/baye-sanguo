@@ -124,6 +124,7 @@
 .hd-city-menu .hd-city-menu-item.has-person-summary { min-height: 64px; height: max-content; line-height: 22px; }
 .hd-city-menu-item small[data-hd-person-summary] { display: block; margin-top: 4px; color: #c1cedd; font-size: 12px; line-height: 18px; font-weight: 400; }
 .hd-city-menu-item [data-hd-person-unit-summary] { display: block; }
+.hd-city-menu-item [data-hd-person-loyalty-summary] { display: inline-block; margin-left: 3px; white-space: nowrap; }
 .hd-city-menu .hd-city-menu-item.has-tool-summary { min-height: 64px; height: max-content; line-height: 22px; }
 .hd-city-menu-item small[data-hd-tool-summary] { display: block; margin-top: 4px; color: #c1cedd; font-size: 12px; line-height: 18px; font-weight: 400; }
 @media (max-width: 900px) {

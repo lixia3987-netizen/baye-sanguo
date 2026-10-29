@@ -1,0 +1,2281 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-29",
+  "batch": "V122",
+  "baselineHead": "13810efa3bcaf5522574c59019f831d5671734ea",
+  "feature": {
+    "name": "人物名单原版忠诚",
+    "routes": "Existing ordinary allied-current-city person summary routes; person and existing governance/military selectors only",
+    "specialRewardConfiscationTradeTransferRoutesExpanded": false,
+    "field": "Devotion U8 0..255 for non-ruler allies",
+    "rulerRule": {
+      "native": "showface.c GetPersonProStrCaptured case 5; strcnt.c ATRR_STR71",
+      "equivalence": "All listed Belong values are king+1, so Belong==person+1 iff personID==king",
+      "display": "--",
+      "listReaderReadsRulerDevotion": false,
+      "rulerPrivateRowValue": null
+    },
+    "rowsShape": [
+      "nativeId",
+      "Force",
+      "IQ",
+      "Thew",
+      "Level",
+      "Arms",
+      "non-ruler Devotion or ruler null"
+    ],
+    "defaultPropertyCount": 13,
+    "customMustBeFalse": true,
+    "logicalPeople": 200,
+    "physicalPeople": 2000,
+    "cities": 38,
+    "identityByteLength": 207195,
+    "identitySha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "originalQualificationGatePreserved": true,
+    "sameReceiptTwoReadsAndFinalFence": true,
+    "originalFirstLineDirectTextPreserved": true,
+    "unitSpan": "span[data-hd-person-unit-summary]",
+    "unitText": "等级 N · 兵力 N · 忠诚 N/--",
+    "noPercentageClamp": true,
+    "noEligibilityInference": true,
+    "noInputOrOrderChanges": true,
+    "cssUnchanged": false,
+    "loyaltyGroupUnbroken": true,
+    "loyaltySpan": "span[data-hd-person-loyalty-summary]",
+    "toolReceiptUnchanged": true
+  },
+  "tests": {
+    "accepted": true,
+    "started": "2026-10-29T02:47:04.863Z",
+    "finished": "2026-10-29T02:47:06.022Z",
+    "exitCode": 0,
+    "tests": 17,
+    "pass": 17,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "commandArgs": [
+      "--test",
+      "--test-reporter=tap",
+      "--test-name-pattern=^tool list summary|^person list summary|^same-name goods|^standard current raw tool|^custom properties, unknown libraries|^genuine captured blank|^tool fields and controls|^tool owner and generation|^property page clicks|^pointer-owned stale page controls|^reentrant read-only default|^same-name native menu ID changes|^cancelling a goods menu",
+      "scripts/test-hd-city-hud.mjs"
+    ],
+    "pattern": "^tool list summary|^person list summary|^same-name goods|^standard current raw tool|^custom properties, unknown libraries|^genuine captured blank|^tool fields and controls|^tool owner and generation|^property page clicks|^pointer-owned stale page controls|^reentrant read-only default|^same-name native menu ID changes|^cancelling a goods menu",
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 67359,
+        "sha256": "32283bf2b684fa54fc7db24e2e9f8a28d4376e65d642a4995c4e444c8606aa11"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 32353,
+        "sha256": "05f15266ef1942d80eb2c3d35015e5cc847ad5bd29b6c468d78589d889b5836c"
+      },
+      {
+        "path": "m.html",
+        "bytes": 23690,
+        "sha256": "ea39d9ea9c7b4fcc55ebcb9e2a4969869eac709be6080f173e95902bd8e4c97f"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 510801,
+        "sha256": "a4e47b364a47b523d719dad922f9e949a1307329c352538a38bf5b7f93b5c761"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 16907,
+        "sha256": "b6039285c270ad1721efddcc1ff48af854396d82d325250e3ddf95025a47c305"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 165558,
+        "sha256": "4d516b7771dda321b98fc35111ce31b1b71da5de484626c89035cd4f2c29c183"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 292858,
+        "sha256": "3cab9c20a7ab50d7d6078a4507ebfe496b7d0b174211e7f4b0027c40e0da1f4f"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "scripts/hd-person-identity-rom.mjs",
+        "bytes": 6532,
+        "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "vendor/iBaye/src/showface.c",
+        "bytes": 44299,
+        "sha256": "49d16a86891a712c675409c8377f234bc69d2d9c13d56da865dc83a5eab87895"
+      },
+      {
+        "path": "vendor/iBaye/src/strcnt.c",
+        "bytes": 7932,
+        "sha256": "b256123404c245685a627140ac701468110bc658ed95c628ee97d99f90d1d952"
+      },
+      {
+        "path": "vendor/iBaye/src/cityedit.c",
+        "bytes": 41528,
+        "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+      },
+      {
+        "path": "vendor/iBaye/src/infdeal.c",
+        "bytes": 26196,
+        "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+      },
+      {
+        "path": "vendor/iBaye/src/bind-objects.c",
+        "bytes": 18495,
+        "sha256": "1bcf05ce980b26df368f3dc399e1ad256a3bbd315024ae065947860c98b28959"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/attribute.h",
+        "bytes": 8930,
+        "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 0,
+    "modifiedExistingTests": 3,
+    "newDefaultModules": 0,
+    "entireHudModuleRun": false,
+    "fullSuiteRun": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "globalHdComplete": false,
+    "stdout": {
+      "path": "build/person-loyalty-summary-20261029-v122/targeted-v2.stdout.tap",
+      "bytes": 4709,
+      "sha256": "3b28f3109d31252a1fc277d0260bd5edce0cf8e78830b0a95c810e28be9a66d5",
+      "text": "TAP version 13\n# Subtest: same-name goods use actual selected tool ID and preserve native captured values and unread pages\nok 1 - same-name goods use actual selected tool ID and preserve native captured values and unread pages\n  ---\n  duration_ms: 13.8622\n  type: 'test'\n  ...\n# Subtest: standard current raw tool fields supplement unread default properties, preserving real zero values\nok 2 - standard current raw tool fields supplement unread default properties, preserving real zero values\n  ---\n  duration_ms: 3.9397\n  type: 'test'\n  ...\n# Subtest: custom properties, unknown libraries and live property hooks never substitute standard raw semantics\nok 3 - custom properties, unknown libraries and live property hooks never substitute standard raw semantics\n  ---\n  duration_ms: 15.5993\n  type: 'test'\n  ...\n# Subtest: genuine captured blank and literal markup stay distinct from unread values\nok 4 - genuine captured blank and literal markup stay distinct from unread values\n  ---\n  duration_ms: 3.8099\n  type: 'test'\n  ...\n# Subtest: tool fields and controls persist when actual highlighted ID changes, without automatic pagination\nok 5 - tool fields and controls persist when actual highlighted ID changes, without automatic pagination\n  ---\n  duration_ms: 5.0269\n  type: 'test'\n  ...\n# Subtest: tool owner and generation loss, overlays and pending input retire details and preserve LCD fallback\nok 6 - tool owner and generation loss, overlays and pending input retire details and preserve LCD fallback\n  ---\n  duration_ms: 52.0396\n  type: 'test'\n  ...\n# Subtest: property page clicks send one native arrow and wait for the real page acknowledgement\nok 7 - property page clicks send one native arrow and wait for the real page acknowledgement\n  ---\n  duration_ms: 4.9075\n  type: 'test'\n  ...\n# Subtest: pointer-owned stale page controls never send keys to another native selection or generation\nok 8 - pointer-owned stale page controls never send keys to another native selection or generation\n  ---\n  duration_ms: 16.3798\n  type: 'test'\n  ...\n# Subtest: reentrant read-only default or final input getters cannot publish or page a retired tool\nok 9 - reentrant read-only default or final input getters cannot publish or page a retired tool\n  ---\n  duration_ms: 6.6258\n  type: 'test'\n  ...\n# Subtest: same-name native menu ID changes retire an armed item click instead of confirming another tool\nok 10 - same-name native menu ID changes retire an armed item click instead of confirming another tool\n  ---\n  duration_ms: 3.4936\n  type: 'test'\n  ...\n# Subtest: cancelling a goods menu hides its side panel and retains the existing single native Exit\nok 11 - cancelling a goods menu hides its side panel and retains the existing single native Exit\n  ---\n  duration_ms: 4.2376\n  type: 'test'\n  ...\n# Subtest: person list summary follows filtered reordered native IDs and duplicate names without changing public items or input\nok 12 - person list summary follows filtered reordered native IDs and duplicate names without changing public items or input\n  ---\n  duration_ms: 46.4361\n  type: 'test'\n  ...\n# Subtest: person list summary refreshes changed same-owner values and rejects a press held across the real list refresh\nok 13 - person list summary refreshes changed same-owner values and rejects a press held across the real list refresh\n  ---\n  duration_ms: 49.6921\n  type: 'test'\n  ...\n# Subtest: person list summary withdraws invalid sources before private stat reads and recovers after renderer reentry\nok 14 - person list summary withdraws invalid sources before private stat reads and recovers after renderer reentry\n  ---\n  duration_ms: 456.5122\n  type: 'test'\n  ...\n# Subtest: tool list summary follows actual reordered subset IDs and duplicate clipped names with strict U8 values and no input\nok 15 - tool list summary follows actual reordered subset IDs and duplicate clipped names with strict U8 values and no input\n  ---\n  duration_ms: 23.4352\n  type: 'test'\n  ...\n# Subtest: tool list summary refreshes same-owner values while stable polling preserves nodes and old presses cannot confirm replacements\nok 16 - tool list summary refreshes same-owner values while stable polling preserves nodes and old presses cannot confirm replacements\n  ---\n  duration_ms: 6.3277\n  type: 'test'\n  ...\n# Subtest: tool list summary withdraws invalid routes and sources, torn reads and final callbacks then recovers without input\nok 17 - tool list summary withdraws invalid routes and sources, torn reads and final callbacks then recovers without input\n  ---\n  duration_ms: 194.0877\n  type: 'test'\n  ...\n1..17\n# tests 17\n# suites 0\n# pass 17\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 1002.2851\n"
+    },
+    "stderr": {
+      "path": "build/person-loyalty-summary-20261029-v122/targeted-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    },
+    "outsidePersonTestBlockByteUnchanged": true
+  },
+  "negativeParent": {
+    "accepted": true,
+    "expectedOldSourceRejection": true,
+    "exitCode": 1,
+    "tests": 3,
+    "pass": 0,
+    "fail": 3,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "source": {
+      "path": "build/person-loyalty-summary-20261029-v122/js_hd-city-menu.js.before",
+      "bytes": 510027,
+      "sha256": "424e3d10c06f45d057d1532fff82489bd8fefddce35fe64bc34fa6af5f342209"
+    },
+    "selectedSources": [
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 510801,
+        "sha256": "a4e47b364a47b523d719dad922f9e949a1307329c352538a38bf5b7f93b5c761"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 292858,
+        "sha256": "3cab9c20a7ab50d7d6078a4507ebfe496b7d0b174211e7f4b0027c40e0da1f4f"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/js_hd-city-menu.js.before",
+        "bytes": 510027,
+        "sha256": "424e3d10c06f45d057d1532fff82489bd8fefddce35fe64bc34fa6af5f342209"
+      }
+    ],
+    "productionSourcesUnchanged": true,
+    "browserRun": false,
+    "actualGameplayAccepted": false
+  },
+  "preview": {
+    "accepted": true,
+    "previewOnly": true,
+    "previewVersion": 2,
+    "visualReviewPending": false,
+    "baselineHead": "13810efa3bcaf5522574c59019f831d5671734ea",
+    "runtime": {
+      "node": "v24.14.0",
+      "playwright": "1.62.1",
+      "chromeExecutable": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+      "browserVersion": "155.0.8059.85"
+    },
+    "runError": null,
+    "screenshots": 9,
+    "browserLaunches": 1,
+    "isolatedPages": 3,
+    "navigations": 3,
+    "samePageStates": 9,
+    "ownedBrowserClosed": true,
+    "serverClosed": true,
+    "privateEphemeralPort": 11509,
+    "sourceBytesStable": true,
+    "sourcePins": 27,
+    "pins": [
+      {
+        "path": "pc.html",
+        "bytes": 32353,
+        "sha256": "05f15266ef1942d80eb2c3d35015e5cc847ad5bd29b6c468d78589d889b5836c"
+      },
+      {
+        "path": "m.html",
+        "bytes": 23690,
+        "sha256": "ea39d9ea9c7b4fcc55ebcb9e2a4969869eac709be6080f173e95902bd8e4c97f"
+      },
+      {
+        "path": "css/flex.css",
+        "bytes": 11480,
+        "sha256": "362ebb627e1453bb074f6c71afbff91832d0cab18ef962fdc813b2cadb69cace"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 3008,
+        "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+      },
+      {
+        "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+      },
+      {
+        "path": "css/hd-graphics.css",
+        "bytes": 4567,
+        "sha256": "5941d014ada1e3fcc889031640dde97fa1f542d5c213c1e62ae0f7dc29e2d43a"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 5226,
+        "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 16907,
+        "sha256": "b6039285c270ad1721efddcc1ff48af854396d82d325250e3ddf95025a47c305"
+      },
+      {
+        "path": "css/hd-battle.css",
+        "bytes": 9203,
+        "sha256": "a193bdf938a16b4741251ec6a670872fe3cfcf899592aa69461b438ef51ffab1"
+      },
+      {
+        "path": "css/hd-system-ui.css",
+        "bytes": 7088,
+        "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d"
+      },
+      {
+        "path": "css/hd-minimap.css",
+        "bytes": 4222,
+        "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 10606,
+        "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+      },
+      {
+        "path": "css/hd-spe.css",
+        "bytes": 3150,
+        "sha256": "bc462f1197dfc69c9d5a15403207630ef79886f79dc979aa0ee5e23de672e221"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-battle-note.css",
+        "bytes": 2146,
+        "sha256": "b35da40a6a0535b7ed1ba33a103eaeed35fc51d5f314974a167a3fa196b966a3"
+      },
+      {
+        "path": "css/hd-battle-transition.css",
+        "bytes": 2896,
+        "sha256": "eee994dd0a8541dac4b3c7f11277326b3d6aa0dfb099131b7cd358bc4872573a"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "favicon.png",
+        "bytes": 7349,
+        "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22"
+      },
+      {
+        "path": ".gitattributes",
+        "bytes": 67359,
+        "sha256": "32283bf2b684fa54fc7db24e2e9f8a28d4376e65d642a4995c4e444c8606aa11"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 292858,
+        "sha256": "3cab9c20a7ab50d7d6078a4507ebfe496b7d0b174211e7f4b0027c40e0da1f4f"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 510801,
+        "sha256": "a4e47b364a47b523d719dad922f9e949a1307329c352538a38bf5b7f93b5c761"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-fixture-v1.js",
+        "bytes": 11497,
+        "sha256": "ad0563a3e04ef18fb896cbd5d0b6c7e2280e6f78ebdbeb35fb911e624442d62f"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-collect-v1.js",
+        "bytes": 7958,
+        "sha256": "1a9fd1381edbb7dd0afc16f6041feab609b0241ba273931327b75ee7db930f58"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-v1.mjs",
+        "bytes": 19545,
+        "sha256": "613e8c899622345d9dd19c2dcab45320985f2eb8488b6c4f9f3c8aeabd71686b"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-finalize-v1.mjs",
+        "bytes": 1803,
+        "sha256": "def2fc76708c84f7c8d387109af353126f306fc0987c51f9b38391aaf606ec64"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-helpers-provenance-v1.json",
+        "bytes": 2087,
+        "sha256": "61231c1dbaf8cbd35304c83f5bd78c0dbad1c49954f0feda7aa82a9acaed1484"
+      }
+    ],
+    "afterPins": [
+      {
+        "path": "pc.html",
+        "bytes": 32353,
+        "sha256": "05f15266ef1942d80eb2c3d35015e5cc847ad5bd29b6c468d78589d889b5836c"
+      },
+      {
+        "path": "m.html",
+        "bytes": 23690,
+        "sha256": "ea39d9ea9c7b4fcc55ebcb9e2a4969869eac709be6080f173e95902bd8e4c97f"
+      },
+      {
+        "path": "css/flex.css",
+        "bytes": 11480,
+        "sha256": "362ebb627e1453bb074f6c71afbff91832d0cab18ef962fdc813b2cadb69cace"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 3008,
+        "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+      },
+      {
+        "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+      },
+      {
+        "path": "css/hd-graphics.css",
+        "bytes": 4567,
+        "sha256": "5941d014ada1e3fcc889031640dde97fa1f542d5c213c1e62ae0f7dc29e2d43a"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 5226,
+        "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 16907,
+        "sha256": "b6039285c270ad1721efddcc1ff48af854396d82d325250e3ddf95025a47c305"
+      },
+      {
+        "path": "css/hd-battle.css",
+        "bytes": 9203,
+        "sha256": "a193bdf938a16b4741251ec6a670872fe3cfcf899592aa69461b438ef51ffab1"
+      },
+      {
+        "path": "css/hd-system-ui.css",
+        "bytes": 7088,
+        "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d"
+      },
+      {
+        "path": "css/hd-minimap.css",
+        "bytes": 4222,
+        "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 10606,
+        "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+      },
+      {
+        "path": "css/hd-spe.css",
+        "bytes": 3150,
+        "sha256": "bc462f1197dfc69c9d5a15403207630ef79886f79dc979aa0ee5e23de672e221"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-battle-note.css",
+        "bytes": 2146,
+        "sha256": "b35da40a6a0535b7ed1ba33a103eaeed35fc51d5f314974a167a3fa196b966a3"
+      },
+      {
+        "path": "css/hd-battle-transition.css",
+        "bytes": 2896,
+        "sha256": "eee994dd0a8541dac4b3c7f11277326b3d6aa0dfb099131b7cd358bc4872573a"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "favicon.png",
+        "bytes": 7349,
+        "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22"
+      },
+      {
+        "path": ".gitattributes",
+        "bytes": 67359,
+        "sha256": "32283bf2b684fa54fc7db24e2e9f8a28d4376e65d642a4995c4e444c8606aa11"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 292858,
+        "sha256": "3cab9c20a7ab50d7d6078a4507ebfe496b7d0b174211e7f4b0027c40e0da1f4f"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 510801,
+        "sha256": "a4e47b364a47b523d719dad922f9e949a1307329c352538a38bf5b7f93b5c761"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-fixture-v1.js",
+        "bytes": 11497,
+        "sha256": "ad0563a3e04ef18fb896cbd5d0b6c7e2280e6f78ebdbeb35fb911e624442d62f"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-collect-v1.js",
+        "bytes": 7958,
+        "sha256": "1a9fd1381edbb7dd0afc16f6041feab609b0241ba273931327b75ee7db930f58"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-v1.mjs",
+        "bytes": 19545,
+        "sha256": "613e8c899622345d9dd19c2dcab45320985f2eb8488b6c4f9f3c8aeabd71686b"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-finalize-v1.mjs",
+        "bytes": 1803,
+        "sha256": "def2fc76708c84f7c8d387109af353126f306fc0987c51f9b38391aaf606ec64"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-helpers-provenance-v1.json",
+        "bytes": 2087,
+        "sha256": "61231c1dbaf8cbd35304c83f5bd78c0dbad1c49954f0feda7aa82a9acaed1484"
+      }
+    ],
+    "cases": [
+      {
+        "name": "pc-1280x720",
+        "accepted": true,
+        "refresh": {
+          "sameOwner": true,
+          "sameNamesAndIds": true,
+          "sameMenu": true,
+          "samePersonPropertyDto": true,
+          "sameWorldDto": true,
+          "firstLineUnchanged": true,
+          "levelArmsUnchanged": true,
+          "onlyDevotionChanged": true,
+          "rulerRawValueUnchanged": true,
+          "rulerUsesNativePlaceholder": true,
+          "loyaltyChanged": true,
+          "unaffectedRowsUnchanged": true,
+          "nativeCustomFallback": true,
+          "deepSigChanged": true,
+          "domEpochs": [
+            1,
+            2,
+            3
+          ],
+          "deepSigNeverClearedByFixture": true,
+          "accepted": true
+        },
+        "scroll": {
+          "changed": true,
+          "max": 388,
+          "independentPersonPane": true,
+          "footerStable": true,
+          "lastRowVisible": true,
+          "accepted": true
+        },
+        "errors": 0,
+        "failedRequests": 0,
+        "states": [
+          {
+            "mode": "standard",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 14,
+            "unitSummaries": 14,
+            "previewButtons": 0,
+            "firstSummary": "武力 0 · 智力 255 · 体力 0",
+            "firstUnit": "等级 0 · 兵力 0 · 忠诚 --",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-standard-v1.png",
+              "bytes": 130379,
+              "sha256": "eddda858f1949fc34b5fed0bf99d0ba03fa986bed21e6eed5c45c8ab89a21dd8"
+            },
+            "raw": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-standard-raw-v1.json",
+              "bytes": 266653,
+              "sha256": "ed49a229d1fe56d5de9f28db030bbf28f6424e80605484ccb1ebce2e5b1253a6"
+            },
+            "dom": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-standard-v1.dom.html",
+              "bytes": 24211,
+              "sha256": "cf5d9e68b753d92c7f3288d12bfed43bdc70d6154a61938832ef62a601346abe"
+            }
+          },
+          {
+            "mode": "updated",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 14,
+            "unitSummaries": 14,
+            "previewButtons": 0,
+            "firstSummary": "武力 0 · 智力 255 · 体力 0",
+            "firstUnit": "等级 0 · 兵力 0 · 忠诚 --",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-updated-v1.png",
+              "bytes": 131387,
+              "sha256": "d8f726a3ff379269f888fb51d73271590450274fd5b5e21189a8d75a279143e6"
+            },
+            "raw": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-updated-raw-v1.json",
+              "bytes": 269787,
+              "sha256": "591a1c2eb2b636af2f608ba7d0e1102a4776c912328d4be57823f3485c03160d"
+            },
+            "dom": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-updated-v1.dom.html",
+              "bytes": 24211,
+              "sha256": "c4288870f43508741ccd4322ed6a04a30ab8f26c419e5ae4f1cb618c90ec75f8"
+            }
+          },
+          {
+            "mode": "ineligible",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 0,
+            "unitSummaries": 0,
+            "previewButtons": 0,
+            "firstSummary": null,
+            "firstUnit": null,
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-ineligible-v1.png",
+              "bytes": 130881,
+              "sha256": "0d22f637e853464d2c5972c29705564688a05ed21f1bd653b85f6d78636d38af"
+            },
+            "raw": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-ineligible-raw-v1.json",
+              "bytes": 146317,
+              "sha256": "674596aa171bcd7ad4692dba6cb943ab57982ce973bd2066bdb4e3d7a0a2590a"
+            },
+            "dom": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-ineligible-v1.dom.html",
+              "bytes": 19307,
+              "sha256": "551f2cf69f8fb26de3a00a1d046608a24578ec5d832a98cbd8ac4f6ee8b2d8cd"
+            }
+          }
+        ]
+      },
+      {
+        "name": "mobile-844x390",
+        "accepted": true,
+        "refresh": {
+          "sameOwner": true,
+          "sameNamesAndIds": true,
+          "sameMenu": true,
+          "samePersonPropertyDto": true,
+          "sameWorldDto": true,
+          "firstLineUnchanged": true,
+          "levelArmsUnchanged": true,
+          "onlyDevotionChanged": true,
+          "rulerRawValueUnchanged": true,
+          "rulerUsesNativePlaceholder": true,
+          "loyaltyChanged": true,
+          "unaffectedRowsUnchanged": true,
+          "nativeCustomFallback": true,
+          "deepSigChanged": true,
+          "domEpochs": [
+            1,
+            2,
+            3
+          ],
+          "deepSigNeverClearedByFixture": true,
+          "accepted": true
+        },
+        "scroll": {
+          "changed": true,
+          "max": 960,
+          "independentPersonPane": true,
+          "footerStable": true,
+          "lastRowVisible": true,
+          "accepted": true
+        },
+        "errors": 0,
+        "failedRequests": 0,
+        "states": [
+          {
+            "mode": "standard",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 14,
+            "unitSummaries": 14,
+            "previewButtons": 14,
+            "firstSummary": "武力 0 · 智力 255 · 体力 0",
+            "firstUnit": "等级 0 · 兵力 0 · 忠诚 --",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-standard-v1.png",
+              "bytes": 75838,
+              "sha256": "f3e3556153fbf5b5101c2942531d3a98a374f938c6bf6b012af4abf46e0c264f"
+            },
+            "raw": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-standard-raw-v1.json",
+              "bytes": 294553,
+              "sha256": "65eed78c61905bd99cc8d7dc45d60f4aed797d4412d3194b30e3ea09a940a6ac"
+            },
+            "dom": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-standard-v1.dom.html",
+              "bytes": 36382,
+              "sha256": "e69c1711540a710296bee0037147a62c0371c0eab16c0c86556dcd15b78f9715"
+            }
+          },
+          {
+            "mode": "updated",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 14,
+            "unitSummaries": 14,
+            "previewButtons": 14,
+            "firstSummary": "武力 0 · 智力 255 · 体力 0",
+            "firstUnit": "等级 0 · 兵力 0 · 忠诚 --",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-updated-v1.png",
+              "bytes": 75541,
+              "sha256": "9cd55bc7960f6444bf6051169e0df3f873cb69536b22efc0d3f5332793766afa"
+            },
+            "raw": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-updated-raw-v1.json",
+              "bytes": 298230,
+              "sha256": "97fbb26459cc42b8d62f9e5cbd6dd869b790e3665a2b0ee181860a4b6e81ca03"
+            },
+            "dom": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-updated-v1.dom.html",
+              "bytes": 36382,
+              "sha256": "01b2b413c8aba983bfad96ad5da51212f58fa96b69a8ecbea2fb478b17f376eb"
+            }
+          },
+          {
+            "mode": "ineligible",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 0,
+            "unitSummaries": 0,
+            "previewButtons": 14,
+            "firstSummary": null,
+            "firstUnit": null,
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-ineligible-v1.png",
+              "bytes": 74892,
+              "sha256": "7f35184a38f4cd28d97187999ec40ffd92e55149d0d0c83501e819bbca5b3702"
+            },
+            "raw": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-ineligible-raw-v1.json",
+              "bytes": 183895,
+              "sha256": "ef5a585206d66f990255c80eb6614ff58296cee42787b23ca0589aad3c29c9d1"
+            },
+            "dom": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-ineligible-v1.dom.html",
+              "bytes": 31478,
+              "sha256": "472624c665f5f4162f7dbe60b3d78bc76708b7a12af7677b8e5de956ccf80d44"
+            }
+          }
+        ]
+      },
+      {
+        "name": "mobile-667x375",
+        "accepted": true,
+        "refresh": {
+          "sameOwner": true,
+          "sameNamesAndIds": true,
+          "sameMenu": true,
+          "samePersonPropertyDto": true,
+          "sameWorldDto": true,
+          "firstLineUnchanged": true,
+          "levelArmsUnchanged": true,
+          "onlyDevotionChanged": true,
+          "rulerRawValueUnchanged": true,
+          "rulerUsesNativePlaceholder": true,
+          "loyaltyChanged": true,
+          "unaffectedRowsUnchanged": true,
+          "nativeCustomFallback": true,
+          "deepSigChanged": true,
+          "domEpochs": [
+            1,
+            2,
+            3
+          ],
+          "deepSigNeverClearedByFixture": true,
+          "accepted": true
+        },
+        "scroll": {
+          "changed": true,
+          "max": 997,
+          "independentPersonPane": true,
+          "footerStable": true,
+          "lastRowVisible": true,
+          "accepted": true
+        },
+        "errors": 0,
+        "failedRequests": 0,
+        "states": [
+          {
+            "mode": "standard",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 14,
+            "unitSummaries": 14,
+            "previewButtons": 14,
+            "firstSummary": "武力 0 · 智力 255 · 体力 0",
+            "firstUnit": "等级 0 · 兵力 0 · 忠诚 --",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-standard-v1.png",
+              "bytes": 66779,
+              "sha256": "bf51d0f4e27384cf9d2d6c449eba3df61bf2af8ea3bf8c483916fd6e9f8a9685"
+            },
+            "raw": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-standard-raw-v1.json",
+              "bytes": 294328,
+              "sha256": "cbbb3a4bcb9dbe139eb8d911ef9d400c4a865c66fe5b88c51944dac5aa3edb8f"
+            },
+            "dom": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-standard-v1.dom.html",
+              "bytes": 36382,
+              "sha256": "e69c1711540a710296bee0037147a62c0371c0eab16c0c86556dcd15b78f9715"
+            }
+          },
+          {
+            "mode": "updated",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 14,
+            "unitSummaries": 14,
+            "previewButtons": 14,
+            "firstSummary": "武力 0 · 智力 255 · 体力 0",
+            "firstUnit": "等级 0 · 兵力 0 · 忠诚 --",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-updated-v1.png",
+              "bytes": 67536,
+              "sha256": "d024da9ae17a6a26a29814b397f1f5f8c4c367275a03ef105f91fe66991f22c7"
+            },
+            "raw": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-updated-raw-v1.json",
+              "bytes": 298036,
+              "sha256": "6da09ad3cac87c799e868b3154e2e7396cdbb85c001638c482e49724282a3d74"
+            },
+            "dom": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-updated-v1.dom.html",
+              "bytes": 36382,
+              "sha256": "01b2b413c8aba983bfad96ad5da51212f58fa96b69a8ecbea2fb478b17f376eb"
+            }
+          },
+          {
+            "mode": "ineligible",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 0,
+            "unitSummaries": 0,
+            "previewButtons": 14,
+            "firstSummary": null,
+            "firstUnit": null,
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-ineligible-v1.png",
+              "bytes": 63701,
+              "sha256": "070b542b37b353b2afaa1bab34c903f79d4be4816a1544e717e12a145f6b4601"
+            },
+            "raw": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-ineligible-raw-v1.json",
+              "bytes": 184195,
+              "sha256": "3eaac1ec0c4e98c69b45aa0783e1a1c1c067dfa80bb25c6953a90b0f86b1fc18"
+            },
+            "dom": {
+              "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-ineligible-v1.dom.html",
+              "bytes": 31478,
+              "sha256": "472624c665f5f4162f7dbe60b3d78bc76708b7a12af7677b8e5de956ccf80d44"
+            }
+          }
+        ]
+      }
+    ],
+    "rawEvidence": {
+      "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-v1-raw.json",
+      "bytes": 1937144,
+      "sha256": "731e38db349576e02f53900e43dee66f4deeb414e6978e395a1ccc56a608961b"
+    },
+    "boundary": "Production fillDeepList and detail/highlight/group renderers only. Read-only explicit original-contract mock supplies 200 logical persons, 2000 physical person and queue slots, 38 cities, player king, complete kind-3 menu DTO and incomplete 13-property default person DTO, identity byteLength 207195. Fourteen actual-ID rows include a long full name, four-character names and equal names with distinct IDs. Fixture changes only Devotion of ordinary persons 17 and 2 (255/0 to 0/255) then sets personProperties.custom, preserving ruler id 0 with unused Devotion 37, Level/Arms, Force/IQ/Thew, complete menu/owner and never clearing deepSig. Ruler loyalty is the original -- placeholder. Only private mobileHost isAvailable capability assignment is added. Lifecycle/configure/start/bind, actual bridge/LIB/WASM/storage/save/gameplay/physical devices are excluded.",
+    "processBoundary": "Exactly one owned Chrome context/profile and one private ephemeral allowlist HTTP server; only owned pages/context/server closed. No existing browser/game/CDP/8080/process inventory accessed.",
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "globalHdComplete": false,
+    "visualReview": {
+      "accepted": true,
+      "reviewedAt": "2026-10-29T02:53:13.530Z",
+      "screenshotsVisuallyReviewed": 9,
+      "reviewers": [
+        "root"
+      ],
+      "singleReviewer": true,
+      "reviewedWith": "tools.view_image",
+      "reviewedPaths": [
+        "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-standard-v1.png",
+        "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-updated-v1.png",
+        "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-ineligible-v1.png",
+        "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-standard-v1.png",
+        "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-updated-v1.png",
+        "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-ineligible-v1.png",
+        "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-standard-v1.png",
+        "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-updated-v1.png",
+        "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-ineligible-v1.png"
+      ],
+      "rows": [
+        {
+          "size": "pc-1280x720",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-standard-v1.png",
+            "bytes": 130379,
+            "sha256": "eddda858f1949fc34b5fed0bf99d0ba03fa986bed21e6eed5c45c8ab89a21dd8"
+          },
+          "accepted": true,
+          "notes": "PC双列中君主忠诚--、普通将领255/0可读，新增忠诚标签和数值完整同组；窄列在组间换行，首行原有能力布局保持，长姓名在按钮内，资料栏与footer可见。"
+        },
+        {
+          "size": "pc-1280x720",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-updated-v1.png",
+            "bytes": 131387,
+            "sha256": "d8f726a3ff379269f888fb51d73271590450274fd5b5e21189a8d75a279143e6"
+          },
+          "accepted": true,
+          "notes": "PC列表滚到底后末尾四字姓名与忠诚100完整，等级兵力及忠诚在组间换行，不再拆忠/诚；右侧资料栏未随列表滚动，底部返回/经典LCD/帮助保持可见。"
+        },
+        {
+          "size": "pc-1280x720",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-ineligible-v1.png",
+            "bytes": 130881,
+            "sha256": "0d22f637e853464d2c5972c29705564688a05ed21f1bd653b85f6d78636d38af"
+          },
+          "accepted": true,
+          "notes": "PC自定义属性回退撤去两行名单摘要，保留全部原名和长名折行，右侧显示自定义与未读取属性提示，底部操作完整。"
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-standard-v1.png",
+            "bytes": 75838,
+            "sha256": "f3e3556153fbf5b5101c2942531d3a98a374f938c6bf6b012af4abf46e0c264f"
+          },
+          "accepted": true,
+          "notes": "844横屏首行君主忠诚--和第二行长姓名/等级255兵力65535忠诚255完整可读，忠诚字段不拆分，左侧单列、64px查看按钮和footer保留。"
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-updated-v1.png",
+            "bytes": 75541,
+            "sha256": "9cd55bc7960f6444bf6051169e0df3f873cb69536b22efc0d3f5332793766afa"
+          },
+          "accepted": true,
+          "notes": "844横屏滚底显示公孙伯珪、荀氏文若与忠诚100完整，查看按钮对齐；右资料栏位置及footer保持，页面无横向截断。"
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-ineligible-v1.png",
+            "bytes": 74892,
+            "sha256": "7f35184a38f4cd28d97187999ec40ffd92e55149d0d0c83501e819bbca5b3702"
+          },
+          "accepted": true,
+          "notes": "844横屏自定义回退去掉全部摘要，原名与长名仍单列、查看入口完整，右侧原生属性提示与翻页区、footer保留。"
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-standard-v1.png",
+            "bytes": 66779,
+            "sha256": "bf51d0f4e27384cf9d2d6c449eba3df61bf2af8ea3bf8c483916fd6e9f8a9685"
+          },
+          "accepted": true,
+          "notes": "667横屏君主忠诚--与普通将领最长255/65535/255单位行完整，长mock姓名折成两行而未溢出；忠诚字段未拆，64px查看与底部按钮可见。"
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-updated-v1.png",
+            "bytes": 67536,
+            "sha256": "d024da9ae17a6a26a29814b397f1f5f8c4c367275a03ef105f91fe66991f22c7"
+          },
+          "accepted": true,
+          "notes": "667横屏滚底末行及忠诚100可读，等级兵力忠诚组完整同排，查看按钮与右资料独立，footer保持在视口内。"
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-ineligible-v1.png",
+            "bytes": 63701,
+            "sha256": "070b542b37b353b2afaa1bab34c903f79d4be4816a1544e717e12a145f6b4601"
+          },
+          "accepted": true,
+          "notes": "667横屏自定义回退仅显示原名，长mock姓名两行且未溢出，原生属性说明/翻页区与64px查看、底部返回帮助保留。"
+        }
+      ],
+      "onlyControlledDomCss": true,
+      "actualGameplayAccepted": false,
+      "realDeviceAccepted": false
+    },
+    "visualReviewPin": {
+      "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-visual-review-v1.json",
+      "bytes": 5985,
+      "sha256": "78c51c34ce7efc4892e58ad82319edfdf65643ec65f7e42d969b8cc525232700"
+    },
+    "evidenceScripts": [
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-v1.mjs",
+        "bytes": 19545,
+        "sha256": "613e8c899622345d9dd19c2dcab45320985f2eb8488b6c4f9f3c8aeabd71686b"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-fixture-v1.js",
+        "bytes": 11497,
+        "sha256": "ad0563a3e04ef18fb896cbd5d0b6c7e2280e6f78ebdbeb35fb911e624442d62f"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-collect-v1.js",
+        "bytes": 7958,
+        "sha256": "1a9fd1381edbb7dd0afc16f6041feab609b0241ba273931327b75ee7db930f58"
+      },
+      {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-finalize-v1.mjs",
+        "bytes": 1803,
+        "sha256": "def2fc76708c84f7c8d387109af353126f306fc0987c51f9b38391aaf606ec64"
+      }
+    ],
+    "sourcePinsVerifiedAfterReview": true,
+    "originalPreview": {
+      "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-v1.json",
+      "bytes": 36959,
+      "sha256": "47659310b49b75eac9e6808bf2be69dbc5939ea3c1ec0fd6bcbcda68c84419b3"
+    },
+    "rootVisualReview": {
+      "accepted": true,
+      "reviewedAt": "2026-10-29T02:53:14.213Z",
+      "individualScreenshotsViewed": 9,
+      "reviewedWith": "tools.view_image",
+      "sourcePinsStable": 27,
+      "rows": [
+        {
+          "size": "pc-1280x720",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-standard-v1.png",
+            "bytes": 130379,
+            "sha256": "eddda858f1949fc34b5fed0bf99d0ba03fa986bed21e6eed5c45c8ab89a21dd8"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "PC双列中君主忠诚--、普通将领255/0可读，新增忠诚标签和数值完整同组；窄列在组间换行，首行原有能力布局保持，长姓名在按钮内，资料栏与footer可见。"
+        },
+        {
+          "size": "pc-1280x720",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-updated-v1.png",
+            "bytes": 131387,
+            "sha256": "d8f726a3ff379269f888fb51d73271590450274fd5b5e21189a8d75a279143e6"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "PC列表滚到底后末尾四字姓名与忠诚100完整，等级兵力及忠诚在组间换行，不再拆忠/诚；右侧资料栏未随列表滚动，底部返回/经典LCD/帮助保持可见。"
+        },
+        {
+          "size": "pc-1280x720",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-ineligible-v1.png",
+            "bytes": 130881,
+            "sha256": "0d22f637e853464d2c5972c29705564688a05ed21f1bd653b85f6d78636d38af"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "PC自定义属性回退撤去两行名单摘要，保留全部原名和长名折行，右侧显示自定义与未读取属性提示，底部操作完整。"
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-standard-v1.png",
+            "bytes": 75838,
+            "sha256": "f3e3556153fbf5b5101c2942531d3a98a374f938c6bf6b012af4abf46e0c264f"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "844横屏首行君主忠诚--和第二行长姓名/等级255兵力65535忠诚255完整可读，忠诚字段不拆分，左侧单列、64px查看按钮和footer保留。"
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-updated-v1.png",
+            "bytes": 75541,
+            "sha256": "9cd55bc7960f6444bf6051169e0df3f873cb69536b22efc0d3f5332793766afa"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "844横屏滚底显示公孙伯珪、荀氏文若与忠诚100完整，查看按钮对齐；右资料栏位置及footer保持，页面无横向截断。"
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-ineligible-v1.png",
+            "bytes": 74892,
+            "sha256": "7f35184a38f4cd28d97187999ec40ffd92e55149d0d0c83501e819bbca5b3702"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "844横屏自定义回退去掉全部摘要，原名与长名仍单列、查看入口完整，右侧原生属性提示与翻页区、footer保留。"
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-standard-v1.png",
+            "bytes": 66779,
+            "sha256": "bf51d0f4e27384cf9d2d6c449eba3df61bf2af8ea3bf8c483916fd6e9f8a9685"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "667横屏君主忠诚--与普通将领最长255/65535/255单位行完整，长mock姓名折成两行而未溢出；忠诚字段未拆，64px查看与底部按钮可见。"
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-updated-v1.png",
+            "bytes": 67536,
+            "sha256": "d024da9ae17a6a26a29814b397f1f5f8c4c367275a03ef105f91fe66991f22c7"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "667横屏滚底末行及忠诚100可读，等级兵力忠诚组完整同排，查看按钮与右资料独立，footer保持在视口内。"
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-ineligible-v1.png",
+            "bytes": 63701,
+            "sha256": "070b542b37b353b2afaa1bab34c903f79d4be4816a1544e717e12a145f6b4601"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "667横屏自定义回退仅显示原名，长mock姓名两行且未溢出，原生属性说明/翻页区与64px查看、底部返回帮助保留。"
+        }
+      ],
+      "onlyControlledDomCss": true,
+      "actualGameplayAccepted": false,
+      "realDeviceAccepted": false
+    }
+  },
+  "rootVisualReview": {
+    "accepted": true,
+    "reviewedAt": "2026-10-29T02:53:14.213Z",
+    "individualScreenshotsViewed": 9,
+    "reviewedWith": "tools.view_image",
+    "sourcePinsStable": 27,
+    "rows": [
+      {
+        "size": "pc-1280x720",
+        "mode": "standard",
+        "screenshot": {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-standard-v1.png",
+          "bytes": 130379,
+          "sha256": "eddda858f1949fc34b5fed0bf99d0ba03fa986bed21e6eed5c45c8ab89a21dd8"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "PC双列中君主忠诚--、普通将领255/0可读，新增忠诚标签和数值完整同组；窄列在组间换行，首行原有能力布局保持，长姓名在按钮内，资料栏与footer可见。"
+      },
+      {
+        "size": "pc-1280x720",
+        "mode": "updated",
+        "screenshot": {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-updated-v1.png",
+          "bytes": 131387,
+          "sha256": "d8f726a3ff379269f888fb51d73271590450274fd5b5e21189a8d75a279143e6"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "PC列表滚到底后末尾四字姓名与忠诚100完整，等级兵力及忠诚在组间换行，不再拆忠/诚；右侧资料栏未随列表滚动，底部返回/经典LCD/帮助保持可见。"
+      },
+      {
+        "size": "pc-1280x720",
+        "mode": "ineligible",
+        "screenshot": {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-pc-1280x720-ineligible-v1.png",
+          "bytes": 130881,
+          "sha256": "0d22f637e853464d2c5972c29705564688a05ed21f1bd653b85f6d78636d38af"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "PC自定义属性回退撤去两行名单摘要，保留全部原名和长名折行，右侧显示自定义与未读取属性提示，底部操作完整。"
+      },
+      {
+        "size": "mobile-844x390",
+        "mode": "standard",
+        "screenshot": {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-standard-v1.png",
+          "bytes": 75838,
+          "sha256": "f3e3556153fbf5b5101c2942531d3a98a374f938c6bf6b012af4abf46e0c264f"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "844横屏首行君主忠诚--和第二行长姓名/等级255兵力65535忠诚255完整可读，忠诚字段不拆分，左侧单列、64px查看按钮和footer保留。"
+      },
+      {
+        "size": "mobile-844x390",
+        "mode": "updated",
+        "screenshot": {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-updated-v1.png",
+          "bytes": 75541,
+          "sha256": "9cd55bc7960f6444bf6051169e0df3f873cb69536b22efc0d3f5332793766afa"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "844横屏滚底显示公孙伯珪、荀氏文若与忠诚100完整，查看按钮对齐；右资料栏位置及footer保持，页面无横向截断。"
+      },
+      {
+        "size": "mobile-844x390",
+        "mode": "ineligible",
+        "screenshot": {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-844x390-ineligible-v1.png",
+          "bytes": 74892,
+          "sha256": "7f35184a38f4cd28d97187999ec40ffd92e55149d0d0c83501e819bbca5b3702"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "844横屏自定义回退去掉全部摘要，原名与长名仍单列、查看入口完整，右侧原生属性提示与翻页区、footer保留。"
+      },
+      {
+        "size": "mobile-667x375",
+        "mode": "standard",
+        "screenshot": {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-standard-v1.png",
+          "bytes": 66779,
+          "sha256": "bf51d0f4e27384cf9d2d6c449eba3df61bf2af8ea3bf8c483916fd6e9f8a9685"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "667横屏君主忠诚--与普通将领最长255/65535/255单位行完整，长mock姓名折成两行而未溢出；忠诚字段未拆，64px查看与底部按钮可见。"
+      },
+      {
+        "size": "mobile-667x375",
+        "mode": "updated",
+        "screenshot": {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-updated-v1.png",
+          "bytes": 67536,
+          "sha256": "d024da9ae17a6a26a29814b397f1f5f8c4c367275a03ef105f91fe66991f22c7"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "667横屏滚底末行及忠诚100可读，等级兵力忠诚组完整同排，查看按钮与右资料独立，footer保持在视口内。"
+      },
+      {
+        "size": "mobile-667x375",
+        "mode": "ineligible",
+        "screenshot": {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-mobile-667x375-ineligible-v1.png",
+          "bytes": 63701,
+          "sha256": "070b542b37b353b2afaa1bab34c903f79d4be4816a1544e717e12a145f6b4601"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "667横屏自定义回退仅显示原名，长mock姓名两行且未溢出，原生属性说明/翻页区与64px查看、底部返回帮助保留。"
+      }
+    ],
+    "onlyControlledDomCss": true,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false
+  },
+  "layout": [
+    {
+      "size": "pc-1280x720",
+      "states": [
+        {
+          "mode": "standard",
+          "maxUnitLines": 2,
+          "maxFirstSummaryLines": 2,
+          "maxNameLines": 2,
+          "accepted": true
+        },
+        {
+          "mode": "updated",
+          "maxUnitLines": 2,
+          "maxFirstSummaryLines": 2,
+          "maxNameLines": 2,
+          "accepted": true
+        },
+        {
+          "mode": "ineligible",
+          "maxUnitLines": 0,
+          "maxFirstSummaryLines": 0,
+          "maxNameLines": 2,
+          "accepted": true
+        }
+      ],
+      "refresh": {
+        "sameOwner": true,
+        "sameNamesAndIds": true,
+        "sameMenu": true,
+        "samePersonPropertyDto": true,
+        "sameWorldDto": true,
+        "firstLineUnchanged": true,
+        "levelArmsUnchanged": true,
+        "onlyDevotionChanged": true,
+        "rulerRawValueUnchanged": true,
+        "rulerUsesNativePlaceholder": true,
+        "loyaltyChanged": true,
+        "unaffectedRowsUnchanged": true,
+        "nativeCustomFallback": true,
+        "deepSigChanged": true,
+        "domEpochs": [
+          1,
+          2,
+          3
+        ],
+        "deepSigNeverClearedByFixture": true,
+        "accepted": true
+      },
+      "scroll": {
+        "changed": true,
+        "max": 388,
+        "independentPersonPane": true,
+        "footerStable": true,
+        "lastRowVisible": true,
+        "accepted": true
+      }
+    },
+    {
+      "size": "mobile-844x390",
+      "states": [
+        {
+          "mode": "standard",
+          "maxUnitLines": 1,
+          "maxFirstSummaryLines": 1,
+          "maxNameLines": 1,
+          "accepted": true
+        },
+        {
+          "mode": "updated",
+          "maxUnitLines": 1,
+          "maxFirstSummaryLines": 1,
+          "maxNameLines": 1,
+          "accepted": true
+        },
+        {
+          "mode": "ineligible",
+          "maxUnitLines": 0,
+          "maxFirstSummaryLines": 0,
+          "maxNameLines": 1,
+          "accepted": true
+        }
+      ],
+      "refresh": {
+        "sameOwner": true,
+        "sameNamesAndIds": true,
+        "sameMenu": true,
+        "samePersonPropertyDto": true,
+        "sameWorldDto": true,
+        "firstLineUnchanged": true,
+        "levelArmsUnchanged": true,
+        "onlyDevotionChanged": true,
+        "rulerRawValueUnchanged": true,
+        "rulerUsesNativePlaceholder": true,
+        "loyaltyChanged": true,
+        "unaffectedRowsUnchanged": true,
+        "nativeCustomFallback": true,
+        "deepSigChanged": true,
+        "domEpochs": [
+          1,
+          2,
+          3
+        ],
+        "deepSigNeverClearedByFixture": true,
+        "accepted": true
+      },
+      "scroll": {
+        "changed": true,
+        "max": 960,
+        "independentPersonPane": true,
+        "footerStable": true,
+        "lastRowVisible": true,
+        "accepted": true
+      }
+    },
+    {
+      "size": "mobile-667x375",
+      "states": [
+        {
+          "mode": "standard",
+          "maxUnitLines": 1,
+          "maxFirstSummaryLines": 1,
+          "maxNameLines": 2,
+          "accepted": true
+        },
+        {
+          "mode": "updated",
+          "maxUnitLines": 1,
+          "maxFirstSummaryLines": 1,
+          "maxNameLines": 2,
+          "accepted": true
+        },
+        {
+          "mode": "ineligible",
+          "maxUnitLines": 0,
+          "maxFirstSummaryLines": 0,
+          "maxNameLines": 2,
+          "accepted": true
+        }
+      ],
+      "refresh": {
+        "sameOwner": true,
+        "sameNamesAndIds": true,
+        "sameMenu": true,
+        "samePersonPropertyDto": true,
+        "sameWorldDto": true,
+        "firstLineUnchanged": true,
+        "levelArmsUnchanged": true,
+        "onlyDevotionChanged": true,
+        "rulerRawValueUnchanged": true,
+        "rulerUsesNativePlaceholder": true,
+        "loyaltyChanged": true,
+        "unaffectedRowsUnchanged": true,
+        "nativeCustomFallback": true,
+        "deepSigChanged": true,
+        "domEpochs": [
+          1,
+          2,
+          3
+        ],
+        "deepSigNeverClearedByFixture": true,
+        "accepted": true
+      },
+      "scroll": {
+        "changed": true,
+        "max": 997,
+        "independentPersonPane": true,
+        "footerStable": true,
+        "lastRowVisible": true,
+        "accepted": true
+      }
+    }
+  ],
+  "developmentEvidence": {
+    "testScope": {
+      "path": "build/person-loyalty-summary-20261029-v122/tests-development-v1/tests-scope-v2.json",
+      "bytes": 1452,
+      "sha256": "45e9cc7db3353f7d6f12946551f9ddc1fa2e31519eee697d1590ad6fd77fab50",
+      "accepted": true,
+      "reviewedAt": "2026-10-29T02:46:19.624Z",
+      "candidate": {
+        "path": "build/person-loyalty-summary-20261029-v122/tests-development-v1/root-review-candidate-before-v1.mjs",
+        "bytes": 292536,
+        "sha256": "9d22c106cfede345d8ef4af3fe338bed8b6d9dc19dd3a86a805bf494d24de406",
+        "controlBytes": 4
+      },
+      "correction": "Replace accidental U+0008 regex word boundaries with literal backslash-b; retain previous candidate and edit review",
+      "correctedControlBytes": 4,
+      "after": {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 292858,
+        "sha256": "3cab9c20a7ab50d7d6078a4507ebfe496b7d0b174211e7f4b0027c40e0da1f4f"
+      },
+      "syntaxExitCode": 0,
+      "outsideRangeSha256": [
+        "7c6759288c088a067fea469a1e10016479839e87d111cd095e3c617d39a7f420",
+        "397e80819748e782f5f58366a0c02d0a39c1472f3f72e524eab726611967f87f",
+        "f5986e754767b0460e28d727938551ad009628404a6fcb43ee55dc28d63c0eee"
+      ],
+      "outsideBytesPreserved": true,
+      "defaultCasesAdded": 0,
+      "defaultModulesAdded": 0,
+      "modifiedExistingCases": 3,
+      "formalTestsRun": false,
+      "browserRun": false,
+      "heldBattleAccessed": false,
+      "parentScope": {
+        "path": "build/person-loyalty-summary-20261029-v122/tests-development-v1/tests-scope.json",
+        "bytes": 1125,
+        "sha256": "dfd76809bd51c90e19c6da2bf74524fae48fcbffcee7d1f81ae8d0b1f5e77474"
+      },
+      "layoutFix": "Existing case asserts exactly one nested noninteractive loyalty span; no new case/module"
+    },
+    "retainedCandidate": {
+      "path": "build/person-loyalty-summary-20261029-v122/tests-development-v1/root-review-candidate-before-v1.mjs",
+      "bytes": 292536,
+      "sha256": "9d22c106cfede345d8ef4af3fe338bed8b6d9dc19dd3a86a805bf494d24de406"
+    },
+    "semanticReview": {
+      "path": "build/person-loyalty-summary-20261029-v122/independent-semantic-review-v1.json",
+      "bytes": 6495,
+      "sha256": "bfaddbe174396091b8776d7d0b45a0293e6b71bfc5d156a1c5b3cc71222c8f80",
+      "schemaVersion": 1,
+      "accepted": true,
+      "recordedAt": "2026-10-29T02:06:37.787Z",
+      "reviewer": "independent native-person semantics review",
+      "scope": "Static source and baseline-copy comparison only. No test execution, browser, Git, game or saved-state access.",
+      "source": {
+        "path": "js/hd-city-menu.js",
+        "bytes": 510547,
+        "sha256": "36c30175d5f35e20b8c953a0bf6399975fb258b1d72404965f77dce67d4917d7"
+      },
+      "baselineSource": {
+        "path": "build/person-loyalty-summary-20261029-v122/js_hd-city-menu.js.before",
+        "bytes": 510027,
+        "sha256": "424e3d10c06f45d057d1532fff82489bd8fefddce35fe64bc34fa6af5f342209"
+      },
+      "nativeSources": [
+        {
+          "path": "vendor/iBaye/src/baye/attribute.h",
+          "bytes": 8930,
+          "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+        },
+        {
+          "path": "vendor/iBaye/src/bind-objects.c",
+          "bytes": 18495,
+          "sha256": "1bcf05ce980b26df368f3dc399e1ad256a3bbd315024ae065947860c98b28959"
+        },
+        {
+          "path": "vendor/iBaye/src/showface.c",
+          "bytes": 44299,
+          "sha256": "49d16a86891a712c675409c8377f234bc69d2d9c13d56da865dc83a5eab87895"
+        },
+        {
+          "path": "vendor/iBaye/src/strcnt.c",
+          "bytes": 7932,
+          "sha256": "b256123404c245685a627140ac701468110bc658ed95c628ee97d99f90d1d952"
+        }
+      ],
+      "findings": [],
+      "conclusion": "The ruler null/display -- branch and ordinary allied raw U8 Devotion branch match original case-5 semantics within the existing original-library, default-13-property, own-city list eligibility. No engine change is needed.",
+      "evidence": [
+        {
+          "path": "vendor/iBaye/src/baye/attribute.h",
+          "line": 129,
+          "meaning": "Devotion is native U8 loyalty."
+        },
+        {
+          "path": "vendor/iBaye/src/bind-objects.c",
+          "line": 189,
+          "meaning": "JavaScript exposes the same native Devotion U8 field."
+        },
+        {
+          "path": "vendor/iBaye/src/showface.c",
+          "line": 667,
+          "meaning": "Original property formatting reads actual person Belong."
+        },
+        {
+          "path": "vendor/iBaye/src/showface.c",
+          "line": 700,
+          "meaning": "Case 5 emits ATRR_STR71 for a ruler, raw Devotion for other owned people, and ATRR_STR71 for unowned people."
+        },
+        {
+          "path": "vendor/iBaye/src/strcnt.c",
+          "line": 60,
+          "meaning": "ATRR_STR71 is the literal --."
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "line": 5595,
+          "meaning": "Existing ordinary route stays deepKind person, step zero; special goods/reward/confiscation/transfer/surrender flows remain excluded."
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "line": 5625,
+          "meaning": "Existing original LIB fingerprint, native counts, current own-city and default-property eligibility remains unchanged."
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "line": 5633,
+          "meaning": "Default native profile is required, custom false and propertyCount 13."
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "line": 5642,
+          "meaning": "Every displayed native ID must actually belong to g_PlayerKing+1. Under this condition id===king is exactly equivalent to native Belong===id+1."
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "line": 5659,
+          "meaning": "Receipt current fence retains the actual king and own-city ownership."
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "line": 5679,
+          "meaning": "Sample now carries the same verified king to the value and final-raw phases."
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "line": 5698,
+          "meaning": "Ruler branch stores null without accessing person.Devotion; ordinary branch reads native integer U8 0..255 without clamping to 100."
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "line": 5713,
+          "meaning": "Both complete value reads, including ordinary loyalty or ruler null, must match under the same source."
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "line": 5733,
+          "meaning": "After external profile callbacks, final raw fence compares ordinary Devotion and short-circuits ruler Devotion access."
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "line": 6711,
+          "meaning": "Existing signature includes the full rows, so ordinary loyalty changes participate in list refresh and stale press invalidation."
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "line": 6949,
+          "meaning": "Existing second summary line adds raw ordinary loyalty; null renders --."
+        }
+      ],
+      "relatedExistingChecks": [
+        {
+          "path": "scripts/test-hd-city-hud.mjs",
+          "line": 3649,
+          "subject": "Filtered/reordered native IDs and duplicate names preserve public items and input."
+        },
+        {
+          "path": "scripts/test-hd-city-hud.mjs",
+          "line": 3677,
+          "subject": "Same-owner value refresh retires held presses across actual row refresh."
+        },
+        {
+          "path": "scripts/test-hd-city-hud.mjs",
+          "line": 3703,
+          "subject": "Eligibility withdrawal before private field access, numeric validation, torn reads, reentry and late callback fences."
+        },
+        {
+          "path": "scripts/test-hd-person-properties-runtime.mjs",
+          "line": 216,
+          "subject": "Existing native property expected-value oracle distinguishes ruler/unowned -- from other raw loyalty."
+        }
+      ],
+      "implementationBoundary": {
+        "ordinaryOwnCityListsOnly": true,
+        "pcAndMobileShareRenderer": true,
+        "defaultNativePropertyProfileOnly": true,
+        "kingDevotionNeverReadBySummary": true,
+        "normalLoyaltyDomain": "native U8 0..255",
+        "noPercentageOrSuccessRateInference": true,
+        "noLoyaltyBasedOwnershipInference": true,
+        "specialRewardAndConfiscationListsIncluded": false,
+        "freeForeignCaptiveListsIncluded": false,
+        "nativeOrderAndInputCapabilitiesUnchanged": true
+      },
+      "recommendedVerificationFocus": [
+        "Ruler ID at a nonzero g_PlayerKing must still yield -- and never invoke a throwing Devotion getter.",
+        "Ordinary 0 and 255 are valid; invalid, torn and late changed ordinary Devotion must withdraw the whole enhancement using the existing receipt.",
+        "Loyalty-only update must refresh signature and reject a held old-row press while preserving fresh ordinary input behavior."
+      ],
+      "testsRun": false,
+      "browserRun": false,
+      "gitRun": false,
+      "productionFilesEdited": false,
+      "existingEvidenceEdited": false,
+      "oldBattleAccessed": false,
+      "savesAccessed": false,
+      "processesAccessed": false,
+      "portsAccessed": false,
+      "reviewedSourceSnapshot": {
+        "path": "build/person-loyalty-summary-20261029-v122/candidate-v1-js_hd-city-menu.js",
+        "bytes": 510547,
+        "sha256": "36c30175d5f35e20b8c953a0bf6399975fb258b1d72404965f77dce67d4917d7"
+      },
+      "authorityReceiptUnchangedAfterLayoutFix": true
+    },
+    "freeze": {
+      "accepted": true,
+      "frozenAt": "2026-10-29T02:47:04.538Z",
+      "sources": [
+        {
+          "path": ".gitattributes",
+          "bytes": 67359,
+          "sha256": "32283bf2b684fa54fc7db24e2e9f8a28d4376e65d642a4995c4e444c8606aa11"
+        },
+        {
+          "path": "pc.html",
+          "bytes": 32353,
+          "sha256": "05f15266ef1942d80eb2c3d35015e5cc847ad5bd29b6c468d78589d889b5836c"
+        },
+        {
+          "path": "m.html",
+          "bytes": 23690,
+          "sha256": "ea39d9ea9c7b4fcc55ebcb9e2a4969869eac709be6080f173e95902bd8e4c97f"
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "bytes": 510801,
+          "sha256": "a4e47b364a47b523d719dad922f9e949a1307329c352538a38bf5b7f93b5c761"
+        },
+        {
+          "path": "css/hd-city-menu.css",
+          "bytes": 16907,
+          "sha256": "b6039285c270ad1721efddcc1ff48af854396d82d325250e3ddf95025a47c305"
+        },
+        {
+          "path": "scripts/test-hd-city-hud.mjs",
+          "bytes": 292858,
+          "sha256": "3cab9c20a7ab50d7d6078a4507ebfe496b7d0b174211e7f4b0027c40e0da1f4f"
+        },
+        {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-helpers-provenance-v1.json",
+          "bytes": 2087,
+          "sha256": "61231c1dbaf8cbd35304c83f5bd78c0dbad1c49954f0feda7aa82a9acaed1484"
+        },
+        {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-v1.mjs",
+          "bytes": 19545,
+          "sha256": "613e8c899622345d9dd19c2dcab45320985f2eb8488b6c4f9f3c8aeabd71686b"
+        },
+        {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-fixture-v1.js",
+          "bytes": 11497,
+          "sha256": "ad0563a3e04ef18fb896cbd5d0b6c7e2280e6f78ebdbeb35fb911e624442d62f"
+        },
+        {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-collect-v1.js",
+          "bytes": 7958,
+          "sha256": "1a9fd1381edbb7dd0afc16f6041feab609b0241ba273931327b75ee7db930f58"
+        },
+        {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v2/preview-finalize-v1.mjs",
+          "bytes": 1803,
+          "sha256": "def2fc76708c84f7c8d387109af353126f306fc0987c51f9b38391aaf606ec64"
+        }
+      ],
+      "rootAuthorizedOwnedPreview": true,
+      "browserLaunched": false,
+      "oneOwnedContextOnly": true,
+      "viewportCases": [
+        "pc-1280x720",
+        "mobile-844x390",
+        "mobile-667x375"
+      ],
+      "expectedScreenshots": 9,
+      "heldBattleAccessed": false,
+      "heldBattleInputs": 0
+    },
+    "candidateChecksNotAddedToFormalCounts": true,
+    "firstPreviewRejection": {
+      "accepted": false,
+      "candidate": true,
+      "reviewedAt": "2026-10-29T02:41:45.465Z",
+      "individualScreenshotsViewed": 9,
+      "reviewedWith": "tools.view_image",
+      "automaticAssessmentAccepted": true,
+      "visualAcceptance": false,
+      "reason": "PC narrow two-column list splits the newly added loyalty label between 忠 and 诚255. Preserve each loyalty label/value as one unbroken inline group before acceptance.",
+      "screenshots": [
+        {
+          "size": "pc-1280x720",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-pc-1280x720-standard-v1.png",
+            "bytes": 131003,
+            "sha256": "b6850b8dd48c0885f5ea6560e628b7e8ef949331d909d7ed1e881ccc03c07410"
+          }
+        },
+        {
+          "size": "pc-1280x720",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-pc-1280x720-updated-v1.png",
+            "bytes": 130263,
+            "sha256": "63371dc89c95bd8db9abec3b8cad0d2202959b5a2726510bddf2a0fb60ec06b9"
+          }
+        },
+        {
+          "size": "pc-1280x720",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-pc-1280x720-ineligible-v1.png",
+            "bytes": 130881,
+            "sha256": "0d22f637e853464d2c5972c29705564688a05ed21f1bd653b85f6d78636d38af"
+          }
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-mobile-844x390-standard-v1.png",
+            "bytes": 75966,
+            "sha256": "48d00e5fef891ea386cb4e8fcbb36a87de6c8156b9ccfea98a7e6f4e957947cd"
+          }
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-mobile-844x390-updated-v1.png",
+            "bytes": 76035,
+            "sha256": "c16ef6b6166ac2783e2b37c194429a4bc004984f6a1a6e12563298189ef66f8a"
+          }
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-mobile-844x390-ineligible-v1.png",
+            "bytes": 74892,
+            "sha256": "7f35184a38f4cd28d97187999ec40ffd92e55149d0d0c83501e819bbca5b3702"
+          }
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-mobile-667x375-standard-v1.png",
+            "bytes": 66831,
+            "sha256": "fa41c9656922bc2be9df4fdc0348824c92bafc92c2ebae30a481477fdbb8d895"
+          }
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-mobile-667x375-updated-v1.png",
+            "bytes": 67543,
+            "sha256": "58317f532c9be5c39b3920ddc69d37da146c66d4ae082a1f30ab963b02366826"
+          }
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/person-loyalty-summary-20261029-v122/preview-mobile-667x375-ineligible-v1.png",
+            "bytes": 63701,
+            "sha256": "070b542b37b353b2afaa1bab34c903f79d4be4816a1544e717e12a145f6b4601"
+          }
+        }
+      ],
+      "sourcePinsAtRejection": [
+        {
+          "path": "pc.html",
+          "bytes": 32350,
+          "sha256": "609c2c7217fba808efcce829c038d25caaecffe0c401f7d3d0a4d09a2ed28c77"
+        },
+        {
+          "path": "m.html",
+          "bytes": 23687,
+          "sha256": "d81f19adeb38929292424529ea19f07558223d3e50dc520737666a1f5dadd0a9"
+        },
+        {
+          "path": "css/flex.css",
+          "bytes": 11480,
+          "sha256": "362ebb627e1453bb074f6c71afbff91832d0cab18ef962fdc813b2cadb69cace"
+        },
+        {
+          "path": "css/baye.css",
+          "bytes": 3008,
+          "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+        },
+        {
+          "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+          "bytes": 8261128,
+          "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+        },
+        {
+          "path": "css/hd-graphics.css",
+          "bytes": 4567,
+          "sha256": "5941d014ada1e3fcc889031640dde97fa1f542d5c213c1e62ae0f7dc29e2d43a"
+        },
+        {
+          "path": "css/hd-overworld.css",
+          "bytes": 5226,
+          "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+        },
+        {
+          "path": "css/hd-city-menu.css",
+          "bytes": 16789,
+          "sha256": "dd92bf63f9d3972ca8c45d8b90a038d6a4d73f6798e88d923536c4677762d3e6"
+        },
+        {
+          "path": "css/hd-battle.css",
+          "bytes": 9203,
+          "sha256": "a193bdf938a16b4741251ec6a670872fe3cfcf899592aa69461b438ef51ffab1"
+        },
+        {
+          "path": "css/hd-system-ui.css",
+          "bytes": 7088,
+          "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d"
+        },
+        {
+          "path": "css/hd-minimap.css",
+          "bytes": 4222,
+          "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+        },
+        {
+          "path": "css/hd-dialog.css",
+          "bytes": 10606,
+          "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+        },
+        {
+          "path": "css/hd-spe.css",
+          "bytes": 3150,
+          "sha256": "bc462f1197dfc69c9d5a15403207630ef79886f79dc979aa0ee5e23de672e221"
+        },
+        {
+          "path": "css/hd-portraits.css",
+          "bytes": 1536,
+          "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+        },
+        {
+          "path": "css/hd-battle-note.css",
+          "bytes": 2146,
+          "sha256": "b35da40a6a0535b7ed1ba33a103eaeed35fc51d5f314974a167a3fa196b966a3"
+        },
+        {
+          "path": "css/hd-battle-transition.css",
+          "bytes": 2896,
+          "sha256": "eee994dd0a8541dac4b3c7f11277326b3d6aa0dfb099131b7cd358bc4872573a"
+        },
+        {
+          "path": "css/hd-city-info.css",
+          "bytes": 2760,
+          "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+        },
+        {
+          "path": "css/hd-mobile.css",
+          "bytes": 35364,
+          "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+        },
+        {
+          "path": "favicon.png",
+          "bytes": 7349,
+          "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22"
+        },
+        {
+          "path": ".gitattributes",
+          "bytes": 67359,
+          "sha256": "32283bf2b684fa54fc7db24e2e9f8a28d4376e65d642a4995c4e444c8606aa11"
+        },
+        {
+          "path": "scripts/test-hd-city-hud.mjs",
+          "bytes": 292540,
+          "sha256": "953c3bf4f326424a88a758dbbd438e357d994f20cbbdbbcf4e60ef8136a1357c"
+        },
+        {
+          "path": "js/hd-city-menu.js",
+          "bytes": 510547,
+          "sha256": "36c30175d5f35e20b8c953a0bf6399975fb258b1d72404965f77dce67d4917d7"
+        },
+        {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-fixture-v1.js",
+          "bytes": 11497,
+          "sha256": "ad0563a3e04ef18fb896cbd5d0b6c7e2280e6f78ebdbeb35fb911e624442d62f"
+        },
+        {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-collect-v1.js",
+          "bytes": 6881,
+          "sha256": "fc05c29d5256b455bd94b1808932da1b08d25e611f71aef45149582772586381"
+        },
+        {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-v1.mjs",
+          "bytes": 19181,
+          "sha256": "56efa21f4f529df32b6398c1f6a0fb8aec7910e68520f48fe33ec085c365173c"
+        },
+        {
+          "path": "build/person-loyalty-summary-20261029-v122/preview-finalize-v1.mjs",
+          "bytes": 1792,
+          "sha256": "2cfc4fc445bb2a064845866359a4299c5843db1154efd80730c4fd15122b7e4f"
+        },
+        {
+          "path": "build/person-loyalty-summary-20261029-v122/prepare-preview-helpers-v1.mjs",
+          "bytes": 8544,
+          "sha256": "3106055c4297e360d1370d1933edeed0b17f61f01ca4782a76c085bd14ed0775"
+        }
+      ],
+      "sourcePinsStableAtRejection": true,
+      "ownedBrowserClosed": true,
+      "serverClosed": true,
+      "actualGameplayAccepted": false,
+      "realDeviceAccepted": false
+    },
+    "preparationFailure": {
+      "recordedAt": "2026-10-29T02:46:19.573Z",
+      "accepted": false,
+      "stage": "v2 helper preparation before browser launch",
+      "reason": "One extra nested-span absence assertion entered the unchanged helper region; the byte-scope guard rejected it. Removed the redundant helper assertion; first existing case still verifies the nested span.",
+      "browserLaunched": false,
+      "existingPreparedHelpersPreserved": true,
+      "failedScript": {
+        "path": "build/person-loyalty-summary-20261029-v122/prepare-preview-v2-helpers-v1.mjs",
+        "bytes": 7399,
+        "sha256": "3635d19256c6da85806e283e10bbc93ca6390e1c1f572c2e72886f248abdfadf"
+      }
+    },
+    "preparationCompletion": {
+      "accepted": true,
+      "secondPreparationFailure": "The continuation completed every helper write and scope assertion, then only its final diagnostic referenced an out-of-scope files variable. No helper was rerun; the complete set was independently syntax checked by freeze-v2 before the sole attempt-2 launch.",
+      "freeze": {
+        "path": "build/person-loyalty-summary-20261029-v122/preview-root-freeze-v2.json",
+        "bytes": 2324,
+        "sha256": "c00a29425641be129bf3ba196e73863424c8a5191877c9951d94623e85629cf6"
+      },
+      "continuedScript": {
+        "path": "build/person-loyalty-summary-20261029-v122/finish-preview-v2-preparation-v1.mjs",
+        "bytes": 3946,
+        "sha256": "68b0d2170359ba90b8fecbc3e12e3ccd318adfead8bd9b3bec32d57c1ddff9da"
+      },
+      "retainedStderr": {
+        "path": "build/person-loyalty-summary-20261029-v122/finish-preview-v2-preparation-v1.stderr.log",
+        "bytes": 822,
+        "sha256": "b19eccd2b70249e492dccdee16c55d67d0dc2b40553c3936ce5d325cda1cccc0"
+      },
+      "actualBrowserLaunchesInAttempt": 1
+    },
+    "firstCandidateFormalRun": {
+      "path": "build/person-loyalty-summary-20261029-v122/targeted-v1.json",
+      "bytes": 4012,
+      "sha256": "9c8d76dd1d0dc5ab88d0cec721cf3fa0b9f57fff29d73c3a9ee36b8fd646689a",
+      "notAddedToFinalCounts": true
+    }
+  },
+  "preservation": {
+    "nativeSources": 128,
+    "runtimeArtifacts": 4,
+    "portraitMappings": 632,
+    "portraitImages": 282,
+    "preserved": [
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 165801,
+        "sha256": "99be1b254ad7d3aa556103fcc6d69295f8eda48e1e7b64d722b7d7bfa8b7f535"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 234072,
+        "sha256": "d14a836a1bf1045ec920ab8996cfa40681a6841e0961cc6e9b16b54ba7d96f85"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 30377,
+        "sha256": "070ecd4412f981998f39af66a4e600db911fc6b689928d1add9f0e66108884ba"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 165558,
+        "sha256": "4d516b7771dda321b98fc35111ce31b1b71da5de484626c89035cd4f2c29c183"
+      },
+      {
+        "path": "js/hd-city-plans.js",
+        "bytes": 12573,
+        "sha256": "8daf904721c232f448c96fe966774b99149b8f20f16bde329dba5e4d941e93c1"
+      }
+    ],
+    "heldBattleAccessed": false,
+    "heldBattleInputs": 0,
+    "primaryCheckoutEdited": false
+  },
+  "limits": {
+    "onlyControlledDomAndVm": true,
+    "naturalMenuLifecycleAccepted": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "performanceAccepted": false,
+    "entireHudModuleRun": false,
+    "fullSuiteRun": false,
+    "globalHdComplete": false,
+    "goalStillActive": true
+  }
+}

@@ -5676,7 +5676,7 @@
                     !api.isCurrent(identity) || global.baye !== engine || engine.hd !== hd || engine.data !== data ||
                     global.BayeHdLibIdentity !== api || state.deepItems !== items || !ordinary() ||
                     token !== personListStatsEpoch || !current()) { return null; }
-                return {refs: refs, people: people, memberRefs: memberRefs, ids: ids.slice(),
+                return {refs: refs, people: people, memberRefs: memberRefs, ids: ids.slice(), king: king,
                     current: current, profileKey: profileKey(profile),
                     key: JSON.stringify([menuKey, identity.status, identity.sha256, identity.byteLength, identity.generation,
                         cityIndex, king, city.Belong, start, count, members, profileKey(profile), marchEpoch])};
@@ -5693,9 +5693,13 @@
                     var person = base.people[base.ids[i]], force = detailNumber(person.Force, 255);
                     var iq = detailNumber(person.IQ, 255), thew = detailNumber(person.Thew, 255);
                     var level = detailNumber(person.Level, 255), arms = detailNumber(person.Arms, 65535);
+                    // The original property row uses "--" for a ruler. All
+                    // listed people are already verified to belong to king.
+                    var lord = base.ids[i] === base.king;
+                    var devotion = lord ? null : detailNumber(person.Devotion, 255);
                     if (force == null || iq == null || thew == null || level == null || arms == null ||
-                        token !== personListStatsEpoch) { return null; }
-                    rows.push([base.ids[i], force, iq, thew, level, arms]);
+                        (!lord && devotion == null) || token !== personListStatsEpoch) { return null; }
+                    rows.push([base.ids[i], force, iq, thew, level, arms, devotion]);
                 }
                 return base.current() ? rows : null;
             }
@@ -5725,7 +5729,8 @@
                             detailNumber(person.IQ, 255) !== second[i][2] ||
                             detailNumber(person.Thew, 255) !== second[i][3] ||
                             detailNumber(person.Level, 255) !== second[i][4] ||
-                            detailNumber(person.Arms, 65535) !== second[i][5]) { return false; }
+                            detailNumber(person.Arms, 65535) !== second[i][5] ||
+                            (second[i][0] !== last.king && detailNumber(person.Devotion, 255) !== second[i][6])) { return false; }
                     }
                     return last.current(true) && token === personListStatsEpoch;
                 } catch (e) { return false; }
@@ -6942,6 +6947,10 @@
                 var unitSummary = document.createElement('span');
                 unitSummary.setAttribute('data-hd-person-unit-summary', '1');
                 unitSummary.textContent = '等级 ' + stats[4] + ' · 兵力 ' + stats[5];
+                var loyaltySummary = document.createElement('span');
+                loyaltySummary.setAttribute('data-hd-person-loyalty-summary', '1');
+                loyaltySummary.textContent = ' · 忠诚 ' + (stats[6] === null ? '--' : stats[6]);
+                unitSummary.appendChild(loyaltySummary);
                 summary.appendChild(unitSummary);
                 btn.classList.add('has-person-summary'); btn.appendChild(summary);
             }
