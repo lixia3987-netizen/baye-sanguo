@@ -243,7 +243,11 @@ test('zero person ID is legal and a true reference attaches to the city slot', a
 });
 test('last named original person retains its real index rather than a masked or off-by-one ID', async () => {
     assert.equal(person(199, 1).name, '');
-    const h = await fixture({setup: ({rawData}) => { rawData.g_hdMenuIndex = 2; }}); painted(h, 'city', 186, 'ref');
+    assert.equal(references.periods.find(p => p.period === 1).people.filter(p => !p.skipped && p.name).at(-1).id, 186);
+    for (const sourceMode of [undefined, 'ref']) {
+        const h = await fixture({sourceMode, setup: ({rawData}) => { rawData.g_hdMenuIndex = 2; }});
+        painted(h, 'city', 186, sourceMode || sourceFor(186, 1).mode);
+    }
 });
 test('selected native order chooses the indexed ID rather than the first ID or name', async () => {
     const h = await fixture();
