@@ -53,6 +53,90 @@
     display: none !important;
 }
 
+.hd-city-menu-list-tools[hidden],
+.hd-city-menu-list-controls[hidden],
+.hd-city-menu-deep > [hidden] {
+    display: none !important;
+}
+
+.hd-city-menu-list-tools {
+    flex: 0 0 auto;
+    min-width: 0;
+    margin-top: 12px;
+}
+
+.hd-city-menu-list-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.hd-city-menu-list-tools button,
+.hd-city-menu-list-tools input,
+.hd-city-menu-list-tools select {
+    box-sizing: border-box;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 0;
+    border: 1px solid rgba(197, 205, 216, 0.3);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #f3f6fb;
+    background: #2b3342;
+    font: inherit;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.hd-city-menu-list-tools button,
+.hd-city-menu-list-tools select { cursor: pointer; }
+.hd-city-menu-list-tools button:hover { background: #3d4b63; }
+.hd-city-menu-list-tools :is(button, input, select):focus-visible {
+    outline: 2px solid #f0c75a;
+    outline-offset: 2px;
+}
+.hd-city-menu-list-tools input::placeholder { color: #b6c0ce; opacity: 1; }
+.hd-city-menu-list-tools input,
+.hd-city-menu-list-tools select { width: 100%; }
+
+#hd-city-menu-list-count {
+    margin-left: auto;
+    min-width: 0;
+    color: #c5cdd8;
+    font-size: 13px;
+    line-height: 20px;
+    overflow-wrap: anywhere;
+}
+
+.hd-city-menu-list-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(140px, 0.7fr) auto;
+    gap: 8px;
+    margin-top: 8px;
+}
+.hd-city-menu-list-field { min-width: 0; }
+.hd-city-menu-list-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+.hd-mobile-page .hd-city-menu-list-tools { margin-top: 4px; }
+.hd-mobile-page .hd-city-menu-list-head { gap: 8px; }
+.hd-mobile-page .hd-city-menu-list-controls { gap: 6px; margin-top: 4px; }
+.hd-mobile-page #hd-city-menu-list-count { font-size: 12px; }
+@media (max-width: 560px) {
+    .hd-city-menu-list-controls { grid-template-columns: minmax(0, 1fr) auto; }
+    .hd-city-menu-list-field:first-child { grid-column: 1 / -1; }
+}
+
 .hd-city-menu-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

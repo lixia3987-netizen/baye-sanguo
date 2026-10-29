@@ -12,7 +12,9 @@ function element(tagName = 'div') {
     const attrs = new Map(), classes = new Set(), listeners = new Map();
     let ownText = '';
     const item = { tagName: tagName.toUpperCase(), attrs, listeners, children: [], style: {}, hidden: false,
-        parentElement: null, parentNode: null, scrollCalls: 0,
+        parentElement: null, parentNode: null, scrollCalls: 0, value: '',
+        focus() { if (this.ownerDocument) this.ownerDocument.activeElement = this; },
+        blur() { if (this.ownerDocument?.activeElement === this) this.ownerDocument.activeElement = this.ownerDocument.body; },
         setAttribute(key, value) { attrs.set(key, String(value)); },
         getAttribute(key) { return attrs.get(key) ?? null; },
         appendChild(child) {
@@ -60,21 +62,37 @@ function harness({sourceText} = {}) {
         'hd-city-menu-sublist', 'hd-city-menu-status', 'hd-city-menu-deep']) {
         const node = element(); node.id = id; nodes[id] = node; stage.appendChild(node);
     }
+    const listTools = element(); listTools.id = 'hd-city-menu-list-tools'; listTools.hidden = true;
+    const listControls = element(); listControls.id = 'hd-city-menu-list-controls'; listControls.hidden = true;
+    for (const [id, tag, parent] of [
+        ['hd-city-menu-list-toggle', 'button', listTools],
+        ['hd-city-menu-list-query', 'input', listControls],
+        ['hd-city-menu-list-sort', 'select', listControls],
+        ['hd-city-menu-list-clear', 'button', listControls],
+        ['hd-city-menu-list-count', 'span', listControls]]) {
+        const node = element(tag); node.id = id; nodes[id] = node; parent.appendChild(node);
+    }
+    nodes['hd-city-menu-list-tools'] = listTools; nodes['hd-city-menu-list-controls'] = listControls;
+    listTools.appendChild(listControls); stage.insertBefore(listTools, nodes['hd-city-menu-deep']);
     const lcdButton = element('button'); lcdButton.setAttribute('data-hd-menu-lcd', ''); stage.appendChild(lcdButton);
     const documentListeners = new Map();
     const document = { documentElement: html, body, hidden: false,
         getElementById: id => [html, ...walk(html)].find(node => node.id === id) ?? null,
         querySelectorAll: selector => walk(html).filter(node => matches(node, selector)),
         querySelector(selector) { return this.querySelectorAll(selector)[0] ?? null; },
-        createElement: element, addEventListener(type, listener) {
+        activeElement: body, createElement(tag) { const node = element(tag); node.ownerDocument = document; return node; }, addEventListener(type, listener) {
             if (!documentListeners.has(type)) documentListeners.set(type, []);
             documentListeners.get(type).push(listener);
         } };
+    for (const node of [html, ...walk(html)]) node.ownerDocument = document;
     const keys = [], writes = [], timers = [], intervals = [], names = new Map([[0, '君主甲'], [254, '主人二五四'], [599, '主人五九九'],
         [600, '很长的人物姓名甲乙丙丁戊己庚辛壬癸测试'], [601, '人物乙']]);
+    const windowListeners = new Map();
     const context = vm.createContext({ document, TextDecoder, TextEncoder,
         console: { log() {}, warn() {}, error() {} }, alert() {}, lcdBlur() {},
-        Module: { HEAPU8: new Uint8Array(8192) }, addEventListener() {},
+        Module: { HEAPU8: new Uint8Array(8192) }, addEventListener(type, listener) {
+            if (!windowListeners.has(type)) windowListeners.set(type, []); windowListeners.get(type).push(listener);
+        },
         setTimeout(fn) { timers.push(fn); return timers.length; }, clearTimeout() {}, setInterval(fn) { intervals.push(fn); }, clearInterval() {},
         localStorage: { getItem: key => key === 'baye/cityMenuMode' ? 'hd' : 'hd-map' },
         navigator: { userAgent: 'Node fixture' } });
@@ -136,7 +154,7 @@ function harness({sourceText} = {}) {
         deepKind: 'person', wizardStep: 'none', idleIndex: 0 });
     hud.state.deepMenuOwner = hud.deepMenuOwner(menu);
     return { context, hud, nodes, root, lcdButton, document, city, person, people, queue, menu, names, report, help, qty, goods,
-        documentListeners, raw, keys, writes, timers, intervals, armCalls, derivedCalls, toolCalls, setIdentity(value, isCurrent = true) { identity = value; current = isCurrent; } };
+        documentListeners, windowListeners, raw, keys, writes, timers, intervals, armCalls, derivedCalls, toolCalls, setIdentity(value, isCurrent = true) { identity = value; current = isCurrent; } };
 }
 
 function goodsHarness({custom = true} = {}) {
@@ -3613,6 +3631,193 @@ test('city inventory rejects invalid found IDs, bounds and torn sources, then re
     assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
 });
 
+// Drive the actual bound list-tools DOM events. Existing dispatch() stays unchanged.
+function dispatchListFind(h, type, target, options = {}) {
+    const event = {target, type, defaultPrevented: false, stopped: false, immediateStopped: false,
+        preventDefault() { this.defaultPrevented = true; },
+        stopPropagation() { this.stopped = true; },
+        stopImmediatePropagation() { this.immediateStopped = this.stopped = true; }, ...options};
+    function fire(node, listeners) {
+        event.currentTarget = node;
+        for (const listener of listeners || []) { listener(event); if (event.immediateStopped) break; }
+    }
+    fire(h.context, h.windowListeners.get(type));
+    if (!event.stopped) fire(h.document, h.documentListeners.get(type));
+    for (let node = target; node && !event.stopped; node = node.parentElement) fire(node, node.listeners?.get(type));
+    return event;
+}
+function listFindNodes(h) {
+    return Object.fromEntries(['tools', 'toggle', 'controls', 'query', 'sort', 'clear', 'count'].map(key =>
+        [key, h.nodes['hd-city-menu-list-' + key]]));
+}
+function visibleListFindButtons(h) {
+    const list = h.nodes['hd-city-menu-deep'];
+    return list.querySelectorAll('[data-hd-deep]').filter(button => {
+        for (let node = button; node && node !== list; node = node.parentElement) if (node.hidden) return false;
+        return true;
+    });
+}
+function listFindIds(h, kind = 'person') {
+    return visibleListFindButtons(h).map(button => Number(button.getAttribute(kind === 'person' ? 'data-hd-deep-pind' : 'data-hd-deep-tool')));
+}
+function openListFind(h) {
+    h.hud.fillDeepList(); const ui = listFindNodes(h);
+    assert.equal(ui.tools.hidden, false, 'current ordinary native list exposes the local tools');
+    assert.equal(ui.controls.hidden, true, 'tools start collapsed');
+    dispatchListFind(h, 'click', ui.toggle, {detail: 0});
+    assert.equal(ui.controls.hidden, false); assert.equal(ui.toggle.getAttribute('aria-expanded'), 'true');
+    return ui;
+}
+function queryListFind(h, value) {
+    const ui = listFindNodes(h); ui.query.focus(); dispatchListFind(h, 'focusin', ui.query); ui.query.value = value;
+    dispatchListFind(h, 'input', ui.query); return ui;
+}
+function sortListFind(h, value) {
+    const ui = listFindNodes(h); ui.sort.focus(); dispatchListFind(h, 'focusin', ui.sort); ui.sort.value = value;
+    dispatchListFind(h, 'change', ui.sort); return ui;
+}
+function clearListFind(h) { const ui = listFindNodes(h); dispatchListFind(h, 'click', ui.clear, {detail: 0}); return ui; }
+function assertListFindCount(h, visible, total) {
+    assert.deepEqual(listFindNodes(h).count.textContent.match(/\d+/g)?.map(Number), [visible, total]);
+}
+function exercisePersonListFind() {
+    const h = personListSummaryHarness([0, 20, 18, 199]), before = plain(h.raw), menuBefore = plain(h.menu), profileBefore = plain(h.personProps);
+    const ui = openListFind(h), items = plain(h.hud.state.deepItems);
+    assertListFindCount(h, 4, 4);
+    const originalButtons = personListButtons(h);
+    queryListFind(h, '  同名  '); assert.deepEqual(listFindIds(h), [0, 199]); assertListFindCount(h, 2, 4);
+    sortListFind(h, 'force'); assert.deepEqual(listFindIds(h), [199, 0]);
+    const current = visibleListFindButtons(h); ui.query.focus(); h.nodes['hd-city-menu-deep'].scrollTop = 37;
+    h.hud.fillDeepList(); assert.deepEqual(visibleListFindButtons(h), current);
+    assert.equal(h.document.activeElement, ui.query); assert.equal(h.nodes['hd-city-menu-deep'].scrollTop, 37);
+    assert.equal(h.document.getElementById(ui.query.id), ui.query, 'polling never replaces the text editor');
+    assert.deepEqual(plain(h.hud.state.deepItems), items, 'filter/sort never edits the public native-order items');
+    clearListFind(h); assert.equal(ui.query.value, ''); assert.equal(ui.sort.value, 'native');
+    assert.deepEqual(listFindIds(h), [0, 20, 18, 199]); assertListFindCount(h, 4, 4);
+    for (const [field, expected] of [
+        ['force', [199, 20, 18, 0]], ['iq', [0, 20, 18, 199]], ['thew', [199, 0, 20, 18]],
+        ['level', [199, 20, 18, 0]], ['arms', [199, 20, 18, 0]], ['devotion', [199, 20, 18, 0]]]) {
+        sortListFind(h, field); assert.deepEqual(listFindIds(h), expected, field + ' is descending, ties keep native index and ruler null follows actual zero');
+    }
+    queryListFind(h, '无此姓名'); assert.deepEqual(listFindIds(h), []); assertListFindCount(h, 0, 4);
+    assert.match(h.nodes['hd-city-menu-deep'].querySelector('[data-hd-list-empty]')?.textContent || ui.count.textContent, /没有匹配|无匹配/);
+    queryListFind(h, '甲'.repeat(40)); assert.ok(ui.query.value.length <= 32, 'programmatic input is bounded like the search control');
+    clearListFind(h); sortListFind(h, 'native'); assert.deepEqual(listFindIds(h), [0, 20, 18, 199]);
+    assert.ok(personListButtons(h).every(button => originalButtons.includes(button)), 'local editing reuses original item nodes');
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assert.deepEqual(plain(h.personProps), profileBefore);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+
+    const keyboard = personListSummaryHarness([199, 20, 0]), k = openListFind(keyboard), leaked = [];
+    for (const type of ['keydown', 'keyup']) {
+        const probe = event => leaked.push([type, event.key]);
+        keyboard.documentListeners.set(type, [probe, ...(keyboard.documentListeners.get(type) || [])]);
+    }
+    k.query.focus(); dispatchListFind(keyboard, 'compositionstart', k.query);
+    k.query.value = '同名'; dispatchListFind(keyboard, 'input', k.query, {isComposing: true});
+    for (const [key, keyCode] of [['Process', 229], [' ', 32], ['ArrowDown', 40], ['Enter', 13], ['Escape', 27]]) {
+        const down = dispatchListFind(keyboard, 'keydown', k.query, {key, keyCode, which: keyCode, isComposing: true});
+        assert.equal(down.stopped, true, key + ' is captured before an earlier document game listener');
+        const up = dispatchListFind(keyboard, 'keyup', k.query, {key, keyCode, which: keyCode, isComposing: true});
+        assert.equal(up.stopped, true);
+    }
+    dispatchListFind(keyboard, 'compositionend', k.query); assert.deepEqual(listFindIds(keyboard), [199, 0]);
+    const tab = dispatchListFind(keyboard, 'keydown', k.query, {key: 'Tab', keyCode: 9, which: 9});
+    assert.equal(tab.defaultPrevented, false, 'Tab retains browser focus navigation');
+    dispatchListFind(keyboard, 'keydown', k.query, {key: 'ArrowDown', keyCode: 40, which: 40}); k.query.blur();
+    keyboard.menu.seq++; keyboard.raw.g_hdMenuSeq++; keyboard.personProps.menuSeq = keyboard.menu.seq; keyboard.hud.fillDeepList();
+    const released = dispatchListFind(keyboard, 'keyup', keyboard.document.body, {key: 'ArrowDown', keyCode: 40, which: 40});
+    assert.equal(released.stopped, true, 'a held editor keyup stays owned across blur and owner retirement');
+    assert.ok(leaked.every(([, key]) => key === 'Tab'), 'editing and release keys never reach native document listeners');
+    assert.deepEqual(keyboard.keys, []); assert.deepEqual(keyboard.writes, []);
+
+    const choose = personListSummaryHarness([0, 20, 199]); openListFind(choose); choose.context.sendKey = key => choose.keys.push(key);
+    queryListFind(choose, choose.menu.names[1]); const target = visibleListFindButtons(choose)[0];
+    assert.equal(target.getAttribute('data-hd-deep'), '1');
+    dispatchListFind(choose, 'pointerdown', target, {button: 0, isPrimary: true}); dispatchListFind(choose, 'click', target, {detail: 1});
+    assert.deepEqual(choose.keys, [0x23], 'filtered visual person row0 retains native index1');
+    choose.menu.index = choose.raw.g_hdMenuIndex = 1;
+    choose.personProps.index = 1; choose.personProps.person = 20; choose.personProps.name = choose.menu.names[1];
+    choose.hud.fillDeepList(); runBackQueue(choose);
+    assert.deepEqual(choose.keys, [0x23, 0x27], 'native ACK survives a real render before exactly one person Enter');
+    assert.equal(choose.hud.state.nativeMenuRequest, null); assert.deepEqual(choose.writes, []);
+}
+function exercisePersonListFindRefresh() {
+    const h = personListSummaryHarness([0, 20, 199]), ui = openListFind(h);
+    sortListFind(h, 'force'); assert.deepEqual(listFindIds(h), [199, 20, 0]);
+    const old = visibleListFindButtons(h)[0]; dispatchListFind(h, 'pointerdown', old, {button: 0, isPrimary: true});
+    queryListFind(h, h.menu.names[1]); assert.deepEqual(listFindIds(h), [20]);
+    dispatchListFind(h, 'click', old, {detail: 1}); assert.deepEqual(h.keys, [], 'a locally hidden held row cannot select');
+    clearListFind(h); sortListFind(h, 'force'); h.people[20].Force = 255; h.hud.fillDeepList();
+    assert.deepEqual(listFindIds(h), [20, 199, 0], 'same-owner value changes are resorted and ties retain native order');
+    assert.equal(ui.sort.value, 'force'); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    const current = visibleListFindButtons(h); h.hud.fillDeepList(); assert.deepEqual(visibleListFindButtons(h), current);
+}
+function exercisePersonListFindInvalid() {
+    const h = personListSummaryHarness([0, 20, 199]), ui = openListFind(h);
+    queryListFind(h, '同名'); sortListFind(h, 'force');
+    h.personProps.custom = 1; h.hud.fillDeepList();
+    assert.equal(ui.tools.hidden, true); assert.equal(ui.sort.value, 'native'); assert.equal(ui.query.value, '');
+    assert.deepEqual(listFindIds(h), [0, 20, 199], 'receipt loss restores the complete original order');
+    h.personProps.custom = 0; h.hud.fillDeepList();
+    assert.equal(ui.tools.hidden, true, 'the old custom presentation still revokes this poll before its fresh property capture');
+    assert.equal(h.hud.state.personProperties.custom, false, 'the ordinary detail renderer captures the current default property profile');
+    h.hud.fillDeepList(); assert.equal(ui.tools.hidden, false); assert.equal(ui.controls.hidden, true);
+    dispatchListFind(h, 'click', ui.toggle, {detail: 0}); queryListFind(h, '同名'); sortListFind(h, 'iq');
+    ui.query.focus(); dispatchListFind(h, 'focusin', ui.query); dispatchListFind(h, 'compositionstart', ui.query);
+    ui.query.value = '过期组合'; dispatchListFind(h, 'input', ui.query, {isComposing: true});
+    h.menu.seq++; h.raw.g_hdMenuSeq++; h.personProps.menuSeq = h.menu.seq; h.hud.fillDeepList();
+    dispatchListFind(h, 'compositionend', ui.query);
+    assert.equal(ui.query.value, ''); assert.equal(ui.sort.value, 'native'); assert.equal(ui.controls.hidden, true);
+    assert.deepEqual(listFindIds(h), [0, 20, 199]); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+}
+function exerciseToolListFind() {
+    const h = toolListSummaryHarness([2, 17, 2, 31]), before = plain(h.raw), menuBefore = plain(h.menu), goodsBefore = plain(h.goods);
+    const ui = openListFind(h), items = plain(h.hud.state.deepItems);
+    for (const [field, expected] of [['attack', [17, 31, 2, 2]], ['iq', [2, 2, 31, 17]], ['move', [17, 31, 2, 2]]]) {
+        sortListFind(h, field); assert.deepEqual(listFindIds(h, 'tool'), expected);
+        assert.deepEqual(visibleListFindButtons(h).filter(button => button.getAttribute('data-hd-deep-tool') === '2').map(button => Number(button.getAttribute('data-hd-deep'))), [0, 2]);
+    }
+    queryListFind(h, '完整名称17'); assert.deepEqual(listFindIds(h, 'tool'), [17]); assertListFindCount(h, 1, 4);
+    const visible = visibleListFindButtons(h); ui.query.focus(); h.nodes['hd-city-menu-deep'].scrollTop = 23; h.hud.fillDeepList();
+    assert.deepEqual(visibleListFindButtons(h), visible); assert.equal(h.document.activeElement, ui.query); assert.equal(h.nodes['hd-city-menu-deep'].scrollTop, 23);
+    queryListFind(h, '无匹配道具'); assert.deepEqual(listFindIds(h, 'tool'), []); assertListFindCount(h, 0, 4);
+    clearListFind(h); assert.deepEqual(listFindIds(h, 'tool'), [2, 17, 2, 31]);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(plain(h.menu), menuBefore); assert.deepEqual(plain(h.goods), goodsBefore);
+    assert.deepEqual(plain(h.hud.state.deepItems), items); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
+
+    const choose = toolListSummaryHarness([2, 17]), c = openListFind(choose); choose.context.sendKey = key => choose.keys.push(key);
+    queryListFind(choose, '完整名称17'); const target = visibleListFindButtons(choose)[0];
+    assert.equal(target.getAttribute('data-hd-deep'), '1', 'visual first row retains native index1');
+    dispatchListFind(choose, 'pointerdown', target, {button: 0, isPrimary: true}); dispatchListFind(choose, 'click', target, {detail: 1});
+    assert.deepEqual(choose.keys, [0x23], 'visual first row sends native Down before any Enter');
+    choose.menu.index = choose.raw.g_hdMenuIndex = 1;
+    choose.goods.index = choose.raw.g_hdGoodsIndex = 1; choose.goods.tool = choose.raw.g_hdGoodsTool = 17; choose.goods.name = choose.fullToolNames.get(17);
+    choose.hud.fillDeepList(); runBackQueue(choose); assert.deepEqual(choose.keys, [0x23, 0x27], 'real native index ACK and intervening render permit exactly one original Enter');
+    assert.equal(choose.hud.state.nativeMenuRequest, null); assert.deepEqual(choose.writes, []);
+}
+function exerciseToolListFindRefresh() {
+    const h = toolListSummaryHarness([2, 31, 17]), ui = openListFind(h);
+    sortListFind(h, 'attack'); assert.deepEqual(listFindIds(h, 'tool'), [17, 31, 2]);
+    const pressed = visibleListFindButtons(h)[0]; dispatchListFind(h, 'pointerdown', pressed, {button: 0, isPrimary: true});
+    queryListFind(h, '完整名称2'); assert.deepEqual(listFindIds(h, 'tool'), [2]);
+    dispatchListFind(h, 'click', pressed, {detail: 1}); assert.deepEqual(h.keys, []);
+    clearListFind(h); sortListFind(h, 'attack'); h.nativeTools[2].at = 255; h.hud.fillDeepList();
+    assert.deepEqual(listFindIds(h, 'tool'), [2, 17, 31]); assert.equal(ui.sort.value, 'attack');
+    const nodes = visibleListFindButtons(h); h.hud.fillDeepList(); assert.deepEqual(visibleListFindButtons(h), nodes);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
+}
+function exerciseToolListFindInvalid() {
+    const h = toolListSummaryHarness([2, 17]), ui = openListFind(h);
+    queryListFind(h, '完整名称17'); sortListFind(h, 'attack'); h.goods.custom = 1; h.hud.fillDeepList();
+    assert.equal(ui.tools.hidden, true); assert.equal(ui.query.value, ''); assert.equal(ui.sort.value, 'native');
+    assert.deepEqual(listFindIds(h, 'tool'), [2, 17]);
+    h.goods.custom = 0; h.hud.fillDeepList(); assert.equal(ui.tools.hidden, false); assert.equal(ui.controls.hidden, true);
+    dispatchListFind(h, 'click', ui.toggle, {detail: 0}); queryListFind(h, '完整名称17');
+    h.menu.seq++; h.raw.g_hdMenuSeq++; h.goods.menuSeq = h.raw.g_hdGoodsMenuSeq = h.menu.seq; h.hud.fillDeepList();
+    assert.equal(ui.query.value, ''); assert.equal(ui.sort.value, 'native'); assert.equal(ui.controls.hidden, true);
+    assert.deepEqual(listFindIds(h, 'tool'), [2, 17]); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
+}
+
 // List summaries exercise the normal native list renderer. Keep the existing
 // logical-200/physical-2000 original fixture and its stable read-only bindings.
 function personListSummaryHarness(ids = [199, 0]) {
@@ -3733,6 +3938,7 @@ test('person list summary follows filtered reordered native IDs and duplicate na
     assert.equal(nonzeroLordReads, 0, 'ruler suppression follows g_PlayerKing rather than hardcoded ID0');
     assert.deepEqual(plain(nonzeroLord.menu), nonzeroMenu); assert.deepEqual(plain(nonzeroLord.personProps), nonzeroProfile);
     assert.deepEqual(nonzeroLord.keys, []); assert.deepEqual(nonzeroLord.writes, []);
+    exercisePersonListFind();
 });
 
 test('person list summary refreshes changed same-owner values and rejects a press held across the real list refresh', () => {
@@ -3760,6 +3966,7 @@ test('person list summary refreshes changed same-owner values and rejects a pres
         h.hud.fillDeepList();
         assert.ok(personListButtons(h).every((button, index) => button === currentButtons[index]), label + ': fresh stable polling does not rebuild again');
     }
+    exercisePersonListFindRefresh();
 });
 
 test('person list summary withdraws invalid sources before private stat reads and recovers after renderer reentry', () => {
@@ -3899,6 +4106,7 @@ test('person list summary withdraws invalid sources before private stat reads an
             '武力 255 · 智力 0 · 体力 255等级 255 · 兵力 65535 · 忠诚 255', expected, '武力 0 · 智力 255 · 体力 0等级 0 · 兵力 0 · 忠诚 --']);
         assert.deepEqual(late.keys, []); assert.deepEqual(late.writes, []);
     }
+    exercisePersonListFindInvalid();
 });
 
 // Exercise the real list renderer with the same stable read-only binding shape
@@ -4021,6 +4229,7 @@ test('tool list summary follows actual reordered subset IDs and duplicate clippe
             assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(h.personTableReads, []);
         }
     }
+    exerciseToolListFind();
 });
 
 test('tool list summary refreshes same-owner values while stable polling preserves nodes and old presses cannot confirm replacements', () => {
@@ -4049,6 +4258,7 @@ test('tool list summary refreshes same-owner values while stable polling preserv
         h.hud.fillDeepList(); assert.ok(toolListButtons(h).every((button, index) => button === fresh[index]));
         assert.ok(toolListButtons(h).every((button, index) => button.querySelector('[data-hd-tool-arm-summary]') === freshSpans[index]));
     }
+    exerciseToolListFindRefresh();
 });
 
 test('tool list summary withdraws invalid routes and sources, torn reads and final callbacks then recovers without input', () => {
@@ -4171,4 +4381,5 @@ test('tool list summary withdraws invalid routes and sources, torn reads and fin
         assert.deepEqual(toolListSummaryText(h), [mode === 'value' ? '装备 · 武力 +75 · 智力 +0 · 移动 +255 · 兵种变化 无' :
             mode === 'arm value' ? toolSummary17Base + ' · 兵种变化 玄兵' : toolSummary17, toolSummary2]);
     }
+    exerciseToolListFindInvalid();
 });

@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/baye.css?ver=20260920h"/>
     <link rel="stylesheet" type="text/css" href="css/hd-graphics.css?ver=20261024focus1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261023a"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261029toolarm1"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261029listfind1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20261026next1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20261024king1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261026search1"/>
@@ -154,6 +154,17 @@
             <button type="button" class="hd-city-menu-card" data-hd-root="3"><strong>状况</strong><span>只显示读到的城数据</span></button>
         </div>
         <div id="hd-city-menu-sublist" class="hd-city-menu-sublist" hidden></div>
+        <div id="hd-city-menu-list-tools" class="hd-city-menu-list-tools" hidden>
+            <div class="hd-city-menu-list-head">
+                <button type="button" id="hd-city-menu-list-toggle" aria-expanded="false" aria-controls="hd-city-menu-list-controls">查找与排序</button>
+                <span id="hd-city-menu-list-count" role="status" aria-live="polite"></span>
+            </div>
+            <div id="hd-city-menu-list-controls" class="hd-city-menu-list-controls" hidden>
+                <label class="hd-city-menu-list-field"><span class="hd-city-menu-list-label">姓名或道具名</span><input type="search" id="hd-city-menu-list-query" maxlength="32" autocomplete="off" placeholder="输入姓名或道具名" /></label>
+                <label class="hd-city-menu-list-field"><span class="hd-city-menu-list-label">名单排序</span><select id="hd-city-menu-list-sort"><option value="native">原版顺序</option></select></label>
+                <button type="button" id="hd-city-menu-list-clear">清空</button>
+            </div>
+        </div>
         <div id="hd-city-menu-deep" class="hd-city-menu-sublist hd-city-menu-deep" hidden></div>
         <div id="hd-city-menu-status" class="hd-city-menu-status" hidden></div>
         <div class="hd-city-menu-footer">
@@ -368,7 +379,7 @@
 <script src="js/hd-city-inventory.js?ver=20261026cityinfo1"></script>
 <script src="js/hd-city-garrison.js?ver=20261026cityinfo1"></script>
 <script src="js/hd-city-rules.js?ver=20261026cityinfo1"></script>
-<script src="js/hd-city-menu.js?ver=20261029toolarm1"></script>
+<script src="js/hd-city-menu.js?ver=20261029listfind1"></script>
 <script src="js/hd-city-info.js?ver=20261026cityinfo1"></script>
     <script src="js/hd-battle-terrain.js?ver=20261008i"></script>
     <script src="js/hd-battle-feedback.js?ver=20261008a"></script>

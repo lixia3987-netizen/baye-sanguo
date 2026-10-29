@@ -330,6 +330,9 @@
                 personPagePending: state.personPagePending ? JSON.parse(JSON.stringify(state.personPagePending)) : null,
                 toolDetail: state.toolDetail ? JSON.parse(JSON.stringify(state.toolDetail)) : null,
                 toolPagePending: state.toolPagePending,
+                listFind: state.listFind ? { ownerKey: state.listFind.ownerKey, kind: state.listFind.kind,
+                    query: state.listFind.query, sort: state.listFind.sort, expanded: state.listFind.expanded,
+                    visibleNativeIndices: state.listFind.visibleNativeIndices.slice(), epoch: listFindEpoch } : null,
                 pickedPersons: state.pickedPersons,
                 dismissedObj: state.dismissedObj,
                 marchReady: state.marchReady,
@@ -1290,6 +1293,7 @@
         deepItems: [],
         deepSig: '',
         deepMenuOwner: null,
+        listFind: null,
         personDetailSig: '',
         personDetail: null,
         personProperties: null,
@@ -4933,6 +4937,7 @@
     }
 
     function mobilePreviewContext(button) {
+        if (!listFindButtonVisible(button)) { return null; }
         if (mobileDiplomacy && mobileDiplomacy.sent) { return null; }
         if (state.goodsBackPending || mobileEquipmentFlow || mobileTrade && mobileTrade.wait) { return null; }
         if (!mobileHost || !state.open || state.layer !== 'deep' || state.deepKind === 'person-city' ||
@@ -4957,7 +4962,7 @@
     }
 
     function previewDeep(button, pressed) {
-        if (!pressed || pressed.target !== button || pressed.cancelled || !pressed.context || state.nativeMenuRequest) { return false; }
+        if (!pressed || pressed.target !== button || pressed.cancelled || pressed.viewEpoch !== listFindEpoch || !pressed.context || state.nativeMenuRequest) { return false; }
         var context = mobilePreviewContext(button), initial = pressed.context;
         if (!context || context.data !== initial.data || context.key !== initial.key || context.stable !== initial.stable ||
             context.epoch !== initial.epoch || context.id !== initial.id) { return false; }
@@ -5741,7 +5746,8 @@
     }
 
     function finishPersonListStats(receipt, list) {
-        if (!receipt || receipt.validate()) { return; }
+        if (!receipt) { return false; }
+        if (receipt.validate()) { return true; }
         list.classList.remove('has-person-summaries');
         var summaries = list.querySelectorAll('[data-hd-person-summary]');
         for (var i = 0; i < summaries.length; i++) {
@@ -5749,6 +5755,7 @@
             if (button) { button.removeChild(summaries[i]); button.classList.remove('has-person-summary'); }
         }
         state.deepSig = '';
+        return false;
     }
 
     var toolListStatsReading = false, toolListStatsEpoch = 0;
@@ -5899,7 +5906,8 @@
     }
 
     function finishToolListStats(receipt, list) {
-        if (!receipt || receipt.validate()) { return; }
+        if (!receipt) { return false; }
+        if (receipt.validate()) { return true; }
         list.classList.remove('has-tool-summaries');
         var summaries = list.querySelectorAll('[data-hd-tool-summary]');
         for (var i = 0; i < summaries.length; i++) {
@@ -5907,6 +5915,174 @@
             if (button) { button.removeChild(summaries[i]); button.classList.remove('has-tool-summary'); }
         }
         state.deepSig = '';
+        return false;
+    }
+
+    // Local list views never change the native list or send keys. Numeric rows
+    // come only from the same receipt used for the ordinary list summaries.
+    var listFindEpoch = 0, listFindKeys = {}, listFindInputOwner = null, listFindCompositionOwner = null;
+    var LIST_FIND_PERSON = [['native', '原版顺序'], ['force', '武力从高到低'], ['iq', '智力从高到低'],
+        ['thew', '体力从高到低'], ['level', '等级从高到低'], ['arms', '兵力从高到低'], ['devotion', '忠诚从高到低']];
+    var LIST_FIND_TOOL = [['native', '原版顺序'], ['attack', '武力加成从高到低'], ['iq', '智力加成从高到低'], ['move', '移动加成从高到低']];
+    function listFindInside(node) {
+        var tools = el('hd-city-menu-list-tools');
+        while (node) { if (node === tools) { return true; } node = node.parentNode || node.parentElement; }
+        return false;
+    }
+    function listFindCancelPress() {
+        listFindEpoch += 1;
+        if (state.deepPointerOwner) { state.deepPointerOwner.cancelled = true; }
+        if (state.previewPointerOwner) { state.previewPointerOwner.cancelled = true; }
+        if (state.personPagePointer) { state.personPagePointer.cancelled = true; }
+        if (state.toolPointerOwner) { state.toolPointerOwner.cancelled = true; }
+    }
+    function listFindNodes(list) {
+        var buttons = list.querySelectorAll('[data-hd-deep]'), nodes = [];
+        for (var i = 0; i < buttons.length; i++) {
+            var button = buttons[i], index = Number(button.getAttribute('data-hd-deep'));
+            if (!mobileInteger(index, state.deepItems.length - 1)) { continue; }
+            var node = button.parentNode === list ? button : button.parentNode;
+            if (node && node.parentNode === list) { nodes.push({index: index, node: node, button: button}); }
+        }
+        return nodes.sort(function (a, b) { return a.index - b.index; });
+    }
+    function listFindRemoveEmpty(list) {
+        var empty = list && list.querySelector('[data-hd-list-empty]');
+        if (empty && empty.parentNode) { empty.parentNode.removeChild(empty); }
+    }
+    function retireListFind(list) {
+        if (state.listFind) {
+            listFindCancelPress();
+            if (list) {
+                var nodes = listFindNodes(list);
+                for (var i = 0; i < nodes.length; i++) {
+                    nodes[i].node.hidden = nodes[i].button.hidden = false;
+                    list.appendChild(nodes[i].node);
+                }
+            }
+        }
+        state.listFind = null;
+        var active = document.activeElement;
+        if (listFindInside(active) && active && typeof active.blur === 'function') { active.blur(); }
+        var tools = el('hd-city-menu-list-tools'), controls = el('hd-city-menu-list-controls');
+        var toggle = el('hd-city-menu-list-toggle'), query = el('hd-city-menu-list-query'), sort = el('hd-city-menu-list-sort');
+        if (tools) { tools.hidden = true; }
+        if (controls) { controls.hidden = true; }
+        if (toggle) { toggle.setAttribute('aria-expanded', 'false'); }
+        if (query) { query.value = ''; }
+        if (sort) { sort.value = 'native'; }
+        listFindRemoveEmpty(list);
+    }
+    function listFindIndexVisible(index) {
+        return !state.listFind || state.listFind.visibleNativeIndices.indexOf(Number(index)) >= 0;
+    }
+    function listFindButtonVisible(button) {
+        var list = el('hd-city-menu-deep'), node = button;
+        while (node && node !== list) { if (node.hidden) { return false; } node = node.parentNode; }
+        return node === list;
+    }
+    function renderListFind(list, menu, owner, personStats, toolStats) {
+        var tools = el('hd-city-menu-list-tools'), controls = el('hd-city-menu-list-controls');
+        var query = el('hd-city-menu-list-query'), sort = el('hd-city-menu-list-sort'), toggle = el('hd-city-menu-list-toggle');
+        var receipt = personStats || toolStats;
+        if (!tools || !controls || !query || !sort || !toggle || !owner || !receipt ||
+            !state.open || state.layer !== 'deep' || document.hidden || showingQty()) { retireListFind(list); return; }
+        var kind = personStats ? 'person' : 'tool', nodes = listFindNodes(list), rows = receipt.rows;
+        if (nodes.length !== rows.length || nodes.length !== state.deepItems.length) { retireListFind(list); return; }
+        var scope = JSON.stringify([owner.key, state.cityIndex, state.subKind, state.deepKind, state.deepStep, state.deepLabel]);
+        var view = state.listFind, options = kind === 'person' ? LIST_FIND_PERSON : LIST_FIND_TOOL;
+        if (!view || view.scope !== scope || view.kind !== kind) {
+            retireListFind(list);
+            view = state.listFind = {scope: scope, ownerKey: owner.key, kind: kind, query: '', sort: 'native',
+                expanded: false, composing: false, visibleNativeIndices: [], signature: '', nativeIndex: menu.index};
+        } else if (view.nativeIndex !== menu.index && !listFindInside(document.activeElement)) {
+            // Native navigation keeps native order; local results never remap its index.
+            view.query = ''; view.sort = 'native';
+        }
+        view.nativeIndex = menu.index;
+        if (!options.some(function (option) { return option[0] === view.sort; })) { view.sort = 'native'; }
+        var names = state.deepItems.map(function (item, index) { return kind === 'tool' ? rows[index][5] : item.name; });
+        var column = kind === 'person' ? {force: 1, iq: 2, thew: 3, level: 4, arms: 5, devotion: 6}[view.sort] :
+            {attack: 2, iq: 3, move: 4}[view.sort];
+        var ordered = nodes.filter(function (item) { return names[item.index].indexOf(view.query) >= 0; });
+        if (column != null) {
+            ordered.sort(function (a, b) {
+                var av = rows[a.index][column], bv = rows[b.index][column];
+                return av === null ? (bv === null ? a.index - b.index : 1) :
+                    bv === null ? -1 : bv - av || a.index - b.index;
+            });
+        }
+        var visible = ordered.map(function (item) { return item.index; });
+        var signature = JSON.stringify([scope, view.query, view.sort, visible]);
+        var changedNodes = !view.nodes || nodes.length !== view.nodes.length || nodes.some(function (item, index) { return item.node !== view.nodes[index]; });
+        if (signature !== view.signature || changedNodes) {
+            listFindCancelPress(); view.signature = signature; view.visibleNativeIndices = visible;
+            view.nodes = nodes.map(function (item) { return item.node; });
+            for (var n = 0; n < nodes.length; n++) {
+                nodes[n].node.hidden = nodes[n].button.hidden = visible.indexOf(nodes[n].index) < 0;
+            }
+            for (n = 0; n < ordered.length; n++) { list.appendChild(ordered[n].node); }
+            listFindRemoveEmpty(list);
+            if (!visible.length) {
+                var empty = document.createElement('div'); empty.className = 'hd-city-menu-deep-empty';
+                empty.setAttribute('data-hd-list-empty', '1');
+                empty.textContent = '无匹配，请修改查找内容或清空。'; list.appendChild(empty);
+            }
+            list.scrollTop = 0;
+        }
+        if (sort.getAttribute('data-hd-list-kind') !== kind) {
+            sort.innerHTML = '';
+            options.forEach(function (item) {
+                var option = document.createElement('option'); option.value = item[0]; option.textContent = item[1]; sort.appendChild(option);
+            });
+            sort.setAttribute('data-hd-list-kind', kind);
+        }
+        if (!view.composing && query.value !== view.query) { query.value = view.query; }
+        if (sort.value !== view.sort) { sort.value = view.sort; }
+        tools.hidden = false; controls.hidden = !view.expanded;
+        toggle.setAttribute('aria-expanded', view.expanded ? 'true' : 'false');
+        setText(el('hd-city-menu-list-count'), '匹配 ' + visible.length + ' / ' + nodes.length +
+            (visible.indexOf(menu.index) < 0 ? ' · 当前焦点不在结果中' : ''));
+    }
+    function finishListFind(list, menu, owner, personStats, toolStats) {
+        renderListFind(list, menu, owner, personStats, toolStats);
+        var personValid = finishPersonListStats(personStats, list), toolValid = finishToolListStats(toolStats, list);
+        if (state.listFind && !(personStats && personValid || toolStats && toolValid)) { retireListFind(list); }
+    }
+    function changeListFind(kind) {
+        var view = state.listFind;
+        if (!view || !state.open || state.layer !== 'deep') { return false; }
+        if (kind === 'toggle') {
+            listFindCancelPress(); view.expanded = !view.expanded;
+            if (!view.expanded && listFindInside(document.activeElement)) {
+                var toggle = el('hd-city-menu-list-toggle');
+                if (toggle && typeof toggle.focus === 'function') { toggle.focus(); }
+                else if (document.activeElement && typeof document.activeElement.blur === 'function') { document.activeElement.blur(); }
+            }
+        }
+        else if (kind === 'clear') {
+            listFindCancelPress();
+            view.query = ''; view.sort = 'native';
+            var input = el('hd-city-menu-list-query'); if (input) { input.value = ''; }
+        } else if (kind === 'input') {
+            if (view.composing) { return true; }
+            view.query = String(el('hd-city-menu-list-query').value || '').slice(0, 32).trim();
+        } else if (kind === 'sort') { view.sort = String(el('hd-city-menu-list-sort').value || 'native'); }
+        fillDeepList();
+        return true;
+    }
+    function captureListFindKey(event) {
+        var code = String(event.code || event.keyCode || event.key || ''), inside = listFindInside(event.target);
+        var editing = !!(state.listFind && inside && !el('hd-city-menu-list-tools').hidden);
+        if (event.type === 'keydown') {
+            if (!editing && !(listFindKeys[code] && event.repeat)) { return; }
+            listFindKeys[code] = true;
+        } else if (!editing && !listFindKeys[code]) { return; }
+        if (event.type === 'keyup') { delete listFindKeys[code]; }
+        // Keep native editing and Tab defaults. Stop all later keyboard owners,
+        // including keyup after focus moves or this menu retires.
+        if (event.stopPropagation) { event.stopPropagation(); }
+        if (event.stopImmediatePropagation) { event.stopImmediatePropagation(); }
     }
 
     // Equipment cards are copies of current standard-LIB fields, never inferred
@@ -6604,7 +6780,7 @@
                 on = state.layer === 'deep' && state.idleIndex === di;
             }
             deeps[i].classList.toggle('is-idle', on);
-            if (on) {
+            if (on && listFindIndexVisible(di)) {
                 idleNode = deeps[i];
             }
         }
@@ -6663,7 +6839,7 @@
     function fillDeepListSurrenderBody() {
         syncMobileDiplomacy();
         syncMobileTransfer();
-        if (fillTransferWait()) { return; }
+        if (fillTransferWait()) { retireListFind(el('hd-city-menu-deep')); return; }
         if (syncMobileTrade() && state.layer !== 'deep') { render(); return; }
         if (syncMobileEquipmentFlow() && state.layer !== 'deep') { render(); return; }
         var list = el('hd-city-menu-deep');
@@ -6692,6 +6868,7 @@
             : liveQty && liveQty.value;
         var personStats = !quantityVisible && owner ? readPersonListStats(deepMenu, owner, state.deepItems) : null;
         var toolStats = !quantityVisible && owner ? readToolListStats(deepMenu, owner, state.deepItems) : null;
+        if (!personStats && !toolStats) { retireListFind(list); }
         list.classList.toggle('has-person-summaries', !!personStats);
         list.classList.toggle('has-tool-summaries', !!toolStats);
         var sig = (quantityVisible ? 'qty:' + quantitySig : state.deepKind + ':' + state.deepStep) +
@@ -6717,8 +6894,7 @@
             if (mobileQty && liveQty) { setText(el('hd-city-qty-val'), liveQty.value); }
             updateQuantityBound(el('hd-city-qty-bound'), liveQty);
             applyHighlight();
-            finishPersonListStats(personStats, list);
-            finishToolListStats(toolStats, list);
+            finishListFind(list, deepMenu, owner, personStats, toolStats);
             return;
         }
         state.deepSig = sig;
@@ -6986,8 +7162,7 @@
             } else { list.appendChild(btn); }
         }
         applyHighlight();
-        finishPersonListStats(personStats, list);
-        finishToolListStats(toolStats, list);
+        finishListFind(list, deepMenu, owner, personStats, toolStats);
     }
 
     function fillSubList(kind) {
@@ -7101,6 +7276,7 @@
         root.classList.toggle('is-sub', show && state.layer !== 'root');
         applyDocAttr();
         if (!show) {
+            retireListFind(el('hd-city-menu-deep'));
             retirePersonDetails();
             retireToolDetails();
             renderStickyBannerSlot();
@@ -7120,6 +7296,7 @@
         var list = el('hd-city-menu-sublist');
         var status = el('hd-city-menu-status');
         var deep = el('hd-city-menu-deep');
+        if (state.layer !== 'deep') { retireListFind(deep); }
         var probe = el('hd-city-menu-probe');
         if (probe) { probe.hidden = !global.BAYE_HD_DEBUG; }
         function hideAllLayers() {
@@ -8842,6 +9019,7 @@
     }
 
     function chooseDeepSurrenderBody(index, pressedOwner) {
+        if (!listFindIndexVisible(index)) { return false; }
         if (!mobileHost && state.deepKind === 'person-diplomacy' && mobileDiplomacy && mobileDiplomacy.sent) { return false; }
         if (mobileHost && state.deepKind === 'person-diplomacy' && mobileDiplomacy && mobileDiplomacy.sent) { return false; }
         if (mobileHost && (state.goodsBackPending || mobileEquipmentFlow || mobileTrade && mobileTrade.wait)) { return false; }
@@ -9154,7 +9332,48 @@
         }
         state.bound = true;
         document.addEventListener('visibilitychange', function () {
-            if (document.hidden) { retirePersonProperties(); }
+            if (document.hidden) { retirePersonProperties(); retireListFind(el('hd-city-menu-deep')); }
+        });
+        // Window capture precedes mobile document capture regardless of bind
+        // order. The document fallback also supports embedded hosts.
+        if (typeof global.addEventListener === 'function') {
+            global.addEventListener('keydown', captureListFindKey, true);
+            global.addEventListener('keyup', captureListFindKey, true);
+        }
+        document.addEventListener('keydown', captureListFindKey, true);
+        document.addEventListener('keyup', captureListFindKey, true);
+        root.addEventListener('focusin', function (event) {
+            if (listFindInside(event.target)) { listFindInputOwner = state.listFind; }
+        });
+        root.addEventListener('compositionstart', function (event) {
+            if (event.target !== el('hd-city-menu-list-query') || !state.listFind) { return; }
+            listFindInputOwner = listFindCompositionOwner = state.listFind;
+            state.listFind.composing = true;
+        });
+        root.addEventListener('compositionend', function (event) {
+            if (event.target !== el('hd-city-menu-list-query')) { return; }
+            var current = state.listFind, previous = listFindCompositionOwner;
+            listFindCompositionOwner = null;
+            if (!current || previous !== current) {
+                event.target.value = current ? current.query : ''; return;
+            }
+            current.composing = false; changeListFind('input');
+        });
+        root.addEventListener('input', function (event) {
+            if (event.target !== el('hd-city-menu-list-query') || !state.listFind || event.isComposing) { return; }
+            if (listFindCompositionOwner && listFindCompositionOwner !== state.listFind ||
+                listFindInputOwner && listFindInputOwner !== state.listFind) {
+                event.target.value = state.listFind.query; return;
+            }
+            if (!listFindInputOwner) { listFindInputOwner = state.listFind; }
+            changeListFind('input');
+        });
+        root.addEventListener('change', function (event) {
+            if (event.target !== el('hd-city-menu-list-sort') || !state.listFind) { return; }
+            if (!state.listFind.expanded || listFindInputOwner && listFindInputOwner !== state.listFind) {
+                event.target.value = state.listFind.sort; return;
+            }
+            changeListFind('sort');
         });
         function buttonOwner(button) {
             var key = button.getAttribute('data-hd-deep-owner');
@@ -9173,7 +9392,7 @@
             if (target === root) { state.backPointerOwner = { target: root, key: cityBackPressOwner() }; return; }
             while (target && target !== root) {
                 if (target.getAttribute && target.getAttribute('data-hd-deep-preview') != null) {
-                    state.previewPointerOwner = {target: target, context: ev.isPrimary === false ||
+                    state.previewPointerOwner = {target: target, viewEpoch: listFindEpoch, context: ev.isPrimary === false ||
                         ev.button != null && ev.button !== 0 ? null : mobilePreviewContext(target)};
                     return;
                 }
@@ -9190,7 +9409,7 @@
                     return;
                 }
                 if (target.getAttribute && target.getAttribute('data-hd-deep') != null) {
-                    state.deepPointerOwner = { target: target, owner: buttonOwner(target) };
+                    state.deepPointerOwner = { target: target, owner: buttonOwner(target), viewEpoch: listFindEpoch };
                     return;
                 }
                 target = target.parentNode;
@@ -9232,6 +9451,10 @@
             }
             var t = ev.target;
             while (t && t !== root) {
+                if (t === el('hd-city-menu-list-toggle') || t === el('hd-city-menu-list-clear')) {
+                    ev.preventDefault(); ev.stopPropagation();
+                    changeListFind(t === el('hd-city-menu-list-toggle') ? 'toggle' : 'clear'); return;
+                }
                 if (t.getAttribute && t.getAttribute('data-hd-transfer-target') != null) {
                     ev.preventDefault(); ev.stopPropagation(); selectTransferTarget(Number(t.getAttribute('data-hd-transfer-target'))); return;
                 }
@@ -9258,7 +9481,7 @@
                 if (t.getAttribute && t.getAttribute('data-hd-tool-page') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
-                    if (pagePressed && pagePressed.target !== t) { renderToolDetails(); return; }
+                    if (pagePressed && (pagePressed.cancelled || pagePressed.target !== t)) { renderToolDetails(); return; }
                     pageTool(t.getAttribute('data-hd-tool-page'), pagePressed ? pagePressed.key :
                         t.getAttribute('data-hd-tool-page-owner'));
                     return;
@@ -9278,6 +9501,8 @@
                 if (t.getAttribute && t.getAttribute('data-hd-deep') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
+                    if (!listFindButtonVisible(t) || !listFindIndexVisible(t.getAttribute('data-hd-deep')) ||
+                        pressed && (pressed.cancelled || pressed.viewEpoch !== listFindEpoch)) { return; }
                     if (pressed && pressed.target !== t) { fillDeepList(); return; }
                     chooseDeep(Number(t.getAttribute('data-hd-deep')),
                         pressed ? pressed.owner : buttonOwner(t));
