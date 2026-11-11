@@ -461,7 +461,7 @@ export async function main(args=process.argv.slice(2)) {
   async function cityChecks() {
     const VK={UP:0x22,DOWN:0x23,LEFT:0x24,RIGHT:0x25,ENTER:0x27,EXIT:0x28};
     const idle=`(() => {const s=BayeHdCityMenu.debugSnapshot();return !s.sending&&!s.queueLen&&!s.rootMenuPending;})()`;
-    const cityNative=(kind)=>`(() => {const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();return m.active===1&&m.context===1&&m.kind===${kind}&&s.open&&s.cityIndex===${testCity.index}&&!s.sending&&!s.queueLen&&{menu:m,city:s};})()`;
+    const cityNative=(kind,city=testCity)=>`(() => {const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();return m.active===1&&m.context===1&&m.kind===${kind}&&s.open&&s.cityIndex===${city.index}&&!s.sending&&!s.queueLen&&{menu:m,city:s};})()`;
     report.cityChecks=[];report.returnChecks=[];report.negativeChecks=[];report.treatments=[];report.recruitments=[];report.quantityPresentation=[];
     const readKeys=start=>evaluate(`__mobileMapKeys.slice(${start})`);
     const ready=async()=>{await until('current native city shell idle',idle);await delay(180);return mark();};
@@ -479,12 +479,12 @@ export async function main(args=process.argv.slice(2)) {
       assert.ok(found,'A current visible owned control exists: '+selectors.join(', '));return found;
     };
     const shell=async()=>{const s=await evaluate(readSource);assert.equal(s.identity.sha256,ORIGINAL_SHA);assert.ok(s.cityUi?.open&&s.cityUi.showHd&&s.cityLayer.shown,'Actual mobile HD city pane is visible');assert.equal(s.adapter.active,false,'Map overlay yields to native CITY');assert.equal(s.hud.visible,false,'Read-only map HUD retires on city input');assert.equal(await evaluate('BayeHdMobileCity.isActive()'),true,'Public mobile city host active');prefsSame(s);return s;};
-    const openCity=async label=>{
-      if(await evaluate(`!!(${cityNative(1)})`))return shell();
-      await until('ordinary map before city',mapReadySource);const p=await cityPoint(testCity),before=await mark();await tap(p,true);
-      await until('actual city root',cityNative(1));const after=await ready(),keys=await readKeys(before.state.keyCount);
+    const openCity=async (label,city=testCity)=>{
+      if(await evaluate(`!!(${cityNative(1,city)})`))return shell();
+      await until('ordinary map before city',mapReadySource);const p=await cityPoint(city),before=await mark();await tap(p,true);
+      await until('actual city root',cityNative(1,city));const after=await ready(),keys=await readKeys(before.state.keyCount);
       navigation(keys,'Trusted city tap');worldSame(before,after,'City entry');assert.equal(after.state.touchCount,before.state.touchCount);
-      await shell();await checkpoint(label);saveCheck('city-entry',before,after,keys,{city:testCity});return after.state;
+      await shell();await checkpoint(label);saveCheck('city-entry',before,after,keys,{city});return after.state;
     };
     const back=async(label,{status=false}={})=>{
       const before=await ready(),selector=await visibleSelector(['#hd-dialog [data-hd-dlg-back]','#hd-city-menu [data-hd-menu-back]']);
@@ -503,15 +503,15 @@ export async function main(args=process.argv.slice(2)) {
         await back(label+'-'+n,{status:s.cityUi.layer==='status'});}
       await until('native map after '+label,mapReadySource);prefsSame(await evaluate(readSource));
     };
-    const root=async(index,name)=>{
-      await openCity('entry-for-'+name+'-'+report.cityChecks.length);await until('root before '+name,cityNative(1));
+    const root=async(index,name,city=testCity)=>{
+      await openCity('entry-for-'+name+'-'+report.cityChecks.length,city);await until('root before '+name,cityNative(1,city));
       const before=await ready();assert.equal(before.state.menu.names[index],name,'Actual native root label');
       await touchButton(`#hd-city-menu [data-hd-root="${index}"]`);
       if(index===3){await until('local readonly status',`BayeHdCityMenu.debugSnapshot().layer==='status'`);const after=await ready();
         const keys=await readKeys(before.state.keyCount);assert.deepEqual(keys,[]);assert.deepEqual(after.native,before.native,'Status does not replace native owner');
         worldSame(before,after,'Readonly city status');assert.ok(after.state.cityUi.cityDetails,'Actual city detail snapshot');
         saveCheck('readonly-status',before,after,keys);await checkpoint('status-'+report.cityChecks.length);return;}
-      await until('real '+name+' submenu',cityNative(2));const after=await ready(),keys=await readKeys(before.state.keyCount);
+      await until('real '+name+' submenu',cityNative(2,city));const after=await ready(),keys=await readKeys(before.state.keyCount);
       navigation(keys,name+' root');worldSame(before,after,'Root selection');saveCheck('root-'+name,before,after,keys);await shell();
     };
     const revealSubmenu=async(selector,before)=>{
@@ -727,7 +727,7 @@ export async function main(args=process.argv.slice(2)) {
       const {runMobileTransferChecks}=await import('./hd-mobile-transfer-runtime-checks.mjs');
       const size=[transferWidth,transferWidth===844?390:375];await metrics(...size);await headerGeometry(size);
       await runMobileTransferChecks({report,evaluate,until,delay,checkpoint,ready,root,submenu,revealSubmenu,selectPerson,back,mapReturn,recruit,
-        controlPoint,tap,touchButton,touches,readKeys,navigation,worldSame,testCity,mark,metrics,cityPoint,worldSource,readSource,mapReadySource,
+        controlPoint,tap,touchButton,touches,readKeys,worldSame,testCity,cityPoint,mapReadySource,checkScroll,
         libBytes:frozen.get('libs/dat-mod.lib').bytes,label:'transfer-'+size.join('x')});
       await until('final actual transfer map',mapReadySource);const final=await checkpoint('final-transfer-HD-map');prefsSame(final);
       report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
@@ -859,7 +859,7 @@ export async function main(args=process.argv.slice(2)) {
       }
     }
     if(equipmentOnly){freeze('scripts/hd-mobile-equipment-runtime-checks.mjs');freeze('scripts/hd-mobile-equipment-runtime-oracle.mjs');freeze('package.json');}
-    if(transferOnly){for(const f of ['scripts/hd-mobile-recruitment-runtime-oracle.mjs','scripts/hd-mobile-transfer-runtime-checks.mjs','scripts/hd-mobile-transfer-runtime-oracle.mjs','scripts/test-hd-mobile-transfer-runtime-oracle.mjs','scripts/test-hd-mobile-transfer-engine.mjs','vendor/iBaye/src/citycmdc.c','vendor/iBaye/src/hd-bridge.h','package.json'])freeze(f);}
+    if(transferOnly){for(const f of ['scripts/hd-mobile-recruitment-runtime-oracle.mjs','scripts/hd-mobile-transfer-runtime-checks.mjs','scripts/hd-mobile-transfer-runtime-oracle.mjs','scripts/hd-mobile-month-runtime-checks.mjs','scripts/test-hd-mobile-transfer-runtime-oracle.mjs','scripts/test-hd-mobile-transfer-engine.mjs','vendor/iBaye/src/citycmdc.c','vendor/iBaye/src/citycmd.c','vendor/iBaye/src/tactic.c','vendor/iBaye/src/hd-bridge.h','package.json'])freeze(f);}
     if(tradeOnly){for(const f of ['scripts/hd-mobile-trade-runtime-checks.mjs','scripts/hd-mobile-trade-runtime-oracle.mjs','scripts/test-hd-mobile-trade-runtime-oracle.mjs','scripts/test-hd-mobile-trade-engine.mjs','vendor/iBaye/src/citycmdc.c','vendor/iBaye/src/hd-bridge.h','package.json'])freeze(f);}
     const engineNames=['baye.js','baye.wasm','baye.wasm.map','baye.build.json'];
     if(tradeOnly||transferOnly||minimapOnly||diplomacyOnly||battleOverviewsOnly||campaignMode){

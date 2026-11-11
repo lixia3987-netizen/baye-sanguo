@@ -618,6 +618,8 @@ async function inspectGoods(cdp, label) {
         const menu=baye.hd.menuItems(),goods=baye.hd.goods(),detail=BayeHdCityMenu.debugSnapshot().toolDetail;
         const pane=document.querySelector(${JSON.stringify(toolPane)});
         return menu.active===1 && menu.context===1 && menu.kind===4 && goods.active && detail &&
+            goods.menuSeq===menu.seq && goods.index===menu.index && detail.seq===menu.seq &&
+            detail.nativeIndex===menu.index && detail.pageStart===goods.pageStart && detail.pageEnd===goods.pageEnd &&
             pane && !pane.hidden && {menu,goods,detail,text:pane.innerText,tool:baye.hd.toolDetails(goods.tool)};
     })()`);
     const { menu, goods, detail, tool } = state;

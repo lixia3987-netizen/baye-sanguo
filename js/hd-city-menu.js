@@ -5305,26 +5305,69 @@
         note.textContent = value.rows.length ? '按原生驻城名册顺序显示。' : '本城暂无在任将领。'; section.appendChild(note);
     }
 
+    function appendCityPlans(box, group, title, description, plans) {
+        var section = document.createElement('section');
+        section.className = 'hd-city-menu-info-group';
+        section.setAttribute('data-hd-city-plans', group);
+        var heading = document.createElement('h3');
+        heading.textContent = title + '（' + plans.length + '）';
+        section.appendChild(heading);
+        var note = document.createElement('p');
+        note.className = 'hd-city-menu-info-note';
+        note.textContent = description;
+        section.appendChild(note);
+        var rows = document.createElement('div');
+        rows.className = 'hd-city-menu-info-rows';
+        plans.forEach(function (plan) {
+            var row = appendStat(rows, plan.label, plan.text);
+            row.setAttribute('data-hd-city-order', String(plan.slot));
+            row.setAttribute('data-hd-city-order-id', String(plan.command));
+        });
+        section.appendChild(rows);
+        box.appendChild(section);
+    }
+
     function renderStatusSurrenderBody() {
         var box = el('hd-city-menu-status');
         if (!box) { return; }
-        box.innerHTML = '';
-        var city = readCity(state.cityIndex);
+        var cityIndex = state.cityIndex, city = readCity(cityIndex);
         state.cityDetails = cityDetails(city);
         state.probedCityKeys = listProps(city);
-        if (!state.cityDetails) {
+        var details = state.cityDetails, inventory = null, plans = null;
+        function canReadStatus() {
+            return details && state.open && state.layer === 'status' && state.cityIndex === cityIndex &&
+                !document.hidden && shouldShowHd();
+        }
+        if (canReadStatus() && global.BayeHdCityInventory && typeof BayeHdCityInventory.read === 'function') {
+            inventory = BayeHdCityInventory.read(cityIndex);
+        }
+        if (canReadStatus() && global.BayeHdCityPlans && typeof BayeHdCityPlans.read === 'function') {
+            plans = BayeHdCityPlans.read(cityIndex);
+        }
+        var current = canReadStatus();
+        if (!current || inventory && inventory.cityIndex !== cityIndex) { inventory = null; }
+        if (!current || plans && plans.cityIndex !== cityIndex) { plans = null; }
+        var icons = details && cityResourceFields && details.groups.some(function (group) {
+            return group.rows.some(function (row) { return cityResourceFields.has(row); });
+        });
+        var signature = JSON.stringify([cityIndex, details, icons, inventory, plans]);
+        // Keep the touch target attached across mobile polls so a native pan
+        // stays inside the scrollable status surface.
+        if (box._cityStatusSignature === signature) {
+            if (details) { renderCityGarrison(); }
+            return;
+        }
+        var scrollTop = box._cityStatusIndex === cityIndex ? box.scrollTop : 0;
+        box._cityStatusIndex = cityIndex;
+        box._cityStatusSignature = signature;
+        box.innerHTML = '';
+        if (!details) {
             box.textContent = '城池资料尚未读取。';
             return;
         }
-        appendHudGroups(box, state.cityDetails.groups);
+        appendHudGroups(box, details.groups);
         renderCityGarrison();
-        var inventory = null;
-        if (state.open && state.layer === 'status' && !document.hidden && shouldShowHd() &&
-            global.BayeHdCityInventory && typeof BayeHdCityInventory.read === 'function') {
-            inventory = BayeHdCityInventory.read(state.cityIndex);
-        }
-        if (inventory && state.open && state.layer === 'status' && !document.hidden &&
-            inventory.cityIndex === state.cityIndex && shouldShowHd()) {
+        if (inventory) {
             var stock = document.createElement('section');
             stock.className = 'hd-city-menu-info-group'; stock.setAttribute('data-hd-city-inventory','1');
             var stockTitle = document.createElement('h3');
@@ -5340,33 +5383,15 @@
             });
             stock.appendChild(stockRows); box.appendChild(stock);
         }
-        var plans = null;
-        if (state.open && state.layer === 'status' && !document.hidden && shouldShowHd() &&
-            global.BayeHdCityPlans && typeof BayeHdCityPlans.read === 'function') {
-            plans = BayeHdCityPlans.read(state.cityIndex);
+        if (plans) {
+            var date = plans.year + '年' + plans.month + '月 · ';
+            appendCityPlans(box, '1', '本月已安排事务', date +
+                (plans.rows.length ? '记录本城己方已安排事务，结果以原生月结为准。' : '本城暂无己方已安排事务。'), plans.rows);
+            if (plans.arrivals && plans.arrivals.length) {
+                appendCityPlans(box, 'arrivals', '待接收', date + '结果以原生月结为准。', plans.arrivals);
+            }
         }
-        if (plans && state.open && state.layer === 'status' && plans.cityIndex === state.cityIndex && shouldShowHd()) {
-            var section = document.createElement('section');
-            section.className = 'hd-city-menu-info-group';
-            section.setAttribute('data-hd-city-plans', '1');
-            var heading = document.createElement('h3');
-            heading.textContent = '本月已安排事务（' + plans.rows.length + '）';
-            section.appendChild(heading);
-            var note = document.createElement('p');
-            note.className = 'hd-city-menu-info-note';
-            note.textContent = plans.year + '年' + plans.month + '月 · ' +
-                (plans.rows.length ? '记录本城己方已安排事务，结果以原生月结为准。' : '本城暂无己方已安排事务。');
-            section.appendChild(note);
-            var rows = document.createElement('div');
-            rows.className = 'hd-city-menu-info-rows';
-            plans.rows.forEach(function (plan) {
-                var row = appendStat(rows, plan.label, plan.text);
-                row.setAttribute('data-hd-city-order', String(plan.slot));
-                row.setAttribute('data-hd-city-order-id', String(plan.command));
-            });
-            section.appendChild(rows);
-            box.appendChild(section);
-        }
+        box.scrollTop = scrollTop;
     }
 
     function equipmentLabel(person, slot) {
@@ -7299,14 +7324,14 @@
         if (state.layer !== 'deep') { retireListFind(deep); }
         var probe = el('hd-city-menu-probe');
         if (probe) { probe.hidden = !global.BAYE_HD_DEBUG; }
-        function hideAllLayers() {
+        function hideAllLayers(keepStatus) {
             if (grid) {
                 grid.hidden = true;
             }
             if (list) {
                 list.hidden = true;
             }
-            if (status) {
+            if (status && !keepStatus) {
                 status.hidden = true;
             }
             if (deep) {
@@ -7323,9 +7348,10 @@
             }
         } else if (state.layer === 'status') {
             setText(sub, '状况 · 归属、发展与资源军备');
-            hideAllLayers();
-            if (status) {
+            hideAllLayers(true);
+            if (status && status.hidden) {
                 status.hidden = false;
+                status.scrollTop = 0;
             }
             renderStatus();
         } else if (state.layer === 'deep') {

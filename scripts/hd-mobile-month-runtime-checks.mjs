@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 
-export async function settleMobileMonth({evaluate,until,delay,ready,touchButton,readKeys,worldSame,mapReadySource},beforeMonth){
+export async function settleMobileMonth({evaluate,until,delay,ready,touchButton,readKeys,worldSame,mapReadySource},beforeMonth,observeReport){
  const keys=async before=>(await readKeys(before.state.keyCount)).map(row=>row.code);
  await touchButton('#hd-mobile-system-open');
  await until('Native strategy system menu',`(() => {
@@ -26,7 +26,12 @@ export async function settleMobileMonth({evaluate,until,delay,ready,touchButton,
    if(state.year===year&&state.month===month&&await evaluate(mapReadySource))break;
    const r=state.report,token=r.seq+':'+r.inputSeq;
    if(r.active===1&&state.confirm&&!seen.has(token)){
-     seen.add(token);const before=await ready();await touchButton('#hd-dialog [data-hd-dlg-ok]');
+     seen.add(token);const before=await ready();
+     if(observeReport){
+       assert.deepEqual(before.state.report,r,'Observation binds the current native monthly report');
+       await observeReport(before);
+     }
+     await touchButton('#hd-dialog [data-hd-dlg-ok]');
      assert.deepEqual(await keys(before),[39],'One ACK for the current native monthly report');monthlyReports.push(r);
    }
    await delay(160);

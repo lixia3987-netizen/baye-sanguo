@@ -3129,9 +3129,9 @@ test('arranged transport cargo shows exact zero and U16 maximum amounts with the
     }
 });
 
-test('arranged transport cargo stays unread outside local allied transport orders', () => {
+test('arranged transport cargo stays unread outside allied transport orders for the current city', () => {
     const h = plansHarness(); h.plan(2, 13, 22, {Object: 16, Food: 90, Money: 20, Arms: 10});
-    h.plan(3, 13, 20, {City: 1}); h.plan(4, 13, 70); h.plan(5, 13, 71); h.plan(6, 13, 72);
+    h.plan(3, 13, 20, {City: 1, Object: 16}); h.plan(4, 13, 70); h.plan(5, 13, 71); h.plan(6, 13, 72);
     h.plan(7, 255); h.plan(8, 24); h.plan(9, 14, 20, {Object: 16}); h.army(2, [20]); h.plan(170, 27, 2, {Object: 16, Food: 700});
     let excludedReads = 0;
     for (const slot of [3, 4, 5, 6, 7, 8, 9, 170]) for (const field of slot === 170 ? ['Money', 'Arms'] : ['Food', 'Money', 'Arms']) {
@@ -3142,6 +3142,71 @@ test('arranged transport cargo stays unread outside local allied transport order
         [2, '张辽 → 许昌 · 粮食 90 · 金钱 20 · 预备兵 10'], [8, '吕布'], [9, '吕布 → 许昌'], [170, '吕布 → 许昌 · 携粮 700']]);
     assert.equal(excludedReads, 0);
     for (const id of [70, 71, 72]) assert.equal(h.personCalls.includes(id), false);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('destination status shows allied pending transfers and clears retired arrivals', () => {
+    const h = plansHarness(), box = h.nodes['hd-city-menu-status'];
+    const arrival = () => box.querySelectorAll('[data-hd-city-plans]').find(node => node.getAttribute('data-hd-city-plans') === 'arrivals');
+    h.cities[16].Belong = 1;
+    h.plan(7, 13, 20, {City: 16, Object: 0, Food: 0, Money: 200, Arms: 65535});
+    h.plan(3, 14, 22, {City: 16, Object: 0});
+    h.plan(1, 13, 70, {City: 1, Object: 0});
+    h.plan(5, 13, 22, {City: 16, Object: 1});
+    h.plan(9, 24);
+    let cargoReads = 0;
+    for (const slot of [1, 3, 5]) for (const field of ['Food','Money','Arms']) {
+        Object.defineProperty(h.orders[slot], field, {get() {cargoReads++; throw Error('unrelated cargo');}});
+    }
+    const expected = [
+        {slot: 3, command: 14, label: '移动', text: '张辽 · 来自许昌', targetPerson: null},
+        {slot: 7, command: 13, label: '输送', text: '吕布 · 来自许昌 · 粮食 0 · 金钱 200 · 预备兵 65535', targetPerson: null}
+    ];
+    assert.deepEqual(plain(h.context.BayeHdCityPlans.read(0).arrivals), expected);
+    h.renderPlans();
+    assert.equal(arrival().querySelector('h3').textContent, '待接收（2）');
+    assert.deepEqual(arrival().querySelectorAll('[data-hd-city-order]').map(row => [
+        Number(row.getAttribute('data-hd-city-order')), row.children[0].textContent, row.children[1].textContent
+    ]), expected.map(row => [row.slot, row.label, row.text]));
+    assert.equal(arrival().querySelectorAll('button').length, 0);
+    assert.deepEqual(planRows(h).map(row => row.slot), [9]);
+    h.orders[3].OrderId = h.orders[7].OrderId = 255;
+    h.renderPlans();
+    assert.equal(arrival(), undefined);
+    assert.deepEqual(planRows(h).map(row => row.slot), [9]);
+    assert.equal(cargoReads, 0);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('destination status withdraws a transfer if its route changes during a name read', () => {
+    const h = plansHarness(), order = h.plan(3, 14, 22, {City: 16, Object: 0});
+    h.plan(9, 24);
+    h.renderPlans();
+    assert.equal(h.context.BayeHdCityPlans.read(0).arrivals[0].slot, 3);
+    h.nameHook(id => {if (id === 22) order.Object = 1;});
+    h.renderPlans();
+    assertPlansAbsent(h, 'A changing destination must not retain a stale arrival');
+    h.nameHook(null);
+    h.renderPlans();
+    assert.equal(h.context.BayeHdCityPlans.read(0).arrivals, undefined);
+    assert.deepEqual(planRows(h).map(row => row.slot), [9]);
+});
+
+test('status retains its visible nodes and scroll during polling, then updates changed cargo', () => {
+    const h = plansHarness(), box = h.nodes['hd-city-menu-status'];
+    const order = h.plan(7, 13, 20, {City: 16, Object: 0, Food: 2, Money: 2, Arms: 2});
+    h.hud.render();
+    const before = box.children.slice(), row = box.querySelector('[data-hd-city-order]');
+    assert.ok(row && !box.hidden);
+    box.scrollTop = 215;
+    h.hud.render();
+    assert.equal(box.scrollTop, 215);
+    assert.ok(box.children.every((child, index) => child === before[index]));
+    assert.equal(box.querySelector('[data-hd-city-order]'), row);
+    order.Food = 4;
+    h.hud.render();
+    assert.match(box.querySelector('[data-hd-city-order]').textContent, /粮食 4/);
+    assert.equal(box.scrollTop, 215);
     assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
 });
 

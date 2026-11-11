@@ -2,11 +2,12 @@
 import assert from 'node:assert/strict';
 import {calculateMobileTransferLimit,verifyMobileTransferReport,verifyMobileTransfer,verifyMobileTransferCancellation} from './hd-mobile-transfer-runtime-oracle.mjs';
 import {checkMobileQuantityPresentation} from './hd-mobile-quantity-runtime-checks.mjs';
+import {settleMobileMonth} from './hd-mobile-month-runtime-checks.mjs';
 
 const next=n=>n===0xffffffff?1:n+1;
 export async function runMobileTransferChecks(c) {
   const {report,evaluate,until,delay,checkpoint,ready,root,submenu,revealSubmenu,selectPerson,back,mapReturn,recruit,
-    controlPoint,tap,touchButton,touches,readKeys,worldSame,testCity,mark,cityPoint,libBytes,label,mapReadySource}=c;
+    controlPoint,tap,touchButton,touches,readKeys,worldSame,testCity,cityPoint,libBytes,label,mapReadySource,checkScroll}=c;
   const origin=testCity.index,target=15;
   assert.equal(origin,10);assert.equal(testCity.name,'长安');
   assert.equal(report.actualKing.name,'董卓');
@@ -161,6 +162,67 @@ export async function runMobileTransferChecks(c) {
     {command:14,label:'移动',detail:plans.names[1]+' → '+destination.name}
   ],'City status shows both authenticated pending orders and exact transport cargo');
   await mapReturn('pending transfer orders');
-  const final=await currentMap();worldSame(returned,final,'Viewing pending orders preserves the native world');
+  const slots=[transportOracle.orderIndex,moveOracle.orderIndex];
+  const arrivalsSelector='#hd-city-menu-status [data-hd-city-plans="arrivals"]';
+  await root(3,'状况',destination);
+  entry.pendingArrivals=await evaluate(`(() => {
+    const section=document.querySelector(${JSON.stringify(arrivalsSelector)});
+    return section&&{heading:section.querySelector('h3').textContent,
+      rows:[...section.querySelectorAll('[data-hd-city-order]')].map(row=>({slot:Number(row.dataset.hdCityOrder),
+        label:row.querySelector('span').textContent,detail:row.querySelector('strong').textContent}))};
+  })()`);
+  assert.deepEqual(entry.pendingArrivals,{heading:'待接收（2）',rows:[
+    {slot:slots[0],label:'输送',detail:plans.names[0]+' · 来自'+testCity.name+' · 粮食 2 · 金钱 2 · 预备兵 2'},
+    {slot:slots[1],label:'移动',detail:plans.names[1]+' · 来自'+testCity.name}
+  ]});
+  const arrivalRowsVisible=`(() => {
+    const section=document.querySelector(${JSON.stringify(arrivalsSelector)});
+    return section&&[...section.querySelectorAll('h3, [data-hd-city-order]')].every(node=>{
+      const r=node.getBoundingClientRect(),hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);
+      return r.width>0&&r.height>0&&(hit===node||node.contains(hit));
+    });
+  })()`;
+  for(let pass=0;pass<8&&!await evaluate(arrivalRowsVisible);pass++)await checkScroll(label+'-pending-arrivals-'+pass);
+  assert.equal(await evaluate(arrivalRowsVisible),true,'Both arrival rows and the heading are visible after trusted scrolling');
+  await checkpoint(label+'-destination-pending-arrivals');
+  await mapReturn('pending arrivals');
+  const beforeMonth=await currentMap();worldSame(returned,beforeMonth,'Reviewing both transfer lists preserves the native world');
+  const locations=(world,id)=>world.cities.flatMap((city,index)=>
+    world.queue.slice(city.PersonQueue,city.PersonQueue+city.Persons).filter(resident=>resident===id).map(()=>index));
+  for(const id of [transporter,mover])assert.deepEqual(locations(beforeMonth.world,id),[],'Pending actors are travelling');
+
+  const deliveredText='物资运送完毕。',lostText='途中遇到山贼，所输送物质被抢劫一空！';
+  const {settled,year,month,reports}=await settleMobileMonth(c,beforeMonth,async sample=>{
+    const r=sample.state.report;
+    if(r.kind!==2||r.person!==transporter||![deliveredText,lostText].includes(r.text))return;
+    assert.equal(entry.cargoReceipt,undefined,'One original cargo outcome report');
+    assert.equal(sample.state.dialogUi.body,r.text);
+    assert.equal(sample.state.dialogUi.showLcd,false);
+    assert.equal(sample.state.dialogLayer.shown,true);
+    assert.equal(sample.state.lcd.shown,false,'Cargo outcome is visible in the HD report');
+    assert.deepEqual(sample.world.orders[slots[0]],beforeMonth.world.orders[slots[0]]);
+    assert.deepEqual(locations(sample.world,transporter),[],'Report precedes the native return to the origin');
+    const fields=['Food','Money','MothballArms'];
+    const before=fields.map(key=>beforeMonth.world.cities[target][key]),during=fields.map(key=>sample.world.cities[target][key]);
+    const delivered=r.text===deliveredText;
+    assert.deepEqual(during.map((amount,i)=>amount-before[i]),delivered?[2,2,2]:[0,0,0],
+      'Measured target cargo agrees with the original report before monthly maintenance');
+    entry.cargoReceipt={report:r,delivered,before,during};
+    await checkpoint(label+'-transport-outcome');
+  });
+  assert.ok(entry.cargoReceipt,'Original transport settlement displayed an HD result');
+  for(const slot of slots)assert.equal(settled.world.orders[slot].OrderId,255,'Original policy retires the transfer order');
+  assert.deepEqual(locations(settled.world,transporter),[origin],'Transporter returns to the origin exactly once');
+  assert.deepEqual(locations(settled.world,mover),[target],'Moving officer arrives at the destination exactly once');
+  await root(3,'状况');
+  for(const slot of slots)assert.equal(await evaluate(`!!document.querySelector('#hd-city-menu-status [data-hd-city-order="${slot}"]')`),false);
+  await mapReturn('settled transfer orders');
+  await root(3,'状况',destination);
+  assert.equal(await evaluate(`!!document.querySelector(${JSON.stringify(arrivalsSelector)})`),false,'Destination clears the retired arrivals');
+  assert.equal(await evaluate(`!!document.querySelector('#hd-city-menu-status [data-hd-city-general="${mover}"]')`),true,
+    'Destination HD garrison lists the newly arrived officer');
+  await mapReturn('settled arrivals');
+  const final=await ready();worldSame(settled,final,'Reviewing the settled orders preserves the new native world');
+  entry.monthSettlement={year,month,reports,retiredSlots:slots,returnedTransporter:transporter,arrivedMover:mover};
   entry.keyTrace=await evaluate('__mobileTransferKeyTrace');entry.returned=final;entry.pendingPlans=plans.rows;entry.accepted=true;return entry;
 }
