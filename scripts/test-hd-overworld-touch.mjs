@@ -479,12 +479,13 @@ test('splitting and restoring a mobile surface preserves its map center and reti
     const center = { x: 310 + 844 / 2, y: 190 + 338 / 2 };
     h.fire('pointerdown'); h.state.aligning = true;
     h.rect.width = 557.04; h.api.sync();
-    assert.equal(h.state.aligning, false);
+    assert.equal(h.state.aligning, true);
     assert.equal(h.state.pan.on, false);
     assert.equal(h.state.camera.x + h.api.size().width / 2, center.x);
     assert.equal(h.state.camera.y + h.api.size().height / 2, center.y);
     h.fire('pointerup'); h.fire('click'); assert.deepEqual(h.actions, []);
     h.rect.width = 844; h.api.sync();
+    assert.equal(h.state.aligning, true);
     assert.equal(h.canvas.width, 1688); assert.equal(h.canvas.height, 676);
     assert.equal(h.state.camera.x, 310); assert.equal(h.state.camera.y, 190);
     assert.deepEqual(h.actions, []);

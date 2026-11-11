@@ -145,5 +145,22 @@ export async function runMobileTransferChecks(c) {
   const moveOracle=verifyMobileTransfer({before:beforeMove.world,during:moveReport.during.world,after:moved.world,cityIndex:origin,targetCityIndex:target,personId:mover,operation:'move',outcome:'queued',sourceCursor:entry.moveSourceCursor,targetCursor:moveReport.during.state.cursor,libBytes});
   entry.operations.push({operation:'move',actor:mover,before:beforeMove,during:moveReport.during,after:moved,limit:moveLimit,oracle:moveOracle});await checkpoint(label+'-move-next-person');
   const beforeExit=await ready();await back('leave actual move PERSON');const returned=await currentMap();verifyMobileTransferCancellation({before:beforeExit.world,after:returned.world,libBytes});assert.deepEqual(await keys(beforeExit),[40]);entry.cancellations.push({kind:'move-person',before:beforeExit,after:returned,keys:[40]});
-  entry.keyTrace=await evaluate('__mobileTransferKeyTrace');entry.returned=returned;entry.accepted=true;return entry;
+  await root(3,'状况');
+  const plans=await evaluate(`(() => {
+    const names=[${transporter},${mover}].map(id=>baye.getPersonName(id));
+    const slots=[${transportOracle.orderIndex},${moveOracle.orderIndex}];
+    const rows=slots.map(slot=>{
+      const row=document.querySelector('#hd-city-menu-status [data-hd-city-order="'+slot+'"]');
+      return row&&{command:Number(row.dataset.hdCityOrderId),label:row.querySelector('span').textContent,
+        detail:row.querySelector('strong').textContent};
+    });
+    return {names,rows};
+  })()`);
+  assert.deepEqual(plans.rows,[
+    {command:13,label:'输送',detail:plans.names[0]+' → '+destination.name+' · 粮食 2 · 金钱 2 · 预备兵 2'},
+    {command:14,label:'移动',detail:plans.names[1]+' → '+destination.name}
+  ],'City status shows both authenticated pending orders and exact transport cargo');
+  await mapReturn('pending transfer orders');
+  const final=await currentMap();worldSame(returned,final,'Viewing pending orders preserves the native world');
+  entry.keyTrace=await evaluate('__mobileTransferKeyTrace');entry.returned=final;entry.pendingPlans=plans.rows;entry.accepted=true;return entry;
 }

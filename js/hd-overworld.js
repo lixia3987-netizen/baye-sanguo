@@ -1296,10 +1296,8 @@
                 var width = Math.round(rect.width), height = Math.round(rect.height);
                 if (width !== DESIGN_W || height !== DESIGN_H) {
                     var center = toMap(DESIGN_W / 2, DESIGN_H / 2);
-                    // A city HUD can change height while a native map walk
-                    // crosses empty ground. A sidebar width change still
-                    // retires the alignment along with the old pointer geometry.
-                    if (width !== DESIGN_W) { cancelAlign(); }
+                    // HUD and sidebar reflows invalidate pixel gestures, not
+                    // the native grid walk, which checks its own map sequence.
                     resetPan();
                     DESIGN_W = width; DESIGN_H = height;
                     SAFE = {left: 24, top: 24, right: width - 24, bottom: height - 24};
