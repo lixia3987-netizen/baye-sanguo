@@ -5,7 +5,7 @@
  *   node scripts/test-hd-campaign-runtime.mjs -- --artifact-dir build/campaign-runtime-smoke
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * --scenario arrival queues two armies for the same enemy city and settles both in one month.
- * --mobile-width=667|844 runs the victory or arrival campaign through mobile HD touch controls.
+ * --mobile-width=667|844 uses mobile HD touch controls for victory, arrival or save.
  * --scenario captives --captive-order exercises one actual surrender order through month-end.
  * --captive-width=1280 selects a 720p desktop viewport for either captive flow.
  * --captive-mobile-width=667|844 saves the captured city, then loads and plays it in m.html.
@@ -25,6 +25,7 @@ import {snapshotOwnedChrome,cleanupOwnedChrome} from './hd-runtime-owned-chrome.
 import {writeJsonAtomicSync} from './hd-runtime-json.mjs';
 import {battleResultNoteObservation,verifyBattleResultNote} from './hd-battle-hud-runtime-checks.mjs';
 import {createMobileCampaignInputs} from './hd-mobile-campaign-inputs.mjs';
+import {verifyOriginalSavePair} from './hd-mobile-system-runtime-oracle.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -34,8 +35,8 @@ assert.ok(['victory', 'arrival', 'retreat', 'empty', 'campaign', 'save', 'restar
 const arrivalScenario=scenario==='arrival';
 const mobileCampaignFlag=process.argv.find(arg=>arg.startsWith('--mobile-width='));
 const mobileCampaignWidth=Number(mobileCampaignFlag?.split('=')[1]??0);
-assert.ok(!mobileCampaignFlag||['victory','arrival'].includes(scenario)&&[667,844].includes(mobileCampaignWidth),
-    'Mobile campaign victory/arrival requires a 667px or 844px landscape viewport');
+assert.ok(!mobileCampaignFlag||['victory','arrival','save'].includes(scenario)&&[667,844].includes(mobileCampaignWidth),
+    'Mobile campaign victory, arrival or save requires a 667px or 844px landscape viewport');
 const captiveScenario=scenario==='captives',preflightOnly=process.argv.includes('--preflight-only');
 const captiveOrder=process.argv.includes('--captive-order');
 const captiveUntilJoined=process.argv.includes('--captive-until-joined');
@@ -542,29 +543,38 @@ async function smoke(cdp) {
 const mobileMapReady=`(() => {const h=BayeHdMobileMap.snapshot(),m=baye.hd.march();
     return h.active&&h.ownerType==='map'&&m.pick===1&&!m.battlePick&&!baye.hd.menuItems().active;})()`;
 
-async function smokeMobileCampaign(cdp) {
-    report.mobileLibrary=await waitFor(cdp,'original mobile engine and authenticated LIB',`(() => {
+async function observeMobileCampaignDocument(cdp) {
+    const library=await waitFor(cdp,'original mobile engine and authenticated LIB',`(() => {
         const api=window.BayeHdLibIdentity,lib=api&&api.read();
-        return window.baye?.hd?.ready()&&lib?.status==='ready'&&api.isCurrent(lib)&&lib.byteLength===207195&&
+        return !window.__runtimeEngineInputRecorder&&window.baye?.hd?.ready()&&lib?.status==='ready'&&api.isCurrent(lib)&&lib.byteLength===207195&&
             lib.sha256==='3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'&&lib;
     })()`,60000);
-    await installEngineInputRecorder(cdp);
+    const recorder=await installEngineInputRecorder(cdp);
     await evaluate(cdp,`(() => {
         window.__campaignLcdTouches=[];
         const send=window._bayeSendTouchEvent;
         if(typeof send!=='function')throw Error('Original LCD touch handler must exist');
         window._bayeSendTouchEvent=function(...args){__campaignLcdTouches.push(args);return send.apply(this,args);};
     })()`);
-    const ready=screen=>waitFor(cdp,'current mobile HD '+screen,`(() => {
+    return {library,documentId:recorder.documentId};
+}
+
+function waitMobileCampaignSystem(cdp,screen) {
+    return waitFor(cdp,'current mobile HD '+screen,`(() => {
         const h=BayeHdMobileSystem.snapshot(),s=BayeHdSystemUi.debugSnapshot();
         return h.active&&h.owner?.screen===${JSON.stringify(screen)}&&s.open&&!s.pending&&s.screen===h.owner.screen;
     })()`,120000);
-    await ready('title');
+}
+
+async function smokeMobileCampaign(cdp) {
+    const initial=await observeMobileCampaignDocument(cdp);
+    report.mobileLibrary=initial.library;
+    await waitMobileCampaignSystem(cdp,'title');
     await checkpoint(cdp,'01-mobile-title');
     await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
-    await ready('period');
+    await waitMobileCampaignSystem(cdp,'period');
     await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
-    await ready('king');
+    await waitMobileCampaignSystem(cdp,'king');
     const kings=await evaluate(cdp,'baye.hd.kings()');
     const index=kings.kings.findIndex(person=>person.name===winningFixture.lord);
     assert.ok(index>=0,'The original first period offers the prepared ruler');
@@ -574,7 +584,7 @@ async function smokeMobileCampaign(cdp) {
     await waitFor(cdp,'new original mobile strategy map',mobileMapReady,60000);
     assert.deepEqual(await evaluate(cdp,'[baye.data.g_PIdx,baye.data.g_PlayerKing]'),[1,report.selectedLord.id]);
     await campaignSmoke(cdp);
-    report.mobileLcdTouches=await evaluate(cdp,'__campaignLcdTouches');
+    report.mobileLcdTouches=(report.mobileLcdTouches||[]).concat(await evaluate(cdp,'__campaignLcdTouches'));
     assert.deepEqual(report.mobileLcdTouches,[],'The whole mobile campaign uses the HD touch surfaces');
     assert.ok(report.inputs.every(input=>input.type!=='key'&&input.type!=='action'),'No synthetic game action bypasses the mobile controls');
 }
@@ -1140,11 +1150,11 @@ async function exerciseCaptiveSelection(cdp,loaded){
     }
 }
 
-async function chooseMarchPair(cdp,emptyOnly) {
+async function chooseMarchPair(cdp,emptyOnly,origin=null) {
     return evaluate(cdp,`(() => {
         const realm=baye.hd.realm(),d=baye.data;
         const candidates=[];
-        for(const city of realm.cities.filter(c=>c.owned&&Number(d.g_Cities[c.i].Persons)>0)) {
+        for(const city of realm.cities.filter(c=>c.owned&&(${origin===null?'true':`c.i===${origin}`})&&Number(d.g_Cities[c.i].Persons)>0)) {
             const raw=d.g_Cities[city.i];
             if(Number(raw.Food)<=0)continue;
             const generals=Array.from({length:Number(raw.Persons)},(_,i)=>Number(d.g_PersonsQueue[Number(raw.PersonQueue)+i]))
@@ -1158,6 +1168,7 @@ async function chooseMarchPair(cdp,emptyOnly) {
                 const defenderIds=Array.from({length:Number(d.g_Cities[target.i].Persons)},(_,i)=>Number(d.g_PersonsQueue[Number(d.g_Cities[target.i].PersonQueue)+i]));
                 const defenderTroops=defenderIds.filter(p=>Number(d.g_Persons[p].Belong)===Number(d.g_Cities[target.i].Belong))
                     .reduce((n,p)=>n+Number(d.g_Persons[p].Arms),0);
+                if(${origin!==null}&&!defenderTroops)continue;
                 const troops=generals.reduce((n,p)=>n+p.arms,0);
                 candidates.push({origin:city.i,target:target.i,originName:city.name,targetName:target.name,empty:Number(d.g_Cities[target.i].Belong)===0,defenders:Number(d.g_Cities[target.i].Persons),food:Number(raw.Food),money:Number(raw.Money),generals,troops,defenderTroops});
             }
@@ -1338,7 +1349,7 @@ async function dispatchMarch(cdp,origin,target,label,options={}) {
 
 async function retreatBattle(cdp,round) {
     const before=await evaluate(cdp,battleStateExpression);
-    await action(cdp,'retreat-open-system','BayeHdBattle.openSystemMenu()');
+    await battleSystem(cdp,'retreat-open-system');
     await waitBattle(cdp,6,'retreat system menu');
     const system=await evaluate(cdp,'baye.hd.menuItems()');
     await menuChoice(cdp,system.names[1],7);
@@ -1741,7 +1752,8 @@ async function domesticBeforeMarch(cdp,cityIndex) {
     await settleDomestic(cdp);
     const after=await evaluate(cdp,worldExpression);
     assert.ok(after.cities.find(c=>c.i===cityIndex).Farming>oldFarming,'explicit cultivation changes real C agriculture');
-    assert.equal(await evaluate(cdp,'baye.hd.march().phase'),0,'domestic work leaves no active march ownership');
+    assert.ok(await evaluate(cdp,'[0,7].includes(baye.hd.march().phase)&&!baye.hd.march().battlePick'),
+        'Domestic work leaves no active march ownership');
     const orders=after.orders.filter(o=>o.OrderId===1&&o.City===cityIndex&&o.Person===person.pind);
     assert.equal(orders.length,1,'the native cultivation command has its own exact assigned general');
     assert.ok(!(await readCityPersons(cdp,cityIndex)).some(p=>p.pind===person.pind),'the cultivating general is genuinely busy outside the city selection queue');
@@ -1822,59 +1834,122 @@ async function openCaptiveFunctionMenu(cdp,label) {
     await checkpoint(cdp,label+'-function-menu');
 }
 
+function campaignSavePair(cdp,slot) {
+    return evaluate(cdp,`(() => {
+        const slot=${slot},paths=[slot*2,slot*2+1].map(index=>'baye//data//sango'+index+'.sav');
+        const [sav0,sav1]=paths.map(path=>BayeSaveStorage.readFile(path));
+        return {sav0,sav1,slot:BayeSaveStorage.inspectSlot(slot),valid:BayeSaveStorage.validatePair(sav0,sav1),
+            journal:localStorage.getItem('baye/save-transaction/'+slot),
+            metadata:paths.map(path=>Object.fromEntries(['.lib','.name','.lib-id'].map(key=>[key,BayeSaveStorage.readMetadata(path+key)])))};
+    })()`);
+}
+
+async function campaignRecordMenu(cdp,mode) {
+    if(mobileCampaignInput)await waitMobileCampaignSystem(cdp,'saveload');
+    return waitFor(cdp,'current native '+(mode===1?'save':'load')+' selector',`(() => {
+        const r=baye.hd.record(),s=BayeHdSystemUi.debugSnapshot();
+        return r.active&&r.mode===${mode}&&r.count===${mode===1?3:4}&&s.open&&s.screen==='saveload'&&
+            s.recordMode===r.mode&&s.input?.seq===r.seq&&!s.pending&&{record:r,slots:s.saves};
+    })()`);
+}
+
+async function chooseCampaignRecord(cdp,owner,slot) {
+    const offset=await evaluate(cdp,'__runtimeEngineInputs.length');
+    await click(cdp,`#hd-system-ui [data-hd-sys="${slot}"]`);
+    await waitFor(cdp,'native record selection returns to strategy map',
+        `!baye.hd.record().active&&baye.hd.march().pick===1&&!baye.hd.march().battlePick`,60000);
+    const keys=await evaluate(cdp,`__runtimeEngineInputs.slice(${offset}).map(input=>input.code)`);
+    assert.deepEqual(keys,[...Array(Math.abs(slot-owner.index)).fill(slot<owner.index?34:35),39],
+        'Record selection uses only the original cursor steps and one confirm');
+    return keys;
+}
+
 async function saveRefreshLoad(cdp) {
+    const slot=2,captured=report.battles[0].plan.target;
     const before=await evaluate(cdp,worldExpression);
     await openFunctionMenu(cdp,'save');
     await click(cdp,'#hd-system-ui [data-hd-sys="1"]');
-    await waitFor(cdp,'native three-slot save owner',`(() => {const r=baye.hd.record(),s=BayeHdSystemUi.debugSnapshot();return r.active&&r.mode===1&&r.count===3&&s.open&&s.screen==='saveload'&&s.recordMode===1&&!s.pending;})()`);
+    const saveMenu=await campaignRecordMenu(cdp,1);
     await checkpoint(cdp,'save-empty-three-slots');
-    const emptySlots=await evaluate(cdp,'BayeHdSystemUi.debugSnapshot().saves');
     assert.equal(await evaluate(cdp,'document.querySelectorAll("#hd-system-ui [data-hd-sys]").length'),3,'fresh profile exposes the three real save buttons');
-    assert.ok(emptySlots.every(s=>s.status==='empty'),'fresh profile contains no saved slots');
+    assert.ok(saveMenu.slots.every(s=>s.status==='empty'),'fresh profile contains no saved slots');
     // Slot 2 deliberately exercises a sparse file pair (sango4 + sango5).
-    await click(cdp,'#hd-system-ui [data-hd-sys="2"]');
-    await waitFor(cdp,'explicit save finishes','!baye.hd.record().active&&baye.hd.march().pick===1',30000);
+    const saveKeys=await chooseCampaignRecord(cdp,saveMenu.record,slot);
     report.savedStorage=await evaluate(cdp,`Object.keys(localStorage).filter(k=>/sango[0-7]\\.sav$/.test(k)).sort().map(key=>({key,bytes:(localStorage.getItem(key)||'').length}))`);
     assert.equal(report.savedStorage.length,2,'one real slot creates its two file halves');
     assert.ok(report.savedStorage.every(s=>/sango[45]\.sav/.test(s.key)),'slot 2 maps to native filenames 4 and 5');
     assert.deepEqual(await evaluate(cdp,worldExpression),before,'saving does not mutate campaign state');
+    const pair=await campaignSavePair(cdp,slot);
+    assert.equal(pair.valid,true);assert.equal(pair.slot.canLoad,true);assert.equal(pair.journal,null);
+    assert.deepEqual(pair.metadata[0],pair.metadata[1]);
+    assert.equal(pair.metadata[0]['.lib'],'libs/dat-mod.lib');
+    assert.equal(pair.metadata[0]['.lib-id'],'v1:414390:1d36da77:1e9c0477');
+    const queue=await evaluate(cdp,'Array.from(baye.data.g_PersonsQueue,Number)');
+    const verified=verifyOriginalSavePair({...pair,world:{period:before.period,king:before.realm.playerKing,
+        year:before.year,month:before.month,people:before.allPersons,cities:before.cities,queue,goodsQueue:before.goods,
+        fighters:before.fighters,fighterIndex:before.fighterIndex,orders:before.orders}});
+    const saveLoad=report.saveLoad={slot,before,saveKeys,files:verified.files,checked:verified.checked};
     await checkpoint(cdp,'save-real-slot-two');
+    if(mobileCampaignInput) {
+        await domesticBeforeMarch(cdp,captured);
+        assert.equal(report.domestic.after.month,before.month,'The post-save cultivation is in the saved month');
+        assert.notDeepEqual(report.domestic.after,before,'Cultivation creates a real unsaved change');
+        assert.deepEqual(await campaignSavePair(cdp,slot),pair,'The post-save order leaves the original saved pair intact');
+        report.mobileLcdTouches=await evaluate(cdp,'__campaignLcdTouches');
+    }
     await archiveEngineInputDocument(cdp,'before-refresh');
     await cdp.send('Page.reload',{ignoreCache:true});
     acknowledgedProgressReports.clear();
-    await waitFor(cdp,'fresh WASM initializes after refresh','window.baye&&baye.hd&&baye.hd.ready()',60000);
-    await installEngineInputRecorder(cdp);
-    await evaluate(cdp,`BayeHdSystemUi.setMode('hd')`);
-    for(let i=0;i<20;i++) {
-        if(await evaluate(cdp,'baye.hd.menuItems().active&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1'))break;
-        if(await evaluate(cdp,'baye.hd.movie().active'))await key(cdp,'Enter');
-        else await delay(150);
+    if(mobileCampaignInput) {
+        saveLoad.reloaded=await observeMobileCampaignDocument(cdp);
+        assert.notEqual(saveLoad.reloaded.documentId,report.engineInputDocuments[0].documentId);
+        await waitMobileCampaignSystem(cdp,'title');
+    } else {
+        await waitFor(cdp,'fresh WASM initializes after refresh','!window.__runtimeEngineInputRecorder&&window.baye?.hd?.ready()',60000);
+        await installEngineInputRecorder(cdp);
+        await evaluate(cdp,`BayeHdSystemUi.setMode('hd')`);
+        for(let i=0;i<20;i++) {
+            if(await evaluate(cdp,'baye.hd.menuItems().active&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1'))break;
+            if(await evaluate(cdp,'baye.hd.movie().active'))await key(cdp,'Enter');
+            else await delay(150);
+        }
+        await waitFor(cdp,'real refreshed title owner',`(() => {const m=baye.hd.menuItems(),s=BayeHdSystemUi.debugSnapshot();return m.active&&m.context===4&&m.kind===1&&s.open&&s.screen==='title'&&s.input&&!s.pending;})()`,60000);
     }
-    await waitFor(cdp,'real refreshed title owner',`(() => {const m=baye.hd.menuItems(),s=BayeHdSystemUi.debugSnapshot();return m.active&&m.context===4&&m.kind===1&&s.open&&s.screen==='title'&&s.input&&!s.pending;})()`,60000);
+    assert.deepEqual(await campaignSavePair(cdp,slot),pair,'The saved bytes and metadata persist across a real refresh');
     await checkpoint(cdp,'load-refreshed-title');
     await click(cdp,'#hd-system-ui [data-hd-sys="1"]');
-    await waitFor(cdp,'native four-slot load owner',`(() => {const r=baye.hd.record(),s=BayeHdSystemUi.debugSnapshot();return r.active&&r.mode===2&&r.count===4&&s.open&&s.screen==='saveload'&&s.recordMode===2&&!s.pending;})()`);
-    const slots=await evaluate(cdp,'BayeHdSystemUi.debugSnapshot().saves');
+    const loadMenu=await campaignRecordMenu(cdp,2),slots=loadMenu.slots;
     assert.equal(slots.length,4,'load shows every native slot including auto slot');
-    assert.equal(slots[2].canLoad,true,'the sparse saved slot is independently loadable');
-    assert.equal(slots[0].canLoad,false,'an earlier empty slot remains empty');
+    assert.deepEqual(slots.map(item=>item.canLoad),[false,false,true,false],'The sparse third slot is independently loadable');
+    const rows=saveLoad.loadRows=await evaluate(cdp,`Array.from(document.querySelectorAll('#hd-system-ui [data-hd-sys]'),
+        node=>({index:Number(node.dataset.hdSys),disabled:node.disabled,text:node.textContent}))`);
+    assert.deepEqual(rows.map(row=>[row.index,row.disabled]),[[0,true],[1,true],[2,false],[3,true]]);
+    assert.ok(rows[slot].text.includes(report.selectedLord.name)&&rows[slot].text.replace(/\s/g,'').includes(`${before.year}年${before.month}月`),
+        'The visible load row identifies the stored ruler and date');
     await checkpoint(cdp,'load-sparse-four-slots');
-    await click(cdp,'#hd-system-ui [data-hd-sys="2"]');
-    await waitFor(cdp,'real load returns actual strategy map','baye.hd.march().pick===1&&!baye.hd.march().battlePick&&!baye.hd.record().active',60000);
-    await evaluate(cdp,`(() => {BayeHdOverworld.setMode('hd-map');BayeHdCityMenu.setMode('hd');BayeHdBattle.setMode('hd');})()`);
+    saveLoad.loadKeys=await chooseCampaignRecord(cdp,loadMenu.record,slot);
+    if(!mobileCampaignInput)await evaluate(cdp,`(() => {BayeHdOverworld.setMode('hd-map');BayeHdCityMenu.setMode('hd');BayeHdBattle.setMode('hd');})()`);
     await settleToMap(cdp,'load');
     const after=await evaluate(cdp,worldExpression);
     assert.deepEqual(after,before,'refresh and native load restore every city, player general, date and captured ownership');
-    report.saveLoad={slot:2,before,after,slots};
+    assert.deepEqual(await campaignSavePair(cdp,slot),pair,'Loading preserves the original saved pair');
+    Object.assign(saveLoad,{after,slots});
     await checkpoint(cdp,'load-restored-campaign');
-    const plan=await chooseMarchPair(cdp,false);
+    const plan=await chooseMarchPair(cdp,false,mobileCampaignInput?captured:null);
     assert.ok(plan,'the loaded army can enter a subsequent legal campaign');
-    const march=await dispatchMarch(cdp,plan.origin,plan.target,'load-next',{generalNames:plan.generals.map(p=>p.name),foodBudget:10});
+    const generalNames=mobileCampaignInput?[plan.generals[0].name]:plan.generals.map(p=>p.name);
+    const march=await dispatchMarch(cdp,plan.origin,plan.target,'load-next',{generalNames,foodBudget:mobileCampaignInput?undefined:10});
     await waitForGameProgress(cdp,'real battle after loading','baye.hd.fight().active&&baye.hd.fight().inputKind===1',60000);
     await checkpoint(cdp,'load-next-battle');
     assertDispatchedArmy(await evaluate(cdp,battleStateExpression),march);
     await retreatBattle(cdp,2);
+    if(mobileCampaignInput)await recordBattleResultNote(cdp,'load-next-retreat',{outcome:2,kind:'attack',cityIndex:plan.target});
     await settleToMap(cdp,'load-next-retreat');
+    const settled=await evaluate(cdp,worldExpression);
+    assert.equal(settled.cities.find(city=>city.i===captured).Belong,before.realm.playerBelong,'The captured city remains owned after the next campaign');
+    assert.equal(settled.fighterIndex[march.order.slot],0,'The next campaign clears its fighter slot after retreat');
+    assert.deepEqual(await campaignSavePair(cdp,slot),pair,'Playing after load preserves the explicit saved slot');
+    saveLoad.next={plan,march,settled};
     await checkpoint(cdp,'load-next-retreat-map');
 }
 
