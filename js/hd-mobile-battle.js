@@ -137,6 +137,9 @@
             }catch(e){return null;}
         }
         function same(a,b) { return !!a && !!b && a.data===b.data && a.key===b.key; }
+        function currentModePress(ticket) {
+            return arm && arm.hit.type==='mode' && same(arm.ticket,ticket);
+        }
         function retire(reason) { arm=null;var b=battle();if(b && typeof b.retireInteraction==='function'){b.retireInteraction(reason);} }
         function rect(n) {var r=n && n.getBoundingClientRect();return r && [r.left,r.top,r.width,r.height];}
         function sameRect(a,n) {var b=rect(n);return !!b && a.every(function(v,i){return isFinite(v) && Math.abs(v-b[i])<0.5;});}
@@ -279,7 +282,10 @@
                     dt && d && d.getBattleLcdPresentation && d.getBattleLcdPresentation()==='off'?'hd':'lcd':'off';
                 if(detailOwner && !same(detailOwner,dt) && arm && arm.hit.type==='detail'){retire('detail-owner-changed');}
                 detailOwner=dt;
-                if(presentation!=='hd' && arm && !(detailPresentation==='hd' && arm.hit.type==='detail')){retire('LCD-handoff');}
+                // The header toggle belongs to the live native battle even
+                // while the board is hidden by HELP, VIEW, or classic LCD.
+                if(presentation!=='hd' && arm && !currentModePress(t) &&
+                    !(detailPresentation==='hd' && arm.hit.type==='detail')){retire('LCD-handoff');}
                 if(presentation!=='hd'){lastRender=null;}
                 if(reportDetail && !t){presentation='lcd';}paint(presentation);
                 if(doc().body){doc().body.setAttribute('data-hd-mobile-battle-detail',detailPresentation);}
@@ -355,7 +361,7 @@
             try{
                 var t=readNativeTicket(), canvas=node('hd-mobile-battle-canvas'), board=node('hd-mobile-battle-board');
                 if(!t || t.presentation!=='hd' || !canvas || !board || !sharedShowsHd() || !renderMatches(snapshot,t)){
-                    lastRender=null;if(t){paint('lcd');}if(arm){retire('render-owner-changed');}return;
+                    lastRender=null;if(t){paint('lcd');}if(arm&&!currentModePress(t)){retire('render-owner-changed');}return;
                 }
                 renderBindings.set(snapshot,t.data);lastRender=snapshot;
                 paint('hd');var r=board.getBoundingClientRect();if(r.width<44 || r.height<44){return;}

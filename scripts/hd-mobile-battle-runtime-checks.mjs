@@ -43,7 +43,13 @@ export async function runMobileBattleChecks(c) {
   // City entry remains a trusted HD touch; the incomplete march wizard uses the actual LCD.
   const city=report.initialAllCities.find(v=>v.index===8);assert.ok(city&&city.kind==='owned'&&city.name==='天水');
   await tap(await cityPoint(city));await until('actual owned city root','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===1&&baye.hd.menuItems().kind===1');
-  await button('#hd-mobile-menu-mode');await until('real classic city LCD',`document.body.getAttribute('data-hd-mobile-lcd')==='passthrough'||document.body.getAttribute('data-hd-mobile-lcd')==='on'`);
+  await until('HD city root before switching menus', 'BayeHdMobileCity.isActive()&&BayeHdCityMenu.isOpen()');
+  // The header reflows when the map HUD hands off to the city controls.
+  await evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve(true))))');
+  await button('#hd-mobile-menu-mode');
+  await until('real classic city LCD', `BayeHdCityMenu.getMode()==='classic'&&
+    (document.body.getAttribute('data-hd-mobile-lcd')==='passthrough'||document.body.getAttribute('data-hd-mobile-lcd')==='on')`,5000);
+  assert.equal(await evaluate('BayeHdOverworld.getMode()'),'hd-map','Switching city menus preserves the HD map and automatic HD battle preference');
   await publicMenu(2,'军备');await until('actual military list','baye.hd.menuItems().active===1&&baye.hd.menuItems().names.includes("出征")');
   await publicMenu(await evaluate('baye.hd.menuItems().names.indexOf("出征")'),'出征');
   await until('real original march persons','baye.hd.march().phase===1&&baye.hd.march().origin===8');

@@ -609,7 +609,12 @@ test('shared showLcd explicitly wins over a ready HD native ticket and blocks st
 });
 test('header mode control can restore a classic LCD battle without changing any native state',()=>{
     const f=fixture();f.state.mode='classic';f.host.refresh();assert.equal(f.host.debugSnapshot().presentation,'lcd');
-    assert.equal(f.headerMode.hidden,false);f.tap(f.headerMode);
+    assert.equal(f.headerMode.hidden,false);
+    f.fire('pointerdown',f.headerMode);
+    f.host.refresh();
+    f.render();
+    f.host.refresh();
+    f.fire('pointerup',f.headerMode);
     assert.deepEqual(f.counts.modes,['hd']);assert.equal(f.host.debugSnapshot().presentation,'lcd');
     f.render();f.host.refresh();assert.equal(f.host.debugSnapshot().presentation,'hd');
     assert.equal(f.storage.get('baye/battleMode'),'classic');assert.equal(f.storage.get('baye/overworldMode'),'classic');noAction(f);
