@@ -1,5 +1,6 @@
 // Scenario only: process/server ownership is handled by the safe mobile runtime runner.
 import assert from 'node:assert/strict';
+import {battleHudObservation,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
 import {verifyMobileBattleMarch,verifyMobileBattleRest} from './hd-mobile-battle-runtime-oracle.mjs';
 
 export const battleObservation = `(() => {const d=baye.data,f=baye.hd.fight(),units=[];
@@ -97,12 +98,13 @@ export async function runMobileBattleChecks(c) {
       const before=await native();await touches('touchStart',[{x:px,y:py}]);for(let j=1;j<=5;j++)await touches('touchMove',[{x:px+dx*j/5,y:py+dy*j/5}]);await touches('touchEnd');await unchanged(before,'Pan to native tile');}
     throw Error('Native tile never becomes visible through genuine camera pans');};
   const tileTap=async(x,y,label)=>{const before=await native(),p=await tilePoint(x,y);await tap(p);report.battleActions.push({label,type:'trusted tile touch',x,y,before:before.fight,after:(await native()).fight});};
-  const menu=async(index,label)=>{let probe;for(let i=0;i<10;i++){probe=await evaluate(`(() => {const n=document.querySelector('#hd-battle-menu [data-hd-battle-menu="${index}"]'),l=document.getElementById('hd-battle-menu-list');if(!n||!l)return null;
+  const revealMenu=async index=>{let probe;for(let i=0;i<10;i++){probe=await evaluate(`(() => {const n=document.querySelector('#hd-battle-menu [data-hd-battle-menu="${index}"]'),l=document.getElementById('hd-battle-menu-list');if(!n||!l)return null;
       const r=n.getBoundingClientRect(),a=l.getBoundingClientRect(),top=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return {visible:!n.disabled&&r.top>=a.top&&r.bottom<=a.bottom&&(top===n||n.contains(top)),width:r.width,height:r.height,targetTop:r.top,list:{left:a.left,top:a.top,width:a.width,height:a.height},scrollTop:l.scrollTop};})()`);
       assert.ok(probe,'Current native menu button exists');if(probe.visible)break;assert.ok(probe.list.height>=44,'Menu has a full touch row');
       const before=await native(),r=probe.list,down=probe.targetTop>=r.top,x=r.left+r.width-12,y=r.top+r.height*(down?.8:.2),end=r.height*.6*(down?-1:1);
       await touches('touchStart',[{x,y}]);for(let j=1;j<=5;j++)await touches('touchMove',[{x,y:y+end*j/5}]);await touches('touchEnd');await unchanged(before,'Scroll current native battle menu');}
-    assert.ok(probe.visible&&probe.height>=44&&probe.width>=44,'Current battle menu is visible and at least 44px');
+    assert.ok(probe.visible&&probe.height>=44&&probe.width>=44,'Current battle menu is visible and at least 44px');return probe;};
+  const menu=async(index,label)=>{await revealMenu(index);
     const before=await native();await button(`#hd-battle-menu [data-hd-battle-menu="${index}"]`);report.battleActions.push({label,type:'trusted native-menu touch',index,names:before.menu.names,before:before.fight,after:(await native()).fight});};
   if(report.campaignOnly){
     const {runMobileCampaignChecks}=await import('./hd-mobile-campaign-runtime-checks.mjs');
@@ -116,11 +118,20 @@ export async function runMobileBattleChecks(c) {
     const {runMobileBattleSceneChecks}=await import('./hd-mobile-battle-scene-runtime-checks.mjs');
     return runMobileBattleSceneChecks({...c,native,capture,ready,menu,initial});
   }
+  report.battleHud=[];
+  const recordHud=async(label,options)=>{
+    const sample=await evaluate(battleHudObservation);
+    report.battleHud.push({label,sample});
+    verifyBattleHud(sample,options);
+    return sample;
+  };
+  await recordHud('first original player wait');
   const beforeView=await native();await physicalKey('s',83);
   await until('actual VIEW published',"baye.hd.fight().inputKind===10&&baye.hd.view().active===1");
   await button('#hd-mobile-battle-toggle');
   await until('actual VIEW LCD owner',"baye.hd.fight().inputKind===10&&baye.hd.view().active===1&&BayeHdMobileBattle.refresh().presentation==='lcd'");
   const view=await capture('battle-view-native-LCD');assert.equal(view.keys,beforeView.keys+1);assert.equal((await evaluate('__mobileMapKeys.at(-1)')).code,K.SEARCH);
+  await recordHud('classic native VIEW',{visible:false});
   await tap(await lcdCenter());await until('VIEW retires in classic mode','baye.hd.fight().inputKind===1');
   await button('#hd-mobile-battle-toggle');await ready(1,'VIEW exits by actual LCD tap');const afterView=await native();
   assert.deepEqual(afterView.units,beforeView.units);assert.deepEqual(afterView.food,beforeView.food);assert.equal(afterView.keys,view.keys);
@@ -128,8 +139,9 @@ export async function runMobileBattleChecks(c) {
   for(const size of [[844,390],[667,375]]){await metrics(...size);await ready(1,'battle after viewport change');const before=await native();
     assert.ok(before.mobile.camera.cell>=44);await button('#hd-mobile-battle-mode');await until('actual classic battle',"BayeHdMobileBattle.refresh().presentation==='lcd'");
     const classic=await unchanged(before,'Classic battle presentation');assert.equal(classic.lcd.hit,true);await checkpoint('battle-classic-'+size[0]);
+    await recordHud('classic player wait '+size[0],{visible:false});
     await button('#hd-mobile-battle-toggle');await ready(1,'battle HD restored');await unchanged(before,'HD battle presentation restored');
-    await capture('battle-HD-'+size[0]);}
+    await capture('battle-HD-'+size[0]);await recordHud('HD player wait '+size[0]);}
   const beforeHidden=await native(),held=await buttonPoint('[data-hd-battle-sys]');await touches('touchStart',[{x:held.x,y:held.y}]);
   const other=await sendCdp('Target.createTarget',{url:'about:blank'});
   try{await sendCdp('Target.activateTarget',{targetId:other.targetId});await until('real game tab hidden','document.hidden&&document.visibilityState==="hidden"',10000);
@@ -165,6 +177,7 @@ export async function runMobileBattleChecks(c) {
   await button('#hd-mobile-battle-toggle');
   await until('actual HELP LCD owner',"baye.hd.fight().inputKind===9&&baye.hd.help().active===1&&BayeHdMobileBattle.refresh().presentation==='lcd'");
   const help=await capture('battle-help-native-LCD'),center=await lcdCenter();
+  await recordHud('classic native HELP',{visible:false});
   await touches('touchStart',[center]);await until('HELP retires on actual LCD DOWN','baye.hd.fight().inputKind===3');const downHelp=await native();await touches('touchEnd');
   await button('#hd-mobile-battle-toggle');await ready(3,'HELP release keeps fresh ACTION');const afterHelp=await native();
   assert.deepEqual(afterHelp.units,beforeHelp.units);assert.deepEqual(afterHelp.food,beforeHelp.food);assert.equal(afterHelp.keys,help.keys);
@@ -178,23 +191,58 @@ export async function runMobileBattleChecks(c) {
   assert.equal(rested.fight.bout,initial.fight.bout,'A rest does not end whole player turn');
   await button('[data-hd-battle-sys]');await ready(6,'real SYSTEM');await capture('battle-06-native-system');
   const system=(await native()).menu.names;assert.equal(system.length,5);report.realSystemNames=system;
+  const settingsHud={settings:true,mobileFocus:true};
+  const system667=await recordHud('SYSTEM initial native focus 667',settingsHud);
+  const beforePan=await native(),scrolled=await revealMenu(system.length-1);
+  assert.ok(scrolled.scrollTop>system667.scrollTop,'A trusted swipe exposes the last system row');
+  await unchanged(beforePan,'Reading the current system list retains its manual scroll');
+  assert.equal(await evaluate('document.getElementById("hd-battle-menu-list").scrollTop'),scrolled.scrollTop);
+  report.battleHudManualScroll={before:system667.scrollTop,after:scrolled.scrollTop};
+  await metrics(844,390);await ready(6,'SYSTEM 844');
+  await recordHud('SYSTEM initial native focus 844',settingsHud);await checkpoint('battle-system-844');
+  await metrics(667,375);await ready(6,'SYSTEM 667 restored');
   await menu(1,'Request real retreat confirmation');await ready(7,'native RETREAT');await capture('battle-07-retreat-confirm');
   await button('[data-hd-battle-cancel]');await ready(6,'retreat canceled');assert.equal((await native()).nativeOver,0);
   const beforeSettings=await native();
-  for(const i of [2,3,4]){await menu(i,'Open actual setting '+i);await ready(8,'native SETTINGS');await button('[data-hd-battle-cancel]');await ready(6,'setting canceled');
-    const canceled=await native();assert.deepEqual(canceled.settings,beforeSettings.settings);assert.equal(canceled.nativeOver,0);assert.deepEqual(canceled.units,beforeSettings.units);assert.deepEqual(canceled.food,beforeSettings.food);}
+  report.battleSettingChanges=[];
+  for(const [i,field] of [[2,'movie'],[3,'speed'],[4,'enemy']]){
+    await menu(i,'Open actual setting '+i);await ready(8,'native SETTINGS');
+    const original=await recordHud('original '+field+' selector',settingsHud),previous=beforeSettings.settings[field];
+    assert.equal(original.menu.index,previous);
+    await button('[data-hd-battle-cancel]');await ready(6,'setting canceled');
+    const canceled=await native();assert.deepEqual(canceled.settings,beforeSettings.settings);assert.equal(canceled.nativeOver,0);assert.deepEqual(canceled.units,beforeSettings.units);assert.deepEqual(canceled.food,beforeSettings.food);
+    await menu(i,'Reopen actual setting '+i);await ready(8,'current native setting');
+    await menu(1-previous,'Confirm original '+field+' setting');await ready(6,'changed native setting returns to SYSTEM');
+    const changed=await recordHud('committed '+field+' setting',settingsHud);
+    assert.deepEqual(changed.native.settings,{...beforeSettings.settings,[field]:1-previous});
+    await menu(i,'Reopen the changed '+field+' setting');await ready(8,'updated native setting selector');
+    const updated=await recordHud('changed '+field+' selector',settingsHud);assert.equal(updated.menu.index,1-previous);
+    await menu(previous,'Restore original '+field+' setting');await ready(6,'restored native setting returns to SYSTEM');
+    const restored=await recordHud('restored '+field+' setting',settingsHud);
+    assert.deepEqual(restored.native.settings,beforeSettings.settings);
+    assert.deepEqual((await native()).units,beforeSettings.units);
+    assert.deepEqual((await native()).food,beforeSettings.food);
+    report.battleSettingChanges.push({field,previous,committed:1-previous,restored:previous});
+  }
+  await checkpoint('battle-settings-667-restored');
   const beforeEnd=await native();await menu(0,'Explicit single army end');
   await until('actual AI then next player bout',`(() => {const f=baye.hd.fight();return f.active===1&&!f.over&&f.inputKind===1&&f.bout===${beforeEnd.fight.bout+1}&&BayeHdMobileBattle.refresh().presentation==='hd';})()`,60000);
   const afterEnd=await capture('battle-08-natural-AI-next-player');await unchanged(afterEnd,'New player wait never ends army automatically');
   assert.equal(afterEnd.fight.bout,beforeEnd.fight.bout+1);report.battleTurn={before:beforeEnd,after:afterEnd};
+  assert.ok(afterEnd.food.player<beforeEnd.food.player,'The original next bout consumes player grain');
+  await recordHud('next original player wait 667');
+  await metrics(844,390);await ready(1,'next original player wait 844');await unchanged(afterEnd,'Resizing the next player wait');
+  await recordHud('next original player wait 844');await checkpoint('battle-next-day-844');
+  await metrics(667,375);await ready(1,'next original player wait 667 restored');
   report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
   assert.ok(report.trustedEvents.some(e=>e.trusted&&e.type==='pointerdown'&&e.target==='hd-mobile-battle-canvas'));
   assert.equal(report.exceptions.length,0);report.battleAccepted=true;report.ok=true;report.accepted=true;
   report.acceptedScope=['Fresh original P1 马腾 actual public march into enemy 河内; march remains LCD and not HD accepted',
     'Trusted battle touch at 844x390 and 667x375; current native MOVE, rollback, SKILL list/cancel and single general rest',
-    'Native SYSTEM/RETREAT cancellation and SETTINGS open/cancel, one explicit army end then native AI control flow and exactly one next bout; no AI damage claim',
+    'Native SYSTEM/RETREAT cancellation and all three SETTINGS commits, cancellation and restoration; new native focus visible without overriding a manual pan',
+    'Current original day, weather and player grain at both sizes before and after one explicit army end and the native next bout',
     'Explicit classic-mode HELP/VIEW display and retire through actual native LCD touch; genuine physical SEARCH routes once',
     'Classic and HD restoration zero keys, native masks and >=44px geometry, touchcancel/multiple pointers/held rotation and actual hidden-tab retirement'];
-  report.pendingScope=['Normal attack damage and skill MP/effect','Report/animation LCD interaction and setting changes','Battle completion and strategy return','Android/iOS actual devices and performance','Full mobile HD/march acceptance'];
+  report.pendingScope=['Normal attack damage and skill MP/effect','Report/animation LCD interaction and saved settings','Battle completion and strategy return','Android/iOS actual devices and performance','Full mobile HD/march acceptance'];
   return {native,capture,ready,tileTap,tilePoint,menu,physicalKey,lcdCenter,unchanged,initial,afterEnd};
 }

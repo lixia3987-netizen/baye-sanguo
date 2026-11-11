@@ -20,7 +20,7 @@
         readingEngine: false, samplingFight: false, probed: false,
         units: [], tiles: [], terrain: null, focus: { x: null, y: null },
         mapW: 0, mapH: 0, viewOx: 0, viewOy: 0, viewW: 0, viewH: 0, tileW: 0,
-        menuKind: '', menuTitle: '', menuNames: [], menuIndex: 0,
+        menuKind: '', menuTitle: '', menuNames: [], menuIndex: 0, menuFocusKey: '',
         resultCode: 0, resultText: '', resultDismissed: false,
         fightTip: '', tipDismissed: '', lastRefreshStack: '',
         transaction: null, lastRequest: null, lastCommit: null, sysMenuHooked: false
@@ -698,7 +698,7 @@
         if (settingsNote) { settingsNote.hidden = true; settingsNote.textContent = ''; }
         if (!panel || !list) { return; }
         panel.hidden = !info;
-        if (!info) { return; }
+        if (!info) { state.menuFocusKey = ''; return; }
         try {
             if (info.kind === 'skill' && global.BayeHdSkillHints && typeof BayeHdSkillHints.read === 'function') { hints = BayeHdSkillHints.read(); }
         } catch (e) {}
@@ -742,6 +742,22 @@
                 if (selected && selected.scrollIntoView) { selected.scrollIntoView({block:'nearest',inline:'nearest'}); }
             }
         }
+        return info;
+    }
+    function alignMobileMenuFocus(info) {
+        if (!mobileHost || !info || state.transaction) { return; }
+        var key = [info.kind, info.seq, info.inputSeq, info.index, global.innerWidth, global.innerHeight].join(':');
+        if (state.menuFocusKey === key) { return; }
+        var list = el('hd-battle-menu-list');
+        if (!list || !list.clientHeight) { return; }
+        var item = list.querySelector('.is-on');
+        if (!item) { return; }
+        var viewport = list.getBoundingClientRect(), row = item.getBoundingClientRect();
+        if (!row.height) { return; }
+        // Align the new native focus once; later polls leave manual pans in place.
+        if (row.top < viewport.top || row.height > list.clientHeight) { list.scrollTop += row.top - viewport.top; }
+        else if (row.bottom > viewport.bottom) { list.scrollTop += row.bottom - viewport.bottom; }
+        state.menuFocusKey = key;
     }
     function paintRuntimeBadge() {
         global.HD_BATTLE_VER = HD_BATTLE_VER;
@@ -834,7 +850,9 @@
             var tip = snap.fight && snap.fight.tip ? String(snap.fight.tip) : '';
             if (tip !== state.tipDismissed && tip) { state.fightTip = tip; }
             if (!tip) { state.tipDismissed = ''; }
-            renderFightMenu(); applyChrome(); draw();
+            var menu = renderFightMenu();
+            applyChrome(); draw();
+            alignMobileMenuFocus(menu);
         } catch (e) {
             state.lastRefreshStack = String(e && e.stack || e);
             if (global.console && console.error) { console.error('[hd-battle] render', e); }
@@ -890,7 +908,8 @@
         opts = opts || {};
         if (!opts.force && !state.preview && fightStrictActive()) { return false; }
         invalidateHdWork(); state.open = false; state.preview = false;
-        state.menuKind = ''; state.menuNames = []; applyChrome(); return true;
+        state.menuKind = ''; state.menuNames = []; state.menuFocusKey = '';
+        applyChrome(); return true;
     }
     function prepareNewFight() {
         closeBattle({ force: true, preserveEngine: true });

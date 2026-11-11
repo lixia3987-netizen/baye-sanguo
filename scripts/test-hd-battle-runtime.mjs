@@ -4,6 +4,7 @@
  *   CHROME=/usr/bin/chromium npm run test:battle-runtime -- --staged
  *   npm run test:battle-runtime -- --artifact-dir build/battle-runtime-smoke
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
+ * --status-only checks the original HUD through the first full battle day.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
 import assert from 'node:assert/strict';
@@ -15,16 +16,18 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import {battleHudObservation,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
+const statusOnly = process.argv.includes('--status-only');
 const artifactFlag = process.argv.indexOf('--artifact-dir');
 const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/battle-runtime-smoke'));
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.lib': 'application/octet-stream' };
-const report = { staged, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
+const report = { staged, statusOnly, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [], battleHud: [] };
 const servedAssets = new Map();
 
 function prepareServedAssets() {
@@ -50,7 +53,7 @@ function prepareServedAssets() {
         'assets/hd-overworld/china-lcc-cities.json','assets/hd-overworld/roads/adjacency.json',
         'assets/hd-overworld/palette/factions.json','assets/hd-overworld/terrain/base_plains.jpg',
         'assets/hd-portraits/manifest.json','assets/hd-portraits/refs/index.json','assets/hd-spe/manifest.json',
-        'vendor/iBaye/src/data/pstring.h','scripts/test-hd-battle-runtime.mjs']) {
+        'vendor/iBaye/src/data/pstring.h','scripts/test-hd-battle-runtime.mjs','scripts/hd-battle-hud-runtime-checks.mjs']) {
         const data=fs.readFileSync(path.join(root,name));
         const metadata={source:name,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};
         report.sources[name]=metadata;servedAssets.set(name,{data,metadata});
@@ -337,6 +340,24 @@ const battleStateExpression=`(() => {
     return {fight:baye.hd.fight(),units,weather:Number(d.g_FgtWeather),food:{player:Number(d.g_FgtParam.MProvender),enemy:Number(d.g_FgtParam.EProvender),knownEnemy:Number(d.g_EneTmpProv)}};
 })()`;
 
+async function recordBattleHud(cdp,label,options) {
+    const sample=await evaluate(cdp,battleHudObservation);
+    report.battleHud.push({label,sample});
+    verifyBattleHud(sample,options);
+}
+
+async function recordBattleHudAtDesktopSizes(cdp,label) {
+    const before=await evaluate(cdp,battleStateExpression),keys=await evaluate(cdp,'window.__battleKeys.length');
+    for(const [width,height] of [[1280,720],[1920,1080]]) {
+        await cdp.send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
+        await waitFor(cdp,'current desktop battle viewport',`innerWidth===${width}&&innerHeight===${height}`);
+        await recordBattleHud(cdp,label+' '+height+'p');
+        await checkpoint(cdp,label+'-'+height+'p');
+        assert.deepEqual(await evaluate(cdp,battleStateExpression),before,'The HUD resize preserves original battle state');
+        assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys);
+    }
+}
+
 async function battleSmoke(cdp) {
     await evaluate(cdp, `(() => {
         window.__battleKeys=[];
@@ -350,6 +371,7 @@ async function battleSmoke(cdp) {
     assert.deepEqual(await evaluate(cdp,'window.__battleKeys'),[],'idle HD renderer delivers no engine inputs');
     report.pause={before,after};
     await checkpoint(cdp,'15-battle-idle-no-input');
+    if(statusOnly)await recordBattleHudAtDesktopSizes(cdp,'battle-first-day');
     await terrainSmoke(cdp, before);
     const own=before.units.find(u=>u.side==='player' && u.active===0);
     assert.ok(own,'an actual player general remains available');
@@ -378,6 +400,7 @@ async function battleSmoke(cdp) {
     assert.equal(systemMenu.kind,6);
     report.realSystemNames=systemMenu.names;
     await checkpoint(cdp,'19-battle-system-menu');
+    if(statusOnly)await recordBattleHud(cdp,'current original system menu',{settings:true});
     const modeBefore=await evaluate(cdp,battleStateExpression);
     const modeKeyCount=await evaluate(cdp,'window.__battleKeys.length');
     await evaluate(cdp,"BayeHdBattle.setMode('classic')");
@@ -386,10 +409,12 @@ async function battleSmoke(cdp) {
     assert.deepEqual(await evaluate(cdp,battleStateExpression),modeBefore,'classic mode preserves native menu and units');
     assert.equal(await evaluate(cdp,'window.__battleKeys.length'),modeKeyCount,'switching classic sends no battle key');
     await checkpoint(cdp,'20-battle-classic-system');
+    if(statusOnly)await recordBattleHud(cdp,'classic original system menu',{visible:false});
     await evaluate(cdp,"BayeHdBattle.setMode('hd')");
     await waitFor(cdp,'restored HD native menu','BayeHdBattle.debugSnapshot().menuLive && BayeHdBattle.debugSnapshot().menuClickable');
     await verifyNativeFeedback(cdp,'restored HD SYSTEM menu','inactive');
     await checkpoint(cdp,'21-battle-hd-system-restored');
+    if(statusOnly)await recordBattleHud(cdp,'restored original system menu',{settings:true});
     // Retreat must reach its native confirmation, then cancel without losing.
     await action(cdp,'request-retreat-confirmation',`BayeHdBattle.pickMenuName(${JSON.stringify(systemMenu.names[1])})`);
     await waitBattle(cdp,7,'native retreat confirmation');
@@ -401,6 +426,7 @@ async function battleSmoke(cdp) {
         await action(cdp,'open-system-setting-'+index,`BayeHdBattle.pickMenuName(${JSON.stringify(systemMenu.names[index])})`);
         await waitBattle(cdp,8,'native system setting '+index);
         await checkpoint(cdp,'23-setting-'+index);
+        if(statusOnly)await recordBattleHud(cdp,'original setting '+index,{settings:true});
         await action(cdp,'cancel-system-setting-'+index,'BayeHdBattle.cancel()');
         await waitBattle(cdp,6,'setting canceled');
     }
@@ -408,6 +434,13 @@ async function battleSmoke(cdp) {
     await waitBattle(cdp,1,'system canceled');
     assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'view/help/settings/canceled retreat preserve units');
     await checkpoint(cdp,'24-battle-system-cancel');
+    if(statusOnly) {
+        await endArmyTurn(cdp);
+        const {before,after}=report.turns[0];
+        assert.ok(after.food.player<before.food.player,'The original next bout consumes player grain');
+        await recordBattleHudAtDesktopSizes(cdp,'battle-next-day');
+        return;
+    }
     await manualCombat(cdp);
     await knownEnemyViewSmoke(cdp);
     await terrainGallery(cdp);

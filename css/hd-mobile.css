@@ -733,12 +733,7 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
 .hd-mobile-page #hd-mobile-battle-side:has(> #hd-battle-menu:not([hidden])) > #hd-mobile-battle-details {
     display: none;
 }
-.hd-mobile-page #hd-battle-menu-title {
-    flex: 0 0 auto;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 20px;
-}
+.hd-mobile-page #hd-battle-menu-title { display: none; }
 .hd-mobile-page #hd-battle-menu-list {
     display: flex;
     flex-direction: column;
