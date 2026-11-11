@@ -192,14 +192,16 @@ function mobileFixture(options) {
     env.BayeHdLibIdentity={read:()=>identity,isCurrent:value=>value===identity,subscribe(fn){env.identityChanged=fn;}};
     env.getComputedStyle=()=>({display:'block',visibility:'visible',opacity:'1'});
     env.document.elementFromPoint=()=>top;back.parentElement=root;
-    const host={available:()=>available,readNative(){const receipt={native:{...h.native},data:env.baye.data,
+    const locations=[];
+    const host={available:()=>available,locateAfterReturn(index,native,generation){locations.push({index,native,generation});},
+        readNative(){const receipt={native:{...h.native},data:env.baye.data,
         key:'raw-owner-'+h.native.seq,libraryGeneration:identity.generation};if(receiptHook)receiptHook(receipt);return receipt;}};
     h.api.attachMobileHost(host);
     function event(options={}) {return {target:back,isTrusted:true,isPrimary:true,button:0,pointerId:1,
         clientX:50,clientY:50,detail:1,preventDefault(){},stopPropagation(){},...options};}
     function fire(type,options={}) {const e=event(options);h.listeners['document:'+type]?.(e);
         if(type==='pointerdown'||type==='click')root.handlers[type]?.(e);return e;}
-    return Object.assign(h,{raw,blockers,writes,host,mirror,event,fire,
+    return Object.assign(h,{raw,blockers,writes,locations,host,mirror,event,fire,
         down(options){fire('pointerdown',options);},up(options){fire('pointerup',options);},click(options){fire('click',options);},
         tap(){fire('pointerdown');fire('pointerup');fire('click');},available(value){available=value;},
         identity(){return identity;},setIdentity(value){identity=value;},setReceiptHook(fn){receiptHook=fn;},setTop(value){top=value;}});
@@ -230,6 +232,40 @@ test('mobile Return needs trusted DOWN, matching UP and one matching click, neve
     h.click();assert.deepEqual(h.keys,[]);h.down();assert.deepEqual(h.keys,[]);h.up();assert.deepEqual(h.keys,[]);
     h.click();h.click();h.tap();h.key(27,true);assert.deepEqual(h.keys,[40]);assert.equal(h.api.debugSnapshot().committed,true);
     h.native.active=0;h.mirror();h.api.poll();assert.equal(h.api.isOpen(),false);assert.deepEqual(h.writes,[]);
+});
+test('a filtered city location requires a complete gesture on the current row',()=>{
+    const h=categorizedOverview(true),input=h.elements.get('hd-mini-map-search'),list=h.elements.get('hd-mini-map-cities');
+    h.filter('neutral');h.localEvent('focus',input);h.search('city17');
+    assert.deepEqual(h.cityIds(),[17]);
+    const target=list.children[0].children[0];
+    assert.equal(target.tagName,'BUTTON');assert.equal(target.getAttribute('aria-label'),'定位city17（他方）');
+    h.setTop(target);
+    h.click({target});h.down({target});h.listeners['document:scroll']();h.up({target});h.click({target});
+    assert.deepEqual(h.keys,[]);assert.deepEqual(h.locations,[]);
+    h.down({target});h.search('city18');h.up({target});h.click({target});
+    assert.deepEqual(h.keys,[]);assert.deepEqual(h.locations,[]);
+    const current=list.children[0].children[0];
+    h.setTop(current);h.down({target:current});h.up({target:current});h.click({target:current});
+    h.click({target:current});h.tap();
+    assert.deepEqual(h.keys,[40]);assert.equal(h.locations.length,1);
+    assert.equal(h.locations[0].index,18);assert.equal(h.locations[0].native.seq,h.native.seq);
+    assert.equal(h.locations[0].native._mobileData,h.context.baye.data);
+    assert.equal(h.locations[0].generation,h.data.generation);assert.deepEqual(h.writes,[]);
+});
+test('city location accepts Enter and Space from the same focused row through key release',()=>{
+    for(const keyCode of [13,32]) {
+        const h=mobileFixture(),target=h.elements.get('hd-mini-map-cities').children[17].children[0];
+        h.setTop(target);h.localEvent('focus',target);
+        h.localEvent('keydown',target,{keyCode});h.localEvent('focusout',target);
+        h.localEvent('keyup',target,{keyCode});
+        h.localEvent('keydown',target,{keyCode,isTrusted:false});h.localEvent('keyup',target,{keyCode});
+        assert.deepEqual(h.keys,[]);assert.deepEqual(h.locations,[]);
+        assert.equal(h.localEvent('keydown',target,{keyCode}).consumed,true);
+        h.localEvent('keydown',target,{keyCode,repeat:true});
+        assert.deepEqual(h.keys,[]);
+        assert.equal(h.localEvent('keyup',target,{keyCode}).consumed,true);
+        assert.deepEqual(h.keys,[40]);assert.equal(h.locations[0].index,17);assert.deepEqual(h.writes,[]);
+    }
 });
 test('mobile touch Return keeps its completed UP grant through implicit capture release before click',()=>{
     const h=mobileFixture(),native=JSON.stringify(h.native);

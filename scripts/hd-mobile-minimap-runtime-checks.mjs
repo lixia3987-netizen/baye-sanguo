@@ -25,9 +25,10 @@ function overviewProbe() {
   };
   const list=document.getElementById('hd-mini-map-cities'),canvas=document.getElementById('hd-mini-map-canvas');
   const rows=list?[...list.querySelectorAll('[data-hd-mini-city]')].map(n=>{
-    const name=n.querySelector('span:not(.hd-mini-map-dot)'),label=n.querySelector('small');
+    const name=n.querySelector('span:not(.hd-mini-map-dot)'),label=n.querySelector('small'),button=n.querySelector('button');
     return {index:Number(n.getAttribute('data-hd-mini-city')),name:name&&name.textContent,label:label&&label.textContent,
-      rect:rect(n),nameVisible:visible(name),labelVisible:visible(label)};
+      rect:rect(n),nameVisible:visible(name),labelVisible:visible(label),button:rect(button),
+      action:button&&button.getAttribute('aria-label')};
   }):[];
   return {native,ui,viewport:[innerWidth,innerHeight],cursor:{x:Number(d.g_CityPos.setx),y:Number(d.g_CityPos.sety),viewX:Number(d.g_CityPos.x),viewY:Number(d.g_CityPos.y)},
     mapCity:Number(d.g_hdMapCity),mapPick:Number(d.g_hdMapPick),mapInputSeq:Number(d.g_hdMapInputSeq),
@@ -69,6 +70,13 @@ function listPanProbe() {
   return {clip,height,from,to,hit:top===n||!!top&&n.contains(top),scrollTop:n.scrollTop,scrollHeight:n.scrollHeight,clientHeight:n.clientHeight};
 }
 
+function clampedCenter(city, design, camera) {
+  return {
+    x:Math.min(camera.maxX,Math.max(camera.minX,city.x-design[0]/(2*camera.scale))),
+    y:Math.min(camera.maxY,Math.max(camera.minY,city.y-design[1]/(2*camera.scale)))
+  };
+}
+
 export async function runMobileMinimapChecks(context) {
   const {report,evaluate,until,delay,checkpoint,ready,controlPoint,tap,touches,readKeys,worldSame,mapReadySource,metrics,headerGeometry,mark,sendCdp}=context;
   for(const name of ['evaluate','until','delay','checkpoint','ready','controlPoint','tap','touches','readKeys','worldSame','metrics','headerGeometry','mark'])assert.equal(typeof context[name],'function','Missing minimap context '+name);
@@ -76,8 +84,8 @@ export async function runMobileMinimapChecks(context) {
   const viewport=await evaluate('[innerWidth,innerHeight]');
   assert.ok(viewport[0]===844&&viewport[1]===390||viewport[0]===667&&viewport[1]===375,'Dedicated original mobile landscape case');
   const label='minimap-'+viewport.join('x');
-  const entry={label,viewport,rounds:[],negativeChecks:[],scrollChecks:[],accepted:false,fullHdAccepted:false,realDeviceAccepted:false,
-    scope:'Current original 38-city SEARCH overview: trusted open/return, native city names/allegiance, actual drawing/visibility and readonly touch scrolling; no city-entry or month advancement'};
+  const entry={label,viewport,rounds:[],negativeChecks:[],scrollChecks:[],locations:[],accepted:false,fullHdAccepted:false,realDeviceAccepted:false,
+    scope:'Current original 38-city SEARCH overview: trusted open/return, native city names/allegiance, drawing, scrolling, and presentation-only city location'};
   report.minimapChecks??=[];report.minimapChecks.push(entry);
   const codes=async before=>(await readKeys(before.state.keyCount)).map(k=>typeof k==='number'?k:k.code);
   const sample=async()=>({...await mark(),overview:await evaluate(browser(overviewProbe))});
@@ -88,6 +96,8 @@ export async function runMobileMinimapChecks(context) {
   };
   const point=async selector=>{const p=await controlPoint(selector);assert.ok(p.width>=43.5&&p.height>=43.5,'Minimap control >=44 CSS pixels '+selector);
     assert.ok(p.x>=0&&p.x<viewport[0]&&p.y>=0&&p.y<viewport[1],'Current control is inside landscape viewport');return p;};
+  const key=async (name,keyCode)=>{for(const type of ['rawKeyDown','keyUp'])await sendCdp('Input.dispatchKeyEvent',{
+    type,key:name,code:name,windowsVirtualKeyCode:keyCode,nativeVirtualKeyCode:keyCode});};
   const expectedKind=(belong,king)=>belong===0?'empty':belong===king+1?'owned':'neutral';
   const expectedLabel=kind=>kind==='owned'?'我方':kind==='empty'?'空城':'他方';
   const checkRows=(capture,facts)=>{
@@ -96,6 +106,8 @@ export async function runMobileMinimapChecks(context) {
     assert.deepEqual(capture.ui.cities.map(c=>c.index),Array.from({length:38},(_,i)=>i));
     for(const actual of facts.cities){const row=capture.rows[actual.index],ui=capture.ui.cities[actual.index],kind=expectedKind(actual.belong,facts.king);
       assert.equal(row.name,actual.name);assert.equal(row.label,expectedLabel(kind));assert.equal(ui.name,actual.name);assert.equal(ui.belong,actual.belong);assert.equal(ui.kind,kind);
+      assert.equal(row.action,'定位'+actual.name+'（'+expectedLabel(kind)+'）');
+      assert.ok(row.button.width>=44&&row.button.height>=44);
       assert.equal(ui.engineX,actual.engineX);assert.equal(ui.engineY,actual.engineY);}
   };
   const opened=async()=>{await until('current complete mobile native SEARCH overview',
@@ -116,14 +128,14 @@ export async function runMobileMinimapChecks(context) {
   for(const actual of facts.cities){const map=facts.mapCities.find(c=>c.index===actual.index);assert.ok(map);assert.equal(map.name,actual.name);assert.equal(map.belong,actual.belong);assert.equal(map.kind,expectedKind(actual.belong,facts.king));
     assert.equal(map.source,'engine');assert.equal(map.engineX,actual.engineX);assert.equal(map.engineY,actual.engineY);}
   entry.originalCities=facts;
-  for(let round=0;round<2;round++){
+  for(let round=0;round<3;round++){
     await until('ordinary MAP before genuine overview open '+round,mapReadySource);
     assert.equal(await evaluate('baye.hd.miniMap().active'),0,'No residual native overview before open');
     const before=await mark(),openPoint=await point('#hd-mobile-map-overview');await tap(openPoint);
     const start=await opened();assert.deepEqual(await codes(before),[51],'One genuine SEARCH opens current MAP overview');
     worldSame(before,start,'Opening readonly SEARCH');assert.deepEqual(start.native.cursor,before.native.cursor,'SEARCH does not move native cursor');
     assert.equal(start.state.touchCount,before.state.touchCount,'Opening overview uses no native LCD touch');
-    if(round)assert.notEqual(start.overview.native.seq,entry.rounds[0].opened.overview.native.seq,'Reopening gets a fresh native sequence');
+    if(round)assert.notEqual(start.overview.native.seq,entry.rounds.at(-1).opened.overview.native.seq,'Reopening gets a fresh native sequence');
     checkRows(start.overview,facts);const bitmap=await evaluate(browser(canvasProbe));
     assert.ok(bitmap.width>0&&bitmap.height>0&&bitmap.differentPixels>1000&&bitmap.opaquePixels>1000,'Actual minimap canvas is drawn beyond a flat fill');
     if(round===0){
@@ -144,15 +156,12 @@ export async function runMobileMinimapChecks(context) {
       await until('Focused city search',"document.activeElement.id==='hd-mini-map-search'");
       await sendCdp('Input.insertText',{text:owned.name});checks.push(await selection('all',owned.name));
       await sendCdp('Input.insertText',{text:'无匹配'});checks.push(await selection('all',owned.name+'无匹配'));
-      for(const char of owned.name+'无匹配'){
-        for(const type of ['rawKeyDown','keyUp'])await sendCdp('Input.dispatchKeyEvent',{
-          type,key:'Backspace',code:'Backspace',windowsVirtualKeyCode:8,nativeVirtualKeyCode:8});
-      }
+      for(const char of owned.name+'无匹配')await key('Backspace',8);
       checks.push(await selection('all',''));
       entry.filterChecks=checks;await checkpoint(label+'-readonly-search');
     }
     const seen=new Set(),scrolls=[];let current=start;
-    for(let pass=0;pass<48;pass++){
+    for(let pass=0;round<2&&pass<48;pass++){
       checkRows(current.overview,facts);for(const row of current.overview.rows)if(row.nameVisible&&row.labelVisible)seen.add(row.index);
       if(seen.size===38)break;
       const gesture=await evaluate(browser(listPanProbe));assert.ok(gesture&&gesture.hit&&gesture.height>=50,'Real list viewport supports trusted pan');
@@ -162,9 +171,11 @@ export async function runMobileMinimapChecks(context) {
       const evidence={round,pass,before:old,after:current,gesture};entry.scrollChecks.push(evidence);scrolls.push(evidence);
       unchanged(old,current,'Trusted readonly city-list pan');assert.ok(current.overview.list.scrollTop>old.overview.list.scrollTop,'Trusted pan advances actual list scroll');
     }
-    assert.equal(seen.size,38,'Every original city name and allegiance was visible and hit-tested after genuine touch pans');
-    assert.ok(current.overview.rows[37].nameVisible&&current.overview.rows[37].labelVisible,'Last actual city row is visible');
-    await checkpoint(label+'-round-'+(round+1)+'-38-cities');
+    if(round<2){
+      assert.equal(seen.size,38,'Every original city name and allegiance was visible and hit-tested after genuine touch pans');
+      assert.ok(current.overview.rows[37].nameVisible&&current.overview.rows[37].labelVisible,'Last actual city row is visible');
+      await checkpoint(label+'-round-'+(round+1)+'-38-cities');
+    }
     if(round===0){
       for(const type of ['touchcancel','multitouch','held-rotation']){
         const old=await sample(),p=await point('#hd-mini-map-return');
@@ -177,16 +188,61 @@ export async function runMobileMinimapChecks(context) {
         assert.equal(after.overview.ui.open,true,'Cancelled return cannot dismiss current native overlay');entry.negativeChecks.push({type,before:old,after,point:p});
       }
     }
-    const closing=await sample(),returnPoint=await point('#hd-mini-map-return');await tap(returnPoint);
+    let location=null,returnPoint;
+    if(round){
+      const {camera,map}=current.state,all=start.overview.ui.cities;
+      const city=all.find(city=>{
+        const dest=clampedCenter(city,map.design,camera);
+        return city.index+1!==start.overview.mapCity&&Math.hypot(dest.x-camera.x,dest.y-camera.y)>150&&
+          all.filter(other=>other.name.includes(city.name)).length===1;
+      });
+      assert.ok(city,'A uniquely searchable city would noticeably move the current camera');
+      await tap(await point('#hd-mini-map-search'));
+      await until('Focused location search',"document.activeElement.id==='hd-mini-map-search'");
+      await sendCdp('Input.insertText',{text:city.name});
+      const selector='[data-hd-mini-city="'+city.index+'"] button';
+      await until('Single matching city location',`(() => {const s=BayeHdMiniMap.debugSnapshot();
+        return s.query===${JSON.stringify(city.name)}&&s.matchingCities===1;})()`);
+      const filtered=await sample();unchanged(start,filtered,'Search before selecting a city');
+      assert.deepEqual(filtered.overview.rows.map(row=>row.index),[city.index]);
+      returnPoint=await point(selector);
+      location={city,method:round===1?'touch':'keyboard'};
+      if(round===1){
+        await evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);
+        await touches('touchStart',[returnPoint]);await touches('touchCancel');
+        unchanged(filtered,await sample(),'Synthetic and cancelled city gestures');
+      }else{
+        for(let i=0;i<5;i++)await key('Tab',9);
+        await until('Tab reaches the filtered city button',`document.activeElement.matches(${JSON.stringify(selector)})`);
+      }
+      await checkpoint(label+'-city-location-'+location.method);
+    }else{
+      returnPoint=await point('#hd-mini-map-return');
+    }
+    const closing=await sample();
+    if(location?.method==='keyboard')await key('Enter',13);
+    else await tap(returnPoint);
     await until('single EXIT retires native overview and restores ordinary MAP',
       'baye.hd.miniMap().active===0&&!BayeHdMiniMap.debugSnapshot().open');await until('HD MAP/HUD restored after SEARCH',mapReadySource);
+    if(location){
+      location.camera=await until('Camera reaches the chosen city on the restored HD map',`(() => {
+        const map=BayeHdOverworld, camera=map.getCamera(), dest=(${clampedCenter.toString()})(${JSON.stringify(location.city)},map.debugSnapshot().design,camera);
+        if(Math.hypot(camera.x-dest.x,camera.y-dest.y)>.01)return null;
+        const city=map.cityScreenPos(${location.city.index}), canvas=document.getElementById('hd-overworld-canvas');
+        return city && document.elementFromPoint(city.clientX,city.clientY)===canvas && {x:camera.x,y:camera.y,dest};
+      })()`);
+      assert.ok(Math.hypot(location.camera.x-closing.state.camera.x,location.camera.y-closing.state.camera.y)>150);
+      entry.locations.push(location);
+    }
     const returned=await sample();assert.deepEqual(await codes(closing),[40],'One trusted current-return EXIT only');worldSame(before,returned,'SEARCH return');
-    assert.deepEqual(returned.native.cursor,before.native.cursor);assert.deepEqual(returned.overview.cursor,start.overview.cursor);
+    assert.deepEqual(returned.native,before.native);assert.deepEqual(returned.overview.cursor,start.overview.cursor);
+    assert.equal(returned.overview.mapInputSeq,start.overview.mapInputSeq);
+    assert.equal(returned.state.map.selectedIndex,before.state.map.selectedIndex);
     assert.equal(returned.state.touchCount,before.state.touchCount);assert.equal(returned.state.hud.visible,true);
     assert.ok(returned.state.expected);for(const [k,v] of Object.entries(returned.state.expected))assert.equal(returned.state.hud[k],v,'Returned HUD equals current native '+k);
-    entry.rounds.push({round:round+1,before,opened:start,openPoint,bitmap,visibleCities:[...seen].sort((a,b)=>a-b),scrolls,closing,returnPoint,returned,keys:[51,40]});
+    entry.rounds.push({round:round+1,before,opened:start,openPoint,bitmap,visibleCities:[...seen].sort((a,b)=>a-b),scrolls,closing,returnPoint,returned,keys:[51,40],location});
     await checkpoint(label+'-round-'+(round+1)+'-returned-map');
   }
-  assert.equal(entry.rounds.length,2);assert.equal(entry.negativeChecks.length,3);entry.accepted=true;
+  assert.equal(entry.rounds.length,3);assert.equal(entry.negativeChecks.length,3);assert.equal(entry.locations.length,2);entry.accepted=true;
   return entry;
 }

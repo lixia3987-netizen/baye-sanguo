@@ -35,18 +35,19 @@ function fixture() {
         g_hdMenuContext:1,g_hdMenuKind:1,g_hdMenuSeq:12,g_hdMenuCount:4,g_hdMenuIndex:0,
         g_hdReportSeq:3,g_hdReportInputSeq:6,g_hdQtySession:4,g_hdQtyInputSeq:2,
         g_hdFightInputSeq:20,g_hdHelpInputSeq:3,g_hdRecordSeq:2,g_hdMiniMapActive:0,
-        g_hdTransferProtocolVersion:1,g_hdTransferActive:0,g_CityPos:{setx:40,sety:28}};
+        g_hdTransferProtocolVersion:1,g_hdTransferActive:0,g_CityPos:{x:3,y:5,setx:40,sety:28}};
     for(const field of blockers)data['g_hd'+field]=0;
     const native={protocolVersion:1,active:1,complete:1,custom:0,defaultDraw:1,seq:9,generation:4,
         detailGeneration:4,mapInputSeq:8,resourceId:75,imageIndex:0,width:84,height:64,mask:0,
         cursorX:40,cursorY:28,viewX:3,viewY:5,viewWidth:10,viewHeight:7,city1:17};
     const sharedState={mode:'hd-map',presentationReady:true,phase:'map'};
     const miniState={open:false,complete:false,owner:'overview-current',showLcd:false};
-    const counts={keys:[],poll:0,start:0,attach:0};
+    const overview={generation:2}, counts={keys:[],centers:[],poll:0,start:0,attach:0};
     const environment={document,innerWidth:844,innerHeight:390,
         BayeHdLibIdentity:{read:()=>identity,isCurrent:i=>i.status===identity.status&&i.generation===identity.generation&&
             i.sha256===identity.sha256&&i.byteLength===identity.byteLength,subscribe(fn){subscribers.push(fn);}},
-        BayeHdOverworld:{getMode:()=>sharedState.mode,debugSnapshot:()=>({...sharedState})},
+        BayeHdOverworld:{getMode:()=>sharedState.mode,debugSnapshot:()=>({...sharedState}),
+            overviewData:()=>overview,centerOnCity:index=>counts.centers.push(index)},
         BayeHdMiniMap:{attachMobileHost(host){counts.attach++;counts.host=host;},start(){counts.start++;},
             poll(){counts.poll++;},debugSnapshot:()=>({...miniState})},
         baye:{data,ensureData:()=>environment.baye.data,hd:{ready:()=>ready,miniMap(){
@@ -64,8 +65,15 @@ function fixture() {
             g_hdMiniMapViewX:3,g_hdMiniMapViewY:5,g_hdMiniMapViewWidth:10,g_hdMiniMapViewHeight:7,g_hdMiniMapCity1:17});
         miniState.open=true;miniState.complete=true;
     }
+    function retire() {
+        data.g_hdMiniMapActive=0;data.g_hdMiniMapSeq++;
+        native.active=0;miniState.open=false;
+    }
+    function locate(index) {
+        counts.host.locateAfterReturn(index,{...native,_mobileData:data,_libraryGeneration:identity.generation},overview.generation);
+    }
     function notify(store,name,event={}) { for(const fn of store.get(name)||[])fn(event); }
-    return {controller,environment,document,button,outside,data,native,sharedState,miniState,counts,timers,publish,
+    return {controller,environment,document,button,outside,data,native,sharedState,miniState,counts,timers,publish,retire,locate,overview,
         ready(value){ready=value;},identity(value){identity={...identity,...value};},
         getter(fn){getterHook=fn;},top(value){top=value;},
         boundary(name){notify(windowEvents,name);},viewportResize(){notify(viewportEvents,'resize');},
@@ -127,6 +135,29 @@ test('real MiniMap publication produces a frozen opaque receipt and cannot reope
     assert.equal(Object.isFrozen(receipt.native),true);assert.equal(receipt.native.width,84);assert.equal(receipt.native.height,64);
     const s=f.controller.refresh();assert.equal(s.active,true);assert.equal(s.openEnabled,false);assert.equal(s.owner,'overview-current');
     assert.equal(f.document.body.classList.contains('hd-mobile-minimap-on'),true);f.tap();f.key();assert.deepEqual(f.counts.keys,[51]);
+});
+test('city location moves the camera once when the exact SEARCH owner returns to MAP',()=>{
+    const f=fixture();f.controller.init();f.publish();f.locate(17);
+    f.controller.refresh();assert.deepEqual(f.counts.centers,[]);
+    f.retire();const before=JSON.stringify(f.data);
+    assert.equal(f.controller.refresh().openEnabled,true);
+    f.controller.refresh();assert.deepEqual(f.counts.centers,[17]);
+    assert.equal(JSON.stringify(f.data),before);noSearch(f);
+});
+test('a pending camera location cannot outlive a changed world, camera source or native wait',()=>{
+    const changes={
+        data:f=>{f.environment.baye.data={...f.data};},library:f=>f.identity({generation:4}),
+        mapInput:f=>f.data.g_hdMapInputSeq++,overview:f=>f.data.g_hdMiniMapSeq++,
+        cursor:f=>f.data.g_CityPos.setx++,view:f=>f.data.g_CityPos.x++,
+        assets:f=>f.overview.generation++,report:f=>f.data.g_hdReportActive=1,
+        rotation:f=>f.boundary('orientationchange'),visibility:f=>f.hidden(true),
+        newGesture:f=>f.outside.fire('pointerdown')
+    };
+    for(const [reason,change] of Object.entries(changes)){
+        const f=fixture();f.controller.init();f.publish();f.locate(17);f.retire();
+        change(f);f.controller.refresh();
+        assert.deepEqual(f.counts.centers,[],reason);noSearch(f);
+    }
 });
 test('stale shared overlay and explicit LCD presentation never authorize visible mobile HD',()=>{
     const f=fixture();f.miniState.open=true;f.miniState.complete=true;assert.equal(f.controller.refresh().active,false);
