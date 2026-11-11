@@ -16,6 +16,11 @@ export const battleHudObservation = `(() => {
             fits:visible&&r.width>0&&r.height>0&&r.left>=clip.left-.5&&r.right<=clip.right+.5&&r.top>=clip.top-.5&&r.bottom<=clip.bottom+.5};
     };
     const status=element('hd-battle-context'),list=element('hd-battle-menu-list'),row=list.querySelector('.is-on');
+    const settingRows=Array.from(list.querySelectorAll('[data-hd-battle-setting-value]'),n=>{
+        const button=n.parentElement,b=button.getBoundingClientRect(),r=n.getBoundingClientRect();
+        return {index:Number(button.dataset.hdBattleMenu),name:n.previousElementSibling.textContent,value:n.textContent,
+            fitsRow:r.width>0&&r.height>0&&r.left>=b.left&&r.right<=b.right&&r.top>=b.top&&r.bottom<=b.bottom};
+    });
     return {viewport:{width:innerWidth,height:innerHeight},fight:f,menu:m,
         native:{mode:d.g_FgtParam.Mode,cityIndex:d.g_FgtParam.CityIndex,
             cityName:f.active===1&&f.over===0?baye.getCityName(d.g_FgtParam.CityIndex):null,
@@ -23,7 +28,7 @@ export const battleHudObservation = `(() => {
             settings:{movie:d.g_LookMovie,speed:d.g_MoveSpeed,enemy:d.g_LookEnemy}},
         status:{...measure(status),fields:[...status.children].map(n=>({field:n.dataset.hdBattleStat,...measure(n)}))},
         focus:row&&{index:Number(row.dataset.hdBattleMenu),...measure(row)},scrollTop:list.scrollTop,
-        settings:measure(element('hd-battle-settings-note')),guidance:measure(element('hd-battle-hud')),
+        settings:measure(element('hd-battle-settings-note')),settingRows,guidance:measure(element('hd-battle-hud')),
         menuTitle:measure(element('hd-battle-menu-title'))};
 })()`;
 
@@ -54,9 +59,19 @@ export function verifyBattleHud(sample, {visible = true, settings = false, mobil
         const {movie, speed, enemy} = native.settings;
         assert.ok([movie, speed, enemy].every(value => value === 0 || value === 1));
         const look = ['不看', '观看'];
-        assert.equal(sample.settings.text,
-            `当前设置：动画 ${look[movie]} · 移速 ${['快速', '慢速'][speed]} · 敌军移动 ${look[enemy]}`);
-        assert.ok(sample.settings.fits, 'The current original settings are readable');
+        const speedLabel = ['快速', '慢速'][speed];
+        if (fight.inputKind === 6) {
+            assert.equal(sample.settings.visible, false);
+            assert.deepEqual(sample.settingRows, [
+                {index:2,name:'战斗动画',value:look[movie],fitsRow:true},
+                {index:3,name:'移动速度',value:speedLabel,fitsRow:true},
+                {index:4,name:'敌军移动',value:look[enemy],fitsRow:true}
+            ]);
+        } else {
+            assert.deepEqual(sample.settingRows, []);
+            assert.equal(sample.settings.text, `当前设置：动画 ${look[movie]} · 移速 ${speedLabel} · 敌军移动 ${look[enemy]}`);
+            assert.ok(sample.settings.fits, 'The current original settings are readable');
+        }
     }
     if (mobileFocus) {
         assert.equal(sample.focus?.index, sample.menu.index);

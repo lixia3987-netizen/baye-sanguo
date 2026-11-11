@@ -23,7 +23,7 @@ export async function runMobileBattleChecks(c) {
   // overview scenario separately captures the expanded world after bootstrap.
   const bootstrapWorldSource=c.battleBootstrapWorldSource || worldSource;
   const K={UP:34,DOWN:35,LEFT:36,RIGHT:37,ENTER:39,EXIT:40,HELP:38,SEARCH:51};
-  report.battleChecks=[];report.battleActions=[];report.battleBootstrap={type:'Fresh P1 马腾, real LCD public keys for march; not HD march acceptance'};
+  report.battleChecks=[];report.battleActions=[];
   const native=()=>evaluate(battleObservation);
   const physicalKey=async(key,code)=>{report.inputs.push({type:'trusted CDP physical key',key,code});
     await sendCdp('Input.dispatchKeyEvent',{type:'keyDown',key,code:key.length===1?'Key'+key.toUpperCase():key,windowsVirtualKeyCode:code,nativeVirtualKeyCode:code});
@@ -41,52 +41,82 @@ export async function runMobileBattleChecks(c) {
     for(let i=m.index;i<index;i++){await key(K.DOWN,label+' next native row');await until('native row ACK',`baye.hd.menuItems().index===${i+1}`);}
     for(let i=m.index;i>index;i--){await key(K.UP,label+' previous native row');await until('native row ACK',`baye.hd.menuItems().index===${i-1}`);}
     await key(K.ENTER,label+' explicit native confirm');};
-  // City entry remains a trusted HD touch; the incomplete march wizard uses the actual LCD.
-  const city=report.initialAllCities.find(v=>v.index===8);assert.ok(city&&city.kind==='owned'&&city.name==='天水');
-  await tap(await cityPoint(city));await until('actual owned city root','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===1&&baye.hd.menuItems().kind===1');
-  // The map-only system shortcut must retire before measuring the city toggle.
-  // Otherwise its removal shifts the adjacent map button under the touch.
-  await until('HD city root and settled header before switching menus',
-    "BayeHdMobileCity.isActive()&&BayeHdCityMenu.isOpen()&&document.getElementById('hd-mobile-system-open').hidden");
-  await button('#hd-mobile-menu-mode');
-  await until('real classic city LCD', `BayeHdCityMenu.getMode()==='classic'&&
-    (document.body.getAttribute('data-hd-mobile-lcd')==='passthrough'||document.body.getAttribute('data-hd-mobile-lcd')==='on')`,5000);
-  assert.equal(await evaluate('BayeHdOverworld.getMode()'),'hd-map','Switching city menus preserves the HD map and automatic HD battle preference');
-  await publicMenu(2,'军备');await until('actual military list','baye.hd.menuItems().active===1&&baye.hd.menuItems().names.includes("出征")');
-  await publicMenu(await evaluate('baye.hd.menuItems().names.indexOf("出征")'),'出征');
-  await until('real original march persons','baye.hd.march().phase===1&&baye.hd.march().origin===8');
-  report.battleBootstrap.before=await evaluate(bootstrapWorldSource);
-  report.battleBootstrap.selectedPersonIds=[];
-  for(let i=0;i<8;i++){const m=await evaluate('baye.hd.march()');if(m.phase!==1)break;
-    const people=await evaluate('baye.hd.menuItems()');assert.ok(people.active===1&&people.kind===3&&people.idsValid&&people.ids.length>0,'Actual march person owner');
-    report.battleBootstrap.selectedPersonIds.push(people.ids[0]);
-    const selected=m.selected;await publicMenu(0,'Select genuine resident');await until('actual selected count','baye.hd.march().selected>'+selected+'||baye.hd.march().phase!==1');}
-  if(await evaluate('baye.hd.march().phase===1'))await key(K.EXIT,'Finish real selected army');
-  await until('real GetFood','baye.hd.march().phase===2&&baye.hd.qty().active===1');
-  report.battleBootstrap.food=await evaluate('baye.hd.qty()');
-  // Original GetFood starts with the current maximum; assert rather than alter native data.
-  assert.ok(report.battleBootstrap.food.value>=100,'The genuine selected grain supports multiple battle turns');
-  assert.equal(report.battleBootstrap.food.max,report.battleBootstrap.before.cities[8].Food,'GetFood maximum is actual original city grain');
-  assert.equal(report.battleBootstrap.food.value,report.battleBootstrap.food.max,'Original native initial GetFood value');
-  await key(K.ENTER,'Confirm real GetFood');await until('native target instruction','baye.hd.march().phase===3');
-  await key(K.ENTER,'Acknowledge original target instruction');await until('native destination picker','baye.hd.march().phase===4&&baye.hd.march().battlePick===1');
-  const target=report.initialAllCities.find(v=>v.index===9);assert.ok(target&&target.kind!=='owned');
-  report.battleBootstrap.target=target;
-  for(let i=0;i<100;i++){const p=await evaluate('({x:Number(baye.data.g_CityPos.setx),y:Number(baye.data.g_CityPos.sety)})');
-    if(p.x===target.engX&&p.y===target.engY)break;const axis=p.x!==target.engX?'x':'y',n=p[axis],dest=axis==='x'?target.engX:target.engY;
-    await key(axis==='x'?(n<dest?K.RIGHT:K.LEFT):(n<dest?K.DOWN:K.UP),'Move actual original destination cursor');
-    await until('native destination cursor ACK',`Number(baye.data.g_CityPos.set${axis})!==${n}`);}
-  const selectedCity=await evaluate('Number(baye.data.g_hdMapCity)-1');assert.equal(selectedCity,9,'Actual city under original cursor');
-  await key(K.ENTER,'Confirm original enemy destination');await until('real departure report','baye.hd.march().phase===6');
-  await key(K.ENTER,'Acknowledge genuine departure report');await until('actual march order','baye.hd.march().phase===7&&baye.hd.march().ok===1');
-  report.battleBootstrap.after=await evaluate(bootstrapWorldSource);
-  report.battleMarchVerdict=verifyMobileBattleMarch({before:report.battleBootstrap.before,after:report.battleBootstrap.after,
-    qty:report.battleBootstrap.food,libBytes:originalLibBytes,selectedPersonIds:report.battleBootstrap.selectedPersonIds});
-  for(let i=0;i<5;i++){const m=await evaluate('baye.hd.menuItems()');if(m.active===1&&m.context===2)break;
-    await key(K.EXIT,'Return through genuine strategy menu');await delay(250);}
-  await until('real strategy function menu','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===2');
-  assert.equal(await evaluate('baye.hd.menuItems().names[0]'),'策略结束');await publicMenu(0,'End one strategy phase');
-  await ready(1,'actual first mobile battle PICK');const initial=await capture('battle-01-fresh-pick-'+(report.campaignOnly?report.campaignWidth:report.battleOverviewsOnly?report.battleOverviewsWidth:844));
+  const startMarch=async({single=false,reserve=false}={})=>{
+    const bootstrap={type:'Original P1 马腾 march through the classic controls',selectedPersonIds:[]};
+    const city=await evaluate('BayeHdOverworld.getCities().find(c=>c.index===8)');
+    assert.ok(city&&city.kind==='owned'&&city.name==='天水');
+    await tap(await cityPoint(city));
+    await until('actual owned city root','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===1&&baye.hd.menuItems().kind===1');
+    if(await evaluate("BayeHdCityMenu.getMode()!=='classic'")){
+      await until('HD city root and settled header before switching menus',
+        "BayeHdMobileCity.isActive()&&BayeHdCityMenu.isOpen()&&document.getElementById('hd-mobile-system-open').hidden");
+      await button('#hd-mobile-menu-mode');
+    }
+    await until('real classic city LCD', `BayeHdCityMenu.getMode()==='classic'&&
+      (document.body.getAttribute('data-hd-mobile-lcd')==='passthrough'||document.body.getAttribute('data-hd-mobile-lcd')==='on')`,5000);
+    assert.equal(await evaluate('BayeHdOverworld.getMode()'),'hd-map','Classic city menu preserves the HD map');
+    await publicMenu(2,'军备');await until('actual military list','baye.hd.menuItems().active===1&&baye.hd.menuItems().names.includes("出征")');
+    await publicMenu(await evaluate('baye.hd.menuItems().names.indexOf("出征")'),'出征');
+    await until('real original march persons','baye.hd.march().phase===1&&baye.hd.march().origin===8');
+    bootstrap.before=await evaluate(bootstrapWorldSource);
+    for(let i=0;i<(single?1:8);i++){
+      const m=await evaluate('baye.hd.march()');if(m.phase!==1)break;
+      const people=await evaluate('baye.hd.menuItems()');
+      assert.ok(people.active===1&&people.kind===3&&people.idsValid&&people.ids.length>0,'Actual march person owner');
+      const index=single?people.ids.findIndex(id=>id!==bootstrap.before.king&&bootstrap.before.people[id].Arms>0):0;
+      assert.ok(index>=0,'The settings expedition leaves the ruler and other forces in the city');
+      bootstrap.selectedPersonIds.push(people.ids[index]);
+      await publicMenu(index,'Select genuine resident');
+      await until('actual selected count','baye.hd.march().selected>'+m.selected+'||baye.hd.march().phase!==1');
+    }
+    if(await evaluate('baye.hd.march().phase===1'))await key(K.EXIT,'Finish real selected army');
+    await until('real GetFood','baye.hd.march().phase===2&&baye.hd.qty().active===1');
+    const initialFood=await evaluate('baye.hd.qty()');
+    assert.equal(initialFood.max,bootstrap.before.cities[8].Food,'GetFood maximum is actual original city grain');
+    assert.equal(initialFood.value,initialFood.max,'Original native initial GetFood value');
+    if(reserve){
+      assert.ok(initialFood.value>=300&&initialFood.step===1);
+      for(const step of [10,100]){
+        await key(K.LEFT,'Move the original grain digit');
+        await until('current grain digit step',`baye.hd.qty().active===1&&baye.hd.qty().step===${step}`);
+      }
+      for(const amount of [100,200]){
+        await key(K.DOWN,'Leave grain in the city for a second expedition');
+        await until('current reduced grain amount',`baye.hd.qty().value===${initialFood.value-amount}`);
+      }
+    }
+    bootstrap.food=await evaluate('baye.hd.qty()');
+    assert.ok(bootstrap.food.value>=100,'The genuine selected grain supports the battle');
+    await key(K.ENTER,'Confirm real GetFood');await until('native target instruction','baye.hd.march().phase===3');
+    await key(K.ENTER,'Acknowledge original target instruction');await until('native destination picker','baye.hd.march().phase===4&&baye.hd.march().battlePick===1');
+    const target=await evaluate('BayeHdOverworld.getCities().find(c=>c.index===9)');assert.ok(target&&target.kind!=='owned');
+    bootstrap.target=target;
+    for(let i=0;i<100;i++){
+      const p=await evaluate('({x:Number(baye.data.g_CityPos.setx),y:Number(baye.data.g_CityPos.sety)})');
+      if(p.x===target.engX&&p.y===target.engY)break;
+      const axis=p.x!==target.engX?'x':'y',n=p[axis],dest=axis==='x'?target.engX:target.engY;
+      await key(axis==='x'?(n<dest?K.RIGHT:K.LEFT):(n<dest?K.DOWN:K.UP),'Move actual original destination cursor');
+      await until('native destination cursor ACK',`Number(baye.data.g_CityPos.set${axis})!==${n}`);
+    }
+    assert.equal(await evaluate('Number(baye.data.g_hdMapCity)-1'),9,'Actual city under original cursor');
+    await key(K.ENTER,'Confirm original enemy destination');await until('real departure report','baye.hd.march().phase===6');
+    await key(K.ENTER,'Acknowledge genuine departure report');await until('actual march order','baye.hd.march().phase===7&&baye.hd.march().ok===1');
+    bootstrap.after=await evaluate(bootstrapWorldSource);
+    const verdict=verifyMobileBattleMarch({before:bootstrap.before,after:bootstrap.after,qty:bootstrap.food,
+      libBytes:originalLibBytes,selectedPersonIds:bootstrap.selectedPersonIds});
+    for(let i=0;i<5;i++){
+      const m=await evaluate('baye.hd.menuItems()');if(m.active===1&&m.context===2)break;
+      await key(K.EXIT,'Return through genuine strategy menu');await delay(250);
+    }
+    await until('real strategy function menu','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===2');
+    assert.equal(await evaluate('baye.hd.menuItems().names[0]'),'策略结束');await publicMenu(0,'End one strategy phase');
+    return {bootstrap,verdict};
+  };
+  const settingsWidth=report.battleSettingsSaveWidth;
+  const firstMarch=await startMarch({single:!!settingsWidth,reserve:!!settingsWidth});
+  report.battleBootstrap=firstMarch.bootstrap;report.battleMarchVerdict=firstMarch.verdict;
+  await ready(1,'actual first mobile battle PICK');
+  const initial=await capture('battle-01-fresh-pick-'+(settingsWidth||report.campaignWidth||report.battleOverviewsWidth||844));
   assert.equal(initial.mobile.presentation,'hd');assert.equal(initial.canvas.hit,true);assert.ok(initial.mobile.camera.cell>=44);
   assert.ok(initial.units.some(u=>u.side==='player')&&initial.units.some(u=>u.side==='enemy'));
   await unchanged(initial,'Idle actual mobile battle');
@@ -125,6 +155,10 @@ export async function runMobileBattleChecks(c) {
     verifyBattleHud(sample,options);
     return sample;
   };
+  if(settingsWidth){
+    const {runMobileBattleSettingsSaveChecks}=await import('./hd-mobile-battle-settings-runtime-checks.mjs');
+    return runMobileBattleSettingsSaveChecks({...c,native,ready,menu,recordHud,startMarch,initial});
+  }
   await recordHud('first original player wait');
   const beforeView=await native();await physicalKey('s',83);
   await until('actual VIEW published',"baye.hd.fight().inputKind===10&&baye.hd.view().active===1");

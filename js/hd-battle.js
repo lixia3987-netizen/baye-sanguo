@@ -712,10 +712,11 @@
         if (settings && (settings.actor !== snap.actor || settings.kind !== snap.kind || settings.menuSeq !== info.seq ||
             settings.inputSeq !== info.inputSeq || settings.index !== info.index ||
             JSON.stringify(settings.names) !== JSON.stringify(info.names))) { settings = null; }
-        if (settings && settingsNote) {
-            function choice(value, labels) { return value === 0 || value === 1 ? labels[value] : '未读取'; }
-            settingsNote.textContent = '当前设置：动画 ' + choice(settings.movie,['不看','观看']) + ' · 移速 ' +
-                choice(settings.moveSpeed,['快速','慢速']) + ' · 敌军移动 ' + choice(settings.enemy,['不看','观看']);
+        function choice(value, labels) { return value === 0 || value === 1 ? labels[value] : '未读取'; }
+        var values = settings && [choice(settings.movie,['不看','观看']),
+            choice(settings.moveSpeed,['快速','慢速']), choice(settings.enemy,['不看','观看'])];
+        if (values && settingsNote && info.kind === 'settings') {
+            settingsNote.textContent = '当前设置：动画 ' + values[0] + ' · 移速 ' + values[1] + ' · 敌军移动 ' + values[2];
             settingsNote.hidden = false;
         }
         if (title) { title.textContent = info.title; }
@@ -725,6 +726,7 @@
                 return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
             });
             var hint = hints && hints.rows[i], detail = '';
+            var setting = values && info.kind === 'sys' && values[i - 2];
             if (hint) {
                 var reasons = {mp:'MP不足',terrain:'地形不符',weather:'天候不符',unknown:'条件未读取'};
                 detail = '<small data-hd-skill-cost="' + hint.id + '" data-hd-skill-condition="' + hint.reason + '">' +
@@ -732,7 +734,12 @@
                     (reasons[hint.reason] ? ' · ' + reasons[hint.reason] : '') + '</small>';
                 text = '<span>' + text + '</span>';
             }
+            if (setting) {
+                text = '<span>' + text + '</span>';
+                detail = ' <span data-hd-battle-setting-value>' + setting + '</span>';
+            }
             html += '<button type="button" class="hd-battle-menu-item' + (i === info.index ? ' is-on' : '') +
+                (setting ? ' has-setting-value' : '') +
                 '" data-hd-battle-menu="' + i + '"' + (state.transaction ? ' disabled' : '') + '>' + text + detail + '</button>';
         }
         if (list.getAttribute('data-sig') !== html) {

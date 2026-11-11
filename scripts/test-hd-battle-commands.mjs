@@ -786,8 +786,10 @@ function renderedSkillButtons(g) {
     return [...g.skillList.innerHTML.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/g)].map(([, attrs, body]) => {
         const index = /\bdata-hd-battle-menu="([0-9]+)"/.exec(attrs);
         const hint = /<small\b([^>]*)>([\s\S]*?)<\/small>/.exec(body);
+        const setting = / <span data-hd-battle-setting-value>([^<]+)<\/span>/.exec(body);
         return {index: index ? Number(index[1]) : null, disabled: /\sdisabled(?:\s|$|=)/.test(attrs),
-            text: body.replace(/<[^>]*>/g, ''), hint: hint ? {id: Number(/data-hd-skill-cost="([0-9]+)"/.exec(hint[1])?.[1]),
+            text: (setting ? body.replace(setting[0], '') : body).replace(/<[^>]*>/g, ''), setting: setting?.[1] ?? null,
+            hint: hint ? {id: Number(/data-hd-skill-cost="([0-9]+)"/.exec(hint[1])?.[1]),
                 reason: /data-hd-skill-condition="([a-z]+)"/.exec(hint[1])?.[1], text: hint[2].replace(/<[^>]*>/g, '')} : null};
     });
 }
@@ -929,16 +931,17 @@ function settingsFixture(kind = I.SYS, names = systemSettingNames) {
         readSettings() {const value = g.sandbox.BayeHdBattleStatus.readSettings(); return value === null ? null : JSON.parse(JSON.stringify(value));},
         selectIndex(index) {g.menu.index = index; g.raw.g_hdMenuIndex = index;}});
 }
-function settingsText(movie, speed, enemy) {
-    const choice = (value, names) => value === 0 || value === 1 ? names[value] : '未读取';
-    return '当前设置：动画 ' + choice(movie, ['不看', '观看']) + ' · 移速 ' + choice(speed, ['快速', '慢速']) +
-        ' · 敌军移动 ' + choice(enemy, ['不看', '观看']);
-}
 function assertSettingsButtons(g, disabled = false) {
+    const system = g.menu.kind === I.SYS, settings = g.readSettings();
+    const values = settings && [lookSettingNames[settings.movie], speedSettingNames[settings.moveSpeed],
+        lookSettingNames[settings.enemy]].map(value => value ?? '未读取');
+    const note = !system && values ? '当前设置：动画 ' + values[0] + ' · 移速 ' + values[1] + ' · 敌军移动 ' + values[2] : '';
+    assert.equal(g.settingsNote.hidden, !note);
+    assert.equal(g.settingsNote.textContent, note);
     assert.equal(g.skillMenu.hidden, false);
-    assert.equal(g.skillTitle.textContent, g.menu.kind === I.SYS ? '战场系统' : '战场设置');
-    assert.deepEqual(renderedSkillButtons(g).map(button => [button.index, button.text, button.disabled, button.hint]),
-        g.menu.names.map((name, index) => [index, name, disabled, null]));
+    assert.equal(g.skillTitle.textContent, system ? '战场系统' : '战场设置');
+    assert.deepEqual(renderedSkillButtons(g).map(button => [button.index, button.text, button.disabled, button.hint, button.setting]),
+        g.menu.names.map((name, index) => [index, name, disabled, null, system && values ? values[index - 2] ?? null : null]));
     assert.equal(Number(/<button\b(?=[^>]*\bis-on\b)[^>]*data-hd-battle-menu="([0-9]+)"/.exec(g.skillList.innerHTML)?.[1]), g.menu.index);
     assert.equal(g.skillNote.hidden, true); assert.equal(g.skillNote.textContent, '');
     assert.deepEqual(g.writes, []);
@@ -954,12 +957,10 @@ test('native SYSTEM and both SETTINGS lists show all actual setting combinations
             for (let n = 0; n < 3; n++) g.observe();
             assert.deepEqual(g.readSettings(), {movie, moveSpeed: speed, enemy, actor: 255, kind, inputSeq: 41,
                 menuSeq: 12, index: 0, names: names.slice()});
-            assert.equal(g.settingsNote.hidden, false); assert.equal(g.settingsNote.textContent, settingsText(movie, speed, enemy));
             assertSettingsButtons(g); assert.equal(JSON.stringify(g.raw), world); assert.deepEqual(g.sent, []);
             assert.deepEqual(statusDto(g), {weather: 1, food: 0, day: 3, limit: 20}, 'legacy status DTO remains separate');
             g.selectIndex(names.length - 1); const highlightedWorld = JSON.stringify(g.raw); g.observe();
             assert.equal(g.readSettings().index, names.length - 1);
-            assert.equal(g.settingsNote.textContent, settingsText(movie, speed, enemy), 'browsing does not commit a different setting');
             assertSettingsButtons(g); assert.equal(JSON.stringify(g.raw), highlightedWorld); assert.deepEqual(g.sent, []);
         }
     }
@@ -973,29 +974,31 @@ test('uncertain setting values stay individually unread while unrelated status, 
             const value = g.readSettings(); assert.ok(value); assert.equal(value[property], null);
             assert.deepEqual([value.movie, value.moveSpeed, value.enemy],
                 [property === 'movie' ? null : 1, property === 'moveSpeed' ? null : 1, property === 'enemy' ? null : 0]);
-            assert.equal(g.settingsNote.hidden, false); assert.equal(g.settingsNote.textContent, settingsText(value.movie, value.moveSpeed, value.enemy));
             assertSettingsButtons(g); assert.equal(JSON.stringify(g.raw), world); assert.deepEqual(g.sent, []);
         }
     }
+    const system = settingsFixture();
+    system.raw.g_MoveSpeed = 255;
+    system.observe();
+    assertSettingsButtons(system);
     const g = settingsFixture(); let unrelatedReads = 0, drawingCalls = 0;
     g.baye.hooks.didShowFightStateBar = () => {drawingCalls++; throw Error('settings cannot invoke the status drawing hook');};
     for (const [target, field] of [[g.raw, 'g_FgtWeather'], [g.raw, 'g_FgtBoutCnt'], [g.raw, 'g_FgtBoutMax'],
         [g.raw.g_FgtParam, 'MProvender'], [g.raw.g_FgtParam, 'EProvender'], [g.raw, 'g_EneTmpProv']]) {
         Object.defineProperty(target, field, {get() {unrelatedReads++; throw Error('unrelated battle status is private');}});
     }
-    assert.ok(g.readSettings()); g.observe(); assert.equal(g.settingsNote.hidden, false);
-    assert.equal(g.settingsNote.textContent, settingsText(1, 1, 0)); assertSettingsButtons(g);
+    assert.ok(g.readSettings()); g.observe(); assertSettingsButtons(g);
     assert.equal(unrelatedReads, 0); assert.equal(drawingCalls, 0); assert.deepEqual(g.sent, []);
 });
 
 test('setting owner, menu and source drift withdraw the note while native buttons and one-shot confirmation keep their contract', () => {
     for (const [kind, names] of [[I.ACT, ['攻击', '计谋', '查看', '待机']], [I.RETREAT, ['全军撤退']]]) {
-        const g = settingsFixture(); g.observe(); assert.equal(g.settingsNote.hidden, false);
+        const g = settingsFixture(); g.observe(); assertSettingsButtons(g);
         g.fight.inputKind = kind; g.mirror(); Object.assign(g.menu, {kind, names, count: names.length});
         Object.assign(g.raw, {g_hdMenuKind: kind, g_hdMenuCount: names.length}); g.observe();
         assert.equal(g.readSettings(), null); assert.equal(g.settingsNote.hidden, true); assert.equal(g.settingsNote.textContent, '');
-        assert.deepEqual(renderedSkillButtons(g).map(button => [button.index, button.text, button.disabled]),
-            names.map((name, index) => [index, name, false]));
+        assert.deepEqual(renderedSkillButtons(g).map(button => [button.index, button.text, button.disabled, button.setting]),
+            names.map((name, index) => [index, name, false, null]));
         assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
     }
     const changes = [g => g.identity.sha256 = 'different-library', g => g.raw.g_hdFightInputSeq++,
@@ -1025,8 +1028,7 @@ test('setting owner, menu and source drift withdraw the note while native button
     assert.equal(reentrant.readSettings(), null); reentrant.observe(); assert.equal(reentered, true);
     assert.equal(reentrant.settingsNote.hidden, true); assert.equal(reentrant.settingsNote.textContent, '');
     assertSettingsButtons(reentrant); assert.deepEqual(reentrant.sent, []);
-    reentrant.fightHook(null); reentrant.observe(); assert.equal(reentrant.settingsNote.hidden, false);
-    assert.equal(reentrant.settingsNote.textContent, settingsText(1, 1, 0)); assertSettingsButtons(reentrant);
+    reentrant.fightHook(null); reentrant.observe(); assertSettingsButtons(reentrant);
     const confirmed = settingsFixture(I.SETTINGS, speedSettingNames); confirmed.observe();
     assert.equal(confirmed.api.pickMenu(0).ok, true); assert.deepEqual(confirmed.sent, [K.ENTER]);
     confirmed.api.pickMenu(0); confirmed.tick(1000); confirmed.observe();

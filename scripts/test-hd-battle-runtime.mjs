@@ -346,12 +346,12 @@ async function recordBattleHud(cdp,label,options) {
     verifyBattleHud(sample,options);
 }
 
-async function recordBattleHudAtDesktopSizes(cdp,label) {
+async function recordBattleHudAtDesktopSizes(cdp,label,options) {
     const before=await evaluate(cdp,battleStateExpression),keys=await evaluate(cdp,'window.__battleKeys.length');
     for(const [width,height] of [[1280,720],[1920,1080]]) {
         await cdp.send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
         await waitFor(cdp,'current desktop battle viewport',`innerWidth===${width}&&innerHeight===${height}`);
-        await recordBattleHud(cdp,label+' '+height+'p');
+        await recordBattleHud(cdp,label+' '+height+'p',options);
         await checkpoint(cdp,label+'-'+height+'p');
         assert.deepEqual(await evaluate(cdp,battleStateExpression),before,'The HUD resize preserves original battle state');
         assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys);
@@ -400,7 +400,7 @@ async function battleSmoke(cdp) {
     assert.equal(systemMenu.kind,6);
     report.realSystemNames=systemMenu.names;
     await checkpoint(cdp,'19-battle-system-menu');
-    if(statusOnly)await recordBattleHud(cdp,'current original system menu',{settings:true});
+    if(statusOnly)await recordBattleHudAtDesktopSizes(cdp,'battle-system-options',{settings:true});
     const modeBefore=await evaluate(cdp,battleStateExpression);
     const modeKeyCount=await evaluate(cdp,'window.__battleKeys.length');
     await evaluate(cdp,"BayeHdBattle.setMode('classic')");

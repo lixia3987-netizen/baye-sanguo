@@ -762,6 +762,13 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
 }
 .hd-mobile-page #hd-battle-menu-list button { width: 100%; text-align: left; }
 .hd-mobile-page #hd-battle-menu-list button.is-on { background: #3c5278; border-color: #efd7a0; }
+.hd-mobile-page #hd-battle-menu-list button.has-setting-value {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.hd-mobile-page #hd-battle-menu-list [data-hd-battle-setting-value] { color: #c0d0df; font-size: .86em; white-space: nowrap; }
 .hd-mobile-page .hd-battle-menu-note { flex: 0 0 auto; margin: 0; color: #c0d0df; font-size: 11px; line-height: 14px; }
 .hd-mobile-page .hd-battle-menu-note[hidden] { display: none !important; }
 .hd-mobile-page #hd-battle-menu-list small { display: block; margin-top: 2px; color: #c0d0df; font-size: 11px; line-height: 15px; }

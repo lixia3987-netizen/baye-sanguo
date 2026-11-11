@@ -302,8 +302,13 @@ export async function main(args=process.argv.slice(2)) {
   const defenderEntryFlags=args.filter(arg=>arg.startsWith('--defender-entry-width=')),defenderEntryWidth=Number(defenderEntryFlags[0]?.split('=')[1]||defenderWidth);
   const battleOverviewsOnly=args.includes('--battle-overviews-only'),battleOverviewsFlags=args.filter(arg=>arg.startsWith('--battle-overviews-width=')),battleOverviewsWidth=Number(battleOverviewsFlags[0]?.split('=')[1]||844);
   const battleSceneOnly=args.includes('--battle-scene-only'),battleSceneWidths=args.filter(arg=>arg.startsWith('--battle-scene-width=')),battleSceneWidth=Number(battleSceneWidths[0]?.split('=')[1]||844);
+  const battleSettingsFlags=args.filter(arg=>arg.startsWith('--battle-settings-save='));
+  const battleSettingsSaveWidth=battleSettingsFlags.length?Number(battleSettingsFlags[0].split('=')[1]):null;
+  const battleSettingsSave=battleSettingsSaveWidth!==null;
+  assert.ok(battleSettingsFlags.length<=1&&(!battleSettingsSave||[667,844].includes(battleSettingsSaveWidth)),
+    'Use --battle-settings-save=667 or --battle-settings-save=844');
   assert.ok(battleSceneWidths.length<=1&&(!battleSceneWidths.length||battleSceneOnly)&&[844,667].includes(battleSceneWidth),'Scene width must be 844 or 667');
-  const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only'),battleEffects=args.includes('--battle-effects'),battleOnly=args.includes('--battle-only')||battleSceneOnly||battleEffects||battleOverviewsOnly||campaignOnly,marchOnly=args.includes('--march-only'),distribution=args.includes('--distribution'),recruitment=args.includes('--recruitment')||distribution;
+  const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only'),battleEffects=args.includes('--battle-effects'),battleOnly=args.includes('--battle-only')||battleSceneOnly||battleEffects||battleOverviewsOnly||campaignOnly||battleSettingsSave,marchOnly=args.includes('--march-only'),distribution=args.includes('--distribution'),recruitment=args.includes('--recruitment')||distribution;
   const previewOnly=args.includes('--preview-only');
   const diplomacyOnly=args.includes('--diplomacy-only'),diplomacyFlags=args.filter(arg=>arg.startsWith('--diplomacy-width=')),diplomacyWidth=Number(diplomacyFlags[0]?.split('=')[1]||844);
   const minimapOnly=args.includes('--minimap-only'),minimapFlags=args.filter(arg=>arg.startsWith('--minimap-width=')),minimapWidth=Number(minimapFlags[0]?.split('=')[1]||844);
@@ -312,7 +317,7 @@ export async function main(args=process.argv.slice(2)) {
   const systemOnly=args.includes('--system-only'),systemFlags=args.filter(arg=>arg.startsWith('--system-width=')),systemWidth=Number(systemFlags[0]?.split('=')[1]||844);
   const systemRepeatFlags=args.filter(arg=>arg.startsWith('--system-mode-repeat=')),systemModeRepeat=Number(systemRepeatFlags[0]?.split('=')[1]||0);
   const equipmentOnly=args.includes('--equipment-only'),equipmentFlags=args.filter(arg=>arg.startsWith('--equipment-width=')),equipmentWidth=Number(equipmentFlags[0]?.split('=')[1]||844);
-  const worldSource=previewOnly||equipmentOnly||systemOnly||tradeOnly||transferOnly||minimapOnly||diplomacyOnly||battleOverviewsOnly||campaignMode?`(() => {const w=${baseWorldSource},d=baye.data;
+  const worldSource=previewOnly||equipmentOnly||systemOnly||tradeOnly||transferOnly||minimapOnly||diplomacyOnly||battleOverviewsOnly||campaignMode||battleSettingsSave?`(() => {const w=${baseWorldSource},d=baye.data;
     const take=(o,fields)=>Object.fromEntries(fields.map(k=>{const v=Number(o[k]);if(!Number.isInteger(v))throw Error('Noninteger goods '+k);return [k,v];}));
     return {...w,${transferOnly||diplomacyOnly||battleOverviewsOnly||campaignMode?`config:{...w.config,fixThewOverFlow:Number(d.g_engineConfig.fixThewOverFlow),...(${diplomacyOnly||battleOverviewsOnly||campaignMode}?{fixAlienateComsumeThew:Number(d.g_engineConfig.fixAlienateComsumeThew)}:{}),...(${defenderCombat}?{disableFightToDeath:Number(d.g_engineConfig.disableFightToDeath),ratioOfFoodToArmsPerDay:Number(d.g_engineConfig.ratioOfFoodToArmsPerDay),responseNoteOfBettle:Number(d.g_engineConfig.responseNoteOfBettle)}:{})},orders:w.orders.map((o,i)=>({...o,...take(d.g_OrderQueue[i],['Arms','Money','Consume'])})),`:''}cities:w.cities.map((c,i)=>({...c,...take(d.g_Cities[i],${campaignMode?"['Tools','ToolQueue','Farming','FarmingLimit','CommerceLimit','Population','PopulationLimit']":"['Tools','ToolQueue']"})})),
       goodsQueue:Array.from(d.g_GoodsQueue,Number),
@@ -320,9 +325,9 @@ export async function main(args=process.argv.slice(2)) {
   const caseFlags=args.filter(arg=>arg.startsWith('--portrait-case=')),portraitCase=caseFlags[0]?.split('=')[1]||'normal';
   const effectFlags=args.filter(arg=>arg.startsWith('--battle-effects-case=')),effectsCase=effectFlags[0]?.split('=')[1]||'normal';
   const marchFlags=args.filter(arg=>arg.startsWith('--march-width=')),marchWidth=Number(marchFlags[0]?.split('=')[1]||844);
-  const options=args.filter(arg=>arg!=='--battle-scene-only'&&!arg.startsWith('--battle-scene-width=')).filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--battle-overviews-only','--campaign-only','--defender-only','--defender-combat','--march-only','--recruitment','--distribution','--preview-only','--equipment-only','--system-only','--trade-only','--transfer-only','--minimap-only','--diplomacy-only','--staged'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width=')&&!arg.startsWith('--equipment-width=')&&!arg.startsWith('--system-width=')&&!arg.startsWith('--system-mode-repeat=')&&!arg.startsWith('--trade-width=')&&!arg.startsWith('--transfer-width=')&&!arg.startsWith('--minimap-width=')&&!arg.startsWith('--diplomacy-width=')&&!arg.startsWith('--battle-overviews-width=')&&!arg.startsWith('--campaign-width=')&&!arg.startsWith('--defender-width=')&&!defenderEntryFlags.includes(arg));
+  const options=args.filter(arg=>arg!=='--battle-scene-only'&&!arg.startsWith('--battle-scene-width=')&&!battleSettingsFlags.includes(arg)).filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--battle-overviews-only','--campaign-only','--defender-only','--defender-combat','--march-only','--recruitment','--distribution','--preview-only','--equipment-only','--system-only','--trade-only','--transfer-only','--minimap-only','--diplomacy-only','--staged'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width=')&&!arg.startsWith('--equipment-width=')&&!arg.startsWith('--system-width=')&&!arg.startsWith('--system-mode-repeat=')&&!arg.startsWith('--trade-width=')&&!arg.startsWith('--transfer-width=')&&!arg.startsWith('--minimap-width=')&&!arg.startsWith('--diplomacy-width=')&&!arg.startsWith('--battle-overviews-width=')&&!arg.startsWith('--campaign-width=')&&!arg.startsWith('--defender-width=')&&!defenderEntryFlags.includes(arg));
   assert.ok(args.filter(arg=>arg==='--reports-only').length<=1&&args.filter(arg=>arg==='--portraits-only').length<=1&&
-    args.filter(arg=>arg==='--battle-scene-only'||arg==='--battle-only'||arg==='--battle-effects'||arg==='--battle-overviews-only'||arg==='--campaign-only').length<=1&&args.filter(arg=>arg==='--march-only').length<=1&&[reportsOnly,portraitsOnly,battleOnly,marchOnly].filter(Boolean).length<=1&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
+    args.filter(arg=>arg==='--battle-scene-only'||arg==='--battle-only'||arg==='--battle-effects'||arg==='--battle-overviews-only'||arg==='--campaign-only').length+battleSettingsFlags.length<=1&&args.filter(arg=>arg==='--march-only').length<=1&&[reportsOnly,portraitsOnly,battleOnly,marchOnly].filter(Boolean).length<=1&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
     campaignFlags.length<=1&&(!campaignFlags.length||campaignOnly)&&[844,667].includes(campaignWidth)&&
     defenderFlags.length<=1&&(!defenderFlags.length||defenderOnly)&&[844,667].includes(defenderWidth)&&args.filter(arg=>arg==='--defender-only'||arg==='--defender-combat').length<=1&&
     defenderEntryFlags.length<=1&&(!defenderEntryFlags.length||defenderOnly)&&[844,667].includes(defenderEntryWidth)&&
@@ -348,7 +353,7 @@ export async function main(args=process.argv.slice(2)) {
     args.filter(arg=>arg==='--diplomacy-only').length<=1&&diplomacyFlags.length<=1&&(!diplomacyFlags.length||diplomacyOnly)&&[844,667].includes(diplomacyWidth)&&
     (!diplomacyOnly||![minimapOnly,transferOnly,tradeOnly,systemOnly,equipmentOnly,previewOnly,reportsOnly,portraitsOnly,battleOnly,marchOnly,recruitment].some(Boolean))&&
     args.filter(arg=>arg==='--staged').length<=1&&(!staged||tradeOnly||transferOnly||diplomacyOnly||campaignOnly||defenderCombat)&&
-    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--defender-combat [--defender-width=844|667] [--defender-entry-width=844|667] [--staged] | --defender-only [--defender-width=844|667] [--defender-entry-width=844|667] | --campaign-only [--campaign-width=844|667] [--staged] | --battle-overviews-only [--battle-overviews-width=844|667] | --diplomacy-only [--diplomacy-width=844|667] [--staged] | --minimap-only [--minimap-width=844|667] | --transfer-only [--transfer-width=844|667] [--staged] | --trade-only [--trade-width=844|667] [--staged] | --system-only [--system-width=844|667] [--system-mode-repeat=0..100] | --equipment-only [--equipment-width=844|667] | --preview-only | --distribution | --recruitment | --reports-only | --march-only [--march-width=844|667] | --battle-scene-only [--battle-scene-width=844|667] | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
+    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--defender-combat [--defender-width=844|667] [--defender-entry-width=844|667] [--staged] | --defender-only [--defender-width=844|667] [--defender-entry-width=844|667] | --campaign-only [--campaign-width=844|667] [--staged] | --battle-overviews-only [--battle-overviews-width=844|667] | --diplomacy-only [--diplomacy-width=844|667] [--staged] | --minimap-only [--minimap-width=844|667] | --transfer-only [--transfer-width=844|667] [--staged] | --trade-only [--trade-width=844|667] [--staged] | --system-only [--system-width=844|667] [--system-mode-repeat=0..100] | --equipment-only [--equipment-width=844|667] | --preview-only | --distribution | --recruitment | --reports-only | --march-only [--march-width=844|667] | --battle-scene-only [--battle-scene-width=844|667] | --battle-only | --battle-settings-save=667|844 | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
   const root=process.cwd(),relative=options[1]||'build/mobile-city-runtime-'+Date.now(),out=path.resolve(root,relative);
   assert.ok(out.startsWith(path.join(root,'build')+path.sep),'Artifacts must stay in a fresh build subdirectory');
   assert.ok(!fs.existsSync(out),'Preserve prior evidence: artifact directory must not already exist');fs.mkdirSync(out,{recursive:true});
@@ -358,6 +363,8 @@ export async function main(args=process.argv.slice(2)) {
     artifacts:relative,profileRetained:true,directoriesDeleted:false,sourceFiles:[],requests:[],blockedExternal:[],console:[],exceptions:[],
     phases:[],actions:[],cities:[],inputs:[],ownershipSamples:'owned-process-samples.jsonl',user8080Accessed:false};
   report.campaignOnly=campaignOnly;report.campaignWidth=campaignOnly?campaignWidth:null;report.campaignAccepted=false;report.successionOutcomeAccepted=false;
+  report.battleSettingsSaveWidth=battleSettingsSaveWidth;
+  if(battleSettingsSave)report.scope='Original battle options through HD settings, strategy SAVE, real browser reload, native LOAD and a second original battle';
   report.defenderOnly=defenderOnly;report.defenderCombat=defenderCombat;report.defenderCombatAccepted=false;report.defenderWidth=defenderOnly?defenderWidth:null;report.defenderAccepted=false;
   if(defenderOnly)report.defenderEntryWidth=defenderEntryWidth;
   if(defenderOnly)report.scope='Original mobile actual defender selection after at most six public strategy ends; direct native IDs, non-first armed nonking, precise resident removal and authentic defensive battle handoff. No forced orders/RNG, defense victory, real-device or full-HD claim';
@@ -409,6 +416,19 @@ export async function main(args=process.argv.slice(2)) {
       if(s.canvas.shown||s.battleCanvas.shown||s.effectCanvas.shown&&s.speUi?.source==='hd-assets')assert.ok(raw.colorCount>8,'HD canvas contains actual varied painted pixels');}
     await sampleOwned(name);console.log('PASS',name);return s;};
   const key=async(code,reason)=>{report.inputs.push({type:'public native key',code,reason});await evaluate('sendKey('+code+')');await delay(160);};
+  const observeInputs=()=>evaluate(`(() => {window.__mobileMapKeys=[];window.__mobileMapNativeTouches=[];window.__mobileMapEvents=[];
+    const k=window.sendKey,t=window._bayeSendTouchEvent;
+    window.sendKey=function(code){__mobileMapKeys.push({code,at:performance.now()});return k.apply(this,arguments);};
+    window._bayeSendTouchEvent=function observeTouch(){__mobileMapNativeTouches.push({args:Array.from(arguments),at:performance.now()});const r=t.apply(this,arguments);window._bayeSendTouchEvent=observeTouch;return r;};
+    return true;})()`);
+  const waitTitle=async()=>{
+    const title='baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1';
+    for(let n=0;n<60&&!await evaluate(title);n++){
+      const intro=await evaluate('baye.hd.movie().active||(baye.hd.spe().active&&baye.hd.spe().kind===1)');
+      if(intro)await key(39,'Public intro acknowledgement');else await delay(150);
+    }
+    await until('native title',title);
+  };
   const metrics=async(width,height)=>{report.inputs.push({type:'CDP viewport',width,height});await cdp.send('Emulation.setDeviceMetricsOverride',{
     width,height,deviceScaleFactor:1,mobile:true,screenOrientation:{type:width>height?'landscapePrimary':'portraitPrimary',angle:width>height?90:0}});await delay(250);};
   const touches=async(type,points=[],settleMs=90)=>{report.inputs.push({type:'trusted CDP '+type,points});await cdp.send('Input.dispatchTouchEvent',{
@@ -865,7 +885,7 @@ export async function main(args=process.argv.slice(2)) {
     if(transferOnly){for(const f of ['scripts/hd-mobile-recruitment-runtime-oracle.mjs','scripts/hd-mobile-transfer-runtime-checks.mjs','scripts/hd-mobile-transfer-runtime-oracle.mjs','scripts/hd-mobile-month-runtime-checks.mjs','scripts/test-hd-mobile-transfer-runtime-oracle.mjs','scripts/test-hd-mobile-transfer-engine.mjs','vendor/iBaye/src/citycmdc.c','vendor/iBaye/src/citycmd.c','vendor/iBaye/src/tactic.c','vendor/iBaye/src/hd-bridge.h','package.json'])freeze(f);}
     if(tradeOnly){for(const f of ['scripts/hd-mobile-trade-runtime-checks.mjs','scripts/hd-mobile-trade-runtime-oracle.mjs','scripts/test-hd-mobile-trade-runtime-oracle.mjs','scripts/test-hd-mobile-trade-engine.mjs','vendor/iBaye/src/citycmdc.c','vendor/iBaye/src/hd-bridge.h','package.json'])freeze(f);}
     const engineNames=['baye.js','baye.wasm','baye.wasm.map','baye.build.json'];
-    if(tradeOnly||transferOnly||minimapOnly||diplomacyOnly||battleOverviewsOnly||campaignMode){
+    if(tradeOnly||transferOnly||minimapOnly||diplomacyOnly||battleOverviewsOnly||campaignMode||battleSettingsSave){
       const prefix=staged?'build/wasm/src/':'js/',manifest=JSON.parse(freeze(prefix+'baye.build.json').bytes);
       for(const name of engineNames.slice(0,3)){const ref=freeze(prefix+name).ref;assert.equal(ref.bytes,manifest.artifacts[name].bytes);assert.equal(ref.sha256,manifest.artifacts[name].sha256);}
       report.engine={staged,prefix,manifest,files:engineNames.map(name=>freeze(prefix+name).ref)};
@@ -885,6 +905,7 @@ export async function main(args=process.argv.slice(2)) {
     if(battleOverviewsOnly){for(const f of ['scripts/hd-mobile-battle-overviews-runtime-checks.mjs','scripts/hd-mobile-battle-overviews-runtime-oracle.mjs','scripts/test-hd-mobile-battle-overviews-runtime-oracle.mjs','js/bridge.js','js/hd-mobile-battle.js','js/hd-battle.js','js/hd-dialog.js','js/hd-mobile-city.js','css/hd-mobile.css','css/hd-dialog.css','scripts/test-hd-mobile-battle.mjs','scripts/test-hd-dialog-routing.mjs','scripts/test-hd-mobile-city.mjs','package.json'])freeze(f);}
     if(battleSceneOnly){for(const f of ['scripts/hd-mobile-battle-scene-runtime-checks.mjs','js/hd-battle-scene.js','js/hd-spe.js','assets/hd-spe/manifest.json'])freeze(f);}
     if(battleOnly){for(const f of ['scripts/hd-mobile-battle-runtime-checks.mjs','scripts/hd-battle-hud-runtime-checks.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-battle-status.js','js/hd-mobile-battle.js','js/hd-battle-terrain.js','js/hd-battle-feedback.js'])freeze(f);}
+    if(battleSettingsSave){for(const f of ['scripts/hd-mobile-battle-settings-runtime-checks.mjs','scripts/hd-mobile-system-runtime-oracle.mjs','js/hd-mobile-system.js','js/hd-system-ui.js','js/save-storage.js','vendor/iBaye/src/FightSub.c','vendor/iBaye/src/gamEng.c'])freeze(f);}
     if(battleEffects){for(const f of ['scripts/hd-mobile-battle-effects-runtime-checks.mjs','scripts/hd-mobile-battle-skill-oracle.mjs','scripts/hd-mobile-battle-attack-oracle.mjs','scripts/hd-mobile-successor-runtime-oracle.mjs','assets/hd-spe/manifest.json'])freeze(f);}
     assert.equal(frozen.get('libs/dat-mod.lib').ref.sha256,ORIGINAL_SHA);assert.equal(frozen.get('libs/dat-mod.lib').ref.bytes,207195);
     server=http.createServer((req,res)=>{try{const url=new URL(req.url,'http://private'),rel=decodeURIComponent(url.pathname).replace(/^\/+/,''),filename=path.resolve(root,rel);
@@ -928,7 +949,7 @@ export async function main(args=process.argv.slice(2)) {
     cdp.on('Fetch.requestPaused',e=>{const local=e.request.url.startsWith(origin+'/');if(!local)report.blockedExternal.push(e.request.url);
       cdp.send(local?'Fetch.continueRequest':'Fetch.failRequest',local?{requestId:e.requestId}:{requestId:e.requestId,errorReason:'BlockedByClient'}).catch(()=>{});});
     await cdp.send('Runtime.enable');await cdp.send('Page.enable');await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
-    const entryWidth=defenderOnly?defenderEntryWidth:campaignOnly?campaignWidth:battleOverviewsOnly?battleOverviewsWidth:diplomacyOnly?diplomacyWidth:minimapOnly?minimapWidth:transferOnly?transferWidth:tradeOnly?tradeWidth:systemOnly?systemWidth:844;
+    const entryWidth=defenderOnly?defenderEntryWidth:campaignOnly?campaignWidth:battleOverviewsOnly?battleOverviewsWidth:diplomacyOnly?diplomacyWidth:minimapOnly?minimapWidth:transferOnly?transferWidth:tradeOnly?tradeWidth:systemOnly?systemWidth:(battleSettingsSaveWidth??844);
     await metrics(entryWidth,entryWidth===667?375:390);await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
     report.earlyInputObserver=await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:`(() => {
       const detailed=${systemOnly&&systemModeRepeat>0},nodes=new WeakMap();let serial=0;
@@ -946,16 +967,11 @@ export async function main(args=process.argv.slice(2)) {
     })();`});
     await cdp.send('Page.navigate',{url:origin+'/m.html#'+Math.floor(Date.now()/1000)});
     await until('original engine','window.baye&&baye.hd&&baye.hd.ready()',60000);
-    await evaluate(`(() => {window.__mobileMapKeys=[];window.__mobileMapNativeTouches=[];window.__mobileMapEvents=[];
-      const k=window.sendKey,t=window._bayeSendTouchEvent;window.sendKey=function(code){__mobileMapKeys.push({code,at:performance.now()});return k.apply(this,arguments);};
-      window._bayeSendTouchEvent=function observeTouch(){__mobileMapNativeTouches.push({args:Array.from(arguments),at:performance.now()});const r=t.apply(this,arguments);window._bayeSendTouchEvent=observeTouch;return r;};
-      return true;})()`);
+    await observeInputs();
     if(previewOnly)report.previewKeyDiagnosticObserver=await evaluate('('+installMobilePreviewKeyDiagnostics.toString()+')()');
     report.initialPreferences=await evaluate(`({mobile:localStorage.getItem('${MOBILE_PREF}'),pc:localStorage.getItem('${PC_PREF}'),debug:localStorage.getItem('baye/debug')})`);
     assert.notEqual(report.initialPreferences.debug,'1','Fresh profile starts without requested native debug');
-    for(let n=0;n<60;n++){if(await evaluate('baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1'))break;
-      const intro=await evaluate('baye.hd.movie().active||(baye.hd.spe().active&&baye.hd.spe().kind===1)');if(intro)await key(0x27,'Public intro acknowledgement');else await delay(150);}
-    await until('native title','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1');
+    await waitTitle();
     if(systemOnly){
       const {runMobileSystemChecks}=await import('./hd-mobile-system-runtime-checks.mjs');
       await runMobileSystemChecks({report,evaluate,until,delay,checkpoint,metrics,touches,tap,buttonPoint,mark,worldSource,readSource,mapReadySource,assertHd,cdp,origin});
@@ -1004,7 +1020,8 @@ export async function main(args=process.argv.slice(2)) {
     }else if(battleOnly){
       const {runMobileBattleChecks}=await import('./hd-mobile-battle-runtime-checks.mjs');
       const context={report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
-        readSource,worldSource,battleBootstrapWorldSource:baseWorldSource,mapReadySource,readKeys:(offset=0)=>evaluate('__mobileMapKeys.slice('+offset+')'),sendCdp:(method,params)=>cdp.send(method,params),originalLibBytes:frozen.get('libs/dat-mod.lib').bytes};
+        readSource,worldSource,battleBootstrapWorldSource:baseWorldSource,mapReadySource,observeInputs,waitTitle,
+        readKeys:(offset=0)=>evaluate('__mobileMapKeys.slice('+offset+')'),sendCdp:(method,params)=>cdp.send(method,params),originalLibBytes:frozen.get('libs/dat-mod.lib').bytes};
       const controls=await runMobileBattleChecks(context);
       if(battleEffects){const {runMobileBattleEffectsChecks}=await import('./hd-mobile-battle-effects-runtime-checks.mjs');await runMobileBattleEffectsChecks({...context,controls,effectManifest:JSON.parse(frozen.get('assets/hd-spe/manifest.json').bytes)});}
     }else if(portraitsOnly){
