@@ -1,5 +1,6 @@
 // Actual original transactions. Read native state; drive only trusted visible touch controls.
 import assert from 'node:assert/strict';
+import {settleMobileMonth} from './hd-mobile-month-runtime-checks.mjs';
 import {calculateMobileTradeLimit,verifyMobileTrade,verifyMobileTradeCancellation} from './hd-mobile-trade-runtime-oracle.mjs';
 import {checkMobileQuantityPresentation} from './hd-mobile-quantity-runtime-checks.mjs';
 
@@ -8,7 +9,7 @@ const selectedCodes=(index,current)=>[...Array(Math.abs(index-current)).fill(ind
 
 export async function runMobileTradeChecks(ctx){
   const {report,evaluate,until,checkpoint,ready,root,submenu,selectPerson,back,controlPoint,touchButton,
-    tap,touches,readKeys,worldSame,testCity,mark,libBytes,label}=ctx;
+    tap,touches,readKeys,worldSame,testCity,mark,libBytes,label,mapReturn}=ctx;
   const entry={label,cityIndex:testCity.index,checks:[],operations:[],cancellations:[],summaries:[],accepted:false};
   report.tradeChecks.push(entry);entry.baseline=await mark();
   const residents=w=>{const c=w.cities[testCity.index];return w.queue.slice(c.PersonQueue,c.PersonQueue+c.Persons).filter(id=>w.people[id].Belong===c.Belong);};
@@ -106,5 +107,31 @@ export async function runMobileTradeChecks(ctx){
   await type(seller);await quantity('sell');await cancelQty('sell');await type(seller);await commit('sell',seller);
   picker=await open();const before=await ready();await back('leave trade PERSON');const returned=await currentMap(before);worldSame(before,returned,'Leave final trade PERSON');
   entry.cancellations.push({kind:'person',before,after:returned,keys:await readKeys(before.state.keyCount)});
-  entry.returned=returned;assert.equal(entry.operations.length,2);entry.accepted=true;return entry;
+  assert.equal(entry.operations.length,2);
+  const slots=entry.operations.map(operation=>operation.oracle.orderIndex);
+  const actors=entry.operations.map(operation=>operation.actor);
+  await root(3,'状况');
+  entry.pendingPlans=await evaluate(`(() => {
+    const names=${JSON.stringify(actors)}.map(id=>baye.getPersonName(id));
+    const rows=${JSON.stringify(slots)}.map(slot=>{
+      const row=document.querySelector('#hd-city-menu-status [data-hd-city-order="'+slot+'"]');
+      return row&&{command:Number(row.dataset.hdCityOrderId),label:row.querySelector('span').textContent,
+        actor:row.querySelector('strong').textContent};
+    });
+    return {names,rows};
+  })()`);
+  assert.deepEqual(entry.pendingPlans.rows,entry.pendingPlans.names.map(actor=>({command:11,label:'交易',actor})));
+  await mapReturn('pending trade orders');
+  const beforeMonth=await ready();worldSame(returned,beforeMonth,'Reviewing trade orders preserves the native world');
+  for(const id of actors)assert.ok(!residents(beforeMonth.world).includes(id),'Trader is away before month end');
+  const {settled,year,month,reports}=await settleMobileMonth(ctx,beforeMonth);
+  for(const slot of slots)assert.equal(settled.world.orders[slot].OrderId,255,'Original policy retires the trade order');
+  for(const id of actors)assert.equal(residents(settled.world).filter(resident=>resident===id).length,1,'Trader returns to the original city exactly once');
+  await root(3,'状况');
+  const remaining=await evaluate(`${JSON.stringify(slots)}.filter(slot=>document.querySelector('#hd-city-menu-status [data-hd-city-order="'+slot+'"]'))`);
+  assert.deepEqual(remaining,[],'City status clears the settled trade orders');
+  await mapReturn('settled trade orders');
+  entry.returned=await ready();worldSame(settled,entry.returned,'Reviewing settled trade preserves the native world');
+  entry.monthSettlement={year,month,reports,retiredSlots:slots,returnedActors:actors};
+  entry.accepted=true;return entry;
 }

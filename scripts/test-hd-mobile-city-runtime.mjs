@@ -738,7 +738,7 @@ export async function main(args=process.argv.slice(2)) {
       const {runMobileTradeChecks}=await import('./hd-mobile-trade-runtime-checks.mjs');
       const size=[tradeWidth,tradeWidth===844?390:375];await metrics(...size);await headerGeometry(size);
       await runMobileTradeChecks({report,evaluate,until,delay,checkpoint,ready,root,submenu,revealSubmenu,selectPerson,back,mapReturn,
-        controlPoint,tap,touchButton,touches,readKeys,navigation,worldSame,testCity,mark,metrics,
+        controlPoint,tap,touchButton,touches,readKeys,navigation,worldSame,testCity,mark,metrics,mapReadySource,
         libBytes:frozen.get('libs/dat-mod.lib').bytes,label:'trade-'+size.join('x')});
       await until('final actual trade map',mapReadySource);const final=await checkpoint('final-trade-HD-map');prefsSame(final);
       report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
@@ -747,7 +747,7 @@ export async function main(args=process.argv.slice(2)) {
       report.tradeAccepted=true;report.ok=true;report.accepted=true;
       report.acceptedScope=['Original mobile dedicated buy/sell ownership and quantity handoffs at '+size.join('x'),
         'Single-owner type/quantity cancellation and ordinary confirmed buy/sell; native ACKs and exact measured world oracle',
-        'Native map retirement and updated HUD; no month return, zero-resource/full-queue, complete ABI, real-device or full-HD claim'];return;
+        'Native map retirement, updated HUD, pending trade rows and monthly trader return; zero-resource/full-queue and real-device cases remain'];return;
     }
     if(equipmentOnly){
       const {runMobilePreviewChecks}=await import('./hd-mobile-preview-runtime-checks.mjs'),{runMobileEquipmentChecks}=await import('./hd-mobile-equipment-runtime-checks.mjs');
@@ -846,6 +846,7 @@ export async function main(args=process.argv.slice(2)) {
     const tool=freeze('scripts/test-hd-mobile-city-runtime.mjs');fs.writeFileSync(path.join(out,'executed-tool.mjs'),tool.bytes,{flag:'wx'});
     for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','scripts/hd-mobile-quantity-runtime-checks.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
     if(minimapOnly){for(const f of ['scripts/hd-mobile-minimap-runtime-checks.mjs','scripts/test-hd-minimap.mjs','scripts/test-hd-mobile-minimap.mjs','js/hd-minimap.js','js/hd-mobile-minimap.js','css/hd-minimap.css','css/hd-mobile.css','pc.html','package.json'])freeze(f);}
+    if(diplomacyOnly||tradeOnly)freeze('scripts/hd-mobile-month-runtime-checks.mjs');
     if(diplomacyOnly){for(const f of ['scripts/hd-mobile-diplomacy-runtime-checks.mjs','scripts/hd-mobile-diplomacy-runtime-oracle.mjs','scripts/test-hd-mobile-diplomacy-runtime-oracle.mjs','scripts/test-hd-mobile-diplomacy-engine.mjs','js/bridge.js','js/hd-city-menu.js','js/hd-dialog.js','css/hd-mobile.css','scripts/write-wasm-manifest.mjs','package.json'])freeze(f);}
     if(recruitment)freeze('scripts/hd-mobile-recruitment-runtime-oracle.mjs');
     if(distribution){freeze('scripts/hd-mobile-distribution-runtime-checks.mjs');freeze('scripts/hd-mobile-distribution-runtime-oracle.mjs');}
