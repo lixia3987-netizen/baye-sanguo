@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {defenderNativeSource} from './hd-mobile-defender-runtime-checks.mjs';
 import {battleObservation} from './hd-mobile-battle-runtime-checks.mjs';
-import {battleHudObservation,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
+import {battleHudObservation,battleResultNoteObservation,verifyBattleHud,verifyBattleResultNote} from './hd-battle-hud-runtime-checks.mjs';
 import {verifyMobileDefenderSettlement,verifyMobileDefenderCampaignEnd} from './hd-mobile-defender-settlement-runtime-oracle.mjs';
 import {campaignGeometrySource} from './hd-mobile-campaign-runtime-checks.mjs';
 import {verifyMobileSuccessorChoice,verifyMobileSuccessorReport,verifyMobileSuccessorSettlement} from './hd-mobile-successor-runtime-oracle.mjs';
@@ -175,18 +175,21 @@ export async function runMobileDefenderCombatChecks(c) {
         const note=await evaluate(`(() => {
           const note=BayeHdBattleNote.debugSnapshot(),native=baye.hd.battleNote();
           if(!note.active||native.outcome!==${over})return null;
+          const result=${battleResultNoteObservation};
+          if(!result||result.note.seq!==note.seq)return null;
           const root=document.getElementById('hd-battle-note'),text=document.getElementById('hd-battle-note-text');
           const r=text.getBoundingClientRect(),style=getComputedStyle(text);let shown=true;
           for(let n=text;n;n=n.parentElement){
             const s=getComputedStyle(n);
             if(n.hidden||s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0)shown=false;
           }
-          return {note,native,shown,text:text.textContent,fontSize:parseFloat(style.fontSize),
+          return {note,native,result,shown,text:text.textContent,fontSize:parseFloat(style.fontSize),
             rect:{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height},
             width:innerWidth,height:innerHeight,scrollWidth:text.scrollWidth,clientWidth:text.clientWidth,
             rootPointerEvents:getComputedStyle(root).pointerEvents};
         })()`);
         if(note){
+          verifyBattleResultNote(note.result,{outcome:over,kind:'defense',cityIndex:n.battle.cityIndex});
           assert.ok(note.shown&&note.rect.width>0&&note.rect.height>0&&note.fontSize>=24);
           assert.ok(note.rect.left>=0&&note.rect.top>=0&&note.rect.right<=note.width&&note.rect.bottom<=note.height&&note.scrollWidth<=note.clientWidth);
           assert.equal(note.text,note.native.text);assert.equal(note.rootPointerEvents,'none');

@@ -21,6 +21,13 @@
     padding: 30px 24px;
     text-align: center;
 }
+#hd-battle-note-place {
+    margin: 0 0 6px;
+    color: #d4b986;
+    font-size: clamp(16px, 2.3vw, 23px);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
 #hd-battle-note-text {
     margin: 0;
     font-size: clamp(24px, 3vw, 42px);

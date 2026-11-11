@@ -1,6 +1,45 @@
 import assert from 'node:assert/strict';
 import {summarizeFrames} from './hd-performance-metrics.mjs';
 
+export const battleResultNoteObservation = `(() => {
+    const note=BayeHdBattleNote.debugSnapshot();
+    if(!note.active||!note.place)return null;
+    const d=baye.data, native=baye.hd.battleNote(), param=d.g_FgtParam;
+    if(native.active!==1||native.seq!==note.seq||native.generation!==note.generation)return null;
+    const root=document.getElementById('hd-battle-note'), caption=document.getElementById('hd-battle-note-place'),
+        message=document.getElementById('hd-battle-note-text');
+    const measure=node=>{
+        const rect=node.getBoundingClientRect();
+        return {text:node.textContent, visible:node.checkVisibility({visibilityProperty:true,opacityProperty:true}),
+            fits:rect.width>0&&rect.height>0&&rect.left>=0&&rect.top>=0&&rect.right<=innerWidth&&rect.bottom<=innerHeight&&
+                node.scrollWidth<=node.clientWidth, top:rect.top, bottom:rect.bottom};
+    };
+    return {note,native,city:{index:param.CityIndex,name:baye.getCityName(param.CityIndex),owner:d.g_Cities[param.CityIndex].Belong},
+        mode:param.Mode,skip:d.g_hdFightSkip,king:d.g_PlayerKing,fightOver:d.g_FgtOver,nativeOver:d.g_hdFightOver,
+        caption:measure(caption),message:measure(message),pointerEvents:getComputedStyle(root).pointerEvents};
+})()`;
+
+export function verifyBattleResultNote(sample, {outcome, kind, cityIndex}) {
+    const {note,native,city,caption,message} = sample;
+    assert.equal(note.presentation,'hd'); assert.equal(native.outcome,outcome); assert.equal(note.outcome,outcome);
+    assert.equal(note.winner,native.winner); assert.equal(city.index,cityIndex);
+    assert.deepEqual(note.place,{cityIndex,cityName:city.name,kind});
+    if (outcome === 1) assert.equal(native.winner,sample.king,'Original player wins this order');
+    if (kind === 'occupation' || kind === 'arrival') {
+        assert.equal(sample.skip,kind==='occupation'?1:2);
+        assert.equal(city.owner,sample.king+1,'The destination belongs to the original player');
+    } else {
+        assert.equal(sample.fightOver,outcome); assert.equal(sample.nativeOver,outcome);
+        assert.equal(sample.mode,kind==='attack'?1:0);
+    }
+    const labels={attack:'进攻',defense:'守城',occupation:'占领',arrival:'入驻'};
+    assert.equal(caption.text,`${labels[kind]} · ${city.name}`);
+    assert.equal(message.text,native.text);
+    assert.ok(caption.visible&&caption.fits&&message.visible&&message.fits&&caption.bottom<=message.top,
+        'The place and original result fit and remain individually legible');
+    assert.equal(sample.pointerEvents,'none','Result presentation remains passive');
+}
+
 export async function measureIdleBattleBoard(evaluate, send, canvasId) {
     await send('Performance.enable');
     try {

@@ -4,6 +4,7 @@ import {battleObservation} from './hd-mobile-battle-runtime-checks.mjs';
 import {verifyMobileSpySkill} from './hd-mobile-battle-skill-oracle.mjs';
 import {verifyMobileNonlethalAttack} from './hd-mobile-battle-attack-oracle.mjs';
 import {mobileSuccessorCandidateIds,verifyMobileSuccessorChoice} from './hd-mobile-successor-runtime-oracle.mjs';
+import {battleResultNoteObservation,verifyBattleResultNote} from './hd-battle-hud-runtime-checks.mjs';
 
 export async function runMobileBattleEffectsChecks(c) {
   const {report,evaluate,until,delay,checkpoint,key,button,tap,cityPoint,metrics,readSource,worldSource,mapReadySource,originalLibBytes,effectManifest,controls}=c;
@@ -159,6 +160,11 @@ export async function runMobileBattleEffectsChecks(c) {
   report.battleCompletion={before:await native(),world:await evaluate(worldSource),successorChoices:[]};
   await button('[data-hd-battle-sys]');await ready(6,'Actual completion SYSTEM');await menu(1,'Request genuine retreat');await ready(7,'Actual retreat confirmation');
   await menu(0,'Confirm actual whole army retreat');
+  const retreatNote=await until('Current original retreat note',
+    `(() => {const s=${battleResultNoteObservation};return s&&s.note.outcome===2&&s.city.index===9?s:null;})()`,15000);
+  verifyBattleResultNote(retreatNote,{outcome:2,kind:'attack',cityIndex:9});
+  report.battleCompletion.note=retreatNote;
+  await checkpoint('battle-effects-retreat-note');
   for(let n=0;n<1800;n++){
     const s=await native(),m=s.menu;
     if(m.active===1&&m.context===5&&m.kind===1){

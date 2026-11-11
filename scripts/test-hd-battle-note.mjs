@@ -27,7 +27,7 @@ function fixture({mobile = true, mode = 'auto', map = 'hd-map', microtask = true
     const state = {mode, map, ready: true, reads: 0, readHook: null, identityHook: null, writes: 0, keys: 0, storageWrites: 0, callbacks: [], microtasks: []};
     let identity = {status: 'ready', generation: 3, sha256: SHA, byteLength: 207195};
     function element() { return {hidden: true, textContent: '', attrs: {}, setAttribute(k, v) { this.attrs[k] = v; }}; }
-    for (const id of ['hd-battle-note', 'hd-battle-note-text']) nodes.set(id, element());
+    for (const id of ['hd-battle-note', 'hd-battle-note-text', 'hd-battle-note-place']) nodes.set(id, element());
     const body = {...element(), classList: {contains: name => mobile && name === 'hd-mobile-page'}};
     const document = {body, hidden: false, getElementById: id => nodes.get(id),
         addEventListener(name, fn) { const list = listeners.get(name) || []; list.push(fn); listeners.set(name, list); }};
@@ -83,6 +83,69 @@ test('Only the actual active native WinNote text appears; zero is a valid winner
 test('Actual LossNote uses the original text and unknown winner sentinel', () => {
     const f = fixture(); f.set('outcome', 2); f.set('winner', 65535); f.set('text', '我军战败');
     f.raw.g_FgtOver = 1; f.api.init(); f.on(); assert.equal(f.api.debugSnapshot().outcome, 2); f.noSideEffects();
+});
+for (const {mode, outcome, skip, kind, label} of [
+    {mode:1,outcome:1,skip:0,kind:'attack',label:'进攻'},
+    {mode:0,outcome:2,skip:0,kind:'defense',label:'守城'},
+    {mode:2,outcome:1,skip:1,kind:'occupation',label:'占领'},
+    {mode:2,outcome:1,skip:2,kind:'arrival',label:'入驻'}
+]) {
+    test('Result location follows the actual native '+kind+' owner and clears on retirement', () => {
+        const f = fixture(), caption = f.nodes.get('hd-battle-note-place');
+        Object.assign(f.raw,{g_PlayerKing:0,g_FgtParam:{Mode:mode,CityIndex:16},g_FgtOver:1,
+            g_hdFightOver:1,g_hdFightSkip:skip,g_Cities:{16:{Belong:skip ? 1 : 9}}});
+        f.environment.baye.getCityName = index => { assert.equal(index,16); return '许昌'; };
+        f.set('outcome',3); f.set('winner',65535); f.set('text','我军进攻许昌');
+        f.api.init(); f.on();
+        assert.equal(caption.hidden,true);
+        if (!skip) {
+            f.raw.g_hdFightInputSeq++;
+            f.raw.g_FgtOver = f.raw.g_hdFightOver = outcome;
+        }
+        f.set('seq',12); f.set('outcome',outcome); f.set('winner',outcome === 1 ? 0 : 65535);
+        f.set('text',outcome === 1 ? '我军大获全胜' : '我军战败');
+        f.api.onEngineNote(); f.on();
+        assert.deepEqual({...f.api.debugSnapshot().place},{cityIndex:16,cityName:'许昌',kind});
+        assert.equal(caption.hidden,false); assert.equal(caption.textContent,label+' · 许昌');
+        f.set('active',0); f.api.onEngineNote(); f.off();
+        assert.equal(caption.hidden,true); assert.equal(caption.textContent,''); f.noSideEffects();
+    });
+}
+test('A new fight sequence distinguishes a real defense from the previous order’s skip flag', () => {
+    const f = fixture(), caption = f.nodes.get('hd-battle-note-place');
+    Object.assign(f.raw,{g_PlayerKing:0,g_FgtParam:{Mode:0,CityIndex:16},g_FgtOver:1,g_hdFightOver:1,
+        g_hdFightSkip:1,g_Cities:{16:{Belong:1}}});
+    f.environment.baye.getCityName = () => '许昌';
+    f.set('outcome',3); f.set('winner',65535); f.set('text','敌军进攻许昌');
+    f.api.init(); f.on();
+    f.raw.g_hdFightInputSeq++;
+    f.set('seq',12); f.set('outcome',1); f.set('winner',0); f.set('text','我军大获全胜');
+    f.api.onEngineNote(); f.on();
+    assert.equal(caption.textContent,'守城 · 许昌');
+    f.noSideEffects();
+});
+test('Retained outcomes, unrelated winners and unowned empty destinations cannot label the current note', () => {
+    const f = fixture(), caption = f.nodes.get('hd-battle-note-place');
+    Object.assign(f.raw,{g_PlayerKing:0,g_FgtParam:{Mode:1,CityIndex:16},g_FgtOver:2,g_hdFightOver:1,
+        g_hdFightSkip:0,g_Cities:{16:{Belong:9}}});
+    let lookups = 0;
+    f.environment.baye.getCityName = () => { lookups++; return '许昌'; };
+    f.api.init(); f.on(); assert.equal(f.api.debugSnapshot().place,null);
+    f.raw.g_FgtOver = 1; f.set('winner',8); f.api.refresh(); f.on(); assert.equal(f.api.debugSnapshot().place,null);
+    f.set('seq',12); f.set('outcome',3); f.set('winner',65535); f.set('text','我军进攻许昌');
+    f.api.onEngineNote();
+    f.set('seq',13); f.set('outcome',1); f.set('winner',0); f.set('text','我军大获全胜');
+    f.raw.g_hdFightSkip = 1; f.api.onEngineNote(); f.on(); assert.equal(f.api.debugSnapshot().place,null);
+    assert.equal(lookups,0);
+    assert.equal(caption.hidden,true); f.noSideEffects();
+});
+test('A city lookup that changes the battle owner cannot attach its old location', () => {
+    const f = fixture(), caption = f.nodes.get('hd-battle-note-place');
+    Object.assign(f.raw,{g_PlayerKing:0,g_FgtParam:{Mode:1,CityIndex:16},g_FgtOver:1,g_hdFightOver:1,g_hdFightSkip:0});
+    f.environment.baye.getCityName = () => { f.raw.g_FgtParam.CityIndex = 15; return '许昌'; };
+    f.api.init(); f.on(); assert.equal(f.api.debugSnapshot().place,null); assert.equal(caption.hidden,true);
+    f.environment.baye.getCityName = () => { f.set('seq',12); return '洛阳'; };
+    f.api.refresh(); f.off(); f.noSideEffects();
 });
 test('The original delay boundary retires the panel, with no new confirmation', () => {
     const f = fixture(); f.api.init(); f.on(); f.set('active', 0); f.api.onEngineNote(); f.off(); f.noSideEffects();
@@ -285,9 +348,9 @@ test('last provider-reference getters cannot paint a stale announcement after ch
         f.api.init(); assert.equal(reads, 3); f.off(); f.noSideEffects();
     }
 });
-test('The lightweight output contains no input handlers or generated winner/name text', () => {
+test('Result presentation sends no input and preserves native winner text', () => {
     assert.doesNotMatch(source, /sendKey|dispatchEvent|localStorage|storage\.set|\.value\s*=/);
-    assert.doesNotMatch(source, /getPersonName|g_FgtOver|fight\.over/);
+    assert.doesNotMatch(source, /getPersonName|fight\.over/);
 });
 test('The panel preserves native LCD hit testing and the original delay input contract', () => {
     const css = readFileSync(new URL('../css/hd-battle-note.css', import.meta.url), 'utf8');

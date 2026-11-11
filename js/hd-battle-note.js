@@ -8,13 +8,38 @@
         'g_hdResultOwnerValid', 'g_hdMapPick', 'g_hdBattlePick', 'g_hdFightActive'];
     var FENCES = ['g_hdEngineReady', 'g_hdDetailGeneration', 'g_hdMenuSeq', 'g_hdReportSeq',
         'g_hdRecordSeq', 'g_hdMapInputSeq', 'g_hdFightInputSeq'];
+    var PLACE_LABELS = {attack: '进攻', defense: '守城', occupation: '占领', arrival: '入驻'};
 
     function uint(value, max) {
         return typeof value === 'number' && Number.isInteger(value) && value >= 0 && value <= (max == null ? 0xffffffff : max);
     }
+    function battleCity(data) {
+        try {
+            var params = data.g_FgtParam, cityIndex = params && params.CityIndex;
+            return uint(cityIndex, 37) ? cityIndex : null;
+        } catch (error) { return null; }
+    }
+    function resultPlace(data, note, cityIndex, inputSeq, order) {
+        if ((note.outcome !== 1 && note.outcome !== 2) || cityIndex === null) { return null; }
+        try {
+            var king = data.g_PlayerKing, skip = data.g_hdFightSkip;
+            if (!uint(king, 199) || note.outcome === 1 && note.winner !== king) { return null; }
+            var sameOrder = order && order.cityIndex === cityIndex && order.generation === note.generation;
+            // BattleDrv announces each order before GamFight advances the input sequence.
+            // A prior order's skip flag can still be present after a real battle.
+            if (sameOrder && inputSeq === order.inputSeq) {
+                if (note.outcome !== 1 || (skip !== 1 && skip !== 2)) { return null; }
+                var cities = data.g_Cities, city = cities && cities[cityIndex];
+                return city && city.Belong === king + 1 ? {cityIndex: cityIndex, kind: skip === 1 ? 'occupation' : 'arrival'} : null;
+            }
+            if ((!sameOrder && skip !== 0) || data.g_FgtOver !== note.outcome || data.g_hdFightOver !== note.outcome) { return null; }
+            var params = data.g_FgtParam, mode = params && params.Mode;
+            return mode === 0 || mode === 1 ? {cityIndex: cityIndex, kind: mode === 0 ? 'defense' : 'attack'} : null;
+        } catch (error) { return null; }
+    }
     function createController(environment) {
         var env = environment || global, mounted = false, focused = true, pageActive = true, timer = null, afterInputPending = false;
-        var reading = false, readEpoch = 0;
+        var reading = false, readEpoch = 0, announcedOrder = null;
         var last = {active: false, presentation: 'off', reason: 'not-initialized'};
         function doc() { return env.document; }
         function node(id) { return doc() && doc().getElementById(id); }
@@ -38,7 +63,7 @@
             return {generation: value.generation, sha256: value.sha256, byteLength: value.byteLength, status: value.status, source: value};
         }
         function identityKey(value) { return JSON.stringify([value.generation, value.sha256, value.byteLength, value.status]); }
-        function sample(data, hd, read) {
+        function sample(data, hd, read, order) {
             var value = read.call(hd), note = {}, raw = {};
             if (data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
             if (!value) { return null; }
@@ -63,7 +88,9 @@
                 raw[field] = next;
             }
             if (raw.g_hdEngineReady !== 1 || note.generation !== raw.g_hdDetailGeneration) { return null; }
-            return {note: note, raw: raw};
+            var cityIndex = note.outcome <= 3 ? battleCity(data) : null;
+            return {note: note, raw: raw, cityIndex: cityIndex,
+                place: resultPlace(data, note, cityIndex, raw.g_hdFightInputSeq, order)};
         }
         function rawMatches(value, data) {
             if (!value || data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return false; }
@@ -88,9 +115,19 @@
                 if (!id || ready.call(hd) !== true) { return null; }
                 var data = typeof getData === 'function' ? getData.call(baye) : baye.data;
                 if (!data || baye.data !== data) { return null; }
-                var first = sample(data, hd, read), second = sample(data, hd, read), latest = identity(identityApi, identify, current);
+                var order = announcedOrder && announcedOrder.data === data && announcedOrder.libraryGeneration === id.generation ? announcedOrder : null;
+                var first = sample(data, hd, read, order), second = sample(data, hd, read, order);
+                if (!first || !second || JSON.stringify(first) !== JSON.stringify(second)) { return null; }
+                var place = second.place, params = place && data.g_FgtParam, getCityName = place && baye.getCityName, cityName = '';
+                if (place && typeof getCityName === 'function') {
+                    try {
+                        var name = getCityName.call(baye, place.cityIndex);
+                        if (typeof name === 'string' && name.length <= 32 && name.indexOf('\u0000') < 0) { cityName = name.trim(); }
+                    } catch (error) {}
+                }
+                var latest = identity(identityApi, identify, current);
                 var stillReady = ready.call(hd), shown = available() && effectiveHd();
-                if (!first || !second || JSON.stringify(first) !== JSON.stringify(second) || !latest ||
+                if (!latest ||
                     identityKey(id) !== identityKey(latest) || identityKey(id) !== identityKey(id.source) ||
                     identityKey(latest) !== identityKey(latest.source) || stillReady !== true || !shown ||
                     env.baye !== baye || baye.data !== data || baye.hd !== hd || baye.ensureData !== getData ||
@@ -104,6 +141,10 @@
                 var finalMode = battleMode.call(battle), finalHd = finalMode === 'hd' || finalMode === 'auto' &&
                     typeof mapMode === 'function' && mapMode.call(map) === 'hd-map';
                 var finalReady = ready.call(hd), finalAvailable = available();
+                var finalCity = second.cityIndex === null ? null : battleCity(data), inputSeq = second.raw.g_hdFightInputSeq;
+                var location = cityName && baye.getCityName === getCityName && data.g_FgtParam === params &&
+                    JSON.stringify(resultPlace(data, second.note, finalCity, inputSeq, order)) === JSON.stringify(place) ?
+                    {cityIndex: place.cityIndex, cityName: cityName, kind: place.kind} : null;
                 // These callbacks can in turn change native/source values.
                 // Keep the primitive publication check after all of them.
                 if (!finalHd || finalReady !== true || !finalAvailable ||
@@ -111,14 +152,25 @@
                     env.baye !== baye || baye.data !== data || baye.hd !== hd || env.dynLib !== lib ||
                     env.BayeHdLibIdentity !== identityApi || env.BayeHdBattle !== battle || env.BayeHdOverworld !== map ||
                     !rawMatches(second, data) || ticket !== readEpoch) { return null; }
-                return {data: data, note: second.note, libraryGeneration: latest.generation};
+                if (second.note.outcome === 3 && finalCity !== null && finalCity === second.cityIndex &&
+                    (!order || order.seq !== second.note.seq || order.generation !== second.note.generation)) {
+                    announcedOrder = {data: data, libraryGeneration: latest.generation, generation: second.note.generation,
+                        seq: second.note.seq, cityIndex: finalCity, inputSeq: inputSeq};
+                }
+                return {data: data, note: second.note, place: location, libraryGeneration: latest.generation};
             } catch (error) { return null; }
             finally { reading = false; }
         }
         function paint(value, reason) {
             var root = node('hd-battle-note'), text = node('hd-battle-note-text'), body = doc() && doc().body;
-            var show = !!(value && root && text);
-            if (text) { text.textContent = show ? value.note.text : ''; }
+            var show = !!(value && root && text), place = show && value.place;
+            var caption = node('hd-battle-note-place'), message = show ? value.note.text : '';
+            if (text && text.textContent !== message) { text.textContent = message; }
+            if (caption) {
+                var captionText = place ? PLACE_LABELS[place.kind] + ' · ' + place.cityName : '';
+                if (caption.textContent !== captionText) { caption.textContent = captionText; }
+                caption.hidden = !place;
+            }
             if (root) {
                 root.hidden = !show;
                 root.setAttribute('aria-hidden', show ? 'false' : 'true');
@@ -131,11 +183,24 @@
             }
             last = show ? {active: true, presentation: 'hd', reason: '', seq: value.note.seq,
                 generation: value.note.generation, libraryGeneration: value.libraryGeneration,
-                outcome: value.note.outcome, winner: value.note.winner, text: value.note.text} :
+                outcome: value.note.outcome, winner: value.note.winner, text: value.note.text, place: value.place} :
                 {active: false, presentation: 'off', reason: reason || 'unavailable'};
             return last;
         }
         function refresh() { return paint(readCurrent(), 'unavailable'); }
+        function onEngineNote() {
+            if (announcedOrder) {
+                try {
+                    var data = env.baye && env.baye.data;
+                    // A new announcement can arrive while HD is off or the page is hidden.
+                    if (data !== announcedOrder.data || data.g_hdDetailGeneration !== announcedOrder.generation ||
+                        data.g_hdBattleNoteActive === 1 && data.g_hdBattleNoteOutcome === 3 && data.g_hdBattleNoteSeq !== announcedOrder.seq) {
+                        announcedOrder = null;
+                    }
+                } catch (error) { announcedOrder = null; }
+            }
+            return refresh();
+        }
         function retire(reason) { return paint(null, reason || 'retired'); }
         function schedule() {
             if (timer !== null) { env.clearTimeout(timer); timer = null; }
@@ -174,7 +239,7 @@
             }
             refresh(); schedule(); return api;
         }
-        var api = {init: init, refresh: refresh, onEngineNote: refresh, retire: retire,
+        var api = {init: init, refresh: refresh, onEngineNote: onEngineNote, retire: retire,
             debugSnapshot: function () { return Object.assign({}, last, {mounted: mounted, polling: timer !== null}); }};
         return api;
     }

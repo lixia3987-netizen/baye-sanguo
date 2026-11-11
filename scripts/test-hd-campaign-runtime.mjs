@@ -21,6 +21,7 @@ import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {snapshotOwnedChrome,cleanupOwnedChrome} from './hd-runtime-owned-chrome.mjs';
 import {writeJsonAtomicSync} from './hd-runtime-json.mjs';
+import {battleResultNoteObservation,verifyBattleResultNote} from './hd-battle-hud-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -695,6 +696,15 @@ async function prepareArmy(cdp,fixture) {
     await checkpoint(cdp,'army-fixture-prepared-map');
 }
 
+async function recordBattleResultNote(cdp,label,expected) {
+    const sample=await waitFor(cdp,'current native result note for city '+expected.cityIndex,
+        `(() => {const s=${battleResultNoteObservation};return s&&s.note.outcome===${expected.outcome}&&s.city.index===${expected.cityIndex}?s:null;})()`,15000);
+    verifyBattleResultNote(sample,expected);
+    report.resultNotes??=[];report.resultNotes.push({label,...sample});
+    await checkpoint(cdp,label+'-result-note',{resultNote:sample});
+    return sample;
+}
+
 async function campaignSmoke(cdp) {
     await evaluate(cdp, `(() => { BayeHdOverworld.setMode('hd-map'); BayeHdCityMenu.setMode('hd'); BayeHdBattle.setMode('hd'); })()`);
     const before=await evaluate(cdp,worldExpression);
@@ -725,6 +735,7 @@ async function campaignSmoke(cdp) {
         const empty=await chooseMarchPair(cdp,true);
         assert.ok(empty,'an owned city has a genuinely unowned neighboring target');
         await dispatchMarch(cdp,empty.origin,empty.target,'empty',{generalNames:empty.generals.map(p=>p.name)});
+        await recordBattleResultNote(cdp,'empty',{outcome:1,kind:'occupation',cityIndex:empty.target});
         await settleToMap(cdp,'empty');
         const after=await evaluate(cdp,worldExpression);
         assert.equal(after.cities.find(c=>c.i===empty.target).Belong,after.realm.playerBelong,'empty target is owned after the actual order');
@@ -770,6 +781,8 @@ async function campaignSmoke(cdp) {
         const terminal=await evaluate(cdp,battleStateExpression);
         const expected=winRequested?1:2;
         assert.equal(terminal.fight.over,expected,'native battle terminal result matches requested campaign scenario');
+        const note=await recordBattleResultNote(cdp,'battle-'+round,{outcome:expected,kind:'attack',cityIndex:plan.target});
+        assert.equal(note.city.owner,worldBefore.cities.find(c=>c.i===plan.target).Belong,'Result note precedes any occupation of the enemy city');
         await checkpoint(cdp,'battle-'+round+'-terminal');
         await settleToMap(cdp,'battle-'+round);
         const after=await evaluate(cdp,worldExpression);
@@ -1544,10 +1557,19 @@ async function settleDomestic(cdp) {
 
 async function openFunctionMenu(cdp,label) {
     if(captiveScenario)return openCaptiveFunctionMenu(cdp,label);
-    await waitFor(cdp,'actual strategy map before '+label,'baye.hd.march().pick===1&&!baye.hd.march().battlePick&&!baye.hd.fight().active',60000);
+    const mapOwner=`(() => {const m=baye.hd.march(),n=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();
+        return m.pick===1&&!m.battlePick&&m.mapInputSeq>0&&!n.active&&!baye.hd.qty().active&&!baye.hd.report().active&&
+            !baye.hd.fight().active&&!s.sending&&!s.queueLen&&{mapInputSeq:m.mapInputSeq,menuSeq:n.seq,
+                cityOpen:s.open,inputCount:window.__runtimeEngineInputs.length};})()`;
+    const owner=await waitFor(cdp,'actual strategy map before '+label,mapOwner,60000);
+    // Recruitment can leave the local city pane open after native MAP resumes.
+    if(owner.cityOpen)await action(cdp,'retire-map-city-shell-'+label,'BayeHdCityMenu.close({silent:true})');
     await action(cdp,'use-hd-system-'+label,`BayeHdSystemUi.setMode('hd')`);
+    assert.deepEqual(await evaluate(cdp,mapOwner),{...owner,cityOpen:false},'Preparing the menu preserves native MAP input');
     await key(cdp,'Escape');
-    await waitFor(cdp,'native function menu '+label,`(() => {const m=baye.hd.menuItems(),s=BayeHdSystemUi.debugSnapshot();return m.active&&m.context===2&&m.kind===1&&s.open&&s.screen==='insystem'&&s.input&&s.input.screen==='insystem'&&!s.pending;})()`);
+    await waitFor(cdp,'native function menu '+label,`(() => {const m=baye.hd.menuItems(),s=BayeHdSystemUi.debugSnapshot();return m.active&&m.seq!==${owner.menuSeq}&&m.context===2&&m.kind===1&&s.open&&s.screen==='insystem'&&s.input&&s.input.screen==='insystem'&&!s.pending;})()`);
+    assert.deepEqual(await evaluate(cdp,`__runtimeEngineInputs.slice(${owner.inputCount}).map(input=>input.code)`),[40],
+        'Exactly one native VK_EXIT opens the strategy menu');
     await checkpoint(cdp,label+'-function-menu');
 }
 
