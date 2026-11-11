@@ -1249,8 +1249,8 @@
     }
     function retireInteraction(reason) {
         if (reason === 'person-list-pan' && mobileHost && state.open && state.layer === 'deep' &&
-            state.deepKind === 'person-surrender' && state.deepMenuOwner && state.deepMenuOwner.kind === 3 &&
-            surrenderFlow && !surrenderFlow.pending && !state.nativeMenuRequest && !state.deepSelectionPending &&
+            (state.deepKind === 'person' || state.deepKind === 'person-surrender' && surrenderFlow && !surrenderFlow.pending) &&
+            state.deepMenuOwner && state.deepMenuOwner.kind === 3 && !state.nativeMenuRequest && !state.deepSelectionPending &&
             !state.personPagePending && !state.sending && !state.queue.length) {
             // Keep the scroller and its rows mounted while the browser pans.
             state.deepPointerOwner = state.previewPointerOwner = null;
@@ -1584,7 +1584,7 @@
         var key = [seq, context, kind, signature].join(':');
         var pending = state.nativeMenuRequest;
         if (pending && pending.key === key || thenEnter && state.nativeMenuCommit === key) { return false; }
-        var request = { key: key };
+        var request = { key: key, preview: reason === 'preview-details' && !thenEnter };
         state.nativeMenuRequest = request;
         var expected = Number(initial.index);
         var waiting = false;
@@ -1617,7 +1617,12 @@
                 setTimeout(step, 40);
                 return;
             }
-            if (waiting) { deadline = Date.now() + 5000; }
+            if (waiting) {
+                deadline = Date.now() + 5000;
+                if (request.preview && state.listFind && state.deepMenuOwner && state.listFind.ownerKey === state.deepMenuOwner.key) {
+                    state.listFind.nativeIndex = index;
+                }
+            }
             waiting = false;
             if (index === target) {
                 finish();
@@ -5756,7 +5761,7 @@
                     engine && engine.ensureData, hd && hd.ready, hd && hd.menuItems, hd && hd.personProperties,
                     hooks && hooks.getPersonPropertyTitle, hooks && hooks.getPersonPropertyValue];
                 if (!ordinary() || !state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
-                    state.nativeMenuRequest || state.deepSelectionPending || state.personPagePending || state.sending ||
+                    (state.nativeMenuRequest && !state.nativeMenuRequest.preview) || state.deepSelectionPending || state.personPagePending || state.sending ||
                     state.queue.length || state.closingSub || showingQty() || detailOverlayActive() ||
                     state.personProperties && state.personProperties.custom || !state.deepMenuOwner ||
                     state.deepMenuOwner.key !== owner.key || !engine || !hd || !api ||
@@ -5809,7 +5814,7 @@
                         data.g_hdMenuKind === live.kind && data.g_hdMenuSeq === live.seq && data.g_hdMenuCount === live.count &&
                         data.g_hdMenuIndex === live.index && state.deepItems === items && ordinary() &&
                         state.open && state.layer === 'deep' && !document.hidden && (noCallbacks || shouldShowHd()) &&
-                        !state.nativeMenuRequest && !state.deepSelectionPending && !state.personPagePending && !state.sending &&
+                        (!state.nativeMenuRequest || state.nativeMenuRequest.preview) && !state.deepSelectionPending && !state.personPagePending && !state.sending &&
                         !state.queue.length && !state.closingSub && !(state.personProperties && state.personProperties.custom) &&
                         state.deepMenuOwner && state.deepMenuOwner.key === owner.key && token === personListStatsEpoch;
                 }
@@ -6135,7 +6140,8 @@
             retireListFind(list);
             view = state.listFind = {scope: scope, ownerKey: owner.key, kind: kind, query: '', sort: 'native',
                 expanded: false, composing: false, visibleNativeIndices: [], signature: '', nativeIndex: menu.index};
-        } else if (view.nativeIndex !== menu.index && !listFindInside(document.activeElement)) {
+        } else if (view.nativeIndex !== menu.index && !listFindInside(document.activeElement) &&
+            !(state.nativeMenuRequest && state.nativeMenuRequest.preview)) {
             // Native navigation keeps native order; local results never remap its index.
             view.query = ''; view.sort = 'native';
         }

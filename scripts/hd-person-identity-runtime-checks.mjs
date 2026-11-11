@@ -126,7 +126,7 @@ export function identityDomSnapshot(selector, kind) {
     const range = document.createRange();range.selectNodeContents(textNode || element);
     const lines = Array.from(range.getClientRects(), r => rect(r)).filter(r => r.width > 0 && r.height > 0);
     const style = getComputedStyle(element);
-    return {text: element.textContent, rangeText: range.toString(), bounds, clip, ancestors, shown, lines,
+    return {text: (textNode || element).textContent, rangeText: range.toString(), bounds, clip, ancestors, shown, lines,
       lineHits: lines.map(r => {const hit = document.elementFromPoint((r.left + r.right) / 2, (r.top + r.bottom) / 2);return !!hit && (hit === element || element.contains(hit));}),
       clientWidth: element.clientWidth, scrollWidth: element.scrollWidth, clientHeight: element.clientHeight, scrollHeight: element.scrollHeight,
       style: {whiteSpace: style.whiteSpace, overflowWrap: style.overflowWrap, textOverflow: style.textOverflow, lineClamp: style.getPropertyValue('-webkit-line-clamp')}};
@@ -136,12 +136,14 @@ export function identityDomSnapshot(selector, kind) {
   const group = nameTarget ? null : node.closest('.hd-city-menu-info-group');
   const directText = Array.from(node.childNodes).filter(n => n.nodeType === Node.TEXT_NODE);
   const nameNode = kind === 'listName' && directText.length === 1 ? directText[0] : null;
+  const summary = kind === 'listName' && node.querySelector(':scope > [data-hd-person-summary="1"]');
   const previewSibling = kind === 'listName' && node.parentElement?.classList.contains('hd-city-menu-preview-row') ? node.parentElement.querySelector('[data-hd-deep-preview]') : null;
   return {selector, kind, before, tag: node.tagName, id: node.id, text: node.textContent,
     groupTitle: group?.querySelector('h3')?.textContent ?? null, field: node.getAttribute('data-hd-person-property'),
     list: kind === 'listName' ? {index: node.getAttribute('data-hd-deep'), name: node.getAttribute('data-hd-deep-name'), personId: node.getAttribute('data-hd-deep-pind'),
       owner: node.getAttribute('data-hd-deep-owner'), context: node.getAttribute('data-hd-menu-context'), kind: node.getAttribute('data-hd-menu-kind'), seq: node.getAttribute('data-hd-menu-seq'),
-      directText: directText.map(n => n.data), childNodeCount: node.childNodes.length, elementChildren: node.children.length} : null,
+      directText: directText.map(n => n.data), childNodeCount: node.childNodes.length, elementChildren: node.children.length,
+      summary: summary ? {text:summary.textContent, loyalty:summary.querySelector('[data-hd-person-loyalty-summary="1"]')?.textContent} : null} : null,
     current: node.getAttribute('data-hd-person-property-current'), titlePaintSeq: node.getAttribute('data-hd-person-property-title-paint-seq'),
     valuePaintSeq: node.getAttribute('data-hd-person-property-value-paint-seq'),
     propertiesPaintSeq: document.getElementById('hd-city-menu-person-properties-fields')?.getAttribute('data-hd-person-paint-seq'),
@@ -208,8 +210,16 @@ export async function checkPersonIdentity(ctx, driver, entry, personId, rom) {
     if (target.kind === 'heading' || target.kind === 'listName') {
       if (target.kind === 'heading') {assert.equal(dom.tag, 'H2');assert.equal(dom.id, 'hd-city-menu-person-name');}
       else {
-        assert.equal(dom.tag, 'BUTTON');assert.equal(dom.list.childNodeCount, 1);assert.equal(dom.list.elementChildren, 0);
+        assert.equal(dom.tag, 'BUTTON');
+        const summary = dom.list.summary;
+        assert.equal(dom.list.childNodeCount, summary ? 2 : 1);
+        assert.equal(dom.list.elementChildren, summary ? 1 : 0);
         assert.deepEqual(dom.list.directText, [expected.name], 'The selected button contains one complete name text node, separate from its preview sibling');
+        if (summary) {
+          const {Force, IQ, Thew, Level, Arms, Devotion} = before.world.people[personId];
+          const loyalty = ' · 忠诚 ' + (expected.ownership.kind === 'lord' ? '--' : Devotion);
+          assert.deepEqual(summary, {text:`武力 ${Force} · 智力 ${IQ} · 体力 ${Thew}等级 ${Level} · 兵力 ${Arms}${loyalty}`, loyalty});
+        }
         assert.equal(dom.list.index, String(before.state.menu.index));assert.equal(dom.list.name, expected.name);assert.equal(dom.list.personId, String(personId));
         assert.equal(dom.list.owner, before.state.cityUi.deepMenuOwner.key);assert.equal(dom.list.context, '1');assert.equal(dom.list.kind, '3');assert.equal(dom.list.seq, String(before.state.menu.seq));
       }

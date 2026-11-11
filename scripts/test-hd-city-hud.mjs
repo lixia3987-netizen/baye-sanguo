@@ -3973,6 +3973,51 @@ function assertPersonListPlain(h, names, message) {
     assert.deepEqual(h.keys, [], message); assert.deepEqual(h.writes, [], message);
 }
 
+test('mobile ordinary person previews keep the summary rows and search through each native cursor acknowledgement', () => {
+    const h = surrenderHarness({mobile: true});
+    h.people[150].Belong = 1;
+    const createElement = h.document.createElement;
+    h.document.createElement = tag => Object.defineProperty(createElement(tag), 'isConnected', {
+        get() { return h.root.contains(this); }
+    });
+    h.publish('actor');
+    Object.assign(h.hud.state, {layer: 'deep', deepKind: 'person', deepLabel: '搜寻'});
+    const ui = openListFind(h), name = h.names.get(150);
+    queryListFind(h, name);
+    ui.query.blur();
+    const row = h.deep(2), preview = h.document.querySelectorAll('[data-hd-deep-preview]').find(button =>
+        button.getAttribute('data-hd-deep-preview') === '2');
+    const summary = row.querySelector('[data-hd-person-summary]'), owner = h.hud.state.deepMenuOwner;
+    const world = h.world();
+    assert.ok(summary && preview);
+
+    h.down(preview);
+    assert.ok(h.hud.state.previewPointerOwner?.context);
+    h.api.retireInteraction('person-list-pan');
+    assert.equal(h.hud.state.deepMenuOwner, owner);
+    h.click(preview);
+    assert.deepEqual(h.keys, []);
+
+    h.press(preview);
+    assert.deepEqual(h.keys, [35]);
+    h.refresh();
+    assert.equal(h.deep(2), row);
+    assert.equal(ui.query.value, name);
+    h.flush();
+    assert.equal(h.menu.index, 1);
+    assert.deepEqual(h.keys, [35, 35]);
+    assert.equal(row.querySelector('[data-hd-person-summary]'), summary);
+    h.flush();
+    assert.equal(h.menu.index, 2);
+    assert.equal(h.hud.state.personDetail.personIndex, 150);
+    assert.equal(h.hud.state.nativeMenuRequest, null);
+    assert.equal(ui.query.value, name);
+    assert.deepEqual(plain(h.hud.state.listFind.visibleNativeIndices), [2]);
+    assert.deepEqual(h.keys, [35, 35]);
+    assert.deepEqual(h.world(), world);
+    assert.deepEqual(h.writes, []);
+});
+
 test('person list summary follows filtered reordered native IDs and duplicate names without changing public items or input', () => {
     const h = personListSummaryHarness(), before = plain(h.raw), menuBefore = plain(h.menu), profileBefore = plain(h.personProps);
     h.hud.fillDeepList();

@@ -29,6 +29,7 @@ const scenario = scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
 assert.ok(['victory', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
 const captiveScenario=scenario==='captives',preflightOnly=process.argv.includes('--preflight-only');
 const captiveOrder=process.argv.includes('--captive-order');
+const captiveUntilJoined=process.argv.includes('--captive-until-joined');
 const captiveWidthFlag=process.argv.find(arg=>arg.startsWith('--captive-width='));
 const captiveWidth=Number(captiveWidthFlag?.split('=')[1]??1920);
 const captiveMobileFlag=process.argv.find(arg=>arg.startsWith('--captive-mobile-width='));
@@ -37,6 +38,7 @@ const captiveResumeFlag=process.argv.find(arg=>arg.startsWith('--captive-resume=
 assert.ok(!captiveScenario||!staged,'Captive inspection uses the current original installed engine only');
 assert.ok(!preflightOnly||captiveScenario,'Preflight-only is limited to the isolated captive scenario');
 assert.ok(!captiveOrder||captiveScenario&&!preflightOnly,'Surrender order requires a live captive scenario');
+assert.ok(!captiveUntilJoined||captiveOrder,'Waiting for a successful surrender requires --captive-order');
 assert.ok(!captiveWidthFlag||captiveScenario&&[1280,1920].includes(captiveWidth),'Captive desktop viewport is 1280 or 1920 pixels wide');
 assert.ok(!captiveMobileFlag||captiveOrder&&[667,844].includes(captiveMobileWidth),'Mobile captive orders require a 667px or 844px landscape viewport');
 assert.ok(!captiveResumeFlag||captiveMobileWidth,'Captive replay uses a mobile viewport');
@@ -242,6 +244,10 @@ async function waitForGameProgress(cdp,description,expression,timeout=20000,nati
             Number(dialog.reportOwner.seq)===Number(native.seq)) {
             const token=native.seq+':'+native.inputSeq;
             if(!acknowledgedProgressReports.has(token)) {
+                // This report can arrive between the progress and owner reads.
+                // Give the caller the matching report before advancing it.
+                const currentMatch=await evaluate(cdp,expression);
+                if(currentMatch) {finish('complete');return currentMatch;}
                 acknowledgedProgressReports.add(token);
                 await checkpoint(cdp,'progress-native-report-'+(++progressReportIndex));
                 const current=await evaluate(cdp,'baye.hd.report()');
@@ -497,6 +503,14 @@ async function smoke(cdp) {
 }
 
 async function action(cdp, label, expression) {
+    if (captiveMobileDocument && expression.startsWith('BayeHdBattle.')) {
+        // Let the mobile host observe the new native owner before the shared
+        // battle driver starts its next command.
+        await waitFor(cdp, 'displayed mobile battle input before ' + label, `(() => {
+            const fight=baye.hd.fight(), shown=BayeHdMobileBattle.debugSnapshot();
+            return shown.presentation==='hd'&&shown.inputKind===fight.inputKind&&shown.inputSeq===fight.inputSeq;
+        })()`);
+    }
     const before=await evaluate(cdp,'({fight:baye.hd.fight(),march:baye.hd.march(),menu:baye.hd.menuItems()})');
     const result=await evaluate(cdp, expression);
     report.inputs.push({type:'action', label, before, result, at:new Date().toISOString()});
@@ -895,7 +909,8 @@ async function exerciseCaptiveSelection(cdp,loaded){
         ctx.mobile={loaded,touches:(type,points)=>captiveTouch(cdp,type,points),tap:point=>captiveTap(cdp,point)};
     }
     if(captiveOrder) {
-        ctx.endMonth=async () => {
+        ctx.untilJoined=captiveUntilJoined;
+        ctx.endMonth=async (label) => {
             if(ctx.mobile) {
                 const before=await ctx.sample();
                 await click(cdp,'#hd-mobile-system-open');
@@ -907,12 +922,12 @@ async function exerciseCaptiveSelection(cdp,loaded){
                 assert.deepEqual(await ctx.readKeys(before.state.keyCount),[40]);
                 assert.deepEqual((await ctx.sample()).world,before.world);
             } else {
-                await openFunctionMenu(cdp,'captive-order-end-month');
+                await openFunctionMenu(cdp,label);
             }
             await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
         };
         ctx.untilProgress=(label,expression)=>waitForGameProgress(cdp,label,expression,90000);
-        ctx.settleToMap=()=>settleToMap(cdp,'captive-order-next-map');
+        ctx.settleToMap=label=>settleToMap(cdp,label);
     }
     await runCaptiveInspection(ctx);
     await observeCaptiveLib(cdp,'after-captive-inspection');
