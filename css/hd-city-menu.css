@@ -443,6 +443,33 @@ html[data-baye-city-menu-map-pick="1"] .hd-city-menu-footer button {
     pointer-events: auto;
 }
 
+html[data-baye-city-transfer-target="1"] .hd-city-menu {
+    align-items: flex-start;
+}
+
+html[data-baye-city-transfer-target="1"] .hd-city-menu-stage {
+    width: min(380px, calc(100vw - 48px));
+    pointer-events: auto;
+}
+
+html[data-baye-city-transfer-target="1"] [data-hd-menu-back],
+html[data-baye-city-transfer-target="1"] [data-hd-menu-help] {
+    display: none;
+}
+
+.hd-city-menu-item[data-hd-transfer-target][aria-pressed="true"] {
+    box-shadow: inset 0 0 0 2px #f0c75a;
+}
+
+.hd-city-menu-item[data-hd-transfer-confirm]:not(:disabled) {
+    background: #355a89;
+}
+
+.hd-city-menu-item[data-hd-transfer-confirm]:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
 .hd-city-menu-status {
     margin: 18px 0;
     display: grid;

@@ -14,7 +14,8 @@
     var distributionFlow = null, goodsPersonSource = null;
     var equipmentParent = null, equipmentGoods = null, mobileEquipmentFlow = null;
     var mobileTrade = null;
-    var mobileTransfer = null;
+    var transferFlow = null, pcTransferView = null;
+    var mobileClosingRoot = null;
     var mobileDiplomacy = null;
     var pcDiplomacyEpoch = 0, pcDiplomacySending = false, pcDiplomacyReservation = null;
     var DIPLOMACY_FIELDS = ['ProtocolVersion','Active','Command','Phase','Session','InputSeq','Generation',
@@ -640,7 +641,7 @@
     }
     // PC observes the same native protocol without acquiring a mobile host or
     // its public input capability. Lazy bridge structs retain their identity.
-    function pcDiplomacyBase() {
+    function pcCityNativeBase() {
         if (mobileHost || document.hidden || !shouldShowHd()) { return null; }
         try {
             var api = global.BayeHdLibIdentity, identity = api && api.read(), engine = global.baye, hd = engine && engine.hd;
@@ -650,7 +651,16 @@
                 typeof hd.menuItems !== 'function' || typeof hd.march !== 'function' || typeof hd.qty !== 'function') { return null; }
             var data = typeof engine.ensureData === 'function' ? engine.ensureData() : engine.data;
             if (!data || cityInfoOwns(data) || !MOBILE_RAW_FIELDS.every(function (key) { return mobileInteger(data[key], 0xffffffff); }) ||
-                data.g_hdEngineReady !== 1 || !data.g_hdDetailGeneration) { return null; }
+                data.g_hdEngineReady !== 1 || !data.g_hdDetailGeneration || global.BayeHdLibIdentity !== api ||
+                global.baye !== engine || engine.hd !== hd || engine.data !== data || !api.isCurrent(identity)) { return null; }
+            return {api: api, engine: engine, hd: hd, data: data, identity: identity};
+        } catch (e) { return null; }
+    }
+    function pcDiplomacyBase() {
+        var base = pcCityNativeBase();
+        if (!base) { return null; }
+        try {
+            var api = base.api, engine = base.engine, hd = base.hd, data = base.data, identity = base.identity;
             var config = data.g_engineConfig, cities = data.g_Cities, origin = data.g_hdDiplomacyOrigin, king = data.g_PlayerKing;
             if (!config || !mobileInteger(config.enable16bitConsumeMoney, 1) || !mobileInteger(config.fixAlienateComsumeThew, 1) ||
                 !mobileInteger(origin, 37) || !mobileInteger(king, 199) || !cities || !cities[origin] ||
@@ -935,11 +945,33 @@
             return {belongs: belongs, rows: rows, targets: targets.sort(function (a, b) { return a - b; })};
         } catch (e) { return null; }
     }
-    function transferBound(value) {
-        var t = value && value.transfer, flow = mobileTransfer;
+    function pcTransferPane(data) {
+        return !mobileHost && state.open && state.layer === 'deep' && state.subKind === 'neizheng' &&
+            state.deepKind === 'city' && data && state.cityIndex === data.g_hdTransferOrigin &&
+            (data.g_hdTransferCommand === 13 && state.deepLabel === '输送' ||
+                data.g_hdTransferCommand === 14 && state.deepLabel === '移动');
+    }
+    function pcTransferPhase() {
+        var data = global.baye && baye.data;
+        return pcTransferPane(data) && data.g_hdTransferActive === 1 ? data.g_hdTransferPhase : 0;
+    }
+    function pcTransferBase() {
+        var data = global.baye && baye.data;
+        if (!pcTransferPane(data) || data.g_hdTransferActive !== 1 && !transferFlow) { return null; }
+        var base = pcCityNativeBase();
+        return base && base.data === data && pcTransferPane(data) ? base : null;
+    }
+    function transferSnapshot() {
+        return mobileHost ? mobileNativeSnapshot() : nativeSnapshot(pcTransferBase(), pcTransferBase);
+    }
+    function transferFlowMatches(value) {
+        var t = value && value.transfer, flow = transferFlow;
         return !!(t && flow && value.data === flow.data && value.libraryGeneration === flow.generation &&
-            t.session === flow.session && t.command === flow.command && t.origin === flow.origin &&
-            state.open && state.layer === 'deep' && state.deepKind === 'person-transfer' && state.cityIndex === t.origin);
+            t.session === flow.session && t.command === flow.command && t.origin === flow.origin);
+    }
+    function transferBound(value) {
+        return transferFlowMatches(value) && (mobileHost ? state.open && state.layer === 'deep' &&
+            state.deepKind === 'person-transfer' && state.cityIndex === value.transfer.origin : pcTransferPane(value.data));
     }
     function transferTicketFrom(value, reason) {
         if (!transferBound(value)) { return null; }
@@ -976,95 +1008,116 @@
         Object.defineProperty(ticket, 'data', {value: value.data, enumerable: false});
         return ticket;
     }
-    function syncMobileTransfer() {
-        if (!mobileHost) { return false; }
-        var value = mobileNativeSnapshot(), t = value && value.transfer;
+    function syncTransfer() {
+        if (!mobileHost && transferFlow && !pcTransferPane(global.baye && baye.data)) { transferFlow = null; }
+        var value = transferSnapshot(), t = value && value.transfer;
         if (!value || !t) { return false; }
         if (!t.active) {
-            if (mobileTransfer && value.data === mobileTransfer.data && value.libraryGeneration === mobileTransfer.generation &&
-                t.session === mobileTransfer.session && t.command === mobileTransfer.command && t.origin === mobileTransfer.origin &&
+            if (transferFlowMatches(value) &&
                 t.phase === 9 && !value.menu.active && !value.qty.active &&
                 !value.raw.g_hdReportActive && value.march.pick === 1 && !value.march.battlePick &&
-                value.march.mapInputSeq !== mobileTransfer.lastMapSeq && retiredCityMapOwner()) {
-                mobileTransfer = null; closeMenu({silent: true, force: true}); return true;
+                value.march.mapInputSeq !== transferFlow.lastMapSeq && retiredCityMapOwner()) {
+                transferFlow = null; closeMenu({silent: true, force: true}); return true;
             }
             return false;
         }
         if (!transferRoutes(value.data, t.origin)) { return false; }
-        if (!mobileTransfer || value.data !== mobileTransfer.data || value.libraryGeneration !== mobileTransfer.generation ||
-            t.session !== mobileTransfer.session || t.command !== mobileTransfer.command || t.origin !== mobileTransfer.origin) {
-            mobileTransfer = {data: value.data, generation: value.libraryGeneration, session: t.session,
+        if (!transferFlowMatches(value)) {
+            transferFlow = {data: value.data, generation: value.libraryGeneration, session: t.session,
                 command: t.command, origin: t.origin, pendingTarget: null, busy: false, token: 0, sent: '', status: '',
                 phase: t.phase, inputSeq: t.inputSeq, lastMapSeq: value.march.mapInputSeq};
         }
-        var flow = mobileTransfer;
+        var flow = transferFlow;
         if (flow.phase !== t.phase || flow.inputSeq !== t.inputSeq) {
             flow.phase = t.phase; flow.inputSeq = t.inputSeq; flow.pendingTarget = null; flow.busy = false;
             flow.token++; flow.status = ''; state.deepSig = ''; state.deepSelectionPending = null;
         }
         flow.lastMapSeq = value.march.mapInputSeq;
-        if (!shouldShowHd()) { return true; }
+        if (!mobileHost || !shouldShowHd()) { return true; }
         state.open = true; state.layer = 'deep'; state.subKind = 'neizheng'; state.cityIndex = t.origin;
         state.deepKind = 'person-transfer'; state.deepLabel = t.command === 13 ? '输送' : '移动'; state.deepStep = 0;
         state.battleMake = false; state.campaignPick = false; state.wizardStep = 'none'; state.marchReady = false;
         return true;
     }
+    function pcTransferMapReady() {
+        var map = global.BayeHdOverworld;
+        return !!(map && typeof map.isHdMapAvailable === 'function' && map.isHdMapAvailable());
+    }
     function getTransferTargetTicket() {
-        var ticket = mobileHost ? mobileInputTicket('transfer-target') : null;
-        return ticket && ticket.ownerType === 'transfer-target' ? ticket : null;
+        if (mobileHost) {
+            var mobileTicket = mobileInputTicket('transfer-target');
+            return mobileTicket && mobileTicket.ownerType === 'transfer-target' ? mobileTicket : null;
+        }
+        if (pcTransferPhase() !== 6 || state.nativeMenuRequest || state.queue.length || state.sending ||
+            !pcTransferMapReady()) { return null; }
+        var first = transferTicketFrom(transferSnapshot(), 'transfer-target');
+        var second = first && transferTicketFrom(transferSnapshot(), 'transfer-target');
+        return first && sameMobileMarchTicket(first, second) && pcTransferMapReady() ? Object.freeze(second) : null;
     }
     function getTransferDialogTicket() {
         var ticket = mobileHost ? mobileInputTicket() : null;
         return ticket && ['transfer-qty', 'transfer-report'].indexOf(ticket.ownerType) >= 0 ? ticket : null;
     }
     function getTransferPresentation() {
-        var first = mobileInputTicket(), value = mobileNativeSnapshot();
+        var read = mobileHost ? mobileInputTicket : getTransferTargetTicket;
+        var first = read(), value = first && transferSnapshot();
         if (!first || !/^transfer-/.test(first.ownerType) || !transferBound(value)) { return null; }
         var t = value.transfer, labels = {1:'选择将领',2:'输送粮草',3:'输送金钱',4:'输送后备兵',5:'选择目标城',
             6:'选择目标城',7:'提示',8:'出发确认'}, result = {command:t.command,session:t.session,inputSeq:t.inputSeq,
                 phase:t.phase,origin:t.origin,target:t.target,person:t.person,food:t.food,money:t.money,arms:t.arms,
                 distance:t.distance,commitSeq:t.commitSeq,commitResult:t.commitResult,title:labels[t.phase],
-                pendingTarget:mobileTransfer.pendingTarget,confirmingTarget:mobileTransfer.busy,status:mobileTransfer.status,
+                pendingTarget:transferFlow.pendingTarget,confirmingTarget:transferFlow.busy,status:transferFlow.status,
                 reportText:value.report && value.report.text || ''};
-        var second = mobileInputTicket();
+        var second = read();
         return sameMobileMarchTicket(first, second) ? Object.freeze(result) : null;
     }
     function selectTransferTarget(index, expected) {
         var first = getTransferTargetTicket(); index = Number(index);
-        if (!sameMobileMarchTicket(expected, first) || first.targets.indexOf(index) < 0 || mobileTransfer.busy) { return false; }
+        if (!sameMobileMarchTicket(expected, first) || first.targets.indexOf(index) < 0 || transferFlow.busy) { return false; }
         var name = cityName(index), second = getTransferTargetTicket();
         if (!sameMobileMarchTicket(first, second)) { return false; }
-        mobileTransfer.pendingTarget = index; mobileTransfer.status = '已选择「' + name + '」，请确认。';
+        transferFlow.pendingTarget = index; transferFlow.status = '已选择「' + name + '」，请确认。';
         state.deepSig = ''; render(); return true;
     }
     function confirmTransferTarget(index, expected) {
-        var first = getTransferTargetTicket(), flow = mobileTransfer;
+        var first = getTransferTargetTicket(), flow = transferFlow;
         index = index == null && flow ? flow.pendingTarget : Number(index);
         if (!flow || !sameMobileMarchTicket(expected, first) || flow.busy || flow.pendingTarget !== index ||
             first.targets.indexOf(index) < 0 || flow.sent === first.session + ':' + first.inputSeq) { return false; }
-        var position = cityEngineTile(index), token = ++flow.token, deadline = Date.now() + 8000, epoch = marchEpoch;
+        var position = cityEngineTile(index);
         if (!position) { return false; }
+        var token = ++flow.token, deadline = Date.now() + 8000, epoch = marchEpoch;
+        var receipt = first.session + ':' + first.inputSeq;
         flow.busy = true; flow.status = '正在确认目标城…';
         function current() {
             var ticket = getTransferTargetTicket();
-            return mobileTransfer === flow && token === flow.token && epoch === marchEpoch && Date.now() <= deadline && ticket &&
+            return transferFlow === flow && token === flow.token && epoch === marchEpoch && Date.now() <= deadline && ticket &&
                 ticket.data === first.data && ticket.libraryGeneration === first.libraryGeneration && ticket.session === first.session &&
                 ticket.inputSeq === first.inputSeq && ticket.mapInputSeq === first.mapInputSeq && ticket.targets.indexOf(index) >= 0 ? ticket : null;
         }
-        function stop() { if (mobileTransfer === flow && token === flow.token) { flow.busy = false; render(); } }
+        function stop() {
+            if (transferFlow !== flow || token !== flow.token) { return; }
+            flow.busy = false;
+            if (flow.sent !== receipt) { flow.status = '目标城尚未确认，请重试。'; }
+            render();
+        }
+        function onTarget(cursor) {
+            return cursor && cursor.x === position.x && cursor.y === position.y && engineMapCityIndex() === index;
+        }
         function step() {
             if (!current()) { stop(); return; }
             var cursor = readEngineCursor();
             if (!cursor) { stop(); return; }
-            if (cursor.x === position.x && cursor.y === position.y && engineMapCityIndex() === index) {
-                if (!current()) { stop(); return; }
-                flow.sent = first.session + ':' + first.inputSeq;
-                if (!engineSendKey(VK.ENTER, 'transfer-target-ok')) { flow.sent = ''; }
+            if (onTarget(cursor)) {
+                flow.sent = receipt;
+                if (!engineSendKey(VK.ENTER, 'transfer-target-ok', function () {
+                    return current() && onTarget(readEngineCursor());
+                })) { flow.sent = ''; }
                 stop(); return;
             }
             var code = cursor.y !== position.y ? (cursor.y > position.y ? VK.UP : VK.DOWN) :
                 cursor.x > position.x ? VK.LEFT : cursor.x < position.x ? VK.RIGHT : position.x > 0 ? VK.LEFT : VK.RIGHT;
-            if (!engineSendKey(code, 'transfer-target-walk')) { stop(); return; }
+            if (!engineSendKey(code, 'transfer-target-walk', current)) { stop(); return; }
             function ack() {
                 if (!current()) { stop(); return; }
                 var after = readEngineCursor();
@@ -1076,7 +1129,7 @@
         step(); render(); return true;
     }
     function continueTransfer() {
-        var ticket = mobileInputTicket('transfer-report-ok'), flow = mobileTransfer;
+        var ticket = mobileInputTicket('transfer-report-ok'), flow = transferFlow;
         var key = transferReportKey(ticket);
         if (!ticket || !flow || flow.sent === key) { return false; }
         flow.sent = key;
@@ -1087,13 +1140,16 @@
         return ticket ? [ticket.session, ticket.inputSeq, ticket.reportSeq, ticket.reportInputSeq].join(':') : '';
     }
     function cancelTransfer(expected) {
-        var ticket = mobileInputTicket(), flow = mobileTransfer;
+        var read = mobileHost ? mobileInputTicket : getTransferTargetTicket;
+        var ticket = read(), flow = transferFlow;
         if (!flow || !sameMobileMarchTicket(expected, ticket) || ticket.ownerType === 'transfer-report' ||
             flow.busy || state.nativeMenuRequest || state.queue.length || state.sending ||
             flow.sent === ticket.session + ':' + ticket.inputSeq) { return false; }
         if (ticket.ownerType === 'transfer-qty') { cancelQty(); return true; }
         flow.sent = ticket.session + ':' + ticket.inputSeq;
-        if (!engineSendKey(VK.EXIT, 'transfer-cancel')) { flow.sent = ''; return false; }
+        if (!engineSendKey(VK.EXIT, 'transfer-cancel', function () { return sameMobileMarchTicket(ticket, read()); })) {
+            flow.sent = ''; return false;
+        }
         return true;
     }
 
@@ -1139,6 +1195,13 @@
     function sameMobileMarchTicket(expected, current) {
         return !!current && (!expected || expected.data === current.data && expected.key === current.key);
     }
+    function retireTransferWork() {
+        if (!transferFlow) { return; }
+        transferFlow.token++;
+        transferFlow.busy = false;
+        transferFlow.pendingTarget = null;
+        transferFlow.status = '';
+    }
     function getMarchPresentation() {
         var ticket = mobileHost ? mobileInputTicket() : null, m = currentMarch();
         if (!ticket || !m || !mobileBoundMarch(m)) { return null; }
@@ -1149,12 +1212,13 @@
                 '请重新选择目标', '确认部队出发', '部队已出发'][ticket.phase] || ''});
     }
     function retireInteraction(reason) {
-        if (mobileTransfer) {
-            mobileTransfer.token++; mobileTransfer.busy = false; mobileTransfer.pendingTarget = null;
-            if (/library|configure/.test(String(reason || ''))) { mobileTransfer = null; }
+        retireTransferWork();
+        if (/library|configure/.test(String(reason || ''))) {
+            transferFlow = null;
+            mobileTrade = null;
+            mobileDiplomacy = null;
+            mobileClosingRoot = null;
         }
-        if (/library|configure/.test(String(reason || ''))) { mobileTrade = null; }
-        if (/library|configure/.test(String(reason || ''))) { mobileDiplomacy = null; }
         // Retire work, not the evidence of a key already delivered to the
         // same native march. Reusing that inputSeq must never send it twice.
         var live = mobileHost ? currentMarch() : null;
@@ -1432,6 +1496,7 @@
 
     function invalidateMarchWork() {
         distributionFlow = null;
+        if (!mobileHost) { retireTransferWork(); }
         marchEpoch += 1;
         queueEpoch += 1;
         state.walkToken += 1;
@@ -1634,6 +1699,7 @@
 
     function cityLcdPresentation() {
         if (!state.open || !shouldShowHd() || mobileHost && !mobileShellReady()) { return 'passthrough'; }
+        if (pcTransferPhase() === 6) { return state.showLcd || !getTransferTargetTicket() ? 'on' : 'off'; }
         if (mobileHost) {
             var mobileOwner = mobileInputTicket();
             if (mobileOwner && (['march-report', 'march-target', 'strategy'].indexOf(mobileOwner.ownerType) >= 0 ||
@@ -1670,6 +1736,8 @@
     function applyDocAttr() {
         var show = state.open && shouldShowHd() && mobileShellReady();
         var lcdMode = cityLcdPresentation();
+        var transferTarget = show && !mobileHost && getTransferTargetTicket();
+        var mapPick = show && (usesMapCursor() || transferTarget);
         // A native picker can publish after its transition render. Keep the
         // mobile root in sync when the poll only updates its contents/attrs.
         if (mobileHost) {
@@ -1683,8 +1751,8 @@
         document.documentElement.setAttribute('data-baye-city-menu', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-city-lcd', lcdMode);
         document.documentElement.setAttribute('data-baye-city-menu-pref', getMenuMode());
-        document.documentElement.setAttribute('data-baye-city-menu-map-pick',
-            (show && usesMapCursor(state.deepKind, state.deepStep)) ? '1' : '0');
+        document.documentElement.setAttribute('data-baye-city-menu-map-pick', mapPick ? '1' : '0');
+        document.documentElement.setAttribute('data-baye-city-transfer-target', transferTarget ? '1' : '0');
         document.documentElement.setAttribute('data-baye-battle-make',
             holdExit() ? '1' : '0');
         document.documentElement.setAttribute('data-baye-march-ok',
@@ -1697,8 +1765,7 @@
             document.body.classList.toggle('baye-hd-city-menu-on', show);
             document.body.classList.toggle('baye-hd-city-menu-lcd', show && lcdMode === 'on');
             document.body.classList.toggle('baye-hd-city-menu-deep-empty', deepEmpty);
-            document.body.classList.toggle('baye-hd-city-menu-map-pick',
-                show && usesMapCursor(state.deepKind, state.deepStep));
+            document.body.classList.toggle('baye-hd-city-menu-map-pick', !!mapPick);
         }
         var lcdButton = document.querySelector ? document.querySelector('[data-hd-menu-lcd]') : null;
         if (lcdButton) {
@@ -3378,6 +3445,7 @@
 
     /* 同页 新君登基 / 读档：HD 出征旗标不能带到下一局，否则完成选将空操作、GetFood 永不来。 */
     function resetForNewGame(why) {
+        mobileClosingRoot = null;
         invalidateMarchWork();
         state.marchStrategyOrder = null;
         state.marchSession = 0;
@@ -5623,7 +5691,7 @@
             var menuKey = ids && owner && personEquipmentMenuKey(menu, owner, index, ids[index]);
             if (!menuKey || !items.length || items.length !== ids.length) { return null; }
             function ordinary() {
-                if (state.deepKind !== 'person' || state.deepStep || mobileTrade || mobileTransfer || mobileEquipmentFlow || surrenderFlow) { return false; }
+                if (state.deepKind !== 'person' || state.deepStep || mobileTrade || transferFlow || mobileEquipmentFlow || surrenderFlow) { return false; }
                 if (state.subKind === '' && state.deepLabel === '人物') { return true; }
                 var labels = SUBS[state.subKind], kinds = DEEP[state.subKind];
                 var command = labels && labels.indexOf(state.deepLabel);
@@ -5790,7 +5858,7 @@
         toolListStatsReading = true;
         try {
             function route() {
-                if (state.subKind !== 'neizheng' || mobileTrade || mobileTransfer || mobileEquipmentFlow || surrenderFlow ||
+                if (state.subKind !== 'neizheng' || mobileTrade || transferFlow || mobileEquipmentFlow || surrenderFlow ||
                     !usesGoodsMenu(state.deepKind, state.deepStep)) { return false; }
                 var labels = SUBS.neizheng, kinds = DEEP.neizheng;
                 return labels[8] === '赏赐' && kinds[8] === 'goods' && state.deepLabel === labels[8] &&
@@ -6829,11 +6897,15 @@
     }
 
     function fillTransferWait() {
-        if (!mobileHost || state.deepKind !== 'person-transfer') { return false; }
-        var ticket = mobileInputTicket(), presentation = getTransferPresentation(), list = el('hd-city-menu-deep');
-        if (!ticket || !presentation || !list) { return false; }
+        if (mobileHost && state.deepKind !== 'person-transfer') { return false; }
+        var read = mobileHost ? mobileInputTicket : getTransferTargetTicket;
+        var ticket = read(), list = el('hd-city-menu-deep');
+        if (!ticket || !list) { pcTransferView = null; return false; }
         if (ticket.ownerType === 'transfer-person' || ticket.ownerType === 'transfer-qty') { return false; }
-        var signature = JSON.stringify([ticket.key, presentation.pendingTarget, presentation.confirmingTarget, presentation.status]);
+        var flow = transferFlow, busy = flow.busy || flow.sent === ticket.session + ':' + ticket.inputSeq;
+        var presentation = ticket.ownerType === 'transfer-report' ? getTransferPresentation() : null;
+        if (ticket.ownerType === 'transfer-report' && !presentation) { return false; }
+        var signature = JSON.stringify([ticket.key, marchEpoch, flow.pendingTarget, busy, flow.status]);
         if (state.deepSig === signature && list.children.length) { return true; }
         state.deepSig = signature; state.deepMenuOwner = null; state.deepItems = [];
         retirePersonDetails(); retireToolDetails(); list.classList.toggle('has-mobile-qty', false); list.classList.remove('has-person-summaries', 'has-tool-summaries'); list.innerHTML = '';
@@ -6844,26 +6916,29 @@
         function button(label, attribute, value, disabled) {
             var node = document.createElement('button'); node.type = 'button'; node.className = 'hd-city-menu-item';
             node.textContent = label; node.setAttribute(attribute, value == null ? '' : String(value));
-            node.disabled = !!disabled; list.appendChild(node);
+            node.disabled = !!disabled; list.appendChild(node); return node;
         }
         if (ticket.ownerType === 'transfer-report') {
             text(presentation.reportText);
-            button('继续', 'data-hd-transfer-continue', '', mobileTransfer.sent === transferReportKey(ticket));
+            button('继续', 'data-hd-transfer-continue', '', flow.sent === transferReportKey(ticket));
         } else if (ticket.ownerType === 'transfer-target') {
-            text(presentation.status || '选择同势力且道路连通的目标城。');
-            ticket.targets.forEach(function (index) { button(cityName(index), 'data-hd-transfer-target', index, presentation.confirmingTarget); });
-            button(presentation.command === 13 ? '确认输送' : '确认移动', 'data-hd-transfer-confirm', '',
-                presentation.pendingTarget == null || presentation.confirmingTarget);
-            button('取消', 'data-hd-transfer-cancel', '', presentation.confirmingTarget);
+            text(flow.status || (ticket.targets.length ? '选择同势力且道路连通的目标城。' : '没有道路连通的己方城池。'));
+            ticket.targets.forEach(function (index) {
+                var target = button(cityName(index), 'data-hd-transfer-target', index, busy);
+                target.setAttribute('aria-pressed', index === flow.pendingTarget ? 'true' : 'false');
+            });
+            button(ticket.command === 13 ? '确认输送' : '确认移动', 'data-hd-transfer-confirm', '', flow.pendingTarget == null || busy);
+            button('取消', 'data-hd-transfer-cancel', '', busy);
         }
         // Names and DOM access can reenter; incomplete ownership leaves LCD.
-        if (!sameMobileMarchTicket(ticket, mobileInputTicket())) { list.innerHTML = ''; state.deepSig = ''; }
+        if (!sameMobileMarchTicket(ticket, read())) { list.innerHTML = ''; state.deepSig = ''; pcTransferView = null; }
+        else if (!mobileHost) { pcTransferView = {ticket: ticket, epoch: marchEpoch}; }
         return true;
     }
 
     function fillDeepListSurrenderBody() {
         syncMobileDiplomacy();
-        syncMobileTransfer();
+        syncTransfer();
         if (fillTransferWait()) { retireListFind(el('hd-city-menu-deep')); return; }
         if (syncMobileTrade() && state.layer !== 'deep') { render(); return; }
         if (syncMobileEquipmentFlow() && state.layer !== 'deep') { render(); return; }
@@ -7289,7 +7364,7 @@
     function renderSurrenderBody() {
         syncSurrender();
         syncMobileDiplomacy();
-        syncMobileTransfer();
+        syncTransfer();
         syncMobileTrade();
         var root = el('hd-city-menu');
         if (!root) {
@@ -7355,7 +7430,8 @@
             }
             renderStatus();
         } else if (state.layer === 'deep') {
-            var stepHint = showingQty()
+            var transferTarget = !mobileHost && pcTransferPhase() === 6;
+            var stepHint = transferTarget ? '选择目标城' : showingQty()
                 ? '数量'
                 : ((state.deepKind === 'person-city' || state.deepLabel === '出征') &&
                     (state.marchReady || freshMarchOk())
@@ -7376,7 +7452,7 @@
                 stepHint = surrenderPresentation ? (surrenderPresentation.role === 'target' ? '选择俘虏' : '选择招降将领') : '等待原版菜单回执';
             }
             setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint +
-                (state.showLcd ? ' · 经典 LCD 对照' : mobileHost ? '' : ' · 光标与引擎同步'));
+                (state.showLcd ? ' · 经典 LCD 对照' : mobileHost || transferTarget ? '' : ' · 光标与引擎同步'));
             hideAllLayers();
             if (deep) {
                 deep.hidden = false;
@@ -7436,7 +7512,15 @@
 
     function openMenu(meta) {
         meta = meta || {};
-        if (mobileHost && !mobileInputTicket('open-city')) { return false; }
+        if (mobileHost) {
+            var owner = mobileInputTicket('open-city'), closing = mobileClosingRoot;
+            if (!owner || owner.ownerType !== 'city' || owner.menuKind !== 1) { return false; }
+            // C can publish one more idle notification before consuming EXIT.
+            if (closing && owner.data === closing.data && owner.libraryGeneration === closing.libraryGeneration &&
+                owner.detailGeneration === closing.detailGeneration && owner.menuSeq === closing.menuSeq &&
+                owner.cityIndex === closing.cityIndex) { return false; }
+            mobileClosingRoot = null;
+        }
         var nativeMenu = engineMenuItems();
         if (nativeMenu.active != null) {
             var actualCity = engineMapCityIndex();
@@ -7535,7 +7619,8 @@
         invalidateMarchWork();
         invalidateQtyWork();
         mobileTrade = null;
-        mobileTransfer = null;
+        transferFlow = null;
+        pcTransferView = null;
         mobileDiplomacy = null;
         state.open = false;
         state.layer = 'root';
@@ -7559,10 +7644,14 @@
         }
         render();
         if (!opts.silent && mobileHost) {
-            engineSendKey(VK.EXIT, 'close-city', function () {
+            if (mobileClosingTicket.ownerType === 'city' && mobileClosingTicket.menuKind === 1) {
+                mobileClosingRoot = mobileClosingTicket;
+            }
+            var sent = engineSendKey(VK.EXIT, 'close-city', function () {
                 var current = mobileInputTicket();
                 return !!current && current.data === mobileClosingTicket.data && current.key === mobileClosingTicket.key;
             });
+            if (!sent && mobileClosingRoot === mobileClosingTicket) { mobileClosingRoot = null; }
         } else if (!opts.silent && global.BayeHdOverworld &&
             typeof BayeHdOverworld.leaveMenu === 'function') {
             BayeHdOverworld.leaveMenu('已回到 HD 大地图。');
@@ -7602,6 +7691,10 @@
 
     function cityBackPressOwner() {
         try {
+            if (pcTransferPhase() === 6) {
+                var transfer = getTransferTargetTicket();
+                return transfer ? 'transfer:' + marchEpoch + ':' + transfer.key : null;
+            }
             if (!mobileHost && state.layer === 'deep' && state.deepKind === 'person-diplomacy') {
                 var diplomacy = pcDiplomacyTicket();
                 return diplomacy ? 'pc-diplomacy:' + diplomacy.key : null;
@@ -7634,7 +7727,8 @@
                     phase !== MARCH.IDLE && phase !== MARCH.DEPARTED ||
                     d.g_hdMapPick !== 1 || d.g_hdBattlePick !== 0 ||
                     d.g_hdMenuActive !== 0 || d.g_hdQtyActive !== 0 || d.g_hdReportActive !== 0 ||
-                    d.g_hdHelpActive !== 0 || d.g_hdFightActive !== 0 || d.g_asyncActionID !== 0) { return null; }
+                    d.g_hdHelpActive !== 0 || d.g_hdFightActive !== 0 || d.g_asyncActionID !== 0 ||
+                    d.g_hdTransferActive !== undefined && d.g_hdTransferActive !== 0) { return null; }
                 // A late getter may enter a new menu while this snapshot is read.
                 if (d.g_hdDetailGeneration !== generation || d.g_hdMapInputSeq !== inputSeq ||
                     d.g_hdMenuSeq !== menuSeq || d.g_hdMapCity !== mapCity || d.g_hdMenuActive !== 0 ||
@@ -8132,6 +8226,11 @@
     }
 
     function backSurrenderBody(pressedOwner) {
+        if (pcTransferPhase() === 6) {
+            var transfer = getTransferTargetTicket();
+            if (transfer && (pressedOwner == null || pressedOwner === cityBackPressOwner())) { return cancelTransfer(transfer); }
+            return;
+        }
         if (!mobileHost && state.layer === 'deep' && state.deepKind === 'person-diplomacy') {
             var pcBackOwner = cityBackPressOwner();
             if (!pcBackOwner || pressedOwner != null && pressedOwner !== pcBackOwner) { return; }
@@ -8142,7 +8241,7 @@
             if (pressedOwner != null && pressedOwner !== diplomacyBackOwner) { return; }
             backMobileDiplomacy(); return;
         }
-        if (mobileHost && mobileTransfer) { return cancelTransfer(); }
+        if (mobileHost && transferFlow) { return cancelTransfer(); }
         if (mobileHost && (mobileEquipmentFlow || mobileTrade && mobileTrade.wait)) { return; }
         if (!state.open) {
             return;
@@ -9220,7 +9319,7 @@
     }
 
     function onEngineHook(name, ctx) {
-        if (mobileHost && syncMobileTransfer() && mobileTransfer) { render(); return; }
+        if (mobileHost && syncTransfer() && transferFlow) { render(); return; }
         if (name === 'chooseGameEntry' || name === 'didOpenNewGame' || name === 'didLoadGame') {
             resetForNewGame(name);
         }
@@ -9357,8 +9456,22 @@
             return;
         }
         state.bound = true;
+        var pressedTransfer = null;
+        function transferControl(node) {
+            return node.getAttribute && (node.getAttribute('data-hd-transfer-target') != null ||
+                node.getAttribute('data-hd-transfer-confirm') != null || node.getAttribute('data-hd-transfer-cancel') != null);
+        }
+        function retirePcTransferView() {
+            pressedTransfer = null;
+            if (!mobileHost) { retireTransferWork(); }
+        }
+        if (typeof global.addEventListener === 'function') {
+            global.addEventListener('blur', retirePcTransferView);
+            global.addEventListener('resize', retirePcTransferView);
+            global.addEventListener('pagehide', retirePcTransferView);
+        }
         document.addEventListener('visibilitychange', function () {
-            if (document.hidden) { retirePersonProperties(); retireListFind(el('hd-city-menu-deep')); }
+            if (document.hidden) { retirePcTransferView(); retirePersonProperties(); retireListFind(el('hd-city-menu-deep')); }
         });
         // Window capture precedes mobile document capture regardless of bind
         // order. The document fallback also supports embedded hosts.
@@ -9409,6 +9522,7 @@
                 toolIndex: button.getAttribute('data-hd-deep-tool') };
         }
         root.addEventListener('pointerdown', function (ev) {
+            pressedTransfer = null;
             state.deepPointerOwner = null;
             state.previewPointerOwner = null;
             state.toolPointerOwner = null;
@@ -9417,6 +9531,14 @@
             var target = ev.target;
             if (target === root) { state.backPointerOwner = { target: root, key: cityBackPressOwner() }; return; }
             while (target && target !== root) {
+                if (!mobileHost && transferControl(target)) {
+                    var view = pcTransferView;
+                    if (ev.isTrusted && ev.isPrimary !== false && ev.button === 0 && view && view.epoch === marchEpoch &&
+                        sameMobileMarchTicket(view.ticket, getTransferTargetTicket())) {
+                        pressedTransfer = {target: target, view: view};
+                    }
+                    return;
+                }
                 if (target.getAttribute && target.getAttribute('data-hd-deep-preview') != null) {
                     state.previewPointerOwner = {target: target, viewEpoch: listFindEpoch, context: ev.isPrimary === false ||
                         ev.button != null && ev.button !== 0 ? null : mobilePreviewContext(target)};
@@ -9442,6 +9564,7 @@
             }
         });
         root.addEventListener('pointercancel', function () {
+            pressedTransfer = null;
             state.deepPointerOwner = null;
             if (state.previewPointerOwner) { state.previewPointerOwner.cancelled = true; }
             state.toolPointerOwner = null;
@@ -9449,6 +9572,8 @@
             if (state.backPointerOwner) { state.backPointerOwner.cancelled = true; }
         });
         root.addEventListener('click', function (ev) {
+            var transferPressed = pressedTransfer;
+            pressedTransfer = null;
             var pressed = state.deepPointerOwner;
             var pagePressed = state.toolPointerOwner;
             var personPressed = state.personPagePointer;
@@ -9481,14 +9606,21 @@
                     ev.preventDefault(); ev.stopPropagation();
                     changeListFind(t === el('hd-city-menu-list-toggle') ? 'toggle' : 'clear'); return;
                 }
-                if (t.getAttribute && t.getAttribute('data-hd-transfer-target') != null) {
-                    ev.preventDefault(); ev.stopPropagation(); selectTransferTarget(Number(t.getAttribute('data-hd-transfer-target'))); return;
-                }
-                if (t.getAttribute && t.getAttribute('data-hd-transfer-confirm') != null) {
-                    ev.preventDefault(); ev.stopPropagation(); confirmTransferTarget(); return;
-                }
-                if (t.getAttribute && t.getAttribute('data-hd-transfer-cancel') != null) {
-                    ev.preventDefault(); ev.stopPropagation(); cancelTransfer(); return;
+                if (transferControl(t)) {
+                    ev.preventDefault(); ev.stopPropagation();
+                    var ticket = getTransferTargetTicket(), view = pcTransferView;
+                    if (!ticket || t.disabled) { return; }
+                    if (!mobileHost) {
+                        if (!ev.isTrusted || !view || view.epoch !== marchEpoch ||
+                            !sameMobileMarchTicket(view.ticket, ticket)) { return; }
+                        if (ev.detail !== 0 && (!transferPressed || transferPressed.target !== t ||
+                            transferPressed.view !== view)) { return; }
+                    }
+                    var targetIndex = t.getAttribute('data-hd-transfer-target');
+                    if (targetIndex != null) { selectTransferTarget(Number(targetIndex), ticket); }
+                    else if (t.getAttribute('data-hd-transfer-confirm') != null) { confirmTransferTarget(null, ticket); }
+                    else { cancelTransfer(ticket); }
+                    return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-transfer-continue') != null) {
                     ev.preventDefault(); ev.stopPropagation(); continueTransfer(); return;
@@ -9611,6 +9743,7 @@
                 if (t.getAttribute && t.getAttribute('data-hd-menu-help') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
+                    if (!mobileHost && getTransferTargetTicket()) { return; }
                     retirePersonDetails();
                     retireToolDetails();
                     if (global.BayeHdDialog) {
@@ -9646,6 +9779,14 @@
                 return;
             }
             if (!state.open || !shouldShowHd()) {
+                return;
+            }
+            if (pcTransferPhase() === 6) {
+                var transfer = getTransferTargetTicket();
+                if (!transfer || [13, 27, 32, 37, 38, 39, 40, 70, 72, 83].indexOf(e.keyCode) < 0) { return; }
+                bayeConsumeKeyEvent(e);
+                if (!e.repeat && e.keyCode === 13) { confirmTransferTarget(null, transfer); }
+                else if (!e.repeat && (e.keyCode === 27 || e.keyCode === 32)) { cancelTransfer(transfer); }
                 return;
             }
             if (e.repeat && (e.keyCode === 13 || e.keyCode === 27 || e.keyCode === 32)) {
@@ -9925,7 +10066,7 @@
 
     function syncMode(resume) {
         if (syncMobileDiplomacy() && mobileDiplomacy) { applyDocAttr(); render(); return; }
-        if (mobileHost && syncMobileTransfer() && mobileTransfer) { applyDocAttr(); render(); return; }
+        if (mobileHost && syncTransfer() && transferFlow) { applyDocAttr(); render(); return; }
         if (state.personModeResume && !shouldShowHd() &&
             (!personModeStateMatches(state.personModeResume) || personModeOwner() !== state.personModeResume.key)) {
             state.personModeResume = null;
@@ -10007,7 +10148,7 @@
                 }
                 syncMode();
                 // A real PC PERSON publication can arrive after the key render.
-                if (!mobileHost && surrenderFlow) { render(); }
+                if (!mobileHost && (surrenderFlow || transferFlow || pcTransferPhase())) { render(); }
                 // Publication may finish after the transition render. Refresh
                 // every mobile layer, not only list contents or root attrs.
                 if (mobileHost) { render(); }
@@ -10143,6 +10284,7 @@
         applyPcPage: start,
         debugSnapshot: function () { return surrenderUiReadCall(debugSnapshotSurrenderBody, arguments); },
         walkToCity: function (cityIndex, thenEnter) {
+            if (pcTransferPhase() === 6) { return false; }
             if (thenEnter !== false && (liveTargetStep() || usesMapCursor(state.deepKind, state.deepStep))) {
                 return confirmMarchTarget(cityIndex);
             }

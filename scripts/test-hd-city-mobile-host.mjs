@@ -70,7 +70,7 @@ function fixture({storageThrows = false, marchState = false, sourceText = source
     const code=marchState?sourceText.replace(/\}\)\(window\);\s*$/,`
         global.__marchTest={state:state,sync:syncMarchPhase,send:engineSendKey,cancelQty:cancelQty,
             cancelPersons:cancelUnselectedMarch,fill:fillDeepList,render:render,other:otherCities,
-            syncTransfer:typeof syncMobileTransfer==='function'?syncMobileTransfer:null,
+            syncTransfer:typeof syncTransfer==='function'?syncTransfer:null,
             syncDiplomacy:typeof syncMobileDiplomacy==='function'?syncMobileDiplomacy:null,
             continueTransfer:typeof continueTransfer==='function'?continueTransfer:null,chooseDeep:chooseDeep,
             select:selectLiveMenu,commitQty:commitQty,preview:typeof previewDeep==='function'?previewDeep:null,
@@ -115,6 +115,21 @@ test('blocked storage retains independent mobile mode in memory',()=>{
 });
 test('start is idempotent',()=>{
     const f=fixture();f.configure();f.api.start();f.api.start();assert.equal(f.timers.length,1);
+});
+test('mobile Back cannot reopen the same native city root before EXIT is consumed',()=>{
+    const f=fixture();f.configure();assert.equal(f.api.open({cityIndex:0}),true);
+    let reopened;
+    f.setAfterKey(()=>{
+        f.raw.g_hdMenuIndex=1;
+        reopened=f.api.open({cityIndex:0,hook:'onMenuIdle'});
+    });
+    f.api.back();
+    assert.equal(reopened,false);
+    assert.equal(f.api.isOpen(),false);
+    assert.deepEqual(f.keys,[40]);
+    f.raw.g_hdMenuSeq++;
+    assert.equal(f.api.open({cityIndex:0}),true,'A fresh publication of the same city may reopen');
+    assert.deepEqual(f.writes,[]);
 });
 for(const kind of ['hidden','portrait','host-unavailable','wrong-library','pending-library','stale-identity','not-ready','missing-protocol']){
     test('mobile base rejects ' + kind,()=>{
@@ -244,7 +259,7 @@ test('mobile poll restores the complete deep layer after delayed picker publicat
         shouldShowHd(){return true;},mobileShellReady(){return complete;},
         mobileBase(){return {identity:{generation:1}};},renderStickyBannerSlot:noOp,
         applyDocAttr:noOp,retirePersonDetails:noOp,retireToolDetails:noOp,retireListFind:noOp,
-        syncMobileTrade:noOp,syncMobileTransfer:noOp,syncMobileDiplomacy:noOp,
+        syncMobileTrade:noOp,syncTransfer:noOp,syncMobileDiplomacy:noOp,
         cityName(){return '真实城';},showingQty(){return false;},freshMarchOk(){return false;},
         usesMapCursor(){return false;},usesGoodsMenu(){return false;},
         fillDeepList(){deepRefreshes+=1;},preferEngineNames(items){return items;},
@@ -501,7 +516,7 @@ test('terminal person restoration rejects a phase or session handoff during publ
 function isolatedCityFunction(name,context) {
     if(name==='syncMode'){context.syncMobileTrade=()=>false;context.mobileTrade=null;
         context.syncMobileDiplomacy=()=>false;context.mobileDiplomacy=null;
-        context.syncMobileTransfer=()=>false;context.mobileTransfer=null;if(!('mobileHost' in context))context.mobileHost=null;}
+        context.syncTransfer=()=>false;context.transferFlow=null;if(!('mobileHost' in context))context.mobileHost=null;}
     const begin=source.indexOf('    function '+name+'('),end=source.indexOf('\n    function ',begin+20);
     assert.ok(begin>=0&&end>begin);vm.runInNewContext(source.slice(begin,end),context);return context[name];
 }

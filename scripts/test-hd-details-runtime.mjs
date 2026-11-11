@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Real native miniature, confiscation and goods-detail browser acceptance.
+/** Real native miniature, city transfers, confiscation and goods-detail browser acceptance.
  * --staged serves the manifest-bound candidate engine from build/wasm/src.
  * Uses only genuine player UI input and a private temporary profile. */
 import assert from 'node:assert/strict';
@@ -14,6 +14,9 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
+const transferOnly = process.argv.includes('--transfer-only');
+const compact = transferOnly && process.argv.includes('--720p');
+const viewport = { width: compact ? 1280 : 1920, height: compact ? 720 : 1080 };
 const artifactFlag = process.argv.indexOf('--artifact-dir');
 const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/details-runtime-smoke'));
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -171,6 +174,7 @@ const snapshotExpression = `(() => {
         menu: api && api.hd && api.hd.menuItems(), qty: api && api.hd && api.hd.qty(),
         movie: api && api.hd && api.hd.movie(), spe: api && api.hd && api.hd.spe(),
         fight: api && api.hd && api.hd.fight(), march: api && api.hd && api.hd.march(),
+        transfer: api && api.hd && api.hd.transfer(),
         system: window.BayeHdSystemUi && BayeHdSystemUi.debugSnapshot(),
         city: window.BayeHdCityMenu && BayeHdCityMenu.debugSnapshot(),
         dialog: window.BayeHdDialog && BayeHdDialog.debugSnapshot(),
@@ -204,18 +208,24 @@ async function key(cdp, name) {
 
 async function click(cdp, selector) {
     const point = await waitFor(cdp, 'visible unobstructed player control: ' + selector, `(() => {
-        const node = document.querySelector(${JSON.stringify(selector)});
-        if (!node || node.disabled || node.hidden) return null;
-        node.scrollIntoView({ block: 'center' });
-        const rect = node.getBoundingClientRect(), style = getComputedStyle(node);
-        if (!rect.width || !rect.height || style.visibility === 'hidden' || style.display === 'none') return null;
-        const x=rect.x+rect.width/2,y=rect.y+rect.height/2,top=document.elementFromPoint(x,y);
-        return top && (top===node||node.contains(top)) && {x,y,unobstructed:true,top:top.id};
+        for (const node of document.querySelectorAll(${JSON.stringify(selector)})) {
+            if (node.disabled || node.hidden) continue;
+            node.scrollIntoView({ block: 'center' });
+            const rect = node.getBoundingClientRect(), style = getComputedStyle(node);
+            if (!rect.width || !rect.height || style.visibility === 'hidden' || style.display === 'none') continue;
+            const x=rect.x+rect.width/2,y=rect.y+rect.height/2,top=document.elementFromPoint(x,y);
+            if (top && (top===node||node.contains(top))) return {x,y,unobstructed:true,top:top.id};
+        }
+        return null;
     })()`);
     assert.ok(point, 'Visible click target: ' + selector);
     assert.ok(point.unobstructed, 'Click target is not covered: '+selector+' (top='+point.top+')');
-    report.inputs.push({ type:"click", selector, at:new Date().toISOString() });
-    const mousePoint={x:point.x,y:point.y};
+    await clickPoint(cdp, point, selector);
+}
+
+async function clickPoint(cdp, { x, y }, selector) {
+    report.inputs.push({ type: 'click', selector, at: new Date().toISOString() });
+    const mousePoint = { x, y };
     await cdp.send('Input.dispatchMouseEvent', { type: 'mousePressed', ...mousePoint, button: 'left', clickCount: 1 });
     await cdp.send('Input.dispatchMouseEvent', { type: 'mouseReleased', ...mousePoint, button: 'left', clickCount: 1 });
     await delay(250);
@@ -323,6 +333,7 @@ async function bootStrategy(cdp) {
     assert.equal(report.presetMap.map.cityTotal, 38); assert.equal(report.presetMap.menu.active, 0);
     assert.equal(report.presetMap.march.pick, 1);
     await checkpoint(cdp, '00-preset-hd-map-native-ready');
+    if (transferOnly) { return cities; }
     await miniMapSmoke(cdp);
     report.inputs.push({ type: 'player-map-action', action: 'walkToCity', cityIndex: report.cityIndex });
     assert.ok(await evaluate(cdp, `BayeHdOverworld.walkToCity(${report.cityIndex})`), 'A player can enter the actual owned city');
@@ -358,6 +369,170 @@ const miniWorldExpression = `(() => {
         people:Array.from({length:people},(_,i)=>{const p=d.g_Persons[i];return {index:i,
             ...Object.fromEntries(personFields.map(key=>[key,num(p[key])])),equip:[num(p.Equip[0]),num(p.Equip[1])]};})};
 })()`;
+
+async function transferSmoke(cdp, cities) {
+    const origin = cities.find(city => city.name === '长安');
+    const target = cities.find(city => city.name === '洛阳');
+    assert.equal(origin.belong, target.belong);
+    report.cityIndex = origin.i;
+    await observeNativeInputs(cdp);
+    const orders = () => evaluate(cdp, `Array.from(baye.data.g_OrderQueue, (o, slot) => {
+        if (o.OrderId === 255) return null;
+        const order = {slot, OrderId:o.OrderId, City:o.City, Person:o.Person, Object:o.Object};
+        return o.OrderId === 13 ? {...order, Food:o.Food, Money:o.Money, Arms:o.Arms} : order;
+    }).filter(Boolean)`);
+    const inputCount = () => evaluate(cdp, '__miniNativeInputs.keys.length');
+    const keysAfter = offset => evaluate(cdp, `__miniNativeInputs.keys.slice(${offset})`);
+    const world = async () => {
+        const { cities, people } = await evaluate(cdp, miniWorldExpression);
+        return { cities, people, orders: await orders() };
+    };
+    const phase = (command, step) => waitFor(cdp, `native transfer ${command} phase ${step}`, `(() => {
+        const t = baye.hd.transfer();
+        return t.active === ${step === 9 ? 0 : 1} && t.command === ${command} && t.phase === ${step} && t;
+    })()`);
+    const reportOk = async (command, step) => {
+        await phase(command, step);
+        await click(cdp, '#hd-dialog [data-hd-dlg-ok]');
+    };
+    const targetReady = async command => {
+        await phase(command, 6);
+        return waitFor(cdp, 'desktop transfer target owns the visible HD map', `(() => {
+            const t = BayeHdCityMenu.getTransferTargetTicket(), map = BayeHdOverworld.debugSnapshot();
+            return t && t.command === ${command} && t.targets.includes(${target.i}) && map.phase === 'map' && map.hitsEnabled &&
+                document.documentElement.getAttribute('data-baye-city-menu-map-pick') === '1' && t;
+        })()`);
+    };
+    const returned = async command => {
+        await phase(command, 9);
+        await waitFor(cdp, 'native transfer retired into the ordinary HD map', `
+            baye.hd.march().pick === 1 && !BayeHdCityMenu.isOpen() &&
+            !BayeHdCityMenu.getTransferTargetTicket() && BayeHdOverworld.debugSnapshot().phase === 'map'`);
+    };
+    const mapClick = async city => {
+        const point = await waitFor(cdp, `unobstructed HD map city ${city.name}`, `(() => {
+            const p = BayeHdOverworld.cityScreenPos(${city.i});
+            return p && document.elementFromPoint(p.clientX, p.clientY)?.id === 'hd-overworld-canvas' &&
+                {x:p.clientX, y:p.clientY};
+        })()`);
+        await clickPoint(cdp, point, city.name);
+    };
+    const confirm = '#hd-city-menu [data-hd-transfer-confirm]';
+    const cancel = '#hd-city-menu [data-hd-transfer-cancel]';
+    const confirmQty = '#hd-dialog [data-hd-dlg-ok], #hd-city-menu [data-hd-qty-ok]';
+    const increaseQty = '#hd-dialog [data-hd-qty="1"], #hd-city-menu [data-hd-qty="1"]';
+    const openMove = async () => {
+        await reopenInterior(cdp, 'desktop move');
+        await chooseCityItem(cdp, '移动', 'data-hd-sub', 2);
+        await reportOk(14, 5);
+        return targetReady(14);
+    };
+    const selectAndConfirm = async (command, label) => {
+        const before = await targetReady(command), offset = await inputCount(), current = await world();
+        const native = await phase(command, 6);
+        assert.equal(before.targets.includes(origin.i), false);
+        await waitFor(cdp, 'confirmation disabled before selection', `document.querySelector('${confirm}')?.disabled`);
+        await mapClick(origin);
+        await key(cdp, 'Enter');
+        assert.deepEqual(await keysAfter(offset), [], 'An illegal city and Enter without a selection send no native input');
+        const alternate = before.targets.find(index => index !== target.i);
+        assert.ok(Number.isInteger(alternate), 'An alternate road-connected city is available');
+        await click(cdp, `#hd-city-menu [data-hd-transfer-target="${alternate}"]`);
+        await waitFor(cdp, 'the city list selects the alternate target',
+            `BayeHdCityMenu.getTransferPresentation()?.pendingTarget === ${alternate}`);
+        await mapClick(target);
+        await waitFor(cdp, 'target is selected without entering a native city', `
+            BayeHdCityMenu.getTransferPresentation()?.pendingTarget === ${target.i} &&
+            document.querySelector('[data-hd-transfer-target="${target.i}"]')?.getAttribute('aria-pressed') === 'true'`);
+        assert.deepEqual(await keysAfter(offset), [], 'Map selection is read-only');
+        assert.deepEqual(await world(), current);
+        assert.deepEqual(await phase(command, 6), native);
+        await checkpoint(cdp, label);
+        await click(cdp, confirm);
+        const next = await phase(command, command === 13 ? 8 : 1);
+        assert.equal(next.target, target.i);
+        const keys = await keysAfter(offset);
+        assert.equal(keys.at(-1), 39, 'Confirmation ends with a native Enter');
+        assert.ok(keys.slice(0, -1).every(code => [34, 35, 36, 37].includes(code)), 'Only native cursor movement precedes the single Enter');
+        assert.deepEqual(await orders(), current.orders, 'The order is only queued after the actual departure report');
+    };
+    const chooseActor = async command => {
+        await phase(command, 1);
+        const menu = await menuOwner(cdp, 3, 'actual native transfer actor list');
+        const king = await evaluate(cdp, 'baye.data.g_PlayerKing');
+        const index = menu.ids.findIndex(id => id !== king);
+        assert.ok(index >= 0);
+        await click(cdp, `#hd-city-menu [data-hd-deep="${index}"]`);
+        return menu.ids[index];
+    };
+
+    await openMove();
+    const cancelledWorld = await world(), cancelOffset = await inputCount();
+    await click(cdp, cancel);
+    await returned(14);
+    assert.deepEqual(await keysAfter(cancelOffset), [40]);
+    assert.deepEqual(await world(), cancelledWorld);
+    await checkpoint(cdp, '01-desktop-move-cancelled');
+
+    await openMove();
+    const classicOffset = await inputCount();
+    await evaluate(cdp, "BayeHdOverworld.setMode('classic')");
+    await waitFor(cdp, 'classic map keeps the actual transfer LCD visible', `
+        !BayeHdCityMenu.getTransferTargetTicket() && getComputedStyle(document.querySelector('#lcd')).visibility === 'visible'`);
+    await key(cdp, 'Escape');
+    await phase(14, 9);
+    await evaluate(cdp, "BayeHdOverworld.setMode('hd-map')");
+    await returned(14);
+    assert.deepEqual(await keysAfter(classicOffset), [40], 'Classic Escape cancels the actual target once');
+    assert.deepEqual(await world(), cancelledWorld);
+
+    await openMove();
+    await selectAndConfirm(14, '02-desktop-move-target');
+    const mover = await chooseActor(14);
+    await reportOk(14, 8);
+    await phase(14, 1);
+    await click(cdp, '#hd-city-menu [data-hd-menu-back]');
+    await returned(14);
+    const [move] = await orders();
+    assert.deepEqual({ command: move.OrderId, city: move.City, target: move.Object, person: move.Person },
+        { command: 14, city: origin.i, target: target.i, person: mover });
+    await checkpoint(cdp, '03-desktop-move-queued');
+
+    await reopenInterior(cdp, 'desktop transport');
+    await chooseCityItem(cdp, '输送', 'data-hd-sub', 2);
+    const transporter = await chooseActor(13);
+    for (const [step, amount] of [[2, 2], [3, 2], [4, 0]]) {
+        await phase(13, step);
+        const quantity = await waitFor(cdp, 'actual cargo amount', 'baye.hd.qty().active && baye.hd.qty().ready && baye.hd.qty()');
+        assert.ok(quantity.max >= amount);
+        if (quantity.value > 0) { await key(cdp, 'h'); }
+        for (let n = 0; n < amount; n++) { await click(cdp, increaseQty); }
+        await waitFor(cdp, 'actual requested cargo amount', `baye.hd.qty().ready && baye.hd.qty().value === ${amount}`);
+        await click(cdp, confirmQty);
+    }
+    await reportOk(13, 5);
+    await targetReady(13);
+    const transportWorld = await world(), transportCancelOffset = await inputCount();
+    await click(cdp, cancel);
+    await phase(13, 4);
+    assert.deepEqual(await keysAfter(transportCancelOffset), [40], 'Transport target cancel returns to reserve quantity once');
+    assert.deepEqual(await world(), transportWorld);
+    await waitFor(cdp, 'reserve quantity restored after target cancellation', 'baye.hd.qty().active && baye.hd.qty().ready && baye.hd.qty().value === 0');
+    await click(cdp, confirmQty);
+    await reportOk(13, 5);
+    await selectAndConfirm(13, '04-desktop-transport-target');
+    await reportOk(13, 8);
+    await returned(13);
+    const queued = await orders();
+    assert.equal(queued.length, 2);
+    assert.deepEqual(queued[0], move);
+    const { slot, ...transport } = queued[1];
+    assert.equal(slot, 1);
+    assert.deepEqual(transport, { OrderId: 13, City: origin.i, Person: transporter, Object: target.i, Food: 2, Money: 2, Arms: 0 });
+    report.transfers = queued;
+    assert.deepEqual(await evaluate(cdp, '__miniNativeInputs.touches'), []);
+    await checkpoint(cdp, '05-desktop-transport-queued');
+}
 
 const miniObservationExpression = `(() => {
     const root=document.querySelector('#hd-mini-map'),stage=root&&root.querySelector('.hd-mini-map-stage'),
@@ -408,7 +583,7 @@ function clampedCenter(city, design, camera) {
     };
 }
 
-async function miniMapSmoke(cdp) {
+async function observeNativeInputs(cdp) {
     // This observer forwards the original exports once. It records real input
     // crossing the native boundary; it neither replaces hooks nor fabricates C.
     await evaluate(cdp, `(() => {
@@ -422,6 +597,10 @@ async function miniMapSmoke(cdp) {
             if(window._bayeSendTouchEvent!==observedTouch){nativeTouch=window._bayeSendTouchEvent;window._bayeSendTouchEvent=observedTouch;}return result;};
         window._bayeSendTouchEvent=observedTouch;
     })()`);
+}
+
+async function miniMapSmoke(cdp) {
+    await observeNativeInputs(cdp);
     const before=await evaluate(cdp,miniWorldExpression);
     assert.equal(before.cities.length,38);assert.ok(before.people.length>0,'The native roster count is available');assert.equal(before.pick,1);
     const nativeCities=await evaluate(cdp, `Array.from({length:baye.hd.realm().total},(_,i)=>({index:i,name:baye.getCityName(i),
@@ -806,7 +985,7 @@ async function main() {
         assert.ok(binary, 'Set CHROME to a Chromium executable');
         chrome = spawn(binary, ['--headless=new', '--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu',
             '--disable-background-networking', '--disable-background-timer-throttling', '--disable-renderer-backgrounding',
-            '--disable-backgrounding-occluded-windows', '--window-size=1920,1080', '--remote-debugging-port=' + debugPort,
+            '--disable-backgrounding-occluded-windows', `--window-size=${viewport.width},${viewport.height}`, '--remote-debugging-port=' + debugPort,
             '--user-data-dir=' + profile, 'about:blank'], { stdio: 'ignore' });
         chrome.on('error', error => { chromeError = error; });
         let target;
@@ -837,18 +1016,23 @@ async function main() {
                 { requestId: event.requestId, errorReason: 'BlockedByClient' }).catch(() => {});
         });
         await cdp.send('Runtime.enable'); await cdp.send('Page.enable');
-        await cdp.send('Emulation.setDeviceMetricsOverride', { width: 1920, height: 1080, deviceScaleFactor: 1, mobile: false });
+        await cdp.send('Emulation.setDeviceMetricsOverride', { ...viewport, deviceScaleFactor: 1, mobile: false });
+        report.viewport = viewport;
         await cdp.send('Fetch.enable', { patterns: [{ urlPattern: '*' }] });
         await cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: `
             localStorage.clear();
             localStorage.setItem('baye/libpath','libs/dat-mod.lib');
             localStorage.setItem('baye/overworldMode','hd-map');
-            localStorage.setItem('baye/cityMenuMode','hd');
+            localStorage.setItem('baye/cityMenuMode',${JSON.stringify(transferOnly ? 'auto' : 'hd')});
             localStorage.setItem('baye/systemUiMode','hd');
         ` });
         await cdp.send('Page.navigate', { url: origin + '/pc.html' });
-        await bootStrategy(cdp); await emptyStockSmoke(cdp); await confiscateSmoke(cdp); await rewardBrowseSmoke(cdp);
-        report.nativeEnd = await nativeState(cdp);
+        const cities = await bootStrategy(cdp);
+        if (transferOnly) { await transferSmoke(cdp, cities); }
+        else {
+            await emptyStockSmoke(cdp); await confiscateSmoke(cdp); await rewardBrowseSmoke(cdp);
+            report.nativeEnd = await nativeState(cdp);
+        }
         assert.deepEqual(report.exceptions, [], 'No uncaught browser exceptions');
         assert.deepEqual(report.dialogs, [], 'No unexpected native or browser dialogs');
         report.ok = true;
@@ -880,7 +1064,8 @@ async function main() {
         report.finishedAt = new Date().toISOString();
         fs.writeFileSync(path.join(artifactDir, 'result.json'), JSON.stringify(report, null, 2) + '\n');
         console.log('Artifacts:', artifactDir);
-        if (report.ok) console.log('Real native miniature and goods-detail browser acceptance passed');
+        if (report.ok) console.log(transferOnly ? 'Real native desktop transfer browser acceptance passed' :
+            'Real native miniature and goods-detail browser acceptance passed');
     }
 }
 

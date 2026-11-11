@@ -100,8 +100,8 @@ function harness({ mobile = true, width = 384, height = 216, stageWidth = width,
         actions, fire, tap, lifecycle, hidden, captured };
 }
 
-function transferTouch() {
-    const h=harness();Object.assign(h.raw,{g_hdTransferActive:1,g_hdTransferPhase:6,g_hdTransferSession:31,g_hdTransferInputSeq:19});
+function transferTouch(mobile = true) {
+    const h=harness({mobile});Object.assign(h.raw,{g_hdTransferActive:1,g_hdTransferPhase:6,g_hdTransferSession:31,g_hdTransferInputSeq:19});
     h.environment.BayeHdCityMenu={getTransferTargetTicket(){
         if(h.fixture.raw.g_hdTransferActive!==1||h.fixture.raw.g_hdTransferPhase!==6)return null;
         return {data:h.fixture.raw,ownerType:'transfer-target',phase:6,targets:[0],
@@ -109,18 +109,18 @@ function transferTouch() {
         selectTransferTarget(index,ticket){assert.equal(ticket.data,h.fixture.raw);h.actions.push(['transfer',index]);return true;}};
     return h;
 }
-test('only an authenticated mobile transfer target releases the prior CITY presentation to MAP',()=>{
-    const h=transferTouch();h.environment.baye={hd:{menuItems:()=>({active:0}),
+for (const mobile of [true, false]) test('only an authenticated transfer target releases CITY to MAP (mobile=' + mobile + ')',()=>{
+    const h=transferTouch(mobile);h.environment.baye={hd:{menuItems:()=>({active:0}),
         march:()=>({mapInputSeq:12,pick:1}),report:()=>({active:0})}};
     h.state.phase='classic-menu';h.api.sample();assert.equal(h.state.phase,'map');
-    h.fixture.mobile=false;h.state.mobile=false;h.state.phase='classic-menu';h.api.sample();
-    assert.equal(h.state.phase,'other','PC preserves the native LCD transfer route');
-    h.state.mobile=true;h.raw.g_hdTransferPhase=8;h.api.sample();assert.equal(h.state.phase,'other');
+    h.raw.g_hdTransferPhase=8;h.api.sample();assert.equal(h.state.phase,'other');
     h.raw.g_hdTransferActive=0;h.state.phase='classic-menu';h.api.sample();
     assert.equal(h.state.phase,'classic-menu','ordinary CITY handoff rule stays intact');
 });
-test('current transfer target DOWN/UP selects once without opening CITY or confirming a command',()=>{
-    const h=transferTouch();h.fire('pointerdown');assert.deepEqual(h.actions,[]);h.fire('pointerup');h.fire('click');
+for (const mobile of [true, false]) test('transfer target DOWN/UP selects once (mobile=' + mobile + ')',()=>{
+    const h=transferTouch(mobile), size=h.api.size();
+    const point={pointerType:mobile?'touch':'mouse',clientX:100*h.rect.width/size.width,clientY:100*h.rect.height/size.height};
+    h.fire('pointerdown',point);assert.deepEqual(h.actions,[]);h.fire('pointerup',point);h.fire('click',point);
     assert.deepEqual(h.actions,[['transfer',0]]);
 });
 for(const change of ['phase','session','inputSeq','active','data','cancel','second-finger','hidden','geometry'])test('transfer target gesture cannot survive '+change,()=>{

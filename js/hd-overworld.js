@@ -3699,7 +3699,6 @@
     }
 
     function transferMapTicket() {
-        if (!state.mobile) { return null; }
         try {
             var city = global.BayeHdCityMenu, ticket = city && city.getTransferTargetTicket && city.getTransferTargetTicket();
             return ticket && ticket.ownerType === 'transfer-target' && ticket.phase === 6 && ticket.data === engineData() ? ticket : null;
@@ -4192,6 +4191,7 @@
         MOBILE_STORAGE_KEY: MOBILE_STORAGE_KEY,
         getMode: getMode,
         setMode: setMode,
+        isHdMapAvailable: function () { return !document.hidden && getMode() === 'hd-map' && mapAuthorized(); },
         getPhase: function () { return state.phase; },
         getCities: function () { return state.cities; },
         overviewData: overviewData,
