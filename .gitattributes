@@ -8,6 +8,10 @@
 /js/baye.build.json text eol=lf
 /js/baye.wasm -text
 
+# The overworld renderer regression checks the exact line endings of both files.
+/js/hd-overworld-layers.js text eol=lf
+/scripts/test-hd-overworld-layers.mjs text eol=lf
+
 # This validation record authenticates its archive index's exact bytes.
 /docs/validation/m4-person-properties-20261009.json text eol=lf
 /docs/validation/m4-person-properties-20261009/runtime-index.json text eol=lf

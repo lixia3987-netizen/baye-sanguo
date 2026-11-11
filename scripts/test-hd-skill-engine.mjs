@@ -198,7 +198,10 @@ static U8*boundSuccess;
 #define HOOK_RETURN(...) return __VA_ARGS__
 #define BIND_IDX(n,v) ((void)(n),(void)(v))
 #define BIND_U16EX(n,v) ((void)(n),(void)(v))
-#define BIND_U8EX(n,v) (boundSuccess=(v))
+static void bindU8(const char *name, void *value) {
+    if (!strcmp(name, "result")) boundSuccess = value;
+}
+#define BIND_U8EX(n,v) bindU8(n,v)
 #define CALL_HOOK() (skillHookCount++,*boundSuccess=1,0)
 #define CALL_HOOK_A() (-1)
 #define HOOK_LEAVE() ((void)0)
