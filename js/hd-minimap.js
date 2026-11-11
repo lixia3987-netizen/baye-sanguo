@@ -2,7 +2,7 @@
 (function (global) {
     var state = { open: false, owner: '', epoch: 0, native: null, data: null, showLcd: false,
         committed: '', pressed: null, paint: '', filter: 'all', query: '', editor: null, composing: false, source: '',
-        bound: false, timer: 0, ownerData: null,
+        bound: false, timer: 0, ownerData: null, location: null,
         grant: null, blocked: false, pointers: {}, focused: true, dispatch: false, retireReason: '' };
     var mobileHost = null;
     var FILTERS = { all: '全部', owned: '我方', neutral: '他方', empty: '空城' };
@@ -44,7 +44,7 @@
     function retireForSearch(reason) {
         var oldPress = state.pressed;
         retireInput(reason);
-        if (!mobileHost && oldPress && !searchTarget(oldPress.target)) { state.pressed = oldPress; }
+        if (!mobileHost && oldPress && !oldPress.ticket && !searchTarget(oldPress.target)) { state.pressed = oldPress; }
     }
     function armSearch(event) {
         if (event.isTrusted !== true || event.repeat || event.isComposing || event.keyCode === 229) { return; }
@@ -82,7 +82,7 @@
         var oldPress = state.pressed;
         retireInput('filter');
         // Keep an already pressed PC control stale until its release is seen.
-        if (!mobileHost && oldPress && !filterButton(oldPress.target)) { state.pressed = oldPress; }
+        if (!mobileHost && oldPress && !oldPress.ticket && !filterButton(oldPress.target)) { state.pressed = oldPress; }
         state.filter = value; state.paint = '';
         render();
     }
@@ -93,6 +93,7 @@
     function token(value) { return value ? JSON.stringify(value._mobileKey ?
         [value.generation, value.seq, value.mapInputSeq, value._mobileKey, value._libraryGeneration] :
         [value.generation, value.seq, value.mapInputSeq]) : ''; }
+    function nativeData(value) { return mobileHost ? value._mobileData : baye.data; }
     function mobileReading() {
         try {
             if (!mobileHost || !state.focused || document.hidden || typeof mobileHost.available !== 'function' ||
@@ -156,8 +157,7 @@
         if (!value || value.complete !== 1 || value.custom !== 0 || value.defaultDraw !== 1 ||
             value.resourceId !== 75 || value.imageIndex !== 0 || value.width !== 84 || value.height !== 64 || value.mask !== 0) { return null; }
         var data = BayeHdOverworld.overviewData && BayeHdOverworld.overviewData();
-        if (!data || data.cities.length !== 38 || data.libSha256 !==
-            '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
+        if (!data || data.cities.length !== 38 || data.libSha256 !== LIB_SHA ||
             token(value) !== token(readNative())) { return null; }
         return data;
     }
@@ -180,7 +180,7 @@
         var back = node('hd-mini-map-return');
         if (back) { back.disabled = state.committed === state.owner; }
         var list = node('hd-mini-map-cities');
-        if (mobileHost && list) { list.inert = state.committed === state.owner; }
+        if (list) { list.inert = state.open && state.committed === state.owner; }
         var filters = node('hd-mini-map-filters');
         if (filters) { filters.hidden = !state.data; }
         var search = node('hd-mini-map-search'), searchWrap = node('hd-mini-map-search-wrap');
@@ -198,12 +198,12 @@
         state.open = false; state.owner = ''; state.native = state.data = null; state.filter = 'all';
         clearSearch(); state.source = '';
         state.ownerData = null; state.grant = null;
-        if (mobileHost) { state.pressed = null; }
+        if (mobileHost || state.pressed && state.pressed.ticket) { state.pressed = null; }
         state.paint = ''; chrome();
     }
     function draw() {
         var canvas = node('hd-mini-map-canvas'), live = readNative();
-        if (!live || token(live) !== state.owner || mobileHost && live._mobileData !== state.ownerData) { close(); return; }
+        if (!live || token(live) !== state.owner || nativeData(live) !== state.ownerData) { close(); return; }
         var data = overview(live);
         if (!data) { adoptSource(null); state.data = null; state.showLcd = true; state.paint = ''; chrome(); return; }
         adoptSource(data);
@@ -256,9 +256,9 @@
         if (summary) { summary.textContent = state.data ? '匹配 ' + matches.length + ' / ' + state.data.cities.length + ' 座城池' +
             (selected ? ' · 当前位置：' + selected.name : ' · 当前游标未在城池上') : '请在经典画面查看当前小地图。'; }
         var signature = JSON.stringify([state.owner, state.data && state.data.generation,
-            state.data && state.data.cities, state.native.city1, state.filter, state.query]);
+            state.data && state.data.cities, state.native.city1, state.filter, state.query, state.showLcd]);
         if (list && state.paint !== signature) {
-            var canLocate = mobileHost && typeof mobileHost.locateAfterReturn === 'function';
+            var canLocate = !state.showLcd;
             list.textContent = state.data && !matches.length ? '暂无匹配城池' : '';
             list.setAttribute('aria-label', FILTERS[state.filter] + '城池');
             if (state.data) { matches.forEach(function (city) {
@@ -292,30 +292,58 @@
             draw();
         }
     }
+    function matchesLocation(request, active, seq) {
+        var n = request.native, data = request.data, pos = data.g_CityPos, identityApi = global.BayeHdLibIdentity;
+        if (document.hidden || !state.focused || !global.baye || baye.data !== data || !baye.hd.ready() ||
+            !identityApi || BayeHdOverworld.getMode() !== 'hd-map' || mobileHost && !mobileHost.available() ||
+            data.g_hdEngineReady !== 1 || data.g_hdMapPick !== 1 || cityInfoOwns() ||
+            data.g_hdMiniMapActive !== active || data.g_hdMiniMapSeq !== seq ||
+            data.g_hdDetailGeneration !== n.generation || data.g_hdMapInputSeq !== n.mapInputSeq ||
+            data.g_hdMapCity !== n.city1 || [0,7].indexOf(data.g_hdMarchPhase) < 0 ||
+            data.g_hdTransferActive !== undefined && data.g_hdTransferActive !== 0 ||
+            !BLOCKERS.every(function (field) { return data[field] === 0; }) ||
+            !pos || pos.setx !== n.cursorX || pos.sety !== n.cursorY || pos.x !== n.viewX || pos.y !== n.viewY) { return false; }
+        var identity = identityApi.read();
+        return !!(identity && identity.status === 'ready' && identity.sha256 === LIB_SHA && identity.byteLength === 207195 &&
+            identity.generation === request.libraryGeneration && identityApi.isCurrent(identity) && baye.data === data);
+    }
+    function finishLocation() {
+        var request = state.location;
+        if (!request) { return; }
+        state.location = null;
+        // SEARCH retires inside the same GetCitySet. Its serial skips zero.
+        var retiredSeq = ((request.native.seq + 1) >>> 0) || 1;
+        if (!matchesLocation(request, 0, retiredSeq)) { return; }
+        var map = BayeHdOverworld, overview = map.overviewData(), view = map.debugSnapshot();
+        if (view.hitsEnabled && sourceKey(overview) === request.source && matchesLocation(request, 0, retiredSeq)) {
+            map.centerOnCity(request.index);
+        }
+    }
     function poll() {
         var value = readNative();
-        if (!value) { if (state.open) { close(); } return; }
-        var owner = token(value), data = overview(value);
+        if (!value) { if (state.open) { close(); } finishLocation(); return; }
+        var owner = token(value), ownerData = nativeData(value), data = overview(value);
         var after = readNative();
-        if (owner !== token(after) || mobileHost && (!after || value._mobileData !== after._mobileData)) { close(); return; }
-        if (!state.open || owner !== state.owner || mobileHost && state.ownerData !== value._mobileData) {
+        if (owner !== token(after) || ownerData !== nativeData(after)) { state.location = null; close(); return; }
+        if (state.location && (owner !== state.location.key || ownerData !== state.location.data)) { state.location = null; }
+        if (!state.open || owner !== state.owner || state.ownerData !== ownerData) {
             state.epoch++; state.grant = null;
-            if (mobileHost) { state.pressed = null; }
+            if (mobileHost || state.pressed && state.pressed.ticket) { state.pressed = null; }
             state.owner = owner; state.committed = '';
             state.showLcd = !data; state.paint = ''; state.filter = 'all';
             clearSearch(); state.source = sourceKey(data);
         }
         adoptSource(data);
-        state.ownerData = mobileHost ? value._mobileData : null;
+        state.ownerData = ownerData;
         state.open = true; state.native = value; state.data = data;
         if (!data) { state.showLcd = true; state.filter = 'all'; }
         chrome(); render();
     }
     function returnKey(code, owner) {
         var live = readNative();
-        if (!state.open || !owner || owner !== state.owner || owner !== token(live) ||
+        if (!state.open || !owner || owner !== state.owner || owner !== token(live) || nativeData(live) !== state.ownerData ||
             state.committed === owner || !integer(code, 0, 255) || mobileHost &&
-            (!state.dispatch || code !== 0x28 || !state.data || state.showLcd || live._mobileData !== state.ownerData)) { return false; }
+            (!state.dispatch || code !== 0x28 || !state.data || state.showLcd)) { return false; }
         state.committed = owner;
         chrome();
         if (cityInfoOwns()) { return false; }
@@ -326,10 +354,10 @@
         return true;
     }
     function getInputTicket() {
-        if (!mobileHost || !state.open || !state.data || state.showLcd || state.committed === state.owner) { return null; }
+        if (!state.focused || !state.ownerData || !state.open || !state.data || state.showLcd || state.committed === state.owner) { return null; }
         var live = readNative();
-        if (!live || token(live) !== state.owner || live._mobileData !== state.ownerData) { return null; }
-        var result = {key: state.owner, epoch: state.epoch, libraryGeneration: live._libraryGeneration,
+        if (!live || token(live) !== state.owner || nativeData(live) !== state.ownerData) { return null; }
+        var result = {key: state.owner, epoch: state.epoch, libraryGeneration: mobileHost ? live._libraryGeneration : state.data.libraryGeneration,
             generation: live.generation, seq: live.seq, mapInputSeq: live.mapInputSeq};
         Object.defineProperty(result, 'data', {value: state.ownerData});
         return Object.freeze(result);
@@ -338,25 +366,27 @@
     function retireInput(reason) {
         state.epoch++; state.pressed = state.grant = null; state.retireReason = reason || 'retired';
     }
-    function mobileTarget(event) {
+    function guardedTarget(event) {
         var root = node('hd-mini-map'), target = event.target && event.target.closest && event.target.closest('button');
         if (!root || !target || !root.contains(target) || target.disabled) { return null; }
         var list = node('hd-mini-map-cities');
-        return target === node('hd-mini-map-return') || list && list.contains(target) ? target : null;
+        return mobileHost && target === node('hd-mini-map-return') || list && list.contains(target) ? target : null;
     }
-    function activateMobile(target, ticket) {
+    function activateButton(target, ticket) {
         if (!sameTicket(ticket, getInputTicket())) { return; }
-        var native = state.native, data = state.data, index = null;
+        var request = null;
         if (target !== node('hd-mini-map-return')) {
             var row = target.parentElement, value = row && row.getAttribute('data-hd-mini-city');
-            if (value == null || !integer(Number(value), 0, 37) || typeof mobileHost.locateAfterReturn !== 'function') { return; }
-            index = Number(value);
-            var city = data.cities[index];
+            var index = Number(value), city = state.data.cities[index];
+            if (value == null || !integer(index, 0, 37)) { return; }
             if (!city || city.index !== index || !matchesFilter(city)) { return; }
+            request = {index: index, native: Object.assign({}, state.native), data: ticket.data, key: ticket.key,
+                libraryGeneration: ticket.libraryGeneration, source: state.source};
+            if (!matchesLocation(request, 1, request.native.seq)) { return; }
         }
         state.dispatch = true;
         try {
-            if (returnKey(0x28, ticket.key) && index !== null) { mobileHost.locateAfterReturn(index, native, data.generation); }
+            if (returnKey(0x28, ticket.key)) { state.location = request; }
         } finally { state.dispatch = false; }
     }
     function geometry(target) {
@@ -371,7 +401,7 @@
             if (!target || target.isConnected === false || document.hidden) { return false; }
             for (var p = target; p; p = p.parentElement) {
                 var style = global.getComputedStyle && getComputedStyle(p);
-                if (p.hidden || style && (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0)) { return false; }
+                if (p.hidden || p.inert || style && (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0)) { return false; }
             }
             var hit = document.elementFromPoint(x, y);
             return hit === target || target.contains(hit);
@@ -380,18 +410,19 @@
     function focusedButton(target, rect) {
         return target === document.activeElement && rect && visible(target, rect[0] + rect[2] / 2, rect[1] + rect[3] / 2);
     }
-    function bindMobileInput(root) {
+    function bindGuardedInput(root) {
         document.addEventListener('pointerdown', function (event) {
-            if (!mobileHost) { return; }
+            if (event.isTrusted === true) { state.location = null; }
             state.pointers[event.pointerId] = true;
             if (Object.keys(state.pointers).length > 1 || event.isPrimary === false) {
                 state.blocked = true; retireInput('multiple-pointers');
             }
         }, true);
         root.addEventListener('pointerdown', function (event) {
-            if (!mobileHost) { return; }
             if (searchTarget(event.target)) { return; }
-            var target = mobileTarget(event), ticket = getInputTicket(), rect = target && geometry(target);
+            var target = guardedTarget(event);
+            if (!mobileHost && !target) { return; }
+            var ticket = getInputTicket(), rect = target && geometry(target);
             state.grant = null;
             if (event.isTrusted !== true || event.isPrimary !== true || event.button !== 0 || !integer(event.pointerId, 0, 0xffffffff) || state.blocked ||
                 !target || !rect || !ticket || !visible(target, event.clientX, event.clientY) ||
@@ -399,7 +430,7 @@
             state.pressed = {target: target, ticket: ticket, id: event.pointerId, rect: rect, x: event.clientX, y: event.clientY};
         });
         document.addEventListener('pointermove', function (event) {
-            if (!mobileHost || !state.pressed || state.pressed.id !== event.pointerId) { return; }
+            if (!state.pressed || !state.pressed.ticket || state.pressed.id !== event.pointerId) { return; }
             var press = state.pressed;
             if (Math.hypot(event.clientX - press.x, event.clientY - press.y) > 10 ||
                 JSON.stringify(press.rect) !== JSON.stringify(geometry(press.target)) || !sameTicket(press.ticket, getInputTicket())) {
@@ -407,9 +438,9 @@
             }
         }, true);
         document.addEventListener('pointerup', function (event) {
-            if (!mobileHost) { return; }
-            var press = state.pressed, target = mobileTarget(event);
-            if (press && press.id === event.pointerId) {
+            var press = state.pressed;
+            if (press && press.ticket && press.id === event.pointerId) {
+                var target = guardedTarget(event);
                 state.pressed = null;
                 if (event.isTrusted === true && event.isPrimary === true && event.button === 0 && !state.blocked &&
                     target === press.target && Math.hypot(event.clientX - press.x, event.clientY - press.y) <= 10 &&
@@ -422,37 +453,44 @@
             if (!Object.keys(state.pointers).length) { state.blocked = false; }
         }, true);
         document.addEventListener('pointercancel', function (event) {
-            if (!mobileHost) { return; }
             delete state.pointers[event.pointerId]; retireInput('pointercancel');
             state.blocked = Object.keys(state.pointers).length > 0;
         }, true);
         document.addEventListener('lostpointercapture', function (event) {
             // Touch releases implicit capture between pointerup and click.
             // Only a lost capture during an unfinished press cancels its grant.
-            if (mobileHost && (state.pressed || state.pointers[event.pointerId])) { retireInput('lost-capture'); }
+            if (state.pressed && state.pressed.ticket || state.pointers[event.pointerId]) { retireInput('lost-capture'); }
         }, true);
         document.addEventListener('scroll', function () { retireKeepingEditor('scroll'); }, true);
         root.addEventListener('click', function (event) {
-            if (!mobileHost) { return; }
-            var target = mobileTarget(event), grant = state.grant; state.grant = null;
+            var target = guardedTarget(event), grant = state.grant; state.grant = null;
             if (!target) { return; }
             event.preventDefault(); event.stopPropagation();
             poll();
             if (!grant || grant.target !== target || event.isTrusted !== true || !(event.detail > 0) || state.blocked ||
                 Date.now() - grant.at > 700 || !visible(target, event.clientX, event.clientY) ||
                 JSON.stringify(grant.rect) !== JSON.stringify(geometry(target))) { return; }
-            activateMobile(target, grant.ticket);
+            activateButton(target, grant.ticket);
         });
         root.addEventListener('focusout', function (event) {
             if (state.pressed && state.pressed.key && state.pressed.target === event.target) { retireInput('button-blur'); }
         });
     }
     function start() {
+        if (global.BayeHdLibIdentity && typeof BayeHdLibIdentity.subscribe === 'function' && !state.identityBound) {
+            state.identityBound = true;
+            BayeHdLibIdentity.subscribe(function () {
+                state.location = null;
+                if (mobileHost) { retireInput('identity'); close(); }
+                else { retireForSearch('identity'); }
+            });
+        }
         if (state.bound || !node('hd-mini-map')) { return; }
         state.bound = true;
         // Registered on window before city/battle listeners. Repeats stay
         // consumed until C retires the exact overlay, never becoming movement.
         global.addEventListener('keydown', function (event) {
+            if (event.isTrusted === true && !event.repeat) { state.location = null; }
             if (searchTarget(event.target)) {
                 if (!validEditor(state.editor)) { armSearch(event); }
                 if (event.stopImmediatePropagation) { event.stopImmediatePropagation(); }
@@ -460,7 +498,7 @@
                 return;
             }
             var live = readNative();
-            var target = mobileHost && live && state.open && (event.keyCode === 13 || event.keyCode === 32) && mobileTarget(event);
+            var target = live && state.open && (event.keyCode === 13 || event.keyCode === 32) && guardedTarget(event);
             if (target && !event.isComposing && !event.altKey && !event.ctrlKey && !event.metaKey) {
                 bayeConsumeKeyEvent(event);
                 if (event.repeat) { return; }
@@ -489,13 +527,13 @@
         }, true);
         global.addEventListener('keyup', function (event) {
             var press = state.pressed;
-            if (mobileHost && press && press.key && press.key === event.keyCode) {
+            if (press && press.key && press.key === event.keyCode) {
                 state.pressed = null;
                 bayeConsumeKeyEvent(event); poll();
-                var target = mobileTarget(event), rect = target && geometry(target);
+                var target = guardedTarget(event), rect = target && geometry(target);
                 if (event.isTrusted === true && !event.isComposing && !state.blocked && target === press.target &&
                     JSON.stringify(press.rect) === JSON.stringify(rect) && focusedButton(target, rect)) {
-                    activateMobile(target, press.ticket);
+                    activateButton(target, press.ticket);
                 }
                 return;
             }
@@ -527,12 +565,12 @@
         });
         root.addEventListener('pointerdown', function (event) {
             if (searchTarget(event.target)) { armSearch(event); return; }
-            if (mobileHost) { return; }
+            if (mobileHost || guardedTarget(event)) { return; }
             state.pressed = { owner: state.owner, epoch: state.epoch, target: event.target };
         });
         root.addEventListener('pointercancel', function () { if (!mobileHost) { state.pressed = null; } });
         root.addEventListener('click', function (event) {
-            if (mobileHost) { return; }
+            if (mobileHost || guardedTarget(event)) { return; }
             var target = event.target.closest && event.target.closest('button'), pressed = state.pressed;
             state.pressed = null;
             poll();
@@ -543,10 +581,10 @@
             if (target.id === 'hd-mini-map-classic' && state.data) {
                 state.showLcd = !state.showLcd;
                 if (state.showLcd) { retireInput('classic'); clearSearch(); }
-                chrome(); draw();
+                chrome(); render();
             }
         });
-        bindMobileInput(root);
+        bindGuardedInput(root);
         global.addEventListener('resize', function () {
             var editing = retireKeepingEditor('resize');
             if (mobileHost && !editing) { close(); }
@@ -554,6 +592,7 @@
         });
         ['orientationchange','pagehide','blur'].forEach(function (event) {
             global.addEventListener(event, function () {
+                state.location = null; state.pointers = {}; state.blocked = false;
                 if (!mobileHost) { retireForSearch(event); }
                 clearSearch();
                 if (event === 'blur' || event === 'pagehide') { state.focused = false; }
@@ -566,19 +605,15 @@
             global.addEventListener(event, function () { state.focused = true; if (state.open || mobileHost) { poll(); } });
         });
         document.addEventListener('visibilitychange', function () {
+            state.location = null; state.pointers = {}; state.blocked = false;
             if (mobileHost) { retireInput('visibility'); close(); }
             poll();
         });
         state.timer = global.setInterval(poll, 180); poll();
     }
     global.BayeHdMiniMap = { start: start, poll: poll, onEngineMiniMap: poll,
-        attachMobileHost: function (host) { close(); mobileHost = host || {}; state.focused = true;
-            if (global.BayeHdLibIdentity && typeof BayeHdLibIdentity.subscribe === 'function' && !state.identityBound) {
-                state.identityBound = true;
-                BayeHdLibIdentity.subscribe(function () { if (mobileHost) { retireInput('identity'); close(); } });
-            }
-            start(); poll(); },
-        retireInteraction: function (reason) { retireInput(reason); close(); },
+        attachMobileHost: function (host) { state.location = null; close(); mobileHost = host || {}; state.focused = true; start(); poll(); },
+        retireInteraction: function (reason) { state.location = null; retireInput(reason); close(); },
         getInputTicket: getInputTicket,
         returnKey: returnKey, isOpen: function () { return state.open; },
         debugSnapshot: function () { return { open: state.open, owner: state.owner, native: state.native,

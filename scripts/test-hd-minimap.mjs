@@ -178,7 +178,7 @@ function mobileFixture(options) {
     assert.equal(bytes.length,207195);assert.equal(sha,h.data.libSha256);
     let identity={status:'ready',sha256:sha,byteLength:bytes.length,generation:3},available=true,receiptHook=null,top=back;
     const raw={g_hdEngineReady:1,g_hdDetailGeneration:7,g_hdMapPick:1,g_hdMapInputSeq:9,g_hdMarchPhase:0,
-        g_hdTransferProtocolVersion:1,g_hdTransferActive:0};
+        g_hdTransferProtocolVersion:1,g_hdTransferActive:0,g_hdMapCity:1,g_CityPos:{x:0,y:0,setx:0,sety:0}};
     const blockers=['g_hdBattlePick','g_hdMenuActive','g_hdReportActive','g_hdQtyActive','g_hdFightActive',
         'g_hdHelpActive','g_hdRecordActive','g_hdMovieActive','g_hdSpeActive','g_hdSkillActive','g_hdAttackActive',
         'g_hdSkillResultActive','g_hdMakerActive','g_hdViewActive','g_hdGoodsActive','g_hdPersonPropertiesActive',
@@ -193,15 +193,19 @@ function mobileFixture(options) {
     env.getComputedStyle=()=>({display:'block',visibility:'visible',opacity:'1'});
     env.document.elementFromPoint=()=>top;back.parentElement=root;
     const locations=[];
-    const host={available:()=>available,locateAfterReturn(index,native,generation){locations.push({index,native,generation});},
+    h.data.libraryGeneration=identity.generation;
+    env.BayeHdOverworld.debugSnapshot=()=>({hitsEnabled:h.native.active===0});
+    env.BayeHdOverworld.centerOnCity=index=>locations.push(index);
+    const host={available:()=>available,
         readNative(){const receipt={native:{...h.native},data:env.baye.data,
         key:'raw-owner-'+h.native.seq,libraryGeneration:identity.generation};if(receiptHook)receiptHook(receipt);return receipt;}};
-    h.api.attachMobileHost(host);
+    if(options?.desktop){h.api.start();h.api.poll();}else h.api.attachMobileHost(host);
+    function retire() {h.native.active=0;h.native.seq=((h.native.seq+1)>>>0)||1;mirror();}
     function event(options={}) {return {target:back,isTrusted:true,isPrimary:true,button:0,pointerId:1,
         clientX:50,clientY:50,detail:1,preventDefault(){},stopPropagation(){},...options};}
     function fire(type,options={}) {const e=event(options);h.listeners['document:'+type]?.(e);
         if(type==='pointerdown'||type==='click')root.handlers[type]?.(e);return e;}
-    return Object.assign(h,{raw,blockers,writes,locations,host,mirror,event,fire,
+    return Object.assign(h,{raw,blockers,writes,locations,host,mirror,retire,event,fire,
         down(options){fire('pointerdown',options);},up(options){fire('pointerup',options);},click(options){fire('click',options);},
         tap(){fire('pointerdown');fire('pointerup');fire('click');},available(value){available=value;},
         identity(){return identity;},setIdentity(value){identity=value;},setReceiptHook(fn){receiptHook=fn;},setTop(value){top=value;}});
@@ -234,27 +238,29 @@ test('mobile Return needs trusted DOWN, matching UP and one matching click, neve
     h.native.active=0;h.mirror();h.api.poll();assert.equal(h.api.isOpen(),false);assert.deepEqual(h.writes,[]);
 });
 test('a filtered city location requires a complete gesture on the current row',()=>{
-    const h=categorizedOverview(true),input=h.elements.get('hd-mini-map-search'),list=h.elements.get('hd-mini-map-cities');
-    h.filter('neutral');h.localEvent('focus',input);h.search('city17');
-    assert.deepEqual(h.cityIds(),[17]);
-    const target=list.children[0].children[0];
-    assert.equal(target.tagName,'BUTTON');assert.equal(target.getAttribute('aria-label'),'定位city17（他方）');
-    h.setTop(target);
-    h.click({target});h.down({target});h.listeners['document:scroll']();h.up({target});h.click({target});
-    assert.deepEqual(h.keys,[]);assert.deepEqual(h.locations,[]);
-    h.down({target});h.search('city18');h.up({target});h.click({target});
-    assert.deepEqual(h.keys,[]);assert.deepEqual(h.locations,[]);
-    const current=list.children[0].children[0];
-    h.setTop(current);h.down({target:current});h.up({target:current});h.click({target:current});
-    h.click({target:current});h.tap();
-    assert.deepEqual(h.keys,[40]);assert.equal(h.locations.length,1);
-    assert.equal(h.locations[0].index,18);assert.equal(h.locations[0].native.seq,h.native.seq);
-    assert.equal(h.locations[0].native._mobileData,h.context.baye.data);
-    assert.equal(h.locations[0].generation,h.data.generation);assert.deepEqual(h.writes,[]);
+    for(const desktop of [false,true]) {
+        const h=categorizedOverview(!desktop,mobileFixture({desktop})),input=h.elements.get('hd-mini-map-search'),
+            list=h.elements.get('hd-mini-map-cities');
+        h.filter('neutral');h.localEvent('focus',input);h.search('city17');
+        assert.deepEqual(h.cityIds(),[17]);
+        const target=list.children[0].children[0];
+        assert.equal(target.tagName,'BUTTON');assert.equal(target.getAttribute('aria-label'),'定位city17（他方）');
+        h.setTop(target);
+        h.click({target});h.down({target});h.listeners['document:scroll']();h.up({target});h.click({target});
+        assert.deepEqual(h.keys,[]);assert.deepEqual(h.locations,[]);
+        h.down({target});h.search('city18');h.up({target});h.click({target});
+        assert.deepEqual(h.keys,[]);assert.deepEqual(h.locations,[]);
+        const current=list.children[0].children[0];
+        h.setTop(current);h.down({target:current});h.up({target:current});h.click({target:current});
+        h.click({target:current});h.api.poll();
+        assert.deepEqual(h.keys,[40]);assert.deepEqual(h.locations,[]);
+        h.retire();h.api.poll();h.api.poll();
+        assert.deepEqual(h.locations,[18]);assert.deepEqual(h.writes,[]);
+    }
 });
 test('city location accepts Enter and Space from the same focused row through key release',()=>{
-    for(const keyCode of [13,32]) {
-        const h=mobileFixture(),target=h.elements.get('hd-mini-map-cities').children[17].children[0];
+    for(const desktop of [false,true])for(const keyCode of [13,32]) {
+        const h=mobileFixture({desktop}),target=h.elements.get('hd-mini-map-cities').children[17].children[0];
         h.setTop(target);h.localEvent('focus',target);
         h.localEvent('keydown',target,{keyCode});h.localEvent('focusout',target);
         h.localEvent('keyup',target,{keyCode});
@@ -264,7 +270,26 @@ test('city location accepts Enter and Space from the same focused row through ke
         h.localEvent('keydown',target,{keyCode,repeat:true});
         assert.deepEqual(h.keys,[]);
         assert.equal(h.localEvent('keyup',target,{keyCode}).consumed,true);
-        assert.deepEqual(h.keys,[40]);assert.equal(h.locations[0].index,17);assert.deepEqual(h.writes,[]);
+        assert.deepEqual(h.keys,[40]);assert.deepEqual(h.locations,[]);
+        h.retire();h.api.poll();
+        assert.deepEqual(h.locations,[17]);assert.deepEqual(h.writes,[]);
+    }
+});
+test('a pending location expires on native, asset or user changes before the map is restored',()=>{
+    const changes={
+        data:h=>{h.context.baye.data={...h.raw};},library:h=>h.setIdentity({...h.identity(),generation:4}),
+        mapInput:h=>h.raw.g_hdMapInputSeq++,overview:h=>h.raw.g_hdMiniMapSeq++,
+        cursor:h=>h.raw.g_CityPos.setx++,view:h=>h.raw.g_CityPos.x++,
+        assets:h=>h.data.generation++,report:h=>h.raw.g_hdReportActive=1,
+        rotation:h=>h.listeners.orientationchange(),visibility:h=>{h.hidden(true);h.listeners['document:visibilitychange']();},
+        newGesture:h=>h.fire('pointerdown',{target:{}})
+    };
+    for(const desktop of [false,true])for(const [reason,change] of Object.entries(changes)) {
+        const h=mobileFixture({desktop}),target=h.elements.get('hd-mini-map-cities').children[17].children[0];
+        h.setTop(target);h.down({target});h.up({target});h.click({target});
+        assert.deepEqual(h.keys,[40]);assert.deepEqual(h.locations,[]);
+        h.retire();change(h);h.api.poll();h.api.poll();
+        assert.deepEqual(h.locations,[],reason);assert.deepEqual(h.writes,[]);
     }
 });
 test('mobile touch Return keeps its completed UP grant through implicit capture release before click',()=>{
@@ -376,8 +401,7 @@ for(const problem of ['assets','custom','incomplete','unknown-geography'])test('
     assert.equal(h.key(27).consumed,undefined,'physical LCD keeps its original keyboard handler');
 });
 
-function categorizedOverview(mobile) {
-    const h=mobile?mobileFixture():fixture();
+function categorizedOverview(mobile,h=mobile?mobileFixture():fixture()) {
     h.data.cities.forEach((city,index)=>{
         city.kind=index<10?'owned':index<22?'neutral':index<30?'empty':'unknown';
         city.belong=index<10?1:index<22?2:index<30?0:null;

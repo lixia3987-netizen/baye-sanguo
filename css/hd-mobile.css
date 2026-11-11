@@ -14,15 +14,8 @@
     min-height: 0; grid-template-columns: 1fr; gap: 2px;
     overflow: auto; overscroll-behavior: contain; touch-action: pan-y;
 }
-.hd-mobile-page #hd-mini-map-cities li { padding: 0; font-size: 14px; }
-.hd-mobile-page #hd-mini-map-cities .hd-mini-map-city-button {
-    display: flex; align-items: center; gap: 8px; width: 100%; min-width: 44px; min-height: 44px;
-    padding: 0 10px; border-radius: 5px; background: #314258; text-align: left; touch-action: pan-y;
-}
-.hd-mobile-page #hd-mini-map-cities .is-current .hd-mini-map-city-button { background: #4a493d; }
-.hd-mobile-page #hd-mini-map-cities .hd-mini-map-city-button:focus-visible { outline: 2px solid #fff2ca; outline-offset: -2px; }
+.hd-mobile-page #hd-mini-map-cities li { font-size: 14px; }
 .hd-mobile-page #hd-mini-map-cities small { font-size: 12px; }
-.hd-mobile-page .hd-mini-map-locate { color: #f0d99f; font-size: 12px; }
 .hd-mobile-page #hd-mini-map .hd-mini-map-footer { flex: 0 0 44px; padding-top: 6px; justify-content: flex-end; }
 .hd-mobile-page #hd-mini-map-return { min-height: 44px; touch-action: manipulation; }
 .hd-mobile-page #hd-mini-map-classic { display: none !important; }

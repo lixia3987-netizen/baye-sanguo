@@ -35,6 +35,14 @@
 .hd-mini-map button { min-width: 80px; min-height: 44px; padding: 0 16px; border: 0;
     border-radius: 9px; background: #3b4b60; color: #eef2f6; font: inherit; cursor: pointer; }
 .hd-mini-map button:disabled { opacity: .55; cursor: default; }
+.hd-mini-map:not(.is-classic) .hd-mini-map-cities li { padding: 0; }
+.hd-mini-map .hd-mini-map-city-button {
+    display: flex; align-items: center; gap: 8px; width: 100%; min-width: 44px;
+    padding: 0 10px; border-radius: 5px; background: #314258; text-align: left; touch-action: pan-y;
+}
+.hd-mini-map .is-current .hd-mini-map-city-button { background: #4a493d; }
+.hd-mini-map .hd-mini-map-city-button:focus-visible { outline: 2px solid #fff2ca; outline-offset: -2px; }
+.hd-mini-map-locate { color: #f0d99f; font-size: 12px; }
 .hd-mini-map #hd-mini-map-return { background: #3d6a4a; }
 .hd-mini-map-fallback { padding: 24px 0; font-size: 18px; }
 html[data-baye-mini-map="hd"][data-baye-mini-map-lcd="0"] .container.js-baye-pc-lcd {

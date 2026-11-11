@@ -1,4 +1,4 @@
-/** Original mobile SEARCH host and camera handoff back to the ordinary map. */
+/** Original mobile SEARCH host. Reads observations and sends only the real opening key. */
 (function (global) {
     'use strict';
     var SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
@@ -16,7 +16,6 @@
     function key(value) { return JSON.stringify(value); }
     function createController(environment) {
         var mounted=false,timer=null,arm=null,pending=null,epoch=0,busy=false,pointers={},blocked=false;
-        var location=null;
         var last=Object.freeze({active:false,openEnabled:false,owner:null,key:null});
         function doc() { return environment.document; }
         function node(id) { return doc() && doc().getElementById(id); }
@@ -76,27 +75,6 @@
             if(typeof send!=='function')return false;
             pending={ticket:now};send.call(environment,0x33);refresh();return true;
         }
-        function locateAfterReturn(index,previous,assetGeneration) {
-            location={index:index,native:previous,assetGeneration:assetGeneration};
-            refresh();
-        }
-        function finishLocation(native,map) {
-            if(!location)return;
-            var request=location,n=request.native;
-            if(native && native.data===n._mobileData && native.native.seq===n.seq &&
-                native.native.generation===n.generation && native.native.mapInputSeq===n.mapInputSeq &&
-                native.libraryGeneration===n._libraryGeneration)return;
-            location=null;
-            if(!map || map.data!==n._mobileData || map.libraryGeneration!==n._libraryGeneration)return;
-            var data=map.data,pos=data.g_CityPos,retiredSeq=((n.seq+1)>>>0)||1;
-            // Dismissing SEARCH retires exactly this overview inside the same GetCitySet.
-            if(data.g_hdMiniMapActive!==0 || data.g_hdMiniMapSeq!==retiredSeq ||
-                data.g_hdDetailGeneration!==n.generation || data.g_hdMapInputSeq!==n.mapInputSeq ||
-                data.g_hdMapCity!==n.city1 || !pos || pos.setx!==n.cursorX || pos.sety!==n.cursorY ||
-                pos.x!==n.viewX || pos.y!==n.viewY)return;
-            var shared=environment.BayeHdOverworld,overview=shared.overviewData();
-            if(overview && overview.generation===request.assetGeneration && same(map,entry()))shared.centerOnCity(request.index);
-        }
         function refresh() {
             if(busy)return last;busy=true;
             try {
@@ -108,7 +86,6 @@
                 last=Object.freeze({active:active,openEnabled:!!map&&!pending,owner:active?s.owner:null,key:active?native.key:map&&map.key||null});
                 var open=node('hd-mobile-map-overview');if(open)open.disabled=!last.openEnabled;
                 if(doc() && doc().body)doc().body.classList.toggle('hd-mobile-minimap-on',active);
-                finishLocation(native,map);
                 if(arm && !same(arm.ticket,map))cancel();return last;
             }finally{busy=false;}
         }
@@ -116,12 +93,9 @@
         function geometry(target) {var r=target.getBoundingClientRect();return key([r.left,r.top,r.width,r.height]);}
         function currentButton(target) {return target===node('hd-mobile-map-overview') && target.isConnected!==false;}
         function boundary() {cancel();pointers={};blocked=false;refresh();}
-        function abandonLocation() {location=null;boundary();}
         function init() {
             if(mounted)return refresh();mounted=true;
-            var shared=environment.BayeHdMiniMap;if(shared && typeof shared.attachMobileHost==='function')shared.attachMobileHost({
-                available:available,readNative:readNative,locateAfterReturn:locateAfterReturn
-            });
+            var shared=environment.BayeHdMiniMap;if(shared && typeof shared.attachMobileHost==='function')shared.attachMobileHost({available:available,readNative:readNative});
             if(shared && typeof shared.start==='function')shared.start();
             var button=node('hd-mobile-map-overview');
             if(button){
@@ -135,15 +109,14 @@
                 button.addEventListener('blur',cancel);
             }
             if(doc() && doc().addEventListener){
-                doc().addEventListener('visibilitychange',abandonLocation);
+                doc().addEventListener('visibilitychange',boundary);
                 doc().addEventListener('scroll',boundary,true);
-                doc().addEventListener('pointerdown',function(ev){if(ev.isTrusted===true)location=null;pointers[ev.pointerId]=true;if(Object.keys(pointers).length>1 || ev.isPrimary===false){blocked=true;cancel();}else if(arm && arm.id!==ev.pointerId)cancel();},true);
+                doc().addEventListener('pointerdown',function(ev){pointers[ev.pointerId]=true;if(Object.keys(pointers).length>1 || ev.isPrimary===false){blocked=true;cancel();}else if(arm && arm.id!==ev.pointerId)cancel();},true);
                 ['pointerup','pointercancel'].forEach(function(name){doc().addEventListener(name,function(ev){delete pointers[ev.pointerId];if(!Object.keys(pointers).length)blocked=false;},true);});
             }
-            if(environment.addEventListener)environment.addEventListener('resize',boundary);
-            ['orientationchange','blur','pagehide'].forEach(function(name){if(environment.addEventListener)environment.addEventListener(name,abandonLocation);});
+            ['resize','orientationchange','blur','pagehide'].forEach(function(name){if(environment.addEventListener)environment.addEventListener(name,boundary);});
             if(environment.visualViewport && environment.visualViewport.addEventListener)environment.visualViewport.addEventListener('resize',boundary);
-            var id=environment.BayeHdLibIdentity;if(id && typeof id.subscribe==='function')id.subscribe(abandonLocation);
+            var id=environment.BayeHdLibIdentity;if(id && typeof id.subscribe==='function')id.subscribe(boundary);
             timer=environment.setInterval(refresh,100);return refresh();
         }
         return Object.freeze({init:init,refresh:refresh,snapshot:function(){return last;},readNative:readNative,open:sendSearch});

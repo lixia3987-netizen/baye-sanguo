@@ -195,16 +195,17 @@ async function checkpoint(cdp, name) {
 
 async function key(cdp, name) {
     report.inputs.push({ type:"key", key:name, at:new Date().toISOString() });
-    const codes = { Enter: 13, Escape: 27, ArrowDown: 40, ArrowUp: 38, ArrowLeft: 37, ArrowRight: 39, h: 72, f: 70, s: 83, ' ': 32 };
-    await cdp.send('Input.dispatchKeyEvent', { type: 'keyDown', key: name, code: name, windowsVirtualKeyCode: codes[name], nativeVirtualKeyCode: codes[name] });
-    await cdp.send('Input.dispatchKeyEvent', { type: 'keyUp', key: name, code: name, windowsVirtualKeyCode: codes[name], nativeVirtualKeyCode: codes[name] });
+    const codes = { Tab: 9, Enter: 13, Escape: 27, ArrowDown: 40, ArrowUp: 38, ArrowLeft: 37, ArrowRight: 39, h: 72, f: 70, s: 83, ' ': 32 };
+    const code = name === ' ' ? 'Space' : name;
+    await cdp.send('Input.dispatchKeyEvent', { type: 'keyDown', key: name, code, windowsVirtualKeyCode: codes[name], nativeVirtualKeyCode: codes[name] });
+    await cdp.send('Input.dispatchKeyEvent', { type: 'keyUp', key: name, code, windowsVirtualKeyCode: codes[name], nativeVirtualKeyCode: codes[name] });
     await delay(180);
 }
 
 async function click(cdp, selector) {
     const point = await waitFor(cdp, 'visible unobstructed player control: ' + selector, `(() => {
         const node = document.querySelector(${JSON.stringify(selector)});
-        if (!node) return null;
+        if (!node || node.disabled || node.hidden) return null;
         node.scrollIntoView({ block: 'center' });
         const rect = node.getBoundingClientRect(), style = getComputedStyle(node);
         if (!rect.width || !rect.height || style.visibility === 'hidden' || style.display === 'none') return null;
@@ -293,6 +294,13 @@ async function bootStrategy(cdp) {
     const index = kings.kings.findIndex(king => king.name === '董卓');
     report.lord = kings.kings[index];
     await click(cdp, `#hd-system-ui [data-hd-sys="${index}"]`);
+    await waitFor(cdp, 'current native Dong Zhuo selection', `(() => {
+        const menu=baye.hd.menuItems(), kings=baye.hd.kings();
+        const start=document.querySelector('[data-hd-sys-start]');
+        return menu.active===1&&menu.context===4&&menu.kind===3&&kings.index===${index}&&kings.currentId===${report.lord.id}&&
+            !BayeHdSystemUi.debugSnapshot().pending&&start&&!start.disabled&&start.getAttribute('data-hd-king-index')===${JSON.stringify(String(index))};
+    })()`);
+    await click(cdp, '#hd-system-ui [data-hd-sys-start]');
     await waitFor(cdp, 'actual strategy map', 'baye.hd.march().pick && baye.hd.realm().ownedCount>0');
     const identity = await waitFor(cdp, 'actual loaded standard LIB identity', 'BayeHdLibIdentity.read().status==="ready" && BayeHdLibIdentity.read()');
     assert.equal(identity.sha256, report.sources['libs/dat-mod.lib'].sha256, 'The game uses the exact served dictionary bytes');
@@ -366,7 +374,8 @@ const miniObservationExpression = `(() => {
         let different=0;for(let i=4;i<bytes.length;i+=4)if(bytes[i]!==bytes[0]||bytes[i+1]!==bytes[1]||bytes[i+2]!==bytes[2])different++;
         bitmap={width:canvas.width,height:canvas.height,differentPixels:different};}
     const cities=Array.from(list?list.querySelectorAll('[data-hd-mini-city]'):[],li=>({index:Number(li.getAttribute('data-hd-mini-city')),
-        name:visible(li.querySelector('span:nth-of-type(2)')),ownership:visible(li.querySelector('small')),current:li.classList.contains('is-current')}));
+        name:visible(li.querySelector('span:nth-of-type(2)')),ownership:visible(li.querySelector('small')),current:li.classList.contains('is-current'),
+        location:li.querySelector('button')?.getAttribute('aria-label')||null}));
     return {native:baye.hd.miniMap(),ui:BayeHdMiniMap.debugSnapshot(),viewport:{width:innerWidth,height:innerHeight},
         title:visible(document.querySelector('#hd-mini-map-title')),summary:visible(document.querySelector('#hd-mini-map-summary')),
         stage:stage&&rect(stage),list:list&&{...rect(list),scrollTop:list.scrollTop,scrollHeight:list.scrollHeight,clientHeight:list.clientHeight},
@@ -392,6 +401,13 @@ async function observeMiniLcd(cdp) {
     })()`);
 }
 
+function clampedCenter(city, design, camera) {
+    return {
+        x: Math.min(camera.maxX, Math.max(camera.minX, city.x - design[0] / (2 * camera.scale))),
+        y: Math.min(camera.maxY, Math.max(camera.minY, city.y - design[1] / (2 * camera.scale)))
+    };
+}
+
 async function miniMapSmoke(cdp) {
     // This observer forwards the original exports once. It records real input
     // crossing the native boundary; it neither replaces hooks nor fabricates C.
@@ -414,7 +430,7 @@ async function miniMapSmoke(cdp) {
         assert.equal(city.name,new TextDecoder('gbk').decode(bytes.subarray(0,zero<0?bytes.length:zero)), 'All native city names match the actually served resource 58');}
     const picture=nativeLibItem(75,1),nativePicture={width:picture.readUInt16LE(0),height:picture.readUInt16LE(2),count:picture.readUInt16LE(4),mask:picture[6]};
     assert.deepEqual(nativePicture,{width:84,height:64,count:1,mask:0},'The real resource header mask is distinct from gam_drawpic draw argument 1');
-    report.miniMap={worldBefore:before,nativeCities,nativePicture,rounds:[],screens:[],
+    report.miniMap={worldBefore:before,nativeCities,nativePicture,rounds:[],screens:[],locations:[],
         touchScope:'PC touch on the HD return button sends one real native EXIT key. The PC classic LCD does not install native touch input; native touch consumption is covered separately by C fixtures, and mobile device acceptance remains pending.'};
     const inputCounts=()=>evaluate(cdp,'({keys:__miniNativeInputs.keys.length,touches:__miniNativeInputs.touches.length})');
     const stable=async label=>{assert.deepEqual(await evaluate(cdp,miniWorldExpression),before,label+' preserves every native city/person/inventory/date and cursor field');
@@ -450,6 +466,7 @@ async function miniMapSmoke(cdp) {
         for(let pass=0;pass<5;pass++){
             for(const city of observation.cities){assert.equal(city.name.text,nativeCities[city.index].name);
                 assert.equal(city.ownership.text,nativeCities[city.index].belong===0?'空城':nativeCities[city.index].belong===before.playerKing+1?'我方':'他方');
+                assert.equal(city.location,'定位'+city.name.text+'（'+city.ownership.text+'）');
                 if(city.name.visible&&city.ownership.visible)seen.add(city.index);}
             if(seen.size===38)break;
             const r=observation.list,p={x:(r.left+r.right)/2,y:(r.top+r.bottom)/2};
@@ -467,6 +484,7 @@ async function miniMapSmoke(cdp) {
         assert.ok(classicLcd.bitmap.differentPixels>0,'The LCD contains the real native resource 75 frame');
         assert.equal(overlaps(classicLcd.rect,classicHud.stage),false,'Classic LCD is separate from the HD miniature card');
         assert.ok(classicHud.controls.back.visible&&classicHud.controls.classic.visible,'Both actual classic/return controls stay hit-testable');
+        assert.ok(classicHud.cities.every(city=>city.location===null),'Classic comparison keeps city names as read-only rows');
         await stable(label+' classic comparison');assert.deepEqual(await inputCounts(),inputs,'Classic comparison sends no native key or touch');
         assert.deepEqual(await evaluate(cdp,'baye.hd.miniMap()'),nativeOwner,'Comparison preserves the exact actual native miniature capture');
         await checkpoint(cdp,'00-mini-map-'+label+'-classic');
@@ -475,11 +493,53 @@ async function miniMapSmoke(cdp) {
         await stable(label+' restored HD');assert.deepEqual(await inputCounts(),inputs);
         report.miniMap.screens.push({width,height,seen:[...seen],hd:observation,defaultLcd,classicHud,classicLcd,restored});
     };
-    for(const [i,closing] of ['ArrowRight','ArrowUp','ArrowDown','ArrowLeft','Enter','Escape','button','touch-button'].entries()){
+    const locate=async (owner,method,inputs)=>{
+        const {camera,design}=await evaluate(cdp,'({camera:BayeHdOverworld.getCamera(),design:BayeHdOverworld.debugSnapshot().design})');
+        const city=owner.ui.cities.find(city=>{
+            const p=clampedCenter(city,design,camera);
+            return city.index+1!==before.mapCity && Math.hypot(p.x-camera.x,p.y-camera.y)>50 &&
+                owner.ui.cities.filter(other=>other.name.includes(city.name)).length===1;
+        });
+        assert.ok(city,'A uniquely searchable city moves the current camera');
+        await click(cdp,'#hd-mini-map-search');
+        await cdp.send('Input.insertText',{text:city.name});
+        const selector='#hd-mini-map-cities [data-hd-mini-city="'+city.index+'"] button';
+        const point=await waitFor(cdp,'single searchable city with a visible location button',`(() => {
+            const ui=BayeHdMiniMap.debugSnapshot(), button=document.querySelector(${JSON.stringify(selector)});
+            if(ui.query!==${JSON.stringify(city.name)} || ui.matchingCities!==1 || !button)return null;
+            const rect=button.getBoundingClientRect(), x=rect.left+rect.width/2, y=rect.top+rect.height/2;
+            return rect.width>=44 && rect.height>=44 && button.contains(document.elementFromPoint(x,y)) && {x,y};
+        })()`);
+        if(method==='mouse'){
+            await evaluate(cdp,`document.querySelector(${JSON.stringify(selector)}).click()`);
+            await cdp.send('Input.dispatchMouseEvent',{type:'mousePressed',...point,button:'left',clickCount:1});
+            await cdp.send('Input.dispatchMouseEvent',{type:'mouseMoved',x:point.x+16,y:point.y,button:'left',buttons:1});
+            await cdp.send('Input.dispatchMouseEvent',{type:'mouseReleased',x:point.x+16,y:point.y,button:'left',clickCount:1});
+            await delay(200);
+        }else{
+            for(let i=0;i<5;i++)await key(cdp,'Tab');
+            assert.equal(await evaluate(cdp,`document.activeElement.matches(${JSON.stringify(selector)})`),true);
+        }
+        assert.deepEqual(await inputCounts(),inputs,'Searching, tabbing, scripted clicks and drags leave native input idle');
+        assert.deepEqual(await evaluate(cdp,'baye.hd.miniMap()'),owner.native);
+        await stable('Before locating '+city.name);
+        await checkpoint(cdp,'00-mini-map-city-location-'+method);
+        if(method==='mouse')await click(cdp,selector);
+        else await key(cdp,' ');
+        return {city,method,camera};
+    };
+    for(const [i,closing] of ['ArrowRight','ArrowUp','ArrowDown','ArrowLeft','Enter','Escape','button','touch-button','mouse-location','keyboard-location'].entries()){
+        const locating=closing.endsWith('-location');
+        if(locating){
+            const [width,height]=closing==='mouse-location'?[1280,720]:[1920,1080];
+            await cdp.send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await delay(250);
+        }
         const label=String(i+1).padStart(2,'0')+'-'+closing,owner=await opened(label);
         if(i===0)await screen(1920,1080,'1080p');if(i===1)await screen(1280,720,'720p');
         const inputs=await inputCounts();
-        if(closing==='button')await click(cdp,'#hd-mini-map-return');
+        let location=null;
+        if(locating)location=await locate(owner,closing.split('-')[0],inputs);
+        else if(closing==='button')await click(cdp,'#hd-mini-map-return');
         else if(closing==='touch-button'){
             await click(cdp,'#hd-mini-map-classic');await delay(150);
             assert.equal((await observeMiniLcd(cdp)).visible,true);assert.deepEqual(await inputCounts(),inputs);
@@ -498,10 +558,23 @@ async function miniMapSmoke(cdp) {
         await stable(label+' return');const afterInputs=await inputCounts();
         assert.equal(afterInputs.keys-inputs.keys,1,'The explicit dismissal crosses the native key boundary only once');
         assert.equal(afterInputs.touches-inputs.touches,0,'The PC miniature controls do not pretend to be native LCD touch input');
+        if(location){
+            assert.deepEqual(await evaluate(cdp,`__miniNativeInputs.keys.slice(${inputs.keys})`),[40]);
+            location.after=await waitFor(cdp,'HD camera centers the requested city',`(() => {
+                const map=BayeHdOverworld, camera=map.getCamera();
+                const p=(${clampedCenter.toString()})(${JSON.stringify(location.city)},map.debugSnapshot().design,camera);
+                const city=map.cityScreenPos(${location.city.index});
+                return Math.hypot(p.x-camera.x,p.y-camera.y)<.01 && city &&
+                    document.elementFromPoint(city.clientX,city.clientY)===document.getElementById('hd-overworld-canvas') && {x:camera.x,y:camera.y};
+            })()`);
+            assert.ok(Math.hypot(location.after.x-location.camera.x,location.after.y-location.camera.y)>50);
+            report.miniMap.locations.push(location);
+        }
         assert.equal(await evaluate(cdp,'document.querySelector("#hd-mini-map").hidden'),true);
         report.miniMap.rounds.push({label,closing,owner,inputs,afterInputs,after:await evaluate(cdp,'baye.hd.miniMap()')});
         await checkpoint(cdp,'00-mini-map-'+label+'-consumed');
     }
+    assert.equal(report.miniMap.locations.length,2);
     report.miniMap.worldAfter=await evaluate(cdp,miniWorldExpression);assert.deepEqual(report.miniMap.worldAfter,before);
     await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});await delay(200);
 }
