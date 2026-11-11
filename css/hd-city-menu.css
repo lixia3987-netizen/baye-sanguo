@@ -396,6 +396,10 @@
     font-weight: 700;
 }
 
+.hd-city-menu-march-ok > p:first-child {
+    margin: 0;
+}
+
 html[data-baye-battle-make="1"] [data-hd-menu-back],
 html[data-baye-battle-make="1"] [data-hd-dlg-back],
 html[data-baye-battle-make="1"] [data-hd-sys-back],
@@ -409,6 +413,23 @@ html[data-baye-march-ok="1"] [data-hd-sys-back] {
 .hd-city-menu-march-ok button {
     background: #5dae6d;
     color: #102010;
+}
+
+.hd-city-menu-march-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.hd-city-menu-march-actions button {
+    margin-top: 0;
+}
+
+.hd-city-menu-march-actions [data-hd-march-map] {
+    border: 1px solid #79a885;
+    background: transparent;
+    color: #d8ffd8;
 }
 
 .hd-city-menu-march-ok.is-handoff {

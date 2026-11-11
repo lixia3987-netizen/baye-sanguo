@@ -4,6 +4,7 @@
  *   CHROME=/usr/bin/chromium node scripts/test-hd-campaign-runtime.mjs -- --staged
  *   node scripts/test-hd-campaign-runtime.mjs -- --artifact-dir build/campaign-runtime-smoke
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
+ * --scenario arrival queues two armies for the same enemy city and settles both in one month.
  * --scenario captives --captive-order exercises one actual surrender order through month-end.
  * --captive-width=1280 selects a 720p desktop viewport for either captive flow.
  * --captive-mobile-width=667|844 saves the captured city, then loads and plays it in m.html.
@@ -27,7 +28,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const scenarioFlag = process.argv.indexOf('--scenario');
 const scenario = scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
-assert.ok(['victory', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
+assert.ok(['victory', 'arrival', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
+const arrivalScenario=scenario==='arrival';
 const captiveScenario=scenario==='captives',preflightOnly=process.argv.includes('--preflight-only');
 const captiveOrder=process.argv.includes('--captive-order');
 const captiveUntilJoined=process.argv.includes('--captive-until-joined');
@@ -43,7 +45,7 @@ assert.ok(!captiveUntilJoined||captiveOrder,'Waiting for a successful surrender 
 assert.ok(!captiveWidthFlag||captiveScenario&&[1280,1920].includes(captiveWidth),'Captive desktop viewport is 1280 or 1920 pixels wide');
 assert.ok(!captiveMobileFlag||captiveOrder&&[667,844].includes(captiveMobileWidth),'Mobile captive orders require a 667px or 844px landscape viewport');
 assert.ok(!captiveResumeFlag||captiveOrder,'Captive replay requires a live surrender order');
-const winningScenarios=new Set(['victory','campaign','save','restart','captives']);
+const winningScenarios=new Set(['victory','arrival','campaign','save','restart','captives']);
 const winningFixture={lord:'董卓',origin:15,target:16,leaders:['吕布','张辽','李儒'],recruitments:7};
 const artifactFlag = process.argv.indexOf('--artifact-dir');
 const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/campaign-runtime-smoke'));
@@ -699,10 +701,43 @@ async function prepareArmy(cdp,fixture) {
 async function recordBattleResultNote(cdp,label,expected) {
     const sample=await waitFor(cdp,'current native result note for city '+expected.cityIndex,
         `(() => {const s=${battleResultNoteObservation};return s&&s.note.outcome===${expected.outcome}&&s.city.index===${expected.cityIndex}?s:null;})()`,15000);
+    return captureBattleResultNote(cdp,label,sample,expected);
+}
+
+async function captureBattleResultNote(cdp,label,sample,expected) {
     verifyBattleResultNote(sample,expected);
     report.resultNotes??=[];report.resultNotes.push({label,...sample});
     await checkpoint(cdp,label+'-result-note',{resultNote:sample});
     return sample;
+}
+
+async function queueFollowingArmy(cdp,march) {
+    const mapReceipt=await waitFor(cdp,'completed march on the current native map',`(() => {
+        const m=baye.hd.march();return m.pick===1&&!m.battlePick&&m.mapInputSeq>0&&m.phase===7&&
+            !baye.hd.menuItems().active&&BayeHdCityMenu.isMarchReady()&&m;})()`);
+    const before=await evaluate(cdp,worldExpression);
+    const keyCount=await evaluate(cdp,'__runtimeEngineInputs.length');
+    await click(cdp,'#hd-city-menu [data-hd-march-map]');
+    await waitFor(cdp,'ordinary map with the first army still queued',`(() => {const m=baye.hd.march(),s=BayeHdOverworld.debugSnapshot();
+        return m.pick===1&&!m.battlePick&&m.mapInputSeq===${mapReceipt.mapInputSeq}&&s.phase==='map'&&s.hitsEnabled&&
+            !BayeHdCityMenu.isOpen()&&!BayeHdCityMenu.isMarchReady();})()`);
+    assert.deepEqual(await evaluate(cdp,'baye.hd.march()'),mapReceipt,'Closing the receipt keeps the current native map and order ticket');
+    assert.equal(await evaluate(cdp,'__runtimeEngineInputs.length'),keyCount,'Returning from a completed march sends no native input');
+    assert.deepEqual(await evaluate(cdp,worldExpression),before,'Returning from a completed march preserves the whole native world');
+    await checkpoint(cdp,'first-army-kept-on-map');
+    const reserve=(await readCityPersons(cdp,march.origin)).find(p=>p.arms>0&&p.belong===before.realm.playerBelong&&p.pind!==before.realm.playerKing);
+    assert.ok(reserve,'A distinct armed general remains in the city for the second march');
+    const following=await dispatchMarch(cdp,march.origin,march.target,'following-army',{
+        generalNames:[reserve.name],queuedMarch:march,leaveQueued:true});
+    const pending=await evaluate(cdp,worldExpression);
+    assert.equal(pending.year,before.year);assert.equal(pending.month,before.month);
+    assert.equal(pending.cities.find(c=>c.i===march.target).Belong,before.cities.find(c=>c.i===march.target).Belong,
+        'The enemy still owns the destination while both orders are queued');
+    assert.ok([march,following].every(entry=>pending.orders.some(o=>o.OrderId===27&&o.Person===entry.order.slot&&
+        o.City===march.origin&&o.Object===march.target)&&pending.fighterIndex[entry.order.slot]===1));
+    report.arrival={before,mapReceipt,following,pending};
+    await click(cdp,'#hd-city-menu [data-hd-strategy-end]');
+    return report.arrival;
 }
 
 async function campaignSmoke(cdp) {
@@ -769,7 +804,10 @@ async function campaignSmoke(cdp) {
             const participants=plan.generals.filter(p=>p.pind!==worldBefore.realm.playerKing);
             generalNames=[(participants.length?participants:plan.generals).sort((a,b)=>b.iq-a.iq)[0].name];
         }
-        const march=await dispatchMarch(cdp,plan.origin,plan.target,'march-'+round,{generalNames,foodBudget:winRequested?undefined:10});
+        const foodBudget=arrivalScenario?worldBefore.cities.find(c=>c.i===plan.origin).Food-20:winRequested?undefined:10;
+        if(arrivalScenario)assert.ok(foodBudget>0,'The first army leaves twenty actual grain for the second');
+        const march=await dispatchMarch(cdp,plan.origin,plan.target,'march-'+round,{generalNames,foodBudget,leaveQueued:arrivalScenario});
+        const arrival=arrivalScenario?await queueFollowingArmy(cdp,march):null;
         await waitForGameProgress(cdp,'real player battle',`baye.hd.fight().active && !baye.hd.fight().over && baye.hd.fight().inputKind===1`,60000);
         await checkpoint(cdp,'battle-'+round+'-ready');
         const initial=await evaluate(cdp,battleStateExpression);
@@ -784,7 +822,7 @@ async function campaignSmoke(cdp) {
         const note=await recordBattleResultNote(cdp,'battle-'+round,{outcome:expected,kind:'attack',cityIndex:plan.target});
         assert.equal(note.city.owner,worldBefore.cities.find(c=>c.i===plan.target).Belong,'Result note precedes any occupation of the enemy city');
         await checkpoint(cdp,'battle-'+round+'-terminal');
-        await settleToMap(cdp,'battle-'+round);
+        await settleToMap(cdp,'battle-'+round,arrival);
         const after=await evaluate(cdp,worldExpression);
         const ownershipChanges=realmChanges(worldBefore,after);
         if(expected===1) {
@@ -792,6 +830,17 @@ async function campaignSmoke(cdp) {
             assert.notEqual(worldBefore.cities.find(c=>c.i===plan.target).Belong,worldBefore.realm.playerBelong,'the occupied target was an actual enemy city before departure');
         } else {
             assert.equal(after.cities.find(c=>c.i===plan.target).Belong,worldBefore.cities.find(c=>c.i===plan.target).Belong,'retreat preserves defender ownership');
+        }
+        if(arrival) {
+            assert.ok(arrival.note&&arrival.note.note.seq!==note.note.seq,'The following army has its own native arrival note');
+            const garrison=await readCityPersons(cdp,plan.target);
+            assert.ok(arrival.following.selected.every(p=>garrison.some(actual=>actual.pind===p.pind&&actual.belong===after.realm.playerBelong)),
+                'The second army joins the actual garrison of the captured city');
+            for(const entry of [march,arrival.following]) {
+                assert.equal(after.fighterIndex[entry.order.slot],0,'The settled army releases its native fighter slot');
+                assert.ok(!after.orders.some(o=>o.OrderId===27&&o.Person===entry.order.slot&&o.City===plan.origin&&o.Object===plan.target));
+            }
+            arrival.garrison=garrison;
         }
         if(scenario==='domestic') {
             assert.equal(worldBefore.year,report.domestic.before.year,'cultivation and march are submitted in the same strategy year');
@@ -1091,7 +1140,7 @@ async function dispatchMarch(cdp,origin,target,label,options={}) {
             current+=delta;
             await waitFor(cdp,'actual food step acknowledged '+label,`baye.hd.qty().active&&baye.hd.qty().value===${current}`);
         }
-        assert.equal(await evaluate(cdp,'baye.hd.qty().value'),budget,'repeat retreat retains the city food by explicitly selecting a legal small ration');
+        assert.equal(await evaluate(cdp,'baye.hd.qty().value'),budget,'The army takes the requested native ration');
     }
     await checkpoint(cdp,label+'-food');
     await click(cdp,await evaluate(cdp,`BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-dlg-ok]':'#hd-city-menu [data-hd-qty-ok]'`));
@@ -1115,10 +1164,12 @@ async function dispatchMarch(cdp,origin,target,label,options={}) {
             return {slot,active:Number(d.FIGHTERS_IDX[slot]),ids:ids.filter(id=>id>0),food:Number(o.Food)};
         });
     })()`);
-    assert.equal(nativeOrder.length,1,'one native pending fight order belongs to this exact origin and target');
-    assert.equal(nativeOrder[0].active,1,'the actual pending fighter slot is active');
-    assert.deepEqual(nativeOrder[0].ids,march.selected.map(p=>p.pind+1),'native AddFightOrder stores exactly the named acknowledged team');
-    march.order=nativeOrder[0];
+    assert.equal(nativeOrder.length,options.queuedMarch?2:1,'The expected number of native orders shares this origin and target');
+    if(options.queuedMarch)assert.deepEqual(nativeOrder[0],options.queuedMarch.order,'The first army remains queued ahead of the new one');
+    const submittedOrder=nativeOrder.at(-1);
+    assert.equal(submittedOrder.active,1,'the actual pending fighter slot is active');
+    assert.deepEqual(submittedOrder.ids,march.selected.map(p=>p.pind+1),'native AddFightOrder stores exactly the named acknowledged team');
+    march.order=submittedOrder;
     if(scenario==='domestic') {
         const pending=await evaluate(cdp,worldExpression);
         assert.ok(pending.orders.some(o=>o.OrderId===1&&o.Person===report.domestic.order.Person&&o.City===origin),'the original cultivation order remains distinct while the march is queued');
@@ -1126,8 +1177,10 @@ async function dispatchMarch(cdp,origin,target,label,options={}) {
         march.pendingDomesticWorld=pending;
     }
     await checkpoint(cdp,label+'-order-ack');
-    await action(cdp,'end-strategy-'+label,'BayeHdCityMenu.goStrategyEnd()');
-    await waitFor(cdp,'strategy request '+label,'BayeHdCityMenu.debugSnapshot().handoff||baye.hd.fight().active||baye.hd.fight().skip',20000);
+    if(!options.leaveQueued) {
+        await action(cdp,'end-strategy-'+label,'BayeHdCityMenu.goStrategyEnd()');
+        await waitFor(cdp,'strategy request '+label,'BayeHdCityMenu.debugSnapshot().handoff||baye.hd.fight().active||baye.hd.fight().skip',20000);
+    }
     return march;
 }
 
@@ -1462,10 +1515,17 @@ async function playNpcDefense(cdp,label) {
     return entry;
 }
 
-async function settleToMap(cdp,label) {
+async function settleToMap(cdp,label,arrival=null) {
     const seen=new Set(),defenses=[];let deadline=Date.now()+150000;
     while(Date.now()<deadline) {
         const state=await evaluate(cdp,snapshotExpression);
+        if(arrival&&!arrival.note) {
+            const sample=await evaluate(cdp,battleResultNoteObservation);
+            if(sample?.note.place.kind==='arrival'&&sample.city.index===arrival.following.target) {
+                arrival.note=await captureBattleResultNote(cdp,'following-army',sample,
+                    {outcome:1,kind:'arrival',cityIndex:arrival.following.target});
+            }
+        }
         if(!state.fight?.active&&state.march?.pick===1&&!state.march?.battlePick&&state.overworld?.phase==='map'&&!state.dialog?.open) {
             await delay(400);
             const settled=await evaluate(cdp,snapshotExpression);

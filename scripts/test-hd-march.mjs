@@ -48,7 +48,7 @@ function harness({ phase = 1, session = 12, selected = 0, move = true } = {}) {
             }
             afterKey?.(key);
         },
-        BayeHdDialog: { close() {}, closeQty() {}, clearLeftoverMarch() {} },
+        BayeHdDialog: { close() {}, closeQty() {}, clearLeftoverMarch() {}, isOpen() { return false; } },
         BayeHdOverworld: { getMode() { return storage['baye/overworldMode']; },
             getCities() { return [{ index: 2, engX: 3, engY: 2 }, { index: 3, engX: 4, engY: 3 }]; } },
         baye: { data, hdEngineReady: () => true, ensureData: () => data,
@@ -68,7 +68,8 @@ function harness({ phase = 1, session = 12, selected = 0, move = true } = {}) {
         global.__march = { state: state, sync: syncMarchPhase, invalidate: invalidateMarchWork,
             chooseRoot: chooseRoot, chooseSub: chooseSub, chooseDeep: chooseDeep, enqueue: enqueueKeys,
             deepItems: probeDeepItems,
-            selectMenu: selectLiveMenu, bind: bindUi, resetAfterFight: resetAfterFight };
+            selectMenu: selectLiveMenu, bind: bindUi, resetAfterFight: resetAfterFight,
+            canReturnAfterMarch: canReturnAfterMarch, returnAfterMarch: returnAfterMarch, backOwner: cityBackPressOwner };
         // Omit layout work only. Production state/input/timer code is intact.
         render = function () {};
         applyDocAttr = function () {};
@@ -106,6 +107,43 @@ function harness({ phase = 1, session = 12, selected = 0, move = true } = {}) {
 
 let count = 0;
 function test(name, run) { run(); console.log(`ok ${++count} - ${name}`); }
+
+function departedOnMap() {
+    const h = harness({phase: 7, selected: 2});
+    Object.assign(h.march, {pick: 1, ok: 1, city: 1, obj: 2, seq: 16});
+    Object.assign(h.data, {g_hdDetailGeneration: 3, g_hdMapInputSeq: 40, g_hdMapPick: 1, g_hdBattlePick: 0,
+        g_hdMapCity: 2, g_hdMenuSeq: 22, g_hdMenuActive: 0, g_hdQtyActive: 0, g_hdReportActive: 0, g_hdHelpActive: 0,
+        g_hdMarchPhase: 7, g_hdMarchSession: 12, g_hdMarchInputSeq: 80, g_asyncActionID: 0});
+    Object.assign(h.state, {marchSubmittedTarget: 2, acceptMarchOk: true, marchReady: true});
+    return h;
+}
+
+test('Returning after a confirmed march retires the presentation without touching the native map or order', () => {
+    const h = departedOnMap(), before = structuredClone(h.data), receipt = structuredClone(h.march);
+    assert.equal(h.internals.canReturnAfterMarch(), true);
+    assert.equal(h.internals.returnAfterMarch(h.internals.backOwner()), true);
+    h.tick();
+    assert.equal(h.api.isOpen(), false);
+    assert.equal(h.api.isMarchReady(), false);
+    assert.deepEqual(h.data, before);
+    assert.deepEqual(h.march, receipt);
+    assert.deepEqual(h.sent, []);
+});
+
+test('A held return cannot close a replaced map wait, another report, or an unconfirmed order', () => {
+    for (const change of [
+        h => { h.march.mapInputSeq++; h.data.g_hdMapInputSeq++; },
+        h => { h.data.g_hdReportActive = 1; },
+        h => { h.march.ok = 0; },
+        h => { h.state.handoff = true; }
+    ]) {
+        const h = departedOnMap(), owner = h.internals.backOwner();
+        change(h);
+        assert.equal(h.internals.returnAfterMarch(owner), false);
+        assert.equal(h.api.isOpen(), true);
+        assert.deepEqual(h.sent, []);
+    }
+});
 
 test('retained report text and numeric fields never advance a march', () => {
     for (const phase of [1, 2, 3, 5, 6]) {

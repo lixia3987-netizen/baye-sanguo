@@ -1245,7 +1245,7 @@
             inputSeq: ticket.inputSeq, selected: ticket.selected, targets: ticket.targets || Object.freeze([]),
             pendingTarget: state.pendingTarget, confirmingTarget: !!state.confirmingTarget,
             status: [null, '选择出征将领', '选择随军粮草', '选择目标城', '选择目标城',
-                '请重新选择目标', '确认部队出发', '部队已出发'][ticket.phase] || ''});
+                '请重新选择目标', '确认部队出发', '出征已安排'][ticket.phase] || ''});
     }
     function retireInteraction(reason) {
         if (reason === 'person-list-pan' && mobileHost && state.open && state.layer === 'deep' &&
@@ -1694,7 +1694,7 @@
         food: '2 选粮',
         'target-tip': '3 选择目标',
         'map-pick': '4 点目标城',
-        'march-ok': '5 部队已出发'
+        'march-ok': '5 已安排'
     };
 
     function readStorage(key, fallback) {
@@ -7035,13 +7035,17 @@
             : liveQty && liveQty.value;
         var personStats = !quantityVisible && owner ? readPersonListStats(deepMenu, owner, state.deepItems) : null;
         var toolStats = !quantityVisible && owner ? readToolListStats(deepMenu, owner, state.deepItems) : null;
+        var showMarchOk = (state.marchReady || freshMarchOk() || state.handoff) &&
+            (state.deepKind === 'person-city' || state.deepLabel === '出征' || state.handoff);
+        var canReturnToMap = showMarchOk && canReturnAfterMarch();
         if (!personStats && !toolStats) { retireListFind(list); }
         list.classList.toggle('has-person-summaries', !!personStats);
         list.classList.toggle('has-tool-summaries', !!toolStats);
         var sig = (quantityVisible ? 'qty:' + quantitySig : state.deepKind + ':' + state.deepStep) +
             ':' + (state.pickedPersons || 0) +
             ':' + (mapPickActive() ? 'pick' : '') +
-            ':' + ((freshMarchOk() || state.marchReady || state.handoff) ? 'ok' : '') +
+            ':' + (showMarchOk ? 'ok' : '') +
+            ':' + (canReturnToMap ? 'map' : '') +
             ':' + (state.handoff ? ('h:' + (state.handoffStatus || '')) : '') +
             ':' + (state.personExitSent ? 'pex' : '') +
             ':' + (state.deepKind === 'person-surrender' && surrenderFlow ? JSON.stringify(surrenderFlow.pending) : '') +
@@ -7091,7 +7095,7 @@
             }
         }
         var i;
-        if (!mobileQty && state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
+        if (!mobileQty && !showMarchOk && state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
             var shownStep = displayWizardStep();
             var qtySteps = document.createElement('div');
             qtySteps.className = 'hd-city-menu-wizard';
@@ -7153,8 +7157,6 @@
             updateQuantityBound(el('hd-city-qty-bound'), q);
             return;
         }
-        var showMarchOk = (state.marchReady || freshMarchOk() || state.handoff) &&
-            (state.deepKind === 'person-city' || state.deepLabel === '出征' || state.handoff);
         if (showMarchOk) {
             var done = document.createElement('div');
             done.className = 'hd-city-menu-march-ok' + (state.handoff ? ' is-handoff' : '');
@@ -7170,14 +7172,24 @@
             statusEl.setAttribute('data-hd-handoff-status', state.handoff ? '1' : '0');
             statusEl.textContent = status;
             var titleEl = document.createElement('p');
-            titleEl.textContent = '部队已出发';
+            titleEl.textContent = '出征已安排';
+            var actions = document.createElement('div');
+            actions.className = 'hd-city-menu-march-actions';
+            if (canReturnToMap) {
+                var mapButton = document.createElement('button');
+                mapButton.type = 'button';
+                mapButton.setAttribute('data-hd-march-map', '');
+                mapButton.textContent = '返回地图';
+                actions.appendChild(mapButton);
+            }
             var btn = document.createElement('button');
             btn.type = 'button';
             btn.setAttribute('data-hd-strategy-end', '');
             btn.textContent = state.handoff ? '进行中' : '策略结束';
+            actions.appendChild(btn);
             done.appendChild(titleEl);
             done.appendChild(statusEl);
-            done.appendChild(btn);
+            done.appendChild(actions);
             list.appendChild(done);
             applyHighlight();
             return;
@@ -7509,12 +7521,12 @@
                 ? '数量'
                 : ((state.deepKind === 'person-city' || state.deepLabel === '出征') &&
                     (state.marchReady || freshMarchOk())
-                    ? '部队已出发'
+                    ? '已安排'
                     : (usesMapCursor(state.deepKind, state.deepStep)
                             ? (mobileHost ? '选择目标城' : '目标城池（方向键对齐引擎光标）')
                         : (state.deepKind === 'person-trade' && state.deepStep === 1 ? '买入 / 卖出' :
                             usesGoodsMenu(state.deepKind, state.deepStep) ? '道具' : '人物')));
-            if (state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
+            if (state.wizardStep !== 'none' && state.wizardStep !== 'march-ok' && WIZARD_LABEL[state.wizardStep]) {
                 var shownHint = displayWizardStep();
                 stepHint = '出征步骤 ' + (WIZARD_LABEL[shownHint] || WIZARD_LABEL[state.wizardStep]);
                 if (!engineInGetCitySet() && (shownHint === 'map-pick' || state.wizardStep === 'map-pick')) {
@@ -7825,6 +7837,21 @@
             return before === readOwner() && !state.queue.length && !state.sending &&
                 !state.handoff && !state.confirmingTarget && !state.nativeMenuRequest;
         } catch (e) { return false; }
+    }
+
+    function canReturnAfterMarch() {
+        return state.open && state.layer === 'deep' && state.deepKind === 'person-city' &&
+            state.marchReady && !state.handoff && shouldShowHd() && freshMarchOk() && retiredCityMapOwner();
+    }
+
+    function returnAfterMarch(pressedOwner) {
+        var owner = cityBackPressOwner();
+        if (!owner || pressedOwner != null && pressedOwner !== owner ||
+            !canReturnAfterMarch() || owner !== cityBackPressOwner() || !freshMarchOk()) { return false; }
+        // The accepted order remains in C. Only retire the local receipt.
+        consumeLeftoverMarch();
+        closeMenu({ silent: true });
+        return true;
     }
 
     function tradeFence(value, mapInputSeq) {
@@ -9619,7 +9646,8 @@
                         ev.button != null && ev.button !== 0 ? null : mobilePreviewContext(target)};
                     return;
                 }
-                if (target.getAttribute && target.getAttribute('data-hd-menu-back') != null) {
+                if (target.getAttribute && (target.getAttribute('data-hd-menu-back') != null ||
+                    target.getAttribute('data-hd-march-map') != null)) {
                     state.backPointerOwner = { target: target, key: cityBackPressOwner() };
                     return;
                 }
@@ -9789,6 +9817,13 @@
                     ev.preventDefault();
                     ev.stopPropagation();
                     dismissMarchBanner();
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-march-map') != null) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    if (backPressed && (backPressed.target !== t || !backPressed.key || backPressed.cancelled)) { return; }
+                    returnAfterMarch(backPressed ? backPressed.key : null);
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-strategy-end') != null) {

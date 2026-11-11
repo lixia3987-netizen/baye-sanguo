@@ -124,8 +124,8 @@ export async function runMobileMarchChecks(c) {
   await checkpoint('march-city-'+width);
 
   const start=async label=>{
-    if(await evaluate('baye.hd.march().phase===0&&baye.hd.march().pick===1&&baye.hd.menuItems().active===0')){
-      await until('Native cancellation returns to the current HD map',mapReadySource);
+    if(await evaluate('baye.hd.march().pick===1&&!baye.hd.march().battlePick&&baye.hd.menuItems().active===0')){
+      await until('Current HD map before the next march',mapReadySource);
       await tap(await cityPoint(city));
     }
     await until('CITY owner before '+label,`(() => {const m=baye.hd.menuItems();return m.active===1&&m.context===1&&[1,2].includes(m.kind)&&${idle};})()`);
@@ -141,8 +141,10 @@ export async function runMobileMarchChecks(c) {
   const select=async(run,count)=>{
     for(let n=0;n<count;n++){
       const before=await phase(1),m=before.state.menu;assert.ok(m.active===1&&m.kind===3&&m.idsValid&&m.ids.length);
-      const id=m.ids[0],oldSelected=before.state.march.selected;
-      const r=await action('select-person',`#hd-city-menu [data-hd-deep="0"][data-hd-deep-pind="${id}"]`,
+      const index=m.ids.findIndex(id=>before.world.people[id].Arms>0),oldSelected=before.state.march.selected;
+      assert.ok(index>=0,'An actual armed general remains available for this order');
+      const id=m.ids[index];
+      const r=await action('select-person',`#hd-city-menu [data-hd-deep="${index}"][data-hd-deep-pind="${id}"]`,
         `baye.hd.march().selected===${oldSelected+1}&&baye.hd.menuItems().seq!==${m.seq}`,{personId:id,group:run.trustedActions});
       const verdict=verifyMobileMarchSelection({before:r.before.world,after:r.after.world,origin,personId:id,selectedPersonIdsBefore:run.selectedPersonIds});
       run.selectedPersonIds.push(id);run.selections.push({personId:id,before:r.before.world,after:r.after.world,verdict});
@@ -190,6 +192,42 @@ export async function runMobileMarchChecks(c) {
     assert.deepEqual(item.keys,[]);assert.equal(after.state.touchCount,before.state.touchCount);assert.deepEqual(after.native,before.native);assert.deepEqual(after.world,before.world);
     run.trustedActions.push(item);return after;
   };
+  const dispatch=async(run,suffix)=>{
+    await record('target-selected',run.phaseTrace);await checkpoint('march-target-selected-'+suffix);
+    const submitted=await action('target-confirm','#hd-city-menu [data-hd-confirm-march]',phaseSource(6),{sameWorld:true,group:run.trustedActions,holdMs:650});
+    const route=await evaluate(`__mobileMarchKeyTrace.filter(x=>x.keyIndex>=${submitted.before.state.keyCount}&&x.keyIndex<${submitted.after.state.keyCount})`);
+    assert.equal(route.length,submitted.item.keys.length);assert.ok(route.length>0);assert.equal(route.at(-1).code,39);
+    for(let n=0;n<route.length;n++){
+      const r=route[n];assert.equal(r.march.phase,4);assert.equal(r.march.origin,origin);assert.equal(r.march.session,submitted.before.state.march.session);
+      assert.equal(r.march.mapInputSeq,submitted.before.state.march.mapInputSeq,'The native map input session stays current throughout target navigation');
+      if(n){const p=route[n-1],dx=p.code===37?1:p.code===36?-1:0,dy=p.code===35?1:p.code===34?-1:0;
+        assert.equal(r.cursor.x,p.cursor.x+dx);assert.equal(r.cursor.y,p.cursor.y+dy);
+      }
+    }
+    assert.equal(route.at(-1).cursor.x,destination.engX);assert.equal(route.at(-1).cursor.y,destination.engY);run.route=route;
+    assert.equal(submitted.after.state.march.phase,6,'Actual live armout sample precedes natural retirement');
+    run.phaseTrace.push({stage:'armout',state:submitted.after.state,world:submitted.after.world});await checkpoint('march-armout-'+suffix);
+    await continueReport(run,6,7,'armout-ack');
+    await phase(7);await record('departed',run.phaseTrace);run.after=await evaluate(worldSource);
+    assert.equal(run.phaseTrace.at(-1).state.report.active,0,'Consumed departure report is inactive at the new order');
+    const nativeKeys=await evaluate('__mobileMapKeys'),nativeTouches=await evaluate('__mobileMapNativeTouches'),trustedEvents=await evaluate('__mobileMapEvents');
+    run.verdict=verifyMobileHdMarch({before:run.before,after:run.after,qty:run.qty,libBytes:originalLibBytes,selectedPersonIds:run.selectedPersonIds,
+      selections:run.selections,phaseTrace:run.phaseTrace,trustedActions:run.trustedActions,nativeKeys,nativeTouches,trustedEvents});
+    await until('Native map available behind the current completed-order pane',`(() => {
+      const m=baye.hd.march();return m.phase===7&&m.pick===1&&!m.battlePick&&!baye.hd.menuItems().active;})()`);
+    run.departedControls=await evaluate(`(() => {
+      const pane=document.getElementById('hd-city-menu-deep'),clip=pane.getBoundingClientRect();
+      return ['data-hd-march-map','data-hd-strategy-end'].map(attr=>{
+        const button=pane.querySelector('['+attr+']');if(!button)return null;
+        const r=button.getBoundingClientRect(),hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);
+        return {text:button.textContent,width:r.width,height:r.height,scrollTop:pane.scrollTop,
+          fits:r.left>=clip.left&&r.right<=clip.right&&r.top>=clip.top&&r.bottom<=clip.bottom&&r.bottom<=innerHeight,
+          visible:hit===button||button.contains(hit)};
+      });})()`);
+    assert.ok(run.departedControls.every(c=>c&&c.width>=44&&c.height>=44&&c.fits&&c.visible&&c.scrollTop===0),
+      'Both completed-order actions fit the first mobile viewport without scrolling: '+JSON.stringify(run.departedControls));
+    await checkpoint('march-departed-'+suffix);
+  };
   await choose(cancelledTarget);await cancel(cancelledTarget,'target','#hd-city-menu [data-hd-march-cancel]');
 
   const run=await start('HD dispatch');report.marchDispatch=run;await select(run,2);
@@ -232,29 +270,24 @@ export async function runMobileMarchChecks(c) {
   const beforeMode=await mark();await button('#hd-mobile-menu-mode');await until('Classic march is physical LCD',`BayeHdCityMenu.getMode()==='classic'&&!BayeHdMobileCity.isActive()`);
   await noInput(beforeMode,'Classic march presentation switch');assertLcd(await checkpoint('march-classic-target-'+width));
   await button('#hd-mobile-menu-mode');await phase(4);await noInput(beforeMode,'Current HD march presentation restores');
-  await choose(run);await record('target-selected',run.phaseTrace);await checkpoint('march-target-selected-'+width);
-  const submitted=await action('target-confirm','#hd-city-menu [data-hd-confirm-march]',phaseSource(6),{sameWorld:true,group:run.trustedActions,holdMs:650});
-  const route=await evaluate(`__mobileMarchKeyTrace.filter(x=>x.keyIndex>=${submitted.before.state.keyCount}&&x.keyIndex<${submitted.after.state.keyCount})`);
-  assert.equal(route.length,submitted.item.keys.length);assert.ok(route.length>0);assert.equal(route.at(-1).code,39);
-  for(let n=0;n<route.length;n++){
-    const r=route[n];assert.equal(r.march.phase,4);assert.equal(r.march.origin,origin);assert.equal(r.march.session,submitted.before.state.march.session);
-    assert.equal(r.march.mapInputSeq,submitted.before.state.march.mapInputSeq,'The native map input session stays current throughout target navigation');
-    if(n){const p=route[n-1],dx=p.code===37?1:p.code===36?-1:0,dy=p.code===35?1:p.code===34?-1:0;
-      assert.equal(r.cursor.x,p.cursor.x+dx);assert.equal(r.cursor.y,p.cursor.y+dy);
-    }
-  }
-  assert.equal(route.at(-1).cursor.x,destination.engX);assert.equal(route.at(-1).cursor.y,destination.engY);run.route=route;
-  assert.equal(submitted.after.state.march.phase,6,'Actual live armout sample precedes natural retirement');
-  run.phaseTrace.push({stage:'armout',state:submitted.after.state,world:submitted.after.world});await checkpoint('march-armout-'+width);
-  await continueReport(run,6,7,'armout-ack');
-  await phase(7);await record('departed',run.phaseTrace);run.after=await evaluate(worldSource);
-  assert.equal(run.phaseTrace.at(-1).state.report.active,0,'Consumed departure report is inactive at the new order');
-  report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
-  report.marchKeyTrace=await evaluate('__mobileMarchKeyTrace');
-  run.verdict=verifyMobileHdMarch({before:run.before,after:run.after,qty:run.qty,libBytes:originalLibBytes,selectedPersonIds:run.selectedPersonIds,
-    selections:run.selections,phaseTrace:run.phaseTrace,trustedActions:run.trustedActions,
-    nativeKeys:report.nativeKeys,nativeTouches:report.nativeTouches,trustedEvents:report.trustedEvents});
-  await checkpoint('march-departed-'+width);
+  await choose(run);await dispatch(run,width);
+  const returned=await action('leave-order-queued','#hd-city-menu [data-hd-march-map]',mapReadySource,{sameWorld:true});
+  assert.deepEqual(returned.item.keys,[],'Returning to the current map sends no native key');
+  assert.deepEqual(returned.after.native,returned.before.native,'The same native map and order receipt survives the return');
+  assert.equal(returned.after.state.cityUi.open,false);
+  await checkpoint('march-order-kept-on-map-'+width);
+
+  const following=await start('Second same-month order');report.marchFollowingDispatch=following;await select(following,1);
+  assert.deepEqual(following.before,run.after,'The first dispatch and strategy date survive reentry to the city');
+  following.qty=await evaluate('baye.hd.qty()');assert.equal(following.qty.value,1,'The second army takes the remaining grain');
+  await record('food',following.phaseTrace);
+  await action('food-confirm','#hd-city-menu [data-hd-qty-ok]',phaseSource(3),{sameWorld:true,group:following.trustedActions});
+  await record('target-tip',following.phaseTrace);await continueReport(following,3,4,'continue-target');
+  await currentTargetPresentation();await record('target',following.phaseTrace);
+  await choose(following);await dispatch(following,width+'-second');
+  assert.ok(following.verdict.orderIndex>run.verdict.orderIndex&&following.verdict.slot!==run.verdict.slot,
+    'The second order occupies a distinct fighter slot after the first in the native queue');
+  assert.deepEqual(following.after.orders[run.verdict.orderIndex],run.after.orders[run.verdict.orderIndex]);
   const strategy=await action('strategy-end','#hd-city-menu [data-hd-strategy-end]',`baye.hd.fight().active===1&&baye.hd.fight().inputKind===1&&BayeHdMobileBattle.refresh().presentation==='hd'`);
   assert.equal(strategy.item.keys.filter(k=>k===39).length,1,'One deliberate strategy-end Enter');
   assert.ok(strategy.item.keys.every(k=>[34,35,36,37,39,40].includes(k)),'Only actual owner navigation during strategy handoff');
@@ -263,9 +296,11 @@ export async function runMobileMarchChecks(c) {
   assert.equal(battle.mobileBattle.presentation,'hd');assert.equal(battle.cityLayer.shown,false);
   report.marchStrategyHandoff={keys:strategy.item.keys,battle: battle.fight,hdBattle:true};
   report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
+  report.marchKeyTrace=await evaluate('__mobileMarchKeyTrace');
   report.marchAccepted=true;report.ok=true;report.accepted=true;
   report.acceptedScope=['Original P1 Ma Teng HD march 8→9 at '+width+'×'+height+' via trusted controls',
     'Two exact native cancellation paths; selected queue, grain, money and orders',
+    'Two distinct native same-month orders, with no keys or world changes when returning to the map between them',
     'Current target selection without native movement, explicit acknowledged confirmation and genuine strategy handoff'];
   report.pendingScope=['Other origins/periods, native rejection/report families and full queue cases','Android/iOS real devices, performance and whole mobile HD'];
 }
