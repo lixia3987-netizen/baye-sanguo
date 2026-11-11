@@ -893,11 +893,22 @@ async function measureMapPerformance(cdp) {
     const measured = await evaluate(cdp, `new window.__perfNativePromise(resolve => {
         const context=document.getElementById('hd-overworld-canvas').getContext('2d'),original=context.clearRect;
         const startedAt=performance.now(),frames=[],draws=[];
+        let repeatedHudWrites=0;
+        const labels=['hd-overworld-hud-left','hd-overworld-hud-right'].map(id=>document.getElementById(id));
+        const lastText=new Map(labels.map(label=>[label,label.textContent]));
+        const observer=new MutationObserver(records=>{
+            for(const {target} of records){
+                if(lastText.get(target)===target.textContent)repeatedHudWrites++;
+                lastText.set(target,target.textContent);
+            }
+        });
+        for(const label of labels)observer.observe(label,{childList:true});
         context.clearRect=function(){draws.push(performance.now());return original.apply(this,arguments);};
         const tick=time=>{
             if(time>=startedAt)frames.push(time);
             if(time-startedAt<3000){requestAnimationFrame(tick);return;}
-            context.clearRect=original;resolve({startedAt,endedAt:performance.now(),frames,draws});
+            context.clearRect=original;observer.disconnect();
+            resolve({startedAt,endedAt:performance.now(),frames,draws,repeatedHudWrites});
         };
         requestAnimationFrame(tick);
     })`);
@@ -908,7 +919,8 @@ async function measureMapPerformance(cdp) {
         canvas:summarizeFrames(measured.draws,measured.startedAt,measured.endedAt),raw:measured,
         jsHeapUsedBytes:b.JSHeapUsedSize,jsHeapTotalBytes:b.JSHeapTotalSize,
         taskDurationSeconds:b.TaskDuration-a.TaskDuration,scriptDurationSeconds:b.ScriptDuration-a.ScriptDuration,
-        layoutCount:b.LayoutCount-a.LayoutCount};
+        layoutCount:b.LayoutCount-a.LayoutCount,repeatedHudWrites:measured.repeatedHudWrites};
+    if(!rendererDir)assert.equal(measured.repeatedHudWrites,0,'Idle HD map does not rewrite unchanged HUD text');
     await measureBackgroundDrawing(cdp);
     await checkpoint(cdp,'perf-map-and-background');
 }

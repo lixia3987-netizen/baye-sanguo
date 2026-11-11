@@ -2038,7 +2038,7 @@
         } else if (state.phase === 'classic-menu') {
             title += '  ·  经典菜单';
         }
-        state.hudLeft.textContent = title;
+        if (state.hudLeft.textContent !== title) { state.hudLeft.textContent = title; }
         var n = state.cities.length;
         var extra = state.hint || '';
         var roadN = state.roads && state.roads.edges ? state.roads.edges.length : 0;
@@ -2079,7 +2079,8 @@
                 '  ·  ' + extra;
         }
         /* 总城恒 38；占领后变的是己方数（天水 1 → 河内后 2），不是 38→39。 */
-        state.hudRight.textContent = '己方 ' + counts.owned + '/' + n + ' 城  ·  ' + roadBit + '  ·  ' + extra;
+        var summary = '己方 ' + counts.owned + '/' + n + ' 城  ·  ' + roadBit + '  ·  ' + extra;
+        if (state.hudRight.textContent !== summary) { state.hudRight.textContent = summary; }
     }
 
     // This marker is the exact CSS owner which hides the entire world layer.
