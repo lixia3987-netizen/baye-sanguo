@@ -5,7 +5,7 @@ const next=n=>(n+1)>>>0||1,following=n=>next(next(n));
 const selectedCodes=(index,current)=>[...Array(Math.abs(index-current)).fill(index>current?35:34),39];
 const names={15:'离间',16:'招揽',17:'策反',19:'劝降'};
 export async function runMobileDiplomacyChecks(c){
- const {report,evaluate,until,delay,checkpoint,ready,root,submenu,controlPoint,tap,touches,readKeys,worldSame,testCity,mark,libBytes,label,mapReadySource,mapReturn}=c;
+ const {report,evaluate,until,delay,checkpoint,ready,root,submenu,controlPoint,tap,touchButton,touches,readKeys,worldSame,testCity,mark,libBytes,label,mapReadySource,mapReturn}=c;
  const origin=testCity.index,entry={label,cityIndex:origin,actions:[],cancellations:[],operations:[],scrollChecks:[],accepted:false,monthEffectsAccepted:false,fullHdAccepted:false};
  report.diplomacyChecks??=[];report.diplomacyChecks.push(entry);entry.baseline=await mark();
  assert.equal(report.actualKing.name,'董卓');assert.equal(origin,10);assert.equal(testCity.name,'长安');
@@ -87,6 +87,44 @@ export async function runMobileDiplomacyChecks(c){
    command:operation.command,label:operation.commandName,detail:operation.actorName+' → '+operation.targetName
  })),'City status shows each queued diplomacy command with the correct actor and target');
  await mapReturn('pending diplomacy orders');
- entry.returned=await ready();worldSame(dispatched,entry.returned,'Reviewing diplomacy orders preserves the native world');
+ const beforeMonth=await ready();worldSame(dispatched,beforeMonth,'Reviewing diplomacy orders preserves the native world');
+ await touchButton('#hd-mobile-system-open');
+ await until('Native strategy system menu',`(() => {
+   const s=BayeHdSystemUi.debugSnapshot(),m=baye.hd.menuItems();
+   return s.open&&s.showHd&&!s.pending&&s.screen==='insystem'&&m.active===1&&m.context===2&&m.kind===1&&m.names[0]==='策略结束';
+ })()`);
+ const system=await ready();assert.deepEqual(await keys(beforeMonth),[40]);worldSame(beforeMonth,system,'Opening system preserves queued orders');
+ await touchButton('#hd-system-ui-list [data-hd-sys="0"]');
+ const expected=selectedCodes(0,system.state.menu.index);
+ await until('Explicit strategy confirmation',`__mobileMapKeys.length>=${system.state.keyCount+expected.length}`);
+ assert.deepEqual(await keys(system),expected,'Exactly one native strategy confirmation');
+ const seen=new Set(),monthlyReports=[],deadline=Date.now()+120000;
+ const year=beforeMonth.world.year+Number(beforeMonth.world.month===12),month=beforeMonth.world.month%12+1;
+ while(Date.now()<deadline){
+   const state=await evaluate(`(() => {
+     const d=baye.data,r=baye.hd.report(),ui=BayeHdDialog.debugSnapshot(),m=baye.hd.menuItems();
+     const owner=ui.reportOwner;
+     return {year:Number(d.g_YearDate),month:Number(d.g_MonthDate),report:r,
+       confirm:ui.open&&ui.kind==='report'&&!ui.pass&&owner&&owner.seq===r.seq&&owner.inputSeq===r.inputSeq,
+       competing:baye.hd.fight().active||m.active&&m.context===5};
+   })()`);
+   assert.ok(!state.competing,'Monthly diplomacy route must return without a competing battle or campaign picker');
+   if(state.year===year&&state.month===month&&await evaluate(mapReadySource))break;
+   const r=state.report,token=r.seq+':'+r.inputSeq;
+   if(r.active===1&&state.confirm&&!seen.has(token)){
+     seen.add(token);const before=await ready();await touchButton('#hd-dialog [data-hd-dlg-ok]');
+     assert.deepEqual(await keys(before),[39],'One ACK for the current native monthly report');monthlyReports.push(r);
+   }
+   await delay(160);
+ }
+ await until('First completed diplomacy month returns to the HD map',`Number(baye.data.g_YearDate)===${year}&&Number(baye.data.g_MonthDate)===${month}&&(${mapReadySource})`,3000);
+ const settled=await ready();
+ for(const slot of slots)assert.equal(settled.world.orders[slot].OrderId,255,'Monthly policy execution retires each queued diplomacy order');
+ await root(3,'状况');
+ const remaining=await evaluate(`${JSON.stringify(slots)}.filter(slot=>document.querySelector('#hd-city-menu-status [data-hd-city-order="'+slot+'"]'))`);
+ assert.deepEqual(remaining,[],'City status clears the processed diplomacy orders');
+ await mapReturn('settled diplomacy orders');
+ entry.returned=await ready();worldSame(settled,entry.returned,'Reviewing settled orders preserves the native world');
+ entry.monthSettlement={year,month,reports:monthlyReports,retiredSlots:slots};
  entry.accepted=true;return entry;
 }
