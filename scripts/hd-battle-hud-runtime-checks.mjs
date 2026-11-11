@@ -12,12 +12,25 @@ export async function measureIdleBattleBoard(evaluate, send, canvasId) {
                 const canvas=document.getElementById(${JSON.stringify(canvasId)}),context=canvas.getContext('2d');
                 const original=context.clearRect,startedAt=performance.now(),frames=[],paints=[];
                 const viewport={width:innerWidth,height:innerHeight,dpr:devicePixelRatio};
+                const reads={}, restores=[];
+                for(const [owner,name] of [[baye.hd,'fight'],[baye.hd,'menuItems'],[baye.hd,'realm'],
+                    [baye.hd,'report'],[baye,'getPersonName'],[baye,'getArmType']]){
+                    const originalRead=owner[name];
+                    const count=reads[name]={calls:0,ms:0};
+                    owner[name]=function(){
+                        const at=performance.now();count.calls++;
+                        try{return originalRead.apply(this,arguments);}
+                        finally{count.ms+=performance.now()-at;}
+                    };
+                    restores.push(()=>{owner[name]=originalRead;});
+                }
                 context.clearRect=function(){paints.push(performance.now());return original.apply(this,arguments);};
                 function frame(time){
                     if(time>=startedAt)frames.push(time);
                     if(time-startedAt<1500){requestAnimationFrame(frame);return;}
                     context.clearRect=original;
-                    resolve({viewport,startedAt,endedAt:performance.now(),frames,paints});
+                    restores.forEach(restore=>restore());
+                    resolve({viewport,startedAt,endedAt:performance.now(),frames,paints,reads});
                 }
                 requestAnimationFrame(frame);
             });

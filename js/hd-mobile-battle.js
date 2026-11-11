@@ -37,7 +37,13 @@
         }
         function bytes(value, count) {
             if (!value || !uint(value.length) || value.length<count) { throw Error('short native array'); }
-            var out=[];for(var i=0;i<count;i++){if(!uint(value[i],255)){throw Error('invalid native byte');}out.push(value[i]);}return out;
+            var out=[];
+            for(var i=0;i<count;i++){
+                var byte=value[i];
+                if(!uint(byte,255)){throw Error('invalid native byte');}
+                out.push(byte);
+            }
+            return out;
         }
         function observation(data, hd, id) {
             var fight=hd.fight(), menu=hd.menuItems(), f={}, raw={}, blockers={};
@@ -67,20 +73,26 @@
                 m.names=menu.names.slice();m.detailGeneration=menu.detailGeneration;
                 if(m.detailGeneration!==data.g_hdDetailGeneration) { return null; }
             }
-            var param=data.g_FgtParam, ids=param && param.GenArray, positions=data.g_GenPos, units=[];
-            if(!param || !uint(param.CityIndex,37) || fight.cityIndex!==param.CityIndex || !ids || ids.length<20 || !positions || positions.length<20) { return null; }
+            var param=data.g_FgtParam, cityIndex=param && param.CityIndex, ids=param && param.GenArray,
+                positions=data.g_GenPos, people=data.g_Persons, units=[];
+            if(!uint(cityIndex,37) || fight.cityIndex!==cityIndex || !ids || ids.length<20 || !positions || positions.length<20) { return null; }
             for(var n=0;n<20;n++){
                 var person=ids[n], p=positions[n], u={i:n,id:person};
                 if(!uint(person,65535) || person>200 && person<65534 || !p) { return null; }
-                ['x','y','move','active','state','hp','mp'].forEach(function(name){if(!uint(p[name],name==='hp'||name==='mp'?65535:255)){throw Error('invalid native unit');}u[name]=p[name];});
+                ['x','y','move','active','state','hp','mp'].forEach(function(name){
+                    var value=p[name];
+                    if(!uint(value,name==='hp'||name==='mp'?65535:255)){throw Error('invalid native unit');}
+                    u[name]=value;
+                });
                 if(person && person<65534){
-                    if(!data.g_Persons || !data.g_Persons[person-1] || !uint(data.g_Persons[person-1].Arms,65535)) { return null; }
-                    u.arms=data.g_Persons[person-1].Arms;
+                    var general=people && people[person-1], arms=general && general.Arms;
+                    if(!uint(arms,65535)) { return null; }
+                    u.arms=arms;
                     if(u.state!==8 && (u.x>=f.mapW || u.y>=f.mapH)) { return null; }
                 }
                 units.push(u);
             }
-            f.cityIndex=param.CityIndex;
+            f.cityIndex=cityIndex;
             var kind=f.inputKind, mask=null, invalidMask=false;
             if(kind===2){
                 try {mask={values:bytes(data.g_FightPath,225)};['g_PathSX','g_PathSY','g_PUseSX','g_PUseSY'].forEach(function(name){if(!uint(data[name],255)){throw Error('invalid MOVE origin');}mask[name]=data[name];});}
@@ -125,13 +137,12 @@
                 if(!id || !hd || typeof hd.ready!=='function' || hd.ready()!==true || typeof hd.fight!=='function' || typeof hd.menuItems!=='function') { return null; }
                 var data=typeof b.ensureData==='function'?b.ensureData():b.data;
                 if(!data) { return null; }
-                var a=observation(data,hd,id), z=observation(data,hd,id), latest=identity();
-                if(!a || !z || key(a)!==key(z) || key(id)!==key(latest) || b.data!==data || hd.ready()!==true || !available() ||
+                var a=observation(data,hd,id), z=observation(data,hd,id), latest=identity(), full=key(z);
+                if(!a || !z || key(a)!==full || key(id)!==key(latest) || b.data!==data || hd.ready()!==true || !available() ||
                     data.g_hdCityInfoActive!==undefined && data.g_hdCityInfoActive!==0) { return null; }
-                var stable=key(z), full=stable;
                 // Only the shared command's expected cursor/menu-index ACK may vary.
                 var sf=Object.assign({},z.fight), sm=Object.assign({},z.menu);delete sf.focusX;delete sf.focusY;delete sm.index;
-                stable=key(Object.assign({},z,{fight:sf,menu:sm}));
+                var stable=key(Object.assign({},z,{fight:sf,menu:sm}));
                 var t={key:full,stableKey:stable,libraryGeneration:id.generation,kind:z.fight.inputKind,seq:z.fight.inputSeq,
                     actor:z.fight.actorIndex,presentation:z.presentation,native:z};
                 Object.defineProperty(t,'data',{value:data,enumerable:false});return Object.freeze(t);
@@ -250,7 +261,7 @@
             var spe=environment.BayeHdSpe;if(spe && typeof spe.retireInteraction==='function'){spe.retireInteraction(reason);}
             refresh();
         }
-        function paint(presentation) {
+        function paint(presentation,ticket) {
             if(presentation!=='hd'){lastBoardPaint=null;}
             var body=doc() && doc().body;if(body){body.setAttribute('data-hd-mobile-battle',presentation);}
             var active=presentation!=='off';
@@ -258,8 +269,9 @@
             ['hd-mobile-map-mode','hd-mobile-menu-mode','hd-mobile-map-focus','hd-mobile-exit'].forEach(function(id){var n=node(id);if(n && active){n.disabled=true;}});
             var mode=node('hd-mobile-battle-mode');if(mode){mode.textContent=battle() && battle().getMode()==='classic'?'HD战场':'经典战场';}
             var toggle=node('hd-mobile-battle-toggle');if(toggle){toggle.hidden=!active;toggle.textContent=mode?mode.textContent:'HD战场';toggle.setAttribute('aria-pressed',presentation==='hd'?'true':'false');}
-            ['help','view'].forEach(function(name){var n=root && root.querySelector('[data-hd-battle-'+name+']');if(n){var t=readNativeTicket();n.disabled=presentation!=='hd'||!t||[1,2,5].indexOf(t.kind)<0;}});
-            var next=root && root.querySelector('[data-hd-battle-next]');if(next){next.disabled=presentation!=='hd'||!canNext(readNativeTicket());}
+            var detailEnabled=presentation==='hd' && ticket && [1,2,5].indexOf(ticket.kind)>=0;
+            ['help','view'].forEach(function(name){var n=root && root.querySelector('[data-hd-battle-'+name+']');if(n){n.disabled=!detailEnabled;}});
+            var next=root && root.querySelector('[data-hd-battle-next]');if(next){next.disabled=presentation!=='hd'||!canNext(ticket);}
         }
         function sharedShowsHd() {
             var b=battle();return !!(b && typeof b.getLcdPresentation==='function' && b.getLcdPresentation()==='off');
@@ -275,21 +287,21 @@
         function refresh() {
             if(refreshing || !mounted){return last;}refreshing=true;
             try{
-                var t=readNativeTicket(), b=battle(), changed=lastData && (!t || t.data!==lastData || t.stableKey!==lastStable);
+                var t=readNativeTicket(), changed=lastData && (!t || t.data!==lastData || t.stableKey!==lastStable);
                 if(changed){retire('native-owner-changed');}
                 lastData=t && t.data;lastStable=t?t.stableKey:'';
-                var presentation=t?(t.presentation==='hd' && sharedShowsHd() && renderMatches(lastRender,t)?'hd':'lcd'):'off';
                 var d=dialog();if(d && d.poll){d.poll();}
                 var dt=detailTicket(), reportDetail=dt && dt.kind==='report', detailPresentation=reportDetail || t && [9,10].indexOf(t.kind)>=0 ?
                     dt && d && d.getBattleLcdPresentation && d.getBattleLcdPresentation()==='off'?'hd':'lcd':'off';
                 if(detailOwner && !same(detailOwner,dt) && arm && arm.hit.type==='detail'){retire('detail-owner-changed');}
                 detailOwner=dt;
+                var presentation=t?(renderMatches(lastRender,t)?'hd':'lcd'):'off';
                 // The header toggle belongs to the live native battle even
                 // while the board is hidden by HELP, VIEW, or classic LCD.
                 if(presentation!=='hd' && arm && !currentModePress(t) &&
                     !(detailPresentation==='hd' && arm.hit.type==='detail')){retire('LCD-handoff');}
                 if(presentation!=='hd'){lastRender=null;}
-                if(reportDetail && !t){presentation='lcd';}paint(presentation);
+                if(reportDetail && !t){presentation='lcd';}paint(presentation,t);
                 if(doc().body){doc().body.setAttribute('data-hd-mobile-battle-detail',detailPresentation);}
                 last={active:!!t || !!reportDetail,presentation:presentation,reason:!t?'unavailable':t.presentation==='lcd'?'native-LCD':'',
                     detailPresentation:detailPresentation,detailType:dt?dt.ownerType:null,
@@ -303,7 +315,7 @@
             var d=doc(), details=node('hd-mobile-battle-details'), card=null;
             if(!details){return true;}
             function current() {
-                return doc()===d && node('hd-mobile-battle-details')===details && sharedShowsHd() &&
+                return doc()===d && node('hd-mobile-battle-details')===details &&
                     renderMatches(snapshot,t) && doc()===d && node('hd-mobile-battle-details')===details;
             }
             try {
@@ -392,11 +404,11 @@
             if(drawing || !snapshot){return;}drawing=true;
             try{
                 var t=readNativeTicket(), canvas=node('hd-mobile-battle-canvas'), board=node('hd-mobile-battle-board');
-                if(!t || t.presentation!=='hd' || !canvas || !board || !sharedShowsHd() || !renderMatches(snapshot,t)){
+                if(!canvas || !board || !renderMatches(snapshot,t)){
                     lastRender=null;lastBoardPaint=null;if(t){paint('lcd');}if(arm&&!currentModePress(t)){retire('render-owner-changed');}return;
                 }
                 renderBindings.set(snapshot,t.data);lastRender=snapshot;
-                paint('hd');var r=board.getBoundingClientRect();if(r.width<44 || r.height<44){return;}
+                paint('hd',t);var r=board.getBoundingClientRect();if(r.width<44 || r.height<44){return;}
                 var cols=Math.min(t.native.fight.mapW,Math.floor(r.width/44)),rows=Math.min(t.native.fight.mapH,Math.floor(r.height/44));
                 var cell=Math.floor(Math.min(r.width/cols,r.height/rows)), ox=Math.floor((r.width-cols*cell)/2),oy=Math.floor((r.height-rows*cell)/2);
                 if(cameraData!==t.data){cameraData=t.data;lastFocus='';}

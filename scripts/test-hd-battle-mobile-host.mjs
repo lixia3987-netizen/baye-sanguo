@@ -119,6 +119,14 @@ test('mobile exact ticket rejects torn provider reads',()=>{
     const f=fixture();f.providerHook(()=>f.changeOwner());assert.equal(f.api.getInputTicket(),null);
     assert.equal(f.api.clickTile(1,1).ok,false);assert.deepEqual(f.sent,[]);
 });
+test('mobile LCD presentation uses one before-and-after owner check and rejects a retirement inside it',()=>{
+    const f=fixture();let reads=0;
+    f.providerHook(()=>{reads++;});
+    assert.equal(f.api.getLcdPresentation(),'off');assert.equal(reads,2);
+    f.env.baye.hd.report=()=>{f.api.retireInteraction('new-boundary');return {active:0};};
+    assert.equal(f.api.getInputTicket(),null);
+    assert.deepEqual(f.sent,[]);assert.deepEqual(f.writes,[]);
+});
 for(const field of ['data','key','stableKey','libraryGeneration','kind','seq','actor']){
     test('final physical-send fence rejects changed '+field+' after a transaction was authorized',()=>{
         const begin=source.indexOf('    function rawSendKey(code) {'),end=source.indexOf('    function finishRequest(',begin);
@@ -206,12 +214,19 @@ for(const changed of ['unit','data','input-owner']){
         assert.equal(f.renders.at(-1).renderOwner.key,f.api.getInputTicket().key);
     });
 }
-test('mobile rendering rejects a changed full focus ticket during debug snapshot construction',()=>{
+test('mobile rendering rejects a changed full focus ticket during range feedback construction',()=>{
     const f=fixture(),before=f.renders.length;
-    f.env.baye.hd.realm=()=>{f.focus(2,1);return null;};f.poll();
+    f.env.BayeHdBattleFeedback={build(){f.focus(2,1);return null;}};f.poll();
     assert.equal(f.renders.length,before);assert.deepEqual(f.sent,[]);
-    delete f.env.baye.hd.realm;f.poll();assert.equal(f.renders.length,before+1);
+    delete f.env.BayeHdBattleFeedback;f.poll();assert.equal(f.renders.length,before+1);
     assert.equal(f.renders.at(-1).renderOwner.key,f.api.getInputTicket().key);
+});
+test('mobile board refresh avoids the strategy realm read used by diagnostics',()=>{
+    const f=fixture();let realmReads=0;
+    f.env.baye.hd.realm=()=>{realmReads++;return {ownedCount:2};};
+    const before=f.renders.length;f.poll();
+    assert.equal(f.renders.length,before+1);assert.equal(realmReads,0);
+    assert.equal(f.api.debugSnapshot().realm.ownedCount,2);assert.equal(realmReads,1);
 });
 test('a retired report gets a fresh HD render owner and never resumes the old transaction',()=>{
     const f=fixture();f.api.clickTile(3,1);const before=f.renders.length;

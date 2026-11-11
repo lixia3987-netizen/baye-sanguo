@@ -8,7 +8,7 @@
     var MOBILE_STORAGE_KEY = 'baye/mobileBattleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20261111p';
+    var HD_BATTLE_VER = '20261111q';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
     var ARM_NAMES = ['骑兵', '步兵', '弓兵', '水军', '极兵', '玄兵'];
@@ -32,6 +32,9 @@
     var lastBoardPaint = null;
 
     function el(id) { return document.getElementById(id); }
+    function setDisplayAttribute(node, name, value) {
+        if (!node.getAttribute || node.getAttribute(name) !== value) { node.setAttribute(name, value); }
+    }
     function readStorage(key, fallback) {
         try { return global.localStorage.getItem(key) || fallback; } catch (e) { return fallback; }
     }
@@ -62,7 +65,9 @@
             (!full || a.key === b.key));
     }
     function shouldShowHd() {
-        if (mobileHost && !mobileTicket()) { return false; }
+        return (!mobileHost || !!mobileTicket()) && hdModeEnabled();
+    }
+    function hdModeEnabled() {
         var mode = getMode();
         if (mode !== 'auto') { return mode === 'hd'; }
         try {
@@ -127,10 +132,6 @@
     }
     function readRealm() {
         try { return hdReady() && baye.hd.realm ? baye.hd.realm() : null; } catch (e) { return null; }
-    }
-    function peekPersonArms(id) {
-        var data = engineData();
-        return id && data && data.g_Persons ? readNumber(data.g_Persons[id - 1], 'Arms') : null;
     }
     function peekPersonArmType(id) {
         try {
@@ -218,7 +219,12 @@
         var unit = show && !mobileHost && !document.hidden && !state.preview && !state.showLcd &&
             snap && snap.ready && snap.kind !== INPUT.HELP && snap.kind !== INPUT.VIEW &&
             snap.focus && unitAt(snap.focus.x,snap.focus.y);
-        if (!unit) { node.hidden = true; node.textContent = ''; node._focusCardSignature = ''; return; }
+        if (!unit) {
+            node.hidden = true;
+            if (node.textContent) { node.textContent = ''; }
+            node._focusCardSignature = '';
+            return;
+        }
         function number(value) { return value == null ? '未读取' : String(value); }
         var terrain = unit.terrain, terrainText = terrain && terrain.label || '未知地形';
         if (terrain && terrain.kind === 'unknown' && terrain.raw != null) { terrainText += ' · 图块 ' + terrain.raw; }
@@ -245,7 +251,9 @@
             var target = document.createElement('p'); target.className = 'hd-battle-focus-target'; target.hidden = true; node.appendChild(target);
             node._focusCardSignature = signature;
         }
-        var note = node.children[3]; note.textContent = targetLabel || ''; note.hidden = !targetLabel;
+        var note = node.children[3], targetText = targetLabel || '';
+        if (note.textContent !== targetText) { note.textContent = targetText; }
+        note.hidden = !targetLabel;
     }
     function terrainAt(x, y, snapshot) {
         if (global.BayeHdBattleTerrain) { return global.BayeHdBattleTerrain.inspect(snapshot || state.terrain, x, y); }
@@ -321,10 +329,10 @@
     function rangeFeedback(snap) {
         if (!global.BayeHdBattleFeedback) { return { active: false, reason: 'feedback-module-unavailable', cells: [], rangedUnits: [], focus: null }; }
         var data = engineData(), actor = actorUnit(snap.actor);
-        return global.BayeHdBattleFeedback.build({ visible: state.open && !state.preview && shouldShowHd(),
-            hidden: !!document.hidden, classic: !shouldShowHd(), ready: snap.ready, wait: !!(snap.fight && snap.fight.wait),
+        return global.BayeHdBattleFeedback.build({ visible: state.open && !state.preview && snap.showHd,
+            hidden: !!document.hidden, classic: !snap.showHd, ready: snap.ready, wait: !!(snap.fight && snap.fight.wait),
             active: !!(snap.fight && snap.fight.active), over: !!(snap.fight && snap.fight.over),
-            reportActive: nativeReportWaiting(), menuActive: !!(snap.menu && snap.menu.active),
+            reportActive: snap.reportActive, menuActive: !!(snap.menu && snap.menu.active),
             inputKind: snap.kind, inputSeq: snap.seq, actorIndex: snap.actor, actor: actor,
             aimType: readRangeNumber(snap.fight, 'aimType'), focus: snap.focus,
             bounds: { width: readRangeNumber(data, 'g_MapWid'), height: readRangeNumber(data, 'g_MapHgt') },
@@ -341,25 +349,32 @@
             return Number(readNumber(engineData(), 'g_hdReportActive')) === 1;
         } catch (e) { return false; }
     }
-    function inputSnapshot() {
+    function inputSnapshot(owner) {
         var fight = readFight(), menu = readMenuItems();
-        var kind = fight && readNumber(fight, 'inputKind'), seq = fight && readNumber(fight, 'inputSeq');
-        var ticket = mobileHost ? mobileTicket() : null;
+        var kind = fight && readNumber(fight, 'inputKind'), seq = fight && readNumber(fight, 'inputSeq'),
+            actor = fight && readNumber(fight, 'actorIndex');
+        var ticket = mobileHost && (owner === undefined ? mobileTicket() : owner);
+        var focus = engineFocusTile(), showHd = (!mobileHost || !!ticket) && hdModeEnabled();
+        var reportActive = showHd && nativeReportWaiting();
         return {
             fight: fight, menu: menu, kind: kind, seq: seq,
-            actor: fight && readNumber(fight, 'actorIndex'), focus: engineFocusTile(),
-            ready: !!(shouldShowHd() && !nativeReportWaiting() && fight && fight.active && !fight.over &&
+            actor: actor, focus: focus, showHd: showHd, reportActive: reportActive,
+            ready: !!(showHd && !reportActive && fight && fight.active && !fight.over &&
                 kind >= INPUT.PICK && kind <= INPUT.VIEW && seq != null && seq > 0 &&
                 (!mobileHost || ticket && ticket.presentation === 'hd' && ticket.kind === kind &&
-                    ticket.seq === seq && ticket.actor === readNumber(fight, 'actorIndex')))
+                    ticket.seq === seq && ticket.actor === actor))
         };
     }
     function getInputTicket() {
         if (!mobileHost || state.preview || state.showLcd) { return null; }
-        var before = mobileTicket(), snap = inputSnapshot(), after = mobileTicket();
-        if (!snap.ready || !sameMobileTicket(before, after, true) || after.presentation !== 'hd' ||
-            after.kind !== snap.kind || after.seq !== snap.seq || after.actor !== snap.actor ||
-            snap.kind === INPUT.HELP || snap.kind === INPUT.VIEW) { return null; }
+        var epoch = modeEpoch, before = mobileTicket();
+        if (!before || before.presentation !== 'hd') { return null; }
+        var snap = inputSnapshot(before);
+        if (!snap.ready || snap.kind === INPUT.HELP || snap.kind === INPUT.VIEW) { return null; }
+        // Sample the owner again after reading focus, menu and report state.
+        var after = mobileTicket();
+        if (!sameMobileTicket(before, after, true) || after.presentation !== 'hd' ||
+            state.preview || state.showLcd || !hdModeEnabled() || epoch !== modeEpoch) { return null; }
         var ticket = { key: after.key, stableKey: after.stableKey, libraryGeneration: after.libraryGeneration,
             kind: after.kind, seq: after.seq, actor: after.actor };
         Object.defineProperty(ticket, 'data', { value: after.data, enumerable: false });
@@ -371,10 +386,7 @@
     }
     function getLcdPresentation() {
         if (!mobileHost) { return state.showLcd ? 'on' : 'off'; }
-        var ticket = mobileTicket();
-        return !shouldShowHd() || !ticket || state.showLcd || ticket.presentation !== 'hd' ||
-            ticket.kind === INPUT.BUSY || ticket.kind === INPUT.HELP || ticket.kind === INPUT.VIEW ||
-            nativeReportWaiting() || !getInputTicket() ? 'passthrough' : 'off';
+        return getInputTicket() ? 'off' : 'passthrough';
     }
     function isMenuKind(kind) {
         return kind === INPUT.ACTION || kind === INPUT.SKILL || kind === INPUT.SYSTEM ||
@@ -689,9 +701,10 @@
             (!snap.focus || !legalEnter(snap.focus, unitAt(snap.focus.x, snap.focus.y), snap.fight))) { return true; }
         beginRequest('key', { code: code }, snap); return true;
     }
-    function renderFightMenu() {
+    function renderFightMenu(snap) {
         var panel = el('hd-battle-menu'), list = el('hd-battle-menu-list'), title = el('hd-battle-menu-title');
-        var snap = inputSnapshot(), info = menuSnapshot(snap), hints = null;
+        snap = snap || inputSnapshot();
+        var info = menuSnapshot(snap), hints = null;
         state.menuKind = info ? info.kind : ''; state.menuTitle = info ? info.title : '';
         state.menuNames = info ? info.names : []; state.menuIndex = info ? info.index : 0;
         var note = el('hd-battle-skill-note');
@@ -796,20 +809,21 @@
             item.setAttribute('data-hd-battle-stat',field[0]); item.textContent = field[1]; node.appendChild(item);
         });
     }
-    function applyChrome() {
-        var show = state.open && shouldShowHd();
-        document.documentElement.setAttribute('data-baye-battle', show ? 'hd' : 'off');
-        document.documentElement.setAttribute('data-baye-battle-pref', getMode());
-        document.documentElement.setAttribute('data-baye-battle-menu', show && state.menuKind ? state.menuKind : 'off');
-        var snap = inputSnapshot();
+    function applyChrome(snap) {
+        snap = snap || inputSnapshot();
+        var show = state.open && snap.showHd;
+        var page = document.documentElement;
+        setDisplayAttribute(page,'data-baye-battle',show ? 'hd' : 'off');
+        setDisplayAttribute(page,'data-baye-battle-pref',getMode());
+        setDisplayAttribute(page,'data-baye-battle-menu',show && state.menuKind ? state.menuKind : 'off');
         var help = snap.kind === INPUT.HELP || snap.kind === INPUT.VIEW;
-        document.documentElement.setAttribute('data-baye-battle-input', show && help ? 'help' : 'battle');
+        setDisplayAttribute(page,'data-baye-battle-input',show && help ? 'help' : 'battle');
         if (document.body) {
             document.body.classList.toggle('baye-hd-battle-on', show);
             document.body.classList.toggle('baye-hd-battle-lcd', show && (state.showLcd || help));
         }
         var root = el('hd-battle');
-        if (root) { root.classList.toggle('is-open', show); root.setAttribute('aria-hidden', show ? 'false' : 'true'); }
+        if (root) { root.classList.toggle('is-open', show); setDisplayAttribute(root,'aria-hidden',show ? 'false' : 'true'); }
         var rail = el('hd-battle-rail');
         if (rail) { rail.hidden = !show || state.preview; }
         renderFocusCard(show,snap);
@@ -826,15 +840,21 @@
         }
         renderBattleContext(show && !state.preview && !state.showLcd && !help);
         var tip = el('hd-battle-tip');
-        if (tip) { tip.hidden = !state.fightTip; tip.textContent = state.fightTip; }
+        if (tip) {
+            tip.hidden = !state.fightTip;
+            if (tip.textContent !== state.fightTip) { tip.textContent = state.fightTip; }
+        }
         var banner = el('hd-battle-result');
         if (banner) { banner.hidden = true; }
         if (root && root.querySelectorAll) {
-            var nextButtons = root.querySelectorAll('[data-hd-battle-next]'), nextAvailable = !!nextWaitingUnit(snap);
-            for (var n = 0; n < nextButtons.length; n++) { nextButtons[n].disabled = !nextAvailable; }
+            var nextButtons = root.querySelectorAll('[data-hd-battle-next]'), nextDisabled = !nextWaitingUnit(snap);
+            for (var n = 0; n < nextButtons.length; n++) {
+                if (nextButtons[n].disabled !== nextDisabled) { nextButtons[n].disabled = nextDisabled; }
+            }
             var buttons = root.querySelectorAll('[data-hd-battle-sys]');
+            var systemDisabled = !!state.transaction || !snap.ready || (snap.kind !== INPUT.PICK && snap.kind !== INPUT.SYSTEM);
             for (var j = 0; j < buttons.length; j += 1) {
-                buttons[j].disabled = !!state.transaction || !snap.ready || (snap.kind !== INPUT.PICK && snap.kind !== INPUT.SYSTEM);
+                if (buttons[j].disabled !== systemDisabled) { buttons[j].disabled = systemDisabled; }
             }
         }
     }
@@ -842,10 +862,11 @@
         if (state.refreshing || !state.open) { return; }
         state.refreshing = true;
         try {
+            var sampledOwner;
             if (state.preview || fightStrictActive()) {
                 var sampleOwner = mobileHost ? mobileTicket() : null;
                 var info = sampleFight();
-                var sampledOwner = mobileHost ? mobileTicket() : null;
+                sampledOwner = mobileHost ? mobileTicket() : null;
                 if (mobileHost && (!sameMobileTicket(sampleOwner, sampledOwner, true) ||
                     sampleOwner.presentation !== sampledOwner.presentation)) {
                     mobileRenderOwner = null; finishRequest('render-owner-changed'); return;
@@ -856,14 +877,14 @@
                 state.viewW = info.viewW || info.mapW; state.viewH = info.viewH || info.mapH;
                 mobileRenderOwner = sampledOwner;
             }
-            var snap = inputSnapshot();
+            var snap = inputSnapshot(sampledOwner);
             // A renderer may retire stale requests, but cannot deliver keys.
             if (state.transaction && !sameInput(state.transaction, snap)) { finishRequest('input-changed'); }
             var tip = snap.fight && snap.fight.tip ? String(snap.fight.tip) : '';
             if (tip !== state.tipDismissed && tip) { state.fightTip = tip; }
             if (!tip) { state.tipDismissed = ''; }
-            var menu = renderFightMenu();
-            applyChrome(); draw();
+            var menu = renderFightMenu(snap);
+            applyChrome(snap); draw(snap);
             alignMobileMenuFocus(menu);
         } catch (e) {
             state.lastRefreshStack = String(e && e.stack || e);
@@ -1213,10 +1234,7 @@
             terrain: null,
             keys: []
         };
-        if (state.samplingFight || state.readingEngine) {
-            return info;
-        }
-        if (!state.preview && (!state.open || !fightStrictActive())) {
+        if (!state.open || state.samplingFight || state.readingEngine) {
             return info;
         }
         state.samplingFight = true;
@@ -1226,10 +1244,6 @@
         if (!data) {
             return info;
         }
-        info.genCount = fightArrayCount();
-        info.keys = listProps(data).filter(function (name) {
-            return /fight|fgt|genpos|tile/i.test(name);
-        });
         var mw = readNumber(data, 'g_MapWid');
         var mh = readNumber(data, 'g_MapHgt');
         var nativeDimensions = mw > 0 && mw <= 255 && mw === Math.floor(mw) &&
@@ -1266,8 +1280,8 @@
         info.focus.y = readNumber(data, 'g_FoucsY');
         /* Keep the presentation board around generals and focus as before.
          * Terrain retains the original native bounds/stride independently. */
-        var arr = data.g_FgtParam && data.g_FgtParam.GenArray;
-        var pos = data.g_GenPos;
+        var params = data.g_FgtParam, arr = params && params.GenArray;
+        var pos = data.g_GenPos, people = data.g_Persons;
         var i;
         for (i = 0; i < 20; i++) {
             var id = arr ? readNumber(arr, i) : null;
@@ -1277,7 +1291,7 @@
             if (!id || id >= 0xfffe) {
                 continue;
             }
-            var p = pos && pos[i] ? pos[i] : {};
+            var p = pos && pos[i];
             var name = '';
             try {
                 if (typeof baye.getPersonName === 'function') {
@@ -1294,7 +1308,7 @@
                 y: uy,
                 hp: readNumber(p, 'hp'),
                 mp: readNumber(p, 'mp'),
-                arms: peekPersonArms(id),
+                arms: readNumber(people && people[id - 1], 'Arms'),
                 armType: peekPersonArmType(id),
                 active: readNumber(p, 'active'),
                 state: readNumber(p, 'state'),
@@ -1335,6 +1349,10 @@
         computeFightView(info);
         if (!state.probed) {
             state.probed = true;
+            info.genCount = info.units.length;
+            info.keys = listProps(data).filter(function (name) {
+                return /fight|fgt|genpos|tile/i.test(name);
+            });
             console.log('[hd-battle] probe', info);
         }
         return info;
@@ -1445,22 +1463,26 @@
         ctx.restore();
     }
 
-    function draw() {
+    function draw(snap) {
         if (mobileHost) {
-            if (document.hidden || mobileRendering || !shouldShowHd() || typeof mobileHost.render !== 'function') { return; }
+            if (document.hidden || mobileRendering || !snap.ready || state.showLcd || !hdModeEnabled() ||
+                typeof mobileHost.render !== 'function') { return; }
+            var epoch = modeEpoch;
             var renderOwner = mobileRenderOwner, currentOwner = mobileTicket();
             if (!sameMobileTicket(renderOwner, currentOwner, true) || currentOwner.presentation !== 'hd' ||
                 renderOwner.presentation !== 'hd') { return; }
             mobileRendering = true;
             try {
-                var payload = JSON.parse(JSON.stringify(debugSnapshot()));
+                var payload = JSON.parse(JSON.stringify({unitList:state.units,
+                    focusTerrain:terrainAt(state.focus.x,state.focus.y), feedback:rangeFeedback(snap)}));
                 payload.terrainSnapshot = state.terrain ? Object.assign({}, state.terrain,
                     { tiles: (state.terrain.tiles || []).slice() }) : null;
                 payload.renderOwner = { key: renderOwner.key, stableKey: renderOwner.stableKey,
                     libraryGeneration: renderOwner.libraryGeneration, kind: renderOwner.kind,
                     seq: renderOwner.seq, actor: renderOwner.actor };
                 currentOwner = mobileTicket();
-                if (!sameMobileTicket(renderOwner, currentOwner, true) || currentOwner.presentation !== 'hd') {
+                if (!sameMobileTicket(renderOwner, currentOwner, true) || currentOwner.presentation !== 'hd' ||
+                    state.showLcd || !hdModeEnabled() || epoch !== modeEpoch) {
                     mobileRenderOwner = null; finishRequest('render-owner-changed'); return;
                 }
                 mobileHost.render(payload);
