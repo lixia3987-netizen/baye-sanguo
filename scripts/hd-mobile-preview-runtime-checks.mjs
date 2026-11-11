@@ -57,14 +57,18 @@ export async function createMobileDetailRuntimeDriver(ctx,entry) {
           bands=bands.flatMap(([a,b])=>r.bottom+8<=a||r.top-8>=b?[[a,b]]:[[a,Math.min(b,r.top-8)],[Math.max(a,r.bottom+8),b]].filter(([c,d])=>d>c));
         }
         bands.sort((a,b)=>(b[1]-b[0])-(a[1]-a[0]));return bands[0];})()`);
-      assert.ok(band&&band[1]-band[0]>=44,'Actual detail pane has a noninteractive trusted-pan band');
-      const y=band[0]+(band[1]-band[0])*(down?.8:.2),end=band[0]+(band[1]-band[0])*(down?.2:.8);
+      // A short landscape list can fill the width with rows. Swiping across
+      // those rows must preserve the native menu and send zero keys.
+      const menuList=['hd-city-menu-sublist','hd-city-menu-deep'].includes(g.scroller.id);
+      const panBand=band&&band[1]-band[0]>=44?band:menuList?[top,bottom]:null;
+      assert.ok(panBand,'Actual pane has room for a trusted scroll');
+      const y=panBand[0]+(panBand[1]-panBand[0])*(down?.8:.2),end=panBand[0]+(panBand[1]-panBand[0])*(down?.2:.8);
       assert.equal(await evaluate(`(() => {const p=document.getElementById(${JSON.stringify(g.scroller.id)}),h=document.elementFromPoint(${x},${y});return !!p&&(h===p||p.contains(h));})()`),true);
       await touches('touchStart',[{x,y}]);for(let i=1;i<=6;i++)await touches('touchMove',[{x,y:y+(end-y)*i/6}]);await touches('touchEnd');
       const after=await sample(),keys=await readKeys(before.state.keyCount),scrollTop=await evaluate(`document.getElementById(${JSON.stringify(g.scroller.id)}).scrollTop`);
       assert.deepEqual(keys,[],'Content pan never selects, pages or confirms');assert.deepEqual(after.native,before.native,'Content pan preserves the native owner and cursor');
       assert.notEqual(scrollTop,g.scroller.scrollTop,'Actual trusted pan moves the scroller');
-      entry.scrollChecks.push({selector,geometry:g,panBand:band,before,after,scrollTop,keys});
+      entry.scrollChecks.push({selector,geometry:g,panBand,before,after,scrollTop,keys});
     }
     throw Error('Preview control remains clipped after bounded actual pans '+selector);
   };

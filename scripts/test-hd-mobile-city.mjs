@@ -28,7 +28,8 @@ function fixture({realCity = false} = {}) {
     const body = element('body', 'BODY', html, html.rect);
     const cityRoot = element('hd-city-menu', 'DIV', body, html.rect);
     const dialogRoot = element('hd-dialog', 'DIV', body, html.rect);
-    const cityButton = element('city-button', 'BUTTON', cityRoot, {left: 100, top: 100, width: 100, height: 44});
+    const cityList = element('hd-city-menu-deep', 'DIV', cityRoot, html.rect);
+    const cityButton = element('city-button', 'BUTTON', cityList, {left: 100, top: 100, width: 100, height: 44});
     const dialogButton = element('dialog-button', 'BUTTON', dialogRoot, {left: 240, top: 100, width: 100, height: 44});
     const modeButton = element('hd-mobile-menu-mode', 'BUTTON', body, {left: 650, top: 8, width: 160, height: 44});
     const exit = element('hd-mobile-exit', 'BUTTON', body, {left: 8, top: 8, width: 80, height: 44});
@@ -290,6 +291,24 @@ for (const event of ['pointercancel', 'lostpointercapture', 'scroll']) {
 test('drag distance is checked both during movement and at release', () => {
     const f = fixture(); f.fire('pointerdown'); f.fire('pointermove', f.cityButton, {clientX: 170}); f.fire('pointerup'); f.fire('click');
     f.fire('pointerdown'); f.fire('pointerup', f.cityButton, {clientX: 170}); f.fire('click'); assert.deepEqual(f.counts.clicks, []);
+});
+test('touch pan on a current city PERSON row cancels the click and uses ordinary retirement if its owner changes', () => {
+    for (const event of ['pointermove', 'pointercancel']) {
+        const f = fixture(), touch = {pointerType: 'touch'};
+        f.fire('pointerdown', f.cityButton, touch);
+        f.fire(event, f.cityButton, {...touch, clientY: 92});
+        f.fire('pointerup', f.cityButton, touch);
+        f.fire('click', f.cityButton, touch);
+        assert.deepEqual(f.counts.retire.at(-2), ['city', 'person-list-pan']);
+        assert.deepEqual(f.counts.clicks, []);
+        f.tap(f.cityButton, touch);
+        assert.deepEqual(f.counts.clicks, ['city-button']);
+
+        f.fire('pointerdown', f.cityButton, touch);
+        f.data.g_hdMenuSeq++;
+        f.fire(event, f.cityButton, {...touch, clientY: 92});
+        assert.deepEqual(f.counts.retire.at(-2), ['city', event === 'pointermove' ? 'move-or-owner-change' : 'pointer-cancel']);
+    }
 });
 test('geometry change after DOWN retires input while subpixel jitter remains bounded', () => {
     const f = fixture(); f.fire('pointerdown'); f.cityButton.rect.left += 1; f.fire('pointerup'); f.fire('click');

@@ -2333,18 +2333,20 @@ function surrenderHarness({mobile = false, subIndex = 5, seq = 10, duplicate = f
     function publish(which, {menuSeq = h.menu.seq, index = 0, ids = null} = {}) {
         role = which;
         const active = which !== 'transition' && which !== 'map';
-        const values = ids || (which === 'sub' ? [] : active ? roleIds(which) : []);
-        const names = !active ? (h.menu.packedNames || h.menu.names).slice() : which === 'sub' ? surrenderSubNames.slice() : values.map(id => h.names.get(id));
+        const kind = which === 'root' ? 1 : which === 'sub' ? 2 : active ? 3 : 0;
+        const values = ids || (kind === 3 ? roleIds(which) : []);
+        const names = !active ? (h.menu.packedNames || h.menu.names).slice() : which === 'root' ? ['内政', '外交', '军备', '状况'] :
+            which === 'sub' ? surrenderSubNames.slice() : values.map(id => h.names.get(id));
         const count = active ? names.length : h.menu.count, currentIndex = active ? index : h.menu.index;
-        Object.assign(h.menu, {active: active ? 1 : 0, context: active ? 1 : 0, kind: which === 'sub' ? 2 : active ? 3 : 0,
+        Object.assign(h.menu, {active: active ? 1 : 0, context: active ? 1 : 0, kind,
             seq: menuSeq, count, index: currentIndex,
-            generation: 3, detailGeneration: 3, idsValid: active && which !== 'sub', ids: values.slice(),
+            generation: 3, detailGeneration: 3, idsValid: kind === 3, ids: values.slice(),
             names, packedNames: names.map(name => name.length === 4 ? name.slice(0, 3) + '�' : name), itemLen: 8});
         Object.assign(h.raw, {g_hdMenuActive: h.menu.active, g_hdMenuContext: h.menu.context,
             g_hdMenuKind: h.menu.kind, g_hdMenuSeq: h.menu.seq, g_hdMenuCount: h.menu.count, g_hdMenuIndex: h.menu.index,
             g_hdPersonPropertiesActive: h.menu.kind === 3 ? 1 : 0, g_hdMapPick: which === 'map' ? 1 : 0});
         march.pick = h.raw.g_hdMapPick;
-        if (active && which !== 'sub') propertyPaint = next(propertyPaint);
+        if (kind === 3) propertyPaint = next(propertyPaint);
         if (which === 'map') {march.mapInputSeq = h.raw.g_hdMapInputSeq = next(h.raw.g_hdMapInputSeq);}
     }
     function consume(key) {
@@ -2370,7 +2372,7 @@ function surrenderHarness({mobile = false, subIndex = 5, seq = 10, duplicate = f
         else if (before === 'target' && key === 39) nativePending.push(() => publish('actor', {menuSeq: next(next(old))}));
         else if (before === 'actor' && key === 40) nativePending.push(() => publish('target', {menuSeq: next(next(old))}));
         else if (before === 'actor' && key === 39) nativePending.push(() => publish('target', {menuSeq: next(next(old))}));
-        else if (before === 'target' && key === 40) nativePending.push(() => publish('map', {menuSeq: next(old)}));
+        else if ((before === 'target' || before === 'root') && key === 40) nativePending.push(() => publish('map', {menuSeq: next(old)}));
         else assert.fail('unexpected controlled SURRENDER key ' + key + ' at ' + before);
     }
     h.sendStacks = [];
@@ -2489,6 +2491,42 @@ test('SURRENDER explicitly configured mobile uses the same target-first flow and
     assert.equal(h.actorCommits(), 0); assert.deepEqual(h.world(), before); assert.deepEqual(h.writes, []);
 });
 
+test('SURRENDER mobile list pan drops a pressed row while preserving the current list and its owner', () => {
+    const h = surrenderTarget({mobile: true}), row = h.deep(0), owner = h.hud.state.deepMenuOwner;
+    h.down(row);
+    assert.equal(h.hud.state.deepPointerOwner.target, row);
+    h.api.retireInteraction('person-list-pan');
+    assert.equal(h.hud.state.deepPointerOwner, null);
+    assert.equal(h.hud.state.deepMenuOwner, owner);
+    h.refresh();
+    assert.equal(h.deep(0), row);
+    assert.deepEqual(h.keys, [39]);
+    h.press(row); h.flush(); assertSurrender(h, 'actor');
+    assert.deepEqual(h.keys, [39, 39]);
+});
+
+test('SURRENDER mobile reopens the city and returns from status to the map', () => {
+    const h = surrenderTarget({mobile: true}), before = h.world();
+    h.back(); h.flush();
+    assert.equal(h.stage(), 'map');
+    assert.equal(h.api.isOpen(), false);
+    h.publish('root', {menuSeq: h.next(h.menu.seq)});
+    assert.equal(h.api.open({cityIndex: 4}), true);
+    const status = element('button'); status.setAttribute('data-hd-root', '3');
+    h.nodes['hd-city-menu-root'].appendChild(status);
+    h.press(status);
+    assert.equal(h.hud.state.layer, 'status');
+    h.back();
+    assert.equal(h.hud.state.layer, 'root');
+    assert.deepEqual(h.keys, [39, 40]);
+    h.back(); h.flush();
+    assert.equal(h.stage(), 'map');
+    assert.equal(h.api.isOpen(), false);
+    assert.deepEqual(h.keys, [39, 40, 40]);
+    assert.deepEqual(h.world(), before);
+    assert.deepEqual(h.writes, []);
+});
+
 test('SURRENDER cannot adopt an unbound PERSON menu or a label-only generic pane', () => {
     for (const mobile of [false, true]) {
         const h = surrenderHarness({mobile}); h.publish('target', {menuSeq: 12});
@@ -2508,14 +2546,20 @@ test('SURRENDER derives ordered native captive and allied IDs including legal du
 });
 
 test('SURRENDER SUB index selection requires native arrow ACK before ENTER and rechecks the original source', () => {
-    const h = surrenderHarness({subIndex: 4}); h.enter(); assert.deepEqual(h.keys, [35]);
-    assert.equal(surrenderPresentation(h), null); assert.equal(h.stage(), 'sub');
-    h.flush(); assert.deepEqual(h.keys, [35, 39]); assert.equal(surrenderPresentation(h), null);
-    h.flush(); assertSurrender(h, 'target');
-    const bad = surrenderHarness({subIndex: 4}); bad.enter(); assert.deepEqual(bad.keys, [35]);
-    bad.raw.g_engineConfig = {...bad.raw.g_engineConfig}; bad.flush();
-    assert.deepEqual(bad.keys, [35], 'config replacement between the acknowledged arrow and ENTER retires the request');
-    assert.equal(surrenderPresentation(bad), null); assert.deepEqual(bad.writes, []);
+    for (const mobile of [false, true]) {
+        const h = surrenderHarness({mobile, subIndex: 0}); h.enter(); assert.deepEqual(h.keys, [35]);
+        for (let arrows = 1; arrows < 5; arrows++) {
+            assert.equal(surrenderPresentation(h), null);
+            assert.equal(h.stage(), 'sub');
+            h.flush(); assert.deepEqual(h.keys, Array(arrows + 1).fill(35));
+        }
+        h.flush(); assert.deepEqual(h.keys, [35, 35, 35, 35, 35, 39]); assert.equal(surrenderPresentation(h), null);
+        h.flush(); assertSurrender(h, 'target');
+        const bad = surrenderHarness({mobile, subIndex: 4}); bad.enter(); assert.deepEqual(bad.keys, [35]);
+        bad.raw.g_engineConfig = {...bad.raw.g_engineConfig}; bad.flush();
+        assert.deepEqual(bad.keys, [35], 'config replacement between the acknowledged arrow and ENTER retires the request');
+        assert.equal(surrenderPresentation(bad), null); assert.deepEqual(bad.writes, []);
+    }
 });
 
 test('SURRENDER pending accepted ENTER cannot be reused by close or classic/HD before native role ACK', () => {

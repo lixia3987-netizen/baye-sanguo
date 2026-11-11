@@ -602,13 +602,21 @@
     }
     function sendSurrenderKey(code,reason,currentOwner) {
         if (cityInfoOwns(global.baye && baye.data)) { return false; }
-        if (!surrenderUiCurrent() || surrenderSending || surrenderReading || !surrenderFlow || !shouldShowHd() || !mobileShellReady() || document.hidden ||
+        if (!surrenderUiCurrent() || surrenderSending || surrenderReading || !surrenderFlow || !shouldShowHd() || document.hidden ||
             [VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT,VK.HELP].indexOf(code)<0) { return false; }
         surrenderSending=true;
         try {
             var flow=surrenderFlow, before=surrenderSnapshot();
             if (flow.pending || !sameSurrenderRows(flow.lastReading,before) || !quietSurrender(before) || currentOwner && !currentOwner()) { return false; }
             var entry=flow.role==='entry', m=before.menu;
+            if (mobileHost && entry) {
+                // The entry arrows still belong to the native submenu while
+                // the city shell is waiting for the PERSON publication.
+                var ticket = mobileInputTicket('surrender-start');
+                if (!ticket || ticket.ownerType !== 'city' || ticket.cityIndex !== before.cityIndex ||
+                    ticket.menuContext !== 1 || ticket.menuKind !== 2 || ticket.menuSeq !== m.seq ||
+                    ticket.detailGeneration !== before.detailGeneration || ticket.libraryGeneration !== before.libraryGeneration) { return false; }
+            } else if (!mobileShellReady()) { return false; }
             if (entry ? reason!=='surrender-start' || m.kind!==2 || m.seq!==flow.menuSeq || m.context!==1 ||
                 JSON.stringify(m.names)!==JSON.stringify(SUBS.neizheng) || code===VK.ENTER&&m.index!==5 :
                 m.seq!==flow.menuSeq || surrenderRole(before)!==flow.role) { return false; }
@@ -1240,6 +1248,15 @@
                 '请重新选择目标', '确认部队出发', '部队已出发'][ticket.phase] || ''});
     }
     function retireInteraction(reason) {
+        if (reason === 'person-list-pan' && mobileHost && state.open && state.layer === 'deep' &&
+            state.deepKind === 'person-surrender' && state.deepMenuOwner && state.deepMenuOwner.kind === 3 &&
+            surrenderFlow && !surrenderFlow.pending && !state.nativeMenuRequest && !state.deepSelectionPending &&
+            !state.personPagePending && !state.sending && !state.queue.length) {
+            // Keep the scroller and its rows mounted while the browser pans.
+            state.deepPointerOwner = state.previewPointerOwner = null;
+            mobileRetireReason = reason;
+            return true;
+        }
         retireTransferWork();
         if (/library|configure/.test(String(reason || ''))) {
             transferFlow = null;
@@ -2098,7 +2115,9 @@
 
     function engineSendKey(code, reason, currentOwner) {
         if (cityInfoOwns(global.baye && baye.data)) { return false; }
-        if (state.deepKind === 'person-surrender' || surrenderFlow && surrenderFlow.role === 'entry' && reason === 'surrender-start') { return sendSurrenderKey(code, reason, currentOwner); }
+        if (reason === 'surrender-start' || state.open && state.layer === 'deep' && state.deepKind === 'person-surrender') {
+            return sendSurrenderKey(code, reason, currentOwner);
+        }
         if (!mobileHost && state.deepKind === 'person-diplomacy') { return sendPcDiplomacyKey(code, reason, currentOwner); }
         if (mobileHost && mobileDiplomacy && mobileDiplomacy.sent && reason !== 'diplomacy-back') { return false; }
         if (mobileHost && mobileEquipmentFlow) { return false; }
@@ -7620,7 +7639,7 @@
 
     function closeMenu(opts) {
         opts = opts || {};
-        if (!opts.silent && surrenderFlow && state.deepKind === 'person-surrender') { back(); return; }
+        if (!opts.silent && surrenderFlow && state.layer === 'deep' && state.deepKind === 'person-surrender') { back(); return; }
         var mobileClosingTicket = mobileHost && !opts.silent ? mobileInputTicket() : null;
         if (mobileHost && !opts.silent && !mobileClosingTicket) { retireInteraction('close-unavailable'); return false; }
         if (fightIsActive()) {

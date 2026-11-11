@@ -6,6 +6,8 @@
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * --scenario captives --captive-order exercises one actual surrender order through month-end.
  * --captive-width=1280 selects a 720p desktop viewport for either captive flow.
+ * --captive-mobile-width=667|844 saves the captured city, then loads and plays it in m.html.
+ * --captive-resume=build/.../result.json replays a captured native save from a closed private run.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
 import assert from 'node:assert/strict';
@@ -29,10 +31,15 @@ const captiveScenario=scenario==='captives',preflightOnly=process.argv.includes(
 const captiveOrder=process.argv.includes('--captive-order');
 const captiveWidthFlag=process.argv.find(arg=>arg.startsWith('--captive-width='));
 const captiveWidth=Number(captiveWidthFlag?.split('=')[1]??1920);
+const captiveMobileFlag=process.argv.find(arg=>arg.startsWith('--captive-mobile-width='));
+const captiveMobileWidth=Number(captiveMobileFlag?.split('=')[1]??0);
+const captiveResumeFlag=process.argv.find(arg=>arg.startsWith('--captive-resume='));
 assert.ok(!captiveScenario||!staged,'Captive inspection uses the current original installed engine only');
 assert.ok(!preflightOnly||captiveScenario,'Preflight-only is limited to the isolated captive scenario');
 assert.ok(!captiveOrder||captiveScenario&&!preflightOnly,'Surrender order requires a live captive scenario');
 assert.ok(!captiveWidthFlag||captiveScenario&&[1280,1920].includes(captiveWidth),'Captive desktop viewport is 1280 or 1920 pixels wide');
+assert.ok(!captiveMobileFlag||captiveOrder&&[667,844].includes(captiveMobileWidth),'Mobile captive orders require a 667px or 844px landscape viewport');
+assert.ok(!captiveResumeFlag||captiveMobileWidth,'Captive replay uses a mobile viewport');
 const winningScenarios=new Set(['victory','campaign','save','restart','captives']);
 const winningFixture={lord:'董卓',origin:15,target:16,leaders:['吕布','张辽','李儒'],recruitments:7};
 const artifactFlag = process.argv.indexOf('--artifact-dir');
@@ -52,6 +59,7 @@ let progressReportIndex=0;
 const captiveAssets=new Map(),captiveDirectories=['js','css','assets','vendor/iBaye'];
 const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 let captiveLib,runCaptiveInspection,captiveSampleOwned=async()=>{};
+let captiveMobileDocument=false;
 const processIdentity=p=>({ProcessId:p.ProcessId,ParentProcessId:p.ParentProcessId,CreationDate:p.CreationDate,ExecutablePath:p.ExecutablePath});
 function walkCaptiveSources(directory){return fs.readdirSync(directory,{withFileTypes:true}).flatMap(i=>i.isDirectory()?walkCaptiveSources(path.join(directory,i.name)):[path.join(directory,i.name)]);}
 function freezeCaptiveAsset(rel){
@@ -64,7 +72,7 @@ async function prepareCaptiveSources(){
     report.sources={};
     for(const dir of captiveDirectories)for(const filename of walkCaptiveSources(path.join(root,dir)))freezeCaptiveAsset(path.relative(root,filename).replaceAll('\\','/'));
     const tool=path.relative(root,fileURLToPath(import.meta.url)).replaceAll('\\','/');
-    const helpers=['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','scripts/hd-person-identity-runtime-checks.mjs','scripts/hd-person-identity-rom.mjs','scripts/hd-captive-person-runtime-checks.mjs'];
+    const helpers=['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','scripts/hd-person-identity-runtime-checks.mjs','scripts/hd-person-identity-rom.mjs','scripts/hd-captive-person-runtime-checks.mjs','scripts/hd-mobile-preview-runtime-checks.mjs'];
     for(const rel of ['package.json','.gitattributes','pc.html','m.html','fonts/HarmonyOS_Sans_SC_Regular.ttf','favicon.png','qr.png','scripts/write-wasm-manifest.mjs',tool,...helpers])freezeCaptiveAsset(rel);
     captiveLib=freezeCaptiveAsset('libs/dat-mod.lib').data;
     assert.equal(captiveLib.length,207195);assert.equal(sha(captiveLib),'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
@@ -99,7 +107,7 @@ async function observeCaptiveLib(cdp,stage){
 
 const captiveObserverSource="(function(){\n window.__identityKeys=[];window.__identityTouches=[];window.__identityCalls=[];window.__identityEvents=[];\n let depth=0;for(const[object,name,api]of[[window,'sendKey','window.sendKey'],[baye,'sendKey','baye.sendKey']]){const old=object[name];if(typeof old!=='function')throw Error('Missing public native input');object[name]=function(code){const outer=depth++===0;try{return old.apply(this,arguments);}finally{depth--;window.__identityCalls.push({api,code,at:performance.now(),depth});if(outer)window.__identityKeys.push(code);}};}\n if(typeof window._bayeSendTouchEvent!=='function')throw Error('Missing real touch binding');const touch=window._bayeSendTouchEvent;window._bayeSendTouchEvent=function(){window.__identityTouches.push(Array.from(arguments));return touch.apply(this,arguments);};\n for(const type of ['pointerdown','pointerup','click','keydown','keyup','wheel','touchstart','touchmove','touchend','touchcancel'])document.addEventListener(type,e=>{if(e.isTrusted)window.__identityEvents.push({type,key:e.key||null,x:e.clientX||0,y:e.clientY||0,target:e.target.id||e.target.tagName,at:performance.now()});},true);\n window.__identitySample=function(){\n  const d=baye.data,a=BayeHdLibIdentity.read();\n  const take=(o,ks)=>Object.fromEntries(ks.map(k=>{const v=Number(o[k]);if(!Number.isInteger(v))throw Error('Noninteger native '+k);return[k,v];}));\n  const world=()=>{const n=Number(baye.getPersonCount()),nc=Number(d.g_engineConfig.citiesCount);if(n!==200||nc!==38||Number(d.g_Persons.length)!==2000||Number(d.g_PersonsQueue.length)!==2000||Number(d.g_Cities.length)!==38||Number(baye.getToolCount())!==33)throw Error('Original world ABI counts');return {config:take(d.g_engineConfig,['citiesCount','enable16bitConsumeMoney','fixAlienateComsumeThew']),period:Number(d.g_PIdx),king:Number(d.g_PlayerKing),year:Number(d.g_YearDate),month:Number(d.g_MonthDate),people:Array.from({length:200},(_,i)=>take(d.g_Persons[i],['Belong','OldBelong','Level','Experience','IQ','Force','Age','Devotion','Character','Thew','Arms','ArmsType','Tool1','Tool2'])),cities:Array.from({length:38},(_,i)=>take(d.g_Cities[i],['Belong','SatrapId','State','AvoidCalamity','PeopleDevotion','Commerce','Money','Food','MothballArms','PersonQueue','Persons','Tools','ToolQueue'])),queue:Array.from(d.g_PersonsQueue,Number),goodsQueue:Array.from(d.g_GoodsQueue,Number),fighters:Array.from(d.FIGHTERS,Number),fighterIndex:Array.from(d.FIGHTERS_IDX,Number),orders:Array.from(d.g_OrderQueue,o=>take(o,['OrderId','City','Person','Object','TimeCount','Food','Arms','Money','Consume'])),tools:Array.from({length:33},(_,i)=>take(d.g_Tools[i],['useflag','changeAttackRange','at','iq','move','arm']))};};\n  const native=()=>({generation:Number(d.g_hdDetailGeneration),mapCity:Number(d.g_hdMapCity),mapPick:Number(d.g_hdMapPick),cursor:{x:Number(d.g_CityPos.setx),y:Number(d.g_CityPos.sety)},menu:baye.hd.menuItems(),march:baye.hd.march(),report:baye.hd.report(),qty:baye.hd.qty(),person:baye.hd.personProperties(),diplomacy:baye.hd.diplomacy()});\n  const before=native(),w=world(),cityUi=BayeHdCityMenu.debugSnapshot(),after=native(),w2=world(),b=BayeHdLibIdentity.read();\n  if(d!==baye.data||a.status!=='ready'||a.sha256!=='3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'||JSON.stringify(a)!==JSON.stringify(b)||JSON.stringify(before)!==JSON.stringify(after)||JSON.stringify(w)!==JSON.stringify(w2))throw Error('Unstable original native/person/world sample');\n  if(w.queue.length!==2000||w.goodsQueue.length!==2000||w.fighters.length!==600||w.fighterIndex.length!==30||w.orders.length!==200)throw Error('Truncated original world arrays'); for(const name of ['queue','goodsQueue','fighters','fighterIndex'])if(!w[name].every(Number.isInteger))throw Error('Invalid native '+name);\n  return {world:w,native:after,state:{menu:after.menu,cityUi,qty:after.qty,report:after.report,keyCount:window.__identityKeys.length,touchCount:window.__identityTouches.length},identity:a};\n };\n return {keys:true,touch:true,forwardOnce:true};\n})()";
 
-async function startServer() {
+async function startServer(port=0) {
     const server = http.createServer((req, res) => {
         try {
             const url = new URL(req.url, 'http://localhost');
@@ -124,7 +132,7 @@ async function startServer() {
             });
         } catch { res.writeHead(400).end(); }
     });
-    await new Promise((resolve, reject) => { server.once('error', reject); server.listen(0, '127.0.0.1', resolve); });
+    await new Promise((resolve, reject) => { server.once('error', reject); server.listen(port, '127.0.0.1', resolve); });
     return server;
 }
 
@@ -308,12 +316,26 @@ async function key(cdp, name) {
     await delay(180);
 }
 
+async function captiveTouch(cdp,type,points=[]) {
+    const {width,height}=report.mobileViewport;
+    assert.ok(points.every(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)&&p.x>=0&&p.x<width&&p.y>=0&&p.y<height));
+    await cdp.send('Input.dispatchTouchEvent',{type,touchPoints:points.map((point,id)=>({...point,id,radiusX:2,radiusY:2,force:1}))});
+    report.inputs.push({type,points});
+    await delay(75);
+}
+
+async function captiveTap(cdp,point) {
+    await captiveTouch(cdp,'touchStart',[point]);
+    await captiveTouch(cdp,'touchEnd');
+    await delay(175);
+}
+
 async function click(cdp, selector) {
-    report.inputs.push({ type:"click", selector, at:new Date().toISOString() });
+    report.inputs.push({ type:captiveMobileDocument?'tap':'click', selector, at:new Date().toISOString() });
     const expression=`(() => {
         const node = document.querySelector(${JSON.stringify(selector)});
         if (!node) return null;
-        node.scrollIntoView({ block: 'center' });
+        ${captiveMobileDocument?'':'node.scrollIntoView({ block: \'center\' });'}
         const rect = node.getBoundingClientRect(), style = getComputedStyle(node);
         if (!rect.width || !rect.height || style.visibility === 'hidden' || style.display === 'none') return null;
         const x=rect.x+rect.width/2,y=rect.y+rect.height/2,top=document.elementFromPoint(x,y);
@@ -333,6 +355,7 @@ async function click(cdp, selector) {
     assert.ok(point, 'Visible click target: ' + selector);
     assert.ok(point.unobstructed, 'Click target is not covered: '+selector+' (top='+point.top+')');
     const mousePoint={x:point.x,y:point.y};
+    if(captiveMobileDocument)return captiveTap(cdp,mousePoint);
     await cdp.send('Input.dispatchMouseEvent', { type: 'mousePressed', ...mousePoint, button: 'left', clickCount: 1 });
     await cdp.send('Input.dispatchMouseEvent', { type: 'mouseReleased', ...mousePoint, button: 'left', clickCount: 1 });
     await delay(250);
@@ -397,18 +420,19 @@ async function archiveEngineInputDocument(cdp,label) {
     report.engineInputs=documents.flatMap(item=>item.inputs);
 }
 
+async function installCaptiveObserver(cdp,stage) {
+    await waitFor(cdp,'current original LIB identity',"window.BayeHdLibIdentity&&BayeHdLibIdentity.read().status==='ready'&&BayeHdLibIdentity.read().sha256==='3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'&&typeof dynLib==='string'&&dynLib.length===414390",60000);
+    await observeCaptiveLib(cdp,stage);
+    assert.equal(await evaluate(cdp,'window.__runtimeEngineInputRecorder?.wrapper===window.sendKey'),true);
+    const observer=await evaluate(cdp,captiveObserverSource);
+    await evaluate(cdp,'window.__runtimeEngineInputRecorder.wrapper=window.sendKey');
+    return observer;
+}
+
 async function smoke(cdp) {
     await waitFor(cdp, 'real LIB/WASM initialization', 'window.baye && baye.hd && baye.hd.ready()', 60000);
     await installEngineInputRecorder(cdp);
-    if(captiveScenario){
-        await waitFor(cdp,'current original LIB identity',"window.BayeHdLibIdentity&&BayeHdLibIdentity.read().status==='ready'&&BayeHdLibIdentity.read().sha256==='3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'&&typeof dynLib==='string'&&dynLib.length===414390",60000);
-        await observeCaptiveLib(cdp,'startup');
-        const recorder=await evaluate(cdp,'window.__runtimeEngineInputRecorder&&window.__runtimeEngineInputRecorder.wrapper===window.sendKey');assert.equal(recorder,true);
-        report.inputObserver=await evaluate(cdp,captiveObserverSource);
-        // The identity observer forwards once through the existing campaign
-        // recorder. Its outer wrapper now owns that same recorded input list.
-        await evaluate(cdp,'window.__runtimeEngineInputRecorder.wrapper=window.sendKey');
-    }
+    if(captiveScenario)report.inputObserver=await installCaptiveObserver(cdp,'startup');
     const bindings = await evaluate(cdp, `({ ready: baye.data.g_hdEngineReady, control: baye.data.g_hdFightMenuControl,
         battlePref: BayeHdBattle.getMode(), hook: Object.prototype.hasOwnProperty.call(baye.hooks, 'fightOpenMainMenu') })`);
     assert.equal(bindings.ready, 1, 'HD C fields are bound after LIB initialization');
@@ -768,6 +792,75 @@ async function captureCaptivePhase(cdp,label){
     const entry={label,file,bytes:png.length,sha256:sha(png),sample:await evaluate(cdp,'__identitySample()')};report.phases.push(entry);
     await captiveSampleOwned('checkpoint-'+label);return entry;
 }
+
+const captiveSaveFiles = `Array.from({length:2},(_,i)=>BayeSaveStorage.readFile('baye//data//sango'+i+'.sav'))`;
+
+function captiveFileIdentity(files) {
+    assert.ok(Array.isArray(files)&&files.length===2&&files.every(file=>typeof file==='string'&&file.length>0&&file.length%2===0&&/^[a-f0-9]+$/i.test(file)));
+    return files.map(file=>({bytes:file.length/2,sha256:sha(Buffer.from(file,'hex'))}));
+}
+
+async function saveCaptiveWorld(cdp,before) {
+    assert.equal(await evaluate(cdp,'BayeSaveStorage.inspectSlot(0).status'),'empty');
+    await openFunctionMenu(cdp,'captive-save');
+    await click(cdp,'#hd-system-ui [data-hd-sys="1"]');
+    await waitFor(cdp,'native save owner for captured city',`(() => {
+        const r=baye.hd.record(),s=BayeHdSystemUi.debugSnapshot();
+        return r.active===1&&r.mode===1&&r.count===3&&s.open&&s.screen==='saveload'&&!s.pending;
+    })()`);
+    await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
+    await waitFor(cdp,'original captured city save written','!baye.hd.record().active&&baye.hd.march().pick===1&&BayeSaveStorage.inspectSlot(0).canLoad');
+    const saved=await evaluate(cdp,'__identitySample()'),files=await evaluate(cdp,captiveSaveFiles);
+    assert.deepEqual(saved.world,before.world,'Public save leaves the actual captured world intact');
+    report.captiveSave={slot:0,files:captiveFileIdentity(files),saved};
+    await captureCaptivePhase(cdp,'native-capture-saved');
+    await archiveEngineInputDocument(cdp,'before-mobile-load');
+}
+
+async function loadCaptiveWorldOnMobile(cdp,origin) {
+    const save=report.captiveSave;
+    report.mobileViewport={width:captiveMobileWidth,height:captiveMobileWidth===667?375:390};
+    await cdp.send('Emulation.setDeviceMetricsOverride',{...report.mobileViewport,deviceScaleFactor:1,mobile:true});
+    await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
+    await cdp.send('Page.navigate',{url:origin+'/m.html#'+Math.floor(Date.now()/1000)});
+    captiveMobileDocument=true;
+    acknowledgedProgressReports.clear();
+    await waitFor(cdp,'fresh mobile WASM and native ready','location.pathname==="/m.html"&&window.baye?.hd?.ready()',60000);
+    await installEngineInputRecorder(cdp);
+    report.mobileInputObserver=await installCaptiveObserver(cdp,'mobile-startup');
+    const titleNative='baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1';
+    for(let i=0;i<60&&!await evaluate(cdp,titleNative);i++) {
+        if(await evaluate(cdp,'baye.hd.movie().active||(baye.hd.spe().active&&baye.hd.spe().kind===1)')) {
+            await action(cdp,'mobile-original-intro-ack','sendKey(39)');
+        }
+        await delay(160);
+    }
+    await waitFor(cdp,'actual mobile HD title',`(${titleNative})&&BayeHdMobileSystem.snapshot().active&&BayeHdSystemUi.debugSnapshot().screen==='title'`,60000);
+    const files=await evaluate(cdp,captiveSaveFiles);
+    assert.deepEqual(captiveFileIdentity(files),save.files,'Mobile loads the two exact files written by the original game');
+    await click(cdp,'#hd-system-ui [data-hd-sys="1"]');
+    await waitFor(cdp,'mobile HD load owner and saved row',`(() => {
+        const r=baye.hd.record(),s=BayeHdSystemUi.debugSnapshot();
+        return r.active===1&&r.mode===2&&r.count===4&&s.open&&s.screen==='saveload'&&!s.pending&&s.saves[0]?.canLoad;
+    })()`);
+    await checkpoint(cdp,'captive-mobile-load-slots');
+    const loadOffset=await evaluate(cdp,'__identityKeys.length');
+    await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
+    await waitFor(cdp,'loaded capture on the native mobile HD map',`(() => {
+        const m=baye.hd.march(),map=BayeHdOverworld.debugSnapshot();
+        return !baye.hd.record().active&&m.pick===1&&!m.battlePick&&map.mobile&&map.phase==='map'&&map.hitsEnabled&&
+            document.body.classList.contains('hd-mobile-map-on');
+    })()`,60000);
+    const loaded=save.loaded=await evaluate(cdp,'__identitySample()');
+    const persisted=world=>({...world,queue:world.queue.slice(0,world.people.length)});
+    assert.deepEqual(persisted(loaded.world),persisted(save.saved.world),'Native load restores the saved campaign and logical resident queue');
+    assert.deepEqual(await evaluate(cdp,'__identityKeys.slice('+loadOffset+')'),[39]);
+    assert.deepEqual(await evaluate(cdp,captiveSaveFiles),files);
+    assert.equal(loaded.native.march.phase,0,'The native load starts a fresh map wait');
+    await captureCaptivePhase(cdp,'native-capture-loaded-on-mobile');
+    return loaded;
+}
+
 async function inspectActualCaptives(cdp,plan){
     assert.equal(plan.origin,15);assert.equal(plan.target,16);
     await observeCaptiveLib(cdp,'settled-before-captive-inspection');
@@ -787,10 +880,35 @@ async function inspectActualCaptives(cdp,plan){
         report.accepted=false;report.hdAccepted=false;report.captiveAccepted=false;report.personCaptivesAccepted=false;
         return;
     }
+    let loaded;
+    if(captiveMobileWidth) {
+        const origin=await evaluate(cdp,'location.origin');
+        await saveCaptiveWorld(cdp,sample);
+        loaded=await loadCaptiveWorldOnMobile(cdp,origin);
+    }
+    await exerciseCaptiveSelection(cdp,loaded);
+}
+
+async function exerciseCaptiveSelection(cdp,loaded){
     const ctx={evaluate:expression=>evaluate(cdp,expression),until:(label,expression,timeout)=>waitFor(cdp,label,expression,timeout),click:selector=>click(cdp,selector),key:name=>key(cdp,name),checkpoint:label=>captureCaptivePhase(cdp,label),capture:label=>captureCaptivePhase(cdp,label),readKeys:(offset=0)=>evaluate(cdp,'__identityKeys.slice('+Number(offset)+')'),readKeyRecords:(offset=0)=>evaluate(cdp,'__identityCalls.slice('+Number(offset)+')'),sample:()=>evaluate(cdp,'__identitySample()'),report,libBytes:captiveLib,cdp,artifactDir};
+    if(loaded) {
+        ctx.mobile={loaded,touches:(type,points)=>captiveTouch(cdp,type,points),tap:point=>captiveTap(cdp,point)};
+    }
     if(captiveOrder) {
         ctx.endMonth=async () => {
-            await openFunctionMenu(cdp,'captive-order-end-month');
+            if(ctx.mobile) {
+                const before=await ctx.sample();
+                await click(cdp,'#hd-mobile-system-open');
+                await waitFor(cdp,'current mobile strategy-end menu',`(() => {
+                    const m=baye.hd.menuItems(),s=BayeHdSystemUi.debugSnapshot();
+                    return m.active===1&&m.context===2&&m.kind===1&&m.seq!==${before.state.menu.seq}&&m.names[0]==='策略结束'&&
+                        s.open&&s.screen==='insystem'&&!s.pending&&BayeHdMobileSystem.snapshot().active;
+                })()`);
+                assert.deepEqual(await ctx.readKeys(before.state.keyCount),[40]);
+                assert.deepEqual((await ctx.sample()).world,before.world);
+            } else {
+                await openFunctionMenu(cdp,'captive-order-end-month');
+            }
             await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
         };
         ctx.untilProgress=(label,expression)=>waitForGameProgress(cdp,label,expression,90000);
@@ -799,6 +917,10 @@ async function inspectActualCaptives(cdp,plan){
     await runCaptiveInspection(ctx);
     await observeCaptiveLib(cdp,'after-captive-inspection');
     report.nativeKeys=await evaluate(cdp,'__identityKeys');report.nativeTouches=await evaluate(cdp,'__identityTouches');report.publicInputCalls=await evaluate(cdp,'__identityCalls');report.trustedEvents=await evaluate(cdp,'__identityEvents');
+    if(ctx.mobile) {
+        assert.deepEqual(report.nativeTouches,[],'HD captive touches never go to the classic LCD');
+        assert.ok(report.trustedEvents.some(event=>event.type==='touchstart'));
+    }
 }
 
 async function chooseMarchPair(cdp,emptyOnly) {
@@ -1533,6 +1655,34 @@ async function restartSamePage(cdp) {
     await settleToMap(cdp,'restart-next-retreat');
     await checkpoint(cdp,'restart-next-retreat-map');
 }
+function copySavedCaptiveRun(profile) {
+    const resultPath=fs.realpathSync(path.resolve(captiveResumeFlag.slice('--captive-resume='.length)));
+    const relative=path.relative(fs.realpathSync(path.join(root,'build')),resultPath);
+    assert.ok(!path.isAbsolute(relative)&&!relative.split(path.sep).includes('..')&&path.basename(resultPath)==='result.json');
+    const bytes=fs.readFileSync(resultPath),prior=JSON.parse(bytes),origin=prior.isolation;
+    const battle=prior.battles?.[0],save=prior.captiveSave;
+    assert.ok(prior.scenario==='captives'&&prior.sourceVerification?.ok&&origin?.cleaned&&origin.httpClosed&&
+        Number.isInteger(origin.httpPort)&&origin.httpPort>=1024&&origin.httpPort<=65535&&origin.httpPort!==8080);
+    assert.ok(prior.battles.length===1&&battle.plan.origin===15&&battle.plan.target===16&&battle.terminal.fight.over===1&&
+        prior.actualCaptives.captives.length>0&&save?.slot===0);
+    assert.equal(prior.engineManifest.artifacts['baye.wasm'].sha256,report.engineManifest.artifacts['baye.wasm'].sha256);
+    assert.deepEqual(save.saved.world,prior.actualCaptives.sample.world);
+
+    const sourceProfile=path.join(path.dirname(resultPath),'private-browser-profile');
+    assert.equal(path.relative(sourceProfile,origin.profile),'');
+    const storagePath=path.join('Default','Local Storage','leveldb');
+    const source=path.join(sourceProfile,storagePath),destination=path.join(profile,storagePath);
+    fs.mkdirSync(destination,{recursive:true});
+    for(const entry of fs.readdirSync(source,{withFileTypes:true})) {
+        if(entry.isFile()&&entry.name!=='LOCK')fs.copyFileSync(path.join(source,entry.name),path.join(destination,entry.name),fs.constants.COPYFILE_EXCL);
+    }
+    Object.assign(report,{selectedLord:prior.selectedLord,battles:prior.battles,marches:prior.marches,
+        actualCaptives:prior.actualCaptives,originalNativeCapacity:prior.originalNativeCapacity,
+        captiveSave:{slot:save.slot,files:save.files,saved:save.saved},
+        captiveResume:{result:path.relative(root,resultPath),sha256:sha(bytes),port:origin.httpPort}});
+    return origin.httpPort;
+}
+
 async function mainCaptives(){
     assert.ok(!fs.existsSync(artifactDir),'Use a fresh captive evidence directory without earlier evidence');fs.mkdirSync(artifactDir,{recursive:true});
     let server,chrome,cdp,profile,chromeError,ownership,rootIdentity;const historical=new Map();
@@ -1543,7 +1693,8 @@ async function mainCaptives(){
         await prepareCaptiveSources();console.log('Frozen',Object.keys(report.sources).length,'sources; engine',report.nativeSourceCheck.aggregate);
         if(preflightOnly){report.ok=true;return;}
         assert.equal(typeof WebSocket,'function','Node 22+ native WebSocket is required');
-        profile=path.join(artifactDir,'private-browser-profile');fs.mkdirSync(profile);server=await startServer();
+        profile=path.join(artifactDir,'private-browser-profile');fs.mkdirSync(profile);
+        server=await startServer(captiveResumeFlag?copySavedCaptiveRun(profile):0);
         const origin='http://127.0.0.1:'+server.address().port,debugPort=await unusedPort();assert.notEqual(server.address().port,8080);assert.notEqual(debugPort,8080);
         const binary=process.env.CHROME||'C:/Program Files/Google/Chrome/Application/chrome.exe';assert.ok(fs.existsSync(binary),'Current explicit Chrome executable exists');
         chrome=spawn(binary,['--headless=new','--no-sandbox','--disable-dev-shm-usage','--disable-gpu','--disable-background-networking','--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows','--window-size=1920,1080','--remote-debugging-port='+debugPort,'--user-data-dir='+profile,'about:blank'],{windowsHide:true,stdio:'ignore'});
@@ -1567,10 +1718,30 @@ async function mainCaptives(){
         cdp.on('Page.javascriptDialogOpening',e=>{report.dialogs.push(e.message);cdp.send('Page.handleJavaScriptDialog',{accept:false}).catch(()=>{});});
         cdp.on('Fetch.requestPaused',e=>{const local=new URL(e.request.url).origin===origin;if(!local)report.blocked.push(e.request.url);cdp.send(local?'Fetch.continueRequest':'Fetch.failRequest',local?{requestId:e.requestId}:{requestId:e.requestId,errorReason:'BlockedByClient'}).catch(()=>{});});
         await cdp.send('Runtime.enable');await cdp.send('Page.enable');report.browser=await cdp.send('Browser.getVersion');
-        report.viewport={width:captiveWidth,height:captiveWidth===1280?720:1080};
-        await cdp.send('Emulation.setDeviceMetricsOverride',{...report.viewport,deviceScaleFactor:1,mobile:false});await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
-        await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:"localStorage.clear();localStorage.setItem('baye/libpath','libs/dat-mod.lib');localStorage.setItem('baye/overworldMode','classic');localStorage.setItem('baye/systemUiMode','classic');localStorage.setItem('baye/cityMenuMode','classic');"});
-        await cdp.send('Page.navigate',{url:origin+'/pc.html'});await smoke(cdp);await archiveEngineInputDocument(cdp,'completed');
+        await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
+        await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:`
+            if(location.pathname==='/pc.html') {
+                localStorage.clear();
+                localStorage.setItem('baye/libpath','libs/dat-mod.lib');
+                localStorage.setItem('baye/overworldMode','classic');
+                localStorage.setItem('baye/systemUiMode','classic');
+                localStorage.setItem('baye/cityMenuMode','classic');
+            } else if(location.pathname==='/m.html') {
+                localStorage.setItem('baye/libpath','libs/dat-mod.lib');
+                localStorage.setItem('baye/mobileOverworldMode','hd-map');
+                localStorage.setItem('baye/mobileCityMenuMode','hd');
+                localStorage.setItem('baye/mobileSystemUiMode','hd');
+            }
+        `});
+        if(captiveResumeFlag) {
+            await exerciseCaptiveSelection(cdp,await loadCaptiveWorldOnMobile(cdp,origin));
+        } else {
+            report.viewport={width:captiveWidth,height:captiveWidth===1280?720:1080};
+            await cdp.send('Emulation.setDeviceMetricsOverride',{...report.viewport,deviceScaleFactor:1,mobile:false});
+            await cdp.send('Page.navigate',{url:origin+'/pc.html'});
+            await smoke(cdp);
+        }
+        await archiveEngineInputDocument(cdp,'completed');
         assert.deepEqual(report.exceptions,[],'No uncaught browser exceptions');assert.deepEqual(report.dialogs,[],'No unexpected game dialogs');assert.deepEqual(report.requests.filter(r=>r.status>=400&&!r.expected),[],'Every requested game asset is frozen and available');
         report.captiveAccepted=report.personCaptivesAccepted===true;report.ok=report.accepted===true&&report.hdAccepted===true&&report.personCaptivesAccepted===true&&(!captiveOrder||report.captiveOrderAccepted===true);
         if(!report.ok)process.exitCode=1;

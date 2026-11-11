@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {readOriginalPersonIdentityRom} from './hd-person-identity-rom.mjs';
 import {checkPersonIdentity, identityDomSnapshot, assertGeometry} from './hd-person-identity-runtime-checks.mjs';
+import {createMobileDetailRuntimeDriver} from './hd-mobile-preview-runtime-checks.mjs';
 
 function locationTitle(lib) {
   const base = lib.readUInt32LE(63 * 4), end = base + lib.readUInt32LE(base), index = 24;
@@ -64,16 +65,19 @@ function geometry(selector) {
 }
 
 export async function runCaptiveInspection(c) {
-  const {report, evaluate, until, sample, click, key, checkpoint, readKeys, libBytes, cdp} = c;
+  const {report, evaluate, until, sample, key, checkpoint, readKeys, libBytes, cdp, mobile} = c;
   const lib = Buffer.from(libBytes), rawRom = readOriginalPersonIdentityRom(lib, 1), rom = {...rawRom,names:rawRom.names200};
   const proof = report.actualCaptives, baseline = await sample(), battle = report.battles?.at(-1);
   assert.ok(battle&&battle.expectedOutcome==='victory'&&battle.terminal.fight.over===1&&battle.plan.origin===15&&battle.plan.target===16,'A real completed native campaign precedes this inspection');
   assert.equal(report.battles.length,1);assert.equal(battle.terminal.fight.active,0);
-  assert.equal(baseline.native.march.phase,7,'The real original completed march remains DEPARTED; never normalize the observed state');
-  assert.equal(baseline.native.march.origin,15);assert.equal(baseline.native.march.obj,16);
-  assert.equal(baseline.native.march.selected,battle.march.selected.length);assert.ok(baseline.native.march.session>0&&baseline.native.march.seq>0);
-  assert.deepEqual(baseline.world,proof.sample.world);
-  const identityContext={evaluate,until,readKeys,libBytes,expectedMarchPhase:7};
+  const expectedMarchPhase = mobile ? 0 : 7;
+  assert.equal(baseline.native.march.phase,expectedMarchPhase);
+  if (!mobile) {
+    assert.equal(baseline.native.march.origin,15);assert.equal(baseline.native.march.obj,16);
+    assert.equal(baseline.native.march.selected,battle.march.selected.length);assert.ok(baseline.native.march.session>0&&baseline.native.march.seq>0);
+  }
+  assert.deepEqual(baseline.world,mobile ? mobile.loaded.world : proof.sample.world);
+  const identityContext={evaluate,until,readKeys,libBytes,expectedMarchPhase};
   assert.ok(proof && proof.cityIndex === 16 && proof.captives.length > 0);assert.equal(baseline.world.period,1);
   assert.equal(rom.names[baseline.world.king],'董卓');assert.equal(baseline.world.cities[16].Belong,baseline.world.king+1);
   const city = baseline.world.cities[16], queue = baseline.world.queue.slice(city.PersonQueue,city.PersonQueue+city.Persons);
@@ -82,7 +86,7 @@ export async function runCaptiveInspection(c) {
   const entry = report.captiveInspection = {accepted:false,rom,baseline,captiveIds:ids,people:[],transitions:[],roleObservations:[],noCommandSubmission:!c.endMonth};
   const observeWorld = (value,label) => assert.deepEqual(value.world,baseline.world,label+' preserves the complete measured captured world');
   const evGeometry = selector => evaluate('('+geometry.toString()+')('+JSON.stringify(selector)+')');
-  async function reveal(selector,{control=false}={}) {
+  async function revealDesktop(selector,{control=false}={}) {
     for (let n=0;n<40;n++) {
       const g=await evGeometry(selector);assert.ok(g?.shown,'Displayed captive control '+selector);
       if(g.visible&&g.hit){if(control)assert.equal(g.disabled,false);return g;}
@@ -95,11 +99,30 @@ export async function runCaptiveInspection(c) {
     throw Error('Bounded captive wheel did not reveal '+selector);
   }
   const snap=label=>checkpoint('captive-'+label);
+  let reveal = revealDesktop;
+  if (mobile) {
+    const scrollEntry = report.captiveMobileNavigation = {scrollChecks:[]};
+    const mobileDriver = await createMobileDetailRuntimeDriver({report,evaluate,until,ready:sample,touches:mobile.touches,
+      readKeys:async offset=>(await readKeys(offset)).map(code=>({code})),
+      worldSame:(before,after,label)=>assert.deepEqual(after.world,before.world,label)},scrollEntry);
+    reveal = async (selector,options={control:false}) => {
+      scrollEntry.baseline = await sample();
+      return mobileDriver.reveal(selector,options);
+    };
+  }
+  async function click(selector) {
+    if (mobile) await reveal(selector,{control:true});
+    return c.click(selector);
+  }
   const driver={sample,reveal,snap};
   async function focus(id) {
     const before=await sample(),m=before.state.menu,index=m.ids.indexOf(id);assert.ok(index>=0);
-    await reveal('#hd-city-menu [data-hd-deep="'+m.index+'"]');let current=m.index;
-    while(current!==index){const next=current+(current<index?1:-1);await key(next>current?'ArrowDown':'ArrowUp');await until('captive native focus '+next,`(()=>{const m=baye.hd.menuItems();return m.active===1&&m.context===1&&m.kind===3&&m.seq===${m.seq}&&m.index===${next};})()`);current=next;}
+    if (mobile) {
+      await click('#hd-city-menu [data-hd-deep-preview="'+index+'"]');
+    } else {
+      await reveal('#hd-city-menu [data-hd-deep="'+m.index+'"]');let current=m.index;
+      while(current!==index){const next=current+(current<index?1:-1);await key(next>current?'ArrowDown':'ArrowUp');await until('captive native focus '+next,`(()=>{const m=baye.hd.menuItems();return m.active===1&&m.context===1&&m.kind===3&&m.seq===${m.seq}&&m.index===${next};})()`);current=next;}
+    }
     await until('complete captive first property',pageReady(id));const after=await sample(),keys=await readKeys(before.state.keyCount);
     assert.deepEqual(keys,Array(Math.abs(index-m.index)).fill(index>m.index?35:34));observeWorld(after,'PERSON focus');
     return {before,after,keys};
@@ -131,9 +154,23 @@ export async function runCaptiveInspection(c) {
   }
   const cityRootReady = `(()=>{const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();return m.active===1&&m.context===1&&m.kind===1&&s.open&&s.layer==='root'&&s.cityIndex===16&&!s.entryPending&&!s.sending&&!s.queueLen;})()`;
   async function openCapturedCity() {
-    const opened = await evaluate('BayeHdOverworld.walkToCity(16)');
-    report.inputs.push({type:'public-city-walk',cityIndex:16,result:opened});
-    assert.ok(opened && opened.name === rom.cityNames38[16] && Number.isInteger(opened.to?.x) && Number.isInteger(opened.to?.y));
+    if (mobile) {
+      const before = await sample();
+      assert.notEqual(await evaluate('BayeHdOverworld.centerOnCity(16)'),false);
+      const point = await until('owned Xu Chang marker unobstructed on the mobile canvas',`(() => {
+        const p=BayeHdOverworld.cityScreenPos(16),canvas=document.getElementById('hd-overworld-canvas');
+        return p&&p.kind==='owned'&&document.elementFromPoint(p.clientX,p.clientY)===canvas&&{x:p.clientX,y:p.clientY};
+      })()`);
+      const centered = await sample();
+      assert.deepEqual(centered.native,before.native);
+      assert.deepEqual(centered.world,before.world);
+      assert.deepEqual(await readKeys(before.state.keyCount),[]);
+      await mobile.tap(point);
+    } else {
+      const opened = await evaluate('BayeHdOverworld.walkToCity(16)');
+      report.inputs.push({type:'public-city-walk',cityIndex:16,result:opened});
+      assert.ok(opened && opened.name === rom.cityNames38[16] && Number.isInteger(opened.to?.x) && Number.isInteger(opened.to?.y));
+    }
     await until('real occupied city root', cityRootReady);
   }
   const mapBefore=await sample();await openCapturedCity();
@@ -156,23 +193,28 @@ export async function runCaptiveInspection(c) {
     assert.ok(value.text.includes(role === 'target' ? '选择俘虏' : '选择招降将领'));
     const target = targetId === null ? null : {personIndex:targetId,name:rom.names[targetId]};
     assert.deepEqual(value.target, target);
-    if (target) assert.ok(value.subtitle.includes('目标 ' + target.name));
+    if (target) {
+      assert.ok(value.subtitle.includes('目标 ' + target.name));
+      assert.equal((await evGeometry('#hd-city-menu-sub')).visible,true,'The target subtitle fits its visible panel');
+    }
     else assert.ok(!value.subtitle.includes('目标 '));
     entry.roleObservations.push(value);
     return value;
   }
   await roleObservation('target');
   for(const id of ids){const visit={personId:id,selection:await focus(id)};entry.people.push(visit);assert.equal((await sample()).world.people[id].Belong,65535);await checkPersonIdentity(identityContext,driver,visit,id,rom);await location(visit,id);}
-  await focus(ids[0]);const targetBefore=await sample();await click('#hd-city-menu [data-hd-deep="'+targetBefore.state.menu.index+'"]');
+  const orderTarget = mobile ? ids.reduce((a,b)=>baseline.world.people[a].Devotion<=baseline.world.people[b].Devotion?a:b) : ids.at(-1);
+  const inspectedTarget = mobile ? ids.find(id=>id!==orderTarget) ?? orderTarget : ids[0];
+  await focus(inspectedTarget);const targetBefore=await sample();await click('#hd-city-menu [data-hd-deep="'+targetBefore.state.menu.index+'"]');
   const actorMenu=await until('native SURRENDER allied actor PERSON',`(()=>{const m=${menuReady};return m&&m.seq!==${targetMenu.seq}&&m;})()`);
-  const actorBefore=await sample(),allied=queue.filter(id=>baseline.world.people[id].Belong===city.Belong);assert.deepEqual(actorMenu.ids,allied);assert.deepEqual(await readKeys(targetBefore.state.keyCount),[39]);observeWorld(actorBefore,'Choosing captive target');entry.transitions.push({kind:'target-to-actor',before:targetBefore,after:actorBefore,keys:await readKeys(targetBefore.state.keyCount)});await roleObservation('actor',ids[0]);await snap('actor-before-cancel');
+  const actorBefore=await sample(),allied=queue.filter(id=>baseline.world.people[id].Belong===city.Belong);assert.deepEqual(actorMenu.ids,allied);assert.deepEqual(await readKeys(targetBefore.state.keyCount),[39]);observeWorld(actorBefore,'Choosing captive target');entry.transitions.push({kind:'target-to-actor',before:targetBefore,after:actorBefore,keys:await readKeys(targetBefore.state.keyCount)});await roleObservation('actor',inspectedTarget);await snap('actor-before-cancel');
   const actorId=actorMenu.ids[actorMenu.index];await until('actual actor first page',pageReady(actorId));const actorVisit={personId:actorId,role:'actor'};entry.actor=actorVisit;await checkPersonIdentity(identityContext,driver,actorVisit,actorId,rom);
   const cancelBefore=await sample();await click('#hd-city-menu [data-hd-menu-back]');
   const returned=await until('actor EXIT returns to fresh captive PERSON with HD pane retained',`(()=>{const m=${menuReady};return m&&m.seq!==${actorMenu.seq}&&m;})()`);
   assert.deepEqual(returned.ids,ids);const cancelAfter=await sample(),cancelKeys=await readKeys(cancelBefore.state.keyCount);assert.deepEqual(cancelKeys,[40]);observeWorld(cancelAfter,'Actor cancellation');entry.transitions.push({kind:'actor-cancel-target',before:cancelBefore,after:cancelAfter,keys:cancelKeys});await roleObservation('target');await snap('target-after-actor-cancel');
   let order;
   if (c.endMonth) {
-    const targetId = ids.at(-1);
+    const targetId = orderTarget;
     const selection = await focus(targetId);
     await click('#hd-city-menu [data-hd-deep="'+selection.after.state.menu.index+'"]');
     const actors = await until('fresh actors for the current captive', `(() => {const m=${menuReady};return m&&m.seq!==${returned.seq}&&m;})()`);

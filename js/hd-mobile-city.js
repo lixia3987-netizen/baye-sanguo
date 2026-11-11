@@ -200,7 +200,7 @@
             if (reason === 'scroll' && d && typeof d.retireCampaignInput === 'function' &&
                 d.retireCampaignInput() === true) { return true; }
             if (hadInput || force) {
-                if (['scroll','move-or-owner-change','pointer-cancel','invalid-release','lost-capture','multiple-pointers','invalid-pointer'].indexOf(reason) >= 0 &&
+                if (['scroll','move-or-owner-change','pointer-cancel','person-list-pan','invalid-release','lost-capture','multiple-pointers','invalid-pointer'].indexOf(reason) >= 0 &&
                     d && typeof d.retireCampaignInput === 'function' && d.retireCampaignInput() === true) { return true; }
                 if (keepShell || lcdFallback) {
                     // Ordinary city retirement also clears its deep owner;
@@ -363,10 +363,16 @@
             arm = {kind: hit.kind, target: hit.target, id: event.pointerId, owner: owner,
                 x: event.clientX, y: event.clientY, geometry: geometry(hit.target)};
         }
+        function personListTouch(event) {
+            var list = event.pointerType === 'touch' && arm.kind === 'city' && arm.owner.ticket.menuKind === 3 && node('hd-city-menu-deep');
+            return !!(list && list.contains(arm.target));
+        }
         function move(event) {
             if (!arm || event.pointerId !== arm.id) { return; }
-            if (Math.hypot(event.clientX - arm.x, event.clientY - arm.y) > 10 || !sameGeometry(arm.geometry, arm.target) ||
-                !same(arm.owner, inputTicket(arm.kind))) { retire('move-or-owner-change', true); }
+            var stable = sameGeometry(arm.geometry, arm.target) && same(arm.owner, inputTicket(arm.kind));
+            if (!stable || Math.hypot(event.clientX - arm.x, event.clientY - arm.y) > 10) {
+                retire(stable && personListTouch(event) ? 'person-list-pan' : 'move-or-owner-change', true);
+            }
         }
         function up(event) {
             var current = arm, hit = action(event.target);
@@ -382,7 +388,11 @@
             if (!Object.keys(pointers).length) { blocked = false; }
         }
         function cancel(event) {
-            if (arm && arm.id === event.pointerId || grant) { retire('pointer-cancel', true); }
+            var pressed = arm && arm.id === event.pointerId;
+            if (pressed || grant) {
+                var pan = pressed && personListTouch(event) && sameGeometry(arm.geometry, arm.target) && same(arm.owner, inputTicket(arm.kind));
+                retire(pan ? 'person-list-pan' : 'pointer-cancel', true);
+            }
             delete pointers[event.pointerId];
             if (!Object.keys(pointers).length) { blocked = false; }
         }
