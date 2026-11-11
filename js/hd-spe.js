@@ -8,15 +8,33 @@
     var battleSceneApi = null, battleSceneController = null;
     var MOBILE_LIB_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
     var mobileHost = null, mobileData = null, mobileGeneration = 0, mobilePresentation = 'off';
+    var introFlush = null, mobileControlUsed = null;
     function isMobilePage() { return !!(mobileHost || document.body && document.body.classList && document.body.classList.contains('hd-mobile-page')); }
-    function readMobileOwner() {
+    function mobileAvailable() {
+        return !!(mobileHost && !document.hidden && typeof mobileHost.isAvailable === 'function' && mobileHost.isAvailable() === true);
+    }
+    function mobileIntroMode() {
         try {
-            if (!mobileHost || document.hidden || typeof mobileHost.isAvailable !== 'function' || mobileHost.isAvailable() !== true ||
-                typeof mobileHost.readTicket !== 'function' || typeof mobileHost.getMode !== 'function' || mobileHost.getMode() !== 'hd') return null;
+            var system = global.BayeHdSystemUi;
+            if (!mobileAvailable() || !system || typeof system.getMode !== 'function') return false;
+            var mode = system.getMode(), map = global.BayeHdOverworld;
+            return mode === 'hd' || (mode === 'auto' && !!(map && typeof map.getMode === 'function' && map.getMode() === 'hd-map'));
+        } catch (error) { return false; }
+    }
+    function readMobileOwner(intro) {
+        if (state.preparing) return null;
+        try {
+            if (intro ? !mobileIntroMode() : (!mobileAvailable() ||
+                typeof mobileHost.readTicket !== 'function' || typeof mobileHost.getMode !== 'function' || mobileHost.getMode() !== 'hd')) return null;
             var api = global.BayeHdLibIdentity, identity = api && api.read();
             if (!identity || identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA || identity.byteLength !== 207195 ||
                 !integer(identity.generation) || identity.generation <= 0 || !api.isCurrent(identity) ||
                 !(global.baye && baye.hd && baye.hd.ready())) return null;
+            if (intro) {
+                var introData = baye.data;
+                return introData && api.isCurrent(identity) && mobileIntroMode() && baye.data === introData
+                    ? {data: introData, generation: identity.generation} : null;
+            }
             // A movie has no battle action ticket. Its authenticated LCD base
             // owner is sufficient only for display; blockers remain unchanged.
             var a = mobileHost.readTicket(), data = baye.data, z = mobileHost.readTicket(), latest = api.read();
@@ -35,6 +53,16 @@
         }
     }
     function retireInteraction(reason) {
+        if (introFlush && state.open && reason !== 'host-change' && reason !== 'mobile-owner-changed') {
+            var s = info(), owner = readMobileOwner(true);
+            if (owner && state.event === event(s) && show(s) && sameIntroFlush(s, owner.data, owner.generation)) {
+                // A focus/resize event can arrive immediately before a touch.
+                // Retire its pending press and keep the still current pixels.
+                state.pressed = null;
+                state.epoch++;
+                return;
+            }
+        }
         retire(''); state.open = false; state.reason = reason || 'mobile-boundary';
         var root = el('hd-spe');
         if (root) { root.classList.toggle('is-open', false); root.setAttribute('aria-hidden', 'true'); root.style.pointerEvents = 'none'; }
@@ -43,7 +71,7 @@
     }
     function configureMobileHost(options) {
         retireInteraction('host-change'); mobileHost = options || {}; mobileData = null; mobileGeneration = 0;
-        mobilePresentation = 'off';
+        mobilePresentation = 'off'; introFlush = null;
         if (state.poll) { global.clearInterval(state.poll); state.poll = 0; }
         if (typeof mobileHost.onPresentation === 'function') mobileHost.onPresentation('off');
         return global.BayeHdSpe;
@@ -125,7 +153,7 @@
     } }
     function kind(s) { return Number(s.kind) || (Number(s.id) === 3 || Number(s.id) === 6 ? 1 : 0); }
     function hd(k) {
-        if (isMobilePage()) return (k === 2 || k === 3 || k === 4) && !!readMobileOwner();
+        if (isMobilePage()) return k === 1 ? mobileIntroMode() : (k === 2 || k === 3 || k === 4) && !!readMobileOwner();
         var api = k === 1 ? global.BayeHdSystemUi : global.BayeHdBattle;
         if (api && typeof api.shouldShowHd === 'function')
             return api.shouldShowHd();
@@ -160,7 +188,23 @@
         }
         return s.protocolVersion !== 2 || !!(d && d.generation === s.generation && d.eventId === s.eventId && integer(d.commitSeq) && d.commitSeq > 0);
     }
-    function show(s) { var k = kind(s); return !!(s.active && (k === 1 || k === 2 || k === 3 || k === 4) && hd(k) && !document.hidden && !report() && (s.ownerType === 'result-lcd' || numericOwner(s) || held(s) || matches(s))); }
+    function mobileIntroOwner(s) {
+        if (s.protocolVersion !== 2 || s.protocolValid !== true || s.frameValid !== true || !matches(s)) return false;
+        if (s.id === 3) {
+            var movie = baye.hd.movie && baye.hd.movie();
+            return !!(movie && movie.active === 1 && movie.id === 3 && s.parentEventId === 0);
+        }
+        var maker = s.maker;
+        return s.id === 6 && !!(maker && maker.protocolVersion === 1 && maker.active && maker.custom === false &&
+            maker.generation === s.generation && integer(maker.session) && maker.session > 0 &&
+            (held(s) ? maker.phase === 'hold' && maker.returnEligible : maker.phase === 'scroll' && s.parentEventId === 0));
+    }
+    function show(s) {
+        var k = kind(s);
+        if (!s.active || document.hidden || ![1, 2, 3, 4].includes(k) || !hd(k) || report()) return false;
+        if (k === 1 && isMobilePage()) return !!readMobileOwner(true) && mobileIntroOwner(s);
+        return s.ownerType === 'result-lcd' || numericOwner(s) || held(s) || matches(s);
+    }
     function skippable(s) { return show(s) && kind(s) === 1 && (s.protocolVersion === 2 ? s.skipEligible === true && s.keyflag === 1 : (Number(s.id) === 3 || Number(s.id) === 6)); }
     function retire(key) {
         if (state.event !== (key || ''))
@@ -215,7 +259,25 @@
         state.callbackFlushKey = img ? stamp(s) : '';
         var size = screen();
         state.geometry = size.width + ':' + size.height;
+        introFlush = mobileHost && img && kind(s) === 1
+            ? { data: state.flushData, libraryGeneration: mobileGeneration, generation: s.generation,
+                id: s.id, eventId: s.eventId, session: s.id === 6 ? s.maker.session : 0, stamp: state.flushKey } : null;
         return true;
+    }
+    function sameIntroFlush(s, data, generation) {
+        return !!(introFlush && s.id === introFlush.id && introFlush.data === data &&
+            introFlush.libraryGeneration === generation && introFlush.stamp === stamp(s) && matches(s) &&
+            (s.id === 3 || s.maker && s.maker.session === introFlush.session));
+    }
+    function resumeIntroFlush(s) {
+        // GamMakerInf can enter its hold without a new LCD callback. Reuse only
+        // the pixels from its own last callback and the same saved display.
+        if (!sameIntroFlush(s, mobileData, mobileGeneration)) return;
+        var size = screen();
+        if (state.geometry !== size.width + ':' + size.height) return;
+        state.hasFlush = true;
+        state.flushData = introFlush.data;
+        state.flushKey = state.callbackFlushKey = introFlush.stamp;
     }
     function verifyLib() {
         var identity = global.BayeHdLibIdentity;
@@ -226,6 +288,7 @@
             sha256: null, reason: 'lib-read-failed' }; }
         var hash = current.status === 'ready' ? current.sha256 : null;
         if (state.libGeneration !== current.generation || state.libHash !== hash || state.libReason !== current.reason) {
+            introFlush = null;
             state.libGeneration = current.generation;
             state.libHash = hash;
             state.libReason = current.reason;
@@ -436,7 +499,6 @@
     }
     function prepareStart(callback, options) {
         if (typeof callback !== 'function') return;
-        if (isMobilePage()) { callback({ ready: false, reason: 'mobile-battle-only', slots: 0 }); return; }
         options = options || {};
         var timeout = integer(options.timeoutMs) && options.timeoutMs >= 0 && options.timeoutMs <= 10000 ? options.timeoutMs : 5000;
         var started = Date.now(), done = false, timer = 0, slots = 0;
@@ -1541,18 +1603,23 @@
         state.frames = frames;
     }
     function sync(noPaint) {
+        var s = info(), k = kind(s);
         if (mobileHost) {
-            var owner = readMobileOwner();
+            var owner = readMobileOwner(k === 1 || (s.maker && s.maker.active));
             if (mobileData && (!owner || owner.data !== mobileData || owner.generation !== mobileGeneration)) retireInteraction('mobile-owner-changed');
             mobileData = owner && owner.data; mobileGeneration = owner ? owner.generation : 0;
+            if (introFlush && (introFlush.id === 3 ? !s.active || s.id !== 3 || s.eventId !== introFlush.eventId ||
+                s.generation !== introFlush.generation : !s.maker || !s.maker.active ||
+                s.maker.generation !== introFlush.generation || s.maker.session !== introFlush.session)) introFlush = null;
         }
-        var s = info(), key = s.active ? event(s) : '', shown = show(s), eligible = shown;
+        var key = s.active ? event(s) : '', shown = show(s), eligible = shown;
         if (key !== state.event)
             retire(key);
         if (!shown && state.open)
             retire(key);
         if (mobileHost) {
             verifyLib();
+            if (shown && !state.hasFlush) resumeIntroFlush(s);
             if (shown && noPaint !== true) paint(s);
             shown = !!(shown && state.source === 'hd-assets' && state.hasFlush && state.flushKey === stamp(s) && state.flushData === mobileData && matches(s));
         }
@@ -1562,13 +1629,14 @@
             return;
         root.classList.toggle('is-open', shown);
         root.classList.toggle('is-opening', shown && skippable(s));
+        root.classList.toggle('is-intro', shown && k === 1);
         root.classList.toggle('is-status', shown && kind(s) === 4);
         root.setAttribute('aria-hidden', shown ? 'false' : 'true');
         root.style.pointerEvents = shown ? 'auto' : 'none';
         if (document.documentElement)
             document.documentElement.setAttribute('data-baye-spe', shown ? 'on' : 'off');
         if (mobileHost) publishMobilePresentation(eligible ? (shown ? 'hd' : 'lcd') : 'off');
-        var skip = el('hd-spe-skip'), skipEligible = shown && skippable(s) && state.skipped !== key;
+        var skip = el('hd-spe-skip'), skipEligible = shown && skippable(s) && state.skipped !== key && !usedMobileControl(key);
         if (skip) {
             skip.hidden = !shown || !skippable(s);
             skip.disabled = !skipEligible;
@@ -1579,7 +1647,7 @@
         var back = el('hd-spe-return'), token = key + ':' + state.epoch;
         if (back) {
             back.hidden = !shown || !held(s);
-            back.disabled = back.hidden || state.returned === key;
+            back.disabled = back.hidden || state.returned === key || usedMobileControl(key);
             back.style.visibility = back.hidden ? 'hidden' : 'visible';
             back.style.pointerEvents = back.disabled ? 'none' : 'auto';
             back.setAttribute('aria-hidden', back.hidden ? 'true' : 'false');
@@ -1600,9 +1668,8 @@
         if (probe)
             probe.textContent = state.source === 'hd-assets' ? '高清素材 · 原生显示帧 ' + state.frames.join(',') : '原生 LCD 画面';
     }
-    function skip() {
-        if (isMobilePage()) return false;
-        var s = info(), key = event(s);
+    function skipCurrent(s) {
+        var key = event(s);
         if (!state.open || !skippable(s) || state.skipped === key)
             return false;
         state.skipped = key;
@@ -1620,15 +1687,71 @@
         sync();
         return true;
     }
-    function returnToTitle(token) {
-        if (isMobilePage()) return false;
-        var s = info(), key = event(s);
+    function skip() { return !isMobilePage() && skipCurrent(info()); }
+    function returnCurrent(s, token) {
+        var key = event(s);
         if (!state.open || !show(s) || !held(s) || token !== key + ':' + state.epoch || state.returned === key ||
             typeof global.sendKey !== 'function') return false;
         state.returned = key;
         try { global.sendKey(0x27); } catch (e) { sync(); return false; }
         sync();
         return true;
+    }
+    function returnToTitle(token) { return !isMobilePage() && returnCurrent(info(), token); }
+
+    function usedMobileControl(key) {
+        return !!(mobileControlUsed && mobileControlUsed.data === mobileData &&
+            mobileControlUsed.generation === mobileGeneration && mobileControlUsed.key === key);
+    }
+    function mobileControl(target) {
+        return target && target.closest && target.closest('[data-hd-spe-skip], [data-hd-spe-return]');
+    }
+    function mobileControlToken(button, s) {
+        if (!button || button.hidden || button.disabled || el(button.id) !== button || !state.open ||
+            mobilePresentation !== 'hd' || kind(s) !== 1 || !show(s) || baye.data !== mobileData) return null;
+        var key = event(s);
+        if (key !== state.event || usedMobileControl(key) ||
+            !(button.id === 'hd-spe-skip' ? skippable(s) : button.id === 'hd-spe-return' && held(s))) return null;
+        return key + ':' + state.epoch;
+    }
+    function activateMobileControl(button, token) {
+        var s = info();
+        if (!token || mobileControlToken(button, s) !== token || typeof global.sendKey !== 'function') return;
+        // A presentation boundary cannot reopen a confirmation still queued
+        // against the same native event or Maker hold.
+        mobileControlUsed = { data: mobileData, generation: mobileGeneration, key: event(s) };
+        if (button.id === 'hd-spe-skip') skipCurrent(s);
+        else returnCurrent(s, token);
+    }
+    function bindMobileControls(root) {
+        root.addEventListener('pointerdown', function (e) {
+            if (e.isTrusted !== true) return;
+            state.pressed = null;
+            if (!e.isPrimary || e.button !== 0) return;
+            var button = mobileControl(e.target), token = mobileControlToken(button, info());
+            if (token) state.pressed = { button: button, token: token, id: e.pointerId, x: e.clientX, y: e.clientY };
+        });
+        root.addEventListener('pointermove', function (e) {
+            var press = state.pressed;
+            if (press && e.isTrusted === true && press.id === e.pointerId &&
+                Math.hypot(e.clientX - press.x, e.clientY - press.y) > 8) state.pressed = null;
+        });
+        root.addEventListener('pointercancel', function () { state.pressed = null; });
+        root.addEventListener('pointerup', function (e) {
+            var press = state.pressed;
+            state.pressed = null;
+            if (!press || e.isTrusted !== true || press.id !== e.pointerId ||
+                mobileControl(document.elementFromPoint(e.clientX, e.clientY)) !== press.button ||
+                Math.hypot(e.clientX - press.x, e.clientY - press.y) > 8) return;
+            e.preventDefault(); e.stopPropagation();
+            activateMobileControl(press.button, press.token);
+        });
+        root.addEventListener('click', function (e) {
+            var button = mobileControl(e.target);
+            if (!button) return;
+            e.preventDefault(); e.stopPropagation();
+            if (e.isTrusted === true && e.detail === 0) activateMobileControl(button, mobileControlToken(button, info()));
+        });
     }
     function classic() {
         if (isMobilePage()) return false; // The mobile host owns its independent mode button.
@@ -1648,6 +1771,10 @@
     }
     function start() {
         var root = el('hd-spe');
+        if (root && !state.bound && mobileHost) {
+            state.bound = true;
+            bindMobileControls(root);
+        }
         if (root && !state.bound && !isMobilePage()) {
             state.bound = true;
             root.addEventListener('pointerdown', function (e) {

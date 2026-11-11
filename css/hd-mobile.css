@@ -861,6 +861,21 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
     image-rendering: pixelated;
 }
 .hd-mobile-page #hd-spe[data-source="hd-assets"] #hd-spe-canvas { image-rendering: auto; }
+.hd-mobile-page #hd-spe.is-intro #hd-spe-canvas { max-height: calc(100% - 70px); }
+.hd-mobile-page #hd-spe .hd-mobile-spe-controls { display: none; }
+.hd-mobile-page #hd-spe.is-intro .hd-mobile-spe-controls { display: flex; flex: 0 0 44px; }
+.hd-mobile-page #hd-spe .hd-mobile-spe-controls button {
+    min-width: 88px;
+    min-height: 44px;
+    padding: 8px 14px;
+    border: 1px solid #6d624a;
+    border-radius: 6px;
+    background: #222c35;
+    color: #f1eee4;
+    font: 15px system-ui, "Microsoft YaHei", sans-serif;
+    touch-action: manipulation;
+}
+.hd-mobile-page #hd-spe .hd-mobile-spe-controls button:disabled { opacity: .45; }
 .hd-mobile-page[data-hd-mobile-spe="hd"] #lcd {
     visibility: hidden !important;
     pointer-events: none !important;

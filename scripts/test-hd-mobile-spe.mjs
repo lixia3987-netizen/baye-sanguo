@@ -53,6 +53,27 @@ function fixture(which='aid17-first0',options={}) {
  };
 }
 function hdFixture(name){const h=fixture(name);h.flush();h.resolve();assert.equal(h.api.getLcdPresentation(),'hd');return h;}
+function originalIntro(id) {
+ const entry=manifest.entries.find(e=>e.kind===1&&e.speId===id),h=fixture(undefined,{entries:[entry]});
+ const generation=4,eventId=12,bits=Array(32).fill(0);bits[0]=1;
+ const display={generation,eventId,commitSeq:1,frameIndex:0,frameValid:true,visibleFrames:bits};
+ const spe={active:1,id,kind:1,protocolVersion:2,protocolValid:true,frameValid:true,generation,eventId,parentEventId:0,
+  x:0,y:0,keyflag:1,skipEligible:true,resourceIndex:0,count:entry.count,picmax:entry.picmax,startFrm:entry.startFrm,endFrm:entry.endFrm,
+  resourceLength:entry.resourceLength,resourceFingerprint:entry.resourceFingerprint,display};
+ const maker={...spe,speId:6,protocolVersion:1,active:id===6,session:1,inputSeq:1,phase:'scroll',custom:false,sourceValid:false};
+ h.c.BayeHdSystemUi={getMode:()=> 'hd'};
+ h.c.baye.hd.movie=()=>({active:id===3?1:0,id:id===3?3:0});
+ h.c.baye.hd.spe=()=>spe;
+ h.c.baye.hd.maker=()=>maker;
+ h.setMode('classic'); // The system mode is independent of the battle preference.
+ const dispatch=(type,button,options={})=>{
+  const target=h.nodes.get(button);target.closest=()=>target;
+  h.c.document.elementFromPoint=()=>target;
+  for(const listener of h.nodes.get('hd-spe').handlers[type]||[])listener({target,isTrusted:true,isPrimary:true,button:0,
+   clientX:100,clientY:50,pointerId:2,detail:1,preventDefault(){},stopPropagation(){},...options});
+ };
+ return {h,spe,maker,display,dispatch};
+}
 // Controlled ABI inputs use real ROM identities; these are not C or browser captures.
 function opaqueSkillFixture(effect,{hold=false,current=0,display=current,mutateRaw=null}={}) {
  const {resourceId,skillId,width,length,fingerprint}=effect;
@@ -263,14 +284,52 @@ export function runMobileSpeChecks(register=test){
  register('mobile native report retires SPE and does not consume its first key',()=>{const h=hdFixture();h.setReport(1);assert.equal(h.api.isOpen(),false);assert.equal(h.api.getLcdPresentation(),'off');assert.equal((h.listeners.get('keydown')||[]).length,0);h.noInput();});
  register('mobile native retirement prevents late asset completion from reviving its movie',()=>{const h=fixture();h.flush();h.retireNative();h.resolve();assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.isOpen(),false);h.noInput();});
  register('mobile ordinary attack and map status without certified assets fall back to physical LCD',()=>{for(const kind of [3,4]){const h=fixture();h.setKind(kind);h.flush();h.resolve();assert.equal(h.api.getLcdPresentation(),'lcd');assert.equal(h.api.isOpen(),false);h.noInput();}});
- register('mobile opening and Maker never inherit PC preferences or skip/return controls',()=>{const h=fixture();h.setKind(1);assert.equal(h.api.isOpen(),false);assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.skip(),false);assert.equal(h.api.returnToTitle('anything'),false);assert.equal((h.nodes.get('hd-spe').handlers.click||[]).length,0);h.noInput();});
- register('mobile prepareStart continues exactly once without native pre-main reads or timers',()=>{const h=fixture();let count=0;h.c.baye.hd.ready=()=>{throw Error('native before main');};h.api.prepareStart(result=>{count++;assert.equal(result.reason,'mobile-battle-only');});assert.equal(count,1);h.noInput();});
- register('mobile start is idempotent and never binds PC input listeners',()=>{const h=fixture();h.api.start();h.api.start();assert.equal(h.polls.size,1);assert.equal((h.listeners.get('keydown')||[]).length,0);assert.deepEqual(Object.keys(h.nodes.get('hd-spe').handlers),[]);h.noInput();});
+ register('mobile kind 1 still requires the current original opening or Maker owner',()=>{const h=fixture();h.c.BayeHdSystemUi={getMode:()=> 'hd'};h.setKind(1);assert.equal(h.api.isOpen(),false);assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.skip(),false);assert.equal(h.api.returnToTitle('anything'),false);h.noInput();});
+ register('classic mobile prepareStart continues once without native pre-main reads or timers',()=>{const h=fixture();let count=0;h.c.BayeHdSystemUi={getMode:()=> 'classic'};h.c.baye.hd.ready=()=>{throw Error('native before main');};h.api.prepareStart(result=>{count++;assert.equal(result.reason,'classic');});assert.equal(count,1);h.noInput();});
+ register('mobile start binds one control listener per event without PC keyboard capture',()=>{const h=fixture();h.api.start();h.api.start();assert.equal(h.polls.size,1);assert.equal((h.listeners.get('keydown')||[]).length,0);assert.deepEqual(Object.values(h.nodes.get('hd-spe').handlers).map(events=>events.length),[1,1,1,1,1]);h.noInput();});
  register('mobile host lifecycle dispatch retires SPE and resolves auto only from the mobile map',()=>{const config=[],events={},docEvents={};let retired=0,mode='auto',mapMode='classic';const d={body:{classList:{contains:()=>true},setAttribute(){}},hidden:false,getElementById:()=>null,addEventListener(k,f){(docEvents[k]||=[]).push(f);}};
   const env={document:d,innerWidth:844,innerHeight:390,addEventListener(k,f){(events[k]||=[]).push(f);},setInterval(){return 1;},BayeHdOverworld:{getMode:()=>mapMode},BayeHdBattle:{getMode:()=>mode,applyMobilePage(){},retireInteraction(){}},BayeHdSpe:{applyMobilePage:x=>config.push(x),retireInteraction:()=>retired++}};
   const c=vm.createContext({window:env});vm.runInContext(battleSource,c);env.BayeHdMobileBattle.init();assert.equal(config.length,1);assert.equal(config[0].getMode(),'classic');assert.equal(config[0].isAvailable(),true);mapMode='hd-map';assert.equal(config[0].getMode(),'hd');mode='classic';assert.equal(config[0].getMode(),'classic');mode='hd';assert.equal(config[0].getMode(),'hd');
   assert.ok(battleSource.includes("'g_hdMovieActive','g_hdSpeActive','g_hdAttackActive','g_hdSkillResultActive'"));assert.equal(retired,0);for(const event of ['resize','orientationchange','blur','pagehide']){for(const fn of events[event]||[])fn();}d.hidden=true;for(const fn of docEvents.visibilitychange||[])fn();assert.equal(retired,5);assert.equal(config[0].isAvailable(),false);});
- register('mobile page before host configuration never reads PC preferences or binds PC keys',()=>{const h=fixture(undefined,{configure:false,initialIdentityCallback:true});h.api.start();h.flush();h.resolve();assert.equal(h.api.isOpen(),false);assert.equal(h.api.skip(),false);assert.equal(h.api.returnToTitle(),false);assert.equal(h.api.useClassic(),false);let count=0;h.c.baye.hd.ready=()=>{throw Error('pre-main native');};h.api.prepareStart(result=>{count++;assert.equal(result.reason,'mobile-battle-only');});assert.equal(count,1);assert.equal((h.listeners.get('keydown')||[]).length,0);h.noInput();});
+ register('mobile page before host configuration never reads PC preferences or binds PC keys',()=>{const h=fixture(undefined,{configure:false,initialIdentityCallback:true});h.api.start();h.flush();h.resolve();assert.equal(h.api.isOpen(),false);assert.equal(h.api.skip(),false);assert.equal(h.api.returnToTitle(),false);assert.equal(h.api.useClassic(),false);let count=0;h.c.baye.hd.ready=()=>{throw Error('pre-main native');};h.api.prepareStart(result=>{count++;assert.equal(result.reason,'classic');});assert.equal(count,1);assert.equal((h.listeners.get('keydown')||[]).length,0);h.noInput();});
+ register('mobile system preloads the real intro assets before entry without reading native data',()=>{
+  const {h}=originalIntro(3);let next,started,reads=0;
+  h.c.setTimeout=callback=>{next=callback;return 1;};
+  h.c.baye.hd.ready=()=>{reads++;throw Error('pre-main native read');};
+  h.api.prepareStart(result=>{assert.equal(started,undefined);started=result;});
+  assert.equal(h.images.length,7);assert.equal(started,undefined);h.resolve();next();
+  assert.equal(started.ready,true);assert.equal(started.slots,7);assert.equal(reads,0);h.noInput();
+ });
+ register('mobile skip needs a current displayed original opening and one trusted press',()=>{
+  const {h,spe,dispatch}=originalIntro(3);h.flush();h.resolve();assert.equal(h.api.isOpen(),true);
+  assert.equal(h.api.skip(),false,'public PC skip cannot synthesize mobile input');
+  dispatch('click','hd-spe-skip',{isTrusted:false,detail:0});
+  dispatch('pointerdown','hd-spe-skip');dispatch('pointermove','hd-spe-skip',{clientX:113});dispatch('pointerup','hd-spe-skip');
+  assert.deepEqual(h.keys,[]);
+  dispatch('pointerdown','hd-spe-skip');h.api.retireInteraction('focus');
+  assert.equal(h.api.isOpen(),true,'An unchanged real display survives the focus event immediately before a tap');
+  dispatch('pointerup','hd-spe-skip');assert.deepEqual(h.keys,[]);
+  dispatch('pointerdown','hd-spe-skip');dispatch('pointerup','hd-spe-skip');dispatch('click','hd-spe-skip');
+  assert.deepEqual(h.keys,[39]);
+  h.api.retireInteraction('orientation');h.flush();dispatch('pointerdown','hd-spe-skip');dispatch('pointerup','hd-spe-skip');
+  assert.deepEqual(h.keys,[39],'Same native event cannot accept a second queued skip after resizing');
+  spe.active=0;h.api.blit();assert.equal(h.api.isOpen(),false);
+  assert.deepEqual(h.writes,[]);assert.deepEqual(h.preferences,[]);
+ });
+ register('mobile Maker hold restores only its saved actual LCD callback and retires the old press',()=>{
+  const {h,spe,maker,display,dispatch}=originalIntro(6);h.flush();h.resolve();assert.equal(h.api.isOpen(),true);
+  dispatch('pointerdown','hd-spe-skip');
+  spe.active=0;h.api.blit();
+  Object.assign(maker,{phase:'hold',inputSeq:2,sourceValid:true,returnEligible:true,display});h.api.blit();
+  assert.equal(h.api.isOpen(),true,'The original hold has no additional LCD callback');
+  dispatch('pointerup','hd-spe-return');assert.deepEqual(h.keys,[]);
+  dispatch('pointerdown','hd-spe-return');h.setAvailable(false);h.setAvailable(true);
+  assert.equal(h.api.isOpen(),true,'Landscape can restore the current saved display');
+  dispatch('pointerup','hd-spe-return');assert.deepEqual(h.keys,[]);
+  dispatch('pointerdown','hd-spe-return');dispatch('pointerup','hd-spe-return');assert.deepEqual(h.keys,[39]);
+  h.rebind();assert.equal(h.api.isOpen(),false,'A replaced data owner cannot reuse the saved display');
+  assert.deepEqual(h.writes,[]);assert.deepEqual(h.preferences,[]);
+ });
  register('mobile unparsed auto cannot authorize an HD movie and classic restore needs a new native flush',()=>{const h=hdFixture();h.setMode('auto');assert.equal(h.api.isOpen(),false);assert.equal(h.api.getLcdPresentation(),'off');h.setMode('hd');assert.equal(h.api.isOpen(),false);h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();});
  register('mobile HTML and CSS use an independent stage overlay and true LCD touch fallback',()=>{const html=readFileSync(new URL('../m.html',import.meta.url),'utf8'),css=readFileSync(new URL('../css/hd-mobile.css',import.meta.url),'utf8');assert.ok(!html.includes('css/hd-spe.css'));assert.ok(html.indexOf('id="hd-spe"')>html.indexOf('id="hd-mobile-stage"'));assert.ok(html.indexOf('js/hd-spe.js')<html.indexOf('js/hd-mobile-battle.js'));assert.ok(css.includes('[data-hd-mobile-spe="lcd"] #lcd'));assert.ok(css.includes('pointer-events: auto !important;'));assert.ok(css.includes('@media (orientation: portrait)'));});
  register('trusted mobile header and footer mode UP synchronously retire the current SPE before changing mode',()=>{for(const name of ['header','footer']){const h=hdFixture(),host=modeButtonFixture(h);host.click(host[name]);assert.equal(host.mode,'classic');assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.isOpen(),false);assert.ok(host.calls.indexOf('speRetire:mode')<host.calls.indexOf('setMode:classic'));host.click(host.header);assert.equal(host.mode,'hd');assert.equal(h.api.getLcdPresentation(),'off');h.api.blit();h.resolve();assert.equal(h.api.isOpen(),false);h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();}});

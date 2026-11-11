@@ -71,7 +71,7 @@ SPE 在 LIB 内，`ResLoadToCon(speid,index+1,g_CBnkPtr)` 的 index 是原生 0-
 
 ## 开场前准备
 
-`lcd.bayeMain()` 在 `loadLibDefault` 的真实LIB载入回调后调用 `BayeHdSpe.prepareStart(_main)`。HD且160×96时，先以实际LIB身份读取manifest并加载全部MAIN图片，成功后再进入原生主循环；5秒超时、404、未知库或不匹配均继续原生游戏。经典模式直接进入；手机入口未加载此模块，仍直接执行原入口。
+`lcd.bayeMain()` 在 `loadLibDefault` 的真实LIB载入回调后调用 `BayeHdSpe.prepareStart(_main)`。桌面和手机横屏的 HD 系统在160×96下先以实际LIB身份读取manifest并加载全部MAIN图片，成功后再进入原生主循环。5秒超时、404、未知库或不匹配均继续原生游戏。经典系统和手机竖屏直接进入原生主循环。
 
 准备期间不访问 `baye.data` 或原生getter、不提前绑定C全局、不发键；JS定时检查只管理载入上限。使用callback及fetch/crypto自身then链，兼容引擎覆盖全局Promise。继续回调恰好一次，原生主循环异常仍向外传播；原生开场时钟在进入主循环后开始，HD不推进、暂停或改变动画结果。准备成功也只授予资源缓存，实际显示仍需当前事件、完整匹配和display.visibleFrames。
 
@@ -90,6 +90,8 @@ HD 开场允许原生 skip 时，按钮、Enter/Space/Escape 或画布点击只�
 桥接先检查所有字段宽度与真实32字节bitset，再重读所有字段防止跨归属混合。ValueTypeU32在实际WASM i32返回边界用 `>>>0` 还原无符号位模式；严格领域getter仍拒绝负数、字符串、布尔值和不完整快照。
 
 标题表现与排队输入在MAKER原生归属期间退休。滚动skip和hold返回各用不同token；48px“返回标题”按钮只对当前hold发送一次原生Enter。pointerdown记录当前token，pointercancel、隐藏、模式切换或归属变化清除，迟到click不能确认新标题。Enter/Space/Escape同样只确认当前hold，repeat/IME/表单输入不领取。经典模式继续使用原生输入。等待自然结束或真正确认后，标题使用新的原生菜单归属重新显示。MAKER资源在开场期间预热，但不增加MAIN开场等待，不暂停原生署名滚动。
+
+`m.html` 的开场和制作群组使用独立的手机系统模式。横屏 HD 复用原版开场、滚动和停留的实际 LCD 提交，以及桌面已验证的素材。第一次触控引起聚焦时，当前提交仍有效就保留画面，旧按压随页面状态变化取消。滚动中的「跳过」和停留中的「返回标题」各对当前原版等待发一次确认。竖屏、经典系统或缺图使用可触控的原版 LCD。恢复横屏时须重新核对当前原版等待和对应 LCD 提交。
 
 ## 普通攻击的背景、退场与数字观察
 

@@ -233,22 +233,56 @@ function assertHdDraws(c,visible){assert.ok(makerEntry);assert.equal(c.ui.open,t
     for(let i=0;i<visible.length;i++){const u=native.units[visible[i]],p=makerEntry.pictures.find(p=>p.picIndex===u.picIndex),op=c.draws[i];
         assert.equal(op.src.replace(/^\//,''),p.src);assert.equal(op.width,p.width);assert.equal(op.height,p.height);
         assert.deepEqual(op.args,[u.x*c.ui.scale,u.y*c.ui.scale,p.logicalWidth*c.ui.scale,p.logicalHeight*c.ui.scale],'real scroll offset/native rectangle retained');}}
-async function collect(cdp,name,standard=true){const evidence=await evaluate(cdp,'window.__r08');assert.deepEqual(evidence.errors,[]);const dir=path.join(artifactDir,name);fs.mkdirSync(dir,{recursive:true});
-    evidence.captures=evidence.captures.map((c,i)=>{const s=sourceFromSnapshot(c.native);assert.deepEqual(c.before,c.after,'same displayed stamp around actual LCD capture');
-        const visible=c.before.frameValid?frames(c.before):[];
-        if(c.before.frameValid&&standard){assert.equal(s.id,6);assert.equal(s.count,96);assert.equal(s.picmax,1);assert.equal(s.startFrm,0);assert.equal(s.endFrm,95);
-            assert.equal(s.resourceFingerprint,native.resourceFingerprint);assert.equal(s.resourceLength,native.resourceLength);
-            assert.equal(c.before.generation,s.generation);assert.equal(c.before.eventId,s.eventId);assert.ok(visible.every(f=>f<96&&f<=c.before.frameIndex));}
-        if(c.native.maker&&c.native.maker.active&&c.native.maker.phase==='hold'&&c.native.maker.sourceValid)
-            assert.deepEqual(makerCopiedStamp(c.before),c.native.maker.display,'post-end real LCD callback matches the saved native copied owner');
-        if(c.ui.open&&c.ui.source==='hd-assets'&&c.before.frameValid&&standard)assertHdDraws(c,visible);
-        else assert.equal(c.draws.length,0,'fallback/hidden/classic never draws a partial HD resource');
-        const prefix=String(i+1).padStart(3,'0')+'-commit-'+c.before.commitSeq+'-frame-'+c.before.frameIndex,files={};
-        for(const [key,pngKey] of [['native','nativePng'],['hd','hdPng']]){if(!c[pngKey])continue;const bytes=Buffer.from(c[pngKey].split(',')[1],'base64'),file=name+'/'+prefix+'-'+key+'.png';
-            if(key==='native'&&c.before.frameValid&&standard)c.nativePixels=assertPixels(bytes,visible,c.raster);
-            fs.writeFileSync(path.join(artifactDir,file),bytes);files[key]={file,bytes:bytes.length,sha256:sha(bytes)};delete c[pngKey];}
-        return {...c,visible,files};});
-    const session={name,...evidence};report.sessions.push(session);fs.writeFileSync(path.join(dir,'observations.json'),JSON.stringify(session,null,2)+'\n');return session;}
+async function collect(cdp,name,standard=true){
+    const {captureCount,...evidence}=await evaluate(cdp,`(() => {
+        const {captures,...metadata}=window.__r08;
+        return {...metadata,captureCount:captures.length};
+    })()`);
+    assert.deepEqual(evidence.errors,[]);
+    const dir=path.join(artifactDir,name);
+    fs.mkdirSync(dir,{recursive:true});
+    evidence.captures=[];
+    // Full-resolution captures can exceed one DevTools response. Verify and
+    // write each small batch before fetching the next original frames.
+    const batchSize=4;
+    for(let start=0;start<captureCount;start+=batchSize){
+        const end=Math.min(captureCount,start+batchSize);
+        const captures=await evaluate(cdp,`window.__r08.captures.slice(${start},${end})`);
+        assert.equal(captures.length,end-start);
+        for(const c of captures){
+            const s=sourceFromSnapshot(c.native), visible=c.before.frameValid?frames(c.before):[];
+            assert.deepEqual(c.before,c.after,'same displayed stamp around actual LCD capture');
+            if(c.before.frameValid&&standard){
+                assert.deepEqual([s.id,s.count,s.picmax,s.startFrm,s.endFrm],[6,96,1,0,95]);
+                assert.equal(s.resourceFingerprint,native.resourceFingerprint);
+                assert.equal(s.resourceLength,native.resourceLength);
+                assert.equal(c.before.generation,s.generation);
+                assert.equal(c.before.eventId,s.eventId);
+                assert.ok(visible.every(f=>f<96&&f<=c.before.frameIndex));
+            }
+            if(c.native.maker&&c.native.maker.active&&c.native.maker.phase==='hold'&&c.native.maker.sourceValid){
+                assert.deepEqual(makerCopiedStamp(c.before),c.native.maker.display,'post-end real LCD callback matches the saved native copied owner');
+            }
+            if(c.ui.open&&c.ui.source==='hd-assets'&&c.before.frameValid&&standard)assertHdDraws(c,visible);
+            else assert.equal(c.draws.length,0,'fallback/hidden/classic never draws a partial HD resource');
+            const index=evidence.captures.length+1;
+            const prefix=String(index).padStart(3,'0')+'-commit-'+c.before.commitSeq+'-frame-'+c.before.frameIndex,files={};
+            for(const [key,pngKey] of [['native','nativePng'],['hd','hdPng']]){
+                if(!c[pngKey])continue;
+                const bytes=Buffer.from(c[pngKey].split(',')[1],'base64'),file=name+'/'+prefix+'-'+key+'.png';
+                if(key==='native'&&c.before.frameValid&&standard)c.nativePixels=assertPixels(bytes,visible,c.raster);
+                fs.writeFileSync(path.join(artifactDir,file),bytes);
+                files[key]={file,bytes:bytes.length,sha256:sha(bytes)};
+                delete c[pngKey];
+            }
+            evidence.captures.push({...c,visible,files});
+        }
+    }
+    const session={name,...evidence};
+    report.sessions.push(session);
+    fs.writeFileSync(path.join(dir,'observations.json'),JSON.stringify(session,null,2)+'\n');
+    return session;
+}
 async function click(cdp,selector){const p=await evaluate(cdp,`(() => {const n=document.querySelector(${JSON.stringify(selector)});if(!n)return null;const r=n.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,
     s=getComputedStyle(n),t=document.elementFromPoint(x,y);return {x,y,width:r.width,height:r.height,text:n.textContent,visible:s.display!=='none'&&s.visibility!=='hidden',hit:t===n||n.contains(t),disabled:n.disabled};})()`);
     assert.ok(p?.visible&&p.hit&&!p.disabled&&p.width>0&&p.height>=44,'genuine button '+selector+' '+JSON.stringify(p));

@@ -26,7 +26,7 @@
         <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261111marchmap" />
         <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261111defense" />
         <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261111locate" />
-        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261111battleoptions" />
+        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261112mobileopening" />
         <link rel="stylesheet" type="text/css" href="css/hd-battle-note.css?ver=20261111place" />
         <link rel="stylesheet" type="text/css" href="css/hd-battle-transition.css?ver=20261026stage1" />
         <link rel="icon" href="favicon.png">
@@ -252,10 +252,14 @@
                     <button id="hd-mobile-battle-focus" type="button">定位</button>
                 </footer>
             </section>
-            <section id="hd-spe" class="hd-spe hd-mobile-spe" aria-hidden="true" aria-label="原版战场效果">
+            <section id="hd-spe" class="hd-spe hd-mobile-spe" aria-hidden="true" aria-labelledby="hd-spe-title">
                 <div class="hd-spe-stage">
                     <div id="hd-spe-title" class="hd-spe-title">战场效果</div>
-                    <canvas id="hd-spe-canvas" class="hd-spe-canvas" width="160" height="96" aria-label="原版战场效果画面"></canvas>
+                    <canvas id="hd-spe-canvas" class="hd-spe-canvas" width="160" height="96" aria-label="原版动画画面"></canvas>
+                    <div class="hd-mobile-spe-controls">
+                        <button type="button" id="hd-spe-skip" data-hd-spe-skip hidden>跳过</button>
+                        <button type="button" id="hd-spe-return" data-hd-spe-return hidden>返回标题</button>
+                    </div>
                 </div>
             </section>
             <section id="hd-battle-note" aria-label="战事公告" aria-hidden="true" hidden>
@@ -310,7 +314,7 @@
 <script src="js/hd-skill-hints.js?ver=20261026cityinfo1"></script>
 <script src="js/hd-battle.js?ver=20261112skillaim"></script>
 <script src="js/hd-battle-scene.js?ver=20261026cityinfo1"></script>
-<script src="js/hd-spe.js?ver=20261014a"></script>
+<script src="js/hd-spe.js?ver=20261112mobileopening"></script>
 <script src="js/hd-mobile-battle.js?ver=20261112skillaim"></script>
 <script src="js/hd-battle-note.js?ver=20261111place"></script>
 <script src="js/hd-battle-transition.js?ver=20261026stage1"></script>
