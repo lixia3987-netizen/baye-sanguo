@@ -8,6 +8,7 @@
  * --mobile-width=667|844 uses mobile HD touch controls for victory, defense, arrival or save.
  * --scenario defense prepares garrisons and plays original incoming attacks to a victory.
  * --defense-any-outcome accepts either result after a playable defense settles back to the map.
+ * --defense-after-succession requires an inherited city to survive a later native defense.
  * --find-generals checks name search and sorting in the original recruitment and march lists.
  * --period=1|2|3|4 chooses the original period for probe, victory or save.
  * --scenario captives --captive-order exercises one actual surrender order through month-end.
@@ -30,6 +31,7 @@ import {writeJsonAtomicSync} from './hd-runtime-json.mjs';
 import {battleResultNoteObservation,verifyBattleResultNote} from './hd-battle-hud-runtime-checks.mjs';
 import {createMobileCampaignInputs} from './hd-mobile-campaign-inputs.mjs';
 import {verifyOriginalSavePair} from './hd-mobile-system-runtime-oracle.mjs';
+import {verifyMobileSuccessorChoice,verifyMobileSuccessorReport,verifyMobileSuccessorSettlement} from './hd-mobile-successor-runtime-oracle.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -38,6 +40,7 @@ const scenario = scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
 assert.ok(['victory', 'defense', 'arrival', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
 const arrivalScenario=scenario==='arrival',defenseScenario=scenario==='defense';
 const defenseAnyOutcome=process.argv.includes('--defense-any-outcome');
+const defenseAfterSuccession=process.argv.includes('--defense-after-succession');
 assert.ok(!defenseAnyOutcome||defenseScenario,'--defense-any-outcome requires the defense scenario');
 const findGenerals=process.argv.includes('--find-generals');
 assert.ok(!findGenerals||scenario==='victory','General search acceptance requires the victory scenario');
@@ -49,6 +52,8 @@ const mobileCampaignFlag=process.argv.find(arg=>arg.startsWith('--mobile-width='
 const mobileCampaignWidth=Number(mobileCampaignFlag?.split('=')[1]??0);
 assert.ok(!mobileCampaignFlag||['victory','defense','arrival','save'].includes(scenario)&&[667,844].includes(mobileCampaignWidth),
     'Mobile campaign victory, defense, arrival or save requires a 667px or 844px landscape viewport');
+assert.ok(!defenseAfterSuccession||defenseScenario&&mobileCampaignWidth&&!defenseAnyOutcome,
+    '--defense-after-succession requires mobile defense victory');
 const captiveScenario=scenario==='captives',preflightOnly=process.argv.includes('--preflight-only');
 const captiveOrder=process.argv.includes('--captive-order');
 const captiveUntilJoined=process.argv.includes('--captive-until-joined');
@@ -756,6 +761,17 @@ const worldExpression = `(() => {
     return {realm,cities,persons,allPersons,personCount:count,personQueue,orders,goods,fighters,fighterIndex,
         cityCursor:read(d.g_CityPos),period:Number(d.g_PIdx),settings:{lookEnemy:Number(d.g_LookEnemy),lookMovie:Number(d.g_LookMovie),moveSpeed:Number(d.g_MoveSpeed)},
         year:Number(d.g_YearDate),month:Number(d.g_MonthDate)};
+})()`;
+
+const successionWorldExpression=`(() => {
+    const d=baye.data,w=${worldExpression};
+    const people=w.allPersons.map(({i,name,...raw})=>raw);
+    const cities=w.cities.map(({i,name,belong,owner,owned,ownership,...raw})=>raw);
+    const tools=Array.from({length:baye.getToolCount()},(_,i)=>Object.fromEntries(
+        ['useflag','changeAttackRange','at','iq','move','arm'].map(key=>[key,Number(d.g_Tools[i][key])])));
+    return {period:w.period,king:w.realm.playerKing,year:w.year,month:w.month,people,cities,tools,
+        queue:Array.from(d.g_PersonsQueue,Number),orders:w.orders,fighters:w.fighters,fighterIndex:w.fighterIndex,
+        goodsQueue:w.goods,config:{fixOverFlow16:Number(d.g_engineConfig.fixOverFlow16)}};
 })()`;
 
 function realmChanges(before,after) {
@@ -1481,6 +1497,7 @@ async function retreatBattle(cdp,round) {
     await menuChoice(cdp,confirmation.names[0]);
     await waitFor(cdp,'native retreat completes','!baye.hd.fight().active&&baye.hd.fight().over===2',30000);
     report.retreat={before,confirmation,after:await evaluate(cdp,battleStateExpression)};
+    return report.retreat;
 }
 
 const cityTilesExpression=`(() => {
@@ -1741,7 +1758,14 @@ async function playNpcDefense(cdp,label) {
     const first=await liveDefenderMenu(cdp,label),before=await evaluate(cdp,worldExpression),pending=await evaluate(cdp,defenseStateExpression);
     assert.equal(pending.mode,0);assert.equal(pending.cityIndex,first.cityIndex);assert.equal(first.selected.length,0,'native NPC defense starts with a cleared defending team');
     const queue=await readCityPersons(cdp,first.cityIndex),belong=before.realm.playerBelong;
-    const roster=queue.filter(p=>p.belong===belong&&p.arms>0)
+    const ruler=before.realm.playerKing;
+    // Keep the ruler in the besieged city. BeOccupied then handles captivity
+    // when the playable defending army uses the original retreat command.
+    const retreatForSuccession=defenseAfterSuccession&&!report.defenseCampaign.successions.length&&
+        queue.some(p=>p.pind===ruler&&p.belong===belong)&&
+        queue.some(p=>p.pind!==ruler&&p.belong===belong&&p.arms>0)&&
+        before.cities.some(city=>city.i!==first.cityIndex&&city.Belong===belong);
+    const roster=queue.filter(p=>p.belong===belong&&p.arms>0&&(!retreatForSuccession||p.pind!==ruler))
         .sort((a,b)=>Number(b.name==='张辽')-Number(a.name==='张辽')||b.arms-a.arms).slice(0,10);
     assert.ok(roster.every(p=>first.persons.some(item=>item.pind===p.pind)),'every armed allied defender is offered by the real native selection menu');
     const round='defense-'+((report.extraDefenses?.length||0)+1),protectedTarget=report.marches?.[0]?.target;
@@ -1792,7 +1816,8 @@ async function playNpcDefense(cdp,label) {
         const cityTiles=await evaluate(cdp,cityTilesExpression),firstGuard=entry.initial.units.find(p=>p.side==='player');
         assert.ok(cityTiles.some(p=>p.x===firstGuard.x&&p.y===firstGuard.y),'the first real selected defender starts on the actual city tile');
         await checkpoint(cdp,round+'-battle-ready');
-        await conquerBattle(cdp,round,true);
+        if(retreatForSuccession)entry.successionRetreat=await retreatBattle(cdp,round);
+        else await conquerBattle(cdp,round,true);
     } else {
         entry.instantDefense=opening.fight;
         if(!entry.selected.length){
@@ -1808,6 +1833,45 @@ async function playNpcDefense(cdp,label) {
     await checkpoint(cdp,round+'-terminal');
     if(entry.cityIndex===protectedTarget)assert.equal(entry.outcome,1,'the originally captured target must survive its real NPC defense before saving its occupation');
     return entry;
+}
+
+async function confirmDefenseSuccessor(cdp,label,defeat) {
+    assert.equal(defeat?.outcome,2,'The original successor choice follows the observed defensive loss');
+    const pickerSource=`(() => {
+        const menu=baye.hd.menuItems(),ticket=BayeHdDialog.getInputTicket();
+        if(menu.active!==1||menu.context!==5||menu.kind!==1||!menu.idsValid||ticket?.ownerType!=='successor'||
+            ticket.menuSeq!==menu.seq||!BayeHdMobileCity.snapshot().dialogVisible)return null;
+        return {menu,names:menu.ids.map(id=>baye.getPersonName(id)),world:${successionWorldExpression},
+            keys:__runtimeEngineInputs.length};
+    })()`;
+    const picker=await waitFor(cdp,'current native and HD successor picker',pickerSource);
+    const {world,menu,names}=picker,choice=verifyMobileSuccessorChoice({world,menu,names});
+    assert.equal(choice.oldKing,defeat.before.realm.playerKing,'This defeat is the source of the current succession');
+    const city=world.cities[defeat.cityIndex],residents=world.queue.slice(city.PersonQueue,city.PersonQueue+city.Persons);
+    assert.equal(city.Belong,defeat.pending.attackers[0].belong,'The attacker owns the city at the original successor choice');
+    assert.equal(world.people[choice.oldKing].Belong,65535,'The old king was captured in the native defense settlement');
+    assert.ok(residents.includes(choice.oldKing),'The old king is present in the lost city');
+    const selector=`#hd-dialog [data-hd-successor-index="${choice.chosenIndex}"][data-hd-successor-seq="${menu.seq}"]`+
+        `[data-hd-campaign-person="${choice.chosenId}"]`;
+    await checkpoint(cdp,label+'-successor-picker');
+    assert.deepEqual(await evaluate(cdp,pickerSource),picker,'The original successor owner and world remain current before touch');
+    await click(cdp,selector);
+    const during=await waitFor(cdp,'current original NewKingNote report',`(() => {
+        const report=baye.hd.report(),ui=BayeHdDialog.debugSnapshot();
+        return baye.data.g_PlayerKing===${choice.chosenId}&&report.active===1&&report.kind===1&&
+            ui.open&&ui.kind==='report'&&ui.reportOwner?.seq===report.seq&&ui.reportOwner.inputSeq===report.inputSeq&&
+            {report,world:${successionWorldExpression}};
+    })()`);
+    const keys=await evaluate(cdp,`__runtimeEngineInputs.slice(${picker.keys}).map(input=>input.code)`);
+    assert.deepEqual(keys,[39],'One touch confirms the current native successor without other input');
+    const reportVerdict=verifyMobileSuccessorReport({before:world,during:during.world,choice,report:during.report});
+    await checkpoint(cdp,label+'-new-king-report');
+    await acknowledgeCampaignReport(cdp,during.report);
+    const committed=await waitFor(cdp,'synchronous native succession receipt',`__campaignSuccessions.find(({receipt})=>
+        receipt.generation===${menu.generation}&&receipt.oldKing===${choice.oldKing}&&receipt.newKing===${choice.chosenId})`);
+    const settlementVerdict=verifyMobileSuccessorSettlement({before:world,after:committed.world,choice,receipt:committed.receipt});
+    report.defenseCampaign.successions.push({defeat:defeat.label,fightInputSeq:defeat.terminal.fight.inputSeq,
+        picker,choice,keys,during,committed,reportVerdict,settlementVerdict});
 }
 
 async function settleToMap(cdp,label,{arrival=null,mapSeqBefore=null}={}) {
@@ -1853,8 +1917,12 @@ async function settleToMap(cdp,label,{arrival=null,mapSeqBefore=null}={}) {
             const token='successor:'+nativeMenu.seq;
             if(!seen.has(token)) {
                 seen.add(token);
-                await checkpoint(cdp,label+'-successor-'+seen.size);
-                await click(cdp,'#hd-dialog [data-hd-successor-index="0"]');
+                const stage=label+'-successor-'+seen.size;
+                if(defenseAfterSuccession)await confirmDefenseSuccessor(cdp,stage,defenses.at(-1));
+                else {
+                    await checkpoint(cdp,stage);
+                    await click(cdp,'#hd-dialog [data-hd-successor-index="0"]');
+                }
             }
         }
         const dialogue=state.dialog,nativeReport=state.report;
@@ -1890,10 +1958,20 @@ async function defendCampaign(cdp) {
             if(receipt.mode===0)observations.push({receipt,inputSeq:baye.hd.fight().inputSeq,world:${worldExpression}});
         });
     })()`);
+    if(defenseAfterSuccession) {
+        campaign.successions=[];
+        await evaluate(cdp,`(() => {
+            const observations=window.__campaignSuccessions=[];
+            window.addEventListener('baye-hd-successor-committed',({detail:receipt})=>{
+                if(receipt.playerKing===receipt.newKing)observations.push({receipt,world:${successionWorldExpression}});
+            });
+        })()`);
+    }
     const changan={origin:10,leaders:['李肃','侯成'],recruitments:2};
-    if(mobileCampaignWidth===844&&!defenseAnyOutcome) {
-        const garrisons=[changan,{origin:15,leaders:['张辽','吕布'],recruitments:5},
-            {origin:20,leaders:['高顺'],recruitments:1}];
+    if(defenseAfterSuccession||mobileCampaignWidth===844&&!defenseAnyOutcome) {
+        const wancheng={origin:20,leaders:['高顺'],recruitments:1};
+        const garrisons=defenseAfterSuccession?[changan,wancheng]:
+            [changan,{origin:15,leaders:['张辽','吕布'],recruitments:5},wancheng];
         campaign.garrisons=[];
         for(const fixture of garrisons) {
             const label='garrison-'+fixture.origin;
@@ -1906,9 +1984,13 @@ async function defendCampaign(cdp) {
     } else {
         await prepareArmy(cdp,changan);
     }
+    const inheritedBy=entry=>campaign.successions?.find(s=>s.choice.chosenId===entry.before.realm.playerKing&&
+        s.choice.chosenId===entry.after.realm.playerKing&&s.fightInputSeq<entry.initial.fight.inputSeq&&
+        s.settlementVerdict.cityIds.includes(entry.cityIndex));
     const completedDefense=()=>report.extraDefenses?.find(entry=>entry.initial&&entry.after&&
         (defenseAnyOutcome||entry.outcome===1&&
-            entry.after.cities.find(city=>city.i===entry.cityIndex).Belong===entry.after.realm.playerBelong));
+            entry.after.cities.find(city=>city.i===entry.cityIndex).Belong===entry.after.realm.playerBelong&&
+            (!defenseAfterSuccession||inheritedBy(entry))));
     for(let month=1;month<=12&&!completedDefense();month++) {
         const label='defense-month-'+month,before=await evaluate(cdp,worldExpression);
         const after=await advanceCampaignMonth(cdp,label);
@@ -1916,13 +1998,26 @@ async function defendCampaign(cdp) {
         campaign.months.push({label,year:before.year,month:before.month});
     }
     const defense=completedDefense();
-    const expectedResult=defenseAnyOutcome?'defense settled back to the map':'defense victory retaining its city';
+    const expectedResult=defenseAnyOutcome?'defense settled back to the map':
+        defenseAfterSuccession?'defense victory retaining an inherited city':'defense victory retaining its city';
     assert.ok(defense,'No native '+expectedResult+' after '+campaign.months.length+' original strategy months');
     const {cityIndex,order,orderIndex,selected,terminal,after,pending,outcome}=defense;
     const settlements=await evaluate(cdp,'__campaignDefenseSettlements');
     const matching=settlements.filter(s=>s.receipt.city===cityIndex&&s.receipt.over===outcome&&s.inputSeq===terminal.fight.inputSeq);
     assert.equal(matching.length,1,'Exactly one synchronous native settlement belongs to the completed defense');
     const settlement=matching[0],settledCity=settlement.world.cities.find(city=>city.i===cityIndex);
+    if(defenseAfterSuccession) {
+        const succession=inheritedBy(defense),defeat=report.extraDefenses.find(entry=>entry.label===succession.defeat);
+        const losses=settlements.filter(s=>s.receipt.city===defeat.cityIndex&&s.receipt.over===2&&s.inputSeq===succession.fightInputSeq);
+        assert.equal(losses.length,1,'Exactly one original defeat settlement led to the verified succession');
+        assert.equal(losses[0].receipt.playerKing,succession.choice.chosenId);
+        assert.equal(settlement.receipt.playerKing,succession.choice.chosenId,'The same successor owns the later winning defense');
+        assert.equal(settlement.receipt.generation,succession.committed.receipt.generation);
+        assert.deepEqual(defeat.after.orders[defeat.orderIndex],{...defeat.order,OrderId:255},'The predecessor battle order has retired');
+        assert.equal(defeat.after.fighterIndex[defeat.order.Person],0,'The predecessor battle allocation has been released');
+        campaign.victorySuccession={defeat:defeat.label,cityIndex:defeat.cityIndex,loss:losses[0].receipt,
+            successor:succession.committed.receipt};
+    }
     if(outcome===1) {
         assert.equal(settledCity.Belong,settlement.receipt.playerKing+1,'Victory preserves ownership in native settlement');
         assert.equal(settledCity.Food,terminal.food.player+terminal.food.enemy,'Native settlement combines the two remaining provisions');
