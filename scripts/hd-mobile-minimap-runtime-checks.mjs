@@ -70,7 +70,7 @@ function listPanProbe() {
 }
 
 export async function runMobileMinimapChecks(context) {
-  const {report,evaluate,until,delay,checkpoint,ready,controlPoint,tap,touches,readKeys,worldSame,mapReadySource,metrics,headerGeometry,mark}=context;
+  const {report,evaluate,until,delay,checkpoint,ready,controlPoint,tap,touches,readKeys,worldSame,mapReadySource,metrics,headerGeometry,mark,sendCdp}=context;
   for(const name of ['evaluate','until','delay','checkpoint','ready','controlPoint','tap','touches','readKeys','worldSame','metrics','headerGeometry','mark'])assert.equal(typeof context[name],'function','Missing minimap context '+name);
   assert.equal(typeof mapReadySource,'string');
   const viewport=await evaluate('[innerWidth,innerHeight]');
@@ -126,6 +126,31 @@ export async function runMobileMinimapChecks(context) {
     if(round)assert.notEqual(start.overview.native.seq,entry.rounds[0].opened.overview.native.seq,'Reopening gets a fresh native sequence');
     checkRows(start.overview,facts);const bitmap=await evaluate(browser(canvasProbe));
     assert.ok(bitmap.width>0&&bitmap.height>0&&bitmap.differentPixels>1000&&bitmap.opaquePixels>1000,'Actual minimap canvas is drawn beyond a flat fill');
+    if(round===0){
+      const selection=async(filter,query)=>{
+        const expected=facts.cities.filter(city=>(filter==='all'||expectedKind(city.belong,facts.king)===filter)&&city.name.includes(query));
+        await until('Rendered overview '+filter+' '+query,`(() => {const s=BayeHdMiniMap.debugSnapshot();
+          return s.filter===${JSON.stringify(filter)}&&s.query===${JSON.stringify(query)}&&s.matchingCities===${expected.length};})()`);
+        const after=await sample();unchanged(start,after,'Overview filtering is local');
+        assert.deepEqual(after.overview.rows.map(row=>row.index),expected.map(city=>city.index));
+        return {filter,query,indices:expected.map(city=>city.index)};
+      };
+      const checks=[];
+      for(const filter of ['owned','neutral','empty','all']){
+        await tap(await point('#hd-mini-map-filter-'+filter));checks.push(await selection(filter,''));
+      }
+      const owned=facts.cities.find(city=>expectedKind(city.belong,facts.king)==='owned');
+      await tap(await point('#hd-mini-map-search'));
+      await until('Focused city search',"document.activeElement.id==='hd-mini-map-search'");
+      await sendCdp('Input.insertText',{text:owned.name});checks.push(await selection('all',owned.name));
+      await sendCdp('Input.insertText',{text:'无匹配'});checks.push(await selection('all',owned.name+'无匹配'));
+      for(const char of owned.name+'无匹配'){
+        for(const type of ['rawKeyDown','keyUp'])await sendCdp('Input.dispatchKeyEvent',{
+          type,key:'Backspace',code:'Backspace',windowsVirtualKeyCode:8,nativeVirtualKeyCode:8});
+      }
+      checks.push(await selection('all',''));
+      entry.filterChecks=checks;await checkpoint(label+'-readonly-search');
+    }
     const seen=new Set(),scrolls=[];let current=start;
     for(let pass=0;pass<48;pass++){
       checkRows(current.overview,facts);for(const row of current.overview.rows)if(row.nameVisible&&row.labelVisible)seen.add(row.index);

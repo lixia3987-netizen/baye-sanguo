@@ -715,7 +715,8 @@ export async function main(args=process.argv.slice(2)) {
     if(minimapOnly){
       const {runMobileMinimapChecks}=await import('./hd-mobile-minimap-runtime-checks.mjs');
       const size=[minimapWidth,minimapWidth===844?390:375];await metrics(...size);await headerGeometry(size);
-      await runMobileMinimapChecks({report,evaluate,until,delay,checkpoint,ready,controlPoint,tap,touches,readKeys,worldSame,mapReadySource,metrics,headerGeometry,mark});
+      await runMobileMinimapChecks({report,evaluate,until,delay,checkpoint,ready,controlPoint,tap,touches,readKeys,worldSame,mapReadySource,metrics,headerGeometry,mark,
+        sendCdp:(method,params)=>cdp.send(method,params)});
       await until('final actual minimap return',mapReadySource);const final=await checkpoint('final-minimap-HD-map');prefsSame(final);
       report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
       assert.equal(report.nativeTouches.length,0);assert.deepEqual(report.requests.filter(r=>r.status!==200),[]);assert.equal(report.exceptions.length,0);
