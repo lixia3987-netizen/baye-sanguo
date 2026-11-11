@@ -549,7 +549,7 @@ async function viewSmoke(cdp,before) {
 
 async function knownEnemyViewSmoke(cdp) {
     const before=await evaluate(cdp,battleStateExpression);
-    const reveal=report.skillAttempts?.find(attempt=>attempt.skill.id===30&&attempt.effects.some(effect=>effect.field==='food.knownEnemy'&&effect.after>0));
+    const reveal=report.spyReveal;
     assert.ok(reveal,'actual successful native spy skill precedes the known enemy VIEW scenario');
     assert.ok(before.food.knownEnemy>0,'enemy supply is actually known after the native spy action');
     await key(cdp,'f');await waitBattle(cdp,10,'reopen VIEW after actual spy report');
@@ -1107,10 +1107,12 @@ async function attemptAttack(cdp,actor) {
     await checkpoint(cdp,'29-attack-real-troop-cost');
     return true;
 }
-async function attemptSkill(cdp,actor) {
+async function attemptSkill(cdp,actor,requiredSkill) {
     const name=await evaluate(cdp,'baye.hd.menuItems().names[1]');
     await menuChoice(cdp,name,4);
-    const options=(await evaluate(cdp,skillOptionsExpression)).filter(s=>s.available).sort((a,b)=>(b.power+b.destroy+Number(b.state>0)*100)-(a.power+a.destroy+Number(a.state>0)*100));
+    const options=(await evaluate(cdp,skillOptionsExpression))
+        .filter(skill=>skill.available&&(requiredSkill===undefined||skill.id===requiredSkill))
+        .sort((a,b)=>(b.power+b.destroy+Number(b.state>0)*100)-(a.power+a.destroy+Number(a.state>0)*100));
     report.skillOptions??=[];report.skillOptions.push({actor:actor.name,options});
     for(const skill of options) {
         const before=await evaluate(cdp,battleStateExpression),mp=before.units.find(u=>u.i===actor.i).mp;
@@ -1150,6 +1152,11 @@ async function attemptSkill(cdp,actor) {
         report.skillAttempts??=[];report.skillAttempts.push(attempt);
         report.skillCost??=attempt;
         if(effects.length)report.skillEffect=attempt;
+        if(skill.id===30&&before.food.knownEnemy===0&&after.food.knownEnemy>0) {
+            assert.equal(after.food.knownEnemy,after.food.enemy,'native spy reveals the actual enemy provisions');
+            assert.equal(after.food.enemy,before.food.enemy,'spy reads provisions without consuming them');
+            report.spyReveal=attempt;
+        }
         await checkpoint(cdp,'30-skill-real-mp-cost-'+report.skillAttempts.length);return true;
     }
     await action(cdp,'cancel-unavailable-skills','BayeHdBattle.cancel()');await waitBattle(cdp,3,'return from unavailable skills');return false;
@@ -1159,7 +1166,7 @@ async function performCombatCosts(cdp) {
     // Every action below represents explicit player intent. These helpers read
     // native legal paths, ranges and LIB skill restrictions, and deliver only
     // the same UI actions a player can make. No engine field is assigned.
-    for(let step=0;step<60&&(!report.attackCost||!report.skillCost||!report.skillEffect);step++) {
+    for(let step=0;step<60&&(!report.attackCost||!report.skillCost||!report.skillEffect||!report.spyReveal);step++) {
         const current=await evaluate(cdp,battleStateExpression);
         assert.equal(current.fight.over,0,'battle remains live until both action costs are verified');
         const actor=current.units.find(u=>u.side==='player'&&u.active===0&&u.state!==8&&u.state!==1&&u.state!==6&&u.arms>0);
@@ -1174,6 +1181,7 @@ async function performCombatCosts(cdp) {
         await waitBattle(cdp,3,'manual combat action '+actor.name);
         }
         if(!report.attackCost && await attemptAttack(cdp,actor))continue;
+        if(!report.spyReveal && await attemptSkill(cdp,actor,30))continue;
         if(!report.skillEffect && await attemptSkill(cdp,actor))continue;
         const rest=await evaluate(cdp,'baye.hd.menuItems().names[3]');await menuChoice(cdp,rest,1);
     }
