@@ -52,6 +52,7 @@ FgtCount void		FgtCountWon(void);
 FgtPkAi SkillID		FgtGetJNIdx(U8 idx,RECT *pRect);
 FgtPkAi bool		FgtGetMCmd(FGTCMD *pcmd);
 FgtPkAi U8		FgtJNChkAim(SkillID param,U8 same,U8 aidx,U8 sidx);
+FgtPkAi U8		FgtSkillTargetStatus(const SKILLEF *skill, U8 same, U8 terrain, U8 arm);
 FgtPkAi void		FgtGetCmdRng(U8 type,SkillID sklid,U8 idx);
 FgtPkAi void		FgtShowMvRng(void);
 FgtPkAi void		FgtShowView(void);

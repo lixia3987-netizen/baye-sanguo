@@ -318,7 +318,7 @@ U8 FgtCmdAimGet(U8 type,SkillID param,U8 idx)
         return idx;
     FgtLoadToMem(dFgtNoAim,naim);
     FgtLoadToMem(dFgtErrAim,err);
-    baye_hd_set_fight_aim(type);
+    baye_hd_set_fight_aim(type, param);
     FgtShowAtRng();
     while(1)
     {
@@ -326,7 +326,8 @@ U8 FgtCmdAimGet(U8 type,SkillID param,U8 idx)
         if(FgtGetFoucs(FgtCmdBack) == 0xFF)
         {
             FgtSetFocus(idx);
-            return 0xFF;
+            pidx = 0xFF;
+            break;
         }
 
         pidx = FgtGetGenIdx(g_FoucsX,g_FoucsY);
@@ -350,6 +351,7 @@ U8 FgtCmdAimGet(U8 type,SkillID param,U8 idx)
         FgtStrShowV(STA_XXX,STA_XXY,err);
         baye_hd_set_fight_tip(err);
     }
+    baye_hd_set_fight_aim(0xff, SID(0));
     return pidx;
 }
 /***********************************************************************
@@ -644,6 +646,7 @@ U8 FgtGetFoucsInner(void (*chkcondition)(bool*flag))
     flag = false;
     while(1)
     {
+        if (chkcondition == FgtCmdBack) baye_hd_fight_publish_skill_aim();
         GamGetMsg(&pMsg);
         if(VM_CHAR_FUN == pMsg.type)
         {

@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {battleHudObservation,measureIdleBattleBoard,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
 import {verifyMobileBattleMarch,verifyMobileBattleRest} from './hd-mobile-battle-runtime-oracle.mjs';
+import {skillAimObservation,skillOptionsExpression,verifySkillAim} from './hd-battle-skill-aim-runtime-checks.mjs';
 
 export const battleObservation = `(() => {const d=baye.data,f=baye.hd.fight(),units=[];
   for(let i=0;i<20;i++){const id=Number(d.g_FgtParam.GenArray[i]);if(id>0&&id<65534){const p=d.g_GenPos[i];
@@ -208,7 +209,43 @@ export async function runMobileBattleChecks(c) {
   await button('[data-hd-battle-cancel]');await ready(1,'ACTION rollback');assert.deepEqual((await native()).units,initial.units);
   await tileTap(own.x,own.y,'Select player for native rest');await ready(2,'rest MOVE');await tileTap(own.x,own.y,'Stay actual own tile');await ready(3,'real rest ACTION');
   report.realActionNames=(await native()).menu.names;await menu(1,'Open real skill list');await ready(4,'native SKILL menu');await capture('battle-04-native-skills');
-  await button('[data-hd-battle-cancel]');await ready(3,'return from native SKILL');
+  const aimSkill=(await evaluate(skillOptionsExpression)).find(skill=>skill.available&&![22,30].includes(skill.id));
+  if(aimSkill){
+    await menu(aimSkill.index,'Select the current original targeted skill');await ready(5,'native skill AIM');
+    const aim=await native();report.skillAimChecks=[];
+    for(const size of [[667,375],[844,390],[667,375]]){
+      await metrics(...size);await ready(5,'native skill AIM after resize');
+      await until('current mobile skill and target rows','document.querySelector("[data-hd-mobile-focus-field=target]")');
+      const observed=await evaluate(skillAimObservation);
+      report.skillAimChecks.push(verifySkillAim(observed,aimSkill,{mobile:true}));
+      await unchanged(aim,'Reading and resizing the skill target card');
+      if(report.skillAimChecks.length<=2)await checkpoint('battle-skill-aim-'+size[0]);
+    }
+    const observed=await evaluate(skillAimObservation), rejected=new Map();
+    for(const slot of observed.slots){
+      const status=aim.fight.skillAim.targets[slot.i];
+      if(status>1&&observed.feedback.cells.some(cell=>cell.status==='in'&&cell.x===slot.x&&cell.y===slot.y))rejected.set(status,slot);
+    }
+    for(const target of rejected.values()){
+      let f=(await native()).fight;
+      while(f.focusX!==target.x||f.focusY!==target.y){
+        const [arrow,code]=f.focusX!==target.x?(f.focusX<target.x?['ArrowRight',39]:['ArrowLeft',37]):
+          (f.focusY<target.y?['ArrowDown',40]:['ArrowUp',38]);
+        await physicalKey(arrow,code);
+        await until('one native AIM cursor step',`baye.hd.fight().focusX!==${f.focusX}||baye.hd.fight().focusY!==${f.focusY}`);
+        f=(await ready(5,'current mobile target focus')).fight;
+        assert.equal(f.inputSeq,aim.fight.inputSeq);
+      }
+      report.skillAimChecks.push(verifySkillAim(await evaluate(skillAimObservation),aimSkill,{mobile:true}));
+    }
+    if(rejected.size)await checkpoint('battle-skill-aim-incompatible-667');
+    await button('[data-hd-battle-cancel]');await ready(3,'return from actual skill AIM');
+    assert.equal(await evaluate('baye.hd.fight().skillAim'),null);
+    assert.equal(await evaluate('document.querySelector("[data-hd-mobile-focus-field=skill]")!==null'),false);
+  }else{
+    report.skillAimUnavailable='No targeted skill is available to this original caster in the current weather';
+    await button('[data-hd-battle-cancel]');await ready(3,'return from native SKILL');
+  }
   const beforeHelp=await native();await menu(2,'Open actual native general HELP');
   await until('actual HELP published',"baye.hd.fight().inputKind===9&&baye.hd.help().active===1");
   await button('#hd-mobile-battle-toggle');

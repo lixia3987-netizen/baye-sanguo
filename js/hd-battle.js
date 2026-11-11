@@ -334,7 +334,7 @@
             active: !!(snap.fight && snap.fight.active), over: !!(snap.fight && snap.fight.over),
             reportActive: snap.reportActive, menuActive: !!(snap.menu && snap.menu.active),
             inputKind: snap.kind, inputSeq: snap.seq, actorIndex: snap.actor, actor: actor,
-            aimType: readRangeNumber(snap.fight, 'aimType'), focus: snap.focus,
+            aimType: readRangeNumber(snap.fight, 'aimType'), skillAim: snap.fight && snap.fight.skillAim, focus: snap.focus,
             bounds: { width: readRangeNumber(data, 'g_MapWid'), height: readRangeNumber(data, 'g_MapHgt') },
             view: { x: state.viewOx, y: state.viewOy, width: state.viewW || state.mapW, height: state.viewH || state.mapH },
             move: snap.kind === INPUT.MOVE ? { originX: readRangeNumber(data, 'g_PathSX'), originY: readRangeNumber(data, 'g_PathSY'),
@@ -1519,11 +1519,14 @@
         var actorMenu = (visualSnap.kind === INPUT.ACTION || visualSnap.kind === INPUT.SKILL) && menuSnapshot(visualSnap);
         if (feedback.active && feedback.kind !== 'move' && feedback.focus && feedback.focus.targetIndex != null) {
             var previewActor = actorUnit(visualSnap.actor), previewTarget = unitAt(feedback.focus.x, feedback.focus.y);
-            if (previewActor && previewTarget) { targetPreview = { actor: previewActor, target: previewTarget,
-                label: feedback.kind === 'skill' ? '射程内目标' : '攻击目标' }; }
+            if (previewActor && previewTarget && previewTarget.i === feedback.focus.targetIndex) {
+                targetPreview = { actor: previewActor, target: previewTarget,
+                    label: feedback.kind === 'skill' ? feedback.focus.label : '攻击目标' };
+            }
         }
         var focusCard = el('hd-battle-focus'), blockers = unitLegendBlockers(canvas);
-        renderFocusCard(state.open && shouldShowHd(),visualSnap,targetPreview && targetPreview.label);
+        var targetLabel = feedback.skillAim && feedback.focus ? feedback.focus.label : targetPreview && targetPreview.label;
+        renderFocusCard(state.open && shouldShowHd(),visualSnap,targetLabel);
         var paintKey = JSON.stringify([dpr,board,cols,rows,viewOx,viewOy,blockers,state.preview,state.focus,
             state.terrain,state.units,visualSnap.focus,visualSnap.actor,!!actorMenu,feedback,targetPreview,!!focusCard]);
         var resized = canvas.width !== w || canvas.height !== h;

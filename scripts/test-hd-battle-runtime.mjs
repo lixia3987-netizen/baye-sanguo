@@ -5,6 +5,7 @@
  *   npm run test:battle-runtime -- --artifact-dir build/battle-runtime-smoke
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * --status-only checks the original HUD through the first full battle day.
+ * --skill-aim-only stops after the original selected skill, help and cancel checks.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
 import assert from 'node:assert/strict';
@@ -17,17 +18,19 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {battleHudObservation,measureIdleBattleBoard,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
+import {skillAimObservation,skillOptionsExpression,verifySkillAim} from './hd-battle-skill-aim-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const statusOnly = process.argv.includes('--status-only');
+const skillAimOnly = process.argv.includes('--skill-aim-only');
 const artifactFlag = process.argv.indexOf('--artifact-dir');
 const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/battle-runtime-smoke'));
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.lib': 'application/octet-stream' };
-const report = { staged, statusOnly, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [], battleHud: [] };
+const report = { staged, statusOnly, skillAimOnly, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [], battleHud: [] };
 const servedAssets = new Map();
 
 function prepareServedAssets() {
@@ -53,7 +56,8 @@ function prepareServedAssets() {
         'assets/hd-overworld/china-lcc-cities.json','assets/hd-overworld/roads/adjacency.json',
         'assets/hd-overworld/palette/factions.json','assets/hd-overworld/terrain/base_plains.jpg',
         'assets/hd-portraits/manifest.json','assets/hd-portraits/refs/index.json','assets/hd-spe/manifest.json',
-        'vendor/iBaye/src/data/pstring.h','scripts/test-hd-battle-runtime.mjs','scripts/hd-battle-hud-runtime-checks.mjs']) {
+        'vendor/iBaye/src/data/pstring.h','scripts/test-hd-battle-runtime.mjs','scripts/hd-battle-hud-runtime-checks.mjs',
+        'scripts/hd-battle-skill-aim-runtime-checks.mjs']) {
         const data=fs.readFileSync(path.join(root,name));
         const metadata={source:name,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};
         report.sources[name]=metadata;servedAssets.set(name,{data,metadata});
@@ -444,7 +448,8 @@ async function battleSmoke(cdp) {
         return;
     }
     await manualCombat(cdp);
-    await knownEnemyViewSmoke(cdp);
+    if(skillAimOnly) return;
+    assert.ok(report.knownEnemyView,'The same native day verifies the spy result in VIEW');
     await terrainGallery(cdp);
 
 }
@@ -877,8 +882,8 @@ async function verifyNativeFeedback(cdp, label, expectedKind) {
     for(const c of feedback.cells)for(const [edge,dx,dy] of [['north',0,-1],['east',1,0],['south',0,1],['west',-1,0]]) {
         assert.equal(c.edges[edge],c.status==='in'&&cell(c.x+dx,c.y+dy).status!=='in','outline agrees with actual mask adjacency');
     }
-    const targetIds=expectedKind==='move'?[]:units.filter(u=>u.state<8&&u.state>=0&&
-        (expectedKind==='skill'||u.side==='enemy')&&cell(u.x,u.y).status==='in').map(u=>u.i);
+    const targetIds=expectedKind==='move'?[]:units.filter(u=>u.state<8&&u.state>=0&&cell(u.x,u.y).status==='in'&&
+        (expectedKind==='skill'?(!fight.skillAim||fight.skillAim.targets[u.i]===1):u.side==='enemy')).map(u=>u.i);
     assert.deepEqual(feedback.rangedUnits.map(u=>u.i),targetIds,'target markers agree with real native units');
     const focus=cell(observed.focus.x,observed.focus.y);
     assert.equal(feedback.focus.status,focus.status);assert.equal(feedback.focus.raw,focus.raw);
@@ -1085,6 +1090,11 @@ async function manualCombat(cdp) {
     await waitBattle(cdp,3,'stay reaches action menu');
     const actionNames=await evaluate(cdp,'baye.hd.menuItems().names');
     report.realActionNames=actionNames;
+    await inspectSkillAim(cdp,actionNames[1]);
+    if(skillAimOnly){
+        assert.ok(report.skillAimChecks?.length>=2,'Actual original skill aim and resumed native aim are required');
+        return;
+    }
     await menuChoice(cdp,actionNames[3],1);
     const rested=await evaluate(cdp,battleStateExpression);
     assert.equal(rested.units.find(u=>u.i===actor.i).active,1,'rest marks only the chosen general ended');
@@ -1105,12 +1115,52 @@ const rangedUnitsExpression=`(() => {
     }
     return units;
 })()`;
-const skillOptionsExpression=`(() => {
-    const d=baye.data,f=baye.hd.fight(),skill=baye.hd.skills(),actor=d.g_GenPos[f.actorIndex];
-    const terrain=baye.getTerrainByGeneralIndex(f.actorIndex),weather=Number(d.g_FgtWeather)-1;
-    const array=(a,n)=>Array.from({length:n},(_,i)=>Number(a[i]));
-    return skill.ids.map((id,index)=>{const x=d.g_Skills[id-1];return {id,index,name:skill.names[index],aim:Number(x.aim),state:Number(x.state),power:Number(x.power),destroy:Number(x.destroy),useMp:Number(x.useMp),eland:array(x.eland,8),earm:array(x.earm,6),available:Number(x.useMp)>0&&Number(x.useMp)<=Number(actor.mp)&&Number(x.weather[weather])>0&&Number(x.oland[terrain])>0};});
-})()`;
+async function inspectSkillAim(cdp, skillAction) {
+    await menuChoice(cdp,skillAction,4);
+    const skills=(await evaluate(cdp,skillOptionsExpression)).filter(skill=>skill.available&&![22,30].includes(skill.id));
+    if(!skills.length){
+        report.skillAimUnavailable='No targeted skill is available to this original caster in the current weather';
+        await action(cdp,'cancel-skill-list','BayeHdBattle.cancel()');await waitBattle(cdp,3,'canceled skill list');
+        return;
+    }
+    const skill=skills[0];
+    await menuChoice(cdp,skill.name,5);
+    const ready=()=>waitFor(cdp,'live skill targeting','BayeHdBattle.debugSnapshot().feedback?.skillAim');
+    await ready();
+    const before=await evaluate(cdp,skillAimObservation);
+    report.skillAimChecks=[verifySkillAim(before,skill)];
+    const incompatible=(await evaluate(cdp,rangedUnitsExpression)).find(unit=>before.fight.skillAim.targets[unit.i]>1);
+    if(incompatible){
+        await focusBattleTarget(cdp,incompatible,'26-aim-incompatible');
+        report.skillAimChecks.push(verifySkillAim(await evaluate(cdp,skillAimObservation),skill));
+        const rejected=await evaluate(cdp,battleStateExpression);
+        await key(cdp,'Enter');
+        await waitFor(cdp,'native invalid target returns to the same skill aim',
+            `baye.hd.fight().inputKind===5&&baye.hd.fight().inputSeq!==${rejected.fight.inputSeq}&&baye.hd.fight().skillAim?.id===${skill.id}`);
+        const next=await evaluate(cdp,battleStateExpression);
+        assert.deepEqual(next.units,rejected.units,'Native rejection changes no units or skill points');
+        report.skillAimRejectedTarget=incompatible.i;
+        await ready();
+    }
+    await key(cdp,'h');await waitBattle(cdp,9,'HELP while targeting');
+    await verifyNativeFeedback(cdp,'HELP during skill aim','inactive');
+    assert.equal(await evaluate(cdp,'baye.hd.fight().skillAim'),null);
+    await click(cdp,'#hd-dialog [data-hd-dlg-ok]');await waitBattle(cdp,5,'HELP returns to current skill aim');await ready();
+    const returned=await evaluate(cdp,skillAimObservation);
+    assert.notEqual(returned.fight.inputSeq,before.fight.inputSeq,'Resumed aim has a new native input sequence');
+    report.skillAimChecks.push(verifySkillAim(returned,skill));
+    await checkpoint(cdp,'26-native-skill-aim');
+    await cdp.send('Emulation.setDeviceMetricsOverride',{width:1280,height:720,deviceScaleFactor:1,mobile:false});
+    await waitFor(cdp,'720p skill aim','innerWidth===1280&&innerHeight===720');
+    const smaller=await evaluate(cdp,skillAimObservation);
+    assert.deepEqual(smaller.fight,returned.fight,'Resizing keeps the same native skill aim');
+    report.skillAimChecks.push(verifySkillAim(smaller,skill));
+    await checkpoint(cdp,'26-native-skill-aim-720p');
+    await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
+    await action(cdp,'cancel-skill-aim','BayeHdBattle.cancel()');await waitBattle(cdp,3,'canceled skill aim');
+    await verifyNativeFeedback(cdp,'canceled skill aim','inactive');
+    assert.equal(await evaluate(cdp,'baye.hd.fight().skillAim'),null);
+}
 async function endArmyTurn(cdp) {
     const before=await evaluate(cdp,battleStateExpression);
     await action(cdp,'explicit-end-turn-system','BayeHdBattle.openSystemMenu()');
@@ -1157,6 +1207,7 @@ async function attemptSkill(cdp,actor,requiredSkill) {
         if(fight.inputKind===5) {
             await waitFor(cdp,'live native skill feedback','BayeHdBattle.debugSnapshot().feedback?.active');
             await verifyNativeFeedback(cdp,'SKILL range '+skill.name,'skill');
+            (report.skillAimChecks ||= []).push(verifySkillAim(await evaluate(cdp,skillAimObservation),skill));
             await checkpoint(cdp,'30-skill-range-'+skill.id+'-'+(report.skillRangeCheckpoints=(report.skillRangeCheckpoints||0)+1));
             const targets=(await evaluate(cdp,rangedUnitsExpression)).filter(u=>
                 (Boolean(skill.aim&1)===(u.side==='player'))&&skill.eland[u.terrain]>0&&skill.earm[u.armType]>0);
@@ -1216,7 +1267,10 @@ async function performCombatCosts(cdp) {
         await waitBattle(cdp,3,'manual combat action '+actor.name);
         }
         if(!report.attackCost && await attemptAttack(cdp,actor))continue;
-        if(!report.spyReveal && await attemptSkill(cdp,actor,30))continue;
+        if(!report.spyReveal && await attemptSkill(cdp,actor,30)){
+            if(report.spyReveal) await knownEnemyViewSmoke(cdp);
+            continue;
+        }
         if(!report.skillEffect && await attemptSkill(cdp,actor))continue;
         const rest=await evaluate(cdp,'baye.hd.menuItems().names[3]');await menuChoice(cdp,rest,1);
     }

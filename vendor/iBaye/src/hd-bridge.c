@@ -3,6 +3,7 @@
 #include "baye/enghead.h"
 #include "hd-bridge.h"
 #include "baye/bind-objects.h"
+#include "baye/script.h"
 #include <string.h>
 #include <emscripten.h>
 #ifdef __EMSCRIPTEN__
@@ -101,6 +102,12 @@ U8 g_hdFightOver = 0;
 U8 g_hdFightWait = 0;
 U8 g_hdFightPhase = 0;
 U8 g_hdFightAimType = 0xff;
+U32 g_hdFightSkillAimSeq = 0;
+U16 g_hdFightSkillAimId = 0;
+U8 g_hdFightSkillAimSide = 0;
+U8 g_hdFightSkillAimTargets[FGTA_MAX];
+U8 g_hdFightSkillAimName[BAYE_HD_SKILL_NAME];
+static U16 hdFightAimSkill = 0;
 U8 g_hdFightActCommit = 0xFF;
 U8 g_hdFightAllowRetreat = 0;
 /* Set only by the HD system-menu hook; native and Mod menus leave this zero. */
@@ -1697,6 +1704,7 @@ void baye_hd_fight_input_end(void)
     /* The legacy action mailbox has no scene token. Close it together with the
      * real input so a late action cannot become a system-menu selection. */
     g_hdFightActCommit = 0xff;
+    g_hdFightSkillAimSeq = 0;
     g_hdFightInputKind = BAYE_HD_FIGHT_INPUT_BUSY;
     g_hdFightActor = 0xff;
     g_hdFightInputSeq = hd_next_input_seq(g_hdFightInputSeq);
@@ -1958,6 +1966,7 @@ void baye_hd_set_fight(U8 active, U8 over)
     baye_hd_menu_end();
     baye_hd_fight_actor(0xff);
     baye_hd_fight_input_end();
+    hdFightAimSkill = 0;
     if (active) {
         /* New GamFight: never keep leftover 全军覆没 / 大获全胜 / wait. */
         over = 0;
@@ -2019,9 +2028,50 @@ void baye_hd_set_fight_phase(U8 phase)
     }
 }
 
-void baye_hd_set_fight_aim(U8 type)
+void baye_hd_set_fight_aim(U8 type, SkillID skill)
 {
     g_hdFightAimType = type;
+    hdFightAimSkill = type == CMD_STGM ? skill : 0;
+}
+
+void baye_hd_fight_publish_skill_aim(void)
+{
+    U32 seq = g_hdFightInputSeq, generation = g_hdDetailGeneration, offset, length;
+    SkillID id = hdFightAimSkill;
+    U8 actor = g_hdFightActor;
+    U8 targets[FGTA_MAX] = {0}, name[BAYE_HD_SKILL_NAME] = {0};
+    SKILLEF skill;
+    if (!g_hdFightActive || !g_hdFightWait || g_hdFightOver || g_hdFightInputKind != BAYE_HD_FIGHT_INPUT_AIM ||
+        g_hdFightAimType != CMD_STGM || actor >= FGT_PLAMAX || !id || !g_FightMapData ||
+        g_hdFightSkillAimSeq == seq) return;
+
+    /* Mark this wait even if its rules are unavailable, so timers do not repeat the reads. */
+    g_hdFightSkillAimId = 0;
+    g_hdFightSkillAimSeq = seq;
+    if (has_hook("canUseSkill") || !hd_overview_resource(SKL_RESID, 1, &offset, &length) ||
+        length % sizeof(skill) || id > length / sizeof(skill)) return;
+    memcpy(&skill, g_CBnkPtr + offset + (U32)(id - 1) * sizeof(skill), sizeof(skill));
+
+    for (U8 i = 0; i < FGTA_MAX; ++i) {
+        const JLPOS *pos = &g_GenPos[i];
+        PersonID person = g_FgtParam.GenArray[i];
+        if (!person || pos->state >= STATE_SW || pos->x >= g_MapWid || pos->y >= g_MapHgt ||
+            FgtGetGenIdx(pos->x, pos->y) != i) continue;
+        U16 arm = baye_hd_person_arm(person - 1);
+        U8 terrain = FgtGetTerrain(pos->x, pos->y);
+        if (arm >= sizeof(skill.earm) || terrain >= sizeof(skill.eland)) continue;
+        targets[i] = FgtSkillTargetStatus(&skill, i < FGT_PLAMAX, terrain, (U8)arm);
+    }
+    if (!has_hook("getSkillName") && hd_overview_resource(SKL_NAMID, id, &offset, &length)) {
+        if (length <= sizeof(name)) memcpy(name, g_CBnkPtr + offset, length);
+        else hd_detail_copy(name, sizeof(name), g_CBnkPtr + offset, length);
+    }
+    if (g_hdDetailGeneration != generation || g_hdFightInputSeq != seq || g_hdFightActor != actor ||
+        g_hdFightInputKind != BAYE_HD_FIGHT_INPUT_AIM || hdFightAimSkill != id) return;
+    memcpy(g_hdFightSkillAimTargets, targets, sizeof(targets));
+    memcpy(g_hdFightSkillAimName, name, sizeof(name));
+    g_hdFightSkillAimSide = skill.aim & 1;
+    g_hdFightSkillAimId = id;
 }
 
 void baye_hd_set_fight_tip(const U8* gbk)
@@ -4111,6 +4161,11 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdFightWait, U8);
     DEFADDF(g_hdFightPhase, U8);
     DEFADDF(g_hdFightAimType, U8);
+    DEFADDF(g_hdFightSkillAimSeq, U32);
+    DEFADDF(g_hdFightSkillAimId, U16);
+    DEFADDF(g_hdFightSkillAimSide, U8);
+    DEFADD_U8ARR(g_hdFightSkillAimTargets, FGTA_MAX);
+    DEFADD_U8ARR(g_hdFightSkillAimName, sizeof(g_hdFightSkillAimName));
     DEFADDF(g_hdFightActCommit, U8);
     DEFADDF(g_hdFightAllowRetreat, U8);
     DEFADDF(g_hdFightMenuControl, U8);

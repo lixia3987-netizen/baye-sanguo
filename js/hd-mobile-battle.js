@@ -337,6 +337,11 @@
                 if(unitTerrain && focusTerrain && terrainLabel(focusTerrain)!==terrain){terrain=null;}
                 function number(value){return uint(value,65535)?String(value):'未读取';}
                 var rows=[];
+                var feedback=snapshot.feedback, skillAim=feedback && feedback.skillAim, focus=feedback && feedback.focus;
+                if(skillAim && feedback.active && t.kind===5 && f.aimType===1 && feedback.inputSeq===t.seq &&
+                    feedback.actorIndex===t.actor && focus && focus.x===x && focus.y===y){
+                    rows.push(['skill',skillAim.title],['target',focus.label]);
+                }
                 if(u){
                     var name=u.name, side=u.side, armType=u.armType, state=u.state, active=u.active;
                     rows.push(['name',typeof name==='string' && name.trim()?name:'姓名未读取']);
@@ -385,7 +390,8 @@
                 }
             }
             var feedback=environment.BayeHdBattleFeedback;
-            if(feedback && snapshot.feedback){feedback.paint(ctx,geometry,snapshot.feedback);}
+            var skillTargetLayer=!!(feedback && snapshot.feedback && snapshot.feedback.skillAim);
+            if(feedback && snapshot.feedback){feedback.paint(ctx,geometry,snapshot.feedback,skillTargetLayer);}
             ctx.strokeStyle='#60707855';ctx.lineWidth=1;
             for(y=0;y<=rows;y++){ctx.beginPath();ctx.moveTo(ox,oy+y*cell);ctx.lineTo(ox+cols*cell,oy+y*cell);ctx.stroke();}
             for(x=0;x<=cols;x++){ctx.beginPath();ctx.moveTo(ox+x*cell,oy);ctx.lineTo(ox+x*cell,oy+rows*cell);ctx.stroke();}
@@ -397,8 +403,11 @@
                 ctx.font='12px sans-serif';ctx.fillText((ARMS[u.armType]||'兵')+' '+(u.arms==null?'?':u.arms),px+cell/2,py+cell*.58,cell-8);
                 ctx.font='10px sans-serif';ctx.fillText(u.active===1?'已行动':u.i===actor?'当前':STATES[u.state]||'待行动',px+cell/2,py+cell*.83,cell-8);
             });
-            ctx.strokeStyle='#f0c75a';ctx.lineWidth=2;
-            ctx.strokeRect(ox+(fight.focusX-viewX)*cell+1,oy+(fight.focusY-viewY)*cell+1,cell-2,cell-2);
+            if(skillTargetLayer){feedback.paintTargets(ctx,geometry,snapshot.feedback);}
+            else{
+                ctx.strokeStyle='#f0c75a';ctx.lineWidth=2;
+                ctx.strokeRect(ox+(fight.focusX-viewX)*cell+1,oy+(fight.focusY-viewY)*cell+1,cell-2,cell-2);
+            }
         }
         function render(snapshot) {
             if(drawing || !snapshot){return;}drawing=true;

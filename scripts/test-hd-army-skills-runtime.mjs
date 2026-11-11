@@ -22,6 +22,7 @@ import { fileURLToPath } from 'node:url';
 import {snapshotOwnedChrome,cleanupOwnedChrome} from './hd-runtime-owned-chrome.mjs';
 import {writeJsonAtomicSync} from './hd-runtime-json.mjs';
 import {decodeOriginalSavePair,verifyOriginalSavePair} from './hd-mobile-system-runtime-oracle.mjs';
+import {skillAimObservation,verifySkillAim} from './hd-battle-skill-aim-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const allowedFlags=new Set(['--staged','--720','--classic','--missing-assets','--preflight-only','--recruit']);
@@ -135,7 +136,7 @@ function freezeAsset(rel) {
 function prepareServedAssets() {
  report.sources={};
  for(const dir of productionDirectories)for(const filename of walk(path.join(root,dir)))freezeAsset(path.relative(root,filename).replaceAll('\\','/'));
- for(const name of ['scripts/write-wasm-manifest.mjs',targetName(),'scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','scripts/hd-mobile-system-runtime-oracle.mjs'])freezeAsset(name);nativeLib=freezeAsset('libs/dat-mod.lib').data;
+ for(const name of ['scripts/write-wasm-manifest.mjs',targetName(),'scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','scripts/hd-mobile-system-runtime-oracle.mjs','scripts/hd-battle-skill-aim-runtime-checks.mjs'])freezeAsset(name);nativeLib=freezeAsset('libs/dat-mod.lib').data;
  assert.equal(report.sources['libs/dat-mod.lib'].sha256,'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
  report.tool={source:targetName(),sha256:sha(fs.readFileSync(fileURLToPath(import.meta.url)))};
  for(const name of ['baye.js','baye.wasm','baye.wasm.map','baye.build.json']){const filename=path.join(root,staged?'build/wasm/src':'js',name),data=fs.readFileSync(filename),metadata={source:path.relative(root,filename),bytes:data.length,sha256:sha(data)};report.sources[name]=metadata;servedAssets.set('js/'+name,{data,metadata});}
@@ -881,6 +882,10 @@ async function attemptElement(cdp,actor){
  if(!skill.available){report.missingConditions??=[];report.missingConditions.push({reason:'Actual current weather/MP/caster terrain forbids skill',owner,skill,current});await action(cdp,'cancel-unavailable-element','BayeHdBattle.cancel()');await waitBattle(cdp,3,'native unavailable skill return');return false;}
  const latest=await evaluate(cdp,'({fight:baye.hd.fight(),skills:baye.hd.skills(),generation:Number(baye.data.g_hdSpeGeneration)})');assert.deepEqual(latest,owner);assert.equal(owner.skills.active,1);assert.equal(owner.skills.ids[skill.index],skillId);assert.equal(owner.skills.ids.filter(id=>id===skillId).length,1);assert.ok(fresh.mp>=contract.useMp);
  assert.equal((await action(cdp,'choose-native-skill-'+skillId,'BayeHdBattle.pickMenu('+skill.index+')')).ok,true);await waitBattle(cdp,5,'actual element target owner');
+ if(!classic){
+  await waitFor(cdp,'render current selected skill target conditions','BayeHdBattle.debugSnapshot().feedback?.skillAim');
+  (report.skillAimChecks??=[]).push(verifySkillAim(await evaluate(cdp,skillAimObservation),skill));
+ }
  const targets=(await evaluate(cdp,rangedUnitsExpression)).filter(u=>u.side==='enemy'&&![8,6].includes(u.state)&&u.arms>0&&Number.isInteger(u.terrain)&&skill.eland[u.terrain]>0&&Number.isInteger(u.armType)&&skill.earm[u.armType]>0);
  if(!targets.length){report.missingConditions??=[];report.missingConditions.push({reason:'No current eligible enemy inside actual native AIM; no terrain/units/weather/RNG writes',owner,skill,current:await evaluate(cdp,battleStateExpression)});await action(cdp,'cancel-no-native-element-target','BayeHdBattle.cancel()');await waitBattle(cdp,3,'no legal native target return');return false;}
  const before=await evaluate(cdp,battleStateExpression),target=targets.sort((a,b)=>(before.units.find(u=>u.id===a.id)?.iq??255)-(before.units.find(u=>u.id===b.id)?.iq??255)||a.i-b.i)[0];

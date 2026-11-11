@@ -594,16 +594,15 @@ FAR U8 FgtJNChkAim(SkillID param,U8 same, U8 aidx, U8 sidx)
     type = GetArmType(&g_Persons[g_FgtParam.GenArray[aidx] - 1]);
     terrain = FgtGetGenTer(aidx);
     skl = (SKILLEF	*)FgtGetJNPtr(param);
-    /* 检测目标兵种 */
-    if(!skl->earm[type])
-        return 0;
-    /* 检测目标的地形 */
-    if(!skl->eland[terrain])
-        return 0;
-    /* 施展对象是否符合 */
-    if(((skl->aim & 1) && !same) || (!(skl->aim & 1) && same))
-        return 0;
-    return 1;
+    return FgtSkillTargetStatus(skl, same, terrain, type) == BAYE_HD_SKILL_TARGET_ALLOWED;
+}
+
+FAR U8 FgtSkillTargetStatus(const SKILLEF *skill, U8 same, U8 terrain, U8 arm)
+{
+    if (!skill->earm[arm]) return BAYE_HD_SKILL_TARGET_ARM;
+    if (!skill->eland[terrain]) return BAYE_HD_SKILL_TARGET_TERRAIN;
+    if ((skill->aim & 1) != (same != 0)) return BAYE_HD_SKILL_TARGET_SIDE;
+    return BAYE_HD_SKILL_TARGET_ALLOWED;
 }
 /***********************************************************************
  * 说明:     获取指定将领脚下的地况

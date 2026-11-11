@@ -25,6 +25,8 @@
 | `g_hdFightOver` | u8 | 镜像 `g_FgtOver`（离开战斗时写入）。新 `GamFight` 入口先清 0，避免上场全军覆没残留 |
 | `g_hdFightSkip` | u8 | `BattleDrv` / 瞬时 `FgtInit` 为何没打：0 无 · 1 空城占领 · 2 已是己方 · 3 出征槽无将 · 4 `FgtInit` 当场结束 |
 | `g_hdFightWait` | u8 | `FgtGetFoucs` 正在 `GamGetMsg` 时为 1（按键不会被 `GamDelay(false)` 吃掉）。新一场 / 显式 reset 时清 0 |
+| `g_hdFightSkillAimSeq` / `Id` / `Side` | u32 / u16 / u8 | 计谋瞄准等待的原生输入序号、实际所选计谋 ID、目标阵营（0 敌方、1 己方）。序号与当前 AIM 一致且 ID 非零时有效 |
+| `g_hdFightSkillAimTargets` / `Name` | u8[20] / u8[8] | 原版检查对各战斗槽的结果（0 未读、1 符合、2 兵种、3 地形、4 阵营）和当前计谋 GBK 名称。射程单独取 `g_FgtAtkRng` |
 | `g_hdFightActCommit` | u8 | 旧 HD 桥兼容邮箱；仅行动菜单可消费，关闭等待即丢弃。M2 控制器通过真实菜单逐键确认，不写此字段 |
 | `g_hdFightAllowRetreat` | u8 | HD 用户点「全军撤退」时为 1；仅本次 HD hook 的撤退受授权限制，原生与既有 Mod 菜单保留原确认流程 |
 | `g_hdFightMenuControl` | u8 | 仅当前 HD `fightOpenMainMenu` 调用写 1；C 在每次菜单调用前清 0，避免继承上一场或其他 hook 的授权 |
@@ -172,7 +174,7 @@ baye.hd.menuItems()  // { active, context, kind, seq, itemLen, count, index, nam
 baye.hd.qty()        // { active, value, min, max }
 baye.hd.march()      // { phase, session, origin, selected, inputSeq, mapInputSeq, pick, battlePick, mapCity, ok, city, obj, time, seq }
 baye.hd.transfer()   // null 或 { protocolVersion, active, command, session, inputSeq, phase, origin, target, person, food, money, arms, distance, commitSeq, commitResult }
-baye.hd.fight()      // { inputKind, inputSeq, actorIndex, active, over, wait, phase, aimType, tip, skip, result, mapW, mapH, bout, boutMax, focusX, focusY }
+baye.hd.fight()      // { inputKind, inputSeq, actorIndex, active, over, wait, phase, aimType, skillAim, tip, skip, result, mapW, mapH, bout, boutMax, focusX, focusY }
 baye.hd.help()       // { active, seq, text }
 baye.hd.movie()      // { active, id }
 baye.hd.spe()        // { active, id, kind, x, y, startFrm, endFrm, seq }
@@ -182,11 +184,13 @@ baye.hdEngineReady() // heap + `_bayeHdReady()`；未选 lib / 堆未就绪则 f
 baye.lastHdCall      // 最近一次 HD 桥调用（崩溃 onerror / unhandledrejection 会附带）
 ```
 
+`fight().skillAim` 在当前原生计谋瞄准等待中提供 `{id, name, side, targets, inputSeq, actorIndex}`。帮助和两军状况打开时回到 `null`，返回瞄准时按新输入序号重读。存在 `canUseSkill` 自定义钩子时由引擎确认规则，界面使用原生射程提示。
+
 越界防护（JS + 已重编 `baye.wasm`）：
 
 - `baye.hd.ready()`：heap + `_bayeHdReady()`。所有 HD `setInterval` / overworld rAF 在 false 时停轮询
 - OOB / `Module.onAbort` / `window.onerror` 会 `console.error('[hd-bridge] lastHdCall', JSON)`；alert **一定**带 `lastHdCall`（没有则 `(none)`）和 stack
-- 七个现有引擎入口的 `baye.js`、WASM/map 缓存同为 `20261011b`，bridge 为 `20261011a`；PC/手机共用 CITY 为 `20261011r`、dialog 为 `20261011f`，避免新观察桥配旧引擎。安装保留实际 StageOnly manifest 来源，见[构建与安装](wasm-build.md)
+- 七个引擎入口同步 `baye.js`、WASM/map 和 bridge 的缓存号。安装保留实际 StageOnly manifest 来源，见[构建与安装](wasm-build.md)
 - `pc.html` / `choose.html` 带 `Cache-Control: no-store` + `Pragma: no-cache`；页角 `#baye-build-badge` 显示运行时版本。实际原版 LIB 与能力仍独立校验，见[实际 LIB 身份](hd-lib-identity.md)
 
 - `getPersonName` / `getCityName` / `getToolName` / `getSkillName` / `getPersonNameByID`：index `<0` / `≥max` / `≥0xfffe`（队列空槽 `0xffff`）直接空串，不进 `ResLoadToMem`

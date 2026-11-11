@@ -2140,6 +2140,25 @@ function baye_bridge_init() {
         }
     }
 
+    function hdFightSkillAim(data, fight) {
+        if (!data || fight.active !== 1 || fight.over || fight.wait !== 1 || fight.inputKind !== 5 ||
+            fight.aimType !== 1 || !fight.inputSeq || hdIntegerValue(fight.actorIndex, 0, 9) == null ||
+            hdIntegerValue(data.g_hdFightSkillAimSeq, 1, 0xffffffff) !== fight.inputSeq) return null;
+        var id = hdIntegerValue(data.g_hdFightSkillAimId, 1, 0xffff);
+        var side = hdIntegerValue(data.g_hdFightSkillAimSide, 0, 1);
+        var targets = data.g_hdFightSkillAimTargets, hooks = baye.hooks;
+        if (id == null || side == null || !targets || targets.length !== 20 || (hooks && hooks.canUseSkill)) return null;
+        var statuses = [];
+        for (var i = 0; i < targets.length; i++) {
+            var status = hdIntegerValue(targets[i], 0, 4);
+            if (status == null) return null;
+            statuses.push(status);
+        }
+        var name = hooks && hooks.getSkillName ? '' : hdDecodeSlice(data.g_hdFightSkillAimName, 0, 8);
+        return { id: id, name: name, side: side ? 'player' : 'enemy', targets: statuses,
+            inputSeq: fight.inputSeq, actorIndex: fight.actorIndex };
+    }
+
     baye.hd = {
         ready: hdEngineReady,
         report: function () {
@@ -2232,7 +2251,7 @@ function baye_bridge_init() {
             if (!tip && d && d.g_hdFightTipGbk) {
                 tip = hdDecodeSlice(d.g_hdFightTipGbk, 0, 16);
             }
-            return {
+            var fight = {
                 active: hdReadNum(d, 'g_hdFightActive'),
                 over: hdReadNum(d, 'g_hdFightOver'),
                 wait: hdReadNum(d, 'g_hdFightWait'),
@@ -2252,6 +2271,8 @@ function baye_bridge_init() {
                 focusX: hdReadNum(d, 'g_FoucsX'),
                 focusY: hdReadNum(d, 'g_FoucsY')
             };
+            fight.skillAim = hdFightSkillAim(d, fight);
+            return fight;
         },
         /* 词典原版 g_CitiesCount / citiesCount 恒为地图座数（38），不是己方城。
          * 攻城后看 ownedCount 与各城 Belong（马腾=playerBelong）。 */

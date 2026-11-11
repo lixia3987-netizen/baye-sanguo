@@ -74,6 +74,10 @@
 #define BAYE_HD_HELP_MAX 1024
 #define BAYE_HD_SKILL_MAX 10
 #define BAYE_HD_SKILL_NAME 8
+#define BAYE_HD_SKILL_TARGET_ALLOWED 1
+#define BAYE_HD_SKILL_TARGET_ARM 2
+#define BAYE_HD_SKILL_TARGET_TERRAIN 3
+#define BAYE_HD_SKILL_TARGET_SIDE 4
 #define BAYE_HD_DETAIL_VERSION 1
 #define BAYE_HD_DETAIL_IDS_MAX 2000
 #define BAYE_HD_GOODS_PROPS_MAX 256
@@ -413,7 +417,8 @@ void baye_hd_diplomacy_retire(void);
 void baye_hd_set_fight(U8 active, U8 over);
 void baye_hd_set_fight_wait(U8 wait);
 void baye_hd_set_fight_phase(U8 phase);
-void baye_hd_set_fight_aim(U8 type);
+void baye_hd_set_fight_aim(U8 type, SkillID skill);
+void baye_hd_fight_publish_skill_aim(void);
 void baye_hd_set_fight_tip(const U8* gbk);
 void baye_hd_clear_fight_tip(void);
 void baye_hd_set_help(const U8* gbk);

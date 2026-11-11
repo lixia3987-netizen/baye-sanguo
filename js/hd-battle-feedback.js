@@ -36,13 +36,23 @@
         var index = py * mask.size + px, raw = mask.values[index];
         return result(byte(raw) ? (raw === 1 ? 'in' : 'out') : 'unknown', raw, index, px, py);
     }
+    var SKILL_TARGET_LABELS = ['射程内将领', '可选目标', '兵种不符', '地形不符', '阵营不符'];
+    function currentSkillAim(snapshot) {
+        var skill = snapshot.skillAim;
+        return skill && skill.inputSeq === snapshot.inputSeq && skill.actorIndex === snapshot.actorIndex &&
+            integer(skill.id) && skill.id > 0 && skill.id <= 65535 && typeof skill.name === 'string' &&
+            (skill.side === 'player' || skill.side === 'enemy') && Array.isArray(skill.targets) &&
+            skill.targets.length === 20 && skill.targets.every(function (status) {
+                return integer(status) && status >= 0 && status < SKILL_TARGET_LABELS.length;
+            }) ? skill : null;
+    }
     function build(snapshot) {
         snapshot = snapshot || {};
         var out = { active: false, reason: '', kind: '', inputSeq: snapshot.inputSeq,
             actorIndex: snapshot.actorIndex, actorValid: false,
             bounds: snapshot.bounds ? { width: snapshot.bounds.width, height: snapshot.bounds.height } : null,
             view: snapshot.view ? { x: snapshot.view.x, y: snapshot.view.y, width: snapshot.view.width, height: snapshot.view.height } : null,
-            mask: null, cells: [], focus: null, rangedUnits: [] };
+            mask: null, cells: [], focus: null, rangedUnits: [], skillAim: null };
         function retire(reason) { out.reason = reason; return out; }
         if (snapshot.visible !== true || snapshot.hidden || snapshot.classic || snapshot.mode === 'classic') { return retire('not-visible'); }
         if (snapshot.reportActive || snapshot.menuActive) { return retire('native-owner'); }
@@ -61,6 +71,11 @@
         out.kind = snapshot.inputKind === 2 ? 'move' : (snapshot.aimType === 1 ? 'skill' : 'attack');
         var mask = out.kind === 'move' ? snapshot.move : snapshot.aim;
         if (!(out.kind === 'move' ? validMove(mask) : validAim(mask))) { return retire('mask-unavailable'); }
+        var skill = out.kind === 'skill' && currentSkillAim(snapshot);
+        if (skill) {
+            out.skillAim = { id: skill.id, name: skill.name, side: skill.side,
+                title: (skill.name || '计谋') + (skill.side === 'player' ? ' · 选择己方将领' : ' · 选择敌将') };
+        }
         out.mask = { originX: mask.originX, originY: mask.originY,
             useX: out.kind === 'move' ? mask.useX : null, useY: out.kind === 'move' ? mask.useY : null,
             size: out.kind === 'move' ? 15 : mask.size };
@@ -76,24 +91,31 @@
                         west: value.status === 'in' && cell(x - 1, y).status !== 'in' } });
             }
         }
-        var units = snapshot.units || [];
+        var units = snapshot.units || [], focus = snapshot.focus, focusedUnit = null;
         for (var i = 0; i < units.length; i += 1) {
             var unit = units[i];
             if (!unit || !integer(unit.i) || unit.i < 0 || unit.i >= 20 ||
                 !integer(unit.state) || unit.state < 0 || unit.state >= 8 ||
                 (unit.side !== 'player' && unit.side !== 'enemy') || !inside(bounds, unit.x, unit.y)) { continue; }
-            if (out.kind !== 'move' && cell(unit.x, unit.y).status === 'in' &&
-                (out.kind === 'skill' || unit.side === 'enemy')) {
+            if (out.kind === 'move' || cell(unit.x, unit.y).status !== 'in') { continue; }
+            if (skill && focus && unit.x === focus.x && unit.y === focus.y && (!focusedUnit || unit.i < focusedUnit.i)) {
+                focusedUnit = unit;
+            }
+            if (skill ? skill.targets[unit.i] === 1 : (out.kind === 'skill' || unit.side === 'enemy')) {
                 out.rangedUnits.push({ i: unit.i, x: unit.x, y: unit.y, side: unit.side });
             }
         }
-        var focus = snapshot.focus;
         if (focus && integer(focus.x) && integer(focus.y)) {
             var focused = cell(focus.x, focus.y), label, targetIndex = null;
             if (!inside(bounds, focus.x, focus.y)) { label = '超出战场'; }
             else if (focused.status === 'unknown') { label = '范围数据未知'; }
             else if (focused.status !== 'in') { label = out.kind === 'move' ? '不可移动' : (out.kind === 'skill' ? '不在计谋射程内' : '不在射程内'); }
             else if (out.kind === 'move') { label = actor.x === focus.x && actor.y === focus.y ? '可移动 · 原地' : '可移动'; }
+            else if (skill && focusedUnit) {
+                var status = skill.targets[focusedUnit.i];
+                label = SKILL_TARGET_LABELS[status] || SKILL_TARGET_LABELS[0];
+                if (status === 1) { targetIndex = focusedUnit.i; }
+            }
             else {
                 for (i = 0; i < out.rangedUnits.length; i += 1) {
                     if (out.rangedUnits[i].x === focus.x && out.rangedUnits[i].y === focus.y) { targetIndex = out.rangedUnits[i].i; break; }
@@ -110,7 +132,39 @@
     var COLORS = { move: { wash: 'rgba(74,186,214,0.18)', line: '#69c9e1' },
         attack: { wash: 'rgba(225,151,57,0.18)', line: '#eac16a' },
         skill: { wash: 'rgba(154,126,218,0.20)', line: '#b3a0eb' } };
-    function paint(ctx, board, feedback) {
+    function paintTargets(ctx, board, feedback) {
+        if (!feedback || !feedback.active || !board || (global.document && global.document.hidden)) { return false; }
+        var color = COLORS[feedback.kind];
+        if (!color) { return false; }
+        ctx.save();
+        ctx.setLineDash([]);
+        ctx.strokeStyle = color.line; ctx.lineWidth = 3;
+        for (var i = 0; i < feedback.rangedUnits.length; i += 1) {
+            var unit = feedback.rangedUnits[i];
+            if (unit.x < board.viewOx || unit.y < board.viewOy || unit.x >= board.viewOx + board.cols || unit.y >= board.viewOy + board.rows) { continue; }
+            var inset = Math.min(7, board.cw * 0.14, board.ch * 0.14);
+            var ux = board.ox + (unit.x - board.viewOx) * board.cw + inset;
+            var uy = board.oy + (unit.y - board.viewOy) * board.ch + inset;
+            var w = board.cw - inset * 2, h = board.ch - inset * 2, arm = Math.min(15, w * 0.2, h * 0.2);
+            ctx.beginPath();
+            ctx.moveTo(ux, uy + arm); ctx.lineTo(ux, uy); ctx.lineTo(ux + arm, uy);
+            ctx.moveTo(ux + w - arm, uy); ctx.lineTo(ux + w, uy); ctx.lineTo(ux + w, uy + arm);
+            ctx.moveTo(ux, uy + h - arm); ctx.lineTo(ux, uy + h); ctx.lineTo(ux + arm, uy + h);
+            ctx.moveTo(ux + w - arm, uy + h); ctx.lineTo(ux + w, uy + h); ctx.lineTo(ux + w, uy + h - arm);
+            ctx.stroke();
+        }
+        var focus = feedback.focus;
+        if (focus && inside(feedback.bounds, focus.x, focus.y) && focus.x >= board.viewOx && focus.y >= board.viewOy &&
+            focus.x < board.viewOx + board.cols && focus.y < board.viewOy + board.rows) {
+            var eligible = focus.status === 'in' && (!feedback.skillAim || focus.targetIndex != null);
+            ctx.strokeStyle = eligible ? color.line : '#9b9fac'; ctx.lineWidth = 4;
+            ctx.strokeRect(board.ox + (focus.x - board.viewOx) * board.cw + 4,
+                board.oy + (focus.y - board.viewOy) * board.ch + 4, board.cw - 8, board.ch - 8);
+        }
+        ctx.restore();
+        return true;
+    }
+    function paint(ctx, board, feedback, rangeOnly) {
         if (!feedback || !feedback.active || !board || (global.document && global.document.hidden)) { return false; }
         var color = COLORS[feedback.kind];
         if (!color) { return false; }
@@ -129,40 +183,22 @@
             if (cell.edges.west) { ctx.moveTo(x + 1, y + 1); ctx.lineTo(x + 1, y + board.ch - 1); }
             ctx.stroke();
         }
-        ctx.strokeStyle = color.line; ctx.lineWidth = 3;
-        for (i = 0; i < feedback.rangedUnits.length; i += 1) {
-            var unit = feedback.rangedUnits[i];
-            if (unit.x < board.viewOx || unit.y < board.viewOy || unit.x >= board.viewOx + board.cols || unit.y >= board.viewOy + board.rows) { continue; }
-            var inset = Math.min(7, board.cw * 0.14, board.ch * 0.14);
-            var ux = board.ox + (unit.x - board.viewOx) * board.cw + inset;
-            var uy = board.oy + (unit.y - board.viewOy) * board.ch + inset;
-            var w = board.cw - inset * 2, h = board.ch - inset * 2, arm = Math.min(15, w * 0.2, h * 0.2);
-            ctx.beginPath();
-            ctx.moveTo(ux, uy + arm); ctx.lineTo(ux, uy); ctx.lineTo(ux + arm, uy);
-            ctx.moveTo(ux + w - arm, uy); ctx.lineTo(ux + w, uy); ctx.lineTo(ux + w, uy + arm);
-            ctx.moveTo(ux, uy + h - arm); ctx.lineTo(ux, uy + h); ctx.lineTo(ux + arm, uy + h);
-            ctx.moveTo(ux + w - arm, uy + h); ctx.lineTo(ux + w, uy + h); ctx.lineTo(ux + w, uy + h - arm);
-            ctx.stroke();
-        }
-        var focus = feedback.focus;
-        if (focus && inside(feedback.bounds, focus.x, focus.y) && focus.x >= board.viewOx && focus.y >= board.viewOy &&
-            focus.x < board.viewOx + board.cols && focus.y < board.viewOy + board.rows) {
-            ctx.strokeStyle = focus.status === 'in' ? color.line : '#9b9fac'; ctx.lineWidth = 4;
-            ctx.strokeRect(board.ox + (focus.x - board.viewOx) * board.cw + 4,
-                board.oy + (focus.y - board.viewOy) * board.ch + 4, board.cw - 8, board.ch - 8);
-        }
         // The strip lies above the board and to the right of the mode toolbar.
-        var right = board.ox + board.cols * board.cw, left = right - 350;
-        ctx.fillStyle = 'rgba(16,22,32,0.94)'; ctx.fillRect(left, 10, 350, 50);
-        ctx.fillStyle = color.line; ctx.fillRect(left + 12, 20, 5, 30);
-        ctx.textAlign = 'left'; ctx.fillStyle = '#e8edf3'; ctx.font = '600 18px BayeUI, sans-serif';
-        var title = feedback.kind === 'move' ? '移动范围 · 可确认位置' :
-            (feedback.kind === 'skill' ? '计谋射程 · 范围内将领' : '攻击射程 · 射程内敌将');
-        ctx.fillText(title, left + 28, 29, 310);
-        ctx.fillStyle = color.line; ctx.font = '16px BayeUI, sans-serif';
-        ctx.fillText(focus ? '当前格：' + focus.label : '选择战场位置', left + 28, 49, 310);
+        if (!rangeOnly) {
+            paintTargets(ctx, board, feedback);
+            var focus = feedback.focus;
+            var right = board.ox + board.cols * board.cw, left = right - 350;
+            ctx.fillStyle = 'rgba(16,22,32,0.94)'; ctx.fillRect(left, 10, 350, 50);
+            ctx.fillStyle = color.line; ctx.fillRect(left + 12, 20, 5, 30);
+            ctx.textAlign = 'left'; ctx.fillStyle = '#e8edf3'; ctx.font = '600 18px BayeUI, sans-serif';
+            var title = feedback.skillAim ? feedback.skillAim.title : feedback.kind === 'move' ? '移动范围 · 可确认位置' :
+                (feedback.kind === 'skill' ? '计谋射程 · 范围内将领' : '攻击射程 · 射程内敌将');
+            ctx.fillText(title, left + 28, 29, 310);
+            ctx.fillStyle = color.line; ctx.font = '16px BayeUI, sans-serif';
+            ctx.fillText(focus ? '当前格：' + focus.label : '选择战场位置', left + 28, 49, 310);
+        }
         ctx.restore();
         return true;
     }
-    global.BayeHdBattleFeedback = { lookupMove: lookupMove, lookupAim: lookupAim, build: build, paint: paint };
+    global.BayeHdBattleFeedback = { lookupMove: lookupMove, lookupAim: lookupAim, build: build, paint: paint, paintTargets: paintTargets };
 })(window);

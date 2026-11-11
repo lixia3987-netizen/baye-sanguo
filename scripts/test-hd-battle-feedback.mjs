@@ -334,6 +334,44 @@ test('painting distinguishes range meanings, clips to the native board intersect
     assert.deepEqual(h.writes, []); assert.deepEqual(h.inputs, []);
 });
 
+test('skill target marks and focus reasons follow the current native target slots', () => {
+    const h = harness(), s = snapshot({ inputKind: 5, aimType: 1 });
+    const skill = { id: 2, name: '冲锋', side: 'enemy', inputSeq: s.inputSeq, actorIndex: s.actorIndex,
+        targets: Array(20).fill(0) };
+    s.units.push({ i: 11, x: 3, y: 3, state: 0, side: 'enemy' },
+        { i: 12, x: 4, y: 3, state: 0, side: 'enemy' }, { i: 13, x: 3, y: 2, state: 0, side: 'enemy' });
+    skill.targets[1] = 4; skill.targets[10] = 1; skill.targets[11] = 2; skill.targets[12] = 3;
+    for (const [x, y, label, target] of [[2, 2, '阵营不符', null], [3, 2, '可选目标', 10],
+        [3, 3, '兵种不符', null], [4, 3, '地形不符', null], [1, 1, '射程内将领', null],
+        [4, 4, '计谋射程内 · 空地', null], [5, 3, '不在计谋射程内', null]]) {
+        const model = h.api.build({ ...s, skillAim: skill, focus: { x, y } });
+        assert.equal(model.skillAim.title, '冲锋 · 选择敌将');
+        assert.deepEqual(plain(model.rangedUnits.map(unit => unit.i)), [10]);
+        assert.equal(model.focus.label, label); assert.equal(model.focus.targetIndex, target);
+    }
+    const ally = { ...skill, id: 17, name: '援兵', side: 'player', targets: Array(20).fill(0) };
+    ally.targets[1] = 1;
+    const friendly = h.api.build({ ...s, skillAim: ally });
+    assert.equal(friendly.skillAim.title, '援兵 · 选择己方将领');
+    assert.equal(friendly.focus.targetIndex, 1);
+    const board = { ox: 0, oy: 0, cw: 44, ch: 44, cols: 8, rows: 6, viewOx: 0, viewOy: 0 };
+    const rangeLayer = drawingContext(), targetLayer = drawingContext();
+    assert.equal(h.api.paint(rangeLayer.ctx, board, friendly, true), true);
+    assert.ok(rangeLayer.events.some(event => event.operation === 'fillRect'));
+    assert.ok(rangeLayer.events.every(event => !['strokeRect', 'fillText'].includes(event.operation)));
+    assert.equal(h.api.paintTargets(targetLayer.ctx, board, friendly), true);
+    assert.equal(targetLayer.events.filter(event => event.operation === 'stroke').length, 1);
+    assert.equal(targetLayer.events.filter(event => event.operation === 'strokeRect').length, 1);
+    for (const malformed of [{ inputSeq: s.inputSeq - 1 }, { actorIndex: s.actorIndex + 1 }, { targets: [1] },
+        { targets: Array(20).fill(5) }, { id: 0 }]) {
+        const fallback = h.api.build({ ...s, skillAim: { ...skill, ...malformed } });
+        assert.equal(fallback.skillAim, null);
+        assert.equal(fallback.focus.label, '射程内目标');
+    }
+    assert.equal(h.api.build({ ...s, skillAim: skill, aimType: 0 }).skillAim, null);
+    assert.equal(h.api.build({ ...s, skillAim: skill, reportActive: true }).skillAim, null);
+});
+
 test('hidden, inactive and unavailable-mask feedback performs no paint, hook or native input', () => {
     const h = harness(), board = { ox: 80, oy: 90, cw: 60, ch: 55, cols: 8, rows: 6, viewOx: 0, viewOy: 0 };
     for (const changed of [{ reportActive: true }, { wait: false }, { move: moveMask({ values: Array(224).fill(0) }) },
