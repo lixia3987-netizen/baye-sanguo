@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V81",
+  "parentCommit": "4a41834877b21bce45d971d24d4bb094cc2da9d3",
+  "feature": "Read-only discovered goods inventory in the current owned city status pane",
+  "accepted": true,
+  "started": "2026-10-26T09:41:25.196Z",
+  "finished": "2026-10-26T09:41:33.207Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 731,
+  "pass": 731,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44207,
+      "sha256": "85842b00b9d410f29ee70bdba295635ed2ccaeb2cd720b1a7f74ff123aa1741c"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 477294,
+      "sha256": "72cfbc802e7077ac49463a1b770746e986e80c2b75a9ef5816216259b8a867fa"
+    },
+    {
+      "path": "js/hd-city-inventory.js",
+      "bytes": 6161,
+      "sha256": "519d70fe5dc84402afcc448f32ac811bec06d11e0efe756da87225f487dac06d"
+    },
+    {
+      "path": "js/hd-city-plans.js",
+      "bytes": 11337,
+      "sha256": "058c2704dc1659467ed7828520d343d2af211e528bd58c878cdab253ecc5d8ad"
+    },
+    {
+      "path": "js/hd-dialog.js",
+      "bytes": 145114,
+      "sha256": "eea1c276fdf857b4da6c37275ccd6386c95520a583a10ab6efd93e210a216576"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 36222,
+      "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+    },
+    {
+      "path": "js/hd-mobile-city.js",
+      "bytes": 35411,
+      "sha256": "71d6997840e7c1f5b2b6f09753db868b1acd8c082763c7d32d5c1ecb229cfeb0"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32369,
+      "sha256": "3bdc52b0266c97a7e12acb6ed2b9e648e31772db9f7e6a280a69de098599a4b3"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "m.html",
+      "bytes": 19826,
+      "sha256": "7298f31e0d68fd9ca012cc683814609d059dacc673597dca31231726754f04e5"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 29903,
+      "sha256": "9df3503427820de55eaeb78225bfbe7e5eb817b2dfda81b1960398235b0cbabb"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 163348,
+      "sha256": "46d7873f4a690079bc2ea82c20f1fd607dcad59c9a34d8e333d99ab27526cf4b"
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+    },
+    {
+      "path": "vendor/iBaye/src/bind-objects.c",
+      "bytes": 17734,
+      "sha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0"
+    },
+    {
+      "path": "vendor/iBaye/src/showface.c",
+      "bytes": 42650,
+      "sha256": "c686d600d6cef87f4f3b2f64440200237ca8c4e011483067a2d7f7c4945b729a"
+    },
+    {
+      "path": "vendor/iBaye/src/hd-bridge.c",
+      "bytes": 199154,
+      "sha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 209213,
+      "sha256": "29e4ab0573a379abdb40c9d90bd5060bf991e2b126f0facaa8f66e3618171fbc"
+    },
+    {
+      "path": "scripts/test-hd-city-mobile-host.mjs",
+      "bytes": 195248,
+      "sha256": "7d2e172ecfc4c3e3d8f65bf107b65e36d867d2e1bc165b08ae17f0bac122e21d"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 3,
+  "fullSuiteRun": false,
+  "scope": "HUD and mobile city-host targeted modules; no browser, C compilation or full-suite run",
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "nativeContract": {
+    "source": "GetCityPGoods",
+    "discoveredMask": 32768,
+    "toolIdMask": 32767,
+    "logicalToolCount": 33,
+    "goodsQueueCapacity": 2000,
+    "zeroToolIdValid": true,
+    "hiddenItemsNamed": false,
+    "hiddenItemsCounted": false,
+    "equippedItemsRead": false,
+    "aggregation": "by exact tool ID in first-discovered-occurrence order"
+  },
+  "artifactPins": [
+    {
+      "path": "build/city-inventory-20261026-v81/run-targeted-v1.mjs",
+      "bytes": 2200,
+      "sha256": "1d896f0b33cc260ef66ffc1c6c1da6e28455728c77530bd7038c28810dd2f4ec"
+    },
+    {
+      "path": "build/city-inventory-20261026-v81/targeted-v1.json",
+      "bytes": 3654,
+      "sha256": "c325444e72d01234d34ed3493b3d631f1ed99755dfdbefbe8ef09beef06abc63"
+    },
+    {
+      "path": "build/city-inventory-20261026-v81/targeted-v1.stdout.tap",
+      "bytes": 165128,
+      "sha256": "9ff3a72c7bfdb8cbd3b9fe76bbc5e0244389f044b203cf2f3ba9b31db26fb39e"
+    },
+    {
+      "path": "build/city-inventory-20261026-v81/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "browserRuns": 0,
+  "engineRebuilt": false,
+  "oldHeldPrivateInterfacesInspected": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false,
+  "actualInventoryAccepted": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false
+}

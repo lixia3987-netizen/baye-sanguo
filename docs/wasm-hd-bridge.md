@@ -227,3 +227,10 @@ HD **只观察**，不往 `baye.hooks` 里登记会替换系统菜单的名字�
 - 大地图 HELP：`g_hdHelpGbk==="Ver 260919 14:37"`；战场 HELP：马腾 `等级:1 |兵种:骑兵|武力:89 …`
 - `GamMovie(MAIN_SPE)`：`g_hdSpeActive=1 kind=1`，`#hd-spe-canvas` 11× 开场；跳过发回车
 - 计谋：马腾 `g_hdSkillActive=1` `ids=[30,1]` 名 **谍报 / 践踏**；HD `menuKind=skill`，不 stub `fightChooseSkill`
+
+
+## 城市详情页（V90）
+
+新增 `g_hdCityInfo*` 协议1和只读 `baye.hd.cityInfo()`；字段清单写入当前构建manifest的 `hdCityInfoProtocol`。原生同一次显示循环捕获title／rowIndices／rowText，保留原hook guard、原分页及返回。Wait仅代表真实GamGetMsg；CHAR与完整TOUCH_UP令独立inputSeq加一，零值跳过。局部session／retirement票据阻止旧悬挂发布在reset、world commit、report／help／menu／fight接管后复活。通知 `baye-hd-city-info` 只让JS退休旧交互与重读，不代用户发键。
+
+UI绑定原版库身份、字节、实际页和回执，未知／自定义页保持LCD；侦察原有ENTER与EXIT都继续扣费和下单的语义保持。具体覆盖及链接构建边界见[V90记录](validation/m5-city-info-20261026-v90.md)。

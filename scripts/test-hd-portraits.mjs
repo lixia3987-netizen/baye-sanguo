@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 import { test, after } from 'node:test';
 import { createHash, webcrypto } from 'node:crypto';
+import { readOriginalPersonIdentityRom } from './hd-person-identity-rom.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const moduleText = readFileSync(path.join(root, 'js/hd-portraits.js'), 'utf8');
@@ -23,6 +24,34 @@ const manifest = JSON.parse(readFileSync(path.join(root, manifestUrl), 'utf8'));
 const references = JSON.parse(readFileSync(path.join(root, referencesUrl), 'utf8'));
 const asset = (rel) => 'assets/hd-portraits/' + rel;
 const pilot = manifest.entries.find((entry) => entry.period === 1 && entry.personId === 5);
+// This real native identity is omitted only from a read-only test manifest. The shipped manifest stays complete.
+const referenceOnly = (() => {
+    const period = 1, personId = 53;
+    const person = references.periods.find(block => block.period === period)?.people.find(person => person.id === personId);
+    assert.ok(person && !person.skipped);
+    assert.equal(person.name, '祖茂');
+    assert.equal(readOriginalPersonIdentityRom(dictionaryBytes, period).names200[personId], person.name);
+    const ref = 'refs/' + person.file;
+    assert.equal(ref, 'refs/period-1/53-祖茂.png');
+    const entries = manifest.entries.filter(entry => entry.period === period && entry.personId === personId);
+    assert.equal(entries.length, 1);
+    assert.equal(entries[0].name, person.name); assert.equal(entries[0].ref, ref); assert.equal(entries[0].missing, false);
+    assert.ok(existsSync(path.join(root, asset(ref)))); assert.ok(existsSync(path.join(root, asset(entries[0].hd))));
+    return Object.freeze({ period, personId, name: person.name, ref });
+})();
+const omittedManifest = (() => {
+    const value = JSON.parse(JSON.stringify(manifest));
+    value.entries = value.entries.filter(entry => entry.period !== referenceOnly.period || entry.personId !== referenceOnly.personId);
+    assert.equal(value.entries.length, manifest.entries.length - 1);
+    assert.deepEqual(value.entries, manifest.entries.filter(entry => entry.period !== referenceOnly.period || entry.personId !== referenceOnly.personId));
+    const { entries: originalEntries, ...originalMeta } = manifest, { entries: omittedEntries, ...omittedMeta } = value;
+    assert.deepEqual(omittedMeta, originalMeta);
+    const freeze = item => {
+        if (item && typeof item === 'object') { Object.values(item).forEach(freeze); Object.freeze(item); }
+        return item;
+    };
+    return freeze(value);
+})();
 const flush = () => new Promise((resolve) => setImmediate(resolve));
 
 function fixture(options = {}) {
@@ -209,11 +238,13 @@ test('all 800 shipped references resolve through their exported filenames', asyn
     assert.equal(f.requests.length, new Set(f.requests).size, 'each URL is requested at most once');
 });
 
-test('all 39 period/person slots obey each of the three native identity protocols independently', async () => {
+test('all declared period/person slots obey each of the three native identity protocols independently', async () => {
     // This is the VM protocol matrix. Real native menus, queues and battle
     // actors are independently exercised by test-hd-portraits-runtime.mjs.
     const entries = manifest.entries.filter(e => !e.missing);
-    assert.equal(entries.length, 39);
+    assert.equal(entries.filter(e => e.pilot === true).length, 39, 'historical pilot coverage stays distinct');
+    assert.deepEqual(entries.filter(e => e.expansion === 'period-4-rulers-v96').map(e => [e.period, e.personId, e.name, e.expansion]).sort((a,b) => a[1]-b[1]),
+        [[4,0,'曹丕','period-4-rulers-v96'],[4,1,'刘禅','period-4-rulers-v96'],[4,3,'孟获','period-4-rulers-v96'],[4,4,'公孙康','period-4-rulers-v96']]);
     for (const entry of entries) {
         const expect = existsSync(path.join(root, asset(entry.hd))) ? 'hd' : 'ref';
         for (const context of ['map-king', 'person-info', 'battle-note']) {
@@ -239,6 +270,133 @@ test('all 39 period/person slots obey each of the three native identity protocol
             assert.equal(f.elements['hd-portrait'].getAttribute('data-period'), String(entry.period));
             assert.equal(f.elements['hd-portrait-img'].getAttribute('src'), asset(expect === 'hd' ? entry.hd : entry.ref));
         }
+    }
+});
+
+test('period-one HD coverage contains every selectable ruler derived from actual original city ownership', () => {
+    const rom = readOriginalPersonIdentityRom(dictionaryBytes, 1);
+    // GetAllKings deduplicates nonempty city Belong values, not the people
+    // whose Belong points to themselves; a cityless person is not selectable.
+    const kings = [...new Set(rom.cities.map(city => city.Belong).filter(Boolean))].map(belong => belong - 1);
+    assert.equal(rom.cities.length, 38);
+    assert.equal(kings.length, 18);
+    assert.equal(rom.names200[12], '张邈');
+    assert.equal(rom.people[12].Belong, 13, 'self-belonging alone is insufficient');
+    assert.ok(!kings.includes(12), 'cityless Zhang Miao is not a selectable ruler');
+    const originalPilots = manifest.entries.filter(e => e.pilot === true && e.period === 1);
+    const expandedIds = kings.filter(id => !originalPilots.some(entry => entry.personId === id));
+    assert.equal(expandedIds.length, 13, 'five historical pilot rulers and thirteen additions cover all eighteen');
+    const expected = expandedIds.map(id => ({ name: rom.names200[id], personId: id, period: 1,
+        pilot: false, expansion: 'period-1-rulers-v97', missing: false,
+        ref: 'refs/period-1/' + id + '-' + rom.names200[id] + '.png',
+        hd: 'hd/period-1/' + id + '-' + rom.names200[id] + '.png' })).sort((a,b) => a.personId - b.personId);
+    const added = manifest.entries.filter(entry => entry.expansion === 'period-1-rulers-v97').sort((a,b) => a.personId - b.personId);
+    assert.deepEqual(added, expected, 'new period/person bindings follow actual ROM-selectable identities');
+    for (const id of kings) {
+        const matches = manifest.entries.filter(entry => entry.period === 1 && entry.personId === id);
+        assert.equal(matches.length, 1, 'exactly one portrait binding for original king ' + id);
+        const entry = matches[0];
+        assert.equal(entry.name, rom.names200[id]);
+        assert.equal(entry.missing, false);
+        assert.ok(existsSync(path.join(root, asset(entry.hd))), 'real HD asset for original king ' + id);
+        assert.ok(existsSync(path.join(root, asset(entry.ref))), 'actual native reference for original king ' + id);
+    }
+});
+
+test('all fifty selectable rulers across four original periods have unique native identities and genuine large HD files', () => {
+    const counts = [18, 16, 11, 5], roms = counts.map((_, index) => readOriginalPersonIdentityRom(dictionaryBytes, index + 1));
+    const entries = manifest.entries.filter(entry => !entry.missing), keys = new Set();
+    for (const entry of entries) {
+        assert.ok(Number.isInteger(entry.period) && entry.period >= 1 && entry.period <= 4);
+        assert.ok(Number.isInteger(entry.personId) && entry.personId >= 0 && entry.personId < 200);
+        const key = entry.period + ':' + entry.personId;
+        assert.ok(!keys.has(key), 'one manifest binding for original identity ' + key);
+        keys.add(key);
+        const rom = roms[entry.period - 1], exported = references.periods.find(block => block.period === entry.period);
+        const native = exported.people.filter(person => !person.skipped && person.id === entry.personId);
+        assert.equal(native.length, 1, 'one captured native reference for ' + key);
+        assert.ok(rom.names200[entry.personId], 'a declared identity names a real original person');
+        assert.equal(entry.name, rom.names200[entry.personId], 'manifest name follows actual period ROM at ' + key);
+        assert.equal(native[0].name, rom.names200[entry.personId]);
+        assert.equal(entry.ref, 'refs/' + native[0].file, 'reference belongs to the current period and person');
+    }
+    let total = 0;
+    for (const [index, rom] of roms.entries()) {
+        const period = index + 1;
+        assert.equal(rom.cities.length, 38);
+        // This is GetAllKings' real city rule. Person self-ownership neither
+        // adds a cityless ruler nor supplies a portrait for a different period.
+        const rulers = [...new Set(rom.cities.map(city => city.Belong).filter(Boolean))].map(belong => belong - 1);
+        assert.equal(rulers.length, counts[index], 'original selectable-ruler count in period ' + period);
+        total += rulers.length;
+        for (const id of rulers) {
+            const matches = entries.filter(entry => entry.period === period && entry.personId === id);
+            assert.equal(matches.length, 1, 'exactly one HD binding for selectable ruler ' + period + ':' + id);
+            const entry = matches[0], hdPath = path.join(root, asset(entry.hd)), nativePath = path.join(root, asset(entry.ref));
+            assert.ok(existsSync(hdPath), 'shipped HD file for ' + period + ':' + id);
+            assert.ok(existsSync(nativePath), 'shipped native reference for ' + period + ':' + id);
+            const hd = readFileSync(hdPath), original = readFileSync(nativePath);
+            assert.ok(hd.length >= 24 && original.length >= 24);
+            assert.equal(hd.subarray(0, 8).toString('hex'), '89504e470d0a1a0a', 'actual PNG signature');
+            assert.equal(original.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+            assert.equal(original.readUInt32BE(16), 24); assert.equal(original.readUInt32BE(20), 24);
+            assert.ok(hd.readUInt32BE(16) > 100 && hd.readUInt32BE(20) > 100, 'HD file is larger than the native 24-pixel reference');
+            assert.notEqual(createHash('sha256').update(hd).digest('hex'), createHash('sha256').update(original).digest('hex'),
+                'a copied native PNG is not HD artwork');
+        }
+    }
+    assert.equal(total, 50, 'all period-specific selectable rulers, not fifty distinct people');
+});
+
+test('cross-period shared HD files retain current native identity and require byte-identical same-person references', async () => {
+    const canonical = manifest.entries.filter(entry => entry.expansion === 'period-1-rulers-v97');
+    assert.equal(canonical.length, 13);
+    const expected = [];
+    for (const period of [2, 3, 4]) {
+        const rom = readOriginalPersonIdentityRom(dictionaryBytes, period);
+        const exported = references.periods.find(block => block.period === period);
+        for (const original of canonical) {
+            const ownBytes = readFileSync(path.join(root, asset(original.ref)));
+            for (const person of exported.people.filter(person => !person.skipped && person.name === original.name)) {
+                assert.equal(person.name, rom.names200[person.id], 'current-period name follows the original ROM');
+                const ref = 'refs/' + person.file, bytes = readFileSync(path.join(root, asset(ref)));
+                if (ownBytes.equals(bytes)) expected.push({period, personId:person.id, name:person.name, ref, hd:original.hd});
+            }
+        }
+    }
+    const sort = (a,b) => a.period-b.period || a.personId-b.personId;
+    assert.equal(expected.length, 10, 'ten other-period native PNGs exactly equal the corresponding period-one reference');
+    const aliases = manifest.entries.filter(entry => entry.expansion === 'rulers-identical-reference-v97');
+    assert.deepEqual(aliases.map(({period,personId,name,ref,hd}) => ({period,personId,name,ref,hd})).sort(sort), expected.sort(sort));
+    assert.ok(aliases.every(entry => entry.pilot === false && entry.missing === false));
+    const f = fixture(); await f.load();
+    for (const identity of expected) {
+        const source = await f.api.chooseSource(identity.personId, identity.period);
+        assert.equal(source.mode, 'hd');
+        assert.equal(source.url, asset(identity.hd));
+        assert.equal(source.entry.period, identity.period, 'shared image URL does not substitute its period-one owner');
+        assert.equal(source.entry.personId, identity.personId);
+        assert.equal(source.entry.name, identity.name);
+        assert.equal(source.entry.ref, identity.ref);
+    }
+    const mapped = manifest.entries.filter(entry => !entry.missing), differentPairs = [];
+    for (let i = 0; i < mapped.length; i++) for (let j = i + 1; j < mapped.length; j++) {
+        const a = mapped[i], b = mapped[j];
+        if (a.hd !== b.hd && (a.name !== b.name || a.period === b.period)) continue;
+        const equal = readFileSync(path.join(root, asset(a.ref))).equals(readFileSync(path.join(root, asset(b.ref))));
+        if (a.hd === b.hd) {
+            assert.equal(a.name, b.name, 'a shared HD path belongs to the same original person');
+            assert.ok(equal, 'any shared HD path requires byte-identical native references');
+        }
+        if (a.name === b.name && a.period !== b.period && !equal) differentPairs.push([a,b]);
+    }
+    assert.ok(differentPairs.length > 0, 'genuine distinct period references provide the no-name-only-sharing control');
+    for (const [a,b] of differentPairs) {
+        assert.notEqual(a.hd, b.hd, 'same name alone does not authorize a shared HD portrait');
+        const first = await f.api.chooseSource(a.personId, a.period), second = await f.api.chooseSource(b.personId, b.period);
+        assert.notEqual(first.url, second.url);
+        assert.equal(first.entry.period, a.period); assert.equal(first.entry.personId, a.personId);
+        assert.equal(second.entry.period, b.period); assert.equal(second.entry.personId, b.personId);
     }
 });
 
@@ -275,12 +433,14 @@ test('manual art preview never mounts into a runtime person detail slot', async 
     assert.equal(f.elements['hd-portrait'].hidden, false);
 });
 
-test('unlisted 袁绍 ID 2 has a named reference fallback without guessed requests', async () => {
-    const f = fixture();
+test('an explicitly omitted real identity fixture has a real reference fallback without guessed requests', async () => {
+    assert.ok(referenceOnly, 'use a real native identity omitted explicitly from this fixture only');
+    assert.equal(omittedManifest.entries.some(entry => entry.period === referenceOnly.period && entry.personId === referenceOnly.personId), false);
+    const f = fixture({ manifest: omittedManifest });
     await f.load();
-    const results = await Promise.all(Array.from({ length: 12 }, () => f.api.chooseSource(2, 1)));
-    assert.ok(results.every((src) => src.mode === 'ref' && src.url === asset('refs/period-1/2-袁绍.png')));
-    assert.deepEqual(f.requests, [asset('refs/period-1/2-袁绍.png')]);
+    const results = await Promise.all(Array.from({ length: 12 }, () => f.api.chooseSource(referenceOnly.personId, referenceOnly.period)));
+    assert.ok(results.every((src) => src.mode === 'ref' && src.url === asset(referenceOnly.ref)));
+    assert.deepEqual(f.requests, [asset(referenceOnly.ref)]);
 });
 
 test('missing HD falls back to the real reference and repeated calls do not repeat 404s', async () => {
@@ -451,18 +611,19 @@ test('missing both pictures hides the slot and caches misses; invalid IDs and pe
 });
 
 test('missing or mismatched indexes do not guess identities', async () => {
-    const noManifest = fixture({ missing: new Set([manifestUrl]) });
+    assert.ok(referenceOnly);
+    const noManifest = fixture({ manifest: omittedManifest, missing: new Set([manifestUrl]) });
     await noManifest.load();
     assert.equal((await noManifest.api.chooseSource(0, 1)).mode, 'lcd');
     assert.equal(noManifest.requests.length, 0);
     const secondPeriod = manifest.entries.find(e => e.period === 2 && e.personId === 11);
-    const noRefs = fixture({ missing: new Set([referencesUrl, asset(secondPeriod.hd)]) });
+    const noRefs = fixture({ manifest: omittedManifest, missing: new Set([referencesUrl, asset(secondPeriod.hd)]) });
     await noRefs.load();
-    assert.equal((await noRefs.api.chooseSource(2, 1)).mode, 'lcd');
+    assert.equal((await noRefs.api.chooseSource(referenceOnly.personId, referenceOnly.period)).mode, 'lcd');
     assert.equal((await noRefs.api.chooseSource(11, 2)).mode, 'ref', 'pilot manifest fallback still works');
-    const mismatched = fixture({ references: { ...references, libSha256: '0'.repeat(64) } });
+    const mismatched = fixture({ manifest: omittedManifest, references: { ...references, libSha256: '0'.repeat(64) } });
     await mismatched.load();
-    assert.equal((await mismatched.api.chooseSource(2, 1)).mode, 'lcd');
+    assert.equal((await mismatched.api.chooseSource(referenceOnly.personId, referenceOnly.period)).mode, 'lcd');
     assert.equal(mismatched.requests.length, 0);
 });
 
@@ -481,8 +642,9 @@ test('parallel index loading shares requests; an explicit reload retries previou
 });
 
 test('engine Promise replacement before or after module loading cannot break native async work', async () => {
+    assert.ok(referenceOnly);
     for (const beforeLoad of [false, true]) {
-        const f = fixture({ enginePromiseOverride: beforeLoad });
+        const f = fixture({ manifest: omittedManifest, enginePromiseOverride: beforeLoad });
         if (!beforeLoad) {
             vm.runInContext('window.Promise = function EnginePromise() { throw new Error("engine callback shim cannot load portraits"); };', f.context);
         }
@@ -492,7 +654,7 @@ test('engine Promise replacement before or after module loading cannot break nat
         assert.equal((await f.api.chooseSource(11, 2)).mode, existsSync(path.join(root, asset(secondPeriod.hd))) ? 'hd' : 'ref');
         assert.equal((await f.api.chooseSource(99999, 1)).mode, 'lcd');
         await f.load();
-        assert.equal((await f.api.chooseSource(2, 1)).mode, 'ref');
+        assert.equal((await f.api.chooseSource(referenceOnly.personId, referenceOnly.period)).mode, 'ref');
     }
 });
 
@@ -851,13 +1013,15 @@ function dumpSmokePolicy() {
     // Execute the actual policy with in-memory indexes; never run a native
     // export or change any of the shipped 800 references for this regression.
     const context = vm.createContext({ Map, Set, path, PILOT_NAMES: manifest.pilotNames });
-    for (const name of ['safeRef', 'hasStandardSmokeExport']) vm.runInContext(actualDumpFunction(name), context, { timeout: 1000 });
+    for (const name of ['safeRef', 'safeHd', 'hasStandardSmokeExport']) vm.runInContext(actualDumpFunction(name), context, { timeout: 1000 });
     return context.hasStandardSmokeExport;
 }
 
-test('normal full standard export permits strict39 smoke only with all matching native identities', () => {
+test('normal full standard export keeps strict39 historical pilots while checking all expanded identities', () => {
     const policy = dumpSmokePolicy();
     assert.equal(policy(manifest, references), true);
+    assert.equal(policy({ ...manifest, entries: manifest.entries.filter(e => e.pilot) }, references), true,
+        'the original 39-pilot contract remains independently valid');
     assert.equal(policy({ ...manifest, lib: 'preferred/custom-alias.lib' }, { ...references, lib: 'cached/alias.lib' }), true,
         'actual SHA and captured reference identities decide, not the preferred path');
     assert.equal(policy({ ...manifest, entries: [...manifest.entries].reverse() }, references), true,
@@ -880,7 +1044,7 @@ test('normal period/limit subsets and other actual libraries retain export succe
     assert.equal(exported.writes.size, 2, 'other-LIB export still commits its own verified reference index and manifest');
 });
 
-test('standard smoke refuses mismatched references, duplicate identities and incomplete39 metadata', () => {
+test('standard smoke refuses mismatched references, duplicate identities and incomplete historical pilots', () => {
     const policy = dumpSmokePolicy(), clone = value => JSON.parse(JSON.stringify(value));
     assert.equal(policy(manifest, { ...references, libSha256: '0'.repeat(64) }), false);
     for (const mutate of [
@@ -889,6 +1053,7 @@ test('standard smoke refuses mismatched references, duplicate identities and inc
         m => { m.entries[0].name = '另一位武将'; },
         m => { m.entries[0].ref = m.entries[1].ref; },
         m => { m.entries[0] = clone(m.entries[1]); },
+        m => { m.entries = m.entries.filter(e => !e.pilot || e.personId !== pilot.personId || e.period !== pilot.period); },
         m => { m.missingPilots = ['马腾']; }
     ]) {
         const changed = clone(manifest); mutate(changed); assert.equal(policy(changed, references), false);
@@ -904,16 +1069,35 @@ test('standard smoke refuses mismatched references, duplicate identities and inc
     }
 });
 
-async function dumpFixture(hex) {
+test('standard smoke validates every expanded identity and rejects unsafe HD paths and false pilot labels', () => {
+    const policy = dumpSmokePolicy(), clone = value => JSON.parse(JSON.stringify(value));
+    const mutations = [
+        e => { e.name = '另一位君主'; }, e => { e.pilot = true; }, e => { delete e.pilot; },
+        e => { e.ref = 'refs/period-4/2-孙权.png'; }, e => { e.hd = 'hd/../outside.png'; },
+        e => { e.hd = '/absolute.png'; }, e => { e.hd = 'hd/portrait.png?other'; },
+        e => { e.hd = 'hd/%2e%2e/outside.png'; }, e => { e.hd = 'hd/C:/outside.png'; },
+        e => { e.personId = 199; }, e => { e.missing = true; }
+    ];
+    for (const identity of manifest.entries.filter(e => e.pilot === false)) {
+        for (const mutate of mutations) {
+            const changed = clone(manifest), entry = changed.entries.find(e => e.period === identity.period && e.personId === identity.personId);
+            mutate(entry); assert.equal(policy(changed, references), false, 'reject mutated expansion ' + identity.period + ':' + identity.personId);
+        }
+    }
+    const duplicate = clone(manifest); duplicate.entries.push(clone(duplicate.entries.find(e => e.pilot === false)));
+    assert.equal(policy(duplicate, references), false);
+});
+
+async function dumpFixture(hex, options = {}) {
     let handler;
     const writes = new Map();
     const server = { listen(port, host, ready) { ready(); } };
     const context = vm.createContext({ root, path, Buffer, Map, URL, createHash, port: 8765, MIME: {},
-        PILOT_NAMES: ['董卓'], http: { createServer(fn) { handler = fn; return server; } },
+        PILOT_NAMES: options.pilotNames || ['董卓'], http: { createServer(fn) { handler = fn; return server; } },
         fs: { existsSync: () => true, mkdirSync() {},
-            readFileSync: () => JSON.stringify(manifest),
+            readFileSync: () => JSON.stringify(options.previousManifest || manifest),
             writeFileSync(filename, bytes) { writes.set(filename, bytes); } } });
-    for (const name of ['safeRef', 'existingHdPaths', 'buildManifest', 'startServer']) {
+    for (const name of ['safeRef', 'safeHd', 'existingHdEntries', 'buildManifest', 'startServer']) {
         vm.runInContext(actualDumpFunction(name), context);
     }
     await context.startServer();
@@ -935,6 +1119,52 @@ async function dumpFixture(hex) {
 }
 const dumpSummary = { lib: 'libs/sc-mod.lib', periods: [{ period: 1,
     people: [{ id: 0, name: '董卓', file: 'period-1/0-董卓.png' }] }] };
+
+test('same-LIB full exports preserve all declared nonpilot portraits with their captured identities and metadata', async () => {
+    const f = await dumpFixture(dictionaryHex,{pilotNames:manifest.pilotNames}), before = manifest.entries.filter(e => e.pilot === false);
+    assert.ok(before.length >= 4, 'the existing period-four expansion remains in the full manifest');
+    assert.equal((await f.post({kind:'summary',summary:references})).code, 200);
+    const kept = f.server.manifest.entries.filter(e => e.pilot === false);
+    assert.equal(f.server.manifest.entries.length, manifest.entries.length);
+    assert.equal(f.server.manifest.entries.filter(e => e.pilot === true).length, 39);
+    assert.deepEqual(JSON.parse(JSON.stringify(f.server.manifest.entries.filter(e => e.pilot === true))),
+        manifest.entries.filter(e => e.pilot === true), 'all 39 existing pilot paths and identities survive the full export');
+    assert.deepEqual(JSON.parse(JSON.stringify(kept)), before);
+    assert.ok(kept.every(e => e.missing === false && typeof e.expansion === 'string' && e.expansion));
+    assert.equal(f.writes.size, 2, 'only the verified index and manifest are committed by a summary');
+});
+
+test('partial captured exports retain only present expanded identities and never revive unexported periods', async () => {
+    const f = await dumpFixture(dictionaryHex), people = references.periods.find(p => p.period === 4).people.filter(p => p.id <= 1);
+    assert.equal((await f.post({kind:'summary',summary:{...references,periods:[{period:4,people}]}})).code, 200);
+    const kept = f.server.manifest.entries.filter(e => e.pilot === false);
+    assert.deepEqual(Array.from(kept,e => e.personId), [0,1]);
+    assert.ok(kept.every(e => e.period === 4));
+    assert.equal(dumpSmokePolicy()(f.server.manifest,f.server.summary), false);
+});
+
+test('export preservation rejects wrong libraries, stale names, wrong references, unsafe paths and duplicate expanded identities', async () => {
+    const clone = value => JSON.parse(JSON.stringify(value));
+    const expandedCount = manifest.entries.filter(e => e.pilot === false).length;
+    const other = await dumpFixture(modifiedHex);
+    assert.equal((await other.post({kind:'summary',summary:references})).code, 200);
+    assert.equal(other.server.manifest.entries.filter(e => e.pilot === false).length, 0);
+    for (const mutate of [
+        e => { e.name = '不同君主'; }, e => { e.ref = 'refs/period-4/2-孙权.png'; },
+        e => { e.hd = 'hd/../outside.png'; }, e => { e.hd = 'hd/absolute\\outside.png'; },
+        e => { e.period = 1; }, e => { e.personId = 199; }
+    ]) {
+        const previous = clone(manifest), item = previous.entries.find(e => e.pilot === false);
+        mutate(item); const f = await dumpFixture(dictionaryHex,{previousManifest:previous});
+        assert.equal((await f.post({kind:'summary',summary:references})).code, 200);
+        assert.equal(f.server.manifest.entries.filter(e => e.pilot === false).length, expandedCount - 1);
+    }
+    const previous = clone(manifest); previous.entries.push(clone(previous.entries.find(e => e.pilot === false)));
+    const duplicate = await dumpFixture(dictionaryHex,{previousManifest:previous});
+    assert.equal((await duplicate.post({kind:'summary',summary:references})).code, 200);
+    assert.equal(duplicate.server.manifest.entries.filter(e => e.pilot === false).length, expandedCount - 1,
+        'an ambiguous old identity is not retained by first- or last-entry wins');
+});
 
 test('actual dump backend stages PNGs and binds generated indexes to live loaded bytes rather than the summary path', async () => {
     const f = await dumpFixture(dictionaryHex);

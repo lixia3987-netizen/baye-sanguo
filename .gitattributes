@@ -671,3 +671,1022 @@
 /docs/validation/m5-city4-close-diagnostics-20261026-v66*.gz -text
 /docs/validation/m5-city4-close-diagnostics-20261026-v66*.sav -text
 /docs/validation/m5-city4-close-diagnostics-20261026-v66*.png -text
+
+/css/hd-city-menu.css text eol=lf
+/scripts/test-hd-city-hud.mjs text eol=lf
+/scripts/hd-person-equipment-runtime-checks.mjs text eol=lf
+/docs/validation/m5-person-equipment-icons-20261026-v67*.json -text whitespace=cr-at-eol
+/docs/validation/m5-person-equipment-icons-20261026-v67*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-person-equipment-icons-20261026-v67*.md -text whitespace=cr-at-eol
+/docs/validation/m5-person-equipment-icons-20261026-v67*.png -text
+
+# Preserve the renderer LF contract on a fresh Windows checkout.
+/js/hd-overworld-layers.js text eol=lf
+/scripts/test-hd-overworld-layers.mjs text eol=lf
+
+/scripts/hd-city-resource-runtime-checks.mjs text eol=lf
+/docs/validation/m5-city-resource-icons-20261026-v68*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city-resource-icons-20261026-v68*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city-resource-icons-20261026-v68*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city-resource-icons-20261026-v68*.png -text
+
+/scripts/test-hd-person-equipment-runtime.mjs text eol=lf
+/scripts/test-hd-mobile-city-runtime.mjs text eol=lf
+/scripts/hd-mobile-preview-runtime-checks.mjs text eol=lf
+
+# Preserve exact native build and semaphore regression bytes.
+/vendor/iBaye/src/platform/js/sem.c text eol=lf
+/scripts/test-hd-native-sem.mjs text eol=lf
+/designer.html text eol=lf
+/hd-portrait-dump.html text eol=lf
+/m-old.html text eol=lf
+/m-ktouch.html text eol=lf
+/m-ges.html text eol=lf
+/docs/validation/m5-native-input-queue-20261026-v69*.json -text whitespace=cr-at-eol
+/docs/validation/m5-native-input-queue-20261026-v69*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-native-input-queue-20261026-v69*.md -text whitespace=cr-at-eol
+/docs/validation/m5-native-input-queue-20261026-v69*.png -text
+
+/scripts/test-hd-person-identity-runtime.mjs text eol=lf
+/scripts/hd-person-identity-runtime-checks.mjs text eol=lf
+/scripts/hd-person-identity-rom.mjs text eol=lf
+/docs/validation/m5-person-identity-20261026-v70*.json -text whitespace=cr-at-eol
+/docs/validation/m5-person-identity-20261026-v70*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-person-identity-20261026-v70*.md -text whitespace=cr-at-eol
+/docs/validation/m5-person-identity-20261026-v70*.png -text
+/scripts/hd-person-roles-runtime-checks.mjs text eol=lf
+/docs/validation/m5-person-roles-20261026-v71*.json -text whitespace=cr-at-eol
+/docs/validation/m5-person-roles-20261026-v71*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-person-roles-20261026-v71*.md -text whitespace=cr-at-eol
+/docs/validation/m5-person-roles-20261026-v71*.png -text
+/scripts/test-hd-city-mobile-host.mjs -text whitespace=cr-at-eol
+/scripts/hd-person-location-runtime-checks.mjs text eol=lf
+/docs/validation/m5-person-location-20261026-v72*.json -text whitespace=cr-at-eol
+/docs/validation/m5-person-location-20261026-v72*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-person-location-20261026-v72*.md -text whitespace=cr-at-eol
+/docs/validation/m5-person-location-20261026-v72*.png -text
+/scripts/test-hd-campaign-runtime.mjs text eol=lf
+/scripts/hd-captive-person-runtime-checks.mjs text eol=lf
+/docs/validation/m5-captive-person-20261026-v73*.json -text whitespace=cr-at-eol
+/docs/validation/m5-captive-person-20261026-v73*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-captive-person-20261026-v73*.md -text whitespace=cr-at-eol
+/docs/validation/m5-captive-person-20261026-v73*.png -text
+
+# Preserve the lightweight native-report targeted test output.
+/docs/validation/m5-report-identity-20261026-v74.tap -text
+
+/js/hd-minimap.js text eol=lf
+/css/hd-minimap.css text eol=lf
+/scripts/test-hd-minimap.mjs text eol=lf
+/js/hd-city-plans.js text eol=lf
+/js/hd-battle-status.js text eol=lf
+/js/hd-skill-hints.js text eol=lf
+/js/hd-city-inventory.js text eol=lf
+/js/hd-city-garrison.js text eol=lf
+/css/hd-dialog.css text eol=lf
+/css/hd-city-menu.css text eol=lf
+/js/hd-city-rules.js text eol=lf
+/js/hd-battle.js text eol=lf
+/css/hd-battle.css text eol=lf
+/css/hd-mobile.css text eol=lf
+/scripts/test-hd-battle-commands.mjs text eol=lf
+/scripts/test-hd-battle-mobile-host.mjs text eol=lf
+
+/js/hd-mobile-battle.js text eol=lf
+
+/scripts/test-hd-mobile-battle.mjs text eol=lf
+
+/vendor/iBaye/src/showface.c text eol=lf
+
+/scripts/test-hd-details-engine.mjs text eol=lf
+
+/scripts/test-hd-details-bridge.mjs text eol=lf
+
+# Native city-detail publication and focused checks.
+/js/hd-city-info.js text eol=lf
+/css/hd-city-info.css text eol=lf
+/scripts/test-hd-city-info.mjs text eol=lf
+/scripts/test-hd-city-info-engine.mjs text eol=lf
+/scripts/test-hd-city-info-bridge.mjs text eol=lf
+/scripts/test-hd-city-info-owners.mjs text eol=lf
+/vendor/iBaye/src/bind-objects.c text eol=lf
+/vendor/iBaye/src/hd-bridge.c text eol=lf
+/vendor/iBaye/src/hd-bridge.h text eol=lf
+/scripts/write-wasm-manifest.mjs text eol=lf
+/docs/validation/m5-city-info-20261026-v90.md text eol=lf
+/docs/validation/m5-city-info-20261026-v90.json text eol=lf
+/js/bridge.js text eol=lf
+/js/hd-battle-note.js text eol=lf
+/js/hd-battle-scene.js text eol=lf
+/js/hd-mobile-city.js text eol=lf
+/js/hd-mobile-map.js text eol=lf
+/js/hd-mobile-minimap.js text eol=lf
+/js/hd-mobile-portraits.js text eol=lf
+/js/hd-mobile-system.js text eol=lf
+/js/hd-mobile.js text eol=lf
+/js/hd-overworld.js text eol=lf
+/js/lcd.js text eol=lf
+/scripts/test-hd-campaign-engine.mjs text eol=lf
+/scripts/test-hd-engine-protocol.mjs text eol=lf
+/scripts/test-hd-mobile-diplomacy-engine.mjs text eol=lf
+/scripts/test-hd-mobile-trade-engine.mjs text eol=lf
+/scripts/test-hd-mobile-transfer-engine.mjs text eol=lf
+/scripts/test-hd-overviews-engine.mjs text eol=lf
+/scripts/test-hd-person-properties-engine.mjs text eol=lf
+
+/js/hd-saved-ruler.js text eol=lf
+
+/js/save-storage.js text eol=lf
+
+/scripts/test-hd-save-summary-storage.mjs text eol=lf
+
+/scripts/test-hd-saved-ruler.mjs text eol=lf
+
+/scripts/test-hd-mobile-system.mjs text eol=lf
+
+/docs/validation/m5-save-summary-20261026-v91.md text eol=lf
+
+/docs/validation/m5-save-summary-20261026-v91.json text eol=lf
+
+/vendor/iBaye/src/PublicFun.c text eol=lf
+
+/scripts/test-hd-graphic-message-engine.mjs text eol=lf
+
+/scripts/test-hd-graphic-message-ui.mjs text eol=lf
+
+/docs/validation/m5-graphic-message-20261026-v92.md text eol=lf
+
+/docs/validation/m5-graphic-message-20261026-v92.json text eol=lf
+
+/vendor/iBaye/src/citycmde.c text eol=lf
+
+/scripts/test-hd-battle-note.mjs text eol=lf
+
+/scripts/test-hd-battle-announcements-engine.mjs text eol=lf
+
+/scripts/test-hd-battle-announcements-bridge.mjs text eol=lf
+
+/docs/validation/m5-battle-announcements-20261026-v93.md text eol=lf
+
+/docs/validation/m5-battle-announcements-20261026-v93.json text eol=lf
+
+/vendor/iBaye/src/tactic.c text eol=lf
+
+/css/hd-battle-note.css text eol=lf
+
+/scripts/test-hd-tactic-prelude-engine.mjs text eol=lf
+
+/scripts/test-hd-tactic-prelude-bridge.mjs text eol=lf
+
+/docs/validation/m5-tactic-prelude-20261026-v94.md text eol=lf
+
+/docs/validation/m5-tactic-prelude-20261026-v94.json text eol=lf
+
+/vendor/iBaye/src/Fight.c text eol=lf
+
+/vendor/iBaye/src/FightSub.c text eol=lf
+
+/js/hd-battle-transition.js text eol=lf
+
+/css/hd-battle-transition.css text eol=lf
+
+/scripts/test-hd-battle-transition-engine.mjs text eol=lf
+
+/scripts/test-hd-battle-transition-bridge.mjs text eol=lf
+
+/scripts/test-hd-battle-transition-ui.mjs text eol=lf
+
+/docs/validation/m5-battle-transition-20261026-v95.md text eol=lf
+
+/docs/validation/m5-battle-transition-20261026-v95.json text eol=lf
+
+/assets/hd-portraits/manifest.json text eol=lf
+
+/assets/hd-portraits/review.html text eol=lf
+
+
+/assets/hd-portraits/GENERATED-RULERS-P4-20261026.md text eol=lf
+
+/assets/hd-portraits/GENERATED-RULERS-P4-20261026.json text eol=lf
+
+/scripts/dump-hd-portraits.mjs text eol=lf
+
+/scripts/test-hd-portraits.mjs text eol=lf
+
+/scripts/test-hd-portraits-runtime.mjs text eol=lf
+
+/docs/validation/m5-portrait-rulers-20261026-v96.md text eol=lf
+
+/docs/validation/m5-portrait-rulers-20261026-v96.json text eol=lf
+
+
+/assets/hd-portraits/hd/period-4/0-曹丕.png -text
+
+/assets/hd-portraits/hd/period-4/1-刘禅.png -text
+
+/assets/hd-portraits/hd/period-4/3-孟获.png -text
+
+/assets/hd-portraits/hd/period-4/4-公孙康.png -text
+
+/assets/hd-portraits/GENERATED-RULERS-P1-20261026.md text eol=lf
+
+/assets/hd-portraits/GENERATED-RULERS-P1-20261026.json text eol=lf
+
+/docs/validation/m5-portrait-rulers-p1-20261026-v97.md text eol=lf
+
+/docs/validation/m5-portrait-rulers-p1-20261026-v97.json text eol=lf
+
+/assets/hd-portraits/hd/period-1/2-袁绍.png -text
+
+/assets/hd-portraits/hd/period-1/3-袁术.png -text
+
+/assets/hd-portraits/hd/period-1/4-孙坚.png -text
+
+/assets/hd-portraits/hd/period-1/6-陶谦.png -text
+
+/assets/hd-portraits/hd/period-1/7-孔融.png -text
+
+/assets/hd-portraits/hd/period-1/8-刘岱.png -text
+
+/assets/hd-portraits/hd/period-1/9-张杨.png -text
+
+/assets/hd-portraits/hd/period-1/10-韩馥.png -text
+
+/assets/hd-portraits/hd/period-1/14-刘表.png -text
+
+/assets/hd-portraits/hd/period-1/15-刘焉.png -text
+
+/assets/hd-portraits/hd/period-1/16-公孙瓒.png -text
+
+/assets/hd-portraits/hd/period-1/17-公孙度.png -text
+
+/assets/hd-portraits/hd/period-1/18-张鲁.png -text
+
+/assets/hd-portraits/GENERATED-RULERS-FINAL-20261027.md text eol=lf
+
+/assets/hd-portraits/GENERATED-RULERS-FINAL-20261027.json text eol=lf
+
+/docs/validation/m5-portrait-rulers-final-20261027-v98.md text eol=lf
+
+/docs/validation/m5-portrait-rulers-final-20261027-v98.json text eol=lf
+
+/assets/hd-portraits/hd/period-2/0-李傕.png -text
+
+/assets/hd-portraits/hd/period-2/5-孙策.png -text
+
+/assets/hd-portraits/hd/period-2/6-张邈.png -text
+
+/assets/hd-portraits/hd/period-2/7-张绣.png -text
+
+/assets/hd-portraits/hd/period-2/9-韩玄.png -text
+
+/assets/hd-portraits/hd/period-2/13-刘璋.png -text
+
+/assets/hd-portraits/hd/period-3/1-刘度.png -text
+
+/assets/hd-portraits/hd/period-3/2-赵范.png -text
+
+/assets/hd-portraits/hd/period-3/3-金旋.png -text
+
+/assets/hd-portraits/GENERATED-WARRIORS-20261028.md text eol=lf
+
+/assets/hd-portraits/GENERATED-WARRIORS-20261028.json text eol=lf
+
+/docs/validation/m5-portrait-warriors-20261028-v99.md text eol=lf
+
+/docs/validation/m5-portrait-warriors-20261028-v99.json text eol=lf
+
+/assets/hd-portraits/hd/period-1/166-赵云.png -text
+
+/assets/hd-portraits/hd/period-2/163-赵云.png -text
+
+/assets/hd-portraits/hd/period-1/57-马超.png -text
+
+/assets/hd-portraits/hd/period-1/22-张辽.png -text
+
+/assets/hd-portraits/hd/period-1/179-黄忠.png -text
+
+/assets/hd-portraits/hd/period-3/169-司马懿.png -text
+
+/assets/hd-portraits/GENERATED-ADVISERS-20261028.md text eol=lf
+
+/assets/hd-portraits/GENERATED-ADVISERS-20261028.json text eol=lf
+
+/docs/validation/m5-portrait-advisers-20261028-v100.md text eol=lf
+
+/docs/validation/m5-portrait-advisers-20261028-v100.json text eol=lf
+
+/assets/hd-portraits/hd/period-1/138-荀彧.png -text
+
+/assets/hd-portraits/hd/period-1/126-郭嘉.png -text
+
+/assets/hd-portraits/hd/period-1/132-贾诩.png -text
+
+/assets/hd-portraits/hd/period-1/124-庞统.png -text
+
+/assets/hd-portraits/hd/period-2/170-庞统.png -text
+
+/assets/hd-portraits/hd/period-1/171-鲁肃.png -text
+
+/assets/hd-portraits/hd/period-2/173-鲁肃.png -text
+
+/assets/hd-portraits/hd/period-1/115-陆逊.png -text
+
+/assets/hd-portraits/hd/period-1/135-徐庶.png -text
+
+/assets/hd-portraits/hd/period-2/171-徐庶.png -text
+
+/assets/hd-portraits/GENERATED-COMMANDERS-20261028.md text eol=lf
+
+/assets/hd-portraits/GENERATED-COMMANDERS-20261028.json text eol=lf
+
+/docs/validation/m5-portrait-commanders-20261028-v101.md text eol=lf
+
+/docs/validation/m5-portrait-commanders-20261028-v101.json text eol=lf
+
+/assets/hd-portraits/hd/period-1/32-夏侯惇.png -text
+
+/assets/hd-portraits/hd/period-1/33-夏侯渊.png -text
+
+/assets/hd-portraits/hd/period-1/165-张郃.png -text
+
+/assets/hd-portraits/hd/period-1/96-甘宁.png -text
+
+/assets/hd-portraits/hd/period-1/73-太史慈.png -text
+
+/assets/hd-portraits/hd/period-1/163-徐晃.png -text
+
+/assets/hd-portraits/hd/period-2/150-徐晃.png -text
+
+/assets/hd-portraits/hd/period-1/50-程普.png -text
+
+/assets/hd-portraits/hd/period-1/52-黄盖.png -text
+
+/assets/hd-portraits/hd/period-1/155-周泰.png -text
+
+/assets/hd-portraits/GENERATED-RETAINERS-20261028.md text eol=lf
+
+/assets/hd-portraits/GENERATED-RETAINERS-20261028.json text eol=lf
+
+/docs/validation/m5-portrait-retainers-20261028-v102.md text eol=lf
+
+/docs/validation/m5-portrait-retainers-20261028-v102.json text eol=lf
+
+/assets/hd-portraits/hd/period-1/169-魏延.png -text
+
+/assets/hd-portraits/hd/period-3/170-姜维.png -text
+
+/assets/hd-portraits/hd/period-1/87-典韦.png -text
+
+/assets/hd-portraits/hd/period-2/146-典韦.png -text
+
+/assets/hd-portraits/hd/period-1/137-许褚.png -text
+
+/assets/hd-portraits/hd/period-2/147-许褚.png -text
+
+/assets/hd-portraits/hd/period-1/35-乐进.png -text
+
+/assets/hd-portraits/hd/period-1/147-于禁.png -text
+
+/assets/hd-portraits/hd/period-2/145-于禁.png -text
+
+/assets/hd-portraits/hd/period-1/152-张昭.png -text
+
+/assets/hd-portraits/GENERATED-LATE-CHARACTERS-20261028.md text eol=lf
+
+/assets/hd-portraits/GENERATED-LATE-CHARACTERS-20261028.json text eol=lf
+
+/docs/validation/m5-portrait-late-characters-20261028-v103.md text eol=lf
+
+/docs/validation/m5-portrait-late-characters-20261028-v103.json text eol=lf
+
+/assets/hd-portraits/hd/period-3/115-孙尚香.png -text
+
+/assets/hd-portraits/hd/period-4/143-祝融夫人.png -text
+
+/assets/hd-portraits/hd/period-3/167-邓艾.png -text
+
+/assets/hd-portraits/hd/period-3/168-钟会.png -text
+
+/assets/hd-portraits/hd/period-3/174-陆抗.png -text
+
+/assets/hd-portraits/hd/period-4/154-羊祜.png -text
+
+/assets/hd-portraits/hd/period-1/168-王平.png -text
+
+/assets/hd-portraits/hd/period-2/100-马岱.png -text
+
+/assets/hd-portraits/hd/period-1/139-法正.png -text
+
+/assets/hd-portraits/hd/period-1/86-陈宫.png -text
+
+/assets/hd-portraits/GENERATED-OFFICERS-20261028.md text eol=lf
+
+/assets/hd-portraits/GENERATED-OFFICERS-20261028.json text eol=lf
+
+/docs/validation/m5-portrait-officers-20261028-v104.md text eol=lf
+
+/docs/validation/m5-portrait-officers-20261028-v104.json text eol=lf
+
+/assets/hd-portraits/hd/period-3/100-徐盛.png -text
+
+/assets/hd-portraits/hd/period-1/109-凌统.png -text
+
+/assets/hd-portraits/hd/period-1/133-蒋钦.png -text
+
+/assets/hd-portraits/hd/period-1/51-韩当.png -text
+
+/assets/hd-portraits/hd/period-1/160-朱桓.png -text
+
+/assets/hd-portraits/hd/period-1/114-陈武.png -text
+
+/assets/hd-portraits/hd/period-3/108-董袭.png -text
+
+/assets/hd-portraits/hd/period-1/31-荀攸.png -text
+
+/assets/hd-portraits/hd/period-1/116-程昱.png -text
+
+/assets/hd-portraits/hd/period-1/112-陈群.png -text
+
+/docs/validation/m5-mobile-focus-card-20261028-v105.md text eol=lf
+
+/docs/validation/m5-mobile-focus-card-20261028-v105.json text eol=lf
+
+/assets/hd-portraits/GENERATED-CORE-CAST-20261028.md text eol=lf
+
+/assets/hd-portraits/GENERATED-CORE-CAST-20261028.json text eol=lf
+
+/docs/validation/m5-portrait-core-cast-20261028-v106.md text eol=lf
+
+/docs/validation/m5-portrait-core-cast-20261028-v106.json text eol=lf
+
+/assets/hd-portraits/hd/period-1/19-李儒.png -text
+
+/assets/hd-portraits/hd/period-1/125-关平.png -text
+
+/assets/hd-portraits/hd/period-2/164-关平.png -text
+
+/assets/hd-portraits/hd/period-4/81-关兴.png -text
+
+/assets/hd-portraits/hd/period-4/82-张苞.png -text
+
+/assets/hd-portraits/hd/period-1/153-周仓.png -text
+
+/assets/hd-portraits/hd/period-2/165-周仓.png -text
+
+/assets/hd-portraits/hd/period-1/172-丁奉.png -text
+
+/assets/hd-portraits/hd/period-2/178-丁奉.png -text
+
+/assets/hd-portraits/hd/period-1/38-颜良.png -text
+
+/assets/hd-portraits/hd/period-1/39-文丑.png -text
+
+/assets/hd-portraits/hd/period-1/43-田丰.png -text
+
+/assets/hd-portraits/hd/period-1/44-沮授.png -text
+
+/assets/hd-portraits/hd/period-1/42-审配.png -text
+
+/assets/hd-portraits/hd/period-1/41-逢纪.png -text
+
+/assets/hd-portraits/hd/period-1/180-高览.png -text
+
+/assets/hd-portraits/hd/period-1/68-陈登.png -text
+
+/assets/hd-portraits/hd/period-1/97-张任.png -text
+
+/assets/hd-portraits/hd/period-1/98-严颜.png -text
+
+/assets/hd-portraits/hd/period-1/144-黄权.png -text
+
+/docs/validation/m5-mobile-map-king-20261028-v107.md text eol=lf
+
+/docs/validation/m5-mobile-map-king-20261028-v107.json text eol=lf
+
+/scripts/test-hd-mobile-portraits.mjs text eol=lf
+
+/docs/validation/m5-mobile-header-20261028-v108.md text eol=lf
+
+/docs/validation/m5-mobile-header-20261028-v108.json text eol=lf
+
+/assets/hd-portraits/GENERATED-REGIONAL-CAST-20261028.md text eol=lf
+
+/assets/hd-portraits/GENERATED-REGIONAL-CAST-20261028.json text eol=lf
+
+/docs/validation/m5-portrait-regional-cast-20261028-v109.md text eol=lf
+
+/docs/validation/m5-portrait-regional-cast-20261028-v109.json text eol=lf
+
+/assets/hd-portraits/hd/period-1/45-许攸.png -text
+
+/assets/hd-portraits/hd/period-1/158-郭图.png -text
+
+/assets/hd-portraits/hd/period-1/111-刘晔.png -text
+
+/assets/hd-portraits/hd/period-1/123-满宠.png -text
+
+/assets/hd-portraits/hd/period-2/144-毛玠.png -text
+
+/assets/hd-portraits/hd/period-1/24-郭汜.png -text
+
+/assets/hd-portraits/hd/period-1/21-华雄.png -text
+
+/assets/hd-portraits/hd/period-1/29-牛辅.png -text
+
+/assets/hd-portraits/hd/period-1/28-徐荣.png -text
+
+/assets/hd-portraits/hd/period-1/30-王允.png -text
+
+/assets/hd-portraits/hd/period-1/37-曹仁.png -text
+
+/assets/hd-portraits/hd/period-1/36-曹洪.png -text
+
+/assets/hd-portraits/hd/period-1/34-李典.png -text
+
+/assets/hd-portraits/hd/period-1/27-高顺.png -text
+
+/assets/hd-portraits/hd/period-1/118-吕蒙.png -text
+
+/assets/hd-portraits/hd/period-1/69-孙乾.png -text
+
+/assets/hd-portraits/hd/period-1/70-糜竺.png -text
+
+/assets/hd-portraits/hd/period-1/130-蒋琬.png -text
+
+/assets/hd-portraits/hd/period-2/159-蒋琬.png -text
+
+/docs/validation/m5-transport-cargo-20261028-v110.md text eol=lf
+
+/docs/validation/m5-transport-cargo-20261028-v110.json text eol=lf
+
+/docs/validation/m5-dispatch-supplies-20261028-v111.md text eol=lf
+
+/docs/validation/m5-dispatch-supplies-20261028-v111.json text eol=lf
+
+/docs/validation/m5-mobile-city-status-20261028-v112.md text eol=lf
+
+/docs/validation/m5-mobile-city-status-20261028-v112.json text eol=lf
+
+/assets/hd-portraits/GENERATED-LATER-CAST-20261028.md text eol=lf
+
+/assets/hd-portraits/GENERATED-LATER-CAST-20261028.json text eol=lf
+
+/docs/validation/m5-portrait-later-cast-20261028-v113.md text eol=lf
+
+/docs/validation/m5-portrait-later-cast-20261028-v113.json text eol=lf
+
+/assets/hd-portraits/hd/period-3/35-曹真.png -text
+
+/assets/hd-portraits/hd/period-1/110-曹休.png -text
+
+/assets/hd-portraits/hd/period-2/151-曹休.png -text
+
+/assets/hd-portraits/hd/period-1/156-诸葛谨.png -text
+
+/assets/hd-portraits/hd/period-2/177-诸葛谨.png -text
+
+/assets/hd-portraits/hd/period-2/46-郭淮.png -text
+
+/assets/hd-portraits/hd/period-1/154-廖化.png -text
+
+/assets/hd-portraits/hd/period-2/166-廖化.png -text
+
+/assets/hd-portraits/hd/period-1/119-费祎.png -text
+
+/assets/hd-portraits/hd/period-2/154-费祎.png -text
+
+/assets/hd-portraits/hd/period-1/120-董允.png -text
+
+/assets/hd-portraits/hd/period-2/153-董允.png -text
+
+/assets/hd-portraits/hd/period-1/142-李严.png -text
+
+/assets/hd-portraits/hd/period-1/122-马谡.png -text
+
+/assets/hd-portraits/hd/period-2/161-马谡.png -text
+
+/assets/hd-portraits/hd/period-3/116-朱然.png -text
+
+/assets/hd-portraits/hd/period-3/102-潘璋.png -text
+
+/assets/hd-portraits/hd/period-4/64-司马师.png -text
+
+/assets/hd-portraits/hd/period-4/65-司马昭.png -text
+
+/docs/validation/m5-tool-property-icons-20261028-v114.md text eol=lf
+/docs/validation/m5-tool-property-icons-20261028-v114.json text eol=lf
+
+/assets/hd-portraits/GENERATED-RETAINERS2-20261028.md text eol=lf
+
+/assets/hd-portraits/GENERATED-RETAINERS2-20261028.json text eol=lf
+
+/docs/validation/m5-portrait-retainers2-20261028-v115.md text eol=lf
+
+/docs/validation/m5-portrait-retainers2-20261028-v115.json text eol=lf
+
+/assets/hd-portraits/hd/period-1/131-文聘.png -text
+
+/assets/hd-portraits/hd/period-1/167-臧霸.png -text
+
+/assets/hd-portraits/hd/period-1/162-钟繇.png -text
+
+/assets/hd-portraits/hd/period-1/134-辛毗.png -text
+
+/assets/hd-portraits/hd/period-1/78-董昭.png -text
+
+/assets/hd-portraits/hd/period-1/129-华歆.png -text
+
+/assets/hd-portraits/hd/period-2/176-华歆.png -text
+
+/assets/hd-portraits/hd/period-1/121-马良.png -text
+
+/assets/hd-portraits/hd/period-2/160-马良.png -text
+
+/assets/hd-portraits/hd/period-2/152-邓芝.png -text
+
+/assets/hd-portraits/hd/period-3/152-邓芝.png -text
+
+/assets/hd-portraits/hd/period-1/176-简雍.png -text
+
+/assets/hd-portraits/hd/period-1/146-伊籍.png -text
+
+/assets/hd-portraits/hd/period-1/143-吴懿.png -text
+
+/assets/hd-portraits/hd/period-1/141-孟达.png -text
+
+/assets/hd-portraits/hd/period-1/140-张松.png -text
+
+/assets/hd-portraits/hd/period-1/151-张纮.png -text
+
+/assets/hd-portraits/hd/period-1/117-吕范.png -text
+
+/assets/hd-portraits/hd/period-3/117-顾雍.png -text
+
+/docs/validation/m5-person-list-summary-20261028-v116.md text eol=lf
+/docs/validation/m5-person-list-summary-20261028-v116.json text eol=lf
+
+/docs/validation/m5-tool-list-summary-20261029-v118.md text eol=lf
+/docs/validation/m5-tool-list-summary-20261029-v118.json text eol=lf
+
+/assets/hd-portraits/GENERATED-LATE-OFFICERS-20261029.md text eol=lf
+
+/assets/hd-portraits/GENERATED-LATE-OFFICERS-20261029.json text eol=lf
+
+/docs/validation/m5-portrait-late-officers-20261029-v117.md text eol=lf
+
+/docs/validation/m5-portrait-late-officers-20261029-v117.json text eol=lf
+
+/assets/hd-portraits/hd/period-3/171-张嶷.png -text
+
+/assets/hd-portraits/hd/period-4/100-张翼.png -text
+
+/assets/hd-portraits/hd/period-3/25-夏侯霸.png -text
+
+/assets/hd-portraits/hd/period-4/70-郝昭.png -text
+
+/assets/hd-portraits/hd/period-4/67-文钦.png -text
+
+/assets/hd-portraits/hd/period-4/68-毋丘俭.png -text
+
+/assets/hd-portraits/hd/period-4/93-马忠.png -text
+
+/assets/hd-portraits/hd/period-4/138-诸葛恪.png -text
+
+/assets/hd-portraits/hd/period-4/125-全琮.png -text
+
+/assets/hd-portraits/hd/period-4/137-吕岱.png -text
+
+/assets/hd-portraits/hd/period-4/156-曹叡.png -text
+
+/assets/hd-portraits/hd/period-4/165-杨仪.png -text
+
+/assets/hd-portraits/hd/period-1/128-虞翻.png -text
+
+/assets/hd-portraits/hd/period-2/174-虞翻.png -text
+
+/assets/hd-portraits/hd/period-1/178-阚泽.png -text
+
+/assets/hd-portraits/hd/period-2/175-阚泽.png -text
+
+/assets/hd-portraits/hd/period-1/177-向朗.png -text
+
+/assets/hd-portraits/hd/period-2/157-向朗.png -text
+
+/assets/hd-portraits/hd/period-2/156-郭攸之.png -text
+
+/assets/hd-portraits/hd/period-3/155-郭攸之.png -text
+
+/assets/hd-portraits/hd/period-2/148-崔琰.png -text
+
+/assets/hd-portraits/hd/period-3/46-崔琰.png -text
+
+/assets/hd-portraits/hd/period-3/147-李恢.png -text
+
+/assets/hd-portraits/hd/period-2/127-吴班.png -text
+
+/assets/hd-portraits/GENERATED-REGIONAL-RETAINERS-20261029.md text eol=lf
+
+/assets/hd-portraits/GENERATED-REGIONAL-RETAINERS-20261029.json text eol=lf
+
+/docs/validation/m5-portrait-regional-retainers-20261029-v119.md text eol=lf
+
+/docs/validation/m5-portrait-regional-retainers-20261029-v119.json text eol=lf
+
+/assets/hd-portraits/hd/period-1/26-侯成.png -text
+
+/assets/hd-portraits/hd/period-1/72-曹豹.png -text
+
+/assets/hd-portraits/hd/period-1/92-蒯越.png -text
+
+/assets/hd-portraits/hd/period-1/104-公孙恭.png -text
+
+/assets/hd-portraits/hd/period-1/105-张卫.png -text
+
+/assets/hd-portraits/hd/period-1/106-杨松.png -text
+
+/assets/hd-portraits/hd/period-1/107-杨任.png -text
+
+/assets/hd-portraits/hd/period-1/108-阎圃.png -text
+
+/assets/hd-portraits/hd/period-1/136-雷铜.png -text
+
+/assets/hd-portraits/hd/period-1/159-张南.png -text
+
+/assets/hd-portraits/hd/period-1/170-王粲.png -text
+
+/assets/hd-portraits/hd/period-1/173-王威.png -text
+
+/assets/hd-portraits/hd/period-1/174-王修.png -text
+
+/assets/hd-portraits/hd/period-1/181-高干.png -text
+
+/assets/hd-portraits/hd/period-1/56-韩遂.png -text
+
+/assets/hd-portraits/hd/period-1/71-糜芳.png -text
+
+/assets/hd-portraits/hd/period-1/93-蔡瑁.png -text
+
+/assets/hd-portraits/hd/period-1/94-张允.png -text
+
+/assets/hd-portraits/hd/period-1/127-王朗.png -text
+
+/assets/hd-portraits/hd/period-1/145-杨修.png -text
+
+/assets/hd-portraits/hd/period-2/50-张燕.png -text
+
+/assets/hd-portraits/hd/period-2/61-陈琳.png -text
+
+/assets/hd-portraits/hd/period-2/62-陈震.png -text
+
+/assets/hd-portraits/hd/period-2/76-朱治.png -text
+
+/assets/hd-portraits/hd/period-2/89-魏续.png -text
+
+/assets/hd-portraits/hd/period-2/112-韩嵩.png -text
+
+/assets/hd-portraits/hd/period-2/129-吴兰.png -text
+
+/assets/hd-portraits/hd/period-1/59-侯选.png -text
+
+/assets/hd-portraits/hd/period-1/60-程银.png -text
+
+/assets/hd-portraits/hd/period-1/61-李堪.png -text
+
+/docs/validation/m5-person-unit-summary-20261029-v120.md text eol=lf
+/docs/validation/m5-person-unit-summary-20261029-v120.json text eol=lf
+
+/assets/hd-portraits/GENERATED-REMAINING-OFFICERS-20261029.md text eol=lf
+
+/assets/hd-portraits/GENERATED-REMAINING-OFFICERS-20261029.json text eol=lf
+
+/docs/validation/m5-portrait-remaining-officers-20261029-v121.md text eol=lf
+
+/docs/validation/m5-portrait-remaining-officers-20261029-v121.json text eol=lf
+
+/assets/hd-portraits/hd/period-1/183-管辂.png -text
+
+/assets/hd-portraits/hd/period-2/168-管辂.png -text
+
+/assets/hd-portraits/hd/period-1/184-华佗.png -text
+
+/assets/hd-portraits/hd/period-2/169-华佗.png -text
+
+/assets/hd-portraits/hd/period-1/62-张横.png -text
+
+/assets/hd-portraits/hd/period-1/64-成宜.png -text
+
+/assets/hd-portraits/hd/period-1/65-马玩.png -text
+
+/assets/hd-portraits/hd/period-1/46-纪灵.png -text
+
+/assets/hd-portraits/hd/period-1/40-淳于琼.png -text
+
+/assets/hd-portraits/hd/period-1/25-李肃.png -text
+
+/assets/hd-portraits/hd/period-1/67-陈圭.png -text
+
+/assets/hd-portraits/hd/period-1/74-武安国.png -text
+
+/assets/hd-portraits/hd/period-1/81-荀谌.png -text
+
+/assets/hd-portraits/hd/period-1/82-辛评.png -text
+
+/assets/hd-portraits/hd/period-1/91-蒯良.png -text
+
+/assets/hd-portraits/hd/period-1/95-黄祖.png -text
+
+/assets/hd-portraits/hd/period-1/148-袁尚.png -text
+
+/assets/hd-portraits/hd/period-1/149-袁谭.png -text
+
+/assets/hd-portraits/hd/period-1/150-袁熙.png -text
+
+/assets/hd-portraits/hd/period-2/115-刘琦.png -text
+
+/assets/hd-portraits/hd/period-3/23-夏侯尚.png -text
+
+/assets/hd-portraits/hd/period-3/32-牛金.png -text
+
+/assets/hd-portraits/hd/period-3/36-曹植.png -text
+
+/assets/hd-portraits/hd/period-3/49-蒋干.png -text
+
+/assets/hd-portraits/hd/period-3/118-严畯.png -text
+
+/assets/hd-portraits/hd/period-3/120-张温.png -text
+
+/assets/hd-portraits/hd/period-3/159-公孙渊.png -text
+
+/assets/hd-portraits/hd/period-3/164-潘浚.png -text
+
+/assets/hd-portraits/hd/period-3/177-董和.png -text
+
+/assets/hd-portraits/hd/period-3/183-王双.png -text
+
+/docs/validation/m5-person-loyalty-summary-20261029-v122.md text eol=lf
+/docs/validation/m5-person-loyalty-summary-20261029-v122.json text eol=lf
+
+/assets/hd-portraits/GENERATED-CROSS-PERIOD-CAST-20261029.md text eol=lf
+
+/assets/hd-portraits/GENERATED-CROSS-PERIOD-CAST-20261029.json text eol=lf
+
+/docs/validation/m5-portrait-cross-period-cast-20261029-v123.md text eol=lf
+
+/docs/validation/m5-portrait-cross-period-cast-20261029-v123.json text eol=lf
+
+/assets/hd-portraits/hd/period-1/185-通宵虫.png -text
+
+/assets/hd-portraits/hd/period-2/183-通宵虫.png -text
+
+/assets/hd-portraits/hd/period-1/186-南方小鬼.png -text
+
+/assets/hd-portraits/hd/period-2/184-南方小鬼.png -text
+
+/assets/hd-portraits/hd/period-1/175-王累.png -text
+
+/assets/hd-portraits/hd/period-2/155-王累.png -text
+
+/assets/hd-portraits/hd/period-2/158-泠苞.png -text
+
+/assets/hd-portraits/hd/period-3/157-泠苞.png -text
+
+/assets/hd-portraits/hd/period-2/162-王甫.png -text
+
+/assets/hd-portraits/hd/period-3/163-王甫.png -text
+
+/assets/hd-portraits/hd/period-1/75-刘繇.png -text
+
+/assets/hd-portraits/hd/period-2/179-刘繇.png -text
+
+/assets/hd-portraits/hd/period-1/47-陈兰.png -text
+
+/assets/hd-portraits/hd/period-1/48-雷薄.png -text
+
+/assets/hd-portraits/hd/period-1/49-俞涉.png -text
+
+/assets/hd-portraits/hd/period-1/76-乔瑁.png -text
+
+/assets/hd-portraits/hd/period-1/77-袁遗.png -text
+
+/assets/hd-portraits/hd/period-1/88-张超.png -text
+
+/assets/hd-portraits/hd/period-2/117-蔡中.png -text
+
+/assets/hd-portraits/hd/period-2/118-蔡和.png -text
+
+/assets/hd-portraits/hd/period-3/16-刑道荣.png -text
+
+/assets/hd-portraits/hd/period-3/24-夏侯德.png -text
+
+/assets/hd-portraits/hd/period-3/172-陈式.png -text
+
+/assets/hd-portraits/hd/period-3/176-博士仁.png -text
+
+/assets/hd-portraits/hd/period-3/178-邓贤.png -text
+
+/assets/hd-portraits/hd/period-3/179-庞仪.png -text
+
+/assets/hd-portraits/hd/period-3/180-高沛.png -text
+
+/assets/hd-portraits/hd/period-3/181-杨怀.png -text
+
+/assets/hd-portraits/hd/period-3/182-典满.png -text
+
+/assets/hd-portraits/hd/period-3/184-诸葛均.png -text
+
+/docs/validation/m5-tool-arm-summary-20261029-v124.md text eol=lf
+/docs/validation/m5-tool-arm-summary-20261029-v124.json text eol=lf
+
+/assets/hd-portraits/GENERATED-ORIGINAL-PORTRAIT-COMPLETION-20261029.md text eol=lf
+
+/assets/hd-portraits/GENERATED-ORIGINAL-PORTRAIT-COMPLETION-20261029.json text eol=lf
+
+/docs/validation/m5-portrait-completion-20261029-v125.md text eol=lf
+
+/docs/validation/m5-portrait-completion-20261029-v125.json text eol=lf
+
+/assets/hd-portraits/hd/period-1/53-祖茂.png -text
+
+/assets/hd-portraits/hd/period-1/79-穆顺.png -text
+
+/assets/hd-portraits/hd/period-1/80-潘凤.png -text
+
+/assets/hd-portraits/hd/period-1/83-关纯.png -text
+
+/assets/hd-portraits/hd/period-1/84-耿武.png -text
+
+/assets/hd-portraits/hd/period-1/99-公孙越.png -text
+
+/assets/hd-portraits/hd/period-1/100-严纲.png -text
+
+/assets/hd-portraits/hd/period-1/101-王门.png -text
+
+/assets/hd-portraits/hd/period-1/102-田楷.png -text
+
+/assets/hd-portraits/hd/period-1/164-凌操.png -text
+
+/assets/hd-portraits/hd/period-1/182-王忠.png -text
+
+/assets/hd-portraits/hd/period-2/25-夏侯恩.png -text
+
+/assets/hd-portraits/hd/period-2/84-胡车儿.png -text
+
+/assets/hd-portraits/hd/period-2/88-曹性.png -text
+
+/assets/hd-portraits/hd/period-2/149-车胄.png -text
+
+/assets/hd-portraits/hd/period-2/167-胡班.png -text
+
+/assets/hd-portraits/hd/period-2/172-刘琮.png -text
+
+/assets/hd-portraits/hd/period-2/180-吕旷.png -text
+
+/assets/hd-portraits/hd/period-2/181-吕翔.png -text
+
+/assets/hd-portraits/hd/period-3/13-杨龄.png -text
+
+/assets/hd-portraits/hd/period-3/15-刘贤.png -text
+
+/assets/hd-portraits/hd/period-3/17-陈应.png -text
+
+/assets/hd-portraits/hd/period-3/18-鲍隆.png -text
+
+/assets/hd-portraits/hd/period-3/19-巩志.png -text
+
+/assets/hd-portraits/hd/period-3/66-马延.png -text
+
+/assets/hd-portraits/hd/period-3/83-刘封.png -text
+
+/assets/hd-portraits/hd/period-3/166-赵累.png -text
+
+/assets/hd-portraits/hd/period-3/175-贾华.png -text
+
+/assets/hd-portraits/hd/period-4/10-曹彰.png -text
+
+/assets/hd-portraits/hd/period-4/102-沙摩柯.png -text
+
+/assets/hd-portraits/hd/period-4/131-张休.png -text
+
+/assets/hd-portraits/hd/period-4/134-孙浩.png -text
+
+/assets/hd-portraits/hd/period-4/139-朵思大王.png -text
+
+/assets/hd-portraits/hd/period-4/140-金环三结.png -text
+
+/assets/hd-portraits/hd/period-4/141-朱褒.png -text
+
+/assets/hd-portraits/hd/period-4/142-孟优.png -text
+
+/assets/hd-portraits/hd/period-4/144-带来洞主.png -text
+
+/assets/hd-portraits/hd/period-4/145-董荼那.png -text
+
+/assets/hd-portraits/hd/period-4/146-阿会喃.png -text
+
+/assets/hd-portraits/hd/period-4/147-忙牙长.png -text
+
+/assets/hd-portraits/hd/period-4/155-何晏.png -text
+
+/docs/validation/m5-list-find-20261029-v126.md text eol=lf
+/docs/validation/m5-list-find-20261029-v126.json text eol=lf

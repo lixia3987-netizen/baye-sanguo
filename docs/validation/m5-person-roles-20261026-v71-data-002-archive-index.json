@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-person-roles-20261026-v71-data-002-archive-part001.json",
+      "bytes": 5968609,
+      "sha256": "bdb61980aea930dd184d1d53faff05a9fed1e6fd9f69177022be8e3cfaa6e805",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-roles-20261026-v71-data-002-archive-part002.json",
+      "bytes": 5863481,
+      "sha256": "f49f9f4710378f6788e5fd45d811d6da3a131273e12be9c73b109c4f79e29035",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-roles-20261026-v71-data-002-archive-part003.json",
+      "bytes": 5885897,
+      "sha256": "68e523164ebc0b422a84b99c8e5d68c9d77a15c72e846ebd8c57e8a70d62ba2f",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-roles-20261026-v71-data-002-archive-part004.json",
+      "bytes": 5884669,
+      "sha256": "4577578e1327f6499c9529a2d5a49189bc1646a3011a6ae9afd14870300c1374",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-roles-20261026-v71-data-002-archive-part005.json",
+      "bytes": 5862985,
+      "sha256": "1516a52511b0fbba746ef0018d18cd018bfff5555d4f2ac33b6570bf61cdcec5",
+      "blobs": 2
+    },
+    {
+      "path": "docs/validation/m5-person-roles-20261026-v71-data-002-archive-part006.json",
+      "bytes": 2951983,
+      "sha256": "05b51030e0baa18455a20062a4603bfd38ffd011d433327c19bd3a9d89799856",
+      "blobs": 1
+    }
+  ],
+  "files": [
+    {
+      "path": "build/person-roles-20261026-v71/pc1080-after-v3/pc1080-identity-06-canvass-actor.png",
+      "bytes": 2261082,
+      "sha256": "a8cbeb689f56593903d6717d519b458a77d8b085de3db88308961fb9e2365369",
+      "blob": "a8cbeb689f56593903d6717d519b458a77d8b085de3db88308961fb9e2365369",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc1080-after-v3/pc1080-identity-07-identity-person-139-listName.png",
+      "bytes": 2213572,
+      "sha256": "4fd4ca23af6a43707a217e196b2a40e379af941c325040f7f57110aec72b8c55",
+      "blob": "4fd4ca23af6a43707a217e196b2a40e379af941c325040f7f57110aec72b8c55",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc1080-after-v3/pc1080-identity-08-identity-person-139-heading.png",
+      "bytes": 2197934,
+      "sha256": "b0e9778763a882c0af2fdc8524d41e11eda84524195d8737341259b2cf6c6c62",
+      "blob": "b0e9778763a882c0af2fdc8524d41e11eda84524195d8737341259b2cf6c6c62",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc1080-after-v3/pc1080-identity-09-identity-person-139-ownership.png",
+      "bytes": 2197895,
+      "sha256": "30777922fd4ad6da0324fae57f625080fb88a24f677f6fd15d2f86c0e606bd24",
+      "blob": "30777922fd4ad6da0324fae57f625080fb88a24f677f6fd15d2f86c0e606bd24",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc1080-after-v3/pc1080-identity-10-identity-person-139-priorOwnership.png",
+      "bytes": 2197976,
+      "sha256": "092c394603a2b34c655eae41de980442921c9de36651c4364286ac7fa2366f0b",
+      "blob": "092c394603a2b34c655eae41de980442921c9de36651c4364286ac7fa2366f0b",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc1080-after-v3/pc1080-identity-11-identity-person-139-nativeOwnership.png",
+      "bytes": 2214659,
+      "sha256": "0bb40c7ea133bf648d361ca960cecf9cee3a91cbe3348472b86b3dfa8495c1d2",
+      "blob": "0bb40c7ea133bf648d361ca960cecf9cee3a91cbe3348472b86b3dfa8495c1d2",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc1080-after-v3/pc1080-identity-12-identity-person-143-listName.png",
+      "bytes": 2214036,
+      "sha256": "47cac4db1ed96f184564bc88f8dab0c76d98a35ebc6598b69eec275f996dc933",
+      "blob": "47cac4db1ed96f184564bc88f8dab0c76d98a35ebc6598b69eec275f996dc933",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc1080-after-v3/pc1080-identity-13-identity-person-143-heading.png",
+      "bytes": 2197685,
+      "sha256": "b5951f05a1f8aa761baa98b80060991e09a0a1b8ff9404b649b662a95ebc8ed1",
+      "blob": "b5951f05a1f8aa761baa98b80060991e09a0a1b8ff9404b649b662a95ebc8ed1",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc1080-after-v3/pc1080-identity-14-identity-person-143-ownership.png",
+      "bytes": 2197772,
+      "sha256": "0f293fb7dcefdebaa41c25c72cd020fde856c9b5c922bcf3dd4c9b8b6904da00",
+      "blob": "0f293fb7dcefdebaa41c25c72cd020fde856c9b5c922bcf3dd4c9b8b6904da00",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc1080-after-v3/pc1080-identity-15-identity-person-143-priorOwnership.png",
+      "bytes": 2197684,
+      "sha256": "d5faf1002953ceb851306e040019010e1b49f149e156eb3becc2bcbd5fc52cec",
+      "blob": "d5faf1002953ceb851306e040019010e1b49f149e156eb3becc2bcbd5fc52cec",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/person-roles-20261026-v71/pc1080-after-v3/pc1080-identity-16-identity-person-143-nativeOwnership.png",
+      "bytes": 2213062,
+      "sha256": "e6fe1970c30937351e0047a5fa8469c43456bfcb5805a1e57d0fff4608c4639d",
+      "blob": "e6fe1970c30937351e0047a5fa8469c43456bfcb5805a1e57d0fff4608c4639d",
+      "roles": [
+        "Exact V71 original bytes; archived sources are data"
+      ]
+    }
+  ],
+  "logicalFiles": 11,
+  "uniqueBlobs": 11,
+  "rawNamedBytes": 24303357,
+  "uniqueRawBytes": 24303357,
+  "uniqueGzipBytes": 24310951,
+  "serializedPartBytes": 32417624,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

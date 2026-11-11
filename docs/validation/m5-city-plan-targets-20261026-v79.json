@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V79",
+  "parentCommit": "1c4474da0f3843ff5fe1f7363915dea6016cd8ae",
+  "feature": "Show stored target people for surrender and diplomatic city arrangements",
+  "accepted": true,
+  "started": "2026-10-26T09:15:32.019Z",
+  "finished": "2026-10-26T09:15:39.277Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 728,
+  "pass": 728,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44170,
+      "sha256": "5eed2f8654eb4560e6391eaa5f371ed2a6c5219beb7be380b6e92b7b9ce13c21"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 475717,
+      "sha256": "c7a55664c39a165e21e562454cc514e2b048b6dd531e2e1b168040ebf213c181"
+    },
+    {
+      "path": "js/hd-city-plans.js",
+      "bytes": 11337,
+      "sha256": "058c2704dc1659467ed7828520d343d2af211e528bd58c878cdab253ecc5d8ad"
+    },
+    {
+      "path": "js/hd-dialog.js",
+      "bytes": 145114,
+      "sha256": "eea1c276fdf857b4da6c37275ccd6386c95520a583a10ab6efd93e210a216576"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 36222,
+      "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+    },
+    {
+      "path": "js/hd-mobile-city.js",
+      "bytes": 35411,
+      "sha256": "71d6997840e7c1f5b2b6f09753db868b1acd8c082763c7d32d5c1ecb229cfeb0"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32371,
+      "sha256": "287ce8cf0328fb84f7c1a10ad154c5736c077e8d330de4100783da6aec7bd935"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "m.html",
+      "bytes": 19625,
+      "sha256": "c17f04c4aeb2fa05813092001ebe7edbb6f1456c6f4ea97cd817b3f0a4045576"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 29718,
+      "sha256": "87287ccf8404670431d88ce5b09a439fcd29ec4450ca55112dd405509b3ca610"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 163348,
+      "sha256": "46d7873f4a690079bc2ea82c20f1fd607dcad59c9a34d8e333d99ab27526cf4b"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "bytes": 34493,
+      "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 199913,
+      "sha256": "600dee82c7f27681fec3b9c2ae98c05a2716f3e86b758ad93ab7427776ac75ed"
+    },
+    {
+      "path": "scripts/test-hd-city-mobile-host.mjs",
+      "bytes": 195248,
+      "sha256": "7d2e172ecfc4c3e3d8f65bf107b65e36d867d2e1bc165b08ae17f0bac122e21d"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 3,
+  "fullSuiteRun": false,
+  "scope": "HUD and mobile city-host targeted modules; no browser, C compilation or full-suite run",
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "nativeContract": {
+    "objectZeroBasedPersonCommands": [
+      6,
+      15,
+      16,
+      17,
+      19
+    ],
+    "logicalPersonCount": 200,
+    "physicalPersonCapacity": 2000,
+    "targetCurrentAllegianceRequired": false,
+    "targetLocationInferred": false,
+    "resultsPredicted": false
+  },
+  "artifactPins": [
+    {
+      "path": "build/city-plan-targets-20261026-v79/run-targeted-v1.mjs",
+      "bytes": 2108,
+      "sha256": "91a747fb323a21309fcec16a24083ded6361277cf218a4b3e3fd0a9220cfbfe2"
+    },
+    {
+      "path": "build/city-plan-targets-20261026-v79/targeted-v1.json",
+      "bytes": 3160,
+      "sha256": "7695cec984ef763d087d2465d5aa84faaa680424a8c641a1cb05ac16222fe7d1"
+    },
+    {
+      "path": "build/city-plan-targets-20261026-v79/targeted-v1.stdout.tap",
+      "bytes": 164233,
+      "sha256": "ee0e26c29b90776513bb766e2094fb4d74a50b099e7fea6387e8ca5e209d8136"
+    },
+    {
+      "path": "build/city-plan-targets-20261026-v79/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "browserRuns": 0,
+  "engineRebuilt": false,
+  "oldHeldPrivateInterfacesInspected": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false,
+  "actualDispatchAccepted": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false
+}

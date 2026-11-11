@@ -26,6 +26,8 @@
 
 ## 道具
 
+原生道具名单按菜单字节容量与2000身份槽共同限制发布，不再硬截80件。容量内保留调用者的完整顺序、重复实例与原生高亮，超容量不认证完整IDs并沿LCD；不会改变原生翻页或确认返回值。JS桥／HD选择仍使用原下标与逐键ACK。原版自然长局可达性、真实长名单导航与性能后验；开发与构建范围见[V89记录](validation/m5-goods-capacity-20261026-v89.md)。
+
 `baye.hd.goods()` 返回当前选中道具及原生已经显示的属性标题和值。原生 `ShowGoodsControl`、标题/数值 hook 和渲染调用只观察一次；高清桥不会额外调用 Mod hook。每项同时捕获标题和值才有 `captured:true`。`complete` 表示所有原生属性都已捕获，属性页可由玩家点击上一页或下一页，沿原生 LEFT/RIGHT 处理。
 
 道具详情保留未读取状态。已校验的标准 LIB、默认五项属性且没有属性 hook 时，可通过 `baye.hd.toolDetails(id)` 补充准确的默认属性，另保留 `nativeComplete` 和原生捕获数量，区分资源读取与实际翻页。未知 Mod 只显示实际捕获的标题和值，缺页不会套用标准属性含义。
@@ -36,6 +38,8 @@
 
 ## 帮助和查找
 
+完整地形 HELP 沿已发布类别 0..7 展示 HD 标题与捕获位置，原说明保留现有换行及全文；不重新分类 tile、读取后来焦点或推算效果。原完整／归属门、DTO、自定义回退与返回合同保持，信息卡缓存包含正文并检查旧节点清理。表现与验证边界见 [V83记录](validation/m5-terrain-help-20261026-v83.md)。
+
 `baye.hd.help()` 保留 `active/seq/text`，新增协议版本、代次、实际 HELP9 输入序号、内容种类、完整标志、人物/战场槽位/坐标、原生名称/兵种/状态，以及十个 U16 字段。字段顺序为等级、武力、智力、经验、生命、技能点、攻击、防御、兵力、装备后兵种。最大等级使用原生 MX 标志，生命与人物平时的体力不混用。
 
 战场详情只在当前 HELP9、输入序号和代次全部一致时结构化展示。焦点在原生 pre-help hook 后捕获，人物身份以真实原生查找结果为准。自定义 fighter/terrain 输出和不完整资料保留可读 LCD；返回按钮沿已有战场输入控制器处理，旧帮助不能关闭下一张帮助或下一层菜单。
@@ -45,3 +49,10 @@
 ## 验证
 
 `test-hd-person-properties-engine.mjs` 实际编译选中人物绘制、原生菜单及票据观察代码，检查选中行、U16 高编号、默认与自定义列、分页、重入和退休；外部 ROM、LCD、hook 和消息边界使用夹具。`test-hd-details-engine.mjs` 实际编译运行原生资源校验、U16 身份与兵种、道具属性 hook 捕获、255 页和零列翻页、帮助生命周期；`test-hd-details-bridge.mjs` 检查公开读取接口的边界与缺字段行为。`test-hd-person-properties-runtime.mjs` 支持 `--staged`、`--library standard|sc-mod` 和 `--preflight-only`，通过独立浏览器的真实开局、选将及手动翻页核对属性、旧指针退休与世界不变。真实流程、截图、产物身份及全量统计单独保存于本批验收记录，模拟夹具和静态预检不计作真实库存或 Mod 流程通过。
+
+
+## 原生城市详情
+
+`baye.hd.cityInfo()` 独立观察真正 ShowCityPro 的当前页，返回协议1、active／complete／custom／wait、session／seq／generation／inputSeq、实际cityIndex、propertyCount／pageStart／pageSize与连续属性索引、GBK原文。标题64字节、32行×128字节；不重新调用原生属性或名字。零城号有效，未知字段不当零。原来的末页空白绘制保留，但不作为超范围属性。
+
+PC／手机新面板仅接原版默认11项且完整无自定义输出，直接显示整行文字，分页沿实际native pageSize；按键只消费一次当前输入回执，未确认不补发。旧菜单／地图／对话等在city-info active期间退让；缺失新字段的旧ABI照旧。原侦察查看ENTER／EXIT均会继续原扣费与订单，HD只提供「返回」，不伪作取消。受控检查、真实流程与真机的边界见[V90记录](validation/m5-city-info-20261026-v90.md)。

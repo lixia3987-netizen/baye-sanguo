@@ -8,6 +8,7 @@
     var mobileHost = null, mobileBattleHost = null, started = false;
     var mobileBattleCommit = null, mobileBattleData = null, mobileCampaignData = null,
         battlePortrait = {key: '', data: null, phase: 'off', serial: 0};
+    var mobileReportReading = false, mobileReportEpoch = 0, mobileReportSpent = null;
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
 
     var state = {
@@ -66,6 +67,7 @@
     }
 
     function shouldShowHd() {
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (mobileHost && !(fightActive() && mobileBattleHost ? battleMobileAvailable() : mobileAvailable())) { return false; }
         if (fightActive()) {
             // A live battle owns its presentation mode. Falling back to the
@@ -92,10 +94,14 @@
         if (!hdReady()) {
             return null;
         }
-        if (window.baye && typeof baye.ensureData === 'function') {
-            return baye.ensureData();
-        }
-        return window.baye && baye.data ? baye.data : null;
+        var data = window.baye && typeof baye.ensureData === 'function' ? baye.ensureData() :
+            window.baye && baye.data ? baye.data : null;
+        return cityInfoOwns(data) ? null : data;
+    }
+
+    function cityInfoOwns(data) {
+        var active = data ? data.g_hdCityInfoActive : undefined;
+        return active !== undefined && active !== 0;
     }
 
     function readNumber(obj, name) {
@@ -135,6 +141,7 @@
     }
 
     function engineSendKey(code) {
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (yieldToMobileMarch()) { return false; }
         var mobileSource = state.open ? 'dialog' : 'city', mobileOwner = null;
         function currentMobileOwner() {
@@ -164,6 +171,7 @@
                 retireInteraction(); return false;
             }
         }
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (typeof sendKey === 'function') {
             sendKey(code);
             return true;
@@ -358,6 +366,103 @@
         return !!(a && b && a.seq === b.seq && a.inputSeq === b.inputSeq);
     }
 
+    var reportIdentityReading = false, reportIdentityEpoch = 0;
+    function readReportIdentity() {
+        if (reportIdentityReading) { reportIdentityEpoch += 1; return null; }
+        reportIdentityReading = true;
+        var epoch = ++reportIdentityEpoch;
+        try {
+            if (!state.open || state.kind !== 'report' || document.hidden || !shouldShowHd() || !hdReady()) { return null; }
+            var api = global.BayeHdLibIdentity, b = global.baye, hd = b && b.hd, data = engineData();
+            if (!api || typeof api.read !== 'function' || typeof api.isCurrent !== 'function' || !hd || !data ||
+                typeof hd.report !== 'function' || typeof b.getPersonName !== 'function' ||
+                typeof b.getPersonCount !== 'function' || typeof b.personOwnership !== 'function') { return null; }
+            var getIdentity = api.read, isCurrentIdentity = api.isCurrent;
+            var library = getIdentity.call(api), people = data.g_Persons, hooks = b.hooks;
+            var libraryKey = library && JSON.stringify([library.status, library.sha256, library.byteLength, library.generation]);
+            var getReport = hd.report, getName = b.getPersonName, getCount = b.getPersonCount, ownership = b.personOwnership;
+            if (!library || library.status !== 'ready' || library.byteLength !== 207195 ||
+                library.sha256 !== '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
+                !helpInteger(library.generation, 1, 0xffffffff) || isCurrentIdentity.call(api, library) !== true ||
+                !people || people.length !== 2000 || hooks && typeof hooks.getPersonName === 'function') { return null; }
+            function sample() {
+                var period = data.g_PIdx, published = getReport.call(hd);
+                if (getCount.call(b) !== 200 || !helpInteger(period, 1, 4) || !published) { return null; }
+                var r = { active: published.active, kind: published.kind, person: published.person,
+                    seq: published.seq, inputSeq: published.inputSeq, text: published.text };
+                if (!r || r.active !== 1 || r.kind !== 2 || !helpInteger(r.person, 0, 199) ||
+                    !helpInteger(r.seq, 1, 0xffffffff) || !helpInteger(r.inputSeq, 1, 0xffffffff) ||
+                    !state.reportOwner || state.reportOwner.seq !== r.seq || state.reportOwner.inputSeq !== r.inputSeq ||
+                    typeof r.text !== 'string' || !r.text || r.text !== state.body || data.g_hdEngineReady !== 1 ||
+                    data.g_hdReportActive !== 1 || data.g_hdReportKind !== 2 || data.g_hdReportPerson !== r.person ||
+                    data.g_hdReportSeq !== r.seq || data.g_hdReportInputSeq !== r.inputSeq || data.g_hdReportGbk !== r.text) { return null; }
+                var person = people[r.person], belong = person && person.Belong;
+                if (belong && typeof belong === 'object' && 'value' in belong) { belong = belong.value; }
+                if (typeof belong !== 'number' && (typeof belong !== 'string' || !belong.trim())) { return null; }
+                belong = Number(belong);
+                if (!person || !helpInteger(belong, 0, 65535)) { return null; }
+                var name = getName.call(b, r.person), owner = ownership.call(b, belong, r.person);
+                var kind = belong === 0 ? 'free' : belong === 65535 ? 'captive' : belong === r.person + 1 ? 'lord' : 'owned';
+                if (typeof name !== 'string' || !name.trim() || name === '-' || name !== state.title ||
+                    !owner || owner.kind !== kind || owner.value !== belong ||
+                    typeof owner.label !== 'string' || !owner.label.trim() || owner.label === '归属未知') { return null; }
+                return { person: person, key: JSON.stringify([r.seq, r.inputSeq, r.kind, r.person, r.text,
+                    period, belong, name, owner.kind, owner.label]), personId: r.person, kind: kind, label: owner.label,
+                    native: r, period: period, belong: belong };
+            }
+            var before = sample(), after = sample();
+            var current = getIdentity.call(api);
+            if (!before || !after || before.person !== after.person || before.key !== after.key ||
+                !current || JSON.stringify([current.status, current.sha256, current.byteLength, current.generation]) !== libraryKey ||
+                isCurrentIdentity.call(api, library) !== true ||
+                epoch !== reportIdentityEpoch || !state.open || state.kind !== 'report' || document.hidden || !shouldShowHd() ||
+                global.BayeHdLibIdentity !== api || global.baye !== b || b.hd !== hd || engineData() !== data ||
+                data.g_Persons !== people || people[after.personId] !== after.person || b.hooks !== hooks ||
+                hd.report !== getReport || b.getPersonName !== getName || b.getPersonCount !== getCount || b.personOwnership !== ownership) { return null; }
+            // Bind the published line to the same native wait after all bridge callbacks.
+            var finalSample = sample();
+            current = getIdentity.call(api);
+            var stillCurrent = isCurrentIdentity.call(api, library);
+            var belongNow = after.person.Belong;
+            if (belongNow && typeof belongNow === 'object' && 'value' in belongNow) { belongNow = belongNow.value; }
+            if (typeof belongNow !== 'number' && (typeof belongNow !== 'string' || !belongNow.trim())) { return null; }
+            // No name/ownership/identity callbacks after this raw native seal.
+            var rawReport = [data.g_hdReportActive, data.g_hdReportKind, data.g_hdReportPerson,
+                data.g_hdReportSeq, data.g_hdReportInputSeq, data.g_hdReportGbk];
+            var sealed = finalSample && !cityInfoOwns(data) && data.g_hdEngineReady === 1 && data.g_PIdx === finalSample.period &&
+                Number(belongNow) === finalSample.belong && stillCurrent === true && current &&
+                JSON.stringify([current.status, current.sha256, current.byteLength, current.generation]) === libraryKey &&
+                JSON.stringify([library.status, library.sha256, library.byteLength, library.generation]) === libraryKey &&
+                JSON.stringify(rawReport) === JSON.stringify([1, 2, finalSample.personId,
+                    finalSample.native.seq, finalSample.native.inputSeq, finalSample.native.text]);
+            return finalSample && finalSample.key === after.key && finalSample.person === after.person &&
+                sealed && api.read === getIdentity && api.isCurrent === isCurrentIdentity &&
+                global.BayeHdLibIdentity === api && global.baye === b && b.hd === hd && b.data === data &&
+                data.g_Persons === people && people[after.personId] === after.person && b.hooks === hooks &&
+                hd.report === getReport && b.getPersonName === getName && b.getPersonCount === getCount && b.personOwnership === ownership &&
+                (!hooks || typeof hooks.getPersonName !== 'function') &&
+                !document.hidden && state.open && state.kind === 'report' && state.body === finalSample.native.text &&
+                state.reportOwner && state.reportOwner.seq === finalSample.native.seq &&
+                state.reportOwner.inputSeq === finalSample.native.inputSeq && epoch === reportIdentityEpoch ? after : null;
+        } catch (e) { return null; }
+        finally { reportIdentityReading = false; }
+    }
+
+    function renderReportIdentity() {
+        var node = el('hd-dialog-person-identity');
+        if (!node) { return; }
+        node.hidden = true;
+        node.textContent = '';
+        node.removeAttribute('data-hd-report-person');
+        node.removeAttribute('data-hd-report-ownership');
+        var identity = readReportIdentity();
+        if (!identity) { return; }
+        node.textContent = '当前归属 · ' + identity.label;
+        node.setAttribute('data-hd-report-person', String(identity.personId));
+        node.setAttribute('data-hd-report-ownership', identity.kind);
+        node.hidden = false;
+    }
+
     function isBlockingKeyboard() {
         return !!(!mobileCityMarchOwner() && shouldShowHd() && state.open && (
             state.kind === 'report' && sameReport(state.reportOwner, nativeReportOwner(readAsync())) ||
@@ -430,7 +535,7 @@
             var first = sample(), second = sample(), latest = api.read();
             if (!first || !second || JSON.stringify(first) !== JSON.stringify(second) || baye.data !== data ||
                 !mobileAvailable() || !api.isCurrent(identity) || !api.isCurrent(latest) ||
-                JSON.stringify(identity) !== JSON.stringify(latest)) { return null; }
+                JSON.stringify(identity) !== JSON.stringify(latest) || cityInfoOwns(data)) { return null; }
             second.signature = JSON.stringify([second.libraryGeneration, second.generation, second.ids, second.names, second.packedNames, second.bytes]);
             Object.defineProperty(second, 'data', {value: data});
             return second;
@@ -908,6 +1013,27 @@
         if (mobileBattleHost) { renderBattlePortrait(body); }
     }
 
+    function renderTerrainHelp(body, detail) {
+        var key = JSON.stringify([state.viewEpoch,detail,state.body]), first = body.children && body.children[0];
+        if (body._hdTerrainView === key && first && first.getAttribute('data-hd-help-terrain') === String(detail.terrain)) { return; }
+        body._hdTerrainView = key; body.textContent = '';
+        var names = ['草地','平原','山地','森林','村庄','城池','营寨','河流'];
+        var symbols = ['草','田','山','林','村','城','营','水'];
+        var card = document.createElement('section'); card.className = 'hd-terrain-help-card';
+        card.setAttribute('data-hd-help-terrain',String(detail.terrain));
+        card.setAttribute('data-hd-help-x',String(detail.x)); card.setAttribute('data-hd-help-y',String(detail.y));
+        var header = document.createElement('div'); header.className = 'hd-terrain-help-header';
+        var symbol = document.createElement('span'); symbol.className = 'hd-terrain-help-symbol';
+        symbol.setAttribute('aria-hidden','true'); symbol.textContent = symbols[detail.terrain]; header.appendChild(symbol);
+        var identity = document.createElement('div');
+        var name = document.createElement('h2'); name.className = 'hd-help-name'; name.textContent = names[detail.terrain];
+        var position = document.createElement('p'); position.className = 'hd-help-summary';
+        position.textContent = '位置 ' + detail.x + ',' + detail.y;
+        identity.appendChild(name); identity.appendChild(position); header.appendChild(identity); card.appendChild(header);
+        var description = document.createElement('p'); description.className = 'hd-terrain-help-description';
+        description.textContent = state.body; card.appendChild(description); body.appendChild(card);
+    }
+
     function renderViewDetail(body, detail) {
         var token = viewToken(detail.owner), key = JSON.stringify([token, detail]);
         if (body._hdSituationView !== key) {
@@ -996,6 +1122,7 @@
 
     function render() {
         applyChrome();
+        renderReportIdentity();
         if (!(state.open && shouldShowHd())) {
             return;
         }
@@ -1024,6 +1151,8 @@
                 renderViewDetail(body, state.viewDetail);
             } else if (state.kind === 'help' && state.helpDetail && state.helpDetail.kind === 1) {
                 renderHelpDetail(body, state.helpDetail);
+            } else if (state.kind === 'help' && state.helpDetail && state.helpDetail.kind === 2) {
+                renderTerrainHelp(body, state.helpDetail);
             } else if (state.kind === 'defenders' && state.defenseOwner) {
                 if (body._hdDefendersView !== state.viewEpoch) {
                     body._hdDefendersView = state.viewEpoch;
@@ -1666,6 +1795,7 @@
         state.successorOwner = null;
         state.defenseOwner = null;
         applyChrome();
+        renderReportIdentity();
         document.documentElement.setAttribute('data-baye-dialog-pass', '0');
         if (!opts.silent) {
             console.log('[hd-dialog] close');
@@ -2326,9 +2456,75 @@
             if (info.totalCount !== total || info.leaderPerson !== belong - 1 ||
                 info.points.length !== base.native.units.filter(function (u) { return u.id>0 && u.id<=200 && u.state!==8; }).length) { return null; }
         }
+        if (cityInfoOwns(data)) { return null; }
         return {info:info,detail:detail,raw:raw,arrays:arrays};
     }
+    function getBattleReportTicket() {
+        if (mobileReportReading) { mobileReportEpoch += 1; return null; }
+        mobileReportReading = true;
+        var epoch = ++mobileReportEpoch;
+        try {
+            if (!state.open || state.kind !== 'report' || !state.reportOwner || !battleMobileAvailable()) { return null; }
+            var b=global.baye, hd=b && b.hd, api=global.BayeHdLibIdentity, host=mobileBattleHost,
+                battle=global.BayeHdBattle, lib=global.dynLib;
+            if (!b || !hd || !api || !host || !battle || typeof hd.report!=='function' || typeof hd.fight!=='function' ||
+                typeof hd.ready!=='function' || typeof api.read!=='function' || typeof api.isCurrent!=='function') { return null; }
+            var report=hd.report, fight=hd.fight, ready=hd.ready, identify=api.read, current=api.isCurrent,
+                getData=b.ensureData, available=host.isAvailable, show=battle.shouldShowHd,
+                data=typeof getData==='function'?getData.call(b):b.data;
+            var identity=identify.call(api), stamp=JSON.stringify(identity), local=JSON.stringify([state.viewEpoch,state.body,state.reportOwner]);
+            if (!identity || identity.status!=='ready' || identity.byteLength!==207195 ||
+                identity.sha256!=='3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
+                !helpInteger(identity.generation,1,0xffffffff) || current.call(api,identity)!==true ||
+                typeof lib!=='string' || lib.length!==414390 || !data || data!==b.data || ready.call(hd)!==true) { return null; }
+            var fields=['g_hdEngineReady','g_hdDetailGeneration','g_hdFightActive','g_hdFightOver','g_hdFightInputKind',
+                'g_hdFightInputSeq','g_hdReportActive','g_hdReportKind','g_hdReportPerson','g_hdReportSeq','g_hdReportInputSeq'];
+            function raw() {
+                var values=fields.map(function(name){return data[name];});
+                if (!values.every(function(value){return helpInteger(value,0,0xffffffff);}) || cityInfoOwns(data) ||
+                    data.g_hdEngineReady!==1 || !data.g_hdDetailGeneration || data.g_hdFightActive!==1 || data.g_hdFightOver!==0 ||
+                    !helpInteger(data.g_hdFightInputKind,0,10) || !data.g_hdFightInputSeq || data.g_hdReportActive!==1 ||
+                    !helpInteger(data.g_hdReportSeq,1,65535) || !data.g_hdReportInputSeq ||
+                    (data.g_hdReportKind===1 ? data.g_hdReportPerson!==65535 :
+                        data.g_hdReportKind!==2 || !helpInteger(data.g_hdReportPerson,0,199)) ||
+                    typeof data.g_hdReportGbk!=='string' || !looksLikeSpeech(data.g_hdReportGbk)) { return null; }
+                return JSON.stringify([values,data.g_hdReportGbk]);
+            }
+            function sample() {
+                var r=report.call(hd), f=fight.call(hd), source=raw();
+                if (!source || !r || !f || r.active!==1 || r.seq!==data.g_hdReportSeq || r.inputSeq!==data.g_hdReportInputSeq ||
+                    r.kind!==data.g_hdReportKind || r.person!==data.g_hdReportPerson || r.text!==data.g_hdReportGbk ||
+                    f.active!==1 || f.over!==0 || f.inputKind!==data.g_hdFightInputKind || f.inputSeq!==data.g_hdFightInputSeq ||
+                    !sameReport(state.reportOwner,{seq:r.seq,inputSeq:r.inputSeq}) || state.body!==r.text) { return null; }
+                return source;
+            }
+            var first=sample(), second=sample(), again=identify.call(api), valid=current.call(api,identity), shown=battleMobileAvailable();
+            if (!first || first!==second || !shown || valid!==true || stamp!==JSON.stringify(identity) || stamp!==JSON.stringify(again) ||
+                first!==raw() || global.baye!==b || b.hd!==hd || b.data!==data || b.ensureData!==getData ||
+                hd.report!==report || hd.fight!==fight || hd.ready!==ready || global.BayeHdLibIdentity!==api ||
+                api.read!==identify || api.isCurrent!==current || global.dynLib!==lib || mobileBattleHost!==host ||
+                host.isAvailable!==available || global.BayeHdBattle!==battle || battle.shouldShowHd!==show ||
+                !state.open || state.kind!=='report' || local!==JSON.stringify([state.viewEpoch,state.body,state.reportOwner]) ||
+                document.hidden || epoch!==mobileReportEpoch) { return null; }
+            var ownerKey=JSON.stringify([identity.generation,data.g_hdDetailGeneration,data.g_hdReportSeq,data.g_hdReportInputSeq]);
+            var ticket={kind:'report',ownerType:'battle-report',seq:data.g_hdReportInputSeq,detailSeq:data.g_hdReportSeq,
+                generation:data.g_hdDetailGeneration,libraryGeneration:identity.generation,
+                ownerKey:ownerKey,key:JSON.stringify([ownerKey,state.viewEpoch,first]),text:state.body};
+            Object.defineProperty(ticket,'data',{value:data,enumerable:false});
+            Object.defineProperty(ticket,'seal',{value:function(){
+                var isReady=ready.call(hd), shown=battleMobileAvailable();
+                return isReady===true && shown && first===raw() && global.baye===b && b.hd===hd && b.data===data && b.ensureData===getData &&
+                    hd.report===report && hd.fight===fight && hd.ready===ready && global.BayeHdLibIdentity===api &&
+                    api.read===identify && api.isCurrent===current && global.dynLib===lib &&
+                    mobileBattleHost===host && host.isAvailable===available && global.BayeHdBattle===battle && battle.shouldShowHd===show &&
+                    state.open && state.kind==='report' && local===JSON.stringify([state.viewEpoch,state.body,state.reportOwner]) &&
+                    !document.hidden && epoch===mobileReportEpoch;
+            }});return Object.freeze(ticket);
+        } catch(e) { return null; }
+        finally { mobileReportReading=false; }
+    }
     function getBattleInputTicket() {
+        if (state.kind==='report') { return getBattleReportTicket(); }
         if (!battleMobileAvailable() || !state.open || (state.kind !== 'help' && state.kind !== 'view')) { return null; }
         try {
             var identityApi=global.BayeHdLibIdentity, identity=identityApi && identityApi.read();
@@ -2345,11 +2541,24 @@
             var t = {key:JSON.stringify([a.key,state.viewEpoch,first]), libraryGeneration:a.libraryGeneration,
                 ownerType:a.kind===9?'battle-help':'battle-view',kind:a.kind,seq:a.seq,detailSeq:first.info.seq,
                 generation:first.info.generation,period:a.native.period,detail:first.detail};
+            if (cityInfoOwns(a.data)) { return null; }
             Object.defineProperty(t,'data',{value:a.data,enumerable:false}); return Object.freeze(t);
         } catch (e) { return null; }
     }
     function dispatchBattleDetail(code, expected) {
         var t = getBattleInputTicket();
+        if (t && t.kind==='report') {
+            if ([VK.ENTER,VK.EXIT].indexOf(code)<0 || !sameBattleTicket(expected,t) ||
+                !sameBattleTicket(t,getBattleInputTicket()) || mobileReportSpent &&
+                    mobileReportSpent.data===t.data && mobileReportSpent.ownerKey===t.ownerKey) { return false; }
+            var globalSend=global.sendKey, send=typeof globalSend==='function'?globalSend:global.baye && baye.sendKey, receiver=globalSend===send?global:global.baye;
+            if (typeof send!=='function') { return false; }
+            mobileReportSpent={data:t.data,ownerKey:t.ownerKey};
+            var latest=getBattleInputTicket();
+            if (!sameBattleTicket(t,latest) ||
+                (receiver===global?global.sendKey:global.baye && baye.sendKey)!==send || !latest.seal()) { return false; }
+            try { send.call(receiver,code); return true; } catch(e) { return false; }
+        }
         if (!sameBattleTicket(expected,t) || !sameBattleTicket(t,getBattleInputTicket()) ||
             (t.kind === 9 ? code !== VK.EXIT : [VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT].indexOf(code)<0) ||
             sameBattleTicket(mobileBattleCommit,t)) { return false; }
@@ -2357,6 +2566,7 @@
         try {
             // No queue or retry: the next native inputSeq/publication is the ACK.
             if (!sameBattleTicket(t,getBattleInputTicket())) { mobileBattleCommit=null; return false; }
+            if (cityInfoOwns(t.data)) { mobileBattleCommit=null; return false; }
             if (typeof global.sendKey === 'function') { global.sendKey(code); }
             else if (global.baye && typeof baye.sendKey === 'function') { baye.sendKey(code); }
             else { mobileBattleCommit=null; return false; }
@@ -2433,7 +2643,7 @@
                 'g_hdHelpActive', 'g_hdHelpSeq', 'g_hdHelpInputSeq', 'g_hdMarchSession', 'g_hdMarchInputSeq',
                 'g_hdMarchPhase', 'g_hdFightActive', 'g_hdMovieActive', 'g_hdRecordActive'];
             function read() {
-                if (!data) { return null; }
+                if (!data || cityInfoOwns(data)) { return null; }
                 var values = fields.map(function (key) { return data[key]; });
                 return values.every(function (value) { return helpInteger(value, 0, 0xffffffff); }) ? values : null;
             }
@@ -2479,7 +2689,7 @@
             if (!mobileAvailable() || baye.data !== data || !rawAfter || JSON.stringify(raw) !== JSON.stringify(rawAfter) ||
                 JSON.stringify(owner) !== JSON.stringify(ownerAfter) ||
                 !identityApi.isCurrent(identity) || !identityApi.isCurrent(identityAfter) ||
-                JSON.stringify(identity) !== JSON.stringify(identityAfter)) { return null; }
+                JSON.stringify(identity) !== JSON.stringify(identityAfter) || cityInfoOwns(data)) { return null; }
             var ticket = { key: JSON.stringify([identity.generation, state.viewEpoch, state.kind, raw, owner]),
                 libraryGeneration: identity.generation, ownerType: state.kind };
             if (state.kind === 'successor' || state.kind === 'defenders') {
@@ -2511,7 +2721,7 @@
         attachMobileBattleHost: function (options) { mobileBattleHost=options || null; retireInteraction(); start(); },
         getBattleInputTicket: getBattleInputTicket,
         dispatchBattleDetail: dispatchBattleDetail,
-        getBattleLcdPresentation: function () { return getBattleInputTicket() && battlePortrait.phase!=='lcd' ? 'off' : 'passthrough'; },
+        getBattleLcdPresentation: function () { var t=getBattleInputTicket();return t && (t.kind==='report' || battlePortrait.phase!=='lcd') ? 'off' : 'passthrough'; },
         configureMobileHost: function (options) { mobileHost = options || {}; retireInteraction(); },
         retireInteraction: retireInteraction,
         retireCampaignInput: retireCampaignInput,

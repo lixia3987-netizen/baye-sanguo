@@ -28,6 +28,7 @@
     var sysMenuBinding = null, modeEpoch = 0, pollId = 0, commandTimer = 0, terrainSession = 0;
     var mobileHost = null, mobileMode = 'auto', mobileLifecycleBound = false, mobileRendering = false;
     var mobileRenderOwner = null;
+    var pcNextPress = null;
 
     function el(id) { return document.getElementById(id); }
     function readStorage(key, fallback) {
@@ -153,6 +154,46 @@
         return !!(unit && unit.side === 'player' && unit.active === 0 &&
             unit.state !== 8 && unit.state !== 1 && unit.state !== 6);
     }
+    function nextWaitingUnit(snap) {
+        if (!state.open || state.preview || state.showLcd || document.hidden || state.transaction ||
+            !snap || !snap.ready || snap.kind !== INPUT.PICK || !snap.fight ||
+            snap.fight.wait !== 1 || snap.fight.phase !== 1 || snap.menu && snap.menu.active ||
+            state.lastCommit && state.lastCommit.epoch === modeEpoch && state.lastCommit.seq === snap.seq) { return null; }
+        var bounds = state.terrain;
+        if (!bounds || !(bounds.width > 0) || !(bounds.height > 0)) { return null; }
+        var focused = snap.focus && unitAt(snap.focus.x,snap.focus.y), anchor = focused && focused.i < 10 ? focused.i : -1;
+        for (var offset = 1; offset <= 10; offset++) {
+            var slot = (anchor + offset) % 10;
+            for (var index = 0; index < state.units.length; index++) {
+                var unit = state.units[index];
+                if (unit.i === slot && selectable(unit) && Number.isInteger(unit.x) && Number.isInteger(unit.y) &&
+                    unit.x >= 0 && unit.y >= 0 && unit.x < bounds.width && unit.y < bounds.height && unitAt(unit.x,unit.y) === unit) { return unit; }
+            }
+        }
+        return null;
+    }
+    function canSelectNextUnit() { return !!nextWaitingUnit(inputSnapshot()); }
+    function clickNextUnit(ticket) {
+        var before = inputSnapshot(), b = global.baye, data = b && b.data, lib = global.dynLib;
+        if (!nextWaitingUnit(before)) { return reject('not-picking-next-unit'); }
+        if (mobileHost && !sameMobileTicket(ticket,getInputTicket(),true)) { return reject('mobile-owner-changed'); }
+        refresh();
+        var snap = inputSnapshot(), unit = nextWaitingUnit(snap);
+        if (!unit || global.baye !== b || b.data !== data || global.dynLib !== lib || snap.seq !== before.seq ||
+            snap.actor !== before.actor || snap.kind !== before.kind || !snap.focus || !before.focus ||
+            snap.focus.x !== before.focus.x || snap.focus.y !== before.focus.y ||
+            mobileHost && !sameMobileTicket(ticket,getInputTicket(),true)) { return reject('next-unit-owner-changed'); }
+        return beginRequest('tile',{x:unit.x,y:unit.y,unitSlot:unit.i,personId:unit.id},snap);
+    }
+    function pcNextTicket(node) {
+        var snap = inputSnapshot(), unit = nextWaitingUnit(snap), b = global.baye;
+        if (!unit || !node || node.disabled) { return null; }
+        var data = b && b.data, rect = node.getBoundingClientRect && node.getBoundingClientRect();
+        return {node:node,b:b,data:data,lib:global.dynLib,key:JSON.stringify([modeEpoch,snap.seq,snap.actor,
+            snap.focus && snap.focus.x,snap.focus && snap.focus.y,unit.i,unit.id,unit.x,unit.y,
+            data && data.g_hdDetailGeneration,rect && [rect.left,rect.top,rect.width,rect.height]])};
+    }
+    function samePcNextTicket(a,b) { return !!(a && b && a.node === b.node && a.b === b.b && a.data === b.data && a.lib === b.lib && a.key === b.key); }
     function actorUnit(index) {
         for (var i = 0; i < state.units.length; i += 1) {
             if (state.units[i].i === index && state.units[i].state !== 8) { return state.units[i]; }
@@ -169,6 +210,41 @@
             ' · 兵 ' + (unit.arms == null ? '—' : unit.arms) +
             ' · HP ' + (unit.hp == null ? '—' : unit.hp) +
             ' · MP ' + (unit.mp == null ? '—' : unit.mp) + ' · ' + unitStatus(unit);
+    }
+    function renderFocusCard(show, snap, targetLabel) {
+        var node = el('hd-battle-focus');
+        if (!node) { return; }
+        var unit = show && !mobileHost && !document.hidden && !state.preview && !state.showLcd &&
+            snap && snap.ready && snap.kind !== INPUT.HELP && snap.kind !== INPUT.VIEW &&
+            snap.focus && unitAt(snap.focus.x,snap.focus.y);
+        if (!unit) { node.hidden = true; node.textContent = ''; node._focusCardSignature = ''; return; }
+        function number(value) { return value == null ? '未读取' : String(value); }
+        var terrain = unit.terrain, terrainText = terrain && terrain.label || '未知地形';
+        if (terrain && terrain.kind === 'unknown' && terrain.raw != null) { terrainText += ' · 图块 ' + terrain.raw; }
+        var fields = [['arms','兵力',number(unit.arms)],['hp','HP',number(unit.hp)],['mp','MP',number(unit.mp)],
+            ['state','状态',UNIT_STATES[unit.state] || '未读取'],
+            ['action','本回合',unit.active === 0 ? '未行动' : unit.active === 1 ? '已行动' : '未读取'],['terrain','地形',terrainText]];
+        var name = unit.name || '#' + unit.i,
+            identity = (unit.side === 'player' ? '我方' : '敌方') + ' · ' + (ARM_NAMES[unit.armType] || '兵种未知') +
+                ' · 位置 ' + unit.x + ',' + unit.y,
+            signature = JSON.stringify([unit.id,unit.i,name,identity,fields]);
+        node.hidden = false;
+        if (node._focusCardSignature !== signature || node.children.length !== 4) {
+            node.textContent = '';
+            var title = document.createElement('h2'); title.className = 'hd-battle-focus-name'; title.textContent = name; node.appendChild(title);
+            var description = document.createElement('p'); description.className = 'hd-battle-focus-identity'; description.textContent = identity; node.appendChild(description);
+            var list = document.createElement('dl'); list.className = 'hd-battle-focus-fields';
+            fields.forEach(function (field) {
+                var row = document.createElement('div'); row.setAttribute('data-hd-focus-field',field[0]);
+                var label = document.createElement('dt'); label.textContent = field[1];
+                var value = document.createElement('dd'); value.textContent = field[2];
+                row.appendChild(label); row.appendChild(value); list.appendChild(row);
+            });
+            node.appendChild(list);
+            var target = document.createElement('p'); target.className = 'hd-battle-focus-target'; target.hidden = true; node.appendChild(target);
+            node._focusCardSignature = signature;
+        }
+        var note = node.children[3]; note.textContent = targetLabel || ''; note.hidden = !targetLabel;
     }
     function terrainAt(x, y, snapshot) {
         if (global.BayeHdBattleTerrain) { return global.BayeHdBattleTerrain.inspect(snapshot || state.terrain, x, y); }
@@ -341,6 +417,7 @@
         if (commandTimer) { global.clearTimeout(commandTimer); commandTimer = 0; }
     }
     function invalidateHdWork() {
+        pcNextPress = null;
         modeEpoch += 1;
         mobileRenderOwner = null;
         clearTerrainPaint();
@@ -446,7 +523,9 @@
             if (snap.focus.x === transaction.x && snap.focus.y === transaction.y) {
                 if (transaction.type === 'focus') { finishRequest('acknowledged'); refresh(); return; }
                 refresh();
-                if (!legalEnter({ x: transaction.x, y: transaction.y }, unitAt(transaction.x, transaction.y), snap.fight)) {
+                var targetUnit = unitAt(transaction.x,transaction.y);
+                if (transaction.unitSlot != null && (!targetUnit || targetUnit.i !== transaction.unitSlot || targetUnit.id !== transaction.personId) ||
+                    !legalEnter({ x: transaction.x, y: transaction.y }, targetUnit, snap.fight)) {
                     finishRequest('target-changed'); return;
                 }
                 sendRequestKey(transaction, VK.ENTER); return;
@@ -610,27 +689,85 @@
     }
     function renderFightMenu() {
         var panel = el('hd-battle-menu'), list = el('hd-battle-menu-list'), title = el('hd-battle-menu-title');
-        var info = menuSnapshot(inputSnapshot());
+        var snap = inputSnapshot(), info = menuSnapshot(snap), hints = null;
         state.menuKind = info ? info.kind : ''; state.menuTitle = info ? info.title : '';
         state.menuNames = info ? info.names : []; state.menuIndex = info ? info.index : 0;
+        var note = el('hd-battle-skill-note');
+        if (note) { note.hidden = true; note.textContent = ''; }
+        var settingsNote = el('hd-battle-settings-note'), settings = null;
+        if (settingsNote) { settingsNote.hidden = true; settingsNote.textContent = ''; }
         if (!panel || !list) { return; }
         panel.hidden = !info;
         if (!info) { return; }
+        try {
+            if (info.kind === 'skill' && global.BayeHdSkillHints && typeof BayeHdSkillHints.read === 'function') { hints = BayeHdSkillHints.read(); }
+        } catch (e) {}
+        if (hints && (hints.actor !== snap.actor || hints.menuSeq !== info.seq || hints.inputSeq !== info.inputSeq ||
+            hints.index !== info.index || JSON.stringify(hints.names) !== JSON.stringify(info.names))) { hints = null; }
+        if (hints && note) { note.textContent = '当前 MP ' + hints.mp + ' · 目标与实际效果以原版判定为准。'; note.hidden = false; }
+        try {
+            if ((info.kind === 'sys' || info.kind === 'settings') && global.BayeHdBattleStatus &&
+                typeof BayeHdBattleStatus.readSettings === 'function') { settings = BayeHdBattleStatus.readSettings(); }
+        } catch (e) {}
+        if (settings && (settings.actor !== snap.actor || settings.kind !== snap.kind || settings.menuSeq !== info.seq ||
+            settings.inputSeq !== info.inputSeq || settings.index !== info.index ||
+            JSON.stringify(settings.names) !== JSON.stringify(info.names))) { settings = null; }
+        if (settings && settingsNote) {
+            function choice(value, labels) { return value === 0 || value === 1 ? labels[value] : '未读取'; }
+            settingsNote.textContent = '当前设置：动画 ' + choice(settings.movie,['不看','观看']) + ' · 移速 ' +
+                choice(settings.moveSpeed,['快速','慢速']) + ' · 敌军移动 ' + choice(settings.enemy,['不看','观看']);
+            settingsNote.hidden = false;
+        }
         if (title) { title.textContent = info.title; }
         var html = '';
         for (var i = 0; i < info.names.length; i += 1) {
             var text = String(info.names[i]).replace(/[&<>"']/g, function (c) {
                 return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
             });
+            var hint = hints && hints.rows[i], detail = '';
+            if (hint) {
+                var reasons = {mp:'MP不足',terrain:'地形不符',weather:'天候不符',unknown:'条件未读取'};
+                detail = '<small data-hd-skill-cost="' + hint.id + '" data-hd-skill-condition="' + hint.reason + '">' +
+                    '规则消耗 ' + (hint.cost == null ? '未读取' : hint.cost) + ' MP' +
+                    (reasons[hint.reason] ? ' · ' + reasons[hint.reason] : '') + '</small>';
+                text = '<span>' + text + '</span>';
+            }
             html += '<button type="button" class="hd-battle-menu-item' + (i === info.index ? ' is-on' : '') +
-                '" data-hd-battle-menu="' + i + '"' + (state.transaction ? ' disabled' : '') + '>' + text + '</button>';
+                '" data-hd-battle-menu="' + i + '"' + (state.transaction ? ' disabled' : '') + '>' + text + detail + '</button>';
         }
-        if (list.getAttribute('data-sig') !== html) { list.setAttribute('data-sig', html); list.innerHTML = html; }
+        if (list.getAttribute('data-sig') !== html) {
+            list.setAttribute('data-sig', html); list.innerHTML = html;
+            if (hints && !mobileHost && list.querySelector) {
+                var selected = list.querySelector('.is-on');
+                if (selected && selected.scrollIntoView) { selected.scrollIntoView({block:'nearest',inline:'nearest'}); }
+            }
+        }
     }
     function paintRuntimeBadge() {
         global.HD_BATTLE_VER = HD_BATTLE_VER;
         var badge = el('baye-build-badge');
         if (badge) { badge.textContent = HD_BATTLE_VER; badge.setAttribute('data-baye-asset-ver', HD_BATTLE_VER); }
+    }
+    function renderBattleContext(show) {
+        var node = el('hd-battle-context'), value = null;
+        if (!node) { return; }
+        try {
+            if (show && global.BayeHdBattleStatus && typeof BayeHdBattleStatus.read === 'function') { value = BayeHdBattleStatus.read(); }
+        } catch (e) {}
+        if (!value) { node.hidden = true; node.textContent = ''; node._battleContextSignature = ''; return; }
+        var signature = JSON.stringify(value);
+        node.hidden = false;
+        if (node._battleContextSignature === signature && node.children.length === 3) { return; }
+        node._battleContextSignature = signature;
+        node.textContent = '';
+        var weather = ['','晴','阴','风','雨','冰雹'];
+        [['day', value.day == null ? '战斗天数 未读取' : '第' + value.day + '天' +
+            (value.limit == null ? ' / 上限未读取' : ' / 上限' + value.limit + '天')],
+            ['weather', '天气 ' + (weather[value.weather] || '未读取')],
+            ['food', '我方粮草 ' + (value.food == null ? '未读取' : value.food)]].forEach(function (field) {
+                var item = document.createElement('span');
+                item.setAttribute('data-hd-battle-stat',field[0]); item.textContent = field[1]; node.appendChild(item);
+            });
     }
     function applyChrome() {
         var show = state.open && shouldShowHd();
@@ -646,6 +783,9 @@
         }
         var root = el('hd-battle');
         if (root) { root.classList.toggle('is-open', show); root.setAttribute('aria-hidden', show ? 'false' : 'true'); }
+        var rail = el('hd-battle-rail');
+        if (rail) { rail.hidden = !show || state.preview; }
+        renderFocusCard(show,snap);
         var actor = actorUnit(snap.actor);
         var guidance = { 0: '正在处理战场行动…', 1: '选择己方将领', 2: '选择移动位置（可选择原地）',
             3: '选择将领行动', 4: '选择计谋', 5: '选择射程内目标', 6: '战场系统', 7: '确认全军撤退', 8: '选择战场设置',
@@ -656,11 +796,14 @@
                 (actor && actor.name ? actor.name + ' · ' : '') + (guidance[snap.kind] || '等待引擎战场数据…') +
                 (state.transaction ? ' · 等待操作完成' : '');
         }
+        renderBattleContext(show && !state.preview && !state.showLcd && !help);
         var tip = el('hd-battle-tip');
         if (tip) { tip.hidden = !state.fightTip; tip.textContent = state.fightTip; }
         var banner = el('hd-battle-result');
         if (banner) { banner.hidden = true; }
         if (root && root.querySelectorAll) {
+            var nextButtons = root.querySelectorAll('[data-hd-battle-next]'), nextAvailable = !!nextWaitingUnit(snap);
+            for (var n = 0; n < nextButtons.length; n++) { nextButtons[n].disabled = !nextAvailable; }
             var buttons = root.querySelectorAll('[data-hd-battle-sys]');
             for (var j = 0; j < buttons.length; j += 1) {
                 buttons[j].disabled = !!state.transaction || !snap.ready || (snap.kind !== INPUT.PICK && snap.kind !== INPUT.SYSTEM);
@@ -718,6 +861,8 @@
         state.visibilityBound = true;
         document.addEventListener('visibilitychange', function () {
             if (document.hidden) {
+                pcNextPress = null;
+                renderFocusCard(false);
                 if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
                 return;
             }
@@ -869,10 +1014,32 @@
         var root = el('hd-battle');
         if (!root) { return; }
         state.bound = true;
+        root.addEventListener('pointerdown',function (event) {
+            pcNextPress = null;
+            if (event.isTrusted !== true || event.isPrimary !== true || event.button !== 0) { return; }
+            for (var node = event.target; node && node !== root; node = node.parentNode) {
+                if (node.getAttribute && node.getAttribute('data-hd-battle-next') != null) {
+                    var ticket = pcNextTicket(node);
+                    if (ticket) { pcNextPress = {ticket:ticket,x:event.clientX,y:event.clientY}; }
+                    return;
+                }
+            }
+        });
+        root.addEventListener('pointercancel',function () { pcNextPress = null; });
+        root.addEventListener('lostpointercapture',function () { pcNextPress = null; });
+        if (global.addEventListener) {
+            ['blur','pagehide','resize'].forEach(function (name) { global.addEventListener(name,function () { pcNextPress = null; }); });
+        }
         root.addEventListener('click', function (event) {
             var node = event.target;
             while (node && node !== root) {
                 if (node.getAttribute) {
+                    if (node.getAttribute('data-hd-battle-next') != null) {
+                        var press = pcNextPress; pcNextPress = null;
+                        if (!node.disabled && event.isTrusted === true && (event.detail === 0 || press &&
+                            Math.hypot(event.clientX-press.x,event.clientY-press.y) <= 10 && samePcNextTicket(press.ticket,pcNextTicket(node)))) { clickNextUnit(); }
+                        event.preventDefault(); return;
+                    }
                     if (node.getAttribute('data-hd-battle-lcd') != null) {
                         state.showLcd = !state.showLcd; applyChrome(); event.preventDefault(); return;
                     }
@@ -1139,6 +1306,17 @@
         }
     }
 
+    function boardGeometry(canvas) {
+        var board = {ox:80,oy:72,width:DESIGN_W-160,height:DESIGN_H-160};
+        var rail = !mobileHost && !state.preview && el('hd-battle-rail');
+        if (rail && !rail.hidden && typeof rail.getBoundingClientRect === 'function') {
+            var bounds = canvas.getBoundingClientRect(), sidebar = rail.getBoundingClientRect();
+            if (bounds.width > 0 && sidebar.width > 0 && sidebar.left > bounds.left && sidebar.left < bounds.right) {
+                board.width = Math.max(80,(sidebar.left-bounds.left)/bounds.width*DESIGN_W-24-board.ox);
+            }
+        }
+        return board;
+    }
     function eventToTile(ev) {
         var canvas = el('hd-battle-canvas');
         if (!canvas || !state.mapW || !state.mapH) {
@@ -1150,15 +1328,13 @@
         }
         var sx = (ev.clientX - rect.left) / rect.width * DESIGN_W;
         var sy = (ev.clientY - rect.top) / rect.height * DESIGN_H;
-        var pad = 80;
-        var boardW = DESIGN_W - pad * 2;
-        var boardH = DESIGN_H - 160;
+        var board = boardGeometry(canvas);
         var cols = state.viewW || state.mapW;
         var rows = state.viewH || state.mapH;
-        var cw = boardW / cols;
-        var ch = boardH / rows;
-        var ox = pad;
-        var oy = 72;
+        var cw = board.width / cols;
+        var ch = board.height / rows;
+        var ox = board.ox;
+        var oy = board.oy;
         var c = Math.floor((sx - ox) / cw);
         var r = Math.floor((sy - oy) / ch);
         if (c < 0 || r < 0 || c >= cols || r >= rows) {
@@ -1271,17 +1447,16 @@
         ctx.fillStyle = '#12161d';
         ctx.fillRect(0, 0, DESIGN_W, DESIGN_H);
 
-        var pad = 80;
-        var boardW = DESIGN_W - pad * 2;
-        var boardH = DESIGN_H - 160;
+        var board = boardGeometry(canvas);
+        var boardW = board.width, boardH = board.height;
         var cols = state.viewW || state.mapW || 16;
         var rows = state.viewH || state.mapH || 12;
         var viewOx = state.viewOx || 0;
         var viewOy = state.viewOy || 0;
         var cw = boardW / cols;
         var ch = boardH / rows;
-        var ox = pad;
-        var oy = 72;
+        var ox = board.ox;
+        var oy = board.oy;
         var r;
         var c;
         var terrainPainted = global.BayeHdBattleTerrain && global.BayeHdBattleTerrain.paint(ctx,
@@ -1409,7 +1584,9 @@
         }
         drawUnitLegend(ctx, canvas, oy + rows * ch, ox);
         var focusUnit = visualSnap.focus && unitAt(visualSnap.focus.x, visualSnap.focus.y);
-        if (!state.preview && visualSnap.focus) {
+        var focusCard = el('hd-battle-focus');
+        renderFocusCard(state.open && shouldShowHd(),visualSnap,targetPreview && targetPreview.label);
+        if (!state.preview && visualSnap.focus && (!focusCard || !focusUnit)) {
             var focusedTerrain = terrainAt(visualSnap.focus.x, visualSnap.focus.y);
             ctx.fillStyle = 'rgba(15,20,29,0.94)';
             ctx.fillRect(ox + 650, focusUnit ? DESIGN_H - 78 : DESIGN_H - 52, boardW - 650, 25);
@@ -1419,7 +1596,7 @@
             if (focusedTerrain.kind === 'unknown' && focusedTerrain.raw != null) { terrainText += ' · 图块 ' + focusedTerrain.raw; }
             ctx.fillText(terrainText, ox + boardW - 8, focusUnit ? DESIGN_H - 59 : DESIGN_H - 33, boardW - 666);
         }
-        if (!state.preview && focusUnit) {
+        if (!state.preview && focusUnit && !focusCard) {
             ctx.fillStyle = 'rgba(15,20,29,0.94)';
             ctx.fillRect(ox + 650, DESIGN_H - 52, boardW - 650, 30);
             ctx.textAlign = 'right';
@@ -1445,6 +1622,7 @@
         enter: enterBattle, close: closeBattle, prepareNewFight: prepareNewFight,
         onEngineHook: onEngineHook, onEngineFight: onEngineFight, occupyBusy: function () { return false; },
         clickTile: clickBattleTile,
+        canSelectNextUnit: canSelectNextUnit, clickNextUnit: clickNextUnit,
         clickOwnUnit: function () {
             refresh();
             for (var i = 0; i < state.units.length; i += 1) {

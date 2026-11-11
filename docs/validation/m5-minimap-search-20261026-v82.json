@@ -1,0 +1,466 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V82",
+  "parentCommit": "dfdc738e302c4e692c5aa489bdf1807dc98131e1",
+  "feature": "Local city-name substring search combined with overview allegiance filters",
+  "accepted": true,
+  "started": "2026-10-26T10:05:44.761Z",
+  "finished": "2026-10-26T10:05:45.360Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 158,
+  "pass": 158,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44207,
+      "sha256": "85842b00b9d410f29ee70bdba295635ed2ccaeb2cd720b1a7f74ff123aa1741c"
+    },
+    {
+      "path": "js/hd-minimap.js",
+      "bytes": 33198,
+      "sha256": "19faf133b06d4d5fbee11c7bf0625422bdb3c943f8429a6ad9727da60552c482"
+    },
+    {
+      "path": "js/hd-mobile-minimap.js",
+      "bytes": 11608,
+      "sha256": "43b5f10a381cccc908aaddaab508ade5772578f565388edc9afcee6cf6558d12"
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 36222,
+      "sha256": "0807bbc85b084e6dc5eb739b64e9e1885526797eca7357b69ba8d70802bdb3e8"
+    },
+    {
+      "path": "css/hd-minimap.css",
+      "bytes": 4222,
+      "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32369,
+      "sha256": "3bdc52b0266c97a7e12acb6ed2b9e648e31772db9f7e6a280a69de098599a4b3"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 30288,
+      "sha256": "088c89809605a7399fdf7802b38de76371184a5e41fae671dbbaac98d65e54ec"
+    },
+    {
+      "path": "m.html",
+      "bytes": 20271,
+      "sha256": "9bb7c4abccb940cb447d24327ad2970f0cf49e4382f98732d55288ff0121f01e"
+    },
+    {
+      "path": "scripts/test-hd-minimap.mjs",
+      "bytes": 47054,
+      "sha256": "e8ac342f6986ad883f8468bf62fafac9fc0a9401b87487bc0d1ac5f376055e5c"
+    },
+    {
+      "path": "scripts/test-hd-mobile-minimap.mjs",
+      "bytes": 17999,
+      "sha256": "2bf6fff307639780ce62367ec60e46164695e106c1d9f2bc9a1927736ceffae6"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 4,
+  "registeredDefaultFilesChanged": false,
+  "fullSuiteRun": false,
+  "scope": "Minimap controller and mobile host unit modules; CSS/entry bytes recorded but not executed by these unit checks",
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "contract": {
+    "queryLimit": 32,
+    "caseInsensitive": true,
+    "trimForMatching": true,
+    "literalSubstring": true,
+    "changesNativeCursor": false,
+    "commitsImeOnlyAtCompositionEnd": true,
+    "inputBlurRetainsSubmittedQuery": true,
+    "queryChangesRetireReturn": true,
+    "sameOwnerCommitPreserved": true
+  },
+  "controlledLayouts": {
+    "accepted": true,
+    "kind": "Controlled DOM/CSS layout with mock geography; actual controller, no game runtime or trusted text entry",
+    "results": [
+      {
+        "name": "pc",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "query": "",
+          "filter": "owned",
+          "matchingCities": 13,
+          "keys": [],
+          "input": {
+            "x": 128,
+            "y": 99,
+            "width": 580.9375,
+            "height": 44
+          },
+          "inputFont": "16px",
+          "tools": {
+            "x": 92,
+            "y": 99,
+            "width": 1080,
+            "height": 44
+          },
+          "buttons": [
+            {
+              "x": 720.9375,
+              "y": 99,
+              "width": 106.765625,
+              "height": 44
+            },
+            {
+              "x": 835.703125,
+              "y": 99,
+              "width": 106.765625,
+              "height": 44
+            },
+            {
+              "x": 950.46875,
+              "y": 99,
+              "width": 106.765625,
+              "height": 44
+            },
+            {
+              "x": 1065.234375,
+              "y": 99,
+              "width": 106.765625,
+              "height": 44
+            }
+          ],
+          "content": {
+            "x": 92,
+            "y": 153,
+            "width": 1080,
+            "height": 390
+          },
+          "back": {
+            "x": 92,
+            "y": 557,
+            "width": 96,
+            "height": 44
+          },
+          "pageOverflow": false
+        },
+        "screenshot": "build/minimap-search-20261026-v82/pc-layout-v1.png",
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      {
+        "name": "mobile",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 651,
+            "height": 280
+          },
+          "query": "",
+          "filter": "owned",
+          "matchingCities": 13,
+          "keys": [],
+          "input": {
+            "x": 48,
+            "y": 56,
+            "width": 234,
+            "height": 44
+          },
+          "inputFont": "16px",
+          "tools": {
+            "x": 12,
+            "y": 56,
+            "width": 627,
+            "height": 44
+          },
+          "buttons": [
+            {
+              "x": 288,
+              "y": 56,
+              "width": 83.25,
+              "height": 44
+            },
+            {
+              "x": 377.25,
+              "y": 56,
+              "width": 83.25,
+              "height": 44
+            },
+            {
+              "x": 466.5,
+              "y": 56,
+              "width": 83.25,
+              "height": 44
+            },
+            {
+              "x": 555.75,
+              "y": 56,
+              "width": 83.25,
+              "height": 44
+            }
+          ],
+          "content": {
+            "x": 12,
+            "y": 106,
+            "width": 627,
+            "height": 116
+          },
+          "back": {
+            "x": 543,
+            "y": 228,
+            "width": 96,
+            "height": 44
+          },
+          "pageOverflow": false
+        },
+        "screenshot": "build/minimap-search-20261026-v82/mobile-layout-v1.png",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      }
+    ],
+    "browserRuns": 2,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false
+  },
+  "layoutControllerSource": {
+    "path": "build/minimap-search-20261026-v82/hd-minimap-before-pc-scroll-fix.js",
+    "bytes": 33218,
+    "sha256": "0a0c5bf7219f75565411056703102a3f493700d865d663a244db2116cdff80ba"
+  },
+  "layoutLaterChange": "PC scroll also retires Return; layout CSS and entry bytes unchanged",
+  "retainedRuns": [
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v1.json",
+      "processExitCode": 1,
+      "tests": 158,
+      "pass": 156,
+      "fail": 2,
+      "reason": "PC scroll did not retire Return, and input-blur expectation incorrectly cleared the submitted query"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v2.json",
+      "processExitCode": 1,
+      "tests": 158,
+      "pass": 157,
+      "fail": 1,
+      "reason": "Fresh focus was incorrectly expected to leave the retained PC classic fallback"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v3.json",
+      "processExitCode": 1,
+      "tests": 158,
+      "pass": 157,
+      "fail": 1,
+      "reason": "Mobile fallback was incorrectly expected to retain PC-style owner identity; its opaque native receipt already changes owner"
+    }
+  ],
+  "actualToolTerminals": [
+    {
+      "step": "first-targeted",
+      "chunk": "e1fc04",
+      "exitCode": 1
+    },
+    {
+      "step": "second-targeted",
+      "chunk": "32b4b4",
+      "exitCode": 1
+    },
+    {
+      "step": "third-targeted",
+      "chunk": "e5d247",
+      "exitCode": 1
+    },
+    {
+      "step": "final-targeted",
+      "chunk": "b8084a",
+      "exitCode": 0
+    },
+    {
+      "step": "layouts",
+      "chunk": "7cfa69",
+      "exitCode": 0
+    }
+  ],
+  "artifactPins": [
+    {
+      "path": "build/minimap-search-20261026-v82/run-targeted-v1.mjs",
+      "bytes": 1962,
+      "sha256": "88eb1dae693b9b4de203951c5ba2c3f1b9e27f715c3801942c92477f835082f1"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v1.json",
+      "bytes": 2270,
+      "sha256": "7abbdbe28b8744a0198efbf37006880416ea42cbb0a71a3a557b2cf3afa55133"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v1.stdout.tap",
+      "bytes": 34290,
+      "sha256": "57816dca491b68208c18c7c6b2c63107650052a370d42b1fa2ff99d75c705599"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/run-targeted-v2.mjs",
+      "bytes": 1962,
+      "sha256": "ec74e33bea7de801f6b54dacb69d4cd0b22bb6eb6e7118bfcf856b4174c36aac"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v2.json",
+      "bytes": 2270,
+      "sha256": "4ce0db478b29e5bc5ed10b948af30fb4b68add3d64fced96ce678c92418985d6"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v2.stdout.tap",
+      "bytes": 33408,
+      "sha256": "65efef269639dd2621468ac53eaf985c726ad43b61d7ebf7366df27877b18e9a"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/run-targeted-v3.mjs",
+      "bytes": 1962,
+      "sha256": "6d2813d0b313e1da0cb965d452560b799a3c5a97210ac3eaa8ca011fb62fb77b"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v3.json",
+      "bytes": 2270,
+      "sha256": "d6feaa42428ba07671ffba737b54fd4314437fc358ba2cde0b0622a6ed2c08a1"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v3.stdout.tap",
+      "bytes": 33400,
+      "sha256": "02616f84c6c387914d823c8677e4e546bfe3653ca12b56fb4f7dc683bb008e44"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v3.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/run-targeted-v4.mjs",
+      "bytes": 1962,
+      "sha256": "36ed7f772e90a52c87fb448cc9ca1456e74e8f9f8b4edbe00bad1e7948dbd3fc"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v4.json",
+      "bytes": 2269,
+      "sha256": "e06f96188bc8bf43dd767a90f70a85f3b4b5dbd449dc097f17f1a4ba582b21f7"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v4.stdout.tap",
+      "bytes": 32545,
+      "sha256": "cf60fc53ecd9c6f315f3ce1ab6cec638d3aaf18728b244a0bb171ba15e8e6aaa"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/targeted-v4.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/hd-minimap-before-pc-scroll-fix.js",
+      "bytes": 33218,
+      "sha256": "0a0c5bf7219f75565411056703102a3f493700d865d663a244db2116cdff80ba"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/minimap-tests-before-blur-expectation.mjs",
+      "bytes": 45807,
+      "sha256": "dd325cb0fe912431554ec00d4fefd24579872a061c0bd4fb78e39f092051f490"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/minimap-tests-before-fallback-recovery.mjs",
+      "bytes": 46082,
+      "sha256": "6a04b716ed6b6bc9c325d67664fd862bafd11e359dd4d36d3a6d6aff11fc7953"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/minimap-tests-before-mobile-fallback-expectation.mjs",
+      "bytes": 46601,
+      "sha256": "a3f59d54555edf27ea8c9ec549734997f763620ab696019c2a4069d091419e7a"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/preview-layout-v1.mjs",
+      "bytes": 5742,
+      "sha256": "c93962888130aad31266bf4b388e7043baf3087c3f69c0de5a6d1fe95d98efd0"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/preview-layout-v1.json",
+      "bytes": 3310,
+      "sha256": "bab8b716826c105203d3646d2f175b928b9c428c1141fc42f84d05c0d02629fb"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/pc-layout-v1.html",
+      "bytes": 4461,
+      "sha256": "8b17420917a9cd6e889f3c383e156c835a602233a70eb0c3bd3ae676176e0ff4"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/pc-layout-v1.dom.html",
+      "bytes": 7354,
+      "sha256": "add4aec5e3aa6bed141e13ef171bc546eb0a50c7a13fd43812b53d7b8e2141fd"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/pc-layout-v1.png",
+      "bytes": 528519,
+      "sha256": "d51974de98b13ea93956df8bdc80da7e42cd85597d8c22bf8c103d95c2d8a566"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/pc-layout-v1.stderr.log",
+      "bytes": 536,
+      "sha256": "4d954c32ee6761b7304eb667869b5d61efac7956da838ee5fff965399eaa88b9"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/mobile-layout-v1.html",
+      "bytes": 7906,
+      "sha256": "b2650d9ff8c141b24cb358e03b6237ecc3ca5dcc1a39d0eb596183a2a9e08c65"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/mobile-layout-v1.dom.html",
+      "bytes": 10822,
+      "sha256": "edfc0a57e18f5fdc3fe2204d4c8f7dd04be87baec2b775bf2d0b626a4265ba86"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/mobile-layout-v1.png",
+      "bytes": 142469,
+      "sha256": "8609e58524b9cabbf840060712eae4860f4c08eaf0e3b7035e714c7495d7d274"
+    },
+    {
+      "path": "build/minimap-search-20261026-v82/mobile-layout-v1.stderr.log",
+      "bytes": 540,
+      "sha256": "2daf7c3f2dd735f28b4590c70b48563145f95ce175514ccd52f9d2a97a6b4ddf"
+    }
+  ],
+  "browserRuns": 2,
+  "engineRebuilt": false,
+  "oldHeldPrivateInterfacesInspected": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false,
+  "trustedBrowserTextEntryAccepted": false,
+  "realSoftKeyboardAccepted": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false
+}

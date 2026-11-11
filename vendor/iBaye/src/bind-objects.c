@@ -77,6 +77,25 @@ void bind_init(void) {
     bind_show_face(def);
     baye_hd_bind(def);
 
+    DEFADDF(g_hdCityInfoProtocolVersion, U8);
+    DEFADDF(g_hdCityInfoActive, U8);
+    DEFADDF(g_hdCityInfoComplete, U8);
+    DEFADDF(g_hdCityInfoCustom, U8);
+    DEFADDF(g_hdCityInfoWait, U8);
+    DEFADDF(g_hdCityInfoSeq, U32);
+    DEFADDF(g_hdCityInfoSession, U32);
+    DEFADDF(g_hdCityInfoGeneration, U32);
+    DEFADDF(g_hdCityInfoInputSeq, U32);
+    DEFADDF(g_hdCityInfoCity, U8);
+    DEFADDF(g_hdCityInfoPropertyCount, U8);
+    DEFADDF(g_hdCityInfoPageStart, U8);
+    DEFADDF(g_hdCityInfoPageSize, U8);
+    DEFADDF(g_hdCityInfoRowCount, U8);
+    /* Each row has its own NUL terminator; expose all captured bytes. */
+    DEFADD_U8ARR(g_hdCityInfoTitleGbk, 64);
+    DEFADD_U8ARR(g_hdCityInfoRowIndices, 32);
+    DEFADD_U8ARR(g_hdCityInfoRowText, 32 * 128);
+
     DEFADD_GBKARR(g_engineVersion, sizeof(g_engineVersion));
     DEFADDF(c_ReFlag, U8);
     DEFADDF(c_Sx, U8);

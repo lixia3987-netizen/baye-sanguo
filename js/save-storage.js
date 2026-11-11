@@ -164,7 +164,7 @@ var BayeSaveStorage = (function () {
         var storedCities = (b.length / 2 - base) / 37;
         if (storedCities < 1 || storedCities > 255 || storedCities !== Math.floor(storedCities) ||
             cityCount && storedCities !== cityCount) return null;
-        return { king: u16(a, 4), year: u16(a, 6), period: period };
+        return { king: u16(a, 4), year: u16(a, 6), month: byte(a, 11), period: period };
     }
     function importSlot(slot, incoming) {
         if (!incoming || !pairHeader(incoming.sav0, incoming.sav1, 0)) return error('invalid');
@@ -194,7 +194,7 @@ var BayeSaveStorage = (function () {
             var header = pairHeader(a, b, cityCount);
             if (!header) return result;
             result.status = 'ready'; result.canLoad = true;
-            result.king = header.king; result.year = header.year; result.period = header.period;
+            result.king = header.king; result.year = header.year; result.month = header.month; result.period = header.period;
             return result;
         } catch (cause) { result.status = 'invalid'; result.error = '无法读取存档'; return result; }
     }

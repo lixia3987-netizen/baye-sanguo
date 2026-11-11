@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V96",
+  "tool": "built-in image_gen",
+  "mode": "four independent subjects with identity-first native references and targeted composition corrections",
+  "transparentBackground": false,
+  "postProcessing": false,
+  "sourceCopiesExact": true,
+  "finalAssets": [
+    {
+      "name": "曹丕",
+      "period": 4,
+      "personId": 0,
+      "path": "assets/hd-portraits/hd/period-4/0-曹丕.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2217247,
+      "sha256": "4c475a5e2a611db41f46eb33352f9b61c5f515c56bda5c1ad3df2f71223d7b49",
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-4/0-曹丕.png",
+        "bytes": 468,
+        "sha256": "2eebd2f8934485282587aa237e323ea93b9f59c9e4507f7c39dd9de1d224985b"
+      },
+      "styleReference": {
+        "path": "assets/hd-portraits/hd/period-4/2-孙权.png",
+        "bytes": 2107379,
+        "sha256": "674e90bcc67f23a0a825aab5b755b50bbe7ac7ab3582f13887838825fcb3bdff"
+      },
+      "initialDraft": {
+        "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-890c2c37-2fc8-4b24-9f94-c13ab5eecaaa.png",
+        "bytes": 2253251,
+        "sha256": "2f8912b137cfccc3276e8685b7b189494319df73a50d20239d2af1bc2d28abd0",
+        "accepted": false,
+        "reason": "Complete headgear is visible but crown clearance is substantially less than the requested 12 percent; revise to a looser composition",
+        "prompt": "Use case: identity-preserve / historical-scene.\nAsset type: finished opaque landscape HD game portrait, original Three Kingdoms game period 4 三足鼎立, zero-based PersonID 0, 曹丕.\nEdit/reinterpret image 1, the actual native 24x24 portrait of 曹丕, into a genuinely detailed high-resolution portrait while preserving its visible identity and current-period headgear silhouette. It is the authoritative target for face shape, age cues, moustache/beard, eyebrows and costume silhouette. Do not substitute another character. Image 2 is ONLY a rendering-style reference: accepted period-4 Sun Quan from the same game. Never copy Sun Quan's face, beard shape, hat decorations or river setting into this different character.\nSubject: Lean oval mature face, sharply defined eyebrows, narrow attentive eyes, thin moustache and pointed beard, and the tall dark court cap visible in the native portrait. A restrained, composed ruler, distinct from Sun Quan.\nStyle: restrained cinematic historical realism matching image 2, natural skin and fabric/metal detail, muted charcoal, bronze and earthy colors, soft natural side light, no glossy modern model look.\nComposition: horizontal approximately 16:9. Exactly one person in a relaxed waist-up or chest-up composition. The full hat including every crown point and pin, complete hair and beard, both shoulders and upper torso must be comfortably inside the image. Leave a clear continuous strip of softly blurred background ABOVE the topmost headgear, at least 12 percent of total canvas height; no cropped crown. Face recognizable when the game crops the portrait into its existing rounded card. Keep face close to horizontal center with space at either side.\nBackground: quiet softly defocused late-Han timber or stone courtyard, subordinate to the face, no extra people or readable signs.\nConstraints: native reference priority over style reference. Produce original detailed opaque PNG artwork, not nearest-neighbor enlargement or pixel art. No text, characters, names, nameplates, captions, logo, watermark, UI, frame, collage, inset sprite, duplicate faces, modern clothing, fantasy ornament, luminous effects or cropped headgear.",
+        "referencedImagePaths": [
+          "assets/hd-portraits/refs/period-4/0-曹丕.png",
+          "assets/hd-portraits/hd/period-4/2-孙权.png"
+        ]
+      },
+      "finalDraft": {
+        "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-93fb20ed-f5dd-4704-9e15-f7e88a82b20f.png",
+        "accepted": true,
+        "prompt": "Use case: identity-preserve. Edit image 1, the HD portrait of 曹丕 (period 4 / native PersonID 0) that was just generated for our Three Kingdoms game.\nOnly correct its composition: pull the camera BACK substantially. Preserve this exact person's recognizable face, age, beard/moustache, headgear, costume, realistic materials, lighting and historical art style. Image 2 is the actual 24x24 native identity reference for this person, supporting identity only.\nMANDATORY NEW FRAMING: horizontal 16:9, relaxed WAIST-UP portrait. The complete figure from the waist to the highest crown point should occupy approximately 65 percent of total image height. Place the TOPMOST headgear point at y=18 percent of total height. The TOP 15 percent of the entire canvas must be a clear, uninterrupted band of softly blurred courtyard BACKGROUND only, absolutely no hat, hair, body or ornament crossing into this band. Complete hat, pins, all hair, beard, shoulders and more torso must be INSIDE the frame, clearly away from all edges. Keep the person centered horizontally and naturally proportioned. Do not crop the crown and do not simply add a small thin top margin. This should visibly be a much wider camera framing than image 1.\nExtend the quiet softly blurred courtyard naturally around the same person. One person, opaque finished background. No text, Chinese characters, label, UI, frame, watermark, inset sprite, collage, additional people, fantasy objects or pixel art. Do not change the character to match the supporting reference's tiny pixels literally; preserve the detailed face of image 1.",
+        "referencedImagePaths": [
+          "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-890c2c37-2fc8-4b24-9f94-c13ab5eecaaa.png",
+          "assets/hd-portraits/refs/period-4/0-曹丕.png"
+        ],
+        "review": "Looser waist-up composition with clear background above complete headgear; distinct face and native silhouette; no text or UI"
+      }
+    },
+    {
+      "name": "刘禅",
+      "period": 4,
+      "personId": 1,
+      "path": "assets/hd-portraits/hd/period-4/1-刘禅.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2138121,
+      "sha256": "79a00872f9115db17acaab1e286278441e6ac29b698a10cd6822f0d0a332ee30",
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-4/1-刘禅.png",
+        "bytes": 469,
+        "sha256": "38f5fb85957dcdb04e9b55c7f12c5b0b9c1355c5fb0779564144e926e50b5297"
+      },
+      "styleReference": {
+        "path": "assets/hd-portraits/hd/period-4/2-孙权.png",
+        "bytes": 2107379,
+        "sha256": "674e90bcc67f23a0a825aab5b755b50bbe7ac7ab3582f13887838825fcb3bdff"
+      },
+      "initialDraft": {
+        "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-a3fa6313-3f27-4cce-9b25-6da34a9e50b2.png",
+        "bytes": 2261528,
+        "sha256": "237b1bc4324c775365c189e3a1c7f3794c847c1efed09b7a6bcecb65a11c3d83",
+        "accepted": false,
+        "reason": "Complete headgear is visible but crown clearance is substantially less than the requested 12 percent; revise to a looser composition",
+        "prompt": "Use case: identity-preserve / historical-scene.\nAsset type: finished opaque landscape HD game portrait, original Three Kingdoms game period 4 三足鼎立, zero-based PersonID 1, 刘禅.\nEdit/reinterpret image 1, the actual native 24x24 portrait of 刘禅, into a genuinely detailed high-resolution portrait while preserving its visible identity and current-period headgear silhouette. It is the authoritative target for face shape, age cues, moustache/beard, eyebrows and costume silhouette. Do not substitute another character. Image 2 is ONLY a rendering-style reference: accepted period-4 Sun Quan from the same game. Never copy Sun Quan's face, beard shape, hat decorations or river setting into this different character.\nSubject: The native portrait shows a younger, softer round face, arched brows and a small neat moustache, wearing a dark structured court cap with a horizontal pin. Keep his youthful calm expression and rounded facial proportions, distinct from the other three rulers.\nStyle: restrained cinematic historical realism matching image 2, natural skin and fabric/metal detail, muted charcoal, bronze and earthy colors, soft natural side light, no glossy modern model look.\nComposition: horizontal approximately 16:9. Exactly one person in a relaxed waist-up or chest-up composition. The full hat including every crown point and pin, complete hair and beard, both shoulders and upper torso must be comfortably inside the image. Leave a clear continuous strip of softly blurred background ABOVE the topmost headgear, at least 12 percent of total canvas height; no cropped crown. Face recognizable when the game crops the portrait into its existing rounded card. Keep face close to horizontal center with space at either side.\nBackground: quiet softly defocused late-Han timber or stone courtyard, subordinate to the face, no extra people or readable signs.\nConstraints: native reference priority over style reference. Produce original detailed opaque PNG artwork, not nearest-neighbor enlargement or pixel art. No text, characters, names, nameplates, captions, logo, watermark, UI, frame, collage, inset sprite, duplicate faces, modern clothing, fantasy ornament, luminous effects or cropped headgear.",
+        "referencedImagePaths": [
+          "assets/hd-portraits/refs/period-4/1-刘禅.png",
+          "assets/hd-portraits/hd/period-4/2-孙权.png"
+        ]
+      },
+      "finalDraft": {
+        "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-19811c24-894e-4278-92ad-686482b2f26e.png",
+        "accepted": true,
+        "prompt": "Use case: identity-preserve. Edit image 1, the HD portrait of 刘禅 (period 4 / native PersonID 1) that was just generated for our Three Kingdoms game.\nOnly correct its composition: pull the camera BACK substantially. Preserve this exact person's recognizable face, age, beard/moustache, headgear, costume, realistic materials, lighting and historical art style. Image 2 is the actual 24x24 native identity reference for this person, supporting identity only.\nMANDATORY NEW FRAMING: horizontal 16:9, relaxed WAIST-UP portrait. The complete figure from the waist to the highest crown point should occupy approximately 65 percent of total image height. Place the TOPMOST headgear point at y=18 percent of total height. The TOP 15 percent of the entire canvas must be a clear, uninterrupted band of softly blurred courtyard BACKGROUND only, absolutely no hat, hair, body or ornament crossing into this band. Complete hat, pins, all hair, beard, shoulders and more torso must be INSIDE the frame, clearly away from all edges. Keep the person centered horizontally and naturally proportioned. Do not crop the crown and do not simply add a small thin top margin. This should visibly be a much wider camera framing than image 1.\nExtend the quiet softly blurred courtyard naturally around the same person. One person, opaque finished background. No text, Chinese characters, label, UI, frame, watermark, inset sprite, collage, additional people, fantasy objects or pixel art. Do not change the character to match the supporting reference's tiny pixels literally; preserve the detailed face of image 1.",
+        "referencedImagePaths": [
+          "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-a3fa6313-3f27-4cce-9b25-6da34a9e50b2.png",
+          "assets/hd-portraits/refs/period-4/1-刘禅.png"
+        ],
+        "review": "Looser waist-up composition with clear background above complete headgear; distinct face and native silhouette; no text or UI"
+      }
+    },
+    {
+      "name": "孟获",
+      "period": 4,
+      "personId": 3,
+      "path": "assets/hd-portraits/hd/period-4/3-孟获.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2283106,
+      "sha256": "1c96dc8f1df9e2361a7af067ea71d12bfa2537d5af55a6a597f42fd11da9490a",
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-4/3-孟获.png",
+        "bytes": 471,
+        "sha256": "fd38879f094944b5648ce5a2e680bfda90e369057440ad47d2f75dab16b1f0f3"
+      },
+      "styleReference": {
+        "path": "assets/hd-portraits/hd/period-4/2-孙权.png",
+        "bytes": 2107379,
+        "sha256": "674e90bcc67f23a0a825aab5b755b50bbe7ac7ab3582f13887838825fcb3bdff"
+      },
+      "initialDraft": {
+        "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-603d0a03-25e6-4143-a0bd-7fc41ea2906b.png",
+        "bytes": 2524173,
+        "sha256": "c59a09011c438d352706f5fcc83fa1a5eecf42729d98b3f8b1bbcfbb4f256ffa",
+        "accepted": false,
+        "reason": "Complete headgear is visible but crown clearance is substantially less than the requested 12 percent; revise to a looser composition",
+        "prompt": "Use case: identity-preserve / historical-scene.\nAsset type: finished opaque landscape HD game portrait, original Three Kingdoms game period 4 三足鼎立, zero-based PersonID 3, 孟获.\nEdit/reinterpret image 1, the actual native 24x24 portrait of 孟获, into a genuinely detailed high-resolution portrait while preserving its visible identity and current-period headgear silhouette. It is the authoritative target for face shape, age cues, moustache/beard, eyebrows and costume silhouette. Do not substitute another character. Image 2 is ONLY a rendering-style reference: accepted period-4 Sun Quan from the same game. Never copy Sun Quan's face, beard shape, hat decorations or river setting into this different character.\nSubject: The native portrait shows a broad rugged face, heavy expressive eyebrows, strong nose, a full dark moustache and dense beard, and broad dark headgear. Preserve that heavier headgear silhouette and broad bearded identity, with practical earthy southern regional clothing rather than copying the court costume of the style reference.\nStyle: restrained cinematic historical realism matching image 2, natural skin and fabric/metal detail, muted charcoal, bronze and earthy colors, soft natural side light, no glossy modern model look.\nComposition: horizontal approximately 16:9. Exactly one person in a relaxed waist-up or chest-up composition. The full hat including every crown point and pin, complete hair and beard, both shoulders and upper torso must be comfortably inside the image. Leave a clear continuous strip of softly blurred background ABOVE the topmost headgear, at least 12 percent of total canvas height; no cropped crown. Face recognizable when the game crops the portrait into its existing rounded card. Keep face close to horizontal center with space at either side.\nBackground: quiet softly defocused late-Han timber or stone courtyard, subordinate to the face, no extra people or readable signs.\nConstraints: native reference priority over style reference. Produce original detailed opaque PNG artwork, not nearest-neighbor enlargement or pixel art. No text, characters, names, nameplates, captions, logo, watermark, UI, frame, collage, inset sprite, duplicate faces, modern clothing, fantasy ornament, luminous effects or cropped headgear.",
+        "referencedImagePaths": [
+          "assets/hd-portraits/refs/period-4/3-孟获.png",
+          "assets/hd-portraits/hd/period-4/2-孙权.png"
+        ]
+      },
+      "finalDraft": {
+        "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-e427c82d-a7a8-459c-984f-5adad84d7754.png",
+        "accepted": true,
+        "prompt": "Use case: identity-preserve. Edit image 1, the HD portrait of 孟获 (period 4 / native PersonID 3) that was just generated for our Three Kingdoms game.\nOnly correct its composition: pull the camera BACK substantially. Preserve this exact person's recognizable face, age, beard/moustache, headgear, costume, realistic materials, lighting and historical art style. Image 2 is the actual 24x24 native identity reference for this person, supporting identity only.\nMANDATORY NEW FRAMING: horizontal 16:9, relaxed WAIST-UP portrait. The complete figure from the waist to the highest crown point should occupy approximately 65 percent of total image height. Place the TOPMOST headgear point at y=18 percent of total height. The TOP 15 percent of the entire canvas must be a clear, uninterrupted band of softly blurred courtyard BACKGROUND only, absolutely no hat, hair, body or ornament crossing into this band. Complete hat, pins, all hair, beard, shoulders and more torso must be INSIDE the frame, clearly away from all edges. Keep the person centered horizontally and naturally proportioned. Do not crop the crown and do not simply add a small thin top margin. This should visibly be a much wider camera framing than image 1.\nExtend the quiet softly blurred courtyard naturally around the same person. One person, opaque finished background. No text, Chinese characters, label, UI, frame, watermark, inset sprite, collage, additional people, fantasy objects or pixel art. Do not change the character to match the supporting reference's tiny pixels literally; preserve the detailed face of image 1.",
+        "referencedImagePaths": [
+          "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-603d0a03-25e6-4143-a0bd-7fc41ea2906b.png",
+          "assets/hd-portraits/refs/period-4/3-孟获.png"
+        ],
+        "review": "Looser waist-up composition with clear background above complete headgear; distinct face and native silhouette; no text or UI"
+      }
+    },
+    {
+      "name": "公孙康",
+      "period": 4,
+      "personId": 4,
+      "path": "assets/hd-portraits/hd/period-4/4-公孙康.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2193287,
+      "sha256": "e19ceb4968243de0d1766e628784b3a1006f1914b9ffe9b846dbf27193fb45c5",
+      "nativeReference": {
+        "path": "assets/hd-portraits/refs/period-4/4-公孙康.png",
+        "bytes": 426,
+        "sha256": "1585af658aee1d7917df9f6fa62d483abcc421fbf19187eb99a288dde82cec3f"
+      },
+      "styleReference": {
+        "path": "assets/hd-portraits/hd/period-4/2-孙权.png",
+        "bytes": 2107379,
+        "sha256": "674e90bcc67f23a0a825aab5b755b50bbe7ac7ab3582f13887838825fcb3bdff"
+      },
+      "initialDraft": {
+        "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-ba2d9789-c3e8-4490-9607-708df1e07674.png",
+        "bytes": 2206260,
+        "sha256": "11d515725ffa0b7eecadcbec1530660df0b1561193c5a9b9d10e6395438a51a2",
+        "accepted": false,
+        "reason": "Complete headgear is visible but crown clearance is substantially less than the requested 12 percent; revise to a looser composition",
+        "prompt": "Use case: identity-preserve / historical-scene.\nAsset type: finished opaque landscape HD game portrait, original Three Kingdoms game period 4 三足鼎立, zero-based PersonID 4, 公孙康.\nEdit/reinterpret image 1, the actual native 24x24 portrait of 公孙康, into a genuinely detailed high-resolution portrait while preserving its visible identity and current-period headgear silhouette. It is the authoritative target for face shape, age cues, moustache/beard, eyebrows and costume silhouette. Do not substitute another character. Image 2 is ONLY a rendering-style reference: accepted period-4 Sun Quan from the same game. Never copy Sun Quan's face, beard shape, hat decorations or river setting into this different character.\nSubject: Mature lean rectangular face, pronounced brows, observant narrow eyes, dark moustache and long tapered beard, and the upright dark cap seen in the native reference. Subdued dark regional official robe, visibly distinct from the rounder younger Liu Shan and broad Meng Huo.\nStyle: restrained cinematic historical realism matching image 2, natural skin and fabric/metal detail, muted charcoal, bronze and earthy colors, soft natural side light, no glossy modern model look.\nComposition: horizontal approximately 16:9. Exactly one person in a relaxed waist-up or chest-up composition. The full hat including every crown point and pin, complete hair and beard, both shoulders and upper torso must be comfortably inside the image. Leave a clear continuous strip of softly blurred background ABOVE the topmost headgear, at least 12 percent of total canvas height; no cropped crown. Face recognizable when the game crops the portrait into its existing rounded card. Keep face close to horizontal center with space at either side.\nBackground: quiet softly defocused late-Han timber or stone courtyard, subordinate to the face, no extra people or readable signs.\nConstraints: native reference priority over style reference. Produce original detailed opaque PNG artwork, not nearest-neighbor enlargement or pixel art. No text, characters, names, nameplates, captions, logo, watermark, UI, frame, collage, inset sprite, duplicate faces, modern clothing, fantasy ornament, luminous effects or cropped headgear.",
+        "referencedImagePaths": [
+          "assets/hd-portraits/refs/period-4/4-公孙康.png",
+          "assets/hd-portraits/hd/period-4/2-孙权.png"
+        ]
+      },
+      "finalDraft": {
+        "sourcePath": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-39233f38-d2d2-46b8-8712-0c2be136698e.png",
+        "accepted": true,
+        "prompt": "Use case: identity-preserve. Edit image 1, the HD portrait of 公孙康 (period 4 / native PersonID 4) that was just generated for our Three Kingdoms game.\nOnly correct its composition: pull the camera BACK substantially. Preserve this exact person's recognizable face, age, beard/moustache, headgear, costume, realistic materials, lighting and historical art style. Image 2 is the actual 24x24 native identity reference for this person, supporting identity only.\nMANDATORY NEW FRAMING: horizontal 16:9, relaxed WAIST-UP portrait. The complete figure from the waist to the highest crown point should occupy approximately 65 percent of total image height. Place the TOPMOST headgear point at y=18 percent of total height. The TOP 15 percent of the entire canvas must be a clear, uninterrupted band of softly blurred courtyard BACKGROUND only, absolutely no hat, hair, body or ornament crossing into this band. Complete hat, pins, all hair, beard, shoulders and more torso must be INSIDE the frame, clearly away from all edges. Keep the person centered horizontally and naturally proportioned. Do not crop the crown and do not simply add a small thin top margin. This should visibly be a much wider camera framing than image 1.\nExtend the quiet softly blurred courtyard naturally around the same person. One person, opaque finished background. No text, Chinese characters, label, UI, frame, watermark, inset sprite, collage, additional people, fantasy objects or pixel art. Do not change the character to match the supporting reference's tiny pixels literally; preserve the detailed face of image 1.",
+        "referencedImagePaths": [
+          "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-ba2d9789-c3e8-4490-9607-708df1e07674.png",
+          "assets/hd-portraits/refs/period-4/4-公孙康.png"
+        ],
+        "review": "Looser waist-up composition with clear background above complete headgear; distinct face and native silhouette; no text or UI"
+      }
+    }
+  ],
+  "initialDraftsAccepted": false,
+  "initialDraftReason": "Insufficient top background clearance; four original candidates retained at their generated paths",
+  "naturalGameplayAccepted": false
+}

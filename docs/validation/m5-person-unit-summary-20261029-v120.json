@@ -1,0 +1,1569 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-29",
+  "batch": "V120",
+  "baselineHead": "fc7eeead84fad098d5eb68548f693dd671713ed3",
+  "feature": {
+    "name": "人物名单当前等级与兵力",
+    "routes": "Existing ordinary allied-current-city person summary routes; no expansion",
+    "fields": [
+      "Level U8 0..255",
+      "Arms U16 0..65535"
+    ],
+    "originalFields": [
+      "Force",
+      "IQ",
+      "Thew"
+    ],
+    "rowsShape": [
+      "nativeId",
+      "Force",
+      "IQ",
+      "Thew",
+      "Level",
+      "Arms"
+    ],
+    "defaultPropertyCount": 13,
+    "customMustBeFalse": true,
+    "logicalPeople": 200,
+    "physicalPeople": 2000,
+    "cities": 38,
+    "identityByteLength": 207195,
+    "identitySha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "originalQualificationGatePreserved": true,
+    "allFiveValuesRequired": true,
+    "sameReceiptTwoReadsAndFinalFence": true,
+    "originalFirstLineDirectTextPreserved": true,
+    "unitSpan": "span[data-hd-person-unit-summary]",
+    "unitText": "等级 N · 兵力 N",
+    "noEquipmentRecalculation": true,
+    "noEligibilityInference": true,
+    "noInputOrOrderChanges": true,
+    "mobilePersonListSingleColumnIncludingFallback": true,
+    "toolReceiptUnchanged": true
+  },
+  "tests": {
+    "accepted": true,
+    "started": "2026-10-28T17:55:23.149Z",
+    "finished": "2026-10-28T17:55:24.277Z",
+    "exitCode": 0,
+    "tests": 17,
+    "pass": 17,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "commandArgs": [
+      "--test",
+      "--test-reporter=tap",
+      "--test-name-pattern=^tool list summary|^person list summary|^same-name goods|^standard current raw tool|^custom properties, unknown libraries|^genuine captured blank|^tool fields and controls|^tool owner and generation|^property page clicks|^pointer-owned stale page controls|^reentrant read-only default|^same-name native menu ID changes|^cancelling a goods menu",
+      "scripts/test-hd-city-hud.mjs"
+    ],
+    "pattern": "^tool list summary|^person list summary|^same-name goods|^standard current raw tool|^custom properties, unknown libraries|^genuine captured blank|^tool fields and controls|^tool owner and generation|^property page clicks|^pointer-owned stale page controls|^reentrant read-only default|^same-name native menu ID changes|^cancelling a goods menu",
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 65256,
+        "sha256": "6a861f80fe401867af5080522f9140b13e08a5811192fa1261d495ec318d2573"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 32347,
+        "sha256": "970c74de8c37a694bda83e4c0fa789057b2f3047e92300943e8e2d1c0a6500fb"
+      },
+      {
+        "path": "m.html",
+        "bytes": 23684,
+        "sha256": "b86e0df628895c34f9756524b7a1732d9aa96da1257a58de99d23f8c3a300e7c"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 510027,
+        "sha256": "424e3d10c06f45d057d1532fff82489bd8fefddce35fe64bc34fa6af5f342209"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 16789,
+        "sha256": "dd92bf63f9d3972ca8c45d8b90a038d6a4d73f6798e88d923536c4677762d3e6"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 165558,
+        "sha256": "4d516b7771dda321b98fc35111ce31b1b71da5de484626c89035cd4f2c29c183"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 288141,
+        "sha256": "81288120de32c7e103b7fb0d1b3a7e21322b5fb0bfbf5204b198d9d6b2c8e082"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "scripts/hd-person-identity-rom.mjs",
+        "bytes": 6532,
+        "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "vendor/iBaye/src/showface.c",
+        "bytes": 44299,
+        "sha256": "49d16a86891a712c675409c8377f234bc69d2d9c13d56da865dc83a5eab87895"
+      },
+      {
+        "path": "vendor/iBaye/src/cityedit.c",
+        "bytes": 41528,
+        "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+      },
+      {
+        "path": "vendor/iBaye/src/infdeal.c",
+        "bytes": 26196,
+        "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+      },
+      {
+        "path": "vendor/iBaye/src/bind-objects.c",
+        "bytes": 18495,
+        "sha256": "1bcf05ce980b26df368f3dc399e1ad256a3bbd315024ae065947860c98b28959"
+      },
+      {
+        "path": "vendor/iBaye/src/baye/attribute.h",
+        "bytes": 8930,
+        "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 0,
+    "modifiedExistingTests": 3,
+    "newDefaultModules": 0,
+    "entireHudModuleRun": false,
+    "fullSuiteRun": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "globalHdComplete": false,
+    "stdout": {
+      "path": "build/person-unit-summary-20261029-v120/targeted-v1.stdout.tap",
+      "bytes": 4703,
+      "sha256": "65150e30da37bf26d4cb20d0cfaa2323462a9e836ad660e19fa46a1ac8842fbf",
+      "text": "TAP version 13\n# Subtest: same-name goods use actual selected tool ID and preserve native captured values and unread pages\nok 1 - same-name goods use actual selected tool ID and preserve native captured values and unread pages\n  ---\n  duration_ms: 14.3086\n  type: 'test'\n  ...\n# Subtest: standard current raw tool fields supplement unread default properties, preserving real zero values\nok 2 - standard current raw tool fields supplement unread default properties, preserving real zero values\n  ---\n  duration_ms: 4.2418\n  type: 'test'\n  ...\n# Subtest: custom properties, unknown libraries and live property hooks never substitute standard raw semantics\nok 3 - custom properties, unknown libraries and live property hooks never substitute standard raw semantics\n  ---\n  duration_ms: 17.2551\n  type: 'test'\n  ...\n# Subtest: genuine captured blank and literal markup stay distinct from unread values\nok 4 - genuine captured blank and literal markup stay distinct from unread values\n  ---\n  duration_ms: 4.19\n  type: 'test'\n  ...\n# Subtest: tool fields and controls persist when actual highlighted ID changes, without automatic pagination\nok 5 - tool fields and controls persist when actual highlighted ID changes, without automatic pagination\n  ---\n  duration_ms: 5.357\n  type: 'test'\n  ...\n# Subtest: tool owner and generation loss, overlays and pending input retire details and preserve LCD fallback\nok 6 - tool owner and generation loss, overlays and pending input retire details and preserve LCD fallback\n  ---\n  duration_ms: 56.817\n  type: 'test'\n  ...\n# Subtest: property page clicks send one native arrow and wait for the real page acknowledgement\nok 7 - property page clicks send one native arrow and wait for the real page acknowledgement\n  ---\n  duration_ms: 5.2272\n  type: 'test'\n  ...\n# Subtest: pointer-owned stale page controls never send keys to another native selection or generation\nok 8 - pointer-owned stale page controls never send keys to another native selection or generation\n  ---\n  duration_ms: 17.6465\n  type: 'test'\n  ...\n# Subtest: reentrant read-only default or final input getters cannot publish or page a retired tool\nok 9 - reentrant read-only default or final input getters cannot publish or page a retired tool\n  ---\n  duration_ms: 7.2236\n  type: 'test'\n  ...\n# Subtest: same-name native menu ID changes retire an armed item click instead of confirming another tool\nok 10 - same-name native menu ID changes retire an armed item click instead of confirming another tool\n  ---\n  duration_ms: 3.6568\n  type: 'test'\n  ...\n# Subtest: cancelling a goods menu hides its side panel and retains the existing single native Exit\nok 11 - cancelling a goods menu hides its side panel and retains the existing single native Exit\n  ---\n  duration_ms: 5.7617\n  type: 'test'\n  ...\n# Subtest: person list summary follows filtered reordered native IDs and duplicate names without changing public items or input\nok 12 - person list summary follows filtered reordered native IDs and duplicate names without changing public items or input\n  ---\n  duration_ms: 14.4743\n  type: 'test'\n  ...\n# Subtest: person list summary refreshes changed same-owner values and rejects a press held across the real list refresh\nok 13 - person list summary refreshes changed same-owner values and rejects a press held across the real list refresh\n  ---\n  duration_ms: 41.5343\n  type: 'test'\n  ...\n# Subtest: person list summary withdraws invalid sources before private stat reads and recovers after renderer reentry\nok 14 - person list summary withdraws invalid sources before private stat reads and recovers after renderer reentry\n  ---\n  duration_ms: 402.3089\n  type: 'test'\n  ...\n# Subtest: tool list summary follows actual reordered subset IDs and duplicate clipped names with strict U8 values and no input\nok 15 - tool list summary follows actual reordered subset IDs and duplicate clipped names with strict U8 values and no input\n  ---\n  duration_ms: 25.3711\n  type: 'test'\n  ...\n# Subtest: tool list summary refreshes same-owner values while stable polling preserves nodes and old presses cannot confirm replacements\nok 16 - tool list summary refreshes same-owner values while stable polling preserves nodes and old presses cannot confirm replacements\n  ---\n  duration_ms: 6.9688\n  type: 'test'\n  ...\n# Subtest: tool list summary withdraws invalid routes and sources, torn reads and final callbacks then recovers without input\nok 17 - tool list summary withdraws invalid routes and sources, torn reads and final callbacks then recovers without input\n  ---\n  duration_ms: 222.337\n  type: 'test'\n  ...\n1..17\n# tests 17\n# suites 0\n# pass 17\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 950.8233\n"
+    },
+    "stderr": {
+      "path": "build/person-unit-summary-20261029-v120/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    },
+    "outsidePersonTestBlockByteUnchanged": true
+  },
+  "negativeParent": {
+    "accepted": true,
+    "expectedOldSourceRejection": true,
+    "exitCode": 1,
+    "tests": 3,
+    "pass": 0,
+    "fail": 3,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "source": {
+      "path": "build/person-unit-summary-20261029-v120/js_hd-city-menu.js.before",
+      "bytes": 509405,
+      "sha256": "be9ccdeda67b6faeefa697e809dd59dece0f7326f8e2e43d323aeb808aef7c6d"
+    },
+    "selectedSources": [
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 510027,
+        "sha256": "424e3d10c06f45d057d1532fff82489bd8fefddce35fe64bc34fa6af5f342209"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 288141,
+        "sha256": "81288120de32c7e103b7fb0d1b3a7e21322b5fb0bfbf5204b198d9d6b2c8e082"
+      },
+      {
+        "path": "build/person-unit-summary-20261029-v120/js_hd-city-menu.js.before",
+        "bytes": 509405,
+        "sha256": "be9ccdeda67b6faeefa697e809dd59dece0f7326f8e2e43d323aeb808aef7c6d"
+      }
+    ],
+    "productionSourcesUnchanged": true,
+    "browserRun": false,
+    "actualGameplayAccepted": false
+  },
+  "preview": {
+    "accepted": true,
+    "previewOnly": true,
+    "previewVersion": 1,
+    "visualReviewPending": false,
+    "baselineHead": "fc7eeead84fad098d5eb68548f693dd671713ed3",
+    "runtime": {
+      "node": "v24.14.0",
+      "playwright": "1.62.1",
+      "chromeExecutable": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+      "browserVersion": "155.0.8059.85"
+    },
+    "runError": null,
+    "screenshots": 9,
+    "browserLaunches": 1,
+    "isolatedPages": 3,
+    "navigations": 3,
+    "samePageStates": 9,
+    "ownedBrowserClosed": true,
+    "serverClosed": true,
+    "privateEphemeralPort": 8045,
+    "sourceBytesStable": true,
+    "sourcePins": 26,
+    "pins": [
+      {
+        "path": "pc.html",
+        "bytes": 32347,
+        "sha256": "970c74de8c37a694bda83e4c0fa789057b2f3047e92300943e8e2d1c0a6500fb"
+      },
+      {
+        "path": "m.html",
+        "bytes": 23684,
+        "sha256": "b86e0df628895c34f9756524b7a1732d9aa96da1257a58de99d23f8c3a300e7c"
+      },
+      {
+        "path": "css/flex.css",
+        "bytes": 11480,
+        "sha256": "362ebb627e1453bb074f6c71afbff91832d0cab18ef962fdc813b2cadb69cace"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 3008,
+        "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+      },
+      {
+        "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+      },
+      {
+        "path": "css/hd-graphics.css",
+        "bytes": 4567,
+        "sha256": "5941d014ada1e3fcc889031640dde97fa1f542d5c213c1e62ae0f7dc29e2d43a"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 5226,
+        "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 16789,
+        "sha256": "dd92bf63f9d3972ca8c45d8b90a038d6a4d73f6798e88d923536c4677762d3e6"
+      },
+      {
+        "path": "css/hd-battle.css",
+        "bytes": 9203,
+        "sha256": "a193bdf938a16b4741251ec6a670872fe3cfcf899592aa69461b438ef51ffab1"
+      },
+      {
+        "path": "css/hd-system-ui.css",
+        "bytes": 7088,
+        "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d"
+      },
+      {
+        "path": "css/hd-minimap.css",
+        "bytes": 4222,
+        "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 10606,
+        "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+      },
+      {
+        "path": "css/hd-spe.css",
+        "bytes": 3150,
+        "sha256": "bc462f1197dfc69c9d5a15403207630ef79886f79dc979aa0ee5e23de672e221"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-battle-note.css",
+        "bytes": 2146,
+        "sha256": "b35da40a6a0535b7ed1ba33a103eaeed35fc51d5f314974a167a3fa196b966a3"
+      },
+      {
+        "path": "css/hd-battle-transition.css",
+        "bytes": 2896,
+        "sha256": "eee994dd0a8541dac4b3c7f11277326b3d6aa0dfb099131b7cd358bc4872573a"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "favicon.png",
+        "bytes": 7349,
+        "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22"
+      },
+      {
+        "path": ".gitattributes",
+        "bytes": 65256,
+        "sha256": "6a861f80fe401867af5080522f9140b13e08a5811192fa1261d495ec318d2573"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 288141,
+        "sha256": "81288120de32c7e103b7fb0d1b3a7e21322b5fb0bfbf5204b198d9d6b2c8e082"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 510027,
+        "sha256": "424e3d10c06f45d057d1532fff82489bd8fefddce35fe64bc34fa6af5f342209"
+      },
+      {
+        "path": "build/person-unit-summary-20261029-v120/preview-fixture-v1.js",
+        "bytes": 11281,
+        "sha256": "b8771bf1144b1b95c0dcc8c78115a95377ac506126ee95da35fdaa75038004a3"
+      },
+      {
+        "path": "build/person-unit-summary-20261029-v120/preview-collect-v1.js",
+        "bytes": 6856,
+        "sha256": "0b53d965830cce6d584d189081f3aa2861c5f4cb4531ed9aa53913fa798e399e"
+      },
+      {
+        "path": "build/person-unit-summary-20261029-v120/preview-v1.mjs",
+        "bytes": 17511,
+        "sha256": "c17e623949945e252cbbc66bb8ae216af0da40b117f7f71dcf45227e1168be5e"
+      },
+      {
+        "path": "build/person-unit-summary-20261029-v120/preview-finalize-v1.mjs",
+        "bytes": 1789,
+        "sha256": "9f427457fdae4d602a2666d1dfd72be61d4ef1ae88a925bf335413c4c738bc94"
+      }
+    ],
+    "afterPins": [
+      {
+        "path": "pc.html",
+        "bytes": 32347,
+        "sha256": "970c74de8c37a694bda83e4c0fa789057b2f3047e92300943e8e2d1c0a6500fb"
+      },
+      {
+        "path": "m.html",
+        "bytes": 23684,
+        "sha256": "b86e0df628895c34f9756524b7a1732d9aa96da1257a58de99d23f8c3a300e7c"
+      },
+      {
+        "path": "css/flex.css",
+        "bytes": 11480,
+        "sha256": "362ebb627e1453bb074f6c71afbff91832d0cab18ef962fdc813b2cadb69cace"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 3008,
+        "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+      },
+      {
+        "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+      },
+      {
+        "path": "css/hd-graphics.css",
+        "bytes": 4567,
+        "sha256": "5941d014ada1e3fcc889031640dde97fa1f542d5c213c1e62ae0f7dc29e2d43a"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 5226,
+        "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 16789,
+        "sha256": "dd92bf63f9d3972ca8c45d8b90a038d6a4d73f6798e88d923536c4677762d3e6"
+      },
+      {
+        "path": "css/hd-battle.css",
+        "bytes": 9203,
+        "sha256": "a193bdf938a16b4741251ec6a670872fe3cfcf899592aa69461b438ef51ffab1"
+      },
+      {
+        "path": "css/hd-system-ui.css",
+        "bytes": 7088,
+        "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d"
+      },
+      {
+        "path": "css/hd-minimap.css",
+        "bytes": 4222,
+        "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 10606,
+        "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+      },
+      {
+        "path": "css/hd-spe.css",
+        "bytes": 3150,
+        "sha256": "bc462f1197dfc69c9d5a15403207630ef79886f79dc979aa0ee5e23de672e221"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-battle-note.css",
+        "bytes": 2146,
+        "sha256": "b35da40a6a0535b7ed1ba33a103eaeed35fc51d5f314974a167a3fa196b966a3"
+      },
+      {
+        "path": "css/hd-battle-transition.css",
+        "bytes": 2896,
+        "sha256": "eee994dd0a8541dac4b3c7f11277326b3d6aa0dfb099131b7cd358bc4872573a"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "favicon.png",
+        "bytes": 7349,
+        "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22"
+      },
+      {
+        "path": ".gitattributes",
+        "bytes": 65256,
+        "sha256": "6a861f80fe401867af5080522f9140b13e08a5811192fa1261d495ec318d2573"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 288141,
+        "sha256": "81288120de32c7e103b7fb0d1b3a7e21322b5fb0bfbf5204b198d9d6b2c8e082"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 510027,
+        "sha256": "424e3d10c06f45d057d1532fff82489bd8fefddce35fe64bc34fa6af5f342209"
+      },
+      {
+        "path": "build/person-unit-summary-20261029-v120/preview-fixture-v1.js",
+        "bytes": 11281,
+        "sha256": "b8771bf1144b1b95c0dcc8c78115a95377ac506126ee95da35fdaa75038004a3"
+      },
+      {
+        "path": "build/person-unit-summary-20261029-v120/preview-collect-v1.js",
+        "bytes": 6856,
+        "sha256": "0b53d965830cce6d584d189081f3aa2861c5f4cb4531ed9aa53913fa798e399e"
+      },
+      {
+        "path": "build/person-unit-summary-20261029-v120/preview-v1.mjs",
+        "bytes": 17511,
+        "sha256": "c17e623949945e252cbbc66bb8ae216af0da40b117f7f71dcf45227e1168be5e"
+      },
+      {
+        "path": "build/person-unit-summary-20261029-v120/preview-finalize-v1.mjs",
+        "bytes": 1789,
+        "sha256": "9f427457fdae4d602a2666d1dfd72be61d4ef1ae88a925bf335413c4c738bc94"
+      }
+    ],
+    "cases": [
+      {
+        "name": "pc-1280x720",
+        "accepted": true,
+        "refresh": {
+          "sameOwner": true,
+          "sameNamesAndIds": true,
+          "sameMenu": true,
+          "firstLineUnchanged": true,
+          "onlyUnitFieldsChanged": true,
+          "statsChanged": true,
+          "deepSigChanged": true,
+          "domEpochs": [
+            1,
+            2,
+            3
+          ],
+          "deepSigNeverClearedByFixture": true,
+          "accepted": true
+        },
+        "scroll": {
+          "changed": true,
+          "max": 262,
+          "independentPersonPane": true,
+          "footerStable": true,
+          "lastRowVisible": true,
+          "accepted": true
+        },
+        "errors": 0,
+        "failedRequests": 0,
+        "states": [
+          {
+            "mode": "standard",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 14,
+            "unitSummaries": 14,
+            "previewButtons": 0,
+            "firstSummary": "武力 0 · 智力 255 · 体力 0",
+            "firstUnit": "等级 0 · 兵力 0",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-standard-v1.png",
+              "bytes": 128462,
+              "sha256": "3217378857ecffe13573b52e787b6930930dc18df6bf8545d3bf562f18565fb8"
+            },
+            "raw": {
+              "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-standard-raw-v1.json",
+              "bytes": 223711,
+              "sha256": "aab9f39722f64ac81107708f434c7f1f0f78a6ba19f0775140ce08e9652044e5"
+            },
+            "dom": {
+              "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-standard-v1.dom.html",
+              "bytes": 23302,
+              "sha256": "bf83a4edbd9e31f9285aa2b0c852518ac117f888c119824c76603229770a3959"
+            }
+          },
+          {
+            "mode": "updated",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 14,
+            "unitSummaries": 14,
+            "previewButtons": 0,
+            "firstSummary": "武力 0 · 智力 255 · 体力 0",
+            "firstUnit": "等级 255 · 兵力 65535",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-updated-v1.png",
+              "bytes": 132631,
+              "sha256": "cac0b0bc8f8ebb037aec98c0bf50e14deb863376b1ad4c086ce963b886d05aff"
+            },
+            "raw": {
+              "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-updated-raw-v1.json",
+              "bytes": 226200,
+              "sha256": "cbf1acf62c8ddb44414348b3c1f37983eb8d804c165ec672cd3a0b1d7bb7bc94"
+            },
+            "dom": {
+              "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-updated-v1.dom.html",
+              "bytes": 23308,
+              "sha256": "da13921abd8c30cb526cccc8ca80026a564afc4042863eca1131e75fe331c6e0"
+            }
+          },
+          {
+            "mode": "ineligible",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 0,
+            "unitSummaries": 0,
+            "previewButtons": 0,
+            "firstSummary": null,
+            "firstUnit": null,
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-ineligible-v1.png",
+              "bytes": 130881,
+              "sha256": "0d22f637e853464d2c5972c29705564688a05ed21f1bd653b85f6d78636d38af"
+            },
+            "raw": {
+              "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-ineligible-raw-v1.json",
+              "bytes": 136681,
+              "sha256": "31fe9a06633ba06e8a748b02067455598345213d776ba9a49438c6457667403f"
+            },
+            "dom": {
+              "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-ineligible-v1.dom.html",
+              "bytes": 19262,
+              "sha256": "b4568323fc049fa7945077385440c65a592d746f3885e39787ea8d48b48fe39b"
+            }
+          }
+        ]
+      },
+      {
+        "name": "mobile-844x390",
+        "accepted": true,
+        "refresh": {
+          "sameOwner": true,
+          "sameNamesAndIds": true,
+          "sameMenu": true,
+          "firstLineUnchanged": true,
+          "onlyUnitFieldsChanged": true,
+          "statsChanged": true,
+          "deepSigChanged": true,
+          "domEpochs": [
+            1,
+            2,
+            3
+          ],
+          "deepSigNeverClearedByFixture": true,
+          "accepted": true
+        },
+        "scroll": {
+          "changed": true,
+          "max": 960,
+          "independentPersonPane": true,
+          "footerStable": true,
+          "lastRowVisible": true,
+          "accepted": true
+        },
+        "errors": 0,
+        "failedRequests": 0,
+        "states": [
+          {
+            "mode": "standard",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 14,
+            "unitSummaries": 14,
+            "previewButtons": 14,
+            "firstSummary": "武力 0 · 智力 255 · 体力 0",
+            "firstUnit": "等级 0 · 兵力 0",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-standard-v1.png",
+              "bytes": 74396,
+              "sha256": "8778290fa21f93782326adeecd8e38447f821a8a8485efdc3c960af45b4f5be1"
+            },
+            "raw": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-standard-raw-v1.json",
+              "bytes": 258595,
+              "sha256": "d8ac8d56ed7e19dc182ea5d69491dc4792f67ecec3ba3f556f28f10daba8f1d1"
+            },
+            "dom": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-standard-v1.dom.html",
+              "bytes": 35473,
+              "sha256": "de699eff6f486dfbd79733f9e1d82569caaf1f548333a67b01d98f420ebc69e4"
+            }
+          },
+          {
+            "mode": "updated",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 14,
+            "unitSummaries": 14,
+            "previewButtons": 14,
+            "firstSummary": "武力 0 · 智力 255 · 体力 0",
+            "firstUnit": "等级 255 · 兵力 65535",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-updated-v1.png",
+              "bytes": 72875,
+              "sha256": "f18f35c960c468774ec0f91d19ec777a9a5e96f25dd0b905c22510bc11499270"
+            },
+            "raw": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-updated-raw-v1.json",
+              "bytes": 262197,
+              "sha256": "bf1ce08ad46c42fa9eeb6089d4a10aebd847067fa54422fe39d837d6bbcaf057"
+            },
+            "dom": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-updated-v1.dom.html",
+              "bytes": 35479,
+              "sha256": "b2d3f10d3f15194f10fed56ec1567c9946bdd4ee1d6fb62c0027a095a77b7c23"
+            }
+          },
+          {
+            "mode": "ineligible",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 0,
+            "unitSummaries": 0,
+            "previewButtons": 14,
+            "firstSummary": null,
+            "firstUnit": null,
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-ineligible-v1.png",
+              "bytes": 74892,
+              "sha256": "7f35184a38f4cd28d97187999ec40ffd92e55149d0d0c83501e819bbca5b3702"
+            },
+            "raw": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-ineligible-raw-v1.json",
+              "bytes": 174259,
+              "sha256": "9eecdaf1dd3d093cfd7458bd866e1b19db6ec77ead50b96de179a11440fde767"
+            },
+            "dom": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-ineligible-v1.dom.html",
+              "bytes": 31433,
+              "sha256": "aa2eec3423ce2ce49b3c62640849834ee37f7cb912b3002f047582b9efc0725a"
+            }
+          }
+        ]
+      },
+      {
+        "name": "mobile-667x375",
+        "accepted": true,
+        "refresh": {
+          "sameOwner": true,
+          "sameNamesAndIds": true,
+          "sameMenu": true,
+          "firstLineUnchanged": true,
+          "onlyUnitFieldsChanged": true,
+          "statsChanged": true,
+          "deepSigChanged": true,
+          "domEpochs": [
+            1,
+            2,
+            3
+          ],
+          "deepSigNeverClearedByFixture": true,
+          "accepted": true
+        },
+        "scroll": {
+          "changed": true,
+          "max": 997,
+          "independentPersonPane": true,
+          "footerStable": true,
+          "lastRowVisible": true,
+          "accepted": true
+        },
+        "errors": 0,
+        "failedRequests": 0,
+        "states": [
+          {
+            "mode": "standard",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 14,
+            "unitSummaries": 14,
+            "previewButtons": 14,
+            "firstSummary": "武力 0 · 智力 255 · 体力 0",
+            "firstUnit": "等级 0 · 兵力 0",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-standard-v1.png",
+              "bytes": 65337,
+              "sha256": "0943808737c70977e7296f6bfe43cee0f912f591ddd4b604c41e10ffefb3a28c"
+            },
+            "raw": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-standard-raw-v1.json",
+              "bytes": 257836,
+              "sha256": "351a024315ed890e672902835f9061d4a1dbbfd960ff06661b6ec4e407d5ecda"
+            },
+            "dom": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-standard-v1.dom.html",
+              "bytes": 35473,
+              "sha256": "de699eff6f486dfbd79733f9e1d82569caaf1f548333a67b01d98f420ebc69e4"
+            }
+          },
+          {
+            "mode": "updated",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 14,
+            "unitSummaries": 14,
+            "previewButtons": 14,
+            "firstSummary": "武力 0 · 智力 255 · 体力 0",
+            "firstUnit": "等级 255 · 兵力 65535",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-updated-v1.png",
+              "bytes": 65370,
+              "sha256": "81ea1648858a38dfd79e0f3da4aef5f1961385f70e7f83dccecac2676f5e68b7"
+            },
+            "raw": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-updated-raw-v1.json",
+              "bytes": 261448,
+              "sha256": "2182d954ae5a08ea75ff4da549ba35a6a3de101f9d754478fd6d674230e26a47"
+            },
+            "dom": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-updated-v1.dom.html",
+              "bytes": 35479,
+              "sha256": "b2d3f10d3f15194f10fed56ec1567c9946bdd4ee1d6fb62c0027a095a77b7c23"
+            }
+          },
+          {
+            "mode": "ineligible",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true,
+              "contract": true
+            },
+            "rows": 14,
+            "summaries": 0,
+            "unitSummaries": 0,
+            "previewButtons": 14,
+            "firstSummary": null,
+            "firstUnit": null,
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": [],
+              "network": [],
+              "input": []
+            },
+            "screenshot": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-ineligible-v1.png",
+              "bytes": 63701,
+              "sha256": "070b542b37b353b2afaa1bab34c903f79d4be4816a1544e717e12a145f6b4601"
+            },
+            "raw": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-ineligible-raw-v1.json",
+              "bytes": 174559,
+              "sha256": "cb815a13ede1590706261ddb5b2a230f7dffe92fb0e00b9d0f58f3965ce86c8d"
+            },
+            "dom": {
+              "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-ineligible-v1.dom.html",
+              "bytes": 31433,
+              "sha256": "aa2eec3423ce2ce49b3c62640849834ee37f7cb912b3002f047582b9efc0725a"
+            }
+          }
+        ]
+      }
+    ],
+    "rawEvidence": {
+      "path": "build/person-unit-summary-20261029-v120/preview-v1-raw.json",
+      "bytes": 1710141,
+      "sha256": "0db037efa6ad295cf9f011d409f59d69b3b970b5bc062c2fe2aa8934d2644f66"
+    },
+    "boundary": "Production fillDeepList and detail/highlight/group renderers only. Read-only explicit original-contract mock supplies 200 logical persons, 2000 physical person and queue slots, 38 cities, player king, complete kind-3 menu DTO and incomplete 13-property default person DTO, identity byteLength 207195. Fourteen actual-ID rows include a long full name, four-character names and equal names with distinct IDs. Fixture changes only Level/Arms of two persons then sets personProperties.custom, preserving menu owner and never clearing deepSig. Only private mobileHost isAvailable capability assignment is added. Lifecycle/configure/start/bind, actual bridge/LIB/WASM/storage/save/gameplay/physical devices are excluded.",
+    "processBoundary": "Exactly one owned Chrome context/profile and one private ephemeral allowlist HTTP server; only owned pages/context/server closed. No existing browser/game/CDP/8080/process inventory accessed.",
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "globalHdComplete": false,
+    "visualReview": {
+      "accepted": true,
+      "reviewCompleted": true,
+      "reviewedAt": "2026-10-28T17:53:47.541920+00:00",
+      "reviewedWith": "tools.view_image",
+      "reviewedPaths": [
+        "build/person-unit-summary-20261029-v120/preview-pc-1280x720-standard-v1.png",
+        "build/person-unit-summary-20261029-v120/preview-pc-1280x720-updated-v1.png",
+        "build/person-unit-summary-20261029-v120/preview-pc-1280x720-ineligible-v1.png",
+        "build/person-unit-summary-20261029-v120/preview-mobile-844x390-standard-v1.png",
+        "build/person-unit-summary-20261029-v120/preview-mobile-844x390-updated-v1.png",
+        "build/person-unit-summary-20261029-v120/preview-mobile-844x390-ineligible-v1.png",
+        "build/person-unit-summary-20261029-v120/preview-mobile-667x375-standard-v1.png",
+        "build/person-unit-summary-20261029-v120/preview-mobile-667x375-updated-v1.png",
+        "build/person-unit-summary-20261029-v120/preview-mobile-667x375-ineligible-v1.png"
+      ],
+      "screenshotsCaptured": 9,
+      "screenshotsVisuallyReviewed": 9,
+      "notes": "All nine original PNGs individually viewed. PC has readable complete names, existing Force/IQ/Thew direct text and the block Level/Arms line. Mobile at 844x390 and 667x375 keeps a single inner list column for eligible and custom fallback states, full four-character names, wrapped extreme mock name, separate 64px View buttons, independent right detail pane and visible Return footer. Updated-state screenshots show list bottom with last row visible and right pane/footer stable. The native custom flag removes both summary lines; only full names remain. No horizontal overflow, text ellipsis or hidden line was observed.",
+      "geometry": [
+        {
+          "name": "pc-1280x720",
+          "states": [
+            {
+              "mode": "standard",
+              "mainButtonWidth": 182.4375,
+              "previewButtonWidth": null,
+              "innerListColumns": "182.438px 182.438px",
+              "normalFourCharacterNameLines": 1,
+              "extremeNameLines": 2,
+              "firstLineDirectTextNodes": 1,
+              "unitDisplay": "block",
+              "horizontalOverflow": false
+            },
+            {
+              "mode": "updated",
+              "mainButtonWidth": 182.4375,
+              "previewButtonWidth": null,
+              "innerListColumns": "182.438px 182.438px",
+              "normalFourCharacterNameLines": 1,
+              "extremeNameLines": 2,
+              "firstLineDirectTextNodes": 1,
+              "unitDisplay": "block",
+              "horizontalOverflow": false
+            },
+            {
+              "mode": "ineligible",
+              "mainButtonWidth": 182.4375,
+              "previewButtonWidth": null,
+              "innerListColumns": "182.438px 182.438px",
+              "normalFourCharacterNameLines": 1,
+              "extremeNameLines": 2,
+              "firstLineDirectTextNodes": 0,
+              "unitDisplay": null,
+              "horizontalOverflow": false
+            }
+          ]
+        },
+        {
+          "name": "mobile-844x390",
+          "states": [
+            {
+              "mode": "standard",
+              "mainButtonWidth": 303.953125,
+              "previewButtonWidth": 64,
+              "innerListColumns": "373.953px",
+              "normalFourCharacterNameLines": 1,
+              "extremeNameLines": 1,
+              "firstLineDirectTextNodes": 1,
+              "unitDisplay": "block",
+              "horizontalOverflow": false
+            },
+            {
+              "mode": "updated",
+              "mainButtonWidth": 303.953125,
+              "previewButtonWidth": 64,
+              "innerListColumns": "373.953px",
+              "normalFourCharacterNameLines": 1,
+              "extremeNameLines": 1,
+              "firstLineDirectTextNodes": 1,
+              "unitDisplay": "block",
+              "horizontalOverflow": false
+            },
+            {
+              "mode": "ineligible",
+              "mainButtonWidth": 303.953125,
+              "previewButtonWidth": 64,
+              "innerListColumns": "373.953px",
+              "normalFourCharacterNameLines": 1,
+              "extremeNameLines": 1,
+              "firstLineDirectTextNodes": 0,
+              "unitDisplay": null,
+              "horizontalOverflow": false
+            }
+          ]
+        },
+        {
+          "name": "mobile-667x375",
+          "states": [
+            {
+              "mode": "standard",
+              "mainButtonWidth": 221.625,
+              "previewButtonWidth": 64,
+              "innerListColumns": "291.625px",
+              "normalFourCharacterNameLines": 1,
+              "extremeNameLines": 2,
+              "firstLineDirectTextNodes": 1,
+              "unitDisplay": "block",
+              "horizontalOverflow": false
+            },
+            {
+              "mode": "updated",
+              "mainButtonWidth": 221.625,
+              "previewButtonWidth": 64,
+              "innerListColumns": "291.625px",
+              "normalFourCharacterNameLines": 1,
+              "extremeNameLines": 2,
+              "firstLineDirectTextNodes": 1,
+              "unitDisplay": "block",
+              "horizontalOverflow": false
+            },
+            {
+              "mode": "ineligible",
+              "mainButtonWidth": 221.625,
+              "previewButtonWidth": 64,
+              "innerListColumns": "291.625px",
+              "normalFourCharacterNameLines": 1,
+              "extremeNameLines": 2,
+              "firstLineDirectTextNodes": 0,
+              "unitDisplay": null,
+              "horizontalOverflow": false
+            }
+          ]
+        }
+      ],
+      "limits": [
+        "Controlled actual-renderer DOM/CSS evidence only.",
+        "No natural gameplay, native lifecycle, original LIB/WASM, storage, device or full-HD acceptance."
+      ],
+      "actualGameplayAccepted": false,
+      "realDeviceAccepted": false,
+      "globalHdComplete": false
+    },
+    "visualReviewPin": {
+      "path": "build/person-unit-summary-20261029-v120/preview-visual-review-v1.json",
+      "bytes": 5407,
+      "sha256": "1cc374c74323567b55a7778563aadd41c3d08cdcc38295b1984704d372e6cf57"
+    },
+    "evidenceScripts": [
+      {
+        "path": "build/person-unit-summary-20261029-v120/preview-v1.mjs",
+        "bytes": 17511,
+        "sha256": "c17e623949945e252cbbc66bb8ae216af0da40b117f7f71dcf45227e1168be5e"
+      },
+      {
+        "path": "build/person-unit-summary-20261029-v120/preview-fixture-v1.js",
+        "bytes": 11281,
+        "sha256": "b8771bf1144b1b95c0dcc8c78115a95377ac506126ee95da35fdaa75038004a3"
+      },
+      {
+        "path": "build/person-unit-summary-20261029-v120/preview-collect-v1.js",
+        "bytes": 6856,
+        "sha256": "0b53d965830cce6d584d189081f3aa2861c5f4cb4531ed9aa53913fa798e399e"
+      },
+      {
+        "path": "build/person-unit-summary-20261029-v120/preview-finalize-v1.mjs",
+        "bytes": 1789,
+        "sha256": "9f427457fdae4d602a2666d1dfd72be61d4ef1ae88a925bf335413c4c738bc94"
+      }
+    ],
+    "sourcePinsVerifiedAfterReview": true,
+    "originalPreview": {
+      "path": "build/person-unit-summary-20261029-v120/preview-v1.json",
+      "bytes": 34385,
+      "sha256": "82829b0488b5fab6326101df669cd3d0b109cd013a81de0aa0f29700395784f4"
+    },
+    "rootVisualReview": {
+      "accepted": true,
+      "reviewedAt": "2026-10-28T17:59:09.819Z",
+      "individualScreenshotsViewed": 9,
+      "reviewedWith": "tools.view_image",
+      "sourcePinsStable": 26,
+      "rows": [
+        {
+          "size": "pc-1280x720",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-standard-v1.png",
+            "bytes": 128462,
+            "sha256": "3217378857ecffe13573b52e787b6930930dc18df6bf8545d3bf562f18565fb8"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Existing two-column list retains readable original capability text and a distinct level/troops line; 0/255 and 0/65535 visible. Updated bottom scroll shows last rows and fixed footer; right pane remains independently scrollable."
+        },
+        {
+          "size": "pc-1280x720",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-updated-v1.png",
+            "bytes": 132631,
+            "sha256": "cac0b0bc8f8ebb037aec98c0bf50e14deb863376b1ad4c086ce963b886d05aff"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Existing two-column list retains readable original capability text and a distinct level/troops line; 0/255 and 0/65535 visible. Updated bottom scroll shows last rows and fixed footer; right pane remains independently scrollable."
+        },
+        {
+          "size": "pc-1280x720",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-ineligible-v1.png",
+            "bytes": 130881,
+            "sha256": "0d22f637e853464d2c5972c29705564688a05ed21f1bd653b85f6d78636d38af"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Both semantic summary lines removed; names, native custom-property view and footer retained. Mobile plain names stay in the single inner list column, including the long mock name."
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-standard-v1.png",
+            "bytes": 74396,
+            "sha256": "8778290fa21f93782326adeecd8e38447f821a8a8485efdc3c960af45b4f5be1"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Single inner list column retains the original capability line and one complete level/troops line. Long mock name wraps within its button, 64px preview controls and footer remain visible; updated bottom scroll exposes the last rows."
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-updated-v1.png",
+            "bytes": 72875,
+            "sha256": "f18f35c960c468774ec0f91d19ec777a9a5e96f25dd0b905c22510bc11499270"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Single inner list column retains the original capability line and one complete level/troops line. Long mock name wraps within its button, 64px preview controls and footer remain visible; updated bottom scroll exposes the last rows."
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-ineligible-v1.png",
+            "bytes": 74892,
+            "sha256": "7f35184a38f4cd28d97187999ec40ffd92e55149d0d0c83501e819bbca5b3702"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Both semantic summary lines removed; names, native custom-property view and footer retained. Mobile plain names stay in the single inner list column, including the long mock name."
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-standard-v1.png",
+            "bytes": 65337,
+            "sha256": "0943808737c70977e7296f6bfe43cee0f912f591ddd4b604c41e10ffefb3a28c"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Single inner list column retains the original capability line and one complete level/troops line. Long mock name wraps within its button, 64px preview controls and footer remain visible; updated bottom scroll exposes the last rows."
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-updated-v1.png",
+            "bytes": 65370,
+            "sha256": "81ea1648858a38dfd79e0f3da4aef5f1961385f70e7f83dccecac2676f5e68b7"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Single inner list column retains the original capability line and one complete level/troops line. Long mock name wraps within its button, 64px preview controls and footer remain visible; updated bottom scroll exposes the last rows."
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-ineligible-v1.png",
+            "bytes": 63701,
+            "sha256": "070b542b37b353b2afaa1bab34c903f79d4be4816a1544e717e12a145f6b4601"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Both semantic summary lines removed; names, native custom-property view and footer retained. Mobile plain names stay in the single inner list column, including the long mock name."
+        }
+      ],
+      "onlyControlledDomCss": true,
+      "actualGameplayAccepted": false,
+      "realDeviceAccepted": false
+    }
+  },
+  "rootVisualReview": {
+    "accepted": true,
+    "reviewedAt": "2026-10-28T17:59:09.819Z",
+    "individualScreenshotsViewed": 9,
+    "reviewedWith": "tools.view_image",
+    "sourcePinsStable": 26,
+    "rows": [
+      {
+        "size": "pc-1280x720",
+        "mode": "standard",
+        "screenshot": {
+          "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-standard-v1.png",
+          "bytes": 128462,
+          "sha256": "3217378857ecffe13573b52e787b6930930dc18df6bf8545d3bf562f18565fb8"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Existing two-column list retains readable original capability text and a distinct level/troops line; 0/255 and 0/65535 visible. Updated bottom scroll shows last rows and fixed footer; right pane remains independently scrollable."
+      },
+      {
+        "size": "pc-1280x720",
+        "mode": "updated",
+        "screenshot": {
+          "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-updated-v1.png",
+          "bytes": 132631,
+          "sha256": "cac0b0bc8f8ebb037aec98c0bf50e14deb863376b1ad4c086ce963b886d05aff"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Existing two-column list retains readable original capability text and a distinct level/troops line; 0/255 and 0/65535 visible. Updated bottom scroll shows last rows and fixed footer; right pane remains independently scrollable."
+      },
+      {
+        "size": "pc-1280x720",
+        "mode": "ineligible",
+        "screenshot": {
+          "path": "build/person-unit-summary-20261029-v120/preview-pc-1280x720-ineligible-v1.png",
+          "bytes": 130881,
+          "sha256": "0d22f637e853464d2c5972c29705564688a05ed21f1bd653b85f6d78636d38af"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Both semantic summary lines removed; names, native custom-property view and footer retained. Mobile plain names stay in the single inner list column, including the long mock name."
+      },
+      {
+        "size": "mobile-844x390",
+        "mode": "standard",
+        "screenshot": {
+          "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-standard-v1.png",
+          "bytes": 74396,
+          "sha256": "8778290fa21f93782326adeecd8e38447f821a8a8485efdc3c960af45b4f5be1"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Single inner list column retains the original capability line and one complete level/troops line. Long mock name wraps within its button, 64px preview controls and footer remain visible; updated bottom scroll exposes the last rows."
+      },
+      {
+        "size": "mobile-844x390",
+        "mode": "updated",
+        "screenshot": {
+          "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-updated-v1.png",
+          "bytes": 72875,
+          "sha256": "f18f35c960c468774ec0f91d19ec777a9a5e96f25dd0b905c22510bc11499270"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Single inner list column retains the original capability line and one complete level/troops line. Long mock name wraps within its button, 64px preview controls and footer remain visible; updated bottom scroll exposes the last rows."
+      },
+      {
+        "size": "mobile-844x390",
+        "mode": "ineligible",
+        "screenshot": {
+          "path": "build/person-unit-summary-20261029-v120/preview-mobile-844x390-ineligible-v1.png",
+          "bytes": 74892,
+          "sha256": "7f35184a38f4cd28d97187999ec40ffd92e55149d0d0c83501e819bbca5b3702"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Both semantic summary lines removed; names, native custom-property view and footer retained. Mobile plain names stay in the single inner list column, including the long mock name."
+      },
+      {
+        "size": "mobile-667x375",
+        "mode": "standard",
+        "screenshot": {
+          "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-standard-v1.png",
+          "bytes": 65337,
+          "sha256": "0943808737c70977e7296f6bfe43cee0f912f591ddd4b604c41e10ffefb3a28c"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Single inner list column retains the original capability line and one complete level/troops line. Long mock name wraps within its button, 64px preview controls and footer remain visible; updated bottom scroll exposes the last rows."
+      },
+      {
+        "size": "mobile-667x375",
+        "mode": "updated",
+        "screenshot": {
+          "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-updated-v1.png",
+          "bytes": 65370,
+          "sha256": "81ea1648858a38dfd79e0f3da4aef5f1961385f70e7f83dccecac2676f5e68b7"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Single inner list column retains the original capability line and one complete level/troops line. Long mock name wraps within its button, 64px preview controls and footer remain visible; updated bottom scroll exposes the last rows."
+      },
+      {
+        "size": "mobile-667x375",
+        "mode": "ineligible",
+        "screenshot": {
+          "path": "build/person-unit-summary-20261029-v120/preview-mobile-667x375-ineligible-v1.png",
+          "bytes": 63701,
+          "sha256": "070b542b37b353b2afaa1bab34c903f79d4be4816a1544e717e12a145f6b4601"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Both semantic summary lines removed; names, native custom-property view and footer retained. Mobile plain names stay in the single inner list column, including the long mock name."
+      }
+    ],
+    "onlyControlledDomCss": true,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false
+  },
+  "developmentEvidence": {
+    "scope": {
+      "path": "build/person-unit-summary-20261029-v120/tests-development-v1/tests-scope.json",
+      "bytes": 805,
+      "sha256": "5750bde55c89570efa274b6b42fb1a46ad15e1e87c5fd08005aab17c0be831b3",
+      "prefixByteUnchanged": true,
+      "suffixByteUnchanged": true,
+      "originalTotalCases": 158,
+      "totalCases": 158,
+      "selectedCases": 3,
+      "retainedGateEntries": 27,
+      "legacyInvalidSamples": 12,
+      "addedUnitInvalidSamples": 18,
+      "sameOwnerRefreshScenarios": 3,
+      "tornUnitReadScenarios": 2,
+      "rendererReentryScenarios": 1,
+      "finalProfileDriftScenarios": 3,
+      "lateCallerDriftScenarios": 4,
+      "testFileSha256": "81288120de32c7e103b7fb0d1b3a7e21322b5fb0bfbf5204b198d9d6b2c8e082",
+      "selectedSourceSha256": "98182cc6cc9560006734694fcc394d3085181c73a9ca43bf707fe66b0600eaa2",
+      "candidateCounts": {
+        "tests": 3,
+        "suites": 0,
+        "pass": 3,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "duration_ms": 564.2273
+      },
+      "candidateAttempts": 1,
+      "firstAttemptFailed": false
+    },
+    "relocation": {
+      "accepted": true,
+      "source": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\privatebuild\\person-unit-summary-20261029-v120",
+      "destination": "C:\\Users\\75112\\.codex\\worktrees\\hd-equipment-icons\\baye-sanguo\\build\\person-unit-summary-20261029-v120\\tests-development-v1",
+      "files": [
+        "tests-baseline.json",
+        "tests-candidate-01.json",
+        "tests-candidate-01.log",
+        "tests-original-block.mjs",
+        "tests-scope.json"
+      ],
+      "preservedExactFileContents": true,
+      "onlyDirectoryRenamed": true,
+      "deletesPerformed": false,
+      "firstShellCommandRejectedBeforeExecution": true,
+      "productionChanged": false,
+      "browserStarted": false,
+      "testsRerun": false
+    },
+    "candidateCountsNotAddedToFinalRun": true
+  },
+  "preservation": {
+    "nativeSources": 128,
+    "runtimeArtifacts": 4,
+    "portraitMappings": 569,
+    "portraitImages": 252,
+    "preserved": [
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 148769,
+        "sha256": "74a3fd0fd474d9d480ed249a12c75475756912660c1fe022d1b42587976ceebb"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 234072,
+        "sha256": "d14a836a1bf1045ec920ab8996cfa40681a6841e0961cc6e9b16b54ba7d96f85"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 30377,
+        "sha256": "070ecd4412f981998f39af66a4e600db911fc6b689928d1add9f0e66108884ba"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 165558,
+        "sha256": "4d516b7771dda321b98fc35111ce31b1b71da5de484626c89035cd4f2c29c183"
+      },
+      {
+        "path": "js/hd-city-plans.js",
+        "bytes": 12573,
+        "sha256": "8daf904721c232f448c96fe966774b99149b8f20f16bde329dba5e4d941e93c1"
+      }
+    ],
+    "heldBattleAccessed": false,
+    "heldBattleInputs": 0,
+    "primaryCheckoutEdited": false
+  },
+  "limits": {
+    "onlyControlledDomAndVm": true,
+    "naturalMenuLifecycleAccepted": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "performanceAccepted": false,
+    "entireHudModuleRun": false,
+    "fullSuiteRun": false,
+    "globalHdComplete": false,
+    "goalStillActive": true
+  }
+}

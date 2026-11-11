@@ -332,10 +332,10 @@ async function smoke(cdp) {
         finally { localStorage.setItem('baye/libpath', lib); }
         return { valid, preferredPathChanged, identity: BayeHdLibIdentity.read(), name: baye.getPersonName(2), promiseIsNative: /native code/.test(String(window.Promise)) };
     })()`);
-    assert.equal(portraits.valid.mode, 'ref');
-    assert.equal(portraits.valid.url, 'assets/hd-portraits/refs/period-1/2-袁绍.png');
+    assert.equal(portraits.valid.mode, 'hd');
+    assert.equal(portraits.valid.url, 'assets/hd-portraits/hd/period-1/2-袁绍.png');
     assert.equal(portraits.name, '袁绍');
-    assert.equal(portraits.preferredPathChanged.mode, 'ref', 'unchanged actual dictionary bytes retain their matching reference under another preferred path');
+    assert.equal(portraits.preferredPathChanged.mode, 'hd', 'unchanged actual dictionary bytes retain their matching HD portrait under another preferred path');
     assert.equal(portraits.preferredPathChanged.url, portraits.valid.url);
     assert.equal(portraits.identity.status, 'ready');
     assert.equal(portraits.identity.sha256, '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
@@ -846,8 +846,8 @@ async function libraryIdentitySmoke(cdp, bootstrapId) {
         assert.equal(viewport.lcd.hasLayout, true, 'classic LCD retains its layout for fallback');
         if (scenario.supported) {
             assert.equal(presentation.presentationReady, true);
-            assert.equal(portrait.mode, 'ref');
-            assert.equal(portrait.url, 'assets/hd-portraits/refs/period-1/2-袁绍.png');
+            assert.equal(portrait.mode, 'hd');
+            assert.equal(portrait.url, 'assets/hd-portraits/hd/period-1/2-袁绍.png');
             assert.equal(viewport.mapHidden, 'false');
         } else {
             assert.equal(viewport.lcd.visible, true, 'unknown actual Mod fallback really makes the classic LCD visible');

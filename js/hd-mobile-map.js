@@ -74,7 +74,7 @@
                 if (!firstIdentity || !baye || !baye.hd || typeof baye.hd.ready !== 'function' || baye.hd.ready() !== true) { return null; }
                 var data = typeof baye.ensureData === 'function' ? baye.ensureData() : baye.data;
                 function readOwner() {
-                    if (!data) { return null; }
+                    if (!data || data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                     var value = {};
                     ZERO.concat(EXIT_FIELDS).forEach(function (key) { value[key] = data[key]; });
                     value.g_hdTransferActive = data.g_hdTransferActive;
@@ -90,7 +90,7 @@
                     !ZERO.every(function (key) { return owner[key] === 0; }) ||
                     !EXIT_FIELDS.every(function (key) { return integer(owner[key], 0, 0xffffffff); })) { return null; }
                 if (baye.data !== data || baye.hd.ready() !== true || !equal(owner, readOwner()) ||
-                    !equal(firstIdentity, identity())) { return null; }
+                    !equal(firstIdentity, identity()) || data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 return {identity: firstIdentity, owner: owner, data: data};
             } catch (e) { return null; }
         }
@@ -104,7 +104,7 @@
                 if (!firstIdentity || !baye || !baye.hd || typeof baye.hd.ready !== 'function' || baye.hd.ready() !== true) { return null; }
                 var data = typeof baye.ensureData === 'function' ? baye.ensureData() : baye.data;
                 function readOwner() {
-                    if (!data) { return null; }
+                    if (!data || data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                     var value = {};
                     ZERO.concat(MAP_FIELDS).forEach(function (key) { value[key] = data[key]; });
                     value.g_hdTransferActive = data.g_hdTransferActive;
@@ -118,7 +118,8 @@
                     !ZERO.every(function (key) { return owner[key] === 0; }) ||
                     !MAP_FIELDS.every(function (key) { return integer(owner[key], 0, 0xffffffff); })) { return null; }
                 if (baye.data !== data || baye.hd.ready() !== true || hidden() || !landscape() ||
-                    !equal(owner, readOwner()) || !equal(firstIdentity, identity())) { return null; }
+                    !equal(owner, readOwner()) || !equal(firstIdentity, identity()) ||
+                    data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 return {identity: firstIdentity, owner: owner, data: data};
             } catch (e) { return null; }
         }
@@ -134,7 +135,7 @@
                     typeof city.confirmMarchTarget !== 'function' || typeof city.cancelMarch !== 'function') { return null; }
                 var data = typeof baye.ensureData === 'function' ? baye.ensureData() : baye.data;
                 function readOwner() {
-                    if (!data) { return null; }
+                    if (!data || data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                     var value = {};
                     ZERO.concat(TARGET_FIELDS).forEach(function (key) { value[key] = data[key]; });
                     return value;
@@ -168,7 +169,8 @@
                     owner.g_hdMarchSelected !== first.selected) { return null; }
                 var again = city.getMarchTargetTicket();
                 if (signature !== ticketShape(again) || baye.data !== data || baye.hd.ready() !== true || hidden() || !landscape() ||
-                    !equal(owner, readOwner()) || !equal(firstIdentity, identity())) { return null; }
+                    !equal(owner, readOwner()) || !equal(firstIdentity, identity()) ||
+                    data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 return {identity: firstIdentity, owner: owner, data: data, ticket: first, signature: signature};
             } catch (e) { return null; }
         }
@@ -193,7 +195,7 @@
                             ticket.ownerType, ticket.cityIndex, ticket.command, ticket.session, ticket.inputSeq, ticket.mapInputSeq, ticket.targets]) : null;
                 }
                 var signature = shape(first), owner = {};
-                if (!data || !signature || data.g_hdTransferActive !== 1 || data.g_hdTransferPhase !== 6 ||
+                if (!data || data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0 || !signature || data.g_hdTransferActive !== 1 || data.g_hdTransferPhase !== 6 ||
                     data.g_hdTransferProtocolVersion !== 1 || data.g_hdTransferCommand !== first.command ||
                     data.g_hdTransferSession !== first.session || data.g_hdTransferInputSeq !== first.inputSeq ||
                     data.g_hdTransferOrigin !== first.cityIndex || data.g_hdMapInputSeq !== first.mapInputSeq) { return null; }
@@ -203,7 +205,8 @@
                     !MAP_FIELDS.every(function (key) { return integer(owner[key], 0, 0xffffffff); })) { return null; }
                 if (signature !== shape(city.getTransferTargetTicket()) || baye.data !== data ||
                     !equal(id, identity()) || hidden() || !landscape() || baye.hd.ready() !== true ||
-                    !Object.keys(owner).every(function (key) { return data[key] === owner[key]; })) { return null; }
+                    !Object.keys(owner).every(function (key) { return data[key] === owner[key]; }) ||
+                    data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
                 return {identity:id, data:data, ticket:first, signature:signature, owner:owner};
             } catch (e) { return null; }
         }

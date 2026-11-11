@@ -57,6 +57,20 @@ const manifest = {
         record: ['g_hdRecordActive', 'g_hdRecordMode', 'g_hdRecordIndex', 'g_hdRecordCount', 'g_hdRecordSeq'],
         qty: ['g_hdQtyActive', 'g_hdQtySession', 'g_hdQtyInputSeq', 'g_hdQtyLastKey', 'g_hdQtyCursor', 'g_hdQtyStep', 'g_hdQtyReady']
     },
+    hdBattleNoteProtocol: {
+        version: 1,
+        publicApi: 'baye.hd.battleNote()',
+        fields: ['g_hdBattleNoteProtocolVersion','g_hdBattleNoteActive','g_hdBattleNoteSeq','g_hdBattleNoteGeneration','g_hdBattleNoteOutcome','g_hdBattleNoteWinner','g_hdBattleNoteValue','g_hdBattleNoteText'],
+        types: {victory: 1, defeat: 2, attack: 3, confrontation: 4, tacticPrelude: 5, weatherTransition: 6, dayTransition: 7},
+        winner: 'actual zero-based winner only for victory; all other types require unpublished 65535',
+        value: {field: 'g_hdBattleNoteValue', type: 'U16', dto: 'only active types 6 and 7 add value; types 1 through 5 and inactive DTOs retain their existing shape', reset: 'native Value resets to 0 on legacy type 1 through 5 begin and all retirements'},
+        publication: 'actual complete native sentence or typed weather/day after original draw; no extra name, city or person-count reads for types 3 through 7',
+        weatherTransition: 'type 6 observes actual FgtChgWeather value 1 through 5 after all three original picture draws; text is empty; no additional RNG or weather changes',
+        dayTransition: 'type 7 observes actual U16 day 0 through 65535 and the canonical gam_itoa numeral passed to the original day draw; text must equal String(value)',
+        input: 'passive observer; original attack100/keyflag0, confrontation300/configured keyflag, tactic-prelude5/keyflag0 and separate weather/day fifty-tick/keyflag-false waits remain unchanged',
+        tacticPrelude: 'actual ShowTacticNote sentences before ComputerTactic; no percent, retained last item, AI execution or timer extension',
+        retirement: 'local generation and sequence; draw-time world or note owner changes cannot publish stale weather/day; active note, report, help, menu and quantity owners block transitions; stale ends do not retire replacements'
+    },
     hdTransferProtocol: {
         version: 1,
         publicApi: 'baye.hd.transfer()',
@@ -104,6 +118,17 @@ const manifest = {
         help: ['g_hdHelpProtocolVersion', 'g_hdHelpGeneration', 'g_hdHelpInputSeq',
             'g_hdHelpKind', 'g_hdHelpComplete', 'g_hdHelpPerson', 'g_hdHelpSlot', 'g_hdHelpFields'],
         toolAccess: ['bayeHdGetToolCount', 'bayeHdGetToolField', 'bayeHdGetArmType']
+    },
+    hdCityInfoProtocol: {
+        version: 1,
+        publicApi: 'baye.hd.cityInfo()',
+        fields: ['ProtocolVersion','Active','Complete','Custom','Wait','Seq','Session','Generation','InputSeq',
+            'City','PropertyCount','PageStart','PageSize','RowCount','TitleGbk','RowIndices','RowText'].map(name => 'g_hdCityInfo'+name),
+        text: {titleBytes: 64, rows: 32, rowBytes: 128, encoding: 'bounded NUL-terminated raw GBK'},
+        publication: 'actual ShowCityPro title and GetCityProStr draw results; actual native page size and zero-based property indices; no extra getter or hook execution',
+        input: 'independent session/inputSeq; Wait only inside actual GamGetMsg; CHAR and completed TOUCH_UP acknowledge once, including boundary and ignored short swipes',
+        retirement: 'local suspended snapshot ticket retires on end, native reset, world commit or higher native owner; no revival',
+        compatibility: 'original return values, property hook counts, extra final-page blank draw calls and timer restore preserved; unsupported/custom pages retain LCD'
     },
     hdPersonPropertiesProtocol: {
         version: 1,

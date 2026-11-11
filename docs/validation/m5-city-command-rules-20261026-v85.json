@@ -1,0 +1,514 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "batch": "V85",
+  "parentCommit": "4cbef2926eb261090d48461dedbf5d9f4b6772ee",
+  "feature": "Complete city SUB rule references with diplomacy and military menus",
+  "accepted": true,
+  "started": "2026-10-26T11:09:23.700Z",
+  "finished": "2026-10-26T11:09:32.374Z",
+  "processExitCode": 0,
+  "signal": null,
+  "tests": 740,
+  "pass": 740,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "selectedSources": [
+    {
+      "path": ".gitattributes",
+      "bytes": 44305,
+      "sha256": "ddad2d0457be7a3676ace778b94278cd2ca5269d36a9534fcd87639260aae6f8"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 478472,
+      "sha256": "8a417d704033e0089a8700eb10ed231b929354ec01defc922d5ad219a6575df7"
+    },
+    {
+      "path": "js/hd-city-rules.js",
+      "bytes": 10197,
+      "sha256": "835baf558f58b47ce094c2990750718aafcdcd964ab1f119cb3488dc2f4230c9"
+    },
+    {
+      "path": "js/hd-lib-identity.js",
+      "bytes": 5943,
+      "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+    },
+    {
+      "path": "js/hd-mobile-city.js",
+      "bytes": 35411,
+      "sha256": "71d6997840e7c1f5b2b6f09753db868b1acd8c082763c7d32d5c1ecb229cfeb0"
+    },
+    {
+      "path": "css/hd-city-menu.css",
+      "bytes": 15762,
+      "sha256": "54f3de618facd3a5d561e9927f7256a500811f246d2aea4262f2d5d1d95b6f44"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 32713,
+      "sha256": "3e359d7e5a9218e145e039a4911a167f22a1ca8154db32839b87c3ee05b406d0"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "m.html",
+      "bytes": 20333,
+      "sha256": "4058c46b4006990e49e628831a5f3ccf01c27e66a2eb541d6f18296e9b9e6990"
+    },
+    {
+      "path": "pc.html",
+      "bytes": 30351,
+      "sha256": "c52fba42d022cbf66e23d42108dae425c1019574827be1ace1c00f3b6fec2afc"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 163348,
+      "sha256": "46d7873f4a690079bc2ea82c20f1fd607dcad59c9a34d8e333d99ab27526cf4b"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "bytes": 34493,
+      "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873"
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 33782,
+      "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4"
+    },
+    {
+      "path": "vendor/iBaye/src/data/pconst.h",
+      "bytes": 1761,
+      "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+    },
+    {
+      "path": "scripts/test-hd-city-hud.mjs",
+      "bytes": 234208,
+      "sha256": "a34dd23eeba172573f61288a929364c6ee9ab0cbc30803b4f4135e32f4d4dc22"
+    },
+    {
+      "path": "scripts/test-hd-city-mobile-host.mjs",
+      "bytes": 195248,
+      "sha256": "7d2e172ecfc4c3e3d8f65bf107b65e36d867d2e1bc165b08ae17f0bac122e21d"
+    }
+  ],
+  "selectedSourceBytesStable": true,
+  "newDefaultTests": 5,
+  "fullSuiteRun": false,
+  "scope": "HUD and mobile city-host targeted modules; no browser gameplay, C compilation or full-suite run",
+  "actualGameplayAccepted": false,
+  "globalHdComplete": false,
+  "contract": {
+    "scope": "Original-library current CITY/SUB; canonical group names, count and raw mirror; not PERSON-command or affordability inference",
+    "groups": {
+      "neizheng": {
+        "first": 1,
+        "count": 14
+      },
+      "waijiao": {
+        "first": 15,
+        "count": 5
+      },
+      "junbei": {
+        "first": 23,
+        "count": 5
+      }
+    },
+    "newlyCoveredMenuItems": 10,
+    "totalCoveredMenuItems": 24,
+    "alienate": "Check actor T15; nonzero fixAlienateComsumeThew charges actor T15, zero charges enemy target T15; M15",
+    "ordinaryDiplomacy": "T/M at16,17,19",
+    "realienate": "Native CityCommon break and empty RealienateMake; show original not implemented, no table fee",
+    "reconnoitre": "T23/M23",
+    "recruit": "T24, check M24; actual money floor(selected soldiers / armsPerMoney), not fixed M24; divisor valid U8 nonzero",
+    "distribute": "No money/thew consumption",
+    "plunder": "Check and spend CONSCRIPTION T24, no money; T26/M26 not read",
+    "march": "M27 plus selected food; T27 not read",
+    "u8FlagNonzeroSemantics": true,
+    "moneySupportsU16LE": true,
+    "captures": 3,
+    "hookFunctionsInvoked": 0,
+    "worldWrites": 0,
+    "insufficiencyJudgments": false,
+    "inputHandlersChanged": false,
+    "retainedButtonNodesOnStablePoll": true,
+    "invalidSourceWithdrawsOnNormalPoll": true,
+    "css": "height:max-content with min-height64 allows wrapped rule notes"
+  },
+  "finalTargetedTool": "b6109a",
+  "finalTargetedExitCode": 0,
+  "hudOnlyEarlierRun": {
+    "tests": 236,
+    "pass": 236,
+    "tool": "0d0534",
+    "includedInFinalTotal": true
+  },
+  "layout": {
+    "accepted": true,
+    "kind": "Isolated production SUB renderer and rule reader with original LIB and mock native menu/config; no game runtime",
+    "results": [
+      {
+        "name": "pc-waijiao",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "stage": {
+            "x": 110,
+            "y": 77.5,
+            "width": 1044,
+            "height": 470
+          },
+          "list": {
+            "x": 142,
+            "y": 198.5,
+            "width": 980,
+            "height": 212
+          },
+          "back": {
+            "x": 142,
+            "y": 471.5,
+            "width": 68,
+            "height": 44
+          },
+          "listScrollHeight": 212,
+          "listClientHeight": 212,
+          "listOverflowY": "auto",
+          "buttonCount": 5,
+          "ruleCount": 5,
+          "minButtonHeight": 64,
+          "ruleContentContained": true,
+          "firstRule": "规则：己将体力检查 20 · 敌将体力消耗 20 · 金钱 50",
+          "lastRule": "规则：体力 10 · 金钱 50",
+          "horizontalOverflow": false
+        },
+        "screenshot": "build/city-command-rules-20261026-v85/pc-waijiao-layout-v1.png",
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      {
+        "name": "mobile-waijiao",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 651,
+            "height": 280
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 651,
+            "height": 280
+          },
+          "list": {
+            "x": 14,
+            "y": 62,
+            "width": 623,
+            "height": 160
+          },
+          "back": {
+            "x": 14,
+            "y": 230,
+            "width": 80,
+            "height": 44
+          },
+          "listScrollHeight": 204,
+          "listClientHeight": 160,
+          "listOverflowY": "auto",
+          "buttonCount": 5,
+          "ruleCount": 5,
+          "minButtonHeight": 64,
+          "ruleContentContained": true,
+          "firstRule": "规则：己将体力检查 20 · 敌将体力消耗 20 · 金钱 50",
+          "lastRule": "规则：体力 10 · 金钱 50",
+          "horizontalOverflow": false
+        },
+        "screenshot": "build/city-command-rules-20261026-v85/mobile-waijiao-layout-v1.png",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      },
+      {
+        "name": "pc-junbei",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 1264,
+            "height": 625
+          },
+          "stage": {
+            "x": 110,
+            "y": 77.5,
+            "width": 1044,
+            "height": 470
+          },
+          "list": {
+            "x": 142,
+            "y": 198.5,
+            "width": 980,
+            "height": 212
+          },
+          "back": {
+            "x": 142,
+            "y": 471.5,
+            "width": 68,
+            "height": 44
+          },
+          "listScrollHeight": 212,
+          "listClientHeight": 212,
+          "listOverflowY": "auto",
+          "buttonCount": 5,
+          "ruleCount": 5,
+          "minButtonHeight": 64,
+          "ruleContentContained": true,
+          "firstRule": "规则：体力 10 · 金钱 20",
+          "lastRule": "规则：体力 0 · 金钱 0 · 携带粮草另计",
+          "horizontalOverflow": false
+        },
+        "screenshot": "build/city-command-rules-20261026-v85/pc-junbei-layout-v1.png",
+        "screenshotPixels": {
+          "width": 1280,
+          "height": 720
+        }
+      },
+      {
+        "name": "mobile-junbei",
+        "chromeExitCode": 0,
+        "ownedProfileProcessesRemaining": 0,
+        "metrics": {
+          "viewport": {
+            "width": 651,
+            "height": 280
+          },
+          "stage": {
+            "x": 0,
+            "y": 0,
+            "width": 651,
+            "height": 280
+          },
+          "list": {
+            "x": 14,
+            "y": 62,
+            "width": 623,
+            "height": 160
+          },
+          "back": {
+            "x": 14,
+            "y": 230,
+            "width": 80,
+            "height": 44
+          },
+          "listScrollHeight": 214,
+          "listClientHeight": 160,
+          "listOverflowY": "auto",
+          "buttonCount": 5,
+          "ruleCount": 5,
+          "minButtonHeight": 64,
+          "ruleContentContained": true,
+          "firstRule": "规则：体力 10 · 金钱 20",
+          "lastRule": "规则：体力 0 · 金钱 0 · 携带粮草另计",
+          "horizontalOverflow": false
+        },
+        "screenshot": "build/city-command-rules-20261026-v85/mobile-junbei-layout-v1.png",
+        "screenshotPixels": {
+          "width": 667,
+          "height": 375
+        }
+      }
+    ],
+    "browserRuns": 4,
+    "nativeInputs": 0,
+    "actualGameplayAccepted": false,
+    "tool": "d8e330",
+    "exitCode": 0,
+    "visualInspectionAccepted": true,
+    "ruleContentContainedInEveryButton": true,
+    "allOwnedProfilesRemaining": 0,
+    "nativeGameRuntimeLaunched": false
+  },
+  "artifacts": [
+    {
+      "path": "build/city-command-rules-20261026-v85/run-targeted-v1.mjs",
+      "bytes": 2254,
+      "sha256": "5f98d4750d29193af8b5c50a092bb78026e008fc120e6999be83c3f6fa1a10ce"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/targeted-v1.json",
+      "bytes": 3845,
+      "sha256": "96bbce92aa2763885bb8afd9ffee20953ffce1c898f7299f885b793d5c03a12d"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/targeted-v1.stdout.tap",
+      "bytes": 168041,
+      "sha256": "5b0c1ffe6a36bdc13ca11697a7826b31a70b1572d173471cd5ef8f8cd90fea77"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/preview-layout-v1.mjs",
+      "bytes": 7166,
+      "sha256": "ab877b6825689f919526925f543096a51b0ef8aad90bca678e03fad6fe034f79"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/preview-layout-v1.json",
+      "bytes": 4775,
+      "sha256": "a82b5e032bd64db5c6a9c8a7d83b20bab831ce3a0c4678c5f8511c1c11d2e82c"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/sub-renderer-v1.js",
+      "bytes": 1854,
+      "sha256": "3173e73aaa29cdadf7439ae17aa8b8ffd0ac10a81ed05a739d369b3138f9d71f"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/pc-waijiao-layout-v1.html",
+      "bytes": 421134,
+      "sha256": "9fd0c44231e244848e1f9077f304a7e22c54b66fee5af7569356153534b718e8"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/pc-waijiao-layout-v1.dom.html",
+      "bytes": 422659,
+      "sha256": "36699eb2864a07445e523e91bd2029aa7341d0ae71ee22fa711f8ba8eee14284"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/pc-waijiao-layout-v1.png",
+      "bytes": 56417,
+      "sha256": "6427dfd168e1a27805a0860c734a7eea3c4eabf32048a873515ac234ac13a38b"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/pc-waijiao-layout-v1.stderr.log",
+      "bytes": 547,
+      "sha256": "e46bbda64c37ae2e6a5dd01aeaca724c61f7209ca52cf2281063e36afb63381c"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/mobile-waijiao-layout-v1.html",
+      "bytes": 421446,
+      "sha256": "5611511de11fff68e5671d6c1736ce7f1f40e53e7d81bec851a414d91c3d1edf"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/mobile-waijiao-layout-v1.dom.html",
+      "bytes": 422956,
+      "sha256": "8ebc396bc7e640dbbee747931ea83eb9a24215f80e7c96999f79e2511f117031"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/mobile-waijiao-layout-v1.png",
+      "bytes": 33611,
+      "sha256": "7b898a7f731ed46587e8402dabaa5ed593d852225814e10b1519c63cd5ebd183"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/mobile-waijiao-layout-v1.stderr.log",
+      "bytes": 551,
+      "sha256": "48de73c1ba57204494b6f4091dd76d132ed0a7277476e056f9d7cea919e2824f"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/pc-junbei-layout-v1.html",
+      "bytes": 421131,
+      "sha256": "dbc73959d609eda94c0228fe6646fa41ed6fa645158729a71d2cc4a279680604"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/pc-junbei-layout-v1.dom.html",
+      "bytes": 422675,
+      "sha256": "90c18150a32ccf8da78196b89b6b0d5dc11b740a79f2be48f4f83929242757bc"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/pc-junbei-layout-v1.png",
+      "bytes": 56158,
+      "sha256": "74c5ed8cbb34ee2c2c4449bf1f7e2aa4dd1e5393c2b627b86f790315ef766a33"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/pc-junbei-layout-v1.stderr.log",
+      "bytes": 546,
+      "sha256": "0eba10b5aca6e0a90666eeaf3f2ef0b761b5f53544345c5c7df05ceacff5e93c"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/mobile-junbei-layout-v1.html",
+      "bytes": 421443,
+      "sha256": "89ed6518e9d43fc97eace3d6cf3da69e637284ef97a555cae2e5bfb2f8bfe243"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/mobile-junbei-layout-v1.dom.html",
+      "bytes": 422972,
+      "sha256": "7e02e6d72a054ce3f43670a9432e1ca6f84e02a2399f0b4525120516364e44ed"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/mobile-junbei-layout-v1.png",
+      "bytes": 31659,
+      "sha256": "40ed0e49b6e72f377d22bb51d450b9c278a685f410a3cb84b908058be934705c"
+    },
+    {
+      "path": "build/city-command-rules-20261026-v85/mobile-junbei-layout-v1.stderr.log",
+      "bytes": 548,
+      "sha256": "e9be08881a3ac0d4a0fe8fe0b6bf30811ae8af49b59f9fe30af53ec624a76262"
+    }
+  ],
+  "publicScreenshots": [
+    {
+      "path": "docs/validation/m5-city-command-rules-20261026-v85-pc-waijiao.png",
+      "bytes": 56417,
+      "sha256": "6427dfd168e1a27805a0860c734a7eea3c4eabf32048a873515ac234ac13a38b"
+    },
+    {
+      "path": "docs/validation/m5-city-command-rules-20261026-v85-mobile-waijiao.png",
+      "bytes": 33611,
+      "sha256": "7b898a7f731ed46587e8402dabaa5ed593d852225814e10b1519c63cd5ebd183"
+    },
+    {
+      "path": "docs/validation/m5-city-command-rules-20261026-v85-pc-junbei.png",
+      "bytes": 56158,
+      "sha256": "74c5ed8cbb34ee2c2c4449bf1f7e2aa4dd1e5393c2b627b86f790315ef766a33"
+    },
+    {
+      "path": "docs/validation/m5-city-command-rules-20261026-v85-mobile-junbei.png",
+      "bytes": 31659,
+      "sha256": "40ed0e49b6e72f377d22bb51d450b9c278a685f410a3cb84b908058be934705c"
+    }
+  ],
+  "cCompiled": false,
+  "wasmChanged": false,
+  "realDeviceAccepted": false,
+  "performanceAccepted": false,
+  "wholeCampaignAccepted": false,
+  "oldHeldPrivateInterfacesInspected": false,
+  "oldHeldInputs": 0,
+  "oldHeldRestarted": false
+}

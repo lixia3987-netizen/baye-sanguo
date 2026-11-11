@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "0e997203b909479dedd445686c18358270d62432",
-  "engineSourceSha256": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+  "sourceRevision": "0a6e4aaade5f6909a352b888add7710a4398a1d0",
+  "engineSourceSha256": "d13e8eefbbc0d2847133cca7b22ff28f73b994eb87327268dd8fe0b7c18d5a76",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791711430,
+  "sourceDateEpoch": 1793024758,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -82,6 +82,42 @@
       "g_hdQtyStep",
       "g_hdQtyReady"
     ]
+  },
+  "hdBattleNoteProtocol": {
+    "version": 1,
+    "publicApi": "baye.hd.battleNote()",
+    "fields": [
+      "g_hdBattleNoteProtocolVersion",
+      "g_hdBattleNoteActive",
+      "g_hdBattleNoteSeq",
+      "g_hdBattleNoteGeneration",
+      "g_hdBattleNoteOutcome",
+      "g_hdBattleNoteWinner",
+      "g_hdBattleNoteValue",
+      "g_hdBattleNoteText"
+    ],
+    "types": {
+      "victory": 1,
+      "defeat": 2,
+      "attack": 3,
+      "confrontation": 4,
+      "tacticPrelude": 5,
+      "weatherTransition": 6,
+      "dayTransition": 7
+    },
+    "winner": "actual zero-based winner only for victory; all other types require unpublished 65535",
+    "value": {
+      "field": "g_hdBattleNoteValue",
+      "type": "U16",
+      "dto": "only active types 6 and 7 add value; types 1 through 5 and inactive DTOs retain their existing shape",
+      "reset": "native Value resets to 0 on legacy type 1 through 5 begin and all retirements"
+    },
+    "publication": "actual complete native sentence or typed weather/day after original draw; no extra name, city or person-count reads for types 3 through 7",
+    "weatherTransition": "type 6 observes actual FgtChgWeather value 1 through 5 after all three original picture draws; text is empty; no additional RNG or weather changes",
+    "dayTransition": "type 7 observes actual U16 day 0 through 65535 and the canonical gam_itoa numeral passed to the original day draw; text must equal String(value)",
+    "input": "passive observer; original attack100/keyflag0, confrontation300/configured keyflag, tactic-prelude5/keyflag0 and separate weather/day fifty-tick/keyflag-false waits remain unchanged",
+    "tacticPrelude": "actual ShowTacticNote sentences before ComputerTactic; no percent, retained last item, AI execution or timer extension",
+    "retirement": "local generation and sequence; draw-time world or note owner changes cannot publish stale weather/day; active note, report, help, menu and quantity owners block transitions; stale ends do not retire replacements"
   },
   "hdTransferProtocol": {
     "version": 1,
@@ -228,6 +264,39 @@
       "bayeHdGetToolField",
       "bayeHdGetArmType"
     ]
+  },
+  "hdCityInfoProtocol": {
+    "version": 1,
+    "publicApi": "baye.hd.cityInfo()",
+    "fields": [
+      "g_hdCityInfoProtocolVersion",
+      "g_hdCityInfoActive",
+      "g_hdCityInfoComplete",
+      "g_hdCityInfoCustom",
+      "g_hdCityInfoWait",
+      "g_hdCityInfoSeq",
+      "g_hdCityInfoSession",
+      "g_hdCityInfoGeneration",
+      "g_hdCityInfoInputSeq",
+      "g_hdCityInfoCity",
+      "g_hdCityInfoPropertyCount",
+      "g_hdCityInfoPageStart",
+      "g_hdCityInfoPageSize",
+      "g_hdCityInfoRowCount",
+      "g_hdCityInfoTitleGbk",
+      "g_hdCityInfoRowIndices",
+      "g_hdCityInfoRowText"
+    ],
+    "text": {
+      "titleBytes": 64,
+      "rows": 32,
+      "rowBytes": 128,
+      "encoding": "bounded NUL-terminated raw GBK"
+    },
+    "publication": "actual ShowCityPro title and GetCityProStr draw results; actual native page size and zero-based property indices; no extra getter or hook execution",
+    "input": "independent session/inputSeq; Wait only inside actual GamGetMsg; CHAR and completed TOUCH_UP acknowledge once, including boundary and ignored short swipes",
+    "retirement": "local suspended snapshot ticket retires on end, native reset, world commit or higher native owner; no revival",
+    "compatibility": "original return values, property hook counts, extra final-page blank draw calls and timer restore preserved; unsupported/custom pages retain LCD"
   },
   "hdPersonPropertiesProtocol": {
     "version": 1,
@@ -592,16 +661,16 @@
   },
   "artifacts": {
     "baye.js": {
-      "bytes": 193321,
-      "sha256": "86baead056252a5f631445c8c18e6372abf56ac8d9d090c10f2b7f0c5f7caed2"
+      "bytes": 193652,
+      "sha256": "0d54a9d4d89daf397375a22d6d6ddfe10232a9525111e0bf079c0978d3eb727f"
     },
     "baye.wasm": {
-      "bytes": 4561352,
-      "sha256": "08d733567e29716cfc8249a9365aa2f923b6c064e407d3d655cedecb48456de5"
+      "bytes": 4583234,
+      "sha256": "c0c6567ab9545cb7e0ca0163ea3eb2ec05a31d100a607be63a02736b6abe93a3"
     },
     "baye.wasm.map": {
-      "bytes": 29983,
-      "sha256": "ddc5651cee33ea5a550b6522a2321b48e1a3bab3a21bb290f54d07b1e8321646"
+      "bytes": 29995,
+      "sha256": "289926f9605993fa4079dc95d1477a3763b5be679179a45f0b5453159454b084"
     }
   }
 }

@@ -126,6 +126,7 @@ var 		VK_SEARCH	=		0x33;
 // HD overlays and the classic handler share one keyboard event. Native form
 // controls keep their keys, and an overlay that consumes a key owns it fully.
 function bayeInputIgnored(event) {
+    if (window.BayeHdCityInfo && BayeHdCityInfo.isBlockingKeyboard()) { return true; }
     if (!event || event.defaultPrevented || event.returnValue === false ||
         event.isComposing || event.keyCode === 229) {
         return true;

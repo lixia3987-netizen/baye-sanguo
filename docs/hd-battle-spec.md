@@ -18,7 +18,19 @@ HELP 9 和 VIEW 10 保留原生 LCD，置于 HD 战场上方。返回只发送�
 
 专项回归：`npm run test:battle-commands`、`npm run test:battle-mode`、`npm run test:engine-protocol`。真实流程：`npm run test:battle-runtime`。实际通过范围记录在开发计划中。
 
+## 原版战场概况
+
+PC／手机提供显式下一将领入口，仅当前PICK等待且无其它owner／事务时可用。按己方槽0..9从当前焦点之后循环，沿原生active与状态规则，不额外按HP／MP／兵力筛除；同格首槽及原始地图边界保持。选择复用逐方向ACK→唯一ENTER，最终槽／人物替换时取消；原刷新、菜单及回合不自动调用。PC旧按下与手机旧opaque票各自退休。开发范围与真实操作待验边界见[V87记录](validation/m5-next-unit-20261026-v87.md)。
+
+战场系统／设置菜单只读展示原生动画、移动速度和敌军移动的当前值；严格按 0／1 映射，不读取子菜单高亮作已提交值，也不猜同名设置的类型。未读取单项保留未知，来源或当前菜单失效撤摘要；原设置确认与取消继续由引擎处理。开发验证见 [V80记录](validation/m5-battle-settings-20261026-v80.md)。
+
+PC／手机计谋菜单只读展示当前 MP、按精确原技能 ID 对应的规则消耗，并按 MP→施术者地形→天气顺序提示限制。仅原版有效来源和当前菜单采用；零消耗与 MP 相等边界保留。未知条件不作允许判断，目标合法性、效果与实际扣除均由原生引擎决定；提示不改变按钮禁用或确认语义。十项增强菜单可滚动，PC 选中项随原生索引变化滚入可见区；手机保持原滚动与按压合同。来源失效撤提示。开发验证与边界见 [V78记录](validation/m5-skill-hints-20261026-v78.md)。
+
+PC与手机共用只读天气／我方粮草／战斗天数状态条。仅当前原版活动战场及玩家Mode0／1显示；我方粮草来自MProvender，不读取EProvender。天气1..5遵循原C，天数与上限保留原始U16值，零粮不误判为缺失；非法字段标未读取。报告、HELP／VIEW、结束、经典模式与来源漂移撤行。界面只展示当前状态，不判断剩余回合或胜败，不改变原生输入。开发验证与限制见[V77记录](validation/m5-battle-status-20261026-v77.md)。
+
 ## M4 战场识别与目标预览
+
+PC焦点将领改为右侧DOM分行卡，保留原采样中的完整姓名、阵营、兵种、坐标、兵力、HP／MP、状态、本回合行动与地形；未知值保持未知，不推断100上限或可行动性。右栏同时容纳既有菜单与概况，棋盘绘制和鼠标换算共用按侧栏边界预留的几何。空格／死亡／高层报告／HELP／VIEW及表现生命周期撤卡，稳定内容保留节点，不加原生读取或输入。手机已有的DOM详情保持。开发范围见[V86记录](validation/m5-pc-focus-card-20261026-v86.md)。
 
 将领以阵营旗标显示原生有效兵种、姓名和实际兵力，并区分待行动、已行动及当前将领。焦点详情显示原生 HP、MP 和状态，不以固定 100 为属性上限。兵种来自包含装备修正的 `getArmType`；当前导出只接受 U8 人物索引，超过 256 的人物编号或缺少字段时显示通用旗标，避免截断后读到另一人物。
 
@@ -171,3 +183,24 @@ MOVE/AIM 范围轮廓、射程内将领角标、焦点说明和目标连线共�
 真进战斗未在 agent VM 走完（出征选将 / 选目标仍是 M3 LCD 多层对话框）。手动：
 
 HD 地图 → 己方城 → 军备 → 出征 →（LCD）选将 / 目标 → 开打后 `fightOpenMainMenu` / `drawMapUnit` / `drawOneGeneral` 应升 HD 壳；`battleMode=classic` 则不升。
+
+
+## 原生战前公告（V93）
+
+baye.hd.battleNote沿version1保留胜1／败2，追加进攻3／交锋4，后两者winner必须65535，不代表任何已知胜者；UI只呈现该次原生已拼好并绘出的全文。原ShowAttackNote的100tick／flag0与ShowFightNote的300tick／原响应配置保持，被动面板没有按钮或发键，也不改变LCD命中。
+
+绘制前generation与发布序号保护新入口；begin保存自身序号后才同步通知，旧end不会因通知重入拿到替换序号。PC／手机原LIB身份、data／API引用、全文raw、模式与生命周期严格读封口，报告／战场等高owner仍优先。原型与真实流程验收边界见[V93记录](validation/m5-battle-announcements-20261026-v93.md)。
+
+
+## 计算前的策略预告（V94）
+
+ShowTacticNote每条原生文字绘制后以battleNote version1类型5发布，winner65535；原5tick／flag0、队列顺序、原读取／绘制／清图保持，函数世代与局部序号阻旧条目复活。该预告在ComputerTactic之前，不是实际逐君主计算进度，不补END、确认或延长等待。
+
+PC／手机复用只读公告观察器，同步begin／end立即显退；type5透明根与紧凑底条、不隐藏LCD，原1..4全屏行为保持，ARIA为电脑策略预告。状态条无按钮、不拦截输入、不持留最后一条；真实END、短帧及真机边界见[V94记录](validation/m5-tactic-prelude-20261026-v94.md)。
+
+
+## 天气与战斗日数过场（V95）
+
+FgtChgWeather在三次原图片绘制之后发布battleNote version1类型6，Value1..5、空text，依次晴／阴／风／雨／冰雹；FgtDealBout在原数字绘制后发布类型7，Value与规范十进制text一致，完整U16范围0..65535，局部缓冲六字节。两类winner65535，仅新active6/7 DTO扩value，旧型保持。原RNG／禁变天气、回合／粮草顺序、居中与各50tick／false等待不改。
+
+过场通过独立只读controller在PC与手机stage显示，原生begin/end立即显退；世界／seq／owner／数据来源失效回退。高report/menu/help/qty入口仅同步退休6/7。无按钮与输入拦截，LCD仅opacity变化、原输入命中保持，手机竖屏恢复LCD。自然战斗／天变22与真机仍待，轻量证据见[V95记录](validation/m5-battle-transition-20261026-v95.md)。

@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-005-archive-part001.json",
+      "bytes": 6276667,
+      "sha256": "61e70b237ff575e5c8212c177fd75ba419f30c7857d741cad5dd2465cd49bdcd",
+      "blobs": 4
+    },
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-005-archive-part002.json",
+      "bytes": 8363210,
+      "sha256": "c66d1c24bb3a0451d39f9de7b6808a9d95489e76c4ffaa43fa9e36a1b73a5d08",
+      "blobs": 6
+    },
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-005-archive-part003.json",
+      "bytes": 6065111,
+      "sha256": "d3d23104228a67eb0e1f3ad7eff9ffa508cdaa632859186a1a7c6f3c3bd14e8a",
+      "blobs": 4
+    },
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-005-archive-part004.json",
+      "bytes": 5928999,
+      "sha256": "c603fe694b5b2216352598132f9953319fdaa10a1b58f7ab07e76246ca61aa7f",
+      "blobs": 4
+    },
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-data-005-archive-part005.json",
+      "bytes": 5854164,
+      "sha256": "8b2c5fb5e70c1f02b91340bdd74d24827fa530a161de6bd05e2c052f23c40f87",
+      "blobs": 5
+    }
+  ],
+  "files": [
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-city-root.png",
+      "bytes": 2295024,
+      "sha256": "d2ff1f2472ed76a77611a95ea244d858baa490c85cd76aa05c453ac854b0195a",
+      "blob": "d2ff1f2472ed76a77611a95ea244d858baa490c85cd76aa05c453ac854b0195a",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-departure-report.json",
+      "bytes": 58530,
+      "sha256": "3da103688d71325b9a9958def5b6cf99e94e093101fe34b53c7811861f090358",
+      "blob": "3da103688d71325b9a9958def5b6cf99e94e093101fe34b53c7811861f090358",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-departure-report.png",
+      "bytes": 2397219,
+      "sha256": "a99fd282d9bca184a307988c1f58914777d2c9ba9b307c34a62b9a0d2757a0d7",
+      "blob": "a99fd282d9bca184a307988c1f58914777d2c9ba9b307c34a62b9a0d2757a0d7",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-food.json",
+      "bytes": 58466,
+      "sha256": "23e3fd9ee558af0a46d40ed0ed89159df138a86f44656e029f120110c336e7d1",
+      "blob": "23e3fd9ee558af0a46d40ed0ed89159df138a86f44656e029f120110c336e7d1",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-food.png",
+      "bytes": 1646365,
+      "sha256": "0ba3978c7dd66a955f3a1aff98e1071e38bf2a67cda120ed36588b619f00e256",
+      "blob": "0ba3978c7dd66a955f3a1aff98e1071e38bf2a67cda120ed36588b619f00e256",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-order-ack.json",
+      "bytes": 58698,
+      "sha256": "6bb009c0116161aa0cf6cdbc58a21cc6190ff6e12e4916269b43e7cd0a5b3673",
+      "blob": "6bb009c0116161aa0cf6cdbc58a21cc6190ff6e12e4916269b43e7cd0a5b3673",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-order-ack.png",
+      "bytes": 2356371,
+      "sha256": "789686f07f3026ab9479acb4f1a337b1aadc32893b9d140dc7416b4a5366747b",
+      "blob": "789686f07f3026ab9479acb4f1a337b1aadc32893b9d140dc7416b4a5366747b",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-persons.json",
+      "bytes": 70289,
+      "sha256": "3a144028a50397a22011cbb3db036d8997bef4a1200fc1d94f07ad49a3feecd9",
+      "blob": "3a144028a50397a22011cbb3db036d8997bef4a1200fc1d94f07ad49a3feecd9",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-persons.png",
+      "bytes": 2242924,
+      "sha256": "bf7af063f62cce85b3a24b7af11e2cd84175ca282169455c2d689dfed68b4d80",
+      "blob": "bf7af063f62cce85b3a24b7af11e2cd84175ca282169455c2d689dfed68b4d80",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-select-0-ack.json",
+      "bytes": 68826,
+      "sha256": "d0266e525506146fea802afb03826f040a2cc7126f832ec69f5e6cd412533bb7",
+      "blob": "d0266e525506146fea802afb03826f040a2cc7126f832ec69f5e6cd412533bb7",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-select-0-ack.png",
+      "bytes": 2243932,
+      "sha256": "6e61bad21954f7f03dbe8375064d4ab90b1643ab2b4117acaf388cec02944e9d",
+      "blob": "6e61bad21954f7f03dbe8375064d4ab90b1643ab2b4117acaf388cec02944e9d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-select-0-ready.json",
+      "bytes": 70289,
+      "sha256": "c0e17f75622c643236637b9b8c31ccfe1d3ffabb1c52457c9fb7b65c01cb3bf4",
+      "blob": "c0e17f75622c643236637b9b8c31ccfe1d3ffabb1c52457c9fb7b65c01cb3bf4",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-select-0-ready.png",
+      "bytes": 2285866,
+      "sha256": "b4b1b38cc3e97a6f50d2bfb058b875643662f0a7214079a162a5be116c68296a",
+      "blob": "b4b1b38cc3e97a6f50d2bfb058b875643662f0a7214079a162a5be116c68296a",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-select-1-ack.json",
+      "bytes": 68566,
+      "sha256": "41c7ac361f6f23e3c205ab8c1a6d6f72cc25d25fe7a5ebfd7d4b4f7602881b08",
+      "blob": "41c7ac361f6f23e3c205ab8c1a6d6f72cc25d25fe7a5ebfd7d4b4f7602881b08",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-select-1-ack.png",
+      "bytes": 2243501,
+      "sha256": "62c939169fece305f84f2e35ccb216a7ebf18e23c34a0ae2065474c0ba5a5997",
+      "blob": "62c939169fece305f84f2e35ccb216a7ebf18e23c34a0ae2065474c0ba5a5997",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-select-1-ready.json",
+      "bytes": 68826,
+      "sha256": "7d7ceec1921e8fd470ee151ee29f9f8eb7462ede55a4f42eb9b432323a19a1e2",
+      "blob": "7d7ceec1921e8fd470ee151ee29f9f8eb7462ede55a4f42eb9b432323a19a1e2",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-select-1-ready.png",
+      "bytes": 2184874,
+      "sha256": "05cc89de95353845846c2db331a1eded334b05bb2333d1c9b0fc1a94f75a522e",
+      "blob": "05cc89de95353845846c2db331a1eded334b05bb2333d1c9b0fc1a94f75a522e",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-select-2-ack.json",
+      "bytes": 68294,
+      "sha256": "09d62fe1d3567518b321ce9042cdb387e331bbaa49defff22377d9a41f30581d",
+      "blob": "09d62fe1d3567518b321ce9042cdb387e331bbaa49defff22377d9a41f30581d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-select-2-ack.png",
+      "bytes": 2187427,
+      "sha256": "a0414e8233af71c9172f11b78f09600fc4ae6e43279bd9030e3a8cb51e5d4d8b",
+      "blob": "a0414e8233af71c9172f11b78f09600fc4ae6e43279bd9030e3a8cb51e5d4d8b",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-select-2-ready.json",
+      "bytes": 68566,
+      "sha256": "b822198408728ae6785dca6f27e460cb5c618b7b54b4c08d639d32a341b0382d",
+      "blob": "b822198408728ae6785dca6f27e460cb5c618b7b54b4c08d639d32a341b0382d",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/march-1-select-2-ready.png",
+      "bytes": 2184460,
+      "sha256": "99d393d09de03145907447cda2fcbb8bf9e284eb1e415e9cd1ca9961492bfefd",
+      "blob": "99d393d09de03145907447cda2fcbb8bf9e284eb1e415e9cd1ca9961492bfefd",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/owned-process-samples.jsonl",
+      "bytes": 41238,
+      "sha256": "cf6b83b0eaf2c758d671d0e3d01a906aaf646612981d049f00411980be29fffc",
+      "blob": "cf6b83b0eaf2c758d671d0e3d01a906aaf646612981d049f00411980be29fffc",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    },
+    {
+      "path": "build/captive-person-20261026-v73/pc1080-after-v1/progress-native-report-1.json",
+      "bytes": 58134,
+      "sha256": "9030da37664e1ec32dead44a7c5ba22acc569dc16039ca48c74477ba02e1eb4b",
+      "blob": "9030da37664e1ec32dead44a7c5ba22acc569dc16039ca48c74477ba02e1eb4b",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    }
+  ],
+  "logicalFiles": 23,
+  "uniqueBlobs": 23,
+  "rawNamedBytes": 25026685,
+  "uniqueRawBytes": 25026685,
+  "uniqueGzipBytes": 24361825,
+  "serializedPartBytes": 32488151,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

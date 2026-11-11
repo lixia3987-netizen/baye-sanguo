@@ -86,6 +86,32 @@
 #define BAYE_HD_VIEW_ROWS 10
 #define BAYE_HD_VIEW_POINTS 20
 #define BAYE_HD_VIEW_TEXT 64
+#define BAYE_HD_CITY_INFO_VERSION 1
+#define BAYE_HD_CITY_INFO_ROWS 32
+#define BAYE_HD_CITY_INFO_TEXT 128
+
+/* Local tickets survive asynchronous hooks, but never revive a retired page. */
+typedef struct {
+    U32 generation, session, retirement;
+    U8 complete, custom, city, propertyCount, pageStart, pageSize, rowCount;
+    U8 title[64], rowIndices[32], rowText[32 * 128];
+} HdCityInfoSnapshot;
+
+extern U8 g_hdCityInfoProtocolVersion, g_hdCityInfoActive, g_hdCityInfoComplete;
+extern U8 g_hdCityInfoCustom, g_hdCityInfoWait;
+extern U32 g_hdCityInfoSeq, g_hdCityInfoSession, g_hdCityInfoGeneration, g_hdCityInfoInputSeq;
+extern U8 g_hdCityInfoCity, g_hdCityInfoPropertyCount, g_hdCityInfoPageStart;
+extern U8 g_hdCityInfoPageSize, g_hdCityInfoRowCount;
+extern U8 g_hdCityInfoTitleGbk[64], g_hdCityInfoRowIndices[32], g_hdCityInfoRowText[32 * 128];
+void baye_hd_city_info_begin(HdCityInfoSnapshot* snapshot, U8 city);
+void baye_hd_city_info_page(HdCityInfoSnapshot* snapshot, U8 city, U8 count, U8 start, U16 size);
+void baye_hd_city_info_title(HdCityInfoSnapshot* snapshot, const U8* text, U32 capacity);
+void baye_hd_city_info_row(HdCityInfoSnapshot* snapshot, U16 index, const U8* text, U32 capacity);
+void baye_hd_city_info_publish(const HdCityInfoSnapshot* snapshot);
+void baye_hd_city_info_wait(const HdCityInfoSnapshot* snapshot, U8 wait);
+void baye_hd_city_info_ack(const HdCityInfoSnapshot* snapshot);
+void baye_hd_city_info_end(const HdCityInfoSnapshot* snapshot);
+void baye_hd_city_info_retire(void);
 
 /* A page belongs to the native wait that actually drew it. Retirement changes
  * after a report/reset, so a suspended older draw cannot restore stale data. */
@@ -128,10 +154,11 @@ void baye_hd_successor_committed(U32 generation, U16 oldKing, U16 newKing);
 /* Completed settlement, before the caller retires its real order. */
 void baye_hd_battle_settled(U32 generation, U8 city, U8 mode, U8 over);
 extern U8 g_hdBattleNoteProtocolVersion, g_hdBattleNoteActive, g_hdBattleNoteOutcome;
-extern U16 g_hdBattleNoteWinner;
+extern U16 g_hdBattleNoteWinner, g_hdBattleNoteValue;
 extern U32 g_hdBattleNoteSeq, g_hdBattleNoteGeneration;
 extern U8 g_hdBattleNoteText[BAYE_HD_BATTLE_NOTE_TEXT_MAX];
 U32 baye_hd_battle_note_begin(U8 outcome, U16 winner, const U8* text);
+U32 baye_hd_battle_stage_begin(U32 generation, U8 kind, U16 value, const U8* text);
 void baye_hd_battle_note_end(U32 generation, U32 seq);
 void baye_hd_battle_note_retire(void);
 void baye_hd_goods_begin(U32 generation, U32 seq, U16 index, U16 tool, U16 properties, U16 pageStart, U8 custom);

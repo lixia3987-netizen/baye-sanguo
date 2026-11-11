@@ -77,7 +77,8 @@ const readSource = `(() => {
   return {at:performance.now(),viewport:[innerWidth,innerHeight],identity:BayeHdLibIdentity.read(),hud:BayeHdMobile.refresh(),adapter:window.BayeHdMobileMap&&BayeHdMobileMap.refresh(),expected,
     map:map&&map.debugSnapshot(),camera:map&&{...map.getCamera()},menu,march,report:baye.hd.report(),mapCity:city,
     cursor:{x:Number(d.g_CityPos.setx),y:Number(d.g_CityPos.sety)},lcd:{shown:shown(lcd),hit:hit(lcd),rect:rect(lcd),rotation:lcdRotateMode,width:lcdWidth,height:lcdHeight},
-    canvas:{shown:shown(canvas),rect:rect(canvas),width:canvas&&canvas.width,height:canvas&&canvas.height},stage:rect(stage),barHeight:bar?bar.getBoundingClientRect().height:0,
+    canvas:{shown:shown(canvas),rect:rect(canvas),width:canvas&&canvas.width,height:canvas&&canvas.height},
+    ruler:rect(document.getElementById('hd-mobile-map-ruler')),stage:rect(stage),barHeight:bar?bar.getBoundingClientRect().height:0,
     mobilePreference:localStorage.getItem('${MOBILE_PREF}'),pcPreference:localStorage.getItem('${PC_PREF}'),
     keyCount:__mobileMapKeys.length,touchCount:__mobileMapNativeTouches.length,eventCount:__mobileMapEvents.length};
 })()`;
@@ -164,7 +165,12 @@ export async function main(args=process.argv.slice(2)) {
     assert.equal(s.map.mode,'hd-map');assert.equal(s.map.presentationReady,true);assert.equal(s.canvas.shown,true);assert.equal(s.lcd.shown,false);
     assert.equal(s.adapter.active,true);assert.equal(s.map.mobile,true);
     assert.ok(s.canvas.width>0&&s.canvas.height>0,'Actual HD backing canvas exists');
-    for(const k of ['left','top','right','bottom'])assert.ok(Math.abs(s.canvas.rect[k]-s.stage[k])<=1,'Map fills mobile stage '+k);};
+    const left=s.ruler?.width>0?s.ruler.right:s.stage.left;
+    if(s.ruler?.width>0){
+      for(const k of ['left','top','bottom'])assert.ok(Math.abs(s.ruler[k]-s.stage[k])<=1,'Ruler panel meets stage '+k);
+    }
+    assert.ok(Math.abs(s.canvas.rect.left-left)<=1,'Map begins beside the ruler panel');
+    for(const k of ['top','right','bottom'])assert.ok(Math.abs(s.canvas.rect[k]-s.stage[k])<=1,'Map meets mobile stage '+k);};
   const assertLcd=s=>{assert.equal(s.lcd.shown,true,'Native LCD restored');assert.equal(s.canvas.shown,false,'HD map cannot cover native LCD');
     const r=s.lcd.rect,t=s.stage;assert.ok(r.width>0&&r.height>0&&r.left>=t.left-.1&&r.top>=t.top-.1&&r.right<=t.right+.1&&r.bottom<=t.bottom+.1,'Native LCD remains inside stage');
     assert.ok(Math.abs((s.lcd.rotation===0?r.width/r.height:r.height/r.width)-s.lcd.width/s.lcd.height)<.003,'Native LCD aspect ratio');};

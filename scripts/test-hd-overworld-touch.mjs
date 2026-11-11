@@ -219,6 +219,21 @@ test('changing CSS dimensions or design dimensions after DOWN cannot confirm', (
     }
 });
 
+test('internal HUD reflow retires pointer geometry while keeping native map alignment', () => {
+    const h = harness();
+    h.fire('pointerdown');
+    h.state.aligning = true;
+    const token = h.state.alignToken;
+    h.rect.height += 30;
+    h.api.sync();
+    assert.equal(h.state.aligning, true);
+    assert.equal(h.state.alignToken, token);
+    h.fire('pointerup');
+    assert.deepEqual(h.actions, []);
+    h.lifecycle('resize');
+    assert.equal(h.state.aligning, false);
+});
+
 test('leaving the rectangle or covering the canvas before UP cancels the tap', () => {
     for (const change of ['outside', 'covered']) {
         const h = harness(); h.fire('pointerdown');

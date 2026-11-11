@@ -1,0 +1,2607 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-28",
+  "batch": "V103",
+  "scope": "Original Sun Shangxiang, Lady Zhurong and later common-person HD assets; lightweight checks; old battle untouched",
+  "baselineHead": "29576c2a8f833232e9dbdc4700f0fd19a15dd19d",
+  "summary": {
+    "newImages": 10,
+    "newMappings": 19,
+    "aliases": 9,
+    "totalMappings": 205,
+    "distinctImages": 111,
+    "distinctNames": 79,
+    "periodCounts": [
+      62,
+      54,
+      53,
+      36
+    ],
+    "remainingNonemptyPeriodSlots": 531,
+    "selectableRulerSlotsCovered": 50
+  },
+  "generation": {
+    "path": "assets/hd-portraits/GENERATED-LATE-CHARACTERS-20261028.json",
+    "bytes": 77891,
+    "sha256": "6bbb098da3e6ad01faa4ea73f6c74da4b2e5877dda5790c02e8a8b686c2c5a01",
+    "tool": "built-in image_gen",
+    "calls": 14,
+    "rejected": 4,
+    "postProcessing": false
+  },
+  "mappingReview": {
+    "accepted": true,
+    "verifiedAt": "2026-10-28T07:52:46.834Z",
+    "readOnly": true,
+    "baselineCommit": "29576c2a8f833232e9dbdc4700f0fd19a15dd19d",
+    "oldMappingsPreserved": 186,
+    "oldHdFilesPreserved": 101,
+    "oldFilesPinned": 287,
+    "manifestMappings": 205,
+    "distinctHdFiles": 111,
+    "distinctNames": 79,
+    "periodCounts": [
+      62,
+      54,
+      53,
+      36
+    ],
+    "canonicalNewImages": 10,
+    "aliasNewMappings": 9,
+    "newPeriodSlots": 19,
+    "allSameReferenceAliasesCheckedWithFullBytes": true,
+    "separatePeriodReferences": [],
+    "crossNameEqualReferences": [],
+    "crossNameSharingForbidden": true,
+    "remainingUnmappedNonemptyPeriodSlots": 531,
+    "selectableRulerSlots": 50,
+    "nativeSourcesUnchanged": 128,
+    "runtimeArtifactsUnchanged": 4,
+    "controllersUnchanged": 3,
+    "engineSourceSha256": "d13e8eefbbc0d2847133cca7b22ff28f73b994eb87327268dd8fe0b7c18d5a76",
+    "groups": [
+      {
+        "name": "孙尚香",
+        "canonical": "3:115",
+        "hd": "hd/period-3/115-孙尚香.png",
+        "slots": [
+          {
+            "period": 3,
+            "personId": 115,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-3/115-孙尚香.png",
+              "bytes": 426,
+              "sha256": "7bca825331c773bb85a16bea63dcd67f33699be138e4fd40133b63cb5af030ef"
+            },
+            "canonical": true
+          }
+        ]
+      },
+      {
+        "name": "祝融夫人",
+        "canonical": "4:143",
+        "hd": "hd/period-4/143-祝融夫人.png",
+        "slots": [
+          {
+            "period": 4,
+            "personId": 143,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-4/143-祝融夫人.png",
+              "bytes": 437,
+              "sha256": "b49966cd75cbfadb18eedae26687b7a8d1929a01bfeb0ada2f7ee83c8a6161a5"
+            },
+            "canonical": true
+          }
+        ]
+      },
+      {
+        "name": "邓艾",
+        "canonical": "3:167",
+        "hd": "hd/period-3/167-邓艾.png",
+        "slots": [
+          {
+            "period": 3,
+            "personId": 167,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-3/167-邓艾.png",
+              "bytes": 471,
+              "sha256": "e3adc4279cb4882412feaa5a9416ac8a8403aa69080bd288a80fb442e438ef75"
+            },
+            "canonical": true
+          },
+          {
+            "period": 4,
+            "personId": 150,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-4/150-邓艾.png",
+              "bytes": 471,
+              "sha256": "e3adc4279cb4882412feaa5a9416ac8a8403aa69080bd288a80fb442e438ef75"
+            },
+            "canonical": false
+          }
+        ]
+      },
+      {
+        "name": "钟会",
+        "canonical": "3:168",
+        "hd": "hd/period-3/168-钟会.png",
+        "slots": [
+          {
+            "period": 3,
+            "personId": 168,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-3/168-钟会.png",
+              "bytes": 452,
+              "sha256": "19f275001198494ea8bed58e11c39953a66768bd0b881b0f74be2a5271a2aa11"
+            },
+            "canonical": true
+          },
+          {
+            "period": 4,
+            "personId": 151,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-4/151-钟会.png",
+              "bytes": 452,
+              "sha256": "19f275001198494ea8bed58e11c39953a66768bd0b881b0f74be2a5271a2aa11"
+            },
+            "canonical": false
+          }
+        ]
+      },
+      {
+        "name": "陆抗",
+        "canonical": "3:174",
+        "hd": "hd/period-3/174-陆抗.png",
+        "slots": [
+          {
+            "period": 3,
+            "personId": 174,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-3/174-陆抗.png",
+              "bytes": 424,
+              "sha256": "896ee304e398650e8652ac1861e40308397c5582daf5b9161fab78520d3a5e5c"
+            },
+            "canonical": true
+          },
+          {
+            "period": 4,
+            "personId": 135,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-4/135-陆抗.png",
+              "bytes": 424,
+              "sha256": "896ee304e398650e8652ac1861e40308397c5582daf5b9161fab78520d3a5e5c"
+            },
+            "canonical": false
+          }
+        ]
+      },
+      {
+        "name": "羊祜",
+        "canonical": "4:154",
+        "hd": "hd/period-4/154-羊祜.png",
+        "slots": [
+          {
+            "period": 4,
+            "personId": 154,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-4/154-羊祜.png",
+              "bytes": 402,
+              "sha256": "0490d61a4c17269ca014f4ecc69c1a0472a47ebe5941331b59411a6a732e6412"
+            },
+            "canonical": true
+          }
+        ]
+      },
+      {
+        "name": "王平",
+        "canonical": "1:168",
+        "hd": "hd/period-1/168-王平.png",
+        "slots": [
+          {
+            "period": 1,
+            "personId": 168,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-1/168-王平.png",
+              "bytes": 513,
+              "sha256": "005c65de541c3583521fd31f0b604914e177d5bec552f7ff9743b4b99f8714a5"
+            },
+            "canonical": true
+          },
+          {
+            "period": 4,
+            "personId": 71,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-4/71-王平.png",
+              "bytes": 513,
+              "sha256": "005c65de541c3583521fd31f0b604914e177d5bec552f7ff9743b4b99f8714a5"
+            },
+            "canonical": false
+          }
+        ]
+      },
+      {
+        "name": "马岱",
+        "canonical": "2:100",
+        "hd": "hd/period-2/100-马岱.png",
+        "slots": [
+          {
+            "period": 2,
+            "personId": 100,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-2/100-马岱.png",
+              "bytes": 449,
+              "sha256": "0c12f9ecc0b2b02f3b79c8940739a1ca70bc83ba9344f58a810ae9cad0d89022"
+            },
+            "canonical": true
+          },
+          {
+            "period": 3,
+            "personId": 125,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-3/125-马岱.png",
+              "bytes": 449,
+              "sha256": "0c12f9ecc0b2b02f3b79c8940739a1ca70bc83ba9344f58a810ae9cad0d89022"
+            },
+            "canonical": false
+          },
+          {
+            "period": 4,
+            "personId": 76,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-4/76-马岱.png",
+              "bytes": 449,
+              "sha256": "0c12f9ecc0b2b02f3b79c8940739a1ca70bc83ba9344f58a810ae9cad0d89022"
+            },
+            "canonical": false
+          }
+        ]
+      },
+      {
+        "name": "法正",
+        "canonical": "1:139",
+        "hd": "hd/period-1/139-法正.png",
+        "slots": [
+          {
+            "period": 1,
+            "personId": 139,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-1/139-法正.png",
+              "bytes": 485,
+              "sha256": "d868dd071d47caaf165f5ceeb91620ec3aa76558d9e23b31a1f4f41d1c13a704"
+            },
+            "canonical": true
+          },
+          {
+            "period": 2,
+            "personId": 134,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-2/134-法正.png",
+              "bytes": 485,
+              "sha256": "d868dd071d47caaf165f5ceeb91620ec3aa76558d9e23b31a1f4f41d1c13a704"
+            },
+            "canonical": false
+          },
+          {
+            "period": 3,
+            "personId": 151,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-3/151-法正.png",
+              "bytes": 485,
+              "sha256": "d868dd071d47caaf165f5ceeb91620ec3aa76558d9e23b31a1f4f41d1c13a704"
+            },
+            "canonical": false
+          }
+        ]
+      },
+      {
+        "name": "陈宫",
+        "canonical": "1:86",
+        "hd": "hd/period-1/86-陈宫.png",
+        "slots": [
+          {
+            "period": 1,
+            "personId": 86,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-1/86-陈宫.png",
+              "bytes": 437,
+              "sha256": "fa952b617f01b8e285c9a7fc4fd590894bdbc4cd4e0c5a68a7987e8ae7723707"
+            },
+            "canonical": true
+          },
+          {
+            "period": 2,
+            "personId": 92,
+            "ref": {
+              "path": "assets/hd-portraits/refs/period-2/92-陈宫.png",
+              "bytes": 437,
+              "sha256": "fa952b617f01b8e285c9a7fc4fd590894bdbc4cd4e0c5a68a7987e8ae7723707"
+            },
+            "canonical": false
+          }
+        ]
+      }
+    ],
+    "assetPins": [
+      {
+        "path": "assets/hd-portraits/hd/period-3/115-孙尚香.png",
+        "bytes": 2271292,
+        "sha256": "851761cefad05d08c20973c7ccb4b42c1036c1a8ca137d7887f15fbcc439a7c0",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/143-祝融夫人.png",
+        "bytes": 2201295,
+        "sha256": "89b7c5f9de7613a78eac6a4376ad5c4d6b6f7156949c67cb2f7d6fbd7158b2f7",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/167-邓艾.png",
+        "bytes": 2193549,
+        "sha256": "f40d84b5021a6618981300e937a40e8d21b1449853aa7b606fbe567b6dd680d6",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/168-钟会.png",
+        "bytes": 2215491,
+        "sha256": "89379064ee0ebb1f56b8312e3de7eb03a5455dba6bc8f6e109201761ba84ae76",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/174-陆抗.png",
+        "bytes": 2162123,
+        "sha256": "565cb337065973733d6252ea4601f0fe556bf7f446b5b700c168ba6ab4e84e22",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/154-羊祜.png",
+        "bytes": 2160815,
+        "sha256": "fa50e3921125419b08f097aa8d76b05c669f91485374f0b2108922bdb926d878",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/168-王平.png",
+        "bytes": 2195567,
+        "sha256": "378d457daf46fb303d8fd11e515f40050d265facd65a45fbabfb9dfc369dd333",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/100-马岱.png",
+        "bytes": 2221815,
+        "sha256": "7536f2a5fc9656c72873260900ce0e83b43098e430dbb9f108dfef2c85754fe7",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/139-法正.png",
+        "bytes": 2200416,
+        "sha256": "41fc6c7dda764dc6ce2a130d9562d927324abd90b72ac39133607ec3fd1ac80b",
+        "width": 1672,
+        "height": 941
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/86-陈宫.png",
+        "bytes": 2079683,
+        "sha256": "a09a475678db0c26481f4de59de17c3ffb100a8ca5a508a39932ccdcc55e2999",
+        "width": 1672,
+        "height": 941
+      }
+    ],
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "fullSuiteRun": false,
+    "oldHeldPrivateInterfacesInspected": false,
+    "oldHeldInputs": 0,
+    "globalHdComplete": false
+  },
+  "artReview": {
+    "schemaVersion": 1,
+    "accepted": true,
+    "reviewedAt": "2026-10-28T07:55:19.522Z",
+    "readOnly": true,
+    "batch": "V103",
+    "baselineHead": "29576c2a8f833232e9dbdc4700f0fd19a15dd19d",
+    "mappingReviewAccepted": true,
+    "inspectionMethod": "Each actual installed final PNG and its actual native reference was opened individually with tools.view_image; two existing installed portraits were also opened for series comparison.",
+    "directFinalImagesViewed": 10,
+    "directNativeReferencesViewed": 10,
+    "existingStyleSamplesViewed": 2,
+    "rows": [
+      {
+        "name": "孙尚香",
+        "period": 3,
+        "personId": 115,
+        "accepted": true,
+        "actualAssetPin": {
+          "path": "assets/hd-portraits/hd/period-3/115-孙尚香.png",
+          "bytes": 2271292,
+          "sha256": "851761cefad05d08c20973c7ccb4b42c1036c1a8ca137d7887f15fbcc439a7c0",
+          "width": 1672,
+          "height": 941
+        },
+        "actualNativeReferencePin": {
+          "path": "assets/hd-portraits/refs/period-3/115-孙尚香.png",
+          "bytes": 426,
+          "sha256": "7bca825331c773bb85a16bea63dcd67f33699be138e4fd40133b63cb5af030ef"
+        },
+        "directFinalImageViewed": true,
+        "directNativeReferenceViewed": true,
+        "viewer": "tools.view_image",
+        "checks": {
+          "oneAdultPerson": true,
+          "adultWoman": true,
+          "fullMainHeadwearAndHairVisible": true,
+          "facialHairAndNeckAnatomyAcceptable": true,
+          "noReadableTextObserved": true,
+          "noWatermarkOrSignatureObserved": true,
+          "noNativeInsetOrCollageObserved": true,
+          "seriesStyleConsistent": true,
+          "recognizablyDistinctWithinBatch": true
+        },
+        "observations": {
+          "visualIdentity": "成年女性，细长椭圆脸，向画面右侧的目光，红色束发与深红披肩、深色护甲。",
+          "framing": "高束发和金色发饰完整可见，主发冠靠近上缘但未见明确截断，双肩和颈部连接自然。",
+          "nativeReference": "原生小图的偏转面向、细长脸型及深色头发作为可见外形线索；成品细节为HD重绘。"
+        }
+      },
+      {
+        "name": "祝融夫人",
+        "period": 4,
+        "personId": 143,
+        "accepted": true,
+        "actualAssetPin": {
+          "path": "assets/hd-portraits/hd/period-4/143-祝融夫人.png",
+          "bytes": 2201295,
+          "sha256": "89b7c5f9de7613a78eac6a4376ad5c4d6b6f7156949c67cb2f7d6fbd7158b2f7",
+          "width": 1672,
+          "height": 941
+        },
+        "actualNativeReferencePin": {
+          "path": "assets/hd-portraits/refs/period-4/143-祝融夫人.png",
+          "bytes": 437,
+          "sha256": "b49966cd75cbfadb18eedae26687b7a8d1929a01bfeb0ada2f7ee83c8a6161a5"
+        },
+        "directFinalImageViewed": true,
+        "directNativeReferenceViewed": true,
+        "viewer": "tools.view_image",
+        "checks": {
+          "oneAdultPerson": true,
+          "adultWoman": true,
+          "fullMainHeadwearAndHairVisible": true,
+          "facialHairAndNeckAnatomyAcceptable": true,
+          "noReadableTextObserved": true,
+          "noWatermarkOrSignatureObserved": true,
+          "noNativeInsetOrCollageObserved": true,
+          "seriesStyleConsistent": true,
+          "recognizablyDistinctWithinBatch": true
+        },
+        "observations": {
+          "visualIdentity": "成年女性，较宽脸型，坚定眉眼，棕白羽饰、毛皮肩部与土红织物形成独立轮廓。",
+          "framing": "修正版羽毛最高端、头环与外侧发束全部位于画内，头顶有连续背景。",
+          "nativeReference": "原生小图的成年女性外形、眉眼和头发轮廓作为可见外形线索。"
+        }
+      },
+      {
+        "name": "邓艾",
+        "period": 3,
+        "personId": 167,
+        "accepted": true,
+        "actualAssetPin": {
+          "path": "assets/hd-portraits/hd/period-3/167-邓艾.png",
+          "bytes": 2193549,
+          "sha256": "f40d84b5021a6618981300e937a40e8d21b1449853aa7b606fbe567b6dd680d6",
+          "width": 1672,
+          "height": 941
+        },
+        "actualNativeReferencePin": {
+          "path": "assets/hd-portraits/refs/period-3/167-邓艾.png",
+          "bytes": 471,
+          "sha256": "e3adc4279cb4882412feaa5a9416ac8a8403aa69080bd288a80fb442e438ef75"
+        },
+        "directFinalImageViewed": true,
+        "directNativeReferenceViewed": true,
+        "viewer": "tools.view_image",
+        "checks": {
+          "oneAdultPerson": true,
+          "adultWoman": false,
+          "fullMainHeadwearAndHairVisible": true,
+          "facialHairAndNeckAnatomyAcceptable": true,
+          "noReadableTextObserved": true,
+          "noWatermarkOrSignatureObserved": true,
+          "noNativeInsetOrCollageObserved": true,
+          "seriesStyleConsistent": true,
+          "recognizablyDistinctWithinBatch": true
+        },
+        "observations": {
+          "visualIdentity": "成熟男性，浓眉、短胡须，深色圆盔配橄榄色长缨，沉稳的宽脸与橄榄色披布。",
+          "framing": "修正版盔顶、盔缨和缨尾完整位于画内，胡须和双肩无明显切断。",
+          "nativeReference": "原生小图的盔帽、粗眉与口周胡须作为可见外形线索。"
+        }
+      },
+      {
+        "name": "钟会",
+        "period": 3,
+        "personId": 168,
+        "accepted": true,
+        "actualAssetPin": {
+          "path": "assets/hd-portraits/hd/period-3/168-钟会.png",
+          "bytes": 2215491,
+          "sha256": "89379064ee0ebb1f56b8312e3de7eb03a5455dba6bc8f6e109201761ba84ae76",
+          "width": 1672,
+          "height": 941
+        },
+        "actualNativeReferencePin": {
+          "path": "assets/hd-portraits/refs/period-3/168-钟会.png",
+          "bytes": 452,
+          "sha256": "19f275001198494ea8bed58e11c39953a66768bd0b881b0f74be2a5271a2aa11"
+        },
+        "directFinalImageViewed": true,
+        "directNativeReferenceViewed": true,
+        "viewer": "tools.view_image",
+        "checks": {
+          "oneAdultPerson": true,
+          "adultWoman": false,
+          "fullMainHeadwearAndHairVisible": true,
+          "facialHairAndNeckAnatomyAcceptable": true,
+          "noReadableTextObserved": true,
+          "noWatermarkOrSignatureObserved": true,
+          "noNativeInsetOrCollageObserved": true,
+          "seriesStyleConsistent": true,
+          "recognizablyDistinctWithinBatch": true
+        },
+        "observations": {
+          "visualIdentity": "成年男性，无须的窄长脸，深色高冠，蓝灰色叠领及轻甲。",
+          "framing": "高冠顶与横簪两端完整可见，头发、颈部及肩部自然。",
+          "nativeReference": "原生小图的无须面孔、帽形及眉眼为可见外形线索。"
+        }
+      },
+      {
+        "name": "陆抗",
+        "period": 3,
+        "personId": 174,
+        "accepted": true,
+        "actualAssetPin": {
+          "path": "assets/hd-portraits/hd/period-3/174-陆抗.png",
+          "bytes": 2162123,
+          "sha256": "565cb337065973733d6252ea4601f0fe556bf7f446b5b700c168ba6ab4e84e22",
+          "width": 1672,
+          "height": 941
+        },
+        "actualNativeReferencePin": {
+          "path": "assets/hd-portraits/refs/period-3/174-陆抗.png",
+          "bytes": 424,
+          "sha256": "896ee304e398650e8652ac1861e40308397c5582daf5b9161fab78520d3a5e5c"
+        },
+        "directFinalImageViewed": true,
+        "directNativeReferenceViewed": true,
+        "viewer": "tools.view_image",
+        "checks": {
+          "oneAdultPerson": true,
+          "adultWoman": false,
+          "fullMainHeadwearAndHairVisible": true,
+          "facialHairAndNeckAnatomyAcceptable": true,
+          "noReadableTextObserved": true,
+          "noWatermarkOrSignatureObserved": true,
+          "noNativeInsetOrCollageObserved": true,
+          "seriesStyleConsistent": true,
+          "recognizablyDistinctWithinBatch": true
+        },
+        "observations": {
+          "visualIdentity": "成年男性，无须的较宽脸，低矮束发冠，青绿色领口和兽面肩甲。",
+          "framing": "发冠和簪端完整位于画内，全部主要发束可见，肩甲与身体连接自然。",
+          "nativeReference": "原生小图的束发、无须面孔和转向为可见外形线索。"
+        }
+      },
+      {
+        "name": "羊祜",
+        "period": 4,
+        "personId": 154,
+        "accepted": true,
+        "actualAssetPin": {
+          "path": "assets/hd-portraits/hd/period-4/154-羊祜.png",
+          "bytes": 2160815,
+          "sha256": "fa50e3921125419b08f097aa8d76b05c669f91485374f0b2108922bdb926d878",
+          "width": 1672,
+          "height": 941
+        },
+        "actualNativeReferencePin": {
+          "path": "assets/hd-portraits/refs/period-4/154-羊祜.png",
+          "bytes": 402,
+          "sha256": "0490d61a4c17269ca014f4ecc69c1a0472a47ebe5941331b59411a6a732e6412"
+        },
+        "directFinalImageViewed": true,
+        "directNativeReferenceViewed": true,
+        "viewer": "tools.view_image",
+        "checks": {
+          "oneAdultPerson": true,
+          "adultWoman": false,
+          "fullMainHeadwearAndHairVisible": true,
+          "facialHairAndNeckAnatomyAcceptable": true,
+          "noReadableTextObserved": true,
+          "noWatermarkOrSignatureObserved": true,
+          "noNativeInsetOrCollageObserved": true,
+          "seriesStyleConsistent": true,
+          "recognizablyDistinctWithinBatch": true
+        },
+        "observations": {
+          "visualIdentity": "成熟男性，修整胡须，褐色冠盔和显著白色长缨，褐色披肩与兽面甲饰。",
+          "framing": "修正版白色盔缨顶部和两侧垂缨完整可见，脸部、胡须、颈肩自然。",
+          "nativeReference": "原生小图的冠盔、眉眼和深色须髯作为可见外形线索。"
+        }
+      },
+      {
+        "name": "王平",
+        "period": 1,
+        "personId": 168,
+        "accepted": true,
+        "actualAssetPin": {
+          "path": "assets/hd-portraits/hd/period-1/168-王平.png",
+          "bytes": 2195567,
+          "sha256": "378d457daf46fb303d8fd11e515f40050d265facd65a45fbabfb9dfc369dd333",
+          "width": 1672,
+          "height": 941
+        },
+        "actualNativeReferencePin": {
+          "path": "assets/hd-portraits/refs/period-1/168-王平.png",
+          "bytes": 513,
+          "sha256": "005c65de541c3583521fd31f0b604914e177d5bec552f7ff9743b4b99f8714a5"
+        },
+        "directFinalImageViewed": true,
+        "directNativeReferenceViewed": true,
+        "viewer": "tools.view_image",
+        "checks": {
+          "oneAdultPerson": true,
+          "adultWoman": false,
+          "fullMainHeadwearAndHairVisible": true,
+          "facialHairAndNeckAnatomyAcceptable": true,
+          "noReadableTextObserved": true,
+          "noWatermarkOrSignatureObserved": true,
+          "noNativeInsetOrCollageObserved": true,
+          "seriesStyleConsistent": true,
+          "recognizablyDistinctWithinBatch": true
+        },
+        "observations": {
+          "visualIdentity": "成熟男性，深色镶边盔、橄榄色长缨，较尖的下颌胡须和厚重橄榄披布。",
+          "framing": "修正版盔缨顶端与垂落末梢全部在画内，颈部、胡须与双肩没有明显切断。",
+          "nativeReference": "原生小图的盔帽、眉毛、转向和须髯作为可见外形线索。"
+        }
+      },
+      {
+        "name": "马岱",
+        "period": 2,
+        "personId": 100,
+        "accepted": true,
+        "actualAssetPin": {
+          "path": "assets/hd-portraits/hd/period-2/100-马岱.png",
+          "bytes": 2221815,
+          "sha256": "7536f2a5fc9656c72873260900ce0e83b43098e430dbb9f108dfef2c85754fe7",
+          "width": 1672,
+          "height": 941
+        },
+        "actualNativeReferencePin": {
+          "path": "assets/hd-portraits/refs/period-2/100-马岱.png",
+          "bytes": 449,
+          "sha256": "0c12f9ecc0b2b02f3b79c8940739a1ca70bc83ba9344f58a810ae9cad0d89022"
+        },
+        "directFinalImageViewed": true,
+        "directNativeReferenceViewed": true,
+        "viewer": "tools.view_image",
+        "checks": {
+          "oneAdultPerson": true,
+          "adultWoman": false,
+          "fullMainHeadwearAndHairVisible": true,
+          "facialHairAndNeckAnatomyAcceptable": true,
+          "noReadableTextObserved": true,
+          "noWatermarkOrSignatureObserved": true,
+          "noNativeInsetOrCollageObserved": true,
+          "seriesStyleConsistent": true,
+          "recognizablyDistinctWithinBatch": true
+        },
+        "observations": {
+          "visualIdentity": "成年男性，浅灰布裹头与长布尾，卷曲上唇须和尖下巴胡须，浅色围巾。",
+          "framing": "布裹头顶部、后侧布尾和胡须完整可见，肩部与甲片连接自然。",
+          "nativeReference": "原生小图的布帽外形、转向和上唇须作为可见外形线索。"
+        }
+      },
+      {
+        "name": "法正",
+        "period": 1,
+        "personId": 139,
+        "accepted": true,
+        "actualAssetPin": {
+          "path": "assets/hd-portraits/hd/period-1/139-法正.png",
+          "bytes": 2200416,
+          "sha256": "41fc6c7dda764dc6ce2a130d9562d927324abd90b72ac39133607ec3fd1ac80b",
+          "width": 1672,
+          "height": 941
+        },
+        "actualNativeReferencePin": {
+          "path": "assets/hd-portraits/refs/period-1/139-法正.png",
+          "bytes": 485,
+          "sha256": "d868dd071d47caaf165f5ceeb91620ec3aa76558d9e23b31a1f4f41d1c13a704"
+        },
+        "directFinalImageViewed": true,
+        "directNativeReferenceViewed": true,
+        "viewer": "tools.view_image",
+        "checks": {
+          "oneAdultPerson": true,
+          "adultWoman": false,
+          "fullMainHeadwearAndHairVisible": true,
+          "facialHairAndNeckAnatomyAcceptable": true,
+          "noReadableTextObserved": true,
+          "noWatermarkOrSignatureObserved": true,
+          "noNativeInsetOrCollageObserved": true,
+          "seriesStyleConsistent": true,
+          "recognizablyDistinctWithinBatch": true
+        },
+        "observations": {
+          "visualIdentity": "成熟男性，褐色弯折高冠、较长尖胡须，深褐文官袍，手抚下须。",
+          "framing": "冠顶、发束、冠带和胡须未见截断，可见手部姿势自然。",
+          "nativeReference": "原生小图的冠帽、文士眉眼和长须作为可见外形线索。"
+        }
+      },
+      {
+        "name": "陈宫",
+        "period": 1,
+        "personId": 86,
+        "accepted": true,
+        "actualAssetPin": {
+          "path": "assets/hd-portraits/hd/period-1/86-陈宫.png",
+          "bytes": 2079683,
+          "sha256": "a09a475678db0c26481f4de59de17c3ffb100a8ca5a508a39932ccdcc55e2999",
+          "width": 1672,
+          "height": 941
+        },
+        "actualNativeReferencePin": {
+          "path": "assets/hd-portraits/refs/period-1/86-陈宫.png",
+          "bytes": 437,
+          "sha256": "fa952b617f01b8e285c9a7fc4fd590894bdbc4cd4e0c5a68a7987e8ae7723707"
+        },
+        "directFinalImageViewed": true,
+        "directNativeReferenceViewed": true,
+        "viewer": "tools.view_image",
+        "checks": {
+          "oneAdultPerson": true,
+          "adultWoman": false,
+          "fullMainHeadwearAndHairVisible": true,
+          "facialHairAndNeckAnatomyAcceptable": true,
+          "noReadableTextObserved": true,
+          "noWatermarkOrSignatureObserved": true,
+          "noNativeInsetOrCollageObserved": true,
+          "seriesStyleConsistent": true,
+          "recognizablyDistinctWithinBatch": true
+        },
+        "observations": {
+          "visualIdentity": "成熟男性，黑色高冠、分明眉间纹与窄长胡须，青绿文官袍，手持无字卷简。",
+          "framing": "高冠两侧和顶部完整，冠带、胡须及肩部自然；卷简下方随半身构图出框。",
+          "nativeReference": "原生小图的冠帽、转向与细长须髯作为可见外形线索。"
+        }
+      }
+    ],
+    "seriesStyle": {
+      "accepted": true,
+      "observations": "全批次保持柔和自然日光、低饱和土色、写实皮肤与布革金属材质、浅景深古代庭院背景；与实际查看的庞统和夏侯惇既有成品一致。",
+      "styleSamples": [
+        {
+          "actualPin": {
+            "path": "assets/hd-portraits/hd/period-1/124-庞统.png",
+            "bytes": 2236311,
+            "sha256": "2b38c32086de9ede9a86182fb773a2a9f2c32b2cf535a45042dc4bad42c2cbd2"
+          },
+          "directlyViewed": true,
+          "viewer": "tools.view_image"
+        },
+        {
+          "actualPin": {
+            "path": "assets/hd-portraits/hd/period-1/32-夏侯惇.png",
+            "bytes": 2207435,
+            "sha256": "927d986c94003012eb7b56c89641812284e1c2baf8caf93b4d883c352548056d"
+          },
+          "directlyViewed": true,
+          "viewer": "tools.view_image"
+        }
+      ]
+    },
+    "batchDistinguishability": {
+      "accepted": true,
+      "observations": "两名成年女性通过年龄观感、脸型、发冠羽饰和服装可区分；八名男性通过冠盔、缨色、脸型、胡须与袍甲可区分。钟会和陆抗均为无须成年男性，但高冠/低冠、窄脸/较宽脸、蓝灰叠领/青绿领与肩甲轮廓不同。"
+    },
+    "retainedGenerationHistory": {
+      "totalCalls": 14,
+      "initialImages": 10,
+      "correctedImages": 4,
+      "rejectedCandidates": 4,
+      "rejected": [
+        {
+          "name": "祝融夫人",
+          "recordedReason": "Feather clipped by upper image boundary",
+          "actualRetainedSourcePin": {
+            "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-235f4607-44b8-4b3a-a500-857a83e77a6a.png",
+            "bytes": 2240774,
+            "sha256": "dd26d0b550240a3ee689130a9dc242bbcda8411195b20f5656bfe50c6ee40b28"
+          },
+          "directlyReinspectedInThisReview": false
+        },
+        {
+          "name": "邓艾",
+          "recordedReason": "Head plume at upper boundary with insufficient clear margin",
+          "actualRetainedSourcePin": {
+            "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-713f1251-fbf0-4bee-aa65-accf5d31fb99.png",
+            "bytes": 2281959,
+            "sha256": "48eb6b56bc2d82b8374f0ed563e5bad1538f31f7f07f8459140d04ed81a78cbb"
+          },
+          "directlyReinspectedInThisReview": false
+        },
+        {
+          "name": "羊祜",
+          "recordedReason": "Head plume at upper boundary with insufficient clear margin",
+          "actualRetainedSourcePin": {
+            "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-da7a3553-6e59-4bd1-978c-4c30ffdc7c61.png",
+            "bytes": 2192585,
+            "sha256": "cb2004f021bff27f45fed46ca66cbf076408aa922903f21c1d71b5501255af42"
+          },
+          "directlyReinspectedInThisReview": false
+        },
+        {
+          "name": "王平",
+          "recordedReason": "Plume at upper image boundary; framing too tight",
+          "actualRetainedSourcePin": {
+            "path": "C:\\Users\\75112\\.codex\\generated_images\\01a168ce-2fd4-73c3-a466-7487efac7834\\exec-ac53400c-20a4-47c4-a70d-afd754761fa1.png",
+            "bytes": 2314455,
+            "sha256": "57a5fa3dc3ce3da794ca9f0db3db0383a98678b7e5b8501335f84b21b982b8f7"
+          },
+          "directlyReinspectedInThisReview": false
+        }
+      ]
+    },
+    "quantitativeHeadroomMeasured": false,
+    "historicalLikenessClaimed": false,
+    "limitations": [
+      "24x24原生图只提供有限的可见身份线索；本次不声称历史真实容貌或逐像素面貌一致。",
+      "本次仅为实际PNG素材目检与只读映射/字节审计，未进行浏览器布局、自然人物流程、真机、性能或全量测试。"
+    ],
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "fullSuiteRun": false,
+    "browserRun": false,
+    "oldHeldPrivateInterfacesInspected": false,
+    "oldHeldInputs": 0,
+    "globalHdComplete": false
+  },
+  "tests": {
+    "accepted": true,
+    "started": "2026-10-28T07:56:48.560Z",
+    "finished": "2026-10-28T07:57:18.603Z",
+    "exitCode": 0,
+    "tests": 153,
+    "pass": 153,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "modules": [
+      "scripts/test-hd-portraits.mjs",
+      "scripts/test-hd-mobile-portraits.mjs",
+      "scripts/test-hd-lib-identity.mjs"
+    ],
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 54108,
+        "sha256": "4d66a3c2fce26245df3a223bbd78453befdc0f6919c8ed184e0bde070f3c9910"
+      },
+      {
+        "path": "assets/hd-portraits/GENERATED-LATE-CHARACTERS-20261028.json",
+        "bytes": 77891,
+        "sha256": "6bbb098da3e6ad01faa4ea73f6c74da4b2e5877dda5790c02e8a8b686c2c5a01"
+      },
+      {
+        "path": "assets/hd-portraits/GENERATED-LATE-CHARACTERS-20261028.md",
+        "bytes": 3107,
+        "sha256": "ffc4a73824c33cd5e6d06420d5288ff91170c291466f1fd1b2aa72016b07b7a4"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0000_董卓.png",
+        "bytes": 1607223,
+        "sha256": "1de400c70f00b1cd2ca6ccb0d9574cbe3d5a169cc42778895bce8432c8689b26"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0001_曹操.png",
+        "bytes": 1227801,
+        "sha256": "e75fdd2ebeec7464e85291c99cd48cd2602d96f52963205899fc16e40fd11895"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0005_马腾.png",
+        "bytes": 1577920,
+        "sha256": "dd470ee27ffaafd446cf4e79554379190d19cc23579aae215cd5d8b7a0181d1c"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0011_王匡.png",
+        "bytes": 1675176,
+        "sha256": "4aa7721b2a7b49d0f47059e9b2238ad84303a9a4ff562027615dfcf4b21f7f46"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0013_刘备.png",
+        "bytes": 1891484,
+        "sha256": "7a6a7b2698676a40ca89cd724a7c9ae95d3e6b8b1fdbae121ac07e676507449b"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0020_吕布.png",
+        "bytes": 1717569,
+        "sha256": "e63384b470a20f841f7399f616fdb1b4d15a7672a5de956081d172788027e2a3"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0055_孙权.png",
+        "bytes": 1341436,
+        "sha256": "f279cd93659697b8037858a9f960c5947d90d0153477ded78dd0410165d52390"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0058_庞德.png",
+        "bytes": 1510681,
+        "sha256": "ba3ca8d20a8e480a6b3ee1be8fc67962969be8d0bed6bb43a2102a66f711d4eb"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0063_梁兴.png",
+        "bytes": 1510754,
+        "sha256": "660fbbc55c24929e7afe9358a3a03e77b2efe67231e97a5a5631ca71c80b6b2e"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0066_杨秋.png",
+        "bytes": 1532204,
+        "sha256": "f7dc35ced2587c9b452e1fde1277ec87b60b36cbbead47a5299fc06897feac0c"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0085_方悦.png",
+        "bytes": 1454347,
+        "sha256": "004b401ae744ce72f459ee2fb8cd90eb33928cf151f39000d7308a305b3407da"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0089_关羽.png",
+        "bytes": 1698030,
+        "sha256": "d07917d012f038864f45008d0b5e855e3fae25f2f356803b8323424979a942ab"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0090_张飞.png",
+        "bytes": 1776983,
+        "sha256": "2930db46892eac95439878fbae29258ba58716fb75b8ee35c26cb9fdcce1ce8d"
+      },
+      {
+        "path": "assets/hd-portraits/hd/hd_p1_0157_诸葛亮.png",
+        "bytes": 1654540,
+        "sha256": "316c52a355b07a13afa8919e8741d8b4764b2b2e8861acf949f78070ad3474fa"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/10-韩馥.png",
+        "bytes": 2047299,
+        "sha256": "fc5e52012f4fa00468eb1ced893404c2f384a6dd64950462fe88edc756b7ffd2"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/115-陆逊.png",
+        "bytes": 2137155,
+        "sha256": "5cf3532a030db8f8a0d45f6f5aa210454cf6d1d9521d5a83b563748ec336631c"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/124-庞统.png",
+        "bytes": 2236311,
+        "sha256": "2b38c32086de9ede9a86182fb773a2a9f2c32b2cf535a45042dc4bad42c2cbd2"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/126-郭嘉.png",
+        "bytes": 2199911,
+        "sha256": "798faf52f4917e95e0aa93cb3e6917c504482c19b6daffed8c81cd72d7aca422"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/132-贾诩.png",
+        "bytes": 2165895,
+        "sha256": "c44350f7bba3f894152498745d4adf9af08b958d0bdc6b87edb97101345d9bb1"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/135-徐庶.png",
+        "bytes": 2267903,
+        "sha256": "dc9f0b1137e34ec2678810df5bca9bc7a8de898dfa03f6dc3e7f63efbe338828"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/137-许褚.png",
+        "bytes": 2390111,
+        "sha256": "d359b1e1e69ef3588aea811c14e1be3ba10726f6dad8c40727860476e432c0e2"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/138-荀彧.png",
+        "bytes": 2145729,
+        "sha256": "3ed9e953a4ccb940c96cbe70a2d4dcaa58a03d884f61bb431bd1907015fe89c5"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/139-法正.png",
+        "bytes": 2200416,
+        "sha256": "41fc6c7dda764dc6ce2a130d9562d927324abd90b72ac39133607ec3fd1ac80b"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/14-刘表.png",
+        "bytes": 2262630,
+        "sha256": "05d6516c3111501a858330fa1bcda9f6238b676a0df67061b4f2c39f592d69a9"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/147-于禁.png",
+        "bytes": 2245339,
+        "sha256": "19c5ffe03801050ea9b6553bbf2f08b632a1b3d2e66e1fa18ed7367e7c30f591"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/15-刘焉.png",
+        "bytes": 2250229,
+        "sha256": "9541571dd488a7f0fdfd6bd02229b802478ca94a9d991b815c9f4e5542c64f0b"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/152-张昭.png",
+        "bytes": 2250434,
+        "sha256": "7f02619ae6431df304e06d62a90d2623e67025244ad42fdefe2af636b85049d4"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/155-周泰.png",
+        "bytes": 2283396,
+        "sha256": "8de6eca7e8403b6ff0f1589c3c17a5d1e6a422a8d007ba8a3a439f9f77f57849"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/16-公孙瓒.png",
+        "bytes": 2456208,
+        "sha256": "4414e06439270bfdb33a5e214b4785956b18defd7db9aa82a10bcf3f2c3e772e"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/163-徐晃.png",
+        "bytes": 2311604,
+        "sha256": "98754e2cf05a67e6cc535844b880331c6b22401c72262856694c82950af4195d"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/165-张郃.png",
+        "bytes": 2211081,
+        "sha256": "18bcb14e496529b6baa5728f7bc37abc693d708590fb2ebb8efeef4f9842a868"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/166-赵云.png",
+        "bytes": 2074426,
+        "sha256": "bcf38ec81f6b450ad91ee03271a734fdd48e7e8158a83818a71eb18b1bace9d0"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/168-王平.png",
+        "bytes": 2195567,
+        "sha256": "378d457daf46fb303d8fd11e515f40050d265facd65a45fbabfb9dfc369dd333"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/169-魏延.png",
+        "bytes": 2271152,
+        "sha256": "274c5f3b197e593d99e66cad2952c51a8a45cae2278195486108cfe98e1eea48"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/17-公孙度.png",
+        "bytes": 2409337,
+        "sha256": "0179d164d3eb0133bb084d1f1551cea2fff6c878567af7e62c180a4931895d5f"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/171-鲁肃.png",
+        "bytes": 2124006,
+        "sha256": "859a62c493b9b826cd716a3d311f1c66c0f31280134560b1dce627b873b4d783"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/179-黄忠.png",
+        "bytes": 2201207,
+        "sha256": "9350d333db970405ce8a83281f1defdd21ae58fa911f6c8ea9e085380e16c7aa"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/18-张鲁.png",
+        "bytes": 2375035,
+        "sha256": "d85afe5f41582518c70517736441c587d4fe73e0d334d2697f8b605d0b19f688"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/2-袁绍.png",
+        "bytes": 2216029,
+        "sha256": "cc82a6ce102a47da72eb5e5abea78bf99f60e9074ce934849b5bd663e8ac3092"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/22-张辽.png",
+        "bytes": 2096101,
+        "sha256": "bf63801818c746dd45ec5047a05d8c22bcdca1f7198a717d0ad55021df57690b"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/3-袁术.png",
+        "bytes": 2205929,
+        "sha256": "7d6df85da428aee052c9e61fda8f2eaef0ab3167c16eae9b0d84299935d47aad"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/32-夏侯惇.png",
+        "bytes": 2207435,
+        "sha256": "927d986c94003012eb7b56c89641812284e1c2baf8caf93b4d883c352548056d"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/33-夏侯渊.png",
+        "bytes": 2217033,
+        "sha256": "05c0b71c48354310047cdc0e56cfe3cdea77588ec189cad777419609c7afc883"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/35-乐进.png",
+        "bytes": 2206365,
+        "sha256": "d65a0b2d617c2522e8720ecd8ed401483e554926761caaa7fa66929edb06f0de"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/4-孙坚.png",
+        "bytes": 2308946,
+        "sha256": "c4bfb1a91a95eec43785e1615415b58c5f237f9894858e448ab6dcc1801b50e9"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/50-程普.png",
+        "bytes": 2160253,
+        "sha256": "561d6d821e44ded63bd38e5859ca3b5c7a27ef3d4e5d12650a73103a4934c068"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/52-黄盖.png",
+        "bytes": 2330176,
+        "sha256": "19cdc28d3df80a41f2b59aae1df70957b2fb0193552f69080e1162790df23ac8"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/57-马超.png",
+        "bytes": 2278371,
+        "sha256": "32028572f429acbcff3abd4bfd867bfb13707c5854aee7d86adad34ce4b64a41"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/6-陶谦.png",
+        "bytes": 2172951,
+        "sha256": "040725b99dc378d975e9d14dfb7387314b868c8b6e5a7b9a3eb8ccb727082d10"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/7-孔融.png",
+        "bytes": 2150689,
+        "sha256": "1316f028f47478b80443d69e91b64a97ee79bce1bc8e14e2b1885d984d966365"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/73-太史慈.png",
+        "bytes": 2369458,
+        "sha256": "db244e023453b1714f992ea5c594905f64b84be44c8c9b23dfed9940bfb27c97"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/8-刘岱.png",
+        "bytes": 2073266,
+        "sha256": "260ee58c636c16d50f2c2c564c14a42002b666b8e39effd5b7dbe98f25c4e218"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/86-陈宫.png",
+        "bytes": 2079683,
+        "sha256": "a09a475678db0c26481f4de59de17c3ffb100a8ca5a508a39932ccdcc55e2999"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/87-典韦.png",
+        "bytes": 2366608,
+        "sha256": "e9609b41215fb14c6ab96d497bb713bf51d0b516bbc352556e809acb53c5b110"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/9-张杨.png",
+        "bytes": 2204064,
+        "sha256": "c6d9ba211ebfe1ab3e0257bde7451f726e157c0ddecf69949737d85ff577392d"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-1/96-甘宁.png",
+        "bytes": 2214720,
+        "sha256": "a4e16abfd4d7ba13cadb1f72eb371dde7579e54a14e9d4393937cb8354ab4efe"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/0-李傕.png",
+        "bytes": 2355183,
+        "sha256": "2f2d04592d3972bbc8b47a44221d9385ddd8c285bb51e3e36d14fa6bdd87c16d"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/1-曹操.png",
+        "bytes": 2098066,
+        "sha256": "46f40cfef67b20102bb9635ec52572986a2863feebcdd5d81c82cde481fa25c4"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/100-马岱.png",
+        "bytes": 2221815,
+        "sha256": "7536f2a5fc9656c72873260900ce0e83b43098e430dbb9f108dfef2c85754fe7"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/101-庞德.png",
+        "bytes": 2237722,
+        "sha256": "8e77cc6ad3c8ce050572e74e029c5e32afb862f6040a773df201b349826302f1"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/106-梁兴.png",
+        "bytes": 2284421,
+        "sha256": "2193c51e49e77c5aace51592caff455acee73b8ae9859b4f9dbcc2c52ff1c01c"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/109-杨秋.png",
+        "bytes": 2098682,
+        "sha256": "df852bc7c1ae88cb607fed62130bf9666de14993e11280cfb4ce2b03a894d5ed"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/11-马腾.png",
+        "bytes": 2276439,
+        "sha256": "fb40055ae442449f0c7d65f5e30d0d01fe9ebb1d6651b9bbf268b604af7cbb88"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/13-刘璋.png",
+        "bytes": 2148733,
+        "sha256": "9a6d81037f7d2f447dfe016600144a22d1a3cbe8db8be4a5d458f2bf2b419431"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/145-于禁.png",
+        "bytes": 2100625,
+        "sha256": "af250c9476f6b50c4aa900927158eb95be3e3b1289ec580cac50ada21fa1add1"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/146-典韦.png",
+        "bytes": 2349175,
+        "sha256": "7e2b27b3ecbc42165ebe6f93d6df8d39c9e273f808be9071cc362182935006d6"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/147-许褚.png",
+        "bytes": 2287571,
+        "sha256": "5433ac9c7fa99a14609f6a786402698fe2d0f05b0bb4c968208aa35588878746"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/150-徐晃.png",
+        "bytes": 2170742,
+        "sha256": "39d80ab1bd0c6ee13ee906bb630dd5cf94a6da31f54e420d2c10d16891b677cd"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/163-赵云.png",
+        "bytes": 2187694,
+        "sha256": "c93817c6037279d74af2101919a838cd9a6266fd8251f93ce8a7064579dcce23"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/170-庞统.png",
+        "bytes": 2206407,
+        "sha256": "b80f45f663e929f1637fd1460caabb8f9d1627018a898db6c21458f557547ab5"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/171-徐庶.png",
+        "bytes": 2132204,
+        "sha256": "4d1b87c34054bc83440306dcac7cdb699c9867daad17b6d22bc091847cebcd8c"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/173-鲁肃.png",
+        "bytes": 2309748,
+        "sha256": "a69f5477d734d93123c4ca0fe92e891de56f3697c3556fc2842984faf9343e41"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/182-诸葛亮.png",
+        "bytes": 2337496,
+        "sha256": "2088996dae0b0e9d065ee659d1093b7161b42df43cfe26ac630f9bbb925531fb"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/2-刘备.png",
+        "bytes": 2127883,
+        "sha256": "32f610893a31bcefd6df00b325c90a2aab96183db8710197d452b88ddae45cb6"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/31-关羽.png",
+        "bytes": 2201445,
+        "sha256": "53a62a8fedb85621fbece7bccdc0e64245d5c8102c52c341f39267de0d993b9c"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/32-张飞.png",
+        "bytes": 2322531,
+        "sha256": "919aa005615c245bf820ae08ad29896ff343acdf7a72c629bb6be8277b042509"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/5-孙策.png",
+        "bytes": 2165762,
+        "sha256": "4f7a5b70293f6228b78838b132d639fc49876d60c04439f4987261e6d8f46454"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/6-张邈.png",
+        "bytes": 2176922,
+        "sha256": "19773b4fb60fb405b5cd4eb73cf162e48468df2fb9e20227d448ece5e3dc82cd"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/7-张绣.png",
+        "bytes": 2152524,
+        "sha256": "5c96d2051a4c140b1f2c9a2ea58a6b8809307b93d9f50c0143770bfbfd4d4c9c"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/78-周瑜.png",
+        "bytes": 2118888,
+        "sha256": "bcb616bfba580661f6ec31b4c8346f32100c9e16306e340f2bb044b4802e3974"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/8-吕布.png",
+        "bytes": 2048304,
+        "sha256": "ec778a4b6412c863d9dacb0b679133572e10a3d919569533afbe1bc4229c0daf"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-2/9-韩玄.png",
+        "bytes": 2010500,
+        "sha256": "3169eb9185caec720eb9b1f96d5682bb1e91a003eba0bc049d8e4eba3600920a"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/1-刘度.png",
+        "bytes": 2108718,
+        "sha256": "16b2cfbe6f15e321a185ee612b416d7b31bc7886212fe67bc3740ff052b55957"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/104-周瑜.png",
+        "bytes": 2014389,
+        "sha256": "40d027b881019716318b0b436836bbc54ec22694bfe74e6389dd2eecd34e33fa"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/115-孙尚香.png",
+        "bytes": 2271292,
+        "sha256": "851761cefad05d08c20973c7ccb4b42c1036c1a8ca137d7887f15fbcc439a7c0"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/126-庞德.png",
+        "bytes": 2270954,
+        "sha256": "1b5cf39df730336fc9eab161cfb79cd240e24d624ce9f506b17bc59d4ace64d2"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/131-梁兴.png",
+        "bytes": 2084077,
+        "sha256": "e17ce0a0a532398bd5961ea0493cd69362a56d74a2e9d5e68303fd92965f3c36"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/134-杨秋.png",
+        "bytes": 2265978,
+        "sha256": "218cfecc0e498ccc7c81557234fe442c8dc9b1f2ad695a2106d126c618394a38"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/167-邓艾.png",
+        "bytes": 2193549,
+        "sha256": "f40d84b5021a6618981300e937a40e8d21b1449853aa7b606fbe567b6dd680d6"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/168-钟会.png",
+        "bytes": 2215491,
+        "sha256": "89379064ee0ebb1f56b8312e3de7eb03a5455dba6bc8f6e109201761ba84ae76"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/169-司马懿.png",
+        "bytes": 2081984,
+        "sha256": "625140cf3a0821d9248ceff7c148f90b677863b7903ae3827bca4ee756275c9f"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/170-姜维.png",
+        "bytes": 2121437,
+        "sha256": "94439231a9a3c49a0b0521eef0f5c26177d7478506fab212e3d5e6bb21912105"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/174-陆抗.png",
+        "bytes": 2162123,
+        "sha256": "565cb337065973733d6252ea4601f0fe556bf7f446b5b700c168ba6ab4e84e22"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/2-赵范.png",
+        "bytes": 2026183,
+        "sha256": "c8eea9a6abff2a33e7e9d77132739f0a5f65fb069474d14dc4f1c482e85a5b24"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/3-金旋.png",
+        "bytes": 2364929,
+        "sha256": "7a451474699fbf2f7aaca6aeacb6b086f5ead5e4daa7342a091dc6f5485a180f"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/4-曹操.png",
+        "bytes": 1867602,
+        "sha256": "c4052fc2c2c197026a3e8e3be909b13094b14c0b4134db875db921448d474480"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/5-刘备.png",
+        "bytes": 2276994,
+        "sha256": "53327267000a021cb09e8a5c9e085c888489e41f63d9f4284c0a75941ace6e6a"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/6-孙权.png",
+        "bytes": 2139262,
+        "sha256": "bb91833252ec7e8454d6307f1297a3c3188cd26790c15caa5bdd53dd0d0e41c6"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/7-马腾.png",
+        "bytes": 2201462,
+        "sha256": "5225ddfc81d6842a19e3a7c0d4d9d4c7642ef13eaedef4572992c8fb8d1568f5"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/79-关羽.png",
+        "bytes": 2502937,
+        "sha256": "ec730ec188b01d9ee80c6c52045b688ff9b1eeb15e512f17e63cd1096a2bea38"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/80-张飞.png",
+        "bytes": 2384867,
+        "sha256": "41b70a084f8fd28040aba5c05cfe13c1a3e761083c18f036156e39494f80c1c9"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-3/90-诸葛亮.png",
+        "bytes": 2301661,
+        "sha256": "c7095a2cce45d16d915771d0d3858f1733195cc3a2dddb72d216d74096c185bb"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/0-曹丕.png",
+        "bytes": 2217247,
+        "sha256": "4c475a5e2a611db41f46eb33352f9b61c5f515c56bda5c1ad3df2f71223d7b49"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/1-刘禅.png",
+        "bytes": 2138121,
+        "sha256": "79a00872f9115db17acaab1e286278441e6ac29b698a10cd6822f0d0a332ee30"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/13-庞德.png",
+        "bytes": 2226799,
+        "sha256": "d8e0cd26c60b4b1438503bb35b0b2c6ee502c076ef06abe7e0a06c11c0960222"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/143-祝融夫人.png",
+        "bytes": 2201295,
+        "sha256": "89b7c5f9de7613a78eac6a4376ad5c4d6b6f7156949c67cb2f7d6fbd7158b2f7"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/154-羊祜.png",
+        "bytes": 2160815,
+        "sha256": "fa50e3921125419b08f097aa8d76b05c669f91485374f0b2108922bdb926d878"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/2-孙权.png",
+        "bytes": 2107379,
+        "sha256": "674e90bcc67f23a0a825aab5b755b50bbe7ac7ab3582f13887838825fcb3bdff"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/3-孟获.png",
+        "bytes": 2283106,
+        "sha256": "1c96dc8f1df9e2361a7af067ea71d12bfa2537d5af55a6a597f42fd11da9490a"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/4-公孙康.png",
+        "bytes": 2193287,
+        "sha256": "e19ceb4968243de0d1766e628784b3a1006f1914b9ffe9b846dbf27193fb45c5"
+      },
+      {
+        "path": "assets/hd-portraits/hd/period-4/72-诸葛亮.png",
+        "bytes": 2348284,
+        "sha256": "638c412475aea1860a3456e7b4ee4902ba17a47d3758c20748bf5561ab4771bc"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 52052,
+        "sha256": "ae34fb27a9b39dddd8445bdc1389ac3fc1ce93140c0bf8a8f62282692b2a19f1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 234072,
+        "sha256": "d14a836a1bf1045ec920ab8996cfa40681a6841e0961cc6e9b16b54ba7d96f85"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/0-董卓.png",
+        "bytes": 513,
+        "sha256": "8df590f9451a40d51f3ac004fbd5f3e714a0980e16cec586068cca2af310fb43"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/1-曹操.png",
+        "bytes": 469,
+        "sha256": "18846bdd8c718f770d9172adffd0dc0d4b369c016b4d2e117e895b169f214fed"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/10-韩馥.png",
+        "bytes": 429,
+        "sha256": "444de590738cc01b30dbea88c5497149e4557958083d1bdebaca9680868114cb"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/103-公孙康.png",
+        "bytes": 426,
+        "sha256": "1585af658aee1d7917df9f6fa62d483abcc421fbf19187eb99a288dde82cec3f"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/11-王匡.png",
+        "bytes": 432,
+        "sha256": "c115c1feb0869d5be6fa0f83f8d9e65f73a0cd7dfc517421a842098579a3d16d"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/113-刘璋.png",
+        "bytes": 505,
+        "sha256": "7775f00d8f43483946687ed554db98dc028f66fae8dccae7a36bd0195d466238"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/115-陆逊.png",
+        "bytes": 515,
+        "sha256": "799a45b9e1f5d5a9cfae00866beb402ec9f58a63427cb8c647294f5e0c253e7b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/12-张邈.png",
+        "bytes": 426,
+        "sha256": "3390af4fa62b01868aaf81367fda6f7e32aac0f3bc861d8df14248b09fb6b72e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/124-庞统.png",
+        "bytes": 477,
+        "sha256": "843ab2ab684e41179d5edd3b17469ab19b181f3a2c778aabcc84ea486dea7770"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/126-郭嘉.png",
+        "bytes": 480,
+        "sha256": "49161fd1f6e3682cbec25f49e988951bcac215340c790ab6703850cd2245334f"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/13-刘备.png",
+        "bytes": 470,
+        "sha256": "c8a1f5b85d94c9c65277073e971236e083267524fcf6bb9169574c878ed5f8f2"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/132-贾诩.png",
+        "bytes": 428,
+        "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/135-徐庶.png",
+        "bytes": 486,
+        "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/137-许褚.png",
+        "bytes": 478,
+        "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/138-荀彧.png",
+        "bytes": 511,
+        "sha256": "0ffbf8630f1ad67760ea79f4481e5cdccb97d2c748c8d43cf8ebeea6539226be"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/139-法正.png",
+        "bytes": 485,
+        "sha256": "d868dd071d47caaf165f5ceeb91620ec3aa76558d9e23b31a1f4f41d1c13a704"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/14-刘表.png",
+        "bytes": 475,
+        "sha256": "f25593edf4908a66d120e1117a59ac29b5dbaf4276271d22e8ad116f7a34fec1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/147-于禁.png",
+        "bytes": 500,
+        "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/15-刘焉.png",
+        "bytes": 455,
+        "sha256": "78998110f2a6d9c5cfa037d0ebc806e2677ab47d452a8c9da8437a087dc4b2a7"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/152-张昭.png",
+        "bytes": 480,
+        "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/155-周泰.png",
+        "bytes": 535,
+        "sha256": "86361ee5d64238fd5db4778d886dcf39b5992a6781331b0a6c95f298b6891517"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/157-诸葛亮.png",
+        "bytes": 488,
+        "sha256": "1d65c6fd0fb986134515f816bd19a6101fa7dccf56c7ba89c302fdf4463d38cc"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/16-公孙瓒.png",
+        "bytes": 529,
+        "sha256": "82c610557e699c40bf9912a227d51b562113e595203c013bb3d1e42f30ccc443"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/161-张绣.png",
+        "bytes": 487,
+        "sha256": "400745d98a890eaff3ecc55cf79432590f41085b42362758dcf95f98b763f097"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/163-徐晃.png",
+        "bytes": 506,
+        "sha256": "1296449188022bcebc1bcb38b40a3e5f3f5e32018211cddc61227da43c29be5f"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/165-张郃.png",
+        "bytes": 516,
+        "sha256": "469a374640af88f12ec8e1fce16210c151fee0decab572011c6b497af80aea02"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/166-赵云.png",
+        "bytes": 509,
+        "sha256": "0ab0c0074ad26e91a56970cf5cf7fb845669d317195697079e7f6030d748bd74"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/168-王平.png",
+        "bytes": 513,
+        "sha256": "005c65de541c3583521fd31f0b604914e177d5bec552f7ff9743b4b99f8714a5"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/169-魏延.png",
+        "bytes": 515,
+        "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/17-公孙度.png",
+        "bytes": 468,
+        "sha256": "2f5220bac717965d31d966a823009a3a28fb412f006b040b775524a524129074"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/171-鲁肃.png",
+        "bytes": 456,
+        "sha256": "2763a674ac18ab7fac188c6f0d8faf2b54d776a6d7c1337d298fe687a6471eae"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/179-黄忠.png",
+        "bytes": 421,
+        "sha256": "b16540becab69b147e000aa17586930a03f58954d284455e4905269bdb61da5e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/18-张鲁.png",
+        "bytes": 449,
+        "sha256": "e4ddebd6dd0f6efe87159641eee1890b1f31f074fd51520912dd9fde424fd4c9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/2-袁绍.png",
+        "bytes": 514,
+        "sha256": "5115f9e266089b9e039399d4b0bd3b7294623817922eeb65902b4f532f6455e9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/20-吕布.png",
+        "bytes": 453,
+        "sha256": "12638f011a2ef8b510f86140291fbf6a4884e14a08d3722deb3b8274c53d8a16"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/22-张辽.png",
+        "bytes": 516,
+        "sha256": "b99fafc8c75e6fe5b1b742c70ead0cacdc7938545faafcf51f44b8dd3b7a50c5"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/23-李傕.png",
+        "bytes": 527,
+        "sha256": "e223a38181e9ba0494a226b9d13e2cce714912f24a770a624efccc6d419afca9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/3-袁术.png",
+        "bytes": 465,
+        "sha256": "8536007513d1ef5fc709c48d37ecbae9232368ec93bab90e3d943540126ee68e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/32-夏侯惇.png",
+        "bytes": 558,
+        "sha256": "613d90bf6ab53768912dceedeb050852ded5425a962ff7ecf74a05b9dfc12e4e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/33-夏侯渊.png",
+        "bytes": 511,
+        "sha256": "6756cf24797aa8d5c4f616024445b97972d3212d8a235a94f2cb6a39265acf16"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/35-乐进.png",
+        "bytes": 523,
+        "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/4-孙坚.png",
+        "bytes": 508,
+        "sha256": "7989d3d7aa6f58aacce7afcd4c5597f11556faac8ef6c45912a421846db108e6"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/5-马腾.png",
+        "bytes": 514,
+        "sha256": "3bb0f9684e7727be1809ae34def94099ef4521a7cae4bb7cc0b0c41ba5ed13d9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/50-程普.png",
+        "bytes": 530,
+        "sha256": "da865e576c924701189d9c54d438df5769ce5f5e84e875175aff51a032efd685"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/52-黄盖.png",
+        "bytes": 472,
+        "sha256": "fdfc93456d357c8662d574cc109ea8ec604b81afdd217fe60c29b752d0c9fc6e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/54-孙策.png",
+        "bytes": 469,
+        "sha256": "f7555e3ec58bec6f481c048aaf518d9a366002fb1c8c97d021441f49322a2401"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/55-孙权.png",
+        "bytes": 457,
+        "sha256": "4133015bd026dea546f0cfa87ae1e46c92b61c3ea1a45d8c43b325c1c86abf1a"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/57-马超.png",
+        "bytes": 526,
+        "sha256": "a24d8b2a0c283fbcc7048f732e85b69e92a85e89257cf4830e1f44680c38ce03"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/58-庞德.png",
+        "bytes": 399,
+        "sha256": "b40381a82c5ffa4eeb77040945aea046daca3e60d4710c9c90a0025017c6513c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/6-陶谦.png",
+        "bytes": 517,
+        "sha256": "6fcda7a832e1aa18a0eeb42503f77e31d64d8f2e46daeda31bbc34de57564a2b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/63-梁兴.png",
+        "bytes": 482,
+        "sha256": "b93b00b2be9fe95a36356f2e71296ce69b39721e4ddfd3221caab91cba622ef6"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/66-杨秋.png",
+        "bytes": 409,
+        "sha256": "1069873fd47bf787c97bfc75a95111cedb0c41dabc8cbdc3a5fb637fcdafad6b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/7-孔融.png",
+        "bytes": 497,
+        "sha256": "70f85de7b37d47ac84a8b093d2262ae56145d646c4286853d093a4f1cf7ea127"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/73-太史慈.png",
+        "bytes": 518,
+        "sha256": "69831fd7c9c79c422993726b46aefca2938a04dddb3f71979ec7573ddade469c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/8-刘岱.png",
+        "bytes": 474,
+        "sha256": "f641049cb4a0e4a8b4c8cdaf3e4725987e078340aa0eee496afb7d5c1ea3e7e5"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/85-方悦.png",
+        "bytes": 463,
+        "sha256": "822bb5d7d8be498ef417e61c5c5f6d0bb548ba547169a160f679a0a85ba0ce86"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/86-陈宫.png",
+        "bytes": 437,
+        "sha256": "fa952b617f01b8e285c9a7fc4fd590894bdbc4cd4e0c5a68a7987e8ae7723707"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/87-典韦.png",
+        "bytes": 516,
+        "sha256": "04ff7201e0ecdea710952d98e8365f107a23e0e0a0ae2d4dc054c918b4b933c1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/89-关羽.png",
+        "bytes": 488,
+        "sha256": "5f0336f89d935f9568744d2aaf05f7bb19a569c37ed492d3f528ed768f244126"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/9-张杨.png",
+        "bytes": 470,
+        "sha256": "1ced3f865d19d659ec7e7e6dc7349825468c5f7a90ce87cc36ed60f00de00c9a"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/90-张飞.png",
+        "bytes": 504,
+        "sha256": "f71a24fe2b99268251a6047f9d7ded1b8ee898186b3e36e057af87b04acc8059"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/96-甘宁.png",
+        "bytes": 497,
+        "sha256": "430cfd3696e7fa99d688cf95383cf7862b502da9fab1bc238ac21f67db17eec1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/0-李傕.png",
+        "bytes": 527,
+        "sha256": "e223a38181e9ba0494a226b9d13e2cce714912f24a770a624efccc6d419afca9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/1-曹操.png",
+        "bytes": 469,
+        "sha256": "18846bdd8c718f770d9172adffd0dc0d4b369c016b4d2e117e895b169f214fed"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/10-公孙度.png",
+        "bytes": 468,
+        "sha256": "2f5220bac717965d31d966a823009a3a28fb412f006b040b775524a524129074"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/100-马岱.png",
+        "bytes": 449,
+        "sha256": "0c12f9ecc0b2b02f3b79c8940739a1ca70bc83ba9344f58a810ae9cad0d89022"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/101-庞德.png",
+        "bytes": 399,
+        "sha256": "b40381a82c5ffa4eeb77040945aea046daca3e60d4710c9c90a0025017c6513c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/106-梁兴.png",
+        "bytes": 482,
+        "sha256": "b93b00b2be9fe95a36356f2e71296ce69b39721e4ddfd3221caab91cba622ef6"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/109-杨秋.png",
+        "bytes": 409,
+        "sha256": "1069873fd47bf787c97bfc75a95111cedb0c41dabc8cbdc3a5fb637fcdafad6b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/11-马腾.png",
+        "bytes": 514,
+        "sha256": "3bb0f9684e7727be1809ae34def94099ef4521a7cae4bb7cc0b0c41ba5ed13d9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/12-刘表.png",
+        "bytes": 475,
+        "sha256": "f25593edf4908a66d120e1117a59ac29b5dbaf4276271d22e8ad116f7a34fec1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/121-甘宁.png",
+        "bytes": 497,
+        "sha256": "430cfd3696e7fa99d688cf95383cf7862b502da9fab1bc238ac21f67db17eec1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/13-刘璋.png",
+        "bytes": 505,
+        "sha256": "7775f00d8f43483946687ed554db98dc028f66fae8dccae7a36bd0195d466238"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/134-法正.png",
+        "bytes": 485,
+        "sha256": "d868dd071d47caaf165f5ceeb91620ec3aa76558d9e23b31a1f4f41d1c13a704"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/14-张鲁.png",
+        "bytes": 449,
+        "sha256": "e4ddebd6dd0f6efe87159641eee1890b1f31f074fd51520912dd9fde424fd4c9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/141-郭嘉.png",
+        "bytes": 480,
+        "sha256": "49161fd1f6e3682cbec25f49e988951bcac215340c790ab6703850cd2245334f"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/145-于禁.png",
+        "bytes": 516,
+        "sha256": "04ff7201e0ecdea710952d98e8365f107a23e0e0a0ae2d4dc054c918b4b933c1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/146-典韦.png",
+        "bytes": 478,
+        "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/147-许褚.png",
+        "bytes": 464,
+        "sha256": "cd9a65141cb1cc9a7da6047e344cede5efd89038f9c67e6ca6232948cafbde10"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/15-孔融.png",
+        "bytes": 497,
+        "sha256": "70f85de7b37d47ac84a8b093d2262ae56145d646c4286853d093a4f1cf7ea127"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/150-徐晃.png",
+        "bytes": 487,
+        "sha256": "8e582e2ad7874a149351c7db23701496e19c8ad978ed468526272a5afea47f37"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/163-赵云.png",
+        "bytes": 468,
+        "sha256": "4278b9e26b034f68df985a81c6dd051cb8bda10d4b922b6be87b96d9320d6414"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/170-庞统.png",
+        "bytes": 486,
+        "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/171-徐庶.png",
+        "bytes": 432,
+        "sha256": "399d431223318927fbfa1be01562a6dd01a76e61189e12f692ebfac6b7daaba4"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/173-鲁肃.png",
+        "bytes": 496,
+        "sha256": "258f37186bb14e9da6b8d01b8821cfd4a4e2c013ae829bb3f4a286d6e631381d"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/182-诸葛亮.png",
+        "bytes": 317,
+        "sha256": "707fbc370eccda004b5d6a84994388dc346a137d3d499edf651920361165b24e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/19-夏侯惇.png",
+        "bytes": 558,
+        "sha256": "613d90bf6ab53768912dceedeb050852ded5425a962ff7ecf74a05b9dfc12e4e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/2-刘备.png",
+        "bytes": 470,
+        "sha256": "c8a1f5b85d94c9c65277073e971236e083267524fcf6bb9169574c878ed5f8f2"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/20-夏侯渊.png",
+        "bytes": 511,
+        "sha256": "6756cf24797aa8d5c4f616024445b97972d3212d8a235a94f2cb6a39265acf16"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/22-乐进.png",
+        "bytes": 523,
+        "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/26-刘岱.png",
+        "bytes": 474,
+        "sha256": "f641049cb4a0e4a8b4c8cdaf3e4725987e078340aa0eee496afb7d5c1ea3e7e5"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/29-荀彧.png",
+        "bytes": 511,
+        "sha256": "0ffbf8630f1ad67760ea79f4481e5cdccb97d2c748c8d43cf8ebeea6539226be"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/3-袁绍.png",
+        "bytes": 514,
+        "sha256": "5115f9e266089b9e039399d4b0bd3b7294623817922eeb65902b4f532f6455e9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/31-关羽.png",
+        "bytes": 488,
+        "sha256": "5f0336f89d935f9568744d2aaf05f7bb19a569c37ed492d3f528ed768f244126"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/32-张飞.png",
+        "bytes": 504,
+        "sha256": "f71a24fe2b99268251a6047f9d7ded1b8ee898186b3e36e057af87b04acc8059"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/4-袁术.png",
+        "bytes": 465,
+        "sha256": "8536007513d1ef5fc709c48d37ecbae9232368ec93bab90e3d943540126ee68e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/42-张郃.png",
+        "bytes": 516,
+        "sha256": "469a374640af88f12ec8e1fce16210c151fee0decab572011c6b497af80aea02"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/5-孙策.png",
+        "bytes": 469,
+        "sha256": "f7555e3ec58bec6f481c048aaf518d9a366002fb1c8c97d021441f49322a2401"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/6-张邈.png",
+        "bytes": 426,
+        "sha256": "3390af4fa62b01868aaf81367fda6f7e32aac0f3bc861d8df14248b09fb6b72e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/7-张绣.png",
+        "bytes": 487,
+        "sha256": "400745d98a890eaff3ecc55cf79432590f41085b42362758dcf95f98b763f097"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/70-太史慈.png",
+        "bytes": 518,
+        "sha256": "69831fd7c9c79c422993726b46aefca2938a04dddb3f71979ec7573ddade469c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/71-程普.png",
+        "bytes": 530,
+        "sha256": "da865e576c924701189d9c54d438df5769ce5f5e84e875175aff51a032efd685"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/72-黄盖.png",
+        "bytes": 472,
+        "sha256": "fdfc93456d357c8662d574cc109ea8ec604b81afdd217fe60c29b752d0c9fc6e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/75-周泰.png",
+        "bytes": 535,
+        "sha256": "86361ee5d64238fd5db4778d886dcf39b5992a6781331b0a6c95f298b6891517"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/78-周瑜.png",
+        "bytes": 501,
+        "sha256": "039510e7765a00f0d2fc53618ac9d0e8fea32fb3233bab5138390b9d4b34040d"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/79-张昭.png",
+        "bytes": 480,
+        "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/8-吕布.png",
+        "bytes": 453,
+        "sha256": "12638f011a2ef8b510f86140291fbf6a4884e14a08d3722deb3b8274c53d8a16"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/82-韩馥.png",
+        "bytes": 429,
+        "sha256": "444de590738cc01b30dbea88c5497149e4557958083d1bdebaca9680868114cb"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/85-贾诩.png",
+        "bytes": 428,
+        "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/86-张辽.png",
+        "bytes": 516,
+        "sha256": "b99fafc8c75e6fe5b1b742c70ead0cacdc7938545faafcf51f44b8dd3b7a50c5"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/9-韩玄.png",
+        "bytes": 408,
+        "sha256": "8abc94bf724da44122f41581482f769ad3735d681fba4c4fefea520357c5a6c3"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/92-陈宫.png",
+        "bytes": 437,
+        "sha256": "fa952b617f01b8e285c9a7fc4fd590894bdbc4cd4e0c5a68a7987e8ae7723707"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/93-黄忠.png",
+        "bytes": 421,
+        "sha256": "b16540becab69b147e000aa17586930a03f58954d284455e4905269bdb61da5e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/94-魏延.png",
+        "bytes": 515,
+        "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/96-公孙康.png",
+        "bytes": 426,
+        "sha256": "1585af658aee1d7917df9f6fa62d483abcc421fbf19187eb99a288dde82cec3f"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-2/99-马超.png",
+        "bytes": 526,
+        "sha256": "a24d8b2a0c283fbcc7048f732e85b69e92a85e89257cf4830e1f44680c38ce03"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/0-韩玄.png",
+        "bytes": 408,
+        "sha256": "8abc94bf724da44122f41581482f769ad3735d681fba4c4fefea520357c5a6c3"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/1-刘度.png",
+        "bytes": 427,
+        "sha256": "7d3edb3e74fb845f7a15c4ac1419a73fb7b9e06f04756e0dc52f5a49bc9140ba"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/10-公孙康.png",
+        "bytes": 426,
+        "sha256": "1585af658aee1d7917df9f6fa62d483abcc421fbf19187eb99a288dde82cec3f"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/104-周瑜.png",
+        "bytes": 501,
+        "sha256": "039510e7765a00f0d2fc53618ac9d0e8fea32fb3233bab5138390b9d4b34040d"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/105-张昭.png",
+        "bytes": 480,
+        "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/11-黄忠.png",
+        "bytes": 421,
+        "sha256": "b16540becab69b147e000aa17586930a03f58954d284455e4905269bdb61da5e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/110-鲁肃.png",
+        "bytes": 456,
+        "sha256": "2763a674ac18ab7fac188c6f0d8faf2b54d776a6d7c1337d298fe687a6471eae"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/115-孙尚香.png",
+        "bytes": 426,
+        "sha256": "7bca825331c773bb85a16bea63dcd67f33699be138e4fd40133b63cb5af030ef"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/12-魏延.png",
+        "bytes": 515,
+        "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/122-陆逊.png",
+        "bytes": 515,
+        "sha256": "799a45b9e1f5d5a9cfae00866beb402ec9f58a63427cb8c647294f5e0c253e7b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/124-马超.png",
+        "bytes": 526,
+        "sha256": "a24d8b2a0c283fbcc7048f732e85b69e92a85e89257cf4830e1f44680c38ce03"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/125-马岱.png",
+        "bytes": 449,
+        "sha256": "0c12f9ecc0b2b02f3b79c8940739a1ca70bc83ba9344f58a810ae9cad0d89022"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/126-庞德.png",
+        "bytes": 399,
+        "sha256": "b40381a82c5ffa4eeb77040945aea046daca3e60d4710c9c90a0025017c6513c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/131-梁兴.png",
+        "bytes": 482,
+        "sha256": "b93b00b2be9fe95a36356f2e71296ce69b39721e4ddfd3221caab91cba622ef6"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/134-杨秋.png",
+        "bytes": 409,
+        "sha256": "1069873fd47bf787c97bfc75a95111cedb0c41dabc8cbdc3a5fb637fcdafad6b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/151-法正.png",
+        "bytes": 485,
+        "sha256": "d868dd071d47caaf165f5ceeb91620ec3aa76558d9e23b31a1f4f41d1c13a704"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/165-庞统.png",
+        "bytes": 477,
+        "sha256": "843ab2ab684e41179d5edd3b17469ab19b181f3a2c778aabcc84ea486dea7770"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/167-邓艾.png",
+        "bytes": 471,
+        "sha256": "e3adc4279cb4882412feaa5a9416ac8a8403aa69080bd288a80fb442e438ef75"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/168-钟会.png",
+        "bytes": 452,
+        "sha256": "19f275001198494ea8bed58e11c39953a66768bd0b881b0f74be2a5271a2aa11"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/169-司马懿.png",
+        "bytes": 478,
+        "sha256": "edd8863ffb0ac4e5ce4fe6d53a57ccd6e42ce0a8934786aa5339a70478501780"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/170-姜维.png",
+        "bytes": 465,
+        "sha256": "48df62fe6af27b9b6f3f690bda6cc4c086ef5550fe9036f14d7141d263f3c369"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/174-陆抗.png",
+        "bytes": 424,
+        "sha256": "896ee304e398650e8652ac1861e40308397c5582daf5b9161fab78520d3a5e5c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/2-赵范.png",
+        "bytes": 453,
+        "sha256": "d35520f0b9242724f60e9e904f7695b603d4418c967305baf2fc8f16271278a4"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/20-徐庶.png",
+        "bytes": 486,
+        "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/21-夏侯惇.png",
+        "bytes": 558,
+        "sha256": "613d90bf6ab53768912dceedeb050852ded5425a962ff7ecf74a05b9dfc12e4e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/22-夏侯渊.png",
+        "bytes": 511,
+        "sha256": "6756cf24797aa8d5c4f616024445b97972d3212d8a235a94f2cb6a39265acf16"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/26-孔融.png",
+        "bytes": 497,
+        "sha256": "70f85de7b37d47ac84a8b093d2262ae56145d646c4286853d093a4f1cf7ea127"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/29-乐进.png",
+        "bytes": 523,
+        "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/3-金旋.png",
+        "bytes": 434,
+        "sha256": "f3485b4f21e2aafab7d8da96c241ca901532b07a3c6967010b129c01997a665c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/34-曹丕.png",
+        "bytes": 468,
+        "sha256": "2eebd2f8934485282587aa237e323ea93b9f59c9e4507f7c39dd9de1d224985b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/37-于禁.png",
+        "bytes": 500,
+        "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/38-荀彧.png",
+        "bytes": 511,
+        "sha256": "0ffbf8630f1ad67760ea79f4481e5cdccb97d2c748c8d43cf8ebeea6539226be"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/4-曹操.png",
+        "bytes": 469,
+        "sha256": "18846bdd8c718f770d9172adffd0dc0d4b369c016b4d2e117e895b169f214fed"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/45-许褚.png",
+        "bytes": 478,
+        "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/47-徐晃.png",
+        "bytes": 506,
+        "sha256": "1296449188022bcebc1bcb38b40a3e5f3f5e32018211cddc61227da43c29be5f"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/5-刘备.png",
+        "bytes": 470,
+        "sha256": "c8a1f5b85d94c9c65277073e971236e083267524fcf6bb9169574c878ed5f8f2"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/50-张郃.png",
+        "bytes": 516,
+        "sha256": "469a374640af88f12ec8e1fce16210c151fee0decab572011c6b497af80aea02"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/6-孙权.png",
+        "bytes": 457,
+        "sha256": "4133015bd026dea546f0cfa87ae1e46c92b61c3ea1a45d8c43b325c1c86abf1a"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/60-张辽.png",
+        "bytes": 516,
+        "sha256": "b99fafc8c75e6fe5b1b742c70ead0cacdc7938545faafcf51f44b8dd3b7a50c5"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/67-张绣.png",
+        "bytes": 487,
+        "sha256": "400745d98a890eaff3ecc55cf79432590f41085b42362758dcf95f98b763f097"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/68-贾诩.png",
+        "bytes": 428,
+        "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/7-马腾.png",
+        "bytes": 514,
+        "sha256": "3bb0f9684e7727be1809ae34def94099ef4521a7cae4bb7cc0b0c41ba5ed13d9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/79-关羽.png",
+        "bytes": 488,
+        "sha256": "5f0336f89d935f9568744d2aaf05f7bb19a569c37ed492d3f528ed768f244126"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/8-张鲁.png",
+        "bytes": 449,
+        "sha256": "e4ddebd6dd0f6efe87159641eee1890b1f31f074fd51520912dd9fde424fd4c9"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/80-张飞.png",
+        "bytes": 504,
+        "sha256": "f71a24fe2b99268251a6047f9d7ded1b8ee898186b3e36e057af87b04acc8059"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/81-赵云.png",
+        "bytes": 509,
+        "sha256": "0ab0c0074ad26e91a56970cf5cf7fb845669d317195697079e7f6030d748bd74"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/9-刘璋.png",
+        "bytes": 505,
+        "sha256": "7775f00d8f43483946687ed554db98dc028f66fae8dccae7a36bd0195d466238"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/90-诸葛亮.png",
+        "bytes": 488,
+        "sha256": "1d65c6fd0fb986134515f816bd19a6101fa7dccf56c7ba89c302fdf4463d38cc"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/92-太史慈.png",
+        "bytes": 518,
+        "sha256": "69831fd7c9c79c422993726b46aefca2938a04dddb3f71979ec7573ddade469c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/93-甘宁.png",
+        "bytes": 497,
+        "sha256": "430cfd3696e7fa99d688cf95383cf7862b502da9fab1bc238ac21f67db17eec1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/94-黄盖.png",
+        "bytes": 472,
+        "sha256": "fdfc93456d357c8662d574cc109ea8ec604b81afdd217fe60c29b752d0c9fc6e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/95-程普.png",
+        "bytes": 530,
+        "sha256": "da865e576c924701189d9c54d438df5769ce5f5e84e875175aff51a032efd685"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-3/98-周泰.png",
+        "bytes": 535,
+        "sha256": "86361ee5d64238fd5db4778d886dcf39b5992a6781331b0a6c95f298b6891517"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/0-曹丕.png",
+        "bytes": 468,
+        "sha256": "2eebd2f8934485282587aa237e323ea93b9f59c9e4507f7c39dd9de1d224985b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/1-刘禅.png",
+        "bytes": 469,
+        "sha256": "38f5fb85957dcdb04e9b55c7f12c5b0b9c1355c5fb0779564144e926e50b5297"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/103-甘宁.png",
+        "bytes": 497,
+        "sha256": "430cfd3696e7fa99d688cf95383cf7862b502da9fab1bc238ac21f67db17eec1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/104-黄盖.png",
+        "bytes": 472,
+        "sha256": "fdfc93456d357c8662d574cc109ea8ec604b81afdd217fe60c29b752d0c9fc6e"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/105-程普.png",
+        "bytes": 530,
+        "sha256": "da865e576c924701189d9c54d438df5769ce5f5e84e875175aff51a032efd685"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/108-周泰.png",
+        "bytes": 535,
+        "sha256": "86361ee5d64238fd5db4778d886dcf39b5992a6781331b0a6c95f298b6891517"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/115-张昭.png",
+        "bytes": 480,
+        "sha256": "5fda34a8ed0e0710df50114afa8ea2adaa376e3a7e08919741d9226018f4a912"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/120-鲁肃.png",
+        "bytes": 456,
+        "sha256": "2763a674ac18ab7fac188c6f0d8faf2b54d776a6d7c1337d298fe687a6471eae"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/13-庞德.png",
+        "bytes": 399,
+        "sha256": "b40381a82c5ffa4eeb77040945aea046daca3e60d4710c9c90a0025017c6513c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/133-陆逊.png",
+        "bytes": 515,
+        "sha256": "799a45b9e1f5d5a9cfae00866beb402ec9f58a63427cb8c647294f5e0c253e7b"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/135-陆抗.png",
+        "bytes": 424,
+        "sha256": "896ee304e398650e8652ac1861e40308397c5582daf5b9161fab78520d3a5e5c"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/143-祝融夫人.png",
+        "bytes": 437,
+        "sha256": "b49966cd75cbfadb18eedae26687b7a8d1929a01bfeb0ada2f7ee83c8a6161a5"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/150-邓艾.png",
+        "bytes": 471,
+        "sha256": "e3adc4279cb4882412feaa5a9416ac8a8403aa69080bd288a80fb442e438ef75"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/151-钟会.png",
+        "bytes": 452,
+        "sha256": "19f275001198494ea8bed58e11c39953a66768bd0b881b0f74be2a5271a2aa11"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/154-羊祜.png",
+        "bytes": 402,
+        "sha256": "0490d61a4c17269ca014f4ecc69c1a0472a47ebe5941331b59411a6a732e6412"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/157-姜维.png",
+        "bytes": 465,
+        "sha256": "48df62fe6af27b9b6f3f690bda6cc4c086ef5550fe9036f14d7141d263f3c369"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/16-乐进.png",
+        "bytes": 523,
+        "sha256": "53db1a9d12e82f7eee0856b4964e67bf17ce594d506f8288c315cb2e20f9749a"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/167-刘度.png",
+        "bytes": 427,
+        "sha256": "7d3edb3e74fb845f7a15c4ac1419a73fb7b9e06f04756e0dc52f5a49bc9140ba"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/170-赵范.png",
+        "bytes": 453,
+        "sha256": "d35520f0b9242724f60e9e904f7695b603d4418c967305baf2fc8f16271278a4"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/2-孙权.png",
+        "bytes": 457,
+        "sha256": "4133015bd026dea546f0cfa87ae1e46c92b61c3ea1a45d8c43b325c1c86abf1a"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/21-于禁.png",
+        "bytes": 500,
+        "sha256": "e0865b973a22b81dd8a7d596cdd22c27da8ac3057a6f7114c74d2342ae2e9545"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/28-许褚.png",
+        "bytes": 478,
+        "sha256": "a80171e223ddb9b50e705962c432311d5fb42103554819704dc01100d5ed4f32"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/3-孟获.png",
+        "bytes": 471,
+        "sha256": "fd38879f094944b5648ce5a2e680bfda90e369057440ad47d2f75dab16b1f0f3"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/30-徐晃.png",
+        "bytes": 506,
+        "sha256": "1296449188022bcebc1bcb38b40a3e5f3f5e32018211cddc61227da43c29be5f"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/33-张郃.png",
+        "bytes": 516,
+        "sha256": "469a374640af88f12ec8e1fce16210c151fee0decab572011c6b497af80aea02"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/4-公孙康.png",
+        "bytes": 426,
+        "sha256": "1585af658aee1d7917df9f6fa62d483abcc421fbf19187eb99a288dde82cec3f"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/5-徐庶.png",
+        "bytes": 486,
+        "sha256": "8da7548a6926311c18ca1c51825637cf7df5c8055b42b2507fa26168a8b35636"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/52-张绣.png",
+        "bytes": 487,
+        "sha256": "400745d98a890eaff3ecc55cf79432590f41085b42362758dcf95f98b763f097"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/53-贾诩.png",
+        "bytes": 428,
+        "sha256": "3f81f1d1257f06b86ced1d9f7a80fb91deb110b4ba24a0a3dd8be0f72b666c50"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/63-司马懿.png",
+        "bytes": 478,
+        "sha256": "edd8863ffb0ac4e5ce4fe6d53a57ccd6e42ce0a8934786aa5339a70478501780"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/71-王平.png",
+        "bytes": 513,
+        "sha256": "005c65de541c3583521fd31f0b604914e177d5bec552f7ff9743b4b99f8714a5"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/72-诸葛亮.png",
+        "bytes": 488,
+        "sha256": "1d65c6fd0fb986134515f816bd19a6101fa7dccf56c7ba89c302fdf4463d38cc"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/73-赵云.png",
+        "bytes": 509,
+        "sha256": "0ab0c0074ad26e91a56970cf5cf7fb845669d317195697079e7f6030d748bd74"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/74-魏延.png",
+        "bytes": 515,
+        "sha256": "51d7955e730e409b2813e6b1bbdf33f7a3914477e5ff4be16f2de4d810dbd278"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/75-马超.png",
+        "bytes": 526,
+        "sha256": "a24d8b2a0c283fbcc7048f732e85b69e92a85e89257cf4830e1f44680c38ce03"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-4/76-马岱.png",
+        "bytes": 449,
+        "sha256": "0c12f9ecc0b2b02f3b79c8940739a1ca70bc83ba9344f58a810ae9cad0d89022"
+      },
+      {
+        "path": "assets/hd-portraits/review.html",
+        "bytes": 7234,
+        "sha256": "2fdfaa015cd18c42e5ea1ca47b89527dae7e6451e87aa07ed77c447f5af2b2e5"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "hd-portrait-smoke.html",
+        "bytes": 5844,
+        "sha256": "671f27cd0dee42aaf0a4013bda5b313c3edd576f28f4f9ff9c26ce8b34cfc6b6"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 24444,
+        "sha256": "15a51c82f97acf1494b5d8537c9d7cddcda28bd2811990170ac46ab06e0e4ab0"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "scripts/dump-hd-portraits.mjs",
+        "bytes": 25708,
+        "sha256": "6aaad6597e2e969a3e72e13fb9c38d7ed94c883d30fef7ec86a48cc6684be98d"
+      },
+      {
+        "path": "scripts/hd-person-identity-rom.mjs",
+        "bytes": 6532,
+        "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+      },
+      {
+        "path": "scripts/test-hd-lib-identity.mjs",
+        "bytes": 8080,
+        "sha256": "eec6871ca35529549b5af7a69489c504a478919ff78d9a4b0e4c1c2ed2d4a3d3"
+      },
+      {
+        "path": "scripts/test-hd-mobile-portraits.mjs",
+        "bytes": 31280,
+        "sha256": "74039e6bb55db925cce0a0275ec659cc0cf611bfc8c797b31bd74093e26d5cd1"
+      },
+      {
+        "path": "scripts/test-hd-portraits-runtime.mjs",
+        "bytes": 52537,
+        "sha256": "0c4adf5eb8b7290e36228757ca4edf721f3e81a6986e7cca459c76e9d0bb1e35"
+      },
+      {
+        "path": "scripts/test-hd-portraits.mjs",
+        "bytes": 70286,
+        "sha256": "649b7c8901fe560b80207f31cb3b0393d236e8fce3e5bc267f3efddd937f8d4b"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 0,
+    "newDefaultModules": 0,
+    "controlledIdentityCombinations": 615,
+    "nativeSourcesUnchanged": 128,
+    "runtimeArtifactsUnchanged": 4,
+    "browserRun": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "fullSuiteRun": false,
+    "globalHdComplete": false,
+    "command": "node --test --test-reporter=tap --test-concurrency=1 scripts/test-hd-portraits.mjs scripts/test-hd-mobile-portraits.mjs scripts/test-hd-lib-identity.mjs",
+    "stdout": {
+      "path": "build/portrait-late-characters-20261028-v103/targeted-v1.stdout.tap",
+      "bytes": 35267,
+      "sha256": "7c08457fc8eefd54c3b2f4d697a6fdbd23ce3023ca5c15635bcef7915a097ee4",
+      "text": "TAP version 13\n# Subtest: actual dictionary bytes verify with the engine Promise replacement and an unrelated preferred path\nok 1 - actual dictionary bytes verify with the engine Promise replacement and an unrelated preferred path\n  ---\n  duration_ms: 21.2472\n  type: 'test'\n  ...\n# Subtest: same preferred path and a one-byte changed LIB produce different identities\nok 2 - same preferred path and a one-byte changed LIB produce different identities\n  ---\n  duration_ms: 39.3235\n  type: 'test'\n  ...\n# Subtest: repeated reads and subscriptions share one digest for each actual byte source\nok 3 - repeated reads and subscriptions share one digest for each actual byte source\n  ---\n  duration_ms: 8.6742\n  type: 'test'\n  ...\n# Subtest: stale success retires itself after an unobserved LIB switch\nok 4 - stale success retires itself after an unobserved LIB switch\n  ---\n  duration_ms: 0.9004\n  type: 'test'\n  ...\n# Subtest: late rejection cannot overwrite the newer ready identity\nok 5 - late rejection cannot overwrite the newer ready identity\n  ---\n  duration_ms: 0.6749\n  type: 'test'\n  ...\n# Subtest: malformed, absent, oversized and failed reads stay untrusted and can recover\nok 6 - malformed, absent, oversized and failed reads stay untrusted and can recover\n  ---\n  duration_ms: 3.3313\n  type: 'test'\n  ...\n# Subtest: missing crypto, digest rejection and malformed digests never publish ready\nok 7 - missing crypto, digest rejection and malformed digests never publish ready\n  ---\n  duration_ms: 10.9608\n  type: 'test'\n  ...\n# Subtest: one consumer cannot mutate identity or prevent other consumers from retiring work\nok 8 - one consumer cannot mutate identity or prevent other consumers from retiring work\n  ---\n  duration_ms: 4.9502\n  type: 'test'\n  ...\n# Subtest: reentrant consumer switching the LIB leaves the newest generation authoritative\nok 9 - reentrant consumer switching the LIB leaves the newest generation authoritative\n  ---\n  duration_ms: 4.9803\n  type: 'test'\n  ...\n# Subtest: fixture verifies the complete real standard LIB and original zero-ID person\nok 10 - fixture verifies the complete real standard LIB and original zero-ID person\n  ---\n  duration_ms: 1.2107\n  type: 'test'\n  ...\n# Subtest: explicit init is idempotent and never sends input or serializes native data\nok 11 - explicit init is idempotent and never sends input or serializes native data\n  ---\n  duration_ms: 31.5708\n  type: 'test'\n  ...\n# Subtest: current city person renders its actual HD entry only after image load\nok 12 - current city person renders its actual HD entry only after image load\n  ---\n  duration_ms: 24.4184\n  type: 'test'\n  ...\n# Subtest: zero person ID is legal and a true reference attaches to the city slot\nok 13 - zero person ID is legal and a true reference attaches to the city slot\n  ---\n  duration_ms: 23.921\n  type: 'test'\n  ...\n# Subtest: last named original person retains its real index rather than a masked or off-by-one ID\nok 14 - last named original person retains its real index rather than a masked or off-by-one ID\n  ---\n  duration_ms: 23.8711\n  type: 'test'\n  ...\n# Subtest: selected native order chooses the indexed ID rather than the first ID or name\nok 15 - selected native order chooses the indexed ID rather than the first ID or name\n  ---\n  duration_ms: 25.5758\n  type: 'test'\n  ...\n# Subtest: kind-2 current report with zero person ID renders in the report slot\nok 16 - kind-2 current report with zero person ID renders in the report slot\n  ---\n  duration_ms: 23.8814\n  type: 'test'\n  ...\n# Subtest: an actual later-period entry follows independently read g_PIdx rather than cached period one\nok 17 - an actual later-period entry follows independently read g_PIdx rather than cached period one\n  ---\n  duration_ms: 23.9747\n  type: 'test'\n  ...\n# Subtest: manifest still pending is not an asset miss or a native LCD request\nok 18 - manifest still pending is not an asset miss or a native LCD request\n  ---\n  duration_ms: 24.2682\n  type: 'test'\n  ...\n# Subtest: an authoritative LCD source requests the real host fallback with an opaque current owner\nok 19 - an authoritative LCD source requests the real host fallback with an opaque current owner\n  ---\n  duration_ms: 23.8606\n  type: 'test'\n  ...\n# Subtest: engine not ready fails closed without image or LCD authority\nok 20 - engine not ready fails closed without image or LCD authority\n  ---\n  duration_ms: 23.5895\n  type: 'test'\n  ...\n# Subtest: identity pending fails closed without image or LCD authority\nok 21 - identity pending fails closed without image or LCD authority\n  ---\n  duration_ms: 23.8643\n  type: 'test'\n  ...\n# Subtest: identity error fails closed without image or LCD authority\nok 22 - identity error fails closed without image or LCD authority\n  ---\n  duration_ms: 23.3649\n  type: 'test'\n  ...\n# Subtest: wrong standard SHA fails closed without image or LCD authority\nok 23 - wrong standard SHA fails closed without image or LCD authority\n  ---\n  duration_ms: 24.7097\n  type: 'test'\n  ...\n# Subtest: wrong standard byte length fails closed without image or LCD authority\nok 24 - wrong standard byte length fails closed without image or LCD authority\n  ---\n  duration_ms: 22.7562\n  type: 'test'\n  ...\n# Subtest: missing original identity generation fails closed without image or LCD authority\nok 25 - missing original identity generation fails closed without image or LCD authority\n  ---\n  duration_ms: 25.3508\n  type: 'test'\n  ...\n# Subtest: missing current host ticket fails closed without image or LCD authority\nok 26 - missing current host ticket fails closed without image or LCD authority\n  ---\n  duration_ms: 23.2452\n  type: 'test'\n  ...\n# Subtest: city owner is not person picker fails closed without image or LCD authority\nok 27 - city owner is not person picker fails closed without image or LCD authority\n  ---\n  duration_ms: 23.0559\n  type: 'test'\n  ...\n# Subtest: title owner cannot authorize a city portrait fails closed without image or LCD authority\nok 28 - title owner cannot authorize a city portrait fails closed without image or LCD authority\n  ---\n  duration_ms: 23.2985\n  type: 'test'\n  ...\n# Subtest: inactive native city owner fails closed without image or LCD authority\nok 29 - inactive native city owner fails closed without image or LCD authority\n  ---\n  duration_ms: 23.0997\n  type: 'test'\n  ...\n# Subtest: IDs not published fails closed without image or LCD authority\nok 30 - IDs not published fails closed without image or LCD authority\n  ---\n  duration_ms: 22.6587\n  type: 'test'\n  ...\n# Subtest: person resource count is unavailable fails closed without image or LCD authority\nok 31 - person resource count is unavailable fails closed without image or LCD authority\n  ---\n  duration_ms: 23.1236\n  type: 'test'\n  ...\n# Subtest: count disagrees with complete IDs fails closed without image or LCD authority\nok 32 - count disagrees with complete IDs fails closed without image or LCD authority\n  ---\n  duration_ms: 23.7373\n  type: 'test'\n  ...\n# Subtest: negative current index fails closed without image or LCD authority\nok 33 - negative current index fails closed without image or LCD authority\n  ---\n  duration_ms: 24.0924\n  type: 'test'\n  ...\n# Subtest: current index is outside native list fails closed without image or LCD authority\nok 34 - current index is outside native list fails closed without image or LCD authority\n  ---\n  duration_ms: 22.8228\n  type: 'test'\n  ...\n# Subtest: full U16 256 is not silently truncated to person zero fails closed without image or LCD authority\nok 35 - full U16 256 is not silently truncated to person zero fails closed without image or LCD authority\n  ---\n  duration_ms: 23.3804\n  type: 'test'\n  ...\n# Subtest: U16 sentinel cannot authorize a portrait fails closed without image or LCD authority\nok 36 - U16 sentinel cannot authorize a portrait fails closed without image or LCD authority\n  ---\n  duration_ms: 23.9221\n  type: 'test'\n  ...\n# Subtest: negative person ID fails closed without image or LCD authority\nok 37 - negative person ID fails closed without image or LCD authority\n  ---\n  duration_ms: 22.8046\n  type: 'test'\n  ...\n# Subtest: fractional person ID fails closed without image or LCD authority\nok 38 - fractional person ID fails closed without image or LCD authority\n  ---\n  duration_ms: 23.0408\n  type: 'test'\n  ...\n# Subtest: unnamed original slot cannot impersonate a named person fails closed without image or LCD authority\nok 39 - unnamed original slot cannot impersonate a named person fails closed without image or LCD authority\n  ---\n  duration_ms: 24.2869\n  type: 'test'\n  ...\n# Subtest: period zero fails closed without image or LCD authority\nok 40 - period zero fails closed without image or LCD authority\n  ---\n  duration_ms: 22.9199\n  type: 'test'\n  ...\n# Subtest: period five fails closed without image or LCD authority\nok 41 - period five fails closed without image or LCD authority\n  ---\n  duration_ms: 22.7609\n  type: 'test'\n  ...\n# Subtest: missing native data fails closed without image or LCD authority\nok 42 - missing native data fails closed without image or LCD authority\n  ---\n  duration_ms: 23.529\n  type: 'test'\n  ...\n# Subtest: wrong shared owner metadata fails closed without image or LCD authority\nok 43 - wrong shared owner metadata fails closed without image or LCD authority\n  ---\n  duration_ms: 23.4084\n  type: 'test'\n  ...\n# Subtest: raw and public menu sequence disagree fails closed without image or LCD authority\nok 44 - raw and public menu sequence disagree fails closed without image or LCD authority\n  ---\n  duration_ms: 25.9296\n  type: 'test'\n  ...\n# Subtest: city shared metadata key must match current native publication\nok 45 - city shared metadata key must match current native publication\n  ---\n  duration_ms: 23.1915\n  type: 'test'\n  ...\n# Subtest: city shared metadata libraryGeneration must match current native publication\nok 46 - city shared metadata libraryGeneration must match current native publication\n  ---\n  duration_ms: 22.8548\n  type: 'test'\n  ...\n# Subtest: city shared metadata cityIndex must match current native publication\nok 47 - city shared metadata cityIndex must match current native publication\n  ---\n  duration_ms: 23.4135\n  type: 'test'\n  ...\n# Subtest: city shared metadata menuContext must match current native publication\nok 48 - city shared metadata menuContext must match current native publication\n  ---\n  duration_ms: 23.4242\n  type: 'test'\n  ...\n# Subtest: city shared metadata menuKind must match current native publication\nok 49 - city shared metadata menuKind must match current native publication\n  ---\n  duration_ms: 23.0868\n  type: 'test'\n  ...\n# Subtest: city shared metadata menuSeq must match current native publication\nok 50 - city shared metadata menuSeq must match current native publication\n  ---\n  duration_ms: 23.6046\n  type: 'test'\n  ...\n# Subtest: city shared metadata detailGeneration must match current native publication\nok 51 - city shared metadata detailGeneration must match current native publication\n  ---\n  duration_ms: 23.2599\n  type: 'test'\n  ...\n# Subtest: city shared metadata session must match current native publication\nok 52 - city shared metadata session must match current native publication\n  ---\n  duration_ms: 23.0531\n  type: 'test'\n  ...\n# Subtest: city shared metadata inputSeq must match current native publication\nok 53 - city shared metadata inputSeq must match current native publication\n  ---\n  duration_ms: 23.4516\n  type: 'test'\n  ...\n# Subtest: a changed opaque shared key between two reads invalidates an otherwise unchanged native owner\nok 54 - a changed opaque shared key between two reads invalidates an otherwise unchanged native owner\n  ---\n  duration_ms: 23.2222\n  type: 'test'\n  ...\n# Subtest: inactive report never invents a report portrait\nok 55 - inactive report never invents a report portrait\n  ---\n  duration_ms: 23.1136\n  type: 'test'\n  ...\n# Subtest: non-person report kind never invents a report portrait\nok 56 - non-person report kind never invents a report portrait\n  ---\n  duration_ms: 25.1722\n  type: 'test'\n  ...\n# Subtest: missing report sequence never invents a report portrait\nok 57 - missing report sequence never invents a report portrait\n  ---\n  duration_ms: 24.8709\n  type: 'test'\n  ...\n# Subtest: missing report input sequence never invents a report portrait\nok 58 - missing report input sequence never invents a report portrait\n  ---\n  duration_ms: 23.1502\n  type: 'test'\n  ...\n# Subtest: invalid report person never invents a report portrait\nok 59 - invalid report person never invents a report portrait\n  ---\n  duration_ms: 22.968\n  type: 'test'\n  ...\n# Subtest: torn report sequence never invents a report portrait\nok 60 - torn report sequence never invents a report portrait\n  ---\n  duration_ms: 23.4408\n  type: 'test'\n  ...\n# Subtest: torn report input sequence never invents a report portrait\nok 61 - torn report input sequence never invents a report portrait\n  ---\n  duration_ms: 23.3864\n  type: 'test'\n  ...\n# Subtest: torn report person never invents a report portrait\nok 62 - torn report person never invents a report portrait\n  ---\n  duration_ms: 23.1273\n  type: 'test'\n  ...\n# Subtest: g_hdFightActive takeover retires an already painted person without native input\nok 63 - g_hdFightActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.4728\n  type: 'test'\n  ...\n# Subtest: g_hdRecordActive takeover retires an already painted person without native input\nok 64 - g_hdRecordActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 24.9189\n  type: 'test'\n  ...\n# Subtest: g_hdMovieActive takeover retires an already painted person without native input\nok 65 - g_hdMovieActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.5349\n  type: 'test'\n  ...\n# Subtest: g_hdSpeActive takeover retires an already painted person without native input\nok 66 - g_hdSpeActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.5536\n  type: 'test'\n  ...\n# Subtest: g_hdSkillActive takeover retires an already painted person without native input\nok 67 - g_hdSkillActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.9312\n  type: 'test'\n  ...\n# Subtest: g_hdAttackActive takeover retires an already painted person without native input\nok 68 - g_hdAttackActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 27.0192\n  type: 'test'\n  ...\n# Subtest: g_hdSkillResultActive takeover retires an already painted person without native input\nok 69 - g_hdSkillResultActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.4688\n  type: 'test'\n  ...\n# Subtest: g_hdMakerActive takeover retires an already painted person without native input\nok 70 - g_hdMakerActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.5923\n  type: 'test'\n  ...\n# Subtest: g_hdMiniMapActive takeover retires an already painted person without native input\nok 71 - g_hdMiniMapActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 26.238\n  type: 'test'\n  ...\n# Subtest: g_hdViewActive takeover retires an already painted person without native input\nok 72 - g_hdViewActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.3547\n  type: 'test'\n  ...\n# Subtest: g_hdResultOwnerKind takeover retires an already painted person without native input\nok 73 - g_hdResultOwnerKind takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.1891\n  type: 'test'\n  ...\n# Subtest: g_hdResultOwnerValid takeover retires an already painted person without native input\nok 74 - g_hdResultOwnerValid takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.3378\n  type: 'test'\n  ...\n# Subtest: g_hdQtyActive takeover retires an already painted person without native input\nok 75 - g_hdQtyActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.2534\n  type: 'test'\n  ...\n# Subtest: g_hdHelpActive takeover retires an already painted person without native input\nok 76 - g_hdHelpActive takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.7474\n  type: 'test'\n  ...\n# Subtest: g_hdBattlePick takeover retires an already painted person without native input\nok 77 - g_hdBattlePick takeover retires an already painted person without native input\n  ---\n  duration_ms: 23.4288\n  type: 'test'\n  ...\n# Subtest: period changes during independent reads reject rather than publishing a different period\nok 78 - period changes during independent reads reject rather than publishing a different period\n  ---\n  duration_ms: 23.0611\n  type: 'test'\n  ...\n# Subtest: person-count getter changes current native owner is caught by the final fence\nok 79 - person-count getter changes current native owner is caught by the final fence\n  ---\n  duration_ms: 22.7753\n  type: 'test'\n  ...\n# Subtest: person-name getter changes current native owner is caught by the final fence\nok 80 - person-name getter changes current native owner is caught by the final fence\n  ---\n  duration_ms: 23.4047\n  type: 'test'\n  ...\n# Subtest: person-name getter rebinds native data is caught by the final fence\nok 81 - person-name getter rebinds native data is caught by the final fence\n  ---\n  duration_ms: 24.0522\n  type: 'test'\n  ...\n# Subtest: person-name getter changes verified LIB generation is caught by the final fence\nok 82 - person-name getter changes verified LIB generation is caught by the final fence\n  ---\n  duration_ms: 24.7356\n  type: 'test'\n  ...\n# Subtest: a failed DOM HD image tries the actual manifest reference before requesting LCD\nok 83 - a failed DOM HD image tries the actual manifest reference before requesting LCD\n  ---\n  duration_ms: 23.4103\n  type: 'test'\n  ...\n# Subtest: only failure of both actual DOM HD and manifest reference requests current-owner LCD\nok 84 - only failure of both actual DOM HD and manifest reference requests current-owner LCD\n  ---\n  duration_ms: 23.4407\n  type: 'test'\n  ...\n# Subtest: an external portrait URL cannot become a loaded mobile portrait\nok 85 - an external portrait URL cannot become a loaded mobile portrait\n  ---\n  duration_ms: 23.1181\n  type: 'test'\n  ...\n# Subtest: wrong source person cannot paint or bypass the true LCD handoff\nok 86 - wrong source person cannot paint or bypass the true LCD handoff\n  ---\n  duration_ms: 23.3722\n  type: 'test'\n  ...\n# Subtest: wrong source period cannot paint or bypass the true LCD handoff\nok 87 - wrong source period cannot paint or bypass the true LCD handoff\n  ---\n  duration_ms: 23.521\n  type: 'test'\n  ...\n# Subtest: preview image is not runtime authority cannot paint or bypass the true LCD handoff\nok 88 - preview image is not runtime authority cannot paint or bypass the true LCD handoff\n  ---\n  duration_ms: 23.382\n  type: 'test'\n  ...\n# Subtest: parent traversal cannot escape portrait assets cannot paint or bypass the true LCD handoff\nok 89 - parent traversal cannot escape portrait assets cannot paint or bypass the true LCD handoff\n  ---\n  duration_ms: 23.31\n  type: 'test'\n  ...\n# Subtest: an empty currentSrc remains compatible while a positive mismatching currentSrc is rejected\nok 90 - an empty currentSrc remains compatible while a positive mismatching currentSrc is rejected\n  ---\n  duration_ms: 23.4547\n  type: 'test'\n  ...\n# Subtest: invalid loaded dimensions cannot make an opaque empty portrait visible\nok 91 - invalid loaded dimensions cannot make an opaque empty portrait visible\n  ---\n  duration_ms: 23.5278\n  type: 'test'\n  ...\n# Subtest: a delayed old source cannot overwrite a new indexed owner\nok 92 - a delayed old source cannot overwrite a new indexed owner\n  ---\n  duration_ms: 24.2906\n  type: 'test'\n  ...\n# Subtest: a delayed old image cannot replace a new report owner\nok 93 - a delayed old image cannot replace a new report owner\n  ---\n  duration_ms: 24.7658\n  type: 'test'\n  ...\n# Subtest: an old image error cannot request LCD or clear the newer fallback handle\nok 94 - an old image error cannot request LCD or clear the newer fallback handle\n  ---\n  duration_ms: 23.4284\n  type: 'test'\n  ...\n# Subtest: retiring a current fallback passes its exact opaque handle and never a new owner handle\nok 95 - retiring a current fallback passes its exact opaque handle and never a new owner handle\n  ---\n  duration_ms: 23.487\n  type: 'test'\n  ...\n# Subtest: adapter retirement passes only its old handle and cannot clear a newer host grant\nok 96 - adapter retirement passes only its old handle and cannot clear a newer host grant\n  ---\n  duration_ms: 23.5429\n  type: 'test'\n  ...\n# Subtest: hidden retires an in-flight image without keys or stale resurrection\nok 97 - hidden retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 23.3916\n  type: 'test'\n  ...\n# Subtest: portrait retires an in-flight image without keys or stale resurrection\nok 98 - portrait retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 23.4829\n  type: 'test'\n  ...\n# Subtest: blur retires an in-flight image without keys or stale resurrection\nok 99 - blur retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 22.9503\n  type: 'test'\n  ...\n# Subtest: pagehide retires an in-flight image without keys or stale resurrection\nok 100 - pagehide retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 23.0369\n  type: 'test'\n  ...\n# Subtest: classic retires an in-flight image without keys or stale resurrection\nok 101 - classic retires an in-flight image without keys or stale resurrection\n  ---\n  duration_ms: 23.0008\n  type: 'test'\n  ...\n# Subtest: all 800 shipped references resolve through their exported filenames\nok 102 - all 800 shipped references resolve through their exported filenames\n  ---\n  duration_ms: 125.0955\n  type: 'test'\n  ...\n# Subtest: all declared period/person slots obey each of the three native identity protocols independently\nok 103 - all declared period/person slots obey each of the three native identity protocols independently\n  ---\n  duration_ms: 22116.6569\n  type: 'test'\n  ...\n# Subtest: period-one HD coverage contains every selectable ruler derived from actual original city ownership\nok 104 - period-one HD coverage contains every selectable ruler derived from actual original city ownership\n  ---\n  duration_ms: 9.837\n  type: 'test'\n  ...\n# Subtest: all fifty selectable rulers across four original periods have unique native identities and genuine large HD files\nok 105 - all fifty selectable rulers across four original periods have unique native identities and genuine large HD files\n  ---\n  duration_ms: 134.0622\n  type: 'test'\n  ...\n# Subtest: cross-period shared HD files retain current native identity and require byte-identical same-person references\nok 106 - cross-period shared HD files retain current native identity and require byte-identical same-person references\n  ---\n  duration_ms: 174.0455\n  type: 'test'\n  ...\n# Subtest: runtime person portrait docks in its detail pane and returns to the page for other views\nok 107 - runtime person portrait docks in its detail pane and returns to the page for other views\n  ---\n  duration_ms: 38.9061\n  type: 'test'\n  ...\n# Subtest: person reports and hidden detail panes keep their portrait outside an old menu slot\nok 108 - person reports and hidden detail panes keep their portrait outside an old menu slot\n  ---\n  duration_ms: 38.5164\n  type: 'test'\n  ...\n# Subtest: manual art preview never mounts into a runtime person detail slot\nok 109 - manual art preview never mounts into a runtime person detail slot\n  ---\n  duration_ms: 2.0871\n  type: 'test'\n  ...\n# Subtest: a genuinely unlisted named person has a real reference fallback without guessed requests\nok 110 - a genuinely unlisted named person has a real reference fallback without guessed requests\n  ---\n  duration_ms: 38.8684\n  type: 'test'\n  ...\n# Subtest: missing HD falls back to the real reference and repeated calls do not repeat 404s\nok 111 - missing HD falls back to the real reference and repeated calls do not repeat 404s\n  ---\n  duration_ms: 41.7087\n  type: 'test'\n  ...\n# Subtest: person ID 0 remains valid in map, report, person menu and battle help\nok 112 - person ID 0 remains valid in map, report, person menu and battle help\n  ---\n  duration_ms: 39.1145\n  type: 'test'\n  ...\n# Subtest: battle help portrait uses the captured native person and name, never the current focus or a name lookup\nok 113 - battle help portrait uses the captured native person and name, never the current focus or a name lookup\n  ---\n  duration_ms: 38.2835\n  type: 'test'\n  ...\n# Subtest: partial, stale and mismatched native help cannot recover a portrait from focus or retained dialogue identity\nok 114 - partial, stale and mismatched native help cannot recover a portrait from focus or retained dialogue identity\n  ---\n  duration_ms: 39.0952\n  type: 'test'\n  ...\n# Subtest: a new native help event retires an old pending portrait even when its person is unchanged\nok 115 - a new native help event retires an old pending portrait even when its person is unchanged\n  ---\n  duration_ms: 38.6134\n  type: 'test'\n  ...\n# Subtest: switching from a captured help person to a new native wait while images load keeps LCD\nok 116 - switching from a captured help person to a new native wait while images load keeps LCD\n  ---\n  duration_ms: 38.2114\n  type: 'test'\n  ...\n# Subtest: period-specific IDs do not reuse the first period portrait\nok 117 - period-specific IDs do not reuse the first period portrait\n  ---\n  duration_ms: 38.8556\n  type: 'test'\n  ...\n# Subtest: the actual loaded bytes authorize portraits at any path; unknown or missing bytes cannot inherit a familiar path\nok 118 - the actual loaded bytes authorize portraits at any path; unknown or missing bytes cannot inherit a familiar path\n  ---\n  duration_ms: 109.791\n  type: 'test'\n  ...\n# Subtest: standalone preview is explicit and independent of preferences, and never supplies a runtime identity\nok 119 - standalone preview is explicit and independent of preferences, and never supplies a runtime identity\n  ---\n  duration_ms: 37.9152\n  type: 'test'\n  ...\n# Subtest: missing both pictures hides the slot and caches misses; invalid IDs and periods make no requests\nok 120 - missing both pictures hides the slot and caches misses; invalid IDs and periods make no requests\n  ---\n  duration_ms: 40.6113\n  type: 'test'\n  ...\n# Subtest: missing or mismatched indexes do not guess identities\nok 121 - missing or mismatched indexes do not guess identities\n  ---\n  duration_ms: 115.6763\n  type: 'test'\n  ...\n# Subtest: parallel index loading shares requests; an explicit reload retries previously missing art\nok 122 - parallel index loading shares requests; an explicit reload retries previously missing art\n  ---\n  duration_ms: 39.5229\n  type: 'test'\n  ...\n# Subtest: engine Promise replacement before or after module loading cannot break native async work\nok 123 - engine Promise replacement before or after module loading cannot break native async work\n  ---\n  duration_ms: 81.5783\n  type: 'test'\n  ...\n# Subtest: a LIB switch while an image is pending cannot paint old art or poison its source cache\nok 124 - a LIB switch while an image is pending cannot paint old art or poison its source cache\n  ---\n  duration_ms: 110.3436\n  type: 'test'\n  ...\n# Subtest: automatic polling does not paint a stale person and can change views while a request is pending\nok 125 - automatic polling does not paint a stale person and can change views while a request is pending\n  ---\n  duration_ms: 41.0758\n  type: 'test'\n  ...\n# Subtest: reloading indexes detaches obsolete pending work and restarts automatic lookup\nok 126 - reloading indexes detaches obsolete pending work and restarts automatic lookup\n  ---\n  duration_ms: 39.333\n  type: 'test'\n  ...\n# Subtest: pending real-byte verification is LCD until the actual digest completes, with no optimistic image requests\nok 127 - pending real-byte verification is LCD until the actual digest completes, with no optimistic image requests\n  ---\n  duration_ms: 38.9947\n  type: 'test'\n  ...\n# Subtest: late real digests cannot recover an obsolete dictionary after an unobserved byte change or unload\nok 128 - late real digests cannot recover an obsolete dictionary after an unobserved byte change or unload\n  ---\n  duration_ms: 111.0106\n  type: 'test'\n  ...\n# Subtest: missing identity/crypto, digest failures and missing or wrong manifest provenance remain neutral\nok 129 - missing identity/crypto, digest failures and missing or wrong manifest provenance remain neutral\n  ---\n  duration_ms: 155.3434\n  type: 'test'\n  ...\n# Subtest: preview image callbacks and cache entries cannot authorize or paint a later runtime on the same page\nok 130 - preview image callbacks and cache entries cannot authorize or paint a later runtime on the same page\n  ---\n  duration_ms: 38.7406\n  type: 'test'\n  ...\n# Subtest: manual preview name indexes retire when leaving and restoring their separate identity namespace\nok 131 - manual preview name indexes retire when leaving and restoring their separate identity namespace\n  ---\n  duration_ms: 38.5106\n  type: 'test'\n  ...\n# Subtest: runtime menus use the live native index and exact owner instead of a stale UI highlight\nok 132 - runtime menus use the live native index and exact owner instead of a stale UI highlight\n  ---\n  duration_ms: 40.2092\n  type: 'test'\n  ...\n# Subtest: authenticated native menu IDs support identical names through the exact current index\nok 133 - authenticated native menu IDs support identical names through the exact current index\n  ---\n  duration_ms: 38.0069\n  type: 'test'\n  ...\n# Subtest: native ID owner generation, full array, bounds and selected identity must all agree\nok 134 - native ID owner generation, full array, bounds and selected identity must all agree\n  ---\n  duration_ms: 39.2127\n  type: 'test'\n  ...\n# Subtest: a seven-part owner without native ID metadata preserves only the old complete unique-list fallback\nok 135 - a seven-part owner without native ID metadata preserves only the old complete unique-list fallback\n  ---\n  duration_ms: 38.5644\n  type: 'test'\n  ...\n# Subtest: a new native ID generation retires an old pending menu portrait before the next poll\nok 136 - a new native ID generation retires an old pending menu portrait before the next poll\n  ---\n  duration_ms: 38.8231\n  type: 'test'\n  ...\n# Subtest: filtered, reordered, duplicate and nameless-ID native menus never infer a runtime person from a name\nok 137 - filtered, reordered, duplicate and nameless-ID native menus never infer a runtime person from a name\n  ---\n  duration_ms: 192.5325\n  type: 'test'\n  ...\n# Subtest: person detail identities require the same native owner, index, name and exact person ID\nok 138 - person detail identities require the same native owner, index, name and exact person ID\n  ---\n  duration_ms: 76.7476\n  type: 'test'\n  ...\n# Subtest: a native owner or index change retires pending menu portraits before the next poll\nok 139 - a native owner or index change retires pending menu portraits before the next poll\n  ---\n  duration_ms: 38.8993\n  type: 'test'\n  ...\n# Subtest: an explicit standalone preview can display an artificial name without granting runtime menu identity\nok 140 - an explicit standalone preview can display an artificial name without granting runtime menu identity\n  ---\n  duration_ms: 38.5017\n  type: 'test'\n  ...\n# Subtest: terrain-only and ordinary observer hooks do not revoke authenticated portraits or cause another digest\nok 141 - terrain-only and ordinary observer hooks do not revoke authenticated portraits or cause another digest\n  ---\n  duration_ms: 38.0402\n  type: 'test'\n  ...\n# Subtest: hidden pages and stop detach pending portrait work; restart paints only the latest native person\nok 142 - hidden pages and stop detach pending portrait work; restart paints only the latest native person\n  ---\n  duration_ms: 41.3866\n  type: 'test'\n  ...\n# Subtest: late manifest loading cannot restart a stopped portrait session or duplicate a newer start\nok 143 - late manifest loading cannot restart a stopped portrait session or duplicate a newer start\n  ---\n  duration_ms: 77.3368\n  type: 'test'\n  ...\n# Subtest: shipped portrait provenance matches the actual immutable dictionary bytes\nok 144 - shipped portrait provenance matches the actual immutable dictionary bytes\n  ---\n  duration_ms: 0.1536\n  type: 'test'\n  ...\n# Subtest: normal full standard export keeps strict39 historical pilots while checking all expanded identities\nok 145 - normal full standard export keeps strict39 historical pilots while checking all expanded identities\n  ---\n  duration_ms: 10.2501\n  type: 'test'\n  ...\n# Subtest: normal period/limit subsets and other actual libraries retain export success without standard39 smoke\nok 146 - normal period/limit subsets and other actual libraries retain export success without standard39 smoke\n  ---\n  duration_ms: 5.5013\n  type: 'test'\n  ...\n# Subtest: standard smoke refuses mismatched references, duplicate identities and incomplete historical pilots\nok 147 - standard smoke refuses mismatched references, duplicate identities and incomplete historical pilots\n  ---\n  duration_ms: 19.731\n  type: 'test'\n  ...\n# Subtest: standard smoke validates every expanded identity and rejects unsafe HD paths and false pilot labels\nok 148 - standard smoke validates every expanded identity and rejects unsafe HD paths and false pilot labels\n  ---\n  duration_ms: 2454.4394\n  type: 'test'\n  ...\n# Subtest: same-LIB full exports preserve all declared nonpilot portraits with their captured identities and metadata\nok 149 - same-LIB full exports preserve all declared nonpilot portraits with their captured identities and metadata\n  ---\n  duration_ms: 8.2031\n  type: 'test'\n  ...\n# Subtest: partial captured exports retain only present expanded identities and never revive unexported periods\nok 150 - partial captured exports retain only present expanded identities and never revive unexported periods\n  ---\n  duration_ms: 4.9189\n  type: 'test'\n  ...\n# Subtest: export preservation rejects wrong libraries, stale names, wrong references, unsafe paths and duplicate expanded identities\nok 151 - export preservation rejects wrong libraries, stale names, wrong references, unsafe paths and duplicate expanded identities\n  ---\n  duration_ms: 55.8014\n  type: 'test'\n  ...\n# Subtest: actual dump backend stages PNGs and binds generated indexes to live loaded bytes rather than the summary path\nok 152 - actual dump backend stages PNGs and binds generated indexes to live loaded bytes rather than the summary path\n  ---\n  duration_ms: 6.0337\n  type: 'test'\n  ...\n# Subtest: failed actual dump source verification leaves all native references and provenance files untouched\nok 153 - failed actual dump source verification leaves all native references and provenance files untouched\n  ---\n  duration_ms: 2.6491\n  type: 'test'\n  ...\n1..153\n# tests 153\n# suites 0\n# pass 153\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 29670.1253\n"
+    },
+    "stderr": {
+      "path": "build/portrait-late-characters-20261028-v103/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    }
+  },
+  "preservation": {
+    "nativeSources": 128,
+    "runtimeArtifacts": 4,
+    "oldEntries": 186,
+    "oldDistinctImages": 101,
+    "oldHeldAccessed": false,
+    "oldHeldInputs": 0,
+    "primaryCheckoutEdited": false
+  },
+  "limits": {
+    "browserRun": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "fullSuiteRun": false,
+    "globalHdComplete": false
+  },
+  "remaining": "继续扩其它原版人物与剩余HD表现；实战、真机、性能、完整回归仍待，持续目标未完成。"
+}

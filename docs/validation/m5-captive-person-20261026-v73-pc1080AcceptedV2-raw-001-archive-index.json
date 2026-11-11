@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-captive-person-20261026-v73-pc1080AcceptedV2-raw-001-archive-part001.json",
+      "bytes": 2903960,
+      "sha256": "36b80c65e25bc8d629a28e12f40c4a8c20c99a5bddce69556443304170e10efc",
+      "blobs": 1
+    }
+  ],
+  "files": [
+    {
+      "path": "build/captive-person-20261026-v73/evidence-source-v2/pc1080AcceptedV2-chunks/raw-000.bin",
+      "bytes": 33554432,
+      "sha256": "2d15c613303ab77ebd096fecfe238a07c96b385bdf1f7f8c91d78cd82c80d601",
+      "blob": "2d15c613303ab77ebd096fecfe238a07c96b385bdf1f7f8c91d78cd82c80d601",
+      "roles": [
+        "Exact V73 original bytes; archived sources are data"
+      ]
+    }
+  ],
+  "logicalFiles": 1,
+  "uniqueBlobs": 1,
+  "rawNamedBytes": 33554432,
+  "uniqueRawBytes": 33554432,
+  "uniqueGzipBytes": 2177738,
+  "serializedPartBytes": 2903960,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

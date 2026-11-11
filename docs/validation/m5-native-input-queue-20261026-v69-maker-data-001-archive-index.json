@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "encoding": "independent-gzip-base64-blobs",
+  "bounds": {
+    "maxPartBytes": 8388608,
+    "maxSerializedBytes": 67108864,
+    "maxNamedRawBytes": 134217728,
+    "maxUniqueRawBytes": 100663296,
+    "maxFileBytes": 33554432,
+    "maxFiles": 512,
+    "maxBlobs": 512,
+    "maxParts": 32
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-native-input-queue-20261026-v69-maker-data-001-archive-part001.json",
+      "bytes": 765537,
+      "sha256": "1e4d90f5954e34ba858c023b05f74cc33fa2ee345f60e7b0681925c498806bbc",
+      "blobs": 6
+    }
+  ],
+  "files": [
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-hold-enter-720p/observations.json",
+      "bytes": 5484047,
+      "sha256": "6d2cd43476a63bf8c4ba8d0b312bbcdb902ad62de5b1b397fed11c33e2426bc4",
+      "blob": "6d2cd43476a63bf8c4ba8d0b312bbcdb902ad62de5b1b397fed11c33e2426bc4",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/full-natural-1080p/observations.json",
+      "bytes": 6814220,
+      "sha256": "e854a63cbf7ec9bd414a27c9232246eca93180d4e508852f7cd25ff37855a12f",
+      "blob": "e854a63cbf7ec9bd414a27c9232246eca93180d4e508852f7cd25ff37855a12f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/native-reference/resource.json",
+      "bytes": 12205,
+      "sha256": "07a904db4146c057e7ad1f83ff2d186324251263112465017a8bfd286b0be67d",
+      "blob": "07a904db4146c057e7ad1f83ff2d186324251263112465017a8bfd286b0be67d",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/owned-exit-verification-v1.json",
+      "bytes": 9580,
+      "sha256": "e4af6ab2636b2caf5452fce3d52095cbd40c441ebd43692f55a30003a99aa7ac",
+      "blob": "e4af6ab2636b2caf5452fce3d52095cbd40c441ebd43692f55a30003a99aa7ac",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/result.json",
+      "bytes": 19460633,
+      "sha256": "2344390a54630c067b7ca0f8f3065b1ae5e2188669b76b9aecbcbdc797bed722",
+      "blob": "2344390a54630c067b7ca0f8f3065b1ae5e2188669b76b9aecbcbdc797bed722",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    },
+    {
+      "path": "build/mobile-input-20261026-v69/maker-sem-timing-v1/runner-source.mjs",
+      "bytes": 54713,
+      "sha256": "115dfc4c77b2f159fd8f91242737d8d51643a57ac665d38d005e06a560683d9f",
+      "blob": "115dfc4c77b2f159fd8f91242737d8d51643a57ac665d38d005e06a560683d9f",
+      "roles": [
+        "Exact V69 original data; archived source never executed"
+      ]
+    }
+  ],
+  "logicalFiles": 6,
+  "uniqueBlobs": 6,
+  "rawNamedBytes": 31835398,
+  "uniqueRawBytes": 31835398,
+  "uniqueGzipBytes": 573053,
+  "serializedPartBytes": 765537,
+  "profileArchived": false,
+  "oldArchivesTraversed": false,
+  "portableClosedSourceArchive": false,
+  "matchingGitCheckoutRequired": true
+}

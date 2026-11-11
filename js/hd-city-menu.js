@@ -16,6 +16,7 @@
     var mobileTrade = null;
     var mobileTransfer = null;
     var mobileDiplomacy = null;
+    var pcDiplomacyEpoch = 0, pcDiplomacySending = false, pcDiplomacyReservation = null;
     var DIPLOMACY_FIELDS = ['ProtocolVersion','Active','Command','Phase','Session','InputSeq','Generation',
         'Origin','Actor','Target','CommitSeq','CommitResult'];
     var TRANSFER_FIELDS = ['ProtocolVersion','Active','Command','Session','InputSeq','Phase','Origin','Target',
@@ -37,6 +38,12 @@
         'g_hdSkillActive', 'g_hdAttackActive', 'g_hdSkillResultActive', 'g_hdMakerActive',
         'g_hdViewActive', 'g_hdMiniMapActive', 'g_hdResultOwnerKind', 'g_hdResultOwnerValid'];
 
+    function cityInfoOwns(data) {
+        // Older ABIs omit this owner; any defined value other than U8 zero blocks.
+        var active = data ? data.g_hdCityInfoActive : undefined;
+        return active !== undefined && active !== 0;
+    }
+
     function mobileInteger(value, max) {
         return typeof value === 'number' && isFinite(value) && Math.floor(value) === value && value >= 0 && value <= max;
     }
@@ -56,14 +63,15 @@
                 baye.hd.ready() !== true || typeof baye.hd.menuItems !== 'function' ||
                 typeof baye.hd.march !== 'function' || typeof baye.hd.qty !== 'function') { return null; }
             var data = typeof baye.ensureData === 'function' ? baye.ensureData() : baye.data;
-            if (!data || !MOBILE_RAW_FIELDS.every(function (key) { return mobileInteger(data[key], 0xffffffff); }) ||
+            if (!data || cityInfoOwns(data) || !MOBILE_RAW_FIELDS.every(function (key) { return mobileInteger(data[key], 0xffffffff); }) ||
                 data.g_hdEngineReady !== 1 || !data.g_hdDetailGeneration ||
                 !api.isCurrent(identity) || baye.data !== data || !mobileLifecycleAvailable()) { return null; }
+            if (cityInfoOwns(data)) { return null; }
             return {identity: identity, data: data};
         } catch (e) { return null; }
     }
     function mobileRaw(data) {
-        var value = {};
+        var value = {g_hdCityInfoActive: data.g_hdCityInfoActive};
         MOBILE_RAW_FIELDS.forEach(function (key) { value[key] = data[key]; });
         return value;
     }
@@ -128,8 +136,7 @@
             return {origin: origin, mask: actual, belongs: belongs, playerKing: data.g_PlayerKing, targets: targets};
         } catch (e) { return null; }
     }
-    function mobileNativeSnapshot() {
-        var base = mobileBase();
+    function nativeSnapshot(base, readBase) {
         if (!base) { return null; }
         try {
             var before = mobileRaw(base.data), menu = baye.hd.menuItems(), march = baye.hd.march(), qty = baye.hd.qty();
@@ -137,7 +144,7 @@
             var transferBefore = transferRaw(base.data), transfer = readTransfer(base.data);
             var diplomacyBefore = diplomacyRaw(base.data), diplomacy = readDiplomacy(base.data);
             var route = march && march.phase === MARCH.TARGET_PICK ? mobileMarchLinks(base.data, march.origin) : null;
-            var after = mobileRaw(base.data), latest = mobileBase();
+            var after = mobileRaw(base.data), latest = readBase();
             if (JSON.stringify(before) !== JSON.stringify(after) ||
                 JSON.stringify(transferBefore) !== JSON.stringify(transferRaw(base.data)) ||
                 JSON.stringify(diplomacyBefore) !== JSON.stringify(diplomacyRaw(base.data)) ||
@@ -165,9 +172,13 @@
                 (!report || report.active !== 1 || report.seq !== before.g_hdReportSeq || !report.seq ||
                     report.inputSeq !== before.g_hdReportInputSeq || report.kind !== before.g_hdReportKind ||
                     report.person !== before.g_hdReportPerson || typeof report.text !== 'string' || !report.text)) { return null; }
+            if (cityInfoOwns(base.data) || cityInfoOwns(before)) { return null; }
             return {libraryGeneration: base.identity.generation, data: base.data, raw: before, menu: menu, march: march, qty: qty,
                 report: report, route: route, transfer: transfer, diplomacy: diplomacy};
         } catch (e) { return null; }
+    }
+    function mobileNativeSnapshot() {
+        return nativeSnapshot(mobileBase(), mobileBase);
     }
     function mobileTicketFrom(value, reason) {
         if (!value) { return null; }
@@ -248,6 +259,363 @@
             return value;
         } catch (e) { return null; }
     }
+    // SURRENDER has two PERSON calls in the original C loop: captive, then
+    // allied recruiter. A private entry receipt distinguishes their lifetimes.
+    // Closing a presentation never clears an input with an unknown result.
+    var surrenderFlow = null, surrenderReading = false, surrenderReadEpoch = 0, surrenderSending = false;
+    var surrenderUiDepth = 0, surrenderUiEpoch = 0, surrenderUiToken = 0;
+    function surrenderUiCurrent() {
+        return !surrenderUiDepth || surrenderUiToken === surrenderUiEpoch;
+    }
+    function surrenderUiCall(body, args) {
+        // Bridge readers may call public presentation/input methods. A nested
+        // boundary cannot consume an input or let its outer read keep proof.
+        if (surrenderReading || surrenderUiDepth) {
+            surrenderUiEpoch += 1;
+            if (surrenderReading) { surrenderReadEpoch += 1; }
+            return false;
+        }
+        if (!surrenderFlow) { return body.apply(null, args); }
+        surrenderUiDepth = 1;
+        surrenderUiToken = ++surrenderUiEpoch;
+        try { return body.apply(null, args); }
+        finally { surrenderUiDepth = 0; surrenderUiToken = 0; }
+    }
+    function surrenderUiReadCall(body, args) {
+        if (surrenderReading) {
+            surrenderUiEpoch += 1; surrenderReadEpoch += 1;
+            return false;
+        }
+        // The native poll and highlight paths also render directly. Internal
+        // read-only composition shares its outer fence; a public render/input
+        // callback still invalidates that fence through surrenderUiCall.
+        return surrenderUiDepth ? body.apply(null, args) : surrenderUiCall(body, args);
+    }
+    function fillDeepList() { return surrenderUiReadCall(fillDeepListSurrenderBody, arguments); }
+    function renderPersonDetails() { return surrenderUiReadCall(renderPersonDetailsSurrenderBody, arguments); }
+    function renderPersonProperties() { return surrenderUiReadCall(renderPersonPropertiesSurrenderBody, arguments); }
+    function renderStatus() { return surrenderUiReadCall(renderStatusSurrenderBody, arguments); }
+    function renderToolDetails() { return surrenderUiReadCall(renderToolDetailsSurrenderBody, arguments); }
+    function applyHighlight() { return surrenderUiReadCall(applyHighlightSurrenderBody, arguments); }
+    function debugSnapshotSurrenderBody() {
+            return {
+                pref: getMenuMode(),
+                mobileHost: !!mobileHost,
+                mobileRetireReason: mobileRetireReason,
+                showHd: shouldShowHd(),
+                open: state.open,
+                layer: state.layer,
+                subKind: state.subKind,
+                cityIndex: state.cityIndex,
+                cityName: state.cityName,
+                titleText: (el('hd-city-menu-title') && el('hd-city-menu-title').textContent) || '',
+                idleIndex: state.idleIndex,
+                idleKeys: state.idleKeys.slice(),
+                lastHook: state.lastHook,
+                showLcd: state.showLcd,
+                cityLcdMode: cityLcdPresentation(),
+                probedCityKeys: state.probedCityKeys.slice(),
+                surrenderPresentation: getSurrenderPresentation(),
+                deepKind: state.deepKind,
+                deepLabel: state.deepLabel,
+                deepCount: state.deepItems.length,
+                deepItems: state.deepItems.slice(0, 20),
+                deepMenuOwner: state.deepMenuOwner && { context: state.deepMenuOwner.context,
+                    kind: state.deepMenuOwner.kind, seq: state.deepMenuOwner.seq,
+                    detailGeneration: state.deepMenuOwner.detailGeneration, key: state.deepMenuOwner.key },
+                cityDetails: state.open && state.layer === 'status' && state.cityDetails
+                    ? JSON.parse(JSON.stringify(state.cityDetails)) : null,
+                personDetail: state.personDetail ? JSON.parse(JSON.stringify(state.personDetail)) : null,
+                personProperties: state.personProperties ? JSON.parse(JSON.stringify(state.personProperties)) : null,
+                personPagePending: state.personPagePending ? JSON.parse(JSON.stringify(state.personPagePending)) : null,
+                toolDetail: state.toolDetail ? JSON.parse(JSON.stringify(state.toolDetail)) : null,
+                toolPagePending: state.toolPagePending,
+                listFind: state.listFind ? { ownerKey: state.listFind.ownerKey, kind: state.listFind.kind,
+                    query: state.listFind.query, sort: state.listFind.sort, expanded: state.listFind.expanded,
+                    visibleNativeIndices: state.listFind.visibleNativeIndices.slice(), epoch: listFindEpoch } : null,
+                pickedPersons: state.pickedPersons,
+                dismissedObj: state.dismissedObj,
+                marchReady: state.marchReady,
+                marching: isMarching(),
+                leftoverAfterFight: leftoverMarchAfterFight(),
+                sawFightThisMarch: state.sawFightThisMarch,
+                fightEndedThisMarch: state.fightEndedThisMarch,
+                campaignPick: state.campaignPick,
+                battleMake: state.battleMake,
+                handoff: state.handoff,
+                handoffAt: state.handoffAt,
+                handoffStatus: state.handoffStatus,
+                handoffExitCount: state.handoffExitCount,
+                handoffEnterCount: state.handoffEnterCount,
+                lastHandoffExitAt: state.lastHandoffExitAt,
+                lastFuncMenuIdle: state.lastFuncMenuIdle,
+                personExitSent: state.personExitSent,
+                finishPersonsBusy: !!state.finishPersonsBusy,
+                personExitTries: state.personExitTries,
+                lastExit: state.lastExit,
+                engineHelpOpen: !!state.engineHelpOpen,
+                overlayRetry: state.overlayRetry || 0,
+                finishVisibleRetry: state.finishVisibleRetry || 0,
+                pickedPersonNames: (state.pickedPersonNames || []).slice(),
+                leftoverOverlay: leftoverMarchOverlay(),
+                engineLeftBattleMake: engineLeftBattleMake(),
+                engineStillInPersonPick: engineStillInPersonPick(),
+                liveJunbeiMenu: liveJunbeiMenu(),
+                qtyActive: (function () {
+                    try {
+                        return Number(window.baye && baye.data && baye.data.g_hdQtyActive) || 0;
+                    } catch (e) { return 0; }
+                }()),
+                lastBlockedExit: state.lastBlockedExit,
+                lastBlockedEnter: state.lastBlockedEnter || '',
+                lastPickEnterAt: state.lastPickEnterAt || 0,
+                holdEnterForFood: holdEnterForFood(),
+                queueLen: state.queue.length,
+                sending: !!state.sending,
+                enginePersons: cityPersons(state.cityIndex).length,
+                enginePersonNames: cityPersons(state.cityIndex).map(function (p) {
+                    return p.name;
+                }),
+                enginePersonsAtFinish: state.enginePersonsAtFinish || 0,
+                enginePersonsAtPickStart: state.enginePersonsAtPickStart || 0,
+                marchHint: state.marchHint,
+                holdExit: holdExit(),
+                holdMenu: holdMenu(),
+                acceptMarchOk: state.acceptMarchOk,
+                freshMarch: freshMarchOk(),
+                consumedMarchSeq: state.consumedMarchSeq,
+                sawMarchCleared: state.sawMarchCleared,
+                walkBusy: state.walkBusy,
+                pendingTarget: state.pendingTarget,
+                wizardStep: state.wizardStep,
+                wizardLabel: WIZARD_LABEL[state.wizardStep] || '',
+                sawQtyThisMarch: state.sawQtyThisMarch,
+                sawGetFoodUi: !!state.sawGetFoodUi,
+                foodConfirmed: !!state.foodConfirmedThisMarch,
+                leftoverPick: leftoverOverworldPick(),
+                liveMarch: liveMarchOrFight(),
+                stickyBanner: stickyMarchBanner(),
+                lastBannerLog: state.lastBannerLog,
+                battlePick: battlePickActive(),
+                openedCity: state.cityIndex,
+                marchDest: (function () {
+                    var m = engineMarch();
+                    return { city: m && m.city, obj: m && m.obj, ok: !!(m && m.ok), real: realMarchDest(m) };
+                }()),
+                leftoverEngineSub: leftoverEngineSubAtHdRoot(),
+                leftoverQty: leftoverQtyFlag(),
+                liveQty: liveQty(),
+                liveGetFood: liveGetFood(),
+                latentGetFood: latentGetFood(),
+                realm: (function () {
+                    try {
+                        return window.baye && baye.hd && baye.hd.realm ? baye.hd.realm() : null;
+                    } catch (e) { return null; }
+                }()),
+                waitingGetFood: waitingGetFoodSoftLock(),
+                foodRecovered: state.foodRecovered,
+                foodRecoverEnter: state.foodRecoverEnter,
+                foodRecoverNeeded: state.foodRecoverNeeded,
+                foodGaveUp: !!state.foodGaveUp,
+                foodAttempt: state.foodAttempt || 0,
+                qtyBeforePersonExit: state.qtyBeforePersonExit,
+                engineInGetCitySet: engineInGetCitySet(),
+                confirmingTarget: !!state.confirmingTarget,
+                enginePhase: engineMarchPhase(),
+                displayWizard: displayWizardStep(),
+                mapCity: engineMapCityIndex(),
+                debug: marchDebugLine(),
+                qtyDismissed: state.qtyDismissed,
+                qtyAckFailed: !!state.qtyAckFailed,
+                qtyAckError: state.qtyAckError,
+                reportAtMarchStart: state.reportAtMarchStart,
+                march: engineMarch(),
+                qty: engineQty(),
+                lastStep4: state.lastStep4,
+                step4Trace: (state.step4Trace || []).slice(-16),
+                marchOriginIndex: state.marchOriginIndex,
+                originRetryTried: !!state.originRetryTried,
+                originRetryBusy: !!state.originRetryBusy,
+                originRetryFrom: state.originRetryFrom,
+                originRetryTo: state.originRetryTo,
+                preferredOrigin: preferredMarchOrigin(
+                    state.pendingTarget != null ? state.pendingTarget : 9
+                ),
+                originLinks: cityLinksOf(state.cityIndex)
+            };
+    }
+    function render() { return surrenderUiCall(renderSurrenderBody, arguments); }
+    function back() { return surrenderUiCall(backSurrenderBody, arguments); }
+    function chooseDeep() { return surrenderUiCall(chooseDeepSurrenderBody, arguments); }
+    function surrenderSnapshot() {
+        if (surrenderReading) { surrenderReadEpoch += 1; return null; }
+        surrenderReading = true;
+        var token = ++surrenderReadEpoch;
+        try {
+            var api = global.BayeHdLibIdentity, identity = api && api.read(), engine = global.baye;
+            var hd = engine && engine.hd, data = engineData(), hooks = engine && engine.hooks;
+            var read = api && api.read, isCurrent = api && api.isCurrent;
+            var sender = global.sendKey, engineSender = engine && engine.sendKey;
+            var getName = engine && engine.getPersonName, getCount = engine && engine.getPersonCount;
+            var commandHook = hooks && hooks.cityMakeCommand;
+            if (!identity || identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA || identity.byteLength !== 207195 ||
+                !mobileInteger(identity.generation, 0xffffffff) || !identity.generation || !api.isCurrent(identity) ||
+                !engine || !hd || !data || engine.data !== data || typeof hd.ready !== 'function' || hd.ready() !== true ||
+                typeof getName !== 'function' || typeof getCount !== 'function' || getCount.call(engine) !== 200 ||
+                typeof sender !== 'function' && typeof engineSender !== 'function' ||
+                !standardHudLabels(['getPersonPropertyValue','getPersonPropertyTitle']) ||
+                typeof commandHook === 'function' && Function.prototype.toString.call(commandHook) !== 'function () { return -1; }') { return null; }
+            var config = data.g_engineConfig, cities = data.g_Cities, queue = data.g_PersonsQueue, people = data.g_Persons;
+            var cityIndex = data.g_hdMapCity - 1, king = data.g_PlayerKing, generation = data.g_hdDetailGeneration;
+            if (!config || config.citiesCount !== 38 || !cities || cities.length !== 38 || !queue || queue.length !== 2000 ||
+                !people || people.length !== 2000 || !mobileInteger(cityIndex,37) || !mobileInteger(king,199) ||
+                !mobileInteger(generation,0xffffffff) || !generation || data.g_hdEngineReady !== 1) { return null; }
+            var city = cities[cityIndex];
+            if (!city || city.Belong !== king + 1) { return null; }
+            var refs = [api,read,isCurrent,engine,hd,data,config,cities,queue,people,city,hooks,commandHook,sender,engineSender,getName,getCount];
+            function current() {
+                return surrenderUiCurrent() && token === surrenderReadEpoch && global.BayeHdLibIdentity === api && api.read === read && api.isCurrent === isCurrent &&
+                    isCurrent.call(api,identity) && global.baye === engine && engine.hd === hd && engineData() === data && engine.data === data &&
+                    data.g_engineConfig === config && config.citiesCount === 38 && data.g_Cities === cities && cities.length === 38 && cities[cityIndex] === city &&
+                    data.g_PersonsQueue === queue && queue.length === 2000 && data.g_Persons === people && people.length === 2000 &&
+                    engine.hooks === hooks && (!hooks || hooks.cityMakeCommand === commandHook) &&
+                    global.sendKey === sender && engine.sendKey === engineSender && engine.getPersonName === getName && engine.getPersonCount === getCount &&
+                    data.g_hdMapCity === cityIndex + 1 && data.g_PlayerKing === king && city.Belong === king + 1 && data.g_hdDetailGeneration === generation &&
+                    standardHudLabels(['getPersonPropertyValue','getPersonPropertyTitle']) && token === surrenderReadEpoch;
+            }
+            function readOne() {
+                if (!current()) { return null; }
+                var start = city.PersonQueue, count = city.Persons;
+                if (!mobileInteger(start,2000) || !mobileInteger(count,2000) || start + count > 2000) { return null; }
+                var rows = [], persons = [], captiveIds = [], alliedIds = [];
+                for (var i=0;i<count;i++) {
+                    var id = queue[start+i], person = mobileInteger(id,199) && people[id];
+                    if (!person || !mobileInteger(person.Belong,65535)) { return null; }
+                    var name = getName.call(engine,id);
+                    if (typeof name !== 'string' || !name.length) { return null; }
+                    rows.push([id,person.Belong,name]);persons.push(person);
+                    if (person.Belong === 65535) { captiveIds.push(id); }
+                    if (person.Belong === king + 1) { alliedIds.push(id); }
+                }
+                var menu = engineMenuItems(), raw = mobileRaw(data);
+                if (cityInfoOwns(raw) || !MOBILE_RAW_FIELDS.every(function (field) { return mobileInteger(raw[field],0xffffffff); }) ||
+                    raw.g_hdMenuActive !== menu.active || raw.g_hdMenuContext !== menu.context || raw.g_hdMenuKind !== menu.kind ||
+                    raw.g_hdMenuSeq !== menu.seq || raw.g_hdMenuCount !== menu.count || raw.g_hdMenuIndex !== menu.index ||
+                    !current() || !persons.every(function (p,i) { return people[rows[i][0]] === p; })) { return null; }
+                return {menu:menu,raw:raw,rows:rows,persons:persons,start:start,count:count,captiveIds:captiveIds,alliedIds:alliedIds};
+            }
+            var a=readOne(), b=readOne();
+            if (!a || !b || !current() || !a.persons.every(function (p,i) { return b.persons[i] === p; }) ||
+                JSON.stringify([a.menu,a.raw,a.rows,a.start,a.count]) !== JSON.stringify([b.menu,b.raw,b.rows,b.start,b.count])) { return null; }
+            b.refs=refs;b.libraryGeneration=identity.generation;b.detailGeneration=generation;b.cityIndex=cityIndex;
+            b.configValues=[config.citiesCount,config.enable16bitConsumeMoney,config.fixAlienateComsumeThew];
+            b.sender=typeof sender === 'function' ? sender : engineSender;b.receiver=typeof sender === 'function' ? global : engine;
+            return current() ? b : null;
+        } catch (e) { return null; }
+        finally { surrenderReading=false; }
+    }
+    function sameSurrenderSource(a,b) {
+        return !!(a && b && a.refs.every(function (ref,i) { return b.refs[i] === ref; }) && a.libraryGeneration === b.libraryGeneration &&
+            a.detailGeneration === b.detailGeneration && a.cityIndex === b.cityIndex && JSON.stringify(a.configValues) === JSON.stringify(b.configValues));
+    }
+    function sameSurrenderRows(a,b) {
+        return !!(sameSurrenderSource(a,b) && a.start === b.start && a.count === b.count &&
+            a.persons.length === b.persons.length && a.persons.every(function (person,i) { return b.persons[i] === person; }) &&
+            JSON.stringify(a.rows) === JSON.stringify(b.rows));
+    }
+    function quietSurrender(value) {
+        var raw=value.raw;
+        return !cityInfoOwns(raw) && MOBILE_BLOCKERS.every(function (field) { return raw[field] === 0; }) && !raw.g_hdQtyActive && !raw.g_hdReportActive && !raw.g_hdHelpActive &&
+            !raw.g_hdBattlePick && !raw.g_hdGoodsActive && [MARCH.IDLE,MARCH.DEPARTED].indexOf(raw.g_hdMarchPhase)>=0;
+    }
+    function surrenderRole(value) {
+        var m=value.menu, ids=actualMenuIds(m);
+        if (!quietSurrender(value) || value.raw.g_hdMapPick || !mobileMenuComplete(m) || m.context !== 1 || m.kind !== 3 ||
+            m.detailGeneration !== value.detailGeneration || !ids) { return null; }
+        function matches(expected) {
+            return JSON.stringify(ids) === JSON.stringify(expected) && m.names.every(function (name,i) {
+                return value.rows.some(function (row) { return row[0] === ids[i] && row[2] === name; });
+            });
+        }
+        var captive=value.captiveIds.length > 0 && matches(value.captiveIds), allied=value.alliedIds.length > 0 && matches(value.alliedIds);
+        return captive === allied ? null : captive ? 'target' : 'actor';
+    }
+    function prepareSurrenderEntry(menu,index) {
+        if (state.subKind !== 'neizheng' || index !== 5) { return null; }
+        syncSurrender();
+        if (surrenderFlow) { return false; }
+        var value=surrenderSnapshot();
+        if (!value || !quietSurrender(value) || value.raw.g_hdMapPick || value.cityIndex !== state.cityIndex ||
+            !mobileMenuComplete(value.menu) || value.menu.context !== 1 || value.menu.kind !== 2 ||
+            JSON.stringify(value.menu) !== JSON.stringify(menu) || JSON.stringify(menu.names) !== JSON.stringify(SUBS.neizheng) ||
+            !value.captiveIds.length || !value.alliedIds.length) { return null; }
+        var flow={basis:value,lastReading:value,role:'entry',menuSeq:menu.seq,mapInputSeq:value.raw.g_hdMapInputSeq,pending:null};
+        surrenderFlow=flow;return flow;
+    }
+    function syncSurrender() {
+        var flow=surrenderFlow;
+        if (!flow || surrenderSending || surrenderReading) { return false; }
+        var value=surrenderSnapshot();
+        if (!sameSurrenderSource(flow.basis,value)) { return false; }
+        var m=value.menu, pending=flow.pending;
+        var terminalTarget = pending ? (pending.action === 'target-exit' || pending.action === 'target-enter' &&
+            flow.lastReading.alliedIds.length === 0 && value.alliedIds.length === 0) : flow.role === 'target';
+        if (terminalTarget && sameSurrenderRows(flow.lastReading,value) && quietSurrender(value) && !m.active && value.raw.g_hdMapPick === 1 &&
+            m.seq === nextDistributionSeq(pending ? pending.seq : flow.menuSeq) && value.raw.g_hdMapInputSeq === nextDistributionSeq(flow.mapInputSeq)) {
+            surrenderFlow=null;
+            if (state.deepKind === 'person-surrender') { closeMenu({silent:true}); }
+            return true;
+        }
+        var role=surrenderRole(value);
+        if (pending && (pending.action === 'actor-enter' || sameSurrenderRows(flow.lastReading,value)) && m.seq === nextDistributionSeq(nextDistributionSeq(pending.seq)) &&
+            (pending.action === 'entry' && role === 'target' || pending.action === 'target-enter' && role === 'actor' ||
+                pending.action === 'actor-exit' && role === 'target' || pending.action === 'actor-enter' && (role === 'target' || role === 'actor'))) {
+            // The C actor confirmation may consume an order/fee. Re-read its
+            // actual queue; this presentation receipt does not assert a commit.
+            flow.role=role;flow.menuSeq=m.seq;flow.lastReading=value;flow.pending=null;state.deepSig='';state.deepSelectionPending=null;
+        }
+        if (!flow.pending && sameSurrenderRows(flow.lastReading,value) && role === flow.role && m.seq === flow.menuSeq && shouldShowHd() && mobileShellReady()) {
+            state.open=true;state.layer='deep';state.subKind='neizheng';state.cityIndex=value.cityIndex;
+            state.deepKind='person-surrender';state.deepLabel='招降';state.deepStep=role==='actor'?1:0;state.closingSub=false;
+            return true;
+        }
+        return false;
+    }
+    function getSurrenderPresentation() {
+        var flow=surrenderFlow;
+        if (!surrenderUiCurrent() || !flow || flow.pending || !state.open || state.layer !== 'deep' || state.deepKind !== 'person-surrender' || !shouldShowHd() || !mobileShellReady()) { return null; }
+        var a=surrenderSnapshot(), b=surrenderSnapshot();
+        if (!sameSurrenderRows(flow.lastReading,a) || !sameSurrenderRows(a,b) || surrenderRole(b) !== flow.role || b.menu.seq !== flow.menuSeq ||
+            JSON.stringify([a.raw,a.menu,a.rows]) !== JSON.stringify([b.raw,b.menu,b.rows]) || flow !== surrenderFlow || flow.pending) { return null; }
+        return {role:flow.role,title:'招降 · '+(flow.role==='target'?'选择俘虏':'选择招降将领'),cityIndex:b.cityIndex,
+            menuSeq:b.menu.seq,detailGeneration:b.detailGeneration,libraryGeneration:b.libraryGeneration,ids:actualMenuIds(b.menu).slice()};
+    }
+    function sendSurrenderKey(code,reason,currentOwner) {
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
+        if (!surrenderUiCurrent() || surrenderSending || surrenderReading || !surrenderFlow || !shouldShowHd() || !mobileShellReady() || document.hidden ||
+            [VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT,VK.HELP].indexOf(code)<0) { return false; }
+        surrenderSending=true;
+        try {
+            var flow=surrenderFlow, before=surrenderSnapshot();
+            if (flow.pending || !sameSurrenderRows(flow.lastReading,before) || !quietSurrender(before) || currentOwner && !currentOwner()) { return false; }
+            var entry=flow.role==='entry', m=before.menu;
+            if (entry ? reason!=='surrender-start' || m.kind!==2 || m.seq!==flow.menuSeq || m.context!==1 ||
+                JSON.stringify(m.names)!==JSON.stringify(SUBS.neizheng) || code===VK.ENTER&&m.index!==5 :
+                m.seq!==flow.menuSeq || surrenderRole(before)!==flow.role) { return false; }
+            var after=surrenderSnapshot();
+            if (!surrenderUiCurrent() || flow!==surrenderFlow || flow.pending || !sameSurrenderRows(before,after) ||
+                JSON.stringify([before.raw,before.menu,before.rows])!==JSON.stringify([after.raw,after.menu,after.rows])) { return false; }
+            if (cityInfoOwns(global.baye && baye.data)) { return false; }
+            if (code===VK.ENTER || code===VK.EXIT) {
+                flow.pending={seq:m.seq,action:entry?'entry':flow.role+(code===VK.ENTER?'-enter':'-exit')};
+            }
+            // The reservation precedes the export. A throw is an unknown native
+            // result and cannot restore this role's ENTER/EXIT permission.
+            before.sender.call(before.receiver,code);
+            return true;
+        } finally { surrenderSending=false; }
+    }
+
     function diplomacyRaw(data) {
         if (data.g_hdDiplomacyProtocolVersion === undefined && data.g_hdDiplomacyActive === undefined) { return null; }
         var raw = {};
@@ -270,10 +638,55 @@
             return value;
         } catch (e) { return null; }
     }
+    // PC observes the same native protocol without acquiring a mobile host or
+    // its public input capability. Lazy bridge structs retain their identity.
+    function pcDiplomacyBase() {
+        if (mobileHost || document.hidden || !shouldShowHd()) { return null; }
+        try {
+            var api = global.BayeHdLibIdentity, identity = api && api.read(), engine = global.baye, hd = engine && engine.hd;
+            if (!identity || identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA ||
+                identity.byteLength !== 207195 || !mobileInteger(identity.generation, 0xffffffff) || !identity.generation ||
+                !api.isCurrent(identity) || !hd || typeof hd.ready !== 'function' || hd.ready() !== true ||
+                typeof hd.menuItems !== 'function' || typeof hd.march !== 'function' || typeof hd.qty !== 'function') { return null; }
+            var data = typeof engine.ensureData === 'function' ? engine.ensureData() : engine.data;
+            if (!data || cityInfoOwns(data) || !MOBILE_RAW_FIELDS.every(function (key) { return mobileInteger(data[key], 0xffffffff); }) ||
+                data.g_hdEngineReady !== 1 || !data.g_hdDetailGeneration) { return null; }
+            var config = data.g_engineConfig, cities = data.g_Cities, origin = data.g_hdDiplomacyOrigin, king = data.g_PlayerKing;
+            if (!config || !mobileInteger(config.enable16bitConsumeMoney, 1) || !mobileInteger(config.fixAlienateComsumeThew, 1) ||
+                !mobileInteger(origin, 37) || !mobileInteger(king, 199) || !cities || !cities[origin] ||
+                cities[origin].Belong !== king + 1) { return null; }
+            var binding = {api: api, engine: engine, hd: hd, data: data, config: config, cities: cities, city: cities[origin],
+                origin: origin, king: king, belong: cities[origin].Belong, money16: config.enable16bitConsumeMoney,
+                alienateFix: config.fixAlienateComsumeThew, send: typeof global.sendKey === 'function' ? global.sendKey : null,
+                engineSend: typeof engine.sendKey === 'function' ? engine.sendKey : null};
+            if (!binding.send && !binding.engineSend || global.BayeHdLibIdentity !== api || global.baye !== engine || engine.hd !== hd ||
+                engine.data !== data || data.g_engineConfig !== config || data.g_Cities !== cities || cities[origin] !== binding.city ||
+                config.enable16bitConsumeMoney !== binding.money16 || config.fixAlienateComsumeThew !== binding.alienateFix ||
+                data.g_PlayerKing !== king || binding.city.Belong !== binding.belong || !api.isCurrent(identity) ||
+                mobileHost || document.hidden || !shouldShowHd()) { return null; }
+            return {identity: identity, data: data, pcBinding: binding};
+        } catch (e) { return null; }
+    }
+    function samePcDiplomacyBinding(a, b) {
+        if (!a || !b) { return !a && !b; }
+        return ['api','engine','hd','data','config','cities','city','origin','king','belong','money16','alienateFix','send','engineSend'].every(function (key) {
+            return a[key] === b[key];
+        });
+    }
+    function pcDiplomacySnapshot() {
+        var base = pcDiplomacyBase();
+        if (!base) { return null; }
+        var value = nativeSnapshot(base, pcDiplomacyBase), after = pcDiplomacyBase();
+        if (!value || !after || !value.diplomacy || value.diplomacy.origin !== base.pcBinding.origin ||
+            !samePcDiplomacyBinding(base.pcBinding, after.pcBinding)) { return null; }
+        value.pcBinding = base.pcBinding;
+        return value;
+    }
     function diplomacyReading() {
-        if (!mobileHost) { return null; }
-        var a = mobileNativeSnapshot(), b = mobileNativeSnapshot();
+        var read = mobileHost ? mobileNativeSnapshot : pcDiplomacySnapshot;
+        var a = read(), b = read();
         if (!a || !b || !b.diplomacy || a.data !== b.data || a.libraryGeneration !== b.libraryGeneration ||
+            !samePcDiplomacyBinding(a.pcBinding, b.pcBinding) ||
             JSON.stringify([a.raw,a.menu,a.qty,a.report,a.march,a.diplomacy]) !==
                 JSON.stringify([b.raw,b.menu,b.qty,b.report,b.march,b.diplomacy])) { return null; }
         return b;
@@ -282,7 +695,7 @@
         var d = value && value.diplomacy, flow = mobileDiplomacy;
         return !!(flow && d && value.data === flow.data && value.libraryGeneration === flow.generation &&
             d.generation === flow.detailGeneration && d.session === flow.session && d.command === flow.command &&
-            d.origin === flow.origin);
+            d.origin === flow.origin && samePcDiplomacyBinding(value.pcBinding, flow.pcBinding));
     }
     function diplomacyBound(value) {
         return diplomacySameFlow(value) && state.open && state.layer === 'deep' &&
@@ -303,11 +716,63 @@
             diplomacyCommand: d.command, diplomacyPhase: d.phase, actor: d.actor, target: d.target};
         ticket.key = JSON.stringify([value.libraryGeneration,value.raw,menu,value.march,value.qty,value.report,d]);
         Object.defineProperty(ticket, 'data', {value: value.data, enumerable: false});
+        if (value.pcBinding) {
+            if (!mobileInteger(mobileDiplomacy.pcEpoch, 0xffffffff) || !mobileDiplomacy.pcEpoch) { return null; }
+            ticket.pcEpoch = mobileDiplomacy.pcEpoch;
+            ticket.key = JSON.stringify([ticket.key, ticket.pcEpoch]);
+            Object.defineProperty(ticket, 'pcBinding', {value: value.pcBinding, enumerable: false});
+        }
         return ticket;
+    }
+    function pcDiplomacyTicket() {
+        if (mobileHost) { return null; }
+        var value = diplomacyReading();
+        return value && value.pcBinding ? diplomacyTicketFrom(value) : null;
+    }
+    function samePcDiplomacyRole(before, after) {
+        return !!(before && after && before.pcBinding && after.pcBinding && before.data === after.data &&
+            samePcDiplomacyBinding(before.pcBinding, after.pcBinding) &&
+            ['pcEpoch','libraryGeneration','cityIndex','menuContext','menuKind','menuSeq','detailGeneration',
+                'session','inputSeq','diplomacyCommand','diplomacyPhase','actor','target'].every(function (key) {
+                return before[key] === after[key];
+            }));
+    }
+    function reservePcDiplomacyInput(ticket, flow) {
+        flow.sent = ticket.key;
+        if (!pcDiplomacyReservation) { pcDiplomacyReservation = ticket; }
+    }
+    function pcDiplomacyAdvanced(before, after) {
+        var delta = (after - before) >>> 0;
+        return delta > 0 && delta < 0x80000000;
+    }
+    function observePcDiplomacyReservation(value) {
+        var before = pcDiplomacyReservation;
+        if (!before || !value.pcBinding) { return true; }
+        // Closing a presentation cannot settle a native input. Its original
+        // source references remain authoritative until a complete native ACK.
+        if (value.data !== before.data || value.libraryGeneration !== before.libraryGeneration ||
+            !samePcDiplomacyBinding(value.pcBinding, before.pcBinding)) { return false; }
+        var d = value.diplomacy, sameEpoch = d.generation === before.detailGeneration &&
+            d.session === before.session && d.command === before.diplomacyCommand && d.origin === before.origin;
+        var nextEpoch = pcDiplomacyAdvanced(before.session, d.session) &&
+            (d.generation === before.detailGeneration || pcDiplomacyAdvanced(before.detailGeneration, d.generation));
+        var quiet = !(value.transfer && value.transfer.active) && !value.raw.g_hdHelpActive && !value.raw.g_hdReportActive &&
+            !value.qty.active && !value.march.battlePick &&
+            [MARCH.IDLE,MARCH.DEPARTED].indexOf(value.march.phase) >= 0 && value.march.mapCity === d.origin + 1;
+        var roleAck = quiet && d.active === 1 && [1,2].indexOf(d.phase) >= 0 && (sameEpoch || nextEpoch) &&
+            pcDiplomacyAdvanced(before.inputSeq, d.inputSeq) && pcDiplomacyAdvanced(before.menuSeq, value.menu.seq) &&
+            !value.march.pick && value.menu.active === 1 && value.menu.context === 1 && value.menu.kind === 3 &&
+            mobileMenuComplete(value.menu) && actualMenuIds(value.menu).every(function (id) { return mobileInteger(id,199); });
+        var mapAck = quiet && sameEpoch && !d.active && d.phase === 5 && !value.menu.active && value.march.pick === 1 &&
+            pcDiplomacyAdvanced(before.inputSeq, d.inputSeq) &&
+            pcDiplomacyAdvanced(before.mapInputSeq, value.march.mapInputSeq) && retiredCityMapOwner();
+        if (roleAck || mapAck) { pcDiplomacyReservation = null; }
+        return true;
     }
     function syncMobileDiplomacy() {
         var value = diplomacyReading(), d = value && value.diplomacy;
         if (!value || !d) { return false; }
+        if (!observePcDiplomacyReservation(value)) { return false; }
         if (!d.active) {
             if (diplomacySameFlow(value) && d.phase === 5 && !value.menu.active &&
                 !value.qty.active && !value.raw.g_hdReportActive && value.march.pick === 1 &&
@@ -320,18 +785,30 @@
         }
         if (value.transfer && value.transfer.active || value.march.battlePick ||
             [MARCH.IDLE,MARCH.DEPARTED].indexOf(value.march.phase) < 0 || value.march.mapCity !== d.origin + 1) { return false; }
+        // A replaced PC binding in this same native session cannot reopen a
+        // chance to resend an input whose result is still unknown.
+        if (mobileDiplomacy && value.data === mobileDiplomacy.data && value.libraryGeneration === mobileDiplomacy.generation &&
+            d.session === mobileDiplomacy.session && d.command === mobileDiplomacy.command &&
+            d.origin === mobileDiplomacy.origin && d.generation === mobileDiplomacy.detailGeneration &&
+            !samePcDiplomacyBinding(value.pcBinding, mobileDiplomacy.pcBinding)) { return false; }
         if (!mobileDiplomacy || value.data !== mobileDiplomacy.data || value.libraryGeneration !== mobileDiplomacy.generation ||
             d.session !== mobileDiplomacy.session || d.command !== mobileDiplomacy.command ||
             d.origin !== mobileDiplomacy.origin || d.generation !== mobileDiplomacy.detailGeneration) {
             mobileDiplomacy = {data: value.data, generation: value.libraryGeneration, detailGeneration: d.generation,
                 session: d.session, command: d.command, origin: d.origin, inputSeq: d.inputSeq, phase: d.phase,
                 mapInputSeq: value.march.mapInputSeq, sent: ''};
+            if (value.pcBinding) {
+                pcDiplomacyEpoch = (pcDiplomacyEpoch + 1) >>> 0 || 1;
+                mobileDiplomacy.pcBinding = value.pcBinding;
+                mobileDiplomacy.pcEpoch = pcDiplomacyEpoch;
+            }
         }
         var flow = mobileDiplomacy;
         if (flow.inputSeq !== d.inputSeq || flow.phase !== d.phase) {
             flow.inputSeq = d.inputSeq; flow.phase = d.phase; flow.sent = '';
             state.deepSig = ''; state.deepSelectionPending = null;
         }
+        if (value.pcBinding && pcDiplomacyReservation) { flow.sent = pcDiplomacyReservation.key; }
         if (!shouldShowHd()) { return true; }
         state.open = true; state.layer = 'deep'; state.subKind = 'waijiao'; state.cityIndex = d.origin;
         state.deepKind = 'person-diplomacy'; state.deepLabel = {15:'离间',16:'招揽',17:'策反',19:'劝降'}[d.command];
@@ -340,9 +817,10 @@
         return true;
     }
     function getDiplomacyPresentation() {
-        if (!mobileHost || !shouldShowHd()) { return null; }
+        if (!shouldShowHd()) { return null; }
         var first = diplomacyReading(), second = diplomacyReading();
         if (!first || !second || first.data !== second.data || !diplomacyBound(second) ||
+            !samePcDiplomacyBinding(first.pcBinding, second.pcBinding) ||
             JSON.stringify(first.diplomacy) !== JSON.stringify(second.diplomacy)) { return null; }
         var d = second.diplomacy, ticket = diplomacyTicketFrom(second), role = d.phase === 1 ? 'actor' :
             d.phase === 2 ? 'target' : d.phase === 3 ? 'commit' : d.phase === 4 ? 'reject' : 'done';
@@ -351,6 +829,7 @@
         var cost = diplomacyCosts(d.command, second.data);
         var after = diplomacyReading();
         if (!after || after.data !== second.data || after.libraryGeneration !== second.libraryGeneration ||
+            !samePcDiplomacyBinding(second.pcBinding, after.pcBinding) ||
             JSON.stringify([after.raw,after.menu,after.diplomacy]) !== JSON.stringify([second.raw,second.menu,second.diplomacy])) { return null; }
         return Object.freeze({command: d.command, commandName: commandName, phase: d.phase, role: role,
             origin: d.origin, session: d.session, inputSeq: d.inputSeq, generation: d.generation,
@@ -403,6 +882,16 @@
         if (!engineSendKey(VK.EXIT, 'diplomacy-back', function () {
             var current = mobileInputTicket(); return !!current && current.data === ticket.data && current.key === ticket.key;
         })) { flow.sent = ''; }
+        return true;
+    }
+    function backPcDiplomacy() {
+        if (mobileHost || state.deepKind !== 'person-diplomacy') { return false; }
+        var ticket = pcDiplomacyTicket(), flow = mobileDiplomacy;
+        if (!ticket || !flow || flow.sent || state.nativeMenuRequest || state.queue.length || state.sending) { return true; }
+        engineSendKey(VK.EXIT, 'pc-diplomacy-back', function () {
+            var current = pcDiplomacyTicket();
+            return mobileDiplomacy === flow && samePcDiplomacyRole(ticket, current) && current.key === ticket.key;
+        });
         return true;
     }
     function transferRoutes(data, origin) {
@@ -804,6 +1293,7 @@
         deepItems: [],
         deepSig: '',
         deepMenuOwner: null,
+        listFind: null,
         personDetailSig: '',
         personDetail: null,
         personProperties: null,
@@ -1130,6 +1620,7 @@
     }
 
     function shouldShowHd() {
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (mobileHost && !mobileBase()) { return false; }
         var mode = getMenuMode();
         if (mode === 'classic') {
@@ -1483,7 +1974,37 @@
             reason === 'dismiss-leftover-help';
     }
 
+    function sendPcDiplomacyKey(code, reason, currentOwner) {
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
+        if (mobileHost || pcDiplomacySending || state.deepKind !== 'person-diplomacy' ||
+            [VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT,VK.HELP].indexOf(code) < 0) { return false; }
+        pcDiplomacySending = true;
+        var flow = null, before = null;
+        try {
+            before = pcDiplomacyTicket(); flow = mobileDiplomacy;
+            if (!before || !flow || flow.sent || pcDiplomacyReservation || currentOwner && !currentOwner()) { return false; }
+            var after = pcDiplomacyTicket();
+            if (mobileDiplomacy !== flow || !samePcDiplomacyRole(before, after) || before.key !== after.key) { return false; }
+            var binding = before.pcBinding, sender = binding.send || binding.engineSend;
+            if (!sender) { return false; }
+            if (cityInfoOwns(global.baye && baye.data)) { return false; }
+            // Reserve before the export: an exception cannot prove that C did
+            // not receive ENTER/EXIT. Never retry that same native role.
+            if (code === VK.ENTER || code === VK.EXIT) { reservePcDiplomacyInput(before, flow); }
+            if (code === VK.EXIT) { state.lastExit = reason || 'pc-diplomacy'; distributionFlow = null; }
+            if (code === VK.ENTER || code === VK.EXIT || code === VK.HELP) { state.engineHelpOpen = false; }
+            sender.call(binding.send ? global : binding.engine, code);
+            return true;
+        } catch (error) {
+            if (flow && before) { reservePcDiplomacyInput(before, flow); }
+            throw error;
+        } finally { pcDiplomacySending = false; }
+    }
+
     function engineSendKey(code, reason, currentOwner) {
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
+        if (state.deepKind === 'person-surrender' || surrenderFlow && surrenderFlow.role === 'entry' && reason === 'surrender-start') { return sendSurrenderKey(code, reason, currentOwner); }
+        if (!mobileHost && state.deepKind === 'person-diplomacy') { return sendPcDiplomacyKey(code, reason, currentOwner); }
         if (mobileHost && mobileDiplomacy && mobileDiplomacy.sent && reason !== 'diplomacy-back') { return false; }
         if (mobileHost && mobileEquipmentFlow) { return false; }
         if (mobileHost && mobileTrade && mobileTrade.wait) { return false; }
@@ -1530,6 +2051,7 @@
             var mobileCurrent = mobileInputTicket(reason);
             if (!mobileCurrent || mobileCurrent.data !== mobilePress.data || mobileCurrent.key !== mobilePress.key) { retireInteraction('send-owner-changed'); return false; }
         }
+        if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (code === VK.EXIT && reason !== 'qty-cancel') { distributionFlow = null; }
         if (typeof sendKey === 'function') {
             if (mobileHost && mobileDiplomacy && reason === 'diplomacy-person' && code === VK.ENTER) { mobileDiplomacy.sent = mobilePress.key; }
@@ -4349,7 +4871,7 @@
         var expected = state.deepKind === 'person-trade' && state.deepStep === 1 ? 5 :
             usesGoodsMenu(state.deepKind, state.deepStep) ? 4 : 3;
         if (kind !== expected) { return null; }
-        var diplomacy = state.deepKind === 'person-diplomacy' ? mobileInputTicket() : null;
+        var diplomacy = state.deepKind === 'person-diplomacy' ? (mobileHost ? mobileInputTicket() : pcDiplomacyTicket()) : null;
         if (state.deepKind === 'person-diplomacy' && (!diplomacy || !diplomacy.diplomacyCommand || kind !== 3)) { return null; }
         if (kind === 5 && !tradeExchangeOwner(mobileNativeSnapshot())) { return null; }
         if (state.deepKind === 'person-city') {
@@ -4360,6 +4882,7 @@
         var ownerKey = [marchEpoch, 1, kind, Number(menu.seq), menu.names, generation, actualMenuIds(menu)];
         if (diplomacy) { ownerKey.push([diplomacy.diplomacyCommand,diplomacy.diplomacyPhase,
             diplomacy.session,diplomacy.inputSeq,diplomacy.actor,diplomacy.target]); }
+        if (diplomacy && diplomacy.pcEpoch) { ownerKey.push(diplomacy.pcEpoch); }
         return { context: 1, kind: kind, seq: Number(menu.seq), detailGeneration: generation,
             key: JSON.stringify(ownerKey) };
     }
@@ -4414,6 +4937,7 @@
     }
 
     function mobilePreviewContext(button) {
+        if (!listFindButtonVisible(button)) { return null; }
         if (mobileDiplomacy && mobileDiplomacy.sent) { return null; }
         if (state.goodsBackPending || mobileEquipmentFlow || mobileTrade && mobileTrade.wait) { return null; }
         if (!mobileHost || !state.open || state.layer !== 'deep' || state.deepKind === 'person-city' ||
@@ -4438,7 +4962,7 @@
     }
 
     function previewDeep(button, pressed) {
-        if (!pressed || pressed.target !== button || pressed.cancelled || !pressed.context || state.nativeMenuRequest) { return false; }
+        if (!pressed || pressed.target !== button || pressed.cancelled || pressed.viewEpoch !== listFindEpoch || !pressed.context || state.nativeMenuRequest) { return false; }
         var context = mobilePreviewContext(button), initial = pressed.context;
         if (!context || context.data !== initial.data || context.key !== initial.key || context.stable !== initial.stable ||
             context.epoch !== initial.epoch || context.id !== initial.id) { return false; }
@@ -4617,6 +5141,62 @@
         } catch (e) { return false; }
     }
 
+    // Private row identity keeps the public two-cell HUD rows unchanged.
+    // Only the standard-library resource rows below are registered here.
+    var cityResourceFields = typeof WeakMap === 'function' ? new WeakMap() : null;
+
+    function cityResourceRow(city, field, label, standard) {
+        var row = [label, hudValue(city, field)];
+        if (standard && cityResourceFields) { cityResourceFields.set(row, field); }
+        return row;
+    }
+
+    function appendCityResourceIcon(row, field) {
+        var pathData;
+        switch (field) {
+        case 'Money':
+            pathData = 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M10 8h4v8h-4z';
+            break;
+        case 'Food':
+            pathData = 'M12 21V5 M12 9C8 9 5 7 5 3c4 0 7 2 7 6z M12 14c4 0 7-2 7-6-4 0-7 2-7 6z M12 18c-4 0-7-2-7-6 4 0 7 2 7 6z';
+            break;
+        case 'MothballArms':
+            pathData = 'M3 20h18 M5 20v-9l7-7 7 7v9 M9 20v-7h6v7';
+            break;
+        case 'Persons':
+            pathData = 'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M3 21v-2a6 6 0 0 1 12 0v2 M17 6a3 3 0 0 1 0 6 M18 15a5 5 0 0 1 3 4v2';
+            break;
+        case 'Tools':
+            pathData = 'M4 8h16v12H4z M9 8V4h6v4 M4 12h16 M10 12v3h4v-3';
+            break;
+        default:
+            return;
+        }
+        row.setAttribute('data-hd-city-resource', field);
+        var label = row.children && row.children[0];
+        if (!label || label.tagName !== 'SPAN' || typeof document.createElementNS !== 'function') { return; }
+        try {
+            var ns = 'http://www.w3.org/2000/svg';
+            var icon = document.createElementNS(ns, 'svg');
+            icon.setAttribute('class', 'hd-city-menu-resource-icon');
+            icon.setAttribute('viewBox', '0 0 24 24');
+            icon.setAttribute('aria-hidden', 'true');
+            icon.setAttribute('focusable', 'false');
+            icon.setAttribute('fill', 'none');
+            icon.setAttribute('stroke', 'currentColor');
+            icon.setAttribute('stroke-width', '1.8');
+            icon.setAttribute('stroke-linecap', 'round');
+            icon.setAttribute('stroke-linejoin', 'round');
+            icon.setAttribute('data-hd-city-resource-icon', field);
+            var shape = document.createElementNS(ns, 'path');
+            shape.setAttribute('d', pathData);
+            icon.appendChild(shape);
+            label.appendChild(icon);
+            label.classList.add('hd-city-menu-resource-label');
+        } catch (e) {
+            // Unsupported decorative SVG must not hide the original text.
+        }
+    }
     function cityDetails(city) {
         if (!city) { return null; }
         var code = hudNumber(city, 'State');
@@ -4635,9 +5215,9 @@
                 ['民忠', hudValue(city, 'PeopleDevotion')], ['防灾', hudValue(city, 'AvoidCalamity')]
             ] },
             { title: '资源与军备', rows: [
-                ['金钱', hudValue(city, 'Money')], ['粮食', hudValue(city, 'Food')],
-                ['预备兵', hudValue(city, 'MothballArms')],
-                ['城内人物', hudValue(city, 'Persons')], ['城内道具', hudValue(city, 'Tools')]
+                cityResourceRow(city, 'Money', '金钱', standard), cityResourceRow(city, 'Food', '粮食', standard),
+                cityResourceRow(city, 'MothballArms', '预备兵', standard),
+                cityResourceRow(city, 'Persons', '城内人物', standard), cityResourceRow(city, 'Tools', '城内道具', standard)
             ] }
         ];
         var represented = ['State', 'Belong', 'SatrapId', 'Farming', 'FarmingLimit', 'Commerce',
@@ -4666,8 +5246,8 @@
         return row;
     }
 
-    function appendHudGroups(box, groups) {
-        groups.forEach(function (group) {
+    function appendHudGroups(box, groups, personLocation, equipmentFields) {
+        groups.forEach(function (group, groupIndex) {
             var section = document.createElement('section');
             section.className = 'hd-city-menu-info-group';
             var heading = document.createElement('h3');
@@ -4675,13 +5255,57 @@
             section.appendChild(heading);
             var rows = document.createElement('div');
             rows.className = 'hd-city-menu-info-rows';
-            group.rows.forEach(function (row) { appendStat(rows, row[0], row[1]); });
+            group.rows.forEach(function (row, rowIndex) {
+                var stat = appendStat(rows, row[0], row[1]);
+                if (cityResourceFields) { appendCityResourceIcon(stat, cityResourceFields.get(row)); }
+                var equipmentField = equipmentFields && equipmentFields[groupIndex] && equipmentFields[groupIndex][rowIndex];
+                if (equipmentField) {
+                    stat.setAttribute('data-hd-equipment-field', equipmentField);
+                    appendPersonEquipmentIcon(stat);
+                }
+            });
+            if (groupIndex === 0 && personLocation) {
+                var locationRow = appendStat(rows, '所在城市', personLocation.name);
+                locationRow.setAttribute('data-hd-person-location', '1');
+                locationRow.setAttribute('data-hd-person-location-city', String(personLocation.cityIndex));
+            }
             section.appendChild(rows);
             box.appendChild(section);
         });
     }
 
-    function renderStatus() {
+    function renderCityGarrison() {
+        var box = el('hd-city-menu-status');
+        if (!box) { return; }
+        var value = null;
+        if (state.open && state.layer === 'status' && !document.hidden && shouldShowHd() &&
+            global.BayeHdCityGarrison && typeof BayeHdCityGarrison.read === 'function') { value = BayeHdCityGarrison.read(state.cityIndex); }
+        var section = box.querySelector('[data-hd-city-garrison]');
+        if (!value || !state.open || state.layer !== 'status' || document.hidden || value.cityIndex !== state.cityIndex) {
+            if (section && section.parentNode === box) { box.removeChild(section); }
+            return;
+        }
+        var signature = JSON.stringify(value);
+        if (section && section._garrisonSignature === signature) { return; }
+        if (!section) {
+            section = document.createElement('section'); section.className = 'hd-city-menu-info-group';
+            section.setAttribute('data-hd-city-garrison','1');
+            var anchor = box.querySelector('[data-hd-city-inventory]') || box.querySelector('[data-hd-city-plans]');
+            if (anchor && anchor.parentNode === box) { box.insertBefore(section,anchor); } else { box.appendChild(section); }
+        }
+        section.textContent = ''; section._garrisonSignature = signature;
+        var title = document.createElement('h3'); title.textContent = '在任将领（' + value.rows.length + '）'; section.appendChild(title);
+        var rows = document.createElement('div'); rows.className = 'hd-city-menu-info-rows';
+        value.rows.forEach(function (person) {
+            var row = appendStat(rows,person.name,'兵力 ' + (person.arms == null ? '未读取' : person.arms) + ' · 体力 ' + (person.thew == null ? '未读取' : person.thew));
+            row.setAttribute('data-hd-city-general',String(person.id)); row.setAttribute('data-hd-city-queue-slot',String(person.queueSlot));
+        });
+        section.appendChild(rows);
+        var note = document.createElement('p'); note.className = 'hd-city-menu-info-note';
+        note.textContent = value.rows.length ? '按原生驻城名册顺序显示。' : '本城暂无在任将领。'; section.appendChild(note);
+    }
+
+    function renderStatusSurrenderBody() {
         var box = el('hd-city-menu-status');
         if (!box) { return; }
         box.innerHTML = '';
@@ -4693,6 +5317,56 @@
             return;
         }
         appendHudGroups(box, state.cityDetails.groups);
+        renderCityGarrison();
+        var inventory = null;
+        if (state.open && state.layer === 'status' && !document.hidden && shouldShowHd() &&
+            global.BayeHdCityInventory && typeof BayeHdCityInventory.read === 'function') {
+            inventory = BayeHdCityInventory.read(state.cityIndex);
+        }
+        if (inventory && state.open && state.layer === 'status' && !document.hidden &&
+            inventory.cityIndex === state.cityIndex && shouldShowHd()) {
+            var stock = document.createElement('section');
+            stock.className = 'hd-city-menu-info-group'; stock.setAttribute('data-hd-city-inventory','1');
+            var stockTitle = document.createElement('h3');
+            stockTitle.textContent = '已发现城内道具（' + inventory.total + '件）'; stock.appendChild(stockTitle);
+            var stockNote = document.createElement('p'); stockNote.className = 'hd-city-menu-info-note';
+            stockNote.textContent = inventory.total ? '已发现并留在城内的道具。' : '本城暂无已发现的道具。';
+            stock.appendChild(stockNote);
+            var stockRows = document.createElement('div'); stockRows.className = 'hd-city-menu-info-rows';
+            inventory.rows.forEach(function (item) {
+                var stockRow = appendStat(stockRows,item.name,item.count + ' 件');
+                stockRow.setAttribute('data-hd-city-tool',String(item.id));
+                stockRow.setAttribute('data-hd-city-tool-count',String(item.count));
+            });
+            stock.appendChild(stockRows); box.appendChild(stock);
+        }
+        var plans = null;
+        if (state.open && state.layer === 'status' && !document.hidden && shouldShowHd() &&
+            global.BayeHdCityPlans && typeof BayeHdCityPlans.read === 'function') {
+            plans = BayeHdCityPlans.read(state.cityIndex);
+        }
+        if (plans && state.open && state.layer === 'status' && plans.cityIndex === state.cityIndex && shouldShowHd()) {
+            var section = document.createElement('section');
+            section.className = 'hd-city-menu-info-group';
+            section.setAttribute('data-hd-city-plans', '1');
+            var heading = document.createElement('h3');
+            heading.textContent = '本月已安排事务（' + plans.rows.length + '）';
+            section.appendChild(heading);
+            var note = document.createElement('p');
+            note.className = 'hd-city-menu-info-note';
+            note.textContent = plans.year + '年' + plans.month + '月 · ' +
+                (plans.rows.length ? '记录本城己方已安排事务，结果以原生月结为准。' : '本城暂无己方已安排事务。');
+            section.appendChild(note);
+            var rows = document.createElement('div');
+            rows.className = 'hd-city-menu-info-rows';
+            plans.rows.forEach(function (plan) {
+                var row = appendStat(rows, plan.label, plan.text);
+                row.setAttribute('data-hd-city-order', String(plan.slot));
+                row.setAttribute('data-hd-city-order-id', String(plan.command));
+            });
+            section.appendChild(rows);
+            box.appendChild(section);
+        }
     }
 
     function equipmentLabel(person, slot) {
@@ -4773,12 +5447,94 @@
             note: '装备可能改变实际兵种。忠诚值保留原始数值，君主与在野人物不以此判断归属。' };
     }
 
+    var personLocationReading = false, personLocationEpoch = 0;
+    function readPersonLocation(menu, owner, index, personIndex, data) {
+        if (personLocationReading) { personLocationEpoch += 1; return null; }
+        var token = ++personLocationEpoch;
+        personLocationReading = true;
+        try {
+            var engine = global.baye, hd = engine && engine.hd, api = global.BayeHdLibIdentity;
+            var identity = api && api.read(), ids = actualMenuIds(menu);
+            var identityReader = api && api.read, identityCurrent = api && api.isCurrent;
+            if (!standardHudLabels(['getPersonPropertyValue', 'getPersonPropertyTitle']) || !identity ||
+                identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA || identity.byteLength !== 207195 ||
+                !detailNumber(identity.generation, 0xffffffff) || !api.isCurrent(identity) || !engine || !hd ||
+                !data || engineData() !== data || !ids || ids[index] !== personIndex || !mobileMenuComplete(menu) ||
+                !ids.every(function (id) { return detailNumber(id, 199) != null; }) ||
+                detailNumber(personIndex, 199) == null || menu.active !== 1 || menu.context !== 1 || menu.kind !== 3 ||
+                !owner || owner.kind !== 3 || !owner.detailGeneration || menu.generation !== owner.detailGeneration ||
+                menu.detailGeneration !== owner.detailGeneration || menu.index !== index) { return null; }
+            var config = data.g_engineConfig, cities = data.g_Cities, queue = data.g_PersonsQueue, people = data.g_Persons;
+            var selectedPerson = people && people[personIndex];
+            var nameReader = engine.getCityName, personReader = engine.getPersonCount;
+            if (!config || config.citiesCount !== 38 || !cities || cities.length !== 38 || !queue || queue.length !== 2000 ||
+                !people || people.length !== 2000 || !selectedPerson ||
+                typeof nameReader !== 'function' || typeof personReader !== 'function' || personReader.call(engine) !== 200) { return null; }
+            function sourceCurrent() {
+                if (!personLocationReading || token !== personLocationEpoch) { return false; }
+                var current = global.baye === engine && engine.hd === hd && engineData() === data && engine.data === data &&
+                    global.BayeHdLibIdentity === api && api.read === identityReader && api.isCurrent === identityCurrent &&
+                    identityCurrent.call(api, identity) &&
+                    standardHudLabels(['getPersonPropertyValue', 'getPersonPropertyTitle']) &&
+                    data.g_engineConfig === config && config.citiesCount === 38 && data.g_Cities === cities && cities.length === 38 &&
+                    data.g_PersonsQueue === queue && queue.length === 2000 && data.g_Persons === people &&
+                    people.length === 2000 && people[personIndex] === selectedPerson &&
+                    engine.getCityName === nameReader && engine.getPersonCount === personReader;
+                return current && personLocationReading && token === personLocationEpoch;
+            }
+            function snapshot() {
+                if (!sourceCurrent()) { return null; }
+                var rows = [], refs = [], found = null;
+                // Match C GetPersonCity: city order, then each city's complete
+                // queue range. Duplicate entries keep the first match.
+                for (var c = 0; c < 38; c++) {
+                    var city = cities[c], start = city && detailNumber(city.PersonQueue, 2000);
+                    var count = city && detailNumber(city.Persons, 2000);
+                    if (!city || start == null || count == null || start + count > 2000) { return null; }
+                    var people = [];
+                    for (var q = 0; q < count; q++) {
+                        var person = detailNumber(queue[start + q], 199);
+                        if (person == null) { return null; }
+                        people.push(person);
+                        if (!found && person === personIndex) {
+                            found = {cityIndex: c, queueStart: start, queueCount: count, queueOffset: start + q};
+                        }
+                    }
+                    refs.push(city); rows.push([start, count, people]);
+                }
+                if (!sourceCurrent() || !refs.every(function (city, c) { return cities[c] === city; })) { return null; }
+                var current = engineMenuItems(), currentOwner = deepMenuOwner(current);
+                if (!currentOwner || currentOwner.key !== owner.key || JSON.stringify(current) !== JSON.stringify(menu) ||
+                    !state.open || state.layer !== 'deep' || !state.deepMenuOwner || state.deepMenuOwner.key !== owner.key ||
+                    state.nativeMenuRequest || state.deepSelectionPending || state.personPagePending || state.sending ||
+                    state.queue.length || state.closingSub || document.hidden || !shouldShowHd() ||
+                    token !== personLocationEpoch) { return null; }
+                return {rows: rows, refs: refs, found: found};
+            }
+            var before = snapshot();
+            if (!before) { return null; }
+            var name = before.found ? nameReader.call(engine, before.found.cityIndex) : '';
+            var after = snapshot();
+            if (!after || !sourceCurrent() || !before.refs.every(function (city, c) { return after.refs[c] === city; }) ||
+                JSON.stringify(before.rows) !== JSON.stringify(after.rows) || !after.found ||
+                typeof name !== 'string' || !name.trim() || name === '-' || token !== personLocationEpoch) { return null; }
+            return {personIndex: personIndex, cityIndex: after.found.cityIndex, name: name,
+                source: 'native-city-queue-first-match', libraryGeneration: identity.generation,
+                detailGeneration: owner.detailGeneration, menuSeq: menu.seq, nativeIndex: index,
+                queueStart: after.found.queueStart, queueCount: after.found.queueCount, queueOffset: after.found.queueOffset};
+        } catch (e) { return null; }
+        finally { personLocationReading = false; }
+    }
+
     function retirePersonDetails() {
         retirePersonProperties();
         state.personDetail = null;
         state.personDetailSig = '';
         var pane = el('hd-city-menu-person-details');
         if (pane) { pane.hidden = true; }
+        var fields = el('hd-city-menu-person-fields');
+        var locationRow = fields && fields.querySelector('[data-hd-person-location]');
+        if (locationRow && locationRow.parentNode) { locationRow.parentNode.removeChild(locationRow); }
         var layout = el('hd-city-menu-person-layout');
         if (layout) { layout.classList.remove('has-person-details'); }
     }
@@ -4830,6 +5586,503 @@
             !menu.packedNames.every(function (name) { return typeof name === 'string' && !!name; })) { return null; }
         return JSON.stringify([menu.active, menu.context, menu.kind, menu.seq, menu.itemLen,
             menu.count, menu.index, menu.generation, menu.detailGeneration, ids, menu.names, menu.packedNames]);
+    }
+
+    var personListStatsReading = false, personListStatsEpoch = 0;
+    function readPersonListStats(menu, owner, items) {
+        if (personListStatsReading) { personListStatsEpoch += 1; return null; }
+        var token = ++personListStatsEpoch;
+        personListStatsReading = true;
+        try {
+            var ids = actualMenuIds(menu), index = menu && menu.index;
+            var menuKey = ids && owner && personEquipmentMenuKey(menu, owner, index, ids[index]);
+            if (!menuKey || !items.length || items.length !== ids.length) { return null; }
+            function ordinary() {
+                if (state.deepKind !== 'person' || state.deepStep || mobileTrade || mobileTransfer || mobileEquipmentFlow || surrenderFlow) { return false; }
+                if (state.subKind === '' && state.deepLabel === '人物') { return true; }
+                var labels = SUBS[state.subKind], kinds = DEEP[state.subKind];
+                var command = labels && labels.indexOf(state.deepLabel);
+                return (state.subKind === 'neizheng' || state.subKind === 'junbei') && command >= 0 &&
+                    kinds[command] === 'person' && !(state.subKind === 'neizheng' && [5, 6, 7, 10].indexOf(command) >= 0);
+            }
+            function profileKey(profile) {
+                return profile && JSON.stringify([profile.ownerKey, profile.nativeIndex, profile.personIndex,
+                    profile.generation, profile.detailGeneration, profile.custom, profile.propertyCount]);
+            }
+            function sample() {
+                var engine = global.baye, hd = engine && engine.hd, api = global.BayeHdLibIdentity;
+                var hooks = engine && engine.hooks;
+                var methods = [api && api.read, api && api.isCurrent, engine && engine.getPersonCount,
+                    engine && engine.ensureData, hd && hd.ready, hd && hd.menuItems, hd && hd.personProperties,
+                    hooks && hooks.getPersonPropertyTitle, hooks && hooks.getPersonPropertyValue];
+                if (!ordinary() || !state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
+                    state.nativeMenuRequest || state.deepSelectionPending || state.personPagePending || state.sending ||
+                    state.queue.length || state.closingSub || showingQty() || detailOverlayActive() ||
+                    state.personProperties && state.personProperties.custom || !state.deepMenuOwner ||
+                    state.deepMenuOwner.key !== owner.key || !engine || !hd || !api ||
+                    typeof api.read !== 'function' || typeof api.isCurrent !== 'function' ||
+                    typeof engine.getPersonCount !== 'function' || engine.getPersonCount() !== 200 ||
+                    !standardHudLabels(['getPersonPropertyTitle', 'getPersonPropertyValue'])) { return null; }
+                var identity = api.read(), data = engineData(), cityIndex = detailNumber(state.cityIndex, 37);
+                var config = data && data.g_engineConfig, cities = data && data.g_Cities;
+                var people = data && data.g_Persons, queue = data && data.g_PersonsQueue;
+                var king = data && detailNumber(data.g_PlayerKing, 199), city = cities && cities[cityIndex];
+                if (!identity || identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA ||
+                    identity.byteLength !== 207195 || !detailNumber(identity.generation, 0xffffffff) || !api.isCurrent(identity) ||
+                    !data || engine.data !== data || !config || config.citiesCount !== 38 || !cities || cities.length !== 38 ||
+                    !people || people.length !== 2000 || !queue || queue.length !== 2000 || cityIndex == null || king == null ||
+                    !city || city.Belong !== king + 1 || data.g_hdMapCity !== cityIndex + 1 ||
+                    data.g_hdDetailGeneration !== owner.detailGeneration ||
+                    !items.every(function (item, i) { return item.nativeId === true && item.pind === ids[i] && item.name === menu.names[i]; })) { return null; }
+                var profile = personPropertySnapshot(menu, owner);
+                if (!profile || profile.custom !== false || profile.propertyCount !== 13) { return null; }
+                var start = detailNumber(city.PersonQueue, 2000), count = detailNumber(city.Persons, 2000);
+                if (start == null || count == null || start + count > 2000) { return null; }
+                var members = [], memberRefs = [], own = {};
+                for (var q = 0; q < count; q++) {
+                    var id = detailNumber(queue[start + q], 199), person = id != null && people[id];
+                    var belong = person && detailNumber(person.Belong, 65535);
+                    if (!person || belong == null) { return null; }
+                    members.push([id, belong]); memberRefs.push(person);
+                    if (belong === king + 1) { own[id] = true; }
+                }
+                if (!ids.every(function (id) { return !!own[id]; })) { return null; }
+                var refs = methods.concat([api, engine, hd, hooks, data, config, cities, people, queue, city]);
+                var identityKey = JSON.stringify([identity.status, identity.sha256, identity.byteLength, identity.generation]);
+                function current(noCallbacks) {
+                    var live = noCallbacks ? menu : methods[5].call(hd);
+                    return (noCallbacks || methods[1].call(api, identity)) && methods.every(function (method, i) {
+                        return method === [api.read, api.isCurrent, engine.getPersonCount, engine.ensureData,
+                            hd.ready, hd.menuItems, hd.personProperties, hooks && hooks.getPersonPropertyTitle,
+                            hooks && hooks.getPersonPropertyValue][i];
+                    }) && personEquipmentMenuKey(live, owner, index, ids[index]) === menuKey &&
+                        JSON.stringify([identity.status, identity.sha256, identity.byteLength, identity.generation]) === identityKey &&
+                        global.baye === engine && engine.hd === hd && engine.data === data && engine.hooks === hooks &&
+                        global.BayeHdLibIdentity === api && data.g_engineConfig === config && config.citiesCount === 38 &&
+                        data.g_Cities === cities && cities.length === 38 && cities[cityIndex] === city &&
+                        data.g_Persons === people && people.length === 2000 && data.g_PersonsQueue === queue && queue.length === 2000 &&
+                        data.g_PlayerKing === king && city.Belong === king + 1 && state.cityIndex === cityIndex &&
+                        data.g_hdMapCity === cityIndex + 1 && data.g_hdDetailGeneration === owner.detailGeneration &&
+                        city.PersonQueue === start && city.Persons === count && members.every(function (member, i) {
+                            return queue[start + i] === member[0] && people[member[0]] === memberRefs[i] && memberRefs[i].Belong === member[1];
+                        }) && data.g_hdMenuActive === live.active && data.g_hdMenuContext === live.context &&
+                        data.g_hdMenuKind === live.kind && data.g_hdMenuSeq === live.seq && data.g_hdMenuCount === live.count &&
+                        data.g_hdMenuIndex === live.index && state.deepItems === items && ordinary() &&
+                        state.open && state.layer === 'deep' && !document.hidden && (noCallbacks || shouldShowHd()) &&
+                        !state.nativeMenuRequest && !state.deepSelectionPending && !state.personPagePending && !state.sending &&
+                        !state.queue.length && !state.closingSub && !(state.personProperties && state.personProperties.custom) &&
+                        state.deepMenuOwner && state.deepMenuOwner.key === owner.key && token === personListStatsEpoch;
+                }
+                var currentMenu = engineMenuItems();
+                if (personEquipmentMenuKey(currentMenu, owner, index, ids[index]) !== menuKey ||
+                    data.g_hdMenuActive !== currentMenu.active || data.g_hdMenuContext !== currentMenu.context ||
+                    data.g_hdMenuKind !== currentMenu.kind || data.g_hdMenuSeq !== currentMenu.seq ||
+                    data.g_hdMenuCount !== currentMenu.count || data.g_hdMenuIndex !== currentMenu.index ||
+                    !api.isCurrent(identity) || global.baye !== engine || engine.hd !== hd || engine.data !== data ||
+                    global.BayeHdLibIdentity !== api || state.deepItems !== items || !ordinary() ||
+                    token !== personListStatsEpoch || !current()) { return null; }
+                return {refs: refs, people: people, memberRefs: memberRefs, ids: ids.slice(), king: king,
+                    current: current, profileKey: profileKey(profile),
+                    key: JSON.stringify([menuKey, identity.status, identity.sha256, identity.byteLength, identity.generation,
+                        cityIndex, king, city.Belong, start, count, members, profileKey(profile), marchEpoch])};
+            }
+            function same(a, b) {
+                return !!(a && b && a.key === b.key && a.refs.every(function (ref, i) { return b.refs[i] === ref; }) &&
+                    a.memberRefs.every(function (ref, i) { return b.memberRefs[i] === ref; }));
+            }
+            function values(base) {
+                if (!base.current()) { return null; }
+                var rows = [];
+                for (var i = 0; i < base.ids.length; i++) {
+                    if (token !== personListStatsEpoch || state.deepItems !== items) { return null; }
+                    var person = base.people[base.ids[i]], force = detailNumber(person.Force, 255);
+                    var iq = detailNumber(person.IQ, 255), thew = detailNumber(person.Thew, 255);
+                    var level = detailNumber(person.Level, 255), arms = detailNumber(person.Arms, 65535);
+                    // The original property row uses "--" for a ruler. All
+                    // listed people are already verified to belong to king.
+                    var lord = base.ids[i] === base.king;
+                    var devotion = lord ? null : detailNumber(person.Devotion, 255);
+                    if (force == null || iq == null || thew == null || level == null || arms == null ||
+                        (!lord && devotion == null) || token !== personListStatsEpoch) { return null; }
+                    rows.push([base.ids[i], force, iq, thew, level, arms, devotion]);
+                }
+                return base.current() ? rows : null;
+            }
+            // Verify every member before reading any capability, then require
+            // two complete value reads under the same native menu and source.
+            var before = sample();
+            if (!before) { return null; }
+            var first = values(before), middle = sample();
+            if (!first || !same(before, middle)) { return null; }
+            var second = values(middle), after = sample();
+            if (!second || !same(before, after) || !after.current() || token !== personListStatsEpoch ||
+                JSON.stringify(first) !== JSON.stringify(second)) { return null; }
+            return {rows: second, validate: function () {
+                if (token !== personListStatsEpoch || personListStatsReading) { return false; }
+                personListStatsReading = true;
+                try {
+                    var last = sample();
+                    if (!same(before, last) || !last.current()) { return false; }
+                    // Complete external callbacks before the last raw-value
+                    // fence, including the native sticky-custom declaration.
+                    var profile = personPropertySnapshot(menu, owner);
+                    if (!profile || profile.custom !== false || profile.propertyCount !== 13 ||
+                        profileKey(profile) !== last.profileKey) { return false; }
+                    for (var i = 0; i < second.length; i++) {
+                        var person = last.people[second[i][0]];
+                        if (detailNumber(person.Force, 255) !== second[i][1] ||
+                            detailNumber(person.IQ, 255) !== second[i][2] ||
+                            detailNumber(person.Thew, 255) !== second[i][3] ||
+                            detailNumber(person.Level, 255) !== second[i][4] ||
+                            detailNumber(person.Arms, 65535) !== second[i][5] ||
+                            (second[i][0] !== last.king && detailNumber(person.Devotion, 255) !== second[i][6])) { return false; }
+                    }
+                    return last.current(true) && token === personListStatsEpoch;
+                } catch (e) { return false; }
+                finally { personListStatsReading = false; }
+            }};
+        } catch (e) { return null; }
+        finally { personListStatsReading = false; }
+    }
+
+    function finishPersonListStats(receipt, list) {
+        if (!receipt) { return false; }
+        if (receipt.validate()) { return true; }
+        list.classList.remove('has-person-summaries');
+        var summaries = list.querySelectorAll('[data-hd-person-summary]');
+        for (var i = 0; i < summaries.length; i++) {
+            var button = summaries[i].parentNode;
+            if (button) { button.removeChild(summaries[i]); button.classList.remove('has-person-summary'); }
+        }
+        state.deepSig = '';
+        return false;
+    }
+
+    var toolListStatsReading = false, toolListStatsEpoch = 0;
+    function readToolListStats(menu, owner, items) {
+        if (toolListStatsReading) { toolListStatsEpoch += 1; return null; }
+        var token = ++toolListStatsEpoch;
+        toolListStatsReading = true;
+        try {
+            function route() {
+                if (state.subKind !== 'neizheng' || mobileTrade || mobileTransfer || mobileEquipmentFlow || surrenderFlow ||
+                    !usesGoodsMenu(state.deepKind, state.deepStep)) { return false; }
+                var labels = SUBS.neizheng, kinds = DEEP.neizheng;
+                return labels[8] === '赏赐' && kinds[8] === 'goods' && state.deepLabel === labels[8] &&
+                    (state.deepKind === kinds[8] || state.deepKind === 'goods-person') && state.deepStep === 0 ||
+                    labels[9] === '没收' && kinds[9] === 'person-goods' && state.deepLabel === labels[9] &&
+                    state.deepKind === kinds[9] && state.deepStep === 1;
+            }
+            function menuKey(value) {
+                var ids = actualMenuIds(value), current = deepMenuOwner(value);
+                if (!ids || !owner || !current || owner.kind !== 4 || current.key !== owner.key ||
+                    value.active !== 1 || value.context !== 1 || value.kind !== 4 ||
+                    detailNumber(value.index, ids.length - 1) == null || !detailNumber(value.seq, 0xffffffff) ||
+                    !detailNumber(value.itemLen, 64) || !owner.detailGeneration ||
+                    value.generation !== owner.detailGeneration || value.detailGeneration !== owner.detailGeneration ||
+                    !ids.every(function (id) { return id < 33; }) ||
+                    !Array.isArray(value.packedNames) || value.packedNames.length !== ids.length ||
+                    !value.names.every(function (name) { return typeof name === 'string' && !!name; }) ||
+                    !value.packedNames.every(function (name) { return typeof name === 'string' && !!name; })) { return null; }
+                return JSON.stringify([value.active, value.context, value.kind, value.seq, value.itemLen, value.count,
+                    value.index, value.generation, value.detailGeneration, ids, value.names, value.packedNames]);
+            }
+            var expectedMenu = menuKey(menu), ids = actualMenuIds(menu);
+            if (!expectedMenu || !items.length || items.length !== ids.length) { return null; }
+            function sample() {
+                var engine = global.baye, hd = engine && engine.hd, api = global.BayeHdLibIdentity;
+                var hooks = engine && engine.hooks;
+                function methods() {
+                    return [api && api.read, api && api.isCurrent, engine && engine.getToolCount,
+                        engine && engine.getPersonCount, engine && engine.ensureData, engine && engine.getToolName,
+                        hd && hd.ready, hd && hd.menuItems, hd && hd.goods, hd && hd.toolDetails,
+                        hooks && hooks.getToolPropertyTitle, hooks && hooks.getToolPropertyValue];
+                }
+                var readers = methods();
+                if (!route() || !state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
+                    state.nativeMenuRequest || state.deepSelectionPending || state.toolPagePending || state.sending ||
+                    state.queue.length || state.closingSub || showingQty() || detailOverlayActive() ||
+                    !state.deepMenuOwner || state.deepMenuOwner.key !== owner.key || !engine || !hd || !api ||
+                    readers.slice(0, 10).some(function (method) { return typeof method !== 'function'; }) ||
+                    !standardHudLabels(['getToolPropertyTitle', 'getToolPropertyValue'])) { return null; }
+                if (!readers[6].call(hd)) { return null; }
+                var identity = readers[0].call(api), data = readers[4].call(engine), cityIndex = detailNumber(state.cityIndex, 37);
+                var config = data && data.g_engineConfig, cities = data && data.g_Cities;
+                var tools = data && data.g_Tools, king = data && detailNumber(data.g_PlayerKing, 199);
+                var city = cities && cities[cityIndex];
+                if (!identity || identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA ||
+                    identity.byteLength !== 207195 || !detailNumber(identity.generation, 0xffffffff) || !readers[1].call(api, identity) ||
+                    readers[2].call(engine) !== 33 || readers[3].call(engine) !== 200 ||
+                    !data || engine.data !== data || !config || config.citiesCount !== 38 || !cities || cities.length !== 38 ||
+                    !tools || tools.length !== 33 || cityIndex == null || king == null || !city || city.Belong !== king + 1 ||
+                    data.g_hdMapCity !== cityIndex + 1 || data.g_hdDetailGeneration !== owner.detailGeneration ||
+                    !items.every(function (item, i) { return item.nativeId === true && item.toolIndex === ids[i] && item.name === menu.names[i]; })) { return null; }
+                if (!readers.every(function (method, i) { return method === methods()[i]; })) { return null; }
+                var profile = liveToolContext();
+                if (!profile || profile.owner.key !== owner.key || profile.index !== menu.index || profile.tool !== ids[menu.index] ||
+                    profile.custom !== false || profile.propertyCount !== 5) { return null; }
+                var toolRefs = ids.map(function (id) { return tools[id]; });
+                if (toolRefs.some(function (tool) { return !tool; })) { return null; }
+                var refs = readers.concat([api, engine, hd, hooks, data, config, cities, city, tools]);
+                var identityKey = JSON.stringify([identity.status, identity.sha256, identity.byteLength, identity.generation]);
+                function current(noCallbacks) {
+                    var visible = noCallbacks || readers[1].call(api, identity) && shouldShowHd() && !showingQty() && !detailOverlayActive();
+                    var live = noCallbacks ? menu : readers[7].call(hd);
+                    return visible && readers.every(function (method, i) { return method === methods()[i]; }) &&
+                        menuKey(live) === expectedMenu && global.baye === engine && engine.hd === hd && engine.data === data &&
+                        engine.hooks === hooks && global.BayeHdLibIdentity === api &&
+                        JSON.stringify([identity.status, identity.sha256, identity.byteLength, identity.generation]) === identityKey &&
+                        data.g_engineConfig === config && config.citiesCount === 38 && data.g_Cities === cities && cities.length === 38 &&
+                        cities[cityIndex] === city && city.Belong === king + 1 && data.g_PlayerKing === king && state.cityIndex === cityIndex &&
+                        data.g_hdMapCity === cityIndex + 1 && data.g_hdDetailGeneration === owner.detailGeneration &&
+                        data.g_Tools === tools && tools.length === 33 && ids.every(function (id, i) { return tools[id] === toolRefs[i]; }) &&
+                        data.g_hdMenuActive === live.active && data.g_hdMenuContext === live.context && data.g_hdMenuKind === live.kind &&
+                        data.g_hdMenuSeq === live.seq && data.g_hdMenuCount === live.count && data.g_hdMenuIndex === live.index &&
+                        data.g_hdMenuItemLen === live.itemLen && data.g_hdGoodsActive === 1 && data.g_hdGoodsCustom === 0 &&
+                        data.g_hdGoodsGeneration === owner.detailGeneration && data.g_hdGoodsMenuSeq === owner.seq &&
+                        data.g_hdGoodsIndex === menu.index && data.g_hdGoodsTool === ids[menu.index] && data.g_hdGoodsPropertyCount === 5 &&
+                        state.deepItems === items && route() && state.open && state.layer === 'deep' && !document.hidden &&
+                        !state.nativeMenuRequest && !state.deepSelectionPending && !state.toolPagePending && !state.sending &&
+                        !state.queue.length && !state.closingSub && state.deepMenuOwner && state.deepMenuOwner.key === owner.key &&
+                        token === toolListStatsEpoch;
+                }
+                if (!current()) { return null; }
+                return {refs: refs, toolRefs: toolRefs, tools: tools, hd: hd, readTool: readers[9],
+                    current: current, profileKey: profile.snapshotKey,
+                    key: JSON.stringify([expectedMenu, identityKey, cityIndex, king, city.Belong, profile.snapshotKey, marchEpoch])};
+            }
+            function same(a, b) {
+                return !!(a && b && a.key === b.key && a.refs.every(function (ref, i) { return b.refs[i] === ref; }) &&
+                    a.toolRefs.every(function (ref, i) { return b.toolRefs[i] === ref; }));
+            }
+            function rawValuesMatch(base, rows) {
+                return rows.every(function (row, i) {
+                    var tool = base.toolRefs[i];
+                    return base.tools[row[0]] === tool && detailNumber(tool.useflag, 1) === row[1] &&
+                        detailNumber(tool.at, 255) === row[2] && detailNumber(tool.iq, 255) === row[3] &&
+                        detailNumber(tool.move, 255) === row[4] && detailNumber(tool.arm, 255) === row[6];
+                });
+            }
+            function values(base) {
+                if (!base.current()) { return null; }
+                var rows = [];
+                for (var i = 0; i < ids.length; i++) {
+                    if (token !== toolListStatsEpoch || state.deepItems !== items) { return null; }
+                    var tool = base.readTool.call(base.hd, ids[i]);
+                    if (!tool || tool.standard !== true || tool.index !== ids[i] || tool.generation !== owner.detailGeneration ||
+                        typeof tool.name !== 'string' || !tool.name || tool.name === '-') { return null; }
+                    var useFlag = detailNumber(tool.useFlag, 1), attack = detailNumber(tool.attack, 255);
+                    var iq = detailNumber(tool.iq, 255), move = detailNumber(tool.move, 255), arm = detailNumber(tool.arm, 255);
+                    if (useFlag == null || attack == null || iq == null || move == null || arm == null || token !== toolListStatsEpoch) { return null; }
+                    rows.push([ids[i], useFlag, attack, iq, move, tool.name, arm]);
+                }
+                return base.current() && rawValuesMatch(base, rows) && base.current(true) ? rows : null;
+            }
+            // Every native ID and default property receipt is verified before
+            // inspecting other tools. Full names need not equal packed labels.
+            var before = sample();
+            if (!before) { return null; }
+            var first = values(before), middle = sample();
+            if (!first || !same(before, middle)) { return null; }
+            var second = values(middle), after = sample();
+            if (!second || !same(before, after) || !after.current() || token !== toolListStatsEpoch ||
+                JSON.stringify(first) !== JSON.stringify(second)) { return null; }
+            return {rows: second, validate: function () {
+                if (token !== toolListStatsEpoch || toolListStatsReading) { return false; }
+                toolListStatsReading = true;
+                try {
+                    var last = sample();
+                    if (!same(before, last) || !last.current()) { return false; }
+                    // Run the final sticky-custom callback before the raw fence,
+                    // including checks for changes made by the caller's render.
+                    var profile = liveToolContext();
+                    if (!profile || profile.custom !== false || profile.propertyCount !== 5 || profile.snapshotKey !== last.profileKey) { return false; }
+                    return rawValuesMatch(last, second) && last.current(true) && token === toolListStatsEpoch;
+                } catch (e) { return false; }
+                finally { toolListStatsReading = false; }
+            }};
+        } catch (e) { return null; }
+        finally { toolListStatsReading = false; }
+    }
+
+    function finishToolListStats(receipt, list) {
+        if (!receipt) { return false; }
+        if (receipt.validate()) { return true; }
+        list.classList.remove('has-tool-summaries');
+        var summaries = list.querySelectorAll('[data-hd-tool-summary]');
+        for (var i = 0; i < summaries.length; i++) {
+            var button = summaries[i].parentNode;
+            if (button) { button.removeChild(summaries[i]); button.classList.remove('has-tool-summary'); }
+        }
+        state.deepSig = '';
+        return false;
+    }
+
+    // Local list views never change the native list or send keys. Numeric rows
+    // come only from the same receipt used for the ordinary list summaries.
+    var listFindEpoch = 0, listFindKeys = {}, listFindInputOwner = null, listFindCompositionOwner = null;
+    var LIST_FIND_PERSON = [['native', '原版顺序'], ['force', '武力从高到低'], ['iq', '智力从高到低'],
+        ['thew', '体力从高到低'], ['level', '等级从高到低'], ['arms', '兵力从高到低'], ['devotion', '忠诚从高到低']];
+    var LIST_FIND_TOOL = [['native', '原版顺序'], ['attack', '武力加成从高到低'], ['iq', '智力加成从高到低'], ['move', '移动加成从高到低']];
+    function listFindInside(node) {
+        var tools = el('hd-city-menu-list-tools');
+        while (node) { if (node === tools) { return true; } node = node.parentNode || node.parentElement; }
+        return false;
+    }
+    function listFindCancelPress() {
+        listFindEpoch += 1;
+        if (state.deepPointerOwner) { state.deepPointerOwner.cancelled = true; }
+        if (state.previewPointerOwner) { state.previewPointerOwner.cancelled = true; }
+        if (state.personPagePointer) { state.personPagePointer.cancelled = true; }
+        if (state.toolPointerOwner) { state.toolPointerOwner.cancelled = true; }
+    }
+    function listFindNodes(list) {
+        var buttons = list.querySelectorAll('[data-hd-deep]'), nodes = [];
+        for (var i = 0; i < buttons.length; i++) {
+            var button = buttons[i], index = Number(button.getAttribute('data-hd-deep'));
+            if (!mobileInteger(index, state.deepItems.length - 1)) { continue; }
+            var node = button.parentNode === list ? button : button.parentNode;
+            if (node && node.parentNode === list) { nodes.push({index: index, node: node, button: button}); }
+        }
+        return nodes.sort(function (a, b) { return a.index - b.index; });
+    }
+    function listFindRemoveEmpty(list) {
+        var empty = list && list.querySelector('[data-hd-list-empty]');
+        if (empty && empty.parentNode) { empty.parentNode.removeChild(empty); }
+    }
+    function retireListFind(list) {
+        if (state.listFind) {
+            listFindCancelPress();
+            if (list) {
+                var nodes = listFindNodes(list);
+                for (var i = 0; i < nodes.length; i++) {
+                    nodes[i].node.hidden = nodes[i].button.hidden = false;
+                    list.appendChild(nodes[i].node);
+                }
+            }
+        }
+        state.listFind = null;
+        var active = document.activeElement;
+        if (listFindInside(active) && active && typeof active.blur === 'function') { active.blur(); }
+        var tools = el('hd-city-menu-list-tools'), controls = el('hd-city-menu-list-controls');
+        var toggle = el('hd-city-menu-list-toggle'), query = el('hd-city-menu-list-query'), sort = el('hd-city-menu-list-sort');
+        if (tools) { tools.hidden = true; }
+        if (controls) { controls.hidden = true; }
+        if (toggle) { toggle.setAttribute('aria-expanded', 'false'); }
+        if (query) { query.value = ''; }
+        if (sort) { sort.value = 'native'; }
+        listFindRemoveEmpty(list);
+    }
+    function listFindIndexVisible(index) {
+        return !state.listFind || state.listFind.visibleNativeIndices.indexOf(Number(index)) >= 0;
+    }
+    function listFindButtonVisible(button) {
+        var list = el('hd-city-menu-deep'), node = button;
+        while (node && node !== list) { if (node.hidden) { return false; } node = node.parentNode; }
+        return node === list;
+    }
+    function renderListFind(list, menu, owner, personStats, toolStats) {
+        var tools = el('hd-city-menu-list-tools'), controls = el('hd-city-menu-list-controls');
+        var query = el('hd-city-menu-list-query'), sort = el('hd-city-menu-list-sort'), toggle = el('hd-city-menu-list-toggle');
+        var receipt = personStats || toolStats;
+        if (!tools || !controls || !query || !sort || !toggle || !owner || !receipt ||
+            !state.open || state.layer !== 'deep' || document.hidden || showingQty()) { retireListFind(list); return; }
+        var kind = personStats ? 'person' : 'tool', nodes = listFindNodes(list), rows = receipt.rows;
+        if (nodes.length !== rows.length || nodes.length !== state.deepItems.length) { retireListFind(list); return; }
+        var scope = JSON.stringify([owner.key, state.cityIndex, state.subKind, state.deepKind, state.deepStep, state.deepLabel]);
+        var view = state.listFind, options = kind === 'person' ? LIST_FIND_PERSON : LIST_FIND_TOOL;
+        if (!view || view.scope !== scope || view.kind !== kind) {
+            retireListFind(list);
+            view = state.listFind = {scope: scope, ownerKey: owner.key, kind: kind, query: '', sort: 'native',
+                expanded: false, composing: false, visibleNativeIndices: [], signature: '', nativeIndex: menu.index};
+        } else if (view.nativeIndex !== menu.index && !listFindInside(document.activeElement)) {
+            // Native navigation keeps native order; local results never remap its index.
+            view.query = ''; view.sort = 'native';
+        }
+        view.nativeIndex = menu.index;
+        if (!options.some(function (option) { return option[0] === view.sort; })) { view.sort = 'native'; }
+        var names = state.deepItems.map(function (item, index) { return kind === 'tool' ? rows[index][5] : item.name; });
+        var column = kind === 'person' ? {force: 1, iq: 2, thew: 3, level: 4, arms: 5, devotion: 6}[view.sort] :
+            {attack: 2, iq: 3, move: 4}[view.sort];
+        var ordered = nodes.filter(function (item) { return names[item.index].indexOf(view.query) >= 0; });
+        if (column != null) {
+            ordered.sort(function (a, b) {
+                var av = rows[a.index][column], bv = rows[b.index][column];
+                return av === null ? (bv === null ? a.index - b.index : 1) :
+                    bv === null ? -1 : bv - av || a.index - b.index;
+            });
+        }
+        var visible = ordered.map(function (item) { return item.index; });
+        var signature = JSON.stringify([scope, view.query, view.sort, visible]);
+        var changedNodes = !view.nodes || nodes.length !== view.nodes.length || nodes.some(function (item, index) { return item.node !== view.nodes[index]; });
+        if (signature !== view.signature || changedNodes) {
+            listFindCancelPress(); view.signature = signature; view.visibleNativeIndices = visible;
+            view.nodes = nodes.map(function (item) { return item.node; });
+            for (var n = 0; n < nodes.length; n++) {
+                nodes[n].node.hidden = nodes[n].button.hidden = visible.indexOf(nodes[n].index) < 0;
+            }
+            for (n = 0; n < ordered.length; n++) { list.appendChild(ordered[n].node); }
+            listFindRemoveEmpty(list);
+            if (!visible.length) {
+                var empty = document.createElement('div'); empty.className = 'hd-city-menu-deep-empty';
+                empty.setAttribute('data-hd-list-empty', '1');
+                empty.textContent = '无匹配，请修改查找内容或清空。'; list.appendChild(empty);
+            }
+            list.scrollTop = 0;
+        }
+        if (sort.getAttribute('data-hd-list-kind') !== kind) {
+            sort.innerHTML = '';
+            options.forEach(function (item) {
+                var option = document.createElement('option'); option.value = item[0]; option.textContent = item[1]; sort.appendChild(option);
+            });
+            sort.setAttribute('data-hd-list-kind', kind);
+        }
+        if (!view.composing && query.value !== view.query) { query.value = view.query; }
+        if (sort.value !== view.sort) { sort.value = view.sort; }
+        tools.hidden = false; controls.hidden = !view.expanded;
+        toggle.setAttribute('aria-expanded', view.expanded ? 'true' : 'false');
+        setText(el('hd-city-menu-list-count'), '匹配 ' + visible.length + ' / ' + nodes.length +
+            (visible.indexOf(menu.index) < 0 ? ' · 当前焦点不在结果中' : ''));
+    }
+    function finishListFind(list, menu, owner, personStats, toolStats) {
+        renderListFind(list, menu, owner, personStats, toolStats);
+        var personValid = finishPersonListStats(personStats, list), toolValid = finishToolListStats(toolStats, list);
+        if (state.listFind && !(personStats && personValid || toolStats && toolValid)) { retireListFind(list); }
+    }
+    function changeListFind(kind) {
+        var view = state.listFind;
+        if (!view || !state.open || state.layer !== 'deep') { return false; }
+        if (kind === 'toggle') {
+            listFindCancelPress(); view.expanded = !view.expanded;
+            if (!view.expanded && listFindInside(document.activeElement)) {
+                var toggle = el('hd-city-menu-list-toggle');
+                if (toggle && typeof toggle.focus === 'function') { toggle.focus(); }
+                else if (document.activeElement && typeof document.activeElement.blur === 'function') { document.activeElement.blur(); }
+            }
+        }
+        else if (kind === 'clear') {
+            listFindCancelPress();
+            view.query = ''; view.sort = 'native';
+            var input = el('hd-city-menu-list-query'); if (input) { input.value = ''; }
+        } else if (kind === 'input') {
+            if (view.composing) { return true; }
+            view.query = String(el('hd-city-menu-list-query').value || '').slice(0, 32).trim();
+        } else if (kind === 'sort') { view.sort = String(el('hd-city-menu-list-sort').value || 'native'); }
+        fillDeepList();
+        return true;
+    }
+    function captureListFindKey(event) {
+        var code = String(event.code || event.keyCode || event.key || ''), inside = listFindInside(event.target);
+        var editing = !!(state.listFind && inside && !el('hd-city-menu-list-tools').hidden);
+        if (event.type === 'keydown') {
+            if (!editing && !(listFindKeys[code] && event.repeat)) { return; }
+            listFindKeys[code] = true;
+        } else if (!editing && !listFindKeys[code]) { return; }
+        if (event.type === 'keyup') { delete listFindKeys[code]; }
+        // Keep native editing and Tab defaults. Stop all later keyboard owners,
+        // including keyup after focus moves or this menu retires.
+        if (event.stopPropagation) { event.stopPropagation(); }
+        if (event.stopImmediatePropagation) { event.stopImmediatePropagation(); }
     }
 
     // Equipment cards are copies of current standard-LIB fields, never inferred
@@ -4917,6 +6170,57 @@
         finally { personEquipmentReading = false; }
     }
 
+    // Decorative only: field identity belongs to a measured equipment row or
+    // a verified default tool property. Labels and values remain original text.
+    function appendPersonEquipmentIcon(row) {
+        var field = row.getAttribute('data-hd-equipment-field'), pathData;
+        switch (field) {
+        case 'useFlag':
+            pathData = 'M8 4h8v3H8z M6 7h12v13H6z M9 11h6 M9 15h6';
+            break;
+        case 'attack':
+            pathData = 'M5 19l4-4 M4 14l6 6 M8 14L18 4l2 2-10 10 M15 5l4 4';
+            break;
+        case 'iq':
+            pathData = 'M9 18h6 M10 21h4 M8.5 14.5a6 6 0 1 1 7 0L15 17H9z';
+            break;
+        case 'move':
+            pathData = 'M4 12h15 M14 6l6 6-6 6 M4 6h5 M4 18h5';
+            break;
+        case 'arm':
+            pathData = 'M5 21V3 M5 4h13l-3 4 3 4H5 M3 21h4';
+            break;
+        case 'changeAttackRange':
+            pathData = 'M4 9V4h5 M15 4h5v5 M20 15v5h-5 M9 20H4v-5 M9 12h6 M12 9v6';
+            break;
+        default:
+            return;
+        }
+        var label = row.children && row.children[0];
+        if (!label || label.tagName !== 'SPAN' || typeof document.createElementNS !== 'function') { return; }
+        try {
+            var ns = 'http://www.w3.org/2000/svg';
+            var icon = document.createElementNS(ns, 'svg');
+            icon.setAttribute('class', 'hd-city-menu-equipment-icon');
+            icon.setAttribute('viewBox', '0 0 24 24');
+            icon.setAttribute('aria-hidden', 'true');
+            icon.setAttribute('focusable', 'false');
+            icon.setAttribute('fill', 'none');
+            icon.setAttribute('stroke', 'currentColor');
+            icon.setAttribute('stroke-width', '1.8');
+            icon.setAttribute('stroke-linecap', 'round');
+            icon.setAttribute('stroke-linejoin', 'round');
+            icon.setAttribute('data-hd-equipment-icon', field);
+            var shape = document.createElementNS(ns, 'path');
+            shape.setAttribute('d', pathData);
+            icon.appendChild(shape);
+            label.appendChild(icon);
+            label.classList.add('hd-city-menu-equipment-label');
+        } catch (e) {
+            // Unsupported decorative SVG must not hide the native text.
+        }
+    }
+
     function appendPersonEquipment(fields, equipment) {
         if (!equipment.length) { return; }
         var grid = document.createElement('div');
@@ -4930,14 +6234,16 @@
             heading.textContent = (tool.slot ? '装备二' : '装备一') + ' · ' + tool.name;
             card.appendChild(heading);
             tool.rows.forEach(function (row) {
-                appendStat(card, row.label, row.value).setAttribute('data-hd-equipment-field', row.field);
+                var stat = appendStat(card, row.label, row.value);
+                stat.setAttribute('data-hd-equipment-field', row.field);
+                appendPersonEquipmentIcon(stat);
             });
             grid.appendChild(card);
         });
         fields.appendChild(grid);
     }
 
-    function renderPersonDetails() {
+    function renderPersonDetailsSurrenderBody() {
         if (!state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
             !personDeepKind(state.deepKind) || usesGoodsMenu(state.deepKind, state.deepStep) ||
             showingQty() || state.nativeMenuRequest || state.deepSelectionPending ||
@@ -4993,6 +6299,7 @@
             properties.generation === owner.detailGeneration && properties.detailGeneration === owner.detailGeneration);
         var presentation = customProperties ? 'custom-native' : 'default';
         var equipment = details && !customProperties ? readPersonEquipment(menu, owner, index, details.personIndex) : [];
+        var location = details && !customProperties ? readPersonLocation(menu, owner, index, details.personIndex, detailData) : null;
         var equipmentMenu = engineMenuItems(), equipmentOwner = deepMenuOwner(equipmentMenu);
         if (!equipmentOwner || equipmentOwner.key !== owner.key || equipmentMenu.index !== index || detailOverlayActive() ||
             global.baye !== detailBaye || detailBaye.hd !== detailHd || engineData() !== detailData ||
@@ -5006,8 +6313,9 @@
         if (state.personDetail) {
             state.personDetail.corePresentation = presentation;
             state.personDetail.equipment = equipment;
+            state.personDetail.location = location;
         }
-        var signature = JSON.stringify([owner.key, index, details, presentation, equipment]);
+        var signature = JSON.stringify([owner.key, index, details, presentation, equipment, location]);
         fields.setAttribute('data-hd-person-core-presentation', presentation);
         if (state.personDetailSig === signature && fields.children.length) { return; }
         state.personDetailSig = signature;
@@ -5031,7 +6339,7 @@
             fields.appendChild(customNote);
             return;
         }
-        appendHudGroups(fields, details.groups);
+        appendHudGroups(fields, details.groups, location);
         appendPersonEquipment(fields, equipment);
         var note = document.createElement('p');
         note.className = 'hd-city-menu-info-note';
@@ -5148,7 +6456,7 @@
         return pane;
     }
 
-    function renderPersonProperties() {
+    function renderPersonPropertiesSurrenderBody() {
         var context = livePersonPropertyContext();
         if (!context) { retirePersonProperties(); return; }
         var pending = state.personPagePending;
@@ -5324,13 +6632,17 @@
         return pane;
     }
 
+    function standardToolArmName(value) {
+        var arms = ['骑兵', '步兵', '弓箭兵', '水军', '极兵', '玄兵'];
+        return value === 0 ? '无' : value === 1 ? '水军' : value === 2 ? '玄兵' :
+            value === 3 ? '极兵' : arms[value - 4] || '原始码 ' + value;
+    }
+
     function standardToolRows(tool) {
         if (!tool ||
             ['attack', 'iq', 'move', 'arm'].some(function (key) { return detailNumber(tool[key], 255) == null; }) ||
             detailNumber(tool.useFlag, 1) == null) { return null; }
-        var arms = ['骑兵', '步兵', '弓箭兵', '水军', '极兵', '玄兵'];
-        var arm = tool.arm === 0 ? '无' : tool.arm === 1 ? '水军' : tool.arm === 2 ? '玄兵' :
-            tool.arm === 3 ? '极兵' : arms[tool.arm - 4] || '原始码 ' + tool.arm;
+        var arm = standardToolArmName(tool.arm);
         var properties = [ ['用法', tool.useFlag ? '使用' : '装备'], ['武力加成', String(tool.attack)],
             ['智力加成', String(tool.iq)], ['移动加成', String(tool.move)], ['兵种变化', arm] ];
         var rangeFlag = detailNumber(tool.changeAttackRange, 255);
@@ -5348,7 +6660,7 @@
             ? standardToolRows(tool) : null;
     }
 
-    function renderToolDetails() {
+    function renderToolDetailsSurrenderBody() {
         var context = liveToolContext();
         if (!context) { retireToolDetails(); return; }
         var defaults = standardToolProperties(context);
@@ -5375,7 +6687,8 @@
             nativeComplete: context.nativeComplete, custom: context.custom, propertyCount: context.propertyCount,
             pageStart: context.pageStart, pageEnd: context.pageEnd, properties: properties, groups: groups,
             source: defaults && !context.nativeComplete ? 'standard-raw' : 'native-capture', pageOwnerKey: context.pageOwnerKey };
-        var signature = JSON.stringify(detail), pane = ensureToolDetailsPane();
+        // Decoration eligibility may change while captured text stays identical.
+        var signature = JSON.stringify([detail, !!defaults]), pane = ensureToolDetailsPane();
         if (!pane) { return; }
         retirePersonDetails();
         pane.hidden = false;
@@ -5391,7 +6704,9 @@
             heading.className = 'hd-city-menu-tool-name';
             heading.textContent = detail.name;
             fields.appendChild(heading);
-            appendHudGroups(fields, groups);
+            appendHudGroups(fields, groups, null, defaults ? [
+                ['useFlag', 'attack', 'iq', 'move', 'arm'], ['changeAttackRange']
+            ] : null);
             var note = document.createElement('p');
             note.className = 'hd-city-menu-info-note';
             var captured = properties.filter(function (property) { return property.captured; }).length;
@@ -5432,7 +6747,7 @@
         return sent;
     }
 
-    function applyHighlight() {
+    function applyHighlightSurrenderBody() {
         if (state.open && state.layer === 'deep' && !document.hidden && shouldShowHd() && state.deepMenuOwner) {
             var nativeMenu = engineMenuItems();
             var nativeOwner = deepMenuOwner(nativeMenu);
@@ -5465,7 +6780,7 @@
                 on = state.layer === 'deep' && state.idleIndex === di;
             }
             deeps[i].classList.toggle('is-idle', on);
-            if (on) {
+            if (on && listFindIndexVisible(di)) {
                 idleNode = deeps[i];
             }
         }
@@ -5496,7 +6811,7 @@
         var signature = JSON.stringify([ticket.key, presentation.pendingTarget, presentation.confirmingTarget, presentation.status]);
         if (state.deepSig === signature && list.children.length) { return true; }
         state.deepSig = signature; state.deepMenuOwner = null; state.deepItems = [];
-        retirePersonDetails(); retireToolDetails(); list.classList.toggle('has-mobile-qty', false); list.innerHTML = '';
+        retirePersonDetails(); retireToolDetails(); list.classList.toggle('has-mobile-qty', false); list.classList.remove('has-person-summaries', 'has-tool-summaries'); list.innerHTML = '';
         function text(value, className) {
             var paragraph = document.createElement('p'); paragraph.className = className || 'hd-city-menu-map-hint';
             paragraph.textContent = value; list.appendChild(paragraph);
@@ -5521,10 +6836,10 @@
         return true;
     }
 
-    function fillDeepList() {
+    function fillDeepListSurrenderBody() {
         syncMobileDiplomacy();
         syncMobileTransfer();
-        if (fillTransferWait()) { return; }
+        if (fillTransferWait()) { retireListFind(el('hd-city-menu-deep')); return; }
         if (syncMobileTrade() && state.layer !== 'deep') { render(); return; }
         if (syncMobileEquipmentFlow() && state.layer !== 'deep') { render(); return; }
         var list = el('hd-city-menu-deep');
@@ -5535,6 +6850,9 @@
         var owner = readyDeepMenuOwner(deepMenu);
         state.deepMenuOwner = owner;
         state.deepItems = probeDeepItems();
+        if (state.deepKind === 'person-surrender' && !getSurrenderPresentation()) {
+            owner = null; state.deepMenuOwner = null; state.deepItems = [];
+        }
         if (!owner || owner.kind !== 3 || !state.deepItems.length || showingQty()) { retirePersonDetails(); }
         if (!owner || owner.kind !== 4 || !state.deepItems.length || showingQty()) { retireToolDetails(); }
         applyDocAttr();
@@ -5548,12 +6866,18 @@
         var quantitySig = mobileQty && liveQty
             ? [liveQty.session, liveQty.min, liveQty.max, !!state.qtyAckFailed].join(':')
             : liveQty && liveQty.value;
+        var personStats = !quantityVisible && owner ? readPersonListStats(deepMenu, owner, state.deepItems) : null;
+        var toolStats = !quantityVisible && owner ? readToolListStats(deepMenu, owner, state.deepItems) : null;
+        if (!personStats && !toolStats) { retireListFind(list); }
+        list.classList.toggle('has-person-summaries', !!personStats);
+        list.classList.toggle('has-tool-summaries', !!toolStats);
         var sig = (quantityVisible ? 'qty:' + quantitySig : state.deepKind + ':' + state.deepStep) +
             ':' + (state.pickedPersons || 0) +
             ':' + (mapPickActive() ? 'pick' : '') +
             ':' + ((freshMarchOk() || state.marchReady || state.handoff) ? 'ok' : '') +
             ':' + (state.handoff ? ('h:' + (state.handoffStatus || '')) : '') +
             ':' + (state.personExitSent ? 'pex' : '') +
+            ':' + (state.deepKind === 'person-surrender' && surrenderFlow ? JSON.stringify(surrenderFlow.pending) : '') +
             ':' + (state.acceptMarchOk ? 'acc' : '') +
             ':' + (state.wizardStep || '') +
             ':' + displayWizardStep() +
@@ -5565,16 +6889,17 @@
             ':' + (owner ? owner.key : '') +
             ':' + state.deepItems.map(function (it) {
                 return it.name;
-            }).join(',');
+            }).join(',') + ':' + JSON.stringify(personStats && personStats.rows) + ':' + JSON.stringify(toolStats && toolStats.rows);
         if (state.deepSig === sig && list.children.length) {
             if (mobileQty && liveQty) { setText(el('hd-city-qty-val'), liveQty.value); }
             updateQuantityBound(el('hd-city-qty-bound'), liveQty);
             applyHighlight();
+            finishListFind(list, deepMenu, owner, personStats, toolStats);
             return;
         }
         state.deepSig = sig;
         list.innerHTML = '';
-        if (mobileHost && state.deepKind === 'person-diplomacy') {
+        if (state.deepKind === 'person-diplomacy') {
             var diplomacyPresentation = getDiplomacyPresentation();
             if (diplomacyPresentation) {
                 var diplomacyHeading = document.createElement('p');
@@ -5582,6 +6907,16 @@
                 diplomacyHeading.setAttribute('data-hd-diplomacy-role', diplomacyPresentation.role);
                 diplomacyHeading.textContent = diplomacyPresentation.title + ' · ' + diplomacyPresentation.note;
                 list.appendChild(diplomacyHeading);
+            }
+        }
+        if (state.deepKind === 'person-surrender') {
+            var surrenderPresentation = getSurrenderPresentation();
+            if (surrenderPresentation) {
+                var surrenderHeading = document.createElement('p');
+                surrenderHeading.className = 'hd-city-menu-info-note';
+                surrenderHeading.setAttribute('data-hd-surrender-role', surrenderPresentation.role);
+                surrenderHeading.textContent = surrenderPresentation.title;
+                list.appendChild(surrenderHeading);
             }
         }
         var i;
@@ -5785,6 +7120,31 @@
                 if (it.toolIndex != null) { btn.setAttribute('data-hd-deep-tool', String(it.toolIndex)); }
             }
             btn.textContent = it.owner ? (it.name + ' · ' + it.owner) : it.name;
+            if (personStats && personStats.rows[i] && personStats.rows[i][0] === it.pind) {
+                var stats = personStats.rows[i], summary = document.createElement('small');
+                summary.setAttribute('data-hd-person-summary', '1');
+                summary.textContent = '武力 ' + stats[1] + ' · 智力 ' + stats[2] + ' · 体力 ' + stats[3];
+                var unitSummary = document.createElement('span');
+                unitSummary.setAttribute('data-hd-person-unit-summary', '1');
+                unitSummary.textContent = '等级 ' + stats[4] + ' · 兵力 ' + stats[5];
+                var loyaltySummary = document.createElement('span');
+                loyaltySummary.setAttribute('data-hd-person-loyalty-summary', '1');
+                loyaltySummary.textContent = ' · 忠诚 ' + (stats[6] === null ? '--' : stats[6]);
+                unitSummary.appendChild(loyaltySummary);
+                summary.appendChild(unitSummary);
+                btn.classList.add('has-person-summary'); btn.appendChild(summary);
+            }
+            if (toolStats && toolStats.rows[i] && toolStats.rows[i][0] === it.toolIndex) {
+                var toolStatsRow = toolStats.rows[i], toolSummary = document.createElement('small');
+                toolSummary.setAttribute('data-hd-tool-summary', '1');
+                toolSummary.textContent = (toolStatsRow[1] ? '使用' : '装备') + ' · 武力 +' + toolStatsRow[2] +
+                    ' · 智力 +' + toolStatsRow[3] + ' · 移动 +' + toolStatsRow[4];
+                var armSummary = document.createElement('span');
+                armSummary.setAttribute('data-hd-tool-arm-summary', '1');
+                armSummary.textContent = ' · 兵种变化 ' + standardToolArmName(toolStatsRow[6]);
+                toolSummary.appendChild(armSummary);
+                btn.classList.add('has-tool-summary'); btn.appendChild(toolSummary);
+            }
             if (allowPreview) {
                 var row = document.createElement('div');
                 row.className = 'hd-city-menu-preview-row';
@@ -5802,6 +7162,7 @@
             } else { list.appendChild(btn); }
         }
         applyHighlight();
+        finishListFind(list, deepMenu, owner, personStats, toolStats);
     }
 
     function fillSubList(kind) {
@@ -5810,7 +7171,12 @@
             return;
         }
         var items = preferEngineNames(SUBS[kind] || []);
-        var sig = kind + ':' + items.join(',');
+        var rules = null;
+        if (SUBS[kind] && state.open && state.layer === 'sub' && state.subKind === kind && !document.hidden && shouldShowHd() &&
+            global.BayeHdCityRules && typeof BayeHdCityRules.read === 'function') { rules = BayeHdCityRules.read(state.cityIndex,kind); }
+        if (rules && (!state.open || state.layer !== 'sub' || state.subKind !== kind || rules.cityIndex !== state.cityIndex ||
+            rules.kind !== kind || document.hidden || JSON.stringify(items) !== JSON.stringify(SUBS[kind]))) { rules = null; }
+        var sig = kind + ':' + items.join(',') + ':' + (rules ? JSON.stringify(rules.rows) : '');
         if (state.listKind === sig && list.children.length) {
             applyHighlight();
             return;
@@ -5823,6 +7189,13 @@
             btn.className = 'hd-city-menu-item';
             btn.setAttribute('data-hd-sub', String(i));
             btn.textContent = items[i];
+            if (rules && rules.rows[i]) {
+                btn.classList.add('has-city-rule');
+                btn.textContent = '';
+                var label = document.createElement('span'); label.textContent = items[i]; btn.appendChild(label);
+                var rule = document.createElement('small'); rule.setAttribute('data-hd-city-rule',String(rules.rows[i].command));
+                rule.textContent = rules.rows[i].text; btn.appendChild(rule);
+            }
             list.appendChild(btn);
         }
         state.listKind = sig;
@@ -5888,7 +7261,8 @@
         existing.appendChild(dismiss);
     }
 
-    function render() {
+    function renderSurrenderBody() {
+        syncSurrender();
         syncMobileDiplomacy();
         syncMobileTransfer();
         syncMobileTrade();
@@ -5902,6 +7276,7 @@
         root.classList.toggle('is-sub', show && state.layer !== 'root');
         applyDocAttr();
         if (!show) {
+            retireListFind(el('hd-city-menu-deep'));
             retirePersonDetails();
             retireToolDetails();
             renderStickyBannerSlot();
@@ -5921,6 +7296,7 @@
         var list = el('hd-city-menu-sublist');
         var status = el('hd-city-menu-status');
         var deep = el('hd-city-menu-deep');
+        if (state.layer !== 'deep') { retireListFind(deep); }
         var probe = el('hd-city-menu-probe');
         if (probe) { probe.hidden = !global.BAYE_HD_DEBUG; }
         function hideAllLayers() {
@@ -5968,6 +7344,10 @@
                 if (!engineInGetCitySet() && (shownHint === 'map-pick' || state.wizardStep === 'map-pick')) {
                     stepHint += ' · 等待目标选择';
                 }
+            }
+            if (state.deepKind === 'person-surrender') {
+                var surrenderPresentation = getSurrenderPresentation();
+                stepHint = surrenderPresentation ? (surrenderPresentation.role === 'target' ? '选择俘虏' : '选择招降将领') : '等待原版菜单回执';
             }
             setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint +
                 (state.showLcd ? ' · 经典 LCD 对照' : mobileHost ? '' : ' · 光标与引擎同步'));
@@ -6093,6 +7473,7 @@
 
     function closeMenu(opts) {
         opts = opts || {};
+        if (!opts.silent && surrenderFlow && state.deepKind === 'person-surrender') { back(); return; }
         var mobileClosingTicket = mobileHost && !opts.silent ? mobileInputTicket() : null;
         if (mobileHost && !opts.silent && !mobileClosingTicket) { retireInteraction('close-unavailable'); return false; }
         if (fightIsActive()) {
@@ -6195,6 +7576,10 @@
 
     function cityBackPressOwner() {
         try {
+            if (!mobileHost && state.deepKind === 'person-diplomacy') {
+                var diplomacy = pcDiplomacyTicket();
+                return diplomacy ? 'pc-diplomacy:' + diplomacy.key : null;
+            }
             var menu = engineMenuItems(), qty = engineQty(), march = engineMarch();
             return JSON.stringify([marchEpoch, state.open, state.cityIndex, state.layer, state.deepKind,
                 menu.active, menu.context, menu.kind, menu.seq, menu.detailGeneration, menu.names, actualMenuIds(menu),
@@ -6720,7 +8105,12 @@
         return true;
     }
 
-    function back(pressedOwner) {
+    function backSurrenderBody(pressedOwner) {
+        if (!mobileHost && state.deepKind === 'person-diplomacy') {
+            var pcBackOwner = cityBackPressOwner();
+            if (!pcBackOwner || pressedOwner != null && pressedOwner !== pcBackOwner) { return; }
+            backPcDiplomacy(); return;
+        }
         if (mobileHost && state.deepKind === 'person-diplomacy') {
             var diplomacyBackOwner = cityBackPressOwner();
             if (pressedOwner != null && pressedOwner !== diplomacyBackOwner) { return; }
@@ -6773,6 +8163,11 @@
         if (observedMenu.active != null && !backOwner) { return; }
         var ownsBack = backOwner == null ? null : function () { return cityBackMenuOwner() === backOwner; };
         if (state.layer === 'deep') {
+            if (state.deepKind === 'person-surrender') {
+                engineSendKey(VK.EXIT, 'surrender-back', ownsBack);
+                render();
+                return;
+            }
             if (backMobileTrade(ownsBack)) { return; }
             if (backMobileEquipment(ownsBack)) { return; }
             if (backMobileGoods(ownsBack)) { return; }
@@ -6972,12 +8367,19 @@
             }
             setTimeout(sendMarchKeys, 0);
         } else {
+            var surrenderEntry = prepareSurrenderEntry(menu, index);
+            if (surrenderEntry === false) { return; }
             equipmentParent = mobileEquipmentParent(menu, index);
             equipmentGoods = null;
             mobileTrade = tradeParent(menu, index);
-            if (!pickIndex(index, true)) { return; }
+            if (surrenderEntry) {
+                if (!selectLiveMenu(index, true, 'surrender-start', menu)) {
+                    if (surrenderFlow === surrenderEntry && !surrenderEntry.pending) { surrenderFlow = null; }
+                    return;
+                }
+            } else if (!pickIndex(index, true)) { return; }
         }
-        state.deepKind = deepKindFor(state.subKind, index);
+        state.deepKind = surrenderEntry ? 'person-surrender' : deepKindFor(state.subKind, index);
         if (mobileHost && mobileTrade) { state.deepKind = 'person-trade'; }
         if (mobileHost && equipmentParent && equipmentParent.command === 'largess') { state.deepKind = 'goods-person'; }
         state.deepLabel = names[index] || '';
@@ -7616,7 +9018,9 @@
         }, 280);
     }
 
-    function chooseDeep(index, pressedOwner) {
+    function chooseDeepSurrenderBody(index, pressedOwner) {
+        if (!listFindIndexVisible(index)) { return false; }
+        if (!mobileHost && state.deepKind === 'person-diplomacy' && mobileDiplomacy && mobileDiplomacy.sent) { return false; }
         if (mobileHost && state.deepKind === 'person-diplomacy' && mobileDiplomacy && mobileDiplomacy.sent) { return false; }
         if (mobileHost && (state.goodsBackPending || mobileEquipmentFlow || mobileTrade && mobileTrade.wait)) { return false; }
         var item = state.deepItems[index];
@@ -7633,6 +9037,17 @@
                 fillDeepList();
                 return false;
             }
+        }
+        if (state.deepKind === 'person-surrender') {
+            if (!getSurrenderPresentation() || state.nativeMenuRequest || state.queue.length || state.sending) { return false; }
+            return selectLiveMenu(nativeIndex, true, 'surrender-person', native);
+        }
+        if (!mobileHost && state.deepKind === 'person-diplomacy') {
+            var pcOwner = pcDiplomacyTicket(), pcFlow = mobileDiplomacy;
+            if (!pcOwner || !pcFlow || pcFlow.sent || state.nativeMenuRequest || state.queue.length || state.sending) { return false; }
+            return selectLiveMenu(nativeIndex, true, 'pc-diplomacy-person', native, function () {
+                return mobileDiplomacy === pcFlow && !pcFlow.sent && samePcDiplomacyRole(pcOwner, pcDiplomacyTicket());
+            });
         }
         if (mobileHost && state.deepKind === 'person-transfer') {
             var transferOwner = mobileInputTicket();
@@ -7917,7 +9332,48 @@
         }
         state.bound = true;
         document.addEventListener('visibilitychange', function () {
-            if (document.hidden) { retirePersonProperties(); }
+            if (document.hidden) { retirePersonProperties(); retireListFind(el('hd-city-menu-deep')); }
+        });
+        // Window capture precedes mobile document capture regardless of bind
+        // order. The document fallback also supports embedded hosts.
+        if (typeof global.addEventListener === 'function') {
+            global.addEventListener('keydown', captureListFindKey, true);
+            global.addEventListener('keyup', captureListFindKey, true);
+        }
+        document.addEventListener('keydown', captureListFindKey, true);
+        document.addEventListener('keyup', captureListFindKey, true);
+        root.addEventListener('focusin', function (event) {
+            if (listFindInside(event.target)) { listFindInputOwner = state.listFind; }
+        });
+        root.addEventListener('compositionstart', function (event) {
+            if (event.target !== el('hd-city-menu-list-query') || !state.listFind) { return; }
+            listFindInputOwner = listFindCompositionOwner = state.listFind;
+            state.listFind.composing = true;
+        });
+        root.addEventListener('compositionend', function (event) {
+            if (event.target !== el('hd-city-menu-list-query')) { return; }
+            var current = state.listFind, previous = listFindCompositionOwner;
+            listFindCompositionOwner = null;
+            if (!current || previous !== current) {
+                event.target.value = current ? current.query : ''; return;
+            }
+            current.composing = false; changeListFind('input');
+        });
+        root.addEventListener('input', function (event) {
+            if (event.target !== el('hd-city-menu-list-query') || !state.listFind || event.isComposing) { return; }
+            if (listFindCompositionOwner && listFindCompositionOwner !== state.listFind ||
+                listFindInputOwner && listFindInputOwner !== state.listFind) {
+                event.target.value = state.listFind.query; return;
+            }
+            if (!listFindInputOwner) { listFindInputOwner = state.listFind; }
+            changeListFind('input');
+        });
+        root.addEventListener('change', function (event) {
+            if (event.target !== el('hd-city-menu-list-sort') || !state.listFind) { return; }
+            if (!state.listFind.expanded || listFindInputOwner && listFindInputOwner !== state.listFind) {
+                event.target.value = state.listFind.sort; return;
+            }
+            changeListFind('sort');
         });
         function buttonOwner(button) {
             var key = button.getAttribute('data-hd-deep-owner');
@@ -7936,7 +9392,7 @@
             if (target === root) { state.backPointerOwner = { target: root, key: cityBackPressOwner() }; return; }
             while (target && target !== root) {
                 if (target.getAttribute && target.getAttribute('data-hd-deep-preview') != null) {
-                    state.previewPointerOwner = {target: target, context: ev.isPrimary === false ||
+                    state.previewPointerOwner = {target: target, viewEpoch: listFindEpoch, context: ev.isPrimary === false ||
                         ev.button != null && ev.button !== 0 ? null : mobilePreviewContext(target)};
                     return;
                 }
@@ -7953,7 +9409,7 @@
                     return;
                 }
                 if (target.getAttribute && target.getAttribute('data-hd-deep') != null) {
-                    state.deepPointerOwner = { target: target, owner: buttonOwner(target) };
+                    state.deepPointerOwner = { target: target, owner: buttonOwner(target), viewEpoch: listFindEpoch };
                     return;
                 }
                 target = target.parentNode;
@@ -7995,6 +9451,10 @@
             }
             var t = ev.target;
             while (t && t !== root) {
+                if (t === el('hd-city-menu-list-toggle') || t === el('hd-city-menu-list-clear')) {
+                    ev.preventDefault(); ev.stopPropagation();
+                    changeListFind(t === el('hd-city-menu-list-toggle') ? 'toggle' : 'clear'); return;
+                }
                 if (t.getAttribute && t.getAttribute('data-hd-transfer-target') != null) {
                     ev.preventDefault(); ev.stopPropagation(); selectTransferTarget(Number(t.getAttribute('data-hd-transfer-target'))); return;
                 }
@@ -8021,7 +9481,7 @@
                 if (t.getAttribute && t.getAttribute('data-hd-tool-page') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
-                    if (pagePressed && pagePressed.target !== t) { renderToolDetails(); return; }
+                    if (pagePressed && (pagePressed.cancelled || pagePressed.target !== t)) { renderToolDetails(); return; }
                     pageTool(t.getAttribute('data-hd-tool-page'), pagePressed ? pagePressed.key :
                         t.getAttribute('data-hd-tool-page-owner'));
                     return;
@@ -8041,6 +9501,8 @@
                 if (t.getAttribute && t.getAttribute('data-hd-deep') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
+                    if (!listFindButtonVisible(t) || !listFindIndexVisible(t.getAttribute('data-hd-deep')) ||
+                        pressed && (pressed.cancelled || pressed.viewEpoch !== listFindEpoch)) { return; }
                     if (pressed && pressed.target !== t) { fillDeepList(); return; }
                     chooseDeep(Number(t.getAttribute('data-hd-deep')),
                         pressed ? pressed.owner : buttonOwner(t));
@@ -8436,7 +9898,7 @@
     }
 
     function syncMode(resume) {
-        if (mobileHost && syncMobileDiplomacy() && mobileDiplomacy) { applyDocAttr(); render(); return; }
+        if (syncMobileDiplomacy() && mobileDiplomacy) { applyDocAttr(); render(); return; }
         if (mobileHost && syncMobileTransfer() && mobileTransfer) { applyDocAttr(); render(); return; }
         if (state.personModeResume && !shouldShowHd() &&
             (!personModeStateMatches(state.personModeResume) || personModeOwner() !== state.personModeResume.key)) {
@@ -8518,6 +9980,8 @@
                     mobileLibraryGeneration = base.identity.generation;
                 }
                 syncMode();
+                // A real PC PERSON publication can arrive after the key render.
+                if (!mobileHost && surrenderFlow) { render(); }
                 // Publication may finish after the transition render. Refresh
                 // every mobile layer, not only list contents or root attrs.
                 if (mobileHost) { render(); }
@@ -8553,9 +10017,11 @@
                     /* 菜单关着也要扫：完成选将 / GetFood / 部队已出发 leftover 不能卡住横幅。 */
                     sweepStickyMarch('poll');
                 }
+                if (!mobileHost && state.layer === 'status') { renderCityGarrison(); }
                 if (!hdReady() || !state.open) {
                     return;
                 }
+                if (!mobileHost && state.layer === 'sub' && SUBS[state.subKind]) { fillSubList(state.subKind); }
                 if (retireMobileEquipmentMap()) { return; }
                 if (syncMobileTrade() && !state.open) { return; }
                 // A person-picker cancellation can return directly to GetCitySet
@@ -8649,149 +10115,7 @@
         },
         start: start,
         applyPcPage: start,
-        debugSnapshot: function () {
-            return {
-                pref: getMenuMode(),
-                mobileHost: !!mobileHost,
-                mobileRetireReason: mobileRetireReason,
-                showHd: shouldShowHd(),
-                open: state.open,
-                layer: state.layer,
-                subKind: state.subKind,
-                cityIndex: state.cityIndex,
-                cityName: state.cityName,
-                titleText: (el('hd-city-menu-title') && el('hd-city-menu-title').textContent) || '',
-                idleIndex: state.idleIndex,
-                idleKeys: state.idleKeys.slice(),
-                lastHook: state.lastHook,
-                showLcd: state.showLcd,
-                cityLcdMode: cityLcdPresentation(),
-                probedCityKeys: state.probedCityKeys.slice(),
-                deepKind: state.deepKind,
-                deepLabel: state.deepLabel,
-                deepCount: state.deepItems.length,
-                deepItems: state.deepItems.slice(0, 20),
-                deepMenuOwner: state.deepMenuOwner && { context: state.deepMenuOwner.context,
-                    kind: state.deepMenuOwner.kind, seq: state.deepMenuOwner.seq,
-                    detailGeneration: state.deepMenuOwner.detailGeneration, key: state.deepMenuOwner.key },
-                cityDetails: state.open && state.layer === 'status' && state.cityDetails
-                    ? JSON.parse(JSON.stringify(state.cityDetails)) : null,
-                personDetail: state.personDetail ? JSON.parse(JSON.stringify(state.personDetail)) : null,
-                personProperties: state.personProperties ? JSON.parse(JSON.stringify(state.personProperties)) : null,
-                personPagePending: state.personPagePending ? JSON.parse(JSON.stringify(state.personPagePending)) : null,
-                toolDetail: state.toolDetail ? JSON.parse(JSON.stringify(state.toolDetail)) : null,
-                toolPagePending: state.toolPagePending,
-                pickedPersons: state.pickedPersons,
-                dismissedObj: state.dismissedObj,
-                marchReady: state.marchReady,
-                marching: isMarching(),
-                leftoverAfterFight: leftoverMarchAfterFight(),
-                sawFightThisMarch: state.sawFightThisMarch,
-                fightEndedThisMarch: state.fightEndedThisMarch,
-                campaignPick: state.campaignPick,
-                battleMake: state.battleMake,
-                handoff: state.handoff,
-                handoffAt: state.handoffAt,
-                handoffStatus: state.handoffStatus,
-                handoffExitCount: state.handoffExitCount,
-                handoffEnterCount: state.handoffEnterCount,
-                lastHandoffExitAt: state.lastHandoffExitAt,
-                lastFuncMenuIdle: state.lastFuncMenuIdle,
-                personExitSent: state.personExitSent,
-                finishPersonsBusy: !!state.finishPersonsBusy,
-                personExitTries: state.personExitTries,
-                lastExit: state.lastExit,
-                engineHelpOpen: !!state.engineHelpOpen,
-                overlayRetry: state.overlayRetry || 0,
-                finishVisibleRetry: state.finishVisibleRetry || 0,
-                pickedPersonNames: (state.pickedPersonNames || []).slice(),
-                leftoverOverlay: leftoverMarchOverlay(),
-                engineLeftBattleMake: engineLeftBattleMake(),
-                engineStillInPersonPick: engineStillInPersonPick(),
-                liveJunbeiMenu: liveJunbeiMenu(),
-                qtyActive: (function () {
-                    try {
-                        return Number(window.baye && baye.data && baye.data.g_hdQtyActive) || 0;
-                    } catch (e) { return 0; }
-                }()),
-                lastBlockedExit: state.lastBlockedExit,
-                lastBlockedEnter: state.lastBlockedEnter || '',
-                lastPickEnterAt: state.lastPickEnterAt || 0,
-                holdEnterForFood: holdEnterForFood(),
-                queueLen: state.queue.length,
-                sending: !!state.sending,
-                enginePersons: cityPersons(state.cityIndex).length,
-                enginePersonNames: cityPersons(state.cityIndex).map(function (p) {
-                    return p.name;
-                }),
-                enginePersonsAtFinish: state.enginePersonsAtFinish || 0,
-                enginePersonsAtPickStart: state.enginePersonsAtPickStart || 0,
-                marchHint: state.marchHint,
-                holdExit: holdExit(),
-                holdMenu: holdMenu(),
-                acceptMarchOk: state.acceptMarchOk,
-                freshMarch: freshMarchOk(),
-                consumedMarchSeq: state.consumedMarchSeq,
-                sawMarchCleared: state.sawMarchCleared,
-                walkBusy: state.walkBusy,
-                pendingTarget: state.pendingTarget,
-                wizardStep: state.wizardStep,
-                wizardLabel: WIZARD_LABEL[state.wizardStep] || '',
-                sawQtyThisMarch: state.sawQtyThisMarch,
-                sawGetFoodUi: !!state.sawGetFoodUi,
-                foodConfirmed: !!state.foodConfirmedThisMarch,
-                leftoverPick: leftoverOverworldPick(),
-                liveMarch: liveMarchOrFight(),
-                stickyBanner: stickyMarchBanner(),
-                lastBannerLog: state.lastBannerLog,
-                battlePick: battlePickActive(),
-                openedCity: state.cityIndex,
-                marchDest: (function () {
-                    var m = engineMarch();
-                    return { city: m && m.city, obj: m && m.obj, ok: !!(m && m.ok), real: realMarchDest(m) };
-                }()),
-                leftoverEngineSub: leftoverEngineSubAtHdRoot(),
-                leftoverQty: leftoverQtyFlag(),
-                liveQty: liveQty(),
-                liveGetFood: liveGetFood(),
-                latentGetFood: latentGetFood(),
-                realm: (function () {
-                    try {
-                        return window.baye && baye.hd && baye.hd.realm ? baye.hd.realm() : null;
-                    } catch (e) { return null; }
-                }()),
-                waitingGetFood: waitingGetFoodSoftLock(),
-                foodRecovered: state.foodRecovered,
-                foodRecoverEnter: state.foodRecoverEnter,
-                foodRecoverNeeded: state.foodRecoverNeeded,
-                foodGaveUp: !!state.foodGaveUp,
-                foodAttempt: state.foodAttempt || 0,
-                qtyBeforePersonExit: state.qtyBeforePersonExit,
-                engineInGetCitySet: engineInGetCitySet(),
-                confirmingTarget: !!state.confirmingTarget,
-                enginePhase: engineMarchPhase(),
-                displayWizard: displayWizardStep(),
-                mapCity: engineMapCityIndex(),
-                debug: marchDebugLine(),
-                qtyDismissed: state.qtyDismissed,
-                qtyAckFailed: !!state.qtyAckFailed,
-                qtyAckError: state.qtyAckError,
-                reportAtMarchStart: state.reportAtMarchStart,
-                march: engineMarch(),
-                qty: engineQty(),
-                lastStep4: state.lastStep4,
-                step4Trace: (state.step4Trace || []).slice(-16),
-                marchOriginIndex: state.marchOriginIndex,
-                originRetryTried: !!state.originRetryTried,
-                originRetryBusy: !!state.originRetryBusy,
-                originRetryFrom: state.originRetryFrom,
-                originRetryTo: state.originRetryTo,
-                preferredOrigin: preferredMarchOrigin(
-                    state.pendingTarget != null ? state.pendingTarget : 9
-                ),
-                originLinks: cityLinksOf(state.cityIndex)
-            };
-        },
+        debugSnapshot: function () { return surrenderUiReadCall(debugSnapshotSurrenderBody, arguments); },
         walkToCity: function (cityIndex, thenEnter) {
             if (thenEnter !== false && (liveTargetStep() || usesMapCursor(state.deepKind, state.deepStep))) {
                 return confirmMarchTarget(cityIndex);

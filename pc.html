@@ -10,16 +10,17 @@
     <link rel="stylesheet" type="text/css" href="css/baye.css?ver=20260920h"/>
     <link rel="stylesheet" type="text/css" href="css/hd-graphics.css?ver=20261024focus1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261023a"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261011a"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20261008j"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261029listfind1"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20261026next1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20261024king1"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261008k"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261008k"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261026search1"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261026terrain1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-spe.css?ver=20261010c"/>
     <link rel="stylesheet" type="text/css" href="css/hd-portraits.css?ver=20261008i"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-battle-note.css?ver=20261011a"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-battle-note.css?ver=20261026prelude1"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-battle-transition.css?ver=20261026stage1"/>
     <script>
-        window.BAYE_ASSET_VER = '20261011d';
+        window.BAYE_ASSET_VER = '20261026stage1';
         window.__bayeLastHdCall = window.__bayeLastHdCall || null;
         window.onerror = function (msg, url, line, col, error) {
             var last = window.__bayeLastHdCall;
@@ -105,11 +106,19 @@
             } catch (e) {}
         })();
     </script>
+<link rel="stylesheet" href="css/hd-city-info.css?ver=20261026cityinfo1" />
 </head>
 <body style="height: auto;">
 <div id="baye-build-badge" data-baye-asset-ver="">…</div>
-<section id="hd-battle-note" aria-label="战果" aria-hidden="true" hidden>
+<section id="hd-battle-note" aria-label="战事公告" aria-hidden="true" hidden>
     <div class="hd-battle-note-panel"><p id="hd-battle-note-text" role="status"></p></div>
+</section>
+<section id="hd-battle-transition" aria-label="战斗过场" aria-hidden="true" hidden>
+    <div class="hd-battle-transition-panel">
+        <div id="hd-battle-transition-graphic" aria-hidden="true"></div>
+        <p id="hd-battle-transition-label" role="status"></p>
+        <p id="hd-battle-transition-value"></p>
+    </div>
 </section>
 <div layout="row center-center">
     <div class="container js-baye-pc-lcd pc-lcd-frame">
@@ -145,6 +154,17 @@
             <button type="button" class="hd-city-menu-card" data-hd-root="3"><strong>状况</strong><span>只显示读到的城数据</span></button>
         </div>
         <div id="hd-city-menu-sublist" class="hd-city-menu-sublist" hidden></div>
+        <div id="hd-city-menu-list-tools" class="hd-city-menu-list-tools" hidden>
+            <div class="hd-city-menu-list-head">
+                <button type="button" id="hd-city-menu-list-toggle" aria-expanded="false" aria-controls="hd-city-menu-list-controls">查找与排序</button>
+                <span id="hd-city-menu-list-count" role="status" aria-live="polite"></span>
+            </div>
+            <div id="hd-city-menu-list-controls" class="hd-city-menu-list-controls" hidden>
+                <label class="hd-city-menu-list-field"><span class="hd-city-menu-list-label">姓名或道具名</span><input type="search" id="hd-city-menu-list-query" maxlength="32" autocomplete="off" placeholder="输入姓名或道具名" /></label>
+                <label class="hd-city-menu-list-field"><span class="hd-city-menu-list-label">名单排序</span><select id="hd-city-menu-list-sort"><option value="native">原版顺序</option></select></label>
+                <button type="button" id="hd-city-menu-list-clear">清空</button>
+            </div>
+        </div>
         <div id="hd-city-menu-deep" class="hd-city-menu-sublist hd-city-menu-deep" hidden></div>
         <div id="hd-city-menu-status" class="hd-city-menu-status" hidden></div>
         <div class="hd-city-menu-footer">
@@ -161,14 +181,21 @@
         <div id="hd-battle-hud" class="hd-battle-hud">HD 战场</div>
         <div id="hd-battle-tip" class="hd-battle-tip" data-hd-battle-tip hidden></div>
         <div id="hd-battle-result" class="hd-battle-result" hidden></div>
-        <div id="hd-battle-menu" class="hd-battle-menu" hidden>
-            <div id="hd-battle-menu-title" class="hd-battle-menu-title">战场菜单</div>
-            <div id="hd-battle-menu-list" class="hd-battle-menu-list"></div>
-            <div class="hd-battle-menu-actions">
-                <button type="button" data-hd-battle-menu-exit>返回</button>
+        <aside id="hd-battle-rail" class="hd-battle-rail" aria-label="战场信息">
+            <section id="hd-battle-focus" class="hd-battle-focus" aria-label="焦点将领" hidden></section>
+            <div id="hd-battle-menu" class="hd-battle-menu" hidden>
+                <div id="hd-battle-menu-title" class="hd-battle-menu-title">战场菜单</div>
+                <p id="hd-battle-skill-note" class="hd-battle-menu-note hd-battle-skill-note" hidden></p>
+                <p id="hd-battle-settings-note" class="hd-battle-menu-note" hidden></p>
+                <div id="hd-battle-menu-list" class="hd-battle-menu-list"></div>
+                <div class="hd-battle-menu-actions">
+                    <button type="button" data-hd-battle-menu-exit>返回</button>
+                </div>
             </div>
-        </div>
+            <div id="hd-battle-context" class="hd-battle-context" aria-label="战场概况" hidden></div>
+        </aside>
         <div class="hd-battle-footer">
+            <button type="button" data-hd-battle-next disabled>下一待行动将领</button>
             <button type="button" data-hd-battle-sys>系统菜单</button>
             <button type="button" data-hd-battle-cancel>取消选择</button>
             <button type="button" data-hd-battle-lcd>经典 LCD</button>
@@ -213,6 +240,17 @@
     <section class="hd-mini-map-stage" role="dialog" aria-modal="true" aria-labelledby="hd-mini-map-title">
         <h2 id="hd-mini-map-title">地图概览</h2>
         <p id="hd-mini-map-summary" class="hd-mini-map-summary"></p>
+        <div id="hd-mini-map-tools" class="hd-mini-map-tools" hidden>
+        <label id="hd-mini-map-search-wrap" class="hd-mini-map-search-wrap" for="hd-mini-map-search">城名
+            <input id="hd-mini-map-search" type="search" maxlength="32" placeholder="输入城名" autocomplete="off" spellcheck="false" aria-controls="hd-mini-map-cities" />
+        </label>
+        <div id="hd-mini-map-filters" class="hd-mini-map-filters" role="group" aria-label="按城池归属筛选" hidden>
+            <button id="hd-mini-map-filter-all" type="button" aria-pressed="true">全部</button>
+            <button id="hd-mini-map-filter-owned" type="button" aria-pressed="false">我方</button>
+            <button id="hd-mini-map-filter-neutral" type="button" aria-pressed="false">他方</button>
+            <button id="hd-mini-map-filter-empty" type="button" aria-pressed="false">空城</button>
+        </div>
+        </div>
         <div id="hd-mini-map-content" class="hd-mini-map-content">
             <canvas id="hd-mini-map-canvas" class="hd-mini-map-canvas" aria-label="全图城池位置"></canvas>
             <ul id="hd-mini-map-cities" class="hd-mini-map-cities" aria-label="全部城池"></ul>
@@ -224,9 +262,23 @@
         </div>
     </section>
 </div>
+<div id="hd-city-info" hidden aria-hidden="true">
+    <section class="hd-city-info-stage" role="dialog" aria-modal="true" aria-labelledby="hd-city-info-title">
+        <h2 id="hd-city-info-title">城池详情</h2>
+        <p id="hd-city-info-page"></p>
+        <ul id="hd-city-info-rows"></ul>
+        <div class="hd-city-info-actions">
+            <button type="button" data-hd-city-info-key="34">上一页</button>
+            <button type="button" data-hd-city-info-key="35">下一页</button>
+            <button type="button" id="hd-city-info-classic">经典画面</button>
+            <button type="button" data-hd-city-info-key="40">返回</button>
+        </div>
+    </section>
+</div>
 <div id="hd-dialog" class="hd-dialog" aria-hidden="true">
     <div id="hd-dialog-stage" class="hd-dialog-stage" role="dialog" aria-labelledby="hd-dialog-title" tabindex="-1">
         <div id="hd-dialog-title" class="hd-dialog-title">报告</div>
+        <div id="hd-dialog-person-identity" class="hd-dialog-caption" hidden></div>
         <div id="hd-dialog-body" class="hd-dialog-body"></div>
         <div id="hd-dialog-caption" class="hd-dialog-caption">↓ 下方放大的经典屏是引擎原文</div>
         <div id="hd-dialog-range" class="hd-dialog-range" hidden></div>
@@ -313,25 +365,34 @@
 </body>
 </html>
 <script src="js/idbkvstore.min.js?ver=20261008i"></script>
-<script src="js/bridge.js?ver=20261014a"></script>
-<script src="js/save-storage.js?ver=20261008h"></script>
+<script src="js/bridge.js?ver=20261026stage1"></script>
+<script src="js/save-storage.js?ver=20261026save1"></script>
 <script src="js/original-game.js?ver=20261010b"></script>
-<script src="js/lcd.js?ver=20261011f"></script>
+<script src="js/lcd.js?ver=20261026cityinfo1"></script>
 <script src="js/hd-graphics.js?ver=20261024focus1"></script>
 <script src="js/hd-lib-identity.js?ver=20261008i"></script>
 <script src="js/hd-overworld-probe.js?ver=20260923j"></script>
 <script src="js/hd-overworld-layers.js?ver=20261008l"></script>
-<script src="js/hd-minimap.js?ver=20261011a"></script>
-<script src="js/hd-overworld.js?ver=20261011d"></script>
-<script src="js/hd-city-menu.js?ver=20261024b"></script>
+<script src="js/hd-minimap.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-overworld.js?ver=20261111a"></script>
+<script src="js/hd-city-plans.js?ver=20261028supplies1"></script>
+<script src="js/hd-city-inventory.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-city-garrison.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-city-rules.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-city-menu.js?ver=20261029listfind1"></script>
+<script src="js/hd-city-info.js?ver=20261026cityinfo1"></script>
     <script src="js/hd-battle-terrain.js?ver=20261008i"></script>
     <script src="js/hd-battle-feedback.js?ver=20261008a"></script>
-    <script src="js/hd-battle.js?ver=20261011c"></script>
-    <script src="js/hd-system-ui.js?ver=20261024king1"></script>
-<script src="js/hd-dialog.js?ver=20261024b"></script>
-<script src="js/hd-battle-scene.js?ver=20261011a"></script>
+    <script src="js/hd-battle-status.js?ver=20261026cityinfo1"></script>
+    <script src="js/hd-skill-hints.js?ver=20261026cityinfo1"></script>
+    <script src="js/hd-battle.js?ver=20261026next1"></script>
+    <script src="js/hd-saved-ruler.js?ver=20261026save1"></script>
+<script src="js/hd-system-ui.js?ver=20261026save1"></script>
+<script src="js/hd-dialog.js?ver=20261026graphic1"></script>
+<script src="js/hd-battle-scene.js?ver=20261026cityinfo1"></script>
 <script src="js/hd-spe.js?ver=20261024a"></script>
-<script src="js/hd-battle-note.js?ver=20261011b"></script>
+<script src="js/hd-battle-note.js?ver=20261026prelude1"></script>
+<script src="js/hd-battle-transition.js?ver=20261026stage1"></script>
 <script src="js/hd-portraits.js?ver=20261008j"></script>
 <script src="js/hd-portrait-dump.js?ver=20260924a"></script>
 <script src="https://img.bbkgames.com/script/js-sdk.js?ver=20260329"></script>
@@ -382,6 +443,8 @@
             BayeHdSpe.start();
         }
         if (window.BayeHdBattleNote) { BayeHdBattleNote.init(); }
+        if (window.BayeHdBattleTransition) { BayeHdBattleTransition.init(); }
+        BayeHdCityInfo.start();
         bayeMain();
     }
     document.onkeydown = onKeyDown;
@@ -536,4 +599,4 @@
         });
     });
 </script>
-<script src="js/baye.js?ver=20261011e"></script>
+<script src="js/baye.js?ver=20261026stage1"></script>

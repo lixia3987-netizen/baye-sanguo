@@ -215,6 +215,7 @@ FAR U8 DepredateMake(U8 city)
 FAR void ShowAttackNote(PersonID ap,U8 city)
 {
     SBUF str,buf;
+    U32 hdGeneration = g_hdDetailGeneration, hdNoteSeq = 0;
 
     ShowFightNoteFace(0);
 
@@ -231,7 +232,10 @@ FAR void ShowAttackNote(PersonID ap,U8 city)
     GetCityName(city,buf);
     gam_strcat(str,buf);
     PlcMidShowStr(WK_SX + (WK_EX  - WK_SX) / 2,WK_SY + (WK_EY - 84 - WK_SY) / 2 + 2 + 64 + 2,str);
+    if (hdGeneration == g_hdDetailGeneration)
+        hdNoteSeq = baye_hd_battle_note_begin(3, 0xffff, str);
     GamDelay(100,false);
+    baye_hd_battle_note_end(hdGeneration, hdNoteSeq);
 }
 
 
@@ -251,6 +255,7 @@ FAR void ShowAttackNote(PersonID ap,U8 city)
 FAR void ShowFightNote(PersonID ap,PersonID bc)
 {
     SBUF str,buf;
+    U32 hdGeneration = g_hdDetailGeneration, hdNoteSeq = 0;
 
     ShowFightNoteFace(1);
 
@@ -262,7 +267,10 @@ FAR void ShowFightNote(PersonID ap,PersonID bc)
     ResLoadToMem(STRING_CONST,STR_FIGHT_NOTE2,buf);
     gam_strcat(str,buf);
     PlcMidShowStr(WK_SX + (WK_EX  - WK_SX) / 2,WK_SY + (WK_EY - 84 - WK_SY) / 2 + 2 + 64 + 2,str);
+    if (hdGeneration == g_hdDetailGeneration)
+        hdNoteSeq = baye_hd_battle_note_begin(4, 0xffff, str);
     GamDelay(300, g_engineConfig.responseNoteOfBettle);
+    baye_hd_battle_note_end(hdGeneration, hdNoteSeq);
 }
 
 /******************************************************************************

@@ -10,7 +10,7 @@ const bridge = readFileSync(new URL('../js/bridge.js', import.meta.url), 'utf8')
 // Execute the real module with its actual click, pointer and keyboard handlers.
 // Native selector fields change only when the simulated engine acknowledges a
 // key; the module cannot advance them or modify the campaign data.
-function harness({ mode = 2, status = {}, native = 'record', acknowledge = true, kingCount = 4, preview = false } = {}) {
+function harness({ mode = 2, status = {}, native = 'record', acknowledge = true, kingCount = 4, preview = false, configure } = {}) {
     let scrollCalls = 0;
     class Node {
         constructor(tag = 'div') {
@@ -123,6 +123,7 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
         context.baye.getCityName = i => cityNames[i];
     }
     context.window = context;
+    if (configure) configure(context);
     vm.runInContext(source, context, { filename: 'js/hd-system-ui.js' });
     const api = context.BayeHdSystemUi;
     function tick(ms = 10000) {
@@ -178,7 +179,8 @@ test('loading preserves four real slots and disables empty entries', () => {
 });
 test('sparse slot two sends two acknowledged moves and one Enter', () => {
     const h = harness({ status: { 2: { status: 'ready', canLoad: true, year: 189, king: 12 } } });
-    assert.match(h.button(2).textContent, /存档 3.*曹操.*189/);
+    assert.match(h.button(2).textContent, /存档 3.*已有进度.*189/);
+    assert.doesNotMatch(h.button(2).textContent, /曹操/);
     h.click(2); assert.deepEqual(h.sent, [VK.DOWN]);
     h.tick(40); assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN]);
     h.tick(); assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN, VK.ENTER]);
@@ -193,6 +195,109 @@ test('a save from another period shows its own period instead of current person 
     h.data.g_PIdx = 2; h.refresh();
     assert.match(h.button(0).textContent, /董卓弄权.*189/); assert.doesNotMatch(h.button(0).textContent, /曹操/);
     assert.equal(h.data.g_PIdx, 2); assert.deepEqual(h.sent, []);
+});
+
+function savedSummaryHarness(status, provider) {
+    const liveReads = [];
+    const h = harness({status,configure(context) {
+        Object.defineProperty(context.baye.data,'g_PIdx',{get(){liveReads.push('g_PIdx');throw Error('saved summary consulted live period');}});
+        for (const name of ['getPersonNameByID','getPersonName']) context.baye[name] = () => {
+            liveReads.push(name); throw Error('saved summary consulted live name');
+        };
+        if (provider !== undefined) context.BayeHdSavedRuler = provider;
+    }});
+    return Object.assign(h,{assertNoLiveSummaryReads(){assert.deepEqual(liveReads,[]);}});
+}
+
+test('saved ruler summaries use the saved period and zero-based king, including zero and both month endpoints', () => {
+    const calls = [], names = {'1:0':'第一时期零号君主','2:0':'第二时期零号君主','4:199':'第四时期末号君主'};
+    const h = savedSummaryHarness({
+        0:{status:'ready',canLoad:true,period:1,king:0,year:190,month:1},
+        1:{status:'ready',canLoad:true,period:2,king:0,year:199,month:12},
+        2:{status:'ready',canLoad:true,period:4,king:199,year:237,month:7}
+    },{read(period,king){calls.push([period,king]);return names[period+':'+king];}});
+    assert.equal(h.button(0).textContent,'存档 1 · 第一时期零号君主 · 董卓弄权 · 190 年 1 月');
+    assert.equal(h.button(1).textContent,'存档 2 · 第二时期零号君主 · 曹操崛起 · 199 年 12 月');
+    assert.equal(h.button(2).textContent,'存档 3 · 第四时期末号君主 · 三国鼎立 · 237 年 7 月');
+    assert.ok(calls.length);assert.ok(calls.every(([p,k])=>Object.hasOwn(names,p+':'+k)));
+    assert.equal(h.button(3).textContent,'存档 4 · 空');h.poll();h.refresh();
+    assert.deepEqual(h.sent,[]);h.assertNoLiveSummaryReads();h.assertWorldUnchanged();
+});
+
+test('missing, null or failing saved-ruler providers retain known saved period and date without borrowing a live name', () => {
+    const slot={0:{status:'ready',canLoad:true,period:3,king:0,year:208,month:12}};
+    for(const provider of [undefined,null,{}, {read:()=>null},{read(){throw Error('name resource unavailable');}}]) {
+        const h=savedSummaryHarness(slot,provider);
+        assert.equal(h.button(0).textContent,'存档 1 · 赤壁之战 · 208 年 12 月');
+        assert.deepEqual(h.sent,[]);h.assertNoLiveSummaryReads();h.assertWorldUnchanged();
+    }
+    for(const month of [undefined,null,0,13,1.5,NaN,'12']) {
+        const h=savedSummaryHarness({0:{status:'ready',canLoad:true,period:1,king:0,year:190,month}}, {read:()=> '保存君主'});
+        assert.equal(h.button(0).textContent,'存档 1 · 保存君主 · 董卓弄权 · 190 年');
+        h.assertNoLiveSummaryReads();assert.deepEqual(h.sent,[]);h.assertWorldUnchanged();
+    }
+});
+
+test('unreadable slots and invalid saved identities never call the saved-ruler provider', () => {
+    const statuses=['empty','wrong-lib','incomplete','invalid'];
+    for(const [index,status] of statuses.entries()) {
+        let calls=0;const h=savedSummaryHarness({0:{status,canLoad:false,period:1,king:0,year:190,month:12}}, {read(){calls++;return 'unexpected';}});
+        assert.equal(h.button(0).textContent,'存档 1 · '+['空','属于其他版本','文件不完整','无法读取'][index]);
+        assert.equal(h.button(0).disabled,true);assert.equal(calls,0);h.assertNoLiveSummaryReads();assert.deepEqual(h.sent,[]);
+    }
+    for(const values of [
+        {period:0,king:0},{period:5,king:0},{period:'1',king:0},{period:1,king:-1},
+        {period:1,king:200},{period:1,king:'0'},{period:1,king:1.5},{period:1,king:NaN},
+        {status:'invalid',period:1,king:0}
+    ]) {
+        let calls=0;const h=savedSummaryHarness({0:{status:'ready',canLoad:true,year:190,month:1,...values}}, {read(){calls++;return 'unexpected';}});
+        assert.equal(calls,0);assert.doesNotMatch(h.button(0).textContent,/unexpected|NaN|undefined/);
+        h.assertNoLiveSummaryReads();assert.deepEqual(h.sent,[]);
+    }
+});
+
+test('saved summary label refresh retains the native selected slot and sends no implicit selection or load', () => {
+    const h=savedSummaryHarness({0:{status:'ready',canLoad:true,period:1,king:0,year:190,month:1},
+        2:{status:'ready',canLoad:true,period:3,king:0,year:208,month:7}}, {read:period=>'时期'+period+'君主'});
+    h.record.index=2;h.refresh();const before=h.button(0),seq=h.record.seq;
+    assert.equal(h.button(2).classList.contains('is-idle'),true);
+    Object.assign(h.slots[0],{period:2,year:199,month:12});h.refresh();h.poll();
+    assert.notEqual(h.button(0),before);assert.equal(h.button(0).textContent,'存档 1 · 时期2君主 · 曹操崛起 · 199 年 12 月');
+    assert.equal(h.record.index,2);assert.equal(h.record.seq,seq);assert.equal(h.button(2).classList.contains('is-idle'),true);
+    assert.deepEqual(h.sent,[]);h.assertNoLiveSummaryReads();h.assertWorldUnchanged();
+});
+
+test('saved provider replacement and metadata mutation during a read retire the mixed summary', () => {
+    for(const change of ['provider','metadata']) {
+        const h=savedSummaryHarness({0:{status:'ready',canLoad:true,period:1,king:0,year:190,month:1}});
+        h.context.BayeSaveStorage.slots=()=>h.slots;
+        h.context.BayeHdSavedRuler={read(){
+            if(change==='provider')h.context.BayeHdSavedRuler={read:()=>null};
+            else h.slots[0].month=12;
+            return 'stale captured ruler';
+        }};
+        h.refresh();assert.equal(h.button(0).textContent,'存档 1 · 资料更新中');
+        assert.deepEqual(h.sent,[]);h.assertNoLiveSummaryReads();h.assertWorldUnchanged();
+    }
+});
+
+test('saved slot changes and live name hooks retire or withhold saved names without executing a hook or sending input', () => {
+    const status={0:{status:'ready',canLoad:true,period:1,king:0,year:190,month:12}};
+    const moved=savedSummaryHarness(status);moved.context.BayeSaveStorage.slots=()=>moved.slots;
+    moved.context.BayeHdSavedRuler={read(){moved.slots[0].slot=3;return 'wrong slot ruler';}};
+    moved.refresh();assert.equal(moved.button(0).textContent,'存档 1 · 资料更新中');
+    assert.deepEqual(moved.sent,[]);moved.assertNoLiveSummaryReads();moved.assertWorldUnchanged();
+    const guarded=savedSummaryHarness(status);let providers=0,hooks=0;
+    guarded.context.baye.hooks={getPersonName(){hooks++;throw Error('custom live name hook');}};
+    guarded.context.BayeHdSavedRuler={read(){providers++;return 'saved source ruler';}};
+    guarded.refresh();assert.equal(guarded.button(0).textContent,'存档 1 · 董卓弄权 · 190 年 12 月');
+    assert.equal(providers,0);assert.equal(hooks,0);guarded.context.baye.hooks={};guarded.refresh();
+    assert.equal(guarded.button(0).textContent,'存档 1 · saved source ruler · 董卓弄权 · 190 年 12 月');
+    assert.ok(providers>0);assert.equal(hooks,0);guarded.assertNoLiveSummaryReads();assert.deepEqual(guarded.sent,[]);guarded.assertWorldUnchanged();
+    const late=savedSummaryHarness(status);
+    late.context.BayeHdSavedRuler={read(){late.context.baye.hooks={getPersonName(){hooks++;}};return 'stale pre-hook name';}};
+    late.refresh();assert.equal(late.button(0).textContent,'存档 1 · 资料更新中');
+    assert.equal(hooks,0);late.assertNoLiveSummaryReads();assert.deepEqual(late.sent,[]);late.assertWorldUnchanged();
 });
 test('wrong LIB, incomplete and invalid saves cannot send a confirmation', () => {
     for (const status of ['wrong-lib', 'incomplete', 'invalid']) {
@@ -602,7 +707,7 @@ test('PC cached save rows refresh availability, error titles and labels and stil
     h.slots[0].error = '原生存档不可读取'; h.refresh();
     assert.notEqual(h.button(0), empty); assert.equal(h.button(0).title, '原生存档不可读取');
     Object.assign(h.slots[0], { status: 'ready', canLoad: true, error: '', king: 12, year: 189 }); h.refresh();
-    const available = h.button(0); assert.equal(available.disabled, false); assert.match(available.textContent, /曹操.*189/);
+    const available = h.button(0); assert.equal(available.disabled, false); assert.match(available.textContent, /已有进度.*189/);
     h.slots[0].year = 190; h.refresh(); assert.notEqual(h.button(0), available); assert.match(h.button(0).textContent, /190/);
     const current = h.button(0); h.poll(); assert.equal(h.button(0), current);
     h.slots[0].canLoad = false; h.slots[0].error = '存档已被移除'; h.click(0, current); h.tick();

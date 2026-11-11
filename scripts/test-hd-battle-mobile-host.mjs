@@ -221,3 +221,30 @@ test('a retired report gets a fresh HD render owner and never resumes the old tr
     assert.equal(f.renders.length,before+1);assert.equal(f.renders.at(-1).renderOwner.key,f.api.getInputTicket().key);
     assert.equal(f.api.debugSnapshot().transaction,null);assert.deepEqual(f.sent,[K.RIGHT]);assert.deepEqual(f.writes,[]);
 });
+
+test('mobile next waiting unit requires an exact ticket and selects the next native slot through individual focus ACKs',()=>{
+    const f=fixture(),stale=f.api.getInputTicket();
+    const unitsBefore=JSON.stringify([f.raw.g_FgtParam.GenArray,f.raw.g_GenPos,f.raw.g_Persons]);
+    assert.equal(f.api.canSelectNextUnit(),true);
+    assert.equal(f.api.clickNextUnit().ok,false,'a missing physical gesture ticket cannot authorize mobile selection');
+    assert.deepEqual(f.sent,[]);
+    f.changeOwner();
+    assert.equal(f.api.clickNextUnit(stale).ok,false,'a prior mobile owner cannot authorize the next selection');
+    assert.deepEqual(f.sent,[]);
+    const current=f.api.getInputTicket();
+    assert.equal(f.api.clickNextUnit(current).ok,true);
+    assert.deepEqual(f.sent,[K.RIGHT],'only the first direction is delivered before a real focus ACK');
+    const request=f.api.debugSnapshot().transaction;
+    assert.equal(request.x,3);assert.equal(request.y,1);
+    f.tick(100);assert.deepEqual(f.sent,[K.RIGHT]);
+    f.focus(2,1);f.tick();assert.deepEqual(f.sent,[K.RIGHT,K.RIGHT]);
+    f.focus(3,1);f.tick();assert.deepEqual(f.sent,[K.RIGHT,K.RIGHT,K.ENTER]);
+    f.tick(100);assert.equal(f.sent.filter(key=>key===K.ENTER).length,1);
+    Object.assign(f.fight,{inputKind:2,inputSeq:f.fight.inputSeq+1,actorIndex:1,phase:2,wait:1});
+    f.tick();f.poll();
+    assert.equal(f.api.debugSnapshot().transaction,null);
+    assert.equal(f.api.clickNextUnit(f.api.getInputTicket()).ok,false,'the new MOVE owner cannot trigger another PICK');
+    assert.deepEqual(f.sent,[K.RIGHT,K.RIGHT,K.ENTER]);
+    assert.equal(JSON.stringify([f.raw.g_FgtParam.GenArray,f.raw.g_GenPos,f.raw.g_Persons]),unitsBefore);
+    assert.deepEqual(f.writes,[]);
+});

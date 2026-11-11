@@ -82,6 +82,15 @@ html[data-baye-dialog-pass="1"] .hd-dialog.is-open .hd-dialog-stage {
     margin: 8px 0 18px;
     color: #b9c9d9;
 }
+.hd-terrain-help-card { white-space: normal; }
+.hd-dialog.is-help .hd-dialog-stage:has(.hd-terrain-help-card) { box-sizing: border-box; }
+.hd-terrain-help-header { display: flex; align-items: center; gap: 16px; }
+.hd-terrain-help-header > div { min-width: 0; }
+.hd-terrain-help-symbol { display: grid; place-items: center; flex: 0 0 64px; width: 64px; height: 64px;
+    border: 1px solid #b3a46c; border-radius: 12px; background: linear-gradient(135deg,#3f5946,#243b3e); color: #f0d99f; font-size: 32px; font-weight: 700; }
+.hd-terrain-help-card .hd-help-summary { margin: 6px 0 0; font-variant-numeric: tabular-nums; }
+.hd-terrain-help-description { margin: 18px 0 0; padding: 14px 16px; border: 1px solid #f0d99f24;
+    border-radius: 10px; background: #ffffff09; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.7; }
 
 .hd-help-fields {
     display: grid;

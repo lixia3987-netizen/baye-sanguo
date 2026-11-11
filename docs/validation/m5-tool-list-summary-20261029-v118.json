@@ -1,0 +1,1268 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-29",
+  "batch": "V118",
+  "baselineHead": "c4827927e4e4aa8fef811ae2decd9e26d164b307",
+  "feature": {
+    "name": "原版赏赐与没收道具名单摘要",
+    "routes": [
+      "neizheng / 赏赐 / goods or goods-person / step 0",
+      "neizheng / 没收 / person-goods / step 1"
+    ],
+    "fields": [
+      "useFlag 0..1",
+      "attack U8",
+      "iq U8",
+      "move U8"
+    ],
+    "text": "装备/使用 · 武力 +N · 智力 +N · 移动 +N",
+    "actualNativeIds": true,
+    "defaultPropertyCount": 5,
+    "customMustBeFalse": true,
+    "logicalTools": 33,
+    "defaultHooksRequired": true,
+    "identityByteLength": 207195,
+    "identitySha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+    "privateRowsReceipt": true,
+    "twoWholeListReads": true,
+    "finalProfileAndRawFence": true,
+    "publicDeepItemsUnchanged": true,
+    "inputAndOrderUnchanged": true,
+    "oldPersonReaderUnchanged": true
+  },
+  "tests": {
+    "accepted": true,
+    "started": "2026-10-28T17:08:14.657Z",
+    "finished": "2026-10-28T17:08:15.585Z",
+    "exitCode": 0,
+    "tests": 17,
+    "pass": 17,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "commandArgs": [
+      "--test",
+      "--test-reporter=tap",
+      "--test-name-pattern=^tool list summary|^person list summary|^same-name goods|^standard current raw tool|^custom properties, unknown libraries|^genuine captured blank|^tool fields and controls|^tool owner and generation|^property page clicks|^pointer-owned stale page controls|^reentrant read-only default|^same-name native menu ID changes|^cancelling a goods menu",
+      "scripts/test-hd-city-hud.mjs"
+    ],
+    "pattern": "^tool list summary|^person list summary|^same-name goods|^standard current raw tool|^custom properties, unknown libraries|^genuine captured blank|^tool fields and controls|^tool owner and generation|^property page clicks|^pointer-owned stale page controls|^reentrant read-only default|^same-name native menu ID changes|^cancelling a goods menu",
+    "selectedSources": [
+      {
+        "path": ".gitattributes",
+        "bytes": 63167,
+        "sha256": "e5684823d7faf2fe4114940b163622fe45a4d2cf0d87f3c06f23812f72d2e782"
+      },
+      {
+        "path": "pc.html",
+        "bytes": 32343,
+        "sha256": "1c695eb978ee702c3d72b1b200e13bf614f37338383106b5d3fa30a6adb9b532"
+      },
+      {
+        "path": "m.html",
+        "bytes": 23680,
+        "sha256": "49bf86df0b6bd4096afdda8c83f07bf73c4a7774240852dc7c4ec99ccf9750ca"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 509405,
+        "sha256": "be9ccdeda67b6faeefa697e809dd59dece0f7326f8e2e43d323aeb808aef7c6d"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 16741,
+        "sha256": "709197bf4773916eefbce6e1573866945895cb4f9d33e896793cbfa32cbf9436"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 165558,
+        "sha256": "4d516b7771dda321b98fc35111ce31b1b71da5de484626c89035cd4f2c29c183"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 284066,
+        "sha256": "30686f45a3e7fce4d3cd47702471f92d2011c0635f07b21483ccd86d6b95a484"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5943,
+        "sha256": "130e197696bea4a820611228c6c578960af080e789752e7c17eb66de0f84cf69"
+      },
+      {
+        "path": "scripts/hd-person-identity-rom.mjs",
+        "bytes": 6532,
+        "sha256": "eba3a07408bb727cea02722b1e3375f145fcae61227f407b0ed9a3d9cdcc9f4a"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "vendor/iBaye/src/showface.c",
+        "bytes": 44299,
+        "sha256": "49d16a86891a712c675409c8377f234bc69d2d9c13d56da865dc83a5eab87895"
+      },
+      {
+        "path": "vendor/iBaye/src/cityedit.c",
+        "bytes": 41528,
+        "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d"
+      },
+      {
+        "path": "vendor/iBaye/src/infdeal.c",
+        "bytes": 26196,
+        "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e"
+      },
+      {
+        "path": "vendor/iBaye/src/bind-objects.c",
+        "bytes": 18495,
+        "sha256": "1bcf05ce980b26df368f3dc399e1ad256a3bbd315024ae065947860c98b28959"
+      }
+    ],
+    "selectedSourceBytesStable": true,
+    "newDefaultTests": 3,
+    "newDefaultModules": 0,
+    "entireHudModuleRun": false,
+    "fullSuiteRun": false,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "globalHdComplete": false,
+    "stdout": {
+      "path": "build/tool-list-summary-20261029-v118/targeted-v1.stdout.tap",
+      "bytes": 4707,
+      "sha256": "100df4b348f1e314e601c690f17e572ead4dc0c552bdbd752c2ba8149c68bc32",
+      "text": "TAP version 13\n# Subtest: same-name goods use actual selected tool ID and preserve native captured values and unread pages\nok 1 - same-name goods use actual selected tool ID and preserve native captured values and unread pages\n  ---\n  duration_ms: 14.2562\n  type: 'test'\n  ...\n# Subtest: standard current raw tool fields supplement unread default properties, preserving real zero values\nok 2 - standard current raw tool fields supplement unread default properties, preserving real zero values\n  ---\n  duration_ms: 4.1803\n  type: 'test'\n  ...\n# Subtest: custom properties, unknown libraries and live property hooks never substitute standard raw semantics\nok 3 - custom properties, unknown libraries and live property hooks never substitute standard raw semantics\n  ---\n  duration_ms: 17.1155\n  type: 'test'\n  ...\n# Subtest: genuine captured blank and literal markup stay distinct from unread values\nok 4 - genuine captured blank and literal markup stay distinct from unread values\n  ---\n  duration_ms: 3.9004\n  type: 'test'\n  ...\n# Subtest: tool fields and controls persist when actual highlighted ID changes, without automatic pagination\nok 5 - tool fields and controls persist when actual highlighted ID changes, without automatic pagination\n  ---\n  duration_ms: 5.0516\n  type: 'test'\n  ...\n# Subtest: tool owner and generation loss, overlays and pending input retire details and preserve LCD fallback\nok 6 - tool owner and generation loss, overlays and pending input retire details and preserve LCD fallback\n  ---\n  duration_ms: 54.5112\n  type: 'test'\n  ...\n# Subtest: property page clicks send one native arrow and wait for the real page acknowledgement\nok 7 - property page clicks send one native arrow and wait for the real page acknowledgement\n  ---\n  duration_ms: 5.3305\n  type: 'test'\n  ...\n# Subtest: pointer-owned stale page controls never send keys to another native selection or generation\nok 8 - pointer-owned stale page controls never send keys to another native selection or generation\n  ---\n  duration_ms: 17.8588\n  type: 'test'\n  ...\n# Subtest: reentrant read-only default or final input getters cannot publish or page a retired tool\nok 9 - reentrant read-only default or final input getters cannot publish or page a retired tool\n  ---\n  duration_ms: 7.4644\n  type: 'test'\n  ...\n# Subtest: same-name native menu ID changes retire an armed item click instead of confirming another tool\nok 10 - same-name native menu ID changes retire an armed item click instead of confirming another tool\n  ---\n  duration_ms: 3.6762\n  type: 'test'\n  ...\n# Subtest: cancelling a goods menu hides its side panel and retains the existing single native Exit\nok 11 - cancelling a goods menu hides its side panel and retains the existing single native Exit\n  ---\n  duration_ms: 4.3829\n  type: 'test'\n  ...\n# Subtest: person list summary follows filtered reordered native IDs and duplicate names without changing public items or input\nok 12 - person list summary follows filtered reordered native IDs and duplicate names without changing public items or input\n  ---\n  duration_ms: 14.012\n  type: 'test'\n  ...\n# Subtest: person list summary refreshes changed same-owner values and rejects a press held across the real list refresh\nok 13 - person list summary refreshes changed same-owner values and rejects a press held across the real list refresh\n  ---\n  duration_ms: 10.0906\n  type: 'test'\n  ...\n# Subtest: person list summary withdraws invalid sources before private stat reads and recovers after renderer reentry\nok 14 - person list summary withdraws invalid sources before private stat reads and recovers after renderer reentry\n  ---\n  duration_ms: 241.9399\n  type: 'test'\n  ...\n# Subtest: tool list summary follows actual reordered subset IDs and duplicate clipped names with strict U8 values and no input\nok 15 - tool list summary follows actual reordered subset IDs and duplicate clipped names with strict U8 values and no input\n  ---\n  duration_ms: 25.2093\n  type: 'test'\n  ...\n# Subtest: tool list summary refreshes same-owner values while stable polling preserves nodes and old presses cannot confirm replacements\nok 16 - tool list summary refreshes same-owner values while stable polling preserves nodes and old presses cannot confirm replacements\n  ---\n  duration_ms: 6.9907\n  type: 'test'\n  ...\n# Subtest: tool list summary withdraws invalid routes and sources, torn reads and final callbacks then recovers without input\nok 17 - tool list summary withdraws invalid routes and sources, torn reads and final callbacks then recovers without input\n  ---\n  duration_ms: 217.8566\n  type: 'test'\n  ...\n1..17\n# tests 17\n# suites 0\n# pass 17\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 747.0601\n"
+    },
+    "stderr": {
+      "path": "build/tool-list-summary-20261029-v118/targeted-v1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    }
+  },
+  "negativeParent": {
+    "accepted": true,
+    "expectedOldSourceRejection": true,
+    "exitCode": 1,
+    "tests": 3,
+    "pass": 0,
+    "fail": 3,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "source": {
+      "path": "build/tool-list-summary-20261029-v118/js_hd-city-menu.js.before",
+      "bytes": 495870,
+      "sha256": "3b2dc00caf4aaea05383061a8eb9162234784ff473d05ff57b4e4181a42398d8"
+    },
+    "selectedSources": [
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 509405,
+        "sha256": "be9ccdeda67b6faeefa697e809dd59dece0f7326f8e2e43d323aeb808aef7c6d"
+      },
+      {
+        "path": "scripts/test-hd-city-hud.mjs",
+        "bytes": 284066,
+        "sha256": "30686f45a3e7fce4d3cd47702471f92d2011c0635f07b21483ccd86d6b95a484"
+      },
+      {
+        "path": "build/tool-list-summary-20261029-v118/js_hd-city-menu.js.before",
+        "bytes": 495870,
+        "sha256": "3b2dc00caf4aaea05383061a8eb9162234784ff473d05ff57b4e4181a42398d8"
+      }
+    ],
+    "productionSourcesUnchanged": true,
+    "browserRun": false,
+    "actualGameplayAccepted": false
+  },
+  "preview": {
+    "accepted": true,
+    "previewOnly": true,
+    "previewVersion": 1,
+    "visualReviewPending": false,
+    "baselineHead": "c4827927e4e4aa8fef811ae2decd9e26d164b307",
+    "runtime": {
+      "node": "v24.14.0",
+      "playwright": "1.62.1",
+      "chromeExecutable": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+      "browserVersion": "155.0.8059.85"
+    },
+    "runError": null,
+    "screenshots": 9,
+    "browserLaunches": 1,
+    "isolatedPages": 3,
+    "navigations": 3,
+    "samePageStates": 9,
+    "ownedBrowserClosed": true,
+    "serverClosed": true,
+    "privateEphemeralPort": 6767,
+    "sourceBytesStable": true,
+    "sourcePins": 25,
+    "cases": [
+      {
+        "name": "pc-1280x720",
+        "accepted": true,
+        "refresh": {
+          "sameOwner": true,
+          "sameNamesAndIds": true,
+          "sameMenu": true,
+          "statsChanged": true,
+          "deepSigChanged": true,
+          "domEpochs": [
+            1,
+            2,
+            3
+          ],
+          "deepSigNeverClearedByFixture": true,
+          "accepted": true
+        },
+        "scroll": {
+          "changed": true,
+          "max": 152,
+          "independentToolPane": true,
+          "footerStable": true,
+          "lastRowVisible": true,
+          "accepted": true
+        },
+        "errors": 0,
+        "failedRequests": 0,
+        "states": [
+          {
+            "mode": "standard",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "rows": 12,
+            "summaries": 12,
+            "previewButtons": 0,
+            "firstSummary": "装备 · 武力 +0 · 智力 +255 · 移动 +0",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            },
+            "screenshot": {
+              "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-standard-v1.png",
+              "bytes": 135224,
+              "sha256": "865768f4303952df19863668227d09d24c19c51889f1ef80c2591635aab70951"
+            },
+            "raw": {
+              "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-standard-raw-v1.json",
+              "bytes": 140917,
+              "sha256": "0671e70cab19eb78d8a4123b50c6dd286935339a326dc92cc330cd10520fecfa"
+            },
+            "dom": {
+              "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-standard-v1.dom.html",
+              "bytes": 17062,
+              "sha256": "bfaee7ec6d7a3efc8f7539d7e9d6646b2d8c6a2c97a1e20d7c49b7dee3fb9604"
+            }
+          },
+          {
+            "mode": "updated",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "rows": 12,
+            "summaries": 12,
+            "previewButtons": 0,
+            "firstSummary": "使用 · 武力 +255 · 智力 +0 · 移动 +255",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            },
+            "screenshot": {
+              "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-updated-v1.png",
+              "bytes": 135657,
+              "sha256": "9a431baf1f3534ccee627a2b3c866c78137833aa7a40292a795ed1e6cb61fb8e"
+            },
+            "raw": {
+              "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-updated-raw-v1.json",
+              "bytes": 144064,
+              "sha256": "539ac1a5af5c9b10c12fcb389bc820eddd01006d15af35e9cd0f854814650391"
+            },
+            "dom": {
+              "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-updated-v1.dom.html",
+              "bytes": 17064,
+              "sha256": "e9c666ab570cbf4ad6a0b6cdbec281702c09871b0bf8d9754e1e0dad64b96369"
+            }
+          },
+          {
+            "mode": "ineligible",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "rows": 12,
+            "summaries": 0,
+            "previewButtons": 0,
+            "firstSummary": null,
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            },
+            "screenshot": {
+              "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-ineligible-v1.png",
+              "bytes": 104922,
+              "sha256": "7a70559592a4c821be11e3304352d4d8c9ce72bae685067d8f3d04afbd0391f7"
+            },
+            "raw": {
+              "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-ineligible-raw-v1.json",
+              "bytes": 101557,
+              "sha256": "236237d1cb3dfed150b51ac4a4bfdcbc9984e90ab03f361e048a4d6b975c04a7"
+            },
+            "dom": {
+              "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-ineligible-v1.dom.html",
+              "bytes": 13339,
+              "sha256": "9f6d56c8a98d833dccda22ada8fb42d857d75c4037b03fe6d2cee0d4ed2e51a7"
+            }
+          }
+        ]
+      },
+      {
+        "name": "mobile-844x390",
+        "accepted": true,
+        "refresh": {
+          "sameOwner": true,
+          "sameNamesAndIds": true,
+          "sameMenu": true,
+          "statsChanged": true,
+          "deepSigChanged": true,
+          "domEpochs": [
+            1,
+            2,
+            3
+          ],
+          "deepSigNeverClearedByFixture": true,
+          "accepted": true
+        },
+        "scroll": {
+          "changed": true,
+          "max": 624,
+          "independentToolPane": true,
+          "footerStable": true,
+          "lastRowVisible": true,
+          "accepted": true
+        },
+        "errors": 0,
+        "failedRequests": 0,
+        "states": [
+          {
+            "mode": "standard",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "rows": 12,
+            "summaries": 12,
+            "previewButtons": 12,
+            "firstSummary": "装备 · 武力 +0 · 智力 +255 · 移动 +0",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            },
+            "screenshot": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-standard-v1.png",
+              "bytes": 72827,
+              "sha256": "1f63a75e84247174a919172b20ecfb4883af087e4d59d0874dba1923140cca9c"
+            },
+            "raw": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-standard-raw-v1.json",
+              "bytes": 155923,
+              "sha256": "16257d171d2cb9d5ea08d5d95fc9b41c9da35b8b1c752e54a77414cbecc1fc0a"
+            },
+            "dom": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-standard-v1.dom.html",
+              "bytes": 26950,
+              "sha256": "549fe7ca0f2f94ba963cfc8885ccf5046444bfd7298dfe2c58c4eff341f65501"
+            }
+          },
+          {
+            "mode": "updated",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "rows": 12,
+            "summaries": 12,
+            "previewButtons": 12,
+            "firstSummary": "使用 · 武力 +255 · 智力 +0 · 移动 +255",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            },
+            "screenshot": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-updated-v1.png",
+              "bytes": 69660,
+              "sha256": "d1642f6cad83489995e1bbbde68aeacc13d6b3ce1c196ac87797ba33948593ba"
+            },
+            "raw": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-updated-raw-v1.json",
+              "bytes": 159982,
+              "sha256": "745953ce9df2391084fb5a5f664b548285a9ed6ac0f56d4d71d9191bc9bb5bad"
+            },
+            "dom": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-updated-v1.dom.html",
+              "bytes": 26952,
+              "sha256": "41fb5b017054b17d9e140bc0f8fb2843499be3ec6df56ce922678b677658c41d"
+            }
+          },
+          {
+            "mode": "ineligible",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "rows": 12,
+            "summaries": 0,
+            "previewButtons": 12,
+            "firstSummary": null,
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            },
+            "screenshot": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-ineligible-v1.png",
+              "bytes": 71048,
+              "sha256": "29a22b2110a12e61a5208d4fae77f876a3ac843e184033586c840701081865ce"
+            },
+            "raw": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-ineligible-raw-v1.json",
+              "bytes": 132898,
+              "sha256": "9f5ca7552abe185b39af15e6d28029c97efee5a2035533513a9463c39d3cc561"
+            },
+            "dom": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-ineligible-v1.dom.html",
+              "bytes": 23227,
+              "sha256": "8d90c05db03061605d3787cfcd0b9d10787c233f57619bd42ee93a649c7b22b0"
+            }
+          }
+        ]
+      },
+      {
+        "name": "mobile-667x375",
+        "accepted": true,
+        "refresh": {
+          "sameOwner": true,
+          "sameNamesAndIds": true,
+          "sameMenu": true,
+          "statsChanged": true,
+          "deepSigChanged": true,
+          "domEpochs": [
+            1,
+            2,
+            3
+          ],
+          "deepSigNeverClearedByFixture": true,
+          "accepted": true
+        },
+        "scroll": {
+          "changed": true,
+          "max": 801,
+          "independentToolPane": true,
+          "footerStable": true,
+          "lastRowVisible": true,
+          "accepted": true
+        },
+        "errors": 0,
+        "failedRequests": 0,
+        "states": [
+          {
+            "mode": "standard",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "rows": 12,
+            "summaries": 12,
+            "previewButtons": 12,
+            "firstSummary": "装备 · 武力 +0 · 智力 +255 · 移动 +0",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            },
+            "screenshot": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-standard-v1.png",
+              "bytes": 63189,
+              "sha256": "9bd4c00774aa14b18fdb0da94430ab4c6c39023fa03454e80570417531d5aac6"
+            },
+            "raw": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-standard-raw-v1.json",
+              "bytes": 167437,
+              "sha256": "0a9401b94516f700cf776cfce2b85941c2b5dc19f646f61286e5e61bfb341063"
+            },
+            "dom": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-standard-v1.dom.html",
+              "bytes": 26950,
+              "sha256": "58f0216184aa2fd4adcaf03a8814787bccb1faeb734b83b0034073c9340362c8"
+            }
+          },
+          {
+            "mode": "updated",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "rows": 12,
+            "summaries": 12,
+            "previewButtons": 12,
+            "firstSummary": "使用 · 武力 +255 · 智力 +0 · 移动 +255",
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            },
+            "screenshot": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-updated-v1.png",
+              "bytes": 60055,
+              "sha256": "fe0652a1bd5016d39930803a1c879e0cce6dd7476fabb04ebf3dcc991dcf3d8b"
+            },
+            "raw": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-updated-raw-v1.json",
+              "bytes": 171524,
+              "sha256": "5dee4211973ed61141cf7a1aa5d84daf23ae45ac7c1303f02ab84861b8374fec"
+            },
+            "dom": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-updated-v1.dom.html",
+              "bytes": 26952,
+              "sha256": "b04edfa62a45fc0e05043bfe93cbeeda8ccbc0c1e3b99f319b4575ef636adb67"
+            }
+          },
+          {
+            "mode": "ineligible",
+            "assessment": {
+              "accepted": true,
+              "text": true,
+              "geometry": true,
+              "preview": true,
+              "summaryLayout": true,
+              "chrome": true,
+              "isolation": true
+            },
+            "rows": 12,
+            "summaries": 0,
+            "previewButtons": 12,
+            "firstSummary": null,
+            "traps": {
+              "nativeKeys": [],
+              "nativeWrites": [],
+              "nativeActions": [],
+              "storageWrites": [],
+              "automaticClicks": [],
+              "hookCalls": [],
+              "lifecycle": [],
+              "wasm": [],
+              "bridge": [],
+              "library": []
+            },
+            "screenshot": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-ineligible-v1.png",
+              "bytes": 61613,
+              "sha256": "5e031d64a3e82592a2a2a52b0c8086953422ae8232ee826ce0f8d644634894c2"
+            },
+            "raw": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-ineligible-raw-v1.json",
+              "bytes": 140932,
+              "sha256": "48d0dd69fa51821b3c3c511592001ccfdd817f90ae9d4e7721de2e067ed5ba92"
+            },
+            "dom": {
+              "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-ineligible-v1.dom.html",
+              "bytes": 23227,
+              "sha256": "ebbfa1f3d4ae17f4933ae0be3a5081f488500250ababdae900455eba468e1765"
+            }
+          }
+        ]
+      }
+    ],
+    "rawEvidence": {
+      "path": "build/tool-list-summary-20261029-v118/preview-v1-raw.json",
+      "bytes": 1149036,
+      "sha256": "6a0ef7474c3b014a68906dbdadc3994ac30baac953e10a4570053de8eaf3b220"
+    },
+    "boundary": "Production fillDeepList and detail/highlight/group renderers only. Read-only explicit original-contract mock supplies stable 33 native tools, 38 cities, player king, current complete kind-4 menu DTO and incomplete five-property default goods DTO. Twelve rows include a long full name and equal names with distinct IDs. Fixture changes two tool values and then goods.custom, preserving menu owner and never clearing deepSig. PC route is goods0/赏赐; 844 mobile goods-person0/赏赐; 667 mobile person-goods1/没收. Only private mobileHost isAvailable capability assignment is added. Lifecycle/configure/start/bind, actual bridge/LIB/WASM/storage/save/gameplay/physical devices are excluded.",
+    "processBoundary": "Exactly one owned Chrome context/profile and one private ephemeral allowlist HTTP server; only owned pages/context/server closed. No existing browser/game/CDP/8080/process inventory accessed.",
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false,
+    "globalHdComplete": false,
+    "visualReview": {
+      "accepted": true,
+      "reviewCompleted": true,
+      "reviewedWith": "tools.view_image, detail original; each of the nine original PNGs inspected individually",
+      "screenshotsCaptured": 9,
+      "screenshotsVisuallyReviewed": 9,
+      "reviewedPaths": [
+        "build/tool-list-summary-20261029-v118/preview-pc-1280x720-standard-v1.png",
+        "build/tool-list-summary-20261029-v118/preview-pc-1280x720-updated-v1.png",
+        "build/tool-list-summary-20261029-v118/preview-pc-1280x720-ineligible-v1.png",
+        "build/tool-list-summary-20261029-v118/preview-mobile-844x390-standard-v1.png",
+        "build/tool-list-summary-20261029-v118/preview-mobile-844x390-updated-v1.png",
+        "build/tool-list-summary-20261029-v118/preview-mobile-844x390-ineligible-v1.png",
+        "build/tool-list-summary-20261029-v118/preview-mobile-667x375-standard-v1.png",
+        "build/tool-list-summary-20261029-v118/preview-mobile-667x375-updated-v1.png",
+        "build/tool-list-summary-20261029-v118/preview-mobile-667x375-ineligible-v1.png"
+      ],
+      "cases": [
+        {
+          "name": "pc-1280x720",
+          "statesReviewed": [
+            "standard",
+            "updated",
+            "ineligible"
+          ],
+          "accepted": true,
+          "notes": "Equipment/use semantics and 0/255 values are readable. The deliberately long full name occupies two lines, and capability summaries occupy two lines within their buttons. Updated state shows the independently scrolled list bottom and the changed current tool values in the fixed details pane. Custom fallback removes every semantic summary, retains full names and Return/LCD/Help controls."
+        },
+        {
+          "name": "mobile-844x390",
+          "statesReviewed": [
+            "standard",
+            "updated",
+            "ineligible"
+          ],
+          "accepted": true,
+          "notes": "Eligible list uses one inner column. All capability summaries and the long full name are readable; independent 64px View controls remain available. The updated bottom-of-list frame retains the fixed current-tool pane and Return/Help footer. Custom fallback returns to existing plain-name layout and retains the View controls without attaching standard semantic values."
+        },
+        {
+          "name": "mobile-667x375",
+          "statesReviewed": [
+            "standard",
+            "updated",
+            "ineligible"
+          ],
+          "accepted": true,
+          "notes": "The confiscation route retains one inner list column while summaries are eligible. The long full name and each capability summary wrap to at most two lines and stay inside the main button. The separate View column remains usable. The scrolled updated frame exposes the last tool rows while the details pane and Return/Help footer stay fixed. Custom fallback removes all semantic summaries."
+        }
+      ],
+      "limits": [
+        "The native-custom fallback preserves the existing narrow two-column plain-name layout; the deliberately extreme long mock name wraps over more lines there. This fallback has no standard summary and does not clip or overflow the button.",
+        "Right-pane content can scroll independently at short mobile heights; no property-page control was invoked.",
+        "Only controlled production renderer DOM/CSS was exercised. This supplies no real gameplay, natural menu lifecycle, real device or full HD acceptance."
+      ],
+      "actualGameplayAccepted": false,
+      "realDeviceAccepted": false,
+      "globalHdComplete": false
+    },
+    "visualReviewPin": {
+      "path": "build/tool-list-summary-20261029-v118/preview-visual-review-v1.json",
+      "bytes": 3236,
+      "sha256": "a0cac0ad782440a10c96db4e243e99b6808d7d63353b140385fcea9febd5df6a"
+    },
+    "evidenceScripts": [
+      {
+        "path": "build/tool-list-summary-20261029-v118/preview-v1.mjs",
+        "bytes": 15948,
+        "sha256": "56a95098d691ea03558b80f0a3791269364df8b532969ad347b9de902505f606"
+      },
+      {
+        "path": "build/tool-list-summary-20261029-v118/preview-fixture-v1.js",
+        "bytes": 9422,
+        "sha256": "306662ec84fd3fc2501355f4c13651a2f1697c2b6142914476c975c31053d221"
+      },
+      {
+        "path": "build/tool-list-summary-20261029-v118/preview-collect-v1.js",
+        "bytes": 6552,
+        "sha256": "ef84e4f4931675530135f42f5391b84dac725685fddd9baa5ce604511e696f09"
+      },
+      {
+        "path": "build/tool-list-summary-20261029-v118/preview-finalize-v1.mjs",
+        "bytes": 1787,
+        "sha256": "3e920ed32451b4d4e23cf1590fd4292c1f034c4e976b047a2a22dfd6b010c245"
+      }
+    ],
+    "sourcePinsVerifiedAfterReview": true,
+    "pins": [
+      {
+        "path": "pc.html",
+        "bytes": 32343,
+        "sha256": "1c695eb978ee702c3d72b1b200e13bf614f37338383106b5d3fa30a6adb9b532"
+      },
+      {
+        "path": "m.html",
+        "bytes": 23680,
+        "sha256": "49bf86df0b6bd4096afdda8c83f07bf73c4a7774240852dc7c4ec99ccf9750ca"
+      },
+      {
+        "path": "css/flex.css",
+        "bytes": 11480,
+        "sha256": "362ebb627e1453bb074f6c71afbff91832d0cab18ef962fdc813b2cadb69cace"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 3008,
+        "sha256": "5e6e733829fb36da8bbe46187d7fea6af2c27d214ef27ca23c1016d495be4bf5"
+      },
+      {
+        "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+      },
+      {
+        "path": "css/hd-graphics.css",
+        "bytes": 4567,
+        "sha256": "5941d014ada1e3fcc889031640dde97fa1f542d5c213c1e62ae0f7dc29e2d43a"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 5226,
+        "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 16741,
+        "sha256": "709197bf4773916eefbce6e1573866945895cb4f9d33e896793cbfa32cbf9436"
+      },
+      {
+        "path": "css/hd-battle.css",
+        "bytes": 9203,
+        "sha256": "a193bdf938a16b4741251ec6a670872fe3cfcf899592aa69461b438ef51ffab1"
+      },
+      {
+        "path": "css/hd-system-ui.css",
+        "bytes": 7088,
+        "sha256": "c489fef770a3116836380afbce5ccb5f4eef5e7bf18d758f9609c041c6bfb50d"
+      },
+      {
+        "path": "css/hd-minimap.css",
+        "bytes": 4222,
+        "sha256": "716253711aa10523e7ac61d0afe0d80974138dc32409681d5a9cc382379037ec"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 10606,
+        "sha256": "b7a2aa86d3dababc9ab246a804181c3c57ebdc6b94ce5d992705fcf795c97d5c"
+      },
+      {
+        "path": "css/hd-spe.css",
+        "bytes": 3150,
+        "sha256": "bc462f1197dfc69c9d5a15403207630ef79886f79dc979aa0ee5e23de672e221"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-battle-note.css",
+        "bytes": 2146,
+        "sha256": "b35da40a6a0535b7ed1ba33a103eaeed35fc51d5f314974a167a3fa196b966a3"
+      },
+      {
+        "path": "css/hd-battle-transition.css",
+        "bytes": 2896,
+        "sha256": "eee994dd0a8541dac4b3c7f11277326b3d6aa0dfb099131b7cd358bc4872573a"
+      },
+      {
+        "path": "css/hd-city-info.css",
+        "bytes": 2760,
+        "sha256": "7b57e13386736cac988f8573493da53d24e33c2ed54705f099478c0658179dd3"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "favicon.png",
+        "bytes": 7349,
+        "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 509405,
+        "sha256": "be9ccdeda67b6faeefa697e809dd59dece0f7326f8e2e43d323aeb808aef7c6d"
+      },
+      {
+        "path": "build/tool-list-summary-20261029-v118/preview-fixture-v1.js",
+        "bytes": 9422,
+        "sha256": "306662ec84fd3fc2501355f4c13651a2f1697c2b6142914476c975c31053d221"
+      },
+      {
+        "path": "build/tool-list-summary-20261029-v118/preview-collect-v1.js",
+        "bytes": 6552,
+        "sha256": "ef84e4f4931675530135f42f5391b84dac725685fddd9baa5ce604511e696f09"
+      },
+      {
+        "path": "build/tool-list-summary-20261029-v118/preview-v1.mjs",
+        "bytes": 15948,
+        "sha256": "56a95098d691ea03558b80f0a3791269364df8b532969ad347b9de902505f606"
+      },
+      {
+        "path": "build/tool-list-summary-20261029-v118/preview-finalize-v1.mjs",
+        "bytes": 1787,
+        "sha256": "3e920ed32451b4d4e23cf1590fd4292c1f034c4e976b047a2a22dfd6b010c245"
+      }
+    ],
+    "deliveryPinsVerified": 24,
+    "postPreviewMetadataChange": {
+      "path": ".gitattributes",
+      "before": {
+        "path": ".gitattributes",
+        "bytes": 63030,
+        "sha256": "0b349fc9233d0d3396d73cb72bfd30379c270fe3d102b90cb36bc83855c86e61"
+      },
+      "after": {
+        "path": ".gitattributes",
+        "bytes": 63167,
+        "sha256": "e5684823d7faf2fe4114940b163622fe45a4d2cf0d87f3c06f23812f72d2e782"
+      },
+      "onlyChange": "/docs/validation/m5-tool-list-summary-20261029-v118.md text eol=lf\n/docs/validation/m5-tool-list-summary-20261029-v118.json text eol=lf\n\n",
+      "renderingSourceChanged": false,
+      "coveredByFinalTargetedSourcePin": true
+    },
+    "originalPreview": {
+      "path": "build/tool-list-summary-20261029-v118/preview-v1.json",
+      "bytes": 22146,
+      "sha256": "6190736e48901b6456dfc59a2a50bffdbd95c1b7315cd2e1c437f5c12907d2a1"
+    },
+    "rootVisualReview": {
+      "accepted": true,
+      "reviewedAt": "2026-10-28T17:11:26.707Z",
+      "reviewedWith": "tools.view_image",
+      "individualScreenshotsViewed": 9,
+      "renderedSourcePinsStable": true,
+      "postPreviewMetadataChange": {
+        "path": ".gitattributes",
+        "before": {
+          "path": ".gitattributes",
+          "bytes": 63030,
+          "sha256": "0b349fc9233d0d3396d73cb72bfd30379c270fe3d102b90cb36bc83855c86e61"
+        },
+        "after": {
+          "path": ".gitattributes",
+          "bytes": 63167,
+          "sha256": "e5684823d7faf2fe4114940b163622fe45a4d2cf0d87f3c06f23812f72d2e782"
+        },
+        "onlyChange": "/docs/validation/m5-tool-list-summary-20261029-v118.md text eol=lf\n/docs/validation/m5-tool-list-summary-20261029-v118.json text eol=lf\n\n",
+        "renderingSourceChanged": false,
+        "coveredByFinalTargetedSourcePin": true
+      },
+      "rows": [
+        {
+          "size": "pc-1280x720",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-standard-v1.png",
+            "bytes": 135224,
+            "sha256": "865768f4303952df19863668227d09d24c19c51889f1ef80c2591635aab70951"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Two-column tool list keeps readable wrapped summaries, original names and independent details. Updated bottom scroll shows last rows with footer visible."
+        },
+        {
+          "size": "pc-1280x720",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-updated-v1.png",
+            "bytes": 135657,
+            "sha256": "9a431baf1f3534ccee627a2b3c866c78137833aa7a40292a795ed1e6cb61fb8e"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Two-column tool list keeps readable wrapped summaries, original names and independent details. Updated bottom scroll shows last rows with footer visible."
+        },
+        {
+          "size": "pc-1280x720",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-ineligible-v1.png",
+            "bytes": 104922,
+            "sha256": "7a70559592a4c821be11e3304352d4d8c9ce72bae685067d8f3d04afbd0391f7"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Summary fully removed and original names/details retained; footer and mobile preview buttons visible. Existing narrow fallback columns make the extreme mock long name wrap over several lines."
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-standard-v1.png",
+            "bytes": 72827,
+            "sha256": "1f63a75e84247174a919172b20ecfb4883af087e4d59d0874dba1923140cca9c"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Single inner list column, one-line bonus summary, complete tool name, 64px preview button and visible footer; updated bottom rows readable."
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-updated-v1.png",
+            "bytes": 69660,
+            "sha256": "d1642f6cad83489995e1bbbde68aeacc13d6b3ce1c196ac87797ba33948593ba"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Single inner list column, one-line bonus summary, complete tool name, 64px preview button and visible footer; updated bottom rows readable."
+        },
+        {
+          "size": "mobile-844x390",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-ineligible-v1.png",
+            "bytes": 71048,
+            "sha256": "29a22b2110a12e61a5208d4fae77f876a3ac843e184033586c840701081865ce"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Summary fully removed and original names/details retained; footer and mobile preview buttons visible. Existing narrow fallback columns make the extreme mock long name wrap over several lines."
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "standard",
+          "screenshot": {
+            "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-standard-v1.png",
+            "bytes": 63189,
+            "sha256": "9bd4c00774aa14b18fdb0da94430ab4c6c39023fa03454e80570417531d5aac6"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Single inner list column, summaries wrap over at most two lines; long mock name also fits two lines. Preview buttons and footer visible, independent details retain their own scroll."
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "updated",
+          "screenshot": {
+            "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-updated-v1.png",
+            "bytes": 60055,
+            "sha256": "fe0652a1bd5016d39930803a1c879e0cce6dd7476fabb04ebf3dcc991dcf3d8b"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Single inner list column, summaries wrap over at most two lines; long mock name also fits two lines. Preview buttons and footer visible, independent details retain their own scroll."
+        },
+        {
+          "size": "mobile-667x375",
+          "mode": "ineligible",
+          "screenshot": {
+            "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-ineligible-v1.png",
+            "bytes": 61613,
+            "sha256": "5e031d64a3e82592a2a2a52b0c8086953422ae8232ee826ce0f8d644634894c2"
+          },
+          "accepted": true,
+          "reviewedWith": "tools.view_image",
+          "notes": "Summary fully removed and original names/details retained; footer and mobile preview buttons visible. Existing narrow fallback columns make the extreme mock long name wrap over several lines."
+        }
+      ],
+      "onlyControlledDomCss": true,
+      "actualGameplayAccepted": false,
+      "realDeviceAccepted": false
+    }
+  },
+  "rootVisualReview": {
+    "accepted": true,
+    "reviewedAt": "2026-10-28T17:11:26.707Z",
+    "reviewedWith": "tools.view_image",
+    "individualScreenshotsViewed": 9,
+    "renderedSourcePinsStable": true,
+    "postPreviewMetadataChange": {
+      "path": ".gitattributes",
+      "before": {
+        "path": ".gitattributes",
+        "bytes": 63030,
+        "sha256": "0b349fc9233d0d3396d73cb72bfd30379c270fe3d102b90cb36bc83855c86e61"
+      },
+      "after": {
+        "path": ".gitattributes",
+        "bytes": 63167,
+        "sha256": "e5684823d7faf2fe4114940b163622fe45a4d2cf0d87f3c06f23812f72d2e782"
+      },
+      "onlyChange": "/docs/validation/m5-tool-list-summary-20261029-v118.md text eol=lf\n/docs/validation/m5-tool-list-summary-20261029-v118.json text eol=lf\n\n",
+      "renderingSourceChanged": false,
+      "coveredByFinalTargetedSourcePin": true
+    },
+    "rows": [
+      {
+        "size": "pc-1280x720",
+        "mode": "standard",
+        "screenshot": {
+          "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-standard-v1.png",
+          "bytes": 135224,
+          "sha256": "865768f4303952df19863668227d09d24c19c51889f1ef80c2591635aab70951"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Two-column tool list keeps readable wrapped summaries, original names and independent details. Updated bottom scroll shows last rows with footer visible."
+      },
+      {
+        "size": "pc-1280x720",
+        "mode": "updated",
+        "screenshot": {
+          "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-updated-v1.png",
+          "bytes": 135657,
+          "sha256": "9a431baf1f3534ccee627a2b3c866c78137833aa7a40292a795ed1e6cb61fb8e"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Two-column tool list keeps readable wrapped summaries, original names and independent details. Updated bottom scroll shows last rows with footer visible."
+      },
+      {
+        "size": "pc-1280x720",
+        "mode": "ineligible",
+        "screenshot": {
+          "path": "build/tool-list-summary-20261029-v118/preview-pc-1280x720-ineligible-v1.png",
+          "bytes": 104922,
+          "sha256": "7a70559592a4c821be11e3304352d4d8c9ce72bae685067d8f3d04afbd0391f7"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Summary fully removed and original names/details retained; footer and mobile preview buttons visible. Existing narrow fallback columns make the extreme mock long name wrap over several lines."
+      },
+      {
+        "size": "mobile-844x390",
+        "mode": "standard",
+        "screenshot": {
+          "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-standard-v1.png",
+          "bytes": 72827,
+          "sha256": "1f63a75e84247174a919172b20ecfb4883af087e4d59d0874dba1923140cca9c"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Single inner list column, one-line bonus summary, complete tool name, 64px preview button and visible footer; updated bottom rows readable."
+      },
+      {
+        "size": "mobile-844x390",
+        "mode": "updated",
+        "screenshot": {
+          "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-updated-v1.png",
+          "bytes": 69660,
+          "sha256": "d1642f6cad83489995e1bbbde68aeacc13d6b3ce1c196ac87797ba33948593ba"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Single inner list column, one-line bonus summary, complete tool name, 64px preview button and visible footer; updated bottom rows readable."
+      },
+      {
+        "size": "mobile-844x390",
+        "mode": "ineligible",
+        "screenshot": {
+          "path": "build/tool-list-summary-20261029-v118/preview-mobile-844x390-ineligible-v1.png",
+          "bytes": 71048,
+          "sha256": "29a22b2110a12e61a5208d4fae77f876a3ac843e184033586c840701081865ce"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Summary fully removed and original names/details retained; footer and mobile preview buttons visible. Existing narrow fallback columns make the extreme mock long name wrap over several lines."
+      },
+      {
+        "size": "mobile-667x375",
+        "mode": "standard",
+        "screenshot": {
+          "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-standard-v1.png",
+          "bytes": 63189,
+          "sha256": "9bd4c00774aa14b18fdb0da94430ab4c6c39023fa03454e80570417531d5aac6"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Single inner list column, summaries wrap over at most two lines; long mock name also fits two lines. Preview buttons and footer visible, independent details retain their own scroll."
+      },
+      {
+        "size": "mobile-667x375",
+        "mode": "updated",
+        "screenshot": {
+          "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-updated-v1.png",
+          "bytes": 60055,
+          "sha256": "fe0652a1bd5016d39930803a1c879e0cce6dd7476fabb04ebf3dcc991dcf3d8b"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Single inner list column, summaries wrap over at most two lines; long mock name also fits two lines. Preview buttons and footer visible, independent details retain their own scroll."
+      },
+      {
+        "size": "mobile-667x375",
+        "mode": "ineligible",
+        "screenshot": {
+          "path": "build/tool-list-summary-20261029-v118/preview-mobile-667x375-ineligible-v1.png",
+          "bytes": 61613,
+          "sha256": "5e031d64a3e82592a2a2a52b0c8086953422ae8232ee826ce0f8d644634894c2"
+        },
+        "accepted": true,
+        "reviewedWith": "tools.view_image",
+        "notes": "Summary fully removed and original names/details retained; footer and mobile preview buttons visible. Existing narrow fallback columns make the extreme mock long name wrap over several lines."
+      }
+    ],
+    "onlyControlledDomCss": true,
+    "actualGameplayAccepted": false,
+    "realDeviceAccepted": false
+  },
+  "preservation": {
+    "nativeSources": 128,
+    "runtimeArtifacts": 4,
+    "portraitMappings": 465,
+    "portraitImages": 222,
+    "preserved": [
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 120481,
+        "sha256": "1a250d760fa85788a939fa2e8386d04c6f2766c18c4c8b6d35e2be697e6ee5f6"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 234072,
+        "sha256": "d14a836a1bf1045ec920ab8996cfa40681a6841e0961cc6e9b16b54ba7d96f85"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 31196,
+        "sha256": "5f84319d35d1da372e1352d50f6bf71490adc6a806d7187de56a89a3bfbec03a"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 30377,
+        "sha256": "070ecd4412f981998f39af66a4e600db911fc6b689928d1add9f0e66108884ba"
+      },
+      {
+        "path": "css/hd-portraits.css",
+        "bytes": 1536,
+        "sha256": "5808f4dbd07c1301c9675231749bafef09623c646d1d339d7d67e1e8f333d22c"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 35364,
+        "sha256": "79ee34bc6a3910d800cb7142ede698a1dad5dbc29ad5c407237a8032b1d69555"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 165558,
+        "sha256": "4d516b7771dda321b98fc35111ce31b1b71da5de484626c89035cd4f2c29c183"
+      },
+      {
+        "path": "js/hd-city-plans.js",
+        "bytes": 12573,
+        "sha256": "8daf904721c232f448c96fe966774b99149b8f20f16bde329dba5e4d941e93c1"
+      }
+    ],
+    "oldTestsAppendOnly": true,
+    "oldPersonReaderUnchanged": true,
+    "heldBattleAccessed": false,
+    "heldBattleInputs": 0,
+    "primaryCheckoutEdited": false
+  },
+  "limits": {
+    "onlyControlledDomAndVm": true,
+    "browserRealGameStarted": false,
+    "naturalMenuLifecycleAccepted": false,
+    "realDeviceAccepted": false,
+    "performanceAccepted": false,
+    "fullSuiteRun": false,
+    "globalHdComplete": false,
+    "goalStillActive": true
+  }
+}

@@ -51,6 +51,7 @@ U32 g_hdDetailGeneration = 1;
 U8 g_hdBattleNoteProtocolVersion = BAYE_HD_BATTLE_NOTE_VERSION;
 U8 g_hdBattleNoteActive = 0, g_hdBattleNoteOutcome = 0;
 U16 g_hdBattleNoteWinner = 0xffff;
+U16 g_hdBattleNoteValue = 0;
 U32 g_hdBattleNoteSeq = 0, g_hdBattleNoteGeneration = 0;
 U8 g_hdBattleNoteText[BAYE_HD_BATTLE_NOTE_TEXT_MAX];
 U16 g_hdMenuIds[BAYE_HD_DETAIL_IDS_MAX];
@@ -174,6 +175,13 @@ U8 g_hdViewFactionGbk[64], g_hdViewFoodGbk[64];
 U16 g_hdViewRowPersons[10], g_hdViewRowArms[10], g_hdViewPointPersons[20];
 U8 g_hdViewRowSlots[10], g_hdViewRowNames[10 * 32], g_hdViewRowText[10 * 64];
 U8 g_hdViewPointSlots[20], g_hdViewPointX[20], g_hdViewPointY[20], g_hdViewPointState[20];
+U8 g_hdCityInfoProtocolVersion = BAYE_HD_CITY_INFO_VERSION;
+U8 g_hdCityInfoActive = 0, g_hdCityInfoComplete = 0, g_hdCityInfoCustom = 0, g_hdCityInfoWait = 0;
+U32 g_hdCityInfoSeq = 0, g_hdCityInfoSession = 0, g_hdCityInfoGeneration = 0, g_hdCityInfoInputSeq = 0;
+static U32 hdCityInfoRetirement = 1, hdCityInfoNextSession = 0;
+U8 g_hdCityInfoCity = 0xff, g_hdCityInfoPropertyCount = 0, g_hdCityInfoPageStart = 0;
+U8 g_hdCityInfoPageSize = 0, g_hdCityInfoRowCount = 0;
+U8 g_hdCityInfoTitleGbk[64], g_hdCityInfoRowIndices[32], g_hdCityInfoRowText[32 * 128];
 U8 g_hdMiniMapProtocolVersion = BAYE_HD_OVERVIEW_VERSION;
 U8 g_hdMiniMapActive = 0, g_hdMiniMapComplete = 0, g_hdMiniMapCustom = 0, g_hdMiniMapDefaultDraw = 0;
 U32 g_hdMiniMapSeq = 0, g_hdMiniMapGeneration = 0, g_hdMiniMapInputSeq = 0;
@@ -909,6 +917,146 @@ const U8* baye_hd_picture_resource(U16 id, U16 item, U32* length)
     return g_CBnkPtr + offset;
 }
 
+static void hd_city_info_notify(void)
+{
+    EM_ASM({
+        try { window.dispatchEvent(new CustomEvent('baye-hd-city-info')); } catch (e) {}
+    });
+}
+
+void baye_hd_city_info_retire(void)
+{
+    U8 active = g_hdCityInfoActive;
+    hdCityInfoRetirement = hd_next_input_seq(hdCityInfoRetirement);
+    g_hdCityInfoActive = g_hdCityInfoComplete = g_hdCityInfoCustom = g_hdCityInfoWait = 0;
+    g_hdCityInfoGeneration = g_hdCityInfoSession = g_hdCityInfoInputSeq = 0;
+    g_hdCityInfoCity = 0xff;
+    g_hdCityInfoPropertyCount = g_hdCityInfoPageStart = g_hdCityInfoPageSize = g_hdCityInfoRowCount = 0;
+    memset(g_hdCityInfoTitleGbk, 0, sizeof(g_hdCityInfoTitleGbk));
+    memset(g_hdCityInfoRowIndices, 0, sizeof(g_hdCityInfoRowIndices));
+    memset(g_hdCityInfoRowText, 0, sizeof(g_hdCityInfoRowText));
+    if (active) hd_city_info_notify();
+}
+
+static U8 hd_city_info_owner(const HdCityInfoSnapshot* snapshot)
+{
+    return snapshot && g_hdCityInfoActive && snapshot->generation == g_hdDetailGeneration &&
+        snapshot->generation == g_hdCityInfoGeneration && snapshot->session == g_hdCityInfoSession &&
+        snapshot->retirement == hdCityInfoRetirement;
+}
+
+void baye_hd_city_info_begin(HdCityInfoSnapshot* snapshot, U8 city)
+{
+    if (!snapshot) return;
+    baye_hd_city_info_retire();
+    memset(snapshot, 0, sizeof(*snapshot));
+    snapshot->generation = g_hdDetailGeneration;
+    snapshot->session = hdCityInfoNextSession = hd_next_input_seq(hdCityInfoNextSession);
+    snapshot->retirement = hdCityInfoRetirement;
+    snapshot->city = city;
+    g_hdCityInfoGeneration = snapshot->generation;
+    g_hdCityInfoSession = snapshot->session;
+    g_hdCityInfoInputSeq = 1;
+    g_hdCityInfoCity = city;
+    g_hdCityInfoActive = 1;
+    hd_city_info_notify();
+}
+
+void baye_hd_city_info_page(HdCityInfoSnapshot* snapshot, U8 city, U8 count, U8 start, U16 size)
+{
+    if (!snapshot) return;
+    snapshot->complete = count && start < count && size && size <= BAYE_HD_CITY_INFO_ROWS;
+    snapshot->city = city; snapshot->propertyCount = count; snapshot->pageStart = start;
+    snapshot->pageSize = size <= 255 ? (U8)size : 0;
+    snapshot->rowCount = 0;
+    memset(snapshot->title, 0, sizeof(snapshot->title));
+    memset(snapshot->rowIndices, 0, sizeof(snapshot->rowIndices));
+    memset(snapshot->rowText, 0, sizeof(snapshot->rowText));
+}
+
+static U8 hd_city_info_text(U8* output, U32 capacity, const U8* text, U32 sourceCapacity)
+{
+    U32 n, i;
+    if (!text || !sourceCapacity) return 0;
+    for (n = 0; n < sourceCapacity && text[n]; ++n) {}
+    if (n == sourceCapacity || n >= capacity) return 0;
+    for (i = 0; i < n; ++i) {
+        if (text[i] < 0x80) continue;
+        if (text[i] < 0x81 || text[i] > 0xfe || ++i >= n || text[i] < 0x40 ||
+            text[i] == 0x7f || text[i] > 0xfe) return 0;
+    }
+    memcpy(output, text, n + 1);
+    return 1;
+}
+
+void baye_hd_city_info_title(HdCityInfoSnapshot* snapshot, const U8* text, U32 capacity)
+{
+    if (!snapshot) return;
+    if (!hd_city_info_text(snapshot->title, sizeof(snapshot->title), text, capacity) || !snapshot->title[0])
+        snapshot->complete = 0;
+}
+
+void baye_hd_city_info_row(HdCityInfoSnapshot* snapshot, U16 index, const U8* text, U32 capacity)
+{
+    U8 row;
+    U8 scratch[BAYE_HD_CITY_INFO_TEXT] = {0};
+    if (!snapshot) return;
+    if (!hd_city_info_text(scratch, sizeof(scratch), text, capacity)) {
+        snapshot->complete = 0; return;
+    }
+    /* The native last page can draw extra empty rows. Preserve those calls,
+     * but never claim an out-of-range nonempty line as a known property. */
+    if (index >= snapshot->propertyCount) {
+        if (scratch[0]) snapshot->complete = 0;
+        return;
+    }
+    row = snapshot->rowCount;
+    if (row >= BAYE_HD_CITY_INFO_ROWS || index != (U16)snapshot->pageStart + row) {
+        snapshot->complete = 0; return;
+    }
+    snapshot->rowIndices[row] = (U8)index;
+    memcpy(snapshot->rowText + row * BAYE_HD_CITY_INFO_TEXT, scratch, sizeof(scratch));
+    snapshot->rowCount++;
+}
+
+void baye_hd_city_info_publish(const HdCityInfoSnapshot* snapshot)
+{
+    U16 expected;
+    if (!hd_city_info_owner(snapshot)) return;
+    expected = snapshot->propertyCount > snapshot->pageStart ? snapshot->propertyCount - snapshot->pageStart : 0;
+    if (expected > snapshot->pageSize) expected = snapshot->pageSize;
+    g_hdCityInfoCity = snapshot->city; g_hdCityInfoPropertyCount = snapshot->propertyCount;
+    g_hdCityInfoPageStart = snapshot->pageStart; g_hdCityInfoPageSize = snapshot->pageSize;
+    g_hdCityInfoRowCount = snapshot->rowCount;
+    g_hdCityInfoCustom = snapshot->custom;
+    g_hdCityInfoComplete = snapshot->complete && !snapshot->custom && snapshot->city < CITY_MAX &&
+        snapshot->city < 64 && snapshot->pageSize <= BAYE_HD_CITY_INFO_ROWS && snapshot->rowCount == expected;
+    memcpy(g_hdCityInfoTitleGbk, snapshot->title, sizeof(g_hdCityInfoTitleGbk));
+    memcpy(g_hdCityInfoRowIndices, snapshot->rowIndices, sizeof(g_hdCityInfoRowIndices));
+    memcpy(g_hdCityInfoRowText, snapshot->rowText, sizeof(g_hdCityInfoRowText));
+    g_hdCityInfoSeq = hd_next_input_seq(g_hdCityInfoSeq);
+    hd_city_info_notify();
+}
+
+void baye_hd_city_info_wait(const HdCityInfoSnapshot* snapshot, U8 wait)
+{
+    if (!hd_city_info_owner(snapshot)) return;
+    g_hdCityInfoWait = !!wait;
+    hd_city_info_notify();
+}
+
+void baye_hd_city_info_ack(const HdCityInfoSnapshot* snapshot)
+{
+    if (!hd_city_info_owner(snapshot)) return;
+    g_hdCityInfoInputSeq = hd_next_input_seq(g_hdCityInfoInputSeq);
+    hd_city_info_notify();
+}
+
+void baye_hd_city_info_end(const HdCityInfoSnapshot* snapshot)
+{
+    if (hd_city_info_owner(snapshot)) baye_hd_city_info_retire();
+}
+
 void baye_hd_view_retire(void)
 {
     hdViewRetirement = hd_next_input_seq(hdViewRetirement);
@@ -1194,6 +1342,11 @@ static void hd_battle_note_notify(void)
                 typeof window.BayeHdBattleNote.onEngineNote === 'function')
                 window.BayeHdBattleNote.onEngineNote();
         } catch (e) {}
+        try {
+            if (typeof window !== 'undefined' && window.BayeHdBattleTransition &&
+                typeof window.BayeHdBattleTransition.onEngineTransition === 'function')
+                window.BayeHdBattleTransition.onEngineTransition();
+        } catch (e) {}
     });
 }
 
@@ -1204,25 +1357,58 @@ void baye_hd_battle_note_retire(void)
     g_hdBattleNoteGeneration = g_hdDetailGeneration;
     g_hdBattleNoteOutcome = 0;
     g_hdBattleNoteWinner = 0xffff;
+    g_hdBattleNoteValue = 0;
     g_hdBattleNoteText[0] = 0;
     hd_battle_note_notify();
 }
 
 U32 baye_hd_battle_note_begin(U8 outcome, U16 winner, const U8* text)
 {
-    U32 limit = GamGetPersonCount();
+    U32 limit = (outcome >= 3 && outcome <= 5) ? 0 : GamGetPersonCount();
+    U32 seq;
     if (!g_hdDetailGeneration || !text || !text[0] ||
-        (outcome != 1 && outcome != 2) ||
+        (outcome < 1 || outcome > 5) ||
         (outcome == 1 && (!limit || winner >= limit || winner >= PERSON_MAX)) ||
-        (outcome == 2 && winner != 0xffff)) return 0;
+        (outcome != 1 && winner != 0xffff)) return 0;
     copy_gbk(g_hdBattleNoteText, sizeof(g_hdBattleNoteText), text);
     g_hdBattleNoteSeq = hd_next_input_seq(g_hdBattleNoteSeq);
+    seq = g_hdBattleNoteSeq;
     g_hdBattleNoteGeneration = g_hdDetailGeneration;
     g_hdBattleNoteOutcome = outcome;
     g_hdBattleNoteWinner = winner;
+    g_hdBattleNoteValue = 0;
     g_hdBattleNoteActive = 1;
     hd_battle_note_notify();
-    return g_hdBattleNoteSeq;
+    return seq;
+}
+
+U32 baye_hd_battle_stage_begin(U32 generation, U8 kind, U16 value, const U8* text)
+{
+    U32 seq, number = 0, length = 0;
+    if (!generation || generation != g_hdDetailGeneration || (kind != 6 && kind != 7)) return 0;
+    if (g_hdBattleNoteActive || g_hdReportActive || g_hdHelpActive || g_hdMenuActive || g_hdQtyActive) return 0;
+    if (kind == 6) {
+        if (value < 1 || value > 5 || (text && text[0])) return 0;
+    } else {
+        /* The actual native U16 day buffer is six bytes, including its NUL.
+         * Refuse an incomplete source instead of extending its reads. */
+        if (!text) return 0;
+        for (; length < 6 && text[length]; ++length) {
+            if (text[length] < '0' || text[length] > '9') return 0;
+            number = number * 10 + text[length] - '0';
+        }
+        if (!length || length == 6 || number != value || (length > 1 && text[0] == '0')) return 0;
+    }
+    copy_gbk(g_hdBattleNoteText, sizeof(g_hdBattleNoteText), kind == 6 ? (const U8*)"" : text);
+    g_hdBattleNoteSeq = hd_next_input_seq(g_hdBattleNoteSeq);
+    seq = g_hdBattleNoteSeq;
+    g_hdBattleNoteGeneration = generation;
+    g_hdBattleNoteOutcome = kind;
+    g_hdBattleNoteWinner = 0xffff;
+    g_hdBattleNoteValue = value;
+    g_hdBattleNoteActive = 1;
+    hd_battle_note_notify();
+    return seq;
 }
 
 void baye_hd_battle_note_end(U32 generation, U32 seq)
@@ -1286,6 +1472,7 @@ void baye_hd_goods_custom(U32 generation, U32 seq, U16 tool)
 
 void baye_hd_set_ready(U8 ready)
 {
+    baye_hd_city_info_retire();
     baye_hd_view_retire();
     baye_hd_mini_map_retire();
     /* A new LIB/game may share this browser. Invalidate old input tokens. */
@@ -1323,6 +1510,9 @@ void baye_hd_world_commit(void)
 
 void baye_hd_set_report(const U8* gbk, U16 person, U8 kind)
 {
+    if (g_hdBattleNoteActive && (g_hdBattleNoteOutcome == 6 || g_hdBattleNoteOutcome == 7))
+        baye_hd_battle_note_retire();
+    baye_hd_city_info_retire();
     baye_hd_attack_retire();
     baye_hd_skill_retire();
     baye_hd_view_retire();
@@ -1423,6 +1613,9 @@ static U32 hd_next_input_seq(U32 seq)
 
 void baye_hd_report_begin(U8 kind)
 {
+    if (g_hdBattleNoteActive && (g_hdBattleNoteOutcome == 6 || g_hdBattleNoteOutcome == 7))
+        baye_hd_battle_note_retire();
+    baye_hd_city_info_retire();
     hd_ai_retire(); hd_status_retire();
     baye_hd_attack_retire();
     baye_hd_skill_retire();
@@ -1458,6 +1651,7 @@ void baye_hd_report_end(void)
 
 void baye_hd_record_begin(U8 mode, U8 index, U8 count)
 {
+    baye_hd_city_info_retire();
     g_hdRecordActive = 1;
     g_hdRecordMode = mode;
     g_hdRecordIndex = index;
@@ -1485,6 +1679,7 @@ void baye_hd_fight_actor(U8 actor)
 
 void baye_hd_fight_input_begin(U8 kind)
 {
+    baye_hd_city_info_retire();
     if (kind != BAYE_HD_FIGHT_INPUT_VIEW) baye_hd_view_retire();
     if (kind == BAYE_HD_FIGHT_INPUT_PICK) {
         hdFightSelectedActor = 0xff;
@@ -1497,6 +1692,7 @@ void baye_hd_fight_input_begin(U8 kind)
 
 void baye_hd_fight_input_end(void)
 {
+    baye_hd_city_info_retire();
     baye_hd_view_retire();
     /* The legacy action mailbox has no scene token. Close it together with the
      * real input so a late action cannot become a system-menu selection. */
@@ -1520,6 +1716,7 @@ U8 baye_hd_take_fight_action(U16* choice)
 
 void baye_hd_map_input_begin(void)
 {
+    baye_hd_city_info_retire();
     baye_hd_mini_map_retire();
     g_hdMapInputSeq = hd_next_input_seq(g_hdMapInputSeq);
 }
@@ -1540,6 +1737,9 @@ void baye_hd_menu_scope_default(U8 context, U8 kind)
 
 void baye_hd_menu_begin(void)
 {
+    if (g_hdBattleNoteActive && (g_hdBattleNoteOutcome == 6 || g_hdBattleNoteOutcome == 7))
+        baye_hd_battle_note_retire();
+    baye_hd_city_info_retire();
     baye_hd_view_retire();
     baye_hd_mini_map_retire();
     hd_menu_ids_clear();
@@ -3192,6 +3392,9 @@ static void hd_maker_spe_end(const HdSpeScope* scope, U8 reason, U8 key)
 
 void baye_hd_set_help(const U8* gbk)
 {
+    if (gbk && g_hdBattleNoteActive && (g_hdBattleNoteOutcome == 6 || g_hdBattleNoteOutcome == 7))
+        baye_hd_battle_note_retire();
+    baye_hd_city_info_retire();
     if (gbk) { hd_ai_retire(); hd_status_retire(); }
     baye_hd_view_retire();
     baye_hd_mini_map_retire();
@@ -3204,6 +3407,8 @@ void baye_hd_help_publish(const HdHelpSnapshot* snapshot, const U8* text)
 {
     if (!snapshot || snapshot->generation != g_hdDetailGeneration ||
         g_hdFightInputKind != BAYE_HD_FIGHT_INPUT_HELP) return;
+    if (g_hdBattleNoteActive && (g_hdBattleNoteOutcome == 6 || g_hdBattleNoteOutcome == 7))
+        baye_hd_battle_note_retire();
     hd_menu_ids_clear();
     hd_help_detail_clear();
     g_hdHelpGeneration = snapshot->generation;
@@ -3631,6 +3836,9 @@ void baye_hd_spe_invalidate(void)
 
 void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
 {
+    if (active && g_hdBattleNoteActive && (g_hdBattleNoteOutcome == 6 || g_hdBattleNoteOutcome == 7))
+        baye_hd_battle_note_retire();
+    if (active) baye_hd_city_info_retire();
     if (active) { hd_ai_retire(); hd_status_retire(); }
     if (active) baye_hd_person_properties_retire();
     g_hdQtyValue = value;
@@ -3641,6 +3849,9 @@ void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
 
 U32 baye_hd_qty_begin(void)
 {
+    if (g_hdBattleNoteActive && (g_hdBattleNoteOutcome == 6 || g_hdBattleNoteOutcome == 7))
+        baye_hd_battle_note_retire();
+    baye_hd_city_info_retire();
     hd_ai_retire(); hd_status_retire();
     baye_hd_person_properties_retire();
     g_hdQtySession = hd_next_input_seq(g_hdQtySession);
@@ -3693,6 +3904,7 @@ void baye_hd_qty_invalidate(void)
 
 void baye_hd_set_map_pick(U8 active)
 {
+    if (active) baye_hd_city_info_retire();
     if (!active) baye_hd_mini_map_retire();
     g_hdMapPick = active;
     EM_ASM({
@@ -3851,6 +4063,7 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdBattleNoteGeneration, U32);
     DEFADDF(g_hdBattleNoteOutcome, U8);
     DEFADDF(g_hdBattleNoteWinner, U16);
+    DEFADDF(g_hdBattleNoteValue, U16);
     DEFADD_GBKARR(g_hdBattleNoteText, sizeof(g_hdBattleNoteText));
     DEFADD_U16ARR(g_hdMenuIds, BAYE_HD_DETAIL_IDS_MAX);
     DEFADDF(g_hdMenuIdsCount, U16);

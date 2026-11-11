@@ -7,9 +7,10 @@
  * --staged serves the four build/wasm/src loader artifacts without installing.
  * Asset previews are explicitly manual and never count as runtime identities.
  * The real game suite uses native menus, actual city queues and real march
- * orders. It covers representatives in each period, not all 39 in battle.
- * --allow-partial is a development baseline; final acceptance requires 39 HD
- * slots. HTTP missing/delayed responses never rename or replace assets.
+ * orders. It covers representatives in each period, not every portrait in battle.
+ * --allow-partial is a development baseline; final acceptance requires every
+ * manifest HD slot, including the 39 historical pilots. HTTP missing/delayed
+ * responses never rename or replace assets.
  */
 import assert from 'node:assert/strict';
 import http from 'node:http';
@@ -37,7 +38,7 @@ const snapshots=new Map(),missing=new Set(),pendingResponses=[];
 let delayedPath=null;
 const report={startedAt:new Date().toISOString(),staged,assetsOnly,allowPartial,requestedPeriods,
     sources:{},requests:[],assets:[],fallbacks:[],sessions:[],contexts:[],phases:[],exceptions:[],console:[],dialogs:[],blocked:[],
-    scope:'39 genuine HD PNG loading matrix; native three-context representatives by period; VM tests cover all manifest identities'};
+    scope:'Every manifest HD PNG including 39 historical pilots; native three-context representatives by period; VM tests cover all manifest identities'};
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8',
     '.json':'application/json; charset=utf-8','.wasm':'application/wasm','.png':'image/png','.jpg':'image/jpeg',
     '.jpeg':'image/jpeg','.lib':'application/octet-stream'};
@@ -62,9 +63,13 @@ function prepareAssets(){
     report.manifest=JSON.parse(snapshots.get('assets/hd-portraits/manifest.json').bytes.toString('utf8'));
     report.references=JSON.parse(snapshots.get('assets/hd-portraits/refs/index.json').bytes.toString('utf8'));
     assert.equal(report.manifest.libSha256,standardSha);assert.equal(report.references.libSha256,standardSha);
-    const entries=report.manifest.entries.filter(e=>e&&!e.missing);assert.equal(entries.length,39,'actual 39 period/person portrait slots');
+    const entries=report.manifest.entries.filter(e=>e&&!e.missing);
+    assert.ok(entries.length>=39,'all historical pilots and declared expansion slots');
+    assert.equal(entries.filter(e=>e.pilot===true).length,39,'actual 39 historical pilot identities');
+    report.expectedAssetCount=entries.length;report.historicalPilotCount=39;
     const keys=new Set();for(const e of entries){assert.ok(Number.isInteger(e.personId)&&e.personId>=0&&e.period>=1&&e.period<=4);
         assert.ok(!keys.has(e.period+':'+e.personId));keys.add(e.period+':'+e.personId);
+        assert.equal(e.pilot,report.manifest.pilotNames.includes(e.name),'historical pilot flag '+e.period+':'+e.personId);
         const period=report.references.periods.find(p=>p.period===e.period),person=period.people.find(p=>p.id===e.personId&&!p.skipped);
         assert.ok(person);assert.equal(person.name,e.name);assert.equal(e.ref,'refs/'+person.file);
         const rel='assets/hd-portraits/'+e.hd,bytes=snapshots.get(rel)?.bytes;
@@ -76,7 +81,7 @@ function prepareAssets(){
         assert.ok(width>100&&height>100,'HD PNG is genuinely larger than native ref '+rel);
         report.assets.push({period:e.period,personId:e.personId,name:e.name,path:rel,width,height,sha256:sha(bytes)});
     }
-    if(!allowPartial)assert.equal(report.assets.length,39);
+    if(!allowPartial)assert.equal(report.assets.length,report.expectedAssetCount);
 }
 const previewHtml=`<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="/css/hd-portraits.css"></head>
 <body data-hd-portrait-manual="1"><figure id="hd-portrait" class="hd-portrait" hidden><img id="hd-portrait-img"><figcaption id="hd-portrait-cap"></figcaption></figure>
@@ -172,9 +177,11 @@ async function standalonePages(cdp,origin){await cdp.send('Page.navigate',{url:o
     const ref=await waitFor(cdp,'shipped smoke nonpilot real reference','window.__hdPortraitSmoke');assert.equal(ref.ok,true);assert.equal(ref.previewOnly,true);
     assert.equal(ref.actualMode,'ref');assert.equal(ref.personId,nonpilot.personId);assert.equal(ref.period,nonpilot.period);
     await cdp.send('Page.navigate',{url:origin+'/assets/hd-portraits/review.html'});
-    await waitFor(cdp,'actual material comparison 39 cards','document.querySelectorAll("#gallery article").length===39');
-    const cards=[];for(let i=0;i<39;i++){await evaluate(cdp,`document.querySelectorAll('#gallery article')[${i}].scrollIntoView({block:'center'})`);
-        const expected=report.manifest.entries.filter(e=>!e.missing).sort((a,b)=>a.period-b.period||a.personId-b.personId)[i];
+    const expectedCards=report.manifest.entries.filter(e=>!e.missing).sort((a,b)=>a.period-b.period||a.personId-b.personId);
+    await waitFor(cdp,'actual material comparison '+expectedCards.length+' cards',
+        'document.querySelectorAll("#gallery article").length==='+expectedCards.length);
+    const cards=[];for(let i=0;i<expectedCards.length;i++){await evaluate(cdp,`document.querySelectorAll('#gallery article')[${i}].scrollIntoView({block:'center'})`);
+        const expected=expectedCards[i];
         const available=snapshots.has('assets/hd-portraits/'+expected.hd);
         if(available)await waitFor(cdp,'comparison HD and native pictures '+i,`(() => {const c=document.querySelectorAll('#gallery article')[${i}],i=c.querySelector('.current img'),n=c.querySelector('img.native');
             return i.complete&&i.naturalWidth>100&&n.complete&&n.naturalWidth>8;})()`);
@@ -441,7 +448,7 @@ async function main(){
             nativeCitySelections:report.contexts.filter(c=>c.context==='person-info').length,
             nativeBattleActors:report.contexts.filter(c=>c.context==='battle-note').length,
             lateImages:report.sessions.filter(s=>s.lateImage).length,controlledMissingFixtures:2,nonPilotRef:true,
-            all39ActuallyInBattle:false,unknownActualLib:!!report.unknownLibrary};
+            all39ActuallyInBattle:false,allManifestActuallyInBattle:false,unknownActualLib:!!report.unknownLibrary};
         if(!assetsOnly){assert.equal(report.coverage.nativeBattleActors,requestedPeriods.length);assert.deepEqual(report.coverage.realPeriods,requestedPeriods);}
         assert.deepEqual(report.exceptions,[],'zero uncaught browser exceptions');assert.deepEqual(report.dialogs,[],'no unexpected native dialogs');report.ok=true;
     }catch(error){report.ok=false;report.error=error.stack||String(error);process.exitCode=1;console.error(report.error);

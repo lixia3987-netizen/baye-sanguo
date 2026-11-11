@@ -11,6 +11,8 @@
         'g_hdMakerActive','g_hdRecordActive','g_hdQtyActive','g_hdResultOwnerKind','g_hdResultOwnerValid'];
     var ARMS = ['骑','步','弓','水','极','玄'];
     var STATES = ['正常','混乱','禁咒','定身','奇门','遁甲','石阵','潜踪','死亡'];
+    var TERRAIN_KINDS = ['grass','plain','hill','forest','village','city','tent','river'];
+    var TERRAIN_LABELS = ['草地','平原','山地','森林','村庄','城池','营寨','河流'];
     function uint(n, max) { return typeof n === 'number' && isFinite(n) && Math.floor(n) === n && n >= 0 && n <= (max === undefined ? 0xffffffff : max); }
     function key(value) { return JSON.stringify(value); }
     function createController(environment) {
@@ -22,7 +24,7 @@
         function battle() { return environment.BayeHdBattle; }
         function dialog() { return environment.BayeHdDialog; }
         function detailTicket() {var d=dialog();return d && d.getBattleInputTicket ? d.getBattleInputTicket() : null;}
-        function ownsDetailSurface() {var t=readNativeTicket();return !!(t && [9,10].indexOf(t.kind)>=0);}
+        function ownsDetailSurface() {var d=detailTicket();if(d && d.kind==='report'){return true;}var t=readNativeTicket();return !!(t && [9,10].indexOf(t.kind)>=0);}
         function available() {
             return !!(doc() && doc().body && doc().body.classList.contains('hd-mobile-page') &&
                 !doc().hidden && focused && pageActive && environment.innerWidth > environment.innerHeight);
@@ -38,6 +40,7 @@
         }
         function observation(data, hd, id) {
             var fight=hd.fight(), menu=hd.menuItems(), f={}, raw={}, blockers={};
+            if (data.g_hdCityInfoActive!==undefined && data.g_hdCityInfoActive!==0) { return null; }
             if (!fight || !menu) { return null; }
             Object.keys(FIELDS).forEach(function (name) {
                 var value=data[FIELDS[name]];
@@ -122,7 +125,8 @@
                 var data=typeof b.ensureData==='function'?b.ensureData():b.data;
                 if(!data) { return null; }
                 var a=observation(data,hd,id), z=observation(data,hd,id), latest=identity();
-                if(!a || !z || key(a)!==key(z) || key(id)!==key(latest) || b.data!==data || hd.ready()!==true || !available()) { return null; }
+                if(!a || !z || key(a)!==key(z) || key(id)!==key(latest) || b.data!==data || hd.ready()!==true || !available() ||
+                    data.g_hdCityInfoActive!==undefined && data.g_hdCityInfoActive!==0) { return null; }
                 var stable=key(z), full=stable;
                 // Only the shared command's expected cursor/menu-index ACK may vary.
                 var sf=Object.assign({},z.fight), sm=Object.assign({},z.menu);delete sf.focusX;delete sf.focusY;delete sm.index;
@@ -151,7 +155,7 @@
                     if(p.tagName!=='BUTTON'){continue;}
                     var code=p.getAttribute('data-hd-view-key');
                     if(code!==null){return {type:'detail',target:p,code:Number(code)};}
-                    if(p.getAttribute('data-hd-dlg-back')!==null || p.getAttribute('data-hd-dlg-ok')!==null){return {type:'detail',target:p,code:40};}
+                    if(p.getAttribute('data-hd-dlg-back')!==null || p.getAttribute('data-hd-dlg-ok')!==null){var dt=detailTicket();return {type:'detail',target:p,code:dt && dt.kind==='report' && p.getAttribute('data-hd-dlg-ok')!==null?39:40};}
                 }return null;
             }
             var root=node('hd-battle');if(!root || !root.contains(target)){return null;}
@@ -160,15 +164,20 @@
                 if(p.tagName==='BUTTON'){
                     if(p.id==='hd-mobile-battle-mode'){return {type:'mode',target:p};}
                     if(p.id==='hd-mobile-battle-focus'){return {type:'focus',target:p};}
-                    for(var name of ['menu','sys','cancel','menu-exit','help','view']){if(p.getAttribute('data-hd-battle-'+name)!==null){return {type:name,target:p};}}
+                    for(var name of ['menu','sys','cancel','menu-exit','help','view','next']){if(p.getAttribute('data-hd-battle-'+name)!==null){return {type:name,target:p};}}
                 }
             }return null;
         }
         function stop(e) {if(e.cancelable!==false){e.preventDefault();}if(e.stopImmediatePropagation){e.stopImmediatePropagation();}else if(e.stopPropagation){e.stopPropagation();}}
+        function canNext(t) {
+            try {var b=battle();return !!(t && t.kind===1 && b && typeof b.clickNextUnit==='function' &&
+                typeof b.canSelectNextUnit==='function' && b.canSelectNextUnit()===true);}catch(e){return false;}
+        }
         function inputTicket(hit) {
             if(hit.type==='detail'){var d=dialog();return d && d.getBattleLcdPresentation && d.getBattleLcdPresentation()==='off'?detailTicket():null;}
             var t=readNativeTicket();if(!t){return null;}
             if((hit.type==='help'||hit.type==='view') && [1,2,5].indexOf(t.kind)<0){return null;}
+            if(hit.type==='next' && (hit.target.disabled || !canNext(t))){return null;}
             return hit.type==='mode'?t:t.presentation==='hd' && sharedShowsHd() && renderMatches(lastRender,t) && battle() && battle().getInputTicket?battle().getInputTicket():null;
         }
         function clampCamera(t) {if(!camera){return;}camera.x=Math.max(0,Math.min(camera.x,Math.max(0,t.native.fight.mapW-camera.cols)));camera.y=Math.max(0,Math.min(camera.y,Math.max(0,t.native.fight.mapH-camera.rows)));}
@@ -203,6 +212,7 @@
             if(hit.type==='help'||hit.type==='view'){b.handleKey({key:hit.type==='help'?'h':'s',keyCode:hit.type==='help'?72:83,
                 target:doc().body,preventDefault:function(){},stopPropagation:function(){},stopImmediatePropagation:function(){}});refresh();return;}
             if(hit.type==='focus'){lastFocus='';render(lastRender);return;}
+            if(hit.type==='next'){if(typeof b.clickNextUnit==='function'){b.clickNextUnit(ticket);}refresh();return;}
             if(hit.type==='sys'){b.openSystemMenu();}
             if(hit.type==='cancel' || hit.type==='menu-exit'){b.cancel();}
             if(hit.type==='menu'){b.pickMenu(Number(hit.target.getAttribute('data-hd-battle-menu')));}
@@ -244,6 +254,7 @@
             var mode=node('hd-mobile-battle-mode');if(mode){mode.textContent=battle() && battle().getMode()==='classic'?'HD战场':'经典战场';}
             var toggle=node('hd-mobile-battle-toggle');if(toggle){toggle.hidden=!active;toggle.textContent=mode?mode.textContent:'HD战场';toggle.setAttribute('aria-pressed',presentation==='hd'?'true':'false');}
             ['help','view'].forEach(function(name){var n=root && root.querySelector('[data-hd-battle-'+name+']');if(n){var t=readNativeTicket();n.disabled=presentation!=='hd'||!t||[1,2,5].indexOf(t.kind)<0;}});
+            var next=root && root.querySelector('[data-hd-battle-next]');if(next){next.disabled=presentation!=='hd'||!canNext(readNativeTicket());}
         }
         function sharedShowsHd() {
             var b=battle();return !!(b && typeof b.getLcdPresentation==='function' && b.getLcdPresentation()==='off');
@@ -264,21 +275,80 @@
                 lastData=t && t.data;lastStable=t?t.stableKey:'';
                 var presentation=t?(t.presentation==='hd' && sharedShowsHd() && renderMatches(lastRender,t)?'hd':'lcd'):'off';
                 var d=dialog();if(d && d.poll){d.poll();}
-                var dt=detailTicket(), detailPresentation=t && [9,10].indexOf(t.kind)>=0 ?
+                var dt=detailTicket(), reportDetail=dt && dt.kind==='report', detailPresentation=reportDetail || t && [9,10].indexOf(t.kind)>=0 ?
                     dt && d && d.getBattleLcdPresentation && d.getBattleLcdPresentation()==='off'?'hd':'lcd':'off';
                 if(detailOwner && !same(detailOwner,dt) && arm && arm.hit.type==='detail'){retire('detail-owner-changed');}
                 detailOwner=dt;
                 if(presentation!=='hd' && arm && !(detailPresentation==='hd' && arm.hit.type==='detail')){retire('LCD-handoff');}
                 if(presentation!=='hd'){lastRender=null;}
-                paint(presentation);
+                if(reportDetail && !t){presentation='lcd';}paint(presentation);
                 if(doc().body){doc().body.setAttribute('data-hd-mobile-battle-detail',detailPresentation);}
-                last={active:!!t,presentation:presentation,reason:!t?'unavailable':t.presentation==='lcd'?'native-LCD':'',
+                last={active:!!t || !!reportDetail,presentation:presentation,reason:!t?'unavailable':t.presentation==='lcd'?'native-LCD':'',
                     detailPresentation:detailPresentation,detailType:dt?dt.ownerType:null,
                     detailOwner:dt?{kind:dt.kind,seq:dt.seq,detailSeq:dt.detailSeq,generation:dt.generation,libraryGeneration:dt.libraryGeneration}:null,
                     personContext:null,inputKind:t && t.kind,inputSeq:t && t.seq,libraryGeneration:t && t.libraryGeneration,
                     camera:camera && Object.assign({},camera),blocked:blocked,armed:!!arm};
                 return last;
             }finally{refreshing=false;}
+        }
+        function renderFocusCard(snapshot,t) {
+            var d=doc(), details=node('hd-mobile-battle-details'), card=null;
+            if(!details){return true;}
+            function current() {
+                return doc()===d && node('hd-mobile-battle-details')===details && sharedShowsHd() &&
+                    renderMatches(snapshot,t) && doc()===d && node('hd-mobile-battle-details')===details;
+            }
+            try {
+                var f=t.native.fight, x=f.focusX, y=f.focusY, units=Array.isArray(snapshot.unitList)?snapshot.unitList:[], u=null;
+                for(var i=0;i<units.length;i++){
+                    var candidate=units[i];
+                    if(candidate && candidate.x===x && candidate.y===y && candidate.state!==8){u=candidate;break;}
+                }
+                function terrainLabel(value) {
+                    if(!value || value.x!==x || value.y!==y){return null;}
+                    var index=value.index;
+                    return uint(index,7) && value.kind===TERRAIN_KINDS[index] && value.label===TERRAIN_LABELS[index]
+                        ? TERRAIN_LABELS[index] : null;
+                }
+                // Reuse shared classifications only. A conflicting publication is
+                // unknown; no raw tile, movement or skill rule is inferred here.
+                var unitTerrain=u && u.terrain, focusTerrain=snapshot.focusTerrain,
+                    terrain=terrainLabel(unitTerrain || focusTerrain);
+                if(unitTerrain && focusTerrain && terrainLabel(focusTerrain)!==terrain){terrain=null;}
+                function number(value){return uint(value,65535)?String(value):'未读取';}
+                var rows=[];
+                if(u){
+                    var name=u.name, side=u.side, armType=u.armType, state=u.state, active=u.active;
+                    rows.push(['name',typeof name==='string' && name.trim()?name:'姓名未读取']);
+                    rows.push(['identity',(side==='player'?'我方':side==='enemy'?'敌方':'阵营未读取')+' · '+
+                        (uint(armType,5)?ARMS[armType]+'兵':'兵种未读取')+' · 位置 '+x+','+y]);
+                    rows.push(['vitals','兵力 '+number(u.arms)+' · HP '+number(u.hp)+' · MP '+number(u.mp)]);
+                    rows.push(['state','状态 '+(uint(state,7)?STATES[state]:'未读取')+' · 行动 '+
+                        (active===0?'待行动':active===1?'已行动':'未读取')]);
+                }else{rows.push(['position','位置 '+x+','+y]);}
+                rows.push(['terrain','地形 '+(terrain || '未知地形')]);
+                if(!u){rows.push(['hint','拖动查看战场 · 轻点选择']);}
+                var signature=key(rows), previous=details._hdMobileFocusCard;
+                if(details._hdMobileFocusSignature===signature && previous && previous.parentNode===details){return current();}
+                card=d.createElement('div');card.className='hd-mobile-battle-focus-card';
+                rows.forEach(function(row){
+                    var item=d.createElement(row[0]==='name'?'strong':'p');
+                    item.setAttribute('data-hd-mobile-focus-field',row[0]);item.textContent=row[1];card.appendChild(item);
+                });
+                // Classification, canvas and DOM callbacks can replace the native
+                // owner. Check the existing ticket after detached construction.
+                if(!current()){return false;}
+                details.replaceChildren(card);
+                if(!current()){
+                    if(card.parentNode===details){details.removeChild(card);}
+                    return false;
+                }
+                details._hdMobileFocusSignature=signature;details._hdMobileFocusCard=card;
+                return true;
+            }catch(e){
+                if(card && card.parentNode===details){details.removeChild(card);}
+                return false;
+            }
         }
         function render(snapshot) {
             if(drawing || !snapshot){return;}drawing=true;
@@ -318,8 +388,9 @@
                     ctx.font='10px sans-serif';ctx.fillText(u.active===1?'已行动':u.i===t.actor?'当前':STATES[u.state]||'待行动',px+cell/2,py+cell*.83,cell-8);
                 });
                 var f=t.native.fight;ctx.strokeStyle='#f0c75a';ctx.lineWidth=2;ctx.strokeRect(ox+(f.focusX-camera.x)*cell+1,oy+(f.focusY-camera.y)*cell+1,cell-2,cell-2);
-                var u=(snapshot.unitList||[]).find(function(v){return v.x===f.focusX && v.y===f.focusY && v.state!==8;}),details=node('hd-mobile-battle-details');
-                if(details){details.textContent=u?(u.name+' · '+(ARMS[u.armType]||'兵')+'兵\n兵力 '+u.arms+' · HP '+u.hp+' · MP '+u.mp+'\n'+(STATES[u.state]||'未知')+' · '+(u.active===1?'已行动':'待行动')):'位置 '+f.focusX+','+f.focusY+'\n拖动查看战场 · 轻点选择';}
+                if(!renderFocusCard(snapshot,t)){
+                    lastRender=null;paint('lcd');if(arm){retire('render-owner-changed');}return;
+                }
                 if(last){last.camera=Object.assign({},camera);last.presentation='hd';}
             }finally{drawing=false;}
         }
@@ -333,7 +404,9 @@
                 if(last.detailPresentation==='hd'){
                     var dt=detailTicket(), code=({ArrowUp:34,ArrowDown:35,ArrowLeft:36,ArrowRight:37,Enter:39,Escape:40,' ':40,Spacebar:40})[e.key];
                     if(code==null || e.isComposing){return;}
-                    stop(e);if(e.isTrusted===true&&!e.repeat&&dt && (dt.kind!==9 || code===39 || code===40)){dialog().dispatchBattleDetail(dt.kind===9?40:code,dt);refresh();}return;
+                    stop(e);if(e.isTrusted===true&&!e.repeat&&dt && (dt.kind!==9 || code===39 || code===40)){
+                        if(dt.kind==='report' && (e.key===' ' || e.key==='Spacebar')){code=39;}
+                        dialog().dispatchBattleDetail(dt.kind===9?40:code,dt);refresh();}return;
                 }
                 if(last.presentation!=='hd'){return;}
                 var recognized=/^(ArrowUp|ArrowDown|ArrowLeft|ArrowRight|Enter|Escape| |Spacebar|[hHfFsS0-9])$/.test(e.key||'') ||

@@ -681,7 +681,10 @@ FAR void PlcGraMsgBox(U8 *buf,U8 delay,U8 line)
     }
     gam_drawpic(MSGBOX_PIC, 0, x, y, 1);
     GamStrShowS(x + 10,y + 6,buf);
+    baye_hd_set_report(buf, 0xffff, BAYE_HD_REPORT_MSGBOX);
+    baye_hd_report_begin(BAYE_HD_REPORT_MSGBOX);
     GamDelay(delay * 100, 2);
+    baye_hd_report_end();
 }
 
 U16 sqrt32(U32 a)
