@@ -6,7 +6,7 @@
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * --scenario arrival queues two armies for the same enemy city and settles both in one month.
  * --mobile-width=667|844 uses mobile HD touch controls for victory, defense, arrival or save.
- * --scenario defense prepares a garrison and plays original incoming attacks to a victory.
+ * --scenario defense prepares garrisons and plays original incoming attacks to a victory.
  * --defense-any-outcome accepts either result after a playable defense settles back to the map.
  * --find-generals checks name search and sorting in the original recruitment and march lists.
  * --period=1|2|3|4 chooses the original period for probe, victory or save.
@@ -769,34 +769,35 @@ function realmChanges(before,after) {
     });
 }
 
-async function prepareArmy(cdp,fixture) {
+async function recruitArmy(cdp,fixture,label,reservedLeaders=[]) {
     const cityIndex=fixture.origin;
-    await openCity(cdp,cityIndex,'army-fixture');
+    await openCity(cdp,cityIndex,label);
     const before=await evaluate(cdp,worldExpression);
     const city=before.cities.find(c=>c.i===cityIndex);
-    const rootArmy=()=>click(cdp,'#hd-city-menu [data-hd-root="2"]');
-    await rootArmy();
+    await click(cdp,'#hd-city-menu [data-hd-root="2"]');
     await waitFor(cdp,'recruitment actual military submenu',`baye.hd.menuItems().active&&baye.hd.menuItems().context===1&&baye.hd.menuItems().kind===2&&baye.hd.menuItems().names[1]==='征兵'`);
     await click(cdp,'#hd-city-menu [data-hd-sub="1"]');
     const recruitments=[];
     let recruiterMenuSeq=null;
     for(let attempt=0;attempt<fixture.recruitments;attempt++) {
         assert.ok(await evaluate(cdp,`Number(baye.data.g_Cities[${cityIndex}].Money)>0`),'real recruitment '+attempt+' still has native money');
-        const live=await livePersonMenu(cdp,'recruitment '+attempt,recruiterMenuSeq),chooser=live.city;
-        const index=chooser.deepItems.length-1,auxiliary=chooser.deepItems[index].name;
+        const live=await livePersonMenu(cdp,'recruitment '+attempt,recruiterMenuSeq);
+        const recruiter=live.city.deepItems.findLast(person=>!reservedLeaders.includes(person.name));
+        assert.ok(recruiter,'a real recruiter is available while the chosen garrison leaders remain in the city');
+        const auxiliary=recruiter.name;
         const recruitmentQueue=await readCityPersons(cdp,cityIndex);
         const oldReserve=await evaluate(cdp,`Number(baye.data.g_Cities[${cityIndex}].MothballArms)`);
-        const auxiliaryId=Number(chooser.deepItems[index].pind);
+        const auxiliaryId=Number(recruiter.pind);
         assert.ok(Number.isInteger(auxiliaryId)&&auxiliaryId>=0,'recruitment exposes the actual zero-based PersonQueue identity');
-        await checkpoint(cdp,'army-fixture-recruit-person-'+attempt);
-        if(findGenerals&&attempt===0)await findMilitaryGeneral(cdp,live,chooser.deepItems[index],'recruitment');
+        await checkpoint(cdp,label+'-recruit-person-'+attempt);
+        if(findGenerals&&attempt===0)await findMilitaryGeneral(cdp,live,recruiter,'recruitment');
         if(findGenerals&&attempt===1)await assertFreshGeneralSearch(cdp,live.menu);
-        await click(cdp,personSelector(live.menu,chooser.deepItems[index]));
+        await click(cdp,personSelector(live.menu,recruiter));
         recruiterMenuSeq=live.menu.seq;
         await waitFor(cdp,'real recruitment GetArmy',`baye.hd.qty().active&&baye.hd.qty().min===0&&baye.hd.qty().max>0`);
         const qty=await evaluate(cdp,'baye.hd.qty()');
         assert.equal(qty.value,qty.max,'GetArmy presents its legitimate maximum by default');
-        await checkpoint(cdp,'army-fixture-recruit-quantity-'+attempt);
+        await checkpoint(cdp,label+'-recruit-quantity-'+attempt);
         await confirmCampaignQuantity(cdp);
         await waitFor(cdp,'recruitment actual reserve and order',`(() => {const d=baye.data,c=d.g_Cities[${cityIndex}],queue=Array.from({length:Number(c.Persons)},(_,i)=>Number(d.g_PersonsQueue[Number(c.PersonQueue)+i]));return Number(c.MothballArms)===${oldReserve+qty.value}&&!queue.includes(${auxiliaryId});})()`);
         const remaining=await readCityPersons(cdp,cityIndex);
@@ -809,45 +810,58 @@ async function prepareArmy(cdp,fixture) {
     await settleDomestic(cdp);
     const recruited=await evaluate(cdp,worldExpression);
     assert.equal(recruited.cities.find(c=>c.i===cityIndex).MothballArms,Number(city.MothballArms)+recruitments.reduce((n,p)=>n+p.qty,0),'native recruitment allocates exactly the confirmed troops to reserves');
-    await checkpoint(cdp,'army-fixture-reserve-recruited');
-    const afterMonth=await advanceCampaignMonth(cdp,'army-fixture-end-month');
-    assert.ok(afterMonth.year!==before.year||afterMonth.month!==before.month,'one explicit strategy end advances the real game date');
-    assert.ok(recruitments.every(p=>afterMonth.persons.some(v=>v.i===p.auxiliaryId)), 'the real recruit orders preserve their assigned generals');
-    const returned=await evaluate(cdp,`(() => {const d=baye.data,c=d.g_Cities[${cityIndex}],queue=Array.from({length:Number(c.Persons)},(_,i)=>Number(d.g_PersonsQueue[Number(c.PersonQueue)+i]));return [${recruitments.map(p=>p.auxiliaryId).join(',')}].every(i=>queue.includes(i));})()`);
-    assert.equal(returned,true,'one explicit month completes the native recruitment orders and returns generals');
-    await checkpoint(cdp,'army-fixture-recruiter-returned');
-    await openCity(cdp,cityIndex,'army-fixture-distribute');
-    await rootArmy();
+    await checkpoint(cdp,label+'-reserve-recruited');
+    return {...fixture,requestedRecruitments:fixture.recruitments,cityIndex,recruitments,before,recruited};
+}
+
+async function allocateArmy(cdp,{cityIndex,leaders},label) {
+    await openCity(cdp,cityIndex,label+'-distribute');
+    await click(cdp,'#hd-city-menu [data-hd-root="2"]');
     await waitFor(cdp,'distribution actual military submenu',`baye.hd.menuItems().active&&baye.hd.menuItems().context===1&&baye.hd.menuItems().kind===2&&baye.hd.menuItems().names[2]==='分配'`);
     await click(cdp,'#hd-city-menu [data-hd-sub="2"]');
     const allocations=[];
     let distributionMenuSeq=null;
-    for(const name of fixture.leaders) {
+    for(const name of leaders) {
         const current=await livePersonMenu(cdp,'distribution '+name,distributionMenuSeq),live=current.city;
         const at=live.deepItems.findIndex(p=>(p.name||p.label||String(p)).includes(name));
         assert.ok(at>=0,'the intended returned general is available for distribution: '+name);
         const personIndex=Number(live.deepItems[at].pind);
         assert.ok(Number.isInteger(personIndex)&&personIndex>=0,'distribution exposes the real selected general identity');
-        const general={i:personIndex,arms:await evaluate(cdp,`Number(baye.data.g_Persons[${personIndex}].Arms)`)};
+        const general=await evaluate(cdp,`({i:${personIndex},arms:Number(baye.data.g_Persons[${personIndex}].Arms),
+            reserve:Number(baye.data.g_Cities[${cityIndex}].MothballArms)})`);
         await click(cdp,personSelector(current.menu,live.deepItems[at]));
         distributionMenuSeq=current.menu.seq;
         await waitFor(cdp,'actual distribution GetArmy '+name,`baye.hd.qty().active&&baye.hd.qty().min===0&&baye.hd.qty().max>0`);
         const quantity=await evaluate(cdp,'baye.hd.qty()');
         assert.equal(quantity.value,quantity.max,'distribution presents its legitimate maximum');
-        await checkpoint(cdp,'army-fixture-distribute-'+general.i);
-        await confirmCampaignQuantity(cdp);
-        await waitFor(cdp,'real troops distributed '+name,`!baye.hd.qty().active&&Number(baye.data.g_Persons[${general.i}].Arms)===${quantity.value}`);
         assert.ok(quantity.value>general.arms,'distribution gives '+name+' more troops than the initial army');
+        await checkpoint(cdp,label+'-distribute-'+general.i);
+        await confirmCampaignQuantity(cdp);
+        await waitFor(cdp,'real troops distributed '+name,`!baye.hd.qty().active&&Number(baye.data.g_Persons[${general.i}].Arms)===${quantity.value}&&
+            Number(baye.data.g_Cities[${cityIndex}].MothballArms)===${general.reserve+general.arms-quantity.value}`);
         allocations.push({name,pind:general.i,before:general.arms,after:quantity.value,nativeMax:quantity.max});
     }
     await settleDomestic(cdp);
     const prepared=await evaluate(cdp,worldExpression);
-    assert.equal(allocations.length,fixture.leaders.length,'every chosen leader completes actual native troop allocation');
+    assert.equal(allocations.length,leaders.length,'every chosen leader completes actual native troop allocation');
     for(const allocation of allocations) {
         assert.equal(prepared.persons.find(p=>p.i===allocation.pind)?.Arms,allocation.nativeMax,'prepared leader retains exactly the confirmed native allocation maximum: '+allocation.name);
     }
-    report.armyFixture={...fixture,requestedRecruitments:fixture.recruitments,cityIndex,recruitments,before,recruited,afterMonth,allocations,prepared};
-    await checkpoint(cdp,'army-fixture-prepared-map');
+    await checkpoint(cdp,label+'-prepared-map');
+    return {allocations,prepared};
+}
+
+async function prepareArmy(cdp,fixture) {
+    const label='army-fixture';
+    const recruitment=await recruitArmy(cdp,fixture,label);
+    const {before,cityIndex,recruitments}=recruitment;
+    const afterMonth=await advanceCampaignMonth(cdp,label+'-end-month');
+    assert.ok(afterMonth.year!==before.year||afterMonth.month!==before.month,'one explicit strategy end advances the real game date');
+    assert.ok(recruitments.every(p=>afterMonth.persons.some(v=>v.i===p.auxiliaryId)), 'the real recruit orders preserve their assigned generals');
+    const returned=new Set((await readCityPersons(cdp,cityIndex)).map(person=>person.pind));
+    assert.ok(recruitments.every(person=>returned.has(person.auxiliaryId)),'one explicit month completes the native recruitment orders and returns generals');
+    await checkpoint(cdp,label+'-recruiter-returned');
+    report.armyFixture={...recruitment,afterMonth,...await allocateArmy(cdp,recruitment,label)};
 }
 
 async function recordBattleResultNote(cdp,label,expected) {
@@ -1868,7 +1882,6 @@ async function advanceCampaignMonth(cdp,label) {
 }
 
 async function defendCampaign(cdp) {
-    const fixture={origin:10,leaders:['李肃','侯成'],recruitments:2};
     const campaign=report.defenseCampaign={months:[]};
     await evaluate(cdp,`(() => {
         const observations=window.__campaignDefenseSettlements=[];
@@ -1877,7 +1890,22 @@ async function defendCampaign(cdp) {
             if(receipt.mode===0)observations.push({receipt,inputSeq:baye.hd.fight().inputSeq,world:${worldExpression}});
         });
     })()`);
-    await prepareArmy(cdp,fixture);
+    const changan={origin:10,leaders:['李肃','侯成'],recruitments:2};
+    if(mobileCampaignWidth===844&&!defenseAnyOutcome) {
+        const garrisons=[changan,{origin:15,leaders:['张辽','吕布'],recruitments:5},
+            {origin:20,leaders:['高顺'],recruitments:1}];
+        campaign.garrisons=[];
+        for(const fixture of garrisons) {
+            const label='garrison-'+fixture.origin;
+            const recruitment=await recruitArmy(cdp,fixture,label,fixture.leaders);
+            const allocation=await allocateArmy(cdp,recruitment,label);
+            assert.deepEqual([allocation.prepared.year,allocation.prepared.month],[recruitment.before.year,recruitment.before.month],
+                'the garrison receives its native recruits before the strategy month advances');
+            campaign.garrisons.push({...recruitment,...allocation});
+        }
+    } else {
+        await prepareArmy(cdp,changan);
+    }
     const completedDefense=()=>report.extraDefenses?.find(entry=>entry.initial&&entry.after&&
         (defenseAnyOutcome||entry.outcome===1&&
             entry.after.cities.find(city=>city.i===entry.cityIndex).Belong===entry.after.realm.playerBelong));
