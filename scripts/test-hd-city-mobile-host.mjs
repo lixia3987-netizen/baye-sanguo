@@ -750,6 +750,32 @@ function advanceToTarget(f) {
     Object.assign(f.raw,{g_hdMarchPhase:4,g_hdReportActive:0,g_hdMapPick:1,g_hdBattlePick:1});
     f.raw.g_hdMarchInputSeq++;
 }
+for(const kind of ['person-qty','person-city']) {
+    test('A mobile swipe keeps the current '+kind+' rows and drops the old press',()=>{
+        const f=mobileMarchFixture(1),dom=marchDom(f);
+        if(kind==='person-qty') {
+            Object.assign(f.raw,{g_hdMarchPhase:0,g_hdMarchSession:0,g_hdMarchSelected:0});
+            Object.assign(f.state,{deepKind:kind,deepLabel:'征兵',deepStep:0,battleMake:false,wizardStep:'none'});
+        }
+        f.internals.fill();
+        const row=dom.find('data-hd-deep'),owner=f.state.deepMenuOwner,before=JSON.stringify(f.raw);
+        assert.ok(row&&owner&&owner.kind===3);
+        dom.list.scrollTop=112;
+        f.state.deepPointerOwner={target:row};
+        f.api.retireInteraction('person-list-pan');
+        f.internals.fill();
+        assert.equal(f.state.deepMenuOwner.key,owner.key);
+        assert.equal(dom.find('data-hd-deep'),row);
+        assert.equal(dom.list.scrollTop,112);
+        assert.equal(f.state.deepPointerOwner,null);
+        assert.equal(JSON.stringify(f.raw),before);
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+        f.raw.g_hdMenuSeq++;
+        f.internals.fill();
+        assert.notEqual(f.state.deepMenuOwner.key,owner.key);
+        assert.equal(row.isConnected,false);
+    });
+}
 test('the current mobile target owner retires only its previous target-tip card without input',()=>{
     const f=mobileMarchFixture(3),dom=marchDom(f);dom.poll();
     const oldHint=dom.find('data-hd-march-hint'),oldDismiss=dom.find('data-hd-dismiss-march');

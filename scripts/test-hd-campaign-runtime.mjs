@@ -5,6 +5,7 @@
  *   node scripts/test-hd-campaign-runtime.mjs -- --artifact-dir build/campaign-runtime-smoke
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * --scenario arrival queues two armies for the same enemy city and settles both in one month.
+ * --mobile-width=667|844 runs the victory or arrival campaign through mobile HD touch controls.
  * --scenario captives --captive-order exercises one actual surrender order through month-end.
  * --captive-width=1280 selects a 720p desktop viewport for either captive flow.
  * --captive-mobile-width=667|844 saves the captured city, then loads and plays it in m.html.
@@ -23,6 +24,7 @@ import { fileURLToPath } from 'node:url';
 import {snapshotOwnedChrome,cleanupOwnedChrome} from './hd-runtime-owned-chrome.mjs';
 import {writeJsonAtomicSync} from './hd-runtime-json.mjs';
 import {battleResultNoteObservation,verifyBattleResultNote} from './hd-battle-hud-runtime-checks.mjs';
+import {createMobileCampaignInputs} from './hd-mobile-campaign-inputs.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -30,6 +32,10 @@ const scenarioFlag = process.argv.indexOf('--scenario');
 const scenario = scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
 assert.ok(['victory', 'arrival', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
 const arrivalScenario=scenario==='arrival';
+const mobileCampaignFlag=process.argv.find(arg=>arg.startsWith('--mobile-width='));
+const mobileCampaignWidth=Number(mobileCampaignFlag?.split('=')[1]??0);
+assert.ok(!mobileCampaignFlag||['victory','arrival'].includes(scenario)&&[667,844].includes(mobileCampaignWidth),
+    'Mobile campaign victory/arrival requires a 667px or 844px landscape viewport');
 const captiveScenario=scenario==='captives',preflightOnly=process.argv.includes('--preflight-only');
 const captiveOrder=process.argv.includes('--captive-order');
 const captiveUntilJoined=process.argv.includes('--captive-until-joined');
@@ -65,6 +71,7 @@ const captiveAssets=new Map(),captiveDirectories=['js','css','assets','vendor/iB
 const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 let captiveLib,runCaptiveInspection,captiveSampleOwned=async()=>{};
 let captiveMobileDocument=false;
+let mobileCampaignInput=null;
 const processIdentity=p=>({ProcessId:p.ProcessId,ParentProcessId:p.ParentProcessId,CreationDate:p.CreationDate,ExecutablePath:p.ExecutablePath});
 function walkCaptiveSources(directory){return fs.readdirSync(directory,{withFileTypes:true}).flatMap(i=>i.isDirectory()?walkCaptiveSources(path.join(directory,i.name)):[path.join(directory,i.name)]);}
 function freezeCaptiveAsset(rel){
@@ -204,6 +211,18 @@ async function waitFor(cdp, description, expression, timeout = 20000) {
     throw new Error('Timed out waiting for ' + description);
 }
 
+async function acknowledgeCampaignReport(cdp,native) {
+    const selector='#hd-dialog [data-hd-dlg-ok]';
+    if(!mobileCampaignInput)return click(cdp,selector);
+    const offset=await evaluate(cdp,'__runtimeEngineInputs.length');
+    const retired=`(() => {const r=baye.hd.report();return r.active!==1||r.seq!==${native.seq}||r.inputSeq!==${native.inputSeq};})()`;
+    if(!await click(cdp,selector,{retired}))return;
+    await waitFor(cdp,'native report acknowledgement',retired);
+    const keys=await evaluate(cdp,`__runtimeEngineInputs.slice(${offset}).map(input=>input.code)`);
+    assert.deepEqual(keys,[39],'A mobile report tap acknowledges exactly one current report');
+    report.mobileReportAcks??=[];report.mobileReportAcks.push({native,keys});
+}
+
 async function waitForGameProgress(cdp,description,expression,timeout=20000,nativeProgress=null) {
     const started=Date.now(),deadline=started+(nativeProgress?.maxTimeout??timeout);
     let lastProgress=started,previousNative=null;
@@ -257,7 +276,7 @@ async function waitForGameProgress(cdp,description,expression,timeout=20000,nati
                 if(current.active===1&&current.seq===native.seq&&current.inputSeq===native.inputSeq) {
                     report.progressReports??=[];
                     report.progressReports.push({description,owner:native});
-                    await click(cdp,'#hd-dialog [data-hd-dlg-ok]');
+                    await acknowledgeCampaignReport(cdp,native);
                 }
             }
         }
@@ -284,6 +303,8 @@ const snapshotExpression = `(() => {
         dialog: window.BayeHdDialog && BayeHdDialog.debugSnapshot(),
         overworld: window.BayeHdOverworld && BayeHdOverworld.debugSnapshot(),
         battle: window.BayeHdBattle && BayeHdBattle.debugSnapshot(),
+        mobile: location.pathname==='/m.html'?{map:window.BayeHdMobileMap?.snapshot(),city:window.BayeHdMobileCity?.snapshot(),
+            battle:window.BayeHdMobileBattle?.debugSnapshot(),system:window.BayeHdMobileSystem?.snapshot()}:null,
         bodyClass: document.body.className, lastHdCall: window.__bayeLastHdCall
     };
 })()`;
@@ -318,6 +339,7 @@ async function checkpoint(cdp, name, extra = null) {
 }
 
 async function key(cdp, name) {
+    assert.ok(!mobileCampaignInput,'The mobile campaign uses actual touch controls');
     report.inputs.push({ type:"key", key:name, at:new Date().toISOString() });
     const codes = { Enter: 13, Escape: 27, ArrowDown: 40, ArrowUp: 38, ArrowLeft: 37, ArrowRight: 39, h: 72, f: 70, s: 83, ' ': 32 };
     await cdp.send('Input.dispatchKeyEvent', { type: 'keyDown', key: name, code: name, windowsVirtualKeyCode: codes[name], nativeVirtualKeyCode: codes[name] });
@@ -339,8 +361,9 @@ async function captiveTap(cdp,point) {
     await delay(175);
 }
 
-async function click(cdp, selector) {
-    report.inputs.push({ type:captiveMobileDocument?'tap':'click', selector, at:new Date().toISOString() });
+async function click(cdp, selector, options) {
+    report.inputs.push({ type:captiveMobileDocument||mobileCampaignInput?'tap':'click', selector, at:new Date().toISOString() });
+    if(mobileCampaignInput)return mobileCampaignInput.click(selector,options);
     const expression=`(() => {
         const node = document.querySelector(${JSON.stringify(selector)});
         if (!node) return null;
@@ -368,6 +391,17 @@ async function click(cdp, selector) {
     await cdp.send('Input.dispatchMouseEvent', { type: 'mousePressed', ...mousePoint, button: 'left', clickCount: 1 });
     await cdp.send('Input.dispatchMouseEvent', { type: 'mouseReleased', ...mousePoint, button: 'left', clickCount: 1 });
     await delay(250);
+}
+
+function mobileQuantityControl(cityAttribute,dialogAttribute=cityAttribute) {
+    return `body.hd-mobile-city-on #hd-city-menu [${cityAttribute}],`+
+        `html[data-baye-dialog-qty="1"] body.hd-mobile-dialog-on #hd-dialog [${dialogAttribute}]`;
+}
+
+async function confirmCampaignQuantity(cdp) {
+    const selector=mobileCampaignInput?mobileQuantityControl('data-hd-qty-ok','data-hd-dlg-ok'):
+        await evaluate(cdp,`BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-dlg-ok]':'#hd-city-menu [data-hd-qty-ok]'`);
+    return click(cdp,selector);
 }
 
 function engineInputRecorderExpression(documentId) {
@@ -505,7 +539,48 @@ async function smoke(cdp) {
     await campaignSmoke(cdp);
 }
 
+const mobileMapReady=`(() => {const h=BayeHdMobileMap.snapshot(),m=baye.hd.march();
+    return h.active&&h.ownerType==='map'&&m.pick===1&&!m.battlePick&&!baye.hd.menuItems().active;})()`;
+
+async function smokeMobileCampaign(cdp) {
+    report.mobileLibrary=await waitFor(cdp,'original mobile engine and authenticated LIB',`(() => {
+        const api=window.BayeHdLibIdentity,lib=api&&api.read();
+        return window.baye?.hd?.ready()&&lib?.status==='ready'&&api.isCurrent(lib)&&lib.byteLength===207195&&
+            lib.sha256==='3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'&&lib;
+    })()`,60000);
+    await installEngineInputRecorder(cdp);
+    await evaluate(cdp,`(() => {
+        window.__campaignLcdTouches=[];
+        const send=window._bayeSendTouchEvent;
+        if(typeof send!=='function')throw Error('Original LCD touch handler must exist');
+        window._bayeSendTouchEvent=function(...args){__campaignLcdTouches.push(args);return send.apply(this,args);};
+    })()`);
+    const ready=screen=>waitFor(cdp,'current mobile HD '+screen,`(() => {
+        const h=BayeHdMobileSystem.snapshot(),s=BayeHdSystemUi.debugSnapshot();
+        return h.active&&h.owner?.screen===${JSON.stringify(screen)}&&s.open&&!s.pending&&s.screen===h.owner.screen;
+    })()`,120000);
+    await ready('title');
+    await checkpoint(cdp,'01-mobile-title');
+    await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
+    await ready('period');
+    await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
+    await ready('king');
+    const kings=await evaluate(cdp,'baye.hd.kings()');
+    const index=kings.kings.findIndex(person=>person.name===winningFixture.lord);
+    assert.ok(index>=0,'The original first period offers the prepared ruler');
+    report.selectedLord=kings.kings[index];
+    await checkpoint(cdp,'04-mobile-lords');
+    await click(cdp,`#hd-system-ui [data-hd-sys="${index}"]`);
+    await waitFor(cdp,'new original mobile strategy map',mobileMapReady,60000);
+    assert.deepEqual(await evaluate(cdp,'[baye.data.g_PIdx,baye.data.g_PlayerKing]'),[1,report.selectedLord.id]);
+    await campaignSmoke(cdp);
+    report.mobileLcdTouches=await evaluate(cdp,'__campaignLcdTouches');
+    assert.deepEqual(report.mobileLcdTouches,[],'The whole mobile campaign uses the HD touch surfaces');
+    assert.ok(report.inputs.every(input=>input.type!=='key'&&input.type!=='action'),'No synthetic game action bypasses the mobile controls');
+}
+
 async function action(cdp, label, expression) {
+    assert.ok(!mobileCampaignInput,'The mobile campaign uses the visible native controls');
     if (captiveMobileDocument && expression.startsWith('BayeHdBattle.')) {
         // Let the mobile host observe the new native owner before the shared
         // battle driver starts its next command.
@@ -531,7 +606,9 @@ const battleStateExpression=`(() => {
 })()`;
 
 async function waitBattle(cdp,kind,label,timeout=20000) {
-    return waitFor(cdp,label,`(() => {const f=baye.hd.fight(),s=BayeHdBattle.debugSnapshot();return f.active&&!f.over&&f.inputKind===${kind}&&!s.transaction&&f;})()`,timeout);
+    return waitFor(cdp,label,`(() => {const f=baye.hd.fight(),s=BayeHdBattle.debugSnapshot(),h=window.BayeHdMobileBattle?.debugSnapshot();
+        return f.active&&!f.over&&f.inputKind===${kind}&&!s.transaction&&
+            (!${!!mobileCampaignInput}||h?.presentation==='hd'&&h.inputKind===f.inputKind&&h.inputSeq===f.inputSeq)&&f;})()`,timeout);
 }
 async function nativeLcdVisibility(cdp) {
     return evaluate(cdp,`(() => {
@@ -552,14 +629,39 @@ const moveTilesExpression=`(() => {
     return out;
 })()`;
 async function chooseGeneral(cdp,unit) {
-    const selected=await action(cdp,'select-'+unit.name,`BayeHdBattle.clickUnitByName(${JSON.stringify(unit.name)})`);
-    assert.equal(selected.ok,true);
+    if(mobileCampaignInput)await mobileCampaignInput.tile(unit.x,unit.y);
+    else {
+        const selected=await action(cdp,'select-'+unit.name,`BayeHdBattle.clickUnitByName(${JSON.stringify(unit.name)})`);
+        assert.equal(selected.ok,true);
+    }
     return waitFor(cdp,'selected general movement or direct action',`(() => {const f=baye.hd.fight(),s=BayeHdBattle.debugSnapshot();return !s.transaction&&(f.inputKind===2||f.inputKind===3)&&f.actorIndex===${unit.i}&&f;})()`);
 }
 async function menuChoice(cdp,name,kind) {
-    const result=await action(cdp,'choose-'+name,`BayeHdBattle.pickMenuName(${JSON.stringify(name)})`);
-    assert.equal(result.ok,true,'actual menu choice '+name);
+    if(mobileCampaignInput) {
+        const menu=await evaluate(cdp,'baye.hd.menuItems()'),index=menu.names.indexOf(name);
+        assert.ok(menu.active&&menu.context===3&&index>=0,'The current battle menu owns '+name);
+        await click(cdp,`#hd-battle-menu [data-hd-battle-menu="${index}"]`);
+    } else {
+        const result=await action(cdp,'choose-'+name,`BayeHdBattle.pickMenuName(${JSON.stringify(name)})`);
+        assert.equal(result.ok,true,'actual menu choice '+name);
+    }
     if(kind) await waitBattle(cdp,kind,'menu choice '+name);
+}
+
+async function battleTile(cdp,label,x,y) {
+    if(mobileCampaignInput)return mobileCampaignInput.tile(x,y);
+    const response=await action(cdp,label,`BayeHdBattle.clickTile(${x},${y})`);
+    assert.equal(response.ok,true);
+}
+
+async function battleSystem(cdp,label) {
+    if(mobileCampaignInput)return click(cdp,'#hd-battle [data-hd-battle-sys]');
+    return action(cdp,label,'BayeHdBattle.openSystemMenu()');
+}
+
+async function cancelBattleMenu(cdp,label) {
+    if(mobileCampaignInput)return click(cdp,'#hd-battle [data-hd-battle-cancel]');
+    return action(cdp,label,'BayeHdBattle.cancel()');
 }
 const rangedUnitsExpression=`(() => {
     const d=baye.data,r=d.g_FgtAtkRng,size=Number(r[0]),sx=Number(r[1]),sy=Number(r[2]);
@@ -640,7 +742,7 @@ async function prepareArmy(cdp,fixture) {
         const qty=await evaluate(cdp,'baye.hd.qty()');
         assert.equal(qty.value,qty.max,'GetArmy presents its legitimate maximum by default');
         await checkpoint(cdp,'army-fixture-recruit-quantity-'+attempt);
-        await click(cdp,await evaluate(cdp,`BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-dlg-ok]':'#hd-city-menu [data-hd-qty-ok]'`));
+        await confirmCampaignQuantity(cdp);
         await waitFor(cdp,'recruitment actual reserve and order',`(() => {const d=baye.data,c=d.g_Cities[${cityIndex}],queue=Array.from({length:Number(c.Persons)},(_,i)=>Number(d.g_PersonsQueue[Number(c.PersonQueue)+i]));return Number(c.MothballArms)===${oldReserve+qty.value}&&!queue.includes(${auxiliaryId});})()`);
         const remaining=await readCityPersons(cdp,cityIndex);
         assert.deepEqual(remaining.map(p=>p.pind).sort((a,b)=>a-b),recruitmentQueue.filter(p=>p.pind!==auxiliaryId).map(p=>p.pind).sort((a,b)=>a-b),
@@ -683,7 +785,7 @@ async function prepareArmy(cdp,fixture) {
         const quantity=await evaluate(cdp,'baye.hd.qty()');
         assert.equal(quantity.value,quantity.max,'distribution presents its legitimate maximum');
         await checkpoint(cdp,'army-fixture-distribute-'+general.i);
-        await click(cdp,await evaluate(cdp,`BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-dlg-ok]':'#hd-city-menu [data-hd-qty-ok]'`));
+        await confirmCampaignQuantity(cdp);
         await waitFor(cdp,'real troops distributed '+name,`!baye.hd.qty().active&&Number(baye.data.g_Persons[${general.i}].Arms)===${quantity.value}`);
         assert.ok(quantity.value>general.arms,'distribution gives '+name+' more troops than the initial army');
         allocations.push({name,pind:general.i,before:general.arms,after:quantity.value,nativeMax:quantity.max});
@@ -741,7 +843,7 @@ async function queueFollowingArmy(cdp,march) {
 }
 
 async function campaignSmoke(cdp) {
-    await evaluate(cdp, `(() => { BayeHdOverworld.setMode('hd-map'); BayeHdCityMenu.setMode('hd'); BayeHdBattle.setMode('hd'); })()`);
+    if(!mobileCampaignInput)await evaluate(cdp, `(() => { BayeHdOverworld.setMode('hd-map'); BayeHdCityMenu.setMode('hd'); BayeHdBattle.setMode('hd'); })()`);
     const before=await evaluate(cdp,worldExpression);
     report.campaignBefore=before;
     await checkpoint(cdp,'06-hd-map');
@@ -854,11 +956,43 @@ async function campaignSmoke(cdp) {
         }
         report.battles??=[];report.battles.push({round,plan,march,expectedOutcome:winRequested?'victory':'retreat',worldBefore,initial,terminal,after,realmChanges:ownershipChanges});
         await checkpoint(cdp,'battle-'+round+'-settled-map');
+        if(mobileCampaignInput)await inspectMobileCapturedCity(cdp,plan.target,after);
         if(captiveScenario){await inspectActualCaptives(cdp,plan);return;}
     }
     if(scenario==='campaign')assert.deepEqual(report.battles.map(b=>b.terminal.fight.over),[1,2,2],'mixed campaign verifies one occupation and two explicit retreats across three fresh battles');
     if(scenario==='save')await saveRefreshLoad(cdp);
     if(scenario==='restart')await restartSamePage(cdp);
+}
+
+async function inspectMobileCapturedCity(cdp,cityIndex,after) {
+    const city=after.cities.find(item=>item.i===cityIndex);
+    const stationed=(await readCityPersons(cdp,cityIndex)).filter(person=>person.belong===after.realm.playerBelong);
+    assert.ok(stationed.length,'The captured city has real allied residents');
+    await openCity(cdp,cityIndex,'mobile-captured');
+    const keys=await evaluate(cdp,'__runtimeEngineInputs.length');
+    await click(cdp,'#hd-city-menu [data-hd-root="3"]');
+    const status=await waitFor(cdp,'captured city status and garrison',`(() => {
+        const box=document.getElementById('hd-city-menu-status'),s=BayeHdCityMenu.debugSnapshot();
+        if(box.hidden||s.layer!=='status'||s.cityIndex!==${cityIndex}||!BayeHdMobileCity.isActive())return null;
+        const garrison=box.querySelector('[data-hd-city-garrison]');if(!garrison)return null;
+        const owner=[...box.querySelectorAll('.hd-city-menu-stat')].find(row=>row.firstElementChild.textContent==='归属');
+        return {title:document.getElementById('hd-city-menu-title').textContent,owner:owner?.lastElementChild.textContent,
+            residents:[...garrison.querySelectorAll('[data-hd-city-general]')].map(row=>Number(row.dataset.hdCityGeneral))};
+    })()`);
+    assert.equal(status.title,city.name);assert.equal(status.owner,report.selectedLord.name);
+    assert.deepEqual(status.residents,stationed.map(person=>person.pind),'The HD garrison matches the actual resident queue');
+    await checkpoint(cdp,'mobile-captured-city-status',{capturedStatus:status});
+    status.garrisonRow=await mobileCampaignInput.reveal(`#hd-city-menu-status [data-hd-city-general="${stationed[0].pind}"]`);
+    assert.ok(status.garrisonRow?.visible&&status.garrisonRow.hit,'A touch scroll reaches the captured city garrison');
+    await checkpoint(cdp,'mobile-captured-city-garrison',{capturedStatus:status});
+    await click(cdp,'#hd-city-menu [data-hd-menu-back]');
+    await waitFor(cdp,'back to captured city root',`BayeHdCityMenu.getLayer()==='root'&&BayeHdMobileCity.isActive()`);
+    assert.equal(await evaluate(cdp,'__runtimeEngineInputs.length'),keys,'Opening and closing city status sends no game input');
+    await click(cdp,'#hd-city-menu [data-hd-menu-back]');
+    await waitFor(cdp,'ordinary mobile map after captured-city visit',mobileMapReady);
+    assert.deepEqual(await evaluate(cdp,`__runtimeEngineInputs.slice(${keys}).map(input=>input.code)`),[40]);
+    report.mobileCapturedCity=status;
+    await checkpoint(cdp,'mobile-after-capture-map');
 }
 
 async function captureCaptivePhase(cdp,label){
@@ -1034,7 +1168,8 @@ async function chooseMarchPair(cdp,emptyOnly) {
 
 async function openCity(cdp,cityIndex,label) {
     await waitFor(cdp,'real map before opening '+label,`baye.hd.march().pick===1 && !baye.hd.march().battlePick && !baye.hd.fight().active`,60000);
-    assert.ok(await action(cdp,'open-city-'+label,`BayeHdOverworld.walkToCity(${cityIndex})`));
+    if(mobileCampaignInput)await mobileCampaignInput.city(cityIndex);
+    else assert.ok(await action(cdp,'open-city-'+label,`BayeHdOverworld.walkToCity(${cityIndex})`));
     await waitFor(cdp,'bound native root '+label,`(() => {const s=BayeHdCityMenu.debugSnapshot(),m=baye.hd.menuItems();return s.open&&s.layer==='root'&&s.cityIndex===${cityIndex}&&!s.entryPending&&m.active&&m.context===1&&m.kind===1;})()`);
     await checkpoint(cdp,label+'-city-root');
 }
@@ -1091,6 +1226,14 @@ function assertDispatchedArmy(initial,march) {
     march.battleReadyArmy=actual;
 }
 
+async function continueCampaignMarch(cdp,label,phase,next) {
+    if(!mobileCampaignInput) {
+        await waitFor(cdp,'march report '+label,`baye.hd.march().phase===${phase}`);
+        return action(cdp,'continue-'+label,'BayeHdCityMenu.continueMarch()');
+    }
+    await click(cdp,'#hd-city-menu [data-hd-march-continue]',{retired:`baye.hd.march().phase===${next}`});
+}
+
 async function dispatchMarch(cdp,origin,target,label,options={}) {
     await openCity(cdp,origin,label);
     await click(cdp,'#hd-city-menu [data-hd-root="2"]');
@@ -1136,24 +1279,32 @@ async function dispatchMarch(cdp,origin,target,label,options={}) {
         let current=quantity.value;
         while(current!==budget) {
             const step=Math.abs(current-budget)>=10?10:1,delta=current>budget?-step:step;
-            assert.equal(await action(cdp,'explicit-food-step-'+label,`BayeHdCityMenu.stepQty(${delta})`),true);
+            if(mobileCampaignInput)await click(cdp,mobileQuantityControl(`data-hd-qty="${delta}"`));
+            else assert.equal(await action(cdp,'explicit-food-step-'+label,`BayeHdCityMenu.stepQty(${delta})`),true);
             current+=delta;
             await waitFor(cdp,'actual food step acknowledged '+label,`baye.hd.qty().active&&baye.hd.qty().value===${current}`);
         }
         assert.equal(await evaluate(cdp,'baye.hd.qty().value'),budget,'The army takes the requested native ration');
     }
     await checkpoint(cdp,label+'-food');
-    await click(cdp,await evaluate(cdp,`BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-dlg-ok]':'#hd-city-menu [data-hd-qty-ok]'`));
-    await waitFor(cdp,'target instruction '+label,'baye.hd.march().phase===3');
-    await action(cdp,'continue-target-'+label,'BayeHdCityMenu.continueMarch()');
+    await confirmCampaignQuantity(cdp);
+    await continueCampaignMarch(cdp,'target-'+label,3,4);
     await waitFor(cdp,'target map '+label,'baye.hd.march().phase===4&&baye.hd.march().battlePick===1');
-    const selected=await action(cdp,'select-target-'+label,`BayeHdCityMenu.selectMarchTarget(${target})`);
-    assert.equal(selected.selected,target);
-    assert.equal(await evaluate(cdp,'baye.hd.march().phase'),4,'select target alone delivers no confirmation');
-    await action(cdp,'confirm-target-'+label,`BayeHdCityMenu.confirmMarchTarget(${target})`);
-    await waitFor(cdp,'native departure report '+label,'baye.hd.march().phase===6');
+    if(mobileCampaignInput) {
+        const keys=await evaluate(cdp,'__runtimeEngineInputs.length');
+        await mobileCampaignInput.city(target,'march-target');
+        await waitFor(cdp,'visible selected mobile target',`BayeHdCityMenu.debugSnapshot().pendingTarget===${target}&&baye.hd.march().phase===4`);
+        assert.equal(await evaluate(cdp,'__runtimeEngineInputs.length'),keys,'Touching the target selects it without native input');
+        await click(cdp,'#hd-city-menu [data-hd-confirm-march]');
+    } else {
+        const selected=await action(cdp,'select-target-'+label,`BayeHdCityMenu.selectMarchTarget(${target})`);
+        assert.equal(selected.selected,target);
+        assert.equal(await evaluate(cdp,'baye.hd.march().phase'),4,'select target alone delivers no confirmation');
+        await action(cdp,'confirm-target-'+label,`BayeHdCityMenu.confirmMarchTarget(${target})`);
+    }
+    await waitFor(cdp,'native departure report '+label,mobileCampaignInput?'[6,7].includes(baye.hd.march().phase)':'baye.hd.march().phase===6');
     await checkpoint(cdp,label+'-departure-report');
-    await action(cdp,'confirm-departure-'+label,'BayeHdCityMenu.continueMarch()');
+    await continueCampaignMarch(cdp,'departure-'+label,6,7);
     await waitFor(cdp,'native AddFightOrder '+label,'baye.hd.march().phase===7&&baye.hd.march().ok===1');
     await waitFor(cdp,'native strategy input '+label,`(() => {const m=baye.hd.march(),x=baye.hd.menuItems();return x.active&&[1,2].includes(x.context)||!x.active&&m.pick===1&&!m.battlePick;})()`);
     const nativeOrder=await evaluate(cdp,`(() => {
@@ -1178,7 +1329,8 @@ async function dispatchMarch(cdp,origin,target,label,options={}) {
     }
     await checkpoint(cdp,label+'-order-ack');
     if(!options.leaveQueued) {
-        await action(cdp,'end-strategy-'+label,'BayeHdCityMenu.goStrategyEnd()');
+        if(mobileCampaignInput)await click(cdp,'#hd-city-menu [data-hd-strategy-end]');
+        else await action(cdp,'end-strategy-'+label,'BayeHdCityMenu.goStrategyEnd()');
         await waitFor(cdp,'strategy request '+label,'BayeHdCityMenu.debugSnapshot().handoff||baye.hd.fight().active||baye.hd.fight().skip',20000);
     }
     return march;
@@ -1264,8 +1416,8 @@ async function cacheAttackMask(cdp,actor,selected,round) {
     if(selected.inputKind===2) {
         const legal=await evaluate(cdp,moveTilesExpression);
         assert.ok(legal.some(p=>p.x===original.x&&p.y===original.y),'the general current tile is a real legal MOVE choice');
-        const response=await action(cdp,'mask-probe-current-tile-'+actor.name,`BayeHdBattle.clickTile(${original.x},${original.y})`);
-        assert.equal(response.ok,true);await waitBattle(cdp,3,'mask probe action '+actor.name);
+        await battleTile(cdp,'mask-probe-current-tile-'+actor.name,original.x,original.y);
+        await waitBattle(cdp,3,'mask probe action '+actor.name);
     }
     const names=await evaluate(cdp,'baye.hd.menuItems().names');
     await menuChoice(cdp,names[0],5);
@@ -1273,8 +1425,8 @@ async function cacheAttackMask(cdp,actor,selected,round) {
     const probe={round,actor:actor.name,mask,before:original,after:null};
     report.attackMasks??=[];report.attackMasks.push(probe);
     await checkpoint(cdp,'battle-'+round+'-mask-'+actor.id,{attackMask:mask});
-    await action(cdp,'mask-probe-cancel-aim-'+actor.name,'BayeHdBattle.cancel()');await waitBattle(cdp,3,'mask probe returns ACTION');
-    await action(cdp,'mask-probe-cancel-action-'+actor.name,'BayeHdBattle.cancel()');await waitBattle(cdp,1,'mask probe returns PICK');
+    await cancelBattleMenu(cdp,'mask-probe-cancel-aim-'+actor.name);await waitBattle(cdp,3,'mask probe returns ACTION');
+    await cancelBattleMenu(cdp,'mask-probe-cancel-action-'+actor.name);await waitBattle(cdp,1,'mask probe returns PICK');
     const restored=await evaluate(cdp,battleStateExpression),after=restored.units.find(u=>u.i===actor.i);
     assert.equal(restored.fight.bout,before.fight.bout,'one mask probe does not advance the native battle day');
     assert.equal(restored.fight.over,0);assert.equal(after.active,0);
@@ -1284,7 +1436,7 @@ async function cacheAttackMask(cdp,actor,selected,round) {
 }
 
 async function configureBattleSettings(cdp,round) {
-    await action(cdp,'battle-settings-open-system','BayeHdBattle.openSystemMenu()');await waitBattle(cdp,6,'battle settings SYSTEM');
+    await battleSystem(cdp,'battle-settings-open-system');await waitBattle(cdp,6,'battle settings SYSTEM');
     const choices=[{index:2,field:'g_LookMovie',label:'战斗动画',choice:'不看'},
         {index:3,field:'g_MoveSpeed',label:'移动速度',choice:'快速'},
         {index:4,field:'g_LookEnemy',label:'敌军移动',choice:'不看'}];
@@ -1296,7 +1448,7 @@ async function configureBattleSettings(cdp,round) {
         await menuChoice(cdp,setting.names[0]);
         await waitFor(cdp,'native battle setting ACK '+choice.field,`baye.data.${choice.field}===0&&baye.hd.fight().inputKind===6&&!BayeHdBattle.debugSnapshot().transaction`);
     }
-    await action(cdp,'battle-settings-cancel-system','BayeHdBattle.cancel()');await waitBattle(cdp,1,'settings return real PICK');
+    await cancelBattleMenu(cdp,'battle-settings-cancel-system');await waitBattle(cdp,1,'settings return real PICK');
     const after=await evaluate(cdp,'({lookMovie:Number(baye.data.g_LookMovie),moveSpeed:Number(baye.data.g_MoveSpeed),lookEnemy:Number(baye.data.g_LookEnemy)})');
     assert.deepEqual(after,{lookMovie:0,moveSpeed:0,lookEnemy:0});
     report.battleSettings??=[];report.battleSettings.push({round,before,after});
@@ -1330,8 +1482,7 @@ async function conquerBattle(cdp,round,defending=false) {
             assert.ok(target,'real legal unoccupied movement toward objective exists');
             report.tactics??=[];report.tactics.push({round,step,defending,bout:state.fight.bout,actor:actor.name,unitId:actor.id,
                 maskInputSeq:masks.get(actor.id).inputSeq,legalCandidates:candidates.length,from:{x:actor.x,y:actor.y},target});
-            const response=await action(cdp,'campaign-legal-move-'+actor.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);
-            assert.equal(response.ok,true);
+            await battleTile(cdp,'campaign-legal-move-'+actor.name,target.x,target.y);
             await waitBattle(cdp,3,'campaign action menu '+actor.name);
         }
         const moved=await evaluate(cdp,battleStateExpression),unit=moved.units.find(u=>u.i===actor.i);
@@ -1363,11 +1514,11 @@ async function attackIfPossible(cdp,actor,round,step,cities,masks,defending=fals
     const targets=(await evaluate(cdp,rangedUnitsExpression)).filter(u=>u.side==='enemy'&&u.arms>0)
         .sort((a,b)=>Number(defending?b.i===10:onCity(b))-Number(defending?a.i===10:onCity(a))||a.arms-b.arms);
     if(!targets.length) {
-        await action(cdp,'cancel-no-legal-enemy','BayeHdBattle.cancel()');await waitBattle(cdp,3,'no target returns action');return false;
+        await cancelBattleMenu(cdp,'cancel-no-legal-enemy');await waitBattle(cdp,3,'no target returns action');return false;
     }
     const target=targets[0],before=await evaluate(cdp,battleStateExpression);
     assert.ok(attackCovers(actualMask.offsets,actualMask.anchor,target),'the final native AIM mask covers the actual chosen target');
-    const response=await action(cdp,'campaign-attack-'+target.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);assert.equal(response.ok,true);
+    await battleTile(cdp,'campaign-attack-'+target.name,target.x,target.y);
     await waitForGameProgress(cdp,'campaign attack resolves','baye.hd.fight().over||baye.hd.fight().inputKind===1',30000);
     const after=await evaluate(cdp,battleStateExpression),enemy=after.units.find(u=>u.i===target.i);
     assert.ok(!enemy||enemy.arms<target.arms,'real campaign attack damages target');
@@ -1378,7 +1529,7 @@ async function attackIfPossible(cdp,actor,round,step,cities,masks,defending=fals
 
 async function advanceTurn(cdp,round) {
     const before=await evaluate(cdp,battleStateExpression);
-    await action(cdp,'campaign-explicit-end-turn','BayeHdBattle.openSystemMenu()');
+    await battleSystem(cdp,'campaign-explicit-end-turn');
     await waitBattle(cdp,6,'campaign turn system');
     const name=await evaluate(cdp,'baye.hd.menuItems().names[0]');
     await menuChoice(cdp,name);
@@ -1529,7 +1680,8 @@ async function settleToMap(cdp,label,arrival=null) {
         if(!state.fight?.active&&state.march?.pick===1&&!state.march?.battlePick&&state.overworld?.phase==='map'&&!state.dialog?.open) {
             await delay(400);
             const settled=await evaluate(cdp,snapshotExpression);
-            if(!settled.fight?.active&&settled.march?.pick===1&&!settled.dialog?.open) {
+            if(!settled.fight?.active&&settled.march?.pick===1&&!settled.dialog?.open&&
+                (!mobileCampaignInput||settled.mobile?.map.active&&settled.mobile.map.ownerType==='map')) {
                 if(defenses.length) {
                     const after=await evaluate(cdp,worldExpression);
                     for(const defense of defenses) {
@@ -1565,7 +1717,7 @@ async function settleToMap(cdp,label,arrival=null) {
             if(!seen.has(token)) {
                 seen.add(token);
                 await checkpoint(cdp,label+'-report-'+seen.size);
-                await click(cdp,'#hd-dialog [data-hd-dlg-ok]');
+                await acknowledgeCampaignReport(cdp,nativeReport);
             }
         }
         await delay(200);
@@ -1605,10 +1757,14 @@ async function settleDomestic(cdp) {
         if(state.report?.active===1&&state.report.inputSeq>0&&state.dialog?.open&&state.dialog.kind==='report'&&state.dialog.reportOwner&&
             state.dialog.reportOwner.seq===state.report.seq&&state.dialog.reportOwner.inputSeq===state.report.inputSeq) {
             const token='report:'+state.report.seq+':'+state.report.inputSeq;
-            if(!seen.has(token)) {seen.add(token);await click(cdp,'#hd-dialog [data-hd-dlg-ok]');}
+            if(!seen.has(token)) {seen.add(token);await acknowledgeCampaignReport(cdp,state.report);}
         } else if(state.menu?.active&&state.menu.context===1) {
             const token='menu:'+state.menu.seq;
-            if(!seen.has(token)) {seen.add(token);await key(cdp,'Escape');}
+            if(!seen.has(token)) {
+                seen.add(token);
+                if(mobileCampaignInput)await click(cdp,'#hd-city-menu [data-hd-menu-back]');
+                else await key(cdp,'Escape');
+            }
         }
         await delay(180);
     }
@@ -1622,11 +1778,15 @@ async function openFunctionMenu(cdp,label) {
             !baye.hd.fight().active&&!s.sending&&!s.queueLen&&{mapInputSeq:m.mapInputSeq,menuSeq:n.seq,
                 cityOpen:s.open,inputCount:window.__runtimeEngineInputs.length};})()`;
     const owner=await waitFor(cdp,'actual strategy map before '+label,mapOwner,60000);
-    // Recruitment can leave the local city pane open after native MAP resumes.
-    if(owner.cityOpen)await action(cdp,'retire-map-city-shell-'+label,'BayeHdCityMenu.close({silent:true})');
-    await action(cdp,'use-hd-system-'+label,`BayeHdSystemUi.setMode('hd')`);
-    assert.deepEqual(await evaluate(cdp,mapOwner),{...owner,cityOpen:false},'Preparing the menu preserves native MAP input');
-    await key(cdp,'Escape');
+    if(mobileCampaignInput) {
+        await click(cdp,'#hd-mobile-system-open');
+    } else {
+        // Recruitment can leave the local city pane open after native MAP resumes.
+        if(owner.cityOpen)await action(cdp,'retire-map-city-shell-'+label,'BayeHdCityMenu.close({silent:true})');
+        await action(cdp,'use-hd-system-'+label,`BayeHdSystemUi.setMode('hd')`);
+        assert.deepEqual(await evaluate(cdp,mapOwner),{...owner,cityOpen:false},'Preparing the menu preserves native MAP input');
+        await key(cdp,'Escape');
+    }
     await waitFor(cdp,'native function menu '+label,`(() => {const m=baye.hd.menuItems(),s=BayeHdSystemUi.debugSnapshot();return m.active&&m.seq!==${owner.menuSeq}&&m.context===2&&m.kind===1&&s.open&&s.screen==='insystem'&&s.input&&s.input.screen==='insystem'&&!s.pending;})()`);
     assert.deepEqual(await evaluate(cdp,`__runtimeEngineInputs.slice(${owner.inputCount}).map(input=>input.code)`),[40],
         'Exactly one native VK_EXIT opens the strategy menu');
@@ -1947,8 +2107,21 @@ async function main() {
             localStorage.setItem('baye/systemUiMode', 'classic');
             localStorage.setItem('baye/cityMenuMode', 'classic');
         ` });
-        await cdp.send('Page.navigate', { url: origin + '/pc.html' });
-        await smoke(cdp);
+        if(mobileCampaignWidth) {
+            const viewport=report.mobileViewport={width:mobileCampaignWidth,height:mobileCampaignWidth===667?375:390};
+            await cdp.send('Emulation.setDeviceMetricsOverride',{...viewport,deviceScaleFactor:1,mobile:true,
+                screenOrientation:{type:'landscapePrimary',angle:90}});
+            await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
+            report.browser=await cdp.send('Browser.getVersion');
+            mobileCampaignInput=createMobileCampaignInputs({evaluate:source=>evaluate(cdp,source),
+                until:(label,source,timeout)=>waitFor(cdp,label,source,timeout),
+                touch:(type,points)=>captiveTouch(cdp,type,points),tap:point=>captiveTap(cdp,point),report});
+            await cdp.send('Page.navigate',{url:origin+'/m.html#'+Math.floor(Date.now()/1000)});
+            await smokeMobileCampaign(cdp);
+        } else {
+            await cdp.send('Page.navigate', { url: origin + '/pc.html' });
+            await smoke(cdp);
+        }
         await archiveEngineInputDocument(cdp,'completed');
         assert.deepEqual(report.exceptions, [], 'browser has no uncaught exceptions');
         assert.deepEqual(report.dialogs, [], 'game boot has no unexpected alert dialogs');
