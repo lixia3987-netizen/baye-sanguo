@@ -1,5 +1,7 @@
 // Scenario only: process/server ownership is handled by the safe mobile runtime runner.
 import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
+import {join} from 'node:path';
 import {battleHudObservation,measureIdleBattleBoard,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
 import {verifyMobileBattleMarch,verifyMobileBattleRest} from './hd-mobile-battle-runtime-oracle.mjs';
 import {skillAimObservation,skillOptionsExpression,verifySkillAim} from './hd-battle-skill-aim-runtime-checks.mjs';
@@ -17,6 +19,64 @@ export const battleObservation = `(() => {const d=baye.data,f=baye.hd.fight(),un
     canvas:plain(document.getElementById('hd-mobile-battle-canvas')),lcd:plain(document.getElementById('lcd')),
     nativeOver:Number(d.g_FgtOver),settings:{movie:Number(d.g_LookMovie),speed:Number(d.g_MoveSpeed),enemy:Number(d.g_LookEnemy)},
     keys:__mobileMapKeys.length,touches:__mobileMapNativeTouches.length,pcBattle:localStorage.getItem('baye/battleMode')};})()`;
+
+async function observeEnemyMoves(evaluate) {
+  await evaluate(`(() => {
+    const host=BayeHdMobileBattle, callback=host.onEngineEnemyMove, frames=[], images={};
+    const canvas=document.getElementById('hd-mobile-battle-canvas'), lcd=document.getElementById('lcd');
+    let overflow=false, range=null;
+    host.onEngineEnemyMove=function(){
+      const result=callback.apply(this,arguments), d=baye.data;
+      const phase=d.g_hdFightEnemyMovePhase,actor=d.g_hdFightEnemyMoveActor;
+      if(frames.length>=80){overflow=true;return result;}
+      const fight=baye.hd.fight(), ui=host.debugSnapshot(), position=phase?d.g_GenPos[actor]:null;
+      const rect=canvas.getBoundingClientRect(), top=document.elementFromPoint(rect.left+rect.width/2,rect.top+rect.height/2);
+      const x=position?.x, y=position?.y, name=position?baye.getPersonName(d.g_FgtParam.GenArray[actor]-1):null;
+      frames.push({phase,actor,x,y,name,fight,presentation:ui.presentation,enemyMove:ui.enemyMove,camera:ui.camera,
+        viewport:[innerWidth,innerHeight],canvasHit:top===canvas,lcdHidden:getComputedStyle(lcd).visibility==='hidden',
+        hud:document.getElementById('hd-battle-hud').textContent, inputAvailable:!!BayeHdBattle.getInputTicket(),
+        keys:__mobileMapKeys.length,touches:__mobileMapNativeTouches.length});
+      if(phase===1){range={actor,x,y};if(!images.range)images.range=canvas.toDataURL('image/png');}
+      if(phase===2&&range?.actor===actor&&(x!==range.x||y!==range.y)&&!images.position){images.position=canvas.toDataURL('image/png');}
+      return result;
+    };
+    window.__finishEnemyMoves=()=>{host.onEngineEnemyMove=callback;return {frames,images,overflow};};
+    return typeof callback==='function';
+  })()`);
+}
+
+async function verifyEnemyMoves(c,before,after) {
+  const {report,evaluate,artifactDir}=c, width=report.battleEnemyMoveWidth;
+  const observed=await evaluate('__finishEnemyMoves()');
+  report.enemyMoveFrames=observed.frames;
+  assert.equal(observed.overflow,false);
+  const shown=observed.frames.filter(frame=>frame.phase!==0);
+  assert.ok(shown.some(frame=>frame.phase===1)&&shown.some(frame=>frame.phase===2),'Original enemy range and position both occurred');
+  for(const frame of observed.frames) {
+    assert.equal(frame.keys,after.keys,'Observing original movement emits no native key');
+    assert.equal(frame.touches,before.touches,'Observing original movement emits no LCD touch');
+    if(!frame.phase){assert.equal(frame.enemyMove,null,'The native move window retires before other busy frames');continue;}
+    assert.deepEqual(frame.viewport,[width,width===667?375:390]);
+    assert.equal(frame.fight.inputKind,0);assert.equal(frame.fight.wait,0);assert.equal(frame.inputAvailable,false);
+    assert.deepEqual(frame.enemyMove,{phase:frame.phase,actor:frame.actor});
+    assert.deepEqual([frame.fight.focusX,frame.fight.focusY],[frame.x,frame.y]);
+    assert.equal(frame.presentation,'hd');assert.equal(frame.canvasHit,true);assert.equal(frame.lcdHidden,true);
+    assert.ok(frame.name&&frame.hud.includes('敌方行动 · '+frame.name));
+    assert.equal(frame.hud.includes('移动范围'),frame.phase===1);
+    const {x,y,cols,rows}=frame.camera;
+    assert.ok(frame.x>=x&&frame.x<x+cols&&frame.y>=y&&frame.y<y+rows,'The HD camera contains the current native enemy position');
+  }
+  const keys=await evaluate('__mobileMapKeys.slice('+before.keys+').map(key=>key.code)');
+  assert.deepEqual(keys,[...Array(before.menu.index).fill(34),39],'Only the selected native army-end action supplies keys');
+  assert.equal(after.touches,before.touches);
+  assert.equal(after.mobile.enemyMove,null,'The next original player wait owns the board');
+  for(const phase of ['range','position']) {
+    const png=observed.images[phase];
+    assert.ok(png?.startsWith('data:image/png;base64,'),'Captured visible HD enemy '+phase);
+    writeFileSync(join(artifactDir,'enemy-move-'+phase+'-'+width+'.png'),Buffer.from(png.split(',')[1],'base64'),{flag:'wx'});
+  }
+  report.enemyMoveAccepted=true;
+}
 
 export async function runMobileBattleChecks(c) {
   const {report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,cityPoint,worldSource,mapReadySource,sendCdp,originalLibBytes}=c;
@@ -299,11 +359,17 @@ export async function runMobileBattleChecks(c) {
     report.battleSettingChanges.push({field,previous,committed:1-previous,restored:previous});
   }
   await checkpoint('battle-settings-667-restored');
+  if(report.battleEnemyMoveWidth) {
+    if(report.battleEnemyMoveWidth===844){await metrics(844,390);await ready(6,'SYSTEM before enemy movement at 844');}
+    await observeEnemyMoves(evaluate);
+  }
   const beforeEnd=await native();await menu(0,'Explicit single army end');
   await until('actual AI then next player bout',`(() => {const f=baye.hd.fight();return f.active===1&&!f.over&&f.inputKind===1&&f.bout===${beforeEnd.fight.bout+1}&&BayeHdMobileBattle.refresh().presentation==='hd';})()`,60000);
   const afterEnd=await capture('battle-08-natural-AI-next-player');await unchanged(afterEnd,'New player wait never ends army automatically');
+  if(report.battleEnemyMoveWidth){await verifyEnemyMoves(c,beforeEnd,afterEnd);}
   assert.equal(afterEnd.fight.bout,beforeEnd.fight.bout+1);report.battleTurn={before:beforeEnd,after:afterEnd};
   assert.ok(afterEnd.food.player<beforeEnd.food.player,'The original next bout consumes player grain');
+  if(report.battleEnemyMoveWidth===844){await metrics(667,375);await ready(1,'next original player wait 667');}
   await recordHud('next original player wait 667');
   await metrics(844,390);await ready(1,'next original player wait 844');await unchanged(afterEnd,'Resizing the next player wait');
   await recordHud('next original player wait 844');await checkpoint('battle-next-day-844');

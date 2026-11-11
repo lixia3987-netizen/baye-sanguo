@@ -57,6 +57,12 @@ const manifest = {
         record: ['g_hdRecordActive', 'g_hdRecordMode', 'g_hdRecordIndex', 'g_hdRecordCount', 'g_hdRecordSeq'],
         qty: ['g_hdQtyActive', 'g_hdQtySession', 'g_hdQtyInputSeq', 'g_hdQtyLastKey', 'g_hdQtyCursor', 'g_hdQtyStep', 'g_hdQtyReady']
     },
+    hdEnemyMoveProtocol: {
+        fields: ['g_hdFightEnemyMovePhase', 'g_hdFightEnemyMoveActor'],
+        phases: { idle: 0, range: 1, position: 2 },
+        actor: 'Enemy battle slot 10 through 19, or 255 when idle',
+        publication: 'Read-only original visible enemy movement in FgtGetMCmdNear while battle input is busy'
+    },
     hdBattleNoteProtocol: {
         version: 1,
         publicApi: 'baye.hd.battleNote()',

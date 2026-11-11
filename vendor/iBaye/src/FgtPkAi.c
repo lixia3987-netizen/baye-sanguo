@@ -113,10 +113,12 @@ U8 FgtGetMCmdNear(FGTCMD *pcmd)
         {
             FgtSetFocus(i);
             FgtShowMvRng();
+            baye_hd_fight_observe_enemy_move(BAYE_HD_ENEMY_MOVE_RANGE, i);
             FgtFrashGen(i,1);
             GamShowFrame(g_VisScr);
             if(g_MoveSpeed)
                 GamDelay(SHOW_DLYBASE * 5,false);
+            baye_hd_fight_observe_enemy_move(BAYE_HD_ENEMY_MOVE_NONE, 0xff);
         }
 
         IF_HAS_HOOK("aiFightCommand") {
@@ -133,8 +135,10 @@ U8 FgtGetMCmdNear(FGTCMD *pcmd)
         if(g_LookEnemy)
         {
             FgtSetFocus(i);
+            baye_hd_fight_observe_enemy_move(BAYE_HD_ENEMY_MOVE_POSITION, i);
             if(g_MoveSpeed)
                 GamDelay(SHOW_DLYBASE * 5,false);
+            baye_hd_fight_observe_enemy_move(BAYE_HD_ENEMY_MOVE_NONE, 0xff);
         }
         if (g_engineConfig.aiAttackMethod == 1) {
             FGTCMD atk;

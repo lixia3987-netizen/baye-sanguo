@@ -115,6 +115,8 @@ U8 g_hdFightMenuControl = 0;
 U8 g_hdFightInputKind = BAYE_HD_FIGHT_INPUT_BUSY;
 U32 g_hdFightInputSeq = 0;
 U8 g_hdFightActor = 0xff;
+U8 g_hdFightEnemyMovePhase = BAYE_HD_ENEMY_MOVE_NONE;
+U8 g_hdFightEnemyMoveActor = 0xff;
 static U8 hdFightSelectedActor = 0xff;
 U8 g_hdFightResultGbk[BAYE_HD_FIGHT_RESULT_MAX];
 U8 g_hdFightTipGbk[BAYE_HD_FIGHT_TIP_MAX];
@@ -1687,6 +1689,8 @@ void baye_hd_fight_actor(U8 actor)
 void baye_hd_fight_input_begin(U8 kind)
 {
     baye_hd_city_info_retire();
+    g_hdFightEnemyMovePhase = BAYE_HD_ENEMY_MOVE_NONE;
+    g_hdFightEnemyMoveActor = 0xff;
     if (kind != BAYE_HD_FIGHT_INPUT_VIEW) baye_hd_view_retire();
     if (kind == BAYE_HD_FIGHT_INPUT_PICK) {
         hdFightSelectedActor = 0xff;
@@ -1707,7 +1711,29 @@ void baye_hd_fight_input_end(void)
     g_hdFightSkillAimSeq = 0;
     g_hdFightInputKind = BAYE_HD_FIGHT_INPUT_BUSY;
     g_hdFightActor = 0xff;
+    g_hdFightEnemyMovePhase = BAYE_HD_ENEMY_MOVE_NONE;
+    g_hdFightEnemyMoveActor = 0xff;
     g_hdFightInputSeq = hd_next_input_seq(g_hdFightInputSeq);
+}
+
+void baye_hd_fight_observe_enemy_move(U8 phase, U8 actor)
+{
+    if ((phase != BAYE_HD_ENEMY_MOVE_RANGE && phase != BAYE_HD_ENEMY_MOVE_POSITION) ||
+        !g_hdFightActive || g_hdFightOver || g_hdFightWait || g_hdFightInputKind != BAYE_HD_FIGHT_INPUT_BUSY ||
+        actor < FGT_PLAMAX || actor >= FGTA_MAX) {
+        phase = BAYE_HD_ENEMY_MOVE_NONE;
+        actor = 0xff;
+    }
+    if (g_hdFightEnemyMovePhase == phase && g_hdFightEnemyMoveActor == actor) return;
+    g_hdFightEnemyMovePhase = phase;
+    g_hdFightEnemyMoveActor = actor;
+    EM_ASM({
+        try {
+            if (window.BayeHdMobileBattle && typeof BayeHdMobileBattle.onEngineEnemyMove === 'function') {
+                BayeHdMobileBattle.onEngineEnemyMove();
+            }
+        } catch (e) {}
+    });
 }
 
 U8 baye_hd_take_fight_action(U16* choice)
@@ -4172,6 +4198,8 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdFightInputKind, U8);
     DEFADDF(g_hdFightInputSeq, U32);
     DEFADDF(g_hdFightActor, U8);
+    DEFADDF(g_hdFightEnemyMovePhase, U8);
+    DEFADDF(g_hdFightEnemyMoveActor, U8);
     DEFADD_GBKARR(g_hdFightResultGbk, sizeof(g_hdFightResultGbk));
     DEFADD_GBKARR(g_hdFightTipGbk, sizeof(g_hdFightTipGbk));
     DEFADDF(g_hdQtyValue, U32);

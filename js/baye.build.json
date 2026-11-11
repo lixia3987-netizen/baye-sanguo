@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "6212b2e24e90d4b581b431e05746c28d15ebe17d",
-  "engineSourceSha256": "8b0342216da12989691d5e49229e23b02c4d68362dd9fe7a5657c891564985e5",
+  "sourceRevision": "840ef9a13fbd57a35f2f9560ff6e15d60c60d581",
+  "engineSourceSha256": "0a70d839f2098eea58254e5cddd4eeaf84122d0bd2f0075337bc1c2903a1a131",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1794418350,
+  "sourceDateEpoch": 1794423950,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -82,6 +82,19 @@
       "g_hdQtyStep",
       "g_hdQtyReady"
     ]
+  },
+  "hdEnemyMoveProtocol": {
+    "fields": [
+      "g_hdFightEnemyMovePhase",
+      "g_hdFightEnemyMoveActor"
+    ],
+    "phases": {
+      "idle": 0,
+      "range": 1,
+      "position": 2
+    },
+    "actor": "Enemy battle slot 10 through 19, or 255 when idle",
+    "publication": "Read-only original visible enemy movement in FgtGetMCmdNear while battle input is busy"
   },
   "hdBattleNoteProtocol": {
     "version": 1,
@@ -663,16 +676,16 @@
   },
   "artifacts": {
     "baye.js": {
-      "bytes": 193652,
-      "sha256": "3417349766c66d1510af97e60ce4803d303cde5ccfeacc0aa81c16b6d70bcd60"
+      "bytes": 193831,
+      "sha256": "797f0d7dea16f7f56f920da7b6d8bcb382505e97483acc30e4616f47599143fe"
     },
     "baye.wasm": {
-      "bytes": 4595614,
-      "sha256": "2df6bbd9dd058852e12e9c5f9416d1159da1b5417bf23edf1220f9160d56779d"
+      "bytes": 4597379,
+      "sha256": "7c7fd5302c7f7c6dbf4013bf87809373fcc5e868502c75e2bf35f4d9140f1e55"
     },
     "baye.wasm.map": {
       "bytes": 29983,
-      "sha256": "e359edd1886185ef499ca6a69663ce244113519787ce653fc4639efc0421b431"
+      "sha256": "1d8297dd52dd1cad19479db60a3841c8903268b7fdc4a147e38ca3a642cad5aa"
     }
   }
 }

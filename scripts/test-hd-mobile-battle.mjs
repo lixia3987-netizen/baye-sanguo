@@ -139,11 +139,12 @@ function fixture() {
         returnFromHelp(){counts.actions.push(['return-help']);return {ok:true};},viewKey(code){counts.actions.push(['view',code]);return {ok:true};},
         handleKey(event){counts.actions.push(['keyboard',event.key]);return true;},
         getInputTicket(){counts.sharedReads++;const native=host.readNativeTicket();
-            if(!native||native.presentation!=='hd'||state.mode==='classic'||state.showLcd)return null;
+            if(!native||native.kind===0||native.presentation!=='hd'||state.mode==='classic'||state.showLcd)return null;
             const t={key:native.key,stableKey:native.stableKey,libraryGeneration:native.libraryGeneration,
                 kind:native.kind,seq:native.seq,actor:native.actor};
             Object.defineProperty(t,'data',{value:native.data,enumerable:false});return t;},
-        getLcdPresentation(){return state.mode==='classic'||state.showLcd||!this.getInputTicket()?'passthrough':'off';}};
+        getEnemyMoveTicket(){const native=host.readNativeTicket();return state.mode!=='classic'&&!state.showLcd&&native?.native.enemyMove?native:null;},
+        getLcdPresentation(){return this.getInputTicket()||this.getEnemyMoveTicket()?'off':'passthrough';}};
     const window = {document,innerWidth:844,innerHeight:390,devicePixelRatio:1,
         localStorage:{getItem:key=>storage.get(key)??null,setItem(key,value){storage.set(key,String(value));}},
         matchMedia:()=>({matches:window.innerWidth>window.innerHeight}),
@@ -353,6 +354,30 @@ for(const name of ['g_hdReportActive','g_hdHelpActive','g_hdViewActive','g_hdMov
 }
 test('native BUSY is an LCD publication, not a synthetic clickable phase',()=>{
     const f=fixture();f.raw.g_hdFightInputKind=0;f.raw.g_hdFightWait=0;unavailable(f);f.host.refresh();noAction(f);
+});
+test('native enemy range and position render in HD without owning battle input',()=>{
+    const f=fixture();
+    vm.runInNewContext(readFileSync(new URL('../js/hd-battle-feedback.js',import.meta.url),'utf8'),{window:f.window});
+    Object.assign(f.raw,{g_hdFightInputKind:0,g_hdFightWait:0,g_FoucsX:15,g_FoucsY:16,
+        g_hdFightEnemyMovePhase:1,g_hdFightEnemyMoveActor:10,g_PathSX:14,g_PathSY:16});
+    f.raw.g_FightPath[0]=127;f.raw.g_FightPath[1]=0;f.raw.g_FightPath[2]=128;
+    f.render();const first=f.host.refresh(),camera=first.camera;
+    assert.equal(first.presentation,'hd');assert.equal(first.enemyMove.phase,1);assert.equal(first.enemyMove.actor,10);
+    assert.equal(f.shared.getInputTicket(),null);
+    const wash=x=>['fillRect',camera.ox+(x-camera.x)*camera.cell+2,camera.oy+(16-camera.y)*camera.cell+2,camera.cell-4,camera.cell-4];
+    assert.ok(f.counts.paints.some(args=>JSON.stringify(args)===JSON.stringify(wash(14))));
+    for(const x of [15,16])assert.ok(!f.counts.paints.some(args=>JSON.stringify(args)===JSON.stringify(wash(x))));
+    for(const target of [f.canvas,f.sys,f.cancel,f.focus])f.tap(target);
+    assert.equal(f.fire('keydown',f.canvas,{key:'Enter'}).prevented,true);
+    noAction(f);
+    const feedback=f.window.BayeHdBattleFeedback;f.window.BayeHdBattleFeedback=null;
+    assert.equal(f.host.refresh().presentation,'lcd');f.window.BayeHdBattleFeedback=feedback;
+    f.raw.g_hdFightEnemyMovePhase=2;f.counts.paints.length=0;f.render();
+    assert.equal(f.host.refresh().enemyMove.phase,2);
+    assert.ok(!f.counts.paints.some(args=>JSON.stringify(args)===JSON.stringify(wash(14))),'The range leaves with its original phase');
+    f.raw.g_hdSpeActive=1;assert.equal(f.host.refresh().presentation,'lcd');
+    f.raw.g_hdSpeActive=0;f.state.mode='classic';f.render();
+    assert.equal(f.host.refresh().presentation,'lcd');noAction(f);
 });
 for(const change of [f=>f.raw.g_FgtParam.GenArray.pop(),f=>f.raw.g_GenPos.pop(),f=>f.raw.g_FgtParam.GenArray[0]=65536,
     f=>f.raw.g_GenPos[0].x=NaN,f=>f.raw.g_GenPos[0].state=undefined,

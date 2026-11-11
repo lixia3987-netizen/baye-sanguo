@@ -349,6 +349,9 @@
             return Number(readNumber(engineData(), 'g_hdReportActive')) === 1;
         } catch (e) { return false; }
     }
+    function enemyMoveFor(ticket) {
+        return ticket && ticket.presentation === 'hd' && ticket.native && ticket.native.enemyMove;
+    }
     function inputSnapshot(owner) {
         var fight = readFight(), menu = readMenuItems();
         var kind = fight && readNumber(fight, 'inputKind'), seq = fight && readNumber(fight, 'inputSeq'),
@@ -358,7 +361,7 @@
         var reportActive = showHd && nativeReportWaiting();
         return {
             fight: fight, menu: menu, kind: kind, seq: seq,
-            actor: actor, focus: focus, showHd: showHd, reportActive: reportActive,
+            actor: actor, focus: focus, showHd: showHd, reportActive: reportActive, enemyMove: enemyMoveFor(ticket),
             ready: !!(showHd && !reportActive && fight && fight.active && !fight.over &&
                 kind >= INPUT.PICK && kind <= INPUT.VIEW && seq != null && seq > 0 &&
                 (!mobileHost || ticket && ticket.presentation === 'hd' && ticket.kind === kind &&
@@ -380,13 +383,18 @@
         Object.defineProperty(ticket, 'data', { value: after.data, enumerable: false });
         return Object.freeze(ticket);
     }
+    function getEnemyMoveTicket() {
+        if (!mobileHost || state.preview || state.showLcd || !hdModeEnabled()) { return null; }
+        var ticket = mobileTicket();
+        return enemyMoveFor(ticket) ? ticket : null;
+    }
     function retireInteraction(reason) {
         invalidateHdWork();
         state.lastRequest = { type: 'retired', reason: reason || 'mobile-boundary' };
     }
     function getLcdPresentation() {
         if (!mobileHost) { return state.showLcd ? 'on' : 'off'; }
-        return getInputTicket() ? 'off' : 'passthrough';
+        return getInputTicket() || getEnemyMoveTicket() ? 'off' : 'passthrough';
     }
     function isMenuKind(kind) {
         return kind === INPUT.ACTION || kind === INPUT.SKILL || kind === INPUT.SYSTEM ||
@@ -827,7 +835,7 @@
         var rail = el('hd-battle-rail');
         if (rail) { rail.hidden = !show || state.preview; }
         renderFocusCard(show,snap);
-        var actor = actorUnit(snap.actor);
+        var actor = actorUnit(snap.enemyMove ? snap.enemyMove.actor : snap.actor);
         var guidance = { 0: '正在处理战场行动…', 1: '选择己方将领', 2: '选择移动位置（可选择原地）',
             3: '选择将领行动', 4: '选择计谋', 5: '选择射程内目标', 6: '战场系统', 7: '确认全军撤退', 8: '选择战场设置',
             9: '查看将领信息 · Enter / Esc 返回', 10: '战场形势 · 箭头翻页，Enter / Esc 返回' };
@@ -836,6 +844,10 @@
             var text = state.preview ? 'HD 战场预览' :
                 (actor && actor.name ? actor.name + ' · ' : '') + (guidance[snap.kind] || '等待引擎战场数据…') +
                 (state.transaction ? ' · 等待操作完成' : '');
+            if (snap.enemyMove) {
+                text = '敌方行动' + (actor && actor.name ? ' · ' + actor.name : '') +
+                    (snap.enemyMove.phase === 1 ? ' · 移动范围' : '');
+            }
             if (hud.textContent !== text) { hud.textContent = text; }
         }
         renderBattleContext(show && !state.preview && !state.showLcd && !help);
@@ -1465,7 +1477,7 @@
 
     function draw(snap) {
         if (mobileHost) {
-            if (document.hidden || mobileRendering || !snap.ready || state.showLcd || !hdModeEnabled() ||
+            if (document.hidden || mobileRendering || (!snap.ready && !snap.enemyMove) || state.showLcd || !hdModeEnabled() ||
                 typeof mobileHost.render !== 'function') { return; }
             var epoch = modeEpoch;
             var renderOwner = mobileRenderOwner, currentOwner = mobileTicket();
@@ -1719,7 +1731,7 @@
         start: start, applyPcPage: start, debugSnapshot: debugSnapshot,
         configureMobileHost: configureMobileHost,
         applyMobilePage: function (options) { configureMobileHost(options); start(); },
-        getInputTicket: getInputTicket, retireInteraction: retireInteraction,
+        getInputTicket: getInputTicket, getEnemyMoveTicket: getEnemyMoveTicket, retireInteraction: retireInteraction,
         getLcdPresentation: getLcdPresentation, setShowLcd: setShowLcd
     };
 })(window);

@@ -338,6 +338,10 @@ typedef struct HdSpeScope {
 #define BAYE_HD_FIGHT_SKIP_NO_ARMY 3
 #define BAYE_HD_FIGHT_SKIP_INSTANT 4
 
+#define BAYE_HD_ENEMY_MOVE_NONE 0
+#define BAYE_HD_ENEMY_MOVE_RANGE 1
+#define BAYE_HD_ENEMY_MOVE_POSITION 2
+
 extern U8 g_hdFightActive;
 extern U16 g_hdKingCount;
 extern U8 g_hdKingNames[BAYE_HD_KING_MAX * BAYE_HD_NAME_SLOT];
@@ -347,6 +351,8 @@ extern U8 g_hdFightMenuControl;
 extern U8 g_hdFightInputKind;
 extern U32 g_hdFightInputSeq;
 extern U8 g_hdFightActor;
+extern U8 g_hdFightEnemyMovePhase;
+extern U8 g_hdFightEnemyMoveActor;
 extern U8 g_hdMenuActive;
 extern U8 g_hdMenuContext;
 extern U8 g_hdMenuKind;
@@ -390,6 +396,7 @@ void baye_hd_menu_end(void);
 void baye_hd_fight_actor(U8 actor);
 void baye_hd_fight_input_begin(U8 kind);
 void baye_hd_fight_input_end(void);
+void baye_hd_fight_observe_enemy_move(U8 phase, U8 actor);
 U8 baye_hd_take_fight_action(U16* choice);
 void baye_hd_map_input_begin(void);
 void baye_hd_march_begin(U8 city);

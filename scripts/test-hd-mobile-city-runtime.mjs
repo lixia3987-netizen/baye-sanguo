@@ -304,6 +304,10 @@ export async function main(args=process.argv.slice(2)) {
   const defenderEntryFlags=args.filter(arg=>arg.startsWith('--defender-entry-width=')),defenderEntryWidth=Number(defenderEntryFlags[0]?.split('=')[1]||defenderWidth);
   const battleOverviewsOnly=args.includes('--battle-overviews-only'),battleOverviewsFlags=args.filter(arg=>arg.startsWith('--battle-overviews-width=')),battleOverviewsWidth=Number(battleOverviewsFlags[0]?.split('=')[1]||844);
   const battleSceneOnly=args.includes('--battle-scene-only'),battleSceneWidths=args.filter(arg=>arg.startsWith('--battle-scene-width=')),battleSceneWidth=Number(battleSceneWidths[0]?.split('=')[1]||844);
+  const battleEnemyMoveFlags=args.filter(arg=>arg.startsWith('--battle-enemy-move='));
+  const battleEnemyMoveWidth=battleEnemyMoveFlags.length?Number(battleEnemyMoveFlags[0].split('=')[1]):null;
+  assert.ok(battleEnemyMoveFlags.length<=1&&(!battleEnemyMoveFlags.length||args.includes('--battle-only')&&[667,844].includes(battleEnemyMoveWidth)),
+    'Use --battle-only --battle-enemy-move=667 or --battle-only --battle-enemy-move=844');
   const battleSettingsFlags=args.filter(arg=>arg.startsWith('--battle-settings-save='));
   const battleSettingsSaveWidth=battleSettingsFlags.length?Number(battleSettingsFlags[0].split('=')[1]):null;
   const battleSettingsSave=battleSettingsSaveWidth!==null;
@@ -331,7 +335,7 @@ export async function main(args=process.argv.slice(2)) {
   const caseFlags=args.filter(arg=>arg.startsWith('--portrait-case=')),portraitCase=caseFlags[0]?.split('=')[1]||'normal';
   const effectFlags=args.filter(arg=>arg.startsWith('--battle-effects-case=')),effectsCase=effectFlags[0]?.split('=')[1]||'normal';
   const marchFlags=args.filter(arg=>arg.startsWith('--march-width=')),marchWidth=Number(marchFlags[0]?.split('=')[1]||844);
-  const options=args.filter(arg=>arg!=='--battle-scene-only'&&!arg.startsWith('--battle-scene-width=')&&!battleSettingsFlags.includes(arg)&&!openingFlags.includes(arg)).filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--battle-overviews-only','--campaign-only','--defender-only','--defender-combat','--defender-chain','--march-only','--recruitment','--distribution','--preview-only','--equipment-only','--system-only','--trade-only','--transfer-only','--minimap-only','--diplomacy-only','--staged'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width=')&&!arg.startsWith('--equipment-width=')&&!arg.startsWith('--system-width=')&&!arg.startsWith('--system-mode-repeat=')&&!arg.startsWith('--trade-width=')&&!arg.startsWith('--transfer-width=')&&!arg.startsWith('--minimap-width=')&&!arg.startsWith('--diplomacy-width=')&&!arg.startsWith('--battle-overviews-width=')&&!arg.startsWith('--campaign-width=')&&!arg.startsWith('--defender-width=')&&!defenderEntryFlags.includes(arg));
+  const options=args.filter(arg=>arg!=='--battle-scene-only'&&!arg.startsWith('--battle-scene-width=')&&!battleSettingsFlags.includes(arg)&&!battleEnemyMoveFlags.includes(arg)&&!openingFlags.includes(arg)).filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--battle-overviews-only','--campaign-only','--defender-only','--defender-combat','--defender-chain','--march-only','--recruitment','--distribution','--preview-only','--equipment-only','--system-only','--trade-only','--transfer-only','--minimap-only','--diplomacy-only','--staged'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width=')&&!arg.startsWith('--equipment-width=')&&!arg.startsWith('--system-width=')&&!arg.startsWith('--system-mode-repeat=')&&!arg.startsWith('--trade-width=')&&!arg.startsWith('--transfer-width=')&&!arg.startsWith('--minimap-width=')&&!arg.startsWith('--diplomacy-width=')&&!arg.startsWith('--battle-overviews-width=')&&!arg.startsWith('--campaign-width=')&&!arg.startsWith('--defender-width=')&&!defenderEntryFlags.includes(arg));
   assert.ok(args.filter(arg=>arg==='--reports-only').length<=1&&args.filter(arg=>arg==='--portraits-only').length<=1&&
     args.filter(arg=>arg==='--battle-scene-only'||arg==='--battle-only'||arg==='--battle-effects'||arg==='--battle-overviews-only'||arg==='--campaign-only').length+battleSettingsFlags.length<=1&&args.filter(arg=>arg==='--march-only').length<=1&&[reportsOnly,portraitsOnly,battleOnly,marchOnly].filter(Boolean).length<=1&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
     campaignFlags.length<=1&&(!campaignFlags.length||campaignOnly)&&[844,667].includes(campaignWidth)&&
@@ -369,6 +373,7 @@ export async function main(args=process.argv.slice(2)) {
     startedAt:new Date().toISOString(),ok:false,accepted:false,realDeviceAccepted:false,reportInteractionAccepted:false,recruitmentCommitted:false,battleAccepted:false,fullHdAccepted:false,
     artifacts:relative,profileRetained:true,directoriesDeleted:false,sourceFiles:[],requests:[],blockedExternal:[],console:[],exceptions:[],
     phases:[],actions:[],cities:[],inputs:[],ownershipSamples:'owned-process-samples.jsonl',user8080Accessed:false};
+  report.battleEnemyMoveWidth=battleEnemyMoveWidth;
   report.campaignOnly=campaignOnly;report.campaignWidth=campaignOnly?campaignWidth:null;report.campaignAccepted=false;report.successionOutcomeAccepted=false;
   report.battleSettingsSaveWidth=battleSettingsSaveWidth;
   if(battleSettingsSave)report.scope='Original battle options through HD settings, strategy SAVE, real browser reload, native LOAD and a second original battle';
@@ -1054,7 +1059,7 @@ export async function main(args=process.argv.slice(2)) {
         readSource,worldSource,mapReadySource,sendCdp:(method,params)=>cdp.send(method,params),originalLibBytes:frozen.get('libs/dat-mod.lib').bytes,assertLcd});
     }else if(battleOnly){
       const {runMobileBattleChecks}=await import('./hd-mobile-battle-runtime-checks.mjs');
-      const context={report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
+      const context={report,artifactDir:out,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
         readSource,worldSource,battleBootstrapWorldSource:baseWorldSource,mapReadySource,observeInputs,waitTitle,
         readKeys:(offset=0)=>evaluate('__mobileMapKeys.slice('+offset+')'),sendCdp:(method,params)=>cdp.send(method,params),originalLibBytes:frozen.get('libs/dat-mod.lib').bytes};
       const controls=await runMobileBattleChecks(context);

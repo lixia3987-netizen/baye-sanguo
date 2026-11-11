@@ -94,7 +94,14 @@
             }
             f.cityIndex=cityIndex;
             var kind=f.inputKind, mask=null, invalidMask=false;
-            if(kind===2){
+            var enemyPhase=data.g_hdFightEnemyMovePhase, enemyActor=data.g_hdFightEnemyMoveActor;
+            var enemy=uint(enemyActor,19) && enemyActor>=10 ? units[enemyActor] : null;
+            var enemyMove=(enemyPhase===1 || enemyPhase===2) && kind===0 && f.wait===0 && f.actorIndex===255 &&
+                enemy && enemy.id>0 && enemy.id<=200 && enemy.state!==8 && enemy.x===f.focusX && enemy.y===f.focusY
+                ? {phase:enemyPhase,actor:enemyActor} : null;
+            var feedback=environment.BayeHdBattleFeedback;
+            if(enemyMove && enemyMove.phase===1 && (!feedback || typeof feedback.lookupMove!=='function')){enemyMove=null;}
+            if(kind===2 || enemyMove && enemyMove.phase===1){
                 try {mask={values:bytes(data.g_FightPath,225)};['g_PathSX','g_PathSY','g_PUseSX','g_PUseSY'].forEach(function(name){if(!uint(data[name],255)){throw Error('invalid MOVE origin');}mask[name]=data[name];});}
                 catch(e){invalidMask=true;}
             }else if(kind===5){
@@ -124,11 +131,14 @@
                     }
                 }
             }
-            var ready=f.inputSeq>0 && actorValid && !invalidMask && skillReady && !BLOCKERS.some(function(name){return blockers[name]!==0;}) &&
+            var clear=f.inputSeq>0 && !invalidMask && !BLOCKERS.some(function(name){return blockers[name]!==0;});
+            var ready=clear && actorValid && skillReady &&
                 ([1,2,5].indexOf(kind)>=0 ? f.wait===1 && !m.active :
                     menuKind && f.wait===0 && m.active===1 && m.context===3 && m.kind===kind);
+            if(!clear || m.active || skillActive!==0){enemyMove=null;}
             return {identity:id,period:data.g_PIdx,detailGeneration:data.g_hdDetailGeneration,fight:f,menu:m,units:units,mask:mask,
-                invalidMask:invalidMask,blockers:blockers,skillActive:skillActive,skills:skills,presentation:ready?'hd':'lcd'};
+                invalidMask:invalidMask,blockers:blockers,skillActive:skillActive,skills:skills,enemyMove:enemyMove,
+                presentation:ready || enemyMove?'hd':'lcd'};
         }
         function readNativeTicket() {
             if(!available()) { return null; }
@@ -191,6 +201,7 @@
         function inputTicket(hit) {
             if(hit.type==='detail'){var d=dialog();return d && d.getBattleLcdPresentation && d.getBattleLcdPresentation()==='off'?detailTicket():null;}
             var t=readNativeTicket();if(!t){return null;}
+            if(t.kind===0 && hit.type!=='mode'){return null;}
             if((hit.type==='help'||hit.type==='view') && [1,2,5].indexOf(t.kind)<0){return null;}
             if(hit.type==='next' && (hit.target.disabled || !canNext(t))){return null;}
             return hit.type==='mode'?t:t.presentation==='hd' && sharedShowsHd() && renderMatches(lastRender,t) && battle() && battle().getInputTicket?battle().getInputTicket():null;
@@ -272,6 +283,9 @@
             var detailEnabled=presentation==='hd' && ticket && [1,2,5].indexOf(ticket.kind)>=0;
             ['help','view'].forEach(function(name){var n=root && root.querySelector('[data-hd-battle-'+name+']');if(n){n.disabled=!detailEnabled;}});
             var next=root && root.querySelector('[data-hd-battle-next]');if(next){next.disabled=presentation!=='hd'||!canNext(ticket);}
+            var watching=!!(presentation==='hd' && ticket && ticket.native.enemyMove);
+            var cancel=root && root.querySelector('[data-hd-battle-cancel]');if(cancel){cancel.disabled=watching;}
+            var focus=node('hd-mobile-battle-focus');if(focus){focus.disabled=watching;}
         }
         function sharedShowsHd() {
             var b=battle();return !!(b && typeof b.getLcdPresentation==='function' && b.getLcdPresentation()==='off');
@@ -282,7 +296,8 @@
             if(renderBindings.has(snapshot) && renderBindings.get(snapshot)!==t.data){return false;}
             var names=['key','stableKey','libraryGeneration','kind','seq','actor'];
             if(!names.every(function(name){return owner[name]===t[name];})){return false;}
-            return same(t,b.getInputTicket()) && same(t,readNativeTicket());
+            var current=t.native.enemyMove && typeof b.getEnemyMoveTicket==='function' ? b.getEnemyMoveTicket() : b.getInputTicket();
+            return same(t,current) && same(t,readNativeTicket());
         }
         function refresh() {
             if(refreshing || !mounted){return last;}refreshing=true;
@@ -307,6 +322,7 @@
                     detailPresentation:detailPresentation,detailType:dt?dt.ownerType:null,
                     detailOwner:dt?{kind:dt.kind,seq:dt.seq,detailSeq:dt.detailSeq,generation:dt.generation,libraryGeneration:dt.libraryGeneration}:null,
                     personContext:null,inputKind:t && t.kind,inputSeq:t && t.seq,libraryGeneration:t && t.libraryGeneration,
+                    enemyMove:presentation==='hd' && t ? t.native.enemyMove : null,
                     camera:camera && Object.assign({},camera),blocked:blocked,armed:!!arm};
                 return last;
             }finally{refreshing=false;}
@@ -375,7 +391,23 @@
                 return false;
             }
         }
-        function drawBoard(ctx, rect, geometry, snapshot, fight, actor) {
+        function drawEnemyMoveRange(ctx,geometry,ticket,feedback) {
+            var m=ticket.native.mask, fight=ticket.native.fight;
+            var mask={originX:m.g_PathSX,originY:m.g_PathSY,useX:m.g_PUseSX,useY:m.g_PUseSY,values:m.values};
+            var bounds={width:fight.mapW,height:fight.mapH};
+            ctx.fillStyle='rgba(238,112,106,.26)';
+            for(var row=0;row<geometry.rows;row++){
+                for(var col=0;col<geometry.cols;col++){
+                    var cell=feedback.lookupMove(mask,geometry.viewOx+col,geometry.viewOy+row,bounds);
+                    if(cell.raw>0 && cell.raw<128 && cell.px>=mask.useX && cell.py>=mask.useY){
+                        ctx.fillRect(geometry.ox+col*geometry.cw+2,geometry.oy+row*geometry.ch+2,geometry.cw-4,geometry.ch-4);
+                    }
+                }
+            }
+        }
+        function drawBoard(ctx, rect, geometry, snapshot, ticket) {
+            var fight=ticket.native.fight, enemyMove=ticket.native.enemyMove;
+            var actor=enemyMove?enemyMove.actor:ticket.actor;
             var ox=geometry.ox, oy=geometry.oy, cell=geometry.cw, cols=geometry.cols, rows=geometry.rows;
             var viewX=geometry.viewOx, viewY=geometry.viewOy, dpr=geometry.dpr;
             ctx.setTransform(dpr,0,0,dpr,0,0);
@@ -390,6 +422,7 @@
                 }
             }
             var feedback=environment.BayeHdBattleFeedback;
+            if(enemyMove && enemyMove.phase===1 && feedback){drawEnemyMoveRange(ctx,geometry,ticket,feedback);}
             var skillTargetLayer=!!(feedback && snapshot.feedback && snapshot.feedback.skillAim);
             if(feedback && snapshot.feedback){feedback.paint(ctx,geometry,snapshot.feedback,skillTargetLayer);}
             ctx.strokeStyle='#60707855';ctx.lineWidth=1;
@@ -405,7 +438,7 @@
             });
             if(skillTargetLayer){feedback.paintTargets(ctx,geometry,snapshot.feedback);}
             else{
-                ctx.strokeStyle='#f0c75a';ctx.lineWidth=2;
+                ctx.strokeStyle=enemyMove?'#f1a08b':'#f0c75a';ctx.lineWidth=2;
                 ctx.strokeRect(ox+(fight.focusX-viewX)*cell+1,oy+(fight.focusY-viewY)*cell+1,cell-2,cell-2);
             }
         }
@@ -417,7 +450,8 @@
                     lastRender=null;lastBoardPaint=null;if(t){paint('lcd');}if(arm&&!currentModePress(t)){retire('render-owner-changed');}return;
                 }
                 renderBindings.set(snapshot,t.data);lastRender=snapshot;
-                paint('hd',t);var r=board.getBoundingClientRect();if(r.width<44 || r.height<44){return;}
+                paint('hd',t);var r=board.getBoundingClientRect();
+                if(r.width<44 || r.height<44){lastRender=null;paint('lcd',t);return;}
                 var cols=Math.min(t.native.fight.mapW,Math.floor(r.width/44)),rows=Math.min(t.native.fight.mapH,Math.floor(r.height/44));
                 var cell=Math.floor(Math.min(r.width/cols,r.height/rows)), ox=Math.floor((r.width-cols*cell)/2),oy=Math.floor((r.height-rows*cell)/2);
                 if(cameraData!==t.data){cameraData=t.data;lastFocus='';}
@@ -429,6 +463,7 @@
                 var dpr=Math.min(2,environment.devicePixelRatio||1),w=Math.round(r.width*dpr),h=Math.round(r.height*dpr);
                 var geometry={ox:ox,oy:oy,cw:cell,ch:cell,cols:cols,rows:rows,viewOx:camera.x,viewOy:camera.y,dpr:dpr};
                 var f=t.native.fight, paintKey=key([r.width,r.height,geometry,t.libraryGeneration,f.focusX,f.focusY,t.actor,
+                    t.native.enemyMove,t.native.enemyMove?t.native.mask:null,
                     snapshot.terrainSnapshot,snapshot.feedback,snapshot.unitList]);
                 var resized=canvas.width!==w || canvas.height!==h;
                 // Camera hit geometry and the current native ticket still refresh
@@ -436,8 +471,8 @@
                 if(resized || !lastBoardPaint || lastBoardPaint.canvas!==canvas || lastBoardPaint.data!==t.data || lastBoardPaint.key!==paintKey){
                     lastBoardPaint=null;
                     if(canvas.width!==w){canvas.width=w;}if(canvas.height!==h){canvas.height=h;}
-                    var ctx=canvas.getContext('2d');if(!ctx){return;}
-                    drawBoard(ctx,r,geometry,snapshot,f,t.actor);
+                    var ctx=canvas.getContext('2d');if(!ctx){lastRender=null;paint('lcd',t);return;}
+                    drawBoard(ctx,r,geometry,snapshot,t);
                 }
                 if(!renderFocusCard(snapshot,t)){
                     lastRender=null;paint('lcd');if(arm){retire('render-owner-changed');}return;
@@ -445,6 +480,12 @@
                 if(!lastBoardPaint){lastBoardPaint={canvas:canvas,data:t.data,key:paintKey};}
                 if(last){last.camera=Object.assign({},camera);last.presentation='hd';}
             }finally{drawing=false;}
+        }
+        function onEngineEnemyMove() {
+            if(!mounted){return;}
+            var b=battle(), data=environment.baye && environment.baye.data;
+            if(data && data.g_hdFightEnemyMovePhase && b && typeof b.onEngineFight==='function'){b.onEngineFight();}
+            return refresh();
         }
         function init() {
             if(mounted){return refresh();}mounted=true;
@@ -465,6 +506,7 @@
                     [13,27,32,37,38,39,40,72,70,83].indexOf(e.keyCode)>=0 || e.keyCode>=48 && e.keyCode<=57;
                 if(!recognized || e.isComposing){return;}
                 var t=readNativeTicket(), b=battle();
+                if(t && t.native.enemyMove){stop(e);return;}
                 if(t && t.presentation==='lcd' || !sharedShowsHd()){refresh();return;}
                 if(e.isTrusted!==true || e.repeat){stop(e);return;}
                 if(!renderMatches(lastRender,t)){stop(e);refresh();return;}
@@ -491,9 +533,11 @@
             }
             timer=environment.setInterval(refresh,80);return refresh();
         }
-        return {init:init,refresh:refresh,readNativeTicket:readNativeTicket,ownsDetailSurface:ownsDetailSurface,debugSnapshot:function(){return Object.assign({},last,{camera:camera && Object.assign({},camera),armed:!!arm,blocked:blocked,effectPresentation:effectPresentation});}};
+        return {init:init,refresh:refresh,readNativeTicket:readNativeTicket,ownsDetailSurface:ownsDetailSurface,
+            onEngineEnemyMove:onEngineEnemyMove,debugSnapshot:function(){return Object.assign({},last,{camera:camera && Object.assign({},camera),armed:!!arm,blocked:blocked,effectPresentation:effectPresentation});}};
     }
     var controller=createController(global);
     global.BayeHdMobileBattle={createController:createController,init:controller.init,refresh:controller.refresh,
-        readNativeTicket:controller.readNativeTicket,ownsDetailSurface:controller.ownsDetailSurface,debugSnapshot:controller.debugSnapshot};
+        readNativeTicket:controller.readNativeTicket,ownsDetailSurface:controller.ownsDetailSurface,
+        onEngineEnemyMove:controller.onEngineEnemyMove,debugSnapshot:controller.debugSnapshot};
 })(window);
