@@ -5737,13 +5737,19 @@
             menu.count, menu.index, menu.generation, menu.detailGeneration, ids, menu.names, menu.packedNames]);
     }
 
-    function ordinaryPersonList() {
-        if (state.deepKind !== 'person' || state.deepStep || mobileTrade || transferFlow || mobileEquipmentFlow || surrenderFlow) { return false; }
-        if (state.subKind === '' && state.deepLabel === '人物') { return true; }
+    function ownedPersonList(includeMilitaryPickers) {
+        if (mobileTrade || transferFlow || mobileEquipmentFlow || surrenderFlow) { return false; }
+        var ordinary = state.deepKind === 'person' && !state.deepStep;
+        if (ordinary && state.subKind === '' && state.deepLabel === '人物') { return true; }
         var labels = SUBS[state.subKind], kinds = DEEP[state.subKind];
         var command = labels && labels.indexOf(state.deepLabel);
-        return (state.subKind === 'neizheng' || state.subKind === 'junbei') && command >= 0 &&
-            kinds[command] === 'person' && !(state.subKind === 'neizheng' && [5, 6, 7, 10].indexOf(command) >= 0);
+        if (!(command >= 0) || kinds[command] !== state.deepKind) { return false; }
+        if (state.subKind === 'junbei') {
+            return ordinary || !!includeMilitaryPickers && (state.deepKind === 'person-qty' ||
+                state.deepKind === 'person-city' && !state.deepStep && state.wizardStep === 'persons' &&
+                    !state.finishPersonsBusy && !state.personExitSent);
+        }
+        return state.subKind === 'neizheng' && ordinary && [5, 6, 7, 10].indexOf(command) < 0;
     }
 
     var personListStatsReading = false, personListStatsEpoch = 0;
@@ -5765,7 +5771,7 @@
                 var methods = [api && api.read, api && api.isCurrent, engine && engine.getPersonCount,
                     engine && engine.ensureData, hd && hd.ready, hd && hd.menuItems, hd && hd.personProperties,
                     hooks && hooks.getPersonPropertyTitle, hooks && hooks.getPersonPropertyValue];
-                if (!ordinaryPersonList() || !state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
+                if (!ownedPersonList(true) || !state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
                     (state.nativeMenuRequest && !state.nativeMenuRequest.preview) || state.deepSelectionPending || state.personPagePending || state.sending ||
                     state.queue.length || state.closingSub || showingQty() || detailOverlayActive() ||
                     state.personProperties && state.personProperties.custom || !state.deepMenuOwner ||
@@ -5817,7 +5823,7 @@
                             return queue[start + i] === member[0] && people[member[0]] === memberRefs[i] && memberRefs[i].Belong === member[1];
                         }) && data.g_hdMenuActive === live.active && data.g_hdMenuContext === live.context &&
                         data.g_hdMenuKind === live.kind && data.g_hdMenuSeq === live.seq && data.g_hdMenuCount === live.count &&
-                        data.g_hdMenuIndex === live.index && state.deepItems === items && ordinaryPersonList() &&
+                        data.g_hdMenuIndex === live.index && state.deepItems === items && ownedPersonList(true) &&
                         state.open && state.layer === 'deep' && !document.hidden && (noCallbacks || shouldShowHd()) &&
                         (!state.nativeMenuRequest || state.nativeMenuRequest.preview) && !state.deepSelectionPending && !state.personPagePending && !state.sending &&
                         !state.queue.length && !state.closingSub && !(state.personProperties && state.personProperties.custom) &&
@@ -5829,7 +5835,7 @@
                     data.g_hdMenuKind !== currentMenu.kind || data.g_hdMenuSeq !== currentMenu.seq ||
                     data.g_hdMenuCount !== currentMenu.count || data.g_hdMenuIndex !== currentMenu.index ||
                     !api.isCurrent(identity) || global.baye !== engine || engine.hd !== hd || engine.data !== data ||
-                    global.BayeHdLibIdentity !== api || state.deepItems !== items || !ordinaryPersonList() ||
+                    global.BayeHdLibIdentity !== api || state.deepItems !== items || !ownedPersonList(true) ||
                     token !== personListStatsEpoch || !current()) { return null; }
                 return {refs: refs, people: people, memberRefs: memberRefs, ids: ids.slice(), king: king,
                     current: current, profileKey: profileKey(profile),
@@ -6174,12 +6180,19 @@
             for (var n = 0; n < nodes.length; n++) {
                 nodes[n].node.hidden = nodes[n].button.hidden = visible.indexOf(nodes[n].index) < 0;
             }
-            for (n = 0; n < ordered.length; n++) { list.appendChild(ordered[n].node); }
+            var wizard = kind === 'person' && state.deepKind === 'person-city' && view.query
+                ? list.querySelector('[data-hd-wizard]') : null;
+            for (n = 0; n < ordered.length; n++) {
+                if (wizard) { list.insertBefore(ordered[n].node, wizard); }
+                else { list.appendChild(ordered[n].node); }
+            }
             listFindRemoveEmpty(list);
             if (!visible.length) {
                 var empty = document.createElement('div'); empty.className = 'hd-city-menu-deep-empty';
                 empty.setAttribute('data-hd-list-empty', '1');
-                empty.textContent = '无匹配，请修改查找内容或清空。'; list.appendChild(empty);
+                empty.textContent = '无匹配，请修改查找内容或清空。';
+                if (wizard) { list.insertBefore(empty, wizard); }
+                else { list.appendChild(empty); }
             }
             list.scrollTop = scrollTop;
         }
@@ -7025,7 +7038,7 @@
         var liveQty = engineQty();
         var march = engineMarch();
         var quantityVisible = showingQty(), mobileQty = !!mobileHost && quantityVisible;
-        var mobilePersonList = !!(mobileHost && !quantityVisible && owner && owner.kind === 3 && state.deepItems.length && ordinaryPersonList());
+        var mobilePersonList = !!(mobileHost && !quantityVisible && owner && owner.kind === 3 && state.deepItems.length && ownedPersonList());
         list.classList.toggle('has-mobile-person-list', mobilePersonList);
         // The summary stays outside the mobile button scroller. Entering this
         // layout retires the previous list's scroll, not the player's next scroll.

@@ -3866,6 +3866,24 @@ function exercisePersonListFindRefresh() {
     assert.equal(ui.sort.value, 'force'); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
     const current = visibleListFindButtons(h); h.hud.fillDeepList(); assert.deepEqual(visibleListFindButtons(h), current);
 }
+test('Recruitment filters and sorts current native generals and resets for the next list', () => {
+    const h = personListSummaryHarness([0, 20, 199]);
+    h.context.baye.hd.march = () => ({phase: 0, session: 0});
+    Object.assign(h.hud.state, {subKind: 'junbei', deepKind: 'person-qty', deepLabel: '征兵'});
+    const ui = openListFind(h);
+    sortListFind(h, 'arms'); assert.deepEqual(listFindIds(h), [199, 20, 0]);
+    queryListFind(h, h.menu.names[1]); assert.deepEqual(listFindIds(h), [20]);
+    assert.equal(visibleListFindButtons(h)[0].getAttribute('data-hd-deep'), '1');
+    assert.deepEqual(plain(h.hud.state.deepItems).map(row => row.pind), [0, 20, 199]);
+
+    h.menu.seq++; h.raw.g_hdMenuSeq++; h.personProps.menuSeq = h.menu.seq;
+    h.hud.state.deepStep = 1;
+    h.hud.fillDeepList();
+    assert.equal(ui.tools.hidden, false); assert.equal(ui.controls.hidden, true);
+    assert.equal(ui.query.value, ''); assert.equal(ui.sort.value, 'native');
+    assert.deepEqual(listFindIds(h), [0, 20, 199]);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
 function exercisePersonListFindInvalid() {
     const h = personListSummaryHarness([0, 20, 199]), ui = openListFind(h);
     queryListFind(h, '同名'); sortListFind(h, 'force');

@@ -7,6 +7,7 @@
  * --scenario arrival queues two armies for the same enemy city and settles both in one month.
  * --mobile-width=667|844 uses mobile HD touch controls for victory, defense, arrival or save.
  * --scenario defense prepares a garrison and plays original incoming attacks to a victory.
+ * --find-generals checks name search and sorting in the original recruitment and march lists.
  * --period=1|2|3|4 chooses the original period for probe, victory or save.
  * --scenario captives --captive-order exercises one actual surrender order through month-end.
  * --captive-width=1280 selects a 720p desktop viewport for either captive flow.
@@ -35,6 +36,8 @@ const scenarioFlag = process.argv.indexOf('--scenario');
 const scenario = scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
 assert.ok(['victory', 'defense', 'arrival', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
 const arrivalScenario=scenario==='arrival',defenseScenario=scenario==='defense';
+const findGenerals=process.argv.includes('--find-generals');
+assert.ok(!findGenerals||scenario==='victory','General search acceptance requires the victory scenario');
 const periodFlag=process.argv.find(arg=>arg.startsWith('--period='));
 const campaignPeriod=Number(periodFlag?.split('=')[1]??1);
 assert.ok([1,2,3,4].includes(campaignPeriod)&&
@@ -412,9 +415,20 @@ function mobileQuantityControl(cityAttribute,dialogAttribute=cityAttribute) {
 }
 
 async function confirmCampaignQuantity(cdp) {
-    const selector=mobileCampaignInput?mobileQuantityControl('data-hd-qty-ok','data-hd-dlg-ok'):
-        await evaluate(cdp,`BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-dlg-ok]':'#hd-city-menu [data-hd-qty-ok]'`);
-    return click(cdp,selector);
+    if(!mobileCampaignInput)return click(cdp,await evaluate(cdp,
+        `BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-dlg-ok]':'#hd-city-menu [data-hd-qty-ok]'`));
+    const current=await waitFor(cdp,'visible native quantity input owner',`(() => {
+        const host=BayeHdMobileCity.snapshot(),q=baye.hd.qty();
+        const standalone=baye.hd.march().phase!==2;
+        const ticket=standalone?host.dialogVisible&&BayeHdDialog.getInputTicket():host.cityVisible&&BayeHdCityMenu.getMarchDialogTicket();
+        return q.active===1&&q.ready===1&&ticket?.ownerType==='qty'&&
+            {standalone,keys:__runtimeEngineInputs.length,session:q.session,inputSeq:q.inputSeq};
+    })()`);
+    await click(cdp,current.standalone?'#hd-dialog [data-hd-dlg-ok]':'#hd-city-menu [data-hd-qty-ok]');
+    await waitFor(cdp,'original quantity confirmation acknowledged',`(() => {const q=baye.hd.qty();
+        return q.session!==${current.session}||q.active===0||q.inputSeq!==${current.inputSeq}&&q.lastKey===39;})()`);
+    assert.deepEqual(await evaluate(cdp,`__runtimeEngineInputs.slice(${current.keys}).map(input=>input.code)`),[39],
+        'One touch sends one original quantity confirmation');
 }
 
 function engineInputRecorderExpression(documentId) {
@@ -772,6 +786,8 @@ async function prepareArmy(cdp,fixture) {
         const auxiliaryId=Number(chooser.deepItems[index].pind);
         assert.ok(Number.isInteger(auxiliaryId)&&auxiliaryId>=0,'recruitment exposes the actual zero-based PersonQueue identity');
         await checkpoint(cdp,'army-fixture-recruit-person-'+attempt);
+        if(findGenerals&&attempt===0)await findMilitaryGeneral(cdp,live,chooser.deepItems[index],'recruitment');
+        if(findGenerals&&attempt===1)await assertFreshGeneralSearch(cdp,live.menu);
         await click(cdp,personSelector(live.menu,chooser.deepItems[index]));
         recruiterMenuSeq=live.menu.seq;
         await waitFor(cdp,'real recruitment GetArmy',`baye.hd.qty().active&&baye.hd.qty().min===0&&baye.hd.qty().max>0`);
@@ -1255,6 +1271,68 @@ function personSelector(menu,person) {
         '[data-hd-menu-seq="'+menu.seq+'"]';
 }
 
+const generalSearchRows=`[...document.querySelectorAll('#hd-city-menu-deep [data-hd-deep]')]
+    .filter(node=>node.checkVisibility()).map(node=>({index:Number(node.dataset.hdDeep),id:Number(node.dataset.hdDeepPind)}))`;
+
+async function assertFreshGeneralSearch(cdp,menu) {
+    await waitFor(cdp,'unfiltered new native general list',`(() => {
+        const tools=document.getElementById('hd-city-menu-list-tools'),q=document.getElementById('hd-city-menu-list-query');
+        const rows=${generalSearchRows};
+        return !tools.hidden&&document.getElementById('hd-city-menu-list-controls').hidden&&q.value===''&&
+            baye.hd.menuItems().seq===${menu.seq}&&rows.length===${menu.count};
+    })()`);
+}
+
+async function findMilitaryGeneral(cdp,live,person,label) {
+    const prefix='#hd-city-menu-list-',native='({menu:baye.hd.menuItems(),march:baye.hd.march(),qty:baye.hd.qty(),keys:__runtimeEngineInputs.length})';
+    await waitFor(cdp,'general search in '+label,"!document.getElementById('hd-city-menu-list-tools').hidden",8000);
+    const before=await evaluate(cdp,native);
+    await click(cdp,prefix+'toggle');
+    const march=live.city.deepKind==='person-city',sortValue=march?'arms':'force',field=march?'Arms':'Force';
+    const sortIndex=await evaluate(cdp,`(() => {
+        const select=document.getElementById('hd-city-menu-list-sort');select.focus();
+        return [...select.options].findIndex(option=>option.value===${JSON.stringify(sortValue)});
+    })()`);
+    assert.ok(sortIndex>0,'The general sort is offered as a native browser control');
+    const arrow={key:'ArrowDown',code:'ArrowDown',windowsVirtualKeyCode:40};
+    for(let step=0;step<sortIndex;step++) {
+        await cdp.send('Input.dispatchKeyEvent',{type:'keyDown',...arrow});
+        await cdp.send('Input.dispatchKeyEvent',{type:'keyUp',...arrow});
+    }
+    const expected=await evaluate(cdp,`baye.hd.menuItems().ids.map((id,index)=>({id,index,value:Number(baye.data.g_Persons[id].${field})}))
+        .sort((a,b)=>b.value-a.value||a.index-b.index).map(({id,index})=>({id,index}))`);
+    assert.equal(await evaluate(cdp,"document.getElementById('hd-city-menu-list-sort').value"),sortValue);
+    assert.deepEqual(await evaluate(cdp,generalSearchRows),expected,'Sorting preserves native IDs and original order for ties');
+    const search=async text=>{
+        await click(cdp,prefix+'query');
+        await waitFor(cdp,'focused general name search',"document.activeElement.id==='hd-city-menu-list-query'");
+        await cdp.send('Input.insertText',{text});
+    };
+    await search('无此武将');
+    await waitFor(cdp,'empty general name result',`document.querySelector('[data-hd-list-empty]')&&(${generalSearchRows}).length===0`);
+    if(march) {
+        const finish='[data-hd-finish-persons]';
+        if(mobileCampaignInput) {
+            const control=await mobileCampaignInput.reveal(finish);
+            assert.ok(control.hit&&control.width>=44&&control.height>=44,'Finishing remains touchable with no search matches');
+        } else assert.equal(await evaluate(cdp,`document.querySelector(${JSON.stringify(finish)}).checkVisibility()`),true);
+    }
+    await click(cdp,prefix+'clear');
+    await waitFor(cdp,'clear restores the full general list',`(${generalSearchRows}).length===${live.menu.count}`);
+    await search(person.name);
+    const matches=await waitFor(cdp,'filtered original general row',`(() => {const rows=${generalSearchRows};return rows.length===1&&rows;})()`);
+    assert.deepEqual(matches,[{index:person.i,id:person.pind}],'The filtered first visible row retains its original person ID and index');
+    const inView=await evaluate(cdp,`(() => {
+        const button=document.querySelector(${JSON.stringify(personSelector(live.menu,person))});
+        const r=button.getBoundingClientRect(),list=document.getElementById('hd-city-menu-deep').getBoundingClientRect();
+        const hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);
+        return r.width>=44&&r.height>=44&&r.top>=list.top&&r.bottom<=Math.min(list.bottom,innerHeight)&&button.contains(hit);
+    })()`);
+    assert.equal(inView,true,'A single search match is fully reachable without scrolling');
+    assert.deepEqual(await evaluate(cdp,native),before,'General search sends no native keys and preserves the original menu');
+    await checkpoint(cdp,label+'-filtered-general',{person:{name:person.name,id:person.pind,index:person.i}});
+}
+
 function assertDispatchedArmy(initial,march) {
     const actual=initial.units.filter(p=>p.side==='player').map(p=>({pind:p.id-1,name:p.name,arms:p.arms}));
     const expected=march.selected.map(p=>({pind:p.pind,name:p.name,arms:p.arms}));
@@ -1294,6 +1372,8 @@ async function dispatchMarch(cdp,origin,target,label,options={}) {
         assert.equal(person.belong,await evaluate(cdp,'baye.hd.realm().playerBelong'),'only an actual allied origin general is dispatched');
         assert.ok(person.arms>0,'every selected general has actual troops before departure');
         await checkpoint(cdp,label+'-select-'+i+'-ready');
+        if(findGenerals&&i===0)await findMilitaryGeneral(cdp,before,item,label);
+        if(findGenerals&&i===1)await assertFreshGeneralSearch(cdp,before.menu);
         await click(cdp,personSelector(before.menu,item));
         await waitFor(cdp,'general selection ACK '+label,`baye.hd.march().selected===${before.march.selected+1}`);
         const remaining=await readCityPersons(cdp,origin);
@@ -1673,7 +1753,7 @@ async function playNpcDefense(cdp,label) {
         const f=baye.hd.fight(),d=baye.data;
         if(f.inputSeq<=${previousFight.inputSeq}||f.cityIndex!==${entry.cityIndex}||d.g_FgtParam.Mode!==0||d.g_MainGenIdx!==10)return false;
         if(f.active===1&&f.over===0&&f.inputKind===1)return {phase:'pick',fight:f};
-        return !f.active&&[1,2].includes(f.over)&&f.skip===4&&{phase:'instant',fight:f};
+        return !f.active&&[1,2].includes(f.over)&&{phase:'instant',fight:f};
     })()`,60000);
     if(opening.phase==='pick') {
         assert.ok(entry.selected.length,'A playable defense requires an actual selected army');
