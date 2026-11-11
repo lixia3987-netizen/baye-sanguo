@@ -397,6 +397,7 @@ void baye_hd_fight_actor(U8 actor);
 void baye_hd_fight_input_begin(U8 kind);
 void baye_hd_fight_input_end(void);
 void baye_hd_fight_observe_enemy_move(U8 phase, U8 actor);
+void baye_hd_fight_map_number(U8 kind, U8 target, U16 value, U32 skillSession);
 U8 baye_hd_take_fight_action(U16* choice);
 void baye_hd_map_input_begin(void);
 void baye_hd_march_begin(U8 city);

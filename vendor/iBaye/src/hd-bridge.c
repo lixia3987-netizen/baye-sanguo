@@ -117,6 +117,9 @@ U32 g_hdFightInputSeq = 0;
 U8 g_hdFightActor = 0xff;
 U8 g_hdFightEnemyMovePhase = BAYE_HD_ENEMY_MOVE_NONE;
 U8 g_hdFightEnemyMoveActor = 0xff;
+U8 g_hdFightNumberKind = 0, g_hdFightNumberTarget = 0xff;
+U16 g_hdFightNumberValue = 0;
+U32 g_hdFightNumberSeq = 0, g_hdFightNumberSkillSession = 0;
 static U8 hdFightSelectedActor = 0xff;
 U8 g_hdFightResultGbk[BAYE_HD_FIGHT_RESULT_MAX];
 U8 g_hdFightTipGbk[BAYE_HD_FIGHT_TIP_MAX];
@@ -1686,9 +1689,18 @@ void baye_hd_fight_actor(U8 actor)
     hdFightSelectedActor = actor;
 }
 
+static void hd_fight_clear_number(void)
+{
+    g_hdFightNumberKind = 0;
+    g_hdFightNumberTarget = 0xff;
+    g_hdFightNumberValue = 0;
+    g_hdFightNumberSkillSession = 0;
+}
+
 void baye_hd_fight_input_begin(U8 kind)
 {
     baye_hd_city_info_retire();
+    hd_fight_clear_number();
     g_hdFightEnemyMovePhase = BAYE_HD_ENEMY_MOVE_NONE;
     g_hdFightEnemyMoveActor = 0xff;
     if (kind != BAYE_HD_FIGHT_INPUT_VIEW) baye_hd_view_retire();
@@ -1704,6 +1716,7 @@ void baye_hd_fight_input_begin(U8 kind)
 void baye_hd_fight_input_end(void)
 {
     baye_hd_city_info_retire();
+    hd_fight_clear_number();
     baye_hd_view_retire();
     /* The legacy action mailbox has no scene token. Close it together with the
      * real input so a late action cannot become a system-menu selection. */
@@ -1731,6 +1744,41 @@ void baye_hd_fight_observe_enemy_move(U8 phase, U8 actor)
         try {
             if (window.BayeHdMobileBattle && typeof BayeHdMobileBattle.onEngineEnemyMove === 'function') {
                 BayeHdMobileBattle.onEngineEnemyMove();
+            }
+        } catch (e) {}
+    });
+}
+
+/* Publish the number after the original map text has been drawn. The caller
+ * owns the existing delay and retires this observation as soon as it returns. */
+void baye_hd_fight_map_number(U8 kind, U8 target, U16 value, U32 skillSession)
+{
+    U8 skillOwns = skillSession && g_hdResultOwnerKind == BAYE_HD_RESULT_SKILL && g_hdResultOwnerValid &&
+        g_hdResultOwnerSession == skillSession && g_hdSkillResultActive && !g_hdSkillResultCustom &&
+        g_hdSkillResultSession == skillSession && g_hdSkillResultGeneration == g_hdResultOwnerGeneration &&
+        g_hdSkillResultPhase == BAYE_HD_SKILL_NUMBERS && g_hdSkillResultTargetIndex == target &&
+        g_hdSkillResultResultKind == kind && g_hdSkillResultValue == value;
+    if (kind >= BAYE_HD_SKILL_ARMS_LOSS && kind <= BAYE_HD_SKILL_PROVENDER_LOSS && target < FGTA_MAX &&
+        g_hdFightActive && !g_hdFightOver && !g_FgtOver && !g_hdFightWait &&
+        g_hdFightInputKind == BAYE_HD_FIGHT_INPUT_BUSY && !g_hdMenuActive && !g_hdReportActive &&
+        !g_hdSpeActive && !g_hdAttackActive &&
+        (skillOwns || (!skillSession && !g_hdResultOwnerKind && !g_hdSkillResultActive))) {
+        g_hdFightNumberSeq = hd_next_input_seq(g_hdFightNumberSeq);
+        g_hdFightNumberTarget = target;
+        g_hdFightNumberValue = value;
+        g_hdFightNumberSkillSession = skillSession;
+        g_hdFightNumberKind = kind;
+    } else {
+        if (!g_hdFightNumberKind) return;
+        hd_fight_clear_number();
+    }
+    EM_ASM({
+        try {
+            if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') BayeHdSpe.onEngineSpe();
+            if (window.BayeHdMobileBattle && typeof BayeHdMobileBattle.onEngineMapNumber === 'function') {
+                BayeHdMobileBattle.onEngineMapNumber();
+            } else if (window.BayeHdBattle && typeof BayeHdBattle.onEngineFight === 'function') {
+                BayeHdBattle.onEngineFight();
             }
         } catch (e) {}
     });
@@ -4200,6 +4248,11 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdFightActor, U8);
     DEFADDF(g_hdFightEnemyMovePhase, U8);
     DEFADDF(g_hdFightEnemyMoveActor, U8);
+    DEFADDF(g_hdFightNumberKind, U8);
+    DEFADDF(g_hdFightNumberTarget, U8);
+    DEFADDF(g_hdFightNumberValue, U16);
+    DEFADDF(g_hdFightNumberSeq, U32);
+    DEFADDF(g_hdFightNumberSkillSession, U32);
     DEFADD_GBKARR(g_hdFightResultGbk, sizeof(g_hdFightResultGbk));
     DEFADD_GBKARR(g_hdFightTipGbk, sizeof(g_hdFightTipGbk));
     DEFADDF(g_hdQtyValue, U32);

@@ -136,9 +136,16 @@
                 ([1,2,5].indexOf(kind)>=0 ? f.wait===1 && !m.active :
                     menuKind && f.wait===0 && m.active===1 && m.context===3 && m.kind===kind);
             if(!clear || m.active || skillActive!==0){enemyMove=null;}
+            var b=battle(), mapNumber=data.g_hdFightNumberKind && b && typeof b.readMapNumber==='function' &&
+                typeof b.paintMapNumber==='function' ? b.readMapNumber(data) : null;
+            if(mapNumber && (kind!==0 || !f.inputSeq || m.active || skillActive!==0 ||
+                BLOCKERS.some(function(name){
+                    return blockers[name]!==0 && (!mapNumber.skillSession ||
+                        ['g_hdSkillResultActive','g_hdResultOwnerKind','g_hdResultOwnerValid'].indexOf(name)<0);
+                }))){mapNumber=null;}
             return {identity:id,period:data.g_PIdx,detailGeneration:data.g_hdDetailGeneration,fight:f,menu:m,units:units,mask:mask,
-                invalidMask:invalidMask,blockers:blockers,skillActive:skillActive,skills:skills,enemyMove:enemyMove,
-                presentation:ready || enemyMove?'hd':'lcd'};
+                invalidMask:invalidMask,blockers:blockers,skillActive:skillActive,skills:skills,enemyMove:enemyMove,mapNumber:mapNumber,
+                presentation:ready || enemyMove || mapNumber?'hd':'lcd'};
         }
         function readNativeTicket() {
             if(!available()) { return null; }
@@ -283,7 +290,7 @@
             var detailEnabled=presentation==='hd' && ticket && [1,2,5].indexOf(ticket.kind)>=0;
             ['help','view'].forEach(function(name){var n=root && root.querySelector('[data-hd-battle-'+name+']');if(n){n.disabled=!detailEnabled;}});
             var next=root && root.querySelector('[data-hd-battle-next]');if(next){next.disabled=presentation!=='hd'||!canNext(ticket);}
-            var watching=!!(presentation==='hd' && ticket && ticket.native.enemyMove);
+            var watching=!!(presentation==='hd' && ticket && (ticket.native.enemyMove || ticket.native.mapNumber));
             var cancel=root && root.querySelector('[data-hd-battle-cancel]');if(cancel){cancel.disabled=watching;}
             var focus=node('hd-mobile-battle-focus');if(focus){focus.disabled=watching;}
         }
@@ -296,7 +303,8 @@
             if(renderBindings.has(snapshot) && renderBindings.get(snapshot)!==t.data){return false;}
             var names=['key','stableKey','libraryGeneration','kind','seq','actor'];
             if(!names.every(function(name){return owner[name]===t[name];})){return false;}
-            var current=t.native.enemyMove && typeof b.getEnemyMoveTicket==='function' ? b.getEnemyMoveTicket() : b.getInputTicket();
+            var current=(t.native.enemyMove || t.native.mapNumber) && typeof b.getObservationTicket==='function'
+                ? b.getObservationTicket() : b.getInputTicket();
             return same(t,current) && same(t,readNativeTicket());
         }
         function refresh() {
@@ -323,6 +331,7 @@
                     detailOwner:dt?{kind:dt.kind,seq:dt.seq,detailSeq:dt.detailSeq,generation:dt.generation,libraryGeneration:dt.libraryGeneration}:null,
                     personContext:null,inputKind:t && t.kind,inputSeq:t && t.seq,libraryGeneration:t && t.libraryGeneration,
                     enemyMove:presentation==='hd' && t ? t.native.enemyMove : null,
+                    mapNumber:presentation==='hd' && t ? t.native.mapNumber : null,
                     camera:camera && Object.assign({},camera),blocked:blocked,armed:!!arm};
                 return last;
             }finally{refreshing=false;}
@@ -335,7 +344,8 @@
                     renderMatches(snapshot,t) && doc()===d && node('hd-mobile-battle-details')===details;
             }
             try {
-                var f=t.native.fight, x=f.focusX, y=f.focusY, units=Array.isArray(snapshot.unitList)?snapshot.unitList:[], u=null;
+                var f=t.native.fight, mapNumber=t.native.mapNumber;
+                var x=mapNumber?mapNumber.x:f.focusX, y=mapNumber?mapNumber.y:f.focusY, units=Array.isArray(snapshot.unitList)?snapshot.unitList:[], u=null;
                 for(var i=0;i<units.length;i++){
                     var candidate=units[i];
                     if(candidate && candidate.x===x && candidate.y===y && candidate.state!==8){u=candidate;break;}
@@ -406,8 +416,8 @@
             }
         }
         function drawBoard(ctx, rect, geometry, snapshot, ticket) {
-            var fight=ticket.native.fight, enemyMove=ticket.native.enemyMove;
-            var actor=enemyMove?enemyMove.actor:ticket.actor;
+            var fight=ticket.native.fight, enemyMove=ticket.native.enemyMove, number=ticket.native.mapNumber;
+            var actor=number?number.target:enemyMove?enemyMove.actor:ticket.actor;
             var ox=geometry.ox, oy=geometry.oy, cell=geometry.cw, cols=geometry.cols, rows=geometry.rows;
             var viewX=geometry.viewOx, viewY=geometry.viewOy, dpr=geometry.dpr;
             ctx.setTransform(dpr,0,0,dpr,0,0);
@@ -437,10 +447,11 @@
                 ctx.font='10px sans-serif';ctx.fillText(u.active===1?'已行动':u.i===actor?'当前':STATES[u.state]||'待行动',px+cell/2,py+cell*.83,cell-8);
             });
             if(skillTargetLayer){feedback.paintTargets(ctx,geometry,snapshot.feedback);}
-            else{
+            else if(!number){
                 ctx.strokeStyle=enemyMove?'#f1a08b':'#f0c75a';ctx.lineWidth=2;
                 ctx.strokeRect(ox+(fight.focusX-viewX)*cell+1,oy+(fight.focusY-viewY)*cell+1,cell-2,cell-2);
             }
+            if(number){battle().paintMapNumber(ctx,geometry,number);}
         }
         function render(snapshot) {
             if(drawing || !snapshot){return;}drawing=true;
@@ -455,15 +466,16 @@
                 var cols=Math.min(t.native.fight.mapW,Math.floor(r.width/44)),rows=Math.min(t.native.fight.mapH,Math.floor(r.height/44));
                 var cell=Math.floor(Math.min(r.width/cols,r.height/rows)), ox=Math.floor((r.width-cols*cell)/2),oy=Math.floor((r.height-rows*cell)/2);
                 if(cameraData!==t.data){cameraData=t.data;lastFocus='';}
-                var focus=key([t.libraryGeneration,t.native.fight.cityIndex,t.native.fight.bout,t.seq,t.native.fight.focusX,t.native.fight.focusY]);
+                var f=t.native.fight, number=t.native.mapNumber, focusX=number?number.x:f.focusX, focusY=number?number.y:f.focusY;
+                var focus=key([t.libraryGeneration,f.cityIndex,f.bout,t.seq,focusX,focusY,number&&number.seq]);
                 var previous=camera;
                 camera={x:previous?previous.x:0,y:previous?previous.y:0,cols:cols,rows:rows,cell:cell,left:r.left+ox,top:r.top+oy,ox:ox,oy:oy};
-                if(lastFocus!==focus){camera.x=t.native.fight.focusX-Math.floor(cols/2);camera.y=t.native.fight.focusY-Math.floor(rows/2);lastFocus=focus;}
+                if(lastFocus!==focus){camera.x=focusX-Math.floor(cols/2);camera.y=focusY-Math.floor(rows/2);lastFocus=focus;}
                 clampCamera(t);
                 var dpr=Math.min(2,environment.devicePixelRatio||1),w=Math.round(r.width*dpr),h=Math.round(r.height*dpr);
                 var geometry={ox:ox,oy:oy,cw:cell,ch:cell,cols:cols,rows:rows,viewOx:camera.x,viewOy:camera.y,dpr:dpr};
-                var f=t.native.fight, paintKey=key([r.width,r.height,geometry,t.libraryGeneration,f.focusX,f.focusY,t.actor,
-                    t.native.enemyMove,t.native.enemyMove?t.native.mask:null,
+                var paintKey=key([r.width,r.height,geometry,t.libraryGeneration,focusX,focusY,t.actor,
+                    t.native.enemyMove,t.native.enemyMove?t.native.mask:null,number,
                     snapshot.terrainSnapshot,snapshot.feedback,snapshot.unitList]);
                 var resized=canvas.width!==w || canvas.height!==h;
                 // Camera hit geometry and the current native ticket still refresh
@@ -481,10 +493,10 @@
                 if(last){last.camera=Object.assign({},camera);last.presentation='hd';}
             }finally{drawing=false;}
         }
-        function onEngineEnemyMove() {
+        function refreshObservedBattle() {
             if(!mounted){return;}
             var b=battle(), data=environment.baye && environment.baye.data;
-            if(data && data.g_hdFightEnemyMovePhase && b && typeof b.onEngineFight==='function'){b.onEngineFight();}
+            if(data && (data.g_hdFightEnemyMovePhase || data.g_hdFightNumberKind) && b && typeof b.onEngineFight==='function'){b.onEngineFight();}
             return refresh();
         }
         function init() {
@@ -506,7 +518,7 @@
                     [13,27,32,37,38,39,40,72,70,83].indexOf(e.keyCode)>=0 || e.keyCode>=48 && e.keyCode<=57;
                 if(!recognized || e.isComposing){return;}
                 var t=readNativeTicket(), b=battle();
-                if(t && t.native.enemyMove){stop(e);return;}
+                if(t && (t.native.enemyMove || t.native.mapNumber)){stop(e);return;}
                 if(t && t.presentation==='lcd' || !sharedShowsHd()){refresh();return;}
                 if(e.isTrusted!==true || e.repeat){stop(e);return;}
                 if(!renderMatches(lastRender,t)){stop(e);refresh();return;}
@@ -534,10 +546,11 @@
             timer=environment.setInterval(refresh,80);return refresh();
         }
         return {init:init,refresh:refresh,readNativeTicket:readNativeTicket,ownsDetailSurface:ownsDetailSurface,
-            onEngineEnemyMove:onEngineEnemyMove,debugSnapshot:function(){return Object.assign({},last,{camera:camera && Object.assign({},camera),armed:!!arm,blocked:blocked,effectPresentation:effectPresentation});}};
+            onEngineEnemyMove:refreshObservedBattle,onEngineMapNumber:refreshObservedBattle,
+            debugSnapshot:function(){return Object.assign({},last,{camera:camera && Object.assign({},camera),armed:!!arm,blocked:blocked,effectPresentation:effectPresentation});}};
     }
     var controller=createController(global);
     global.BayeHdMobileBattle={createController:createController,init:controller.init,refresh:controller.refresh,
         readNativeTicket:controller.readNativeTicket,ownsDetailSurface:controller.ownsDetailSurface,
-        onEngineEnemyMove:controller.onEngineEnemyMove,debugSnapshot:controller.debugSnapshot};
+        onEngineEnemyMove:controller.onEngineEnemyMove,onEngineMapNumber:controller.onEngineMapNumber,debugSnapshot:controller.debugSnapshot};
 })(window);

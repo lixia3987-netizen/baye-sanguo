@@ -143,8 +143,9 @@ function fixture() {
             const t={key:native.key,stableKey:native.stableKey,libraryGeneration:native.libraryGeneration,
                 kind:native.kind,seq:native.seq,actor:native.actor};
             Object.defineProperty(t,'data',{value:native.data,enumerable:false});return t;},
-        getEnemyMoveTicket(){const native=host.readNativeTicket();return state.mode!=='classic'&&!state.showLcd&&native?.native.enemyMove?native:null;},
-        getLcdPresentation(){return this.getInputTicket()||this.getEnemyMoveTicket()?'off':'passthrough';}};
+        getObservationTicket(){const native=host.readNativeTicket();return state.mode!=='classic'&&!state.showLcd&&
+            (native?.native.enemyMove||native?.native.mapNumber)?native:null;},
+        getLcdPresentation(){return this.getInputTicket()||this.getObservationTicket()?'off':'passthrough';}};
     const window = {document,innerWidth:844,innerHeight:390,devicePixelRatio:1,
         localStorage:{getItem:key=>storage.get(key)??null,setItem(key,value){storage.set(key,String(value));}},
         matchMedia:()=>({matches:window.innerWidth>window.innerHeight}),
@@ -378,6 +379,22 @@ test('native enemy range and position render in HD without owning battle input',
     f.raw.g_hdSpeActive=1;assert.equal(f.host.refresh().presentation,'lcd');
     f.raw.g_hdSpeActive=0;f.state.mode='classic';f.render();
     assert.equal(f.host.refresh().presentation,'lcd');noAction(f);
+});
+test('a map number can render during its skill result without taking input or covering a new movie',()=>{
+    const f=fixture(), number={kind:1,target:10,value:34,seq:4,skillSession:7,x:15,y:16}, drawn=[];
+    Object.assign(f.raw,{g_hdFightInputKind:0,g_hdFightWait:0,g_hdFightNumberKind:1,
+        g_hdSkillResultActive:1,g_hdResultOwnerKind:2,g_hdResultOwnerValid:1});
+    f.shared.readMapNumber=()=>number;
+    f.shared.paintMapNumber=(ctx,board,result)=>drawn.push({board,result});
+    f.render();const after=f.host.refresh();
+    assert.equal(after.presentation,'hd');assert.equal(after.mapNumber,number);
+    assert.equal(drawn.length,1);assert.equal(drawn[0].result,number);
+    assert.ok(after.camera.x<=15&&15<after.camera.x+after.camera.cols);
+    f.tap(f.canvas);assert.equal(f.fire('keydown',f.canvas,{key:'Enter'}).prevented,true);noAction(f);
+    f.raw.g_hdSpeActive=1;assert.equal(f.host.refresh().presentation,'lcd');
+    assert.equal(f.host.debugSnapshot().mapNumber,null);
+    f.raw.g_hdSpeActive=0;f.raw.g_hdFightNumberKind=0;assert.equal(f.host.refresh().presentation,'lcd');
+    noAction(f);
 });
 for(const change of [f=>f.raw.g_FgtParam.GenArray.pop(),f=>f.raw.g_GenPos.pop(),f=>f.raw.g_FgtParam.GenArray[0]=65536,
     f=>f.raw.g_GenPos[0].x=NaN,f=>f.raw.g_GenPos[0].state=undefined,

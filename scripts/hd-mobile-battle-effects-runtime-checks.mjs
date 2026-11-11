@@ -5,13 +5,49 @@ import {verifyMobileSpySkill} from './hd-mobile-battle-skill-oracle.mjs';
 import {verifyMobileNonlethalAttack} from './hd-mobile-battle-attack-oracle.mjs';
 import {mobileSuccessorCandidateIds,verifyMobileSuccessorChoice} from './hd-mobile-successor-runtime-oracle.mjs';
 import {battleResultNoteObservation,verifyBattleResultNote} from './hd-battle-hud-runtime-checks.mjs';
+import {recordBattleMapNumbers,verifyBattleMapNumber} from './hd-battle-map-number-runtime-checks.mjs';
+import {skillAimObservation,skillOptionsExpression,verifySkillAim} from './hd-battle-skill-aim-runtime-checks.mjs';
+
+async function tryFireMapNumber(c, actor) {
+  const {report,evaluate,button,artifactDir}=c, {ready,menu,tileTap}=c.controls;
+  await menu(1,'Open the current native skill list for Fire');await ready(4,'Fire skill list');
+  const fire=(await evaluate(skillOptionsExpression)).find(skill=>skill.id===5&&skill.available);
+  if(fire){
+    await menu(fire.index,'Select actual Fire');const aim=await ready(5,'Fire AIM');
+    const {allowed}=verifySkillAim(await evaluate(skillAimObservation),fire,{mobile:true});
+    const target=aim.units.find(unit=>allowed.includes(unit.i)&&unit.arms>0);
+    if(target){
+      await evaluate("__mobileBattleEffects.phase='player-fire'");
+      const offset=await evaluate('__battleMapNumbers.length');
+      await tileTap(target.x,target.y,'Cast actual Fire on '+target.name);
+      const after=await ready(1,'Actual Fire returns to player wait');
+      const value=target.arms-(after.units.find(unit=>unit.i===target.i)?.arms??0);
+      assert.equal(aim.units.find(unit=>unit.i===actor.i).mp-after.units.find(unit=>unit.i===actor.i).mp,fire.useMp);
+      assert.equal(after.fight.bout,aim.fight.bout);assert.equal(after.touches,aim.touches);
+      assert.equal(after.keys,aim.keys+Math.abs(aim.fight.focusX-target.x)+Math.abs(aim.fight.focusY-target.y)+1);
+      assert.equal(await evaluate('baye.data.g_hdFightNumberKind'),0);
+      (report.fireAttempts??=[]).push({actor:actor.name,target:target.name,bout:aim.fight.bout,value});
+      if(value>0){
+        const frames=await evaluate('__battleMapNumbers.slice('+offset+')');
+        report.fireMapNumber=verifyBattleMapNumber(frames,{target,value,skillId:fire.id,keys:after.keys,
+          artifactDir,label:'battle-map-number-fire'});
+        report.effectChecks.push({label:'Actual native Fire on the HD map',verdict:{value,accepted:true}});
+      }
+      return true;
+    }
+  }
+  await button('[data-hd-battle-cancel]');await ready(3,'Return to ACTION without casting Fire');
+  return false;
+}
 
 export async function runMobileBattleEffectsChecks(c) {
   const {report,evaluate,until,delay,checkpoint,key,button,tap,cityPoint,metrics,readSource,worldSource,mapReadySource,originalLibBytes,effectManifest,controls}=c;
   const {native,capture,ready,tileTap,menu,physicalKey}=controls;
   report.effectsAccepted=false;
   report.effectChecks=[];
-  report.effectsViewport=report.effectsCase==='hd-missing'?[667,375]:[844,390];
+  const mapNumbers=report.effectsCase.startsWith('map-number-');
+  const fireNumber=report.effectsCase.startsWith('map-number-fire-');
+  report.effectsViewport=report.effectsCase==='hd-missing'||report.effectsCase.endsWith('-667')?[667,375]:[844,390];
   await metrics(...report.effectsViewport);await ready(1,'Current player PICK after effect viewport');
   // Read-only observers run after the real display callback. No native state,
   // clocks, RNG, input handlers or game getter results are changed.
@@ -69,17 +105,27 @@ export async function runMobileBattleEffectsChecks(c) {
   assert.equal(report.spy.after.keys,report.spy.before.keys+1,'Only explicit original skill confirm; no automatic report ACK');
   report.effectChecks.push({label:'Native spy exact effect',verdict:report.spyVerdict});
 
+  if(mapNumbers){
+    await button('[data-hd-battle-sys]');await ready(6,'Open real battle settings for map numbers');
+    await menu(2,'Open original battle animation setting');await ready(8,'Native animation options');
+    await menu(0,'Turn off battle animation in the original menu');await ready(6,'Animation setting committed');
+    assert.equal((await native()).settings.movie,0);
+    await button('[data-hd-battle-cancel]');await ready(1,'Player wait with map numbers');
+    await evaluate(recordBattleMapNumbers);
+  }
+
   // Close the real distance using only the currently published movement path.
   // Never manufacture a target or claim a diagonal cavalry attack is legal.
   await evaluate("__mobileBattleEffects.phase='approach'");
   let attacked=false;
+  const covered=()=>attacked&&(!fireNumber||report.fireMapNumber);
   report.attackApproach=[];
-  for(let boutAttempt=0;boutAttempt<4&&!attacked;boutAttempt++){
+  for(let boutAttempt=0;boutAttempt<(fireNumber?5:4)&&!covered();boutAttempt++){
     let current=await ready(1,'player wait before approach');
     const liveEnemies=current.units.filter(u=>u.side==='enemy'&&u.state!==8&&u.arms>0);
     assert.ok(liveEnemies.length,'Actual living original enemies');
     const dist=u=>Math.min(...liveEnemies.map(e=>Math.abs(e.x-u.x)+Math.abs(e.y-u.y)));
-    const candidates=current.units.filter(u=>u.side==='player'&&u.active===0&&u.state===0&&u.arms>0).sort((a,b)=>dist(a)-dist(b)).slice(0,3);
+    const candidates=current.units.filter(u=>u.side==='player'&&u.active===0&&u.state===0&&u.arms>0).sort((a,b)=>dist(a)-dist(b)).slice(0,fireNumber?8:3);
     for(const candidate of candidates){
       current=await ready(1,'PICK for current attacker');const actor=current.units.find(u=>u.i===candidate.i);
       if(!actor||actor.active!==0||actor.state!==0||actor.arms===0)continue;
@@ -92,6 +138,13 @@ export async function runMobileBattleEffectsChecks(c) {
       const destination=path.filter(p=>!current.units.some(u=>u.i!==actor.i&&u.state!==8&&u.x===p.x&&u.y===p.y)).sort((a,b)=>distance(a)-distance(b))[0];
       assert.ok(destination,'Actual original legal movement destination');
       await tileTap(destination.x,destination.y,'Approach enemy on current native path');await ready(3,'ACTION after real approach');
+      if(fireNumber&&!report.fireMapNumber&&await tryFireMapNumber(c,actor)){
+        if(covered())break;
+        continue;
+      }
+      if(attacked){
+        await menu(3,'Keep actual legal approach with one native rest');await ready(1,'Rested approach returns PICK');continue;
+      }
       await menu(0,'Open genuine ordinary attack AIM');await ready(5,'ordinary AIM');
       const aim=await native();assert.equal(aim.fight.aimType,0);
       const range=await evaluate('Array.from(baye.data.g_FgtAtkRng,Number)');
@@ -102,7 +155,22 @@ export async function runMobileBattleEffectsChecks(c) {
         await menu(3,'Keep actual legal approach with one native rest');await ready(1,'Rested approach returns PICK');continue;}
       const target=targets[0];report.attack={before:aim,world:await evaluate(worldSource),actorIndex:actor.i,targetIndex:target.i};
       await evaluate("__mobileBattleEffects.phase='player-attack'");
+      const numberOffset=mapNumbers?await evaluate('__battleMapNumbers.length'):0;
       await tileTap(target.x,target.y,'Attack actual enemy in published native range');
+      if(mapNumbers){
+        const after=await ready(1,'Actual ordinary map number retires');
+        const hurt=target.arms-after.units.find(u=>u.i===target.i).arms;
+        assert.ok(hurt>0,'The original attack changes the target troops');
+        assert.equal(after.fight.bout,aim.fight.bout);assert.equal(after.touches,aim.touches);
+        assert.equal(after.keys,aim.keys+Math.abs(aim.fight.focusX-target.x)+Math.abs(aim.fight.focusY-target.y)+1);
+        assert.equal(await evaluate('baye.data.g_hdFightNumberKind'),0);
+        const frames=await evaluate('__battleMapNumbers.slice('+numberOffset+')');
+        report.attack.mapNumber=verifyBattleMapNumber(frames,{target,value:hurt,keys:after.keys,
+          artifactDir:c.artifactDir,label:'battle-map-number-attack'});
+        report.attack.after=await capture('battle-effects-player-attack-retired');
+        report.effectChecks.push({label:'Actual native ordinary attack on the HD map',verdict:{hurt,accepted:true}});
+        attacked=true;if(covered())break;continue;
+      }
       let shot=false;
       for(let sample=0;sample<1500;sample++){
         const status=await native();
@@ -150,11 +218,14 @@ export async function runMobileBattleEffectsChecks(c) {
         nativePhases:[...new Set(traces.map(t=>t.attack.phase))],hdPhases:[...new Set(displayed.map(t=>t.attack.phase))],fullFramesAccepted:false};
       report.effectChecks.push({label:'Actual native attack damage and '+(report.effectsCase==='hd-missing'?'physical LCD missing-asset fallback':'mobile HD display'),verdict:report.attack.verdict});attacked=true;break;
     }
-    if(!attacked){current=await ready(1,'Explicit turn after actual approach');await button('[data-hd-battle-sys]');await ready(6,'Actual approach SYSTEM');
+    if(!covered()){current=await ready(1,'Explicit turn after actual approach');await button('[data-hd-battle-sys]');await ready(6,'Actual approach SYSTEM');
       await menu(0,'Explicit one army end to close actual distance');
-      await until('next real player bout for attack',`(() => {const f=baye.hd.fight();return f.active===1&&!f.over&&f.inputKind===1&&f.bout===${current.fight.bout+1}&&BayeHdMobileBattle.refresh().presentation==='hd';})()`,60000);}
+      const next=await until('next real player bout or native battle result',`(() => {const f=baye.hd.fight();
+        return f.over||f.active===1&&f.inputKind===1&&f.bout===${current.fight.bout+1}&&BayeHdMobileBattle.refresh().presentation==='hd'?f:null;})()`,60000);
+      assert.equal(next.over,0,'The original battle remains active for the next attempt');}
   }
   assert.ok(attacked,'Normal attack reached by actual current movement and enemy turns');
+  if(fireNumber)assert.ok(report.fireMapNumber,'Fire lands during actual original battle');
 
   await evaluate("__mobileBattleEffects.phase='retreat'");
   report.battleCompletion={before:await native(),world:await evaluate(worldSource),successorChoices:[]};
@@ -214,8 +285,14 @@ export async function runMobileBattleEffectsChecks(c) {
   report.postBattleMap={city,before:await evaluate(readSource),world:await evaluate(worldSource)};
   await tap(await cityPoint(city));
   await until('Post-battle genuine CITY root',`(() => {const m=baye.hd.menuItems(),d=baye.data;return m.active===1&&m.context===1&&m.kind===1&&d.g_hdMapCity===${city.index+1}&&d.g_hdMapPick===0&&d.g_hdBattlePick===0&&!d.g_hdReportActive&&!d.g_hdHelpActive&&(d.g_hdMarchPhase===0||d.g_hdMarchPhase===7);})()`);
-  if(!await evaluate('BayeHdCityMenu.debugSnapshot().showHd'))await button('#hd-mobile-menu-mode');
+  const modeKeys=await evaluate('__mobileMapKeys.length');
+  let modeAttempts=0;
+  while(modeAttempts<3&&await evaluate("BayeHdCityMenu.getMode()==='classic'")){
+    await button('#hd-mobile-menu-mode');modeAttempts++;
+  }
   await until('Post-battle mobile HD city shell',`BayeHdMobileCity.isActive()&&BayeHdCityMenu.debugSnapshot().open&&BayeHdCityMenu.debugSnapshot().showHd&&BayeHdCityMenu.debugSnapshot().cityIndex===${city.index}`);
+  assert.equal(await evaluate('__mobileMapKeys.length'),modeKeys,'Switching the city menu presentation sends no native key');
+  report.postBattleMap.modeAttempts=modeAttempts;
   report.postBattleMap.cityState=await checkpoint('battle-effects-post-settlement-city');
   const statusKeys=await evaluate('__mobileMapKeys.length');
   await button('#hd-city-menu [data-hd-root="3"]');
@@ -239,6 +316,9 @@ export async function runMobileBattleEffectsChecks(c) {
   report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
   assert.equal(report.exceptions.length,0);
   report.effectsAccepted=true;report.ok=true;report.accepted=true;
-  report.acceptedScope.push('Actual original 谍报 MP and exact natural outcome; ordinary attack damage bound to native session with '+(report.effectsCase==='hd-missing'?'controlled missing-asset physical LCD fallback':'mobile HD assets')+'; real retreat settlement and strategy return');
+  const attackPresentation=mapNumbers?'the original on-map damage number in HD':
+    report.effectsCase==='hd-missing'?'controlled missing-asset physical LCD fallback':'mobile HD assets';
+  report.acceptedScope.push('Actual original 谍报 MP and exact natural outcome; ordinary attack with '+attackPresentation+'; real retreat settlement and strategy return');
+  if(fireNumber)report.acceptedScope.push('Actual Fire MP, target troop loss and visible on-map HD result');
   report.pendingScope=['Other mobile attack/skill families and remaining fallback matrices','Classic-mode effects and visibility transitions','Android/iOS actual devices and performance','Full mobile HD/march acceptance and four-period full campaigns'];
 }

@@ -39,7 +39,7 @@ const helpers=['copy_gbk','hd_next_input_seq', 'hd_battle_note_notify', 'baye_hd
     'baye_hd_goods_name','baye_hd_goods_page','baye_hd_set_ready','baye_hd_world_commit',
     'baye_hd_set_report','baye_hd_report_begin','baye_hd_report_end','baye_hd_set_menu','baye_hd_set_menu_index',
     'baye_hd_menu_scope','baye_hd_menu_scope_default','baye_hd_menu_begin','baye_hd_menu_end',
-    'baye_hd_fight_actor','baye_hd_fight_input_begin','baye_hd_fight_input_end','baye_hd_set_fight',
+    'baye_hd_fight_actor','hd_fight_clear_number','baye_hd_fight_input_begin','baye_hd_fight_input_end','baye_hd_set_fight',
     'baye_hd_march_phase','baye_hd_march_end','baye_hd_record_end',
     'hd_help_notify','baye_hd_set_help','baye_hd_help_publish','baye_hd_help_clear',
     'hd_status_publish','hd_status_retire','hd_ai_publish','hd_ai_retire','baye_hd_attack_retire','baye_hd_skill_retire','baye_hd_set_qty','baye_hd_qty_begin','baye_hd_qty_end'].map(n=>actual('hd-bridge.c',n));

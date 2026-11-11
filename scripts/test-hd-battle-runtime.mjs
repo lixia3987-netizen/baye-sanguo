@@ -6,6 +6,7 @@
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * --status-only checks the original HUD through the first full battle day.
  * --skill-aim-only stops after the original selected skill, help and cancel checks.
+ * --map-numbers verifies an ordinary attack and Fire with native battle animations off.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
 import assert from 'node:assert/strict';
@@ -19,18 +20,21 @@ import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {battleHudObservation,measureIdleBattleBoard,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
 import {skillAimObservation,skillOptionsExpression,verifySkillAim} from './hd-battle-skill-aim-runtime-checks.mjs';
+import {recordBattleMapNumbers,verifyBattleMapNumber} from './hd-battle-map-number-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const statusOnly = process.argv.includes('--status-only');
 const skillAimOnly = process.argv.includes('--skill-aim-only');
+const mapNumbers = process.argv.includes('--map-numbers');
+assert.ok(!mapNumbers||(!statusOnly&&!skillAimOnly),'--map-numbers requires the full combat route');
 const artifactFlag = process.argv.indexOf('--artifact-dir');
 const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/battle-runtime-smoke'));
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.lib': 'application/octet-stream' };
-const report = { staged, statusOnly, skillAimOnly, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [], battleHud: [] };
+const report = { staged, statusOnly, skillAimOnly, mapNumbers, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [], battleHud: [] };
 const servedAssets = new Map();
 
 function prepareServedAssets() {
@@ -57,7 +61,7 @@ function prepareServedAssets() {
         'assets/hd-overworld/palette/factions.json','assets/hd-overworld/terrain/base_plains.jpg',
         'assets/hd-portraits/manifest.json','assets/hd-portraits/refs/index.json','assets/hd-spe/manifest.json',
         'vendor/iBaye/src/data/pstring.h','scripts/test-hd-battle-runtime.mjs','scripts/hd-battle-hud-runtime-checks.mjs',
-        'scripts/hd-battle-skill-aim-runtime-checks.mjs']) {
+        'scripts/hd-battle-skill-aim-runtime-checks.mjs','scripts/hd-battle-map-number-runtime-checks.mjs']) {
         const data=fs.readFileSync(path.join(root,name));
         const metadata={source:name,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};
         report.sources[name]=metadata;servedAssets.set(name,{data,metadata});
@@ -436,6 +440,13 @@ async function battleSmoke(cdp) {
         await action(cdp,'cancel-system-setting-'+index,'BayeHdBattle.cancel()');
         await waitBattle(cdp,6,'setting canceled');
     }
+    if(mapNumbers) {
+        await menuChoice(cdp,systemMenu.names[2],8);
+        const names=await evaluate(cdp,'baye.hd.menuItems().names');
+        await menuChoice(cdp,names[0],6);
+        assert.equal(await evaluate(cdp,'Number(baye.data.g_LookMovie)'),0);
+        await evaluate(cdp,recordBattleMapNumbers);
+    }
     await action(cdp,'cancel-system-menu','BayeHdBattle.cancel()');
     await waitBattle(cdp,1,'system canceled');
     assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'view/help/settings/canceled retreat preserve units');
@@ -448,7 +459,7 @@ async function battleSmoke(cdp) {
         return;
     }
     await manualCombat(cdp);
-    if(skillAimOnly) return;
+    if(skillAimOnly||mapNumbers) return;
     assert.ok(report.knownEnemyView,'The same native day verifies the spy result in VIEW');
     await terrainGallery(cdp);
 
@@ -1184,11 +1195,18 @@ async function attemptAttack(cdp,actor) {
     if(!targets.length) {await action(cdp,'cancel-attack-no-target','BayeHdBattle.cancel()');await waitBattle(cdp,3,'return from unavailable attack');return false;}
     const target=targets.sort((a,b)=>a.arms-b.arms)[0],before=await evaluate(cdp,battleStateExpression);
     await focusBattleTarget(cdp,target,'29-attack-target-preview');
+    const mapBefore=mapNumbers?await evaluate(cdp,'({offset:__battleMapNumbers.length,keys:__battleKeys.length})'):null;
     const result=await action(cdp,'confirm-attack-'+target.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);assert.equal(result.ok,true);
     await waitFor(cdp,'actual attack resolves',`(() => {const f=baye.hd.fight();return f.over||f.inputKind===1;})()`,30000);
     const after=await evaluate(cdp,battleStateExpression),enemy=after.units.find(u=>u.i===target.i);
     assert.ok(!enemy||enemy.arms<target.arms,'confirmed normal attack reduces actual enemy troops');
     report.attackCost={actor:actor.name,target:target.name,before,after};
+    if(mapBefore) {
+        const frames=await evaluate(cdp,'__battleMapNumbers.slice('+mapBefore.offset+')');
+        report.attackMapNumber=verifyBattleMapNumber(frames,{target,value:target.arms-(enemy?.arms??0),
+            keys:mapBefore.keys+1,artifactDir,label:'battle-map-number-attack'});
+        assert.equal(await evaluate(cdp,'baye.data.g_hdFightNumberKind'),0);
+    }
     await checkpoint(cdp,'29-attack-real-troop-cost');
     return true;
 }
@@ -1201,6 +1219,7 @@ async function attemptSkill(cdp,actor,requiredSkill) {
     report.skillOptions??=[];report.skillOptions.push({actor:actor.name,options});
     for(const skill of options) {
         const before=await evaluate(cdp,battleStateExpression),mp=before.units.find(u=>u.i===actor.i).mp;
+        let mapBefore=null,confirmedTarget=null;
         await menuChoice(cdp,skill.name);
         await waitFor(cdp,'actual skill aim or action',`(() => {const f=baye.hd.fight(),s=BayeHdBattle.debugSnapshot();return !s.transaction&&(f.inputKind===5||f.inputKind===1||f.over);})()`,20000);
         const fight=await evaluate(cdp,'baye.hd.fight()');
@@ -1217,12 +1236,25 @@ async function attemptSkill(cdp,actor,requiredSkill) {
             }
             const target=targets[0];
             await focusBattleTarget(cdp,target,'30-skill-target-preview-'+(report.skillAttempts?.length||0));
+            if(mapNumbers&&skill.id===5) {
+                confirmedTarget=target;
+                mapBefore=await evaluate(cdp,'({offset:__battleMapNumbers.length,keys:__battleKeys.length})');
+            }
             const result=await action(cdp,'confirm-skill-'+skill.name+'-'+target.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);assert.equal(result.ok,true);
             await waitFor(cdp,'actual skill resolves',`baye.hd.fight().over||baye.hd.fight().inputKind===1`,30000);
         }
         const after=await evaluate(cdp,battleStateExpression),caster=after.units.find(u=>u.i===actor.i);
         assert.ok(caster&&caster.mp<mp,'confirmed skill consumes actual actor MP');
         assert.equal(mp-caster.mp,skill.useMp,'MP decreases by real LIB skill useMp');
+        if(mapBefore) {
+            const target=after.units.find(u=>u.i===confirmedTarget.i),value=confirmedTarget.arms-(target?.arms??0);
+            if(value>0) {
+                const frames=await evaluate(cdp,'__battleMapNumbers.slice('+mapBefore.offset+')');
+                report.fireMapNumber=verifyBattleMapNumber(frames,{target:confirmedTarget,value,skillId:5,
+                    keys:mapBefore.keys+1,artifactDir,label:'battle-map-number-fire'});
+                assert.equal(await evaluate(cdp,'baye.data.g_hdFightNumberKind'),0);
+            }
+        }
         const effects=[];
         for(const unit of before.units) {
             const changed=after.units.find(u=>u.i===unit.i);
@@ -1252,10 +1284,14 @@ async function performCombatCosts(cdp) {
     // Every action below represents explicit player intent. These helpers read
     // native legal paths, ranges and LIB skill restrictions, and deliver only
     // the same UI actions a player can make. No engine field is assigned.
-    for(let step=0;step<60&&(!report.attackCost||!report.skillCost||!report.skillEffect||!report.spyReveal);step++) {
+    const covered=()=>mapNumbers?report.attackMapNumber&&report.fireMapNumber:
+        report.attackCost&&report.skillCost&&report.skillEffect&&report.spyReveal;
+    for(let step=0;step<60&&!covered();step++) {
         const current=await evaluate(cdp,battleStateExpression);
         assert.equal(current.fight.over,0,'battle remains live until both action costs are verified');
-        const actor=current.units.find(u=>u.side==='player'&&u.active===0&&u.state!==8&&u.state!==1&&u.state!==6&&u.arms>0);
+        const candidates=current.units.filter(u=>u.side==='player'&&u.active===0&&u.state!==8&&u.state!==1&&u.state!==6&&u.arms>0);
+        const fireCaster=mapNumbers&&!report.fireMapNumber&&candidates.find(u=>u.mp>=15&&['程银','张横'].includes(u.name));
+        const actor=fireCaster||candidates[0];
         if(!actor) {assert.ok((report.turns?.length||0)<8,'combat cost verification reaches its bounded turn limit');await endArmyTurn(cdp);continue;}
         const selection=await chooseGeneral(cdp,actor);
         if(selection.inputKind===2) {
@@ -1266,13 +1302,20 @@ async function performCombatCosts(cdp) {
         await action(cdp,'approach-exact-path-tile-'+actor.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);
         await waitBattle(cdp,3,'manual combat action '+actor.name);
         }
+        if(mapNumbers&&!report.fireMapNumber&&await attemptSkill(cdp,actor,5))continue;
         if(!report.attackCost && await attemptAttack(cdp,actor))continue;
-        if(!report.spyReveal && await attemptSkill(cdp,actor,30)){
-            if(report.spyReveal) await knownEnemyViewSmoke(cdp);
-            continue;
+        if(!mapNumbers) {
+            if(!report.spyReveal && await attemptSkill(cdp,actor,30)){
+                if(report.spyReveal) await knownEnemyViewSmoke(cdp);
+                continue;
+            }
+            if(!report.skillEffect && await attemptSkill(cdp,actor))continue;
         }
-        if(!report.skillEffect && await attemptSkill(cdp,actor))continue;
         const rest=await evaluate(cdp,'baye.hd.menuItems().names[3]');await menuChoice(cdp,rest,1);
+    }
+    if(mapNumbers) {
+        assert.ok(report.attackMapNumber&&report.fireMapNumber,'Genuine ordinary attack and Fire display HD on-map results');
+        return;
     }
     assert.ok(report.attackCost,'a genuine normal attack was verified');assert.ok(report.skillCost,'a genuine MP-consuming skill was verified');assert.ok(report.skillEffect,'a genuine skill effect beyond MP cost was verified');
     if(!report.turns?.length) await endArmyTurn(cdp);

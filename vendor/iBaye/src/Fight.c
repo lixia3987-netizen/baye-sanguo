@@ -1285,8 +1285,11 @@ void FgtShowSNum(U8 sym,U8 idx,U16 num)
     gam_itoa(num,tbuf + 1,10);
     sx = FgtGetScrX(g_GenPos[idx].x);
     sy = FgtGetScrY(g_GenPos[idx].y);
-    GamStrShowS(sx,sy,tbuf);
+    if (GamStrShowS(sx, sy, tbuf) == gam_strlen(tbuf)) {
+        baye_hd_fight_map_number(sym == '+' ? BAYE_HD_SKILL_ARMS_GAIN : BAYE_HD_SKILL_ARMS_LOSS, idx, num, 0);
+    }
     GamDelay(SHOW_DLYBASE * 5,false);
+    baye_hd_fight_map_number(0, 0xff, 0, 0);
 }
 /***********************************************************************
  * 说明:     闪烁指定的将领

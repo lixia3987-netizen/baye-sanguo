@@ -188,7 +188,7 @@ function fixture() {
         'hd_help_detail_clear', 'hd_detail_read_at', 'hd_detail_restore', 'hd_overview_resource',
         'baye_hd_view_capture', 'baye_hd_view_publish', 'baye_hd_view_clear', 'hd_city_info_notify','baye_hd_city_info_retire','baye_hd_view_retire',
         'baye_hd_mini_map_publish', 'baye_hd_mini_map_clear', 'baye_hd_mini_map_retire',
-        'baye_hd_fight_actor', 'baye_hd_fight_input_begin', 'baye_hd_fight_input_end',
+        'baye_hd_fight_actor', 'hd_fight_clear_number', 'baye_hd_fight_input_begin', 'baye_hd_fight_input_end',
         'baye_hd_map_input_begin', 'baye_hd_set_map_pick', 'baye_hd_menu_end', 'baye_hd_march_phase', 'baye_hd_march_end',
         'baye_hd_set_report', 'baye_hd_report_begin', 'baye_hd_report_end', 'baye_hd_record_end',
         'baye_hd_set_fight', 'baye_hd_set_ready', 'baye_hd_world_commit', 'hd_help_notify', 'baye_hd_set_help',

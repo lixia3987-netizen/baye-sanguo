@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "840ef9a13fbd57a35f2f9560ff6e15d60c60d581",
-  "engineSourceSha256": "0a70d839f2098eea58254e5cddd4eeaf84122d0bd2f0075337bc1c2903a1a131",
+  "sourceRevision": "4a7a5d720298271690527890f841c282284baea0",
+  "engineSourceSha256": "069d89220365d9bf9a15e0bb6f2fcd8ca2382288f101fd8803416509b01e6fbf",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1794423950,
+  "sourceDateEpoch": 1794425977,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -95,6 +95,23 @@
     },
     "actor": "Enemy battle slot 10 through 19, or 255 when idle",
     "publication": "Read-only original visible enemy movement in FgtGetMCmdNear while battle input is busy"
+  },
+  "hdMapNumberProtocol": {
+    "fields": [
+      "g_hdFightNumberKind",
+      "g_hdFightNumberTarget",
+      "g_hdFightNumberValue",
+      "g_hdFightNumberSeq",
+      "g_hdFightNumberSkillSession"
+    ],
+    "kinds": {
+      "idle": 0,
+      "armsLoss": 1,
+      "armsGain": 2,
+      "provenderLoss": 3
+    },
+    "publication": "Read-only original signed text drawn on a battle tile until the existing native delay returns",
+    "skillSession": "Zero for ordinary attacks and turn changes, or the exact matching original skill result session"
   },
   "hdBattleNoteProtocol": {
     "version": 1,
@@ -676,16 +693,16 @@
   },
   "artifacts": {
     "baye.js": {
-      "bytes": 193831,
-      "sha256": "797f0d7dea16f7f56f920da7b6d8bcb382505e97483acc30e4616f47599143fe"
+      "bytes": 194220,
+      "sha256": "76dd8a26d4021a47ca5032f46001a5f469ee5d4f596a7e4072cc11d751dec29e"
     },
     "baye.wasm": {
-      "bytes": 4597379,
-      "sha256": "7c7fd5302c7f7c6dbf4013bf87809373fcc5e868502c75e2bf35f4d9140f1e55"
+      "bytes": 4603173,
+      "sha256": "3802f5123418507bc0c87fd4190e9f6e7328303f5f10fa6ce7c8d93413d9350e"
     },
     "baye.wasm.map": {
       "bytes": 29983,
-      "sha256": "1d8297dd52dd1cad19479db60a3841c8903268b7fdc4a147e38ca3a642cad5aa"
+      "sha256": "bc1fa6fb87c7b83f89e45e4fd35f2b5af57f858269f9db7f3ee662f975e06ff8"
     }
   }
 }

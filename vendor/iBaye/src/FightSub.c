@@ -39,7 +39,7 @@ U8 FgtAtkAction(U8 aIdx);
 U8 FgtJNAction(FGTCMD *pcmd);
 U8 FgtLoadToMem2(U8 idx,U8 *buf);
 void FgtResumeMp(U8 idx);
-void FgtShowSNum2(U8 sym,U8 idx,U16 num);
+static void FgtShowSNum2(U8 sym, U8 idx, U16 num, U8 kind, U32 skillSession);
 
 /***********************************************************************
  * 说明:     驱动战斗命令
@@ -347,10 +347,12 @@ static U8 _CommonJNAction(SkillID param, U8 aim, U8 sIdx, U8 aIdx, U8 originIdx,
         }
         else {
             baye_hd_skill_numbers(resultSession, (aim & 1) ? BAYE_HD_SKILL_ARMS_GAIN : BAYE_HD_SKILL_ARMS_LOSS, arms);
-            FgtShowSNum2((aim & 1) ? '+' : '-',aIdx,arms);
+            FgtShowSNum2((aim & 1) ? '+' : '-', aIdx, arms,
+                (aim & 1) ? BAYE_HD_SKILL_ARMS_GAIN : BAYE_HD_SKILL_ARMS_LOSS, resultSession);
             baye_hd_skill_hold(resultSession);
         }
         GamDelay(SHOW_DLYBASE * 5,false);
+        baye_hd_fight_map_number(0, 0xff, 0, 0);
     }
     if (resultSession) baye_hd_skill_end(resultSession);
     baye_hd_result_scope_end(&resultScope);
@@ -475,9 +477,10 @@ U8 FgtJNAction(FGTCMD *pcmd)
             FgtAtvShowNum(FGT_SPESX + 40, FGT_SPESY + 40, arms);
         }
         else
-            FgtShowSNum2('-', aIdx, arms);
+            FgtShowSNum2('-', aIdx, arms, BAYE_HD_SKILL_PROVENDER_LOSS, session);
         baye_hd_skill_hold(session);
         GamDelay(SHOW_DLYBASE * 5,false);
+        baye_hd_fight_map_number(0, 0xff, 0, 0);
         baye_hd_skill_end(session);
         baye_hd_result_scope_end(&resultScope);
     }
@@ -610,8 +613,9 @@ U8 FgtAtkAction(U8 aIdx)
         baye_hd_attack_hold(attackSession);
     }
     else
-        FgtShowSNum2('-',aIdx,hurt);
+        FgtShowSNum2('-', aIdx, hurt, animationCustom ? 0 : BAYE_HD_SKILL_ARMS_LOSS, 0);
     GamDelay(SHOW_DLYBASE * 5,false);
+    baye_hd_fight_map_number(0, 0xff, 0, 0);
     if (attackSession) {
         baye_hd_attack_end(attackSession); baye_hd_result_scope_end(&resultScope);
     }
@@ -1007,7 +1011,7 @@ void FgtResumeMp(U8 idx)
  *             ------          ----------      -------------
  *             高国军          2005.5.16       完成基本功能
  ***********************************************************************/
-void FgtShowSNum2(U8 sym,U8 idx,U16 num)
+static void FgtShowSNum2(U8 sym, U8 idx, U16 num, U8 kind, U32 skillSession)
 {
     I16	sx,sy;
     U8	tbuf[10];
@@ -1022,7 +1026,9 @@ void FgtShowSNum2(U8 sym,U8 idx,U16 num)
         sx = FgtGetScrX(g_GenPos[idx].x);
         sy = FgtGetScrY(g_GenPos[idx].y);
     }
-    GamStrShowS(sx,sy,tbuf);
+    if (GamStrShowS(sx, sy, tbuf) == gam_strlen(tbuf)) {
+        baye_hd_fight_map_number(kind, idx, num, skillSession);
+    }
 }
 /***********************************************************************
  * 说明:     检查被选中的将领是否为控制有效

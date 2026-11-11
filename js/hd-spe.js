@@ -203,6 +203,10 @@
         var k = kind(s);
         if (!s.active || document.hidden || ![1, 2, 3, 4].includes(k) || !hd(k) || report()) return false;
         if (k === 1 && isMobilePage()) return !!readMobileOwner(true) && mobileIntroOwner(s);
+        if (skillPostlude(s) && global.BayeHdBattle && typeof BayeHdBattle.readMapNumber === 'function') {
+            var number = BayeHdBattle.readMapNumber(baye.data);
+            if (number && number.skillSession === s.skillResult.session) return false;
+        }
         return s.ownerType === 'result-lcd' || numericOwner(s) || held(s) || matches(s);
     }
     function skippable(s) { return show(s) && kind(s) === 1 && (s.protocolVersion === 2 ? s.skipEligible === true && s.keyflag === 1 : (Number(s.id) === 3 || Number(s.id) === 6)); }

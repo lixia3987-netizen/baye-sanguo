@@ -215,7 +215,12 @@ static void CountSklHurt(SkillID skill,U16*arms,U16*prov,U8 origin,U8*state){ass
 static U16 PlcArmsMax(PersonID id){assert(id<FGTA_MAX);return ceiling;}
 static U32 FgtGetExp(U16 value){return value/10;}
 static U16 CountAtkHurt(void){return fixtureHurt;}
-static void FgtShowSNum2(U8 sign,U8 index,U16 value){assert((sign=='-'||sign=='+')&&index<FGTA_MAX);assert(value<=fixtureHurt||value==fixtureProv);record(7);}
+static void FgtShowSNum2(U8 sign,U8 index,U16 value,U8 kind,U32 session){
+    assert(index<FGTA_MAX&&(value<=fixtureHurt||value==fixtureProv));
+    assert(sign=='+'?kind==BAYE_HD_SKILL_ARMS_GAIN:sign=='-'&&(kind==BAYE_HD_SKILL_ARMS_LOSS||kind==BAYE_HD_SKILL_PROVENDER_LOSS));
+    assert(!session||session==g_hdSkillResultSession);record(7);
+}
+static void baye_hd_fight_map_number(U8 kind,U8 target,U16 value,U32 session){assert(!kind&&target==0xff&&!value&&!session);}
 static U8 FgtGetGenTer(U8 index){assert(index<FGTA_MAX);if(mode>=111&&mode<=119)return((mode==117&&index==3)||(mode==118&&index==10))?0:7;return 0;}
 static U8 GetArmType(PersonType*person){return person->ArmsType;} /* Unequipped fixture persons: no equipment override. */
 static bool FgtChkAkRng(U8 x,U8 y){return x<10&&y<10;}

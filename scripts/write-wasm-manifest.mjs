@@ -63,6 +63,12 @@ const manifest = {
         actor: 'Enemy battle slot 10 through 19, or 255 when idle',
         publication: 'Read-only original visible enemy movement in FgtGetMCmdNear while battle input is busy'
     },
+    hdMapNumberProtocol: {
+        fields: ['g_hdFightNumberKind','g_hdFightNumberTarget','g_hdFightNumberValue','g_hdFightNumberSeq','g_hdFightNumberSkillSession'],
+        kinds: { idle: 0, armsLoss: 1, armsGain: 2, provenderLoss: 3 },
+        publication: 'Read-only original signed text drawn on a battle tile until the existing native delay returns',
+        skillSession: 'Zero for ordinary attacks and turn changes, or the exact matching original skill result session'
+    },
     hdBattleNoteProtocol: {
         version: 1,
         publicApi: 'baye.hd.battleNote()',

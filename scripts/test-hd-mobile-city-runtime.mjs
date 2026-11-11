@@ -345,7 +345,8 @@ export async function main(args=process.argv.slice(2)) {
     (!defenderOnly||![campaignOnly,battleOnly,marchOnly,diplomacyOnly,minimapOnly,transferOnly,tradeOnly,systemOnly,equipmentOnly,previewOnly,reportsOnly,portraitsOnly,recruitment,staged&&!defenderCombat].some(Boolean))&&
     args.filter(arg=>arg==='--campaign-only').length<=1&&(!campaignOnly||![diplomacyOnly,minimapOnly,transferOnly,tradeOnly,systemOnly,equipmentOnly,previewOnly,reportsOnly,portraitsOnly,marchOnly,recruitment].some(Boolean))&&
     battleOverviewsFlags.length<=1&&(!battleOverviewsFlags.length||battleOverviewsOnly)&&[844,667].includes(battleOverviewsWidth)&&
-    effectFlags.length<=1&&(!effectFlags.length||battleEffects)&&['normal','hd-missing'].includes(effectsCase)&&
+    effectFlags.length<=1&&(!effectFlags.length||battleEffects)&&
+    ['normal','hd-missing','map-number-667','map-number-844','map-number-fire-667','map-number-fire-844'].includes(effectsCase)&&
     marchFlags.length<=1&&(!marchFlags.length||marchOnly)&&[844,667].includes(marchWidth)&&
     args.filter(arg=>arg==='--recruitment').length<=1&&(!recruitment||![reportsOnly,portraitsOnly,battleOnly,marchOnly].some(Boolean))&&
     args.filter(arg=>arg==='--distribution').length<=1&&!(distribution&&args.includes('--recruitment'))&&
@@ -921,7 +922,7 @@ export async function main(args=process.argv.slice(2)) {
     if(battleOnly){for(const f of ['scripts/hd-mobile-battle-runtime-checks.mjs','scripts/hd-battle-hud-runtime-checks.mjs','scripts/hd-battle-skill-aim-runtime-checks.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-battle-status.js','js/hd-mobile-battle.js','js/hd-battle-terrain.js','js/hd-battle-feedback.js'])freeze(f);}
     if(battleEffects||defenderCombat){freeze('js/hd-battle-note.js');freeze('css/hd-battle-note.css');}
     if(battleSettingsSave){for(const f of ['scripts/hd-mobile-battle-settings-runtime-checks.mjs','scripts/hd-mobile-system-runtime-oracle.mjs','js/hd-mobile-system.js','js/hd-system-ui.js','js/save-storage.js','vendor/iBaye/src/FightSub.c','vendor/iBaye/src/gamEng.c'])freeze(f);}
-    if(battleEffects){for(const f of ['scripts/hd-mobile-battle-effects-runtime-checks.mjs','scripts/hd-mobile-battle-skill-oracle.mjs','scripts/hd-mobile-battle-attack-oracle.mjs','scripts/hd-mobile-successor-runtime-oracle.mjs','assets/hd-spe/manifest.json'])freeze(f);}
+    if(battleEffects){for(const f of ['scripts/hd-mobile-battle-effects-runtime-checks.mjs','scripts/hd-battle-map-number-runtime-checks.mjs','scripts/hd-mobile-battle-skill-oracle.mjs','scripts/hd-mobile-battle-attack-oracle.mjs','scripts/hd-mobile-successor-runtime-oracle.mjs','assets/hd-spe/manifest.json'])freeze(f);}
     assert.equal(frozen.get('libs/dat-mod.lib').ref.sha256,ORIGINAL_SHA);assert.equal(frozen.get('libs/dat-mod.lib').ref.bytes,207195);
     const openingEntries={};let missingOpeningAsset=null;
     if(openingCase){

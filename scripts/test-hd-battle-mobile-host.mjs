@@ -92,6 +92,27 @@ test('mobile render receives copied units and full copied terrain without native
     const after=f.api.debugSnapshot();assert.equal(after.unitList[0].x,1);
     f.poll();assert.equal(f.renders.at(-1).terrainSnapshot.tiles[0],1);assert.deepEqual(f.sent,[]);
 });
+test('battle map numbers require the exact current target and original skill result',()=>{
+    const f=fixture(), id={status:'ready',byteLength:207195,generation:1,
+        sha256:'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'};
+    Object.assign(f.env.BayeHdLibIdentity,{read:()=>id,isCurrent:value=>value===id});
+    Object.assign(f.raw,{g_hdEngineReady:1,g_hdFightActive:1,g_hdFightInputKind:0,g_hdFightOver:0,g_FgtOver:0,g_hdFightWait:0,
+        g_hdFightNumberKind:2,g_hdFightNumberTarget:0,g_hdFightNumberValue:0,g_hdFightNumberSeq:9,g_hdFightNumberSkillSession:7,
+        g_hdResultOwnerKind:2,g_hdResultOwnerValid:1,g_hdResultOwnerGeneration:4,g_hdResultOwnerSession:7,
+        g_hdSkillResultActive:1,g_hdSkillResultCustom:0,g_hdSkillResultSession:7,g_hdSkillResultGeneration:4,g_hdSpeGeneration:4,
+        g_hdSkillResultPhase:2,g_hdSkillResultTargetIndex:0,g_hdSkillResultResultKind:2,g_hdSkillResultValue:0});
+    const number=f.api.readMapNumber(f.data);
+    assert.equal(number.value,0);assert.equal(number.skillSession,7);assert.equal(number.target,0);
+    const words=[],ctx={save(){},restore(){},strokeRect(){},fillRect(){},measureText:()=>({width:14}),fillText:text=>words.push(text)};
+    f.api.paintMapNumber(ctx,{ox:0,oy:0,cw:48,ch:48,cols:4,rows:4,viewOx:0,viewOy:0},number);
+    assert.deepEqual(words,['+0']);
+    f.raw.g_hdSkillResultPhase=3;assert.equal(f.api.readMapNumber(f.data).seq,9);
+    for(const [field,value] of Object.entries({g_hdSkillResultSession:8,g_hdSkillResultTargetIndex:1,g_hdSkillResultValue:1,
+        g_hdSkillResultCustom:1,g_hdReportActive:1,g_hdFightInputKind:1,g_hdFightNumberTarget:19})){
+        const old=f.raw[field];f.raw[field]=value;assert.equal(f.api.readMapNumber(f.data),null,field);f.raw[field]=old;
+    }
+    assert.deepEqual(f.sent,[]);assert.deepEqual(f.writes,[]);
+});
 test('mobile renderer reentry cannot recursively draw or send input',()=>{
     const f=fixture();let calls=0;f.options.render=()=>{calls+=1;f.api.recoverMenu();};
     f.poll();assert.equal(calls,1);assert.deepEqual(f.sent,[]);

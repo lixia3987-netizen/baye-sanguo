@@ -242,7 +242,10 @@ static AttackAttrs g_GenAtt[2];
 static U8 g_LookMovie=1,levels[2]={5,5};static U16 troops[2]={20000,20000},hurt=123;
 static U16 CountAtkHurt(void){return hurt;}
 static U8 FgtGetExp(U16 value){assert(value<=hurt);return 0;}
-static void FgtShowSNum2(U8 sym,U8 index,U16 value){assert(sym=='-'&&index==10&&value<=hurt);}
+static void FgtShowSNum2(U8 sym,U8 index,U16 value,U8 kind,U32 session){
+    assert(sym=='-'&&index==10&&value<=hurt&&kind==BAYE_HD_SKILL_ARMS_LOSS&&!session);
+}
+static void baye_hd_fight_map_number(U8 kind,U8 target,U16 value,U32 session){assert(!kind&&target==0xff&&!value&&!session);}
 static I32 call_hook_a_observed(const char*name,void*context,U8*present){(void)context;assert(!strcmp(name,"willShowPKAnimation"));hookCount++;if(present)*present=(U8)custom;return hookReturn;}
 static I32 call_hook_a(const char*name,void*context){(void)context;if(!strcmp(name,"willShowPKAnimation")){hookCount++;return hookReturn;}assert(!strcmp(name,"didShowPKAnimation"));finalHookCount++;return 0;}
 `+actual('FgtCount.c','CountPlusSub')+'\n'+read('FightSub.c').split('\n').find(l=>l.startsWith('const U8 FgtSpeFrm[]'))+'\n'+actual('FightSub.c','FgtAtvShowNum')+'\n'+actual('FightSub.c','FgtAtkAction')+String.raw`

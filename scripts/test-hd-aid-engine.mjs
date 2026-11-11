@@ -180,7 +180,8 @@ static FAR SKILLEF *FgtGetJNPtr(SkillID param);
 ${actual('FgtCount.c','CountSklHurt')}
 static U16 PlcArmsMax(PersonID id){assert(id<FGTA_MAX);return capacity;}
 static U32 FgtGetExp(U16 value){return value/10;}
-static void FgtShowSNum2(U8 sign,U8 index,U16 value){(void)sign;(void)index;(void)value;assert(0);}
+static void FgtShowSNum2(U8 sign,U8 index,U16 value,U8 kind,U32 session){(void)sign;(void)index;(void)value;(void)kind;(void)session;assert(0);}
+static void baye_hd_fight_map_number(U8 kind,U8 target,U16 value,U32 session){assert(!kind&&target==0xff&&!value&&!session);}
 static U8 FgtGetGenTer(U8 index){assert(index<FGTA_MAX);return 0;}
 static bool FgtChkAkRng(U8 x,U8 y){return x<10&&y<10;}
 static U8 FgtJNChkAim(SkillID skill,U8 same,U8 aim,U8 actor){assert(skill&&actor<FGTA_MAX);return!same&&aim!=12;}
