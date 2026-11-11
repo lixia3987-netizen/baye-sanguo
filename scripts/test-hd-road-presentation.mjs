@@ -95,10 +95,10 @@ test('decorative neighbors do not change city feedback or hit anchors', () => {
     const h = harness();
     h.state.roads = { source: 'lcc-neighbors', edges: [edge], passes: 0 };
     const cities = JSON.stringify(h.state.cities);
-    h.renderer.drawCities(h.ctx, 10000);
+    h.renderer.drawCities(h.ctx, -1, 0);
     const connected = structuredClone(h.strokes);
     h.resetStrokes(); h.state.roads = { source: 'none', edges: [], passes: 0 };
-    h.renderer.drawCities(h.ctx, 10000);
+    h.renderer.drawCities(h.ctx, -1, 0);
     assert.deepEqual(h.strokes, connected);
     assert.equal(JSON.stringify(h.state.cities), cities);
     assert.deepEqual(h.sent, []);

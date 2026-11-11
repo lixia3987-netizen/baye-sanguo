@@ -209,7 +209,9 @@ test('optional image dimension mismatch or missing asset keeps the verified city
 test('an optional environment module failure preserves the actual base and every city', async () => {
     const h = await loaded();
     h.context.BayeHdOverworldLayers.draw = () => { throw new Error('optional module unavailable'); };
-    const start = h.paints.length; assert.doesNotThrow(h.draw);
+    const scale = h.api.getCamera().scale;
+    const start = h.paints.length;
+    assert.doesNotThrow(() => h.api.setScale(scale < 1 ? 1 : 0.85));
     const paints = h.paints.slice(start).filter(paint => paint.id === 'hd-overworld-canvas');
     assert.ok(paints.some(paint => paint.method === 'drawImage' && paint.args[0].url.includes('base_plains')));
     assert.equal(paints.some(paint => paint.method === 'ellipse'), false,
@@ -228,8 +230,7 @@ test('wrong-size or missing fortified city art keeps all city rings and original
     for (const fault of ['wrongPath', 'missingPath']) {
         const h = await loaded({ [fault]: path });
         const anchors = plain(h.api.getCities().map(city => [city.index, city.hdX, city.hdY, city.engX, city.engY]));
-        const start = h.paints.length; h.draw();
-        const paints = h.paints.slice(start).filter(paint => paint.id === 'hd-overworld-canvas');
+        const paints = h.paints.filter(paint => paint.id === 'hd-overworld-canvas');
         assert.equal(paints.some(paint => paint.method === 'drawImage' && paint.args[0].url.includes(path)), false);
         assert.equal(paints.filter(paint => paint.method === 'arc' && [11, 14].includes(paint.args[2])).length, 38,
             'every city receives the actual fallback geometry when generated art is unavailable');
@@ -249,8 +250,7 @@ test('wrong optional coordinate metadata or missing geo source bounds affects on
         if (fault === 'world-ocean') env.layers.forEach(layer => { layer.worldRect = [0, 0, 3840, 4000]; });
         const h = await loaded({ manifest, geo }); assert.equal(overviewPaint(h).drawn, 0);
         assert.equal(h.api.debugSnapshot().presentationReady, true); assert.equal(h.api.getCities().length, 38);
-        const start = h.paints.length; h.draw();
-        assert.ok(h.paints.slice(start).some(paint => paint.method === 'drawImage' && paint.args[0].url.includes('base_plains')),
+        assert.ok(h.paints.some(paint => paint.id === 'hd-overworld-canvas' && paint.method === 'drawImage' && paint.args[0].url.includes('base_plains')),
             'the original geographic base is still drawn'); h.noInput();
     }
 });

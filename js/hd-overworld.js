@@ -61,6 +61,9 @@
         phase: 'other',
         canvas: null,
         ctx: null,
+        canvasDpr: null,
+        paintKey: null,
+        hudKey: null,
         hudLeft: null,
         hudRight: null,
         legendOwned: null,
@@ -84,7 +87,6 @@
         loopId: 0,
         visibilityBound: false,
         lastSample: 0,
-        lastDraw: 0,
         probed: false,
         hookWrapped: false,
         toolbarBound: false,
@@ -299,6 +301,7 @@
         state.geoCities = null;
         state.adjacencyJson = null;
         state.cities = [];
+        state.paintKey = state.hudKey = null;
         state.engineTileEdges = [];
         state.roads = { source: 'none', edges: [], passes: 0, isolated: [] };
         state.camera.inited = false;
@@ -968,8 +971,24 @@
         }
 
         if (!sampleCurrent()) { return []; }
+        var previousCities = state.cities;
+        var previousRoads = state.roads.edges;
         state.cities = rows;
         rebuildRoads();
+        var roads = state.roads.edges;
+        if (rows.length !== previousCities.length || rows.some(function (city, i) {
+            var previous = previousCities[i];
+            return city.name !== previous.name || city.kind !== previous.kind || city.color !== previous.color ||
+                city.hdX !== previous.hdX || city.hdY !== previous.hdY ||
+                city.labelX !== previous.labelX || city.labelY !== previous.labelY;
+        }) || roads.length !== previousRoads.length || roads.some(function (road, i) {
+            var previous = previousRoads[i];
+            return road.ax !== previous.ax || road.ay !== previous.ay || road.bx !== previous.bx ||
+                road.by !== previous.by || road.cx !== previous.cx || road.cy !== previous.cy || road.pass !== previous.pass;
+        })) {
+            state.paintKey = null;
+        }
+        state.hudKey = null;
         ensureCamera();
         refreshDateInfo();
         return rows;
@@ -1316,8 +1335,14 @@
         if (state.canvas.width !== w || state.canvas.height !== h) {
             state.canvas.width = w;
             state.canvas.height = h;
+            state.canvasDpr = null;
         }
-        state.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        if (state.canvasDpr !== dpr) {
+            state.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            state.ctx.imageSmoothingEnabled = true;
+            state.canvasDpr = dpr;
+            state.paintKey = null;
+        }
     }
 
     function drawFallbackContinent(ctx) {
@@ -1764,26 +1789,26 @@
         return image;
     }
 
-    function enterFxAmount(index, now) {
+    function enterFxAmount(now) {
         var fx = state.enterFx;
-        if (!fx || fx.index !== index || !fx.start) {
+        if (!fx || !state.cities[fx.index] || !fx.start) {
             return 0;
         }
         var t = (now - fx.start) / (fx.duration || 150);
-        if (t < 0 || t > 1) {
+        if (t <= 0 || t >= 1) {
             return 0;
         }
         return Math.sin(t * Math.PI);
     }
 
-    function drawCities(ctx, now) {
+    function drawCities(ctx, hoverIndex, flashAmount) {
         var cities = state.cities;
         for (var i = 0; i < cities.length; i++) {
             var city = cities[i];
             var scr = toScreen(city.hdX, city.hdY);
             var selected = city.index === state.selectedIndex;
-            var hover = city.index === state.hoverIndex && hitsEnabled();
-            var flash = enterFxAmount(city.index, now);
+            var hover = city.index === hoverIndex;
+            var flash = city.index === state.enterFx.index ? flashAmount : 0;
             var base = markerImage(city.kind, false);
             var sel = selected ? markerImage(city.kind, true) : null;
             var size = selected || flash ? 64 : (hover ? 60 : 56);
@@ -1831,11 +1856,10 @@
             }
 
             if (selected) {
-                var pulse = 32 + Math.sin(now / 180) * 5;
                 ctx.beginPath();
                 ctx.strokeStyle = 'rgba(255,255,255,0.88)';
                 ctx.lineWidth = 2.5;
-                ctx.arc(scr.x, scr.y + 2, pulse, 0, Math.PI * 2);
+                ctx.arc(scr.x, scr.y + 2, 32, 0, Math.PI * 2);
                 ctx.stroke();
             }
 
@@ -2021,7 +2045,7 @@
         state.legendNeutral.style.setProperty('--city-swatch', 'linear-gradient(90deg, ' + bands.join(', ') + ')');
     }
 
-    function updateHud() {
+    function updateHud(hoverIndex) {
         if (!state.hudLeft || !state.hudRight) {
             return;
         }
@@ -2045,7 +2069,7 @@
         if (passN) {
             roadBit += '/' + passN + ' 过河标记';
         }
-        var hoverCity = hitsEnabled() && validCityIndex(state.hoverIndex) ? state.cities[state.hoverIndex] : null;
+        var hoverCity = state.cities[hoverIndex];
         var counts = { owned: 0, neutral: 0, empty: 0, unknown: 0 };
         var colors = { owned: [], neutral: [], empty: [] };
         var oi;
@@ -2090,17 +2114,28 @@
 
     function draw() {
         if (document.hidden || !state.ctx || !mapAuthorized() || battleCoversMapCanvas()) {
+            state.paintKey = null;
             return;
         }
         syncCanvasSize();
-        var ctx = state.ctx;
-        var now = Date.now();
-        ctx.clearRect(0, 0, DESIGN_W, DESIGN_H);
-        drawTerrain(ctx);
-        drawRoads(ctx);
-        drawCities(ctx, now);
-        updateHud();
-        state.lastDraw = now;
+        var hoverIndex = validCityIndex(state.hoverIndex) && hitsEnabled() ? state.hoverIndex : -1;
+        var flashAmount = enterFxAmount(Date.now());
+        var camera = state.camera;
+        var paintKey = [DESIGN_W, DESIGN_H, camera.x, camera.y, camera.scale, state.selectedIndex,
+            hoverIndex, flashAmount ? state.enterFx.index : -1, flashAmount].join('/');
+        if (paintKey !== state.paintKey) {
+            var ctx = state.ctx;
+            ctx.clearRect(0, 0, DESIGN_W, DESIGN_H);
+            drawTerrain(ctx);
+            drawRoads(ctx);
+            drawCities(ctx, hoverIndex, flashAmount);
+            state.paintKey = paintKey;
+        }
+        var hudKey = JSON.stringify([state.phase, state.hint, hoverIndex]);
+        if (hudKey !== state.hudKey) {
+            state.hudKey = hudKey;
+            updateHud(hoverIndex);
+        }
     }
 
     function sampleEngine() {
@@ -2152,8 +2187,12 @@
     function bindRenderVisibility() {
         if (state.visibilityBound || typeof document.addEventListener !== 'function') { return; }
         state.visibilityBound = true;
+        if (document.fonts && typeof document.fonts.addEventListener === 'function') {
+            document.fonts.addEventListener('loadingdone', function () { state.paintKey = null; });
+        }
         document.addEventListener('visibilitychange', function () {
             if (document.hidden) {
+                state.paintKey = null;
                 cancelAlign(); resetPan();
                 if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
                 return;
@@ -4066,6 +4105,7 @@
     }
 
     function cacheDom() {
+        var previousCanvas = state.canvas;
         state.canvas = document.getElementById('hd-overworld-canvas');
         state.hudLeft = document.getElementById('hd-overworld-hud-left');
         state.hudRight = document.getElementById('hd-overworld-hud-right');
@@ -4073,11 +4113,10 @@
         state.legendNeutral = document.getElementById('hd-overworld-legend-neutral');
         state.legendEmpty = document.getElementById('hd-overworld-legend-empty');
         state.legendSignature = '';
-        if (state.canvas) {
-            state.ctx = state.canvas.getContext('2d');
-            if (state.ctx) {
-                state.ctx.imageSmoothingEnabled = true;
-            }
+        state.hudKey = null;
+        if (state.canvas !== previousCanvas) {
+            state.ctx = state.canvas ? state.canvas.getContext('2d') : null;
+            state.canvasDpr = state.paintKey = null;
         }
     }
 
@@ -4180,6 +4219,7 @@
     global.addEventListener('resize', function () {
         cancelAlign(); resetPan();
         if (!document.hidden && state.mode === 'hd-map' && !battleCoversMapCanvas()) {
+            state.paintKey = null;
             syncCanvasSize();
             clampCamera();
             draw();

@@ -80,6 +80,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
         let points = [], dash = [], stack = [];
         const ctx = new Proxy({
             textBaseline: 'alphabetic', textAlign: 'start',
+            fillStyle: '#000000', strokeStyle: '#000000', lineWidth: 1, globalAlpha: 1,
             clearRect() { stats.paints++; stats.labels = []; stats.text = []; stats.strokes = []; },
             fillText(text, x, y, maxWidth) { stats.labels.push(String(text));
                 stats.text.push({text:String(text),x,y,maxWidth,font:this.font,baseline:this.textBaseline,align:this.textAlign}); },
@@ -819,6 +820,48 @@ test('unit legend retains a complete canvas fallback when footer DOM geometry is
 function counters(h) { return structuredClone(h.canvasStats.overworld); }
 function native(h) { return JSON.stringify({data:h.data,fight:h.fight,menu:h.menu,march:h.march,report:h.report}); }
 
+test('idle map keeps its pixels while sampling date, and repaints on visible changes', () => {
+    const h = browser({ modules: ['overworld'] });
+    h.fight.active = 0; h.march.pick = 1; h.tick(200); h.frame();
+    h.world.debugPaintFeedback({ selectedIndex: 0 });
+    const before = counters(h), keys = [...h.sent];
+    assert.ok(before.strokes.some(stroke => stroke.color === 'rgba(255,255,255,0.88)'));
+    for (let i = 0; i < 3; i++) { h.tick(200); h.frame(); }
+    assert.deepEqual(counters(h), before, 'unchanged native rows do not repaint');
+
+    h.data.g_MonthDate = 4; h.tick(200); h.frame();
+    assert.equal(h.world.getDateInfo().month, 4);
+    assert.match(h.document.getElementById('hd-overworld-hud-left').textContent, /4月/);
+    assert.deepEqual(counters(h), before, 'date changes update the HUD independently');
+
+    h.data.g_Cities[1].Belong = 1; h.tick(200); h.frame();
+    assert.equal(h.world.getCities()[1].kind, 'owned');
+    assert.equal(counters(h).paints, before.paints + 1);
+    h.world.debugPaintFeedback({ hoverIndex: 1 });
+    assert.equal(counters(h).paints, before.paints + 2);
+    assert.ok(counters(h).strokes.some(stroke => stroke.color === 'rgba(255,248,210,0.98)'));
+    const hasFlash = stats => stats.strokes.some(stroke => stroke.width === 3 && stroke.color.startsWith('rgba(255,255,255,'));
+    h.world.debugPaintFeedback({ hoverIndex: -1, selectedIndex: 1, flashIndex: 1 });
+    const flash = counters(h);
+    assert.equal(flash.paints, before.paints + 3);
+    assert.ok(hasFlash(flash));
+    h.tick(200); h.frame();
+    const settled = counters(h);
+    assert.equal(settled.paints, flash.paints + 1, 'the last flash frame is cleared');
+    assert.ok(!hasFlash(settled));
+    h.frame(); assert.deepEqual(counters(h), settled);
+
+    h.world.setScale(1.1);
+    assert.equal(counters(h).paints, settled.paints + 1);
+    h.context.devicePixelRatio = 2; h.frame();
+    assert.equal(counters(h).paints, settled.paints + 2);
+    assert.equal(h.document.getElementById('hd-overworld-canvas').width, 3840);
+    h.setHidden(true); h.setHidden(false);
+    assert.equal(counters(h).paints, settled.paints + 3);
+    h.frame(); assert.equal(counters(h).paints, settled.paints + 3);
+    assert.deepEqual(h.sent, keys);
+});
+
 test('CSS-covered map performs zero heavy paint while native owner sampling and battle paint remain alive', () => {
     const h = browser(); h.frame();
     assert.equal(h.document.documentElement.getAttribute('data-baye-battle'),'hd');
@@ -877,13 +920,16 @@ test('real main-map hook paints fresh returned world immediately; classic battle
 
 test('title/report previews and city popup keep their map backdrop; world classic mode still paints nothing', () => {
     const h=browser({modules:['overworld']}); h.fight.active=0; h.march.pick=0;
+    const backdrop=counters(h);assert.ok(backdrop.paints>0);
     h.menu.active=1; h.menu.context=4; h.menu.kind=1;
-    h.tick(200); const a=h.canvasStats.overworld.paints; h.frame();
-    assert.equal(h.world.getPhase(),'other'); assert.equal(h.canvasStats.overworld.paints,a+1);
-    h.menu.context=1; h.tick(200); const b=h.canvasStats.overworld.paints; h.frame();
-    assert.equal(h.world.getPhase(),'classic-menu'); assert.equal(h.canvasStats.overworld.paints,b+1);
-    h.report.active=1; h.tick(200); const c=h.canvasStats.overworld.paints; h.frame();
-    assert.equal(h.world.getPhase(),'other'); assert.equal(h.canvasStats.overworld.paints,c+1);
+    h.tick(200); h.frame();
+    assert.equal(h.world.getPhase(),'other'); assert.deepEqual(counters(h),backdrop);
+    h.menu.context=1; h.tick(200); h.frame();
+    assert.equal(h.world.getPhase(),'classic-menu'); assert.deepEqual(counters(h),backdrop);
+    assert.match(h.document.getElementById('hd-overworld-hud-left').textContent,/经典菜单/);
+    h.report.active=1; h.tick(200); h.frame();
+    assert.equal(h.world.getPhase(),'other'); assert.deepEqual(counters(h),backdrop);
+    assert.equal(h.document.getElementById('hd-overworld').getAttribute('aria-hidden'),'false');
     assert.deepEqual(h.sent,[]); h.world.setMode('classic'); const frozen=counters(h);h.frame();h.resize();
     assert.deepEqual(counters(h),frozen);assert.equal(h.frames.size,0);assert.deepEqual(h.sent,[]);
 });

@@ -270,7 +270,7 @@ test('image readiness waits for the actual digest completion rather than event-l
 
 async function loaded() {
     const h = harness(); h.api.setManifest(manifest()); h.api.start();
-    for (let i = 0; i < 30 && h.images.length < 2; i++) await settle();
+    assert.equal((await waitForIdentity(h)).status, 'ready');
     assert.equal(h.images.length, 2, 'authentic LIB admits exactly the two native picture slots');
     h.resolveImage(0); h.resolveImage(1); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); return h;
 }

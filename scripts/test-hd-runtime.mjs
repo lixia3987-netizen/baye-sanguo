@@ -878,6 +878,8 @@ async function libraryIdentitySmoke(cdp, bootstrapId) {
 
 async function measureMapPerformance(cdp) {
     await waitFor(cdp, 'stable HD map for measurement', "BayeHdOverworld.debugSnapshot().phase==='map' && !document.hidden");
+    await evaluate(cdp, 'document.fonts.ready.then(() => true)');
+    await evaluate(cdp, 'new window.__perfNativePromise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))');
     const browser = await cdp.send('Browser.getVersion');
     const environment = await evaluate(cdp, `({viewport:{width:innerWidth,height:innerHeight,dpr:devicePixelRatio},
         userAgent:navigator.userAgent,hardwareConcurrency:navigator.hardwareConcurrency,deviceMemoryGiB:navigator.deviceMemory||null,
@@ -920,7 +922,11 @@ async function measureMapPerformance(cdp) {
         jsHeapUsedBytes:b.JSHeapUsedSize,jsHeapTotalBytes:b.JSHeapTotalSize,
         taskDurationSeconds:b.TaskDuration-a.TaskDuration,scriptDurationSeconds:b.ScriptDuration-a.ScriptDuration,
         layoutCount:b.LayoutCount-a.LayoutCount,repeatedHudWrites:measured.repeatedHudWrites};
-    if(!rendererDir)assert.equal(measured.repeatedHudWrites,0,'Idle HD map does not rewrite unchanged HUD text');
+    if(!rendererDir){
+        assert.ok(measured.frames.length>0,'foreground animation frame callbacks were observed');
+        assert.equal(measured.draws.length,0,'idle HD map keeps the last canvas frame');
+        assert.equal(measured.repeatedHudWrites,0,'idle HD map does not rewrite unchanged HUD text');
+    }
     await measureBackgroundDrawing(cdp);
     await checkpoint(cdp,'perf-map-and-background');
 }
@@ -949,8 +955,7 @@ async function measureBackgroundDrawing(cdp) {
         await cdp.send('Page.bringToFront');
         await cdp.send('Emulation.setDeviceMetricsOverride',{width:viewport.width,height:viewport.height,deviceScaleFactor:viewport.dpr,mobile:false});
         await waitFor(cdp,'actual foreground tab','document.hidden===false');
-        const restored=await evaluate(cdp,'window.__perfBackground.draws');
-        await waitFor(cdp,'foreground drawing resumes','window.__perfBackground.draws>'+restored);
+        await waitFor(cdp,'foreground drawing resumes','window.__perfBackground.draws>'+end.draws);
         const after=await evaluate(cdp,`({year:Number(baye.data.g_YearDate),month:Number(baye.data.g_MonthDate),realm:baye.hd.realm()})`);
         assert.deepEqual(after,before,'background/foreground transition preserves native date and ownership');
     } finally {

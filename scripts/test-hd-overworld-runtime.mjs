@@ -182,10 +182,12 @@ async function bridgeAcceptance(cdp,label){
     const passes=roads.edges.filter(e=>e.pass===true);assert.ok(passes.length,'actual geographic graph naturally derives at least one pass');
     await evaluate(cdp,'window.__r23BridgeRecording=true');const samples=[];
     try{
-        await scale(cdp,1);const c=await evaluate(cdp,'({...BayeHdOverworld.getCamera()})');
+        let frame=await evaluate(cdp,'window.__r08Draws');
+        await scale(cdp,1.35);
+        const c=await scale(cdp,1);
         const edge=passes.slice().sort((a,b)=>Math.hypot(a.cx-c.x-960,a.cy-c.y-540)-Math.hypot(b.cx-c.x-960,b.cy-c.y-540))[0];
         await positionBridge(cdp,edge,label+'-position');
-        const capture=async suffix=>{const frame=await evaluate(cdp,'window.__r08Draws');
+        const capture=async suffix=>{
             const sample=await waitFor(cdp,'actual bridge '+label+' '+suffix,bridgeReadExpression(edge,frame));
             assert.ok(bridgeGeometry(sample.op,edge),'independent actual draw geometry');
             if(missingBridgeAsset){assert.equal(sample.op.kind,'arc');assert.equal(sample.op.fillStyle,'#d8c4a0');}
@@ -193,9 +195,12 @@ async function bridgeAcceptance(cdp,label){
             const screenshots=await bridgeScreenshot(cdp,label+'-bridge-'+suffix,sample);samples.push({...sample,screenshots});return sample;};
         await capture('design32');
         // Trusted pan changes only presentation and must produce a fresh correctly placed bridge.
+        frame=await evaluate(cdp,'window.__r08Draws');
         await drag(cdp,80,45,label+'-bridge-pan');await positionBridge(cdp,edge,label+'-pan-position');await capture('panned');
+        frame=await evaluate(cdp,'window.__r08Draws');
         await scale(cdp,1.35);await positionBridge(cdp,edge,label+'-zoom-position');await capture('zoomed');
         await scale(cdp,1);await positionBridge(cdp,edge,label+'-restore-position');
+        frame=await evaluate(cdp,'window.__r08Draws');
         await chromeSmoke(cdp,label+'-bridge');await positionBridge(cdp,edge,label+'-after-hidden-position');await capture('restored');
         const after=await evaluate(cdp,bridgeWorldExpression);assert.deepEqual(after,before,'bridge presentation/classic/hidden/pan/zoom preserves full native world and owners');
         assert.equal(await evaluate(cdp,'window.__r08Keys.length'),keys,'bridge presentation has zero native keys');
