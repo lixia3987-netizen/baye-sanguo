@@ -483,12 +483,16 @@
         } catch (e) { return null; }
     }
 
+    function isOriginalCampaignLibrary(api, identity) {
+        return identity && identity.status === 'ready' &&
+            identity.sha256 === '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' &&
+            identity.byteLength === 207195 && helpInteger(identity.generation, 1, 0xffffffff) && api.isCurrent(identity);
+    }
+
     function readMobileCampaignPersons(kind) {
         try {
             var api = global.BayeHdLibIdentity, identity = api && api.read(), data = engineData();
-            if (!mobileAvailable() || fightActive() || !data || !identity || identity.status !== 'ready' ||
-                identity.sha256 !== '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
-                identity.byteLength !== 207195 || !helpInteger(identity.generation, 1, 0xffffffff) || !api.isCurrent(identity)) { return null; }
+            if (!mobileAvailable() || fightActive() || !data || !isOriginalCampaignLibrary(api, identity)) { return null; }
             function sample() {
                 var menu = baye.hd.menuItems(), names = ['Active','Context','Kind','Seq','ItemLen','Count','Index'], raw = {};
                 names.forEach(function (name) { raw[name] = data['g_hdMenu' + name]; });
@@ -543,6 +547,24 @@
     }
 
     function readSuccessor() { return readCampaignPersons(1); }
+
+    function readDefenderStats(owner) {
+        try {
+            var data = engineData(), api = global.BayeHdLibIdentity, identity = api && api.read();
+            if (!data || !data.g_Persons || !isOriginalCampaignLibrary(api, identity)) { return []; }
+            var menu = baye.hd.menuItems();
+            if (!menu || menu.active !== 1 || menu.context !== owner.context || menu.kind !== owner.kind ||
+                menu.seq !== owner.seq || menu.idsValid !== true || menu.ids.length !== owner.names.length ||
+                menu.names.length !== owner.names.length || menu.names.some(function (name, index) {
+                    return name !== owner.names[index];
+                }) || engineData() !== data) { return []; }
+            return menu.ids.map(function (id, index) {
+                if (!helpInteger(id, 0, 199) || owner.ids && id !== owner.ids[index]) { return null; }
+                var person = data.g_Persons[id], arms = readNumber(person, 'Arms'), thew = readNumber(person, 'Thew');
+                return helpInteger(arms, 0, 65535) && helpInteger(thew, 0, 255) ? {arms: arms, thew: thew} : null;
+            });
+        } catch (e) { return []; }
+    }
 
     function readDefenseAttacker(data, params) {
         if (!data || !params || params.Mode !== 0 || !data.g_Persons) { return null; }
@@ -1182,6 +1204,7 @@
                     body.appendChild(selected);
                     var defenders = document.createElement('div');
                     defenders.className = 'hd-dialog-qty';
+                    var stats = readDefenderStats(state.defenseOwner);
                     state.defenseOwner.names.forEach(function (name, index) {
                         var button = document.createElement('button');
                         button.type = 'button';
@@ -1197,6 +1220,12 @@
                             button._hdCampaignData = mobileCampaignData;
                         }
                         button.textContent = name;
+                        if (stats[index]) {
+                            var detail = document.createElement('span');
+                            detail.className = 'hd-defender-stats';
+                            detail.textContent = '兵力 ' + stats[index].arms + ' · 体力 ' + stats[index].thew;
+                            button.appendChild(detail);
+                        }
                         defenders.appendChild(button);
                     });
                     var finish = document.createElement('button');

@@ -7,6 +7,7 @@
  * --scenario arrival queues two armies for the same enemy city and settles both in one month.
  * --mobile-width=667|844 uses mobile HD touch controls for victory, defense, arrival or save.
  * --scenario defense prepares a garrison and plays original incoming attacks to a victory.
+ * --defense-any-outcome accepts either result after a playable defense settles back to the map.
  * --find-generals checks name search and sorting in the original recruitment and march lists.
  * --period=1|2|3|4 chooses the original period for probe, victory or save.
  * --scenario captives --captive-order exercises one actual surrender order through month-end.
@@ -36,6 +37,8 @@ const scenarioFlag = process.argv.indexOf('--scenario');
 const scenario = scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
 assert.ok(['victory', 'defense', 'arrival', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
 const arrivalScenario=scenario==='arrival',defenseScenario=scenario==='defense';
+const defenseAnyOutcome=process.argv.includes('--defense-any-outcome');
+assert.ok(!defenseAnyOutcome||defenseScenario,'--defense-any-outcome requires the defense scenario');
 const findGenerals=process.argv.includes('--find-generals');
 assert.ok(!findGenerals||scenario==='victory','General search acceptance requires the victory scenario');
 const periodFlag=process.argv.find(arg=>arg.startsWith('--period='));
@@ -1670,7 +1673,9 @@ async function liveDefenderMenu(cdp,description,previousSeq=null) {
             !dialog.open||dialog.kind!=='defenders'||dialog.defenseRequest||!owner||owner.context!==5||owner.kind!==2||
             owner.seq!==menu.seq||Number(d.g_FgtParam.Mode)!==0||Number(d.g_FgtParam.CityIndex)!==owner.cityIndex||
             JSON.stringify(owner.names)!==JSON.stringify(menu.names))return false;
-        const nodes=[...document.querySelectorAll('#hd-dialog [data-hd-defender-index]')];
+        const panel=document.getElementById('hd-dialog');
+        if(!panel.getBoundingClientRect().height)return false;
+        const nodes=[...panel.querySelectorAll('[data-hd-defender-index]')];
         if(nodes.length!==menu.names.length||!nodes.length)return false;
         const city=d.g_Cities[owner.cityIndex],belong=baye.hd.realm().playerBelong;
         if(Number(city.Belong)!==belong)throw new Error('Native DEFENDERS must belong to an actual player city');
@@ -1686,7 +1691,13 @@ async function liveDefenderMenu(cdp,description,previousSeq=null) {
             if(matches.length!==1)throw new Error('Defender name must resolve to exactly one true city PersonQueue ID: '+name);
             const pind=matches[0],p=d.g_Persons[pind];
             if(Number(p.Belong)!==belong)throw new Error('Native defender is not an actual allied city general: '+name);
-            persons.push({index,pind,name,arms:Number(p.Arms),belong:Number(p.Belong)});
+            const arms=Number(p.Arms),thew=Number(p.Thew),stats=node.querySelector('.hd-defender-stats');
+            if(menu.idsValid!==true||menu.ids[index]!==pind||!stats||
+                stats.textContent!=='兵力 '+arms+' · 体力 '+thew||!stats.getBoundingClientRect().height){
+                throw new Error('Defender stats for '+name+' (ID '+pind+'): expected '+arms+' troops and '+thew+
+                    ' stamina; saw menu ID '+menu.ids[index]+' and text '+JSON.stringify(stats?.textContent));
+            }
+            persons.push({index,pind,name,arms,thew,belong:Number(p.Belong)});
         }
         const selected=Array.from({length:10},(_,i)=>Number(d.g_FgtParam.GenArray[i])).filter(id=>id>0&&id<0xfffe);
         if(JSON.stringify(selected)!==JSON.stringify(owner.selected))return false;
@@ -1724,7 +1735,7 @@ async function playNpcDefense(cdp,label) {
     const entry={label:round,source:label,cityIndex:first.cityIndex,protectedTarget,
         before,pending,previousFight,...incomingDefenseOrder(before,first.cityIndex,pending.attackers),selected:[],menuSeq:first.menu.seq};
     report.extraDefenses??=[];report.extraDefenses.push(entry);
-    await checkpoint(cdp,round+'-native-selection',{defense:pending,incomingOrder:entry.order});
+    await checkpoint(cdp,round+'-native-selection',{defense:pending,incomingOrder:entry.order,candidates:first.persons});
     let previousSeq=null;
     for(const desired of roster) {
         const owner=await liveDefenderMenu(cdp,round+' '+desired.name,previousSeq),currentQueue=await readCityPersons(cdp,entry.cityIndex);
@@ -1867,32 +1878,41 @@ async function defendCampaign(cdp) {
         });
     })()`);
     await prepareArmy(cdp,fixture);
-    const retainedVictory=()=>report.extraDefenses?.find(entry=>entry.outcome===1&&entry.initial&&
-        entry.after?.cities.find(city=>city.i===entry.cityIndex).Belong===entry.after.realm.playerBelong);
-    for(let month=1;month<=12&&!retainedVictory();month++) {
+    const completedDefense=()=>report.extraDefenses?.find(entry=>entry.initial&&entry.after&&
+        (defenseAnyOutcome||entry.outcome===1&&
+            entry.after.cities.find(city=>city.i===entry.cityIndex).Belong===entry.after.realm.playerBelong));
+    for(let month=1;month<=12&&!completedDefense();month++) {
         const label='defense-month-'+month,before=await evaluate(cdp,worldExpression);
         const after=await advanceCampaignMonth(cdp,label);
         assert.equal(after.year*12+after.month,before.year*12+before.month+1,'The original incoming orders settle within one month');
         campaign.months.push({label,year:before.year,month:before.month});
     }
-    const victory=retainedVictory();
-    assert.ok(victory,'No native defense victory retaining its city after '+campaign.months.length+' original strategy months');
-    const {cityIndex,order,orderIndex,selected,terminal,after}=victory;
+    const defense=completedDefense();
+    const expectedResult=defenseAnyOutcome?'defense settled back to the map':'defense victory retaining its city';
+    assert.ok(defense,'No native '+expectedResult+' after '+campaign.months.length+' original strategy months');
+    const {cityIndex,order,orderIndex,selected,terminal,after,pending,outcome}=defense;
     const settlements=await evaluate(cdp,'__campaignDefenseSettlements');
-    const matching=settlements.filter(s=>s.receipt.city===cityIndex&&s.receipt.over===1&&s.inputSeq===terminal.fight.inputSeq);
-    assert.equal(matching.length,1,'Exactly one synchronous native settlement belongs to the victorious defense');
+    const matching=settlements.filter(s=>s.receipt.city===cityIndex&&s.receipt.over===outcome&&s.inputSeq===terminal.fight.inputSeq);
+    assert.equal(matching.length,1,'Exactly one synchronous native settlement belongs to the completed defense');
     const settlement=matching[0],settledCity=settlement.world.cities.find(city=>city.i===cityIndex);
-    assert.equal(settledCity.Belong,settlement.receipt.playerKing+1,'Victory preserves ownership in native settlement');
-    assert.equal(settledCity.Food,terminal.food.player+terminal.food.enemy,'Native settlement combines the two remaining provisions');
-    const residents=settlement.world.personQueue.slice(settledCity.PersonQueue,settledCity.PersonQueue+settledCity.Persons);
-    assert.ok(selected.every(person=>residents.includes(person.pind)),'The original winning defenders return to their city');
+    if(outcome===1) {
+        assert.equal(settledCity.Belong,settlement.receipt.playerKing+1,'Victory preserves ownership in native settlement');
+        assert.equal(settledCity.Food,terminal.food.player+terminal.food.enemy,'Native settlement combines the two remaining provisions');
+        const residents=settlement.world.personQueue.slice(settledCity.PersonQueue,settledCity.PersonQueue+settledCity.Persons);
+        assert.ok(selected.every(person=>residents.includes(person.pind)),'The original winning defenders return to their city');
+        campaign.victory=defense.label;
+    } else {
+        assert.equal(settledCity.Belong,pending.attackers[0].belong,'The incoming army takes ownership in the native defeat settlement');
+    }
     assert.deepEqual(settlement.world.orders[orderIndex],order,'The matching incoming order is still present at native settlement');
     assert.deepEqual(after.orders[orderIndex],{...order,OrderId:255},'The original incoming order retires at month end');
     assert.equal(after.fighterIndex[order.Person],0,'The original incoming army slot is released');
-    Object.assign(campaign,{victory:victory.label,settlement});
-    if(mobileCampaignInput) {
+    Object.assign(campaign,{completed:defense.label,outcome,settlement});
+    if(mobileCampaignInput&&after.cities.find(city=>city.i===cityIndex).Belong===after.realm.playerBelong) {
         campaign.cityStatus=await inspectMobileOwnedCity(cdp,cityIndex,after,'mobile-defended');
         await checkpoint(cdp,'mobile-defended-return-map');
+    } else if(defenseAnyOutcome) {
+        await checkpoint(cdp,'defense-return-map');
     }
 }
 

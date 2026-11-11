@@ -189,6 +189,18 @@ html[data-baye-dialog-pass="1"] .hd-dialog.is-open .hd-dialog-stage {
     font-size: 20px;
 }
 
+.hd-dialog-qty button[data-hd-defender-index] {
+    min-width: 44px;
+    padding: 5px 8px;
+    line-height: 1.2;
+}
+
+.hd-defender-stats {
+    display: block;
+    color: #d4e6dc;
+    font-size: 13px;
+}
+
 .hd-dialog-footer {
     display: flex;
     gap: 10px;
