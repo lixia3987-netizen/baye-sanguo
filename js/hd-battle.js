@@ -8,7 +8,7 @@
     var MOBILE_STORAGE_KEY = 'baye/mobileBattleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20261008k';
+    var HD_BATTLE_VER = '20261111p';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
     var ARM_NAMES = ['骑兵', '步兵', '弓兵', '水军', '极兵', '玄兵'];
@@ -29,6 +29,7 @@
     var mobileHost = null, mobileMode = 'auto', mobileLifecycleBound = false, mobileRendering = false;
     var mobileRenderOwner = null;
     var pcNextPress = null;
+    var lastBoardPaint = null;
 
     function el(id) { return document.getElementById(id); }
     function readStorage(key, fallback) {
@@ -251,6 +252,7 @@
         return { kind: 'unknown', label: '未知地形', index: null, raw: null, x: x, y: y };
     }
     function clearTerrainPaint() {
+        lastBoardPaint = null;
         if (global.BayeHdBattleTerrain) { global.BayeHdBattleTerrain.clear(); }
     }
     function aimPreview(snap) {
@@ -817,9 +819,10 @@
             9: '查看将领信息 · Enter / Esc 返回', 10: '战场形势 · 箭头翻页，Enter / Esc 返回' };
         var hud = el('hd-battle-hud');
         if (hud) {
-            hud.textContent = state.preview ? 'HD 战场预览' :
+            var text = state.preview ? 'HD 战场预览' :
                 (actor && actor.name ? actor.name + ' · ' : '') + (guidance[snap.kind] || '等待引擎战场数据…') +
                 (state.transaction ? ' · 等待操作完成' : '');
+            if (hud.textContent !== text) { hud.textContent = text; }
         }
         renderBattleContext(show && !state.preview && !state.showLcd && !help);
         var tip = el('hd-battle-tip');
@@ -886,8 +889,15 @@
     function bindRenderVisibility() {
         if (state.visibilityBound || typeof document.addEventListener !== 'function') { return; }
         state.visibilityBound = true;
+        if (document.fonts && typeof document.fonts.addEventListener === 'function') {
+            document.fonts.addEventListener('loadingdone', function () { lastBoardPaint = null; });
+        }
+        document.addEventListener('contextrestored', function (event) {
+            if (event.target === el('hd-battle-canvas')) { lastBoardPaint = null; }
+        }, true);
         document.addEventListener('visibilitychange', function () {
             if (document.hidden) {
+                lastBoardPaint = null;
                 pcNextPress = null;
                 renderFocusCard(false);
                 if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
@@ -1371,7 +1381,7 @@
         return { x: c + (state.viewOx || 0), y: r + (state.viewOy || 0) };
     }
 
-    function drawUnitLegend(ctx, canvas, boardBottom, left) {
+    function unitLegendBlockers(canvas) {
         var canvasRect = canvas.getBoundingClientRect(), blockers = [];
         function addBlocker(node) {
             if (!node || typeof node.getBoundingClientRect !== 'function' ||
@@ -1391,6 +1401,10 @@
             for (var i = 0; i < buttons.length; i += 1) { addBlocker(buttons[i]); }
         }
         addBlocker(el('baye-build-badge'));
+        return blockers;
+    }
+
+    function drawUnitLegend(ctx, boardBottom, left, blockers) {
         ctx.save();
         ctx.textAlign = 'left'; ctx.textBaseline = 'top';
         ctx.font = '15px BayeUI, "Noto Sans CJK SC", sans-serif';
@@ -1401,7 +1415,7 @@
         // the lower canvas margin; the board and its hit geometry never move.
         for (var y = boardBottom + 6; y + height <= DESIGN_H - 4 && next < entries.length; y += height + 2) {
             var slots = [{ left: left, right: left + 638 }];
-            for (i = 0; i < blockers.length; i += 1) {
+            for (var i = 0; i < blockers.length; i += 1) {
                 var b = blockers[i];
                 if (b.top >= y + height + gap || b.bottom <= y - gap) { continue; }
                 var cut = [];
@@ -1466,15 +1480,6 @@
         }
         var w = Math.round(DESIGN_W * dpr);
         var h = Math.round(DESIGN_H * dpr);
-        if (canvas.width !== w || canvas.height !== h) {
-            canvas.width = w;
-            canvas.height = h;
-        }
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.clearRect(0, 0, DESIGN_W, DESIGN_H);
-        ctx.fillStyle = '#12161d';
-        ctx.fillRect(0, 0, DESIGN_W, DESIGN_H);
-
         var board = boardGeometry(canvas);
         var boardW = board.width, boardH = board.height;
         var cols = state.viewW || state.mapW || 16;
@@ -1485,6 +1490,29 @@
         var ch = boardH / rows;
         var ox = board.ox;
         var oy = board.oy;
+        // One owned input snapshot governs the range, legend, focus status and
+        // target preview. The canvas may be reused while native sampling continues.
+        var visualSnap = inputSnapshot(), feedback = rangeFeedback(visualSnap);
+        var targetPreview = global.BayeHdBattleFeedback ? null : aimPreview(visualSnap);
+        var actorMenu = (visualSnap.kind === INPUT.ACTION || visualSnap.kind === INPUT.SKILL) && menuSnapshot(visualSnap);
+        if (feedback.active && feedback.kind !== 'move' && feedback.focus && feedback.focus.targetIndex != null) {
+            var previewActor = actorUnit(visualSnap.actor), previewTarget = unitAt(feedback.focus.x, feedback.focus.y);
+            if (previewActor && previewTarget) { targetPreview = { actor: previewActor, target: previewTarget,
+                label: feedback.kind === 'skill' ? '射程内目标' : '攻击目标' }; }
+        }
+        var focusCard = el('hd-battle-focus'), blockers = unitLegendBlockers(canvas);
+        renderFocusCard(state.open && shouldShowHd(),visualSnap,targetPreview && targetPreview.label);
+        var paintKey = JSON.stringify([dpr,board,cols,rows,viewOx,viewOy,blockers,state.preview,state.focus,
+            state.terrain,state.units,visualSnap.focus,visualSnap.actor,!!actorMenu,feedback,targetPreview,!!focusCard]);
+        var resized = canvas.width !== w || canvas.height !== h;
+        if (!resized && lastBoardPaint && lastBoardPaint.canvas === canvas && lastBoardPaint.key === paintKey) { return; }
+        lastBoardPaint = null;
+        if (resized) { canvas.width = w; canvas.height = h; }
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, DESIGN_W, DESIGN_H);
+        ctx.fillStyle = '#12161d';
+        ctx.fillRect(0, 0, DESIGN_W, DESIGN_H);
+
         var r;
         var c;
         var terrainPainted = global.BayeHdBattleTerrain && global.BayeHdBattleTerrain.paint(ctx,
@@ -1499,9 +1527,6 @@
             }
         }
         ctx.globalAlpha = 1;
-        // One owned input snapshot governs the range, its legend, focus status,
-        // and target preview; native reports cannot leave old actionable wash.
-        var visualSnap = inputSnapshot(), feedback = rangeFeedback(visualSnap);
         if (global.BayeHdBattleFeedback) {
             global.BayeHdBattleFeedback.paint(ctx,
                 { ox: ox, oy: oy, cw: cw, ch: ch, cols: cols, rows: rows, viewOx: viewOx, viewOy: viewOy }, feedback);
@@ -1538,13 +1563,6 @@
                 oy + (state.focus.y - viewOy) * ch + 2,
                 cw - 4, ch - 4
             );
-        }
-        var targetPreview = global.BayeHdBattleFeedback ? null : aimPreview(visualSnap);
-        var actorMenu = (visualSnap.kind === INPUT.ACTION || visualSnap.kind === INPUT.SKILL) && menuSnapshot(visualSnap);
-        if (feedback.active && feedback.kind !== 'move' && feedback.focus && feedback.focus.targetIndex != null) {
-            var previewActor = actorUnit(visualSnap.actor), previewTarget = unitAt(feedback.focus.x, feedback.focus.y);
-            if (previewActor && previewTarget) { targetPreview = { actor: previewActor, target: previewTarget,
-                label: feedback.kind === 'skill' ? '射程内目标' : '攻击目标' }; }
         }
         if (targetPreview && targetPreview.actor !== targetPreview.target &&
             targetPreview.actor.x != null && targetPreview.actor.y != null) {
@@ -1610,10 +1628,8 @@
             ctx.font = Math.max(9, Math.min(15, size * 0.14)) + 'px BayeUI, sans-serif';
             ctx.fillText(u.arms == null ? '兵 —' : '兵 ' + u.arms, ux, uy + size * 0.39, cw - 8);
         }
-        drawUnitLegend(ctx, canvas, oy + rows * ch, ox);
+        drawUnitLegend(ctx, oy + rows * ch, ox, blockers);
         var focusUnit = visualSnap.focus && unitAt(visualSnap.focus.x, visualSnap.focus.y);
-        var focusCard = el('hd-battle-focus');
-        renderFocusCard(state.open && shouldShowHd(),visualSnap,targetPreview && targetPreview.label);
         if (!state.preview && visualSnap.focus && (!focusCard || !focusUnit)) {
             var focusedTerrain = terrainAt(visualSnap.focus.x, visualSnap.focus.y);
             ctx.fillStyle = 'rgba(15,20,29,0.94)';
@@ -1641,6 +1657,7 @@
                 ? '预览棋盘。进战斗后从 g_GenPos / GenArray 画将。'
                 : '等待 fight hook 或 g_GenPos 坐标…', DESIGN_W / 2, DESIGN_H / 2);
         }
+        lastBoardPaint = {canvas:canvas,key:paintKey};
     }
 
     paintRuntimeBadge(); applyChrome();

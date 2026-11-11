@@ -16,7 +16,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import {battleHudObservation,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
+import {battleHudObservation,measureIdleBattleBoard,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -365,7 +365,9 @@ async function battleSmoke(cdp) {
         window.sendKey=function(code){window.__battleKeys.push({code,kind:baye.hd.fight().inputKind,seq:baye.hd.fight().inputSeq});return original.apply(this,arguments);};
     })()`);
     const before=await evaluate(cdp,battleStateExpression);
-    await delay(1500);
+    await waitFor(cdp,'original HD battle canvas visible','BayeHdBattle.isOpen()&&document.getElementById("hd-battle-canvas").checkVisibility()');
+    report.idleBattleBoard=await measureIdleBattleBoard(expression=>evaluate(cdp,expression),(...args)=>cdp.send(...args),'hd-battle-canvas');
+    assert.equal(report.idleBattleBoard.paints.frames,0,'Idle desktop HD battle retains the painted canvas');
     const after=await evaluate(cdp,battleStateExpression);
     assert.deepEqual(after,before,'idle rendering cannot move, attack, spend MP or end turn');
     assert.deepEqual(await evaluate(cdp,'window.__battleKeys'),[],'idle HD renderer delivers no engine inputs');

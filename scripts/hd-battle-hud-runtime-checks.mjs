@@ -1,4 +1,38 @@
 import assert from 'node:assert/strict';
+import {summarizeFrames} from './hd-performance-metrics.mjs';
+
+export async function measureIdleBattleBoard(evaluate, send, canvasId) {
+    await send('Performance.enable');
+    try {
+        const metrics = async () => Object.fromEntries((await send('Performance.getMetrics')).metrics.map(({name, value}) => [name, value]));
+        const before = await metrics();
+        const sample = await evaluate(`(() => {
+            const NativePromise=(async()=>{})().constructor;
+            return new NativePromise(resolve=>{
+                const canvas=document.getElementById(${JSON.stringify(canvasId)}),context=canvas.getContext('2d');
+                const original=context.clearRect,startedAt=performance.now(),frames=[],paints=[];
+                const viewport={width:innerWidth,height:innerHeight,dpr:devicePixelRatio};
+                context.clearRect=function(){paints.push(performance.now());return original.apply(this,arguments);};
+                function frame(time){
+                    if(time>=startedAt)frames.push(time);
+                    if(time-startedAt<1500){requestAnimationFrame(frame);return;}
+                    context.clearRect=original;
+                    resolve({viewport,startedAt,endedAt:performance.now(),frames,paints});
+                }
+                requestAnimationFrame(frame);
+            });
+        })()`);
+        const after = await metrics();
+        assert.ok(sample.frames.length>0, 'The foreground battle receives animation frames');
+        return {browser: (await send('Browser.getVersion')).product, sample,
+            frames: summarizeFrames(sample.frames, sample.startedAt, sample.endedAt),
+            paints: summarizeFrames(sample.paints, sample.startedAt, sample.endedAt),
+            scriptMs: (after.ScriptDuration-before.ScriptDuration)*1000,
+            taskMs: (after.TaskDuration-before.TaskDuration)*1000};
+    } finally {
+        await send('Performance.disable');
+    }
+}
 
 // Compare the actual rendered text and clipping with the original C fields.
 export const battleHudObservation = `(() => {

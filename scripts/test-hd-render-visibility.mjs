@@ -181,6 +181,9 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
             document.hidden = value;
             for (const callback of listeners.get('visibilitychange') ?? []) callback();
         },
+        restoreCanvas(id) {
+            for (const callback of listeners.get('contextrestored') ?? []) callback({target:nodes.get(id)});
+        },
         resize() { for (const callback of windowListeners.get('resize') ?? []) callback(); },
         frame() {
             const pending = [...frames.entries()]; now += 17;
@@ -862,18 +865,40 @@ test('idle map keeps its pixels while sampling date, and repaints on visible cha
     assert.deepEqual(h.sent, keys);
 });
 
-test('CSS-covered map performs zero heavy paint while native owner sampling and battle paint remain alive', () => {
+test('covered map and idle battle retain their canvases while native sampling continues', () => {
     const h = browser(); h.frame();
     assert.equal(h.document.documentElement.getAttribute('data-baye-battle'),'hd');
     const before = counters(h), battlePaints = h.canvasStats.battle.paints, keys = [...h.sent];
     h.data.g_Cities[1].Belong = 1; h.data.g_MonthDate = 4;
     const state = native(h); h.tick(200); h.frame(); h.frame();
     assert.deepEqual(counters(h),before);
-    assert.ok(h.canvasStats.battle.paints > battlePaints);
+    assert.equal(h.canvasStats.battle.paints,battlePaints,'unrelated map state does not repaint the battle');
     assert.equal(h.world.getCities()[1].belong,1,'read-only world sampler still refreshes ownership');
     assert.equal(h.world.getPhase(),'other');
     assert.equal(h.frames.size,2,'painting gate does not suspend the owner sampler RAF');
     assert.equal(native(h),state); assert.deepEqual(h.sent,keys);
+    h.data.g_FoucsX = 2;
+    h.frame(); h.frame();
+    assert.equal(h.canvasStats.battle.paints,battlePaints+1,'current native focus repaints once');
+    assert.deepEqual(h.sent,keys);
+});
+
+test('desktop battle repaints once after backing canvas restoration, DPR change or resume', () => {
+    const h = browser({modules:['battle']});
+    const paints = () => h.canvasStats.battle.paints;
+    const first = paints();
+    h.frame(); h.poll();
+    assert.equal(paints(),first);
+    h.restoreCanvas('hd-battle-canvas');
+    h.frame(); h.frame();
+    assert.equal(paints(),first+1);
+    h.context.devicePixelRatio = 2;
+    h.frame(); h.frame();
+    assert.equal(paints(),first+2);
+    assert.equal(h.document.getElementById('hd-battle-canvas').width,3840);
+    h.setHidden(true); h.frame(); h.setHidden(false); h.frame();
+    assert.equal(paints(),first+3);
+    assert.deepEqual(h.sent,[]);
 });
 
 test('covered resize/DPR/public redraws and tab resume cannot clear retained map backing pixels', () => {

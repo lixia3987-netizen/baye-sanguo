@@ -484,6 +484,23 @@ test('dragging the board pans the camera and cannot issue a native tile or compa
     f.fire('pointerup',f.canvas,{clientX:350,clientY:200});f.fire('click',f.canvas,{clientX:350,clientY:200});
     const after=f.host.debugSnapshot().camera;assert.notEqual(after.x,before.x);assert.equal(after.y,before.y);noAction(f);
 });
+test('mobile battle reuses only unchanged pixels and repaints once for pan, unit, viewport and LCD changes',()=>{
+    const f=fixture(),paints=()=>f.counts.paints.filter(([method])=>method==='clearRect').length;
+    f.render();f.host.refresh();f.render();assert.equal(paints(),0);
+    f.fire('pointerdown',f.canvas,{clientX:500,clientY:200});
+    f.fire('pointermove',f.canvas,{clientX:350,clientY:200});
+    f.fire('pointerup',f.canvas,{clientX:350,clientY:200});
+    f.render();assert.equal(paints(),1);
+    f.raw.g_Persons[188].Arms+=1;
+    f.render();f.render();assert.equal(paints(),2);
+    f.board.rect.width-=44;
+    f.render();f.render();assert.equal(paints(),3);
+    f.state.mode='classic';f.host.refresh();
+    f.state.mode='hd';f.render();f.render();assert.equal(paints(),4);
+    f.fire('contextrestored',f.canvas);
+    f.render();f.render();assert.equal(paints(),5);
+    noAction(f);
+});
 test('focus control restores a panned view without native keys or world writes',()=>{
     const f=fixture();f.render();f.fire('pointerdown',f.canvas,{clientX:500,clientY:200});
     f.fire('pointermove',f.canvas,{clientX:350,clientY:200});f.fire('pointerup',f.canvas,{clientX:350,clientY:200});

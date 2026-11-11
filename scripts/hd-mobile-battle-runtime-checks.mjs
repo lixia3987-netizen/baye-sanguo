@@ -1,6 +1,6 @@
 // Scenario only: process/server ownership is handled by the safe mobile runtime runner.
 import assert from 'node:assert/strict';
-import {battleHudObservation,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
+import {battleHudObservation,measureIdleBattleBoard,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
 import {verifyMobileBattleMarch,verifyMobileBattleRest} from './hd-mobile-battle-runtime-oracle.mjs';
 
 export const battleObservation = `(() => {const d=baye.data,f=baye.hd.fight(),units=[];
@@ -159,6 +159,9 @@ export async function runMobileBattleChecks(c) {
     const {runMobileBattleSettingsSaveChecks}=await import('./hd-mobile-battle-settings-runtime-checks.mjs');
     return runMobileBattleSettingsSaveChecks({...c,native,ready,menu,recordHud,startMarch,initial});
   }
+  report.idleBattleBoard=await measureIdleBattleBoard(evaluate,sendCdp,'hd-mobile-battle-canvas');
+  assert.equal(report.idleBattleBoard.paints.frames,0,'Idle mobile HD battle retains the painted canvas');
+  await unchanged(initial,'Measured idle HD board');
   await recordHud('first original player wait');
   const beforeView=await native();await physicalKey('s',83);
   await until('actual VIEW published',"baye.hd.fight().inputKind===10&&baye.hd.view().active===1");

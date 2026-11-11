@@ -19,6 +19,7 @@
         var mounted=false, focused=true, pageActive=true, timer=null, refreshing=false, drawing=false;
         var arm=null, pointers=Object.create(null), blocked=false, camera=null, cameraData=null, lastFocus='', lastData=null, lastStable='', lastRender=null;
         var last={active:false,presentation:'off',reason:'not-initialized',camera:null}, renderBindings=new WeakMap(), effectPresentation='off', detailOwner=null;
+        var lastBoardPaint=null;
         function doc() { return environment.document; }
         function node(id) { return doc() && doc().getElementById(id); }
         function battle() { return environment.BayeHdBattle; }
@@ -244,12 +245,13 @@
             var body=doc() && doc().body;if(body){body.setAttribute('data-hd-mobile-spe',value);}
         }
         function boundary(reason) {
-            blocked=Object.keys(pointers).length>0;retire(reason);lastFocus='';
+            blocked=Object.keys(pointers).length>0;retire(reason);lastFocus='';lastBoardPaint=null;
             var detail=dialog();if(detail && detail.retireInteraction){detail.retireInteraction();}detailOwner=null;
             var spe=environment.BayeHdSpe;if(spe && typeof spe.retireInteraction==='function'){spe.retireInteraction(reason);}
             refresh();
         }
         function paint(presentation) {
+            if(presentation!=='hd'){lastBoardPaint=null;}
             var body=doc() && doc().body;if(body){body.setAttribute('data-hd-mobile-battle',presentation);}
             var active=presentation!=='off';
             var root=node('hd-battle');if(root){root.setAttribute('aria-hidden',presentation==='hd'?'false':'true');}
@@ -356,12 +358,42 @@
                 return false;
             }
         }
+        function drawBoard(ctx, rect, geometry, snapshot, fight, actor) {
+            var ox=geometry.ox, oy=geometry.oy, cell=geometry.cw, cols=geometry.cols, rows=geometry.rows;
+            var viewX=geometry.viewOx, viewY=geometry.viewOy, dpr=geometry.dpr;
+            ctx.setTransform(dpr,0,0,dpr,0,0);
+            ctx.clearRect(0,0,rect.width,rect.height);
+            ctx.fillStyle='#101722';ctx.fillRect(0,0,rect.width,rect.height);
+            var terrain=environment.BayeHdBattleTerrain;
+            if(!terrain || !snapshot.terrainSnapshot || !terrain.paint(ctx,geometry,snapshot.terrainSnapshot)){
+                for(var y=0;y<rows;y++){
+                    for(var x=0;x<cols;x++){
+                        ctx.fillStyle=(x+y)%2?'#1b2832':'#1e3035';ctx.fillRect(ox+x*cell,oy+y*cell,cell,cell);
+                    }
+                }
+            }
+            var feedback=environment.BayeHdBattleFeedback;
+            if(feedback && snapshot.feedback){feedback.paint(ctx,geometry,snapshot.feedback);}
+            ctx.strokeStyle='#60707855';ctx.lineWidth=1;
+            for(y=0;y<=rows;y++){ctx.beginPath();ctx.moveTo(ox,oy+y*cell);ctx.lineTo(ox+cols*cell,oy+y*cell);ctx.stroke();}
+            for(x=0;x<=cols;x++){ctx.beginPath();ctx.moveTo(ox+x*cell,oy);ctx.lineTo(ox+x*cell,oy+rows*cell);ctx.stroke();}
+            (snapshot.unitList||[]).forEach(function(u){
+                if(u.state===8 || u.x<viewX || u.x>=viewX+cols || u.y<viewY || u.y>=viewY+rows){return;}
+                var px=ox+(u.x-viewX)*cell,py=oy+(u.y-viewY)*cell;
+                ctx.fillStyle=u.side==='player'?'#275f9d':'#983d40';ctx.fillRect(px+3,py+3,cell-6,cell-6);
+                ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#fff4d8';ctx.font='600 12px sans-serif';ctx.fillText(u.name||'#'+u.id,px+cell/2,py+cell*.28,cell-8);
+                ctx.font='12px sans-serif';ctx.fillText((ARMS[u.armType]||'兵')+' '+(u.arms==null?'?':u.arms),px+cell/2,py+cell*.58,cell-8);
+                ctx.font='10px sans-serif';ctx.fillText(u.active===1?'已行动':u.i===actor?'当前':STATES[u.state]||'待行动',px+cell/2,py+cell*.83,cell-8);
+            });
+            ctx.strokeStyle='#f0c75a';ctx.lineWidth=2;
+            ctx.strokeRect(ox+(fight.focusX-viewX)*cell+1,oy+(fight.focusY-viewY)*cell+1,cell-2,cell-2);
+        }
         function render(snapshot) {
             if(drawing || !snapshot){return;}drawing=true;
             try{
                 var t=readNativeTicket(), canvas=node('hd-mobile-battle-canvas'), board=node('hd-mobile-battle-board');
                 if(!t || t.presentation!=='hd' || !canvas || !board || !sharedShowsHd() || !renderMatches(snapshot,t)){
-                    lastRender=null;if(t){paint('lcd');}if(arm&&!currentModePress(t)){retire('render-owner-changed');}return;
+                    lastRender=null;lastBoardPaint=null;if(t){paint('lcd');}if(arm&&!currentModePress(t)){retire('render-owner-changed');}return;
                 }
                 renderBindings.set(snapshot,t.data);lastRender=snapshot;
                 paint('hd');var r=board.getBoundingClientRect();if(r.width<44 || r.height<44){return;}
@@ -374,29 +406,22 @@
                 if(lastFocus!==focus){camera.x=t.native.fight.focusX-Math.floor(cols/2);camera.y=t.native.fight.focusY-Math.floor(rows/2);lastFocus=focus;}
                 clampCamera(t);
                 var dpr=Math.min(2,environment.devicePixelRatio||1),w=Math.round(r.width*dpr),h=Math.round(r.height*dpr);
-                if(canvas.width!==w){canvas.width=w;}if(canvas.height!==h){canvas.height=h;}
-                var ctx=canvas.getContext('2d');if(!ctx){return;}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,r.width,r.height);ctx.fillStyle='#101722';ctx.fillRect(0,0,r.width,r.height);
                 var geometry={ox:ox,oy:oy,cw:cell,ch:cell,cols:cols,rows:rows,viewOx:camera.x,viewOy:camera.y,dpr:dpr};
-                var terrain=environment.BayeHdBattleTerrain;
-                if(!terrain || !snapshot.terrainSnapshot || !terrain.paint(ctx,geometry,snapshot.terrainSnapshot)){
-                    for(var y=0;y<rows;y++){for(var x=0;x<cols;x++){ctx.fillStyle=(x+y)%2?'#1b2832':'#1e3035';ctx.fillRect(ox+x*cell,oy+y*cell,cell,cell);}}
+                var f=t.native.fight, paintKey=key([r.width,r.height,geometry,t.libraryGeneration,f.focusX,f.focusY,t.actor,
+                    snapshot.terrainSnapshot,snapshot.feedback,snapshot.unitList]);
+                var resized=canvas.width!==w || canvas.height!==h;
+                // Camera hit geometry and the current native ticket still refresh
+                // when the backing canvas already shows the same board.
+                if(resized || !lastBoardPaint || lastBoardPaint.canvas!==canvas || lastBoardPaint.data!==t.data || lastBoardPaint.key!==paintKey){
+                    lastBoardPaint=null;
+                    if(canvas.width!==w){canvas.width=w;}if(canvas.height!==h){canvas.height=h;}
+                    var ctx=canvas.getContext('2d');if(!ctx){return;}
+                    drawBoard(ctx,r,geometry,snapshot,f,t.actor);
                 }
-                var feedback=environment.BayeHdBattleFeedback;if(feedback && snapshot.feedback){feedback.paint(ctx,geometry,snapshot.feedback);}
-                ctx.strokeStyle='#60707855';ctx.lineWidth=1;
-                for(y=0;y<=rows;y++){ctx.beginPath();ctx.moveTo(ox,oy+y*cell);ctx.lineTo(ox+cols*cell,oy+y*cell);ctx.stroke();}
-                for(x=0;x<=cols;x++){ctx.beginPath();ctx.moveTo(ox+x*cell,oy);ctx.lineTo(ox+x*cell,oy+rows*cell);ctx.stroke();}
-                (snapshot.unitList||[]).forEach(function(u){
-                    if(u.state===8 || u.x<camera.x || u.x>=camera.x+cols || u.y<camera.y || u.y>=camera.y+rows){return;}
-                    var px=ox+(u.x-camera.x)*cell,py=oy+(u.y-camera.y)*cell;
-                    ctx.fillStyle=u.side==='player'?'#275f9d':'#983d40';ctx.fillRect(px+3,py+3,cell-6,cell-6);
-                    ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#fff4d8';ctx.font='600 12px sans-serif';ctx.fillText(u.name||'#'+u.id,px+cell/2,py+cell*.28,cell-8);
-                    ctx.font='12px sans-serif';ctx.fillText((ARMS[u.armType]||'兵')+' '+(u.arms==null?'?':u.arms),px+cell/2,py+cell*.58,cell-8);
-                    ctx.font='10px sans-serif';ctx.fillText(u.active===1?'已行动':u.i===t.actor?'当前':STATES[u.state]||'待行动',px+cell/2,py+cell*.83,cell-8);
-                });
-                var f=t.native.fight;ctx.strokeStyle='#f0c75a';ctx.lineWidth=2;ctx.strokeRect(ox+(f.focusX-camera.x)*cell+1,oy+(f.focusY-camera.y)*cell+1,cell-2,cell-2);
                 if(!renderFocusCard(snapshot,t)){
                     lastRender=null;paint('lcd');if(arm){retire('render-owner-changed');}return;
                 }
+                if(!lastBoardPaint){lastBoardPaint={canvas:canvas,data:t.data,key:paintKey};}
                 if(last){last.camera=Object.assign({},camera);last.presentation='hd';}
             }finally{drawing=false;}
         }
@@ -426,6 +451,7 @@
                 stop(e);
             },true);
             d.addEventListener('scroll',function(){if(arm){retire('scroll');}},true);
+            d.addEventListener('contextrestored',function(e){if(e.target===node('hd-mobile-battle-canvas')){lastBoardPaint=null;}},true);
             d.addEventListener('visibilitychange',function(){boundary('visibility');});
             ['resize','orientationchange'].forEach(function(name){environment.addEventListener(name,function(){boundary(name);});});
             environment.addEventListener('blur',function(){focused=false;boundary('blur');});environment.addEventListener('focus',function(){focused=true;boundary('focus');});
