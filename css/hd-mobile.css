@@ -242,7 +242,11 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
     background: #141c27;
     touch-action: pan-y;
 }
-.hd-mobile-page:not(.hd-mobile-city-on) #hd-city-menu,
+.hd-mobile-page:not(.hd-mobile-city-on) #hd-city-menu {
+    /* Keep the layout available to reset a newly published list before it appears. */
+    visibility: hidden;
+    pointer-events: none;
+}
 .hd-mobile-page:not(.hd-mobile-dialog-on) #hd-dialog { display: none !important; }
 .hd-mobile-page #hd-city-menu .hd-city-menu-stage,
 .hd-mobile-page #hd-dialog .hd-dialog-stage {
@@ -304,6 +308,8 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
         text-align: left;
     }
 }
+/* A live native person list keeps its column while the detail pane loads. */
+.hd-mobile-page .hd-city-menu-person-layout:has(> .hd-city-menu-deep:not([hidden]) [data-hd-deep][data-hd-menu-kind="3"]),
 .hd-mobile-page .hd-city-menu-person-layout.has-person-details,
 .hd-mobile-page .hd-city-menu-person-layout.has-tool-details {
     display: grid;
@@ -314,6 +320,17 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
     gap: 12px;
     overflow: hidden;
 }
+@media (max-width: 900px) {
+    .hd-mobile-page .hd-city-menu-person-layout > .hd-city-menu-deep:has([data-hd-deep][data-hd-menu-kind="3"]) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+/* Summaries and search controls can arrive after the original rows. Reserve their space. */
+.hd-mobile-page .hd-city-menu-list-tools[hidden]:has(+ .hd-city-menu-person-layout > .has-mobile-person-list:not([hidden])) {
+    display: block !important;
+    visibility: hidden;
+}
+.hd-mobile-page .has-mobile-person-list [data-hd-deep] { min-height: 78px; }
 .hd-mobile-page .hd-city-menu-person-layout .hd-city-menu-deep,
 .hd-mobile-page .hd-city-menu-person-details,
 .hd-mobile-page .hd-city-menu-tool-details {

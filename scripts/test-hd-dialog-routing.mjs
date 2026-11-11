@@ -1128,6 +1128,30 @@ function mobileReportFixture() {
     return h;
 }
 
+test('a mobile report refreshes its portrait as soon as the native report changes', () => {
+    const h = mobileReportFixture(), refreshes = [];
+    let desktopRefreshes = 0;
+    h.context.BayeHdPortraits = {refresh() { desktopRefreshes++; }};
+    h.context.BayeHdMobilePortraits = {refresh() {
+        const {open, reportOwner, body} = h.snapshot();
+        refreshes.push({open, seq:reportOwner?.seq ?? null, body});
+    }};
+    h.observe();
+    assert.deepEqual(refreshes, []);
+
+    const body = '我愿加入麾下。';
+    Object.assign(h.report, {seq:10, inputSeq:13, kind:2, person:4, text:body});
+    Object.assign(h.data, {g_hdReportSeq:10, g_hdReportInputSeq:13, g_hdReportGbk:body});
+    h.observe();
+    h.observe();
+    h.context.BayeHdDialog.close({silent:true});
+
+    assert.deepEqual(refreshes, [{open:true, seq:10, body}, {open:false, seq:null, body}]);
+    assert.equal(desktopRefreshes, 0);
+    assert.deepEqual(h.sent, []);
+    assert.deepEqual(h.writes, []);
+});
+
 function mobileCampaignFixture(kind = 1, ids = [0, 130, 199]) {
     const h = mobileReportFixture(), d = h.context.BayeHdDialog;
     h.showHd = true;

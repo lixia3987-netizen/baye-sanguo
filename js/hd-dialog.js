@@ -1670,9 +1670,9 @@
     }
 
     function refreshReportPortrait() {
-        var portraits = global.BayeHdPortraits;
+        var portraits = mobileHost ? global.BayeHdMobilePortraits : global.BayeHdPortraits;
         try {
-            if (!mobileHost && portraits && typeof portraits.refresh === 'function') { portraits.refresh(); }
+            if (portraits && typeof portraits.refresh === 'function') { portraits.refresh(); }
         } catch (e) {}
     }
 

@@ -36,6 +36,7 @@ export async function createMobileDetailRuntimeDriver(ctx,entry) {
       visible:shown&&!n.disabled&&b.left>=clip.left-.1&&b.right<=clip.right+.1&&b.top>=clip.top-.1&&b.bottom<=clip.bottom+.1&&(hit===n||n.contains(hit))};
   })()`);
   const reveal=async(selector,{control=true}={})=>{
+    let unmoved=0;
     for(let attempt=0;attempt<36;attempt++){
       const g=await until('mounted current preview control '+selector,`document.querySelector(${JSON.stringify(selector)})&&true`,3_000).then(()=>geometry(selector));
       assert.ok(g?.shown&&!g.disabled,'Current preview control is shown and enabled '+selector);
@@ -48,7 +49,8 @@ export async function createMobileDetailRuntimeDriver(ctx,entry) {
       // A longer detail pane can place its not-yet-stuck paging toolbar at
       // the old pan's starting point. Begin in a real noninteractive band so
       // browser focus scrolling cannot alternate around that toolbar.
-      const x=Math.min(r.right,g.clip.right)-12;
+      const right=Math.min(r.right,g.clip.right),left=Math.max(r.left,g.clip.left);
+      const x=unmoved?(left+right)/2:right-12;
       const band=await evaluate(`(() => {
         const p=document.getElementById(${JSON.stringify(g.scroller.id)}),x=${x};let bands=[[${top},${bottom}]];
         for(const n of p.querySelectorAll('button,a,input,select,textarea,[role="button"]')){
@@ -59,18 +61,25 @@ export async function createMobileDetailRuntimeDriver(ctx,entry) {
         bands.sort((a,b)=>(b[1]-b[0])-(a[1]-a[0]));return bands[0];})()`);
       // A short landscape list can fill the width with rows. Swiping across
       // those rows must preserve the native menu and send zero keys.
-      const menuList=['hd-city-menu-sublist','hd-city-menu-deep'].includes(g.scroller.id);
+      const menuList=['hd-city-menu-sublist','hd-city-menu-deep','hd-system-ui-list'].includes(g.scroller.id);
       const panBand=band&&band[1]-band[0]>=44?band:menuList?[top,bottom]:null;
       assert.ok(panBand,'Actual pane has room for a trusted scroll');
       const y=panBand[0]+(panBand[1]-panBand[0])*(down?.8:.2),end=panBand[0]+(panBand[1]-panBand[0])*(down?.2:.8);
-      assert.equal(await evaluate(`(() => {const p=document.getElementById(${JSON.stringify(g.scroller.id)}),h=document.elementFromPoint(${x},${y});return !!p&&(h===p||p.contains(h));})()`),true);
+      await until('visible pan origin for '+selector,`(() => {
+        const p=document.getElementById(${JSON.stringify(g.scroller.id)}),h=document.elementFromPoint(${x},${y});
+        return !!p&&(h===p||p.contains(h));
+      })()`,3000);
       await touches('touchStart',[{x,y}]);for(let i=1;i<=6;i++)await touches('touchMove',[{x,y:y+(end-y)*i/6}]);await touches('touchEnd');
-      const scroll = await until('actual trusted pan moves the scroller', `(() => {
-        const n=document.getElementById(${JSON.stringify(g.scroller.id)});
-        return n&&n.scrollTop!==${g.scroller.scrollTop}&&{top:n.scrollTop};
-      })()`, 3000);
-      const after=await sample(),keys=await readKeys(before.state.keyCount),scrollTop=scroll.top;
+      const after=await sample(),keys=await readKeys(before.state.keyCount);
       assert.deepEqual(keys,[],'Content pan never selects, pages or confirms');assert.deepEqual(after.native,before.native,'Content pan preserves the native owner and cursor');
+      const scrollTop=await evaluate(`document.getElementById(${JSON.stringify(g.scroller.id)}).scrollTop`);
+      if(scrollTop===g.scroller.scrollTop){
+        entry.unmovedPans??=[];
+        entry.unmovedPans.push({selector,point:{x,y},scrollTop});
+        assert.ok(++unmoved<3,'Trusted pans did not move the current scroller '+selector);
+        continue;
+      }
+      unmoved=0;
       entry.scrollChecks.push({selector,geometry:g,panBand,before,after,scrollTop,keys});
     }
     throw Error('Preview control remains clipped after bounded actual pans '+selector);

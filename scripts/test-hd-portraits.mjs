@@ -150,11 +150,22 @@ function fixture(options = {}) {
     vm.runInContext(moduleText, context, { filename: 'js/hd-portraits.js' });
     const api = context.BayeHdPortraits;
     async function settleIdentity() {
-        for (let i = 0; i < 1000; i++) {
-            if (context.BayeHdLibIdentity?.read().status !== 'pending') { await flush(); return; }
-            await flush();
+        const identity = context.BayeHdLibIdentity;
+        if (identity?.read().status === 'pending') {
+            await new Promise((resolve, reject) => {
+                const unsubscribe = identity.subscribe(state => {
+                    if (state.status === 'pending') return;
+                    clearTimeout(timeout);
+                    unsubscribe();
+                    resolve();
+                });
+                const timeout = setTimeout(() => {
+                    unsubscribe();
+                    reject(new Error('real native digest did not settle'));
+                }, 5000);
+            });
         }
-        assert.fail('real native digest did not settle');
+        await flush();
     }
     return {
         api, context, elements, body, settings,

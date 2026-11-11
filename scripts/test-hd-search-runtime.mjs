@@ -3,6 +3,7 @@
  * node scripts/test-hd-search-runtime.mjs --preflight-only --artifact-dir build/r17-search-preflight
  * CHROME="C:/Program Files/Google/Chrome/Application/chrome.exe" node scripts/test-hd-search-runtime.mjs --artifact-dir build/r17-search-installed
  * Add --discover to settle actual orders and check discovery reports and the allied roster.
+ * Add --mobile-width=667 or --mobile-width=844 for landscape touch.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -13,19 +14,28 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn, execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { createMobileDetailRuntimeDriver } from './hd-mobile-preview-runtime-checks.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const cli=process.argv.slice(2),allowed=new Set(['--preflight-only','--artifact-dir','--discover']);
+const cli=process.argv.slice(2),allowed=new Set(['--preflight-only','--artifact-dir','--discover','--mobile-width=667','--mobile-width=844']);
 for(let i=0;i<cli.length;i++){assert.ok(allowed.has(cli[i]),'Unsupported argument: '+cli[i]);if(cli[i]==='--artifact-dir'){assert.ok(cli[i+1]&&!cli[i+1].startsWith('--'),'Artifact path is required');i++;}}
 assert.equal(new Set(cli.filter(v=>v.startsWith('--'))).size,cli.filter(v=>v.startsWith('--')).length,'Duplicate flags are rejected');
 const preflightOnly=cli.includes('--preflight-only'),discover=cli.includes('--discover'),artifactIndex=cli.indexOf('--artifact-dir');
 assert.ok(!discover||!preflightOnly,'Discovery requires a live campaign');
+const mobileFlags=cli.filter(flag=>flag.startsWith('--mobile-width='));
+assert.ok(mobileFlags.length<=1,'Choose one mobile viewport');
+const mobileWidth=mobileFlags.length?Number(mobileFlags[0].split('=')[1]):0;
+assert.ok(!mobileWidth||!preflightOnly,'The mobile run requires a live campaign');
+const desktopDispatch=!mobileWidth&&!discover;
 const artifactDir=path.resolve(artifactIndex<0?path.join(root,'build/r17-search-runtime'):cli[artifactIndex+1]);
 const period=2,originCity=26,lordPerson=12,searchPerson=110;
-const viewport={width:1920,height:1080},viewports=[viewport,{width:1280,height:720}];
+const viewport=mobileWidth?{width:mobileWidth,height:mobileWidth===667?375:390}:{width:1920,height:1080};
+const viewports=[viewport,{width:1280,height:720}],page=mobileWidth?'m.html':'pc.html';
+const portraitRootId=mobileWidth?'hd-mobile-portrait':'hd-portrait';
+const portraitContext=mobileWidth?'dialog':'person-info';
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms)),sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const childExited=child=>!child||child.exitCode!==null||child.signalCode!==null;
-const report={startedAt:new Date().toISOString(),preflightOnly,discover,period,originCity,lordPerson,searchPerson,viewports:discover?[viewport]:viewports,phases:[],inputs:[],console:[],exceptions:[],dialogs:[],blocked:[],requests:[],worldObservations:[],detailChecks:[],resizes:[],staleChecks:[]};
+const report={startedAt:new Date().toISOString(),preflightOnly,discover,page,period,originCity,lordPerson,searchPerson,viewports:desktopDispatch?viewports:[viewport],phases:[],inputs:[],console:[],exceptions:[],dialogs:[],blocked:[],requests:[],worldObservations:[],detailChecks:[],resizes:[],staleChecks:[]};
 const servedAssets=new Map(),productionDirectories=['js','css','assets','vendor/iBaye/src'];
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.wasm':'application/wasm','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.ttf':'font/ttf','.lib':'application/octet-stream'};
 const walk=directory=>fs.readdirSync(directory,{withFileTypes:true}).flatMap(item=>item.isDirectory()?walk(path.join(directory,item.name)):[path.join(directory,item.name)]);
@@ -49,7 +59,8 @@ function nativeText(resource, index){
 }
 function prepareServedAssets(){
     report.sources={};for(const dir of productionDirectories)for(const f of walk(path.join(root,dir)))freezeAsset(path.relative(root,f));
-    freezeAsset('scripts/write-wasm-manifest.mjs');nativeLib=freezeAsset('libs/dat-mod.lib').data;freezeAsset('pc.html');freezeAsset('qr.png');freezeAsset('favicon.png');freezeAsset('fonts/HarmonyOS_Sans_SC_Regular.ttf');
+    freezeAsset('scripts/write-wasm-manifest.mjs');nativeLib=freezeAsset('libs/dat-mod.lib').data;freezeAsset(page);freezeAsset('qr.png');freezeAsset('favicon.png');freezeAsset('fonts/HarmonyOS_Sans_SC_Regular.ttf');
+    if(mobileWidth)freezeAsset('scripts/hd-mobile-preview-runtime-checks.mjs');
     assert.equal(sha(nativeLib),'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
     const runner=freezeAsset(path.relative(root,fileURLToPath(import.meta.url)));report.tool=runner.metadata;
     const build=JSON.parse(servedAssets.get('js/baye.build.json').data);
@@ -65,7 +76,7 @@ function prepareServedAssets(){
     const source=servedAssets.get('vendor/iBaye/src/citycmdb.c').data.toString('utf8'),start=source.indexOf('FAR U8 SearchMake(U8 city)'),end=source.indexOf('\n}',start);
     assert.ok(start>=0&&end>start);const body=source.slice(start,end);assert.ok(body.indexOf('ShowGReport(p,str)')<body.indexOf('AddOrderHead(&order)'));assert.ok(body.includes('DelPerson(city,p)'));
     report.nativeContract={commandId:3,city:26,personIDs:ids,initialOwnedIDs:owned,thew,money,personIDType:'U16 zero based',source:'vendor/iBaye/src/citycmdb.c',reportBeforeAddOrder:true,notClaimed:'Static ROM/source only; no game, menu, SEARCH order or HD rendering accepted by preflight.'};
-    report.freezeScope='Every JS/CSS/asset/native file, all Git tracked engine files, installed engine quartet, actual standard LIB, pc.html, actual BayeUI font and exact runner bytes. No ignored plan dependencies.';
+    report.freezeScope='Every JS/CSS/asset/native file, all Git tracked engine files, installed engine quartet, actual standard LIB, '+page+', actual BayeUI font and exact runner bytes.';
 }
 async function startServer(){
     const server=http.createServer((req,res)=>{try{const url=new URL(req.url,'http://localhost'),name=decodeURIComponent(url.pathname).replace(/^\/+/, '')||'pc.html',f=servedAssets.get(name);
@@ -135,19 +146,111 @@ async function key(cdp,name){
     const codes={Enter:13,Escape:27,ArrowDown:40,ArrowUp:38};assert.ok(codes[name]);report.inputs.push({type:'physical-key',key:name,at:new Date().toISOString()});
     for(const type of ['keyDown','keyUp'])await cdp.send('Input.dispatchKeyEvent',{type,key:name,code:name,windowsVirtualKeyCode:codes[name],nativeVirtualKeyCode:codes[name]});await delay(100);
 }
-async function targetPoint(cdp,selector){
+let mobileControls;
+async function touches(cdp,type,points=[]){
+    for(const {x,y} of points)assert.ok(x>=0&&x<viewport.width&&y>=0&&y<viewport.height,'Touch within the mobile viewport');
+    await cdp.send('Input.dispatchTouchEvent',{type,touchPoints:points.map((point,id)=>({...point,id,radiusX:2,radiusY:2,force:1}))});
+    report.inputs.push({type:'cdp-'+type,points});
+    await delay(70);
+}
+async function tap(cdp,point){
+    await touches(cdp,'touchStart',[point]);
+    await touches(cdp,'touchEnd');
+}
+async function targetPoint(cdp,selector,{control=true}={}){
+    if(mobileControls&&(selector.startsWith('#hd-city-menu ')||selector.startsWith('#hd-system-ui '))){
+        await waitFor(cdp,'shown current mobile control '+selector,`(() => {
+            const n=document.querySelector(${JSON.stringify(selector)});
+            return n&&!n.disabled&&n.checkVisibility({visibilityProperty:true});
+        })()`);
+        const {rect}=await mobileControls.reveal(selector,{control});
+        return {x:rect.left+rect.width/2,y:rect.top+rect.height/2};
+    }
     return waitFor(cdp,'visible unobstructed target '+selector,`(() => {
         const n=document.querySelector(${JSON.stringify(selector)});
         if(!n||n.disabled)return false;
-        n.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+        ${mobileWidth?'':"n.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});"}
         const r=n.getBoundingClientRect(),s=getComputedStyle(n),x=r.x+r.width/2,y=r.y+r.height/2,t=document.elementFromPoint(x,y);
         return r.width>0&&r.height>0&&s.visibility!=='hidden'&&s.display!=='none'&&t&&(t===n||n.contains(t))&&{x,y};
     })()`,8000);
 }
 async function mouse(cdp,type,point){await cdp.send('Input.dispatchMouseEvent',{type,...point,button:'left',clickCount:1});}
-async function click(cdp,selector,pause=150){const point=await targetPoint(cdp,selector);report.inputs.push({type:'physical-pointer',selector,point,at:new Date().toISOString()});await mouse(cdp,'mousePressed',point);await mouse(cdp,'mouseReleased',point);if(pause)await delay(pause);}
+async function click(cdp,selector,pause=150){
+    const point=await targetPoint(cdp,selector);
+    report.inputs.push({type:mobileWidth?'physical-touch':'physical-pointer',selector,point,at:new Date().toISOString()});
+    if(mobileWidth)await tap(cdp,point);
+    else{await mouse(cdp,'mousePressed',point);await mouse(cdp,'mouseReleased',point);}
+    if(pause)await delay(pause);
+}
 async function installKeyObserver(cdp){
     await evaluate(cdp,`(() => {window.__searchEngineKeys=[];window.__searchObserverErrors=[];let depth=0;const wrap=(owner,key)=>{const original=owner[key];if(typeof original!=='function')throw Error('Missing native input function '+key);owner[key]=function(code){if(!depth){try{window.__searchEngineKeys.push({code,at:performance.now(),generation:Number(baye.data.g_hdSpeGeneration),menu:baye.hd.menuItems(),report:baye.hd.report(),qty:baye.hd.qty(),march:baye.hd.march()});}catch(e){window.__searchObserverErrors.push(String(e));}}depth++;try{return original.apply(this,arguments);}finally{depth--;}};};wrap(window,'sendKey');wrap(baye,'sendKey');return true;})()`);
+}
+async function observeMobilePresentation(cdp){
+    await evaluate(cdp,`(() => {
+        const nativeTouch=window._bayeSendTouchEvent;
+        if(typeof nativeTouch!=='function')throw Error('Missing native touch function');
+        window.__searchNativeTouches=[];
+        window._bayeSendTouchEvent=function(...args){
+            window.__searchNativeTouches.push(args);
+            return nativeTouch.apply(this,args);
+        };
+        window.__searchTrustedTouches=[];
+        document.addEventListener('touchend',e=>{
+            if(e.isTrusted)window.__searchTrustedTouches.push(e.target.id||e.target.tagName);
+        },true);
+
+        const dialog=document.getElementById('hd-dialog'),slot=document.getElementById('hd-dialog-portrait');
+        const figure=document.getElementById('hd-mobile-portrait');
+        window.__searchReportFrames={seen:[],mismatches:[]};
+        let last,scheduled=false;
+        const observer=new MutationObserver(()=>{
+            if(scheduled)return;
+            scheduled=true;
+            requestAnimationFrame(()=>{
+                scheduled=false;
+                if(figure.parentNode!==slot||!figure.checkVisibility({visibilityProperty:true}))return;
+                const r=baye.hd.report(),d=BayeHdDialog.debugSnapshot();
+                if(!r.active||!d.open||d.kind!=='report'||d.reportOwner?.seq!==r.seq||d.reportOwner?.inputSeq!==r.inputSeq)return;
+                const sample={seq:r.seq,inputSeq:r.inputSeq,speaker:r.kind===2?r.person:null,portrait:Number(figure.dataset.personId)};
+                const stamp=JSON.stringify(sample);
+                if(stamp===last)return;
+                last=stamp;
+                window.__searchReportFrames.seen.push(sample);
+                if(sample.speaker!==sample.portrait)window.__searchReportFrames.mismatches.push(sample);
+            });
+        });
+        observer.observe(dialog,{subtree:true,attributes:true,childList:true});
+        observer.observe(document.body,{attributeFilter:['class']});
+
+        const list=document.getElementById('hd-city-menu-deep');
+        window.__searchPickerFrames={seen:[],mismatches:[]};
+        let lastLayout,pickerScheduled=false;
+        const pickerObserver=new MutationObserver(()=>{
+            if(pickerScheduled)return;
+            pickerScheduled=true;
+            requestAnimationFrame(()=>{
+                pickerScheduled=false;
+                const row=list.querySelector('[data-hd-deep][data-hd-menu-kind="3"]');
+                if(!row?.checkVisibility({visibilityProperty:true}))return;
+                const m=baye.hd.menuItems();
+                if(!m.active||m.context!==1||m.kind!==3||m.seq!==Number(row.dataset.hdMenuSeq))return;
+                const columns=getComputedStyle(list).gridTemplateColumns.split(' ');
+                const {width,top}=list.getBoundingClientRect(),stageWidth=document.querySelector('#hd-city-menu .hd-city-menu-stage').clientWidth;
+                const {width:rowWidth,height:rowHeight}=row.getBoundingClientRect();
+                const layout={seq:m.seq,columns,width,top,stageWidth,rowWidth,rowHeight};
+                if(JSON.stringify(layout)===JSON.stringify(lastLayout))return;
+                const sample={...layout,scrollTop:list.scrollTop};
+                const changed=lastLayout?.seq===m.seq;
+                if(columns.length!==1||width>stageWidth/2||changed||(!m.index&&sample.scrollTop!==0)){
+                    window.__searchPickerFrames.mismatches.push({previous:lastLayout,sample});
+                }
+                lastLayout=layout;
+                window.__searchPickerFrames.seen.push(sample);
+            });
+        });
+        pickerObserver.observe(document.getElementById('hd-city-menu'),{subtree:true,attributes:true,childList:true});
+        pickerObserver.observe(document.body,{attributeFilter:['class']});
+    })()`);
 }
 async function readKeys(cdp,start=0){return evaluate(cdp,`window.__searchEngineKeys.slice(${start})`);}
 async function observeActualLib(cdp,stage){
@@ -172,6 +275,8 @@ function assertWorldSame(a,b,label){assert.deepEqual(worldFacts(b),worldFacts(a)
 async function stableZeroInput(cdp,label,operation){const before=await readWorld(cdp,label+'-before');await operation();await delay(350);const after=await readWorld(cdp,label+'-after');assert.equal(after.keys,before.keys,label+' emits zero native keys');assertWorldSame(before,after,label);return {label,before,after};}
 async function currentPersonPicker(cdp){
     return waitFor(cdp,'current actual HD SEARCH IDs/owner/rows',`(() => {const s=BayeHdCityMenu.debugSnapshot(),m=baye.hd.menuItems(),d=baye.data,c=d.g_Cities[26],r=baye.hd.report(),q=baye.hd.qty(),h=baye.hd.help();
+    const layoutMismatch=window.__searchPickerFrames?.mismatches.at(-1);
+    if(layoutMismatch)throw Error('The current mobile PERSON layout changed or opened at an old offset: '+JSON.stringify(layoutMismatch));
     if(!s.open||!s.showHd||s.layer!=='deep'||s.cityIndex!==26||s.deepKind!=='person'||s.deepLabel!=='搜寻'||s.sending||s.queueLen||r.active||q.active||h.active||!m.active||m.context!==1||m.kind!==3||!m.idsValid||!m.ids.length)return false;
     const ids=Array.from({length:Number(c.Persons)},(_,i)=>Number(d.g_PersonsQueue[Number(c.PersonQueue)+i])).filter(id=>Number(d.g_Persons[id].Belong)===Number(c.Belong)),o=s.deepMenuOwner;
     if(JSON.stringify(ids)!==JSON.stringify(m.ids))throw Error('SEARCH IDs differ from actual allied queue');
@@ -217,7 +322,18 @@ async function validateDetails(cdp,label,picker){
     const record={label,viewport:await evaluate(cdp,'({width:innerWidth,height:innerHeight})'),owner:ownerIdentity(picker),id,native:person,detail:data,geometry:facts,portrait:{...portrait,expectedSource,sourceSha256:servedAssets.get(expectedSource).metadata.sha256,note:mode==='hd'?'Accepted HD art':'Exact native portrait reference inside HD details; not newly generated HD art'}};report.detailChecks.push(record);return record;
 }
 async function highlight(cdp,index){
-    let picker=await currentPersonPicker(cdp);const owner=ownerIdentity(picker);while(picker.menu.index!==index){const down=picker.menu.index<index,before=await readWorld(cdp,'highlight-'+index+'-before'),old=picker.menu.index;
+    let picker=await currentPersonPicker(cdp);const owner=ownerIdentity(picker);
+    if(mobileWidth){
+        const before=await readWorld(cdp,'preview-'+index+'-before'),distance=index-picker.menu.index;
+        await click(cdp,`#hd-city-menu [data-hd-deep-preview="${index}"]`);
+        await waitFor(cdp,'actual mobile SEARCH preview ACK',`baye.hd.menuItems().seq===${owner.seq}&&baye.hd.menuItems().index===${index}`);
+        picker=await currentPersonPicker(cdp);
+        assert.deepEqual(ownerIdentity(picker),owner);
+        assert.deepEqual((await readKeys(cdp,before.keys)).map(k=>k.code),Array(Math.abs(distance)).fill(distance>0?35:34));
+        assertWorldSame(before,await readWorld(cdp,'preview-'+index+'-after'),'Mobile person preview');
+        return picker;
+    }
+    while(picker.menu.index!==index){const down=picker.menu.index<index,before=await readWorld(cdp,'highlight-'+index+'-before'),old=picker.menu.index;
         await key(cdp,down?'ArrowDown':'ArrowUp');await waitFor(cdp,'actual SEARCH native highlight ACK',`baye.hd.menuItems().active&&baye.hd.menuItems().seq===${owner.seq}&&baye.hd.menuItems().index===${old+(down?1:-1)}`);
         picker=await currentPersonPicker(cdp);assert.deepEqual(ownerIdentity(picker),owner);const after=await readWorld(cdp,'highlight-'+index+'-after');assertWorldSame(before,after,'Player highlight');assert.deepEqual((await readKeys(cdp,before.keys)).map(k=>k.code),[down?0x23:0x22]);
     }return picker;
@@ -231,29 +347,91 @@ async function inspectViewport(cdp,size,label,allDetails){
     if(allDetails)for(let i=0;i<rows.length;i++){picker=await highlight(cdp,i);await validateDetails(cdp,label+'-person-'+picker.ids[i],picker);}else{picker=await highlight(cdp,0);await validateDetails(cdp,label+'-filtered-person-'+picker.ids[0],picker);}
     await targetPoint(cdp,'#hd-city-menu [data-hd-menu-back]');report.viewportChecks??=[];report.viewportChecks.push({label,size,rows,owner,nativeOwnedIDs:picker.ids});await checkpoint(cdp,label);
 }
+
+async function startMobileCampaign(cdp){
+    const ready=async (screen,kind)=>waitFor(cdp,'actual mobile HD '+screen,`(() => {
+        const m=baye.hd.menuItems(),s=BayeHdSystemUi.debugSnapshot();
+        return m.active===1&&m.context===4&&m.kind===${kind}&&s.screen===${JSON.stringify(screen)}&&
+            s.open&&!s.pending&&BayeHdMobileSystem.snapshot().active&&m;
+    })()`,60000);
+    const titleNative='baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1';
+    for(let i=0;i<60&&!await evaluate(cdp,titleNative);i++){
+        if(await evaluate(cdp,'baye.hd.movie().active||(baye.hd.spe().active&&baye.hd.spe().kind===1)')){
+            await evaluate(cdp,'sendKey(39)');
+            report.inputs.push({type:'public-intro-ack',code:39});
+        }
+        await delay(160);
+    }
+    report.mobileStart=[];
+    const select=async (menu,index)=>{
+        assert.ok(index>=0&&index<menu.count);
+        const start=(await readKeys(cdp)).length;
+        await click(cdp,`#hd-system-ui [data-hd-sys="${index}"]`);
+        await waitFor(cdp,'actual start menu retires after selection',`!baye.hd.menuItems().active||baye.hd.menuItems().seq!==${menu.seq}`,60000);
+        const keys=(await readKeys(cdp,start)).map(k=>k.code),distance=index-menu.index;
+        assert.deepEqual(keys,[...Array(Math.abs(distance)).fill(distance>0?35:34),39]);
+        report.mobileStart.push({menu,index,keys});
+    };
+    await select(await ready('title',1),0);
+    await select(await ready('period',2),period-1);
+    const menu=await ready('king',3),kings=await evaluate(cdp,'baye.hd.kings()');
+    const target=kings.kings.findIndex(k=>k.id===lordPerson&&k.name==='刘表');
+    assert.ok(target>=0);report.selectedLord=kings.kings[target];
+    await select(menu,target);
+}
+
+async function setupMobileControls(cdp){
+    const entry=report.mobileControls={scrollChecks:[]};
+    const sample=()=>evaluate(cdp,`(() => {
+        const menu=baye.hd.menuItems(),world=menu.active&&menu.context===4?null:${worldExpression};
+        return {world,native:{menu,report:baye.hd.report(),march:baye.hd.march()},
+            state:{keyCount:window.__searchEngineKeys.length,touchCount:window.__searchNativeTouches.length}};
+    })()`);
+    const driver=await createMobileDetailRuntimeDriver({
+        evaluate:expression=>evaluate(cdp,expression),until:(...args)=>waitFor(cdp,...args),
+        ready:sample,touches:(...args)=>touches(cdp,...args),readKeys:offset=>readKeys(cdp,offset),
+        worldSame:(before,after,label)=>{
+            if(before.world)assertWorldSame(before.world,after.world,label);
+            else assert.equal(after.world,null,label);
+        }
+    },entry);
+    mobileControls={reveal:async (selector,options)=>{
+        entry.baseline=await sample();
+        return driver.reveal(selector,options);
+    }};
+}
+
 async function boot(cdp){
     await waitFor(cdp,'real native ready','window.baye&&baye.hd&&baye.hd.ready()',60000);await installKeyObserver(cdp);await observeActualLib(cdp,'startup');
+    if(mobileWidth){
+        await observeMobilePresentation(cdp);
+        await setupMobileControls(cdp);
+    }
     const fontKeyStart=(await readKeys(cdp)).length;
     const font=await evaluate(cdp,`(async () => {const loaded=await document.fonts.load('16px BayeUI','刘表搜寻');await document.fonts.ready;return {faces:loaded.map(f=>({family:f.family,status:f.status})),status:document.fonts.status,check:document.fonts.check('16px BayeUI','刘表搜寻')};})()`);
     assert.equal(font.status,'loaded');assert.equal(font.check,true);assert.ok(font.faces.some(f=>f.family.replace(/["']/g,'')==='BayeUI'&&f.status==='loaded'),'Actual BayeUI font face is loaded');
     assert.equal((await readKeys(cdp)).length,fontKeyStart,'Font readiness emits zero native input');
     const fontSource=servedAssets.get('fonts/HarmonyOS_Sans_SC_Regular.ttf').metadata,fontRequests=report.requests.filter(r=>r.url==='/fonts/HarmonyOS_Sans_SC_Regular.ttf');
     assert.ok(fontRequests.length&&fontRequests.every(r=>r.status===200&&r.sha256===fontSource.sha256),'Actual font is served from the frozen project bytes');report.fontValidation={...font,source:fontSource,requests:fontRequests,keysBefore:fontKeyStart,keysAfter:(await readKeys(cdp)).length};
-    await waitFor(cdp,'real opening skip or actual title','baye.hd.spe().active&&baye.hd.spe().id===3&&baye.hd.spe().skipEligible||baye.hd.spe().id===100');
-    if(await evaluate(cdp,'baye.hd.spe().active&&baye.hd.spe().id===3')){
-        const owner=await evaluate(cdp,'baye.hd.spe()'),start=(await readKeys(cdp)).length;assert.ok(owner.active&&owner.id===3&&owner.skipEligible);
-        const fresh=await evaluate(cdp,'baye.hd.spe()');assert.equal(fresh.eventId,owner.eventId);assert.equal(fresh.generation,owner.generation);assert.ok(fresh.active&&fresh.id===3&&fresh.skipEligible);
-        await key(cdp,'Enter');const ended=await waitFor(cdp,'actual opening accepts exactly the player Enter',`(() => {const s=baye.hd.spe();return s.lastEnd.eventId===${owner.eventId}&&s.lastEnd.reason==='key'&&s.lastEnd.key===39&&s;})()`);
-        const keys=await readKeys(cdp,start);assert.deepEqual(keys.map(k=>k.code),[0x27]);
-        await waitFor(cdp,'actual prior opening owner and presentation retired',`(() => {const s=baye.hd.spe();return (!s.active||s.eventId!==${owner.eventId})&&!BayeHdSpe.isOpen();})()`);
-        report.openingSkip={owner,ended,keys,method:'Actual physical CDP Enter under the current native MAIN skip owner; no hidden HD button'};
+    if(mobileWidth)await startMobileCampaign(cdp);
+    else{
+        await waitFor(cdp,'real opening skip or actual title','baye.hd.spe().active&&baye.hd.spe().id===3&&baye.hd.spe().skipEligible||baye.hd.spe().id===100');
+        if(await evaluate(cdp,'baye.hd.spe().active&&baye.hd.spe().id===3')){
+            const owner=await evaluate(cdp,'baye.hd.spe()'),start=(await readKeys(cdp)).length;assert.ok(owner.active&&owner.id===3&&owner.skipEligible);
+            const fresh=await evaluate(cdp,'baye.hd.spe()');assert.equal(fresh.eventId,owner.eventId);assert.equal(fresh.generation,owner.generation);assert.ok(fresh.active&&fresh.id===3&&fresh.skipEligible);
+            await key(cdp,'Enter');const ended=await waitFor(cdp,'actual opening accepts exactly the player Enter',`(() => {const s=baye.hd.spe();return s.lastEnd.eventId===${owner.eventId}&&s.lastEnd.reason==='key'&&s.lastEnd.key===39&&s;})()`);
+            const keys=await readKeys(cdp,start);assert.deepEqual(keys.map(k=>k.code),[0x27]);
+            await waitFor(cdp,'actual prior opening owner and presentation retired',`(() => {const s=baye.hd.spe();return (!s.active||s.eventId!==${owner.eventId})&&!BayeHdSpe.isOpen();})()`);
+            report.openingSkip={owner,ended,keys,method:'Actual physical CDP Enter under the current native MAIN skip owner; no hidden HD button'};
+        }
+        await waitFor(cdp,'actual title','baye.hd.spe().id===100');await key(cdp,'Enter');await waitFor(cdp,'actual period picture','baye.hd.spe().id===104');
+        await key(cdp,'ArrowDown');await key(cdp,'Enter');await waitFor(cdp,'actual P2 native lord picker','Number(baye.data.g_PIdx)===2&&baye.hd.kings().count>0');
+        const kings=await evaluate(cdp,'baye.hd.kings()'),target=kings.kings.findIndex(k=>k.id===12&&k.name==='刘表');assert.ok(target>=0);
+        for(let i=kings.index;i<target;i++)await key(cdp,'ArrowDown');for(let i=kings.index;i>target;i--)await key(cdp,'ArrowUp');await waitFor(cdp,'real LiuBiao highlight','baye.hd.kings().index==='+target);report.selectedLord=kings.kings[target];
+        await key(cdp,'Enter');
     }
-    await waitFor(cdp,'actual title','baye.hd.spe().id===100');await key(cdp,'Enter');await waitFor(cdp,'actual period picture','baye.hd.spe().id===104');
-    await key(cdp,'ArrowDown');await key(cdp,'Enter');await waitFor(cdp,'actual P2 native lord picker','Number(baye.data.g_PIdx)===2&&baye.hd.kings().count>0');
-    const kings=await evaluate(cdp,'baye.hd.kings()'),target=kings.kings.findIndex(k=>k.id===12&&k.name==='刘表');assert.ok(target>=0);
-    for(let i=kings.index;i<target;i++)await key(cdp,'ArrowDown');for(let i=kings.index;i>target;i--)await key(cdp,'ArrowUp');await waitFor(cdp,'real LiuBiao highlight','baye.hd.kings().index==='+target);report.selectedLord=kings.kings[target];
-    await key(cdp,'Enter');await waitFor(cdp,'actual strategy map','baye.hd.march().pick===1&&baye.hd.realm().ownedCount>0');await observeActualLib(cdp,'actual-P2-map');
-    const preferences=await evaluate(cdp,'({system:BayeHdSystemUi.getMode(),map:BayeHdOverworld.getMode(),city:BayeHdCityMenu.getMode()})');assert.deepEqual(preferences,{system:'classic',map:'hd-map',city:'hd'});
+    await waitFor(cdp,'actual strategy map','baye.hd.march().pick===1&&baye.hd.realm().ownedCount>0');await observeActualLib(cdp,'actual-P2-map');
+    const preferences=await evaluate(cdp,'({system:BayeHdSystemUi.getMode(),map:BayeHdOverworld.getMode(),city:BayeHdCityMenu.getMode()})');assert.deepEqual(preferences,{system:mobileWidth?'hd':'classic',map:'hd-map',city:'hd'});
     report.profilePreferenceObservation={...await stableZeroInput(cdp,'readonly private-profile UI preferences',()=>evaluate(cdp,'({system:BayeHdSystemUi.getMode(),map:BayeHdOverworld.getMode(),city:BayeHdCityMenu.getMode(),march:baye.hd.march()})')),preferences,method:'Initial private-origin localStorage user preferences, no toolbar interaction claimed'};
     await waitFor(cdp,'HD real map authorized','BayeHdOverworld.debugSnapshot().phase==="map"&&BayeHdOverworld.debugSnapshot().presentationReady');await checkpoint(cdp,'01-real-P2-LiuBiao-map');
     const picker=await enterSearch(cdp);
@@ -264,7 +442,19 @@ async function boot(cdp){
 async function enterSearch(cdp){
     const before=await readWorld(cdp,'before-city-entry'),start=before.keys,cityTarget=await evaluate(cdp,'(() => {const c=BayeHdOverworld.cityScreenPos(26);return c&&{index:c.index,name:c.name,nativeName:baye.getCityName(26),engX:c.engX,engY:c.engY};})()');
     assert.ok(cityTarget&&cityTarget.index===26&&cityTarget.name===cityTarget.nativeName&&cityTarget.name.length>0&&Number.isInteger(cityTarget.engX)&&Number.isInteger(cityTarget.engY),'Current city target contains the actual name and engine coordinates');
-    const result=await evaluate(cdp,'BayeHdOverworld.walkToCity(26)');report.inputs.push({type:'public-actual-city-click',city:26,target:cityTarget,result});assert.deepEqual(result,{name:cityTarget.name,to:{x:cityTarget.engX,y:cityTarget.engY}},'Public city entry returns its actual name/to object');
+    if(mobileWidth){
+        assert.notEqual(await evaluate(cdp,'BayeHdOverworld.centerOnCity(26)'),false);
+        const point=await waitFor(cdp,'owned Xiangyang marker on the mobile map',`(() => {
+            const p=BayeHdOverworld.cityScreenPos(26),canvas=document.getElementById('hd-overworld-canvas');
+            return p?.kind==='owned'&&document.elementFromPoint(p.clientX,p.clientY)===canvas&&{x:p.clientX,y:p.clientY};
+        })()`);
+        const centered=await readWorld(cdp,'city-camera-centered');
+        assertWorldSame(before,centered,'Centering the mobile map');assert.equal(centered.keys,before.keys);
+        report.inputs.push({type:'physical-city-touch',city:26,target:cityTarget,point});
+        await tap(cdp,point);
+    }else{
+        const result=await evaluate(cdp,'BayeHdOverworld.walkToCity(26)');report.inputs.push({type:'public-actual-city-click',city:26,target:cityTarget,result});assert.deepEqual(result,{name:cityTarget.name,to:{x:cityTarget.engX,y:cityTarget.engY}},'Public city entry returns its actual name/to object');
+    }
     await waitFor(cdp,'real owned city root','(() => {const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();return s.open&&s.cityIndex===26&&s.layer==="root"&&m.active&&m.context===1&&m.kind===1&&!s.sending&&!s.queueLen;})()');
     const after=await readWorld(cdp,'after-city-entry');for(const f of ['persons','orders','queue','money','food','reserve','date'])assert.deepEqual(after[f],before[f]);assert.deepEqual((await readKeys(cdp,start)).map(k=>k.code),[0x27]);
     const rootMenu=await evaluate(cdp,'baye.hd.menuItems()'),interior=rootMenu.names.indexOf('内政');assert.ok(interior>=0);await click(cdp,`#hd-city-menu [data-hd-root="${interior}"]`);
@@ -275,9 +465,10 @@ async function enterSearch(cdp){
 const readyReport=`(() => {
     const r=baye.hd.report(),d=BayeHdDialog.debugSnapshot();
     if(!r.active||!d.open||d.kind!=='report'||d.pass||d.reportOwner?.seq!==r.seq||d.reportOwner?.inputSeq!==r.inputSeq)return false;
-    const n=document.getElementById('hd-dialog-person-identity'),p=document.getElementById('hd-portrait');
+    const n=document.getElementById('hd-dialog-person-identity'),p=document.getElementById('${portraitRootId}');
+    const shown=p&&!p.hidden${mobileWidth?"&&p.parentNode?.id==='hd-dialog-portrait'&&p.checkVisibility({visibilityProperty:true})":''};
     return {native:r,ui:d,identity:n&&!n.hidden&&{id:Number(n.dataset.hdReportPerson),kind:n.dataset.hdReportOwnership,text:n.textContent},
-        portrait:p&&!p.hidden&&{id:Number(p.dataset.personId),context:p.dataset.context}};
+        portrait:shown&&{id:Number(p.dataset.personId),context:p.dataset.context}};
 })()`;
 
 async function acknowledgeReport(cdp, original){
@@ -296,13 +487,13 @@ async function commitSearch(cdp,personIndex){
     const before=await readWorld(cdp,'search-before-selection'),person=before.persons[personIndex];
     assert.equal(person.Belong,13);assert.ok(person.Thew>=report.nativeContract.thew);
     const oldSelector=`#hd-city-menu [data-hd-deep="${index}"][data-hd-deep-pind="${personIndex}"]`;
-    if(!discover)await evaluate(cdp,`window.__searchOldRow=document.querySelector(${JSON.stringify(oldSelector)})`);
+    if(desktopDispatch)await evaluate(cdp,`window.__searchOldRow=document.querySelector(${JSON.stringify(oldSelector)})`);
     const start=before.keys;await click(cdp,oldSelector,0);
     const originalReport=await waitFor(cdp,'actual selected person speech before order',readyReport);
     assert.equal(originalReport.native.kind,2);assert.equal(originalReport.native.person,personIndex,'The real speech is from the selected SEARCH actor');assert.equal(originalReport.ui.body,originalReport.native.text);assert.ok(originalReport.native.text.length>0);
     await waitFor(cdp,'report retires old person details','BayeHdCityMenu.debugSnapshot().personDetail===null&&document.getElementById("hd-city-menu-person-details").hidden');
     const atReport=await readWorld(cdp,'search-report-before-AddOrder');assert.equal(atReport.persons[personIndex].Thew,person.Thew-report.nativeContract.thew);assert.deepEqual(atReport.queue,before.queue,'Native success speech occurs before DelPerson');assert.deepEqual(atReport.orders,before.orders,'A report alone is not an accepted SEARCH order');assert.equal(atReport.money,before.money);assert.deepEqual(atReport.date,before.date);
-    if(!discover){
+    if(desktopDispatch){
         await checkpoint(cdp,'05-original-search-report-before-order');
         const staleDuringReport=await stableZeroInput(cdp,'captured old row click during current report',()=>evaluate(cdp,'(() => {const n=window.__searchOldRow;if(!n)throw Error("Missing actual old row");n.click();return {connected:n.isConnected,owner:n.dataset.hdDeepOwner};})()'));
         report.staleChecks.push({...staleDuringReport,method:'HTMLElement.click on the retained original native-owned row; no fabricated IDs or token'});
@@ -315,7 +506,7 @@ async function commitSearch(cdp,personIndex){
     assert.ok(!next.ids.includes(personIndex));assert.deepEqual(next.ids,after.queue.filter(id=>after.persons[id].Belong===13));
     const selectionKeys=await readKeys(cdp,start);
     assert.equal(selectionKeys.filter(k=>k.code===0x27).length,2,'One SEARCH selection Enter and one original speech confirmation');assert.ok(selectionKeys.every(k=>[0x22,0x23,0x27].includes(k.code)));
-    if(!discover){
+    if(desktopDispatch){
         const staleAfter=await stableZeroInput(cdp,'captured previous SEARCH row after new native menu seq',()=>evaluate(cdp,'(() => {const n=window.__searchOldRow;n.click();return {connected:n.isConnected,owner:n.dataset.hdDeepOwner};})()'));
         report.staleChecks.push({...staleAfter,method:'Retained original DOM row click after native menu generation/sequence retirement; no fabricated owner'});
     }
@@ -335,7 +526,8 @@ async function returnToMap(cdp,label='08-real-map-after-user-back'){
 
 async function settleSearchMonth(cdp,label,orders){
     const before=await readWorld(cdp,label+'-before-end');
-    await key(cdp,'Escape');
+    if(mobileWidth)await click(cdp,'#hd-mobile-system-open');
+    else await key(cdp,'Escape');
     await waitFor(cdp,'actual strategy-end menu',`(() => {
         const m=baye.hd.menuItems(),s=BayeHdSystemUi.debugSnapshot();
         return m.active===1&&m.context===2&&m.kind===1&&m.names[0]==='策略结束'&&s.open&&s.screen==='insystem'&&!s.pending;
@@ -372,7 +564,7 @@ async function settleSearchMonth(cdp,label,orders){
         const speech=next.speech,{native}=speech,id=native.person;
         const joined=joinedLines.includes(native.text),free=freeLines.includes(native.text);
         if(native.kind===2&&(joined||free)){
-            assert.ok(!speech.portrait||speech.portrait.id===id&&speech.portrait.context==='person-info',
+            assert.ok(!speech.portrait||speech.portrait.id===id&&speech.portrait.context===portraitContext,
                 'The newly visible report never shows a previous portrait');
             const name=nativeText(70,id),owner=joined?'刘表':'在野',kind=joined?'owned':'free';
             const previous=speeches.at(-1),actorId=previous?.native.person;
@@ -395,14 +587,21 @@ async function settleSearchMonth(cdp,label,orders){
             assert.equal(visible.title,name);
             assert.equal(visible.ui.body,native.text);
             assert.deepEqual(visible.identity,{id,kind,text:'当前归属 · '+owner});
-            await targetPoint(cdp,'#hd-dialog-person-identity');
+            await targetPoint(cdp,'#hd-dialog-person-identity',{control:false});
             const expected=portraitAsset(id);
             const portrait=await waitFor(cdp,'decoded portrait of the current report speaker',`(() => {
-                const r=baye.hd.report(),p=document.getElementById('hd-portrait'),img=document.getElementById('hd-portrait-img');
+                const r=baye.hd.report(),p=document.getElementById('${portraitRootId}'),img=document.getElementById('${portraitRootId}-img');
                 if(!r.active||r.seq!==${native.seq}||r.inputSeq!==${native.inputSeq}||!p||p.hidden||
                     p.dataset.personId!==${JSON.stringify(String(id))}||p.dataset.period!==${JSON.stringify(String(period))}||
-                    p.dataset.context!=='person-info'||!img?.complete||!img.naturalWidth||!img.naturalHeight)return false;
+                    p.dataset.context!=='${portraitContext}'||!img?.complete||!img.naturalWidth||!img.naturalHeight)return false;
                 const bounds=img.getBoundingClientRect();
+                if(${Boolean(mobileWidth)}){
+                    if(p.parentNode?.id!=='hd-dialog-portrait'||!p.checkVisibility({visibilityProperty:true}))return false;
+                    const clip=p.parentNode.getBoundingClientRect();
+                    if(bounds.left<clip.left||bounds.right>clip.right||bounds.top<clip.top||bounds.bottom>clip.bottom)return false;
+                    const hit=document.elementFromPoint(bounds.left+bounds.width/2,bounds.top+bounds.height/2);
+                    if(!p.parentNode.contains(hit))return false;
+                }
                 return bounds.width>0&&bounds.height>0&&bounds.left>=0&&bounds.right<=innerWidth&&bounds.top>=0&&bounds.bottom<=innerHeight&&
                     {url:decodeURIComponent(new URL(img.currentSrc,location.href).pathname.slice(1)),mode:p.dataset.hdPortrait};
             })()`);
@@ -419,7 +618,7 @@ async function settleSearchMonth(cdp,label,orders){
 
 async function verifyDiscovery(cdp){
     const progress=report.discovery={accepted:false,months:[],free:null,joined:null};
-    await stableZeroInput(cdp,'enable HD strategy menu',()=>evaluate(cdp,`BayeHdSystemUi.setMode('hd')`));
+    if(!mobileWidth)await stableZeroInput(cdp,'enable HD strategy menu',()=>evaluate(cdp,`BayeHdSystemUi.setMode('hd')`));
     let picker=await currentPersonPicker(cdp);
     for(let month=1;month<=12;month++){
         const label='discovery-month-'+month;
@@ -451,6 +650,16 @@ async function verifyDiscovery(cdp){
                     assert.equal(details.detail.name,discovery.name);
                     assert.equal(details.detail.ownership.label,'刘表');
                     assert.equal(details.native.properties[0].value,'刘表');
+                    if(mobileWidth){
+                        const selector='#hd-city-menu [data-hd-person-property="0"]';
+                        await targetPoint(cdp,selector,{control:false});
+                        details.displayed=await evaluate(cdp,`(() => {
+                            const row=document.querySelector(${JSON.stringify(selector)});
+                            return {name:document.getElementById('hd-city-menu-person-name').textContent,
+                                current:row.dataset.hdPersonPropertyCurrent,value:row.querySelector('strong').textContent};
+                        })()`);
+                        assert.deepEqual(details.displayed,{name:discovery.name,current:'1',value:'刘表'});
+                    }
                     await checkpoint(cdp,'discovery-new-allied-roster');
                     progress.joined={id,name:discovery.name,month,menu:focused.menu,details};
                 }
@@ -465,10 +674,24 @@ async function verifyDiscovery(cdp){
     throw Error('Original Search did not show both an unjoined officer and a recruited officer within the campaign bound');
 }
 
+function mobileEvidence(cdp){
+    return evaluate(cdp,`({nativeTouches:window.__searchNativeTouches,trustedTouches:window.__searchTrustedTouches,
+        reportFrames:window.__searchReportFrames,pickerFrames:window.__searchPickerFrames,portrait:BayeHdMobilePortraits.debugSnapshot(),
+        host:BayeHdMobileCity.snapshot(),system:BayeHdMobileSystem.snapshot()})`);
+}
+
 async function smoke(cdp){
     report.firstPicker=await boot(cdp);
     if(discover){
         await verifyDiscovery(cdp);
+    }else if(mobileWidth){
+        const ids=report.firstPicker.ids;
+        report.mobileOrders=[];
+        for(const id of [ids.at(-1),ids[Math.floor(ids.length/2)],ids[0]]){
+            report.mobileOrders.push(await commitSearch(cdp,id));
+            await checkpoint(cdp,'mobile-search-order-'+id);
+        }
+        await returnToMap(cdp);
     }else{
         for(const size of viewports)await inspectViewport(cdp,size,size.height===1080?'03-search-1080p':'04-search-720p',true);
         report.searchOrder=await commitSearch(cdp,searchPerson);
@@ -476,6 +699,20 @@ async function smoke(cdp){
         await returnToMap(cdp);
     }
     await observeActualLib(cdp,'finished-SEARCH');report.engineInputs=await readKeys(cdp);report.observerErrors=await evaluate(cdp,'window.__searchObserverErrors');assert.deepEqual(report.observerErrors,[]);
+    if(mobileWidth){
+        report.mobileEvidence=await mobileEvidence(cdp);
+        assert.deepEqual(report.mobileEvidence.nativeTouches,[],'HD interactions do not leak touches to the original LCD');
+        assert.ok(report.mobileEvidence.trustedTouches.length>0);
+        const {seen,mismatches}=report.mobileEvidence.reportFrames;
+        for(const {discoveries} of report.discovery?.months||[])for(const {visible} of discoveries){
+            const {seq,inputSeq,person}=visible.native;
+            assert.ok(seen.some(f=>f.seq===seq&&f.inputSeq===inputSeq&&f.speaker===person&&f.portrait===person),
+                'The frame observer saw the current portrait on every genuine discovery report');
+        }
+        assert.deepEqual(mismatches,[],'No previous speaker appears in a newly rendered report frame');
+        assert.ok(report.mobileEvidence.pickerFrames.seen.length>0);
+        assert.deepEqual(report.mobileEvidence.pickerFrames.mismatches,[],'The mobile PERSON list starts at its own top and keeps its layout while details load');
+    }
     assert.deepEqual(report.exceptions,[]);assert.deepEqual(report.dialogs,[]);
     const knownBlocked=['https://img.bbkgames.com/script/js-sdk.js?ver=20260329','http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3'];
     assert.ok(report.blocked.every(url=>knownBlocked.includes(url)),'Private acceptance only permits the two known, blocked page analytics/SDK requests');report.blockedThirdParty={urls:report.blocked,notGameHttpErrors:true};
@@ -495,10 +732,13 @@ async function main(){
         cdp.on('Runtime.consoleAPICalled',e=>report.console.push({type:e.type,text:e.args.map(a=>a.value??a.description??'').join(' ')}));cdp.on('Runtime.exceptionThrown',e=>report.exceptions.push(e.exceptionDetails));
         cdp.on('Page.javascriptDialogOpening',e=>{report.dialogs.push(e.message);cdp.send('Page.handleJavaScriptDialog',{accept:false}).catch(()=>{});});
         cdp.on('Fetch.requestPaused',e=>{const local=new URL(e.request.url).origin===origin;if(!local)report.blocked.push(e.request.url);cdp.send(local?'Fetch.continueRequest':'Fetch.failRequest',local?{requestId:e.requestId}:{requestId:e.requestId,errorReason:'BlockedByClient'}).catch(()=>{});});
-        await cdp.send('Runtime.enable');await cdp.send('Page.enable');report.browser=await cdp.send('Browser.getVersion');await cdp.send('Emulation.setDeviceMetricsOverride',{...viewport,deviceScaleFactor:1,mobile:false});await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
-        await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:"localStorage.clear();localStorage.setItem('baye/libpath','libs/dat-mod.lib');localStorage.setItem('baye/overworldMode','hd-map');localStorage.setItem('baye/systemUiMode','classic');localStorage.setItem('baye/cityMenuMode','hd');"});
-        await cdp.send('Page.navigate',{url:origin+'/pc.html'});await smoke(cdp);report.ok=true;
-    }catch(error){report.ok=false;report.error=error.stack||String(error);process.exitCode=1;console.error(report.error);if(cdp){try{report.failureState=await evaluate(cdp,snapshotExpression);report.engineInputs=await readKeys(cdp);report.failureWorld=await readWorld(cdp,'terminal-failure');}catch(e){report.failureReadError=String(e);}try{const png=await cdp.send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(path.join(artifactDir,'failure.png'),Buffer.from(png.data,'base64'));}catch{}}}
+        await cdp.send('Runtime.enable');await cdp.send('Page.enable');report.browser=await cdp.send('Browser.getVersion');await cdp.send('Emulation.setDeviceMetricsOverride',{...viewport,deviceScaleFactor:1,mobile:Boolean(mobileWidth)});await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
+        if(mobileWidth)await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
+        const prefs={'baye/libpath':'libs/dat-mod.lib','baye/overworldMode':'hd-map','baye/systemUiMode':'classic','baye/cityMenuMode':'hd'};
+        if(mobileWidth)Object.assign(prefs,{'baye/mobileOverworldMode':'hd-map','baye/mobileSystemUiMode':'hd','baye/mobileCityMenuMode':'hd'});
+        await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:'localStorage.clear();for(const [k,v] of Object.entries('+JSON.stringify(prefs)+'))localStorage.setItem(k,v);'});
+        await cdp.send('Page.navigate',{url:origin+'/'+page+(mobileWidth?'#'+Math.floor(Date.now()/1000):'')});await smoke(cdp);report.ok=true;
+    }catch(error){report.ok=false;report.error=error.stack||String(error);process.exitCode=1;console.error(report.error);if(cdp){try{report.failureState=await evaluate(cdp,snapshotExpression);report.engineInputs=await readKeys(cdp);if(mobileWidth)report.mobileEvidence=await mobileEvidence(cdp);report.failureWorld=await readWorld(cdp,'terminal-failure');}catch(e){report.failureReadError=String(e);}try{const png=await cdp.send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(path.join(artifactDir,'failure.png'),Buffer.from(png.data,'base64'));}catch{}}}
     finally{
         process.removeListener('SIGINT',interrupt);process.removeListener('SIGTERM',interrupt);cdp?.close();if(!childExited(chrome)){const stopped=new Promise(resolve=>chrome.once('exit',resolve));chrome.kill('SIGTERM');await Promise.race([stopped,delay(1500)]);if(!childExited(chrome)){chrome.kill('SIGKILL');await Promise.race([stopped,delay(1500)]);}}
         if(server){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}

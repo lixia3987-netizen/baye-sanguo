@@ -4018,6 +4018,35 @@ test('mobile ordinary person previews keep the summary rows and search through e
     assert.deepEqual(h.writes, []);
 });
 
+test('mobile person list resets a retired menu scroll and keeps the new scroll when summaries arrive', () => {
+    const h = surrenderHarness({mobile: true});
+    h.people[150].Belong = 1;
+    h.publish('actor');
+    Object.assign(h.hud.state, {layer: 'deep', deepKind: 'person', deepLabel: '搜寻'});
+    const list = h.nodes['hd-city-menu-deep'], properties = h.context.baye.hd.personProperties;
+    h.refresh();
+    assert.ok(list.classList.contains('has-person-summaries'));
+    list.scrollTop = 240;
+
+    h.context.baye.hd.personProperties = () => null;
+    h.publish('actor', {menuSeq: h.menu.seq + 2});
+    h.refresh();
+    assert.equal(list.scrollTop, 0);
+    assert.equal(list.classList.contains('has-person-summaries'), false);
+
+    list.scrollTop = 84;
+    h.context.baye.hd.personProperties = properties;
+    h.refresh();
+    assert.equal(list.scrollTop, 84);
+    assert.ok(list.classList.contains('has-person-summaries'));
+    const ui = openListFind(h);
+    queryListFind(h, h.names.get(150));
+    assert.equal(list.scrollTop, 0);
+    assert.equal(ui.query.value, h.names.get(150));
+    assert.deepEqual(h.keys, []);
+    assert.deepEqual(h.writes, []);
+});
+
 test('person list summary follows filtered reordered native IDs and duplicate names without changing public items or input', () => {
     const h = personListSummaryHarness(), before = plain(h.raw), menuBefore = plain(h.menu), profileBefore = plain(h.personProps);
     h.hud.fillDeepList();

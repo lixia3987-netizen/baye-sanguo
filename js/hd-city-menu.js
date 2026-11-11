@@ -5687,13 +5687,16 @@
     function ensurePersonDetailsPane() {
         var pane = el('hd-city-menu-person-details');
         if (!pane) {
-            var deep = el('hd-city-menu-deep');
-            if (!deep || !deep.parentElement) { return null; }
-            var layout = document.createElement('div');
-            layout.id = 'hd-city-menu-person-layout';
-            layout.className = 'hd-city-menu-person-layout';
-            deep.parentElement.insertBefore(layout, deep);
-            layout.appendChild(deep);
+            var layout = el('hd-city-menu-person-layout');
+            if (!layout) {
+                var deep = el('hd-city-menu-deep');
+                if (!deep || !deep.parentElement) { return null; }
+                layout = document.createElement('div');
+                layout.id = 'hd-city-menu-person-layout';
+                layout.className = 'hd-city-menu-person-layout';
+                deep.parentElement.insertBefore(layout, deep);
+                layout.appendChild(deep);
+            }
             pane = document.createElement('aside');
             pane.id = 'hd-city-menu-person-details';
             pane.className = 'hd-city-menu-person-details';
@@ -5733,6 +5736,15 @@
             menu.count, menu.index, menu.generation, menu.detailGeneration, ids, menu.names, menu.packedNames]);
     }
 
+    function ordinaryPersonList() {
+        if (state.deepKind !== 'person' || state.deepStep || mobileTrade || transferFlow || mobileEquipmentFlow || surrenderFlow) { return false; }
+        if (state.subKind === '' && state.deepLabel === '人物') { return true; }
+        var labels = SUBS[state.subKind], kinds = DEEP[state.subKind];
+        var command = labels && labels.indexOf(state.deepLabel);
+        return (state.subKind === 'neizheng' || state.subKind === 'junbei') && command >= 0 &&
+            kinds[command] === 'person' && !(state.subKind === 'neizheng' && [5, 6, 7, 10].indexOf(command) >= 0);
+    }
+
     var personListStatsReading = false, personListStatsEpoch = 0;
     function readPersonListStats(menu, owner, items) {
         if (personListStatsReading) { personListStatsEpoch += 1; return null; }
@@ -5742,14 +5754,6 @@
             var ids = actualMenuIds(menu), index = menu && menu.index;
             var menuKey = ids && owner && personEquipmentMenuKey(menu, owner, index, ids[index]);
             if (!menuKey || !items.length || items.length !== ids.length) { return null; }
-            function ordinary() {
-                if (state.deepKind !== 'person' || state.deepStep || mobileTrade || transferFlow || mobileEquipmentFlow || surrenderFlow) { return false; }
-                if (state.subKind === '' && state.deepLabel === '人物') { return true; }
-                var labels = SUBS[state.subKind], kinds = DEEP[state.subKind];
-                var command = labels && labels.indexOf(state.deepLabel);
-                return (state.subKind === 'neizheng' || state.subKind === 'junbei') && command >= 0 &&
-                    kinds[command] === 'person' && !(state.subKind === 'neizheng' && [5, 6, 7, 10].indexOf(command) >= 0);
-            }
             function profileKey(profile) {
                 return profile && JSON.stringify([profile.ownerKey, profile.nativeIndex, profile.personIndex,
                     profile.generation, profile.detailGeneration, profile.custom, profile.propertyCount]);
@@ -5760,7 +5764,7 @@
                 var methods = [api && api.read, api && api.isCurrent, engine && engine.getPersonCount,
                     engine && engine.ensureData, hd && hd.ready, hd && hd.menuItems, hd && hd.personProperties,
                     hooks && hooks.getPersonPropertyTitle, hooks && hooks.getPersonPropertyValue];
-                if (!ordinary() || !state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
+                if (!ordinaryPersonList() || !state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
                     (state.nativeMenuRequest && !state.nativeMenuRequest.preview) || state.deepSelectionPending || state.personPagePending || state.sending ||
                     state.queue.length || state.closingSub || showingQty() || detailOverlayActive() ||
                     state.personProperties && state.personProperties.custom || !state.deepMenuOwner ||
@@ -5812,7 +5816,7 @@
                             return queue[start + i] === member[0] && people[member[0]] === memberRefs[i] && memberRefs[i].Belong === member[1];
                         }) && data.g_hdMenuActive === live.active && data.g_hdMenuContext === live.context &&
                         data.g_hdMenuKind === live.kind && data.g_hdMenuSeq === live.seq && data.g_hdMenuCount === live.count &&
-                        data.g_hdMenuIndex === live.index && state.deepItems === items && ordinary() &&
+                        data.g_hdMenuIndex === live.index && state.deepItems === items && ordinaryPersonList() &&
                         state.open && state.layer === 'deep' && !document.hidden && (noCallbacks || shouldShowHd()) &&
                         (!state.nativeMenuRequest || state.nativeMenuRequest.preview) && !state.deepSelectionPending && !state.personPagePending && !state.sending &&
                         !state.queue.length && !state.closingSub && !(state.personProperties && state.personProperties.custom) &&
@@ -5824,7 +5828,7 @@
                     data.g_hdMenuKind !== currentMenu.kind || data.g_hdMenuSeq !== currentMenu.seq ||
                     data.g_hdMenuCount !== currentMenu.count || data.g_hdMenuIndex !== currentMenu.index ||
                     !api.isCurrent(identity) || global.baye !== engine || engine.hd !== hd || engine.data !== data ||
-                    global.BayeHdLibIdentity !== api || state.deepItems !== items || !ordinary() ||
+                    global.BayeHdLibIdentity !== api || state.deepItems !== items || !ordinaryPersonList() ||
                     token !== personListStatsEpoch || !current()) { return null; }
                 return {refs: refs, people: people, memberRefs: memberRefs, ids: ids.slice(), king: king,
                     current: current, profileKey: profileKey(profile),
@@ -6162,6 +6166,8 @@
         var signature = JSON.stringify([scope, view.query, view.sort, visible]);
         var changedNodes = !view.nodes || nodes.length !== view.nodes.length || nodes.some(function (item, index) { return item.node !== view.nodes[index]; });
         if (signature !== view.signature || changedNodes) {
+            var preserveScroll = list.classList.contains('has-mobile-person-list') && (!view.signature || signature === view.signature);
+            var scrollTop = preserveScroll ? list.scrollTop : 0;
             listFindCancelPress(); view.signature = signature; view.visibleNativeIndices = visible;
             view.nodes = nodes.map(function (item) { return item.node; });
             for (var n = 0; n < nodes.length; n++) {
@@ -6174,7 +6180,7 @@
                 empty.setAttribute('data-hd-list-empty', '1');
                 empty.textContent = '无匹配，请修改查找内容或清空。'; list.appendChild(empty);
             }
-            list.scrollTop = 0;
+            list.scrollTop = scrollTop;
         }
         if (sort.getAttribute('data-hd-list-kind') !== kind) {
             sort.innerHTML = '';
@@ -6961,7 +6967,7 @@
         var signature = JSON.stringify([ticket.key, marchEpoch, flow.pendingTarget, busy, flow.status]);
         if (state.deepSig === signature && list.children.length) { return true; }
         state.deepSig = signature; state.deepMenuOwner = null; state.deepItems = [];
-        retirePersonDetails(); retireToolDetails(); list.classList.toggle('has-mobile-qty', false); list.classList.remove('has-person-summaries', 'has-tool-summaries'); list.innerHTML = '';
+        retirePersonDetails(); retireToolDetails(); list.classList.toggle('has-mobile-qty', false); list.classList.remove('has-person-summaries', 'has-tool-summaries', 'has-mobile-person-list'); list.innerHTML = '';
         function text(value, className) {
             var paragraph = document.createElement('p'); paragraph.className = className || 'hd-city-menu-map-hint';
             paragraph.textContent = value; list.appendChild(paragraph);
@@ -7018,6 +7024,8 @@
         var liveQty = engineQty();
         var march = engineMarch();
         var quantityVisible = showingQty(), mobileQty = !!mobileHost && quantityVisible;
+        var mobilePersonList = !!(mobileHost && !quantityVisible && owner && owner.kind === 3 && state.deepItems.length && ordinaryPersonList());
+        list.classList.toggle('has-mobile-person-list', mobilePersonList);
         // The summary stays outside the mobile button scroller. Entering this
         // layout retires the previous list's scroll, not the player's next scroll.
         if (mobileQty && !list.classList.contains('has-mobile-qty')) { list.scrollTop = 0; }
@@ -7056,6 +7064,10 @@
             finishListFind(list, deepMenu, owner, personStats, toolStats);
             return;
         }
+        // A newly published native list starts at its own cursor. If the
+        // current list only gains summaries, preserve the player's scroll.
+        var previousRow = mobilePersonList && list.querySelector('[data-hd-deep-owner]');
+        var scrollTop = previousRow && previousRow.getAttribute('data-hd-deep-owner') === owner.key ? list.scrollTop : 0;
         state.deepSig = sig;
         list.innerHTML = '';
         if (state.deepKind === 'person-diplomacy') {
@@ -7320,6 +7332,7 @@
                 preview.textContent = '查看'; row.appendChild(preview); list.appendChild(row);
             } else { list.appendChild(btn); }
         }
+        if (mobilePersonList) { list.scrollTop = scrollTop; }
         applyHighlight();
         finishListFind(list, deepMenu, owner, personStats, toolStats);
     }
