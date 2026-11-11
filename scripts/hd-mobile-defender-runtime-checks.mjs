@@ -55,6 +55,16 @@ export async function runMobileDefenderChecks(c) {
     const after=await readonly(before,'Defender list pan');report.defenderScrolls.push({selector,geometry:g,pan:{x,y,delta},before,after});
   }throw Error('Defender control did not become visible: '+JSON.stringify(g));};
   const press=async selector=>tap(await point(selector));
+  const finishSelector='#hd-dialog [data-hd-defenders-finish]';
+  const finishControl=async()=>{
+    const geometry=await evaluate(campaignGeometrySource(finishSelector));
+    assert.ok(geometry?.visible&&geometry.hit&&!geometry.disabled&&geometry.width>=44&&geometry.height>=44,
+      'The finish control stays fully touchable outside the scrolling defender list');
+    const style=await evaluate(`(() => {const n=document.querySelector(${JSON.stringify(finishSelector)}),s=getComputedStyle(n);
+      return {appearance:s.appearance,background:s.backgroundColor};})()`);
+    assert.deepEqual(style,{appearance:'none',background:'rgb(240, 199, 90)'},'The mobile finish control has the HD primary action style');
+    return {geometry,style};
+  };
   const readyPicker=()=>until('Current authenticated mobile defenders',"(() => {const m=baye.hd.menuItems(),t=BayeHdDialog.getInputTicket();return m.active===1&&m.context===5&&m.kind===2&&m.idsValid&&BayeHdMobileCity.snapshot().dialogVisible&&t&&t.ownerType==='defenders';})()");
   const names=()=>evaluate('baye.hd.menuItems().ids.map(id=>baye.getPersonName(id))');
   const selectionKeys=(owner,index)=>[...Array(Math.abs(index-owner.index)).fill(index<owner.index?K.UP:K.DOWN),K.ENTER];
@@ -97,8 +107,20 @@ export async function runMobileDefenderChecks(c) {
   if(await evaluate("BayeHdCityMenu.getMode()==='classic'")){
     const before=await sample();await button('#hd-mobile-menu-mode');await readyPicker();await readonly(before,'Defender HD presentation switch');
   }
-  await readyPicker();picker=await capture('02-native-picker');
+  await readyPicker();
+  if(report.defenderEntryWidth!==width){
+    const viewport=()=>evaluate('({width:innerWidth,height:innerHeight})');
+    const before=await sample(),from=await viewport();
+    assert.equal(from.width,report.defenderEntryWidth);
+    await metrics(...size);await readyPicker();
+    await readonly(before,'Defender landscape resize');
+    const to=await viewport();
+    assert.deepEqual(to,{width:size[0],height:size[1]});
+    report.defenderResize={from,to,menuSeq:before.native.menu.seq};
+  }
+  picker=await capture('02-native-picker');
   const verdict=verifyMobileDefenderPicker({world:picker.world,native:picker.native,names:await names()});report.defenderPicker={before:picker,verdict};
+  report.defenderFinishControl={initial:await finishControl()};
   const chosenIndex=picker.native.menu.ids.findIndex((id,index)=>index>0&&id!==picker.world.king&&picker.world.people[id].Arms>0);
   assert.ok(chosenIndex>0,'Actual current defender roster has a non-first armed nonking');
   for(const [index,id]of picker.native.menu.ids.entries()){
@@ -142,7 +164,8 @@ export async function runMobileDefenderChecks(c) {
   const nextIndex=selected.native.menu.ids.findIndex((id,index)=>index>0&&id!==selected.world.king&&selected.world.people[id].Arms>0);
   if(selected.native.menu.count>=2&&nextIndex>0){selected=await choose(nextIndex);await capture('04-second-selected');}
   assert.ok(selected.native.battle.genArray.slice(0,10).some(id=>id>0&&id<0xfffe));
-  const beforeFinish=await sample();await press('#hd-dialog [data-hd-defenders-finish]');
+  const beforeFinish=await sample();report.defenderFinishControl.selected=await finishControl();
+  await tap(report.defenderFinishControl.selected.geometry);
   await until('Actual fresh mobile defensive PICK',"(() => {const f=baye.hd.fight();return f.active===1&&f.over===0&&f.inputKind===1&&Number(baye.data.g_FgtParam.Mode)===0&&Number(baye.data.g_MainGenIdx)===10&&BayeHdMobileBattle.debugSnapshot().active;})()",60000);
   const after=await capture('05-defensive-battle'),keys=await readKeys(beforeFinish.native.keys);assert.deepEqual(keys.map(k=>k.code),[K.EXIT],'One explicit current finish EXIT');
   await evaluate('clearInterval(__mobileDefender.fightTimer)');const observer=await evaluate('__mobileDefender');assert.equal(observer.overflow,false);assert.equal(observer.error,undefined);

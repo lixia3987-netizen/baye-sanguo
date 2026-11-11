@@ -105,6 +105,7 @@ html[data-baye-battle="hd"] #hd-overworld {
     text-shadow: 0 1px 2px #000; pointer-events: none;
 }
 .hd-battle-context > span { white-space: nowrap; }
+.hd-battle-context [data-hd-battle-stat="place"] { flex-basis: 100%; color: #f5deb0; font-weight: 700; }
 @container (max-height: 800px) {
     .hd-battle-context { bottom: 8px; max-width: calc(100% - 580px); font-size: 13px; gap: 4px 8px; }
 }

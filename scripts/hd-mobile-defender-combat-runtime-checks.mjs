@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {defenderNativeSource} from './hd-mobile-defender-runtime-checks.mjs';
 import {battleObservation} from './hd-mobile-battle-runtime-checks.mjs';
+import {battleHudObservation,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
 import {verifyMobileDefenderSettlement} from './hd-mobile-defender-settlement-runtime-oracle.mjs';
 import {campaignGeometrySource} from './hd-mobile-campaign-runtime-checks.mjs';
 import {verifyMobileSuccessorChoice,verifyMobileSuccessorReport,verifyMobileSuccessorSettlement} from './hd-mobile-successor-runtime-oracle.mjs';
@@ -34,10 +35,17 @@ export async function runMobileDefenderCombatChecks(c) {
   const {report,evaluate,until,delay,checkpoint,touches,tap,button,cityPoint,worldSource,mapReadySource,readKeys}=c;
   report.ok=false;report.accepted=false;report.defenderCombatAccepted=false;
   report.scope='Original mobile genuine incoming defense, trusted HD legal actions, natural battle result, synchronous native settlement and completed month return; no forced outcome/RNG or real-device/full-HD claim';
-  report.defenderCombatActions=[];report.defenderCombatReports=[];
+  report.defenderCombatActions=[];report.defenderCombatReports=[];report.defenderCombatHud=[];
   report.defenderCombatSuccessorChoices=[];
   const sampleSource=`({world:${worldSource},native:${defenderNativeSource},battle:${battleObservation}})`;
   const sample=()=>evaluate(sampleSource),native=()=>evaluate(battleObservation);
+  const recordHud=async(phase,options={})=>{
+    const hud=await evaluate(battleHudObservation);
+    report.defenderCombatHud.push({phase,...hud});
+    verifyBattleHud(hud,{mode:0,...options});
+    if(options.visible!==false)assert.equal(hud.native.cityIndex,report.defenderPicker.verdict.cityIndex,'Same original city as the incoming order');
+    return hud;
+  };
   const capture=async label=>{const s=await sample();report.defenderChecks.push({label,...s});await checkpoint('defender-combat-'+report.defenderWidth+'-'+label);return s;};
   await evaluate(defenderCombatObserverSource(worldSource));
   report.defenderCombatInitial=await capture('01-first-pick');
@@ -106,6 +114,8 @@ export async function runMobileDefenderCombatChecks(c) {
   for(let turn=0;turn<=max&&!await outcome();turn++){
     let pick=await ready(1,'Current actual defensive PICK');if(!pick)break;
     const bout=pick.fight.bout,candidates=pick.units.filter(u=>u.side==='player'&&u.active===0&&u.state===0&&u.arms>0);
+    const hud=await recordHud('pick');assert.equal(hud.native.day,bout);
+    if(turn===0)assert.equal(hud.native.food,report.defenderBattle.initial.native.battle.playerFood,'Initial HUD grain matches the native defended city grain');
     for(const candidate of candidates){
       pick=await ready(1,'Current defensive general');if(!pick)break;
       const actor=pick.units.find(u=>u.i===candidate.i);if(!actor||actor.active||actor.state||!actor.arms)continue;
@@ -128,6 +138,7 @@ export async function runMobileDefenderCombatChecks(c) {
     if(await outcome())break;
     pick=await ready(1,'Current defensive turn end');if(!pick)break;
     await button('[data-hd-battle-sys]');if(!await ready(6,'Current defensive SYSTEM'))break;
+    if(turn===0)await recordHud('system',{settings:true,mobileFocus:true});
     await menu(0,'End one genuine defensive army turn');
     await until('Next actual player bout or natural battle result',`__mobileDefenseCombat.outcomes.length>0||(() => {const f=baye.hd.fight();return f.active===1&&!f.over&&f.inputKind===1&&f.bout>${bout};})()`,90000);
     if(!await outcome())await capture('bout-'+(await native()).fight.bout+'-pick');
@@ -159,6 +170,7 @@ export async function runMobileDefenderCombatChecks(c) {
   }
   const final=await capture('03-completed-month-map');
   assert.equal(final.native.fight.active,0);assert.equal(final.native.report.active,0);
+  await recordHud('completed-month-map',{visible:false});
   const incoming=report.defenderPicker.verdict;
   report.defenderCombatObserver=await evaluate('clearInterval(__mobileDefenseCombat.noteTimer);__mobileDefenseCombat');
   const store=report.defenderCombatObserver;assert.equal(store.error,undefined);assert.equal(store.overflow,false);
@@ -197,6 +209,6 @@ export async function runMobileDefenderCombatChecks(c) {
   report.defenderCombatConsoleErrors=report.console.filter(e=>e.type==='error'&&(e.args||[]).some(a=>String(a.value||a.description||'').includes('window.onerror')));
   assert.deepEqual(report.defenderCombatConsoleErrors,[],'No handled window errors are hidden by the legacy game handler');
   report.pendingScope=['Other periods/cities and battle outcomes not observed in this batch; reuse of the incoming order slot during later monthly processing','Android/iOS devices, full visual frames, performance and complete HD'];
-  report.acceptedScope.push('Genuine defensive legal HD movement/action and army turns to a natural battle result','Actual native timed result note rendered in HD and retired with native owner','Synchronous complete recorded defense settlement, exact incoming order retirement, completed monthly MAP and readonly city browsing');
+  report.acceptedScope.push('Current original defense city, day, weather and player grain fit the HD battle HUD','Genuine defensive legal HD movement/action and army turns to a natural battle result','Actual native timed result note rendered in HD and retired with native owner','Synchronous complete recorded defense settlement, exact incoming order retirement, completed monthly MAP and readonly city browsing');
   report.defenderCombatAccepted=true;report.ok=true;report.accepted=true;
 }

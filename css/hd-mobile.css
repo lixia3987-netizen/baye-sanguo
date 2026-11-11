@@ -715,6 +715,7 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
     font-size: 12px; line-height: 16px; overscroll-behavior: contain; touch-action: pan-y; pointer-events: auto;
 }
 .hd-mobile-page #hd-battle-context > span { white-space: normal; overflow-wrap: anywhere; }
+.hd-mobile-page #hd-battle-context > [data-hd-battle-stat="place"] { color: #f5deb0; font-weight: 700; }
 .hd-mobile-page #hd-battle-context[hidden] { display: none !important; }
 .hd-mobile-page .hd-mobile-battle-focus-card { display: grid; gap: 2px; }
 .hd-mobile-page #hd-mobile-battle-details strong { display: block; color: #f5deb0; font-size: 14px; }

@@ -17,7 +17,9 @@ export const battleHudObservation = `(() => {
     };
     const status=element('hd-battle-context'),list=element('hd-battle-menu-list'),row=list.querySelector('.is-on');
     return {viewport:{width:innerWidth,height:innerHeight},fight:f,menu:m,
-        native:{mode:d.g_FgtParam.Mode,day:d.g_FgtBoutCnt,limit:d.g_FgtBoutMax,weather:d.g_FgtWeather,food:d.g_FgtParam.MProvender,
+        native:{mode:d.g_FgtParam.Mode,cityIndex:d.g_FgtParam.CityIndex,
+            cityName:f.active===1&&f.over===0?baye.getCityName(d.g_FgtParam.CityIndex):null,
+            day:d.g_FgtBoutCnt,limit:d.g_FgtBoutMax,weather:d.g_FgtWeather,food:d.g_FgtParam.MProvender,
             settings:{movie:d.g_LookMovie,speed:d.g_MoveSpeed,enemy:d.g_LookEnemy}},
         status:{...measure(status),fields:[...status.children].map(n=>({field:n.dataset.hdBattleStat,...measure(n)}))},
         focus:row&&{index:Number(row.dataset.hdBattleMenu),...measure(row)},scrollTop:list.scrollTop,
@@ -25,24 +27,27 @@ export const battleHudObservation = `(() => {
         menuTitle:measure(element('hd-battle-menu-title'))};
 })()`;
 
-export function verifyBattleHud(sample, {visible = true, settings = false, mobileFocus = false} = {}) {
+export function verifyBattleHud(sample, {visible = true, settings = false, mobileFocus = false, mode = 1} = {}) {
     assert.equal(sample.status.visible, visible, 'Battle status visibility follows the current surface');
     if (!visible) return;
 
     const {native, fight, status} = sample;
     assert.equal(fight.active, 1);
     assert.equal(fight.over, 0);
-    assert.equal(native.mode, 1, 'The original player expedition owns these values');
+    assert.equal(native.mode, mode, 'The current original player battle owns these values');
+    assert.equal(native.cityIndex, fight.cityIndex);
+    assert.ok(native.cityName, 'Original name for the current battle city');
     assert.equal(native.day, fight.bout);
     for (const key of ['day', 'limit', 'food']) assert.ok(Number.isInteger(native[key]) && native[key] >= 0);
     const weather = ['', '晴', '阴', '风', '雨', '冰雹'][native.weather];
     assert.ok(weather, 'Actual original weather code');
     assert.deepEqual(status.fields.map(({field, text}) => [field, text]), [
+        ['place', `${mode === 0 ? '守城' : '进攻'} · ${native.cityName}`],
         ['day', `第${native.day}天 / 上限${native.limit}天`],
         ['weather', `天气 ${weather}`],
         ['food', `我方粮草 ${native.food}`]
     ]);
-    assert.ok(status.fields.every(field => field.fits), 'Day, weather and player grain all fit on screen');
+    assert.ok(status.fields.every(field => field.fits), 'City, day, weather and player grain all fit on screen');
 
     if (settings) {
         assert.ok([6,8].includes(fight.inputKind));

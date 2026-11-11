@@ -773,17 +773,19 @@
         if (!value) { node.hidden = true; node.textContent = ''; node._battleContextSignature = ''; return; }
         var signature = JSON.stringify(value);
         node.hidden = false;
-        if (node._battleContextSignature === signature && node.children.length === 3) { return; }
+        if (node._battleContextSignature === signature && node.children.length === (value.place ? 4 : 3)) { return; }
         node._battleContextSignature = signature;
         node.textContent = '';
         var weather = ['','晴','阴','风','雨','冰雹'];
-        [['day', value.day == null ? '战斗天数 未读取' : '第' + value.day + '天' +
+        var fields = [['day', value.day == null ? '战斗天数 未读取' : '第' + value.day + '天' +
             (value.limit == null ? ' / 上限未读取' : ' / 上限' + value.limit + '天')],
             ['weather', '天气 ' + (weather[value.weather] || '未读取')],
-            ['food', '我方粮草 ' + (value.food == null ? '未读取' : value.food)]].forEach(function (field) {
-                var item = document.createElement('span');
-                item.setAttribute('data-hd-battle-stat',field[0]); item.textContent = field[1]; node.appendChild(item);
-            });
+            ['food', '我方粮草 ' + (value.food == null ? '未读取' : value.food)]];
+        if (value.place) { fields.unshift(['place', (value.place.mode === 0 ? '守城 · ' : '进攻 · ') + value.place.cityName]); }
+        fields.forEach(function (field) {
+            var item = document.createElement('span');
+            item.setAttribute('data-hd-battle-stat',field[0]); item.textContent = field[1]; node.appendChild(item);
+        });
     }
     function applyChrome() {
         var show = state.open && shouldShowHd();

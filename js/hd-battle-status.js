@@ -15,7 +15,7 @@
             if (document.hidden || !hd || !data || !api || typeof hd.ready !== 'function' || hd.ready() !== true ||
                 typeof hd.fight !== 'function' || settings && typeof hd.menuItems !== 'function' ||
                 typeof api.read !== 'function' || typeof api.isCurrent !== 'function') { return null; }
-            var getFight = hd.fight, getMenu = settings ? hd.menuItems : null,
+            var getFight = hd.fight, getMenu = settings ? hd.menuItems : null, getCityName = settings ? null : b.getCityName,
                 getReady = hd.ready, getIdentity = api.read, isCurrent = api.isCurrent, param = data.g_FgtParam, hooks = b.hooks;
             var identity = getIdentity.call(api), library = identityKey(identity);
             if (!identity || identity.status !== 'ready' || identity.sha256 !== SHA || identity.byteLength !== 207195 ||
@@ -26,14 +26,14 @@
                     now = getIdentity.call(api), current = isCurrent.call(api,identity), ready = getReady.call(hd);
                 if (!f || ready !== true || current !== true || identityKey(now) !== library || identityKey(identity) !== library ||
                     !settings && hooks && typeof hooks.didShowFightStateBar === 'function') { return null; }
-                var owner = [f.active,f.over,f.inputKind,f.inputSeq,f.actorIndex,f.cityIndex];
+                var owner = [f.active,f.over,f.inputKind,f.inputSeq,f.actorIndex,f.cityIndex], mode = param.Mode;
                 if (owner[0] !== 1 || owner[1] !== 0 || !uint(owner[2],10) || !uint(owner[3],0xffffffff) || !owner[3] ||
                     !uint(owner[4],255) || owner[4] > 19 && owner[4] !== 255 || !uint(owner[5],37) ||
                     data.g_hdEngineReady !== 1 || !uint(data.g_hdDetailGeneration,0xffffffff) || !data.g_hdDetailGeneration ||
                     !uint(data.g_PIdx,4) || !data.g_PIdx || data.g_FgtOver !== 0 ||
                     data.g_hdFightActive !== owner[0] || data.g_hdFightOver !== owner[1] ||
                     data.g_hdFightInputKind !== owner[2] || data.g_hdFightInputSeq !== owner[3] || data.g_hdFightActor !== owner[4] ||
-                    param.CityIndex !== owner[5] || (param.Mode !== 0 && param.Mode !== 1) ||
+                    param.CityIndex !== owner[5] || (mode !== 0 && mode !== 1) ||
                     data.g_hdReportActive !== 0 || data.g_hdHelpActive !== 0 || data.g_hdViewActive !== 0) { return null; }
                 var value;
                 if (settings) {
@@ -57,16 +57,29 @@
                 }
                 var seal = [data.g_hdEngineReady,data.g_hdDetailGeneration,data.g_PIdx,data.g_FgtOver,
                     data.g_hdFightActive,data.g_hdFightOver,data.g_hdFightInputKind,data.g_hdFightInputSeq,data.g_hdFightActor,
-                    data.g_hdReportActive,data.g_hdHelpActive,data.g_hdViewActive,param.CityIndex,param.Mode];
+                    data.g_hdReportActive,data.g_hdHelpActive,data.g_hdViewActive,param.CityIndex,mode];
                 if (global.baye !== b || b.hd !== hd || b.data !== data || data.g_FgtParam !== param || b.hooks !== hooks ||
                     global.BayeHdLibIdentity !== api || hd.fight !== getFight || settings && hd.menuItems !== getMenu ||
-                    hd.ready !== getReady || api.read !== getIdentity || api.isCurrent !== isCurrent ||
+                    !settings && b.getCityName !== getCityName || hd.ready !== getReady || api.read !== getIdentity || api.isCurrent !== isCurrent ||
                     document.hidden || epoch !== token) { return null; }
                 if (data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
-                return {value:value,key:JSON.stringify([library,owner,seal,value,settings ? [data.g_hdFightWait,data.g_hdFightPhase] : null])};
+                return {value:value,cityIndex:owner[5],mode:mode,
+                    key:JSON.stringify([library,owner,seal,value,settings ? [data.g_hdFightWait,data.g_hdFightPhase] : null])};
             }
-            var first = capture(), second = capture(), final = capture();
-            return first && second && final && first.key === second.key && second.key === final.key && token === epoch ? final.value : null;
+            var first = capture(), second = capture();
+            if (!first || !second || first.key !== second.key) { return null; }
+            // The verified library supplies the city name. Seal the battle again after the lookup.
+            var cityName = '';
+            if (typeof getCityName === 'function') {
+                try {
+                    var name = getCityName.call(b, second.cityIndex);
+                    if (typeof name === 'string') { cityName = name.trim(); }
+                } catch (e) {}
+            }
+            var final = capture();
+            if (!final || second.key !== final.key || token !== epoch) { return null; }
+            if (cityName) { final.value.place = {mode:final.mode,cityName:cityName}; }
+            return final.value;
         } catch (e) { return null; }
         finally { busy = false; }
     }

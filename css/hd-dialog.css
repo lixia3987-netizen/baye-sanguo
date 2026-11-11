@@ -170,7 +170,8 @@ html[data-baye-dialog-pass="1"] .hd-dialog.is-open .hd-dialog-stage {
 }
 
 .hd-dialog-qty button,
-.hd-dialog-footer button {
+.hd-dialog-footer button,
+.hd-mobile-page .hd-dialog [data-hd-defenders-finish] {
     appearance: none;
     border: 0;
     border-radius: 10px;
@@ -198,6 +199,10 @@ html[data-baye-dialog-pass="1"] .hd-dialog.is-open .hd-dialog-stage {
 .hd-dialog.is-qty .hd-dialog-footer button[data-hd-dlg-ok] {
     min-height: 48px;
     font-size: 18px;
+}
+
+.hd-dialog.is-qty .hd-dialog-footer button[data-hd-dlg-ok],
+.hd-mobile-page .hd-dialog [data-hd-defenders-finish] {
     font-weight: 700;
     background: #f0c75a;
     color: #1b1f27;

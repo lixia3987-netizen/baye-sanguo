@@ -549,7 +549,7 @@ test('unknown aim kinds and coerced metadata cannot confirm an otherwise marked 
 });
 
 // The context bar is observed through the complete battle renderer. The old
-// command fixture stays unchanged; only this fixture mounts its three spans.
+// command fixture stays unchanged; only this fixture mounts the context bar.
 function statusFixture() {
     const g = game(), document = g.sandbox.document, cache = new WeakMap(), writes = [];
     function node(tagName = 'div') {
@@ -632,6 +632,27 @@ test('native battle context shows all five weather names, exact U16 food and unc
     g.raw.g_FgtBoutCnt = 0; g.raw.g_FgtBoutMax = 65535; g.observe();
     assert.equal(g.values().day, '第0天 / 上限65535天');
     assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
+});
+
+test('battle context follows the verified native city and role even when the counters stay the same', () => {
+    const g = statusFixture();
+    g.baye.getCityName = index => ({0: '幽州', 16: '长安'})[index];
+    g.raw.g_FgtParam.Mode = 0;
+    g.observe();
+    assert.equal(g.values().place, '守城 · 长安');
+
+    g.raw.g_FgtParam.CityIndex = g.fight.cityIndex = 0;
+    g.raw.g_FgtParam.Mode = 1;
+    g.observe();
+    assert.equal(g.values().place, '进攻 · 幽州');
+
+    g.baye.getCityName = () => '';
+    g.observe();
+    assert.deepEqual(g.values(), {day: '第3天 / 上限20天', weather: '天气 晴', food: '我方粮草 0'});
+
+    g.baye.getCityName = () => {g.raw.g_FgtParam.CityIndex = 16; return '幽州';};
+    g.observe();
+    assertStatusHidden(g, 'Battle owner changed during the name lookup');
 });
 
 test('battle context invalid or absent values become unread independently without hiding a valid owner', () => {
