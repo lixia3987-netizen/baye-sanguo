@@ -1,7 +1,8 @@
 /**
- * Real SEARCH HD acceptance. Private server/profile; no month, recruitment or battle.
+ * Real SEARCH HD acceptance in a private server and browser profile.
  * node scripts/test-hd-search-runtime.mjs --preflight-only --artifact-dir build/r17-search-preflight
  * CHROME="C:/Program Files/Google/Chrome/Application/chrome.exe" node scripts/test-hd-search-runtime.mjs --artifact-dir build/r17-search-installed
+ * Add --discover to settle actual orders and check discovery reports and the allied roster.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -14,16 +15,17 @@ import { spawn, execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const cli=process.argv.slice(2),allowed=new Set(['--preflight-only','--artifact-dir']);
+const cli=process.argv.slice(2),allowed=new Set(['--preflight-only','--artifact-dir','--discover']);
 for(let i=0;i<cli.length;i++){assert.ok(allowed.has(cli[i]),'Unsupported argument: '+cli[i]);if(cli[i]==='--artifact-dir'){assert.ok(cli[i+1]&&!cli[i+1].startsWith('--'),'Artifact path is required');i++;}}
 assert.equal(new Set(cli.filter(v=>v.startsWith('--'))).size,cli.filter(v=>v.startsWith('--')).length,'Duplicate flags are rejected');
-const preflightOnly=cli.includes('--preflight-only'),artifactIndex=cli.indexOf('--artifact-dir');
+const preflightOnly=cli.includes('--preflight-only'),discover=cli.includes('--discover'),artifactIndex=cli.indexOf('--artifact-dir');
+assert.ok(!discover||!preflightOnly,'Discovery requires a live campaign');
 const artifactDir=path.resolve(artifactIndex<0?path.join(root,'build/r17-search-runtime'):cli[artifactIndex+1]);
 const period=2,originCity=26,lordPerson=12,searchPerson=110;
 const viewport={width:1920,height:1080},viewports=[viewport,{width:1280,height:720}];
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms)),sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const childExited=child=>!child||child.exitCode!==null||child.signalCode!==null;
-const report={startedAt:new Date().toISOString(),preflightOnly,period,originCity,lordPerson,searchPerson,viewports,phases:[],inputs:[],console:[],exceptions:[],dialogs:[],blocked:[],requests:[],worldObservations:[],detailChecks:[],resizes:[],staleChecks:[]};
+const report={startedAt:new Date().toISOString(),preflightOnly,discover,period,originCity,lordPerson,searchPerson,viewports:discover?[viewport]:viewports,phases:[],inputs:[],console:[],exceptions:[],dialogs:[],blocked:[],requests:[],worldObservations:[],detailChecks:[],resizes:[],staleChecks:[]};
 const servedAssets=new Map(),productionDirectories=['js','css','assets','vendor/iBaye/src'];
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.wasm':'application/wasm','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.ttf':'font/ttf','.lib':'application/octet-stream'};
 const walk=directory=>fs.readdirSync(directory,{withFileTypes:true}).flatMap(item=>item.isDirectory()?walk(path.join(directory,item.name)):[path.join(directory,item.name)]);
@@ -40,6 +42,10 @@ function nativeItem(id,index=0){
     assert.equal(b.readUInt16LE(address+4),id);assert.ok(index>=0&&index<count&&address+length<=b.length);assert.equal(b[address+12],0);
     const offset=fixed?14+index*fixed:count===1?14:b.readUInt32LE(address+14+index*8),size=fixed||(count===1?length-14:b.readUInt32LE(address+18+index*8));
     assert.ok(offset>=14&&size>0&&offset+size<=length);return b.subarray(address+offset,address+offset+size);
+}
+function nativeText(resource, index){
+    const item=nativeItem(resource,index),end=item.indexOf(0);
+    return new TextDecoder('gbk',{fatal:true}).decode(end<0?item:item.subarray(0,end));
 }
 function prepareServedAssets(){
     report.sources={};for(const dir of productionDirectories)for(const f of walk(path.join(root,dir)))freezeAsset(path.relative(root,f));
@@ -130,8 +136,13 @@ async function key(cdp,name){
     for(const type of ['keyDown','keyUp'])await cdp.send('Input.dispatchKeyEvent',{type,key:name,code:name,windowsVirtualKeyCode:codes[name],nativeVirtualKeyCode:codes[name]});await delay(100);
 }
 async function targetPoint(cdp,selector){
-    const point=await evaluate(cdp,`(() => {const n=document.querySelector(${JSON.stringify(selector)});if(!n)return null;n.scrollIntoView({block:'center'});const r=n.getBoundingClientRect(),s=getComputedStyle(n),x=r.x+r.width/2,y=r.y+r.height/2,t=document.elementFromPoint(x,y);return {x,y,width:r.width,height:r.height,visible:!!(r.width&&r.height&&s.visibility!=='hidden'&&s.display!=='none'),hit:!!(t&&(t===n||n.contains(t))),top:t&&t.id};})()`);
-    assert.ok(point&&point.visible&&point.hit,'Actually visible/hittable target '+selector);return {x:point.x,y:point.y};
+    return waitFor(cdp,'visible unobstructed target '+selector,`(() => {
+        const n=document.querySelector(${JSON.stringify(selector)});
+        if(!n||n.disabled)return false;
+        n.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+        const r=n.getBoundingClientRect(),s=getComputedStyle(n),x=r.x+r.width/2,y=r.y+r.height/2,t=document.elementFromPoint(x,y);
+        return r.width>0&&r.height>0&&s.visibility!=='hidden'&&s.display!=='none'&&t&&(t===n||n.contains(t))&&{x,y};
+    })()`,8000);
 }
 async function mouse(cdp,type,point){await cdp.send('Input.dispatchMouseEvent',{type,...point,button:'left',clickCount:1});}
 async function click(cdp,selector,pause=150){const point=await targetPoint(cdp,selector);report.inputs.push({type:'physical-pointer',selector,point,at:new Date().toISOString()});await mouse(cdp,'mousePressed',point);await mouse(cdp,'mouseReleased',point);if(pause)await delay(pause);}
@@ -168,33 +179,42 @@ async function currentPersonPicker(cdp){
     return {menu:m,city:s,ids};})()`);
 }
 function ownerIdentity(p){return {context:p.menu.context,kind:p.menu.kind,seq:p.menu.seq,generation:p.menu.generation,detailGeneration:p.menu.detailGeneration,ids:p.menu.ids,key:p.city.deepMenuOwner.key};}
+function portraitAsset(id){
+    const manifest=JSON.parse(servedAssets.get('assets/hd-portraits/manifest.json').data),references=JSON.parse(servedAssets.get('assets/hd-portraits/refs/index.json').data);
+    const entry=manifest.entries.find(e=>e.period===period&&e.personId===id&&!e.missing),reference=references.periods.find(p=>p.period===period)?.people.find(p=>p.id===id&&!p.skipped);
+    const file=entry?.hd||entry?.ref||(reference?'refs/'+reference.file:null);
+    const url=file&&'assets/hd-portraits/'+file;
+    assert.ok(url&&servedAssets.has(url),'A frozen portrait belongs to the exact native person and period');
+    return {url,mode:entry?.hd?'hd':'ref'};
+}
 async function validateDetails(cdp,label,picker){
     const actual=await readWorld(cdp,label+'-native'),index=picker.menu.index,id=picker.ids[index],person=actual.persons[id];
     const data=await waitFor(cdp,label+' full actual person pane',`(() => {const s=BayeHdCityMenu.debugSnapshot(),m=baye.hd.menuItems(),p=s.personDetail,n=document.getElementById('hd-city-menu-person-details'),fields=document.getElementById('hd-city-menu-person-fields');if(!p||p.ownerKey!==${JSON.stringify(picker.city.deepMenuOwner.key)}||p.nativeIndex!==${index}||p.personIndex!==${id}||m.seq!==${picker.menu.seq}||m.index!==${index}||!n||n.hidden||!fields)return false;return {detail:p,name:document.getElementById('hd-city-menu-person-name').textContent,rows:Array.from(fields.querySelectorAll('.hd-city-menu-stat'),r=>[r.querySelector('span').textContent,r.querySelector('strong').textContent])};})()`);
-    assert.equal(data.name,person.name);assert.equal(data.detail.name,person.name);assert.equal(data.detail.personIndex,id);assert.equal(data.rows.length,15,'All original person detail rows render');
-    const rows=new Map(data.rows);for(const [title,field] of [['年龄','Age'],['等级','Level'],['武力','Force'],['智力','IQ'],['忠诚值','Devotion'],['经验','Experience'],['体力','Thew'],['兵力','Arms']])assert.equal(rows.get(title),String(person[field]),'Complete native numeric detail '+title+' including U16 arms');
+    assert.equal(data.name,person.name);assert.equal(data.detail.name,person.name);assert.equal(data.detail.personIndex,id);
+    const expectedTitles=['归属','原归属','所在城市','年龄','性格码','等级','武力','智力','忠诚值','经验','体力','基础兵种','装备后兵种','兵力','装备一','装备二'];
+    assert.deepEqual(data.rows.map(row=>row[0]).sort(),expectedTitles.sort(),'All current person detail rows render');
+    const rows=new Map(data.rows);
+    assert.equal(rows.get('所在城市'),nativeText(58,originCity));
+    for(const [title,field] of [['年龄','Age'],['等级','Level'],['武力','Force'],['智力','IQ'],['忠诚值','Devotion'],['经验','Experience'],['体力','Thew'],['兵力','Arms']])assert.equal(rows.get(title),String(person[field]),'Complete native numeric detail '+title+' including U16 arms');
     assert.ok(rows.get('性格码').startsWith(String(person.Character)));for(const [title,value] of [['基础兵种',person.ArmsType],['装备后兵种',person.derivedArm]])assert.ok(rows.get(title).includes('码 '+value),'Native actual type code '+title);
     for(const [title,field] of [['装备一','Tool1'],['装备二','Tool2']])assert.ok(person[field]===0?rows.get(title)==='无':rows.get(title).includes('编号 '+person[field]),'Full U16 equipment index');
     assert.equal(data.detail.ownership.value,person.Belong);assert.equal(data.detail.ownership.personIndex,person.Belong-1,'Person allegiance points to the actual owning lord');
     const selector=`#hd-city-menu [data-hd-deep="${index}"][data-hd-deep-pind="${id}"]`;await targetPoint(cdp,selector);
     const facts=await evaluate(cdp,`(() => {const fields=document.getElementById('hd-city-menu-person-fields');return Array.from(fields.querySelectorAll('.hd-city-menu-stat strong'),n=>{n.scrollIntoView({block:'center'});const r=n.getBoundingClientRect(),s=getComputedStyle(n),t=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return {text:n.textContent,width:r.width,height:r.height,visible:!!(r.width&&r.height&&s.visibility!=='hidden'&&s.display!=='none'),hit:!!(t&&(t===n||n.contains(t)))};});})()`);
     assert.ok(facts.every(f=>f.visible&&f.hit),'All detail values are actually visible after scrolling and unobstructed');
-    const portraitManifest=JSON.parse(servedAssets.get('assets/hd-portraits/manifest.json').data),referenceIndex=JSON.parse(servedAssets.get('assets/hd-portraits/refs/index.json').data);
-    const entry=portraitManifest.entries.find(e=>e.period===2&&e.personId===id&&!e.missing),reference=referenceIndex.periods.find(p=>p.period===2)?.people.find(p=>p.id===id&&!p.skipped);
-    const expectedSource=entry?.hd?'assets/hd-portraits/'+entry.hd:entry?.ref?'assets/hd-portraits/'+entry.ref:reference?'assets/hd-portraits/refs/'+reference.file:null;
-    assert.ok(expectedSource&&servedAssets.has(expectedSource),'Actual portrait reference/HD source is frozen for this exact native person and period');
+    const {url:expectedSource,mode}=portraitAsset(id);
     const portrait=await waitFor(cdp,label+' actual image ready/source/docked owner',`(() => {const root=document.getElementById('hd-portrait'),img=document.getElementById('hd-portrait-img'),pane=document.getElementById('hd-city-menu-person-details'),slot=document.getElementById('hd-city-menu-person-portrait'),s=BayeHdCityMenu.debugSnapshot(),m=baye.hd.menuItems();
         if(!root||!img||!slot||!pane||pane.hidden||root.hidden||!img.complete||!img.naturalWidth||!img.naturalHeight||root.parentNode!==slot||root.getAttribute('data-hd-portrait-source')!=='runtime'||root.getAttribute('data-person-id')!==${JSON.stringify(String(id))}||root.getAttribute('data-period')!=='2'||!s.personDetail||s.personDetail.ownerKey!==${JSON.stringify(picker.city.deepMenuOwner.key)}||m.seq!==${picker.menu.seq}||m.index!==${index})return false;
         img.scrollIntoView({block:'center'});const r=img.getBoundingClientRect(),sr=slot.getBoundingClientRect(),ps=pane.getBoundingClientRect(),style=getComputedStyle(img),ancestors=[];
         for(let n=img;n&&n.nodeType===1;n=n.parentElement){const s=getComputedStyle(n);ancestors.push({id:n.id,tag:n.tagName,opacity:Number(s.opacity),display:s.display,visibility:s.visibility,pointerEvents:s.pointerEvents});}
         const points=[.25,.5,.75].map(f=>{const x=r.x+r.width*f,y=r.y+r.height*f,t=document.elementFromPoint(x,y);return {x,y,top:t&&{id:t.id,tag:t.tagName},paneForeground:!!(t&&(t===slot||t===pane||slot.contains(t))),stack:document.elementsFromPoint(x,y).slice(0,5).map(n=>({id:n.id,tag:n.tagName}))};});
         return {mode:root.getAttribute('data-hd-portrait'),source:root.getAttribute('data-hd-portrait-source'),src:new URL(img.currentSrc||img.src,location.href).pathname.slice(1),naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight,rect:{x:r.x,y:r.y,width:r.width,height:r.height},slot:{x:sr.x,y:sr.y,width:sr.width,height:sr.height},pane:{x:ps.x,y:ps.y,width:ps.width,height:ps.height},visible:!!(r.width&&r.height&&ancestors.every(a=>a.opacity>0&&a.visibility!=='hidden'&&a.display!=='none')),unobstructed:points.every(p=>p.paneForeground),pointerEvents:style.pointerEvents,ancestors,points,personId:root.getAttribute('data-person-id'),period:root.getAttribute('data-period'),context:root.getAttribute('data-context')};})()`);
-    assert.equal(decodeURIComponent(portrait.src),expectedSource);assert.equal(portrait.mode,entry?.hd?'hd':'ref');assert.ok(portrait.visible&&portrait.unobstructed,'Actual non-interactive portrait is visible with its own slot/pane in the foreground');
+    assert.equal(decodeURIComponent(portrait.src),expectedSource);assert.equal(portrait.mode,mode);assert.ok(portrait.visible&&portrait.unobstructed,'Actual non-interactive portrait is visible with its own slot/pane in the foreground');
     const originalPng=servedAssets.get(expectedSource).data;assert.equal(portrait.naturalWidth,originalPng.readUInt32BE(16));assert.equal(portrait.naturalHeight,originalPng.readUInt32BE(20));
     const displayedViewport=await evaluate(cdp,'({width:innerWidth,height:innerHeight})');
     for(const [label,bounds] of [['slot',portrait.slot],['pane',portrait.pane],['viewport',{x:0,y:0,...displayedViewport}]])assert.ok(portrait.rect.x>=bounds.x-1&&portrait.rect.y>=bounds.y-1&&portrait.rect.x+portrait.rect.width<=bounds.x+bounds.width+1&&portrait.rect.y+portrait.rect.height<=bounds.y+bounds.height+1,'Portrait is fully inside the actual '+label+' clip');
     const after=await readWorld(cdp,label+'-after-detail');assert.equal(after.keys,actual.keys,'Detail/image rendering and scrolling have zero input');assertWorldSame(actual,after,label+' readonly details');
-    const record={label,viewport:await evaluate(cdp,'({width:innerWidth,height:innerHeight})'),owner:ownerIdentity(picker),id,native:person,detail:data,geometry:facts,portrait:{...portrait,expectedSource,sourceSha256:servedAssets.get(expectedSource).metadata.sha256,note:entry?.hd?'Accepted HD art':'Exact native portrait reference inside HD details; not newly generated HD art'}};report.detailChecks.push(record);return record;
+    const record={label,viewport:await evaluate(cdp,'({width:innerWidth,height:innerHeight})'),owner:ownerIdentity(picker),id,native:person,detail:data,geometry:facts,portrait:{...portrait,expectedSource,sourceSha256:servedAssets.get(expectedSource).metadata.sha256,note:mode==='hd'?'Accepted HD art':'Exact native portrait reference inside HD details; not newly generated HD art'}};report.detailChecks.push(record);return record;
 }
 async function highlight(cdp,index){
     let picker=await currentPersonPicker(cdp);const owner=ownerIdentity(picker);while(picker.menu.index!==index){const down=picker.menu.index<index,before=await readWorld(cdp,'highlight-'+index+'-before'),old=picker.menu.index;
@@ -236,6 +256,12 @@ async function boot(cdp){
     const preferences=await evaluate(cdp,'({system:BayeHdSystemUi.getMode(),map:BayeHdOverworld.getMode(),city:BayeHdCityMenu.getMode()})');assert.deepEqual(preferences,{system:'classic',map:'hd-map',city:'hd'});
     report.profilePreferenceObservation={...await stableZeroInput(cdp,'readonly private-profile UI preferences',()=>evaluate(cdp,'({system:BayeHdSystemUi.getMode(),map:BayeHdOverworld.getMode(),city:BayeHdCityMenu.getMode(),march:baye.hd.march()})')),preferences,method:'Initial private-origin localStorage user preferences, no toolbar interaction claimed'};
     await waitFor(cdp,'HD real map authorized','BayeHdOverworld.debugSnapshot().phase==="map"&&BayeHdOverworld.debugSnapshot().presentationReady');await checkpoint(cdp,'01-real-P2-LiuBiao-map');
+    const picker=await enterSearch(cdp);
+    assert.deepEqual(picker.ids,report.nativeContract.initialOwnedIDs);
+    await checkpoint(cdp,'02-native-HD-SEARCH');
+    return picker;
+}
+async function enterSearch(cdp){
     const before=await readWorld(cdp,'before-city-entry'),start=before.keys,cityTarget=await evaluate(cdp,'(() => {const c=BayeHdOverworld.cityScreenPos(26);return c&&{index:c.index,name:c.name,nativeName:baye.getCityName(26),engX:c.engX,engY:c.engY};})()');
     assert.ok(cityTarget&&cityTarget.index===26&&cityTarget.name===cityTarget.nativeName&&cityTarget.name.length>0&&Number.isInteger(cityTarget.engX)&&Number.isInteger(cityTarget.engY),'Current city target contains the actual name and engine coordinates');
     const result=await evaluate(cdp,'BayeHdOverworld.walkToCity(26)');report.inputs.push({type:'public-actual-city-click',city:26,target:cityTarget,result});assert.deepEqual(result,{name:cityTarget.name,to:{x:cityTarget.engX,y:cityTarget.engY}},'Public city entry returns its actual name/to object');
@@ -244,36 +270,58 @@ async function boot(cdp){
     const rootMenu=await evaluate(cdp,'baye.hd.menuItems()'),interior=rootMenu.names.indexOf('内政');assert.ok(interior>=0);await click(cdp,`#hd-city-menu [data-hd-root="${interior}"]`);
     await waitFor(cdp,'real interior submenu','BayeHdCityMenu.getLayer()==="sub"&&baye.hd.menuItems().active&&baye.hd.menuItems().context===1&&baye.hd.menuItems().kind===2');
     const sub=await evaluate(cdp,'baye.hd.menuItems()'),search=sub.names.indexOf('搜寻');assert.ok(search>=0);report.submenu=sub;await click(cdp,`#hd-city-menu [data-hd-sub="${search}"]`);
-    const picker=await currentPersonPicker(cdp);assert.deepEqual(picker.ids,report.nativeContract.initialOwnedIDs);await checkpoint(cdp,'02-native-HD-SEARCH');return picker;
+    return currentPersonPicker(cdp);
 }
-async function commitSearch(cdp){
-    let picker=await currentPersonPicker(cdp),index=picker.ids.indexOf(searchPerson);assert.ok(index>=0);
-    // Preserve the actual last row index after the detail tour, so selection drives real native arrows.
-    const before=await readWorld(cdp,'search-before-selection'),person=before.persons[searchPerson];assert.equal(person.Belong,13);assert.ok(person.Thew>=report.nativeContract.thew);
-    const oldSelector=`#hd-city-menu [data-hd-deep="${index}"][data-hd-deep-pind="${searchPerson}"]`;
-    await evaluate(cdp,`window.__searchOldRow=document.querySelector(${JSON.stringify(oldSelector)})`);
+const readyReport=`(() => {
+    const r=baye.hd.report(),d=BayeHdDialog.debugSnapshot();
+    if(!r.active||!d.open||d.kind!=='report'||d.pass||d.reportOwner?.seq!==r.seq||d.reportOwner?.inputSeq!==r.inputSeq)return false;
+    const n=document.getElementById('hd-dialog-person-identity'),p=document.getElementById('hd-portrait');
+    return {native:r,ui:d,identity:n&&!n.hidden&&{id:Number(n.dataset.hdReportPerson),kind:n.dataset.hdReportOwnership,text:n.textContent},
+        portrait:p&&!p.hidden&&{id:Number(p.dataset.personId),context:p.dataset.context}};
+})()`;
+
+async function acknowledgeReport(cdp, original){
+    assert.deepEqual(await evaluate(cdp,'baye.hd.report()'),original.native);
+    const start=(await readKeys(cdp)).length;
+    await click(cdp,'#hd-dialog [data-hd-dlg-ok]',0);
+    const {seq,inputSeq}=original.native;
+    await waitFor(cdp,'actual report acknowledgement',`(() => {const r=baye.hd.report();return !r.active||r.seq!==${seq}||r.inputSeq!==${inputSeq};})()`);
+    const keys=await readKeys(cdp,start);
+    assert.deepEqual(keys.map(k=>k.code),[0x27],'Report confirmation supplies exactly one Enter');
+    return keys;
+}
+
+async function commitSearch(cdp,personIndex){
+    const picker=await currentPersonPicker(cdp),index=picker.ids.indexOf(personIndex);assert.ok(index>=0);
+    const before=await readWorld(cdp,'search-before-selection'),person=before.persons[personIndex];
+    assert.equal(person.Belong,13);assert.ok(person.Thew>=report.nativeContract.thew);
+    const oldSelector=`#hd-city-menu [data-hd-deep="${index}"][data-hd-deep-pind="${personIndex}"]`;
+    if(!discover)await evaluate(cdp,`window.__searchOldRow=document.querySelector(${JSON.stringify(oldSelector)})`);
     const start=before.keys;await click(cdp,oldSelector,0);
-    const originalReport=await waitFor(cdp,'actual selected person speech before order','(() => {const r=baye.hd.report(),d=BayeHdDialog.debugSnapshot();return r.active&&d.open&&d.kind==="report"&&d.reportOwner&&d.reportOwner.seq===r.seq&&d.reportOwner.inputSeq===r.inputSeq&&{native:r,ui:d};})()');
-    assert.equal(originalReport.native.kind,2);assert.equal(originalReport.native.person,searchPerson,'The real speech is from the selected SEARCH actor');assert.equal(originalReport.ui.body,originalReport.native.text);assert.ok(originalReport.native.text.length>0);
+    const originalReport=await waitFor(cdp,'actual selected person speech before order',readyReport);
+    assert.equal(originalReport.native.kind,2);assert.equal(originalReport.native.person,personIndex,'The real speech is from the selected SEARCH actor');assert.equal(originalReport.ui.body,originalReport.native.text);assert.ok(originalReport.native.text.length>0);
     await waitFor(cdp,'report retires old person details','BayeHdCityMenu.debugSnapshot().personDetail===null&&document.getElementById("hd-city-menu-person-details").hidden');
-    const atReport=await readWorld(cdp,'search-report-before-AddOrder');assert.equal(atReport.persons[searchPerson].Thew,person.Thew-8);assert.deepEqual(atReport.queue,before.queue,'Native success speech occurs before DelPerson');assert.deepEqual(atReport.orders,before.orders,'A report alone is not an accepted SEARCH order');assert.equal(atReport.money,before.money);assert.deepEqual(atReport.date,before.date);
-    await checkpoint(cdp,'05-original-search-report-before-order');
-    const staleDuringReport=await stableZeroInput(cdp,'captured old row click during current report',()=>evaluate(cdp,'(() => {const n=window.__searchOldRow;if(!n)throw Error("Missing actual old row");n.click();return {connected:n.isConnected,owner:n.dataset.hdDeepOwner};})()'));
-    report.staleChecks.push({...staleDuringReport,method:'HTMLElement.click on the retained original native-owned row; no fabricated IDs or token'});
-    const confirmStart=atReport.keys,fresh=await evaluate(cdp,'baye.hd.report()');assert.equal(fresh.seq,originalReport.native.seq);assert.equal(fresh.inputSeq,originalReport.native.inputSeq);await click(cdp,'#hd-dialog [data-hd-dlg-ok]');
-    picker=await currentPersonPicker(cdp);assert.notEqual(picker.menu.seq,report.firstPicker.menu.seq,'Accepted SEARCH retires the original native menu sequence');
-    const after=await readWorld(cdp,'search-order-after-report-ACK');assert.equal(after.persons[searchPerson].Thew,person.Thew-8);assert.equal(after.money,before.money);assert.equal(after.food,before.food);assert.equal(after.reserve,before.reserve);assert.deepEqual(after.date,before.date);
-    assert.deepEqual(after.queue,before.queue.filter(id=>id!==searchPerson));const newOrders=after.orders.filter(o=>o.OrderId===3&&o.City===26&&o.Person===searchPerson);assert.equal(newOrders.length,before.orders.filter(o=>o.OrderId===3&&o.City===26&&o.Person===searchPerson).length+1);assert.equal(newOrders.at(-1).TimeCount,0);
-    const expectedPersons=structuredClone(before.persons);expectedPersons[searchPerson].Thew-=8;assert.deepEqual(after.persons,expectedPersons,'Only legitimate SEARCH stamina changes person values');
-    assert.ok(!picker.ids.includes(searchPerson));assert.ok(picker.menu.seq!==report.viewportChecks[0].owner.seq);assert.deepEqual(picker.ids,after.queue.filter(id=>after.persons[id].Belong===13));
+    const atReport=await readWorld(cdp,'search-report-before-AddOrder');assert.equal(atReport.persons[personIndex].Thew,person.Thew-report.nativeContract.thew);assert.deepEqual(atReport.queue,before.queue,'Native success speech occurs before DelPerson');assert.deepEqual(atReport.orders,before.orders,'A report alone is not an accepted SEARCH order');assert.equal(atReport.money,before.money);assert.deepEqual(atReport.date,before.date);
+    if(!discover){
+        await checkpoint(cdp,'05-original-search-report-before-order');
+        const staleDuringReport=await stableZeroInput(cdp,'captured old row click during current report',()=>evaluate(cdp,'(() => {const n=window.__searchOldRow;if(!n)throw Error("Missing actual old row");n.click();return {connected:n.isConnected,owner:n.dataset.hdDeepOwner};})()'));
+        report.staleChecks.push({...staleDuringReport,method:'HTMLElement.click on the retained original native-owned row; no fabricated IDs or token'});
+    }
+    const confirmationKeys=await acknowledgeReport(cdp,originalReport),next=await currentPersonPicker(cdp);
+    assert.notEqual(next.menu.seq,picker.menu.seq,'Accepted SEARCH retires the original native menu sequence');
+    const after=await readWorld(cdp,'search-order-after-report-ACK');assert.equal(after.persons[personIndex].Thew,person.Thew-report.nativeContract.thew);assert.equal(after.money,before.money);assert.equal(after.food,before.food);assert.equal(after.reserve,before.reserve);assert.deepEqual(after.date,before.date);
+    assert.deepEqual(after.queue,before.queue.filter(id=>id!==personIndex));const isOrder=o=>o.OrderId===3&&o.City===originCity&&o.Person===personIndex,newOrders=after.orders.filter(isOrder);assert.equal(newOrders.length,before.orders.filter(isOrder).length+1);assert.equal(newOrders.at(-1).TimeCount,0);
+    const expectedPersons=structuredClone(before.persons);expectedPersons[personIndex].Thew-=report.nativeContract.thew;assert.deepEqual(after.persons,expectedPersons,'Only legitimate SEARCH stamina changes person values');
+    assert.ok(!next.ids.includes(personIndex));assert.deepEqual(next.ids,after.queue.filter(id=>after.persons[id].Belong===13));
     const selectionKeys=await readKeys(cdp,start);
     assert.equal(selectionKeys.filter(k=>k.code===0x27).length,2,'One SEARCH selection Enter and one original speech confirmation');assert.ok(selectionKeys.every(k=>[0x22,0x23,0x27].includes(k.code)));
-    assert.deepEqual((await readKeys(cdp,confirmStart)).map(k=>k.code),[0x27],'Report confirmation supplies exactly one Enter');
-    const staleAfter=await stableZeroInput(cdp,'captured previous SEARCH row after new native menu seq',()=>evaluate(cdp,'(() => {const n=window.__searchOldRow;n.click();return {connected:n.isConnected,owner:n.dataset.hdDeepOwner};})()'));
-    report.staleChecks.push({...staleAfter,method:'Retained original DOM row click after native menu generation/sequence retirement; no fabricated owner'});
-    report.searchOrder={owner:ownerIdentity(report.firstPicker),personIndex:searchPerson,nativeId:searchPerson+1,before,atReport,originalReport,after,newMenu:picker.menu,keys:selectionKeys,reportConfirmationKeys:await readKeys(cdp,confirmStart),reportBeforeAddOrder:true};return picker;
+    if(!discover){
+        const staleAfter=await stableZeroInput(cdp,'captured previous SEARCH row after new native menu seq',()=>evaluate(cdp,'(() => {const n=window.__searchOldRow;n.click();return {connected:n.isConnected,owner:n.dataset.hdDeepOwner};})()'));
+        report.staleChecks.push({...staleAfter,method:'Retained original DOM row click after native menu generation/sequence retirement; no fabricated owner'});
+    }
+    return {owner:ownerIdentity(picker),personIndex,nativeId:personIndex+1,before,atReport,originalReport,after,newMenu:next.menu,keys:selectionKeys,reportConfirmationKeys:confirmationKeys,reportBeforeAddOrder:true};
 }
-async function returnToMap(cdp){
+async function returnToMap(cdp,label='08-real-map-after-user-back'){
     const before=await readWorld(cdp,'return-before'),steps=[];for(let i=0;i<4;i++){
         const s=await evaluate(cdp,snapshotExpression);if(!s.menu.active)break;assert.equal(s.menu.context,1);assert.ok(s.city.open&&!s.city.sending&&!s.city.queueLen&&!s.report.active&&!s.qty.active);
         const fresh=await evaluate(cdp,'baye.hd.menuItems()');assert.deepEqual(fresh,s.menu);const keyStart=s.keyCount;await click(cdp,'#hd-city-menu [data-hd-menu-back]');
@@ -282,14 +330,152 @@ async function returnToMap(cdp){
         if(next.menu.active){assert.equal(next.menu.context,1);assert.ok([1,2].includes(next.menu.kind),'Native return goes through real city submenu/root');}
     }
     const map=await waitFor(cdp,'real map and old city pane automatically retired','(() => {const s=BayeHdCityMenu.debugSnapshot(),m=baye.hd.menuItems(),q=baye.hd.qty(),r=baye.hd.report(),p=baye.hd.march(),map=BayeHdOverworld.debugSnapshot();return !s.open&&!s.sending&&!s.queueLen&&!m.active&&!q.active&&!r.active&&p.pick===1&&p.phase===0&&p.battlePick===0&&map.phase==="map"&&{city:s,menu:m,march:p,map};})()');
-    const after=await readWorld(cdp,'return-after');assertWorldSame(before,after,'User Back retirement');const quietStart=after.keys;await delay(600);assert.equal((await readKeys(cdp,quietStart)).length,0,'ACK/local pane retirement does not issue a second EXIT');report.returnToMap={before,after,steps,map};await checkpoint(cdp,'08-real-map-after-user-back');
+    const after=await readWorld(cdp,'return-after');assertWorldSame(before,after,'User Back retirement');const quietStart=after.keys;await delay(600);assert.equal((await readKeys(cdp,quietStart)).length,0,'ACK/local pane retirement does not issue a second EXIT');report.returnToMap={before,after,steps,map};await checkpoint(cdp,label);
 }
+
+async function settleSearchMonth(cdp,label,orders){
+    const before=await readWorld(cdp,label+'-before-end');
+    await key(cdp,'Escape');
+    await waitFor(cdp,'actual strategy-end menu',`(() => {
+        const m=baye.hd.menuItems(),s=BayeHdSystemUi.debugSnapshot();
+        return m.active===1&&m.context===2&&m.kind===1&&m.names[0]==='策略结束'&&s.open&&s.screen==='insystem'&&!s.pending;
+    })()`);
+    assert.deepEqual((await readKeys(cdp,before.keys)).map(k=>k.code),[40]);
+    assertWorldSame(before,await readWorld(cdp,label+'-before-strategy-end'),'Opening the strategy menu');
+    const start=(await readKeys(cdp)).length;
+    await click(cdp,'#hd-system-ui [data-hd-sys="0"]',0);
+    await waitFor(cdp,'actual end-month key','window.__searchEngineKeys.length>'+start);
+    assert.deepEqual((await readKeys(cdp,start)).map(k=>k.code),[39]);
+
+    const joinedLines=[134,135,136,137].map(id=>nativeText(64,id-1));
+    const freeLines=[138,139,140,141].map(id=>nativeText(64,id-1));
+    const foundPrefix=nativeText(64,98),discoveries=[],speeches=[];
+    for(let step=0;step<64;step++){
+        const next=await waitFor(cdp,'native month report or map',`(() => {
+            const r=${readyReport},m=baye.hd.menuItems(),p=baye.hd.march();
+            if(baye.hd.fight().active||m.active&&m.context===5)return {unexpectedCampaign:m};
+            if(r)return {speech:r};
+            return !m.active&&!baye.hd.report().active&&p.pick===1&&!p.battlePick&&BayeHdOverworld.debugSnapshot().phase==='map'&&{map:true};
+        })()`,60000);
+        assert.ok(!next.unexpectedCampaign,'A campaign interruption occurred during the Search-only strategy test');
+        if(next.map){
+            const settled=await readWorld(cdp,label+'-settled');
+            const serial=date=>12*date.year+date.month;
+            assert.equal(serial(settled.date),serial(before.date)+1);
+            for(const {personIndex} of orders){
+                assert.ok(settled.queue.includes(personIndex),'The original searcher has returned');
+                assert.ok(!settled.orders.some(o=>o.OrderId===3&&o.City===originCity&&o.Person===personIndex),'The original search order has retired');
+            }
+            await checkpoint(cdp,label+'-settled');
+            return {before,settled,speeches,discoveries};
+        }
+        const speech=next.speech,{native}=speech,id=native.person;
+        const joined=joinedLines.includes(native.text),free=freeLines.includes(native.text);
+        if(native.kind===2&&(joined||free)){
+            assert.ok(!speech.portrait||speech.portrait.id===id&&speech.portrait.context==='person-info',
+                'The newly visible report never shows a previous portrait');
+            const name=nativeText(70,id),owner=joined?'刘表':'在野',kind=joined?'owned':'free';
+            const previous=speeches.at(-1),actorId=previous?.native.person;
+            assert.equal(previous?.native.text,foundPrefix+name,'The selected person speaks directly after the original discovery announcement');
+            assert.ok(orders.some(o=>o.personIndex===actorId),'The discovery announcement belongs to a real dispatched searcher');
+            const atReport=await readWorld(cdp,label+'-discovery-'+id),person=atReport.persons[id];
+            assert.ok(atReport.queue.includes(id));
+            assert.equal(before.persons[id].Belong,0,'The person was genuinely free before the month');
+            assert.equal(person.Belong,joined?13:0);
+            if(joined)assert.ok(person.Devotion>=70&&person.Devotion<=99);
+            assert.ok(atReport.orders.some(o=>o.OrderId===3&&o.City===originCity&&o.Person===actorId));
+            const visible=await waitFor(cdp,'current discovery identity visibly rendered',`(() => {
+                const a=${readyReport};
+                if(!a||a.native.seq!==${native.seq}||a.native.inputSeq!==${native.inputSeq}||!a.identity)return false;
+                const title=document.getElementById('hd-dialog-title'),n=document.getElementById('hd-dialog-person-identity');
+                const b=n.getBoundingClientRect();
+                return b.width>0&&b.height>0&&b.left>=0&&b.right<=innerWidth&&b.top>=0&&b.bottom<=innerHeight&&{...a,title:title.textContent};
+            })()`);
+            assert.deepEqual(visible.native,native);
+            assert.equal(visible.title,name);
+            assert.equal(visible.ui.body,native.text);
+            assert.deepEqual(visible.identity,{id,kind,text:'当前归属 · '+owner});
+            await targetPoint(cdp,'#hd-dialog-person-identity');
+            const expected=portraitAsset(id);
+            const portrait=await waitFor(cdp,'decoded portrait of the current report speaker',`(() => {
+                const r=baye.hd.report(),p=document.getElementById('hd-portrait'),img=document.getElementById('hd-portrait-img');
+                if(!r.active||r.seq!==${native.seq}||r.inputSeq!==${native.inputSeq}||!p||p.hidden||
+                    p.dataset.personId!==${JSON.stringify(String(id))}||p.dataset.period!==${JSON.stringify(String(period))}||
+                    p.dataset.context!=='person-info'||!img?.complete||!img.naturalWidth||!img.naturalHeight)return false;
+                const bounds=img.getBoundingClientRect();
+                return bounds.width>0&&bounds.height>0&&bounds.left>=0&&bounds.right<=innerWidth&&bounds.top>=0&&bounds.bottom<=innerHeight&&
+                    {url:decodeURIComponent(new URL(img.currentSrc,location.href).pathname.slice(1)),mode:p.dataset.hdPortrait};
+            })()`);
+            assert.deepEqual(portrait,expected);
+            const screenshot=label+'-'+kind+'-'+native.seq;
+            await checkpoint(cdp,screenshot);
+            discoveries.push({id,name,actorId,kind,atReport,visible,portrait,screenshot:screenshot+'.png'});
+        }
+        const keys=await acknowledgeReport(cdp,speech);
+        speeches.push({native,keys});
+    }
+    throw Error('Native search month did not return to the map within the report bound');
+}
+
+async function verifyDiscovery(cdp){
+    const progress=report.discovery={accepted:false,months:[],free:null,joined:null};
+    await stableZeroInput(cdp,'enable HD strategy menu',()=>evaluate(cdp,`BayeHdSystemUi.setMode('hd')`));
+    let picker=await currentPersonPicker(cdp);
+    for(let month=1;month<=12;month++){
+        const label='discovery-month-'+month;
+        const world=await readWorld(cdp,label+'-start'),orders=[];
+        assert.ok(world.queue.some(id=>world.persons[id].Belong===0),
+            'No free residents remain in this campaign before both discovery outcomes were observed');
+        const residents=picker.ids.map(id=>world.persons[id]).filter(p=>p.Thew>=report.nativeContract.thew);
+        const selected=residents.sort((a,b)=>progress.free?b.IQ-a.IQ:Math.abs(a.IQ-55)-Math.abs(b.IQ-55))
+            .slice(0,Math.min(7,picker.ids.length-1));
+        assert.ok(selected.length,'At least one genuine searcher can be sent');
+        for(const {id} of selected)orders.push(await commitSearch(cdp,id));
+        await returnToMap(cdp,label+'-orders-queued');
+        const result=await settleSearchMonth(cdp,label,orders);
+        progress.months.push({orders,...result});
+        picker=await enterSearch(cdp);
+        for(const discovery of result.discoveries){
+            const {id,kind}=discovery,person=result.settled.persons[id];
+            if(kind==='free'&&person.Belong===0){
+                assert.ok(!picker.ids.includes(id),'A person still in the wild is excluded from the actual allied picker');
+                progress.free??={id,name:discovery.name,month,menu:picker.menu};
+            }else if(kind==='owned'&&person.Belong===13){
+                assert.ok(picker.ids.includes(id),'The newly recruited person enters the actual allied picker');
+                if(!progress.joined){
+                    const index=picker.ids.indexOf(id),focused=await highlight(cdp,index),seq=focused.menu.seq;
+                    const details=await waitFor(cdp,'current HD details of the discovered general',`(() => {
+                        const p=baye.hd.personProperties(),s=BayeHdCityMenu.debugSnapshot().personDetail;
+                        return p.active===1&&p.person===${id}&&p.menuSeq===${seq}&&p.pageComplete===1&&s?.personIndex===${id}&&s.seq===${seq}&&{native:p,detail:s};
+                    })()`);
+                    assert.equal(details.detail.name,discovery.name);
+                    assert.equal(details.detail.ownership.label,'刘表');
+                    assert.equal(details.native.properties[0].value,'刘表');
+                    await checkpoint(cdp,'discovery-new-allied-roster');
+                    progress.joined={id,name:discovery.name,month,menu:focused.menu,details};
+                }
+            }
+        }
+        if(progress.free&&progress.joined){
+            await returnToMap(cdp,'discovery-returned-to-map');
+            progress.accepted=true;
+            return;
+        }
+    }
+    throw Error('Original Search did not show both an unjoined officer and a recruited officer within the campaign bound');
+}
+
 async function smoke(cdp){
     report.firstPicker=await boot(cdp);
-    for(const size of viewports)await inspectViewport(cdp,size,size.height===1080?'03-search-1080p':'04-search-720p',true);
-    await commitSearch(cdp);
-    for(const size of viewports)await inspectViewport(cdp,size,size.height===1080?'06-filtered-1080p':'07-filtered-720p',false);
-    await returnToMap(cdp);await observeActualLib(cdp,'finished-SEARCH');report.engineInputs=await readKeys(cdp);report.observerErrors=await evaluate(cdp,'window.__searchObserverErrors');assert.deepEqual(report.observerErrors,[]);
+    if(discover){
+        await verifyDiscovery(cdp);
+    }else{
+        for(const size of viewports)await inspectViewport(cdp,size,size.height===1080?'03-search-1080p':'04-search-720p',true);
+        report.searchOrder=await commitSearch(cdp,searchPerson);
+        for(const size of viewports)await inspectViewport(cdp,size,size.height===1080?'06-filtered-1080p':'07-filtered-720p',false);
+        await returnToMap(cdp);
+    }
+    await observeActualLib(cdp,'finished-SEARCH');report.engineInputs=await readKeys(cdp);report.observerErrors=await evaluate(cdp,'window.__searchObserverErrors');assert.deepEqual(report.observerErrors,[]);
     assert.deepEqual(report.exceptions,[]);assert.deepEqual(report.dialogs,[]);
     const knownBlocked=['https://img.bbkgames.com/script/js-sdk.js?ver=20260329','http://hm.baidu.com/hm.js?55cdc246d0c836cecfdf39ce0d5657f3'];
     assert.ok(report.blocked.every(url=>knownBlocked.includes(url)),'Private acceptance only permits the two known, blocked page analytics/SDK requests');report.blockedThirdParty={urls:report.blocked,notGameHttpErrors:true};

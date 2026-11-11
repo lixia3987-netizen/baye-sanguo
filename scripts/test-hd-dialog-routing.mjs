@@ -1001,6 +1001,27 @@ test('person reports show the current speaker ownership without exposing other p
     }
 });
 
+test('the desktop report refreshes portraits when the native owner changes or the dialog closes', () => {
+    const h = personReportFixture(), refreshes = [];
+    const api = h.context.BayeHdDialog;
+    h.context.BayeHdPortraits = {refresh() {
+        const s = h.snapshot();
+        refreshes.push({open:s.open, seq:s.reportOwner?.seq ?? null, caption:h.line.textContent});
+    }};
+    h.observe();
+    assert.deepEqual(refreshes, []);
+    h.report.seq++; h.report.inputSeq++;
+    h.data.g_hdReportSeq = h.report.seq; h.data.g_hdReportInputSeq = h.report.inputSeq;
+    h.data.g_Persons[4].Belong = 1;
+    h.observe(); h.observe();
+    api.close({silent: true});
+    assert.deepEqual(refreshes, [
+        {open:true, seq:51, caption:'当前归属 · 董卓'},
+        {open:false, seq:null, caption:''}
+    ]);
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});
+
 test('person report identity retires for non-person, incomplete and non-original reports', () => {
     const changes = [h => h.report.active = 0, h => h.report.kind = 1,
         h => h.report.person = 65535, h => h.report.person = 200,

@@ -69,18 +69,18 @@ function geometry(selector) {
 }
 
 export async function runCaptiveInspection(c) {
-  const {report, evaluate, until, sample, key, checkpoint, readKeys, libBytes, cdp, mobile} = c;
+  const {report, evaluate, until, sample, key, checkpoint, readKeys, libBytes, cdp, loaded, mobile} = c;
   const lib = Buffer.from(libBytes), rawRom = readOriginalPersonIdentityRom(lib, 1), rom = {...rawRom,names:rawRom.names200};
   const proof = report.actualCaptives, baseline = await sample(), battle = report.battles?.at(-1);
   assert.ok(battle&&battle.expectedOutcome==='victory'&&battle.terminal.fight.over===1&&battle.plan.origin===15&&battle.plan.target===16,'A real completed native campaign precedes this inspection');
   assert.equal(report.battles.length,1);assert.equal(battle.terminal.fight.active,0);
-  const expectedMarchPhase = mobile ? 0 : 7;
+  const expectedMarchPhase = loaded ? 0 : 7;
   assert.equal(baseline.native.march.phase,expectedMarchPhase);
-  if (!mobile) {
+  if (!loaded) {
     assert.equal(baseline.native.march.origin,15);assert.equal(baseline.native.march.obj,16);
     assert.equal(baseline.native.march.selected,battle.march.selected.length);assert.ok(baseline.native.march.session>0&&baseline.native.march.seq>0);
   }
-  assert.deepEqual(baseline.world,mobile ? mobile.loaded.world : proof.sample.world);
+  assert.deepEqual(baseline.world,loaded ? loaded.world : proof.sample.world);
   const identityContext={evaluate,until,readKeys,libBytes,expectedMarchPhase};
   assert.ok(proof && proof.cityIndex === 16 && proof.captives.length > 0);assert.equal(baseline.world.period,1);
   assert.equal(rom.names[baseline.world.king],'董卓');assert.equal(baseline.world.cities[16].Belong,baseline.world.king+1);

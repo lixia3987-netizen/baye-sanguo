@@ -1669,6 +1669,13 @@
         applyEngineReport(info);
     }
 
+    function refreshReportPortrait() {
+        var portraits = global.BayeHdPortraits;
+        try {
+            if (!mobileHost && portraits && typeof portraits.refresh === 'function') { portraits.refresh(); }
+        } catch (e) {}
+    }
+
     function openDialog(meta) {
         meta = meta || {};
         if (yieldToMobileMarch()) { return false; }
@@ -1679,6 +1686,7 @@
             return false;
         }
         var kind = meta.kind || 'report';
+        var wasReport = state.open && state.kind === 'report', beforeEpoch = state.viewEpoch;
         if (kind === 'qty') {
             var quantity = standaloneQty();
             if (quantity && quantity.protocol && quantity.active &&
@@ -1755,6 +1763,7 @@
         }
         state.asyncId = meta.asyncId != null ? meta.asyncId : 0;
         render();
+        if ((wasReport || kind === 'report') && state.viewEpoch !== beforeEpoch) { refreshReportPortrait(); }
         if (kind === 'help' && helpFocusRequest) {
             var focusRequest = helpFocusRequest, stage = el('hd-dialog-stage');
             helpFocusRequest = null;
@@ -1775,6 +1784,7 @@
         // Keep keyboard ownership while the acknowledged report is still the
         // same C wait; repeated keys cannot fall through to the native layer.
         if (opts.marchOwner && sameMarch(state.marchOwner, readMarchReport())) { return false; }
+        var wasReport = state.open && state.kind === 'report';
         invalidateDialogQty();
         state.viewEpoch += 1;
         stopSuccessorRequest();
@@ -1797,6 +1807,7 @@
         applyChrome();
         renderReportIdentity();
         document.documentElement.setAttribute('data-baye-dialog-pass', '0');
+        if (wasReport) { refreshReportPortrait(); }
         if (!opts.silent) {
             console.log('[hd-dialog] close');
         }

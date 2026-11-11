@@ -41,7 +41,7 @@ assert.ok(!captiveOrder||captiveScenario&&!preflightOnly,'Surrender order requir
 assert.ok(!captiveUntilJoined||captiveOrder,'Waiting for a successful surrender requires --captive-order');
 assert.ok(!captiveWidthFlag||captiveScenario&&[1280,1920].includes(captiveWidth),'Captive desktop viewport is 1280 or 1920 pixels wide');
 assert.ok(!captiveMobileFlag||captiveOrder&&[667,844].includes(captiveMobileWidth),'Mobile captive orders require a 667px or 844px landscape viewport');
-assert.ok(!captiveResumeFlag||captiveMobileWidth,'Captive replay uses a mobile viewport');
+assert.ok(!captiveResumeFlag||captiveOrder,'Captive replay requires a live surrender order');
 const winningScenarios=new Set(['victory','campaign','save','restart','captives']);
 const winningFixture={lord:'董卓',origin:15,target:16,leaders:['吕布','张辽','李儒'],recruitments:7};
 const artifactFlag = process.argv.indexOf('--artifact-dir');
@@ -831,39 +831,44 @@ async function saveCaptiveWorld(cdp,before) {
     await archiveEngineInputDocument(cdp,'before-mobile-load');
 }
 
-async function loadCaptiveWorldOnMobile(cdp,origin) {
+async function loadCaptiveWorld(cdp,origin) {
     const save=report.captiveSave;
-    report.mobileViewport={width:captiveMobileWidth,height:captiveMobileWidth===667?375:390};
-    await cdp.send('Emulation.setDeviceMetricsOverride',{...report.mobileViewport,deviceScaleFactor:1,mobile:true});
-    await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
-    await cdp.send('Page.navigate',{url:origin+'/m.html#'+Math.floor(Date.now()/1000)});
-    captiveMobileDocument=true;
+    const mobile=!!captiveMobileWidth, surface=mobile?'mobile':'desktop';
+    const viewport=mobile?{width:captiveMobileWidth,height:captiveMobileWidth===667?375:390}:
+        {width:captiveWidth,height:captiveWidth===1280?720:1080};
+    report[mobile?'mobileViewport':'viewport']=viewport;
+    await cdp.send('Emulation.setDeviceMetricsOverride',{...viewport,deviceScaleFactor:1,mobile});
+    if(mobile)await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
+    const page=mobile?'/m.html':'/pc.html';
+    await cdp.send('Page.navigate',{url:origin+page+(mobile?'#'+Math.floor(Date.now()/1000):'')});
+    captiveMobileDocument=mobile;
     acknowledgedProgressReports.clear();
-    await waitFor(cdp,'fresh mobile WASM and native ready','location.pathname==="/m.html"&&window.baye?.hd?.ready()',60000);
+    await waitFor(cdp,'fresh '+surface+' WASM and native ready',`location.pathname===${JSON.stringify(page)}&&window.baye?.hd?.ready()`,60000);
     await installEngineInputRecorder(cdp);
-    report.mobileInputObserver=await installCaptiveObserver(cdp,'mobile-startup');
+    report[surface+'InputObserver']=await installCaptiveObserver(cdp,surface+'-startup');
     const titleNative='baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1';
     for(let i=0;i<60&&!await evaluate(cdp,titleNative);i++) {
         if(await evaluate(cdp,'baye.hd.movie().active||(baye.hd.spe().active&&baye.hd.spe().kind===1)')) {
-            await action(cdp,'mobile-original-intro-ack','sendKey(39)');
+            if(mobile)await action(cdp,'mobile-original-intro-ack','sendKey(39)');
+            else await key(cdp,'Enter');
         }
         await delay(160);
     }
-    await waitFor(cdp,'actual mobile HD title',`(${titleNative})&&BayeHdMobileSystem.snapshot().active&&BayeHdSystemUi.debugSnapshot().screen==='title'`,60000);
+    await waitFor(cdp,'actual '+surface+' HD title',`(${titleNative})&&${mobile?'BayeHdMobileSystem.snapshot().active&&':''}BayeHdSystemUi.debugSnapshot().screen==='title'`,60000);
     const files=await evaluate(cdp,captiveSaveFiles);
-    assert.deepEqual(captiveFileIdentity(files),save.files,'Mobile loads the two exact files written by the original game');
+    assert.deepEqual(captiveFileIdentity(files),save.files,'The browser loads the two exact files written by the original game');
     await click(cdp,'#hd-system-ui [data-hd-sys="1"]');
-    await waitFor(cdp,'mobile HD load owner and saved row',`(() => {
+    await waitFor(cdp,surface+' HD load owner and saved row',`(() => {
         const r=baye.hd.record(),s=BayeHdSystemUi.debugSnapshot();
         return r.active===1&&r.mode===2&&r.count===4&&s.open&&s.screen==='saveload'&&!s.pending&&s.saves[0]?.canLoad;
     })()`);
-    await checkpoint(cdp,'captive-mobile-load-slots');
+    await checkpoint(cdp,'captive-'+surface+'-load-slots');
     const loadOffset=await evaluate(cdp,'__identityKeys.length');
     await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
-    await waitFor(cdp,'loaded capture on the native mobile HD map',`(() => {
+    await waitFor(cdp,'loaded capture on the native '+surface+' HD map',`(() => {
         const m=baye.hd.march(),map=BayeHdOverworld.debugSnapshot();
-        return !baye.hd.record().active&&m.pick===1&&!m.battlePick&&map.mobile&&map.phase==='map'&&map.hitsEnabled&&
-            document.body.classList.contains('hd-mobile-map-on');
+        return !baye.hd.record().active&&m.pick===1&&!m.battlePick&&map.mobile===${mobile}&&map.phase==='map'&&map.hitsEnabled&&
+            ${mobile?"document.body.classList.contains('hd-mobile-map-on')":'map.presentationReady'};
     })()`,60000);
     const loaded=save.loaded=await evaluate(cdp,'__identitySample()');
     const persisted=world=>({...world,queue:world.queue.slice(0,world.people.length)});
@@ -871,7 +876,7 @@ async function loadCaptiveWorldOnMobile(cdp,origin) {
     assert.deepEqual(await evaluate(cdp,'__identityKeys.slice('+loadOffset+')'),[39]);
     assert.deepEqual(await evaluate(cdp,captiveSaveFiles),files);
     assert.equal(loaded.native.march.phase,0,'The native load starts a fresh map wait');
-    await captureCaptivePhase(cdp,'native-capture-loaded-on-mobile');
+    await captureCaptivePhase(cdp,'native-capture-loaded-on-'+surface);
     return loaded;
 }
 
@@ -898,15 +903,16 @@ async function inspectActualCaptives(cdp,plan){
     if(captiveMobileWidth) {
         const origin=await evaluate(cdp,'location.origin');
         await saveCaptiveWorld(cdp,sample);
-        loaded=await loadCaptiveWorldOnMobile(cdp,origin);
+        loaded=await loadCaptiveWorld(cdp,origin);
     }
     await exerciseCaptiveSelection(cdp,loaded);
 }
 
 async function exerciseCaptiveSelection(cdp,loaded){
     const ctx={evaluate:expression=>evaluate(cdp,expression),until:(label,expression,timeout)=>waitFor(cdp,label,expression,timeout),click:selector=>click(cdp,selector),key:name=>key(cdp,name),checkpoint:label=>captureCaptivePhase(cdp,label),capture:label=>captureCaptivePhase(cdp,label),readKeys:(offset=0)=>evaluate(cdp,'__identityKeys.slice('+Number(offset)+')'),readKeyRecords:(offset=0)=>evaluate(cdp,'__identityCalls.slice('+Number(offset)+')'),sample:()=>evaluate(cdp,'__identitySample()'),report,libBytes:captiveLib,cdp,artifactDir};
-    if(loaded) {
-        ctx.mobile={loaded,touches:(type,points)=>captiveTouch(cdp,type,points),tap:point=>captiveTap(cdp,point)};
+    ctx.loaded=loaded;
+    if(captiveMobileDocument) {
+        ctx.mobile={touches:(type,points)=>captiveTouch(cdp,type,points),tap:point=>captiveTap(cdp,point)};
     }
     if(captiveOrder) {
         ctx.untilJoined=captiveUntilJoined;
@@ -1410,8 +1416,14 @@ async function playNpcDefense(cdp,label) {
         await click(cdp,'#hd-dialog [data-hd-defenders-finish][data-hd-defender-seq="'+owner.menu.seq+'"]'+
             '[data-hd-defenders-owner='+JSON.stringify(owner.token)+']');
     } else entry.finish='auto-exhausted';
-    if(entry.selected.length) {
-        await waitForGameProgress(cdp,'fresh native NPC defense PICK',`(() => {const f=baye.hd.fight();return f.active&&f.over===0&&f.inputKind===1&&baye.data.g_FgtParam.Mode===0&&baye.data.g_MainGenIdx===10;})()`,60000);
+    const opening=await waitForGameProgress(cdp,'fresh native NPC defense PICK or immediate result',`(() => {
+        const f=baye.hd.fight(),d=baye.data;
+        if(f.inputSeq<=${previousFight.inputSeq}||f.cityIndex!==${entry.cityIndex}||d.g_FgtParam.Mode!==0||d.g_MainGenIdx!==10)return false;
+        if(f.active===1&&f.over===0&&f.inputKind===1)return {phase:'pick',fight:f};
+        return !f.active&&[1,2].includes(f.over)&&f.skip===4&&{phase:'instant',fight:f};
+    })()`,60000);
+    if(opening.phase==='pick') {
+        assert.ok(entry.selected.length,'A playable defense requires an actual selected army');
         entry.initial=await evaluate(cdp,battleStateExpression);
         assert.equal(entry.initial.fight.cityIndex,entry.cityIndex);
         assert.ok(entry.initial.fight.inputSeq>previousFight.inputSeq,'NPC defense starts a new native input generation after the prior result');
@@ -1424,8 +1436,11 @@ async function playNpcDefense(cdp,label) {
         await checkpoint(cdp,round+'-battle-ready');
         await conquerBattle(cdp,round,true);
     } else {
-        await waitForGameProgress(cdp,'native empty defending army result','!baye.hd.fight().active&&baye.hd.fight().over===2&&baye.hd.fight().skip===4&&baye.data.g_FgtParam.Mode===0&&baye.data.g_MainGenIdx===10',60000);
-        entry.instantEmptyDefense=true;
+        entry.instantDefense=opening.fight;
+        if(!entry.selected.length){
+            assert.equal(opening.fight.over,2);
+            entry.instantEmptyDefense=true;
+        }
     }
     entry.terminal=await evaluate(cdp,battleStateExpression);entry.outcome=entry.terminal.fight.over;
     assert.ok([1,2].includes(entry.outcome),'NPC defense records only a real native victory or defeat');
@@ -1736,11 +1751,11 @@ async function mainCaptives(){
         await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
         await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:`
             if(location.pathname==='/pc.html') {
-                localStorage.clear();
+                if(${!captiveResumeFlag})localStorage.clear();
                 localStorage.setItem('baye/libpath','libs/dat-mod.lib');
-                localStorage.setItem('baye/overworldMode','classic');
-                localStorage.setItem('baye/systemUiMode','classic');
-                localStorage.setItem('baye/cityMenuMode','classic');
+                localStorage.setItem('baye/overworldMode',${JSON.stringify(captiveResumeFlag?'hd-map':'classic')});
+                localStorage.setItem('baye/systemUiMode',${JSON.stringify(captiveResumeFlag?'hd':'classic')});
+                localStorage.setItem('baye/cityMenuMode',${JSON.stringify(captiveResumeFlag?'hd':'classic')});
             } else if(location.pathname==='/m.html') {
                 localStorage.setItem('baye/libpath','libs/dat-mod.lib');
                 localStorage.setItem('baye/mobileOverworldMode','hd-map');
@@ -1749,7 +1764,7 @@ async function mainCaptives(){
             }
         `});
         if(captiveResumeFlag) {
-            await exerciseCaptiveSelection(cdp,await loadCaptiveWorldOnMobile(cdp,origin));
+            await exerciseCaptiveSelection(cdp,await loadCaptiveWorld(cdp,origin));
         } else {
             report.viewport={width:captiveWidth,height:captiveWidth===1280?720:1080};
             await cdp.send('Emulation.setDeviceMetricsOverride',{...report.viewport,deviceScaleFactor:1,mobile:false});

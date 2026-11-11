@@ -458,21 +458,54 @@ test('person ID 0 remains valid in map, report, person menu and battle help', as
     await f.load();
     assert.equal((await f.api.chooseSource(0, 1)).mode, 'hd');
     f.body.classList.add('baye-hd-overworld-map');
+    let reportActive = 0;
     f.context.baye = {
         data: { g_PIdx: 1, g_PlayerKing: 0, g_hdFightActive: 0, g_hdFightOver: 0,
             g_FoucsX: 3, g_FoucsY: 4, g_FgtParam: { GenArray: [1] }, g_GenPos: [{ x: 3, y: 4 }] },
         getPersonName: () => '董卓',
-        hd: { report: () => ({ kind: 2, person: 0 }) }
+        hd: { report: () => ({ active: reportActive, kind: 2, person: 0, seq: 9, inputSeq: 10, text: '当前报告' }) }
     };
     assert.equal(f.api.detectView().personId, 0);
     personMenu(f, [{ pind: 0, name: '董卓' }]);
     assert.equal(f.api.detectView().personId, 0);
     f.context.BayeHdCityMenu.isOpen = () => false;
-    f.context.BayeHdDialog = { debugSnapshot: () => ({ open: true, kind: 'report' }) };
+    reportActive = 1;
+    f.context.BayeHdDialog = { debugSnapshot: () => ({ open: true, kind: 'report', body: '当前报告',
+        reportOwner: { seq: 9, inputSeq: 10 } }) };
     assert.equal(f.api.detectView().personId, 0);
+    reportActive = 0;
     f.context.baye.data.g_hdFightActive = 1;
     personHelp(f);
     assert.equal(f.api.detectView().personId, 0);
+});
+
+test('desktop report refresh hides the previous speaker immediately and paints only the current native owner', async () => {
+    const f = fixture({ deferImages: true });
+    const native = {active: 1, kind: 2, person: 0, seq: 9, inputSeq: 10, text: '第一份报告'};
+    const dialog = {open: true, kind: 'report', body: native.text, reportOwner: {seq: 9, inputSeq: 10}};
+    f.context.baye = {data: {g_PIdx: 1, g_PlayerKing: 0}, getPersonName: id => id === 0 ? '董卓' : '曹操',
+        hd: {ready: () => true, report: () => ({...native})}};
+    f.context.BayeHdDialog = {debugSnapshot: () => ({...dialog}), shouldShowHd: () => true};
+    await f.start(); f.resolveImages(); await flush();
+    const figure = f.elements['hd-portrait'];
+    assert.equal(figure.hidden, false);
+    assert.equal(figure.getAttribute('data-person-id'), '0');
+
+    Object.assign(native, {person: 1, seq: 11, inputSeq: 12, text: '下一位发言'});
+    assert.equal(f.api.detectView(), null, 'The previous dialog does not authorize the new speaker');
+    Object.assign(dialog, {body: native.text, reportOwner: {seq: 11, inputSeq: 12}});
+    f.api.refresh();
+    assert.equal(figure.hidden, true, 'The previous speaker is hidden before the new image loads');
+    await flush();
+    assert.equal(f.deferred.length, 1);
+    native.active = 0;
+    f.resolveImages(); await flush();
+    assert.equal(figure.hidden, true, 'A late image cannot paint once the native wait ends');
+    native.active = 1;
+    f.api.refresh(); await flush();
+    assert.equal(figure.hidden, false);
+    assert.equal(figure.getAttribute('data-person-id'), '1');
+    f.api.stop();
 });
 
 test('battle help portrait uses the captured native person and name, never the current focus or a name lookup', async () => {

@@ -418,19 +418,19 @@
             ownerKey: JSON.stringify([help.generation, help.seq, help.inputSeq, help.slot, help.person]) };
     }
 
-    function reportPerson() {
-        var dlg = dialogSnap();
-        if (!dlg || !dlg.open || dlg.kind !== 'report') {
-            return null;
-        }
+    function reportPerson(dlg) {
+        var owner = dlg.reportOwner;
+        if (!owner || !dlg.body || !owner.seq || !owner.inputSeq ||
+            typeof BayeHdDialog.shouldShowHd === 'function' && !BayeHdDialog.shouldShowHd()) { return null; }
         var rep = null;
         try {
             rep = global.baye && baye.hd && baye.hd.report ? baye.hd.report() : null;
         } catch (e) {}
-        if (!rep || Number(rep.kind) !== 2 || !validPerson(Number(rep.person))) {
+        if (!rep || rep.active !== 1 || rep.kind !== 2 || !validPerson(rep.person) ||
+            rep.seq !== owner.seq || rep.inputSeq !== owner.inputSeq || rep.text !== dlg.body) {
             return null;
         }
-        return Number(rep.person);
+        return { id: rep.person, ownerKey: JSON.stringify([rep.seq, rep.inputSeq, rep.text]) };
     }
 
     function menuPerson() {
@@ -558,9 +558,11 @@
             return { context: 'battle-note', personId: battlePerson.id, period: period,
                 name: battlePerson.name, helpOwnerKey: battlePerson.ownerKey };
         }
-        var reportId = reportPerson();
-        if (validPerson(reportId)) {
-            return { context: 'person-info', personId: reportId, period: period, name: personName(reportId) };
+        var dialog = dialogSnap();
+        if (dialog && dialog.open && dialog.kind === 'report' && !dialog.pass) {
+            var report = reportPerson(dialog);
+            return report && { context: 'person-info', personId: report.id, period: period,
+                name: personName(report.id), reportOwnerKey: report.ownerKey };
         }
         var menu = menuPerson();
         if (menu && validPerson(menu.id)) {
@@ -631,7 +633,7 @@
 
     function viewKey(view) {
         return view ? [authority().key, view.context, view.personId, view.period, view.name || '',
-            view.menuOwnerKey || '', view.menuSeq, view.menuIndex, view.helpOwnerKey || ''].join('|') : 'off';
+            view.menuOwnerKey || '', view.menuSeq, view.menuIndex, view.helpOwnerKey || '', view.reportOwnerKey || ''].join('|') : 'off';
     }
 
     function applyView(view, verifyDetectedView) {
@@ -736,6 +738,7 @@
     global.BayeHdPortraits = {
         start: start,
         stop: stop,
+        refresh: function () { if (state.started) { tick(); } },
         loadManifest: loadManifest,
         entryFor: entryFor,
         chooseSource: chooseSource,
