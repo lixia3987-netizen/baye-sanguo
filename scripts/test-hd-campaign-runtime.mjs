@@ -6,6 +6,7 @@
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * --scenario arrival queues two armies for the same enemy city and settles both in one month.
  * --mobile-width=667|844 uses mobile HD touch controls for victory, arrival or save.
+ * --period=1|2|3|4 chooses the original period for probe, victory or save.
  * --scenario captives --captive-order exercises one actual surrender order through month-end.
  * --captive-width=1280 selects a 720p desktop viewport for either captive flow.
  * --captive-mobile-width=667|844 saves the captured city, then loads and plays it in m.html.
@@ -33,6 +34,10 @@ const scenarioFlag = process.argv.indexOf('--scenario');
 const scenario = scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
 assert.ok(['victory', 'arrival', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
 const arrivalScenario=scenario==='arrival';
+const periodFlag=process.argv.find(arg=>arg.startsWith('--period='));
+const campaignPeriod=Number(periodFlag?.split('=')[1]??1);
+assert.ok([1,2,3,4].includes(campaignPeriod)&&
+    (campaignPeriod===1||['probe','victory','save'].includes(scenario)),'Select an original period for probe, victory or save');
 const mobileCampaignFlag=process.argv.find(arg=>arg.startsWith('--mobile-width='));
 const mobileCampaignWidth=Number(mobileCampaignFlag?.split('=')[1]??0);
 assert.ok(!mobileCampaignFlag||['victory','arrival','save'].includes(scenario)&&[667,844].includes(mobileCampaignWidth),
@@ -53,14 +58,20 @@ assert.ok(!captiveWidthFlag||captiveScenario&&[1280,1920].includes(captiveWidth)
 assert.ok(!captiveMobileFlag||captiveOrder&&[667,844].includes(captiveMobileWidth),'Mobile captive orders require a 667px or 844px landscape viewport');
 assert.ok(!captiveResumeFlag||captiveOrder,'Captive replay requires a live surrender order');
 const winningScenarios=new Set(['victory','arrival','campaign','save','restart','captives']);
-const winningFixture={lord:'董卓',origin:15,target:16,leaders:['吕布','张辽','李儒'],recruitments:7};
+const winningFixture=[
+    {lord:'董卓',origin:15,target:16,leaders:['吕布','张辽','李儒'],recruitments:7}, // 洛阳 → 许昌
+    {lord:'刘备',origin:13,target:7,leaders:['关羽','张飞'],recruitments:3}, // 徐州 → 北海
+    {lord:'曹操',origin:26,target:32,leaders:['许褚','张辽'],recruitments:2}, // 襄阳 → 武陵
+    {lord:'刘禅',origin:14,target:8,leaders:['赵云','马超'],recruitments:3}, // 汉中 → 天水
+][campaignPeriod-1];
+const startingLord=campaignPeriod===1&&!winningScenarios.has(scenario)?'马腾':winningFixture.lord;
 const artifactFlag = process.argv.indexOf('--artifact-dir');
 const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/campaign-runtime-smoke'));
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.lib': 'application/octet-stream' };
-const report = { scenario, staged, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
+const report = { scenario, period:campaignPeriod, staged, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
 if(captiveScenario)Object.assign(report,{accepted:false,identityAccepted:false,hdAccepted:false,captiveAccepted:false,personCaptivesAccepted:false,preflightOnly});
 if(captiveOrder)report.captiveOrderAccepted=false;
 const acknowledgedProgressReports=new Set();
@@ -474,7 +485,7 @@ async function installCaptiveObserver(cdp,stage) {
 }
 
 async function smoke(cdp) {
-    await waitFor(cdp, 'real LIB/WASM initialization', 'window.baye && baye.hd && baye.hd.ready()', 60000);
+    report.library=await waitForOriginalLibrary(cdp);
     await installEngineInputRecorder(cdp);
     if(captiveScenario)report.inputObserver=await installCaptiveObserver(cdp,'startup');
     const bindings = await evaluate(cdp, `({ ready: baye.data.g_hdEngineReady, control: baye.data.g_hdFightMenuControl,
@@ -512,12 +523,21 @@ async function smoke(cdp) {
     await key(cdp, 'Enter');
     await waitFor(cdp, 'classic animated period selection', `window.__runtimeSpeSeen.includes(104)`);
     await checkpoint(cdp, '03-period');
+    const era=await waitFor(cdp,'current native period chooser',`(() => {
+        const m=baye.hd.menuItems();return m.active===1&&m.context===4&&m.kind===2&&m.count===4&&m;
+    })()`);
+    const periodIndex=campaignPeriod-1,forward=periodIndex>era.index;
+    for(let index=era.index;index!==periodIndex;) {
+        index+=forward?1:-1;
+        await key(cdp,forward?'ArrowDown':'ArrowUp');
+        await waitFor(cdp,'original period highlight ACK',`(() => {const m=baye.hd.menuItems();return m.seq===${era.seq}&&m.index===${index};})()`);
+    }
     await key(cdp, 'Enter');
-    await waitFor(cdp, 'lord selection', `baye.data.g_PIdx === 1 && baye.hd.kings().count > 0`);
+    await waitFor(cdp, 'lord selection', `baye.data.g_PIdx === ${campaignPeriod} && baye.hd.kings().count > 0`);
     await checkpoint(cdp, '04-lord');
     const lord = await evaluate(cdp, `(() => {
         const menu = baye.hd.kings();
-        let target = menu.kings.findIndex((person) => person.name === ${JSON.stringify(winningScenarios.has(scenario)?winningFixture.lord:'马腾')});
+        let target = menu.kings.findIndex((person) => person.name === ${JSON.stringify(startingLord)});
         if (${JSON.stringify(scenario)}==='empty') {
             const d=baye.data;
             const candidate=menu.kings.findIndex(king=>Array.from({length:baye.hdCityLimit()},(_,i)=>i).some(i=>
@@ -534,6 +554,7 @@ async function smoke(cdp) {
     report.selectedLord = lord.kings[lord.target];
     await key(cdp, 'Enter');
     await waitFor(cdp, 'real strategy map', `baye.hd.march().pick && baye.hd.realm().ownedCount > 0`);
+    assert.deepEqual(await evaluate(cdp,'[baye.data.g_PIdx,baye.data.g_PlayerKing]'),[campaignPeriod,report.selectedLord.id]);
     if(captiveScenario)report.initialOriginalWorld=await evaluate(cdp,'__identitySample()');
     await checkpoint(cdp, '05-classic-map');
 
@@ -543,12 +564,16 @@ async function smoke(cdp) {
 const mobileMapReady=`(() => {const h=BayeHdMobileMap.snapshot(),m=baye.hd.march();
     return h.active&&h.ownerType==='map'&&m.pick===1&&!m.battlePick&&!baye.hd.menuItems().active;})()`;
 
-async function observeMobileCampaignDocument(cdp) {
-    const library=await waitFor(cdp,'original mobile engine and authenticated LIB',`(() => {
+function waitForOriginalLibrary(cdp) {
+    return waitFor(cdp,'original engine and authenticated LIB',`(() => {
         const api=window.BayeHdLibIdentity,lib=api&&api.read();
         return !window.__runtimeEngineInputRecorder&&window.baye?.hd?.ready()&&lib?.status==='ready'&&api.isCurrent(lib)&&lib.byteLength===207195&&
             lib.sha256==='3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'&&lib;
     })()`,60000);
+}
+
+async function observeMobileCampaignDocument(cdp) {
+    const library=await waitForOriginalLibrary(cdp);
     const recorder=await installEngineInputRecorder(cdp);
     await evaluate(cdp,`(() => {
         window.__campaignLcdTouches=[];
@@ -573,16 +598,16 @@ async function smokeMobileCampaign(cdp) {
     await checkpoint(cdp,'01-mobile-title');
     await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
     await waitMobileCampaignSystem(cdp,'period');
-    await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
+    await click(cdp,`#hd-system-ui [data-hd-sys="${campaignPeriod-1}"]`);
     await waitMobileCampaignSystem(cdp,'king');
     const kings=await evaluate(cdp,'baye.hd.kings()');
-    const index=kings.kings.findIndex(person=>person.name===winningFixture.lord);
-    assert.ok(index>=0,'The original first period offers the prepared ruler');
+    const index=kings.kings.findIndex(person=>person.name===startingLord);
+    assert.ok(index>=0,'The selected original period offers the prepared ruler');
     report.selectedLord=kings.kings[index];
     await checkpoint(cdp,'04-mobile-lords');
     await click(cdp,`#hd-system-ui [data-hd-sys="${index}"]`);
     await waitFor(cdp,'new original mobile strategy map',mobileMapReady,60000);
-    assert.deepEqual(await evaluate(cdp,'[baye.data.g_PIdx,baye.data.g_PlayerKing]'),[1,report.selectedLord.id]);
+    assert.deepEqual(await evaluate(cdp,'[baye.data.g_PIdx,baye.data.g_PlayerKing]'),[campaignPeriod,report.selectedLord.id]);
     await campaignSmoke(cdp);
     report.mobileLcdTouches=(report.mobileLcdTouches||[]).concat(await evaluate(cdp,'__campaignLcdTouches'));
     assert.deepEqual(report.mobileLcdTouches,[],'The whole mobile campaign uses the HD touch surfaces');
@@ -1905,8 +1930,9 @@ async function saveRefreshLoad(cdp) {
         assert.notEqual(saveLoad.reloaded.documentId,report.engineInputDocuments[0].documentId);
         await waitMobileCampaignSystem(cdp,'title');
     } else {
-        await waitFor(cdp,'fresh WASM initializes after refresh','!window.__runtimeEngineInputRecorder&&window.baye?.hd?.ready()',60000);
-        await installEngineInputRecorder(cdp);
+        const library=await waitForOriginalLibrary(cdp),recorder=await installEngineInputRecorder(cdp);
+        saveLoad.reloaded={library,documentId:recorder.documentId};
+        assert.notEqual(saveLoad.reloaded.documentId,report.engineInputDocuments[0].documentId);
         await evaluate(cdp,`BayeHdSystemUi.setMode('hd')`);
         for(let i=0;i<20;i++) {
             if(await evaluate(cdp,'baye.hd.menuItems().active&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1'))break;
@@ -1946,7 +1972,7 @@ async function saveRefreshLoad(cdp) {
     if(mobileCampaignInput)await recordBattleResultNote(cdp,'load-next-retreat',{outcome:2,kind:'attack',cityIndex:plan.target});
     await settleToMap(cdp,'load-next-retreat');
     const settled=await evaluate(cdp,worldExpression);
-    assert.equal(settled.cities.find(city=>city.i===captured).Belong,before.realm.playerBelong,'The captured city remains owned after the next campaign');
+    assert.equal(settled.cities.find(city=>city.i===captured).Belong,settled.realm.playerBelong,'The captured city remains in the player realm after the next campaign, including after native succession');
     assert.equal(settled.fighterIndex[march.order.slot],0,'The next campaign clears its fighter slot after retreat');
     assert.deepEqual(await campaignSavePair(cdp,slot),pair,'Playing after load preserves the explicit saved slot');
     saveLoad.next={plan,march,settled};
