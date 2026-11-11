@@ -11,7 +11,23 @@ const source = readFileSync(new URL('../js/hd-spe.js', import.meta.url), 'utf8')
 const identitySource = readFileSync(new URL('../js/hd-lib-identity.js', import.meta.url), 'utf8');
 const bytes = Buffer.from('01020304', 'hex');
 const sha256 = createHash('sha256').update(bytes).digest('hex');
-const settle = () => new Promise(resolve => setImmediate(resolve));
+
+async function startAid(harness) {
+    harness.api.start();
+    const identity = harness.context.BayeHdLibIdentity;
+    let verified = identity.read();
+    if (verified.status === 'pending') {
+        verified = await new Promise(resolve => {
+            const unsubscribe = identity.subscribe(result => {
+                if (result.status === 'pending') return;
+                unsubscribe();
+                resolve(result);
+            });
+        });
+    }
+    assert.equal(verified.status, 'ready');
+    assert.equal(harness.images.length, 2);
+}
 
 // Browser Image decodes pixels in production. This independent PNG reader lets
 // the asset test check actual alpha after PNG filtering, rather than IHDR alone.
@@ -250,8 +266,7 @@ function aidNumeric(skillId=17,value=800){const f=aidFixture(skillId,7),label={c
  return {...f,result,top:{active:true,valid:true,kind:2,generation:9,session:2}};}
 async function aidLoaded(o={}){const f=o.numeric?aidNumeric(o.skillId||17,o.value??800):aidFixture(o.skillId||17,o.current||0,o.shown??o.current??0),
  h=harness({data:{g_scale:1},spe:o.numeric?{active:0,generation:9}:f.s,...(o.numeric?{skillResult:f.result,resultOwner:f.top}:{}),...o.harness});
- h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
- for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+ h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);await startAid(h);
  function resolve(i){const image=h.images[i],p=f.entry.pictures.find(p=>p.src===image.url);image.naturalWidth=p.width;image.naturalHeight=p.height;image.onload();}
  if(!o.pending)h.images.forEach((_,i)=>resolve(i));return {...h,fixture:f,resolve};}
 function fullLcd(h){assert.deepEqual({...h.api.debugSnapshot().sourceRect},{x:0,y:0,width:160,height:96});}
@@ -328,8 +343,7 @@ const jointSummary=[];
 async function consume(actual){const m=JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json',import.meta.url),'utf8')),
  entry=m.entries.find(e=>e.speId===41),lib=readFileSync(new URL('../libs/dat-mod.lib',import.meta.url)),h=harness({data:{g_scale:1},spe:actual.publicSpe,
  skillResult:actual.publicSkillResult,resultOwner:actual.publicResultOwner});
- h.context.dynLib=lib.toString('hex');h.api.setManifest({...m,entries:[entry]});h.api.start();
- for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+ h.context.dynLib=lib.toString('hex');h.api.setManifest({...m,entries:[entry]});await startAid(h);
  for(const image of h.images){const p=entry.pictures.find(p=>p.src===image.url);image.naturalWidth=p.width;image.naturalHeight=p.height;image.onload();}
  h.flush();return h;}
 for(const scenario of aidRawScenarios())test('production public getter -> renderer: '+scenario.name,async()=>{
