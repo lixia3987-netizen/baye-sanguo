@@ -120,11 +120,15 @@
             var doc = environment.document;
             if (!doc || typeof doc.getElementById !== 'function') { return; }
             var hud = doc.getElementById('hd-mobile-hud'), status = doc.getElementById('hd-mobile-status');
-            if (status) { status.textContent = '原版游戏'; status.hidden = value.visible; }
-            if (hud) { hud.hidden = !value.visible; }
+            if (status) {
+                if (status.textContent !== '原版游戏') { status.textContent = '原版游戏'; }
+                if (status.hidden !== value.visible) { status.hidden = value.visible; }
+            }
+            if (hud && hud.hidden === value.visible) { hud.hidden = !value.visible; }
             FIELDS.forEach(function (field) {
                 var node = doc.getElementById('hd-mobile-' + field);
-                if (node) { node.textContent = value.visible ? value[field] : ''; }
+                var text = value.visible ? value[field] : '';
+                if (node && node.textContent !== text) { node.textContent = text; }
             });
         }
         function subscribeIdentity() {

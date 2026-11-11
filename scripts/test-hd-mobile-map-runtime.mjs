@@ -269,6 +269,17 @@ export async function main(args=process.argv.slice(2)) {
     for(const [width,height] of [[844,390],[667,375]]){
       const label=width+'x'+height,beforeResize=await mark();await metrics(width,height);await until('HD map '+label,mapReadySource);
       await presentationUnchanged(beforeResize,'Idle resize '+label);const map=await checkpoint('map-'+label);assertHd(map);
+      const idleHud=await evaluate(`(() => {
+        const hud=document.getElementById('hd-mobile-hud'),status=document.getElementById('hd-mobile-status');
+        const records=[],observer=new MutationObserver(batch=>records.push(...batch));
+        const options={subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['hidden']};
+        observer.observe(hud,options);observer.observe(status,options);
+        for(let i=0;i<4;i++)BayeHdMobile.refresh();
+        records.push(...observer.takeRecords());observer.disconnect();
+        return {visible:!hud.hidden,writes:records.length};
+      })()`);
+      report.idleHudChecks??=[];report.idleHudChecks.push({viewport:label,...idleHud});
+      assert.deepEqual(idleHud,{visible:true,writes:0},'Stable city HUD does not rewrite its DOM');
       const currentCity=all.find(c=>c.index===map.mapCity),anotherOwned=owned.find(c=>c.index!==map.mapCity);
       assert.ok(currentCity&&currentCity.kind==='owned'&&anotherOwned,'Actual current and another owned city at this viewport');
       await visit(currentCity,label+'-current-city',true);await visit(anotherOwned,label+'-other-owned-city',false);
