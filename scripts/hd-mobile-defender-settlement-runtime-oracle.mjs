@@ -6,7 +6,7 @@ export const mobileDefenderSettlementContract=Object.freeze({
   before:'Synchronous onEngineFight after active=0/over=1|2, before FightResultDeal',
   after:'Synchronous baye-hd-battle-settled after KingOverDeal and grain merge; Order27 is still live',
   randomBranches:'Observed captive or escape destination, independently constrained and reconstructed; RNG draw/continuity not verified',
-  unsupported:['Actual loser death/equipment drop','King extinction without a successor','Post-settlement PolicyExec/month world'],
+  unsupported:['Actual loser death/equipment drop','King extinction while still owning cities','Post-settlement PolicyExec/month world'],
   sources:['vendor/iBaye/src/citycmdd.c:247-501,517-792,808-873','vendor/iBaye/src/cityedit.c:59-145','vendor/iBaye/src/Fight.c:79-119']
 });
 const PERSON=['Belong','OldBelong','Level','Experience','IQ','Force','Age','Devotion','Character','Thew','Arms','ArmsType','Tool1','Tool2'];
@@ -84,19 +84,45 @@ function build(before,after,reference,successions,reports){
     }
   }
   const c=w.cities[city];for(const k of ['Farming','Commerce','Money'])c[k]-=Math.floor(c[k]/20);c.PeopleDevotion-=Math.floor(c.PeopleDevotion/10);
-  let succession=null;
+  let succession=null,extinction=null;
   if(capturedKing!==null){
-    const ids=candidates(w,capturedKing);assert.ok(ids.length>0,'King extinction without a successor is unsupported');
-    const evs=successions.filter(e=>e.receipt.oldKing===capturedKing);assert.equal(evs.length,1,'One current matching native successor commitment required');const ev=evs[0],r=ev.receipt,newKing=uint(r.newKing,199,'New king');
-    assert.ok(ids.includes(newKing),'New king is a genuine ordered GetKingPersons candidate');
-    if(capturedKing===w.king)w.king=newKing;else{let highest=ids[0];for(const id of ids.slice(1))if(w.people[highest].IQ<w.people[id].IQ)highest=id;assert.equal(newKing,highest,'NPC selects first maximum-IQ candidate');}
-    assert.equal(r.playerKing,w.king);assert.equal(r.generation,before.native.detailGeneration);
-    assert.ok(reports.some(e=>{if(e.native?.report?.active!==1||e.native.report.kind!==1||!(e.native.report.seq>0&&e.native.report.inputSeq>0)||!sameBattle(e.native,b,before.native.detailGeneration))return false;try{exact(e.world,w,'NewKingNote report world');return true;}catch{return false;}}),'Exact current NewKingNote report-stage world required');
-    w.people[newKing].Devotion=100;for(const cc of w.cities)if(cc.Belong===capturedKing+1)cc.Belong=newKing+1;for(const id of ids)w.people[id].Belong=newKing+1;
-    exact(ev.world,w,'Exact synchronous successor-committed world');succession={oldKing:capturedKing,newKing,candidateIds:ids,playerChoice:capturedKing===before.world.king};
+    const ids=candidates(w,capturedKing);
+    if(!ids.length){
+      assert.ok(!w.cities.some(c=>c.Belong===capturedKing+1),'King extinction while still owning cities is unsupported');
+      assert.equal(successions.length,0,'An extinct faction has no successor commitment');
+      assert.ok(reports.some(e=>{
+        const r=e.native.report;
+        if(r?.active!==1||r.kind!==1||!(r.seq>0&&r.inputSeq>0)||typeof r.text!=='string'||!r.text.endsWith(' 势力灭亡'))return false;
+        try{exact(e.world,w,'Native last-city extinction report world');return true;}catch{return false;}
+      }),'Actual last-city extinction report required');
+      extinction={king:capturedKing,player:capturedKing===before.world.king};
+    }else{
+      const evs=successions.filter(e=>e.receipt.oldKing===capturedKing);
+      assert.equal(evs.length,1,'One current matching native successor commitment required');
+      const ev=evs[0],r=ev.receipt,newKing=uint(r.newKing,199,'New king');
+      assert.ok(ids.includes(newKing),'New king is a genuine ordered GetKingPersons candidate');
+      if(capturedKing===w.king)w.king=newKing;
+      else{
+        let highest=ids[0];
+        for(const id of ids.slice(1))if(w.people[highest].IQ<w.people[id].IQ)highest=id;
+        assert.equal(newKing,highest,'NPC selects first maximum-IQ candidate');
+      }
+      assert.equal(r.playerKing,w.king);assert.equal(r.generation,before.native.detailGeneration);
+      assert.ok(reports.some(e=>{
+        const r=e.native.report;
+        if(r?.active!==1||r.kind!==1||!(r.seq>0&&r.inputSeq>0))return false;
+        try{exact(e.world,w,'NewKingNote report world');return true;}catch{return false;}
+      }),'Exact current NewKingNote report-stage world required');
+      w.people[newKing].Devotion=100;
+      for(const cc of w.cities)if(cc.Belong===capturedKing+1)cc.Belong=newKing+1;
+      for(const id of ids)w.people[id].Belong=newKing+1;
+      exact(ev.world,w,'Exact synchronous successor-committed world');
+      succession={oldKing:capturedKing,newKing,candidateIds:ids,playerChoice:capturedKing===before.world.king};
+    }
   }else assert.equal(successions.length,0,'No unrelated successor event in this settlement');
   c.Food=w.config.fixOverFlow16?Math.min(65535,b.playerFood+b.enemyFood):(b.playerFood+b.enemyFood)&65535;
-  exact(after.world,w,'Complete defense settlement world');return {winnerIds:win.filter(Boolean).map(t=>t-1),loserBranches:branches,succession};
+  exact(after.world,w,'Complete defense settlement world');
+  return {winnerIds:win.filter(Boolean).map(t=>t-1),loserBranches:branches,succession,extinction};
 }
 /** events: actual callback samples {successions:[{receipt,world,native}],reports:[{world,native}]}.
  * A successor needs both its NewKingNote and synchronous commitment worlds. The
@@ -120,4 +146,29 @@ export function verifyMobileDefenderSettlement({before,after,receipt,events={}}=
   return {accepted:true,stage:'synchronous-defense-settlement',cityIndex:b.cityIndex,over:b.over,...order,...details,food:{player:b.playerFood,enemy:b.enemyFood,merged:after.world.cities[b.cityIndex].Food},completeMeasuredWorldAccepted:true,
     randomOutcomeObserved:true,rngAccepted:false,trustedInputAccepted:false,terminalMapAccepted:false,orderRetirementAccepted:false,fullHdAccepted:false,
     limits:mobileDefenderSettlementContract.unsupported.slice()};
+}
+
+export function verifyMobileDefenderCampaignEnd({loss,title,monthStart}={}){
+  const world=loss?.world,report=loss?.native?.report,menu=title?.menu,owner=title?.system?.input;
+  shape(world);
+  assert.ok(report?.active===1&&report.kind===1&&report.text==='我军全军覆没'&&report.seq>0&&report.inputSeq>0,
+    'Original active campaign defeat report required');
+  assert.equal(loss.native.fight.active,0);
+  assert.ok(!world.cities.some(city=>city.Belong===world.king+1),'Player has lost every city');
+  assert.deepEqual([world.year,world.month],
+    [monthStart.year+(monthStart.month===12?1:0),monthStart.month===12?1:monthStart.month+1],
+    'Original campaign defeat follows the completed strategy month');
+  assert.ok(menu?.active===1&&menu.context===4&&menu.kind===1&&menu.seq>0&&
+    title.system?.screen==='title'&&title.system.open&&title.system.showHd&&!title.system.pending&&
+    title.host?.active&&title.host.owner?.seq===menu.seq&&owner?.seq===menu.seq&&owner.context===4&&owner.kind===1,
+    'The current native title has the authenticated mobile HD owner');
+  assert.equal(title.fight.active,0);
+  assert.equal(title.note.active,false);
+  assert.equal(title.report.active,0);
+  assert.equal(title.report.seq,report.seq);
+  assert.equal(title.report.text,report.text);
+  assert.equal(title.report.inputSeq,report.inputSeq===0xffffffff?1:report.inputSeq+1);
+  assert.equal(title.king,world.king);
+  assert.deepEqual(title.date,[world.year,world.month]);
+  return {accepted:true,king:world.king,year:world.year,month:world.month,reportSeq:report.seq,titleSeq:menu.seq};
 }

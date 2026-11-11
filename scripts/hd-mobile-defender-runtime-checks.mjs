@@ -1,21 +1,26 @@
 // Genuine original monthly defense only. Browser/process ownership belongs to the caller.
 import assert from 'node:assert/strict';
 import {campaignNativeSource,campaignGeometrySource} from './hd-mobile-campaign-runtime-checks.mjs';
-import {verifyMobileDefenderPicker,verifyMobileDefenderSelection,verifyMobileDefenderBattle} from './hd-mobile-defender-runtime-oracle.mjs';
+import {verifyMobileDefenderPicker,verifyMobileDefenderSelection,verifyMobileDefenderBattle,
+  verifyMobileDefenderFinalSelection} from './hd-mobile-defender-runtime-oracle.mjs';
 
 export const defenderNativeSource=`(() => {const n=${campaignNativeSource};return {...n,battle:{...n.battle,mainGenIndex:Number(baye.data.g_MainGenIdx)}};})()`;
 
 export function defenderObserverSource(worldSource) {
   return `(() => {
-    const store=window.__mobileDefender={keys:[],fights:[],reports:[],overflow:false};
+    const store=window.__mobileDefender={keys:[],fights:[],reports:[],watchFight:false,overflow:false};
     const sample=()=>({world:${worldSource},native:${defenderNativeSource},at:performance.now()});
     const add=(list,value,limit)=>{if(list.length>=limit){store.overflow=true;return;}list.push(value);};
     const send=window.sendKey;window.sendKey=function(code){try{const m=baye.hd.menuItems();
       if(m.active===1&&m.context===5&&m.kind===2)add(store.keys,{code,...sample()},100);
     }catch(e){store.error=String(e);}return send.apply(this,arguments);};
     const observeFight=()=>{try{
-      const f=baye.hd.fight(),d=baye.data;if(f.active===1&&f.over===0&&f.inputKind===1&&Number(d.g_FgtParam.Mode)===0&&Number(d.g_MainGenIdx)===10&&
-        !store.fights.some(s=>s.native.detailGeneration===Number(d.g_hdDetailGeneration)&&s.native.battle.cityIndex===Number(d.g_FgtParam.CityIndex)&&s.native.fight.inputSeq===f.inputSeq))add(store.fights,sample(),12);
+      if(!store.watchFight)return;
+      const f=baye.hd.fight(),d=baye.data;
+      if(f.active===1&&f.over===0&&f.inputKind===1&&Number(d.g_FgtParam.Mode)===0&&Number(d.g_MainGenIdx)===10){
+        store.watchFight=false;
+        add(store.fights,sample(),30);
+      }
     }catch(e){store.error=String(e);}};
     const fight=BayeHdBattle.onEngineFight;if(typeof fight!=='function')throw Error('Native fight callback unavailable');
     BayeHdBattle.onEngineFight=function(){try{return fight.apply(this,arguments);}finally{observeFight();}};
@@ -38,7 +43,8 @@ export async function runMobileDefenderChecks(c) {
     if(data!==baye.data||!baye.hd.ready()||identity.status!=='ready'||identity.sha256!=='3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'||identity.byteLength!==207195||!Number.isInteger(identity.generation)||identity.generation<=0||JSON.stringify(identity)!==JSON.stringify(last)||key(before)!==key(native))throw Error('Original defender sample identity/owner changed');
     return {world,state,native};})()`;
   const sample=()=>evaluate(sampleSource),codes=async offset=>(await readKeys(offset)).map(k=>k.code);
-  const capture=async label=>{const s=await sample();report.defenderChecks.push({label,...s});await checkpoint('defender-'+width+'-'+label);return s;};
+  const capture=async (label,ordinal=1)=>{if(ordinal>1)label='battle-'+ordinal+'-'+label;
+    const s=await sample();report.defenderChecks.push({label,...s});await checkpoint('defender-'+width+'-'+label);return s;};
   const readonly=async(before,label)=>{await delay(160);const after=await sample();
     assert.deepEqual(after.world,before.world,label+' complete recorded world');
     for(const field of ['menu','report','battle'])assert.deepEqual(after.native[field],before.native[field],label+' '+field);
@@ -68,6 +74,17 @@ export async function runMobileDefenderChecks(c) {
   const readyPicker=()=>until('Current authenticated mobile defenders',"(() => {const m=baye.hd.menuItems(),t=BayeHdDialog.getInputTicket();return m.active===1&&m.context===5&&m.kind===2&&m.idsValid&&BayeHdMobileCity.snapshot().dialogVisible&&t&&t.ownerType==='defenders';})()");
   const names=()=>evaluate('baye.hd.menuItems().ids.map(id=>baye.getPersonName(id))');
   const selectionKeys=(owner,index)=>[...Array(Math.abs(index-owner.index)).fill(index<owner.index?K.UP:K.DOWN),K.ENTER];
+  const inspectPicker=async ordinal=>{
+    await readyPicker();
+    const before=await capture('02-native-picker',ordinal);
+    const verdict=verifyMobileDefenderPicker({world:before.world,native:before.native,names:await names()});
+    assert.deepEqual(verdict.selectedIds,[],'A new incoming order starts with an empty defender formation');
+    const firstEnemy=before.native.battle.genArray[10],ruler=before.world.people[firstEnemy-1].Belong-1;
+    const name=await evaluate('baye.getPersonName('+ruler+')');
+    const body=await evaluate("document.getElementById('hd-dialog-body').textContent");
+    assert.ok(name&&body.startsWith('来袭势力 · '+name),'The picker displays the current original attacking ruler');
+    return {before,verdict,attacker:{ruler,name}};
+  };
   report.defenderChecks=[];report.defenderMonths=[];report.defenderScrolls=[];report.defenderCandidateGeometry=[];report.defenderNegatives=[];report.defenderSelections=[];
   report.defenderPcPreferencesBefore=await evaluate(preferences);
   await evaluate(defenderObserverSource(worldSource));
@@ -118,8 +135,14 @@ export async function runMobileDefenderChecks(c) {
     assert.deepEqual(to,{width:size[0],height:size[1]});
     report.defenderResize={from,to,menuSeq:before.native.menu.seq};
   }
-  picker=await capture('02-native-picker');
-  const verdict=verifyMobileDefenderPicker({world:picker.world,native:picker.native,names:await names()});report.defenderPicker={before:picker,verdict};
+  report.defenderPicker=await inspectPicker(1);picker=report.defenderPicker.before;
+  if(report.defenderChain){
+    const first=report.defenderPicker.verdict.orderIndex,world=picker.world;
+    const queued=world.orders.flatMap((order,index)=>index>first&&order.OrderId===27&&order.TimeCount===0&&
+      world.cities[order.Object]?.Belong===world.king+1&&world.fighterIndex[order.Person]===1?[{index,...order}]:[]);
+    report.defenderChainQueued=queued;
+    if(!queued.length)throw Error('The native strategy month has no further pending incoming order for a player city');
+  }
   report.defenderFinishControl={initial:await finishControl()};
   const chosenIndex=picker.native.menu.ids.findIndex((id,index)=>index>0&&id!==picker.world.king&&picker.world.people[id].Arms>0);
   assert.ok(chosenIndex>0,'Actual current defender roster has a non-first armed nonking');
@@ -149,15 +172,34 @@ export async function runMobileDefenderChecks(c) {
   const modeBefore=await sample();await button('#hd-mobile-menu-mode');await until('Trusted defender classic mode',"BayeHdCityMenu.getMode()==='classic'&&!BayeHdMobileCity.snapshot().dialogVisible");
   await button('#hd-mobile-menu-mode');await readyPicker();report.defenderModeRoundtrip={before:modeBefore,after:await readonly(modeBefore,'Trusted defender HD-classic roundtrip')};
 
-  async function choose(index){
+  async function choose(index,ordinal=1){
     const before=await sample(),id=before.native.menu.ids[index],selector='#hd-dialog [data-hd-defender-index="'+index+'"]';
-    verifyMobileDefenderPicker({world:before.world,native:before.native,names:await names()});assert.notEqual(id,before.world.king);assert.ok(before.world.people[id].Arms>0);
+    verifyMobileDefenderPicker({world:before.world,native:before.native,names:await names()});
+    if(ordinal===1)assert.notEqual(id,before.world.king);
+    assert.ok(before.world.people[id].Arms>0);
     const offset=before.state.eventCount;await press(selector);
     await until('Actual defender append and fresh native roster',`(() => {const n=${defenderNativeSource};return n.menu.active===1&&n.menu.context===5&&n.menu.kind===2&&n.menu.seq!==${before.native.menu.seq}&&n.battle.genArray.includes(${id+1});})()`);
     await readyPicker();const after=await sample(),keys=await readKeys(before.native.keys);assert.deepEqual(keys.map(k=>k.code),selectionKeys(before.native.menu,index));
     const events=await evaluate('__mobileMapEvents.slice('+offset+')');assert.ok(events.some(e=>e.type==='pointerdown'&&e.trusted===true));
-    report.defenderSelections.push({before,after,chosenIndex:index,chosenId:id,keys,events,verdict:verifyMobileDefenderSelection({before,after,chosenIndex:index})});
+    report.defenderSelections.push({ordinal,before,after,chosenIndex:index,chosenId:id,keys,events,verdict:verifyMobileDefenderSelection({before,after,chosenIndex:index})});
     return after;
+  }
+
+  async function enterBattle(before,ordinal,send,chosenIndex=null){
+    const offset=await evaluate('(__mobileDefender.watchFight=true,__mobileDefender.fights.length)');
+    await send();
+    const initial=await until('Actual fresh mobile defensive PICK',`(() => {
+      const s=__mobileDefender.fights[${offset}],h=BayeHdMobileBattle.debugSnapshot();
+      return s&&h.active&&s.native.battle.cityIndex===${before.native.battle.cityIndex}&&s;
+    })()`,60000);
+    const after=await capture('05-defensive-battle',ordinal),keys=await readKeys(before.native.keys);
+    assert.deepEqual(keys.map(k=>k.code),chosenIndex===null?[K.EXIT]:selectionKeys(before.native.menu,chosenIndex));
+    assert.deepEqual(after.native.battle.genArray,initial.native.battle.genArray);
+    assert.equal(after.native.dialog.open,false,'Old defender dialog is retired');
+    assert.equal(after.native.dialog.defenseRequest,null);
+    const verdict=chosenIndex===null?verifyMobileDefenderBattle({before,after:initial}):
+      verifyMobileDefenderFinalSelection({before,after:initial,chosenIndex});
+    return {before,after,initial,keys,verdict};
   }
   let selected=await choose(chosenIndex);await capture('03-first-selected');
   // Exercise another append when at least one real candidate will remain for explicit finish.
@@ -165,19 +207,38 @@ export async function runMobileDefenderChecks(c) {
   if(selected.native.menu.count>=2&&nextIndex>0){selected=await choose(nextIndex);await capture('04-second-selected');}
   assert.ok(selected.native.battle.genArray.slice(0,10).some(id=>id>0&&id<0xfffe));
   const beforeFinish=await sample();report.defenderFinishControl.selected=await finishControl();
-  await tap(report.defenderFinishControl.selected.geometry);
-  await until('Actual fresh mobile defensive PICK',"(() => {const f=baye.hd.fight();return f.active===1&&f.over===0&&f.inputKind===1&&Number(baye.data.g_FgtParam.Mode)===0&&Number(baye.data.g_MainGenIdx)===10&&BayeHdMobileBattle.debugSnapshot().active;})()",60000);
-  const after=await capture('05-defensive-battle'),keys=await readKeys(beforeFinish.native.keys);assert.deepEqual(keys.map(k=>k.code),[K.EXIT],'One explicit current finish EXIT');
-  await evaluate('clearInterval(__mobileDefender.fightTimer)');const observer=await evaluate('__mobileDefender');assert.equal(observer.overflow,false);assert.equal(observer.error,undefined);
-  const initialBattle=observer.fights.find(s=>s.native.fight.active===1&&s.native.fight.inputKind===1&&s.native.battle.cityIndex===beforeFinish.native.battle.cityIndex);
-  assert.ok(initialBattle,'First observed native defensive PICK, with no battle action injected');
-  report.defenderBattle={before:beforeFinish,after,initial:initialBattle,keys,verdict:verifyMobileDefenderBattle({before:beforeFinish,after:initialBattle})};
-  assert.deepEqual(after.native.battle.genArray,initialBattle.native.battle.genArray);
-  assert.equal(after.native.dialog.open,false,'Old defender dialog is retired');assert.equal(after.native.dialog.defenseRequest,null);
+  report.defenderBattle=await enterBattle(beforeFinish,1,()=>tap(report.defenderFinishControl.selected.geometry));
+  if(!report.defenderCombat)await evaluate('clearInterval(__mobileDefender.fightTimer)');
+  const observer=await evaluate('__mobileDefender');assert.equal(observer.overflow,false);assert.equal(observer.error,undefined);
   report.defenderObserver=observer;report.nativeKeys=await readKeys();report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
   assert.equal(report.nativeTouches.length,0);assert.equal(report.exceptions.length,0);assert.equal(report.defenderNegatives.length,6);
   report.defenderPcPreferencesAfter=await evaluate(preferences);assert.deepEqual(report.defenderPcPreferencesAfter,report.defenderPcPreferencesBefore);
   report.acceptedScope=['Actual original AI Order27 arrival after public monthly processing','Authenticated native defender IDs and trusted non-first armed nonking HD selection with exact resident/GenArray changes','One explicit finish EXIT and real initial defensive PICK/Mode0/mainGenIndex10; six zero-input lifecycle negatives'];
   report.pendingScope=['Defense victory/defeat and full post-battle settlement','Other periods, cities, random month prediction and RNG continuity','Android/iOS devices, full visual frames, performance and complete HD'];
   report.defenderAccepted=true;report.ok=true;report.accepted=true;
+  return async ordinal=>{
+    const current=await inspectPicker(ordinal),{before}=current;
+    const roster=before.native.menu.ids;
+    const candidates=roster.map((id,index)=>({id,index,arms:before.world.people[id].Arms})).filter(person=>person.arms>0);
+    const choice=candidates.find(person=>person.index>0&&person.id!==before.world.king)||
+      candidates.find(person=>person.id!==before.world.king)||candidates[0];
+    assert.ok(choice,'A current armed defender is available for this incoming order');
+    const finish={initial:await finishControl()};
+    let battle;
+    if(roster.length===1){
+      const eventOffset=before.state.eventCount;
+      battle=await enterBattle(before,ordinal,()=>press('#hd-dialog [data-hd-defender-index="0"]'),0);
+      const events=await evaluate('__mobileMapEvents.slice('+eventOffset+')');
+      assert.ok(events.some(e=>e.type==='pointerdown'&&e.trusted===true));
+      report.defenderSelections.push({ordinal,before,after:battle.after,chosenIndex:0,chosenId:choice.id,
+        keys:battle.keys,events,verdict:battle.verdict});
+    }else{
+      await choose(choice.index,ordinal);
+      await capture('03-first-selected',ordinal);
+      const beforeFinish=await sample();
+      finish.selected=await finishControl();
+      battle=await enterBattle(beforeFinish,ordinal,()=>tap(finish.selected.geometry));
+    }
+    return {picker:current,battle,finish};
+  };
 }

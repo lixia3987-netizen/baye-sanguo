@@ -544,6 +544,15 @@
 
     function readSuccessor() { return readCampaignPersons(1); }
 
+    function readDefenseAttacker(data, params) {
+        if (!data || !params || params.Mode !== 0 || !data.g_Persons) { return null; }
+        var token = readNumber(params.GenArray, 10), king = readNumber(data, 'g_PlayerKing');
+        if (!helpInteger(token, 1, 200) || !helpInteger(king, 0, 199)) { return null; }
+        // BattleDrv copies the attacking army here after the original attack notice.
+        var ruler = readNumber(data.g_Persons[token - 1], 'Belong');
+        return helpInteger(ruler, 1, 200) && ruler !== king + 1 ? [token, ruler] : null;
+    }
+
     function readDefenders() {
         if (fightActive()) { return null; }
         var owner = readCampaignPersons(2);
@@ -556,6 +565,14 @@
         owner.selected = [];
         owner.selectedNames = [];
         var arr = params && params.GenArray, selectedRaw = [], seenSelected = {};
+        owner.incoming = mobileHost ? readDefenseAttacker(data, params) : null;
+        owner.attackerName = '';
+        if (owner.incoming) {
+            try {
+                var attacker = baye.getPersonName(owner.incoming[1] - 1);
+                if (typeof attacker === 'string') { owner.attackerName = attacker.trim(); }
+            } catch (e) {}
+        }
         for (var i = 0; arr && i < 10; i += 1) {
             var id = readNumber(arr, i);
             if (mobileHost && !helpInteger(id, 0, 200)) { return null; }
@@ -574,6 +591,7 @@
                 owner.data !== engineData() || !after || owner.data !== after.data || owner.seq !== after.seq ||
                 owner.index !== after.index || owner.signature !== after.signature ||
                 readNumber(engineData().g_FgtParam, 'CityIndex') !== owner.cityIndex ||
+                JSON.stringify(owner.incoming) !== JSON.stringify(readDefenseAttacker(data, data.g_FgtParam)) ||
                 JSON.stringify(selectedRaw) !== JSON.stringify(Array.prototype.slice.call(engineData().g_FgtParam.GenArray, 0, 10))) { return null; }
         }
         return owner;
@@ -584,7 +602,8 @@
             a.seq === b.seq && a.signature === b.signature && a.cityIndex === b.cityIndex &&
             (!mobileHost || a.data === b.data && a.libraryGeneration === b.libraryGeneration && a.generation === b.generation &&
                 (a.kind !== 2 || JSON.stringify(a.selected) === JSON.stringify(b.selected) &&
-                    JSON.stringify(a.selectedNames) === JSON.stringify(b.selectedNames))));
+                    JSON.stringify(a.selectedNames) === JSON.stringify(b.selectedNames) &&
+                    JSON.stringify(a.incoming) === JSON.stringify(b.incoming))));
     }
 
     function sameSuccessor(a, b) {
@@ -683,6 +702,7 @@
         if (!owner) { return ''; }
         var values = [state.viewEpoch, owner.context, owner.kind, owner.seq, owner.cityIndex, owner.names];
         if (mobileHost) { values.push(owner.signature); }
+        if (mobileHost && owner.kind === 2) { values.push(owner.incoming); }
         return JSON.stringify(values);
     }
 
@@ -1865,7 +1885,8 @@
             var cityName = '';
             try { if (defense.cityIndex != null) { cityName = baye.getCityName(defense.cityIndex) || ''; } } catch (e) {}
             openDialog({ kind: 'defenders', title: cityName ? '防守' + cityName : '防守选将',
-                body: '请选择守城武将，选好后点击“完成选将”。', defenseOwner: defense, showLcd: false });
+                body: defense.attackerName ? '来袭势力 · ' + defense.attackerName : '请选择守城武将，选好后点击“完成选将”。',
+                defenseOwner: defense, showLcd: false });
             return;
         }
         if (state.open && state.kind === 'defenders') { closeDialog({ silent: true }); }

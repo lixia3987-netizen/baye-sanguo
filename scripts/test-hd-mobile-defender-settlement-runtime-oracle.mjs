@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {verifyMobileDefenderSettlement as verify} from './hd-mobile-defender-settlement-runtime-oracle.mjs';
+import {verifyMobileDefenderSettlement as verify,verifyMobileDefenderCampaignEnd} from './hd-mobile-defender-settlement-runtime-oracle.mjs';
 
 // Full independent fixture uses explicit raw order bytes and a distinguishable
 // inactive queue tail. Expected insertion is expressed as bounded array slices.
@@ -124,7 +124,46 @@ for(const [label,mutate]of [
  ['report bound to another battle',x=>x.events.reports[0].native.battle.cityIndex=1],
 ])test('Reject successor '+label,()=>{const x=withNpcSuccession();mutate(x);assert.throws(()=>verify(x));});
 test('Actual death without AddPerson is explicitly unsupported, not masked',()=>{const x=args();x.before.world.cities[1].Belong=0;x.before.world.people[0].Belong=0;x.after.world=expected(x.before,['escape']);const q=x.after.world.queue;const at=x.after.world.cities[1].PersonQueue;for(let i=at;i<199;i++)q[i]=q[i+1];x.after.world.cities[1].Persons--;for(let i=2;i<38;i++)x.after.world.cities[i].PersonQueue--;assert.throws(()=>verify(x));});
-test('Captured king extinction without current successor trace is explicitly rejected',()=>{const before=fixture(2);before.world.king=29;for(const id of [0,27,29])before.world.people[id].Belong=30;before.world.cities[0].Belong=30;before.world.cities[1].Belong=0;before.world.people[0].Belong=0;const x={before,after:{world:expected(before),native:clone(before.native)},receipt:{generation:3,detailGeneration:3,city:0,mode:0,over:2,playerKing:29}};assert.throws(()=>verify(x),/extinction/);});
+function withPlayerExtinction(){
+  const before=fixture(2);
+  before.world.king=29;
+  for(const id of [27,29])before.world.people[id].Belong=30;
+  before.world.cities[0].Belong=30;
+  before.world.cities[1].Belong=0;
+  before.world.people[0].Belong=0;
+  const after={world:expected(before),native:clone(before.native)};
+  const loss=clone(after);
+  loss.world.cities[0].Food=before.world.cities[0].Food;
+  loss.native.report={active:1,kind:1,seq:11,inputSeq:12,text:'末位君主 势力灭亡'};
+  return {before,after,receipt:{generation:3,detailGeneration:3,city:0,mode:0,over:2,playerKing:29},events:{reports:[loss]}};
+}
+
+test('Last-city extinction requires the exact native report and no successor',()=>{
+  const scenario=withPlayerExtinction();
+  assert.deepEqual(verify(scenario).extinction,{king:29,player:true});
+  assert.throws(()=>verify({...scenario,events:{}}),/extinction/);
+  scenario.events.reports[0].world.people[100].Arms++;
+  assert.throws(()=>verify(scenario),/extinction/);
+});
+
+test('Campaign defeat requires a completed strategy month and the current original title',()=>{
+  const scenario=withPlayerExtinction(),loss=clone(scenario.after);
+  const monthStart={year:190,month:12};
+  Object.assign(loss.world,{year:191,month:1});
+  loss.native.report={active:1,kind:1,seq:12,inputSeq:13,text:'我军全军覆没'};
+  const owner={type:'menu',context:4,kind:1,seq:33};
+  const title={menu:{...owner,active:1},system:{input:owner,screen:'title',open:true,showHd:true},
+    host:{active:true,owner},fight:{active:0},note:{active:false},
+    report:{...loss.native.report,active:0,inputSeq:14},king:29,date:[191,1]};
+  assert.deepEqual(verifyMobileDefenderCampaignEnd({loss,title,monthStart}),
+    {accepted:true,king:29,year:191,month:1,reportSeq:12,titleSeq:33});
+  const stale=clone(title);
+  stale.menu.seq++;
+  assert.throws(()=>verifyMobileDefenderCampaignEnd({loss,title:stale,monthStart}),/title/);
+  assert.throws(()=>verifyMobileDefenderCampaignEnd({loss,title,monthStart:{year:190,month:11}}),/strategy month/);
+  loss.world.cities[0].Belong=30;
+  assert.throws(()=>verifyMobileDefenderCampaignEnd({loss,title,monthStart}),/every city/);
+});
 
 test('IQ99 may be captured when no old-faction city remains and nonzero fallback roll is possible',()=>{const x=args();x.before.world.cities[1].Belong=0;x.before.world.people[0].Belong=0;x.before.world.people[29].IQ=99;x.after.world=expected(x.before);assert.equal(verify(x).accepted,true);});
 test('Death-disabled no-city fallback may capture even IQ255',()=>{const x=args();x.before.world.config.disableFightToDeath=1;x.before.world.cities[1].Belong=0;x.before.world.people[0].Belong=0;x.before.world.people[29].IQ=255;x.after.world=expected(x.before);assert.equal(verify(x).accepted,true);});

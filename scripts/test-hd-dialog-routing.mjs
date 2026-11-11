@@ -1282,6 +1282,32 @@ test('mobile defenders cannot continue queued movement after the native selected
     h.timers(); assert.deepEqual(h.sent, [0x23]); assert.equal(h.context.BayeHdDialog.getInputTicket(), null);
 });
 
+test('mobile defender notice follows the current native attacker and retires the previous controls', () => {
+    const h = mobileCampaignFixture(2), d = h.context.BayeHdDialog, params = h.data.g_FgtParam;
+    h.data.g_PlayerKing = 0;
+    h.data.g_Persons = [];
+    h.data.g_Persons[71] = {Belong: 4};
+    h.data.g_Persons[73] = {Belong: 8};
+    params.Mode = 0;
+    params.GenArray[10] = 72;
+    d.poll();
+    assert.equal(h.snapshot().body, '来袭势力 · 人物3');
+    const previous = h.candidate(0);
+
+    params.GenArray[10] = 74;
+    h.publish([0, 130, 199], 0, 33);
+    assert.equal(h.snapshot().body, '来袭势力 · 人物7');
+    h.click('data-hd-defender-index', previous);
+    assert.deepEqual(h.sent, []);
+
+    h.context.baye.getPersonName = id => {
+        if (id === 7) params.GenArray[10] = 72;
+        return '人物' + id;
+    };
+    assert.equal(d.getInputTicket(), null);
+    assert.deepEqual(h.writes, []);
+});
+
 function campaignWithMobileHost(kind = 1) {
     const h = mobileCampaignFixture(kind), document = h.context.document, handlers = new Map();
     for (const field of ['g_hdReportKind','g_hdReportPerson','g_hdQtyValue','g_hdQtyMin','g_hdQtyMax','g_hdQtyReady']) h.data[field] = 0;
