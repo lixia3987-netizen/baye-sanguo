@@ -7576,7 +7576,7 @@
 
     function cityBackPressOwner() {
         try {
-            if (!mobileHost && state.deepKind === 'person-diplomacy') {
+            if (!mobileHost && state.layer === 'deep' && state.deepKind === 'person-diplomacy') {
                 var diplomacy = pcDiplomacyTicket();
                 return diplomacy ? 'pc-diplomacy:' + diplomacy.key : null;
             }
@@ -8106,12 +8106,12 @@
     }
 
     function backSurrenderBody(pressedOwner) {
-        if (!mobileHost && state.deepKind === 'person-diplomacy') {
+        if (!mobileHost && state.layer === 'deep' && state.deepKind === 'person-diplomacy') {
             var pcBackOwner = cityBackPressOwner();
             if (!pcBackOwner || pressedOwner != null && pressedOwner !== pcBackOwner) { return; }
             backPcDiplomacy(); return;
         }
-        if (mobileHost && state.deepKind === 'person-diplomacy') {
+        if (mobileHost && state.layer === 'deep' && state.deepKind === 'person-diplomacy') {
             var diplomacyBackOwner = cityBackPressOwner();
             if (pressedOwner != null && pressedOwner !== diplomacyBackOwner) { return; }
             backMobileDiplomacy(); return;

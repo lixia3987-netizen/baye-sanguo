@@ -5,7 +5,7 @@ const next=n=>(n+1)>>>0||1,following=n=>next(next(n));
 const selectedCodes=(index,current)=>[...Array(Math.abs(index-current)).fill(index>current?35:34),39];
 const names={15:'离间',16:'招揽',17:'策反',19:'劝降'};
 export async function runMobileDiplomacyChecks(c){
- const {report,evaluate,until,delay,checkpoint,ready,root,submenu,controlPoint,tap,touches,readKeys,worldSame,testCity,mark,libBytes,label,mapReadySource}=c;
+ const {report,evaluate,until,delay,checkpoint,ready,root,submenu,controlPoint,tap,touches,readKeys,worldSame,testCity,mark,libBytes,label,mapReadySource,mapReturn}=c;
  const origin=testCity.index,entry={label,cityIndex:origin,actions:[],cancellations:[],operations:[],scrollChecks:[],accepted:false,monthEffectsAccepted:false,fullHdAccepted:false};
  report.diplomacyChecks??=[];report.diplomacyChecks.push(entry);entry.baseline=await mark();
  assert.equal(report.actualKing.name,'董卓');assert.equal(origin,10);assert.equal(testCity.name,'长安');
@@ -75,5 +75,18 @@ export async function runMobileDiplomacyChecks(c){
   const oracle=verifyMobileDiplomacy({before:before.world,after:after.world,cityIndex:origin,command,personId:actor,targetId:target,outcome:'queued',libBytes});
   entry.operations.push({command,commandName:names[command],actor,actorName,target,targetName,before,after,limit,oracle,keys:actualKeys,...control});usedActors.push(actor);await checkpoint(label+'-'+command+'-dispatch-map');
  }
- assert.equal(entry.operations.length,4);assert.equal(entry.cancellations.length,8);assert.equal(new Set(usedActors).size,4);entry.returned=await ready();entry.accepted=true;return entry;
+ assert.equal(entry.operations.length,4);assert.equal(entry.cancellations.length,8);assert.equal(new Set(usedActors).size,4);
+ const dispatched=await ready(),slots=entry.operations.map(operation=>operation.oracle.orderIndex);
+ await root(3,'状况');
+ entry.pendingPlans=await evaluate(`${JSON.stringify(slots)}.map(slot=>{
+   const row=document.querySelector('#hd-city-menu-status [data-hd-city-order="'+slot+'"]');
+   return row&&{command:Number(row.dataset.hdCityOrderId),label:row.querySelector('span').textContent,
+     detail:row.querySelector('strong').textContent};
+ })`);
+ assert.deepEqual(entry.pendingPlans,entry.operations.map(operation=>({
+   command:operation.command,label:operation.commandName,detail:operation.actorName+' → '+operation.targetName
+ })),'City status shows each queued diplomacy command with the correct actor and target');
+ await mapReturn('pending diplomacy orders');
+ entry.returned=await ready();worldSame(dispatched,entry.returned,'Reviewing diplomacy orders preserves the native world');
+ entry.accepted=true;return entry;
 }
