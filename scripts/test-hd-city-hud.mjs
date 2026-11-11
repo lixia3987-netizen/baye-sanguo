@@ -2414,12 +2414,17 @@ function surrenderHarness({mobile = false, subIndex = 5, seq = 10, duplicate = f
         setSendError(value) {error = value;}, setFreezeKey(value) {freezeKey = value;}});
 }
 function surrenderPresentation(h) {return h.api.debugSnapshot().surrenderPresentation ?? null;}
-function assertSurrender(h, role) {
+function assertSurrender(h, role, captiveId = h.roleIds('target')[0]) {
     const p = surrenderPresentation(h), title = role === 'target' ? '招降 · 选择俘虏' : '招降 · 选择招降将领';
     assert.ok(p, 'source-bound SURRENDER presentation for ' + role);
     assert.equal(p.role, role); assert.equal(p.title, title); assert.equal(p.cityIndex, 4);
     assert.equal(p.menuSeq, h.menu.seq); assert.equal(p.detailGeneration, 3);
     assert.deepEqual(plain(p.ids), h.roleIds(role));
+    const expectedTarget = role === 'actor' ? {personIndex: captiveId, name: h.names.get(captiveId)} : null;
+    assert.deepEqual(plain(p.target), expectedTarget);
+    const subtitle = h.document.getElementById('hd-city-menu-sub').textContent;
+    if (expectedTarget) assert.ok(subtitle.includes('目标 ' + expectedTarget.name));
+    else assert.ok(!subtitle.includes('目标 '));
     const node = h.document.querySelectorAll('[data-hd-surrender-role]').find(item => item.getAttribute('data-hd-surrender-role') === role);
     assert.ok(node); assert.equal(node.tagName, 'P'); assert.equal(node.textContent, title);
     assert.equal(h.api.debugSnapshot().mobileHost, h.context.innerWidth === 844);
@@ -2550,8 +2555,8 @@ test('SURRENDER true fresh actor and target ACKs retire consumed reservations wi
     assert.throws(() => h.press(h.deep(0)), error => error === original); h.setSendError(null);
     h.publish('actor', {menuSeq: h.next(h.next(targetSeq))}); h.refresh(); assertSurrender(h, 'actor');
     h.back(); h.flush(); assertSurrender(h, 'target');
-    h.press(h.deep(0)); h.flush(); assertSurrender(h, 'actor'); h.back(); h.flush();
-    h.back(); h.flush(); assert.deepEqual(h.keys, [39, 39, 40, 39, 40, 40]);
+    h.press(h.deep(1)); h.flush(); h.flush(); assertSurrender(h, 'actor', 143); h.back(); h.flush();
+    h.back(); h.flush(); assert.deepEqual(h.keys, [39, 39, 40, 35, 39, 40, 40]);
     assert.equal(h.actorCommits(), 0); assert.equal(h.api.isOpen(), false); assert.deepEqual(h.writes, []);
 });
 

@@ -1,4 +1,4 @@
-// Genuine original-game captives: observe PERSON data, then cancel SURRENDER before an actor is submitted.
+// Observe original-game captives and optionally follow one SURRENDER order through the next month.
 import assert from 'node:assert/strict';
 import {readOriginalPersonIdentityRom} from './hd-person-identity-rom.mjs';
 import {checkPersonIdentity, identityDomSnapshot, assertGeometry} from './hd-person-identity-runtime-checks.mjs';
@@ -25,6 +25,25 @@ function firstCity(world, id) {
 
 const pageReady = id => `(() => {const m=baye.hd.menuItems(),p=baye.hd.personProperties(),s=BayeHdCityMenu.debugSnapshot();return m.active===1&&m.context===1&&m.kind===3&&m.idsValid&&m.ids[m.index]===${id}&&p.active===1&&p.person===${id}&&p.pageIndex===0&&p.pageComplete===1&&p.menuSeq===m.seq&&p.generation===m.detailGeneration&&s.open&&s.layer==='deep'&&!s.sending&&!s.queueLen&&!s.personPagePending&&s.personDetail?.personIndex===${id}&&s.personDetail.corePresentation==='default';})()`;
 const menuReady = `(function(){const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();return m.active===1&&m.context===1&&m.kind===3&&m.idsValid&&m.ids.length===m.count&&m.count>0&&s.open&&s.layer==='deep'&&!s.sending&&!s.queueLen&&!s.personPagePending&&s.deepMenuOwner?.seq===m.seq&&m;})()`;
+const mapReady = 'baye.hd.menuItems().active===0&&baye.hd.march().pick===1&&!baye.hd.march().battlePick&&!BayeHdCityMenu.debugSnapshot().open';
+
+function personReport(id, previousSeq) {
+  return `(() => {
+    const native=baye.hd.report(), dialog=BayeHdDialog.debugSnapshot();
+    if(native.active!==1||native.kind!==2||native.person!==${id}||native.seq===${previousSeq}||
+        !dialog.open||dialog.kind!=='report'||dialog.pass||dialog.reportOwner?.seq!==native.seq||
+        dialog.reportOwner?.inputSeq!==native.inputSeq) return false;
+    return {native, text:baye.hd.reportText(), title:document.getElementById('hd-dialog-title').textContent,
+        body:document.getElementById('hd-dialog-body').textContent};
+  })()`;
+}
+
+function assertPersonReport(report, name) {
+  const normalize = text => text.replace(/[\s|]/g, '');
+  assert.equal(report.title, name);
+  assert.ok(normalize(report.text).length);
+  assert.equal(normalize(report.body), normalize(report.text));
+}
 
 // All scrolling is a trusted wheel on the actual clipping ancestor; no scrollTop writes.
 function geometry(selector) {
@@ -60,7 +79,7 @@ export async function runCaptiveInspection(c) {
   const city = baseline.world.cities[16], queue = baseline.world.queue.slice(city.PersonQueue,city.PersonQueue+city.Persons);
   const ids = queue.filter(id => baseline.world.people[id].Belong === 65535);
   assert.deepEqual(ids,proof.captives.map(p=>p.personId));assert.ok(ids.length > 0);
-  const entry = report.captiveInspection = {accepted:false,rom,baseline,captiveIds:ids,people:[],transitions:[],roleObservations:[],noCommandSubmission:true};
+  const entry = report.captiveInspection = {accepted:false,rom,baseline,captiveIds:ids,people:[],transitions:[],roleObservations:[],noCommandSubmission:!c.endMonth};
   const observeWorld = (value,label) => assert.deepEqual(value.world,baseline.world,label+' preserves the complete measured captured world');
   const evGeometry = selector => evaluate('('+geometry.toString()+')('+JSON.stringify(selector)+')');
   async function reveal(selector,{control=false}={}) {
@@ -110,29 +129,124 @@ export async function runCaptiveInspection(c) {
     }
     location.after=await sample();observeWorld(location.after,'Location page round trip');location.accepted=true;
   }
-  const mapBefore=await sample();const opened=await evaluate('BayeHdOverworld.walkToCity(16)');report.inputs.push({type:'public-city-walk',cityIndex:16,result:opened});assert.ok(opened&&typeof opened==='object'&&opened.name===rom.cityNames38[16]&&Number.isInteger(opened.to?.x)&&Number.isInteger(opened.to?.y),'The public city walk returns its actual name and native destination');
-  await until('real occupied city root',`(()=>{const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();return m.active===1&&m.context===1&&m.kind===1&&s.open&&s.layer==='root'&&s.cityIndex===16&&!s.entryPending&&!s.sending&&!s.queueLen;})()`);
+  const cityRootReady = `(()=>{const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();return m.active===1&&m.context===1&&m.kind===1&&s.open&&s.layer==='root'&&s.cityIndex===16&&!s.entryPending&&!s.sending&&!s.queueLen;})()`;
+  async function openCapturedCity() {
+    const opened = await evaluate('BayeHdOverworld.walkToCity(16)');
+    report.inputs.push({type:'public-city-walk',cityIndex:16,result:opened});
+    assert.ok(opened && opened.name === rom.cityNames38[16] && Number.isInteger(opened.to?.x) && Number.isInteger(opened.to?.y));
+    await until('real occupied city root', cityRootReady);
+  }
+  const mapBefore=await sample();await openCapturedCity();
   observeWorld(await sample(),'Opening captured city');entry.mapBefore=mapBefore;await snap('city-root');
   const roots=await evaluate('baye.hd.menuItems()'),rootIndex=roots.names.indexOf('内政');assert.ok(rootIndex>=0);await click('#hd-city-menu [data-hd-root="'+rootIndex+'"]');
   await until('native internal affairs submenu','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===1&&baye.hd.menuItems().kind===2');
-  const sub=await evaluate('baye.hd.menuItems()'),subIndex=sub.names.indexOf('招降');assert.ok(subIndex>=0);await click('#hd-city-menu [data-hd-sub="'+subIndex+'"]');
+  const sub=await evaluate('baye.hd.menuItems()'),subIndex=sub.names.indexOf('招降');assert.ok(subIndex>=0);
+  const rule = c.endMonth && await evaluate('BayeHdCityRules.read(16,"neizheng")?.rows.find(row=>row.command===6)');
+  if (c.endMonth) assert.ok(rule && Number.isInteger(rule.thew) && Number.isInteger(rule.money));
+  await click('#hd-city-menu [data-hd-sub="'+subIndex+'"]');
   const targetMenu=await until('actual SURRENDER captive PERSON',menuReady);assert.deepEqual(targetMenu.ids,ids);entry.targetMenu=targetMenu;await snap('target-before');
-  async function roleObservation(role) {
-    const value=await evaluate(`(()=>{const n=document.querySelector('#hd-city-menu [data-hd-surrender-role]');return{expectedRole:${JSON.stringify(role)},text:n?.textContent??null,role:n?.getAttribute('data-hd-surrender-role')??null,subtitle:document.getElementById('hd-city-menu-sub')?.textContent??null};})()`);entry.roleObservations.push(value);return value;
+  async function roleObservation(role, targetId = null) {
+    const value = await evaluate(`(() => {
+      const n=document.querySelector('#hd-city-menu [data-hd-surrender-role]');
+      return {expectedRole:${JSON.stringify(role)}, text:n?.textContent, role:n?.getAttribute('data-hd-surrender-role'),
+        subtitle:document.getElementById('hd-city-menu-sub')?.textContent,
+        target:BayeHdCityMenu.debugSnapshot().surrenderPresentation?.target};
+    })()`);
+    assert.equal(value.role, role);
+    assert.ok(value.text.includes(role === 'target' ? '选择俘虏' : '选择招降将领'));
+    const target = targetId === null ? null : {personIndex:targetId,name:rom.names[targetId]};
+    assert.deepEqual(value.target, target);
+    if (target) assert.ok(value.subtitle.includes('目标 ' + target.name));
+    else assert.ok(!value.subtitle.includes('目标 '));
+    entry.roleObservations.push(value);
+    return value;
   }
   await roleObservation('target');
   for(const id of ids){const visit={personId:id,selection:await focus(id)};entry.people.push(visit);assert.equal((await sample()).world.people[id].Belong,65535);await checkPersonIdentity(identityContext,driver,visit,id,rom);await location(visit,id);}
   await focus(ids[0]);const targetBefore=await sample();await click('#hd-city-menu [data-hd-deep="'+targetBefore.state.menu.index+'"]');
   const actorMenu=await until('native SURRENDER allied actor PERSON',`(()=>{const m=${menuReady};return m&&m.seq!==${targetMenu.seq}&&m;})()`);
-  const actorBefore=await sample(),allied=queue.filter(id=>baseline.world.people[id].Belong===city.Belong);assert.deepEqual(actorMenu.ids,allied);assert.deepEqual(await readKeys(targetBefore.state.keyCount),[39]);observeWorld(actorBefore,'Choosing captive target');entry.transitions.push({kind:'target-to-actor',before:targetBefore,after:actorBefore,keys:await readKeys(targetBefore.state.keyCount)});await roleObservation('actor');await snap('actor-before-cancel');
+  const actorBefore=await sample(),allied=queue.filter(id=>baseline.world.people[id].Belong===city.Belong);assert.deepEqual(actorMenu.ids,allied);assert.deepEqual(await readKeys(targetBefore.state.keyCount),[39]);observeWorld(actorBefore,'Choosing captive target');entry.transitions.push({kind:'target-to-actor',before:targetBefore,after:actorBefore,keys:await readKeys(targetBefore.state.keyCount)});await roleObservation('actor',ids[0]);await snap('actor-before-cancel');
   const actorId=actorMenu.ids[actorMenu.index];await until('actual actor first page',pageReady(actorId));const actorVisit={personId:actorId,role:'actor'};entry.actor=actorVisit;await checkPersonIdentity(identityContext,driver,actorVisit,actorId,rom);
   const cancelBefore=await sample();await click('#hd-city-menu [data-hd-menu-back]');
   const returned=await until('actor EXIT returns to fresh captive PERSON with HD pane retained',`(()=>{const m=${menuReady};return m&&m.seq!==${actorMenu.seq}&&m;})()`);
   assert.deepEqual(returned.ids,ids);const cancelAfter=await sample(),cancelKeys=await readKeys(cancelBefore.state.keyCount);assert.deepEqual(cancelKeys,[40]);observeWorld(cancelAfter,'Actor cancellation');entry.transitions.push({kind:'actor-cancel-target',before:cancelBefore,after:cancelAfter,keys:cancelKeys});await roleObservation('target');await snap('target-after-actor-cancel');
+  let order;
+  if (c.endMonth) {
+    const targetId = ids.at(-1);
+    const selection = await focus(targetId);
+    await click('#hd-city-menu [data-hd-deep="'+selection.after.state.menu.index+'"]');
+    const actors = await until('fresh actors for the current captive', `(() => {const m=${menuReady};return m&&m.seq!==${returned.seq}&&m;})()`);
+    assert.deepEqual(actors.ids, allied);
+    assert.deepEqual(await readKeys(selection.after.state.keyCount), [39]);
+    await roleObservation('actor', targetId);
+    const actorId = allied.filter(id => baseline.world.people[id].Thew >= rule.checkThew)
+      .sort((a,b) => baseline.world.people[b].IQ - baseline.world.people[a].IQ)[0];
+    assert.ok(Number.isInteger(actorId), 'An actual allied resident has the required stamina');
+    const {after: before} = await focus(actorId);
+    await snap('actor-confirm');
+    order = report.captiveOrder = {targetId, actorId, rule, before};
+    await click('#hd-city-menu [data-hd-deep="'+before.state.menu.index+'"]');
+    order.submission = await until('native actor report for the queued surrender order', personReport(actorId, before.native.report.seq));
+    assertPersonReport(order.submission, rom.names[actorId]);
+    const queued = order.queued = await sample();
+    assert.deepEqual(await readKeys(before.state.keyCount), [39]);
+    const slot = order.slot = before.world.orders.findIndex(item => item.OrderId === 255);
+    assert.ok(slot >= 0);
+    const {OrderId, City, Person, Object: target, TimeCount} = queued.world.orders[slot];
+    assert.deepEqual({OrderId, City, Person, target, TimeCount}, {OrderId:6, City:16, Person:actorId, target:targetId, TimeCount:0});
+    assert.deepEqual(queued.world.orders.filter((_,i) => i !== slot), before.world.orders.filter((_,i) => i !== slot));
+    assert.equal(queued.world.cities[16].Money, before.world.cities[16].Money - rule.money);
+    assert.deepEqual(queued.world.people[actorId], {...before.world.people[actorId], Thew:before.world.people[actorId].Thew - rule.thew});
+    assert.deepEqual(queued.world.people[targetId], before.world.people[targetId]);
+    assert.equal(firstCity(queued.world, actorId).cityIndex, 255);
+    assert.equal(firstCity(queued.world, targetId).cityIndex, 16);
+    await snap('queued-native-report');
+    await click('#hd-dialog [data-hd-dlg-ok]');
+    const nextTarget = await until('new captive list after the queued order report', `(() => {const m=${menuReady};return m&&m.seq!==${before.state.menu.seq}&&m;})()`);
+    assert.deepEqual(nextTarget.ids, ids);
+    assert.deepEqual(await readKeys(queued.state.keyCount), [39]);
+    await roleObservation('target');
+  }
   const exitBefore=await sample();await click('#hd-city-menu [data-hd-menu-back]');
-  await until('captive EXIT returns to actual MAP','baye.hd.menuItems().active===0&&baye.hd.march().pick===1&&!baye.hd.march().battlePick&&!BayeHdCityMenu.debugSnapshot().open');
-  const exitAfter=await sample(),exitKeys=await readKeys(exitBefore.state.keyCount);assert.deepEqual(exitKeys,[40]);observeWorld(exitAfter,'Target cancellation');entry.transitions.push({kind:'target-cancel-map',before:exitBefore,after:exitAfter,keys:exitKeys});await snap('returned-map');
-  for(const r of entry.roleObservations){assert.equal(r.role,r.expectedRole,'SURRENDER distinctly labels the current native PERSON role');assert.ok(r.text.includes(r.expectedRole==='target'?'选择俘虏':'选择招降将领'));}
+  await until('captive EXIT returns to actual MAP', mapReady);
+  const exitAfter=await sample(),exitKeys=await readKeys(exitBefore.state.keyCount);assert.deepEqual(exitKeys,[40]);
+  assert.deepEqual(exitAfter.world, order ? order.queued.world : baseline.world, 'Leaving the captive list preserves the current orders');
+  entry.transitions.push({kind:'target-cancel-map',before:exitBefore,after:exitAfter,keys:exitKeys});await snap('returned-map');
+
+  if (order) {
+    const {actorId, targetId, slot} = order;
+    await openCapturedCity();
+    await click('#hd-city-menu [data-hd-root="3"]');
+    const plan = '#hd-city-menu-status [data-hd-city-order="'+slot+'"][data-hd-city-order-id="6"]';
+    order.plan = await until('HD city status displays the exact queued surrender order', `document.querySelector(${JSON.stringify(plan)})?.textContent`);
+    for (const text of ['招降', rom.names[actorId], rom.names[targetId]]) assert.ok(order.plan.includes(text));
+    await reveal(plan);
+    await snap('queued-city-plan');
+    await click('#hd-city-menu [data-hd-menu-back]');
+    await until('root after the local city status view', cityRootReady);
+    await click('#hd-city-menu [data-hd-menu-back]');
+    await until('map before resolving surrender order', mapReady);
+    const beforeMonth = await sample();
+    assert.deepEqual(beforeMonth.world, order.queued.world);
+    await c.endMonth();
+    order.result = await c.untilProgress('actual month-end report from the selected captive', personReport(targetId, beforeMonth.native.report.seq));
+    assertPersonReport(order.result, rom.names[targetId]);
+    const result = order.reportWorld = await sample();
+    const belong = result.world.people[targetId].Belong;
+    assert.ok(belong === 65535 || belong === city.Belong, 'The original engine decided the captive outcome');
+    order.outcome = belong === city.Belong ? 'joined' : 'refused';
+    await snap('month-result-'+order.outcome);
+    await click('#hd-dialog [data-hd-dlg-ok]');
+    await c.settleToMap();
+    const settled = order.settled = await sample();
+    assert.deepEqual((await readKeys(result.state.keyCount)).slice(0,1), [39]);
+    assert.equal(settled.world.year * 12 + settled.world.month, beforeMonth.world.year * 12 + beforeMonth.world.month + 1);
+    assert.equal(settled.world.orders.some(item => item.OrderId === 6 && item.City === 16 && item.Person === actorId && item.Object === targetId), false);
+    assert.equal(firstCity(settled.world, actorId).cityIndex, 16);
+    assert.equal(settled.world.people[targetId].Belong, belong);
+    await snap('month-settled');
+    report.captiveOrderAccepted = true;
+  }
   entry.final=exitAfter;entry.accepted=true;report.personCaptivesAccepted=true;report.captiveAccepted=true;report.identityAccepted=true;report.accepted=true;report.hdAccepted=true;
-  report.captiveSummary={captives:ids.length,identityVisits:ids.length+1,identityObservations:(ids.length+1)*5,locationObservations:ids.length*2,locationPageKeys:ids.flatMap(()=>[37,36]),targetConfirmations:1,actorConfirmations:0,actualSurrenderOrders:0,worldUnchangedDuringInspection:true,returnedToMap:true};
+  report.captiveSummary={captives:ids.length,identityVisits:ids.length+1,identityObservations:(ids.length+1)*5,locationObservations:ids.length*2,locationPageKeys:ids.flatMap(()=>[37,36]),targetConfirmations:order?2:1,actorConfirmations:order?1:0,actualSurrenderOrders:order?1:0,worldUnchangedDuringInspection:true,returnedToMap:true};
 }

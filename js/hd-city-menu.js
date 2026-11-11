@@ -575,6 +575,8 @@
                 pending.action === 'actor-exit' && role === 'target' || pending.action === 'actor-enter' && (role === 'target' || role === 'actor'))) {
             // The C actor confirmation may consume an order/fee. Re-read its
             // actual queue; this presentation receipt does not assert a commit.
+            if (pending.action === 'target-enter') { flow.target = pending.target; }
+            if (role === 'target') { flow.target = null; }
             flow.role=role;flow.menuSeq=m.seq;flow.lastReading=value;flow.pending=null;state.deepSig='';state.deepSelectionPending=null;
         }
         if (!flow.pending && sameSurrenderRows(flow.lastReading,value) && role === flow.role && m.seq === flow.menuSeq && shouldShowHd() && mobileShellReady()) {
@@ -590,8 +592,13 @@
         var a=surrenderSnapshot(), b=surrenderSnapshot();
         if (!sameSurrenderRows(flow.lastReading,a) || !sameSurrenderRows(a,b) || surrenderRole(b) !== flow.role || b.menu.seq !== flow.menuSeq ||
             JSON.stringify([a.raw,a.menu,a.rows]) !== JSON.stringify([b.raw,b.menu,b.rows]) || flow !== surrenderFlow || flow.pending) { return null; }
+        var target = flow.role === 'actor' && flow.target;
+        var targetCurrent = target && b.rows.some(function (row) {
+            return row[0] === target.personIndex && row[1] === 65535 && row[2] === target.name;
+        });
         return {role:flow.role,title:'招降 · '+(flow.role==='target'?'选择俘虏':'选择招降将领'),cityIndex:b.cityIndex,
-            menuSeq:b.menu.seq,detailGeneration:b.detailGeneration,libraryGeneration:b.libraryGeneration,ids:actualMenuIds(b.menu).slice()};
+            menuSeq:b.menu.seq,detailGeneration:b.detailGeneration,libraryGeneration:b.libraryGeneration,ids:actualMenuIds(b.menu).slice(),
+            target:targetCurrent ? {personIndex:target.personIndex,name:target.name} : null};
     }
     function sendSurrenderKey(code,reason,currentOwner) {
         if (cityInfoOwns(global.baye && baye.data)) { return false; }
@@ -611,6 +618,9 @@
             if (cityInfoOwns(global.baye && baye.data)) { return false; }
             if (code===VK.ENTER || code===VK.EXIT) {
                 flow.pending={seq:m.seq,action:entry?'entry':flow.role+(code===VK.ENTER?'-enter':'-exit')};
+                if (flow.pending.action === 'target-enter') {
+                    flow.pending.target = {personIndex:actualMenuIds(m)[m.index], name:m.names[m.index]};
+                }
             }
             // The reservation precedes the export. A throw is an unknown native
             // result and cannot restore this role's ENTER/EXIT permission.
@@ -7476,6 +7486,7 @@
             if (state.deepKind === 'person-surrender') {
                 var surrenderPresentation = getSurrenderPresentation();
                 stepHint = surrenderPresentation ? (surrenderPresentation.role === 'target' ? '选择俘虏' : '选择招降将领') : '等待原版菜单回执';
+                if (surrenderPresentation && surrenderPresentation.target) { stepHint += ' · 目标 ' + surrenderPresentation.target.name; }
             }
             setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint +
                 (state.showLcd ? ' · 经典 LCD 对照' : mobileHost || transferTarget ? '' : ' · 光标与引擎同步'));

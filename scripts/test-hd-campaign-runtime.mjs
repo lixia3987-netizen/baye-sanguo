@@ -4,6 +4,8 @@
  *   CHROME=/usr/bin/chromium node scripts/test-hd-campaign-runtime.mjs -- --staged
  *   node scripts/test-hd-campaign-runtime.mjs -- --artifact-dir build/campaign-runtime-smoke
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
+ * --scenario captives --captive-order exercises one actual surrender order through month-end.
+ * --captive-width=1280 selects a 720p desktop viewport for either captive flow.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
 import assert from 'node:assert/strict';
@@ -24,8 +26,13 @@ const scenarioFlag = process.argv.indexOf('--scenario');
 const scenario = scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
 assert.ok(['victory', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
 const captiveScenario=scenario==='captives',preflightOnly=process.argv.includes('--preflight-only');
+const captiveOrder=process.argv.includes('--captive-order');
+const captiveWidthFlag=process.argv.find(arg=>arg.startsWith('--captive-width='));
+const captiveWidth=Number(captiveWidthFlag?.split('=')[1]??1920);
 assert.ok(!captiveScenario||!staged,'Captive inspection uses the current original installed engine only');
 assert.ok(!preflightOnly||captiveScenario,'Preflight-only is limited to the isolated captive scenario');
+assert.ok(!captiveOrder||captiveScenario&&!preflightOnly,'Surrender order requires a live captive scenario');
+assert.ok(!captiveWidthFlag||captiveScenario&&[1280,1920].includes(captiveWidth),'Captive desktop viewport is 1280 or 1920 pixels wide');
 const winningScenarios=new Set(['victory','campaign','save','restart','captives']);
 const winningFixture={lord:'董卓',origin:15,target:16,leaders:['吕布','张辽','李儒'],recruitments:7};
 const artifactFlag = process.argv.indexOf('--artifact-dir');
@@ -36,6 +43,7 @@ const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
     '.wasm': 'application/wasm', '.png': 'image/png', '.lib': 'application/octet-stream' };
 const report = { scenario, staged, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
 if(captiveScenario)Object.assign(report,{accepted:false,identityAccepted:false,hdAccepted:false,captiveAccepted:false,personCaptivesAccepted:false,preflightOnly});
+if(captiveOrder)report.captiveOrderAccepted=false;
 const acknowledgedProgressReports=new Set();
 let progressReportIndex=0;
 
@@ -780,6 +788,14 @@ async function inspectActualCaptives(cdp,plan){
         return;
     }
     const ctx={evaluate:expression=>evaluate(cdp,expression),until:(label,expression,timeout)=>waitFor(cdp,label,expression,timeout),click:selector=>click(cdp,selector),key:name=>key(cdp,name),checkpoint:label=>captureCaptivePhase(cdp,label),capture:label=>captureCaptivePhase(cdp,label),readKeys:(offset=0)=>evaluate(cdp,'__identityKeys.slice('+Number(offset)+')'),readKeyRecords:(offset=0)=>evaluate(cdp,'__identityCalls.slice('+Number(offset)+')'),sample:()=>evaluate(cdp,'__identitySample()'),report,libBytes:captiveLib,cdp,artifactDir};
+    if(captiveOrder) {
+        ctx.endMonth=async () => {
+            await openFunctionMenu(cdp,'captive-order-end-month');
+            await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
+        };
+        ctx.untilProgress=(label,expression)=>waitForGameProgress(cdp,label,expression,90000);
+        ctx.settleToMap=()=>settleToMap(cdp,'captive-order-next-map');
+    }
     await runCaptiveInspection(ctx);
     await observeCaptiveLib(cdp,'after-captive-inspection');
     report.nativeKeys=await evaluate(cdp,'__identityKeys');report.nativeTouches=await evaluate(cdp,'__identityTouches');report.publicInputCalls=await evaluate(cdp,'__identityCalls');report.trustedEvents=await evaluate(cdp,'__identityEvents');
@@ -1551,11 +1567,12 @@ async function mainCaptives(){
         cdp.on('Page.javascriptDialogOpening',e=>{report.dialogs.push(e.message);cdp.send('Page.handleJavaScriptDialog',{accept:false}).catch(()=>{});});
         cdp.on('Fetch.requestPaused',e=>{const local=new URL(e.request.url).origin===origin;if(!local)report.blocked.push(e.request.url);cdp.send(local?'Fetch.continueRequest':'Fetch.failRequest',local?{requestId:e.requestId}:{requestId:e.requestId,errorReason:'BlockedByClient'}).catch(()=>{});});
         await cdp.send('Runtime.enable');await cdp.send('Page.enable');report.browser=await cdp.send('Browser.getVersion');
-        await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
+        report.viewport={width:captiveWidth,height:captiveWidth===1280?720:1080};
+        await cdp.send('Emulation.setDeviceMetricsOverride',{...report.viewport,deviceScaleFactor:1,mobile:false});await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
         await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:"localStorage.clear();localStorage.setItem('baye/libpath','libs/dat-mod.lib');localStorage.setItem('baye/overworldMode','classic');localStorage.setItem('baye/systemUiMode','classic');localStorage.setItem('baye/cityMenuMode','classic');"});
         await cdp.send('Page.navigate',{url:origin+'/pc.html'});await smoke(cdp);await archiveEngineInputDocument(cdp,'completed');
         assert.deepEqual(report.exceptions,[],'No uncaught browser exceptions');assert.deepEqual(report.dialogs,[],'No unexpected game dialogs');assert.deepEqual(report.requests.filter(r=>r.status>=400&&!r.expected),[],'Every requested game asset is frozen and available');
-        report.captiveAccepted=report.personCaptivesAccepted===true;report.ok=report.accepted===true&&report.hdAccepted===true&&report.personCaptivesAccepted===true;
+        report.captiveAccepted=report.personCaptivesAccepted===true;report.ok=report.accepted===true&&report.hdAccepted===true&&report.personCaptivesAccepted===true&&(!captiveOrder||report.captiveOrderAccepted===true);
         if(!report.ok)process.exitCode=1;
     }catch(e){
         report.ok=false;report.error=e.stack||String(e);console.error(report.error);process.exitCode=1;
@@ -1570,6 +1587,7 @@ async function mainCaptives(){
         report.sourceVerification=verifyCaptiveSources();report.isolation={...report.isolation,cleaned:!chrome||report.cleanup?.treeExited===true,chromeExited:!chrome||report.cleanup?.treeExited===true,profileRetained:report.profileRetained,directoriesDeleted:false,httpClosed:!server||!server.listening,serverClosed:!server||!server.listening,user8080Touched:false};
         if(!report.sourceVerification.ok||!report.isolation.cleaned||!report.isolation.httpClosed){report.ok=false;process.exitCode=1;}
         for(const flag of ['accepted','identityAccepted','hdAccepted','captiveAccepted','personCaptivesAccepted'])report[flag]=report.ok===true&&report[flag]===true;
+        if(captiveOrder)report.captiveOrderAccepted=report.ok===true&&report.captiveOrderAccepted===true;
         report.finishedAt=new Date().toISOString();for(const [name,value] of [['source-verification.json',report.sourceVerification],['browser-console.json',{console:report.console,exceptions:report.exceptions,dialogs:report.dialogs}],['result.json',report]])writeJsonAtomicSync(path.join(artifactDir,name),value);
         console.log('Finished',JSON.stringify({ok:report.ok,accepted:report.accepted,personCaptivesAccepted:report.personCaptivesAccepted,checkpoints:report.phases.length,sources:report.sourceVerification.count,artifactDir}));
     }
