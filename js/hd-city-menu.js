@@ -22,6 +22,7 @@
         'Origin','Actor','Target','CommitSeq','CommitResult'];
     var TRANSFER_FIELDS = ['ProtocolVersion','Active','Command','Session','InputSeq','Phase','Origin','Target',
         'Person','Food','Money','Arms','Distance','CommitSeq','CommitResult'];
+    var TRANSFER_LABELS = {13:'输送', 14:'移动', 23:'侦察'};
     var MOBILE_LIB_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
     var MOBILE_RAW_FIELDS = ['g_hdEngineReady', 'g_hdMapPick', 'g_hdMapCity', 'g_hdMapInputSeq',
         'g_hdBattlePick', 'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind', 'g_hdMenuSeq',
@@ -249,14 +250,15 @@
             var raw = transferRaw(data);
             if (!raw) { return null; }
             var value = baye.hd.transfer && baye.hd.transfer();
-            if (!value || value.protocolVersion !== 1 || value.active > 1 || value.phase > 9 ||
+            if (!value || value.protocolVersion !== 1 || value.active > 1 || value.phase > 10 ||
                 !Object.keys(raw).every(function (name) { return mobileInteger(raw[name], 0xffffffff) && value[name] === raw[name]; }) ||
                 !mobileInteger(value.origin, 255) || !mobileInteger(value.target, 255) ||
                 !mobileInteger(value.person, 65535) || !mobileInteger(value.food, 65535) ||
                 !mobileInteger(value.money, 65535) || !mobileInteger(value.arms, 65535) ||
                 !mobileInteger(value.distance, 255) || value.commitResult > 2 ||
-                value.active && ([13, 14].indexOf(value.command) < 0 || !value.session || !value.inputSeq ||
-                    value.origin > 37 || value.phase < 1 || value.phase > 8)) { return null; }
+                value.phase === 10 && value.command !== 23 ||
+                value.active && (!TRANSFER_LABELS[value.command] || !value.session || !value.inputSeq ||
+                    value.origin > 37 || value.phase < 1 || value.phase === 9)) { return null; }
             return value;
         } catch (e) { return null; }
     }
@@ -904,13 +906,29 @@
         });
         return true;
     }
-    function transferRoutes(data, origin) {
+    function transferRoutes(data, origin, command) {
         // SearchRoad traverses only CITY_LINKR edges whose destination has the
         // same current Belong. It is a connected component, not battle adjacency.
         try {
-            var hex = global.dynLib, beforeKing = data.g_PlayerKing;
-            if (typeof hex !== 'string' || hex.length !== 414390 || !mobileInteger(origin, 37) ||
-                !mobileInteger(beforeKing, 199) || !data.g_Cities || data.g_Cities.length < 38) { return null; }
+            var beforeKing = data.g_PlayerKing, cities = data.g_Cities;
+            if (!mobileInteger(origin, 37) || !mobileInteger(beforeKing, 199) || !cities || cities.length < 38) { return null; }
+            var belongs = [], targets = [];
+            for (var i = 0; i < 38; i++) {
+                var belong = cities[i] && cities[i].Belong;
+                if (!mobileInteger(belong, 200)) { return null; }
+                belongs.push(belong);
+            }
+            if (belongs[origin] !== beforeKing + 1) { return null; }
+            function sameOwnership() {
+                return data.g_PlayerKing === beforeKing && data.g_Cities === cities &&
+                    belongs.every(function (belong, index) { return cities[index].Belong === belong; });
+            }
+            if (command === 23) {
+                belongs.forEach(function (belong, index) { if (belong !== belongs[origin]) { targets.push(index); } });
+                return sameOwnership() ? {belongs: belongs, targets: targets} : null;
+            }
+            var hex = global.dynLib;
+            if (typeof hex !== 'string' || hex.length !== 414390) { return null; }
             function le(offset, size) {
                 if (!mobileInteger(offset, 207195 - size)) { throw new Error('road bounds'); }
                 var result = 0;
@@ -924,14 +942,11 @@
             var address = le(58 * 4, 4), size = le(address, 4);
             if (le(address + 4, 2) !== 59 || le(address + 6, 2) !== 1 || le(address + 12, 1) !== 0 ||
                 size < 14 + 38 * 16 || address + size > 207195) { return null; }
-            var belongs = [], rows = [], targets = [], seen = {}, work = [origin];
-            for (var i = 0; i < 38; i++) {
-                var belong = data.g_Cities[i] && data.g_Cities[i].Belong;
-                if (!mobileInteger(belong, 200)) { return null; }
-                belongs.push(belong); rows.push([]);
-                for (var j = 0; j < 8; j++) { rows[i].push(le(address + 14 + i * 16 + j, 1)); }
+            var rows = [], seen = {}, work = [origin];
+            for (var row = 0; row < 38; row++) {
+                rows.push([]);
+                for (var j = 0; j < 8; j++) { rows[row].push(le(address + 14 + row * 16 + j, 1)); }
             }
-            if (belongs[origin] !== beforeKing + 1) { return null; }
             seen[origin] = true;
             while (work.length) {
                 rows[work.shift()].forEach(function (id) {
@@ -940,16 +955,15 @@
                     }
                 });
             }
-            if (global.dynLib !== hex || data.g_PlayerKing !== beforeKing ||
-                !belongs.every(function (belong, i) { return data.g_Cities[i].Belong === belong; })) { return null; }
+            if (global.dynLib !== hex || !sameOwnership()) { return null; }
             return {belongs: belongs, rows: rows, targets: targets.sort(function (a, b) { return a - b; })};
         } catch (e) { return null; }
     }
     function pcTransferPane(data) {
-        return !mobileHost && state.open && state.layer === 'deep' && state.subKind === 'neizheng' &&
-            state.deepKind === 'city' && data && state.cityIndex === data.g_hdTransferOrigin &&
-            (data.g_hdTransferCommand === 13 && state.deepLabel === '输送' ||
-                data.g_hdTransferCommand === 14 && state.deepLabel === '移动');
+        if (mobileHost || !state.open || state.layer !== 'deep' || state.deepKind !== 'city' || !data ||
+            state.cityIndex !== data.g_hdTransferOrigin) { return false; }
+        var command = data.g_hdTransferCommand, label = TRANSFER_LABELS[command];
+        return !!label && state.deepLabel === label && state.subKind === (command === 23 ? 'junbei' : 'neizheng');
     }
     function pcTransferPhase() {
         var data = global.baye && baye.data;
@@ -976,7 +990,7 @@
     function transferTicketFrom(value, reason) {
         if (!transferBound(value)) { return null; }
         var t = value.transfer, raw = value.raw, menu = value.menu, q = value.qty, report = value.report, type = '',
-            route = transferRoutes(value.data, t.origin);
+            route = transferRoutes(value.data, t.origin, t.command);
         if (!route || raw.g_hdHelpActive || value.march.battlePick || [0, 7].indexOf(value.march.phase) < 0) { return null; }
         if (t.phase === 1 && menu.active === 1 && menu.context === 1 && menu.kind === 3 &&
             actualMenuIds(menu) && !q.active && !raw.g_hdReportActive && !value.march.pick) { type = 'transfer-person'; }
@@ -994,6 +1008,10 @@
             type = 'transfer-report';
         } else if (t.phase === 6 && value.march.pick === 1 && value.march.mapInputSeq &&
             !menu.active && !q.active && !raw.g_hdReportActive) {
+            if (t.command === 23) {
+                var people = value.data.g_Persons, person = people && people[t.person];
+                if (!mobileInteger(t.person, 199) || !person || person.Belong !== route.belongs[t.origin]) { return null; }
+            }
             type = 'transfer-target';
         } else { return null; }
         if (reason && /^transfer-target/.test(reason) && type !== 'transfer-target' ||
@@ -1021,7 +1039,7 @@
             }
             return false;
         }
-        if (!transferRoutes(value.data, t.origin)) { return false; }
+        if (!transferRoutes(value.data, t.origin, t.command)) { return false; }
         if (!transferFlowMatches(value)) {
             transferFlow = {data: value.data, generation: value.libraryGeneration, session: t.session,
                 command: t.command, origin: t.origin, pendingTarget: null, busy: false, token: 0, sent: '', status: '',
@@ -1034,8 +1052,8 @@
         }
         flow.lastMapSeq = value.march.mapInputSeq;
         if (!mobileHost || !shouldShowHd()) { return true; }
-        state.open = true; state.layer = 'deep'; state.subKind = 'neizheng'; state.cityIndex = t.origin;
-        state.deepKind = 'person-transfer'; state.deepLabel = t.command === 13 ? '输送' : '移动'; state.deepStep = 0;
+        state.open = true; state.layer = 'deep'; state.subKind = t.command === 23 ? 'junbei' : 'neizheng'; state.cityIndex = t.origin;
+        state.deepKind = 'person-transfer'; state.deepLabel = TRANSFER_LABELS[t.command]; state.deepStep = 0;
         state.battleMake = false; state.campaignPick = false; state.wizardStep = 'none'; state.marchReady = false;
         return true;
     }
@@ -6913,22 +6931,28 @@
             var paragraph = document.createElement('p'); paragraph.className = className || 'hd-city-menu-map-hint';
             paragraph.textContent = value; list.appendChild(paragraph);
         }
-        function button(label, attribute, value, disabled) {
+        function button(label, attribute, value, disabled, parent) {
             var node = document.createElement('button'); node.type = 'button'; node.className = 'hd-city-menu-item';
             node.textContent = label; node.setAttribute(attribute, value == null ? '' : String(value));
-            node.disabled = !!disabled; list.appendChild(node); return node;
+            node.disabled = !!disabled; (parent || list).appendChild(node); return node;
         }
         if (ticket.ownerType === 'transfer-report') {
             text(presentation.reportText);
             button('继续', 'data-hd-transfer-continue', '', flow.sent === transferReportKey(ticket));
         } else if (ticket.ownerType === 'transfer-target') {
-            text(flow.status || (ticket.targets.length ? '选择同势力且道路连通的目标城。' : '没有道路连通的己方城池。'));
+            var hint = ticket.command === 23
+                ? (ticket.targets.length ? '选择一座非己方城池。' : '没有可侦察的城池。')
+                : (ticket.targets.length ? '选择同势力且道路连通的目标城。' : '没有道路连通的己方城池。');
+            text(flow.status || hint);
+            var actions = document.createElement('div');
+            actions.className = 'hd-city-menu-target-actions';
+            button('确认' + TRANSFER_LABELS[ticket.command], 'data-hd-transfer-confirm', '', flow.pendingTarget == null || busy, actions);
+            button('取消', 'data-hd-transfer-cancel', '', busy, actions);
+            list.appendChild(actions);
             ticket.targets.forEach(function (index) {
                 var target = button(cityName(index), 'data-hd-transfer-target', index, busy);
                 target.setAttribute('aria-pressed', index === flow.pendingTarget ? 'true' : 'false');
             });
-            button(ticket.command === 13 ? '确认输送' : '确认移动', 'data-hd-transfer-confirm', '', flow.pendingTarget == null || busy);
-            button('取消', 'data-hd-transfer-cancel', '', busy);
         }
         // Names and DOM access can reenter; incomplete ownership leaves LCD.
         if (!sameMobileMarchTicket(ticket, read())) { list.innerHTML = ''; state.deepSig = ''; pcTransferView = null; }
@@ -7430,7 +7454,9 @@
             }
             renderStatus();
         } else if (state.layer === 'deep') {
-            var transferTarget = !mobileHost && pcTransferPhase() === 6;
+            var transferTarget = mobileHost
+                ? state.deepKind === 'person-transfer' && transferFlow && transferFlow.phase === 6
+                : pcTransferPhase() === 6;
             var stepHint = transferTarget ? '选择目标城' : showingQty()
                 ? '数量'
                 : ((state.deepKind === 'person-city' || state.deepLabel === '出征') &&

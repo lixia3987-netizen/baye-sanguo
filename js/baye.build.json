@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "0a6e4aaade5f6909a352b888add7710a4398a1d0",
-  "engineSourceSha256": "d13e8eefbbc0d2847133cca7b22ff28f73b994eb87327268dd8fe0b7c18d5a76",
+  "sourceRevision": "6a098b7a9954ef0cd127632f2e8f65acad921fcc",
+  "engineSourceSha256": "07972c4eb61470277151a90ab1800a742302b66bc2fa7ef911e7441fdbcac93d",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1793024758,
+  "sourceDateEpoch": 1794386954,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -141,7 +141,8 @@
     ],
     "commands": {
       "transportation": 13,
-      "move": 14
+      "move": 14,
+      "reconnoitre": 23
     },
     "phases": {
       "idle": 0,
@@ -153,7 +154,8 @@
       "targetPick": 6,
       "reject": 7,
       "departureReport": 8,
-      "done": 9
+      "done": 9,
+      "cityInfo": 10
     },
     "owner": "independent U32 session/inputSeq; zero skipped; detail-generation reset invalidates suspended publishers",
     "values": "only actual returned person/amount/target values; 255 city/distance and 65535 person mean not yet known",
@@ -662,15 +664,15 @@
   "artifacts": {
     "baye.js": {
       "bytes": 193652,
-      "sha256": "0d54a9d4d89daf397375a22d6d6ddfe10232a9525111e0bf079c0978d3eb727f"
+      "sha256": "42e32180d907ab2ea1462eaba56c1113c662a8a266caa3c308005d331629102d"
     },
     "baye.wasm": {
-      "bytes": 4583234,
-      "sha256": "c0c6567ab9545cb7e0ca0163ea3eb2ec05a31d100a607be63a02736b6abe93a3"
+      "bytes": 4584647,
+      "sha256": "158b6e96813bca987e24162e30a4af44f2a63f52deb6183a4d56f1ea4fb833d4"
     },
     "baye.wasm.map": {
-      "bytes": 29995,
-      "sha256": "289926f9605993fa4079dc95d1477a3763b5be679179a45f0b5453159454b084"
+      "bytes": 29983,
+      "sha256": "ddec429d76a0fca58708a9db1c5adf714932f78476e296e4df4b1f921fe3ef78"
     }
   }
 }

@@ -427,6 +427,7 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
 .hd-mobile-page:is(.hd-mobile-march-target-on, .hd-mobile-transfer-target-on) .hd-city-menu-title { font-size: 19px; }
 .hd-mobile-page:is(.hd-mobile-march-target-on, .hd-mobile-transfer-target-on) .hd-city-menu-deep { grid-template-columns: minmax(0, 1fr); }
 .hd-mobile-page:is(.hd-mobile-march-target-on, .hd-mobile-transfer-target-on) .hd-city-menu-wizard { display: none; }
+.hd-mobile-page.hd-mobile-transfer-target-on .hd-city-menu-footer { display: none; }
 .hd-mobile-page:is(.hd-mobile-march-target-on, .hd-mobile-transfer-target-on) .hd-city-menu-map-hint,
 .hd-mobile-page:is(.hd-mobile-march-target-on, .hd-mobile-transfer-target-on) .hd-city-menu-confirm-march { padding: 8px; font-size: 13px; }
 .hd-mobile-page:is(.hd-mobile-march-target-on, .hd-mobile-transfer-target-on) .hd-city-menu-confirm-march p { margin: 0 0 6px; }

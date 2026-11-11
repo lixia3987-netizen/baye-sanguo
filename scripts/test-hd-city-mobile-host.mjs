@@ -1905,6 +1905,23 @@ test('transfer target cannot select origin, enemy, isolated city, old data or ol
         assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
     }
 });
+test('reconnaissance target admits enemy and unoccupied cities while the officer still belongs to the source faction',()=>{
+    const f=transferFixture(23,6);
+    Object.assign(f.raw,{g_hdTransferFood:0,g_hdTransferMoney:0,g_hdTransferArms:0,
+        g_Persons:Array.from({length:200},()=>({Belong:1}))});
+    f.raw.g_Cities[8].Belong=0;
+    f.raw.g_Cities[37].Belong=2;
+    const ticket=f.api.getTransferTargetTicket();
+    assert.deepEqual(Array.from(ticket.targets),[8,37]);
+    assert.equal(f.state.deepLabel,'侦察');
+    assert.equal(f.state.subKind,'junbei');
+    assert.equal(f.api.selectTransferTarget(3,ticket),false);
+    assert.equal(f.api.selectTransferTarget(37,ticket),true);
+    f.raw.g_Persons[19].Belong=2;
+    assert.equal(f.api.getTransferTargetTicket(),null);
+    assert.equal(f.api.confirmTransferTarget(37,ticket),false);
+    assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
 test('transfer target final ENTER follows each actual cursor ACK and fires once',()=>{
     const f=transferFixture(13,6),ticket=f.api.getTransferTargetTicket(),index=ticket.targets[0],to={x:index%10,y:Math.floor(index/10)};
     f.setAfterKey(code=>{if(code===39)return;const pos=f.raw.g_CityPos;

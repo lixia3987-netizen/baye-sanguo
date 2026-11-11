@@ -187,7 +187,7 @@
                 function shape(ticket) {
                     return ticket && ticket.data === data && ticket.ownerType === 'transfer-target' &&
                         ticket.libraryGeneration === id.generation && ticket.phase === 6 &&
-                        integer(ticket.cityIndex, 0, 37) && [13,14].indexOf(ticket.command) >= 0 &&
+                        integer(ticket.cityIndex, 0, 37) && [13,14,23].indexOf(ticket.command) >= 0 &&
                         integer(ticket.session, 1, 0xffffffff) && integer(ticket.inputSeq, 1, 0xffffffff) &&
                         Array.isArray(ticket.targets) && ticket.targets.length <= 37 &&
                         ticket.targets.every(function (n, i, all) { return integer(n, 0, 37) && n !== ticket.cityIndex && all.indexOf(n) === i; }) &&
@@ -243,7 +243,9 @@
                             sharedState.mode === 'hd-map' && sharedState.phase === 'map');
                         if (next) {
                             nextType = transferTarget ? 'transfer-target' : 'march-target';
-                            tipText = transferTarget ? '点同势力城选择目标 · 在侧栏确认' : '点相邻敌城选择目标 · 在侧栏确认出征';
+                            tipText = !transferTarget ? '点相邻敌城选择目标 · 在侧栏确认出征' :
+                                targetToken.ticket.command === 23 ? '点非己方城池选择侦察目标 · 在侧栏确认' :
+                                '点同势力城选择目标 · 在侧栏确认';
                         }
                     } else if (environment.BayeHdMobile && typeof environment.BayeHdMobile.refresh === 'function') {
                         mapToken = readMap();

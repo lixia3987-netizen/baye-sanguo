@@ -2428,7 +2428,7 @@ function baye_bridge_init() {
                 var fields = [
                     ['protocolVersion', 'ProtocolVersion', 255], ['active', 'Active', 1],
                     ['command', 'Command', 255], ['session', 'Session', 0xffffffff],
-                    ['inputSeq', 'InputSeq', 0xffffffff], ['phase', 'Phase', 9],
+                    ['inputSeq', 'InputSeq', 0xffffffff], ['phase', 'Phase', 10],
                     ['origin', 'Origin', 255], ['target', 'Target', 255], ['person', 'Person', 65535],
                     ['food', 'Food', 65535], ['money', 'Money', 65535], ['arms', 'Arms', 65535],
                     ['distance', 'Distance', 255], ['commitSeq', 'CommitSeq', 0xffffffff],
@@ -2441,14 +2441,18 @@ function baye_bridge_init() {
                     (value.origin !== 255 && value.origin >= cities) ||
                     (value.target !== 255 && value.target >= cities) ||
                     (value.person !== 65535 && value.person >= persons)) return null;
+                var cityOrder = [13, 14, 23].indexOf(value.command) >= 0;
                 if (value.active) {
-                    if ((value.command !== 13 && value.command !== 14) || value.origin === 255 ||
+                    if (!cityOrder || value.origin === 255 ||
                         !value.session || !value.inputSeq || value.phase === 9) return null;
                 } else if (!((value.command === 0 && value.phase === 0 && value.origin === 255) ||
-                    ((value.command === 13 || value.command === 14) && value.phase === 9 &&
+                    (cityOrder && value.phase === 9 &&
                     value.origin !== 255 && value.session && value.inputSeq))) return null;
                 if ((value.commitResult && !value.commitSeq) ||
-                    (value.command === 14 && (value.food || value.money || value.arms)) ||
+                    (value.command !== 13 && (value.food || value.money || value.arms)) ||
+                    (value.command === 23 && [0, 1, 5, 6, 7, 9, 10].indexOf(value.phase) < 0) ||
+                    (value.phase === 10 && (value.command !== 23 || value.person === 65535 ||
+                        value.target === 255 || value.target === value.origin || value.distance !== 1)) ||
                     (value.phase === 8 && (value.person === 65535 || value.target === 255 || value.distance === 255))) return null;
                 return reader.stable() && baye.data === d ? value : null;
             } catch (e) { return null; }

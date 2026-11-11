@@ -49,7 +49,7 @@ function resource(id, index) {
     return lib.subarray(base + offset, base + offset + size);
 }
 
-const costs = resource(2,9), links = resource(59,0);
+const costs = resource(2,9), moneyCosts = resource(2,10), links = resource(59,0);
 assert.equal(costs[13],8); assert.equal(costs[14],0); assert.equal(links.length,38*16);
 const bytes = value => [...value,0].join(',');
 const defines=read('hd-bridge.h').split('\n').filter(s=>/^#define BAYE_HD_/.test(s)).join('\n');
@@ -59,7 +59,7 @@ const globals=bridge.slice(bridge.indexOf('U8 g_hdMenuGbk['),bridge.indexOf('U8 
  bridge.slice(bridge.indexOf('U8 g_hdHelpProtocolVersion ='),bridge.indexOf('U8 g_hdMovieActive ='));
 const orderType=/typedef struct OrderStruct[\s\S]*?\}OrderType;/.exec(read('baye/order.h'))[0];
 const constants=['baye/sconst.h','baye/consdef.h','baye/order.h','baye/attribute.h'].flatMap(name=>
- read(name).split('\n').filter(s=>/^#define\s+(TRANSPORTATION|MOVE|ORDER_MAX|IFACE_CONID|STRING_CONST|CITY_LINKR|STR_NOPERSON|STR_OBJ|P_SAY_STR31|STR_RP9|STR_RP10|NOTE_STR[3459]|ADD16|ASC_WID|ASC_HGT|TACTIC_ICON|ATRR_STR6[012])\b/.test(s))).join('\n');
+ read(name).split('\n').filter(s=>/^#define\s+(TRANSPORTATION|MOVE|RECONNOITRE|ORDER_MAX|IFACE_CONID|STRING_CONST|CITY_LINKR|STR_NOPERSON|STR_OBJ|P_SAY_STR31|STR_RP9|STR_RP10|NOTE_STR[345789]|ADD16|ASC_WID|ASC_HGT|TACTIC_ICON|ATRR_STR6[012])\b/.test(s))).join('\n');
 const nativeFunctions=['hd_next_input_seq', 'hd_battle_note_notify', 'baye_hd_battle_note_retire','baye_hd_person_properties_retire','hd_goods_clear','hd_menu_ids_clear',
  'hd_help_detail_clear','hd_city_info_notify','baye_hd_city_info_retire','baye_hd_view_retire','baye_hd_mini_map_retire','baye_hd_map_input_begin',
  'baye_hd_menu_scope','baye_hd_menu_scope_default','baye_hd_menu_begin','baye_hd_menu_end',
@@ -93,10 +93,10 @@ typedef uint8_t U8;typedef uint16_t U16;typedef uint32_t U32;typedef uint16_t Pe
  static CityType g_Cities[CITY_MAX];static PersonType g_Persons[PERSON_COUNT];
  static PersonID g_PersonsQueue[2000],shareMemory[2000];static OrderType orders[ORDER_MAX];
  static CitySetType g_CityPos;static U8 g_CBnkPtr,g_engineDebug;static PersonID g_PlayerKing=10;
- static struct {U8 fixOverFlow16,fixThewOverFlow,checkRedundantOnAddPerson;} g_engineConfig;
+ static struct {U8 fixOverFlow16,fixThewOverFlow,checkRedundantOnAddPerson,enable16bitConsumeMoney;} g_engineConfig;
  #define SHARE_MEM shareMemory
  #define ORDERQUEUE orders
- static U8 thewCosts[]={`+bytes(costs)+`};static U8 nativeLinks[]={`+bytes(links)+String.raw`};
+ static U8 thewCosts[]={`+bytes(costs)+`};static U8 moneyCosts[]={`+bytes(moneyCosts)+`};static U8 nativeLinks[]={`+bytes(links)+String.raw`};
  static U32 GamGetPersonCount(void){return PERSON_COUNT;}
  static U32 baye_hd_tool_count(void){return 33;}
  static void baye_hd_fight_input_begin(U8 kind){(void)kind;assert(0);}
@@ -107,12 +107,12 @@ typedef uint8_t U8;typedef uint16_t U16;typedef uint32_t U32;typedef uint16_t Pe
  static void gam_rect(int a,int b,int c,int d){(void)a;(void)b;(void)c;(void)d;}
  static void GamStrShowS(int a,int b,U8*s){(void)a;(void)b;assert(s);}
  static U8*ResLoadToCon(U16 id,U16 item,U8 bank){(void)bank;
-  if(id==IFACE_CONID){assert(item==ConsumeThew);return thewCosts;}
+  if(id==IFACE_CONID){assert(item==ConsumeThew||item==ConsumeMoney);return item==ConsumeThew?thewCosts:moneyCosts;}
   assert(id==CITY_LINKR&&item==1);return nativeLinks;}
  static void ResLoadToMem(U16 id,U16 item,U8*out){assert(id==STRING_CONST);out[0]=(U8)item;out[1]=0;}
 `+globals+String.raw`
  static unsigned scenario,personCalls,qtyCalls,mapCalls,addCalls,fullMessages,rejects,reports,driverMode;
- static unsigned departureReports,phaseCount;static U8 phases[80];static U32 phaseSeqs[80],phaseSessions[80];
+ static unsigned departureReports,cityInfoCalls,phaseCount;static U8 phases[80];static U32 phaseSeqs[80],phaseSessions[80];
  static U16 peopleAnswers[12],quantityAnswers[20];static U8 targetAnswers[12];
  static unsigned peopleLength,qtyLength,targetLength;static U32 expectedCommitBefore;
  static U8 rngValue=99,hookAccepted=1;
@@ -122,16 +122,17 @@ typedef uint8_t U8;typedef uint16_t U16;typedef uint32_t U32;typedef uint16_t Pe
   assert(phaseCount<80&&g_hdTransferSession&&g_hdTransferInputSeq);
   if(phaseCount&&phaseSessions[phaseCount-1]==g_hdTransferSession)assert(phaseSeqs[phaseCount-1]!=g_hdTransferInputSeq);
   phases[phaseCount]=phase;phaseSeqs[phaseCount]=g_hdTransferInputSeq;phaseSessions[phaseCount++]=g_hdTransferSession;}
- static void ShowConstStrMsg(U8 id){observePhase(BAYE_HD_TRANSFER_REJECT);assert(id==STR_NOPERSON||id==NOTE_STR9||id==NOTE_STR3||id==NOTE_STR4||id==NOTE_STR5);++rejects;}
+ static void ShowConstStrMsg(U8 id){observePhase(BAYE_HD_TRANSFER_REJECT);
+  assert(id==STR_NOPERSON||id==NOTE_STR9||id==NOTE_STR3||id==NOTE_STR4||id==NOTE_STR5||id==NOTE_STR7);++rejects;}
  static void GamMsgBox(U8*str,U8 delay){assert(str&&delay==1&&g_hdTransferPhase==8);++fullMessages;}
- static U8 canAddOrder(OrderType*order){assert(order->OrderId==13||order->OrderId==14);++addCalls;return hookAccepted;}
+ static U8 canAddOrder(OrderType*order){assert(order->OrderId==13||order->OrderId==14||order->OrderId==23);++addCalls;return hookAccepted;}
 `+'\n'+nativeFunctions.map(n=>actualFunction('hd-bridge.c',n)).join('\n')+'\n'+
  actualFunction('gamEng.c','add_16')+'\n'+
  ['GetCityPersons','DelPerson','AddPerson','GetRoundSelfCity','SearchRoad'].map(n=>actualFunction('cityedit.c',n)).join('\n')+'\n'+
- ['IsManual','OrderConsumeThew'].map(n=>actualFunction('citycmde.c',n)).join('\n')+'\n'+actualFunction('citycmdd.c','AddOrderHead')+'\n'+actualFunction('citycmdd.c','DelOrder')+String.raw`
+ ['IsManual','OrderConsumeThew','needMoney','IsMoney','OrderConsumeMoney'].map(n=>actualFunction('citycmde.c',n)).join('\n')+'\n'+actualFunction('citycmdd.c','AddOrderHead')+'\n'+actualFunction('citycmdd.c','DelOrder')+String.raw`
  static void ShowGReport(PersonID actor,U8*text){++reports;
   if(driverMode){assert(text[0]==STR_RP9||text[0]==STR_RP10);assert(actor==12&&g_Cities[0].Persons==2);return;}
-  if(text[0]==STR_OBJ){observePhase(5);assert(actor==(g_hdTransferCommand==13?g_hdTransferPerson:g_PlayerKing));return;}
+  if(text[0]==STR_OBJ){observePhase(5);assert(actor==(g_hdTransferCommand==14?g_PlayerKing:g_hdTransferPerson));return;}
   assert(text[0]==P_SAY_STR31);observePhase(8);++departureReports;
   assert(actor==g_hdTransferPerson&&g_hdTransferTarget==8&&g_hdTransferDistance==5);
   assert(g_hdTransferCommitSeq==expectedCommitBefore);expectedCommitBefore++;
@@ -142,6 +143,12 @@ typedef uint8_t U8;typedef uint16_t U16;typedef uint32_t U32;typedef uint16_t Pe
   if(g_hdTransferCommand==13){assert(g_Cities[0].Food==73&&g_Cities[0].Money==95&&g_Cities[0].MothballArms==57);}
   else assert(g_Cities[0].Food==80&&g_Cities[0].Money==100&&g_Cities[0].MothballArms==60);
   assert(orders[departureReports-1].OrderId==255||scenario==9||scenario==24);
+ }
+ static U8 ShowCityPro(U8 city){
+  observePhase(BAYE_HD_TRANSFER_CITY_INFO);++cityInfoCalls;
+  assert(g_hdTransferCommand==RECONNOITRE&&g_hdTransferPerson==12&&g_hdTransferTarget==city&&g_hdTransferDistance==1);
+  assert(g_Cities[0].Money==100&&g_Persons[12].Thew==100&&orders[0].OrderId==255&&!g_hdMapPick);
+  return 0;
  }
  FAR PersonID ShowPersonControlInner(PersonID*ids,U32 count,PersonID initial,U8 a,U8 b,U8 c,U8 d){
   (void)a;(void)b;(void)c;(void)d;observePhase(1);assert(personCalls<peopleLength&&count>0);
@@ -161,8 +168,8 @@ typedef uint8_t U8;typedef uint16_t U16;typedef uint32_t U32;typedef uint16_t Pe
   baye_hd_qty_end(session,answer==65535?initial:answer,min,max,answer==65535?40:39);return answer;}
 `+actualFunction('showface.c','ShowPersonControl')+'\n'+actualFunction('cityedit.c','GetCitySet')+'\n'+
  ['GetFood','GetMoney','GetArmy'].map(n=>actualFunction('cityedit.c',n)).join('\n')+'\n'+
- ['TransportationMake','MoveMake'].map(n=>actualFunction('citycmdc.c',n)).join('\n')+'\n'+
- ['TransportationDrv','MoveDrv'].map(n=>actualFunction('citycmd.c',n)).join('\n')+String.raw`
+ ['TransportationMake','MoveMake','ReconnoitreMake'].map(n=>actualFunction('citycmdc.c',n)).join('\n')+'\n'+
+ ['TransportationDrv','MoveDrv','ReconnoitreDrv'].map(n=>actualFunction('citycmd.c',n)).join('\n')+String.raw`
  static void setup(void){memset(g_Cities,0,sizeof(g_Cities));memset(g_Persons,0,sizeof(g_Persons));
   for(unsigned i=0;i<2000;i++)g_PersonsQueue[i]=(PersonID)(i%200);
   memset(orders,0xa5,sizeof(orders));for(unsigned i=0;i<200;i++)orders[i].OrderId=255;
@@ -234,6 +241,18 @@ typedef uint8_t U8;typedef uint16_t U16;typedef uint32_t U32;typedef uint16_t Pe
    assert(g_hdTransferCommitSeq==1&&g_hdTransferCommitResult==2);done();}
   else if(scenario==25){g_Cities[8].Belong=0;targetAnswers[1]=255;targetLength=2;MoveMake(0);
    unchanged();assert(rejects==2&&!personCalls&&!qtyCalls&&mapCalls==2);done();}
+  else if(scenario==26||scenario==27){
+   g_Cities[8].Belong=scenario==26?9:0;
+   if(scenario==27){targetAnswers[0]=3;targetAnswers[1]=8;targetLength=2;}
+   ReconnoitreMake(0);done();
+   assert(rejects==(scenario==27)&&cityInfoCalls==1&&addCalls==1&&mapCalls==targetLength);
+   assert(g_hdTransferCommitResult==1&&g_hdTransferCommitSeq==1&&g_hdTransferTarget==8);
+   assert(g_Cities[0].Money==100-moneyCosts[RECONNOITRE]&&g_Cities[0].Persons==2);
+   assert(g_Persons[12].Thew==100-thewCosts[RECONNOITRE]&&g_Cities[8].Belong==(scenario==26?9:0));
+   assert(orders[0].OrderId==23&&orders[0].City==0&&orders[0].Person==12&&orders[0].Object==8&&orders[0].TimeCount==1);
+   ReconnoitreDrv(&orders[0]);DelOrder(&orders[0]);assert(g_Cities[0].Persons==3&&orders[0].OrderId==255);}
+  else if(scenario==28){targetAnswers[0]=255;ReconnoitreMake(0);unchanged();done();
+   assert(personCalls==2&&mapCalls==1&&!cityInfoCalls&&g_hdTransferTarget==255);}
   else assert(0);puts("production transfer business and protocol passed");return 0;}
 `;
 let temporary,executable;
@@ -267,7 +286,10 @@ const scenarios=[
  'MOVE destination taken by enemy falls back to original source',
  'MOVE destination newly empty is claimed by original person belong',
  'MOVE full order queue preserves actual debit and returns fresh PERSON with rejected commit',
- 'MOVE unoccupied target preserves native two-message rejection before cancellation'
+ 'MOVE unoccupied target preserves native two-message rejection before cancellation',
+ 'reconnaissance shows the target city before debiting and returns its officer on execution',
+ 'reconnaissance rejects an allied city and can target an unoccupied city',
+ 'reconnaissance target EXIT returns PERSON with no business change'
 ];
 scenarios.forEach((name,i)=>test('real C '+name,async()=>{const r=await run(executable,[String(i+1)],{timeout:20000});assert.match(r.stdout,/production transfer business and protocol passed/);}));
 
@@ -299,6 +321,16 @@ test('public transfer rejects mixed command/phase and unobserved departure field
  for(const change of[d=>{d.g_hdTransferCommand=27;},d=>{d.g_hdTransferPhase=9;},d=>{d.g_hdTransferActive=0;},d=>{d.g_hdTransferPhase=8;},d=>{d.g_hdTransferCommitResult=1;},d=>{d.g_hdTransferCommand=14;d.g_hdTransferMoney=1;}]){
   const f=publicFixture();change(f.data);assert.equal(f.read(),null);
  }
+});
+test('public transfer observes the actual reconnaissance city-info phase only for its matching command and city',()=>{
+ const f=publicFixture();
+ Object.assign(f.data,{g_hdTransferCommand:23,g_hdTransferPhase:10,g_hdTransferTarget:8,g_hdTransferPerson:0,g_hdTransferDistance:1});
+ assert.equal(f.read().phase,10);
+ for(const [field,wrong] of [['Command',13],['Target',0],['Target',255],['Person',65535],['Distance',255],['Phase',2],['Food',1]]){
+  const key='g_hdTransfer'+field,previous=f.data[key];f.data[key]=wrong;assert.equal(f.read(),null,field);f.data[key]=previous;
+ }
+ Object.assign(f.data,{g_hdTransferPhase:9,g_hdTransferActive:0,g_hdTransferCommitSeq:1,g_hdTransferCommitResult:1});
+ assert.equal(f.read().command,23);
 });
 test('public transfer rejects torn native counters, generation and data rebinds across its complete double read',()=>{
  for(const field of['g_hdTransferInputSeq','g_hdDetailGeneration']){const f=publicFixture();let calls=0;

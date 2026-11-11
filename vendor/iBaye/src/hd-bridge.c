@@ -1807,14 +1807,16 @@ static U8 hd_transfer_owner(U32 session)
 
 void baye_hd_transfer_phase(U32 session, U8 phase)
 {
-    if (!hd_transfer_owner(session) || phase > BAYE_HD_TRANSFER_DONE) return;
+    if (!hd_transfer_owner(session) ||
+        (phase > BAYE_HD_TRANSFER_DONE &&
+         (phase != BAYE_HD_TRANSFER_CITY_INFO || g_hdTransferCommand != RECONNOITRE))) return;
     g_hdTransferPhase = phase;
     g_hdTransferInputSeq = hd_next_input_seq(g_hdTransferInputSeq);
 }
 
 U32 baye_hd_transfer_begin(U8 command, U8 origin)
 {
-    if ((command != TRANSPORTATION && command != MOVE) || origin >= CITY_MAX) return 0;
+    if ((command != TRANSPORTATION && command != MOVE && command != RECONNOITRE) || origin >= CITY_MAX) return 0;
     g_hdTransferSession = hd_next_input_seq(g_hdTransferSession);
     hdTransferGeneration = g_hdDetailGeneration;
     g_hdTransferActive = 1;

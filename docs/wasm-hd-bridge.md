@@ -49,11 +49,11 @@
 | `g_hdMenuActive` / `Context` / `Kind` / `Seq` | u8 / u8 / u8 / u32 | 菜单真实生命周期与上下文；关闭后旧 bytes 不代表可操作菜单 |
 | `g_hdMarchPhase` / `Session` / `Origin` / `Selected` / `InputSeq` | u8 / u16 / u8 / u8 / u32 | 出征步骤、当前出征会话、0-based 出发城（空闲 255）、已选人数及阻塞输入序号 |
 | `g_hdMapInputSeq` | u32 | 每次真正进入 `GetCitySet` 的输入序号；同一次等待中的光标移动不改变它 |
-| `g_hdTransferProtocolVersion` / `Active` / `Command` | u8 | 独立输送/移动协议 version 1、活动标志与命令 13/14 |
+| `g_hdTransferProtocolVersion` / `Active` / `Command` | u8 | 城池目标指令协议 version 1、活动标志与命令 13/14/23 |
 | `g_hdTransferSession` / `InputSeq` | u32 | 命令会话与真实等待序号；回绕跳过 0 |
 | `g_hdTransferPhase` / `Origin` / `Target` | u8 | 独立阶段及 0-based 城号；未定城号为 255 |
 | `g_hdTransferPerson` / `Food` / `Money` / `Arms` | u16 | 原生实际返回的人物与货物数量；未定人物为 65535 |
-| `g_hdTransferDistance` | u8 | 原生 `SearchRoad` 返回距离；未定为 255 |
+| `g_hdTransferDistance` | u8 | 输送和移动取原版道路距离，侦察取原版订单时长 1，未定为 255 |
 | `g_hdTransferCommitSeq` / `CommitResult` | u32 / u8 | 单调提交回执序号；0 无结果、1 实际入队成功、2 实际入队失败 |
 | `g_hdReportActive` / `InputSeq` | u8 / u32 | 报告真实等待的归属与输入序号；正文 seq 变化不等于可确认 |
 | `g_hdRecordActive` / `Mode` / `Index` / `Count` / `Seq` | u8 / u8 / u8 / u8 / u32 | 原生存读档等待：mode 1 保存、2 读取；下标更新不重开等待 |
@@ -70,9 +70,9 @@
 
 `bayeSendKey` 只将消息加入原生队列，入队时 `ready` 可以仍为 1。共享的已发送按键记录跨弹窗和模式的异步令牌保留；重新打开同一数量会话时，先等待旧按键的真实回执，再根据最新光标规划。确认也经过此等待，不能领取旧的同码按键回执。取消或确认后，已关闭的同一会话在 C 尚未退出期间继续拦截游戏键，避免落入下一层经典界面；编辑器、输入法和 SPE 原有键盘归属保持。
 
-## 输送与移动的独立观察协议
+## 城池目标指令的独立观察协议
 
-原版内政“输送”为 command 13，“移动”为 command 14；两者使用 `baye.hd.transfer()`，不复用出征的 `march` 状态。每次调用生成新的 U32 session；每次实际阻塞等待前推进 phase 与 inputSeq，均回绕跳过 0。观察者还绑定当前 `g_hdDetailGeneration`，新 LIB、reset 或 `world_commit` 会退休会话，旧 C 栈不能继续发布。
+输送（13）、移动（14）和侦察（23）共用 `baye.hd.transfer()`。每次调用生成新的 U32 session。每次实际阻塞等待前推进 phase 与 inputSeq，均回绕跳过 0。观察者绑定当前 `g_hdDetailGeneration`。新 LIB、reset 或 `world_commit` 会退休会话，旧 C 栈不能继续发布。
 
 | phase | 含义 |
 |-------|------|
@@ -83,10 +83,13 @@
 | 7 REJECT | 原生拒绝提示 |
 | 8 DEPARTURE_REPORT | 已扣体力/货物，正在原生出发报告中；尚未写订单 |
 | 9 DONE | 命令已结束，active=0，保留最后回执 |
+| 10 CITY_INFO | 侦察已选定目标，正在原版 `ShowCityPro` 中查看城池详情 |
 
 人物、数量、目标与距离只记录原生实际返回值，不能以目标字段替代合法性判定。数量、人物菜单、报告和地图仍分别校验自身的 session/seq、完整名单或 mapInputSeq；transfer.inputSeq 不代替这些按键回执。移动先选目标，再在同一 session 内连续选人；新一次 PERSON 等待保留上次人物，直到原生确认新选择才更新。
 
 输送在 phase 8 报告前扣除体力和出发城的粮、钱、预备兵；移动在该报告前扣体力。报告返回后才调用原来的 `AddOrderHead` 一次，成功才 `DelPerson`；CommitSeq 更新并记录这次真实返回值。队列满等失败不会新增回滚，已扣资源与仍在城人物按原业务保留。DONE 保留最后货物、目标和结果，下一次 begin 清这些值但不回退单调序号；reset 退休并清结果。无协议、缺字段、非法值或双读不稳定时 JS getter 返回 null，不能当作已完成。
+
+侦察选城允许敌方和无主城池。取消选城返回原城的武将名单。确认有效目标后，原版城池详情取得输入，玩家退出详情才扣钱、扣体力并尝试入队。月结执行订单时武将返回发起城。
 
 标准 LIB 的移动体力表值为 0、输送为 8；`fixThewOverFlow=1` 的移动按 MOVE 表扣 0，兼容分支 `fixThewOverFlow=0` 仍按 TRANSPORTATION 扣 8，保留原生 U8 算术。此次只增加观察，不修订该业务、零资源、满订单或月末运输规则。实际 staged 844 与安装后 844/667 的取消、选城、数量和入队范围见[移动输送/移动验收](validation/m5-mobile-transfer-20261011.md)；不包含月末送达/损失、真机或完整移动 HD 验收。
 

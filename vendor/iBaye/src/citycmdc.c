@@ -986,6 +986,8 @@ FAR U8 ReconnoitreMake(U8 city)
     PersonID p = PID0;
     U32 ocity;
     OrderType order;
+    U32 transferSession;
+    U8 orderAdded;
     
     if (!IsMoney(city,RECONNOITRE))
     {
@@ -995,6 +997,7 @@ FAR U8 ReconnoitreMake(U8 city)
     }
     
     pqptr = (PersonID*)SHARE_MEM;
+    transferSession = baye_hd_transfer_begin(RECONNOITRE, city);
     
     pcount = 0;
     while (1)
@@ -1004,15 +1007,19 @@ FAR U8 ReconnoitreMake(U8 city)
             pcount = GetCityPersons(city,pqptr);
             if (!pcount)
             {
+                baye_hd_transfer_phase(transferSession, BAYE_HD_TRANSFER_REJECT);
                 ShowConstStrMsg(STR_NOPERSON);
                 break;
             }
+            baye_hd_transfer_phase(transferSession, BAYE_HD_TRANSFER_PERSON);
             pcode = ShowPersonControl(pqptr,pcount,PID0,WK_SX + 4,WK_SY + 2,WK_EX - 4,WK_EY - 2);
             if (0xffff == pcode)
                 break;
             p = pqptr[pcode];
+            baye_hd_transfer_person(transferSession, p);
             if (!IsManual(p,RECONNOITRE))
             {
+                baye_hd_transfer_phase(transferSession, BAYE_HD_TRANSFER_REJECT);
                 ShowConstStrMsg(NOTE_STR9);
                 pcount = 0;
                 continue;
@@ -1024,8 +1031,10 @@ FAR U8 ReconnoitreMake(U8 city)
         {
             ResLoadToMem(STRING_CONST,STR_OBJ,str);
             ShowMapClear();
+            baye_hd_transfer_phase(transferSession, BAYE_HD_TRANSFER_TARGET_TIP);
             ShowGReport(p,str);
             
+            baye_hd_transfer_phase(transferSession, BAYE_HD_TRANSFER_TARGET_PICK);
             ocity = GetCitySet(&g_CityPos);
             if (0xff == ocity)
             {
@@ -1036,11 +1045,14 @@ FAR U8 ReconnoitreMake(U8 city)
                 if (g_Cities[ocity].Belong == g_Cities[city].Belong)
                 {
                     /*提示我方城池*/
+                    baye_hd_transfer_phase(transferSession, BAYE_HD_TRANSFER_REJECT);
                     ShowConstStrMsg(NOTE_STR7);
                     continue;
                 }
                 else
                 {
+                    baye_hd_transfer_target(transferSession, ocity, 1);
+                    baye_hd_transfer_phase(transferSession, BAYE_HD_TRANSFER_CITY_INFO);
                     ShowCityPro(ocity);
                     OrderConsumeThew(p,RECONNOITRE);
                     
@@ -1050,15 +1062,18 @@ FAR U8 ReconnoitreMake(U8 city)
                     order.City = city;
                     order.Object = PID(ocity);
                     order.TimeCount = 1;
-                    if (AddOrderHead(&order)) {
+                    orderAdded = AddOrderHead(&order);
+                    if (orderAdded) {
                         DelPerson(city,p);
                     }
+                    baye_hd_transfer_commit(transferSession, orderAdded);
                     break;
                 }
             }
         }
     }
-    
+    baye_hd_transfer_end(transferSession);
+
     return(1);
 }
 

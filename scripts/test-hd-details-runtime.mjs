@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Real native miniature, city transfers, confiscation and goods-detail browser acceptance.
+/** Real native map, city orders and goods-detail browser acceptance.
  * --staged serves the manifest-bound candidate engine from build/wasm/src.
  * Uses only genuine player UI input and a private temporary profile. */
 import assert from 'node:assert/strict';
@@ -15,8 +15,14 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const transferOnly = process.argv.includes('--transfer-only');
-const compact = transferOnly && process.argv.includes('--720p');
-const viewport = { width: compact ? 1280 : 1920, height: compact ? 720 : 1080 };
+const reconOnly = process.argv.includes('--recon-only');
+const mobileFlag = process.argv.find(arg => arg.startsWith('--mobile-width='));
+const mobileWidth = mobileFlag && Number(mobileFlag.split('=')[1]);
+assert.ok(!mobileFlag || reconOnly && [667, 844].includes(mobileWidth));
+assert.ok(!transferOnly || !reconOnly);
+const compact = (transferOnly || reconOnly) && process.argv.includes('--720p');
+const viewport = mobileWidth ? { width: mobileWidth, height: mobileWidth === 667 ? 375 : 390 }
+    : { width: compact ? 1280 : 1920, height: compact ? 720 : 1080 };
 const artifactFlag = process.argv.indexOf('--artifact-dir');
 const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/details-runtime-smoke'));
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -59,6 +65,8 @@ function prepareServedAssets() {
         servedAssets.set('js/' + name, { data, metadata });
     }
     const files=['pc.html','css/hd-city-menu.css','css/hd-dialog.css','css/hd-overworld.css','css/hd-portraits.css','css/hd-minimap.css','libs/dat-mod.lib','assets/hd-overworld/manifest.json','assets/hd-overworld/china-lcc-cities.json','assets/hd-overworld/roads/adjacency.json','assets/hd-overworld/palette/factions.json','assets/hd-overworld/terrain/base_plains.jpg','assets/hd-portraits/manifest.json','assets/hd-portraits/refs/index.json'];
+    if (reconOnly) { files.push('css/hd-city-info.css'); }
+    if (mobileWidth) { files.push('m.html', 'css/hd-mobile.css'); }
     for(const name of new Set(files)) {
         const data=fs.readFileSync(path.join(root,name));
         const metadata={source:name,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};
@@ -225,10 +233,24 @@ async function click(cdp, selector) {
 
 async function clickPoint(cdp, { x, y }, selector) {
     report.inputs.push({ type: 'click', selector, at: new Date().toISOString() });
-    const mousePoint = { x, y };
-    await cdp.send('Input.dispatchMouseEvent', { type: 'mousePressed', ...mousePoint, button: 'left', clickCount: 1 });
-    await cdp.send('Input.dispatchMouseEvent', { type: 'mouseReleased', ...mousePoint, button: 'left', clickCount: 1 });
+    if (mobileWidth) {
+        await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+        await delay(80);
+        await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    } else {
+        await cdp.send('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', clickCount: 1 });
+        await cdp.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x, y, button: 'left', clickCount: 1 });
+    }
     await delay(250);
+}
+
+async function clickMapCity(cdp, city) {
+    const point = await waitFor(cdp, `unobstructed HD map city ${city.name}`, `(() => {
+        const p = BayeHdOverworld.cityScreenPos(${city.i});
+        return p && document.elementFromPoint(p.clientX, p.clientY)?.id === 'hd-overworld-canvas' &&
+            {x:p.clientX, y:p.clientY};
+    })()`);
+    await clickPoint(cdp, point, city.name);
 }
 
 const toolPane = '#hd-city-menu-tool-details';
@@ -286,7 +308,7 @@ async function reopenInterior(cdp, label) {
 async function bootStrategy(cdp) {
     await waitFor(cdp, 'real initialized engine', 'window.baye && baye.hd && baye.hd.ready()', 60000);
     const skipped = new Set();
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; !mobileWidth && i < 100; i++) {
         const current = await evaluate(cdp, '({menu:baye.hd.menuItems(),spe:baye.hd.spe()})');
         if (current.menu.active && current.menu.context === 4 && current.menu.kind === 1) break;
         if (current.spe.active && current.spe.kind === 1 && current.spe.skipEligible &&
@@ -295,7 +317,7 @@ async function bootStrategy(cdp) {
             await click(cdp, '#hd-spe-skip');
         } else await delay(150);
     }
-    await waitFor(cdp, 'actual native title menu', 'baye.hd.menuItems().active && baye.hd.menuItems().context===4 && baye.hd.menuItems().kind===1');
+    await waitFor(cdp, 'actual native title menu', 'baye.hd.menuItems().active && baye.hd.menuItems().context===4 && baye.hd.menuItems().kind===1', 60000);
     await click(cdp, '#hd-system-ui [data-hd-sys="0"]');
     await waitFor(cdp, 'actual period menu', 'baye.hd.menuItems().active && baye.hd.menuItems().context===4 && baye.hd.menuItems().kind===2');
     await click(cdp, '#hd-system-ui [data-hd-sys="0"]');
@@ -304,14 +326,17 @@ async function bootStrategy(cdp) {
     const index = kings.kings.findIndex(king => king.name === '董卓');
     report.lord = kings.kings[index];
     await click(cdp, `#hd-system-ui [data-hd-sys="${index}"]`);
-    await waitFor(cdp, 'current native Dong Zhuo selection', `(() => {
-        const menu=baye.hd.menuItems(), kings=baye.hd.kings();
-        const start=document.querySelector('[data-hd-sys-start]');
-        return menu.active===1&&menu.context===4&&menu.kind===3&&kings.index===${index}&&kings.currentId===${report.lord.id}&&
-            !BayeHdSystemUi.debugSnapshot().pending&&start&&!start.disabled&&start.getAttribute('data-hd-king-index')===${JSON.stringify(String(index))};
-    })()`);
-    await click(cdp, '#hd-system-ui [data-hd-sys-start]');
+    if (!mobileWidth) {
+        await waitFor(cdp, 'current native Dong Zhuo selection', `(() => {
+            const menu=baye.hd.menuItems(), kings=baye.hd.kings();
+            const start=document.querySelector('[data-hd-sys-start]');
+            return menu.active===1&&menu.context===4&&menu.kind===3&&kings.index===${index}&&kings.currentId===${report.lord.id}&&
+                !BayeHdSystemUi.debugSnapshot().pending&&start&&!start.disabled&&start.getAttribute('data-hd-king-index')===${JSON.stringify(String(index))};
+        })()`);
+        await click(cdp, '#hd-system-ui [data-hd-sys-start]');
+    }
     await waitFor(cdp, 'actual strategy map', 'baye.hd.march().pick && baye.hd.realm().ownedCount>0');
+    assert.equal(await evaluate(cdp, 'baye.data.g_PlayerKing'), report.lord.id);
     const identity = await waitFor(cdp, 'actual loaded standard LIB identity', 'BayeHdLibIdentity.read().status==="ready" && BayeHdLibIdentity.read()');
     assert.equal(identity.sha256, report.sources['libs/dat-mod.lib'].sha256, 'The game uses the exact served dictionary bytes');
     report.libraryIdentity = identity;
@@ -333,7 +358,7 @@ async function bootStrategy(cdp) {
     assert.equal(report.presetMap.map.cityTotal, 38); assert.equal(report.presetMap.menu.active, 0);
     assert.equal(report.presetMap.march.pick, 1);
     await checkpoint(cdp, '00-preset-hd-map-native-ready');
-    if (transferOnly) { return cities; }
+    if (transferOnly || reconOnly) { return cities; }
     await miniMapSmoke(cdp);
     report.inputs.push({ type: 'player-map-action', action: 'walkToCity', cityIndex: report.cityIndex });
     assert.ok(await evaluate(cdp, `BayeHdOverworld.walkToCity(${report.cityIndex})`), 'A player can enter the actual owned city');
@@ -409,14 +434,6 @@ async function transferSmoke(cdp, cities) {
             baye.hd.march().pick === 1 && !BayeHdCityMenu.isOpen() &&
             !BayeHdCityMenu.getTransferTargetTicket() && BayeHdOverworld.debugSnapshot().phase === 'map'`);
     };
-    const mapClick = async city => {
-        const point = await waitFor(cdp, `unobstructed HD map city ${city.name}`, `(() => {
-            const p = BayeHdOverworld.cityScreenPos(${city.i});
-            return p && document.elementFromPoint(p.clientX, p.clientY)?.id === 'hd-overworld-canvas' &&
-                {x:p.clientX, y:p.clientY};
-        })()`);
-        await clickPoint(cdp, point, city.name);
-    };
     const confirm = '#hd-city-menu [data-hd-transfer-confirm]';
     const cancel = '#hd-city-menu [data-hd-transfer-cancel]';
     const confirmQty = '#hd-dialog [data-hd-dlg-ok], #hd-city-menu [data-hd-qty-ok]';
@@ -432,7 +449,7 @@ async function transferSmoke(cdp, cities) {
         const native = await phase(command, 6);
         assert.equal(before.targets.includes(origin.i), false);
         await waitFor(cdp, 'confirmation disabled before selection', `document.querySelector('${confirm}')?.disabled`);
-        await mapClick(origin);
+        await clickMapCity(cdp, origin);
         await key(cdp, 'Enter');
         assert.deepEqual(await keysAfter(offset), [], 'An illegal city and Enter without a selection send no native input');
         const alternate = before.targets.find(index => index !== target.i);
@@ -440,7 +457,7 @@ async function transferSmoke(cdp, cities) {
         await click(cdp, `#hd-city-menu [data-hd-transfer-target="${alternate}"]`);
         await waitFor(cdp, 'the city list selects the alternate target',
             `BayeHdCityMenu.getTransferPresentation()?.pendingTarget === ${alternate}`);
-        await mapClick(target);
+        await clickMapCity(cdp, target);
         await waitFor(cdp, 'target is selected without entering a native city', `
             BayeHdCityMenu.getTransferPresentation()?.pendingTarget === ${target.i} &&
             document.querySelector('[data-hd-transfer-target="${target.i}"]')?.getAttribute('aria-pressed') === 'true'`);
@@ -532,6 +549,115 @@ async function transferSmoke(cdp, cities) {
     report.transfers = queued;
     assert.deepEqual(await evaluate(cdp, '__miniNativeInputs.touches'), []);
     await checkpoint(cdp, '05-desktop-transport-queued');
+}
+
+async function reconSmoke(cdp, cities) {
+    const origin = cities.find(city => city.name === '长安');
+    const target = cities.find(city => city.name === '天水');
+    assert.notEqual(origin.belong, target.belong);
+    await observeNativeInputs(cdp);
+    await clickMapCity(cdp, origin);
+    await chooseCityItem(cdp, '军备', 'data-hd-root', 1);
+    await chooseCityItem(cdp, '侦察', 'data-hd-sub', 2);
+
+    const phase = step => waitFor(cdp, `native reconnaissance phase ${step}`, `(() => {
+        const t=baye.hd.transfer();
+        return t?.command===23 && t.origin===${origin.i} && t.phase===${step} && t.active===${step === 9 ? 0 : 1} && t;
+    })()`);
+    const nativeKeys = () => evaluate(cdp, '__miniNativeInputs.keys');
+    const menu = await menuOwner(cdp, 3, 'native reconnaissance PERSON');
+    await phase(1);
+    const actor = menu.ids[0];
+    assert.ok(Number.isInteger(actor));
+    const world = () => evaluate(cdp, `(() => {
+        const d=baye.data, c=d.g_Cities[${origin.i}], target=d.g_Cities[${target.i}];
+        return {money:c.Money, thew:d.g_Persons[${actor}].Thew, money16:d.g_engineConfig.enable16bitConsumeMoney,
+            residents:Array.from({length:c.Persons},(_,i)=>d.g_PersonsQueue[c.PersonQueue+i]),
+            target:{belong:target.Belong,money:target.Money,food:target.Food},
+            orders:Array.from(d.g_OrderQueue,(o,slot)=>({slot,id:o.OrderId,city:o.City,person:o.Person,target:o.Object,time:o.TimeCount}))
+                .filter(o=>o.id!==255)};
+    })()`);
+    const chooseTarget = async () => {
+        const picker = await menuOwner(cdp, 3, 'live reconnaissance officers');
+        const row = picker.ids.indexOf(actor);
+        assert.ok(row >= 0);
+        await click(cdp, `#hd-city-menu [data-hd-deep="${row}"]`);
+        const tip = await phase(5);
+        assert.equal(tip.person, actor);
+        await click(cdp, '#hd-city-menu [data-hd-transfer-continue], #hd-dialog [data-hd-dlg-ok]');
+        await phase(6);
+        return waitFor(cdp, 'HD reconnaissance target owner', `(() => {
+            const t=BayeHdCityMenu.getTransferTargetTicket(), map=BayeHdOverworld.debugSnapshot();
+            const surface=window.BayeHdMobileMap?.refresh();
+            return t?.command===23 && map.hitsEnabled && (!surface || surface.active && surface.transferCommand===23) && t;
+        })()`);
+    };
+    const initial = await world();
+    const first = await chooseTarget();
+    assert.deepEqual(first.targets, cities.filter(city => city.belong !== origin.belong).map(city => city.i).sort((a,b)=>a-b));
+    const beforeCancel = (await nativeKeys()).length;
+    await clickMapCity(cdp, origin);
+    assert.deepEqual((await nativeKeys()).slice(beforeCancel), []);
+    await click(cdp, '#hd-city-menu [data-hd-transfer-cancel]');
+    const returned = await phase(1);
+    assert.equal(returned.session, first.session);
+    assert.deepEqual((await nativeKeys()).slice(beforeCancel), [40]);
+    assert.deepEqual(await world(), initial);
+
+    await chooseTarget();
+    const beforeTarget = (await nativeKeys()).length;
+    await clickMapCity(cdp, target);
+    await waitFor(cdp, 'selected target remains a preview with a visible confirmation', `(() => {
+        const control=document.querySelector('[data-hd-transfer-confirm]'), r=control?.getBoundingClientRect();
+        return BayeHdCityMenu.getTransferPresentation()?.pendingTarget===${target.i} &&
+            document.querySelector('#hd-city-menu-sub')?.textContent.includes('选择目标城') && !control.disabled &&
+            document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)===control;
+    })()`);
+    assert.deepEqual((await nativeKeys()).slice(beforeTarget), []);
+    assert.deepEqual(await world(), initial);
+    await checkpoint(cdp, '01-recon-target');
+    await click(cdp, '#hd-city-menu [data-hd-transfer-confirm]');
+
+    const cityInfo = await phase(10);
+    assert.equal(cityInfo.target, target.i);
+    const targetKeys = (await nativeKeys()).slice(beforeTarget);
+    assert.equal(targetKeys.at(-1), 39);
+    assert.ok(targetKeys.slice(0,-1).every(code => [34,35,36,37].includes(code)));
+    const details = await waitFor(cdp, 'original city-info owner presented in HD', `(() => {
+        const p=baye.hd.cityInfo(), root=document.querySelector('#hd-city-info');
+        return p?.active===1 && p.complete===1 && p.cityIndex===${target.i} && !root.hidden && p.rows.length && p;
+    })()`);
+    const rows = await evaluate(cdp, `[...document.querySelectorAll('#hd-city-info-rows [data-property]')]
+        .map(row=>({index:Number(row.dataset.property),text:row.textContent}))`);
+    assert.deepEqual(rows, details.rows);
+    assert.equal(await evaluate(cdp, 'BayeHdCityMenu.getTransferTargetTicket()'), null);
+    assert.deepEqual(await world(), initial, 'The actual details wait precedes all costs and orders');
+    await checkpoint(cdp, '02-recon-city-info');
+    const infoOffset = (await nativeKeys()).length;
+    await click(cdp, '#hd-city-info [data-hd-city-info-key="35"]');
+    await waitFor(cdp, 'native city-info page receipt', `baye.hd.cityInfo()?.pageStart > ${details.pageStart}`);
+    assert.deepEqual(await world(), initial);
+    await click(cdp, '#hd-city-info [data-hd-city-info-key="40"]');
+    const receipt = await phase(9);
+    assert.equal(receipt.commitResult, 1);
+    assert.deepEqual((await nativeKeys()).slice(infoOffset), [35,40]);
+    await waitFor(cdp, 'ordinary HD map after reconnaissance', `!BayeHdCityMenu.isOpen() &&
+        !baye.hd.cityInfo().active && baye.hd.march().pick===1 && BayeHdOverworld.debugSnapshot().phase==='map'`);
+
+    const queued = await world(), moneyTable = nativeLibItem(2, 11);
+    const fee = initial.money16 ? moneyTable.readUInt16LE(23 * 2) : moneyTable[23];
+    const energy = nativeLibItem(2, 10)[23];
+    assert.equal(queued.money, initial.money - fee);
+    assert.equal(queued.thew, initial.thew - energy);
+    assert.deepEqual(queued.residents, initial.residents.filter(id => id !== actor));
+    assert.deepEqual(queued.target, initial.target);
+    assert.deepEqual(queued.orders.filter(o => o.id !== 23), initial.orders);
+    const [order] = queued.orders.filter(o => o.id === 23);
+    assert.equal(queued.orders.length, initial.orders.length + 1);
+    assert.deepEqual(order, { slot: order.slot, id:23, city:origin.i, person:actor, target:target.i, time:1 });
+    assert.deepEqual(await evaluate(cdp, '__miniNativeInputs.touches'), []);
+    report.reconnaissance = { origin, target, actor, fee, energy, order, details };
+    await checkpoint(cdp, '03-recon-queued');
 }
 
 const miniObservationExpression = `(() => {
@@ -1016,19 +1142,24 @@ async function main() {
                 { requestId: event.requestId, errorReason: 'BlockedByClient' }).catch(() => {});
         });
         await cdp.send('Runtime.enable'); await cdp.send('Page.enable');
-        await cdp.send('Emulation.setDeviceMetricsOverride', { ...viewport, deviceScaleFactor: 1, mobile: false });
+        await cdp.send('Emulation.setDeviceMetricsOverride', { ...viewport, deviceScaleFactor: 1, mobile: !!mobileWidth,
+            ...(mobileWidth && { screenOrientation: { type: 'landscapePrimary', angle: 90 } }) });
+        if (mobileWidth) { await cdp.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 2 }); }
         report.viewport = viewport;
         await cdp.send('Fetch.enable', { patterns: [{ urlPattern: '*' }] });
         await cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: `
             localStorage.clear();
             localStorage.setItem('baye/libpath','libs/dat-mod.lib');
             localStorage.setItem('baye/overworldMode','hd-map');
-            localStorage.setItem('baye/cityMenuMode',${JSON.stringify(transferOnly ? 'auto' : 'hd')});
+            localStorage.setItem('baye/cityMenuMode',${JSON.stringify(transferOnly || reconOnly ? 'auto' : 'hd')});
             localStorage.setItem('baye/systemUiMode','hd');
+            localStorage.setItem('baye/mobileOverworldMode','hd-map');
         ` });
-        await cdp.send('Page.navigate', { url: origin + '/pc.html' });
+        const page = mobileWidth ? '/m.html#' + Math.floor(Date.now() / 1000) : '/pc.html';
+        await cdp.send('Page.navigate', { url: origin + page });
         const cities = await bootStrategy(cdp);
         if (transferOnly) { await transferSmoke(cdp, cities); }
+        else if (reconOnly) { await reconSmoke(cdp, cities); }
         else {
             await emptyStockSmoke(cdp); await confiscateSmoke(cdp); await rewardBrowseSmoke(cdp);
             report.nativeEnd = await nativeState(cdp);
@@ -1064,7 +1195,8 @@ async function main() {
         report.finishedAt = new Date().toISOString();
         fs.writeFileSync(path.join(artifactDir, 'result.json'), JSON.stringify(report, null, 2) + '\n');
         console.log('Artifacts:', artifactDir);
-        if (report.ok) console.log(transferOnly ? 'Real native desktop transfer browser acceptance passed' :
+        if (report.ok) console.log(reconOnly ? 'Real native reconnaissance browser acceptance passed' :
+            transferOnly ? 'Real native desktop transfer browser acceptance passed' :
             'Real native miniature and goods-detail browser acceptance passed');
     }
 }

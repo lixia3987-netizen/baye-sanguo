@@ -81,7 +81,7 @@ npm run build:wasm
 
 M3 存档 `0x95` 保留双文件槽位，保存完整 4000 字节道具队列、600 字节出征队列和 U32 自定义数据长度。读取先校验完整快照再提交；浏览器保存与导入使用 journal 保留旧完整槽，LIB 使用加载内容指纹校验。旧 `0x90`–`0x94` 仍可读取，但旧活动出征槽 `slot≥8` 缺少已保存将领数据，必须拒绝加载。协议细节见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。
 
-当前七个引擎入口（PC、四个经典手机页、地图编辑器和立绘导出页）的引擎及 WASM/map 缓存号为 `20261011b`，bridge 为 `20261011a`。原版 PC/手机共用 CITY 脚本缓存为 `20261011r`，dialog 为 `20261011f`；这项缓存一致性不代表完整移动高清界面已验收。修改产物时同步 HTML 的 `js/baye.js?ver=`、`Module.locateFile` 的 WASM 版本及相关脚本缓存号，成套安装 manifest 和产物；仅运行旧缓存号更新脚本并不能代替检查。`save-storage.js` 必须先于 `lcd.js` 加载，纯存档导出页不加载 LCD。
+当前七个引擎入口（PC、四个手机页、地图编辑器和立绘导出页）的引擎、WASM、map 和 bridge 缓存号为 `20261111recon`。修改产物时同步 HTML 的 `js/baye.js?ver=`、`Module.locateFile` 的 WASM 版本及相关脚本缓存号，并成套安装 manifest 和产物。`save-storage.js` 必须先于 `lcd.js` 加载，纯存档导出页不加载 LCD。
 
 人物列表属性观察另由 manifest 的 `hdPersonPropertiesProtocol` version 1 记录，见[人物属性契约](hd-details.md)。暂存人物验收使用 `npm run test:person-properties-runtime -- --staged --library standard --artifact-dir build/person-standard-staged`，Mod 将 `standard` 替换为 `sc-mod`；`--preflight-only` 只做静态 ROM/源码与成套产物校验。浏览器验收需要独立临时 profile，既有用户游戏页和 8080 服务保持不动。测试目录需要使用新路径，不能覆盖先前失败或通过结果。
 
@@ -124,7 +124,7 @@ HD 导出清单见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。
 
 2026-10-11 交易菜单安装补充：只增加 `ExchangeMake` 实际选择等待的 CITY/EXCHANGE kind5 标记，原业务保持。StageOnly 后通过原版移动买卖实际验收，再逐字节复制同一套四件，未重新构建或重标来源。manifest 的实际 `sourceRevision=1082e79567df75fc6efe7c620b433f753f2a9ddf`、`engineSourceModified=true`、128 文件 native SHA-256 `df32b2f147e11ebbdc17c3dff1447f41c65762dad40951f221606b1164580066` 保留。专项入口为 `npm run test:mobile-trade` 和 `npm run test:mobile-trade-runtime -- --trade-width=844 --staged --artifact-dir build/new-directory`；安装验收省略 `--staged`，667 宽将 `844` 替换为 `667`。该运行器使用独立且身份核验的 Chrome/profile/随机私有端口，冻结提供的引擎和页面字节，结束后核对来源漂移并仅清理自有进程。
 
-2026-10-11 输送/移动安装补充：独立 `hdTransferProtocol.version=1` 只观察 command 13 输送与 command 14 移动，不借用出征 MARCH 阶段。真实报告前扣费、报告后单次入队以及移动体力 0/8 兼容分支均按原业务保留，字段与生命周期见[桥协议](wasm-hd-bridge.md#输送与移动的独立观察协议)。本次 StageOnly 的同一套 `baye.js`、`baye.wasm`、`baye.wasm.map`、`baye.build.json` 经 staged 844 验证后逐字节安装，未重构建或重标来源；安装后 844、667 各自独立实际通过。manifest 保留 `sourceRevision=5b8345b1adaf4d00467e69a867d97be6ad960d00`、`engineSourceModified=true`、`engineSourceSha256=9db61759be19881d93e5b88661c7cd062b50a565d6eb212e365d44ee99a5e706`。
+2026-10-11 输送/移动安装补充：该版 `hdTransferProtocol.version=1` 观察 command 13 输送与 command 14 移动。真实报告前扣费、报告后单次入队以及移动体力 0/8 兼容分支均按原业务保留，字段与生命周期见[桥协议](wasm-hd-bridge.md#城池目标指令的独立观察协议)。本次 StageOnly 的同一套 `baye.js`、`baye.wasm`、`baye.wasm.map`、`baye.build.json` 经 staged 844 验证后逐字节安装，未重构建或重标来源；安装后 844、667 各自独立实际通过。manifest 保留 `sourceRevision=5b8345b1adaf4d00467e69a867d97be6ad960d00`、`engineSourceModified=true`、`engineSourceSha256=9db61759be19881d93e5b88661c7cd062b50a565d6eb212e365d44ee99a5e706`。
 
 专项静态入口为 `npm run test:mobile-transfer`；真实移动验收使用以下参数，并为每局指定尚不存在的新目录：
 
