@@ -152,7 +152,14 @@ export async function runMobileSystemChecks(ctx) {
   for(let n=0;n<60;n++){if(await evaluate('baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1'))break;
     if(await evaluate('baye.hd.movie().active||(baye.hd.spe().active&&baye.hd.spe().kind===1)')){report.inputs.push({type:'public intro ACK after reload',code:VK.ENTER});await evaluate('sendKey(39)');await delay(160);}else await delay(150);}
   await ready('title');await capture('10-reloaded-title');assert.deepEqual(await pair(),raw,'Raw original save pair survives actual page reload');
-  await action(item(1),'saveload','load saved game');const loadState=await sample();assert.equal(loadState.record.mode,2);assert.equal(loadState.slots[0].canLoad,true);await capture('11-load-slots');
+  await action(item(1),'saveload','load saved game');const loadState=await sample();assert.equal(loadState.record.mode,2);assert.equal(loadState.slots[0].canLoad,true);
+  const loadRows=await evaluate(`Array.from(document.querySelectorAll('#hd-system-ui-list [data-hd-sys]'),
+    row=>({text:row.textContent,disabled:row.disabled}))`);
+  assert.deepEqual(loadRows,[
+    {text:'存档 1 · 董卓 · 董卓弄权 · '+saved.world.year+' 年 '+saved.world.month+' 月',disabled:false},
+    ...[2,3,4].map(slot=>({text:'存档 '+slot+' · 空',disabled:true}))
+  ],'Reloaded HD rows show the saved ruler, period and date and disable empty slots');
+  report.systemLoadRows=loadRows;await capture('11-load-slots');
   const beforeLoad=await snapshot();await touch(item(0));await until('loaded original map',mapReadySource);const loaded=await snapshot();assert.deepEqual(loaded.world,saved.world,'Real refreshed load restores all recorded world fields');assertHd(loaded.state);
   assert.deepEqual(await keys(beforeLoad.state.keyCount).then(v=>v.map(k=>k.code)),[VK.ENTER]);assert.deepEqual(await pair(),raw,'Load never rewrites saved pair');
   // GamRecordMan ends the selector; successful world_commit invalidates it again.
