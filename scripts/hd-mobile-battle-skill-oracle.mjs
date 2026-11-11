@@ -95,8 +95,12 @@ export function verifyMobileSpySkill({before,after,world,worldAfter,reportObserv
   const succeeded=after.eneTmpProv===before.food.enemy;assert.ok(succeeded||after.eneTmpProv===0,'Only exact enemy-grain reveal or unchanged unknown state');
   const expectedWorld=structuredClone(world),expectedUnits=structuredClone(before.units),ea=expectedUnits.find(u=>u.i===actorIndex);ea.mp-=ef[6];ea.active=1;
   const pausedUnits=structuredClone(expectedUnits),pausedWorld=structuredClone(expectedWorld),transitions=[];let focus={x:before.fight.focusX,y:before.fight.focusY};
+  let experienceWorld=null;
   if(succeeded){
-    if(!world.config.disableExpGrowing)expectedWorld.people[actor.id-1].Experience=(expectedWorld.people[actor.id-1].Experience+8)&255;
+    if(!world.config.disableExpGrowing){
+      expectedWorld.people[actor.id-1].Experience=(expectedWorld.people[actor.id-1].Experience+8)&255;
+      experienceWorld=structuredClone(expectedWorld);
+    }
     // FgtChkAtkEnd executes even when experience growth is disabled. Preserve C order.
     for(const u of [...expectedUnits].sort((a,b)=>a.i-b.i)){
       if(u.state===8)continue;const p=expectedWorld.people[u.id-1];
@@ -109,18 +113,34 @@ export function verifyMobileSpySkill({before,after,world,worldAfter,reportObserv
   assert.equal(after.fight.focusX,focus.x,'Native post-command focus X');assert.equal(after.fight.focusY,focus.y,'Native post-command focus Y');
   assert.ok(Array.isArray(reportObservations),'Actual report observations array required');
   const successText=decode.decode(libItem(lib,1,54)),upgradeTexts=[38,39,40].map(i=>decode.decode(libItem(lib,1,i))),deathTexts=[41,42,43].map(i=>decode.decode(libItem(lib,1,i)));
-  const owners=new Map(),transitionOwners=new Map();let spySeen=false,spyOwner=null,lastReport=null;
+  const failureText=' '+skillName+'  '+decode.decode(libItem(lib,1,25));
+  const experienceText=decode.decode(libItem(lib,1,21))+'8';
+  const owners=new Map(),transitionOwners=new Map();let spySeen=false,spyOwner=null,experienceOwner=null,lastReport=null;
   for(const [i,r] of reportObservations.entries()){
     assert.ok(r&&r.observation&&r.world,'Report observation '+i+' includes same-pause battle and world');const o=r.observation;
     worldShape(r.world,'report world '+i);unitsShape(o,r.world,'report '+i);invariant(o,before,'Report '+i);
     assert.equal(o.fight.inputKind,0,'Report pause remains BUSY, never AIM');assert.equal(o.fight.actorIndex,255);assert.equal(o.fight.inputSeq,busySeq,'Report pause binds the command owner');
     assert.equal(o.eneTmpProv,succeeded?before.food.enemy:0,'Report actual revealed grain');const rp=o.report;
-    assert.equal(rp.active,1,'Only actual active GREPORT observations supplied');assert.equal(rp.kind,2,'Native GREPORT kind');uint(rp.seq,65535,'Report publication seq');assert.ok(rp.seq>0,'Positive report publication');seq(rp.inputSeq);
+    assert.equal(rp.active,1,'Only actual active report observations supplied');
+    const experience=succeeded&&rp.kind===1;
+    assert.equal(rp.kind,succeeded&&!experience?2:1,'Native success GREPORT or graphic MSGBOX');
+    uint(rp.seq,65535,'Report publication seq');assert.ok(rp.seq>0,'Positive report publication');seq(rp.inputSeq);
     assert.ok(o.keys>=before.keys+1&&o.keys<=after.keys,'Report keys are inside this real command');
     assert.ok(o.touches>=before.touches&&o.touches<=after.touches,'Report touches are inside this real command');
-    assert.ok(succeeded,'Failure has no GREPORT owner');let checkpoint,transitionIndex=-1;
+    let checkpoint,transitionIndex=-1;
     const ownerKey=JSON.stringify([rp.seq,rp.inputSeq,rp.person,rp.text]);
-    if(rp.text===successText){assert.equal(rp.person,actor.id-1,'Spy report actual caster PID');checkpoint={world:pausedWorld,units:pausedUnits};
+    if(!succeeded){
+      assert.equal(rp.person,65535,'Failure graphic has no person owner');
+      assert.equal(rp.text,failureText,'Exact original failure text');
+      assert.ok(owners.size===0||owners.has(ownerKey),'One native failure graphic');
+      checkpoint={world:pausedWorld,units:pausedUnits};
+    }else if(experience){
+      assert.ok(experienceWorld,'Experience graphic requires a real award');
+      assert.equal(rp.person,65535,'Experience graphic has no person owner');
+      assert.equal(rp.text,experienceText,'Exact original experience award text');
+      assert.ok(experienceOwner===null||experienceOwner===ownerKey,'One native experience graphic');
+      experienceOwner=ownerKey;checkpoint={world:experienceWorld,units:pausedUnits};
+    }else if(rp.text===successText){assert.equal(rp.person,actor.id-1,'Spy report actual caster PID');checkpoint={world:pausedWorld,units:pausedUnits};
       assert.ok(spyOwner===null||spyOwner===ownerKey,'Only one actual spy report owner');spyOwner=ownerKey;spySeen=true;}
     else {transitionIndex=transitions.findIndex(t=>t.personId===rp.person&&(t.kind==='upgrade'?upgradeTexts:deathTexts).includes(rp.text)&&
       matches(t.world,r.world)&&matches(t.units,o.units));checkpoint=transitions[transitionIndex];
@@ -129,9 +149,10 @@ export function verifyMobileSpySkill({before,after,world,worldAfter,reportObserv
     const prior=owners.get(ownerKey);if(prior)exact(prior,rp,'Stable report publication');else owners.set(ownerKey,structuredClone(rp));lastReport=structuredClone(rp);
   }
   if(succeeded&&!world.config.disableAllPersonReport){assert.ok(spySeen,'Real success GREPORT pause required');
-    assert.equal(transitionOwners.size,transitions.length,'Every actual status report pause observed');assert.equal(owners.size,1+transitions.length,'Exact spy/status report owner count');
-    exact(after.report,{...lastReport,active:0,inputSeq:seq(lastReport.inputSeq)},'Last actual report retired into the final PICK');}
-  if(!succeeded||world.config.disableAllPersonReport)assert.equal(reportObservations.length,0,'No fabricated active report for failure/disabled reports');
+    assert.equal(transitionOwners.size,transitions.length,'Every actual status report pause observed');
+    assert.equal(owners.size,1+transitions.length+Number(experienceOwner!==null),'Exact spy/status/experience report owner count');}
+  if(lastReport)exact(after.report,{...lastReport,active:0,inputSeq:seq(lastReport.inputSeq)},'Last native report retires before the final PICK');
+  if(succeeded&&world.config.disableAllPersonReport)assert.equal(owners.size,Number(experienceOwner!==null),'No GREPORT when person reports are disabled');
   const keyDelta=after.keys-before.keys,touchDelta=after.touches-before.touches;
   assert.ok(Number.isInteger(keyDelta)&&keyDelta>=1,'Real skill confirmation key recorded');assert.ok(Number.isInteger(touchDelta)&&touchDelta>=0&&touchDelta%2===0,'Only complete recorded LCD DOWN/UP pairs');
   const acknowledgements=keyDelta-1+touchDelta/2;assert.ok(acknowledgements<=owners.size,'At most one acknowledgement per observed native report');

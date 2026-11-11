@@ -711,6 +711,10 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
     min-height: 0;
     overflow: hidden;
 }
+/* Give the native command rows the focus card's space while a menu is open. */
+.hd-mobile-page #hd-mobile-battle-side:has(> #hd-battle-menu:not([hidden])) > #hd-mobile-battle-details {
+    display: none;
+}
 .hd-mobile-page #hd-battle-menu-title {
     flex: 0 0 auto;
     font-size: 14px;
