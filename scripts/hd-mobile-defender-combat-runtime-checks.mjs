@@ -275,6 +275,8 @@ export async function runMobileDefenderCombatChecks(c) {
   assert.equal(store.outcomes.length,battles.length);
   assert.equal(final.world.month,monthStart.month===12?1:monthStart.month+1,'Exactly the interrupted strategy month has now completed');
   assert.equal(final.world.year,monthStart.year+(monthStart.month===12?1:0));
+  const personNames=store.reports.some(e=>e.native.report?.text?.endsWith(' 战死'))?
+    await evaluate('Array.from({length:baye.getPersonCount()},(_,i)=>baye.getPersonName(i))'):undefined;
 
   report.defenderCombatResults=battles.map(({entry,before,geometry})=>{
     const settlements=store.settlements.filter(s=>s.receipt.generation===before.native.detailGeneration&&
@@ -282,7 +284,7 @@ export async function runMobileDefenderCombatChecks(c) {
       JSON.stringify(s.native.battle)===JSON.stringify(before.native.battle));
     assert.equal(settlements.length,1,'Exactly one synchronous receipt for this defense');
     const after=settlements[0],receipt=after.receipt,incoming=entry.picker.verdict;
-    const verdict=verifyMobileDefenderSettlement({before,after,receipt,events:{successions:store.successions,reports:store.reports}});
+    const verdict=verifyMobileDefenderSettlement({before,after,receipt,events:{successions:store.successions,reports:store.reports,personNames}});
     assert.equal(after.world.year,monthStart.year);assert.equal(after.world.month,monthStart.month);
     const orderIndex=verdict.orderIndex;
     assert.equal(orderIndex,entry.battle.verdict.orderIndex,'Same original incoming defense order');

@@ -34,6 +34,7 @@ import {createMobileCampaignInputs} from './hd-mobile-campaign-inputs.mjs';
 import {verifyOriginalSavePair} from './hd-mobile-system-runtime-oracle.mjs';
 import {verifyMobileSuccessorChoice,verifyMobileSuccessorReport,verifyMobileSuccessorSettlement} from './hd-mobile-successor-runtime-oracle.mjs';
 import {recordBattleOpeningStatus,verifyBattleOpeningStatus} from './hd-battle-opening-status-runtime-checks.mjs';
+import {observeBattleEquipmentSettlement,discoveredCityEquipment,verifyEquipmentDeposit} from './hd-battle-equipment-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -68,9 +69,12 @@ assert.ok(!defenseTenGenerals||defenseScenario&&mobileCampaignWidth&&campaignPer
     '--defense-ten-generals requires the period 4 mobile defense campaign');
 const battleOpeningStatus=process.argv.includes('--battle-opening-status');
 const missingOpeningStatusArt=process.argv.includes('--opening-status-art-missing');
+const lastCityEquipment=process.argv.includes('--last-city-equipment');
 assert.ok(!battleOpeningStatus||scenario==='victory'&&mobileCampaignWidth&&campaignPeriod===1,
     '--battle-opening-status requires the period 1 mobile victory campaign');
 assert.ok(!missingOpeningStatusArt||battleOpeningStatus,'--opening-status-art-missing requires --battle-opening-status');
+assert.ok(!lastCityEquipment||scenario==='victory'&&mobileCampaignWidth&&campaignPeriod===1&&!battleOpeningStatus,
+    '--last-city-equipment requires the period 1 mobile victory campaign');
 const captiveScenario=scenario==='captives',preflightOnly=process.argv.includes('--preflight-only');
 const captiveOrder=process.argv.includes('--captive-order');
 const captiveUntilJoined=process.argv.includes('--captive-until-joined');
@@ -87,12 +91,13 @@ assert.ok(!captiveWidthFlag||captiveScenario&&[1280,1920].includes(captiveWidth)
 assert.ok(!captiveMobileFlag||captiveOrder&&[667,844].includes(captiveMobileWidth),'Mobile captive orders require a 667px or 844px landscape viewport');
 assert.ok(!captiveResumeFlag||captiveOrder,'Captive replay requires a live surrender order');
 const winningScenarios=new Set(['victory','arrival','campaign','save','restart','captives']);
-const winningFixture=[
+const defaultWinningFixture=[
     {lord:'董卓',origin:15,target:16,leaders:['吕布','张辽','李儒'],recruitments:7}, // 洛阳 → 许昌
     {lord:'刘备',origin:13,target:7,leaders:['关羽','张飞'],recruitments:3}, // 徐州 → 北海
     {lord:'曹操',origin:26,target:32,leaders:['许褚','张辽'],recruitments:2}, // 襄阳 → 武陵
     {lord:'刘禅',origin:14,target:8,leaders:['赵云','马超'],recruitments:3}, // 汉中 → 天水
 ][campaignPeriod-1];
+const winningFixture=lastCityEquipment?{...defaultWinningFixture,target:21,opponent:'袁术'}:defaultWinningFixture;
 const startingLord=campaignPeriod===1&&!winningScenarios.has(scenario)&&!defenseScenario?'马腾':winningFixture.lord;
 const artifactFlag = process.argv.indexOf('--artifact-dir');
 const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/campaign-runtime-smoke'));
@@ -925,6 +930,93 @@ async function prepareUnarmedMarch(cdp,cityIndex) {
     return {person,cityIndex,quantity:0,reserveBefore:reserve,reserveAfter:reserve+person.Arms,missingArt:missingOpeningStatusArt};
 }
 
+async function openCampaignDomesticList(cdp,cityIndex,name,kind) {
+    await openCity(cdp,cityIndex,'battle-equipment-'+kind);
+    await click(cdp,'#hd-city-menu [data-hd-root="0"]');
+    const submenu=await waitFor(cdp,'actual domestic command '+name,`(() => {const m=baye.hd.menuItems();
+        return m.active&&m.context===1&&m.kind===2&&m.names.includes(${JSON.stringify(name)})&&m;})()`);
+    await click(cdp,`#hd-city-menu [data-hd-sub="${submenu.names.indexOf(name)}"]`);
+    return waitFor(cdp,'current native domestic list '+name,`(() => {
+        const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot(),owner=s.deepMenuOwner;
+        if(!m.active||m.context!==1||m.kind!==${kind}||!m.idsValid||s.cityIndex!==${cityIndex}||owner?.seq!==m.seq)return false;
+        const nodes=[...document.querySelectorAll('#hd-city-menu [data-hd-deep]')];
+        if(nodes.length!==m.count)return false;
+        return m.names.every((name,i)=>nodes.some(node=>Number(node.dataset.hdDeep)===i&&node.dataset.hdDeepName===name&&
+            Number(node.dataset.hdMenuSeq)===m.seq))&&m;
+    })()`);
+}
+
+async function inspectBattleEquipment(cdp,cityIndex,opponentName,terminal,after) {
+    const observation=report.lastCityEquipment=await evaluate(cdp,'window.__battleEquipment');
+    const {before,settled}=observation;
+    assert.ok(before&&settled,'Original battle publishes both sides of the actual settlement');
+    const opponent=before.cities[cityIndex].Belong;
+    assert.equal(before.cities[cityIndex].owner,opponentName);
+    assert.deepEqual(before.cities.filter(c=>c.Belong===opponent).map(c=>c.i),[cityIndex],
+        'The original opponent has only the city being captured');
+    assert.equal(settled.world.cities[cityIndex].Belong,before.realm.playerBelong);
+    const defeated=terminal.units.filter(p=>p.side==='enemy').map(p=>before.allPersons[p.id-1]);
+    assert.ok(defeated.some(p=>p.Equip.some(Boolean)),'Actual defending army includes an equipped original general');
+    const loot=[];
+    let previous=before;
+    for(const death of observation.deaths) {
+        const matches=defeated.filter(p=>death.native.text===p.name+' 战死');
+        assert.equal(matches.length,1,'The original death report identifies an actual defeated general');
+        const [person]=matches;
+        death.itemIds=verifyEquipmentDeposit(previous,death.world,cityIndex,person.Equip);
+        loot.push(...death.itemIds);
+        previous=death.world;
+    }
+    verifyEquipmentDeposit(previous,settled.world,cityIndex,[]);
+    if(!loot.length) {
+        // The original captive command exercises the same discovered-inventory
+        // insertion after an ordinary capture, with its own report and input.
+        const city=after.cities[cityIndex],residents=after.personQueue.slice(city.PersonQueue,city.PersonQueue+city.Persons);
+        const captives=residents.filter(id=>after.allPersons[id].Belong===65535);
+        const person=defeated.find(p=>captives.includes(p.i)&&p.Equip.some(Boolean));
+        assert.ok(person,'An equipped original defender is available as a real captive');
+        assert.deepEqual(after.allPersons[person.i].Equip,person.Equip);
+        const picker=await openCampaignDomesticList(cdp,cityIndex,'处斩',3),index=picker.ids.indexOf(person.i);
+        assert.deepEqual(picker.ids,captives,'Native prisoner list matches the actual captured city residents');
+        assert.ok(index>=0&&picker.names[index]===person.name);
+        const offset=await evaluate(cdp,'__runtimeEngineInputs.length');
+        await click(cdp,personSelector(picker,{i:index,name:person.name,pind:person.i}));
+        const native=await waitFor(cdp,'original captive report and mobile confirmation',`(() => {
+            const r=baye.hd.report(),d=BayeHdDialog.debugSnapshot(),t=BayeHdDialog.getInputTicket();
+            return r.active===1&&r.kind===2&&r.person===${person.i}&&r.text&&d.open&&d.body===r.text&&
+                d.reportOwner?.seq===r.seq&&t?.ownerType==='report'&&r;
+        })()`);
+        const during=await evaluate(cdp,worldExpression);
+        const itemIds=verifyEquipmentDeposit(after,during,cityIndex,person.Equip);
+        assert.deepEqual(during.personQueue,after.personQueue,'The original prisoner still belongs to the report until confirmation');
+        const delta=index-picker.index;
+        assert.deepEqual(await evaluate(cdp,`__runtimeEngineInputs.slice(${offset}).map(input=>input.code)`),
+            [...Array(Math.abs(delta)).fill(delta<0?34:35),39]);
+        await checkpoint(cdp,'battle-equipment-captive-report',{native,person:person.name,itemIds});
+        await acknowledgeCampaignReport(cdp,native);
+        await settleDomestic(cdp);
+        await waitFor(cdp,'ordinary map after native prisoner report',mobileMapReady);
+        const final=await evaluate(cdp,worldExpression);
+        verifyEquipmentDeposit(during,final,cityIndex,[]);
+        assert.deepEqual((await readCityPersons(cdp,cityIndex)).map(p=>p.pind),residents.filter(id=>id!==person.i));
+        observation.captiveCommand={person:person.name,native,itemIds};
+        loot.push(...itemIds);
+        after=final;
+    }
+    const inventory=await openCampaignDomesticList(cdp,cityIndex,'赏赐',4);
+    assert.deepEqual(inventory.ids,discoveredCityEquipment(after,cityIndex),'The original reward list reflects the full discovered city inventory');
+    assert.ok(loot.every(id=>inventory.ids.includes(id)),'The deposited equipment is visible in the real reward list');
+    observation.inventory=inventory.ids.map((id,i)=>({id,name:inventory.names[i]}));
+    for(const id of new Set(loot)) {
+        const row=await mobileCampaignInput.reveal(`#hd-city-menu [data-hd-deep-tool="${id}"][data-hd-menu-seq="${inventory.seq}"]`);
+        assert.ok(row?.visible&&row.hit,'The deposited item can be reached in the current mobile inventory');
+    }
+    await checkpoint(cdp,'battle-equipment-in-city',{inventory:observation.inventory});
+    await settleDomestic(cdp);
+    await waitFor(cdp,'ordinary map after viewing captured equipment',mobileMapReady);
+    await checkpoint(cdp,'battle-equipment-final-map');
+}
+
 async function recordBattleResultNote(cdp,label,expected) {
     const sample=await waitFor(cdp,'current native result note for city '+expected.cityIndex,
         `(() => {const s=${battleResultNoteObservation};return s&&s.note.outcome===${expected.outcome}&&s.city.index===${expected.cityIndex}?s:null;})()`,15000);
@@ -1010,6 +1102,7 @@ async function campaignSmoke(cdp) {
     if(winningScenarios.has(scenario))await prepareArmy(cdp,winningFixture);
     const openingStatus=battleOpeningStatus?report.openingStatus=await prepareUnarmedMarch(cdp,winningFixture.origin):null;
     if(openingStatus)assert.ok(await evaluate(cdp,recordBattleOpeningStatus(openingStatus.person.i)));
+    if(lastCityEquipment)assert.ok(await evaluate(cdp,observeBattleEquipmentSettlement(winningFixture.target,worldExpression)));
     const rounds=['campaign','retreat'].includes(scenario)?3:1;
     for(let round=1;round<=rounds;round++) {
         const winRequested=!['retreat','domestic'].includes(scenario)&&!(scenario==='campaign'&&round>1);
@@ -1108,6 +1201,7 @@ async function campaignSmoke(cdp) {
             }
             await checkpoint(cdp,'mobile-after-capture-map');
         }
+        if(lastCityEquipment)await inspectBattleEquipment(cdp,plan.target,winningFixture.opponent,terminal,after);
         if(captiveScenario){await inspectActualCaptives(cdp,plan);return;}
     }
     if(scenario==='campaign')assert.deepEqual(report.battles.map(b=>b.terminal.fight.over),[1,2,2],'mixed campaign verifies one occupation and two explicit retreats across three fresh battles');

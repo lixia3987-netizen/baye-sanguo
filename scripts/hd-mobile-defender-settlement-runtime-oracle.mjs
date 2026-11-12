@@ -1,13 +1,14 @@
 // Pure original FGT_DF settlement verification. No browser, input, native writes or RNG prediction.
 import assert from 'node:assert/strict';
+import {appendDiscoveredEquipment} from './hd-battle-equipment-runtime-checks.mjs';
 
 export const mobileDefenderSettlementContract=Object.freeze({
   mode:0,over:[1,2],people:200,cities:38,queue:2000,orders:200,fighterBytes:600,
   before:'Synchronous onEngineFight after active=0/over=1|2, before FightResultDeal',
   after:'Synchronous baye-hd-battle-settled after KingOverDeal and grain merge; Order27 is still live',
-  randomBranches:'Observed captive or escape destination, independently constrained and reconstructed; RNG draw/continuity not verified',
-  unsupported:['Actual loser death/equipment drop','King extinction while still owning cities','Post-settlement PolicyExec/month world'],
-  sources:['vendor/iBaye/src/citycmdd.c:247-501,517-792,808-873','vendor/iBaye/src/cityedit.c:59-145','vendor/iBaye/src/Fight.c:79-119']
+  randomBranches:'Observed captive, escape or original death report, independently constrained and reconstructed; RNG draw/continuity not verified',
+  unsupported:['King extinction while still owning cities','Post-settlement PolicyExec/month world'],
+  sources:['vendor/iBaye/src/citycmdd.c:247-501,517-792,808-873','vendor/iBaye/src/cityedit.c:59-190','vendor/iBaye/src/infdeal.c:714-718','vendor/iBaye/src/Fight.c:79-119']
 });
 const PERSON=['Belong','OldBelong','Level','Experience','IQ','Force','Age','Devotion','Character','Thew','Arms','ArmsType','Tool1','Tool2'];
 const CITY=['State','Belong','SatrapId','FarmingLimit','Farming','CommerceLimit','Commerce','PeopleDevotion','AvoidCalamity','PopulationLimit','Population','Money','Food','MothballArms','PersonQueue','Persons','ToolQueue','Tools'];
@@ -63,7 +64,7 @@ function incoming(w,b){
 }
 function sameBattle(n,b,g){return n&&n.detailGeneration===g&&n.battle&&JSON.stringify(n.battle)===JSON.stringify(b);}
 function candidates(w,king){const ids=[];for(let i=0;i<38;i++)if(w.cities[i].Belong===king+1)for(const id of residents(w,i))if(w.people[id].Belong===king+1)ids.push(id);return ids;}
-function build(before,after,reference,successions,reports){
+function build(before,after,reference,successions,reports,personNames){
   const w=structuredClone(before.world),b=before.native.battle,city=b.cityIndex,win=b.over===1?b.genArray.slice(0,10):b.genArray.slice(10),lose=b.over===1?b.genArray.slice(10):b.genArray.slice(0,10),branches=[];let capturedKing=null;
   // Native returns every nonzero token, including a slot marked STATE_SW.
   for(const token of win)if(token)add(w,city,token-1);
@@ -74,13 +75,28 @@ function build(before,after,reference,successions,reports){
   }
   for(const token of lose)if(token){
     const id=token-1,p=w.people[id],old=p.Belong,observed=reference.people[id];assert.ok(old>=1&&old<=200,'Loser has a real pre-settlement faction');
+    const target=observed.Belong===65535?undefined:cityFor(reference,id);
     if(observed.Belong===65535){
       const ownCities=w.cities.filter(c=>c.Belong===old);
       assert.ok(p.IQ<99||(!ownCities.length&&(w.config.disableFightToDeath===1||p.IQ>=1)),'A captive outcome must be possible under native rnd0..99/IQ/escape rules');
       if(old===token)capturedKing=id;p.OldBelong=old;p.Belong=65535;p.Arms=0;add(w,city,id);branches.push({personId:id,outcome:'captive',cityIndex:city});
-    }else{
-      const target=cityFor(reference,id);assert.ok(target!==undefined&&w.cities[target].Belong===old,'Observed escape must reach an actually retained old-faction city; death is unsupported');
+    }else if(target!==undefined){
+      assert.equal(w.cities[target].Belong,old,'Observed escape reaches an actually retained old-faction city');
       add(w,target,id);branches.push({personId:id,outcome:'escape',cityIndex:target});
+    }else{
+      assert.ok(w.config.disableFightToDeath===0&&!w.cities.some(c=>c.Belong===old),'Death requires an enabled original branch with no retained old-faction city');
+      exact(observed,p,'The original death branch leaves the removed person record intact');
+      const name=personNames?.[id];
+      assert.ok(typeof name==='string'&&name&&lose.filter(token=>token&&personNames[token-1]===name).length===1,
+        'A unique actual defeated name is required to bind the native death report');
+      const notes=reports.filter(e=>{const r=e.native.report;return r?.active===1&&r.kind===1&&r.person===65535&&
+        r.seq>0&&r.inputSeq>0&&r.text===name+' 战死';});
+      assert.equal(notes.length,1,'One exact original death report is required for an unplaced loser');
+      const equipment=[p.Tool1,p.Tool2];assert.ok(equipment.every(id=>id<=w.tools.length),'Equipment IDs resolve in the original tools');
+      const toolIds=appendDiscoveredEquipment(w.cities,w.goodsQueue,city,equipment);
+      exact(notes[0].world,w,'The original death report owns the world immediately after equipment insertion');
+      if(old===token)capturedKing=id;
+      branches.push({personId:id,outcome:'death',cityIndex:city,toolIds,reportSeq:notes[0].native.report.seq});
     }
   }
   const c=w.cities[city];for(const k of ['Farming','Commerce','Money'])c[k]-=Math.floor(c[k]/20);c.PeopleDevotion-=Math.floor(c.PeopleDevotion/10);
@@ -124,7 +140,7 @@ function build(before,after,reference,successions,reports){
   exact(after.world,w,'Complete defense settlement world');
   return {winnerIds:win.filter(Boolean).map(t=>t-1),loserBranches:branches,succession,extinction};
 }
-/** events: actual callback samples {successions:[{receipt,world,native}],reports:[{world,native}]}.
+/** events: actual callback samples {successions:[{receipt,world,native}],reports:[{world,native}],personNames}.
  * A successor needs both its NewKingNote and synchronous commitment worlds. The
  * caller authenticates sources/opaque data/current trusted keys separately. */
 export function verifyMobileDefenderSettlement({before,after,receipt,events={}}={}){
@@ -139,7 +155,7 @@ export function verifyMobileDefenderSettlement({before,after,receipt,events={}}=
   const successions=ss.filter(e=>e?.receipt?.generation===g&&sameBattle(e.native,b,g));for(const e of successions)shape(e.world);assert.ok(successions.length<=1,'One KingOverDeal at most for this exact battle');
   const reports=rs.filter(e=>sameBattle(e?.native,b,g));for(const e of reports)shape(e.world);
   const refs=successions.length?reports.filter(e=>e.native.report?.active===1&&e.native.report.kind===1).map(e=>e.world):[after.world];assert.ok(refs.length>0,'Successor report trace required');
-  const matches=[];let lastError;for(const ref of refs)try{matches.push(build(before,after,ref,successions,reports));}catch(e){lastError=e;}
+  const matches=[];let lastError;for(const ref of refs)try{matches.push(build(before,after,ref,successions,reports,events.personNames));}catch(e){lastError=e;}
   if(!matches.length)throw lastError||new Error('Unsupported defense settlement branch');
   const unique=new Map(matches.map(x=>[JSON.stringify(x),x]));assert.equal(unique.size,1,'Observed settlement branch must be unambiguous');const details=[...unique.values()][0];
   exact(after.world.orders,before.world.orders,'All orders still unchanged before PolicyExec DelOrder');exact(after.world.fighters,before.world.fighters,'Raw fighter slots retained');exact(after.world.fighterIndex,before.world.fighterIndex,'Allocation flags unchanged');

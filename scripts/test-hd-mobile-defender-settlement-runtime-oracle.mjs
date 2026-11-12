@@ -27,7 +27,15 @@ function expected(before,outcomes=[]){
   const w=clone(before.world),b=before.native.battle,won=b.over===1,winners=(won?b.genArray.slice(0,10):b.genArray.slice(10)).filter(Boolean),losers=(won?b.genArray.slice(10):b.genArray.slice(0,10)).filter(Boolean);
   winners.forEach(t=>insert(w,0,t-1));
   if(!won){Object.assign(w.cities[0],{Belong:w.people[b.genArray[10]-1].Belong,SatrapId:b.genArray[10]});w.people[27].Belong=0;w.people[27].Arms=0;}
-  losers.forEach((t,i)=>{const id=t-1;if(outcomes[i]==='escape')insert(w,won?2:1,id);else{const p=w.people[id];p.OldBelong=p.Belong;p.Belong=65535;p.Arms=0;insert(w,0,id);}});
+  losers.forEach((t,i)=>{
+    const id=t-1,p=w.people[id];
+    if(outcomes[i]==='escape')insert(w,won?2:1,id);
+    else if(outcomes[i]==='death'){
+      const city=w.cities[0],at=city.ToolQueue+city.Tools,items=[p.Tool1,p.Tool2].filter(Boolean).map(slot=>0x8000+slot-1);
+      w.goodsQueue=[...w.goodsQueue.slice(0,at),...items,...w.goodsQueue.slice(at,2000-items.length)];
+      city.Tools+=items.length;w.cities.slice(1).forEach(c=>c.ToolQueue+=items.length);
+    }else{p.OldBelong=p.Belong;p.Belong=65535;p.Arms=0;insert(w,0,id);}
+  });
   Object.assign(w.cities[0],{Farming:96,Commerce:95,Money:951,PeopleDevotion:90});
   const sum=b.playerFood+b.enemyFood;w.cities[0].Food=w.config.fixOverFlow16?Math.min(65535,sum):sum%65536;return w;
 }
@@ -46,10 +54,42 @@ function withPlayerSuccession(){
   return {before,after,receipt:{generation:3,detailGeneration:3,city:0,mode:0,over:2,playerKing:0},events:{reports:[{world:reportWorld,native:rn}],successions:[{world:committed,native:clone(before.native),receipt:{generation:3,oldKing:29,newKing:0,playerKing:0}}]}};
 }
 
+function withDeath(equipment=[2,23]){
+  const before=fixture(),w=before.world;
+  w.cities[1].Belong=0;w.people[0].Belong=0;
+  [w.people[29].Tool1,w.people[29].Tool2]=equipment;
+  w.tools=Array.from({length:33},()=>clone(w.tools[0]));
+  w.goodsQueue=Array.from({length:2000},(_,i)=>i);w.goodsQueue[0]=0x8004;
+  w.cities[0].Tools=1;w.cities[1].Tools=1;
+  w.cities.slice(1).forEach((c,i)=>c.ToolQueue=i===0?1:2);
+  const after={world:expected(before,['death']),native:clone(before.native)},during=clone(after.world);
+  for(const key of ['Farming','Commerce','Money','PeopleDevotion','Food'])during.cities[0][key]=w.cities[0][key];
+  const personNames=Array.from({length:200},(_,i)=>'武将'+i),native=clone(before.native);
+  native.report={active:1,kind:1,person:65535,seq:11,inputSeq:11,text:personNames[29]+' 战死'};
+  const receipt={generation:3,detailGeneration:3,city:0,mode:0,over:2,playerKing:0};
+  return {before,after,receipt,events:{personNames,reports:[{world:during,native}]}};
+}
+
 test('Actual defensive loss reconstructs enemies, occupation, captive and complete queue',()=>{const x=args();const r=verify(x);assert.equal(r.accepted,true);assert.equal(r.orderIndex,170);assert.equal(r.armySlot,0);assert.deepEqual(r.winnerIds,[10,11,12]);assert.deepEqual(x.after.world.queue.slice(0,7),[29,12,11,10,27,0,50]);assert.equal(x.after.world.people[27].OldBelong,0);assert.equal(r.orderRetirementAccepted,false);});
 test('Defeated nonking escapes only to actual retained own-faction city',()=>{const x=args(2,['escape']);assert.equal(verify(x).loserBranches[0].cityIndex,1);assert.deepEqual(x.after.world.people[29],x.before.world.people[29]);});
 test('Victory returns player and captures every enemy token',()=>{const x=args(1);assert.equal(verify(x).over,1);assert.deepEqual(x.after.world.queue.slice(0,7),[12,11,10,29,27,0,50]);});
 test('Victory accepts individually observed escape/captive branches in native order',()=>{const x=args(1,['escape','captive','escape']);assert.deepEqual(verify(x).loserBranches.map(x=>x.outcome),['escape','captive','escape']);});
+test('An exact original death report proves both discovered equipment slots and the whole shifted inventory',()=>{
+  const x=withDeath(),r=verify(x);assert.deepEqual(r.loserBranches,[{personId:29,outcome:'death',cityIndex:0,toolIds:[1,22],reportSeq:11}]);
+  assert.deepEqual(x.after.world.goodsQueue.slice(0,5),[0x8004,0x8001,0x8016,1,2]);
+  assert.deepEqual(x.after.world.people[29],x.before.world.people[29]);assert.equal(r.rngAccepted,false);
+});
+test('An original death with empty slots leaves the goods queue untouched',()=>{const x=withDeath([0,0]);assert.deepEqual(verify(x).loserBranches[0].toolIds,[]);});
+for(const [name,change] of [
+  ['no report',x=>x.events.reports=[]],
+  ['different person name',x=>x.events.personNames[29]='另一人'],
+  ['a portrait report',x=>x.events.reports[0].native.report.person=29],
+  ['wrong discovery bit during report',x=>x.events.reports[0].world.goodsQueue[1]=1],
+  ['wrong retained city offset',x=>x.after.world.cities[1].ToolQueue--],
+  ['death disabled',x=>x.before.world.config.disableFightToDeath=1],
+  ['an escape city still exists',x=>x.before.world.cities[1].Belong=1],
+  ['changed dead person record',x=>x.after.world.people[29].Tool1=0]
+])test('Reported battle death rejects '+name,()=>{const x=withDeath();change(x);assert.throws(()=>verify(x));});
 test('Winning STATE_SW token is still returned by FightResultDeal',()=>{const x=args();x.before.native.battle.positions[10].state=8;x.after.native.battle.positions[10].state=8;assert.equal(verify(x).accepted,true);});
 test('Saturating remaining-food merge',()=>{const x=args();x.before.native.battle.playerFood=65000;x.before.native.battle.enemyFood=1000;x.after.native.battle=clone(x.before.native.battle);x.after.world.cities[0].Food=65535;assert.equal(verify(x).food.merged,65535);});
 test('Legacy U16 remaining-food wrap',()=>{const x=args();x.before.world.config.fixOverFlow16=0;x.after.world.config.fixOverFlow16=0;x.before.native.battle.playerFood=65000;x.before.native.battle.enemyFood=1000;x.after.native.battle=clone(x.before.native.battle);x.after.world.cities[0].Food=464;assert.equal(verify(x).food.merged,464);});

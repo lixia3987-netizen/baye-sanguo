@@ -691,7 +691,7 @@ int main(void) {
 `);
 });
 
-test('real C battle settlement transfers ownership, preserves winning troops and keeps defeated generals as captives', async () => {
+test('real C battle settlement preserves ownership, captives, escape and last-city equipment drops', async () => {
     await compile(String.raw`
 #include <assert.h>
 #include <stdint.h>
@@ -710,6 +710,7 @@ typedef U8 SBUF[512];
 #define PERSON_COUNT 600
 #define PERSON_MAX PERSON_COUNT
 #define CITY_MAX 64
+#define GOODS_MAX 2000
 #define FGT_WON 1
 #define FGT_LOSE 2
 #define FGT_AT 2
@@ -720,16 +721,19 @@ typedef U8 SBUF[512];
 #define STR_CAV_NOTE1 3
 #define gam_strcat(a,b) strcat((char*)(a),(const char*)(b))
 typedef struct { PersonID Belong,OldBelong; U16 Arms; U8 IQ,Devotion; ToolID Equip[2]; } PersonType;
-typedef struct { PersonID Belong,SatrapId; U16 PersonQueue,Persons,Farming,Commerce,Money,PeopleDevotion,Food; } CityType;
+typedef struct { PersonID Belong,SatrapId; U16 PersonQueue,Persons,Farming,Commerce,Money,PeopleDevotion,Food,ToolQueue,Tools; } CityType;
 static PersonType g_Persons[PERSON_COUNT];
 static PersonID g_PersonsQueue[PERSON_COUNT];
 static CityType g_Cities[CITY_MAX];
+static ToolID g_GoodsQueue[GOODS_MAX];
 static struct { U8 checkRedundantOnAddPerson,fixOverFlow16,disableFightToDeath; } g_engineConfig;
 static struct { PersonID GenArray[20]; U16 MProvender,EProvender; U8 Mode; } g_FgtParam;
 static U8 memory[4096];
 #define SHARE_MEM memory
 static PersonID cavpdb;
 static unsigned cavps,kingOverCalls,winNotes,lossNotes;
+static unsigned deathNotes,randomCalls;
+static U8 roll;
 static PersonID fallenKing;
 static U8 expectedOldBelong;
 static U32 g_hdDetailGeneration=7;
@@ -751,14 +755,20 @@ static void settled(U32 gen,U32 detail,U8 city,U8 mode,U8 over,PersonID king){
 #define EM_ASM(code,...) settled(__VA_ARGS__)
 ` + actualFunction('hd-bridge.c','baye_hd_battle_settled') + String.raw`
 static U8 DelPerson(U8 city,PersonID person);
+FAR ToolID AddGoodsEx(U8 city,ToolID goods,U8 found);
 ` + actualFunction('cityedit.c', 'AddPerson') + '\n' + actualFunction('cityedit.c', 'DelPerson') + '\n' + actualFunction('cityedit.c', 'GetCityPersons') + String.raw`
-static U8 gam_rand(void) { return 99; }
-static U8 LostEscape(PersonID person,U8 city) { (void)person;(void)city;return 0; }
-static ToolID AddGoods(U8 city,ToolID tool) { (void)city;(void)tool;return 1; }
-static void SetGoodsByIndex(ToolID tool) { (void)tool; }
+static U8 gam_rand(void) { ++randomCalls;return roll; }
+` + actualFunction('cityedit.c','GetKingCitys') + '\n' + actualFunction('citycmdd.c','LostEscape') + '\n' +
+    actualFunction('cityedit.c','AddGoods') + '\n' + actualFunction('cityedit.c','AddGoodsEx') + '\n' +
+    actualFunction('infdeal.c','SetGoodsByIndex') + '\n' + actualFunction('infdeal.c','GetCityPGoods') + String.raw`
 static void GetPersonName(PersonID person,U8* text) { (void)person;strcpy((char*)text,"person"); }
-static void ResLoadToMem(U8 resource,U8 id,U8* text) { (void)resource;(void)id;strcpy((char*)text,"report"); }
-static void GamMsgBox(U8* text,U8 delay) { (void)text;(void)delay; }
+static void ResLoadToMem(U8 resource,U8 id,U8* text) { (void)resource;strcpy((char*)text,id==STR_PERSONOVER?" died":"report"); }
+static void GamMsgBox(U8* text,U8 delay) {
+    if (strcmp((char*)text,"person died")!=0) return;
+    assert(delay==2&&settlements==0&&g_Cities[1].Belong==1);
+    assert(g_Cities[1].Tools==3&&g_GoodsQueue[1]==0x8001&&g_GoodsQueue[2]==0x8016);
+    ++deathNotes;
+}
 static void ShowFightWinNote(PersonID king) { (void)king;assert(g_Cities[1].Belong==expectedOldBelong);++winNotes; }
 static void ShowFightLossNote(void) { ++lossNotes; }
 static void KingOverDeal(PersonID king) { fallenKing=king;++kingOverCalls;g_PlayerKing=511;g_Persons[511].Devotion=100; }
@@ -767,10 +777,22 @@ static U16 add_16(U16 a,U16 b) { return a+b; }
 static void setup(void) {
     memset(g_Persons,0,sizeof(g_Persons));memset(g_Cities,0,sizeof(g_Cities));
     memset(g_PersonsQueue,0,sizeof(g_PersonsQueue));memset(&g_FgtParam,0,sizeof(g_FgtParam));
+    memset(&g_engineConfig,0,sizeof(g_engineConfig));memset(g_GoodsQueue,0,sizeof(g_GoodsQueue));
     cavps=kingOverCalls=winNotes=lossNotes=settlements=0;g_PlayerKing=0;
+    deathNotes=randomCalls=0;roll=99;
     expectedOldBelong=7;g_Cities[1].Belong=7;
     g_Cities[1].Farming=1000;g_Cities[1].Commerce=2000;g_Cities[1].Money=3000;g_Cities[1].PeopleDevotion=100;
     g_FgtParam.MProvender=400;g_FgtParam.EProvender=600;g_FgtParam.Mode=FGT_AT;
+}
+static void equipDefeatedRuler(void) {
+    for (unsigned i=0;i<GOODS_MAX;i++) g_GoodsQueue[i]=(ToolID)i;
+    g_GoodsQueue[0]=0x8004;
+    g_Cities[1].Tools=1;
+    for (unsigned city=2;city<CITY_MAX;city++) g_Cities[city].ToolQueue=city==2?1:2;
+    g_Cities[2].Tools=1;
+    g_Persons[6].Belong=7;g_Persons[6].IQ=80;g_Persons[6].Arms=800;
+    g_Persons[6].Equip[0]=2;g_Persons[6].Equip[1]=23;
+    roll=0;
 }
 int main(void) {
     setup();
@@ -806,7 +828,29 @@ int main(void) {
     baye_hd_battle_settled(7,CITY_MAX,FGT_DF,FGT_WON);baye_hd_battle_settled(7,1,255,FGT_WON);
     baye_hd_battle_settled(7,1,FGT_DF,0);g_PlayerKing=PERSON_MAX;baye_hd_battle_settled(7,1,FGT_DF,FGT_WON);
     assert(settlements==1);
-    puts("real victory/loss occupation, captive and resource settlement passed");
+
+    setup();equipDefeatedRuler();
+    g_Persons[255].Belong=1;g_FgtParam.GenArray[0]=256;g_FgtParam.GenArray[10]=7;
+    assert(FightResultDeal(1,FGT_WON)==0);
+    assert(randomCalls==1&&deathNotes==1&&cavps==0&&settlements==1&&fallenKing==6);
+    assert(g_Cities[1].Persons==1&&g_PersonsQueue[0]==255&&g_Persons[6].Belong==7);
+    assert(g_Cities[2].ToolQueue==3&&g_Cities[2].Tools==1&&g_Cities[3].ToolQueue==4);
+    assert(g_Persons[6].Equip[0]==2&&g_Persons[6].Equip[1]==23&&g_GoodsQueue[0]==0x8004);
+    for (unsigned i=3;i<GOODS_MAX;i++) assert(g_GoodsQueue[i]==i-2);
+    ToolID visible[3];
+    assert(GetCityPGoods(1,visible)==3&&visible[0]==4&&visible[1]==1&&visible[2]==22);
+
+    PersonID losers[10]={7};
+    setup();equipDefeatedRuler();g_Cities[1].Belong=1;g_engineConfig.disableFightToDeath=1;
+    assert(TheLoserDeal(1,losers)==6);
+    assert(randomCalls==1&&deathNotes==0&&cavps==1&&g_Persons[6].Belong==65535&&g_PersonsQueue[0]==6);
+    assert(g_Cities[1].Tools==1&&g_Cities[2].ToolQueue==1&&g_Persons[6].Equip[1]==23);
+
+    setup();equipDefeatedRuler();g_Cities[1].Belong=1;g_Cities[2].Belong=7;
+    assert(TheLoserDeal(1,losers)==0xffff);
+    assert(randomCalls==2&&deathNotes==0&&cavps==0&&g_Cities[2].Persons==1&&g_PersonsQueue[0]==6);
+    assert(g_Cities[1].Tools==1&&g_Cities[2].ToolQueue==1&&g_Persons[6].Equip[1]==23);
+    puts("real victory/loss occupation, captive, escape and equipment settlement passed");
 }
 `);
 });
