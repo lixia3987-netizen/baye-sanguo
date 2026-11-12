@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url';
 import {battleHudObservation,measureIdleBattleBoard,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
 import {skillAimObservation,skillOptionsExpression,verifySkillAim} from './hd-battle-skill-aim-runtime-checks.mjs';
 import {recordBattleMapNumbers,verifyBattleMapNumber} from './hd-battle-map-number-runtime-checks.mjs';
-import {observeDesktopBattleInput,verifyDesktopBattleInput,summarizeDesktopBattleInputs} from './hd-battle-input-timing.mjs';
+import {timeBattleInput,measureBattleSelectionsAndMoves,summarizeBattleInputs} from './hd-battle-input-timing.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -386,7 +386,7 @@ async function battleSmoke(cdp) {
     assert.deepEqual(await evaluate(cdp,'window.__battleKeys'),[],'idle HD renderer delivers no engine inputs');
     report.pause={before,after};
     await checkpoint(cdp,'15-battle-idle-no-input');
-    if(inputTiming)await measureBattleSelectionsAndMoves(cdp,before);
+    if(inputTiming)await measureDesktopSelectionsAndMoves(cdp,before);
     if(statusOnly)await recordBattleHudAtDesktopSizes(cdp,'battle-first-day');
     await terrainSmoke(cdp, before);
     const own=before.units.find(u=>u.side==='player' && u.active===0);
@@ -467,7 +467,7 @@ async function battleSmoke(cdp) {
     await manualCombat(cdp);
     if(skillAimOnly||mapNumbers) return;
     if(inputTiming){
-        report.inputTimingSummary=summarizeDesktopBattleInputs(report.inputTimingSamples);
+        report.inputTimingSummary=summarizeBattleInputs(report.inputTimingSamples);
         assert.equal(report.inputTimingSummary.select.clickToDraw.count,4);
         assert.equal(report.inputTimingSummary.move.clickToDraw.count,4);
         assert.equal(report.inputTimingSummary.attack.clickToDraw.count,1);
@@ -1088,43 +1088,29 @@ async function focusBattleTarget(cdp, target, label, kind = 5) {
     throw new Error('Target preview cursor did not reach the native target');
 }
 async function timedDesktopTile(cdp,kind,tile,nextKind,waitForOutcome) {
-    const point=await evaluate(cdp,`(${observeDesktopBattleInput})(${JSON.stringify(tile)},${nextKind})`);
     const sample={kind,tile};
     (report.inputTimingSamples??=[]).push(sample);
-    try{
-        await cdp.send('Input.dispatchMouseEvent',{type:'mousePressed',...point,button:'left',clickCount:1});
-        await cdp.send('Input.dispatchMouseEvent',{type:'mouseReleased',...point,button:'left',clickCount:1});
-        await waitForOutcome();
-        await waitFor(cdp,'real canvas draw after '+kind,'window.__battleInputTiming.sample.paints.length>0');
-    }finally{
-        sample.trace=await evaluate(cdp,'window.__battleInputTiming.finish()');
-    }
-    sample.timing=verifyDesktopBattleInput(sample.trace,tile,nextKind);
+    return timeBattleInput({evaluate:source=>evaluate(cdp,source),sample,nextKind,waitForOutcome,
+        waitForPaint:source=>waitFor(cdp,'real canvas draw after '+kind,source),
+        async dispatch(point){
+            await cdp.send('Input.dispatchMouseEvent',{type:'mousePressed',...point,button:'left',clickCount:1});
+            await cdp.send('Input.dispatchMouseEvent',{type:'mouseReleased',...point,button:'left',clickCount:1});
+        }});
 }
 
-async function measureBattleSelectionsAndMoves(cdp,initial) {
-    const anchor={x:initial.fight.focusX,y:initial.fight.focusY};
-    const distance=(a,b)=>Math.abs(a.x-b.x)+Math.abs(a.y-b.y);
-    const actor=initial.units.filter(u=>u.side==='player'&&u.active===0&&u.arms>0&&![1,6,8].includes(u.state))
-        .sort((a,b)=>distance(b,anchor)-distance(a,anchor))[0];
-    assert.ok(actor&&distance(actor,anchor)>0,'A real player general has a multi-step selection route');
-    let target;
-    for(let repetition=0;repetition<4;repetition++){
-        await timedDesktopTile(cdp,'select',actor,2,()=>waitBattle(cdp,2,'measured original MOVE owner'));
-        const f=await evaluate(cdp,'baye.hd.fight()');
-        assert.equal(f.actorIndex,actor.i,'Measured selection chooses the actual original general');
-        const candidates=await evaluate(cdp,moveTilesExpression);
-        target??=candidates.filter(p=>!initial.units.some(u=>u.state!==8&&u.x===p.x&&u.y===p.y))
-            .sort((a,b)=>distance(b,actor)-distance(a,actor))[0];
-        assert.ok(target&&candidates.some(p=>p.x===target.x&&p.y===target.y),'The same measured tile remains legal in the original path mask');
-        await timedDesktopTile(cdp,'move',target,3,()=>waitBattle(cdp,3,'measured original ACTION owner'));
-        const moved=(await evaluate(cdp,battleStateExpression)).units.find(u=>u.i===actor.i);
-        assert.deepEqual([moved.x,moved.y],[target.x,target.y]);
-        await action(cdp,'cancel-measured-move','BayeHdBattle.cancel()');
-        await waitBattle(cdp,1,'canceled measured movement returns to original PICK');
-        assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,initial.units);
-        await focusBattleTarget(cdp,anchor,'input-timing-cursor-reset-'+(repetition+1),1);
-    }
+async function measureDesktopSelectionsAndMoves(cdp,initial) {
+    await measureBattleSelectionsAndMoves({initial,moveTiles:()=>evaluate(cdp,moveTilesExpression),
+        measureTile:(kind,tile,nextKind)=>timedDesktopTile(cdp,kind,tile,nextKind,async()=>{
+            await waitBattle(cdp,nextKind,'measured original '+kind+' outcome');
+            return evaluate(cdp,battleStateExpression);
+        }),
+        async cancelMove(){
+            await action(cdp,'cancel-measured-move','BayeHdBattle.cancel()');
+            await waitBattle(cdp,1,'canceled measured movement returns to original PICK');
+            return evaluate(cdp,battleStateExpression);
+        },
+        resetFocus:(anchor,repetition)=>focusBattleTarget(cdp,anchor,'input-timing-cursor-reset-'+repetition,1)
+    });
 }
 async function manualCombat(cdp) {
     const before=await evaluate(cdp,battleStateExpression);

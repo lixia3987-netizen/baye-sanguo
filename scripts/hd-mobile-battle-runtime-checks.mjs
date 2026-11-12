@@ -5,6 +5,11 @@ import {join} from 'node:path';
 import {battleHudObservation,measureIdleBattleBoard,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
 import {verifyMobileBattleMarch,verifyMobileBattleRest} from './hd-mobile-battle-runtime-oracle.mjs';
 import {skillAimObservation,skillOptionsExpression,verifySkillAim} from './hd-battle-skill-aim-runtime-checks.mjs';
+import {timeBattleInput,measureBattleSelectionsAndMoves,summarizeBattleInputs} from './hd-battle-input-timing.mjs';
+
+const moveTilesExpression=`(() => {const d=baye.data,f=baye.hd.fight(),out=[];for(let y=0;y<f.mapH;y++)for(let x=0;x<f.mapW;x++){
+    const px=(x-Number(d.g_PathSX)+Number(d.g_PUseSX))&255,py=(y-Number(d.g_PathSY)+Number(d.g_PUseSY))&255;
+    if(px<15&&py<15&&Number(d.g_FightPath[py*15+px])<=128)out.push({x,y});}return out;})()`;
 
 export const battleObservation = `(() => {const d=baye.data,f=baye.hd.fight(),units=[];
   for(let i=0;i<20;i++){const id=Number(d.g_FgtParam.GenArray[i]);if(id>0&&id<65534){const p=d.g_GenPos[i];
@@ -76,6 +81,56 @@ async function verifyEnemyMoves(c,before,after) {
     writeFileSync(join(artifactDir,'enemy-move-'+phase+'-'+width+'.png'),Buffer.from(png.split(',')[1],'base64'),{flag:'wx'});
   }
   report.enemyMoveAccepted=true;
+}
+
+async function measureMobileBattleInputs({report,evaluate,until,sendCdp,metrics,tap,button,ready,tilePoint,physicalKey,capture}) {
+  const width=report.battleInputTimingWidth,height=width===667?375:390;
+  await metrics(width,height);
+  const initial=await ready(1,'current native PICK for touch timing');
+  report.inputTimingViewport=await evaluate('({width:innerWidth,height:innerHeight,dpr:devicePixelRatio})');
+  assert.deepEqual(report.inputTimingViewport,{width,height,dpr:1});
+  report.inputTimingBrowser=(await sendCdp('Browser.getVersion')).product;
+  const samples=report.inputTimingSamples=[];
+  await measureBattleSelectionsAndMoves({initial,moveTiles:()=>evaluate(moveTilesExpression),
+    async measureTile(kind,tile,nextKind){
+      const touchPoint=await tilePoint(tile.x,tile.y),sample={kind,tile};
+      samples.push(sample);
+      const outcome=await timeBattleInput({evaluate,sample,nextKind,touchPoint,dispatch:tap,
+        waitForOutcome:()=>ready(nextKind,'measured original touch '+kind),
+        waitForPaint:source=>until('current HD board draw after '+kind,source)});
+      assert.equal(sample.trace.gesture,'touch-release');
+      return outcome;
+    },
+    async cancelMove(){
+      await button('[data-hd-battle-cancel]');
+      const restored=await ready(1,'measured movement canceled');
+      assert.deepEqual(restored.food,initial.food);
+      assert.equal(restored.touches,initial.touches,'The HD timing route sends no native LCD touches');
+      return restored;
+    },
+    async resetFocus(anchor,repetition){
+      for(let step=0;step<128;step++){
+        const {focusX:x,focusY:y}=await evaluate('baye.hd.fight()');
+        if(x===anchor.x&&y===anchor.y){
+          await capture('touch-input-timing-cursor-reset-'+repetition);
+          return;
+        }
+        const horizontal=x!==anchor.x,delta=horizontal?Math.sign(anchor.x-x):Math.sign(anchor.y-y);
+        await physicalKey(horizontal?(delta>0?'ArrowRight':'ArrowLeft'):(delta>0?'ArrowDown':'ArrowUp'),
+          horizontal?(delta>0?39:37):(delta>0?40:38));
+        const restored=await ready(1,'original cursor reset step');
+        assert.deepEqual([restored.fight.focusX,restored.fight.focusY],[x+(horizontal?delta:0),y+(horizontal?0:delta)]);
+      }
+      throw Error('Original focus did not return to the timing anchor');
+    }
+  });
+  report.inputTimingSummary=summarizeBattleInputs(samples);
+  assert.equal(report.inputTimingSummary.select.clickToDraw.count,4);
+  assert.equal(report.inputTimingSummary.move.clickToDraw.count,4);
+  report.battleInputTimingAccepted=true;
+  report.acceptedScope=['Four original touch selections and four original movements at the requested emulated landscape viewport',
+    'Exact original cursor acknowledgement, resulting HD draw and rollback to the original army'];
+  report.battleAccepted=true;report.ok=true;report.accepted=true;
 }
 
 export async function runMobileBattleChecks(c) {
@@ -188,6 +243,10 @@ export async function runMobileBattleChecks(c) {
       const r=s.canvas,px=r.left+r.width*.5,py=r.top+r.height*.5,dx=x<v.x?120:x>=v.x+v.cols?-120:0,dy=y<v.y?90:y>=v.y+v.rows?-90:0;
       const before=await native();await touches('touchStart',[{x:px,y:py}]);for(let j=1;j<=5;j++)await touches('touchMove',[{x:px+dx*j/5,y:py+dy*j/5}]);await touches('touchEnd');await unchanged(before,'Pan to native tile');}
     throw Error('Native tile never becomes visible through genuine camera pans');};
+  if(report.battleInputTimingWidth){
+    await measureMobileBattleInputs({report,evaluate,until,sendCdp,metrics,tap,button,ready,tilePoint,physicalKey,capture});
+    return;
+  }
   const tileTap=async(x,y,label)=>{const before=await native(),p=await tilePoint(x,y);await tap(p);report.battleActions.push({label,type:'trusted tile touch',x,y,before:before.fight,after:(await native()).fight});};
   const revealMenu=async index=>{let probe;for(let i=0;i<10;i++){probe=await evaluate(`(() => {const n=document.querySelector('#hd-battle-menu [data-hd-battle-menu="${index}"]'),l=document.getElementById('hd-battle-menu-list');if(!n||!l)return null;
       const r=n.getBoundingClientRect(),a=l.getBoundingClientRect(),top=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return {visible:!n.disabled&&r.top>=a.top&&r.bottom<=a.bottom&&(top===n||n.contains(top)),width:r.width,height:r.height,targetTop:r.top,list:{left:a.left,top:a.top,width:a.width,height:a.height},scrollTop:l.scrollTop};})()`);
@@ -262,9 +321,7 @@ export async function runMobileBattleChecks(c) {
     if(kind==='rotate'){await metrics(375,667);await metrics(667,375);await touches('touchEnd');}
     await ready(1,'after retired '+kind);await unchanged(before,'Held system '+kind+' retires');}
   await tileTap(own.x,own.y,'Select same player again');await ready(2,'MOVE again');
-  const move=await evaluate(`(() => {const d=baye.data,f=baye.hd.fight(),out=[];for(let y=0;y<f.mapH;y++)for(let x=0;x<f.mapW;x++){
-    const px=(x-Number(d.g_PathSX)+Number(d.g_PUseSX))&255,py=(y-Number(d.g_PathSY)+Number(d.g_PUseSY))&255;
-    if(px<15&&py<15&&Number(d.g_FightPath[py*15+px])<=128)out.push({x,y});}return out;})()`);
+  const move=await evaluate(moveTilesExpression);
   const enemies=initial.units.filter(u=>u.side==='enemy'&&u.state!==8),distance=p=>Math.min(...enemies.map(u=>Math.abs(u.x-p.x)+Math.abs(u.y-p.y)));
   const destination=move.filter(p=>(p.x!==own.x||p.y!==own.y)&&!initial.units.some(u=>u.i!==own.i&&u.state!==8&&u.x===p.x&&u.y===p.y)).sort((a,b)=>distance(a)-distance(b))[0];
   assert.ok(destination,'Actual native legal unoccupied move tile');await tileTap(destination.x,destination.y,'Move to current native allowed tile');await ready(3,'real ACTION after MOVE');

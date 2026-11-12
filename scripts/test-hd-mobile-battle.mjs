@@ -514,9 +514,44 @@ test('mobile focus card cannot commit a stale snapshot after display callbacks r
 test('one trusted board DOWN-UP delivers only the native tile under that gesture',()=>{
     const f=fixture(),{camera:c}=f.render();
     const point={clientX:c.left+(4-c.x+.5)*c.cell,clientY:c.top+(16-c.y+.5)*c.cell};
+    const before=f.counts.sharedReads;
     f.tap(f.canvas,point);assert.deepEqual(f.counts.actions,[['tile',4,16]]);
-    assert.ok(f.counts.sharedReads>=3,'Gesture takes two independent DOWN reads and a fresh UP owner read');
+    assert.equal(f.counts.sharedReads-before,6,'Two DOWN checks and the UP check each check LCD and reuse their verified render ticket');
     assert.deepEqual(f.counts.keys,[]);assert.deepEqual(f.counts.writes,[]);assert.equal(f.counts.serialized,0);
+});
+test('touch release rechecks the native owner after sampling the shared ticket',()=>{
+    const f=fixture(),{camera:c}=f.render();
+    const point={clientX:c.left+(4-c.x+.5)*c.cell,clientY:c.top+(16-c.y+.5)*c.cell};
+    f.fire('pointerdown',f.canvas,point);
+    const read=f.shared.getInputTicket;let reads=0;
+    f.shared.getInputTicket=function(){
+        const ticket=read.call(this);
+        if(++reads===2)f.raw.g_hdFightInputSeq++;
+        return ticket;
+    };
+    f.fire('pointerup',f.canvas,point);f.fire('click',f.canvas,point);
+    assert.equal(reads,2);noAction(f);
+});
+test('a newly available original player wait wakes its board while LCD report ownership suppresses drawing',()=>{
+    const f=fixture();let redraws=0;
+    f.shared.onEngineFight=()=>{redraws++;f.render();};
+    f.host.refresh();const before=redraws;
+    Object.assign(f.raw,{g_hdFightInputKind:2,g_hdFightInputSeq:21,g_hdFightActor:0,g_hdFightWait:1});
+    f.host.refresh();assert.equal(redraws,before+1);assert.equal(f.host.debugSnapshot().presentation,'hd');
+    f.host.refresh();assert.equal(redraws,before+1);
+    f.raw.g_hdReportActive=1;f.host.refresh();
+    assert.equal(redraws,before+1);assert.equal(f.host.debugSnapshot().presentation,'lcd');
+    f.raw.g_hdReportActive=0;f.host.refresh();
+    assert.equal(redraws,before+2);assert.equal(f.host.debugSnapshot().presentation,'hd');
+    noAction(f);
+});
+test('a player wait already drawn by the shared board does not ask for a second refresh',()=>{
+    const f=fixture();f.host.refresh();
+    Object.assign(f.raw,{g_hdFightInputKind:2,g_hdFightInputSeq:21,g_hdFightActor:0,g_hdFightWait:1});
+    assert.equal(f.render().presentation,'hd');
+    let redraws=0;f.shared.onEngineFight=()=>{redraws++;};
+    assert.equal(f.host.refresh().presentation,'hd');
+    assert.equal(redraws,0);noAction(f);
 });
 test('small pointer motion below the tap threshold still delivers a single tile',()=>{
     const f=fixture(),{camera:c}=f.render();const p={clientX:c.left+(4-c.x+.5)*c.cell,clientY:c.top+(16-c.y+.5)*c.cell};

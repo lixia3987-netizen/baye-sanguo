@@ -8,7 +8,7 @@
     var MOBILE_STORAGE_KEY = 'baye/mobileBattleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20261112s';
+    var HD_BATTLE_VER = '20261112t';
     var ACK_POLL_MS = 16;
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
@@ -496,10 +496,10 @@
         if (text) { state.fightTip = text; applyChrome(); }
         return { ok: false, reason: reason };
     }
-    function sameInput(transaction, snap) {
+    function sameInput(transaction, snap, owner) {
         if (!snap.ready || transaction.epoch !== modeEpoch || transaction.seq !== snap.seq ||
             transaction.kind !== snap.kind || transaction.actor !== snap.actor) { return false; }
-        if (mobileHost && !sameMobileTicket(transaction.mobileOwner, getInputTicket(), false)) { return false; }
+        if (mobileHost && !sameMobileTicket(transaction.mobileOwner, owner === undefined ? getInputTicket() : owner, false)) { return false; }
         if (transaction.viewOwner) {
             var view;
             try { view = baye.hd.view && baye.hd.view(); } catch (e) { return false; }
@@ -517,7 +517,7 @@
     function sendRequestKey(transaction, code, expected) {
         // Timers poll acknowledgements only; they never invent or retry an action.
         var stepOwner = mobileHost ? getInputTicket() : null, snap = inputSnapshot();
-        if (state.transaction !== transaction || !sameInput(transaction, snap) ||
+        if (state.transaction !== transaction || !sameInput(transaction, snap, stepOwner) ||
             mobileHost && !sameMobileTicket(stepOwner, getInputTicket(), true)) {
             finishRequest('input-changed'); return;
         }
@@ -557,7 +557,13 @@
         var transaction = state.transaction;
         if (!transaction) { return; }
         var snap = inputSnapshot();
-        if (!sameInput(transaction, snap)) { finishRequest('input-changed'); return; }
+        if (!sameInput(transaction, snap)) {
+            finishRequest('input-changed');
+            // A committed input can publish a new player wait before the next
+            // lifecycle poll. Sample its own board without advancing input.
+            if (mobileHost && transaction.committed && snap.ready && snap.seq !== transaction.seq) { onEngineFight(); }
+            return;
+        }
         if (transaction.sentAt && Date.now() - transaction.sentAt > 5000) {
             finishRequest('no-acknowledgement');
             state.fightTip = '引擎尚未响应，请等待或切换经典画面查看。';

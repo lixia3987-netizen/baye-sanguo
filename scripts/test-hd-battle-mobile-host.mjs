@@ -257,6 +257,19 @@ test('a retired report gets a fresh HD render owner and never resumes the old tr
     assert.equal(f.renders.length,before+1);assert.equal(f.renders.at(-1).renderOwner.key,f.api.getInputTicket().key);
     assert.equal(f.api.debugSnapshot().transaction,null);assert.deepEqual(f.sent,[K.RIGHT]);assert.deepEqual(f.writes,[]);
 });
+test('committed touch selection redraws the next original owner without waiting for the lifecycle poll',()=>{
+    const f=fixture();
+    assert.equal(f.api.clickTile(1,1).ok,true);
+    assert.deepEqual(f.sent,[K.ENTER]);
+    const before=f.renders.length;
+    Object.assign(f.fight,{inputKind:2,inputSeq:f.fight.inputSeq+1,actorIndex:0,wait:1});
+    f.tick();
+    assert.equal(f.renders.length,before+1);
+    assert.equal(f.renders.at(-1).renderOwner.seq,f.fight.inputSeq);
+    assert.equal(f.renders.at(-1).renderOwner.kind,2);
+    assert.equal(f.api.debugSnapshot().transaction,null);
+    assert.deepEqual(f.sent,[K.ENTER]);assert.deepEqual(f.writes,[]);
+});
 
 test('mobile next waiting unit requires an exact ticket and selects the next native slot through individual focus ACKs',()=>{
     const f=fixture(),stale=f.api.getInputTicket();

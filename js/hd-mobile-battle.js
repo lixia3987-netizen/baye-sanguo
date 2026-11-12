@@ -211,7 +211,7 @@
             if(t.kind===0 && hit.type!=='mode'){return null;}
             if((hit.type==='help'||hit.type==='view') && [1,2,5].indexOf(t.kind)<0){return null;}
             if(hit.type==='next' && (hit.target.disabled || !canNext(t))){return null;}
-            return hit.type==='mode'?t:t.presentation==='hd' && sharedShowsHd() && renderMatches(lastRender,t) && battle() && battle().getInputTicket?battle().getInputTicket():null;
+            return hit.type==='mode'?t:t.presentation==='hd' && sharedShowsHd()?currentRenderTicket(lastRender,t):null;
         }
         function clampCamera(t) {if(!camera){return;}camera.x=Math.max(0,Math.min(camera.x,Math.max(0,t.native.fight.mapW-camera.cols)));camera.y=Math.max(0,Math.min(camera.y,Math.max(0,t.native.fight.mapH-camera.rows)));}
         function tile(x,y) {if(!camera){return null;}var c=Math.floor((x-camera.left)/camera.cell),r=Math.floor((y-camera.top)/camera.cell);return c>=0&&r>=0&&c<camera.cols&&r<camera.rows?{x:c+camera.x,y:r+camera.y}:null;}
@@ -297,28 +297,38 @@
         function sharedShowsHd() {
             var b=battle();return !!(b && typeof b.getLcdPresentation==='function' && b.getLcdPresentation()==='off');
         }
-        function renderMatches(snapshot,t) {
+        function currentRenderTicket(snapshot,t) {
             var owner=snapshot && snapshot.renderOwner, b=battle();
-            if(!t || t.presentation!=='hd' || !owner || !b || typeof b.getInputTicket!=='function'){return false;}
-            if(renderBindings.has(snapshot) && renderBindings.get(snapshot)!==t.data){return false;}
+            if(!t || t.presentation!=='hd' || !owner || !b || typeof b.getInputTicket!=='function'){return null;}
+            if(renderBindings.has(snapshot) && renderBindings.get(snapshot)!==t.data){return null;}
             var names=['key','stableKey','libraryGeneration','kind','seq','actor'];
-            if(!names.every(function(name){return owner[name]===t[name];})){return false;}
+            if(!names.every(function(name){return owner[name]===t[name];})){return null;}
             var current=(t.native.enemyMove || t.native.mapNumber) && typeof b.getObservationTicket==='function'
                 ? b.getObservationTicket() : b.getInputTicket();
-            return same(t,current) && same(t,readNativeTicket());
+            return same(t,current) && same(t,readNativeTicket()) ? current : null;
         }
         function refresh() {
             if(refreshing || !mounted){return last;}refreshing=true;
             try{
-                var t=readNativeTicket(), changed=lastData && (!t || t.data!==lastData || t.stableKey!==lastStable);
-                if(changed){retire('native-owner-changed');}
+                var t=readNativeTicket(), newOwner=t && (t.data!==lastData || t.stableKey!==lastStable);
+                if(lastData && (!t || newOwner)){retire('native-owner-changed');}
                 lastData=t && t.data;lastStable=t?t.stableKey:'';
                 var d=dialog();if(d && d.poll){d.poll();}
                 var dt=detailTicket(), reportDetail=dt && dt.kind==='report', detailPresentation=reportDetail || t && [9,10].indexOf(t.kind)>=0 ?
                     dt && d && d.getBattleLcdPresentation && d.getBattleLcdPresentation()==='off'?'hd':'lcd':'off';
                 if(detailOwner && !same(detailOwner,dt) && arm && arm.hit.type==='detail'){retire('detail-owner-changed');}
                 detailOwner=dt;
-                var presentation=t?(renderMatches(lastRender,t)?'hd':'lcd'):'off';
+                // The shared board may have retired its animation frame with
+                // the old owner. Draw a newly published wait if it has no board yet.
+                var rendered=t && currentRenderTicket(lastRender,t);
+                if(!rendered && newOwner && t.kind!==0 && t.presentation==='hd'){
+                    var b=battle();
+                    if(b && typeof b.onEngineFight==='function'){
+                        b.onEngineFight();
+                        rendered=currentRenderTicket(lastRender,t);
+                    }
+                }
+                var presentation=t?(rendered?'hd':'lcd'):'off';
                 // The header toggle belongs to the live native battle even
                 // while the board is hidden by HELP, VIEW, or classic LCD.
                 if(presentation!=='hd' && arm && !currentModePress(t) &&
@@ -341,7 +351,7 @@
             if(!details){return true;}
             function current() {
                 return doc()===d && node('hd-mobile-battle-details')===details &&
-                    renderMatches(snapshot,t) && doc()===d && node('hd-mobile-battle-details')===details;
+                    currentRenderTicket(snapshot,t) && doc()===d && node('hd-mobile-battle-details')===details;
             }
             try {
                 var f=t.native.fight, mapNumber=t.native.mapNumber;
@@ -457,7 +467,7 @@
             if(drawing || !snapshot){return;}drawing=true;
             try{
                 var t=readNativeTicket(), canvas=node('hd-mobile-battle-canvas'), board=node('hd-mobile-battle-board');
-                if(!canvas || !board || !renderMatches(snapshot,t)){
+                if(!canvas || !board || !currentRenderTicket(snapshot,t)){
                     lastRender=null;lastBoardPaint=null;if(t){paint('lcd');}if(arm&&!currentModePress(t)){retire('render-owner-changed');}return;
                 }
                 renderBindings.set(snapshot,t.data);lastRender=snapshot;
@@ -521,7 +531,7 @@
                 if(t && (t.native.enemyMove || t.native.mapNumber)){stop(e);return;}
                 if(t && t.presentation==='lcd' || !sharedShowsHd()){refresh();return;}
                 if(e.isTrusted!==true || e.repeat){stop(e);return;}
-                if(!renderMatches(lastRender,t)){stop(e);refresh();return;}
+                if(!currentRenderTicket(lastRender,t)){stop(e);refresh();return;}
                 if(b && typeof b.handleKey==='function'){b.handleKey(e);}
                 stop(e);
             },true);
