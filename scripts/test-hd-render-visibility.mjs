@@ -611,6 +611,49 @@ async function trustedBattle() {
     assert.fail('actual standard LIB identity was not verified');
 }
 
+test('PC paints the current original enemy range and landing, then retires the observation', async () => {
+    const h = await trustedBattle(), stats = h.canvasStats.battle;
+    Object.assign(h.fight, {inputKind:0, inputSeq:12, actorIndex:255, phase:0, wait:0});
+    Object.assign(h.data, {g_hdEngineReady:1, g_hdFightActive:1, g_hdFightInputKind:0,
+        g_hdFightInputSeq:12, g_hdFightOver:0, g_hdFightWait:0, g_hdDetailGeneration:7,
+        g_hdFightEnemyMovePhase:1, g_hdFightEnemyMoveActor:10, g_LookEnemy:1,
+        g_FoucsX:5, g_FoucsY:3, g_PathSX:4, g_PathSY:3});
+    h.data.g_FightPath[0] = 1; h.data.g_FightPath[1] = 0;
+    h.data.g_FightPath[2] = 127; h.data.g_FightPath[3] = 128;
+    h.frame();
+    let view = h.battle.debugSnapshot();
+    assert.equal(view.enemyMove.phase, 1);
+    assert.equal(view.enemyMove.actor, 10);
+    assert.equal(view.inputReady, false);
+    assert.equal(view.feedback.kind, 'enemy-move');
+    assert.deepEqual(Array.from(view.feedback.cells.filter(c => c.status === 'in'), c => [c.x,c.y]), [[4,3],[6,3]]);
+    assert.ok(stats.strokes.some(stroke => stroke.color === '#f39c8c' && stroke.points.length !== 5));
+    assert.equal(h.document.getElementById('hd-battle-hud').textContent, '敌方行动 · 敌将 · 移动范围');
+    assert.ok(!stats.labels.includes('移动范围 · 可确认位置'));
+    const paints = stats.paints;
+    h.frame(); assert.equal(stats.paints, paints);
+    h.data.g_FightPath[224] = null;
+    h.frame(); assert.equal(h.battle.debugSnapshot().feedback.active, false);
+    h.data.g_FightPath[224] = 255;
+
+    h.data.g_hdFightEnemyMovePhase = 2; h.data.g_GenPos[10].x = h.data.g_FoucsX = 6;
+    h.frame(); view = h.battle.debugSnapshot();
+    assert.equal(view.enemyMove.phase, 2); assert.equal(view.enemyMove.x, 6);
+    assert.equal(view.feedback.active, false);
+    assert.ok(stats.strokes.some(stroke => stroke.color === '#f39c8c' && stroke.points.length === 5));
+    assert.equal(h.document.getElementById('hd-battle-hud').textContent, '敌方行动 · 敌将 · 移动落点');
+    for (const changes of [{g_LookEnemy:0}, {g_hdReportActive:1}, {g_hdSpeActive:1}, {g_hdFightEnemyMoveActor:0}, {g_FoucsX:5}]) {
+        const restore = Object.fromEntries(Object.keys(changes).map(key => [key,h.data[key]]));
+        Object.assign(h.data, changes); h.frame();
+        assert.equal(h.battle.debugSnapshot().enemyMove, null);
+        assert.ok(!stats.strokes.some(stroke => stroke.color === '#f39c8c'));
+        Object.assign(h.data, restore);
+    }
+    Object.assign(h.fight, {inputKind:1, inputSeq:13, phase:1, wait:1});
+    h.frame(); assert.equal(h.battle.debugSnapshot().enemyMove, null);
+    assert.deepEqual(h.sent, []);
+});
+
 test('battle terrain keeps native non-square full-map stride and displays empty focus without engine input', async () => {
     const h = await trustedBattle();
     h.data.g_MapWid = 9; h.data.g_MapHgt = 7;

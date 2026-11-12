@@ -576,7 +576,9 @@ async function battleSmoke(cdp) {
         assert.equal(remaining.rows.length,roster.rows.length-1);
         assert.ok(!remaining.rows.some(row=>row.slot===own.i));
         await checkpoint(cdp,'24-roster-after-standby');
+        await startDesktopEnemyMoveCapture(cdp);
         await endArmyTurn(cdp);
+        await verifyDesktopEnemyMoveCapture(cdp);
         const {before,after}=report.turns[0];
         assert.ok(after.food.player<before.food.player,'The original next bout consumes player grain');
         await recordBattleHudAtDesktopSizes(cdp,'battle-next-day');
@@ -1467,6 +1469,93 @@ async function inspectSkillAim(cdp, skillAction) {
     await verifyNativeFeedback(cdp,'canceled skill aim','inactive');
     assert.equal(await evaluate(cdp,'baye.hd.fight().skillAim'),null);
 }
+async function startDesktopEnemyMoveCapture(cdp) {
+    assert.deepEqual(await evaluate(cdp,'[baye.data.g_LookEnemy,baye.data.g_MoveSpeed]'),[1,1],
+        'the original game is configured to show enemy moves at normal speed');
+    await evaluate(cdp,`(() => {
+        const canvas=document.getElementById('hd-battle-canvas'),ctx=canvas.getContext('2d'),api=BayeHdBattleFeedback;
+        const paint=api.paint,stroke=ctx.strokeRect,seen=new Set(),frames=[],images={},starts={};
+        let frameId,rendered=null,focusRect=null;
+        api.paint=function(context,board,model,rangeOnly) {
+            const result=paint.apply(this,arguments);
+            if (context!==ctx) return result;
+            const d=baye.data,phase=d.g_hdFightEnemyMovePhase,actor=d.g_hdFightEnemyMoveActor;
+            focusRect=null;
+            rendered=phase===1||phase===2?{phase,actor,board,rangeOnly,painted:result,
+                cells:model.cells.filter(cell=>cell.status==='in').map(cell=>[cell.x,cell.y])}:null;
+            return result;
+        };
+        ctx.strokeRect=function(...rect) {
+            if (this.strokeStyle==='#f39c8c') focusRect=rect;
+            return stroke.apply(this,rect);
+        };
+        function observe() {
+            const d=baye.data,frame=rendered;
+            if (frame&&focusRect&&d.g_hdFightEnemyMovePhase===frame.phase&&d.g_hdFightEnemyMoveActor===frame.actor) {
+                const p=d.g_GenPos[frame.actor],key=[frame.phase,frame.actor,p.x,p.y].join(':');
+                if (!seen.has(key)) {
+                    seen.add(key);
+                    const ui=BayeHdBattle.debugSnapshot(),fight=baye.hd.fight(),name=baye.getPersonName(d.g_FgtParam.GenArray[frame.actor]-1);
+                    const mask=frame.phase===1?{originX:d.g_PathSX,originY:d.g_PathSY,useX:d.g_PUseSX,useY:d.g_PUseSY,
+                        values:Array.from({length:225},(_,i)=>d.g_FightPath[i])}:null;
+                    frames.push({...frame,focusRect,fight,name,x:p.x,y:p.y,mask,keys:window.__battleKeys.length,
+                        enemy:ui.enemyMove,ready:ui.inputReady,hud:document.getElementById('hd-battle-hud').textContent,
+                        detail:document.querySelector('.hd-battle-focus-name')?.textContent,
+                        browseDisabled:[...document.querySelectorAll('[data-hd-battle-inspect]')].every(button=>button.disabled)});
+                    if (frame.phase===1) {
+                        starts[frame.actor]=[p.x,p.y];
+                        if (!images.range&&frame.cells.length) images.range=canvas.toDataURL('image/png');
+                    }
+                    const start=starts[frame.actor];
+                    if (frame.phase===2&&start&&(start[0]!==p.x||start[1]!==p.y)&&!images.landing) {
+                        images.landing=canvas.toDataURL('image/png');
+                    }
+                }
+            }
+            frameId=requestAnimationFrame(observe);
+        }
+        frameId=requestAnimationFrame(observe);
+        window.__finishDesktopEnemyMoves=()=>{cancelAnimationFrame(frameId);api.paint=paint;ctx.strokeRect=stroke;return {frames,images};};
+    })()`);
+}
+
+async function verifyDesktopEnemyMoveCapture(cdp) {
+    const {frames,images}=await evaluate(cdp,'window.__finishDesktopEnemyMoves()');
+    report.enemyMoveFrames=frames;
+    assert.ok(frames.some(frame=>frame.phase===1)&&frames.some(frame=>frame.phase===2));
+    const after=await evaluate(cdp,'({keys:window.__battleKeys.length,enemy:BayeHdBattle.debugSnapshot().enemyMove})');
+    assert.equal(after.enemy,null,'the next native PICK retires enemy movement');
+    for (const frame of frames) {
+        const {board:b,fight:f}=frame;
+        assert.equal(f.inputKind,0);assert.equal(f.wait,0);assert.equal(frame.ready,false);assert.equal(frame.browseDisabled,true);
+        assert.equal(frame.keys,after.keys,'read-only movement paints send no native input');
+        assert.deepEqual([frame.enemy.phase,frame.enemy.actor,frame.enemy.x,frame.enemy.y],[frame.phase,frame.actor,frame.x,frame.y]);
+        assert.deepEqual([frame.x,frame.y],[f.focusX,f.focusY]);
+        assert.equal(frame.hud,'敌方行动 · '+frame.name+(frame.phase===1?' · 移动范围':' · 移动落点'));
+        assert.equal(frame.detail,frame.name);
+        assert.deepEqual(frame.focusRect,[b.ox+(frame.x-b.viewOx)*b.cw+2,b.oy+(frame.y-b.viewOy)*b.ch+2,b.cw-4,b.ch-4]);
+        if (frame.phase===1) {
+            const m=frame.mask, expected=[];
+            for (let y=b.viewOy;y<Math.min(f.mapH,b.viewOy+b.rows);y++) {
+                for (let x=b.viewOx;x<Math.min(f.mapW,b.viewOx+b.cols);x++) {
+                    const px=(x-m.originX+m.useX)&255,py=(y-m.originY+m.useY)&255;
+                    if (px<m.useX||py<m.useY||px>=15||py>=15) continue;
+                    const raw=m.values[py*15+px];
+                    if (raw>0&&raw<128) expected.push([x,y]);
+                }
+            }
+            assert.equal(frame.painted,true);assert.equal(frame.rangeOnly,true);
+            assert.deepEqual(frame.cells,expected);
+        } else {
+            assert.equal(frame.painted,false);assert.deepEqual(frame.cells,[]);
+        }
+    }
+    for (const kind of ['range','landing']) {
+        assert.ok(images[kind]?.startsWith('data:image/png;base64,'),'captured the actual PC '+kind);
+        fs.writeFileSync(path.join(artifactDir,'enemy-move-'+kind+'-1080p.png'),Buffer.from(images[kind].split(',')[1],'base64'));
+    }
+}
+
 async function endArmyTurn(cdp) {
     const before=await evaluate(cdp,battleStateExpression);
     await action(cdp,'explicit-end-turn-system','BayeHdBattle.openSystemMenu()');

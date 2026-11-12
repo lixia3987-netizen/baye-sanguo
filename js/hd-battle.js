@@ -295,9 +295,10 @@
     function renderFocusCard(show, snap, targetLabel) {
         var node = el('hd-battle-focus');
         if (!node) { return; }
+        var enemy = snap && snap.enemyMove;
         var unit = show && !mobileHost && !document.hidden && !state.preview && !state.showLcd &&
-            snap && snap.ready && snap.kind !== INPUT.HELP && snap.kind !== INPUT.VIEW &&
-            snap.focus && unitAt(snap.focus.x,snap.focus.y);
+            snap && (enemy ? actorUnit(enemy.actor) : snap.ready && snap.kind !== INPUT.HELP &&
+                snap.kind !== INPUT.VIEW && snap.focus && unitAt(snap.focus.x,snap.focus.y));
         if (!unit) {
             node.hidden = true;
             if (node.textContent) { node.textContent = ''; }
@@ -309,7 +310,8 @@
         if (terrain && terrain.kind === 'unknown' && terrain.raw != null) { terrainText += ' · 图块 ' + terrain.raw; }
         var fields = [['arms','兵力',number(unit.arms)],['hp','HP',number(unit.hp)],['mp','MP',number(unit.mp)],
             ['state','状态',UNIT_STATES[unit.state] || '未读取'],
-            ['action','本回合',unit.active === 0 ? '未行动' : unit.active === 1 ? '已行动' : '未读取'],['terrain','地形',terrainText]];
+            ['action','本回合',enemy ? (enemy.phase === 1 ? '准备移动' : '移动落点') :
+                unit.active === 0 ? '未行动' : unit.active === 1 ? '已行动' : '未读取'],['terrain','地形',terrainText]];
         var name = unit.name || '#' + unit.i,
             identity = (unit.side === 'player' ? '我方' : '敌方') + ' · ' + (ARM_NAMES[unit.armType] || '兵种未知') +
                 ' · 位置 ' + unit.x + ',' + unit.y,
@@ -392,6 +394,11 @@
         return { size: size, originX: readRangeNumber(rng, 1), originY: readRangeNumber(rng, 2),
             values: nativeByte(size) && size >= 1 && size <= 15 ? readRangeValues(rng, 3, size * size) : [] };
     }
+    function readMoveMask(data) {
+        return {originX:readRangeNumber(data, 'g_PathSX'), originY:readRangeNumber(data, 'g_PathSY'),
+            useX:readRangeNumber(data, 'g_PUseSX'), useY:readRangeNumber(data, 'g_PUseSY'),
+            values:readRangeValues(data && data.g_FightPath, 0, 225)};
+    }
     function inAtkRng(x, y) {
         var data = engineData(), mask = readAimMask(data), size = mask.size, sx = mask.originX, sy = mask.originY;
         var bounds = { width: readRangeNumber(data, 'g_MapWid'), height: readRangeNumber(data, 'g_MapHgt') };
@@ -406,18 +413,21 @@
             mask.values[dx + dy * size] === 1;
     }
     function rangeFeedback(snap) {
-        if (!global.BayeHdBattleFeedback) { return { active: false, reason: 'feedback-module-unavailable', cells: [], rangedUnits: [], focus: null }; }
-        var data = engineData(), actor = actorUnit(snap.actor);
-        return global.BayeHdBattleFeedback.build({ visible: state.open && !state.preview && snap.showHd,
+        var feedback = global.BayeHdBattleFeedback;
+        if (!feedback) { return { active: false, reason: 'feedback-module-unavailable', cells: [], rangedUnits: [], focus: null }; }
+        var data = engineData(), bounds = {width:readRangeNumber(data, 'g_MapWid'), height:readRangeNumber(data, 'g_MapHgt')};
+        var view = {x:state.viewOx, y:state.viewOy, width:state.viewW || state.mapW, height:state.viewH || state.mapH};
+        if (!mobileHost && snap.enemyMove && snap.enemyMove.phase === 1 && typeof feedback.buildEnemyMove === 'function') {
+            var lib = global.dynLib, move = readMoveMask(data);
+            return feedback.buildEnemyMove(global.dynLib === lib && enemyMoveCurrent(data, snap.enemyMove) ? move : null, bounds, view);
+        }
+        return feedback.build({ visible: state.open && !state.preview && snap.showHd,
             hidden: !!document.hidden, classic: !snap.showHd, ready: snap.ready, wait: !!(snap.fight && snap.fight.wait),
             active: !!(snap.fight && snap.fight.active), over: !!(snap.fight && snap.fight.over),
             reportActive: snap.reportActive, menuActive: !!(snap.menu && snap.menu.active),
-            inputKind: snap.kind, inputSeq: snap.seq, actorIndex: snap.actor, actor: actor,
+            inputKind: snap.kind, inputSeq: snap.seq, actorIndex: snap.actor, actor: actorUnit(snap.actor),
             aimType: readRangeNumber(snap.fight, 'aimType'), skillAim: snap.fight && snap.fight.skillAim, focus: snap.focus,
-            bounds: { width: readRangeNumber(data, 'g_MapWid'), height: readRangeNumber(data, 'g_MapHgt') },
-            view: { x: state.viewOx, y: state.viewOy, width: state.viewW || state.mapW, height: state.viewH || state.mapH },
-            move: snap.kind === INPUT.MOVE ? { originX: readRangeNumber(data, 'g_PathSX'), originY: readRangeNumber(data, 'g_PathSY'),
-                useX: readRangeNumber(data, 'g_PUseSX'), useY: readRangeNumber(data, 'g_PUseSY'), values: readRangeValues(data && data.g_FightPath, 0, 225) } : null,
+            bounds:bounds, view:view, move: snap.kind === INPUT.MOVE ? readMoveMask(data) : null,
             aim: snap.kind === INPUT.AIM ? readAimMask(data) : null, units: state.units });
     }
     function nativeReportWaiting() {
@@ -428,20 +438,52 @@
             return Number(readNumber(engineData(), 'g_hdReportActive')) === 1;
         } catch (e) { return false; }
     }
+    function busyObservationCurrent(data) {
+        return !!(data && global.baye && baye.data === data && !document.hidden &&
+            data.g_hdEngineReady === 1 && data.g_hdFightActive === 1 && data.g_hdFightInputKind === INPUT.BUSY &&
+            data.g_hdFightOver === 0 && data.g_FgtOver === 0 && data.g_hdFightWait === 0 &&
+            !data.g_hdMenuActive && !data.g_hdReportActive && !data.g_hdHelpActive && !data.g_hdViewActive &&
+            !data.g_hdQtyActive && !data.g_hdCityInfoActive && !data.g_hdRecordActive &&
+            !data.g_hdAttackActive && !data.g_hdSpeActive);
+    }
+    function originalBusyObservation(data) {
+        var api = global.BayeHdLibIdentity, id = api && api.read();
+        return !!(id && id.status === 'ready' && id.byteLength === 207195 &&
+            Number.isInteger(id.generation) && id.generation > 0 && id.generation <= 0xffffffff &&
+            id.sha256 === '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' &&
+            api.isCurrent(id) && busyObservationCurrent(data));
+    }
+    function enemyMoveCurrent(data, move) {
+        return !!(busyObservationCurrent(data) && data.g_LookEnemy === 1 &&
+            !data.g_hdMovieActive && !data.g_hdFightNumberKind &&
+            data.g_hdFightEnemyMovePhase === move.phase && data.g_hdFightEnemyMoveActor === move.actor &&
+            data.g_hdFightInputSeq === move.seq && data.g_hdDetailGeneration === move.generation &&
+            data.g_FoucsX === move.x && data.g_FoucsY === move.y);
+    }
+    function readEnemyMove(data, fight, menu, focus) {
+        var phase = data && data.g_hdFightEnemyMovePhase;
+        if ((phase !== 1 && phase !== 2) || !fight || fight.inputKind !== INPUT.BUSY || fight.actorIndex !== 255 ||
+            fight.wait !== 0 || menu && menu.active || !focus) { return null; }
+        try {
+            if (!originalBusyObservation(data)) { return null; }
+            var actor = data.g_hdFightEnemyMoveActor, seq = fight.inputSeq, generation = data.g_hdDetailGeneration;
+            if (!Number.isInteger(actor) || actor < 10 || actor >= 20 ||
+                !Number.isInteger(seq) || seq <= 0 || seq > 0xffffffff ||
+                !Number.isInteger(generation) || generation <= 0 || generation > 0xffffffff) { return null; }
+            var token = data.g_FgtParam.GenArray[actor], position = data.g_GenPos[actor], unit = actorUnit(actor);
+            if (!Number.isInteger(token) || token < 1 || token > 200 || !position || !unit ||
+                unit.id !== token || unit.side !== 'enemy' || unit.x !== focus.x || unit.y !== focus.y ||
+                position.x !== focus.x || position.y !== focus.y || !nativeByte(position.state) || position.state >= 8 ||
+                !validNativeTile(focus.x, focus.y, {width:data.g_MapWid, height:data.g_MapHgt})) { return null; }
+            var move = {phase:phase, actor:actor, x:focus.x, y:focus.y, seq:seq, generation:generation};
+            return enemyMoveCurrent(data, move) ? move : null;
+        } catch (e) { return null; }
+    }
     function readMapNumber(data) {
         var kind = data && data.g_hdFightNumberKind;
         if (kind !== 1 && kind !== 2 && kind !== 3) { return null; }
         try {
-            var api = global.BayeHdLibIdentity, id = api && api.read();
-            if (!id || id.status !== 'ready' || id.byteLength !== 207195 ||
-                !Number.isInteger(id.generation) || id.generation < 1 || id.generation > 0xffffffff ||
-                id.sha256 !== '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
-                !api.isCurrent(id) || !global.baye || baye.data !== data || document.hidden ||
-                data.g_hdEngineReady !== 1 || data.g_hdFightActive !== 1 || data.g_hdFightInputKind !== INPUT.BUSY ||
-                data.g_hdFightOver !== 0 || data.g_FgtOver !== 0 || data.g_hdFightWait !== 0 ||
-                data.g_hdMenuActive || data.g_hdReportActive || data.g_hdHelpActive || data.g_hdViewActive ||
-                data.g_hdQtyActive || data.g_hdCityInfoActive || data.g_hdRecordActive ||
-                data.g_hdAttackActive || data.g_hdSpeActive) { return null; }
+            if (!originalBusyObservation(data)) { return null; }
             var target = data.g_hdFightNumberTarget, value = data.g_hdFightNumberValue,
                 seq = data.g_hdFightNumberSeq, skillSession = data.g_hdFightNumberSkillSession;
             if (!Number.isInteger(target) || target < 0 || target >= 20 || !Number.isInteger(value) || value < 0 || value > 65535 ||
@@ -472,11 +514,15 @@
         var focus = engineFocusTile(), showHd = (!mobileHost || !!ticket) && hdModeEnabled();
         var reportActive = showHd && nativeReportWaiting();
         var mapNumber = ticket && ticket.native && ticket.native.mapNumber;
-        if (!mobileHost && showHd && !state.preview && !state.showLcd && global.baye) { mapNumber = readMapNumber(baye.data); }
+        var enemyMove = ticket && ticket.native && ticket.native.enemyMove;
+        if (!mobileHost && showHd && !state.preview && !state.showLcd && global.baye) {
+            mapNumber = readMapNumber(baye.data);
+            if (state.open && !mapNumber && !reportActive) { enemyMove = readEnemyMove(baye.data, fight, menu, focus); }
+        }
         return {
             fight: fight, menu: menu, kind: kind, seq: seq,
             actor: actor, focus: focus, showHd: showHd, reportActive: reportActive,
-            enemyMove: ticket && ticket.native && ticket.native.enemyMove, mapNumber: mapNumber,
+            enemyMove: enemyMove, mapNumber: mapNumber,
             ready: !!(showHd && !reportActive && fight && fight.active && !fight.over &&
                 kind >= INPUT.PICK && kind <= INPUT.VIEW && seq != null && seq > 0 &&
                 (!mobileHost || ticket && ticket.presentation === 'hd' && ticket.kind === kind &&
@@ -1048,7 +1094,7 @@
                 (state.transaction ? ' · 等待操作完成' : '');
             if (snap.enemyMove) {
                 text = '敌方行动' + (actor && actor.name ? ' · ' + actor.name : '') +
-                    (snap.enemyMove.phase === 1 ? ' · 移动范围' : '');
+                    (snap.enemyMove.phase === 1 ? ' · 移动范围' : mobileHost ? '' : ' · 移动落点');
             }
             if (snap.mapNumber) {
                 text = (actor && actor.name ? actor.name + ' · ' : '') +
@@ -1395,7 +1441,7 @@
                 sha256: state.terrain.sha256, libGeneration: state.terrain.libGeneration,
                 session: state.terrain.session, reason: state.terrain.reason } : null,
             focusTerrain: terrainAt(state.focus.x, state.focus.y),
-            feedback: rangeFeedback(snap),
+            feedback: rangeFeedback(snap), enemyMove: snap.enemyMove || null,
             genCount: fightArrayCount(), focus: state.focus, phase: snap.fight && snap.fight.phase,
             wait: !!(snap.fight && snap.fight.wait), active: !!(snap.fight && snap.fight.active), over: !!(snap.fight && snap.fight.over),
             aimType: snap.fight && snap.fight.aimType, inputKind: snap.kind, inputSeq: snap.seq, actorIndex: snap.actor,
@@ -1804,7 +1850,7 @@
         var oy = board.oy;
         // One owned input snapshot governs the range, legend, focus status and
         // target preview. The canvas may be reused while native sampling continues.
-        var visualSnap = inputSnapshot(), feedback = rangeFeedback(visualSnap);
+        var visualSnap = inputSnapshot(), feedback = rangeFeedback(visualSnap), enemy = visualSnap.enemyMove;
         var targetPreview = global.BayeHdBattleFeedback ? null : aimPreview(visualSnap);
         var actorMenu = (visualSnap.kind === INPUT.ACTION || visualSnap.kind === INPUT.SKILL) && menuSnapshot(visualSnap);
         if (feedback.active && feedback.kind !== 'move' && feedback.focus && feedback.focus.targetIndex != null) {
@@ -1825,7 +1871,7 @@
         var armIcons = desktopHd && cellCssSize >= 44 ? desktopArmAtlas() : null;
         var paintKey = JSON.stringify([dpr,board,cols,rows,viewOx,viewOy,blockers,state.preview,state.focus,
             state.terrain,artVersion,!!armIcons,state.units,visualSnap.focus,visualSnap.actor,!!actorMenu,feedback,
-            targetPreview,!!focusCard,visualSnap.mapNumber]);
+            targetPreview,!!focusCard,enemy,visualSnap.mapNumber]);
         var resized = canvas.width !== w || canvas.height !== h;
         if (!resized && lastBoardPaint && lastBoardPaint.canvas === canvas && lastBoardPaint.key === paintKey) { return; }
         lastBoardPaint = null;
@@ -1851,7 +1897,8 @@
         ctx.globalAlpha = 1;
         if (global.BayeHdBattleFeedback) {
             global.BayeHdBattleFeedback.paint(ctx,
-                { ox: ox, oy: oy, cw: cw, ch: ch, cols: cols, rows: rows, viewOx: viewOx, viewOy: viewOy }, feedback);
+                { ox: ox, oy: oy, cw: cw, ch: ch, cols: cols, rows: rows, viewOx: viewOx, viewOy: viewOy },
+                feedback, feedback.kind === 'enemy-move');
         }
         ctx.strokeStyle = 'rgba(255,255,255,0.1)';
         ctx.lineWidth = 1;
@@ -1877,12 +1924,13 @@
         for (r = 0; r < rows; r += Math.max(1, Math.floor(rows / 8))) {
             ctx.fillText(String(r + viewOy), ox - 8, oy + (r + 0.65) * ch);
         }
-        if (!feedback.active && state.focus.x != null && state.focus.y != null) {
-            ctx.strokeStyle = '#f0c75a';
+        var boardFocus = enemy || state.focus;
+        if ((enemy || !feedback.active) && boardFocus.x != null && boardFocus.y != null) {
+            ctx.strokeStyle = enemy ? '#f39c8c' : '#f0c75a';
             ctx.lineWidth = 3;
             ctx.strokeRect(
-                ox + (state.focus.x - viewOx) * cw + 2,
-                oy + (state.focus.y - viewOy) * ch + 2,
+                ox + (boardFocus.x - viewOx) * cw + 2,
+                oy + (boardFocus.y - viewOy) * ch + 2,
                 cw - 4, ch - 4
             );
         }
@@ -1913,11 +1961,12 @@
             var flagW = size * (crop ? 0.70 : 0.58), flagH = size * (crop ? 0.50 : 0.44);
             var isActor = u.i === visualSnap.actor && selectable(u) &&
                 ((feedback.active && feedback.actorValid) || !!actorMenu);
+            var enemyActor = enemy && u.i === enemy.actor;
             var spent = u.active === 1, ready = selectable(u);
             var focused = u.x === state.focus.x && u.y === state.focus.y;
             // Pennants carry the engine's effective arm type. Unknown types
             // retain a generic unit mark so missing data never hides a general.
-            ctx.globalAlpha = spent && !isActor ? 0.58 : 1;
+            ctx.globalAlpha = spent && !isActor && !enemyActor ? 0.58 : 1;
             ctx.fillStyle = 'rgba(0,0,0,0.28)';
             ctx.fillRect(ux - flagW / 2 + 3, uy - flagH / 2 + 4, flagW, flagH);
             ctx.beginPath();
@@ -1929,8 +1978,8 @@
             ctx.closePath();
             ctx.fillStyle = u.side === 'player' ? '#275f9d' : '#983d40';
             ctx.fill();
-            ctx.strokeStyle = isActor || focused ? '#f0c75a' : (ready ? '#a1d4ff' : '#c3a4a4');
-            ctx.lineWidth = isActor || focused ? 3 : 1.5;
+            ctx.strokeStyle = enemyActor ? '#f39c8c' : isActor || focused ? '#f0c75a' : (ready ? '#a1d4ff' : '#c3a4a4');
+            ctx.lineWidth = enemyActor || isActor || focused ? 3 : 1.5;
             ctx.stroke();
             if (crop) {
                 var scale = flagH * 0.72 / Math.max(crop[2], crop[3]);
@@ -1942,15 +1991,15 @@
             ctx.fillStyle = '#fff2d7';
             ctx.font = '700 ' + Math.max(9, Math.min(30, flagH * (crop ? 0.54 : 0.64))) + 'px BayeUI, "Noto Sans CJK SC", sans-serif';
             ctx.fillText(ARM_GLYPHS[u.armType] || '兵', ux + (crop ? flagW * 0.23 : 0), uy + flagH * 0.17);
-            var badge = spent ? '已' : (isActor ? '行' : (ready ? '待' :
+            var badge = enemyActor ? '行' : spent ? '已' : (isActor ? '行' : (ready ? '待' :
                 (u.state != null && u.state !== 0 ? (UNIT_STATES[u.state] || '?').charAt(0) : '')));
             if (badge) {
                 ctx.font = '700 ' + Math.max(10, Math.min(14, size * 0.18)) + 'px BayeUI, sans-serif';
-                ctx.fillStyle = isActor ? '#f0c75a' : '#d2dae6';
+                ctx.fillStyle = enemyActor ? '#ffd0c3' : isActor ? '#f0c75a' : '#d2dae6';
                 ctx.fillText(badge, ux + (crop ? size * 0.42 : flagW * 0.68), uy + flagH * 0.12);
             }
             ctx.globalAlpha = 1;
-            ctx.fillStyle = focused || isActor ? '#ffe1a0' : '#f4f7fb';
+            ctx.fillStyle = enemyActor ? '#ffd0c3' : focused || isActor ? '#ffe1a0' : '#f4f7fb';
             ctx.font = '600 ' + Math.max(9, Math.min(17, size * 0.15)) + 'px BayeUI, "Noto Sans CJK SC", sans-serif';
             ctx.fillText(u.name || ('#' + u.i), ux, uy - size * 0.29, cw - 8);
             ctx.fillStyle = spent ? '#a0a8b5' : '#e0e6ef';

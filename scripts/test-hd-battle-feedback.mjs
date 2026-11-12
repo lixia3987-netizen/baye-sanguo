@@ -179,6 +179,30 @@ test('missing, short or malformed native masks and bounds cannot invent reachabi
     }
 });
 
+test('enemy movement display uses the original range-paint rules and native map bounds', () => {
+    const { api } = harness();
+    const mask = moveMask({originX:1, originY:1, useX:2, useY:3});
+    mask.values[2 * 15 + 3] = 1;   // Below the native Y use offset.
+    mask.values[3 * 15 + 1] = 1;   // Below the native X use offset.
+    mask.values[3 * 15 + 2] = 0;   // The general's own cell.
+    mask.values[3 * 15 + 3] = 1;
+    mask.values[3 * 15 + 4] = 127;
+    mask.values[3 * 15 + 5] = 128;
+    mask.values[3 * 15 + 6] = 1;   // Beyond the full map.
+    const board = {x:0, y:0, width:7, height:6}, map = {width:5, height:4};
+    const before = plain(mask);
+    const result = api.buildEnemyMove(mask, map, board);
+    assert.equal(result.active, true);
+    assert.equal(result.kind, 'enemy-move');
+    assert.deepEqual(plain(result.cells.filter(cell => cell.status === 'in').map(cell => [cell.x,cell.y])), [[2,1],[3,1]]);
+    assert.equal(cellAt(result,2,1).edges.east, false);
+    assert.equal(cellAt(result,3,1).edges.east, true);
+    assert.equal(cellAt(result,5,1), undefined);
+    assert.deepEqual(plain(mask), before);
+    mask.values[224] = null;
+    assert.equal(api.buildEnemyMove(mask, map, board).active, false);
+});
+
 test('range lookups observe current native bytes without mutating masks or sending an input', () => {
     const h = harness(), move = moveMask(), aim = aimMask();
     Object.freeze(move); Object.freeze(aim); Object.freeze(bounds);

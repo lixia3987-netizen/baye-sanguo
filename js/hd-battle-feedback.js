@@ -6,6 +6,10 @@
     function byte(value) { return integer(value) && value >= 0 && value <= 255; }
     function validBounds(bounds) { return !!(bounds && integer(bounds.width) && integer(bounds.height) &&
         bounds.width > 0 && bounds.height > 0 && bounds.width <= 255 && bounds.height <= 255); }
+    function validView(view) {
+        return !!(view && integer(view.x) && integer(view.y) && integer(view.width) && integer(view.height) &&
+            view.x >= 0 && view.y >= 0 && view.width >= 1 && view.height >= 1 && view.width <= 255 && view.height <= 255);
+    }
     function inside(bounds, x, y) { return validBounds(bounds) && integer(x) && integer(y) &&
         x >= 0 && y >= 0 && x < bounds.width && y < bounds.height; }
     function result(status, raw, index, px, py) {
@@ -35,6 +39,35 @@
         if (px >= mask.size || py >= mask.size) { return result('out', null, null, px, py); }
         var index = py * mask.size + px, raw = mask.values[index];
         return result(byte(raw) ? (raw === 1 ? 'in' : 'out') : 'unknown', raw, index, px, py);
+    }
+    function rangeCells(view, bounds, cell) {
+        var cells = [];
+        for (var y = view.y; y < Math.min(bounds.height, view.y + view.height); y += 1) {
+            for (var x = view.x; x < Math.min(bounds.width, view.x + view.width); x += 1) {
+                var value = cell(x, y);
+                cells.push({ x: x, y: y, status: value.status, raw: value.raw, index: value.index,
+                    edges: { north: value.status === 'in' && cell(x, y - 1).status !== 'in',
+                        east: value.status === 'in' && cell(x + 1, y).status !== 'in',
+                        south: value.status === 'in' && cell(x, y + 1).status !== 'in',
+                        west: value.status === 'in' && cell(x - 1, y).status !== 'in' } });
+            }
+        }
+        return cells;
+    }
+    function buildEnemyMove(mask, bounds, view) {
+        var out = {active:false, kind:'enemy-move', cells:[], focus:null, rangedUnits:[], skillAim:null};
+        if (!validBounds(bounds) || !validView(view) || !validMove(mask) ||
+            !Array.isArray(mask.values) || mask.values.length !== 225 ||
+            mask.values.includes(undefined) || !mask.values.every(byte)) { return out; }
+        out.cells = rangeCells(view, bounds, function (x, y) {
+            var value = lookupMove(mask, x, y, bounds);
+            // FgtShowMvRng starts at the native use offsets and paints only 1..127.
+            if (value.status === 'in' && (value.raw === 0 || value.raw >= 128 ||
+                value.px < mask.useX || value.py < mask.useY)) { value.status = 'out'; }
+            return value;
+        });
+        out.active = true;
+        return out;
     }
     var SKILL_TARGET_LABELS = ['射程内将领', '可选目标', '兵种不符', '地形不符', '阵营不符'];
     function currentSkillAim(snapshot) {
@@ -66,8 +99,7 @@
             !integer(actor.state) || actor.state < 0 || actor.state > 7 || actor.state === 1 || actor.state === 6 ||
             !inside(bounds, actor.x, actor.y)) { return retire('invalid-actor'); }
         out.actorValid = true;
-        if (!view || !integer(view.x) || !integer(view.y) || !integer(view.width) || !integer(view.height) ||
-            view.x < 0 || view.y < 0 || view.width < 1 || view.height < 1 || view.width > 255 || view.height > 255) { return retire('invalid-view'); }
+        if (!validView(view)) { return retire('invalid-view'); }
         out.kind = snapshot.inputKind === 2 ? 'move' : (snapshot.aimType === 1 ? 'skill' : 'attack');
         var mask = out.kind === 'move' ? snapshot.move : snapshot.aim;
         if (!(out.kind === 'move' ? validMove(mask) : validAim(mask))) { return retire('mask-unavailable'); }
@@ -81,16 +113,7 @@
             size: out.kind === 'move' ? 15 : mask.size };
         var lookup = out.kind === 'move' ? lookupMove : lookupAim;
         function cell(x, y) { return lookup(mask, x, y, bounds); }
-        for (var y = Math.max(0, view.y); y < Math.min(bounds.height, view.y + view.height); y += 1) {
-            for (var x = Math.max(0, view.x); x < Math.min(bounds.width, view.x + view.width); x += 1) {
-                var value = cell(x, y);
-                out.cells.push({ x: x, y: y, status: value.status, raw: value.raw, index: value.index,
-                    edges: { north: value.status === 'in' && cell(x, y - 1).status !== 'in',
-                        east: value.status === 'in' && cell(x + 1, y).status !== 'in',
-                        south: value.status === 'in' && cell(x, y + 1).status !== 'in',
-                        west: value.status === 'in' && cell(x - 1, y).status !== 'in' } });
-            }
-        }
+        out.cells = rangeCells(view, bounds, cell);
         var units = snapshot.units || [], focus = snapshot.focus, focusedUnit = null;
         for (var i = 0; i < units.length; i += 1) {
             var unit = units[i];
@@ -130,6 +153,7 @@
         return out;
     }
     var COLORS = { move: { wash: 'rgba(74,186,214,0.18)', line: '#69c9e1' },
+        'enemy-move': { wash: 'rgba(237,114,103,0.24)', line: '#f39c8c' },
         attack: { wash: 'rgba(225,151,57,0.18)', line: '#eac16a' },
         skill: { wash: 'rgba(154,126,218,0.20)', line: '#b3a0eb' } };
     function paintTargets(ctx, board, feedback) {
@@ -200,5 +224,6 @@
         ctx.restore();
         return true;
     }
-    global.BayeHdBattleFeedback = { lookupMove: lookupMove, lookupAim: lookupAim, build: build, paint: paint, paintTargets: paintTargets };
+    global.BayeHdBattleFeedback = { lookupMove: lookupMove, lookupAim: lookupAim, build: build,
+        buildEnemyMove: buildEnemyMove, paint: paint, paintTargets: paintTargets };
 })(window);
