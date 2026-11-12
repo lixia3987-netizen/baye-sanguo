@@ -389,7 +389,7 @@ export async function main(args=process.argv.slice(2)) {
   report.minimapOnly=minimapOnly;report.minimapWidth=minimapOnly?minimapWidth:null;report.minimapChecks=[];report.minimapAccepted=false;
   if(minimapOnly)report.scope='Original mobile 38-city SEARCH overview through trusted touch, exact native data and readonly scrolling; no real-device or full-HD acceptance';
   report.diplomacyOnly=diplomacyOnly;report.diplomacyWidth=diplomacyOnly?diplomacyWidth:null;report.diplomacyChecks=[];report.diplomacyAccepted=false;
-  if(diplomacyOnly)report.scope='Original mobile four diplomatic commands: actual native actor/target ownership, cancellation and dispatch. Monthly random outcomes, real devices and full HD remain unaccepted';
+  if(diplomacyOnly)report.scope='Original mobile diplomacy: trusted actor and target selection, scrolling, dispatch, observed monthly reports and effects, and actor return to the city';
   report.distribution=distribution;report.distributions=[];report.distributionAccepted=false;
   report.previewOnly=previewOnly;report.previewAccepted=false;report.previewChecks=[];
   report.equipmentOnly=equipmentOnly;report.equipmentWidth=equipmentOnly?equipmentWidth:null;report.equipmentAccepted=false;report.equipmentChecks=[];
@@ -747,7 +747,7 @@ export async function main(args=process.argv.slice(2)) {
       await until('final actual diplomacy map',mapReadySource);const final=await checkpoint('final-diplomacy-HD-map');prefsSame(final);
       report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
       assert.equal(report.nativeTouches.length,0);assert.deepEqual(report.requests.filter(r=>r.status!==200),[]);assert.equal(report.exceptions.length,0);
-      assert.equal(report.diplomacyChecks.length,1);assert.ok(report.diplomacyChecks.every(v=>v.accepted));
+      assert.equal(report.diplomacyChecks.length,1);assert.ok(report.diplomacyChecks.every(v=>v.accepted&&v.monthEffectsAccepted));
       report.diplomacyAccepted=true;report.ok=true;report.accepted=true;return;
     }
     if(minimapOnly){
@@ -886,7 +886,7 @@ export async function main(args=process.argv.slice(2)) {
     for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','scripts/hd-mobile-quantity-runtime-checks.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
     if(minimapOnly){for(const f of ['scripts/hd-mobile-minimap-runtime-checks.mjs','scripts/test-hd-minimap.mjs','scripts/test-hd-mobile-minimap.mjs','js/hd-minimap.js','js/hd-mobile-minimap.js','css/hd-minimap.css','css/hd-mobile.css','pc.html','package.json'])freeze(f);}
     if(diplomacyOnly||tradeOnly)freeze('scripts/hd-mobile-month-runtime-checks.mjs');
-    if(diplomacyOnly){for(const f of ['scripts/hd-mobile-diplomacy-runtime-checks.mjs','scripts/hd-mobile-diplomacy-runtime-oracle.mjs','scripts/test-hd-mobile-diplomacy-runtime-oracle.mjs','scripts/test-hd-mobile-diplomacy-engine.mjs','js/bridge.js','js/hd-city-menu.js','js/hd-dialog.js','css/hd-mobile.css','scripts/write-wasm-manifest.mjs','package.json'])freeze(f);}
+    if(diplomacyOnly){for(const f of ['scripts/hd-mobile-diplomacy-runtime-checks.mjs','scripts/hd-mobile-diplomacy-runtime-oracle.mjs','scripts/test-hd-mobile-diplomacy-runtime-oracle.mjs','scripts/test-hd-mobile-diplomacy-engine.mjs','js/bridge.js','js/hd-city-menu.js','js/hd-dialog.js','css/hd-mobile.css','vendor/iBaye/src/citycmd.c','vendor/iBaye/src/cityedit.c','vendor/iBaye/src/citycmdd.c','vendor/iBaye/src/infdeal.c','vendor/iBaye/src/tactic.c','scripts/write-wasm-manifest.mjs','package.json'])freeze(f);}
     if(recruitment)freeze('scripts/hd-mobile-recruitment-runtime-oracle.mjs');
     if(distribution){freeze('scripts/hd-mobile-distribution-runtime-checks.mjs');freeze('scripts/hd-mobile-distribution-runtime-oracle.mjs');}
     if(previewOnly||equipmentOnly)freeze('scripts/hd-mobile-preview-runtime-checks.mjs');

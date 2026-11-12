@@ -2369,6 +2369,21 @@ function diplomacyFixture(command=15,{phase=1,seq=10,mobile=true,pcHd=false}={})
     return Object.assign(f,{dom,actor,target,publish,advance,all,event,down,click,press,next,consume,
         setDiplomacyHook(fn){hook=fn;},setDeferred(fn){deferred=fn;},back(){f.internals.back(f.internals.backOwner());}});
 }
+for(const role of ['actor','target'])test('mobile diplomacy swipe keeps the current '+role+' list and cancels the pressed row',()=>{
+    const f=diplomacyFixture(16);
+    if(role==='target'){f.press(0);f.tick(200);}
+    const row=f.down(1),owner=f.state.deepMenuOwner,keys=f.keys.slice(),native=JSON.stringify(f.raw);
+    assert.equal(owner.kind,3);f.dom.list.scrollTop=96;
+    f.api.retireInteraction('person-list-pan');
+    assert.equal(f.state.deepMenuOwner,owner);assert.equal(f.state.deepPointerOwner,null);
+    f.internals.fill();
+    assert.equal(f.all('data-hd-deep')[1],row);assert.equal(f.dom.list.scrollTop,96);
+    assert.equal(JSON.stringify(f.raw),native);assert.deepEqual(f.keys,keys);
+    f.press(1);f.tick(400);
+    assert.deepEqual(f.keys,[...keys,35,39]);assert.deepEqual(f.writes,[]);
+    if(role==='actor')assert.equal(f.api.getDiplomacyPresentation().actor,f.actor.ids[1]);
+    else assert.equal(f.raw.g_hdDiplomacyTarget,f.target.ids[1]);
+});
 for(const command of [15,16,17,19])test('diplomacy actor to target uses the actual two PERSON publications: '+command,()=>{
     const f=diplomacyFixture(command),ticket=f.api.getInputTicket(),p=f.api.getDiplomacyPresentation();
     assert.equal(ticket.ownerType,'city');assert.equal(ticket.diplomacyCommand,command);assert.equal(ticket.diplomacyPhase,1);

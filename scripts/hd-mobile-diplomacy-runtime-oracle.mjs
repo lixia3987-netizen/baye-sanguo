@@ -1,4 +1,4 @@
-// Pure original diplomacy dispatch checks; never input, mutate native state or execute a month.
+// Pure checks over measured original diplomacy dispatch and execution snapshots.
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 
@@ -126,6 +126,20 @@ export function calculateMobileDiplomacyLimit(args={}){
  orderIndex:p.orderIndex,fullOrders:p.orderIndex<0,timeCount:10,timeCountIsMonthAcceptance:false,publicInputAccepted:false};
 }
 function charged(before,p){const expected=structuredClone(before);expected.cities[p.cityIndex].Money-=p.moneyCost;expected.people[p.chargedId].Thew=p.chargedAfter;return expected;}
+function residents(world,cityIndex){
+ const city=world.cities[cityIndex];return world.queue.slice(city.PersonQueue,city.PersonQueue+city.Persons);
+}
+function removeResident(world,cityIndex,queueIndex){
+ for(let i=queueIndex;i<199;i++)world.queue[i]=world.queue[i+1];
+ world.cities[cityIndex].Persons--;
+ for(let i=cityIndex+1;i<38;i++)world.cities[i].PersonQueue=(world.cities[i].PersonQueue-1)&65535;
+}
+function insertResident(world,cityIndex,id){
+ const city=world.cities[cityIndex],offset=city.PersonQueue;
+ for(let i=199;i>offset;i--)world.queue[i]=world.queue[i-1];
+ world.queue[offset]=id;city.Persons++;
+ for(let i=cityIndex+1;i<38;i++)world.cities[i].PersonQueue=(world.cities[i].PersonQueue+1)&65535;
+}
 function verdict(args,p,phase){return {ok:true,accepted:true,phase,command:args.command,cityIndex:args.cityIndex,personId:args.personId,targetId:args.targetId,
  money:{before:p.city.Money,after:p.city.Money-p.moneyCost,cost:p.moneyCost},thew:{chargedPersonId:p.chargedId,before:p.chargedBefore,after:p.chargedAfter,cost:p.thewCost,actorGuard:p.thewCost},
  fixAlienateComsumeThew:args.before.config.fixAlienateComsumeThew,fixOverFlow16:args.before.config.fixOverFlow16,checked:{...mobileDiplomacyOracleContract.counts},
@@ -144,8 +158,7 @@ export function verifyMobileDiplomacy({before,after,during,outcome='queued',...r
  assert.ok(p.orderIndex>=0,'Native first free255 slot');const order=after.orders[p.orderIndex];assert.deepEqual(Object.keys(order).sort(),Object.keys(before.orders[p.orderIndex]).sort(),'Only same measured new-order fields');
  Object.assign(expected.orders[p.orderIndex],{OrderId:rest.command,Person:rest.personId,City:rest.cityIndex,Object:rest.targetId,TimeCount:10});
  for(const k of mobileDiplomacyOracleContract.uninitializedOrder)expected.orders[p.orderIndex][k]=order[k];
- for(let i=p.queueIndex;i<199;i++)expected.queue[i]=expected.queue[i+1];expected.cities[rest.cityIndex].Persons--;
- for(let i=rest.cityIndex+1;i<38;i++)expected.cities[i].PersonQueue=(expected.cities[i].PersonQueue-1)&65535;
+ removeResident(expected,rest.cityIndex,p.queueIndex);
  exact(after,expected,'Completed diplomacy: native costs, first free order and exact DelPerson only');
  return {...verdict({before,...rest},p,'queued'),dispatchAccepted:true,partialMutationAccepted:false,orderIndex:p.orderIndex,queueIndex:p.queueIndex,
  order:Object.fromEntries(mobileDiplomacyOracleContract.initializedOrder.map(k=>[k,order[k]])),uninitializedOrderMask:{orderIndex:p.orderIndex,fields:[...mobileDiplomacyOracleContract.uninitializedOrder],actual:Object.fromEntries(mobileDiplomacyOracleContract.uninitializedOrder.map(k=>[k,order[k]])),semanticAcceptance:false}};
@@ -153,4 +166,61 @@ export function verifyMobileDiplomacy({before,after,during,outcome='queued',...r
 export function verifyMobileDiplomacyCancellation({before,after,libBytes}={}){
  shape(before,'before');shape(after,'after');library(libBytes);exact(after,before,'Actor/target cancellation changes no measured world field');
  return {ok:true,accepted:true,cancellationWorldUnchanged:true,dispatchAccepted:false,checked:{...mobileDiplomacyOracleContract.counts},publicInputAccepted:false,monthEffectsAccepted:false,wholeNativeAbiAccepted:false,fullHdAccepted:false};
+}
+
+/** The caller binds these worlds to OrderExec, live reports and the next PolicyExec boundary. */
+export function verifyMobileDiplomacyExecution({slot,before,after,reports,targetName}={}){
+ shape(before,'before OrderExec');shape(after,'after DelOrder');
+ const order=before.orders[integer(slot,0,199,'slot')],command=commandValue(order.OrderId);
+ const actor=integer(order.Person,0,199,'actor'),target=integer(order.Object,0,199,'target'),origin=integer(order.City,0,37,'origin');
+ const belong=before.king+1,oldTarget=before.people[target],expected=structuredClone(before);
+ assert.equal(before.people[actor].Belong,belong,'The original order actor belongs to the player');
+ assert.equal(before.cities[origin].Belong,belong,'Original destination for the returning actor');
+ assert.ok(!before.cities.some((_,i)=>residents(before,i).includes(actor)),'The dispatched actor is still outside all city queues');
+ assert.ok(oldTarget.Belong>0&&oldTarget.Belong!==belong,'The order still targets an enemy');
+ assert.ok(Array.isArray(reports)&&reports.length>0,'Actual original order report required');
+ for(const [i,report] of reports.entries()){
+  shape(report.world,'report '+i);
+  const r=report.native;
+  assert.ok(r?.active===1&&Number.isInteger(r.seq)&&r.seq>0&&Number.isInteger(r.inputSeq)&&r.inputSeq>0&&typeof r.text==='string'&&r.text.length);
+ }
+ const nextTarget=reports[0].world.people[target],affectedCities=[];
+ const targetCity=before.cities.findIndex((_,i)=>residents(before,i).includes(target));
+ const expectedTarget=expected.people[target];
+ let outcome='unchanged';
+ if(command===15&&nextTarget.Devotion!==oldTarget.Devotion){
+  expectedTarget.Devotion=Math.max(0,oldTarget.Devotion-4);outcome='loyalty-reduced';
+ }else if(command===16&&nextTarget.Belong!==oldTarget.Belong){
+  assert.ok(targetCity>=0,'A recruited officer must be present in an original city');
+  const source=expected.cities[targetCity];
+  removeResident(expected,targetCity,source.PersonQueue+residents(expected,targetCity).indexOf(target));
+  insertResident(expected,origin,target);
+  expectedTarget.Belong=belong;expectedTarget.Devotion=integer(nextTarget.Devotion,40,79,'Native recruited loyalty');
+  affectedCities.push(targetCity,origin);outcome='recruited';
+ }else if(command===17&&nextTarget.Belong!==oldTarget.Belong){
+  assert.ok(targetCity>=0,'A defecting officer must be present in an original city');
+  const city=expected.cities[targetCity],previous=city.Belong;
+  for(const id of residents(expected,targetCity))if(expected.people[id].Belong===previous)expected.people[id].Belong=target+1;
+  city.Belong=expectedTarget.Belong=target+1;
+  affectedCities.push(targetCity);outcome='defected';
+ }else if(command===19&&nextTarget.Belong!==oldTarget.Belong){
+  assert.equal(oldTarget.Belong,target+1,'The surrender target is the original faction ruler');
+  for(const [i,city] of expected.cities.entries())if(city.Belong===target+1){
+   city.Belong=belong;affectedCities.push(i);
+   for(const id of residents(expected,i))if(expected.people[id].Belong===target+1)expected.people[id].Belong=belong;
+  }
+  assert.ok(affectedCities.length,'Actual enemy cities transfer on surrender');
+  for(const [id,person] of expected.people.entries())if(person.Belong===target+1)person.Belong=id===target?belong:0;
+  outcome='surrendered';
+ }
+ const owners=reports.map(({native:r})=>[r.kind,r.person]);
+ const expectedOwners=outcome==='defected'?[[2,target],[1,65535],[2,target]]:[[2,target]];
+ assert.deepEqual(owners,expectedOwners,'Original report sequence belongs to this actual target');
+ assert.equal(new Set(reports.map(({native:r})=>r.seq+':'+r.inputSeq)).size,reports.length,'Each report has a distinct live owner');
+ if(outcome==='defected')assert.equal(reports[1].native.text,targetName+' 被策反成为君主');
+ for(const report of reports)exact(report.world,expected,'Measured world during original diplomacy report');
+ insertResident(expected,origin,actor);
+ expected.orders[slot].OrderId=255;
+ exact(after,expected,'Original actor return and retirement before the next order');
+ return {command,slot,actor,target,origin,outcome,affectedCities,reportCount:reports.length};
 }

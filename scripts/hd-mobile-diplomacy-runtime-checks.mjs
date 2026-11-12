@@ -1,12 +1,50 @@
 // Actual diplomacy checks; the runner exclusively owns browser/server/profile lifecycle.
 import assert from 'node:assert/strict';
 import {settleMobileMonth} from './hd-mobile-month-runtime-checks.mjs';
-import {getMobileDiplomacyCandidates,calculateMobileDiplomacyLimit,verifyMobileDiplomacy,verifyMobileDiplomacyCancellation} from './hd-mobile-diplomacy-runtime-oracle.mjs';
+import {getMobileDiplomacyCandidates,calculateMobileDiplomacyLimit,verifyMobileDiplomacy,verifyMobileDiplomacyCancellation,
+ verifyMobileDiplomacyExecution} from './hd-mobile-diplomacy-runtime-oracle.mjs';
 const next=n=>(n+1)>>>0||1,following=n=>next(next(n));
 const selectedCodes=(index,current)=>[...Array(Math.abs(index-current)).fill(index>current?35:34),39];
 const names={15:'离间',16:'招揽',17:'策反',19:'劝降'};
+
+function observePolicySource(plannedOrders,worldSource){
+ return `(() => {
+   const hooks=baye.hooks,planned=${JSON.stringify(plannedOrders)};
+   if(typeof hooks.willExecuteOrder!=='undefined'||typeof hooks.tacticStage4!=='undefined')throw Error('Original policy callbacks are already in use');
+   const trace={executions:[],active:null,error:null};
+   const read=()=>${worldSource};
+   const matches=(a,b)=>Object.keys(b).every(k=>Number(a[k])===b[k]);
+   function finish(world){
+     if(!trace.active)return;
+     trace.active.after=world;
+     trace.active=null;
+   }
+   function beforeOrder(context){
+     try{
+       const plannedOrder=planned.find(({order})=>matches(context,order));
+       if(plannedOrder||trace.active){
+         const world=read();finish(world);
+         if(plannedOrder){
+           const {slot,order}=plannedOrder;
+           if(!matches(world.orders[slot],order))throw Error('Original order slot drift');
+           trace.active={slot,before:world};trace.executions.push(trace.active);
+         }
+       }
+     }catch(e){trace.error=String(e);}
+     return -1;
+   }
+   function afterPolicy(){
+     try{if(trace.active)finish(read());}catch(e){trace.error=String(e);}
+     return -1;
+   }
+   window.__mobileDiplomacyPolicy={trace,beforeOrder,afterPolicy};
+   hooks.willExecuteOrder=beforeOrder;hooks.tacticStage4=afterPolicy;
+   return true;
+ })()`;
+}
+
 export async function runMobileDiplomacyChecks(c){
- const {report,evaluate,until,delay,checkpoint,ready,root,submenu,controlPoint,tap,touches,readKeys,worldSame,testCity,mark,libBytes,label,mapReadySource,mapReturn}=c;
+ const {report,evaluate,until,delay,checkpoint,ready,root,submenu,controlPoint,tap,touches,readKeys,worldSame,testCity,mark,libBytes,label,mapReadySource,mapReturn,worldSource}=c;
  const origin=testCity.index,entry={label,cityIndex:origin,actions:[],cancellations:[],operations:[],scrollChecks:[],accepted:false,monthEffectsAccepted:false,fullHdAccepted:false};
  report.diplomacyChecks??=[];report.diplomacyChecks.push(entry);entry.baseline=await mark();
  assert.equal(report.actualKing.name,'董卓');assert.equal(origin,10);assert.equal(testCity.name,'长安');
@@ -32,13 +70,31 @@ export async function runMobileDiplomacyChecks(c){
  const reveal=async selector=>{
   const before=await ready();
   const probe='(() => {const n=document.querySelector('+JSON.stringify(selector)+');if(!n)return null;let shown=true;for(let a=n;a;a=a.parentElement){const v=getComputedStyle(a);if(a.hidden||v.display==="none"||v.visibility==="hidden"||Number(v.opacity)===0)shown=false;}const b=n.getBoundingClientRect(),x=b.left+b.width/2,y=b.top+b.height/2,hit=document.elementFromPoint(x,y);let list=n.parentElement;while(list&&list.id!=="hd-city-menu"){const s=getComputedStyle(list);if(/auto|scroll/.test(s.overflowY)&&list.scrollHeight>list.clientHeight+2)break;list=list.parentElement;}if(!shown||b.width<=0||b.height<=0)return null;let clip={left:0,top:0,right:innerWidth,bottom:innerHeight};for(let a=n.parentElement;a;a=a.parentElement){const v=getComputedStyle(a),r=a.getBoundingClientRect();if(/auto|scroll|hidden|clip/.test(v.overflowY)){clip.top=Math.max(clip.top,r.top);clip.bottom=Math.min(clip.bottom,r.bottom);}if(/auto|scroll|hidden|clip/.test(v.overflowX)){clip.left=Math.max(clip.left,r.left);clip.right=Math.min(clip.right,r.right);}}return {visible:b.left>=clip.left-.5&&b.right<=clip.right+.5&&b.top>=clip.top-.5&&b.bottom<=clip.bottom+.5&&(hit===n||n.contains(hit)),scrollable:!!list&&list.id!=="hd-city-menu",id:list?.id||null,scrollTop:list?.scrollTop,clip,target:{top:b.top,bottom:b.bottom}};})()';
-  for(let step=0;step<=8;step++){
+  const maxPans=40;
+  for(let step=0;step<=maxPans;step++){
    const info=await until('diplomacy mounted control',probe,3_000);entry.scrollChecks.push({selector,step,phase:'probe',info});if(info.visible)return;
-   assert.ok(step<8&&info.scrollable&&info.id,'Only bounded real list pans reveal actual controls');const r=info.clip;assert.ok(r.right-r.left>=44&&r.bottom-r.top>=44);assert.ok(info.target.bottom>r.bottom||info.target.top<r.top,'No pan around external obstruction');
-   const down=info.target.bottom>r.bottom,x=r.right-12,y=r.top+(r.bottom-r.top)*(down?.75:.25),end=r.top+(r.bottom-r.top)*(down?.25:.75);
-   assert.equal(await evaluate('(() => {const l=document.getElementById('+JSON.stringify(info.id)+'),n=document.elementFromPoint('+x+','+y+');return !!l&&!!n&&(n===l||l.contains(n));})()'),true);
+   assert.ok(step<maxPans&&info.scrollable&&info.id,'Only bounded real list pans reveal actual controls');
+   const r=info.clip,down=info.target.bottom>r.bottom;
+   assert.ok(r.right-r.left>=44&&r.bottom-r.top>=44);
+   assert.ok(down||info.target.top<r.top,'No pan around external obstruction');
+   const point=await evaluate(`(() => {
+     const list=document.getElementById(${JSON.stringify(info.id)}),clip=${JSON.stringify(r)},down=${down};
+     const rows=[...list.querySelectorAll('[data-hd-deep][data-hd-menu-kind="3"]')];
+     if(down)rows.reverse();
+     for(const row of rows){
+       const b=row.getBoundingClientRect(),x=b.left+b.width/2,y=b.top+b.height/2,hit=document.elementFromPoint(x,y);
+       if(x>clip.left&&x<clip.right&&y>clip.top+14&&y<clip.bottom-14&&hit&&(hit===row||row.contains(hit)))return {x,y};
+     }
+     return null;
+   })()`);
+   assert.ok(point,'The gesture starts on an actual visible native person row');
+   const {x,y}=point,end=down?r.top+5:r.bottom-5;
    await touches('touchStart',[{x,y}]);for(let i=1;i<=6;i++)await touches('touchMove',[{x,y:y+(end-y)*i/6}]);await touches('touchEnd');await delay(150);
-   const after=await ready(),scrollTop=await evaluate('document.getElementById('+JSON.stringify(info.id)+').scrollTop');assert.notEqual(scrollTop,info.scrollTop);assert.deepEqual(await keys(before),[]);assert.deepEqual(after.native,before.native);worldSame(before,after,'Diplomacy list scrolling');noLcd(before,after);entry.scrollChecks.push({selector,step,phase:'pan',before,after,scrollTop});
+   const after=await ready(),scrollTop=await evaluate('document.getElementById('+JSON.stringify(info.id)+').scrollTop');
+   assert.notEqual(scrollTop,info.scrollTop,'The native person list scrolls without being remounted');
+   assert.deepEqual(after.state.cityUi.deepMenuOwner,before.state.cityUi.deepMenuOwner,'The pan keeps the current native person menu');
+   assert.deepEqual(await keys(before),[]);assert.deepEqual(after.native,before.native);worldSame(before,after,'Diplomacy list scrolling');noLcd(before,after);
+   entry.scrollChecks.push({selector,step,phase:'pan',point,scrollTop,menuSeq:after.state.menu.seq});
   }
  };
  const click=async selector=>{await reveal(selector);const point=await controlPoint(selector);await tap(point);return {selector,point};};
@@ -63,13 +119,20 @@ export async function runMobileDiplomacyChecks(c){
   if(phase===2){assert.equal(after.state.diplomacy.session,before.state.diplomacy.session);assert.equal(after.state.menu.index,0);assert.notEqual(after.state.diplomacy.inputSeq,before.state.diplomacy.inputSeq);}
   entry.cancellations.push({kind:phase===1?'actor':'target',command,before,after,keys:[40],oracle,...control});return after;
  };
- const usedActors=[];
+ const usedActors=[],envoy=initial.actors.filter(id=>entry.baseline.world.people[id].Thew>=20)
+  .sort((a,b)=>entry.baseline.world.people[b].IQ-entry.baseline.world.people[a].IQ)[0];
  for(const command of [15,16,17,19]){
   await open(command);await cancel(command,1);await checkpoint(label+'-'+command+'-actor-cancel-map');
   const start=await open(command),lists=getMobileDiplomacyCandidates({world:start.world,cityIndex:origin,command,libBytes});assert.ok(lists.targets.length,'Real eligible original enemy target');
-  const actor=lists.actors.find(id=>!usedActors.includes(id)&&start.world.people[id].Thew>=(command===19?10:20));assert.ok(Number.isInteger(actor),'Fresh eligible resident actor');
+  const actor=command===19?envoy:lists.actors.find(id=>id!==envoy&&!usedActors.includes(id)&&start.world.people[id].Thew>=20);
+  assert.ok(Number.isInteger(actor)&&lists.actors.includes(actor)&&!usedActors.includes(actor),'Fresh eligible resident actor');
   await actorToTarget(command,actor);await cancel(command,2);await checkpoint(label+'-'+command+'-target-cancel-actor');
-  const before=await actorToTarget(command,actor),m=before.state.menu,target=m.ids[0],index=0,limit=calculateMobileDiplomacyLimit({world:before.world,cityIndex:origin,command,personId:actor,targetId:target,libBytes});assert.ok(limit.orderIndex>=0,'Real free order required for normal dispatch');
+  const before=await actorToTarget(command,actor),m=before.state.menu;
+  const index=command===16?m.count-1:command===15?m.names.indexOf('董昭'):command===19?m.names.indexOf('韩馥'):0;
+  assert.ok(index>=0,'The current original list offers the chosen target');
+  const target=m.ids[index];
+  const limit=calculateMobileDiplomacyLimit({world:before.world,cityIndex:origin,command,personId:actor,targetId:target,libBytes});
+  assert.ok(limit.orderIndex>=0,'Real free order required for normal dispatch');
   const actorName=await evaluate('baye.getPersonName('+actor+')'),targetName=m.names[index];await checkpoint(label+'-'+command+'-target');
   const control=await click('#hd-city-menu [data-hd-deep="'+index+'"][data-hd-deep-pind="'+target+'"]'),after=await currentMap(before,command,{committed:true,actor,target}),actualKeys=await keys(before);
   assert.deepEqual(actualKeys,selectedCodes(index,m.index),'Exact target arrows and oneENTER, no invented report ACK');
@@ -89,13 +152,45 @@ export async function runMobileDiplomacyChecks(c){
  })),'City status shows each queued diplomacy command with the correct actor and target');
  await mapReturn('pending diplomacy orders');
  const beforeMonth=await ready();worldSame(dispatched,beforeMonth,'Reviewing diplomacy orders preserves the native world');
- const {settled,year,month,reports:monthlyReports}=await settleMobileMonth(c,beforeMonth);
+ assert.ok(await evaluate(observePolicySource(slots.map(slot=>({slot,order:beforeMonth.world.orders[slot]})),worldSource)));
+ const reportSamples=entry.policyReports=[];
+ let result;
+ try{
+  result=await settleMobileMonth(c,beforeMonth,async sample=>{
+   const slot=await evaluate('window.__mobileDiplomacyPolicy.trace.active?.slot ?? null');
+   if(slot===null)return;
+   const native=sample.state.report;
+   assert.equal(await evaluate(`(() => {
+     const d=BayeHdDialog.debugSnapshot(),t=BayeHdDialog.getInputTicket();
+     return d.open&&d.body===${JSON.stringify(native.text)}&&t?.ownerType==='report';
+   })()`),true,'The HD dialog presents the current original order report');
+   reportSamples.push({slot,native,world:sample.world});
+  });
+ }finally{
+  entry.policyTrace=await evaluate(`(() => {
+    const observer=window.__mobileDiplomacyPolicy,hooks=baye.hooks;
+    if(hooks.willExecuteOrder!==observer.beforeOrder||hooks.tacticStage4!==observer.afterPolicy)throw Error('Original policy observer changed');
+    delete hooks.willExecuteOrder;delete hooks.tacticStage4;delete window.__mobileDiplomacyPolicy;
+    return observer.trace;
+  })()`);
+ }
+ const {settled,year,month,reports:monthlyReports}=result;
+ assert.equal(entry.policyTrace.error,null);assert.equal(entry.policyTrace.active,null);
+ assert.deepEqual(entry.policyTrace.executions.map(trace=>trace.slot),slots,'Actual native policy executes the four original orders in slot order');
+ const executions=entry.policyTrace.executions.map((trace,i)=>{
+  assert.deepEqual(trace.before.orders[trace.slot],beforeMonth.world.orders[trace.slot]);
+  return verifyMobileDiplomacyExecution({...trace,reports:reportSamples.filter(r=>r.slot===trace.slot),targetName:entry.operations[i].targetName});
+ });
  for(const slot of slots)assert.equal(settled.world.orders[slot].OrderId,255,'Monthly policy execution retires each queued diplomacy order');
  await root(3,'状况');
  const remaining=await evaluate(`${JSON.stringify(slots)}.filter(slot=>document.querySelector('#hd-city-menu-status [data-hd-city-order="'+slot+'"]'))`);
  assert.deepEqual(remaining,[],'City status clears the processed diplomacy orders');
  await mapReturn('settled diplomacy orders');
+ const returnedPicker=await open(16);
+ assert.ok(usedActors.every(id=>returnedPicker.state.menu.ids.includes(id)),'All original actors are selectable in the next month');
+ await checkpoint(label+'-returned-actors');
+ await cancel(16,1);
  entry.returned=await ready();worldSame(settled,entry.returned,'Reviewing settled orders preserves the native world');
- entry.monthSettlement={year,month,reports:monthlyReports,retiredSlots:slots};
- entry.accepted=true;return entry;
+ entry.monthSettlement={year,month,reports:monthlyReports,retiredSlots:slots,executions,returnedActors:usedActors};
+ entry.monthEffectsAccepted=true;entry.accepted=true;return entry;
 }

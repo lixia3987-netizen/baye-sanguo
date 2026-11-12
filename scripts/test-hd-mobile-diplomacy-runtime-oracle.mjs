@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {mobileDiplomacyOracleContract,getMobileDiplomacyCandidates,calculateMobileDiplomacyLimit,verifyMobileDiplomacyCommit,verifyMobileDiplomacy,verifyMobileDiplomacyCancellation} from './hd-mobile-diplomacy-runtime-oracle.mjs';
+import {mobileDiplomacyOracleContract,getMobileDiplomacyCandidates,calculateMobileDiplomacyLimit,verifyMobileDiplomacyCommit,
+ verifyMobileDiplomacy,verifyMobileDiplomacyCancellation,verifyMobileDiplomacyExecution} from './hd-mobile-diplomacy-runtime-oracle.mjs';
 const libBytes=readFileSync(new URL('../libs/dat-mod.lib',import.meta.url)),clone=structuredClone;
 // Literal recorded-world fixtures; C order fields/costs and queue layout are independently specified.
 function fixture(command=16){
@@ -53,3 +54,44 @@ const rejects=[
 ];
 for(const [name,mutate] of rejects)test('Reject '+name,()=>{const f=fixture();mutate(f);assert.throws(()=>verifyMobileDiplomacy(f));});
 test('Limits expose actual ordered candidates and charged person without granting input/month effects',()=>{const f=fixture(15),r=calculateMobileDiplomacyLimit({world:f.before,...f});assert.equal(r.chargedPersonId,2);assert.deepEqual(r.actors,[23,24,25,26]);assert.deepEqual(r.targets,[2]);assert.equal(r.timeCountIsMonthAcceptance,false);assert.equal(mobileDiplomacyOracleContract.wholeNativeAbiAccepted,false);});
+
+function execution(command,success){
+ const {after:before,targetId}=fixture(command),targetName='原版目标';
+ if(command===19)before.people[3].Belong=2;
+ const world=clone(before);
+ if(success&&command===15)world.people[2].Devotion=76;
+ if(success&&command===16){
+  world.people[2].Belong=1;world.people[2].Devotion=52;
+  world.queue=[0,19,2,24,25,26,1,...before.queue.slice(7)];
+  world.cities[10].Persons=4;world.cities[15].Persons=1;
+  for(let i=11;i<=15;i++)world.cities[i].PersonQueue++;
+ }
+ if(success&&command===17){world.cities[15].Belong=3;world.people[1].Belong=world.people[2].Belong=3;}
+ if(success&&command===19){world.cities[15].Belong=1;world.people[1].Belong=world.people[2].Belong=1;world.people[3].Belong=0;}
+ const owners=success&&command===17?[[2,targetId,'揭竿而起'],[1,65535,targetName+' 被策反成为君主'],[2,targetId,'君臣相得']]:[[2,targetId,'原版报告']];
+ const reports=owners.map(([kind,person,text],i)=>({native:{active:1,seq:i+1,inputSeq:2*i+1,kind,person,text},world:clone(world)}));
+ const after=clone(world);
+ after.queue=[...world.queue.slice(0,2),23,...world.queue.slice(2,199),...world.queue.slice(200)];
+ after.cities[10].Persons++;
+ for(let i=11;i<38;i++)after.cities[i].PersonQueue++;
+ after.orders[2].OrderId=255;
+ return {slot:2,before,after,reports,targetName};
+}
+for(const [command,outcome] of [[15,'loyalty-reduced'],[16,'recruited'],[17,'defected'],[19,'surrendered']]){
+ test(command+' reconstructs the native success report, effects and exact actor return',()=>{
+  const result=verifyMobileDiplomacyExecution(execution(command,true));
+  assert.equal(result.outcome,outcome);assert.equal(result.actor,23);assert.equal(result.slot,2);
+ });
+ test(command+' reconstructs the native refusal report and exact actor return',()=>{
+  assert.equal(verifyMobileDiplomacyExecution(execution(command,false)).outcome,'unchanged');
+ });
+}
+for(const [label,change] of [
+ ['uses another speaker',x=>x.reports[0].native.person=4],
+ ['omits the original follow-up report',x=>x.reports.pop()],
+ ['changes an unrelated city resource',x=>x.reports[0].world.cities[0].Money++],
+ ['retires the wrong order',x=>x.after.orders[1].OrderId=255],
+ ['puts the actor elsewhere',x=>x.after.queue[2]=19]
+])test('Native diplomacy execution rejects when it '+label,()=>{
+ const x=execution(17,true);change(x);assert.throws(()=>verifyMobileDiplomacyExecution(x));
+});
