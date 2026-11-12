@@ -435,7 +435,8 @@ export async function runMysticDefenderPreparation(ctx, from, target, personId, 
             personBelong:officer.Belong, arm:officer.ArmsType, arms:officer.Arms};
         run.months.push(sample);
         assert.equal(stock.cities[from].Belong, playerBelong);
-        assert.ok(cityResidents(stock, from).includes(stock.king));
+        assert.ok(stock.cities.some(city => city.Belong === playerBelong && cityResidents(stock, city.index).includes(stock.king)),
+            'The original ruler remains in an owned city');
         assert.ok(cityResidents(stock, target).includes(personId), 'The actual officer is still in the target city');
         assert.equal(officer.ArmsType, 5);
         if (city.Belong !== playerBelong && !run.occupation) {

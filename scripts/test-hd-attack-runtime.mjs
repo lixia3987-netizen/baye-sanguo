@@ -8,6 +8,7 @@
  *   --recruit uses actual enlist/distribute menus before marching; requires --range.
  *   --recruit-arms N requests min(N,actual native max) separately at both menus.
  *   --actor N selects an eligible native PersonID in the recruited march.
+ *   --escorts N,N equips and marches the listed allies alongside the attacker.
  *   --target-arm N selects a real living enemy with native effective type 0..5;
  *   --target-arm0 aliases --target-arm 0 for cavalry defender intervals.
  *   --max-turns N sets the private acceptance budget (default4, native game unchanged).
@@ -23,6 +24,7 @@
  *   --mystic-defender waits for the original opponent to recruit and arm 诸葛亮
  *   in 成都24 after its loss, then marches from 棉竹25. Use --recruit --target-arm 5.
  *   --mystic-resume=build/.../result.json loads a saved private mystic defender run.
+ *   --mystic-from-zitong marches from 梓潼19 after restoring a mystic defender save.
  *   --destination N requests an actual non-owned native neighbor of the route's origin.
  *   The default P1 马腾 route starts at 天水8 and targets 河内9.
  *   the current native Fang Yue ID is a preference, never a fixed battle slot.
@@ -54,15 +56,18 @@ const alternateRoutes = {
     '--yuan-shao': {period:2, king:'袁绍', origin:11, originName:'邺', destination:12, preferredActor:45, preferredTargets:{4:'吕布'}},
     '--chaisang': {period:3, king:'孙权', origin:34, originName:'柴桑', destination:33, preferredActor:99},
     '--mystic': {period:4, king:'刘禅', origin:24, originName:'成都', destination:30, preferredActor:72},
-    '--mystic-defender': {period:4, king:'刘禅', origin:25, originName:'棉竹', destination:24, preferredTargets:{5:'诸葛亮'}}
+    '--mystic-defender': {period:4, king:'刘禅', origin:25, originName:'棉竹', destination:24, preferredTargets:{5:'诸葛亮'}},
+    '--mystic-from-zitong': {period:4, king:'刘禅', origin:19, originName:'梓潼', destination:24, preferredTargets:{5:'诸葛亮'}}
 };
 const routeFlags = Object.keys(alternateRoutes).filter(flag => process.argv.includes(flag));
 assert.ok(routeFlags.length <= 1, 'Choose at most one original campaign route');
 const mystic = routeFlags.includes('--mystic');
-const mysticDefender = routeFlags.includes('--mystic-defender');
+const mysticFromZitong = routeFlags.includes('--mystic-from-zitong');
+const mysticDefender = routeFlags.includes('--mystic-defender') || mysticFromZitong;
 const mysticResumeArg = process.argv.find(arg => arg.startsWith('--mystic-resume='));
 const mysticResumePath = mysticResumeArg?.slice('--mystic-resume='.length);
-assert.ok(!mysticResumeArg || mysticDefender && mysticResumePath, '--mystic-resume requires --mystic-defender and an earlier result.json');
+assert.ok(!mysticResumeArg || mysticDefender && mysticResumePath, '--mystic-resume requires a mystic defender route and an earlier result.json');
+assert.ok(!mysticFromZitong || mysticResumePath, '--mystic-from-zitong requires an earlier mystic defender save');
 const route = alternateRoutes[routeFlags[0]] ?? {
     period:1, king:'马腾', origin:8, originName:'天水', destination:9, preferredTargets:{0:'方悦'}
 };
@@ -76,6 +81,13 @@ const actorText = actorFlag < 0 ? null : process.argv[actorFlag + 1];
 assert.ok(actorText === null || recruit && /^\d+$/.test(actorText || '') && Number(actorText) < 65535,
     '--actor requires --recruit and a zero-based native PersonID');
 const actorId = actorText === null ? null : Number(actorText);
+const escortFlag = process.argv.indexOf('--escorts');
+const escortText = escortFlag < 0 ? null : process.argv[escortFlag + 1];
+assert.ok(escortText === null || recruit && /^\d+(,\d+){0,4}$/.test(escortText || ''),
+    '--escorts requires --recruit and one to five comma-separated native PersonIDs');
+const escortIds = escortText === null ? [] : escortText.split(',').map(Number);
+assert.ok(new Set(escortIds).size === escortIds.length && escortIds.every(id => id < 65535 && id !== actorId) &&
+    recruitArms * (1 + escortIds.length) <= 65535, 'Escorts must be distinct from the attacker and fit the native reserve quantity');
 const scenarioFlag=process.argv.indexOf('--scenario');
 const scenario=scenarioFlag<0?'nominal':process.argv[scenarioFlag+1];
 assert.ok(['nominal','404','late','classic','hidden','resize'].includes(scenario),'Known single acceptance scenario');
@@ -116,6 +128,7 @@ const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
     '.wasm': 'application/wasm', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.lib': 'application/octet-stream' };
 const report = { scope:'Actual standard original march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed.', route, staged, allowLcd,recruit,recruitArms,targetArm,destination,maxTurns,plannerStepBudget,scenario,acceptedRange,viewport,startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
 if (actorId !== null) report.requestedActorId = actorId;
+if (escortIds.length) report.requestedEscortIds = escortIds;
 const servedAssets = new Map();
 let nativeLib;
 let attackManifest;
@@ -708,18 +721,22 @@ function readMysticDefenderSave() {
     const source = fs.realpathSync(mysticResumePath);
     const raw = fs.readFileSync(source);
     const previous = JSON.parse(raw);
-    assert.deepEqual(previous.route, route);
+    assert.equal(previous.route.period, route.period);
+    assert.equal(previous.route.king, route.king);
     assert.equal(previous.destination, destination);
     assert.ok(previous.isolation?.cleaned && previous.sourceVerification?.runnerMatch &&
         previous.sourceVerification.drift.length === 0, 'The earlier private run finished with authenticated execution sources');
     assert.equal(previous.sources['baye.wasm'].sha256, report.sources['baye.wasm'].sha256);
     assert.equal(previous.actualLib.sha256, report.sources['libs/dat-mod.lib'].sha256);
 
-    const {occupation, occupationSave, readySave, months} = previous.mysticDefender;
+    const {target, personId, occupation, occupationSave, readySave, months} = previous.mysticDefender;
+    assert.equal(target, destination);
+    assert.equal(personId, 72);
     const save = readySave ?? occupationSave;
     const sample = readySave ? months.at(-1) : occupation;
     const name = readySave ? 'mystic-defender-equipped' : 'mystic-defender-occupied';
     assert.ok(occupation?.cityBelong && occupation.arm === 5 && occupation.personBelong === 0 && occupation.arms === 0);
+    assert.ok(!mysticFromZitong || readySave, 'The alternate march starts from a save with the original defender equipped');
     assert.ok(save && save.files.length === 2 && save.year === sample.year && save.month === sample.month);
     assert.equal(sample.arm, 5);
     const parts = save.files.map(({file, bytes, sha256}, i) => {
@@ -967,18 +984,44 @@ async function reopenMilitaryAfterPersonPicker(cdp,cityIndex,label,automatic=fal
     return {label,automatic,before,retired,reopened,exitInputs,nativeInputs:await evaluate(cdp,`window.__speEngineKeys.slice(${inputStart})`)};
 }
 
+async function distributeMarchTroops(cdp, cityIndex, person, before, checkpointName) {
+    await click(cdp, '#hd-city-menu [data-hd-sub="2"]');
+    const distribute = await chooseNativePerson(cdp, '分配', cityIndex, person.personIndex);
+    const distribution = await setRecruitQuantity(cdp, distribute.qty, '分配');
+    const distributionConfirmation = await commitRecruitQuantity(cdp, '分配');
+    await currentPersonPicker(cdp, '分配', cityIndex);
+    const equipped = await evaluate(cdp, recruitWorldExpression(cityIndex));
+    assert.deepEqual(equipped.persons.map(p => [p.personIndex,p.arms]), before.persons.map(p =>
+        [p.personIndex,p.personIndex === person.personIndex ? distribution.wanted : p.arms]));
+    assert.equal(equipped.reserve, before.reserve + person.arms - distribution.wanted);
+    assert.equal(equipped.money, before.money);
+    assert.deepEqual(equipped.orders, before.orders);
+    assert.deepEqual(equipped.date, before.date);
+    await checkpoint(cdp, checkpointName);
+    const distributionRetirement = await reopenMilitaryAfterPersonPicker(cdp, cityIndex, '分配');
+    return {distribute,distribution,distributionConfirmation,equipped,distributionRetirement};
+}
+
 async function recruitSmoke(cdp,cityIndex) {
     const inputStart=await evaluate(cdp,'window.__speEngineKeys.length');
     const mapInputSeq=await evaluate(cdp,'baye.hd.march().mapInputSeq');
     await click(cdp,'#hd-city-menu [data-hd-sub="1"]');
     const picker=await currentPersonPicker(cdp,'征兵',cityIndex),before=await evaluate(cdp,recruitWorldExpression(cityIndex));
     const allowed=before.persons.filter(p=>picker.menu.ids.includes(p.personIndex));
-    const preferred = allowed.find(p => p.personIndex === (actorId ?? route.preferredActor) && requestedActor(p));
-    const actor = actorId === null ? preferred ?? allowed.find(p => p.personIndex !== before.playerKing && requestedActor(p)) : preferred;
+    const attackers = allowed.filter(p => !escortIds.includes(p.personIndex) && requestedActor(p));
+    const preferred = attackers.find(p => p.personIndex === (actorId ?? route.preferredActor));
+    const actor = actorId === null ? preferred ?? attackers.find(p => p.personIndex !== before.playerKing) : preferred;
     assert.ok(actor,'Actual city contains an eligible attacker for the requested native interval');
+    const escorts = escortIds.map(id => {
+        const person = allowed.find(p => p.personIndex === id && id !== before.playerKing);
+        assert.ok(person, 'The requested escort is a current allied officer in the original picker');
+        return person;
+    });
+    const canRecruit = p => p.personIndex !== actor.personIndex && p.personIndex !== before.playerKing && !escortIds.includes(p.personIndex);
+    const enlistTarget = recruitArms * (1 + escorts.length);
     // Assign a different resident to the real conscription order. This person
     // leaves the resident queue until PolicyExec; it is never faked back in.
-    const recruiter=allowed.slice().reverse().find(p=>p.personIndex!==actor.personIndex&&p.personIndex!==before.playerKing);
+    const recruiter=allowed.slice().reverse().find(canRecruit);
     assert.ok(recruiter,'A different current native resident can perform conscription');
     assert.ok(before.armsPerMoney>0&&Number.isInteger(before.armsPerMoney));
     const chosen=await chooseNativePerson(cdp,'征兵',cityIndex,recruiter.personIndex);
@@ -996,12 +1039,13 @@ async function recruitSmoke(cdp,cityIndex) {
     // A native order is capped independently by devotion and available money.
     // Larger requested preparation can require another real resident/order;
     // never manufacture reserves or advance time to restore the first person.
-    for(let round=1;!returnedToMap&&recruitArms>800&&enlisted.reserve-before.reserve<recruitArms&&round<10;round++){
+    for(let round=1;!returnedToMap&&enlistTarget>800&&enlisted.reserve-before.reserve<enlistTarget&&round<10;round++){
         const previous=enlisted,picker=await currentPersonPicker(cdp,'征兵',cityIndex);
-        const candidate=previous.persons.slice().reverse().find(p=>p.personIndex!==actor.personIndex&&p.personIndex!==before.playerKing&&picker.menu.ids.includes(p.personIndex));
+        const candidate=previous.persons.slice().reverse().find(p=>canRecruit(p)&&picker.menu.ids.includes(p.personIndex));
+        if (!candidate && escorts.length) break;
         assert.ok(candidate,'Another actual remaining resident can issue the next bounded conscription order');
         const selected=await chooseNativePerson(cdp,'征兵',cityIndex,candidate.personIndex);
-        const amount=await setRecruitQuantity(cdp,selected.qty,'征兵第'+(round+1)+'次',recruitArms-(previous.reserve-before.reserve)),receipt=await commitRecruitQuantity(cdp,'征兵第'+(round+1)+'次');
+        const amount=await setRecruitQuantity(cdp,selected.qty,'征兵第'+(round+1)+'次',enlistTarget-(previous.reserve-before.reserve)),receipt=await commitRecruitQuantity(cdp,'征兵第'+(round+1)+'次');
         returnedToMap=await settleEnlistment(cdp,cityIndex,mapInputSeq,receipt);
         enlisted=await evaluate(cdp,recruitWorldExpression(cityIndex));
         assert.equal(enlisted.reserve,previous.reserve+amount.wanted);assert.equal(enlisted.money,previous.money-Math.floor(amount.wanted/before.armsPerMoney));
@@ -1013,19 +1057,16 @@ async function recruitSmoke(cdp,cityIndex) {
     }
     if (returnedToMap) await checkpoint(cdp,'06a-enlistment-returned-map');
     const enlistRetirement=await reopenMilitaryAfterPersonPicker(cdp,cityIndex,'征兵',returnedToMap);
-    await click(cdp,'#hd-city-menu [data-hd-sub="2"]');
-    const distribute=await chooseNativePerson(cdp,'分配',cityIndex,actor.personIndex);
-    const distribution=await setRecruitQuantity(cdp,distribute.qty,'分配'),distributionConfirmation=await commitRecruitQuantity(cdp,'分配');
-    await currentPersonPicker(cdp,'分配',cityIndex);
-    const equipped=await evaluate(cdp,recruitWorldExpression(cityIndex));
-    assert.equal(equipped.persons.find(p=>p.personIndex===actor.personIndex)?.arms,distribution.wanted,'Only real DistributeMake sets the attacker troop count');
-    assert.equal(equipped.reserve,enlisted.reserve+actor.arms-distribution.wanted,'Distribution transfers the original reserve plus old personal troops');
-    assert.equal(equipped.money,enlisted.money,'Native distribution charges no invented money');
-    assert.deepEqual(equipped.persons.map(p=>p.personIndex),enlisted.persons.map(p=>p.personIndex));
-    assert.deepEqual(equipped.orders,enlisted.orders);assert.deepEqual(equipped.date,before.date);
-    report.recruitment={cityIndex,requested:acceptedRange,expectedActorArmType:acceptedRange[0]===25?null:acceptedRange[0]-19,actualActorArmType:actor.armType,recruiter,actor,attackerNativeGenId:actor.nativeGenId,before,chosen,quantity,confirmation,enlistments,enlisted,enlistRetirement,distribute,distribution,distributionConfirmation,equipped,nativeInputs:await evaluate(cdp,`window.__speEngineKeys.slice(${inputStart})`),scope:'Actual bounded conscription orders into city reserve, then actual distribution to the selected current native person. The attacker is chosen from current PersonQueue/menu IDs using its real effective arm type. No time advance or game setters.'};
-    await checkpoint(cdp,'06b-real-distributed-attacker-troops');
-    report.recruitment.distributionRetirement=await reopenMilitaryAfterPersonPicker(cdp,cityIndex,'分配');
+    const actorDistribution = await distributeMarchTroops(cdp, cityIndex, actor, enlisted, '06b-real-distributed-attacker-troops');
+    report.recruitment={cityIndex,requested:acceptedRange,expectedActorArmType:acceptedRange[0]===25?null:acceptedRange[0]-19,actualActorArmType:actor.armType,recruiter,actor,attackerNativeGenId:actor.nativeGenId,before,chosen,quantity,confirmation,enlistments,enlisted,enlistRetirement,...actorDistribution,scope:'Original conscription into city reserves and distribution to selected native people, using current PersonQueue/menu IDs and effective arm types.'};
+    if (escorts.length) report.recruitment.escorts = [];
+    let equipped = actorDistribution.equipped;
+    for (const person of escorts) {
+        const receipt = await distributeMarchTroops(cdp, cityIndex, person, equipped, '06b-real-distributed-escort-' + person.personIndex);
+        report.recruitment.escorts.push({person,...receipt});
+        equipped = receipt.equipped;
+    }
+    report.recruitment.nativeInputs = await evaluate(cdp, `window.__speEngineKeys.slice(${inputStart})`);
 }
 
 async function readMarchDestination(cdp,stage) {
@@ -1161,13 +1202,15 @@ async function marchSmoke(cdp) {
     await checkpoint(cdp,'07-march-persons');
     // The engine can finish automatically after the final remaining general.
     // Observe selected ACK and live phase before choosing another person.
-    for(let i=0;i<6;i++) {
+    const party = escortIds.length ? [report.recruitment.actor.personIndex, ...escortIds] : null;
+    for(let i=0;i<(party?.length ?? 6);i++) {
         const before=await evaluate(cdp,'({march:baye.hd.march(),menu:baye.hd.menuItems(),city:BayeHdCityMenu.debugSnapshot()})');
         if(before.march.phase!==1 || !before.menu.active || !before.city.deepItems.length) break;
         let index=0;
         if(recruit) {
             assert.equal(before.menu.idsValid,true,'March picker has authoritative native person IDs');
-            if((routeFlags.length || actorId !== null) && i === 0) index=before.menu.ids.indexOf(report.recruitment.actor.personIndex);
+            if(party) index=before.menu.ids.indexOf(party[i]);
+            else if((routeFlags.length || actorId !== null) && i === 0) index=before.menu.ids.indexOf(report.recruitment.actor.personIndex);
             assert.ok(index>=0,'The equipped actor remains in the actual march picker');
             const id=before.menu.ids[index];
             assert.equal(before.city.deepItems.find(item=>item.i===index)?.pind,id,'HD row and native march identity agree');
@@ -1177,6 +1220,7 @@ async function marchSmoke(cdp) {
         await waitFor(cdp,'selected general acknowledged',`baye.hd.march().selected > ${before.march.selected} || baye.hd.march().phase !== 1`);
     }
     await checkpoint(cdp,'08-march-persons-picked');
+    if (party) assert.deepEqual(report.marchPersonIds, party, 'The original march accepted the exact prepared party');
     if(recruit)assert.ok(report.marchPersonIds.includes(report.recruitment.actor.personIndex),'The equipped actual person was selected for the native march');
     if(await evaluate(cdp,'baye.hd.march().phase === 1')) {
         await click(cdp,'#hd-city-menu [data-hd-finish-persons]');
@@ -1327,30 +1371,62 @@ async function endArmyTurn(cdp) {
     report.turns??=[];report.turns.push({before,after,paused});
     await checkpoint(cdp,'28-explicit-end-turn-'+report.turns.length);
 }
-async function attemptAttack(cdp,actor) {
-    if(!requestedActor(actor)||recruit&&actor.id!==report.recruitment.attackerNativeGenId)return false;
+function escortTargets(units) {
+    return units.filter(u => livingEnemy(u) && !requestedDefenderArm(u));
+}
+
+async function attemptAttack(cdp,actor,escort=false) {
+    if(!escort && (!requestedActor(actor)||recruit&&actor.id!==report.recruitment.attackerNativeGenId))return false;
     const name=await evaluate(cdp,'baye.hd.menuItems().names[0]');
     await menuChoice(cdp,name,5);
     const inRange=await evaluate(cdp,rangedUnitsExpression);
-    if(targetArm!==null){const hint=await evaluate(cdp,nativeAimHintExpression);if(hint){assert.equal(hint.actorNativeGenId,actor.id);assert.equal(hint.effectiveArm,actor.armType);report.nativeAimHints??=[];report.nativeAimHints.push(hint);}}
-    const targets=orderedRequestedEnemies(inRange);
+    if(!escort&&targetArm!==null){const hint=await evaluate(cdp,nativeAimHintExpression);if(hint){assert.equal(hint.actorNativeGenId,actor.id);assert.equal(hint.effectiveArm,actor.armType);report.nativeAimHints??=[];report.nativeAimHints.push(hint);}}
+    const targets=escort ? escortTargets(inRange).sort((a,b)=>a.arms-b.arms||a.i-b.i) : orderedRequestedEnemies(inRange);
     if(!targets.length) {await action(cdp,'cancel-attack-no-target','BayeHdBattle.cancel()');await waitBattle(cdp,3,'return from unavailable attack');return false;}
     const target=targets[0],before=await evaluate(cdp,battleStateExpression);
     const actualActor=before.units.find(u=>u.i===actor.i);
-    assert.ok(actualActor&&actualActor.id===actor.id&&actualActor.side==='player'&&actualActor.arms>0&&actualActor.state!==8&&requestedActor(actualActor),'Selected attacker still has the same actual identity and effective native arms for this interval');
+    assert.ok(actualActor&&actualActor.id===actor.id&&actualActor.side==='player'&&actualActor.arms>0&&actualActor.state!==8);
+    assert.ok(escort ? escortIds.includes(actualActor.personIndex) : requestedActor(actualActor));
     assert.equal(before.fight.inputKind,5);assert.equal(before.fight.actorIndex,actor.i);
     const actualTarget=before.units.find(u=>u.i===target.i&&u.id===target.id);
-    assert.ok(livingRequestedEnemy(actualTarget),'Fresh target remains the same real living enemy and exact requested caller interval');
+    assert.ok(escort ? escortTargets([actualTarget]).length : livingRequestedEnemy(actualTarget),
+        'Fresh target remains the same real living enemy and has the intended effective arm');
     assert.equal(actualTarget.x,target.x);assert.equal(actualTarget.y,target.y);
-    report.attackPlanning??=[];report.attackPlanning.push({requested:acceptedRange,requestedTargetArm:targetArm,preferredTargetNativeGenId:report.targetPreference?.preferredNativeGenId??null,actor:actualActor,target:actualTarget,nativeInRange:inRange});
+    if (!escort) {
+        report.attackPlanning??=[];report.attackPlanning.push({requested:acceptedRange,requestedTargetArm:targetArm,preferredTargetNativeGenId:report.targetPreference?.preferredNativeGenId??null,actor:actualActor,target:actualTarget,nativeInRange:inRange});
+    }
     const result=await action(cdp,'confirm-attack-'+target.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);assert.equal(result.ok,true);
-    if(['classic','hidden','resize'].includes(scenario))await exercisePresentation(cdp);
+    if(!escort&&['classic','hidden','resize'].includes(scenario))await exercisePresentation(cdp);
     await waitActionResolved(cdp,'actual attack resolves');
     const after=await evaluate(cdp,battleStateExpression),enemy=after.units.find(u=>u.i===target.i);
     assert.ok(!enemy||enemy.arms<target.arms,'confirmed normal attack reduces actual enemy troops');
+    if (escort) {
+        report.escortAttacks ??= [];
+        report.escortAttacks.push({actor:actualActor,target:actualTarget,nativeInRange:inRange,before,after});
+        return true;
+    }
     report.attackCost={actor:actor.name,actorIndex:actor.i,actorNativeGenId:actualActor.id,actorArmType:actualActor.armType,target:target.name,targetIndex:target.i,targetNativeGenId:actualTarget.id,targetPersonIndex:actualTarget.personIndex,targetArmType:actualTarget.armType,targetTerrain:actualTarget.terrain,requestedTargetArm:targetArm,before,after};
     await checkpoint(cdp,'29-attack-real-troop-cost');
     return true;
+}
+
+function unoccupiedMoveTiles(candidates, units, actor) {
+    return candidates.filter(p => !units.some(u => u.i !== actor.i && u.x === p.x && u.y === p.y && u.state !== 8));
+}
+
+async function advanceEscort(cdp, snapshot, actor) {
+    const candidates = await evaluate(cdp, moveTilesExpression);
+    const open = unoccupiedMoveTiles(candidates, snapshot.units, actor);
+    const enemies = escortTargets(snapshot.units);
+    const targets = enemies.length ? enemies : [actor];
+    const distance = p => Math.min(...targets.map(u => Math.abs(p.x-u.x) + Math.abs(p.y-u.y)));
+    const target = open.sort((a,b) => distance(a)-distance(b))[0];
+    assert.ok(target, 'An escort moves only to an empty tile in the original MOVE mask');
+    const moved = await action(cdp, 'move-escort-' + actor.name, `BayeHdBattle.clickTile(${target.x},${target.y})`);
+    assert.equal(moved.ok, true);
+    await waitBattle(cdp, 3, 'original escort action menu after movement');
+    report.escortMoves ??= [];
+    report.escortMoves.push({bout:snapshot.fight.bout,actor,candidates,target});
 }
 
 async function waitActionResolved(cdp,label,afterBout=null) {
@@ -1412,6 +1488,12 @@ async function battleSmoke(cdp) {
         assert.ok(actor&&actor.side==='player','Actual GenArray contains the equipped marcher using personIndex+1');
         assert.equal(actor.arms,report.recruitment.distribution.wanted,'Actual battle starts with the legitimately distributed troops');
         assert.ok(requestedActor(actor));report.recruitment.battleActor=actor;
+        for (const receipt of report.recruitment.escorts ?? []) {
+            const escort = report.combatStart.units.find(u => u.id === receipt.person.nativeGenId);
+            assert.ok(escort?.side === 'player' && escort.arms === receipt.distribution.wanted,
+                'The original battle deploys each escort with its actual distributed troops');
+            receipt.battleActor = escort;
+        }
     }
     // A marching ruler rests on the deployment tile unless they are the equipped attacker.
     const rulerId = report.startingRealm.playerKing + 1;
@@ -1433,13 +1515,17 @@ async function battleSmoke(cdp) {
         if(recruit)assert.ok(current.units.some(u=>u.id===report.recruitment.attackerNativeGenId&&u.state!==8&&u.arms>0),'The equipped actual attacker survived; a death is not replaced or repaired');
         if(current.fight.over)break;
         const actor=current.units.filter(u=>u.side==='player'&&u.active===0&&![8,1,6].includes(u.state)&&u.arms>0)
-            .sort((a,b)=>(recruit?Number(b.id===report.recruitment.attackerNativeGenId)-Number(a.id===report.recruitment.attackerNativeGenId):0)||Number(!requestedActor(a))-Number(!requestedActor(b))||Number(a.id===protectedRulerId)-Number(b.id===protectedRulerId)||a.i-b.i)[0];
+            .sort((a,b)=>Number(escortIds.includes(b.personIndex))-Number(escortIds.includes(a.personIndex))||
+                (recruit?Number(b.id===report.recruitment.attackerNativeGenId)-Number(a.id===report.recruitment.attackerNativeGenId):0)||Number(!requestedActor(a))-Number(!requestedActor(b))||Number(a.id===protectedRulerId)-Number(b.id===protectedRulerId)||a.i-b.i)[0];
         if(!actor) {
             if((report.turns?.length||0)>=maxTurns)break;
             await endArmyTurn(cdp);continue;
         }
         const selection=await chooseGeneral(cdp,actor);
-        if(selection.inputKind===2) {
+        const escort = escortIds.includes(actor.personIndex);
+        if(selection.inputKind===2 && escort) {
+            await advanceEscort(cdp, current, actor);
+        } else if(selection.inputKind===2) {
             if(actor.id===protectedRulerId||!requestedActor(actor)||recruit&&actor.id!==report.recruitment.attackerNativeGenId) {
                 assert.equal((await action(cdp,actor.id===protectedRulerId?'keep-lord-protected':'keep-nonmatching-unit-at-native-tile',`BayeHdBattle.clickTile(${actor.x},${actor.y})`)).ok,true);
                 await waitBattle(cdp,3,'lord action menu');
@@ -1453,7 +1539,7 @@ async function battleSmoke(cdp) {
             const preferred=enemies.find(u=>u.id===report.targetPreference?.preferredNativeGenId);
             const approached=preferred?[preferred]:approachTargets;
             const hint=observedAimHint(current,actor),attackPositions=hintedAttackPositions(hint,approached,current,actor);
-            const availableCandidates=candidates.filter(p=>!current.units.some(u=>u.i!==actor.i&&u.x===p.x&&u.y===p.y&&u.state!==8));
+            const availableCandidates=unoccupiedMoveTiles(candidates,current.units,actor);
             const reachableHintedApproach=attackPositions.some(pos=>availableCandidates.some(p=>p.x===pos.x&&p.y===pos.y));
             let routeWaypoint=null;
             if(!reachableHintedApproach&&report.alliedRouteClear?.performed&&actor.id===report.alliedRouteClear.actorNativeGenId&&preferred){
@@ -1468,7 +1554,7 @@ async function battleSmoke(cdp) {
             const moved=await action(cdp,'approach-native-path-'+actor.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);
             assert.equal(moved.ok,true);await waitBattle(cdp,3,'native action menu after movement');
         }
-        if(!report.attackCost&&await attemptAttack(cdp,actor))continue;
+        if(!report.attackCost&&await attemptAttack(cdp,actor,escort))continue;
         // Baseline only executes ordinary attacks/rests; no skill action is substituted.
         const rest=await evaluate(cdp,'baye.hd.menuItems().names[3]');await menuChoice(cdp,rest,1);
     }
