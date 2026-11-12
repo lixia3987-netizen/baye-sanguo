@@ -1190,19 +1190,19 @@
         if (buttons) { for (var i = 0; i < buttons.length; i += 1) { buttons[i].disabled = sameView(state.viewCommit, detail.owner); } }
     }
 
-    function renderSuccessorCursor(body) {
-        var current = body._hdSuccessorChoices.children[state.successorOwner.index];
-        var previous = body._hdSuccessorCursor;
+    function renderCampaignCursor(choices, index, scrollArea, request) {
+        var current = choices.children[index];
+        var previous = choices._hdCurrentPerson;
         if (current === previous) { return; }
         if (previous) { previous.removeAttribute('aria-current'); }
-        body._hdSuccessorCursor = current;
+        choices._hdCurrentPerson = current;
         if (!current) { return; }
         current.setAttribute('aria-current', 'true');
-        if (mobileHost || (state.successorRequest && state.successorRequest.confirm) ||
-            !body.getBoundingClientRect || !current.getBoundingClientRect) { return; }
-        var area = body.getBoundingClientRect(), row = current.getBoundingClientRect();
-        if (row.top < area.top) { body.scrollTop += row.top - area.top; }
-        else if (row.bottom > area.bottom) { body.scrollTop += row.bottom - area.bottom; }
+        if (mobileHost || (request && request.confirm) ||
+            !scrollArea.getBoundingClientRect || !current.getBoundingClientRect) { return; }
+        var area = scrollArea.getBoundingClientRect(), row = current.getBoundingClientRect();
+        if (row.top < area.top) { scrollArea.scrollTop += row.top - area.top; }
+        else if (row.bottom > area.bottom) { scrollArea.scrollTop += row.bottom - area.bottom; }
     }
 
     function render() {
@@ -1222,9 +1222,9 @@
             (trade.direction === 'buy' ? '买入粮草' : '卖出粮草') : state.title);
         var body = el('hd-dialog-body');
         if (body) {
-            if (state.kind !== 'successor') {
-                body._hdSuccessorChoices = null;
-                body._hdSuccessorCursor = null;
+            if (!state.successorOwner && !state.defenseOwner) {
+                body._hdCampaignView = null;
+                body._hdCampaignChoices = null;
             }
             body.setAttribute('data-hd-quantity-purpose', distribution ? 'distribution' : trade ? 'trade' : '');
             if (distribution) {
@@ -1243,14 +1243,15 @@
             } else if (state.kind === 'help' && state.helpDetail && state.helpDetail.kind === 2) {
                 renderTerrainHelp(body, state.helpDetail);
             } else if (state.kind === 'defenders' && state.defenseOwner) {
-                if (body._hdDefendersView !== state.viewEpoch) {
-                    body._hdDefendersView = state.viewEpoch;
+                var defenders = body._hdCampaignChoices;
+                if (body._hdCampaignView !== state.viewEpoch) {
+                    body._hdCampaignView = state.viewEpoch;
                     body.textContent = state.body;
                     var selected = document.createElement('p');
                     selected.setAttribute('data-hd-defenders-selected', '');
                     body.appendChild(selected);
-                    var defenders = document.createElement('div');
-                    defenders.className = 'hd-dialog-qty';
+                    defenders = document.createElement('div');
+                    defenders.className = 'hd-dialog-qty hd-dialog-defenders';
                     var stats = readDefenderStats(state.defenseOwner);
                     state.defenseOwner.names.forEach(function (name, index) {
                         var button = document.createElement('button');
@@ -1282,21 +1283,23 @@
                     finish.setAttribute('data-hd-defenders-owner', defenseToken(state.defenseOwner));
                     if (mobileHost) { finish.setAttribute('data-hd-campaign-owner', defenseToken(state.defenseOwner)); finish._hdCampaignData = mobileCampaignData; }
                     finish.textContent = '完成选将';
-                    if (!mobileHost) { defenders.appendChild(finish); }
                     body.appendChild(defenders);
-                    if (mobileHost) { body.appendChild(finish); }
+                    body.appendChild(finish);
+                    body._hdCampaignChoices = defenders;
                 }
                 var selectedNode = body.querySelector && body.querySelector('[data-hd-defenders-selected]');
                 setText(selectedNode, state.defenseOwner.selected.length ?
                     '已选 ' + state.defenseOwner.selected.length + ' 人：' +
                         state.defenseOwner.selectedNames.filter(Boolean).join('、') : '尚未选择防将。');
+                renderCampaignCursor(defenders, state.defenseOwner.index, defenders, state.defenseRequest);
             } else if (state.kind === 'successor' && state.successorOwner) {
                 // Keep the same button nodes through polling; replacing them
                 // between pointerdown and click would lose a player's choice.
-                if (body._hdSuccessorView !== state.viewEpoch) {
-                    body._hdSuccessorView = state.viewEpoch;
+                var choices = body._hdCampaignChoices;
+                if (body._hdCampaignView !== state.viewEpoch) {
+                    body._hdCampaignView = state.viewEpoch;
                     body.textContent = state.body || '请选择继任君主。';
-                    var choices = document.createElement('div');
+                    choices = document.createElement('div');
                     choices.className = 'hd-dialog-qty';
                     state.successorOwner.names.forEach(function (name, index) {
                         var button = document.createElement('button');
@@ -1312,13 +1315,10 @@
                         choices.appendChild(button);
                     });
                     body.appendChild(choices);
-                    body._hdSuccessorChoices = choices;
-                    body._hdSuccessorCursor = null;
+                    body._hdCampaignChoices = choices;
                 }
-                renderSuccessorCursor(body);
+                renderCampaignCursor(choices, state.successorOwner.index, body, state.successorRequest);
             } else if (state.body) {
-                body._hdSuccessorView = null;
-                body._hdDefendersView = null;
                 body.textContent = state.body;
             } else if (state.kind === 'qty') {
                 var qv = '';

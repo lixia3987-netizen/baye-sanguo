@@ -122,7 +122,7 @@ function harness() {
         cityPress(target) { for (const fn of nodes['hd-city-menu'].listeners.get('pointerdown') ?? []) fn({ target }); },
         cityClick(target) { for (const fn of nodes['hd-city-menu'].listeners.get('click') ?? [])
             fn({ target, preventDefault() {}, stopPropagation() {} }); },
-        defenseButtons() { return nodes['hd-dialog-body'].children.at(-1)?.children
+        defenseButtons() { return nodes['hd-dialog-body'].querySelector('[data-hd-defender-index]')?.parentNode.children
             .filter(node => node.getAttribute('data-hd-defender-index') != null) ?? []; },
         defenseFinish() { return nodes['hd-dialog-body'].querySelector('[data-hd-defenders-finish]'); },
         defenders(seq = 51, names = ['李儒', '张辽', '吕布']) {

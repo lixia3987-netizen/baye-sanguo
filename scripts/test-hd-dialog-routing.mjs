@@ -1218,6 +1218,42 @@ test('desktop succession highlights and reveals the acknowledged native cursor',
     assert.deepEqual(h.writes,[]);
 });
 
+test('desktop defense keeps the finish action visible while the native cursor scrolls the roster', () => {
+    const h = harness(), d = h.context.BayeHdDialog;
+    native(h);
+    h.context.BayeHdCityMenu.shouldShowHd = () => true;
+    Object.assign(h.report,{active:0,kind:0,text:''});
+    Object.assign(h.data,{g_asyncActionID:0,g_hdReportActive:0});
+    Object.assign(h.menu,{active:1,context:5,kind:2,seq:31,index:0,count:3,names:['马超','韩遂','韩玄']});
+    d.poll();
+    const body = h.nodes['hd-dialog-body'];
+    const rows = () => body.querySelectorAll('[data-hd-defender-index]');
+    const [first, second] = rows();
+    const roster = first.parentElement;
+    const finish = body.querySelectorAll('[data-hd-defenders-finish]')[0];
+    assert.equal(finish.parentElement, body);
+    assert.equal(first.getAttribute('aria-current'), 'true');
+    body.scrollTop = roster.scrollTop = 0;
+    roster.getBoundingClientRect = () => ({top:80,bottom:180});
+    second.getBoundingClientRect = () => ({top:194,bottom:238});
+
+    h.pointerDown(finish);
+    assert.equal(h.key(40,{key:'ArrowDown'}).defaultPrevented, true);
+    assert.equal(first.getAttribute('aria-current'), 'true');
+    h.menu.index = 1;
+    d.poll();
+    h.timers();
+    assert.equal(rows()[1], second);
+    assert.equal(first.getAttribute('aria-current'), null);
+    assert.equal(second.getAttribute('aria-current'), 'true');
+    assert.equal(roster.scrollTop, 58);
+    assert.equal(body.scrollTop, 0);
+    h.click('data-hd-defenders-finish', finish);
+    h.click('data-hd-defenders-finish', finish);
+    assert.deepEqual(h.sent, [0x23,0x28]);
+    assert.deepEqual(h.writes, []);
+});
+
 test('mobile succession keeps repeated rows from the original resident queue', () => {
     const h = mobileCampaignFixture(1), d = h.context.BayeHdDialog;
     const cities = Array.from({length:38}, () => ({Belong:0,PersonQueue:0,Persons:0}));
@@ -1320,10 +1356,12 @@ test('mobile successor Back never emits EXIT and old candidate cannot select a n
 });
 test('mobile defenders immediately observe the shrinking real roster and finish exactly once', () => {
     const h = mobileCampaignFixture(2), d = h.context.BayeHdDialog, old = h.candidate(0);
+    assert.equal(old.getAttribute('aria-current'), 'true');
     h.onSend(code => { if (code === 0x27) { h.data.g_FgtParam.GenArray[0] = 1; h.publish([130,199],0,33); } });
     h.choose(0); assert.deepEqual(h.sent, [0x27]);
     assert.deepEqual(Array.from(h.snapshot().defenseOwner.ids), [130,199]);
     assert.deepEqual(Array.from(h.snapshot().defenseOwner.selected), [1]);
+    assert.equal(h.candidate(0).getAttribute('aria-current'), 'true');
     h.click('data-hd-defender-index', old); assert.deepEqual(h.sent, [0x27]);
     const finish = h.nodes['hd-dialog-body'].querySelectorAll('[data-hd-defenders-finish]')[0];
     h.click('data-hd-defenders-finish', finish); h.click('data-hd-defenders-finish', finish);
