@@ -21,7 +21,8 @@ const K = { RIGHT: 0x25, ENTER: 0x27 };
 const standardLibHex = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url)).toString('hex');
 
 function browser({ modules = ['overworld', 'battle'], hidden = false, classic = false, loadedLib = false,
-    canvasRect = { left: 0, top: 0, width: 1920, height: 1080 }, footerRects = [], badgeRect = null } = {}) {
+    canvasRect = { left: 0, top: 0, width: 1920, height: 1080 }, footerRects = [], badgeRect = null,
+    imageClass = null } = {}) {
     let now = 10000, nextId = 1;
     const frames = new Map(), timers = new Map(), intervals = new Map();
     const listeners = new Map(), windowListeners = new Map(), sent = [];
@@ -81,7 +82,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
         const ctx = new Proxy({
             textBaseline: 'alphabetic', textAlign: 'start',
             fillStyle: '#000000', strokeStyle: '#000000', lineWidth: 1, globalAlpha: 1,
-            clearRect() { stats.paints++; stats.labels = []; stats.text = []; stats.strokes = []; },
+            clearRect() { stats.paints++; stats.labels = []; stats.text = []; stats.strokes = []; stats.images = []; },
             fillText(text, x, y, maxWidth) { stats.labels.push(String(text));
                 stats.text.push({text:String(text),x,y,maxWidth,font:this.font,baseline:this.textBaseline,align:this.textAlign}); },
             save() { stats.saveCalls = (stats.saveCalls || 0) + 1; stack.push({font:this.font,textAlign:this.textAlign,textBaseline:this.textBaseline,
@@ -93,7 +94,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
             setLineDash(value) { dash = Array.from(value); },
             stroke() { stats.strokeCalls = (stats.strokeCalls || 0) + 1; stats.strokes.push({ points: points.map(point => [...point]), dash: [...dash],
                 color: this.strokeStyle, alpha: this.globalAlpha, width: this.lineWidth }); },
-            drawImage() { stats.drawImages = (stats.drawImages || 0) + 1; },
+            drawImage(image, ...rect) { stats.images.push({image,rect,alpha:this.globalAlpha}); },
             measureText: text => ({ width: String(text).length * 10 }),
             createLinearGradient: () => ({ addColorStop() {} })
         }, { get(target, key) { return key in target ? target[key] : (() => {}); } });
@@ -147,7 +148,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
         }
     }
     const context = vm.createContext({
-        document, baye, Date: Clock, Image, XMLHttpRequest,
+        document, baye, Date: Clock, Image: imageClass || Image, XMLHttpRequest,
         BayeHdLibIdentity:modules.includes('overworld')?{read:()=>mapIdentity,isCurrent:s=>s===mapIdentity,subscribe(){}}:undefined,
         dynLib: loadedLib ? standardLibHex : null, crypto: webcrypto,
         console: { log() {}, warn() {}, error(...args) { throw new Error(args.join(' ')); } },
@@ -441,6 +442,57 @@ test('battle pennants render all six effective native arm types, including type 
             'each living general has a pennant outline');
         assert.equal(JSON.stringify({ data: h.data, fight: h.fight }), nativeBefore);
     }
+    assert.deepEqual(h.sent, []);
+});
+
+test('desktop pennants add the effective arm emblem when the atlas and cell are large enough', () => {
+    const images = [];
+    const h = browser({ modules: ['battle'], imageClass: class {
+        constructor() { images.push(this); }
+    } });
+    const stats = h.canvasStats.battle;
+    const atlas = images.find(image => image.src === 'assets/hd-battle-unit/arm-insignia-v1.png');
+    assert.ok(atlas);
+    const icons = () => stats.images.filter(call => call.image === atlas);
+    const nativeBefore = JSON.stringify({ data: h.data, fight: h.fight });
+    assert.ok(stats.labels.includes('骑'));
+    assert.equal(icons().length, 0);
+    Object.assign(atlas, { complete: true, naturalWidth: 512, naturalHeight: 512 });
+    h.frame();
+    assert.equal(icons().length, 0);
+    Object.assign(atlas, { naturalWidth: 1536, naturalHeight: 1024 });
+    h.frame();
+    assert.equal(icons().length, 3, 'a late atlas redraws a retained board');
+
+    const emblems = [
+        ['骑', [55, 81, 426, 405]], ['步', [626, 17, 284, 493]], ['弓', [1072, 43, 401, 461]],
+        ['水', [53, 583, 428, 384]], ['极', [552, 565, 434, 406]], ['玄', [1073, 616, 403, 317]]
+    ];
+    for (const [type, [glyph, crop]] of emblems.entries()) {
+        h.armTypes[0] = type;
+        h.frame();
+        const { rect } = icons()[0];
+        assert.deepEqual(rect.slice(0, 4), crop);
+        assert.ok(stats.text.find(line => line.text === glyph).x > rect[4] + rect[6]);
+    }
+    assert.equal(JSON.stringify({ data: h.data, fight: h.fight }), nativeBefore);
+
+    const desktopRect = h.layout.canvasRect;
+    h.layout.canvasRect = { left: 0, top: 0, width: 704, height: 396 };
+    h.frame();
+    assert.equal(icons().length, 0);
+    assert.ok(stats.labels.includes('玄'));
+    h.layout.canvasRect = desktopRect;
+    h.frame();
+    assert.equal(icons().length, 3);
+    h.data.g_GenPos[0].active = 1;
+    h.frame();
+    assert.equal(icons()[0].alpha, 0.58);
+    h.armTypes[0] = null;
+    h.frame();
+    assert.equal(icons().length, 2);
+    assert.ok(stats.labels.includes('兵'));
+    assert.equal(images.filter(image => image.src === atlas.src).length, 1);
     assert.deepEqual(h.sent, []);
 });
 

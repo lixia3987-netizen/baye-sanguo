@@ -14,6 +14,10 @@
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
     var ARM_NAMES = ['骑兵', '步兵', '弓兵', '水军', '极兵', '玄兵'];
     var ARM_GLYPHS = ['骑', '步', '弓', '水', '极', '玄'];
+    var ARM_ART_CROPS = [
+        [55, 81, 426, 405], [626, 17, 284, 493], [1072, 43, 401, 461],
+        [53, 583, 428, 384], [552, 565, 434, 406], [1073, 616, 403, 317]
+    ];
     var UNIT_STATES = ['正常', '混乱', '禁咒', '定身', '奇门', '遁甲', '石阵', '潜踪', '死亡'];
     var state = {
         open: false, preview: false, bound: false, showLcd: false, loopId: 0, visibilityBound: false,
@@ -31,6 +35,7 @@
     var mobileRenderOwner = null;
     var pcPickPress = null;
     var lastBoardPaint = null;
+    var armAtlas = null;
 
     function el(id) { return document.getElementById(id); }
     function setDisplayAttribute(node, name, value) {
@@ -1482,11 +1487,11 @@
         }
     }
 
-    function boardGeometry(canvas) {
+    function boardGeometry(bounds) {
         var board = {ox:80,oy:72,width:DESIGN_W-160,height:DESIGN_H-160};
         var rail = !mobileHost && !state.preview && el('hd-battle-rail');
         if (rail && !rail.hidden && typeof rail.getBoundingClientRect === 'function') {
-            var bounds = canvas.getBoundingClientRect(), sidebar = rail.getBoundingClientRect();
+            var sidebar = rail.getBoundingClientRect();
             if (bounds.width > 0 && sidebar.width > 0 && sidebar.left > bounds.left && sidebar.left < bounds.right) {
                 board.width = Math.max(80,(sidebar.left-bounds.left)/bounds.width*DESIGN_W-24-board.ox);
             }
@@ -1504,7 +1509,7 @@
         }
         var sx = (ev.clientX - rect.left) / rect.width * DESIGN_W;
         var sy = (ev.clientY - rect.top) / rect.height * DESIGN_H;
-        var board = boardGeometry(canvas);
+        var board = boardGeometry(rect);
         var cols = state.viewW || state.mapW;
         var rows = state.viewH || state.mapH;
         var cw = board.width / cols;
@@ -1519,8 +1524,8 @@
         return { x: c + (state.viewOx || 0), y: r + (state.viewOy || 0) };
     }
 
-    function unitLegendBlockers(canvas) {
-        var canvasRect = canvas.getBoundingClientRect(), blockers = [];
+    function unitLegendBlockers(canvasRect) {
+        var blockers = [];
         function addBlocker(node) {
             if (!node || typeof node.getBoundingClientRect !== 'function' ||
                 !(canvasRect.width > 0) || !(canvasRect.height > 0)) { return; }
@@ -1605,6 +1610,15 @@
         ctx.fillText(text, x + width / 2, y + height / 2, width - 6);
         ctx.restore();
     }
+    function desktopArmAtlas() {
+        if (!armAtlas && typeof global.Image === 'function') {
+            armAtlas = new global.Image();
+            armAtlas.src = 'assets/hd-battle-unit/arm-insignia-v1.png';
+        }
+        return armAtlas && armAtlas.complete && armAtlas.naturalWidth === 1536 && armAtlas.naturalHeight === 1024
+            ? armAtlas : null;
+    }
+
     function draw(snap) {
         if (mobileHost) {
             if (document.hidden || mobileRendering || (!snap.ready && !snap.enemyMove && !snap.mapNumber) || state.showLcd || !hdModeEnabled() ||
@@ -1644,7 +1658,8 @@
         }
         var w = Math.round(DESIGN_W * dpr);
         var h = Math.round(DESIGN_H * dpr);
-        var board = boardGeometry(canvas);
+        var canvasRect = canvas.getBoundingClientRect();
+        var board = boardGeometry(canvasRect);
         var boardW = board.width, boardH = board.height;
         var cols = state.viewW || state.mapW || 16;
         var rows = state.viewH || state.mapH || 12;
@@ -1666,14 +1681,18 @@
                     label: feedback.kind === 'skill' ? feedback.focus.label : '攻击目标' };
             }
         }
-        var focusCard = el('hd-battle-focus'), blockers = unitLegendBlockers(canvas);
+        var focusCard = el('hd-battle-focus'), blockers = unitLegendBlockers(canvasRect);
         var targetLabel = feedback.skillAim && feedback.focus ? feedback.focus.label : targetPreview && targetPreview.label;
         renderFocusCard(state.open && shouldShowHd(),visualSnap,targetLabel);
         var terrain = global.BayeHdBattleTerrain;
-        var artVersion = state.open && !state.preview && !state.showLcd && visualSnap.showHd && terrain &&
+        var desktopHd = state.open && !state.preview && !state.showLcd && visualSnap.showHd;
+        var artVersion = desktopHd && terrain &&
             typeof terrain.desktopIllustrationVersion === 'function' ? terrain.desktopIllustrationVersion(state.terrain) : 0;
+        var cellCssSize = Math.min(cw * canvasRect.width / DESIGN_W, ch * canvasRect.height / DESIGN_H);
+        var armIcons = desktopHd && cellCssSize >= 44 ? desktopArmAtlas() : null;
         var paintKey = JSON.stringify([dpr,board,cols,rows,viewOx,viewOy,blockers,state.preview,state.focus,
-            state.terrain,artVersion,state.units,visualSnap.focus,visualSnap.actor,!!actorMenu,feedback,targetPreview,!!focusCard,visualSnap.mapNumber]);
+            state.terrain,artVersion,!!armIcons,state.units,visualSnap.focus,visualSnap.actor,!!actorMenu,feedback,
+            targetPreview,!!focusCard,visualSnap.mapNumber]);
         var resized = canvas.width !== w || canvas.height !== h;
         if (!resized && lastBoardPaint && lastBoardPaint.canvas === canvas && lastBoardPaint.key === paintKey) { return; }
         lastBoardPaint = null;
@@ -1748,7 +1767,7 @@
             ctx.setLineDash([]);
         }
         var i;
-        var drawn = 0;
+        var drawn = 0, size = Math.min(cw, ch);
         for (i = 0; i < state.units.length; i++) {
             var u = state.units[i];
             if (u.x == null || u.y == null || u.state === 8) {
@@ -1757,7 +1776,8 @@
             drawn += 1;
             var ux = ox + (u.x - viewOx + 0.5) * cw;
             var uy = oy + (u.y - viewOy + 0.5) * ch;
-            var size = Math.min(cw, ch), flagW = size * 0.58, flagH = size * 0.44;
+            var crop = armIcons && ARM_ART_CROPS[u.armType];
+            var flagW = size * (crop ? 0.70 : 0.58), flagH = size * (crop ? 0.50 : 0.44);
             var isActor = u.i === visualSnap.actor && selectable(u) &&
                 ((feedback.active && feedback.actorValid) || !!actorMenu);
             var spent = u.active === 1, ready = selectable(u);
@@ -1779,16 +1799,22 @@
             ctx.strokeStyle = isActor || focused ? '#f0c75a' : (ready ? '#a1d4ff' : '#c3a4a4');
             ctx.lineWidth = isActor || focused ? 3 : 1.5;
             ctx.stroke();
+            if (crop) {
+                var scale = flagH * 0.72 / Math.max(crop[2], crop[3]);
+                var iconW = crop[2] * scale, iconH = crop[3] * scale;
+                ctx.drawImage(armIcons, crop[0], crop[1], crop[2], crop[3],
+                    ux - flagW * 0.24 - iconW / 2, uy - flagH * 0.05 - iconH / 2, iconW, iconH);
+            }
             ctx.textAlign = 'center';
             ctx.fillStyle = '#fff2d7';
-            ctx.font = '700 ' + Math.max(9, Math.min(30, flagH * 0.64)) + 'px BayeUI, "Noto Sans CJK SC", sans-serif';
-            ctx.fillText(ARM_GLYPHS[u.armType] || '兵', ux, uy + flagH * 0.17);
+            ctx.font = '700 ' + Math.max(9, Math.min(30, flagH * (crop ? 0.54 : 0.64))) + 'px BayeUI, "Noto Sans CJK SC", sans-serif';
+            ctx.fillText(ARM_GLYPHS[u.armType] || '兵', ux + (crop ? flagW * 0.23 : 0), uy + flagH * 0.17);
             var badge = spent ? '已' : (isActor ? '行' : (ready ? '待' :
                 (u.state != null && u.state !== 0 ? (UNIT_STATES[u.state] || '?').charAt(0) : '')));
             if (badge) {
                 ctx.font = '700 ' + Math.max(10, Math.min(14, size * 0.18)) + 'px BayeUI, sans-serif';
                 ctx.fillStyle = isActor ? '#f0c75a' : '#d2dae6';
-                ctx.fillText(badge, ux + flagW * 0.68, uy + flagH * 0.12);
+                ctx.fillText(badge, ux + (crop ? size * 0.42 : flagW * 0.68), uy + flagH * 0.12);
             }
             ctx.globalAlpha = 1;
             ctx.fillStyle = focused || isActor ? '#ffe1a0' : '#f4f7fb';

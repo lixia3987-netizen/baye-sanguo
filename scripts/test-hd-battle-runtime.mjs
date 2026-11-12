@@ -65,6 +65,7 @@ function prepareServedAssets() {
         'assets/hd-overworld/palette/factions.json','assets/hd-overworld/terrain/base_plains.jpg',
         'assets/hd-overworld/terrain/mountain-cluster-v1.png','assets/hd-overworld/terrain/forest-cluster-v1.png',
         'assets/hd-overworld/cities/fortified-city-v1.png','assets/hd-battle-terrain/terrain-atlas-v1.png',
+        'assets/hd-battle-unit/arm-insignia-v1.png',
         'assets/hd-portraits/manifest.json','assets/hd-portraits/refs/index.json','assets/hd-spe/manifest.json',
         'vendor/iBaye/src/data/pstring.h','scripts/test-hd-battle-runtime.mjs','scripts/hd-battle-hud-runtime-checks.mjs',
         'scripts/hd-battle-skill-aim-runtime-checks.mjs','scripts/hd-battle-map-number-runtime-checks.mjs',
@@ -233,12 +234,23 @@ async function smoke(cdp) {
         const sprites={'mountain-cluster-v1.png':['hill',[24,390,1205,476]],
             'forest-cluster-v1.png':['forest',[33,257,1199,728]],'fortified-city-v1.png':['city',[123,376,1016,618]]};
         const atlas={'2:2':'grass','514:2':'plain','2:514':'village','514:514':'tent','1026:2':'river','1026:514':'river'};
+        const armCrops=['55:81:426:405','626:17:284:493','1072:43:401:461',
+            '53:583:428:384','552:565:434:406','1073:616:403:317'];
         window.__battleTerrainArt={};
+        window.__battleArmArt={};
         proto.drawImage=function(image,...rect){
             const value=draw.apply(this,arguments);
-            if (rect.length===8 && image instanceof HTMLImageElement && !this.canvas.isConnected &&
-                document.body.classList.contains('baye-hd-battle-on')) {
-                const source=image.src.split('/').pop(), sprite=sprites[source];
+            if (rect.length!==8 || !(image instanceof HTMLImageElement) ||
+                !document.body.classList.contains('baye-hd-battle-on')) return value;
+            const source=image.src.split('/').pop();
+            if (this.canvas.id==='hd-battle-canvas' && source==='arm-insignia-v1.png') {
+                const type=armCrops.indexOf(rect.slice(0,4).join(':'));
+                if(type>=0) {
+                    const viewport=(__battleArmArt[innerWidth+'x'+innerHeight]||={});
+                    viewport[type]={source,rect,width:image.naturalWidth,height:image.naturalHeight};
+                }
+            } else if (!this.canvas.isConnected) {
+                const sprite=sprites[source];
                 const kind=source==='terrain-atlas-v1.png' && this.globalAlpha>0.5 && rect[2]===508 && rect[3]===508
                     ? atlas[rect.slice(0,2).join(':')]
                     : sprite && sprite[1].every((value,index)=>value===rect[index]) && sprite[0];
@@ -248,7 +260,7 @@ async function smoke(cdp) {
             }
             return value;
         };
-        window.__stopBattleTerrainArt=()=>{proto.drawImage=draw;};
+        window.__stopBattleArt=()=>{proto.drawImage=draw;};
     })()`);
     const bindings = await evaluate(cdp, `({ ready: baye.data.g_hdEngineReady, control: baye.data.g_hdFightMenuControl,
         battlePref: BayeHdBattle.getMode(), hook: Object.prototype.hasOwnProperty.call(baye.hooks, 'fightOpenMainMenu') })`);
@@ -423,10 +435,13 @@ async function battleSmoke(cdp) {
     })()`);
     const before=await evaluate(cdp,battleStateExpression);
     await waitFor(cdp,'original HD battle canvas visible','BayeHdBattle.isOpen()&&document.getElementById("hd-battle-canvas").checkVisibility()');
+    const hasDeploymentEmblems='size=>[0,1,2].every(type=>window.__battleArmArt[size]?.[type])';
     try {
         report.terrainIllustrations=await waitFor(cdp,'original battle board draws all terrain visible at deployment',
             `['hill','forest','city','grass','plain','village','river'].every(kind=>window.__battleTerrainArt[kind]) && window.__battleTerrainArt`);
-    } finally { if(!statusOnly) await evaluate(cdp,'window.__stopBattleTerrainArt()'); }
+        report.armInsignia=await waitFor(cdp,'original battle board draws cavalry, infantry and archer emblems',
+            `(${hasDeploymentEmblems})('1920x1080') && window.__battleArmArt`);
+    } finally { if(!statusOnly) await evaluate(cdp,'window.__stopBattleArt()'); }
     report.idleBattleBoard=await measureIdleBattleBoard(expression=>evaluate(cdp,expression),(...args)=>cdp.send(...args),'hd-battle-canvas');
     assert.equal(report.idleBattleBoard.paints.frames,0,'Idle desktop HD battle retains the painted canvas');
     const after=await evaluate(cdp,battleStateExpression);
@@ -436,7 +451,11 @@ async function battleSmoke(cdp) {
     await checkWaitingRoster(cdp,before.units,'first PICK at 1080p');
     await checkpoint(cdp,'15-battle-idle-no-input');
     if(inputTiming)await measureDesktopSelectionsAndMoves(cdp,before);
-    if(statusOnly)await recordBattleHudAtDesktopSizes(cdp,'battle-first-day');
+    if(statusOnly) {
+        await recordBattleHudAtDesktopSizes(cdp,'battle-first-day');
+        report.armInsignia=await waitFor(cdp,'original emblems at 720p and 1080p',
+            `['1280x720','1920x1080'].every(${hasDeploymentEmblems}) && window.__battleArmArt`);
+    }
     await terrainSmoke(cdp, before);
     const roster=await checkWaitingRoster(cdp,before.units,'PICK before roster selection');
     const own=before.units.find(u=>u.i===roster.rows.at(-1).slot);
@@ -547,7 +566,7 @@ async function battleSmoke(cdp) {
             }
             report.terrainIllustrations=await waitFor(cdp,'all eight original terrain categories draw their artwork',
                 'Object.keys(window.__battleTerrainArt).length === 8 && window.__battleTerrainArt');
-        } finally { await evaluate(cdp,'window.__stopBattleTerrainArt()'); }
+        } finally { await evaluate(cdp,'window.__stopBattleArt()'); }
         return;
     }
     await manualCombat(cdp);
