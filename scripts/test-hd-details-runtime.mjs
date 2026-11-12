@@ -20,6 +20,7 @@ const staged = process.argv.includes('--staged');
 const transferOnly = process.argv.includes('--transfer-only');
 const reconOnly = process.argv.includes('--recon-only');
 const equipmentOrdersOnly = process.argv.includes('--equipment-orders-only');
+const minimapOnly = process.argv.includes('--minimap-only');
 const rewardTokenFlag = process.argv.find(arg => arg.startsWith('--reward-token='));
 const rewardTokenName = rewardTokenFlag?.slice('--reward-token='.length);
 const rewardToken = Object.hasOwn(rewardTokenScenarios, rewardTokenName) ? rewardTokenScenarios[rewardTokenName] : null;
@@ -29,6 +30,7 @@ assert.ok(!mobileFlag || (reconOnly || rewardToken) && [667, 844].includes(mobil
 assert.ok(!transferOnly || !reconOnly);
 assert.ok(!equipmentOrdersOnly || !transferOnly && !reconOnly && !mobileFlag);
 assert.ok(!rewardTokenFlag || rewardToken && !transferOnly && !reconOnly && !equipmentOrdersOnly);
+assert.ok(!minimapOnly || !transferOnly && !reconOnly && !equipmentOrdersOnly && !rewardTokenFlag && !mobileFlag);
 const compact = (transferOnly || reconOnly || equipmentOrdersOnly || rewardToken) && process.argv.includes('--720p');
 const viewport = mobileWidth ? { width: mobileWidth, height: mobileWidth === 667 ? 375 : 390 }
     : { width: compact ? 1280 : 1920, height: compact ? 720 : 1080 };
@@ -387,6 +389,7 @@ async function bootStrategy(cdp) {
     await checkpoint(cdp, '00-preset-hd-map-native-ready');
     if (transferOnly || reconOnly || equipmentOrdersOnly || rewardToken) { return cities; }
     await miniMapSmoke(cdp);
+    if (minimapOnly) { return cities; }
     report.inputs.push({ type: 'player-map-action', action: 'walkToCity', cityIndex: report.cityIndex });
     assert.ok(await evaluate(cdp, `BayeHdOverworld.walkToCity(${report.cityIndex})`), 'A player can enter the actual owned city');
     await menuOwner(cdp, 1, 'real city root');
@@ -722,12 +725,12 @@ const miniObservationExpression = `(() => {
         bitmap={width:canvas.width,height:canvas.height,differentPixels:different};}
     const cities=Array.from(list?list.querySelectorAll('[data-hd-mini-city]'):[],li=>({index:Number(li.getAttribute('data-hd-mini-city')),
         name:visible(li.querySelector('span:nth-of-type(2)')),ownership:visible(li.querySelector('small')),current:li.classList.contains('is-current'),
-        location:li.querySelector('button')?.getAttribute('aria-label')||null}));
+        row:rect(li.querySelector('button')||li),location:li.querySelector('button')?.getAttribute('aria-label')||null}));
     return {native:baye.hd.miniMap(),ui:BayeHdMiniMap.debugSnapshot(),viewport:{width:innerWidth,height:innerHeight},
         title:visible(document.querySelector('#hd-mini-map-title')),summary:visible(document.querySelector('#hd-mini-map-summary')),
         stage:stage&&rect(stage),list:list&&{...rect(list),scrollTop:list.scrollTop,scrollHeight:list.scrollHeight,clientHeight:list.clientHeight},
         canvas:visible(canvas),bitmap,cities,controls:{back:visible(document.querySelector('#hd-mini-map-return')),
-            classic:visible(document.querySelector('#hd-mini-map-classic'))}};
+            classic:visible(document.querySelector('#hd-mini-map-classic')),faction:visible(document.querySelector('#hd-mini-map-faction'))}};
 })()`;
 
 async function observeMiniLcd(cdp) {
@@ -777,11 +780,16 @@ async function miniMapSmoke(cdp) {
     assert.equal(before.cities.length,38);assert.ok(before.people.length>0,'The native roster count is available');assert.equal(before.pick,1);
     const nativeCities=await evaluate(cdp, `Array.from({length:baye.hd.realm().total},(_,i)=>({index:i,name:baye.getCityName(i),
         engineX:Number(baye.data.g_CityPositions[i].x),engineY:Number(baye.data.g_CityPositions[i].y),belong:Number(baye.data.g_Cities[i].Belong)}))`);
+    const rulerIds = [...new Set(nativeCities.map(city => city.belong).filter(Boolean))];
+    const rulerNames = await evaluate(cdp, `Object.fromEntries(${JSON.stringify(rulerIds)}.map(id => [id,baye.getPersonName(id-1)]))`);
+    const rulers = rulerIds.map(id => ({id, name: rulerNames[id], count: nativeCities.filter(city => city.belong === id).length}))
+        .sort((a, b) => b.count - a.count || a.id - b.id);
+    assert.ok(rulers.length > 1 && rulers.every(ruler => ruler.name && ruler.name !== '-'));
     for(const city of nativeCities){const bytes=nativeLibItem(58,city.index+1),zero=bytes.indexOf(0);
         assert.equal(city.name,new TextDecoder('gbk').decode(bytes.subarray(0,zero<0?bytes.length:zero)), 'All native city names match the actually served resource 58');}
     const picture=nativeLibItem(75,1),nativePicture={width:picture.readUInt16LE(0),height:picture.readUInt16LE(2),count:picture.readUInt16LE(4),mask:picture[6]};
     assert.deepEqual(nativePicture,{width:84,height:64,count:1,mask:0},'The real resource header mask is distinct from gam_drawpic draw argument 1');
-    report.miniMap={worldBefore:before,nativeCities,nativePicture,rounds:[],screens:[],locations:[],
+    report.miniMap={worldBefore:before,nativeCities,nativePicture,rulers,rounds:[],screens:[],locations:[],
         touchScope:'PC touch on the HD return button sends one real native EXIT key. The PC classic LCD does not install native touch input; native touch consumption is covered separately by C fixtures, and mobile device acceptance remains pending.'};
     const inputCounts=()=>evaluate(cdp,'({keys:__miniNativeInputs.keys.length,touches:__miniNativeInputs.touches.length})');
     const stable=async label=>{assert.deepEqual(await evaluate(cdp,miniWorldExpression),before,label+' preserves every native city/person/inventory/date and cursor field');
@@ -811,12 +819,20 @@ async function miniMapSmoke(cdp) {
         assert.ok(observation.bitmap.differentPixels>1000,'The actual HD miniature canvas contains more than a flat fill');
         assert.ok(observation.controls.back.visible&&observation.controls.classic.visible);
         assert.ok(observation.controls.back.rect.height>=44&&observation.controls.classic.rect.height>=44);
+        assert.ok(observation.controls.faction.visible && observation.controls.faction.rect.height >= 44);
+        assert.deepEqual(await evaluate(cdp, `Array.from(document.getElementById('hd-mini-map-faction').options,
+            option => [option.value, option.textContent])`), [['0', '全部'], ...rulers.map(ruler => [String(ruler.id), `${ruler.name}（${ruler.count} 城）`])]);
         assert.ok(observation.stage.left>=0&&observation.stage.right<=width&&observation.stage.top>=0&&observation.stage.bottom<=height);
         assert.equal(observation.cities.length,38);
+        for (let i = 2; i < observation.cities.length; i++) {
+            assert.ok(observation.cities[i].row.top >= observation.cities[i - 2].row.bottom, 'City buttons in the same column do not overlap');
+        }
+        await checkpoint(cdp,'00-mini-map-'+label+'-hd');
         const seen=new Set();
         for(let pass=0;pass<5;pass++){
             for(const city of observation.cities){assert.equal(city.name.text,nativeCities[city.index].name);
-                assert.equal(city.ownership.text,nativeCities[city.index].belong===0?'空城':nativeCities[city.index].belong===before.playerKing+1?'我方':'他方');
+                const id = nativeCities[city.index].belong;
+                assert.equal(city.ownership.text, id === 0 ? '空城' : rulerNames[id] + (id === before.playerKing + 1 ? '（我方）' : ''));
                 assert.equal(city.location,'定位'+city.name.text+'（'+city.ownership.text+'）');
                 if(city.name.visible&&city.ownership.visible)seen.add(city.index);}
             if(seen.size===38)break;
@@ -828,13 +844,13 @@ async function miniMapSmoke(cdp) {
         assert.equal(seen.size,38,'Every actual city name and ownership label was visibly rendered and hit-tested');
         const defaultLcd=await observeMiniLcd(cdp);assert.equal(defaultLcd.visible,false);assert.equal(defaultLcd.containerVisibility,'hidden');
         await stable(label+' passive HD rendering');assert.deepEqual(await inputCounts(),inputs,'Resizing/rendering/real list scrolling sends no native input');
-        await checkpoint(cdp,'00-mini-map-'+label+'-hd');
         await click(cdp,'#hd-mini-map-classic');await waitFor(cdp,'explicit miniature LCD','BayeHdMiniMap.debugSnapshot().showLcd===true');
         await delay(200);const classicLcd=await observeMiniLcd(cdp),classicHud=await evaluate(cdp,miniObservationExpression);
         assert.equal(classicLcd.visible,true,'The actual LCD is visible above the world canvas, not merely CSS-visible');
         assert.ok(classicLcd.bitmap.differentPixels>0,'The LCD contains the real native resource 75 frame');
         assert.equal(overlaps(classicLcd.rect,classicHud.stage),false,'Classic LCD is separate from the HD miniature card');
         assert.ok(classicHud.controls.back.visible&&classicHud.controls.classic.visible,'Both actual classic/return controls stay hit-testable');
+        assert.equal(classicHud.controls.faction.visible, false);
         assert.ok(classicHud.cities.every(city=>city.location===null),'Classic comparison keeps city names as read-only rows');
         await stable(label+' classic comparison');assert.deepEqual(await inputCounts(),inputs,'Classic comparison sends no native key or touch');
         assert.deepEqual(await evaluate(cdp,'baye.hd.miniMap()'),nativeOwner,'Comparison preserves the exact actual native miniature capture');
@@ -846,12 +862,20 @@ async function miniMapSmoke(cdp) {
     };
     const locate=async (owner,method,inputs)=>{
         const {camera,design}=await evaluate(cdp,'({camera:BayeHdOverworld.getCamera(),design:BayeHdOverworld.debugSnapshot().design})');
-        const city=owner.ui.cities.find(city=>{
+        const targets=owner.ui.cities.filter(city=>{
             const p=clampedCenter(city,design,camera);
             return city.index+1!==before.mapCity && Math.hypot(p.x-camera.x,p.y-camera.y)>50 &&
                 owner.ui.cities.filter(other=>other.name.includes(city.name)).length===1;
         });
-        assert.ok(city,'A uniquely searchable city moves the current camera');
+        const rulerIndex = rulers.findIndex(ruler => ruler.id !== before.playerKing + 1 && targets.some(city => city.belong === ruler.id));
+        assert.ok(rulerIndex >= 0, 'An opposing ruler has a uniquely searchable city away from the camera');
+        const ruler = rulers[rulerIndex], city = targets.find(city => city.belong === ruler.id);
+        await evaluate(cdp, `document.getElementById('hd-mini-map-faction').focus()`);
+        for (let i = 0; i <= rulerIndex; i++) await key(cdp, 'ArrowDown');
+        assert.equal(await evaluate(cdp, 'BayeHdMiniMap.debugSnapshot().faction'), ruler.id);
+        assert.deepEqual(await evaluate(cdp, `Array.from(document.querySelectorAll('#hd-mini-map-cities [data-hd-mini-city]'),
+            row => Number(row.dataset.hdMiniCity))`), nativeCities.filter(city => city.belong === ruler.id).map(city => city.index));
+        assert.deepEqual(await inputCounts(), inputs, 'Selecting a ruler leaves native input idle');
         await click(cdp,'#hd-mini-map-search');
         await cdp.send('Input.insertText',{text:city.name});
         const selector='#hd-mini-map-cities [data-hd-mini-city="'+city.index+'"] button';
@@ -877,7 +901,7 @@ async function miniMapSmoke(cdp) {
         await checkpoint(cdp,'00-mini-map-city-location-'+method);
         if(method==='mouse')await click(cdp,selector);
         else await key(cdp,' ');
-        return {city,method,camera};
+        return {city,ruler,method,camera};
     };
     for(const [i,closing] of ['ArrowRight','ArrowUp','ArrowDown','ArrowLeft','Enter','Escape','button','touch-button','mouse-location','keyboard-location'].entries()){
         const locating=closing.endsWith('-location');
@@ -1335,7 +1359,7 @@ async function main() {
                 waitPlayerMap:label=>waitPlayerMap(cdp,label), observeNativeInputs:()=>observeNativeInputs(cdp),
                 checkpoint:label=>checkpoint(cdp,label) });
         }
-        else {
+        else if (!minimapOnly) {
             await emptyStockSmoke(cdp); await confiscateSmoke(cdp); await rewardBrowseSmoke(cdp);
             report.nativeEnd = await nativeState(cdp);
         }
@@ -1373,6 +1397,7 @@ async function main() {
         if (report.ok) console.log(reconOnly ? 'Real native reconnaissance browser acceptance passed' :
             transferOnly ? 'Real native desktop transfer browser acceptance passed' :
             equipmentOrdersOnly ? 'Real native desktop equipment orders passed' :
+            minimapOnly ? 'Real native desktop miniature browser acceptance passed' :
             rewardToken ? 'Original troop token browser acceptance passed' :
             'Real native miniature and goods-detail browser acceptance passed');
     }

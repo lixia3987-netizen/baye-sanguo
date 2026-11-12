@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import { createHash } from 'node:crypto';
 
 const source = fs.readFileSync(new URL('../js/hd-minimap.js', import.meta.url), 'utf8');
-function fixture({ canvasRect } = {}) {
+function fixture({ canvasRect, factions } = {}) {
     const listeners = {}, keys = [], draws = [], markers = [], elements = new Map();
     let arc = null;
     const canvasContext = { globalAlpha: 1, setTransform(){}, fillRect(){},
@@ -39,6 +39,14 @@ function fixture({ canvasRect } = {}) {
     for(const [id,value] of elements)if(value!==root) {
         (id.startsWith('hd-mini-map-filter-')?filters:id==='hd-mini-map-search'?searchWrap:
             id==='hd-mini-map-search-wrap'||id==='hd-mini-map-filters'?tools:root).appendChild(value);
+    }
+    if (factions) {
+        const wrap = element('hd-mini-map-faction-wrap', 'LABEL');
+        const select = element('hd-mini-map-faction', 'SELECT');
+        elements.set(wrap.id, wrap);
+        elements.set(select.id, select);
+        tools.appendChild(wrap);
+        wrap.appendChild(select);
     }
     if (canvasRect) elements.get('hd-mini-map-canvas').getBoundingClientRect=canvasRect;
     const native={protocolVersion:1,active:1,complete:1,custom:0,defaultDraw:1,seq:4,generation:7,
@@ -502,6 +510,64 @@ test('local filters keep keyboard ownership, reset on a new overview and disable
         assert.equal(h.elements.get('hd-mini-map-filter-all').getAttribute('aria-pressed'),'true');
         assert.deepEqual(h.cityIds(),Array.from({length:38},(_,i)=>i));if(mobile)assert.deepEqual(h.writes,[]);
     }
+});
+
+test('PC overview uses native rulers for labels, search and map highlights', () => {
+    const h = categorizedOverview(false, fixture({ factions: true }));
+    h.data.cities.slice(18, 22).forEach(city => { city.belong = 3; });
+    h.data.cities[10].name = '北海';
+    h.data.cities[18].name = '北平';
+    h.data.cities[23].name = '北地';
+    const select = h.elements.get('hd-mini-map-faction');
+    const wrap = h.elements.get('hd-mini-map-faction-wrap');
+    const search = h.elements.get('hd-mini-map-search');
+    const rows = h.elements.get('hd-mini-map-cities');
+    const lookups = [];
+    h.context.baye.data = { g_Cities: h.data.cities.map(city => ({ Belong: city.belong })) };
+    h.context.baye.getPersonNameByID = id => {
+        lookups.push(id);
+        return ['', '董卓', '袁绍', '公孙瓒'][id];
+    };
+    h.api.poll();
+    h.api.poll();
+    assert.deepEqual(lookups, [1, 2, 3]);
+    assert.equal(wrap.hidden, false);
+    assert.deepEqual(select.children.map(option => [option.value, option.textContent]), [
+        ['0', '全部'], ['1', '董卓（10 城）'], ['2', '袁绍（8 城）'], ['3', '公孙瓒（4 城）']
+    ]);
+    for (const [index, label] of [[0, '董卓（我方）'], [10, '袁绍'], [18, '公孙瓒'], [23, '空城']]) {
+        assert.equal(rows.children[index].children[0].children[2].textContent, label);
+    }
+
+    h.filter('empty');
+    select.value = '2';
+    h.localEvent('change', select, { isTrusted: false });
+    assert.equal(h.api.debugSnapshot().filter, 'empty');
+    assert.equal(select.value, '0');
+    select.value = '2';
+    h.localEvent('change', select);
+    assert.deepEqual(h.cityIds(), [10, 11, 12, 13, 14, 15, 16, 17]);
+    assert.equal(h.elements.get('hd-mini-map-filter-all').getAttribute('aria-pressed'), 'false');
+    const arrow = h.localEvent('keydown', select, { keyCode: 40 });
+    assert.equal(arrow.stopped, true);
+    assert.equal(arrow.defaultPrevented, undefined);
+
+    h.localEvent('focus', search);
+    h.search('北');
+    assert.deepEqual(h.cityIds(), [10]);
+    h.markers.slice(-38).forEach((marker, index) => assert.equal(marker.alpha, index === 10 ? 1 : 0.2));
+    h.filter('neutral');
+    assert.equal(select.value, '0');
+    assert.deepEqual(h.cityIds(), [10, 18]);
+    select.value = '3';
+    h.localEvent('change', select);
+    assert.deepEqual(h.cityIds(), [18]);
+    h.native.seq++;
+    h.api.poll();
+    assert.equal(select.value, '0');
+    assert.equal(search.value, '');
+    assert.equal(h.cityIds().length, 38);
+    assert.deepEqual(h.keys, []);
 });
 
 test('local city-name search uses one literal substring and category predicate on PC and mobile',()=>{
