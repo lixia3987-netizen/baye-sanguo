@@ -13,6 +13,8 @@
  *   --guiyang starts a fresh P3 韩玄 game and marches from 长沙33 to 桂阳36.
  *   --luoyang starts a fresh P1 董卓 game from 洛阳15 with 吕布 available.
  *   --ye starts a fresh P1 韩馥 game from 邺11 against 吕布's army in 洛阳15.
+ *   --mystic starts a fresh P4 刘禅 game, prepares 诸葛亮 with 六韬 and 太玄兵符,
+ *   and marches from 成都24 to 云南30. Use --recruit with a SPE24 interval.
  *   --destination N requests an actual non-owned native neighbor of the route's origin.
  *   The default P1 马腾 route starts at 天水8 and targets 河内9.
  *   the current native Fang Yue ID is a preference, never a fixed battle slot.
@@ -28,6 +30,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { originalRewardWorldSource, runMysticAttackPreparation } from './hd-reward-token-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -36,10 +39,12 @@ const recruit = process.argv.includes('--recruit');
 const alternateRoutes = {
     '--guiyang': {period:3, king:'韩玄', origin:33, originName:'长沙', destination:36, preferredActor:14, preferredTargets:{3:'陈应'}},
     '--luoyang': {period:1, king:'董卓', origin:15, originName:'洛阳', destination:16, preferredActor:20},
-    '--ye': {period:1, king:'韩馥', origin:11, originName:'邺', destination:15, preferredTargets:{4:'吕布'}}
+    '--ye': {period:1, king:'韩馥', origin:11, originName:'邺', destination:15, preferredTargets:{4:'吕布'}},
+    '--mystic': {period:4, king:'刘禅', origin:24, originName:'成都', destination:30, preferredActor:72}
 };
 const routeFlags = Object.keys(alternateRoutes).filter(flag => process.argv.includes(flag));
 assert.ok(routeFlags.length <= 1, 'Choose at most one original campaign route');
+const mystic = routeFlags.includes('--mystic');
 const route = alternateRoutes[routeFlags[0]] ?? {
     period:1, king:'马腾', origin:8, originName:'天水', destination:9, preferredTargets:{0:'方悦'}
 };
@@ -57,6 +62,7 @@ const rangeText = rangeFlag < 0 ? null : process.argv[rangeFlag + 1];
 assert.ok(rangeText === null || /^(19|20|21|22|23|24|25):\d+:\d+$/.test(rangeText), '--range must be native SPE:start:end');
 const acceptedRange = rangeText === null ? null : rangeText.split(':').map(Number);
 assert.ok(!recruit || acceptedRange, '--recruit requires an exact native --range');
+assert.ok(!mystic || recruit && acceptedRange?.[0] === 24, '--mystic requires an exact recruited mystic attacker interval');
 const targetArmFlag=process.argv.indexOf('--target-arm');
 const targetArm0=process.argv.includes('--target-arm0');
 const targetArmText=targetArmFlag<0?(targetArm0?'0':null):process.argv[targetArmFlag+1];
@@ -348,6 +354,11 @@ function prepareServedAssets() {
     }
     for(const dir of ['js','css','assets','vendor/iBaye/src'])freezeDirectory(dir);
     freezeAsset('scripts/write-wasm-manifest.mjs');
+    if (mystic) {
+        for (const source of ['hd-reward-token-runtime-checks', 'hd-mobile-equipment-runtime-oracle', 'hd-city-person-navigation-checks']) {
+            freezeAsset('scripts/' + source + '.mjs');
+        }
+    }
     for(const rel of ['libs/dat-mod.lib']){const data=fs.readFileSync(path.join(root,rel)),metadata={source:rel,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};report.sources[rel]=metadata;servedAssets.set(rel,{data,metadata});}
     nativeLib=servedAssets.get('libs/dat-mod.lib').data;
     assert.equal(report.sources['libs/dat-mod.lib'].sha256,'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
@@ -937,8 +948,45 @@ async function readMarchDestination(cdp,stage) {
     return facts;
 }
 
+async function prepareMysticAttacker(cdp) {
+    const read = expression => evaluate(cdp, expression);
+    await read("BayeHdSystemUi.setMode('hd')");
+    const until = (...args) => waitFor(cdp, ...args);
+    const press = selector => click(cdp, selector);
+    const waitPlayerMap = label => until(label, `(() => {
+        const m=baye.hd.menuItems(),w=baye.hd.march(),r=baye.hd.report(),f=baye.hd.fight();
+        return w.pick===1&&w.mapInputSeq>0&&!m.active&&!r.active&&!f.active&&w;
+    })()`);
+    const chooseCityItem = async (name, attribute, kind) => {
+        const menu = await until('Original city choice ' + name, `(() => {
+            const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();
+            return m.active===1&&m.context===1&&m.kind===${kind}&&s.open&&m;
+        })()`);
+        assert.equal(menu.names.filter(label => label === name).length, 1);
+        await press(`#hd-city-menu [${attribute}="${menu.names.indexOf(name)}"]`);
+        return {menu};
+    };
+    const reopenInterior = async (label, cityIndex) => {
+        await waitPlayerMap(label);
+        await until('HD map ready for the owned city', `(() => {
+            const map=BayeHdOverworld.debugSnapshot();
+            return map.phase==='map'&&map.hitsEnabled&&map.owned.some(city=>city.i===${cityIndex});
+        })()`);
+        assert.ok(await action(cdp, label, `BayeHdOverworld.walkToCity(${cityIndex})`));
+        await chooseCityItem('内政', 'data-hd-root', 1);
+    };
+    await runMysticAttackPreparation({
+        report, world:()=>read(originalRewardWorldSource), evaluate:read, until, click:press, key:name=>key(cdp,name),
+        chooseCityItem, reopenInterior, waitPlayerMap, checkpoint:name=>checkpoint(cdp,name),
+        libBytes:nativeLib, nativeKeys:'window.__speEngineKeys.map(key=>key.code)'
+    }, route.origin, route.preferredActor);
+}
+
 async function marchSmoke(cdp) {
     await evaluate(cdp, `(() => { BayeHdOverworld.setMode('hd-map'); BayeHdCityMenu.setMode('hd'); BayeHdBattle.setMode('hd'); })()`);
+    if (mystic) {
+        await prepareMysticAttacker(cdp);
+    }
     const owned = await waitFor(cdp, `owned HD map ${route.originName}`, `(() => { const m=BayeHdOverworld.debugSnapshot(); return m.phase==='map' && m.owned.find(c=>c.i===${route.origin} && c.name===${JSON.stringify(route.originName)}); })()`);
     report.marchPlan = await evaluate(cdp, `(() => {
         const realm=baye.hd.realm();
@@ -1204,14 +1252,15 @@ async function battleSmoke(cdp) {
         assert.equal(actor.arms,report.recruitment.distribution.wanted,'Actual battle starts with the legitimately distributed troops');
         assert.ok(requestedActor(actor));report.recruitment.battleActor=actor;
     }
-    // Keep the 100-troop lord at his actual starting tile. The existing battle
-    // acceptance uses this same legal rest before approaching with other units.
-    const lord=report.combatStart.units.find(u=>u.side==='player'&&u.personIndex===report.startingRealm.playerKing);
-    assert.ok(lord,'The actual ruler is present in the player army');
-    await chooseGeneral(cdp,lord);
-    assert.equal((await action(cdp,'protect-lord-stay-native-tile',`BayeHdBattle.clickTile(${lord.x},${lord.y})`)).ok,true);
-    await waitBattle(cdp,3,'lord stays at actual starting tile');
-    await menuChoice(cdp,await evaluate(cdp,'baye.hd.menuItems().names[3]'),1);
+    // A ruler who marched rests on the actual deployment tile.
+    const rulerId = report.startingRealm.playerKing + 1;
+    const lord = report.combatStart.units.find(u => u.side === 'player' && u.id === rulerId);
+    if (lord) {
+        await chooseGeneral(cdp,lord);
+        assert.equal((await action(cdp,'protect-lord-stay-native-tile',`BayeHdBattle.clickTile(${lord.x},${lord.y})`)).ok,true);
+        await waitBattle(cdp,3,'lord stays at actual starting tile');
+        await menuChoice(cdp,await evaluate(cdp,'baye.hd.menuItems().names[3]'),1);
+    }
     await clearObservedCavalryExit(cdp);
     // Read-only native masks choose legal targets; every command is a public UI
     // operation a player can issue. No engine fields or private movies are written.
@@ -1222,15 +1271,15 @@ async function battleSmoke(cdp) {
         if(recruit)assert.ok(current.units.some(u=>u.id===report.recruitment.attackerNativeGenId&&u.state!==8&&u.arms>0),'The equipped actual attacker survived; a death is not replaced or repaired');
         if(current.fight.over)break;
         const actor=current.units.filter(u=>u.side==='player'&&u.active===0&&![8,1,6].includes(u.state)&&u.arms>0)
-            .sort((a,b)=>(recruit?Number(b.id===report.recruitment.attackerNativeGenId)-Number(a.id===report.recruitment.attackerNativeGenId):0)||Number(!requestedActor(a))-Number(!requestedActor(b))||Number(a.id===lord.id)-Number(b.id===lord.id)||a.i-b.i)[0];
+            .sort((a,b)=>(recruit?Number(b.id===report.recruitment.attackerNativeGenId)-Number(a.id===report.recruitment.attackerNativeGenId):0)||Number(!requestedActor(a))-Number(!requestedActor(b))||Number(a.id===rulerId)-Number(b.id===rulerId)||a.i-b.i)[0];
         if(!actor) {
             if((report.turns?.length||0)>=maxTurns)break;
             await endArmyTurn(cdp);continue;
         }
         const selection=await chooseGeneral(cdp,actor);
         if(selection.inputKind===2) {
-            if(actor.id===lord.id||!requestedActor(actor)||recruit&&actor.id!==report.recruitment.attackerNativeGenId) {
-                assert.equal((await action(cdp,actor.id===lord.id?'keep-lord-protected':'keep-nonmatching-unit-at-native-tile',`BayeHdBattle.clickTile(${actor.x},${actor.y})`)).ok,true);
+            if(actor.id===rulerId||!requestedActor(actor)||recruit&&actor.id!==report.recruitment.attackerNativeGenId) {
+                assert.equal((await action(cdp,actor.id===rulerId?'keep-lord-protected':'keep-nonmatching-unit-at-native-tile',`BayeHdBattle.clickTile(${actor.x},${actor.y})`)).ok,true);
                 await waitBattle(cdp,3,'lord action menu');
                 await menuChoice(cdp,await evaluate(cdp,'baye.hd.menuItems().names[3]'),1);
                 continue;

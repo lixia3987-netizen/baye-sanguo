@@ -13,7 +13,7 @@ import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { verifyNativePersonSelection } from './hd-city-person-navigation-checks.mjs';
 import { verifyMobileConfiscation, verifyMobileReward } from './hd-mobile-equipment-runtime-oracle.mjs';
-import { rewardTokenScenarios, runRewardTokenChecks } from './hd-reward-token-runtime-checks.mjs';
+import { originalRewardWorldSource as equipmentWorldSource, rewardTokenScenarios, runRewardTokenChecks } from './hd-reward-token-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -1114,17 +1114,6 @@ async function rewardBrowseSmoke(cdp) {
     report.cancelledReward = { before, after, result: 'cancelled-without-giving' };
     await checkpoint(cdp, '09-real-reward-cancelled-no-grant');
 }
-
-const equipmentWorldSource = `(() => {
-    const d=baye.data, {period,playerKing:king,year,month,people,cities}=${miniWorldExpression};
-    const take=(o,keys)=>Object.fromEntries(keys.map(k=>[k,Number(o[k])]));
-    return {period,king,year,month,people:people.map(({equip,...p})=>({...p,Tool1:equip[0],Tool2:equip[1]})),
-        cities:cities.map(({inventory,personQueue,...c})=>c),queue:Array.from(d.g_PersonsQueue,Number),
-        goodsQueue:Array.from(d.g_GoodsQueue,Number),fighters:Array.from(d.FIGHTERS,Number),fighterIndex:Array.from(d.FIGHTERS_IDX,Number),
-        tools:Array.from({length:baye.getToolCount()},(_,i)=>take(d.g_Tools[i],['useflag','changeAttackRange','at','iq','move','arm'])),
-        orders:Array.from(d.g_OrderQueue,o=>take(o,['OrderId','City','Person','Object','TimeCount','Food'])),
-        config:take(d.g_engineConfig,['disableAllPersonReport'])};
-})()`;
 
 async function equipmentOrdersSmoke(cdp) {
     const cityIndex = report.cityIndex, libBytes = servedAssets.get('libs/dat-mod.lib').data;
