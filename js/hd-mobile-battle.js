@@ -275,7 +275,7 @@
         }
         function boundary(reason) {
             blocked=Object.keys(pointers).length>0;retire(reason);lastFocus='';lastBoardPaint=null;
-            var detail=dialog();if(detail && detail.retireInteraction){detail.retireInteraction();}detailOwner=null;
+            var detail=dialog();if(detail && detail.retireInteraction){detail.retireInteraction(reason);}detailOwner=null;
             var spe=environment.BayeHdSpe;if(spe && typeof spe.retireInteraction==='function'){spe.retireInteraction(reason);}
             refresh();
         }

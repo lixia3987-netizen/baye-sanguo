@@ -1042,6 +1042,7 @@
             root.classList.toggle('is-open', show);
             root.classList.toggle('is-qty', show && state.kind === 'qty');
             root.classList.toggle('is-view', show && state.kind === 'view');
+            root.classList.toggle('is-campaign-picker', show && !!(state.successorOwner || state.defenseOwner));
             root.classList.toggle('is-empty-text', !hasContent);
             root.setAttribute('data-hd-help-kind', show && state.kind === 'help' && state.helpDetail ?
                 String(state.helpDetail.kind) : '0');
@@ -1190,7 +1191,74 @@
         if (buttons) { for (var i = 0; i < buttons.length; i += 1) { buttons[i].disabled = sameView(state.viewCommit, detail.owner); } }
     }
 
-    function renderCampaignCursor(choices, index, scrollArea, request) {
+    function appendCampaignSearch(body, choices, names) {
+        var tools = document.createElement('div');
+        tools.className = 'hd-dialog-campaign-search';
+        tools.setAttribute('role', 'search');
+        tools.setAttribute('aria-label', '查找武将');
+        var input = document.createElement('input');
+        input.type = 'search';
+        input.value = '';
+        input.placeholder = '查找武将姓名';
+        input.maxLength = 32;
+        input.autocomplete = 'off';
+        input.spellcheck = false;
+        input.setAttribute('aria-label', '武将姓名');
+        input.setAttribute('data-hd-campaign-query', '');
+        input.setAttribute('enterkeyhint', 'search');
+        var clear = document.createElement('button');
+        clear.type = 'button';
+        clear.textContent = '清空';
+        clear.disabled = true;
+        clear.setAttribute('data-hd-campaign-clear', '');
+        var status = document.createElement('span');
+        status.setAttribute('role', 'status');
+        status.setAttribute('data-hd-campaign-search-status', '');
+
+        var view = state.viewEpoch, query = '', version = 0;
+        function applyQuery() {
+            if (!state.open || state.viewEpoch !== view) { return; }
+            var next = input.value.trim();
+            clear.disabled = !input.value;
+            if (next === query) { return; }
+            query = next;
+            version += 1;
+            stopSuccessorRequest();
+            stopDefenseRequest();
+            var matches = 0;
+            names.forEach(function (name, index) {
+                var row = choices.children[index];
+                row.hidden = String(name).indexOf(query) < 0;
+                row._hdCampaignFilterVersion = version;
+                if (!row.hidden) { matches += 1; }
+            });
+            choices.scrollTop = 0;
+            status.textContent = query ? matches ? matches + ' 条匹配' : '无匹配' : '';
+        }
+        choices._hdClearSearch = function () { input.value = ''; applyQuery(); };
+        input.addEventListener('input', function (event) { if (!event.isComposing) { applyQuery(); } });
+        input.addEventListener('compositionend', applyQuery);
+        input.addEventListener('keydown', function (event) {
+            if (event.key !== 'Enter' || event.isComposing || event.keyCode === 229) { return; }
+            event.preventDefault();
+            applyQuery();
+            if (mobileHost) { input.blur(); }
+        });
+        clear.addEventListener('click', choices._hdClearSearch);
+        tools.appendChild(input);
+        tools.appendChild(clear);
+        tools.appendChild(status);
+        body.appendChild(tools);
+    }
+
+    function revealCampaignRow(scrollArea, row) {
+        if (row.hidden || !scrollArea.getBoundingClientRect || !row.getBoundingClientRect) { return; }
+        var area = scrollArea.getBoundingClientRect(), bounds = row.getBoundingClientRect();
+        if (bounds.top < area.top) { scrollArea.scrollTop += bounds.top - area.top; }
+        else if (bounds.bottom > area.bottom) { scrollArea.scrollTop += bounds.bottom - area.bottom; }
+    }
+
+    function renderCampaignCursor(choices, index, request) {
         var current = choices.children[index];
         var previous = choices._hdCurrentPerson;
         if (current === previous) { return; }
@@ -1198,11 +1266,7 @@
         choices._hdCurrentPerson = current;
         if (!current) { return; }
         current.setAttribute('aria-current', 'true');
-        if (mobileHost || (request && request.confirm) ||
-            !scrollArea.getBoundingClientRect || !current.getBoundingClientRect) { return; }
-        var area = scrollArea.getBoundingClientRect(), row = current.getBoundingClientRect();
-        if (row.top < area.top) { scrollArea.scrollTop += row.top - area.top; }
-        else if (row.bottom > area.bottom) { scrollArea.scrollTop += row.bottom - area.bottom; }
+        if (!mobileHost && !(request && request.confirm)) { revealCampaignRow(choices, current); }
     }
 
     function render() {
@@ -1251,7 +1315,7 @@
                     selected.setAttribute('data-hd-defenders-selected', '');
                     body.appendChild(selected);
                     defenders = document.createElement('div');
-                    defenders.className = 'hd-dialog-qty hd-dialog-defenders';
+                    defenders.className = 'hd-dialog-qty hd-dialog-campaign-roster';
                     var stats = readDefenderStats(state.defenseOwner);
                     state.defenseOwner.names.forEach(function (name, index) {
                         var button = document.createElement('button');
@@ -1283,6 +1347,7 @@
                     finish.setAttribute('data-hd-defenders-owner', defenseToken(state.defenseOwner));
                     if (mobileHost) { finish.setAttribute('data-hd-campaign-owner', defenseToken(state.defenseOwner)); finish._hdCampaignData = mobileCampaignData; }
                     finish.textContent = '完成选将';
+                    appendCampaignSearch(body, defenders, state.defenseOwner.names);
                     body.appendChild(defenders);
                     body.appendChild(finish);
                     body._hdCampaignChoices = defenders;
@@ -1291,7 +1356,7 @@
                 setText(selectedNode, state.defenseOwner.selected.length ?
                     '已选 ' + state.defenseOwner.selected.length + ' 人：' +
                         state.defenseOwner.selectedNames.filter(Boolean).join('、') : '尚未选择防将。');
-                renderCampaignCursor(defenders, state.defenseOwner.index, defenders, state.defenseRequest);
+                renderCampaignCursor(defenders, state.defenseOwner.index, state.defenseRequest);
             } else if (state.kind === 'successor' && state.successorOwner) {
                 // Keep the same button nodes through polling; replacing them
                 // between pointerdown and click would lose a player's choice.
@@ -1300,7 +1365,7 @@
                     body._hdCampaignView = state.viewEpoch;
                     body.textContent = state.body || '请选择继任君主。';
                     choices = document.createElement('div');
-                    choices.className = 'hd-dialog-qty';
+                    choices.className = 'hd-dialog-qty hd-dialog-campaign-roster';
                     state.successorOwner.names.forEach(function (name, index) {
                         var button = document.createElement('button');
                         button.type = 'button';
@@ -1314,10 +1379,11 @@
                         button.textContent = name;
                         choices.appendChild(button);
                     });
+                    appendCampaignSearch(body, choices, state.successorOwner.names);
                     body.appendChild(choices);
                     body._hdCampaignChoices = choices;
                 }
-                renderCampaignCursor(choices, state.successorOwner.index, body, state.successorRequest);
+                renderCampaignCursor(choices, state.successorOwner.index, state.successorRequest);
             } else if (state.body) {
                 body.textContent = state.body;
             } else if (state.kind === 'qty') {
@@ -1903,6 +1969,8 @@
         state.reportOwner = null;
         state.successorOwner = null;
         state.defenseOwner = null;
+        var focused = document.activeElement;
+        if (focused && typeof focused.blur === 'function' && focused.getAttribute('data-hd-campaign-query') != null) { focused.blur(); }
         applyChrome();
         renderReportIdentity();
         document.documentElement.setAttribute('data-baye-dialog-pass', '0');
@@ -2198,14 +2266,17 @@
 
     function confirmDialog() {
         if (document.hidden || !hdReady() || !state.open || !shouldShowHd()) { return; }
-        if (state.kind === 'defenders') {
-            var defense = readDefenders();
-            if (defense) { chooseDefender(defense.index); }
-            return;
-        }
-        if (state.kind === 'successor') {
-            var successor = readSuccessor();
-            if (successor) { chooseSuccessor(successor.index); }
+        if (state.kind === 'defenders' || state.kind === 'successor') {
+            var defense = state.kind === 'defenders', menu = defense ? readDefenders() : readSuccessor();
+            if (!menu) { return; }
+            var body = el('hd-dialog-body'), choices = body && body._hdCampaignChoices;
+            var current = choices && choices.children[menu.index];
+            if (current && current.hidden) {
+                choices._hdClearSearch();
+                revealCampaignRow(choices, current);
+                return;
+            }
+            chooseCampaignPerson(menu.index, true, defense);
             return;
         }
         if (state.kind === 'qty') { commitQtyDialog(); return; }
@@ -2287,6 +2358,11 @@
         return true;
     }
 
+    function staleCampaignPress(pressed, target) {
+        return target.hidden || pressed && pressed.target === target &&
+            (pressed.epoch !== state.viewEpoch || pressed.filterVersion !== target._hdCampaignFilterVersion);
+    }
+
     function bindUi() {
         if (state.bound) {
             return;
@@ -2309,6 +2385,7 @@
                     target.getAttribute('data-hd-successor-index') != null)) {
                     state.pressedView = { epoch: state.viewEpoch, target: target,
                         viewToken: state.kind === 'view' ? viewToken(state.viewOwner) : '',
+                        filterVersion: target._hdCampaignFilterVersion,
                         defenseToken: target.getAttribute('data-hd-defenders-owner') };
                     return;
                 }
@@ -2340,6 +2417,8 @@
                 if (!e.repeat && menu) {
                     var index = menu.index + (e.keyCode === 38 ? -1 : 1);
                     if (index >= 0 && index < menu.names.length) {
+                        var body = el('hd-dialog-body'), choices = body && body._hdCampaignChoices;
+                        if (choices) { choices._hdClearSearch(); }
                         if (ownedDefense) { chooseDefender(index, false); } else { chooseSuccessor(index, false); }
                     }
                 }
@@ -2378,9 +2457,8 @@
                     ev.preventDefault();
                     var defensePressed = state.pressedView;
                     state.pressedView = null;
-                    if (defensePressed && defensePressed.target === t &&
-                        (defensePressed.epoch !== state.viewEpoch ||
-                            defensePressed.defenseToken !== defenseToken(state.defenseOwner))) { return; }
+                    if (staleCampaignPress(defensePressed, t) || defensePressed && defensePressed.target === t &&
+                        defensePressed.defenseToken !== defenseToken(state.defenseOwner)) { return; }
                     var finish = t.getAttribute('data-hd-defenders-finish') != null;
                     if (ownedDefenseButton(t, finish)) {
                         if (finish) { finishDefenders(); }
@@ -2392,8 +2470,7 @@
                     ev.preventDefault();
                     var successorPressed = state.pressedView;
                     state.pressedView = null;
-                    if (successorPressed && successorPressed.target === t &&
-                        successorPressed.epoch !== state.viewEpoch) { return; }
+                    if (staleCampaignPress(successorPressed, t)) { return; }
                     if (state.successorOwner && Number(t.getAttribute('data-hd-successor-seq')) === state.successorOwner.seq && ownedCampaignButton(t, false, false)) {
                         chooseSuccessor(Number(t.getAttribute('data-hd-successor-index')));
                     }
@@ -2722,7 +2799,9 @@
 
     // Retire pending JavaScript work without acknowledging the native wait.
     // A visible owner can be observed again, but an old callback cannot resume.
-    function retireInteraction() {
+    function retireInteraction(reason) {
+        // A mobile keyboard can resize the viewport while this menu is live.
+        if ((reason === 'resize' || reason === 'visual-viewport') && retireCampaignInput()) { return; }
         state.pressedView = null;
         mobileBattleCommit = null;
         closeDialog({ silent: true });
