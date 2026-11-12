@@ -23,6 +23,7 @@
  *   before marching from 徐州13 against 吕布 in 濮阳12.
  *   --elite-resume=build/.../result.json restores a private elite campaign save.
  *   --elite-resume-stage=garrison selects the earlier reinforced city checkpoint.
+ *   --liu-bei-nanpi --nanpi-resume=build/.../result.json attacks the armed 吕布 from an original 濮阳 save.
  *   --yunnan-officers occupies original period 1 云南 and recruits its two special officers.
  *   --yunnan-resume=build/.../result.json continues from an original 云南 checkpoint.
  *   --yunnan-search-months=N controls when to checkpoint the continuing original search (default 84).
@@ -65,6 +66,7 @@ const alternateRoutes = {
     '--yuan-shao': {period:2, king:'袁绍', origin:11, originName:'邺', destination:12, preferredActor:45, preferredTargets:{4:'吕布'}},
     '--chaisang': {period:3, king:'孙权', origin:34, originName:'柴桑', destination:33, preferredActor:99},
     '--liu-bei-elite': {period:2, king:'刘备', origin:13, originName:'徐州', destination:12, preferredActor:183, preferredTargets:{4:'吕布'}},
+    '--liu-bei-nanpi': {period:2, king:'刘备', origin:12, originName:'濮阳', destination:6, preferredActor:183, preferredTargets:{4:'吕布'}},
     '--yunnan-officers': {period:1, king:'刘焉', origin:24, originName:'成都', destination:30},
     '--mystic': {period:4, king:'刘禅', origin:24, originName:'成都', destination:30, preferredActor:72},
     '--mystic-defender': {period:4, king:'刘禅', origin:25, originName:'棉竹', destination:24, preferredTargets:{5:'诸葛亮'}},
@@ -74,6 +76,7 @@ const routeFlags = Object.keys(alternateRoutes).filter(flag => process.argv.incl
 assert.ok(routeFlags.length <= 1, 'Choose at most one original campaign route');
 const mystic = routeFlags.includes('--mystic');
 const elite = routeFlags.includes('--liu-bei-elite');
+const nanpi = routeFlags.includes('--liu-bei-nanpi');
 const yunnan = routeFlags.includes('--yunnan-officers');
 const mysticFromZitong = routeFlags.includes('--mystic-from-zitong');
 const mysticDefender = routeFlags.includes('--mystic-defender') || mysticFromZitong;
@@ -83,6 +86,9 @@ const eliteResumeArg = process.argv.find(arg => arg.startsWith('--elite-resume='
 const eliteResumePath = eliteResumeArg?.slice('--elite-resume='.length);
 const eliteResumeStageArg = process.argv.find(arg => arg.startsWith('--elite-resume-stage='));
 const eliteResumeStage = eliteResumeStageArg?.slice('--elite-resume-stage='.length);
+const nanpiResumeArg = process.argv.find(arg => arg.startsWith('--nanpi-resume='));
+const nanpiResumePath = nanpiResumeArg?.slice('--nanpi-resume='.length);
+assert.ok(nanpi === Boolean(nanpiResumePath), '--liu-bei-nanpi and --nanpi-resume are used together');
 const yunnanResumeArg = process.argv.find(arg => arg.startsWith('--yunnan-resume='));
 const yunnanResumePath = yunnanResumeArg?.slice('--yunnan-resume='.length);
 assert.ok(!yunnanResumeArg || yunnan && yunnanResumePath, '--yunnan-resume requires --yunnan-officers and an earlier result.json');
@@ -145,6 +151,8 @@ const destination=Number(destinationText);
 assert.ok(Number.isInteger(destination)&&destination>=0&&destination<64&&destination!==route.origin,'The destination must be a distinct native city; current Realm and native adjacency still authorize it');
 assert.ok(!mysticDefender || recruit && targetArm === 5 && destination === 24,
     '--mystic-defender requires original 成都 and a recruited attack against arm 5');
+assert.ok(!nanpi || !recruit && destination === 6 && targetArm === 4 && rangeText === '23:36:44',
+    '--liu-bei-nanpi uses the actual saved troops to verify 23:36:44 at 南皮');
 assert.ok(!yunnan || destination === 30 && !acceptedRange && scenario === 'nominal',
     '--yunnan-officers prepares the original 云南 officers for later ordinary attack verification');
 const plannerStepBudget=36+Math.max(0,maxTurns-4)*11;
@@ -281,6 +289,7 @@ function verifyAttackCaptures(captures) {
     if(report.attackCost){
         const action=report.attackCost,{generation,eventId}=report.attackSpe;
         if (mysticDefender) assert.equal(action.targetPersonIndex,72,'The player attack targets the actual recruited officer');
+        if (nanpi) assert.deepEqual([action.actorNativeGenId,action.targetNativeGenId],[184,9]);
         const selected=owned.filter(c=>c.attack.generation===generation&&c.attack.display.eventId===eventId&&
             c.attack.actorIndex===action.actorIndex&&c.attack.targetIndex===action.targetIndex);
         const movie=selected.filter(c=>c.rawSource==='lcd-callback-image-data'&&c.spe.active===1&&c.spe.eventId===eventId);
@@ -339,6 +348,7 @@ function requestedActor(unit) {
     return !acceptedRange || acceptedRange[0]===25 || unit.armType===acceptedRange[0]-19;
 }
 function requestedDefenderArm(unit) {
+    if(nanpi&&unit.personIndex!==8)return false;
     if(targetArm!==null&&unit.armType!==targetArm)return false;
     if(!acceptedRange||acceptedRange[0]===25)return true;
     const span=nativeAttackIntervalLengths()[acceptedRange[0]-19];
@@ -879,6 +889,36 @@ async function loadEliteAttackSave(cdp) {
     await checkpoint(cdp, 'elite-' + stage + '-loaded');
 }
 
+async function loadNanpiSave(cdp) {
+    const earlier = readSavedAttackRun(nanpiResumePath);
+    assert.equal(earlier.previous.scenario,'elite-transit');
+    assert.equal(earlier.previous.route.origin,route.origin);
+    const {readySave,defender} = earlier.previous.nanpiPreparation;
+    const {world,...receipt} = await loadNativeAttackSave(cdp,readAttackSavePair(earlier,readySave,'nanpi-defender-ready'));
+    const residents = index => {
+        const {PersonQueue,Persons} = world.cities[index];
+        return world.queue.slice(PersonQueue,PersonQueue+Persons);
+    };
+    const p = world.people[8], city = world.cities[destination];
+    const restored = {year:world.year,month:world.month,cityBelong:city.Belong,resident:residents(destination).includes(8),
+        belong:p.Belong,arms:p.Arms,arm:p.ArmsType};
+    assert.deepEqual(restored,defender);
+    assert.ok(city.Belong>0&&city.Belong!==world.king+1&&restored.resident&&p.Belong===city.Belong&&p.Arms>0);
+    assert.equal(await evaluate(cdp,'baye.hd.personArmType(8)'),4);
+    assert.equal(await evaluate(cdp,'Number(baye.data.g_LookMovie)'),1,'Original attack movie remains enabled');
+    const party = [183,32].filter(id => residents(route.origin).includes(id) &&
+        world.people[id].Belong===world.king+1&&world.people[id].Arms>0);
+    assert.equal(party[0],183);
+    const roster = [];
+    for (const id of party) {
+        const armType = await evaluate(cdp,`baye.hd.personArmType(${id})`);
+        roster.push({personIndex:id,nativeGenId:id+1,armType,arms:world.people[id].Arms});
+    }
+    assert.equal(roster[0].armType,4);
+    report.nanpiResume = {...receipt,restored,party:roster};
+    await checkpoint(cdp,'nanpi-defender-loaded');
+}
+
 async function loadYunnanSave(cdp) {
     const earlier = readSavedAttackRun(yunnanResumePath);
     const {occupiedSave,envoySave,progressSave,readySave} = earlier.previous.yunnanPreparation;
@@ -944,10 +984,11 @@ async function smoke(cdp) {
     await waitFor(cdp, 'opening overlay retired', 'baye.hd.spe().eventId!==' + opening.eventId + ' && !BayeHdSpe.isOpen()');
     report.opening.skip = keys;
     await checkpoint(cdp, '02-opening-ended-cleanly');
-    await evaluate(cdp, `BayeHdSystemUi.setMode('${mysticResumePath || eliteResumePath || yunnanResumePath ? 'hd' : 'classic'}');window.__spePhase='menus';`);
+    await evaluate(cdp, `BayeHdSystemUi.setMode('${mysticResumePath || eliteResumePath || yunnanResumePath || nanpiResumePath ? 'hd' : 'classic'}');window.__spePhase='menus';`);
     if (mysticResumePath) await loadMysticDefenderSave(cdp);
     else if (eliteResumePath) await loadEliteAttackSave(cdp);
     else if (yunnanResumePath) await loadYunnanSave(cdp);
+    else if (nanpiResumePath) await loadNanpiSave(cdp);
     else await startOriginalCampaign(cdp);
     await checkpoint(cdp, '03-real-map');
     report.actualLib = await evaluate(cdp, '({preferred:localStorage.getItem("baye/libpath"),hex:window.dynLib})');
@@ -1390,7 +1431,7 @@ async function marchSmoke(cdp) {
         await prepareAttackCampaign(cdp);
         if (yunnan) return;
     }
-    await dispatchAttackMarch(cdp);
+    await dispatchAttackMarch(cdp,{party:report.nanpiResume?.party.map(p=>p.personIndex) ?? null});
     await beginMarchSettlement(cdp);
     await waitFor(cdp,'real battle player selection','baye.hd.fight().active && !baye.hd.fight().over && baye.hd.fight().inputKind===1',60000);
     await checkpoint(cdp,'14-battle-ready');
@@ -1615,6 +1656,10 @@ function escortTargets(units) {
     return units.filter(u => livingEnemy(u) && !requestedDefenderArm(u));
 }
 
+function attackEscorts() {
+    return report.nanpiResume?.party.slice(1).map(p=>p.personIndex) ?? escortIds;
+}
+
 async function attemptAttack(cdp,actor,escort=false) {
     if(!escort && (!requestedActor(actor)||recruit&&actor.id!==report.recruitment.attackerNativeGenId))return false;
     const name=await evaluate(cdp,'baye.hd.menuItems().names[0]');
@@ -1626,7 +1671,7 @@ async function attemptAttack(cdp,actor,escort=false) {
     const target=targets[0],before=await evaluate(cdp,battleStateExpression);
     const actualActor=before.units.find(u=>u.i===actor.i);
     assert.ok(actualActor&&actualActor.id===actor.id&&actualActor.side==='player'&&actualActor.arms>0&&actualActor.state!==8);
-    assert.ok(escort ? escortIds.includes(actualActor.personIndex) : requestedActor(actualActor));
+    assert.ok(escort ? attackEscorts().includes(actualActor.personIndex) : requestedActor(actualActor));
     assert.equal(before.fight.inputKind,5);assert.equal(before.fight.actorIndex,actor.i);
     const actualTarget=before.units.find(u=>u.i===target.i&&u.id===target.id);
     assert.ok(escort ? escortTargets([actualTarget]).length : livingRequestedEnemy(actualTarget),
@@ -1723,6 +1768,13 @@ async function battleSmoke(cdp) {
         assert.ok(report.targetPreference.candidates.some(unit => unit.personIndex === 72),
             'The original opponent deployed the prepared mystic officer');
     }
+    if (nanpi) {
+        for (const p of report.nanpiResume.party) {
+            const unit = report.combatStart.units.find(u=>u.id===p.nativeGenId);
+            assert.deepEqual([unit?.side,unit?.personIndex,unit?.arms,unit?.armType],['player',p.personIndex,p.arms,p.armType]);
+        }
+        assert.equal(report.targetPreference.preferredNativeGenId,9);
+    }
     if(recruit) {
         const actor=report.combatStart.units.find(u=>u.id===report.recruitment.attackerNativeGenId);
         assert.ok(actor&&actor.side==='player','Actual GenArray contains the equipped marcher using personIndex+1');
@@ -1748,6 +1800,7 @@ async function battleSmoke(cdp) {
     await clearObservedCavalryExit(cdp);
     // Read-only native masks choose legal targets; every command is a public UI
     // operation a player can issue. No engine fields or private movies are written.
+    const escorts = attackEscorts();
     for(let step=0;step<plannerStepBudget;step++) {
         const evidence=await collectSpe(cdp);
         if(report.attackCost)break;
@@ -1755,14 +1808,14 @@ async function battleSmoke(cdp) {
         if(recruit)assert.ok(current.units.some(u=>u.id===report.recruitment.attackerNativeGenId&&u.state!==8&&u.arms>0),'The equipped actual attacker survived; a death is not replaced or repaired');
         if(current.fight.over)break;
         const actor=current.units.filter(u=>u.side==='player'&&u.active===0&&![8,1,6].includes(u.state)&&u.arms>0)
-            .sort((a,b)=>Number(escortIds.includes(b.personIndex))-Number(escortIds.includes(a.personIndex))||
+            .sort((a,b)=>Number(escorts.includes(b.personIndex))-Number(escorts.includes(a.personIndex))||
                 (recruit?Number(b.id===report.recruitment.attackerNativeGenId)-Number(a.id===report.recruitment.attackerNativeGenId):0)||Number(!requestedActor(a))-Number(!requestedActor(b))||Number(a.id===protectedRulerId)-Number(b.id===protectedRulerId)||a.i-b.i)[0];
         if(!actor) {
             if((report.turns?.length||0)>=maxTurns)break;
             await endArmyTurn(cdp);continue;
         }
         const selection=await chooseGeneral(cdp,actor);
-        const escort = escortIds.includes(actor.personIndex);
+        const escort = escorts.includes(actor.personIndex);
         if(selection.inputKind===2 && escort) {
             await advanceEscort(cdp, current, actor);
         } else if(selection.inputKind===2) {
