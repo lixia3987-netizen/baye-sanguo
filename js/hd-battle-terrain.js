@@ -11,6 +11,13 @@
     var COLORS = ['#354c3e', '#515443', '#53564e', '#29443b', '#5b5346', '#53525a', '#524d3c', '#2c505c'];
     var OVERVIEW_COLORS = [[96, 123, 85], [133, 130, 89], [106, 99, 103], [49, 77, 65],
         [162, 120, 82], [160, 166, 170], [138, 121, 146], [51, 107, 124], [25, 34, 43]];
+    // Crops include a small margin around the documented transparent cutouts.
+    var ILLUSTRATIONS = {
+        hill: { file: 'terrain/mountain-cluster-v1.png', crop: [24,390,1205,476], opacity: 0.72 },
+        forest: { file: 'terrain/forest-cluster-v1.png', crop: [33,257,1199,728], opacity: 0.75 },
+        city: { file: 'cities/fortified-city-v1.png', crop: [123,376,1016,618], opacity: 0.86 }
+    };
+    var illustrationImages = null, illustrationVersion = 0;
 
     function integer(value) { return typeof value === 'number' && isFinite(value) && value === Math.floor(value); }
     function category(index, raw) {
@@ -30,6 +37,24 @@
     function mapDimensionsValid(map) {
         return !!(map && integer(map.width) && map.width > 0 && map.width <= 255 &&
             integer(map.height) && map.height > 0 && map.height <= 255);
+    }
+    function desktopIllustrationVersion(snapshot) {
+        if (!snapshot || snapshot.mode !== 'hd' || snapshot.source !== 'full' || snapshot.verified !== true ||
+            snapshot.libPath !== SUPPORTED_LIB || typeof global.Image !== 'function' || global.document && global.document.hidden) { return 0; }
+        if (!illustrationImages) {
+            illustrationImages = {};
+            Object.keys(ILLUSTRATIONS).forEach(function (kind) {
+                var image = new global.Image();
+                image.onload = function () {
+                    if (image.naturalWidth === 1254 && image.naturalHeight === 1254) {
+                        illustrationImages[kind] = image;
+                        illustrationVersion += 1;
+                    }
+                };
+                image.src = 'assets/hd-overworld/' + ILLUSTRATIONS[kind].file;
+            });
+        }
+        return illustrationVersion;
     }
     function createVerifier(options) {
         var source, identity = global.BayeHdLibIdentity;
@@ -123,12 +148,27 @@
             [x + w * 0.63, y + h]], '#544834');
         path(ctx, [[x - w * 0.1, y + h], [x + w * 0.5, y], [x + w * 1.12, y + h]], null, '#796f51', 1);
     }
-    function drawCell(ctx, x, y, w, h, cell) {
+    function drawIllustration(ctx, x, y, w, h, kind, image, variant) {
+        var art = ILLUSTRATIONS[kind], crop = art.crop;
+        var scale = Math.min(w * (kind === 'city' ? 0.96 : 0.88 + variant * 0.02) / crop[2], h * 0.8 / crop[3]);
+        var width = crop[2] * scale, height = crop[3] * scale;
+        ctx.save();
+        ctx.globalAlpha = art.opacity;
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(image, crop[0], crop[1], crop[2], crop[3], x + (w - width) / 2, y + h * 0.55 - height / 2, width, height);
+        ctx.restore();
+    }
+    function drawCell(ctx, x, y, w, h, cell, illustrations) {
         var kind = cell.kind, variant = ((cell.x * 17 + cell.y * 31 + (cell.raw || 0)) & 3);
         var index = cell.index, s = Math.min(w, h);
         ctx.fillStyle = index == null ? ((cell.x + cell.y) % 2 ? '#1c2630' : '#19222b') : COLORS[index];
         ctx.fillRect(x, y, w + 0.5, h + 0.5);
         if (index == null) { return; }
+        if (illustrations && illustrations[kind]) {
+            drawIllustration(ctx, x, y, w, h, kind, illustrations[kind], variant);
+            return;
+        }
         ctx.save(); ctx.translate(x, y); ctx.globalAlpha = 0.76;
         if (kind === 'grass') {
             ctx.strokeStyle = '#728269'; ctx.lineWidth = Math.max(1, s * 0.012);
@@ -194,11 +234,11 @@
         }
         return cells;
     }
-    function drawBoard(ctx, board, cells) {
+    function drawBoard(ctx, board, cells, illustrations) {
         var i = 0;
         for (var r = 0; r < board.rows; r += 1) {
             for (var c = 0; c < board.cols; c += 1) {
-                drawCell(ctx, c * board.cw, r * board.ch, board.cw, board.ch, cells[i++]);
+                drawCell(ctx, c * board.cw, r * board.ch, board.cw, board.ch, cells[i++], illustrations);
             }
         }
     }
@@ -216,7 +256,8 @@
             if (!board || !integer(board.cols) || !integer(board.rows) || board.cols < 1 || board.rows < 1 ||
                 !isFinite(board.cw) || !isFinite(board.ch) || board.cw <= 0 || board.ch <= 0) { return false; }
             var cells = visibleCells(board, snapshot), dpr = Math.max(1, Math.min(2, board.dpr || 1));
-            var key = [board.cols, board.rows, board.cw, board.ch, board.viewOx, board.viewOy, dpr,
+            var illustrations = board.illustrationVersion && illustrationImages;
+            var key = [board.cols, board.rows, board.cw, board.ch, board.viewOx, board.viewOy, dpr, illustrations ? illustrationVersion : 0,
                 snapshot && snapshot.width, snapshot && snapshot.height, snapshot && snapshot.stride,
                 snapshot && snapshot.source, snapshot && snapshot.libPath, snapshot && snapshot.session,
                 snapshot && snapshot.mode, snapshot && snapshot.verified, snapshot && snapshot.sha256,
@@ -228,10 +269,10 @@
                     layer.width = Math.ceil(board.cols * board.cw * dpr);
                     layer.height = Math.ceil(board.rows * board.ch * dpr);
                     layerCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                    drawBoard(layerCtx, board, cells);
+                    drawBoard(layerCtx, board, cells, illustrations);
                     cached = { key: key, canvas: layer };
                 } else {
-                    ctx.save(); ctx.translate(board.ox, board.oy); drawBoard(ctx, board, cells); ctx.restore();
+                    ctx.save(); ctx.translate(board.ox, board.oy); drawBoard(ctx, board, cells, illustrations); ctx.restore();
                     return true;
                 }
             }
@@ -244,6 +285,7 @@
     global.BayeHdBattleTerrain = {
         classifyTile: classifyTile, inspect: inspect, createPainter: createPainter,
         createVerifier: createVerifier, verifyLib: verifier.check,
+        desktopIllustrationVersion: desktopIllustrationVersion,
         paint: painter.paint, clear: painter.clear, paintOverview: paintOverview
     };
 })(window);

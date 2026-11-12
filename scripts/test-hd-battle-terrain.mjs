@@ -340,6 +340,50 @@ test('classic mode clears static cache and hidden pages cannot build or paint te
     assert.ok(h.offscreenCalls.length > baked); assert.ok(h.composites.length > shown);
 });
 
+test('desktop art refreshes the cached native cells when it loads and falls back per missing image', () => {
+    const h = harness(), images = [];
+    h.context.Image = class {
+        set src(path) { this.path = path; images.push(this); }
+    };
+    const s = snapshot({width: 3, height: 1, stride: 3, tiles: [6, 5, 3]});
+    const view = { ...board, rows: 1, viewOx: 0, viewOy: 0 };
+    const art = snap => h.api.desktopIllustrationVersion(snap);
+    const paint = snap => h.painter.paint(h.ctx, { ...view, illustrationVersion: art(snap) }, snap);
+    const spriteCalls = () => h.offscreenCalls.filter(call => call.operation === 'drawImage');
+    assert.equal(art({ ...s, mode: 'classic' }), 0);
+    assert.equal(art({ ...s, verified: false }), 0);
+    h.document.hidden = true; assert.equal(art(s), 0); h.document.hidden = false;
+    assert.equal(images.length, 0);
+
+    paint(s); assert.equal(spriteCalls().length, 0);
+    assert.equal(images.length, 3);
+    const mountain = images.find(image => image.path.endsWith('/mountain-cluster-v1.png'));
+    const forest = images.find(image => image.path.endsWith('/forest-cluster-v1.png'));
+    const city = images.find(image => image.path.endsWith('/fortified-city-v1.png'));
+    Object.assign(mountain, {naturalWidth: 1254, naturalHeight: 1254}); mountain.onload();
+    paint(s);
+    const [call] = spriteCalls();
+    assert.equal(spriteCalls().length, 1);
+    assert.equal(call.args[0], mountain);
+    const [x, y, width, height] = call.args.slice(5);
+    assert.ok(x >= 0 && y >= 0 && x + width <= view.cw && y + height <= view.ch);
+    const baked = h.offscreenCalls.length;
+    paint(s); assert.equal(h.offscreenCalls.length, baked, 'decoded art is baked only once for the same board');
+
+    Object.assign(forest, {naturalWidth: 1254, naturalHeight: 1254}); forest.onload();
+    Object.assign(city, {naturalWidth: 1, naturalHeight: 1}); city.onload();
+    paint(s);
+    assert.deepEqual(spriteCalls().slice(1).map(call => call.args[0]), [mountain, forest]);
+    assert.ok(h.offscreenCalls.slice(baked).some(call => call.operation === 'strokeRect'), 'missing city illustration uses the city motif');
+    assert.equal(images.length, 3, 'polling never retries artwork');
+
+    const sprites = spriteCalls().length;
+    h.painter.paint(h.ctx, view, s);
+    paint({ ...s, libPath: 'libs/other.lib' });
+    assert.equal(spriteCalls().length, sprites, 'illustrations stay in the opted-in original desktop renderer');
+    assert.deepEqual(h.nativeWrites, []);
+});
+
 test('missing offscreen canvas still draws neutral fallback without touching native state', () => {
     const h = harness({ offscreen: false }), s = snapshot({ source: 'unknown', verified: false });
     const before = JSON.stringify(s); h.painter.paint(h.ctx, board, s);

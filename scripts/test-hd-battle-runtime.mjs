@@ -63,6 +63,8 @@ function prepareServedAssets() {
     for (const name of ['pc.html','libs/dat-mod.lib','assets/hd-overworld/manifest.json',
         'assets/hd-overworld/china-lcc-cities.json','assets/hd-overworld/roads/adjacency.json',
         'assets/hd-overworld/palette/factions.json','assets/hd-overworld/terrain/base_plains.jpg',
+        'assets/hd-overworld/terrain/mountain-cluster-v1.png','assets/hd-overworld/terrain/forest-cluster-v1.png',
+        'assets/hd-overworld/cities/fortified-city-v1.png',
         'assets/hd-portraits/manifest.json','assets/hd-portraits/refs/index.json','assets/hd-spe/manifest.json',
         'vendor/iBaye/src/data/pstring.h','scripts/test-hd-battle-runtime.mjs','scripts/hd-battle-hud-runtime-checks.mjs',
         'scripts/hd-battle-skill-aim-runtime-checks.mjs','scripts/hd-battle-map-number-runtime-checks.mjs',
@@ -227,6 +229,21 @@ async function smoke(cdp) {
     await evaluate(cdp, `(() => {
         window.__runtimeEngineInputs=[];const original=window.sendKey;
         window.sendKey=function(code){const f=baye.hd.fight(),m=baye.hd.march();window.__runtimeEngineInputs.push({code,fightKind:f.inputKind,fightSeq:f.inputSeq,marchPhase:m.phase,marchSeq:m.inputSeq,marchSession:m.session});return original.apply(this,arguments);};
+        const proto=CanvasRenderingContext2D.prototype, draw=proto.drawImage;
+        const crops={'mountain-cluster-v1.png':[24,390,1205,476], 'forest-cluster-v1.png':[33,257,1199,728], 'fortified-city-v1.png':[123,376,1016,618]};
+        window.__battleTerrainArt={};
+        proto.drawImage=function(image,...rect){
+            const value=draw.apply(this,arguments);
+            if (rect.length===8 && image instanceof HTMLImageElement && !this.canvas.isConnected &&
+                document.body.classList.contains('baye-hd-battle-on')) {
+                const source=image.src.split('/').pop(), crop=crops[source];
+                if(crop && crop.every((value,index)=>value===rect[index])) {
+                    __battleTerrainArt[source]={source,rect,width:image.naturalWidth,height:image.naturalHeight};
+                }
+            }
+            return value;
+        };
+        window.__stopBattleTerrainArt=()=>{proto.drawImage=draw;};
     })()`);
     const bindings = await evaluate(cdp, `({ ready: baye.data.g_hdEngineReady, control: baye.data.g_hdFightMenuControl,
         battlePref: BayeHdBattle.getMode(), hook: Object.prototype.hasOwnProperty.call(baye.hooks, 'fightOpenMainMenu') })`);
@@ -401,6 +418,10 @@ async function battleSmoke(cdp) {
     })()`);
     const before=await evaluate(cdp,battleStateExpression);
     await waitFor(cdp,'original HD battle canvas visible','BayeHdBattle.isOpen()&&document.getElementById("hd-battle-canvas").checkVisibility()');
+    try {
+        report.terrainIllustrations=await waitFor(cdp,'original battle board draws mountain, forest and city illustrations',
+            'Object.keys(window.__battleTerrainArt).length === 3 && window.__battleTerrainArt');
+    } finally { await evaluate(cdp,'window.__stopBattleTerrainArt()'); }
     report.idleBattleBoard=await measureIdleBattleBoard(expression=>evaluate(cdp,expression),(...args)=>cdp.send(...args),'hd-battle-canvas');
     assert.equal(report.idleBattleBoard.paints.frames,0,'Idle desktop HD battle retains the painted canvas');
     const after=await evaluate(cdp,battleStateExpression);

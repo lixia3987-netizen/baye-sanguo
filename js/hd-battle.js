@@ -1669,8 +1669,11 @@
         var focusCard = el('hd-battle-focus'), blockers = unitLegendBlockers(canvas);
         var targetLabel = feedback.skillAim && feedback.focus ? feedback.focus.label : targetPreview && targetPreview.label;
         renderFocusCard(state.open && shouldShowHd(),visualSnap,targetLabel);
+        var terrain = global.BayeHdBattleTerrain;
+        var artVersion = state.open && !state.preview && !state.showLcd && visualSnap.showHd && terrain &&
+            typeof terrain.desktopIllustrationVersion === 'function' ? terrain.desktopIllustrationVersion(state.terrain) : 0;
         var paintKey = JSON.stringify([dpr,board,cols,rows,viewOx,viewOy,blockers,state.preview,state.focus,
-            state.terrain,state.units,visualSnap.focus,visualSnap.actor,!!actorMenu,feedback,targetPreview,!!focusCard,visualSnap.mapNumber]);
+            state.terrain,artVersion,state.units,visualSnap.focus,visualSnap.actor,!!actorMenu,feedback,targetPreview,!!focusCard,visualSnap.mapNumber]);
         var resized = canvas.width !== w || canvas.height !== h;
         if (!resized && lastBoardPaint && lastBoardPaint.canvas === canvas && lastBoardPaint.key === paintKey) { return; }
         lastBoardPaint = null;
@@ -1682,8 +1685,8 @@
 
         var r;
         var c;
-        var terrainPainted = global.BayeHdBattleTerrain && global.BayeHdBattleTerrain.paint(ctx,
-            { ox: ox, oy: oy, cw: cw, ch: ch, cols: cols, rows: rows, viewOx: viewOx, viewOy: viewOy, dpr: dpr },
+        var terrainPainted = terrain && terrain.paint(ctx,
+            { ox: ox, oy: oy, cw: cw, ch: ch, cols: cols, rows: rows, viewOx: viewOx, viewOy: viewOy, dpr: dpr, illustrationVersion: artVersion },
             state.terrain);
         if (!terrainPainted) {
             for (r = 0; r < rows; r++) {
