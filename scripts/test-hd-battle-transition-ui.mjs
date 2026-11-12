@@ -17,7 +17,7 @@ const blockers = ['g_hdMenuActive', 'g_hdReportActive', 'g_hdRecordActive', 'g_h
     'g_hdAttackActive', 'g_hdSkillResultActive', 'g_hdMakerActive', 'g_hdResultOwnerKind',
     'g_hdResultOwnerValid', 'g_hdMapPick', 'g_hdBattlePick'];
 const field = name => 'g_hdBattleNote' + name[0].toUpperCase() + name.slice(1);
-function fixture({mobile = true, mode = 'auto', map = 'hd-map', microtask = true} = {}) {
+function fixture({mobile = true, mode = 'auto', map = 'hd-map', microtask = true, illustration = false} = {}) {
     const listeners = new Map(), windowListeners = new Map(), timers = new Map(), nodes = new Map();
     const state = {mode, map, ready: true, writes: [], keys: [], forbidden: [], countReads: 0,
         readHook: null, identityHook: null, callbacks: [], microtasks: []};
@@ -25,6 +25,14 @@ function fixture({mobile = true, mode = 'auto', map = 'hd-map', microtask = true
     function element() { return {hidden: true, textContent: '', innerHTML: '', attrs: {}, setAttribute(k, v) { this.attrs[k] = v; }}; }
     for (const id of ['hd-battle-transition', 'hd-battle-transition-graphic', 'hd-battle-transition-label', 'hd-battle-transition-value',
         'hd-battle-note', 'hd-battle-note-text']) nodes.set(id, element());
+    if (illustration) {
+        nodes.set('hd-battle-transition-art', element());
+        const atlas = {...element(), complete:false, naturalWidth:0, naturalHeight:0, events:new Map(),
+            getAttribute(key) { return this.attrs[key] ?? null; },
+            addEventListener(name, callback) { this.events.set(name, callback); }};
+        atlas.setAttribute('data-src', 'assets/hd-battle-transition/weather-day-atlas-v1.jpg');
+        nodes.set('hd-battle-transition-atlas', atlas);
+    }
     const body = {...element(), classList: {contains: name => mobile && name === 'hd-mobile-page'}};
     const document = {body, hidden: false, getElementById: id => nodes.get(id),
         addEventListener(name, fn) { const list = listeners.get(name) || []; list.push(fn); listeners.set(name, list); }};
@@ -111,6 +119,38 @@ test('Actual day values use the captured canonical original numeral, including U
         assert.equal(f.nodes.get('hd-battle-transition-graphic').innerHTML, '');
     }
     assert.equal(f.state.countReads, 0); f.untouched();
+});
+
+test('Desktop illustrations warm up before battle, show only for the live stage, and retain the icon fallback', () => {
+    const f = fixture({mobile:false, illustration:true});
+    const art = f.nodes.get('hd-battle-transition-art'), atlas = f.nodes.get('hd-battle-transition-atlas');
+    const icon = f.nodes.get('hd-battle-transition-graphic'), value = f.nodes.get('hd-battle-transition-value');
+    f.set('active',0); f.api.init(); f.off();
+    assert.equal(atlas.getAttribute('src'),atlas.getAttribute('data-src'));
+    f.set('active',1); f.set('value',5); f.api.onEngineTransition(); f.on();
+    assert.equal(art.hidden,true); assert.equal(icon.hidden,false); assert.match(icon.innerHTML,/^<svg /);
+    assert.equal(value.textContent,'冰雹');
+
+    Object.assign(atlas,{complete:true,naturalWidth:768,naturalHeight:512});
+    f.api.refresh(); f.on(); assert.equal(art.hidden,true); assert.match(icon.innerHTML,/^<svg /);
+    Object.assign(atlas,{naturalWidth:1536,naturalHeight:1024});
+    atlas.events.get('load')(); f.on(); assert.equal(art.hidden,false); assert.equal(icon.hidden,true);
+    f.set('outcome',7); f.set('value',2); f.set('text','2'); f.api.onEngineTransition();
+    f.on(); assert.equal(art.hidden,false); assert.equal(value.textContent,'第 2 天');
+
+    f.set('active',0); f.api.onEngineTransition(); f.off(); assert.equal(art.hidden,true);
+    atlas.events.get('load')(); f.off(); assert.equal(art.hidden,true);
+    f.untouched();
+});
+
+test('Classic presentation and an unverified source defer the desktop image request', () => {
+    const f = fixture({mobile:false, illustration:true, mode:'classic'});
+    const atlas = f.nodes.get('hd-battle-transition-atlas'), original = f.identity();
+    f.api.init(); f.off(); assert.equal(atlas.getAttribute('src'),null);
+    f.state.mode='hd'; f.setIdentity({...original,sha256:'mod'});
+    f.api.refresh(); f.off(); assert.equal(atlas.getAttribute('src'),null);
+    f.setIdentity(original); f.api.refresh(); f.on();
+    assert.equal(atlas.getAttribute('src'),atlas.getAttribute('data-src')); f.untouched();
 });
 
 test('The native wait exit synchronously clears every visual; queued reads cannot extend it', () => {
@@ -251,7 +291,7 @@ test('Independent mobile/PC surface keeps hit testing and original duration with
     assert.match(css, /#hd-battle-transition\s*\{[^}]*z-index:\s*121;[^}]*pointer-events:\s*none;/s);
     assert.match(css, /\.hd-mobile-page #hd-battle-transition\s*\{\s*position:\s*absolute;/);
     assert.match(css, /body\[data-hd-battle-transition="hd"\] #lcd\s*\{\s*opacity:\s*0 !important;/);
-    assert.doesNotMatch(css, /(?:animation|transition)\s*:/);
+    assert.doesNotMatch(css, /[;{]\s*(?:animation|transition)\s*:/);
     assert.doesNotMatch(css, /#lcd\s*\{[^}]*(?:visibility|pointer-events|display)\s*:/s);
     assert.doesNotMatch(source, /(?:sendKey|Math\.random|\.click\(|preventDefault|stopPropagation|localStorage\.setItem)/);
 });

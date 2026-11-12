@@ -235,3 +235,31 @@ PC／手机复用只读公告观察器，同步begin／end立即显退；type5�
 FgtChgWeather在三次原图片绘制之后发布battleNote version1类型6，Value1..5、空text，依次晴／阴／风／雨／冰雹；FgtDealBout在原数字绘制后发布类型7，Value与规范十进制text一致，完整U16范围0..65535，局部缓冲六字节。两类winner65535，仅新active6/7 DTO扩value，旧型保持。原RNG／禁变天气、回合／粮草顺序、居中与各50tick／false等待不改。
 
 过场通过独立只读controller在PC与手机stage显示，原生begin/end立即显退；世界／seq／owner／数据来源失效回退。高report/menu/help/qty入口仅同步退休6/7。无按钮与输入拦截，LCD仅opacity变化、原输入命中保持，手机竖屏恢复LCD。自然战斗／天变22与真机仍待，轻量证据见[V95记录](validation/m5-battle-transition-20261026-v95.md)。
+
+### PC 天气和战斗日插画
+
+内置图像工具生成的 1536×1024 图集按三列两行排列。第一行依次为晴、阴、风，第二行依次为雨、冰雹、战斗日。PC 按当前原版公告选择对应画面。图集未就绪时沿用天气图标和战斗日文字。 [天气和战斗日图集](../assets/hd-battle-transition/weather-day-atlas-v1.jpg)
+
+<details>
+<summary>生成提示词</summary>
+
+```text
+Use case: historical-scene.
+Create ONE production raster illustration atlas for the PC weather and new-day transitions of a late Han / Three Kingdoms strategy game.
+Make a landscape 1536×1024 image divided exactly into three equal columns and two equal rows, six square 512×512 tiles, cutting at x=512, x=1024 and y=512.
+All six independent paintings are full bleed and meet precisely with no padding, border, grid line, gutter or shared landscape.
+Keep the essential signals well inside each tile.
+Paint refined, realistic historical environment concept art with believable terrain, soft ink-wash edges, mineral-pigment colors, restrained saturation and distinct lighting.
+Each tile should read at 300 pixels square.
+No text, typography, symbols, numbers, watermarks or UI.
+Top left: sunny midday on a late-Han river plain near a low fortified town, clear blue sky, bright clean sunlight and natural green and ochre landscape.
+Top center: a completely overcast still valley, layered gray clouds covering the sun, soft diffuse gray-blue light, dry ground and no precipitation.
+Top right: strong wind at a dry grassy pass, distinct long cloth banners and grass bending dramatically in one direction, a little airborne dust, clear enough to show the direction, no rain.
+Bottom left: rain on an old earthwork and wooded hills, obvious slanting liquid rain streaks, wet path with ripples, cool dark cloud.
+Bottom center: hail near a small stone wall and grassy hillside, visible round white ice pellets falling and bouncing on the dark ground, scattered small round pellets in the foreground, no snowflakes or blanket of snow.
+Bottom right: new battle day at quiet first light over a Late Han army encampment, silhouettes of tents and standards, copper-orange dawn horizon and far mist, no active combat.
+Keep all scenes non-graphic and naturalistic.
+The UI will supply every label.
+```
+
+</details>

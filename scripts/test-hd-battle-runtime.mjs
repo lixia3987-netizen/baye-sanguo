@@ -5,6 +5,7 @@
  *   npm run test:battle-runtime -- --artifact-dir build/battle-runtime-smoke
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * --status-only checks the original HUD through the first full battle day.
+ * --transition-art-only checks the original opening weather and day at desktop 720p.
  * --skill-aim-only stops after the original selected skill, help and cancel checks.
  * --map-numbers verifies an ordinary attack and Fire with native battle animations off.
  * --input-timing measures trusted original battle selections, moves and an attack.
@@ -27,18 +28,21 @@ import {desktopBattlePoint,timeBattleInput,measureBattleSelectionsAndMoves,summa
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const statusOnly = process.argv.includes('--status-only');
+const transitionArtOnly = process.argv.includes('--transition-art-only');
 const skillAimOnly = process.argv.includes('--skill-aim-only');
 const mapNumbers = process.argv.includes('--map-numbers');
 const inputTiming = process.argv.includes('--input-timing');
 assert.ok(!mapNumbers||(!statusOnly&&!skillAimOnly),'--map-numbers requires the full combat route');
 assert.ok(!inputTiming||(!statusOnly&&!skillAimOnly&&!mapNumbers),'--input-timing uses an independent combat route with movies');
+assert.ok(!transitionArtOnly||(!statusOnly&&!skillAimOnly&&!mapNumbers&&!inputTiming),'--transition-art-only ends at the first native PICK');
 const artifactFlag = process.argv.indexOf('--artifact-dir');
 const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/battle-runtime-smoke'));
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
-    '.wasm': 'application/wasm', '.png': 'image/png', '.lib': 'application/octet-stream' };
-const report = { staged, statusOnly, skillAimOnly, mapNumbers, inputTiming, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [], battleHud: [] };
+    '.wasm': 'application/wasm', '.png': 'image/png', '.jpg': 'image/jpeg', '.lib': 'application/octet-stream' };
+const transitionAtlas = 'assets/hd-battle-transition/weather-day-atlas-v1.jpg';
+const report = { staged, statusOnly, transitionArtOnly, skillAimOnly, mapNumbers, inputTiming, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [], battleHud: [] };
 const servedAssets = new Map();
 
 function prepareServedAssets() {
@@ -65,7 +69,7 @@ function prepareServedAssets() {
         'assets/hd-overworld/palette/factions.json','assets/hd-overworld/terrain/base_plains.jpg',
         'assets/hd-overworld/terrain/mountain-cluster-v1.png','assets/hd-overworld/terrain/forest-cluster-v1.png',
         'assets/hd-overworld/cities/fortified-city-v1.png','assets/hd-battle-terrain/terrain-atlas-v1.png',
-        'assets/hd-battle-unit/arm-insignia-v1.png',
+        'assets/hd-battle-unit/arm-insignia-v1.png',transitionAtlas,
         'assets/hd-portraits/manifest.json','assets/hd-portraits/refs/index.json','assets/hd-spe/manifest.json',
         'vendor/iBaye/src/data/pstring.h','scripts/test-hd-battle-runtime.mjs','scripts/hd-battle-hud-runtime-checks.mjs',
         'scripts/hd-battle-skill-aim-runtime-checks.mjs','scripts/hd-battle-map-number-runtime-checks.mjs',
@@ -391,11 +395,49 @@ async function marchSmoke(cdp) {
     await waitFor(cdp,'actual AddFightOrder ACK','baye.hd.march().phase===7 && baye.hd.march().ok===1');
     await waitFor(cdp,'actual strategy input after departure',`(() => {const m=baye.hd.march(),menu=baye.hd.menuItems();return (menu.active&&[1,2].includes(menu.context))||(!menu.active&&m.pick===1&&m.battlePick===0&&m.mapInputSeq>${departureMapSeq});})()`);
     await checkpoint(cdp,'13-march-order-ack');
+    if(transitionArtOnly) await waitFor(cdp,'desktop weather atlas is decoded before battle',
+        `(() => {const a=document.getElementById('hd-battle-transition-atlas');return a.complete&&a.naturalWidth===1536&&a.naturalHeight===1024;})()`);
     await action(cdp,'end-strategy-once','BayeHdCityMenu.goStrategyEnd()');
     await waitFor(cdp,'explicit strategy request accepted','BayeHdCityMenu.debugSnapshot().handoff || baye.hd.fight().active');
+    if(transitionArtOnly) await captureOpeningTransitions(cdp);
     await waitFor(cdp,'real battle player selection','baye.hd.fight().active && !baye.hd.fight().over && baye.hd.fight().inputKind===1',60000);
     await checkpoint(cdp,'14-battle-ready');
+    if(transitionArtOnly) {
+        assert.equal(await evaluate(cdp,`document.getElementById('hd-battle-transition').hidden&&document.getElementById('hd-battle-transition-art').hidden`),true,
+            'The first native player selection retires the transition');
+        assert.equal(report.requests.filter(request=>request.url==='/'+transitionAtlas&&request.status===200).length,1,
+            'Both transitions use the same decoded atlas request');
+        return;
+    }
     await battleSmoke(cdp);
+}
+
+async function captureOpeningTransitions(cdp) {
+    const weatherLabels=['','晴','阴','风','雨','冰雹'];
+    for(const [outcome,name] of [[6,'battle-opening-weather'],[7,'battle-opening-day']]) {
+        const sample=await waitFor(cdp,name,`(() => {
+            const stage=BayeHdBattleTransition.debugSnapshot(),native=baye.hd.battleNote(),d=baye.data;
+            if(!stage.active||stage.outcome!==${outcome}||native?.seq!==stage.seq||native.generation!==stage.generation)return null;
+            const root=document.getElementById('hd-battle-transition'),art=document.getElementById('hd-battle-transition-art'),
+                atlas=document.getElementById('hd-battle-transition-atlas'),label=document.getElementById('hd-battle-transition-value');
+            const a=art.getBoundingClientRect(),i=atlas.getBoundingClientRect(),l=label.getBoundingClientRect();
+            return {stage,native,actual:${outcome}===6?d.g_FgtWeather:d.g_FgtBoutCnt,label:label.textContent,
+                visible:art.checkVisibility(),fits:a.left>=0&&a.top>=0&&a.right<=innerWidth&&a.bottom<=l.top&&l.bottom<=innerHeight,
+                crop:[(a.left-i.left)/a.width,(a.top-i.top)/a.height,i.width/a.width,i.height/a.height],
+                passive:getComputedStyle(root).pointerEvents==='none',inputKind:baye.hd.fight().inputKind};
+        })()`,60000);
+        const {stage,native,actual,label,visible,fits,crop,passive,inputKind}=sample;
+        assert.equal(stage.value,actual);assert.equal(native.value,actual);assert.equal(inputKind,0);
+        assert.equal(label,outcome===6?weatherLabels[actual]:`第 ${actual} 天`);
+        assert.ok(visible&&fits&&passive,'The illustration and its native label fit in the passive desktop stage');
+        const tile=outcome===6?actual-1:5,expected=[tile%3,Math.floor(tile/3),3,2];
+        assert.ok(crop.every((value,index)=>Math.abs(value-expected[index])<.01),'Only the corresponding atlas tile is shown');
+        const screenshot=await cdp.send('Page.captureScreenshot',{format:'png'});
+        assert.equal(await evaluate(cdp,'BayeHdBattleTransition.debugSnapshot().seq'),stage.seq,
+            'The screenshot belongs to the same live native transition');
+        fs.writeFileSync(path.join(artifactDir,name+'.png'),Buffer.from(screenshot.data,'base64'));
+        report.phases.push({name,...sample});console.log('PASS',name);
+    }
 }
 
 const battleStateExpression=`(() => {
@@ -1776,7 +1818,8 @@ async function main() {
         });
         await cdp.send('Runtime.enable');
         await cdp.send('Page.enable');
-        await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
+        const [width,height]=transitionArtOnly?[1280,720]:[1920,1080];
+        await cdp.send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
         await cdp.send('Fetch.enable', { patterns: [{ urlPattern: '*' }] });
         await cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: `
             // Observe the renderer's actual native Canvas calls. Forward every

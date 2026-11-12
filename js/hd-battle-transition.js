@@ -47,6 +47,17 @@
             return {generation: value.generation, sha256: value.sha256, byteLength: value.byteLength, status: value.status, source: value};
         }
         function identityKey(value) { return JSON.stringify([value.generation, value.sha256, value.byteLength, value.status]); }
+        function preloadIllustration() {
+            try {
+                var atlas = node('hd-battle-transition-atlas');
+                if (!atlas || atlas.getAttribute('src') !== null || !available() || !effectiveHd()) { return; }
+                var source = atlas.getAttribute('data-src'), api = env.BayeHdLibIdentity;
+                if (!source || !api || typeof api.read !== 'function' || typeof api.isCurrent !== 'function' ||
+                    !identity(api, api.read, api.isCurrent)) { return; }
+                atlas.addEventListener('load', refresh, {once: true});
+                atlas.setAttribute('src', source);
+            } catch (error) {}
+        }
         function sample(data, hd, read) {
             var value = read.call(hd), note = {}, raw = {};
             if (!value || data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
@@ -127,7 +138,13 @@
             var root = node('hd-battle-transition'), graphic = node('hd-battle-transition-graphic'),
                 label = node('hd-battle-transition-label'), number = node('hd-battle-transition-value'), body = doc() && doc().body;
             var show = !!(value && root && graphic && label && number), weather = show && value.note.outcome === 6;
-            if (graphic) { graphic.innerHTML = weather ? '<svg viewBox="0 0 128 128" focusable="false" aria-hidden="true">' + ICONS[value.note.value] + '</svg>' : ''; }
+            var art = node('hd-battle-transition-art'), atlas = node('hd-battle-transition-atlas');
+            var illustrated = !!(show && art && atlas && atlas.complete && atlas.naturalWidth === 1536 && atlas.naturalHeight === 1024);
+            if (art) { art.hidden = !illustrated; }
+            if (graphic) {
+                if (art) { graphic.hidden = illustrated; }
+                graphic.innerHTML = weather && !illustrated ? '<svg viewBox="0 0 128 128" focusable="false" aria-hidden="true">' + ICONS[value.note.value] + '</svg>' : '';
+            }
             if (label) { label.textContent = show ? weather ? '天气' : '战斗日' : ''; }
             if (number) { number.textContent = show ? weather ? WEATHER[value.note.value] : '第 ' + value.note.text + ' 天' : ''; }
             if (root) {
@@ -142,7 +159,10 @@
                 value: value.note.value, text: value.note.text} : {active: false, presentation: 'off', reason: reason || 'unavailable'};
             return last;
         }
-        function refresh() { return paint(readCurrent(), 'unavailable'); }
+        function refresh() {
+            preloadIllustration();
+            return paint(readCurrent(), 'unavailable');
+        }
         function retire(reason) { return paint(null, reason || 'retired'); }
         function schedule() {
             if (timer !== null) { env.clearTimeout(timer); timer = null; }
