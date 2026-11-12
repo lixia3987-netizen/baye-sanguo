@@ -8,7 +8,7 @@
         'g_hdResultOwnerValid', 'g_hdMapPick', 'g_hdBattlePick', 'g_hdFightActive'];
     var FENCES = ['g_hdEngineReady', 'g_hdDetailGeneration', 'g_hdMenuSeq', 'g_hdReportSeq',
         'g_hdRecordSeq', 'g_hdMapInputSeq', 'g_hdFightInputSeq'];
-    var PLACE_LABELS = {attack: '进攻', defense: '守城', occupation: '占领', arrival: '入驻'};
+    var PLACE_LABELS = {attack: '进攻', defense: '守城', occupation: '占领', arrival: '入驻', clash: '交战', result: '战果'};
 
     function uint(value, max) {
         return typeof value === 'number' && Number.isInteger(value) && value >= 0 && value <= (max == null ? 0xffffffff : max);
@@ -39,6 +39,13 @@
             var params = data.g_FgtParam, mode = params && params.Mode;
             return mode === 0 || mode === 1 ? {cityIndex: cityIndex, kind: mode === 0 ? 'defense' : 'attack'} : null;
         } catch (error) { return null; }
+    }
+    function noticePlace(data, note, cityIndex, publishedCity, inputSeq, order) {
+        if (note.outcome === 4 && publishedCity !== null) { return {cityIndex: publishedCity, kind: 'clash'}; }
+        if (note.outcome !== 1 && note.outcome !== 2) { return null; }
+        var result = resultPlace(data, note, cityIndex, inputSeq, order);
+        return publishedCity !== null && (!result || result.cityIndex !== publishedCity)
+            ? {cityIndex: publishedCity, kind: 'result'} : result;
     }
     function createController(environment) {
         var env = environment || global, mounted = false, focused = true, pageActive = true, timer = null, afterInputPending = false;
@@ -102,15 +109,19 @@
                 raw[field] = next;
             }
             if (raw.g_hdEngineReady !== 1 || note.generation !== raw.g_hdDetailGeneration) { return null; }
+            var publishedCity = value.cityIndex === undefined ? null : value.cityIndex;
+            if (publishedCity !== null && (!uint(publishedCity, 37) || note.outcome > 4 ||
+                data.g_hdBattleNoteCity !== publishedCity)) { return null; }
             var cityIndex = note.outcome <= 3 ? battleCity(data) : null;
-            return {note: note, raw: raw, cityIndex: cityIndex,
-                place: resultPlace(data, note, cityIndex, raw.g_hdFightInputSeq, order)};
+            return {note: note, raw: raw, cityIndex: cityIndex, publishedCity: publishedCity,
+                place: noticePlace(data, note, cityIndex, publishedCity, raw.g_hdFightInputSeq, order)};
         }
         function rawMatches(value, data) {
             if (!value || data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return false; }
             return FIELDS.every(function (name) {
                 return data['g_hdBattleNote' + name.charAt(0).toUpperCase() + name.slice(1)] === value.note[name];
-            }) && BLOCKERS.concat(FENCES).every(function (name) { return data[name] === value.raw[name]; });
+            }) && BLOCKERS.concat(FENCES).every(function (name) { return data[name] === value.raw[name]; }) &&
+                (value.publishedCity === null || data.g_hdBattleNoteCity === value.publishedCity);
         }
         function readCurrent(observeAnnouncement) {
             if (reading) { readEpoch += 1; return null; }
@@ -160,8 +171,9 @@
                     typeof mapMode === 'function' && mapMode.call(map) === 'hd-map';
                 var finalReady = ready.call(hd), finalAvailable = !display || available();
                 var finalCity = second.cityIndex === null ? null : battleCity(data), inputSeq = second.raw.g_hdFightInputSeq;
-                var location = cityName && baye.getCityName === getCityName && data.g_FgtParam === params &&
-                    JSON.stringify(resultPlace(data, second.note, finalCity, inputSeq, order)) === JSON.stringify(place) ?
+                var location = cityName && baye.getCityName === getCityName &&
+                    (second.publishedCity !== null || data.g_FgtParam === params) &&
+                    JSON.stringify(noticePlace(data, second.note, finalCity, second.publishedCity, inputSeq, order)) === JSON.stringify(place) ?
                     {cityIndex: place.cityIndex, cityName: cityName, kind: place.kind} : null;
                 // These callbacks can in turn change native/source values.
                 // Keep the primitive publication check after all of them.
@@ -171,6 +183,7 @@
                     env.BayeHdLibIdentity !== identityApi || env.BayeHdBattle !== battle || env.BayeHdOverworld !== map ||
                     !rawMatches(second, data) || ticket !== readEpoch) { return null; }
                 if (second.note.outcome === 3 && finalCity !== null && finalCity === second.cityIndex &&
+                    (second.publishedCity === null || second.publishedCity === finalCity) &&
                     (!order || order.seq !== second.note.seq || order.generation !== second.note.generation)) {
                     announcedOrder = {data: data, libraryGeneration: latest.generation, generation: second.note.generation,
                         seq: second.note.seq, cityIndex: finalCity, inputSeq: inputSeq};

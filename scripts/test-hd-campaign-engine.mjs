@@ -184,13 +184,15 @@ const campaign = common + marchAcknowledgement + String.raw`
 static unsigned skipReason, clearMarch, addPersonCount, fightCalls, resultCalls;
 static PersonID addedPersons[32];
 static U8 addedCity;
+static U8 clashCity=255, resultCity=255;
+static PersonID clashAttacker, clashDefender;
 static void baye_hd_set_fight_skip(U8 value) { skipReason=value; }
 static void baye_hd_clear_march_ok(void) { ++clearMarch; }
 static void ResItemGet(int resource, int id, U8* out) { (void)resource; (void)id; memset(out,0,CITY_MAX); }
 static U8 GetDirect(U32 a, U8 b) { (void)a; (void)b; return 0; }
 static void ShowAttackNote(PersonID king, U32 city) { (void)king; (void)city; }
 static void AddPerson(U32 city, PersonID person) { addedCity=city; addedPersons[addPersonCount++]=person; }
-static void ShowFightWinNote(PersonID king) { (void)king; }
+static void ShowFightWinNote(PersonID king,U8 city) { (void)king;assert(city==addedCity); }
 static U32 GetCityPersons(U32 city, PersonID* output) { (void)city; (void)output; return 0; }
 static U32 GetKingPersons(PersonID king, PersonID* output) { (void)king; (void)output; return 2; }
 static void ShowMapClear(void) {}
@@ -200,8 +202,11 @@ static PersonID ShowPersonControl(PersonID* p,U32 count,PersonID initial,U8 a,U8
 }
 static void DelPerson(U32 city,PersonID person) { (void)city; (void)person; }
 static void GamFight(void) { ++fightCalls; }
-static void FightResultDeal(U32 city,U8 over) { (void)city; (void)over; ++resultCalls; }
-static void ShowFightNote(PersonID attacker,PersonID defender) { (void)attacker;(void)defender; }
+static void FightResultDeal(U32 city,U8 over) { (void)over;resultCity=city;++resultCalls; }
+static void ShowFightNote(PersonID attacker,PersonID defender,U8 city) {
+    assert(city==g_FgtParam.CityIndex);
+    clashAttacker=attacker;clashDefender=defender;clashCity=city;
+}
 ` + actualFunction('citycmdd.c', 'BattleDrv') + '\n' + actualFunction('infdeal.c', 'GetPersonsCount');
 
 test('real C high-slot dispatch occupies an empty city, frees its own slot and counts 16-bit fighter IDs', async () => {
@@ -255,6 +260,24 @@ int main(void) {
     assert(skipReason==BAYE_HD_FIGHT_SKIP_OWNED);
     consumeHdMarchOrder(&latest);assert(clearMarch==1); /* consumed only once */
     puts("older/AI order isolation and exact one-time player order consumption passed");
+}
+`);
+});
+
+test('real C AI clash and settlement share the actual dispatched destination', async () => {
+    await compile(campaign + String.raw`
+int main(void) {
+    reset();
+    PersonID fighters[10]={1};
+    OrderType order={.OrderId=BATTLE,.City=0,.Object=23,.Food=100};
+    g_PlayerKing=0;g_Persons[0].Belong=8;g_Cities[23].Belong=9;
+    g_FgtParam.CityIndex=16;
+    assert(AddFightOrder(&order,fighters)==1);
+    BattleDrv(&order);
+    assert(g_FgtParam.Mode==FGT_AUTO&&fightCalls==1&&resultCalls==1);
+    assert(clashAttacker==7&&clashDefender==8);
+    assert(clashCity==23&&resultCity==23);
+    puts("actual third-party dispatch location passed");
 }
 `);
 });
@@ -385,8 +408,8 @@ static void ShowMapClear(void) {
     selected=enters;
 }
 static void AddPerson(U32 city,PersonID id) { (void)city;(void)id;assert(0); }
-static void ShowFightWinNote(PersonID king) { (void)king;assert(0); }
-static void ShowFightNote(PersonID attacker,PersonID defender) { (void)attacker;(void)defender;assert(0); }
+static void ShowFightWinNote(PersonID king,U8 city) { (void)king;(void)city;assert(0); }
+static void ShowFightNote(PersonID attacker,PersonID defender,U8 city) { (void)attacker;(void)defender;(void)city;assert(0); }
 static void GamFight(void) {
     selected=enters;
     assert(!g_hdMenuActive && hdMenuNextContext==BAYE_HD_MENU_CONTEXT_NONE && hdMenuNextKind==0);
@@ -769,8 +792,8 @@ static void GamMsgBox(U8* text,U8 delay) {
     assert(g_Cities[1].Tools==3&&g_GoodsQueue[1]==0x8001&&g_GoodsQueue[2]==0x8016);
     ++deathNotes;
 }
-static void ShowFightWinNote(PersonID king) { (void)king;assert(g_Cities[1].Belong==expectedOldBelong);++winNotes; }
-static void ShowFightLossNote(void) { ++lossNotes; }
+static void ShowFightWinNote(PersonID king,U8 city) { (void)king;assert(city==1&&g_Cities[1].Belong==expectedOldBelong);++winNotes; }
+static void ShowFightLossNote(U8 city) { assert(city==1);++lossNotes; }
 static void KingOverDeal(PersonID king) { fallenKing=king;++kingOverCalls;g_PlayerKing=511;g_Persons[511].Devotion=100; }
 static U16 add_16(U16 a,U16 b) { return a+b; }
 ` + actualFunction('citycmdd.c', 'HoldCaptive') + '\n' + actualFunction('citycmdd.c', 'TheLoserDeal') + '\n' + actualFunction('citycmdd.c', 'BeOccupied') + '\n' + actualFunction('citycmdd.c', 'FightResultDeal') + String.raw`
@@ -867,6 +890,7 @@ test('real C battle notes publish after LCD text, retain original waits and reti
 typedef uint8_t U8;typedef uint16_t U16;typedef uint32_t U32;typedef uint16_t PersonID;typedef U8 SBUF[512];
 #define FAR
 #define PERSON_MAX 600
+#define CITY_MAX 38
 #define WK_SX 0
 #define WK_EX 159
 #define WK_SY 0
@@ -906,25 +930,25 @@ static void GamDelay(U16 ticks,U8 mode){
     assert(g_hdBattleNoteActive&&g_hdBattleNoteOutcome==expectedOutcome&&g_hdBattleNoteWinner==expectedWinner);
     assert(g_hdBattleNoteGeneration==g_hdDetailGeneration&&g_hdBattleNoteSeq&&drawStage==2);++waits;
     if(rebindDuringWait){++g_hdDetailGeneration;baye_hd_battle_note_retire();
-        replacementSeq=baye_hd_battle_note_begin(expectedOutcome,expectedWinner,drawn);assert(replacementSeq);}
+        replacementSeq=baye_hd_battle_note_begin(expectedOutcome,expectedWinner,0xff,drawn);assert(replacementSeq);}
 }
 ` + actualFunction('citycmde.c','ShowFightWinNote') + '\n' + actualFunction('citycmde.c','ShowFightLossNote') + String.raw`
 int main(void){
     memset(measuredWorld,0x63,sizeof(measuredWorld));memcpy(originalWorld,measuredWorld,sizeof(originalWorld));
-    expectedOutcome=1;expectedWinner=5;ShowFightWinNote(5);
+    expectedOutcome=1;expectedWinner=5;ShowFightWinNote(5,17);
     assert(waits==1&&notifications==2&&!g_hdBattleNoteActive&&!strcmp((char*)drawn,"ourswon"));
-    expectedWinner=511;g_engineConfig.responseNoteOfBettle=1;ShowFightWinNote(511);
+    expectedWinner=511;g_engineConfig.responseNoteOfBettle=1;ShowFightWinNote(511,37);
     assert(waits==2&&notifications==4&&!g_hdBattleNoteActive&&!strcmp((char*)drawn,"native-npcwon"));
-    expectedOutcome=2;expectedWinner=65535;ShowFightLossNote();
+    expectedOutcome=2;expectedWinner=65535;ShowFightLossNote(16);
     assert(waits==3&&notifications==6&&!g_hdBattleNoteActive&&!strcmp((char*)drawn,"ourslost"));
     unsigned n=notifications;U32 q=g_hdBattleNoteSeq;
-    assert(!baye_hd_battle_note_begin(0,0,drawn));assert(!baye_hd_battle_note_begin(1,600,drawn));
-    assert(!baye_hd_battle_note_begin(2,0,drawn));assert(!baye_hd_battle_note_begin(2,65535,NULL));
-    assert(!baye_hd_battle_note_begin(2,65535,(U8*)""));assert(n==notifications&&q==g_hdBattleNoteSeq);
-    g_hdBattleNoteSeq=0xffffffff;U32 token=baye_hd_battle_note_begin(2,65535,drawn);
+    assert(!baye_hd_battle_note_begin(0,0,0xff,drawn));assert(!baye_hd_battle_note_begin(1,600,0xff,drawn));
+    assert(!baye_hd_battle_note_begin(2,0,0xff,drawn));assert(!baye_hd_battle_note_begin(2,65535,0xff,NULL));
+    assert(!baye_hd_battle_note_begin(2,65535,0xff,(U8*)""));assert(n==notifications&&q==g_hdBattleNoteSeq);
+    g_hdBattleNoteSeq=0xffffffff;U32 token=baye_hd_battle_note_begin(2,65535,0xff,drawn);
     assert(token==1);baye_hd_battle_note_end(6,token);baye_hd_battle_note_end(7,token+1);
     assert(g_hdBattleNoteActive);baye_hd_battle_note_end(7,token);assert(!g_hdBattleNoteActive);
-    rebindDuringWait=1;ShowFightLossNote();
+    rebindDuringWait=1;ShowFightLossNote(16);
     assert(g_hdBattleNoteActive&&g_hdBattleNoteSeq==replacementSeq&&g_hdBattleNoteGeneration==8);
     baye_hd_battle_note_end(8,replacementSeq);assert(!g_hdBattleNoteActive);
     assert(!memcmp(measuredWorld,originalWorld,sizeof(measuredWorld)));

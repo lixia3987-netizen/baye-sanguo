@@ -33,6 +33,7 @@ typedef uint8_t U8;typedef uint16_t U16;typedef uint32_t U32;typedef U16 PersonI
 typedef struct {U8 type;U16 param;} GMType;
 #define FAR
 #define PERSON_MAX 600
+#define CITY_MAX 38
 #define SCR_WID 160
 #define SCR_HGT 96
 #define WK_SX 0
@@ -73,13 +74,13 @@ static int mutateDraw,mutateKind,mutationDone,replaceInWait,replaceInNotify,repl
 static U32 replacementSeq;
 static GMType messages[2048];static int messageCount,messageIndex;
 static struct {U16 resource,index,x,y;BOOL screen;} draws[8];
-U32 baye_hd_battle_note_begin(U8 outcome,U16 winner,const U8*text);
+U32 baye_hd_battle_note_begin(U8 outcome,U16 winner,U8 city,const U8*text);
 U32 baye_hd_battle_stage_begin(U32 generation,U8 kind,U16 value,const U8*text);
 void baye_hd_battle_note_retire(void);
 static void replacement(int newWorld){
     replacementDone=1;requireActive=0;
     if(newWorld){g_hdDetailGeneration++;baye_hd_battle_note_retire();}
-    replacementSeq=baye_hd_battle_note_begin(4,65535,(U8*)"REPLACEMENT");assert(replacementSeq);
+    replacementSeq=baye_hd_battle_note_begin(4,65535,0xff,(U8*)"REPLACEMENT");assert(replacementSeq);
 }
 static void notify(void){
     notifications++;assert(!memcmp(canary,beforeCanary,sizeof(canary)));
@@ -195,12 +196,12 @@ int main(int argc,char**argv){
         const U16 values[]={0,9999,10000,65535};for(int i=0;i<4;i++){U8 text[6];sprintf((char*)text,"%u",(unsigned)values[i]);token=baye_hd_battle_stage_begin(7,7,values[i],text);assert(token&&g_hdBattleNoteValue==values[i]&&!strcmp((char*)g_hdBattleNoteText,(char*)text));text[0]='X';assert(g_hdBattleNoteText[0]!='X');baye_hd_battle_note_end(7,token);}
         assert(!countCalls);unchanged();
     }else if(scenario==11){
-        for(U8 kind=1;kind<=5;kind++){reset();direct=1;requireActive=0;assert(baye_hd_battle_stage_begin(7,6,5,NULL));int before=countCalls;U32 token=baye_hd_battle_note_begin(kind,kind==1?511:65535,(U8*)"LEGACY");assert(token&&g_hdBattleNoteOutcome==kind&&!g_hdBattleNoteValue&&countCalls-before==(kind<=2?1:0));baye_hd_battle_note_end(7,token);assert(!g_hdBattleNoteActive&&!g_hdBattleNoteValue);unchanged();}
-        reset();direct=1;assert(!baye_hd_battle_note_begin(6,65535,(U8*)"unsupported")&&!baye_hd_battle_note_begin(7,65535,(U8*)"unsupported"));
+        for(U8 kind=1;kind<=5;kind++){reset();direct=1;requireActive=0;assert(baye_hd_battle_stage_begin(7,6,5,NULL));int before=countCalls;U32 token=baye_hd_battle_note_begin(kind,kind==1?511:65535,0xff,(U8*)"LEGACY");assert(token&&g_hdBattleNoteOutcome==kind&&!g_hdBattleNoteValue&&countCalls-before==(kind<=2?1:0));baye_hd_battle_note_end(7,token);assert(!g_hdBattleNoteActive&&!g_hdBattleNoteValue);unchanged();}
+        reset();direct=1;assert(!baye_hd_battle_note_begin(6,65535,0xff,(U8*)"unsupported")&&!baye_hd_battle_note_begin(7,65535,0xff,(U8*)"unsupported"));
     }else if(scenario==12){
         for(int owner=0;owner<7;owner++)for(U8 kind=1;kind<=7;kind++){
             reset();direct=1;requireActive=0;U32 old;
-            if(kind<6)old=baye_hd_battle_note_begin(kind,kind==1?511:65535,(U8*)"LEGACY");else old=baye_hd_battle_stage_begin(7,kind,kind==6?3:20,kind==6?NULL:(U8*)"20");assert(old);
+            if(kind<6)old=baye_hd_battle_note_begin(kind,kind==1?511:65535,0xff,(U8*)"LEGACY");else old=baye_hd_battle_stage_begin(7,kind,kind==6?3:20,kind==6?NULL:(U8*)"20");assert(old);
             HdHelpSnapshot snapshot={0};snapshot.generation=7;snapshot.kind=BAYE_HD_HELP_TERRAIN;snapshot.complete=1;
             if(owner==0)baye_hd_set_report((U8*)"REPORT",65535,1);
             else if(owner==1)baye_hd_report_begin(1);

@@ -301,7 +301,7 @@ FAR U8 BattleDrv(OrderType *Order)
                     if (fighters[i])
                         AddPerson(o,PID(fighters[i] - 1));
                 }
-                ShowFightWinNote(PID(pb - 1));
+                ShowFightWinNote(PID(pb - 1),o);
                 break;
             }
             /*添加进入战斗代码*/
@@ -349,7 +349,7 @@ FAR U8 BattleDrv(OrderType *Order)
                         AddPerson(o,PID(fighters[i] - 1));
                 }
                 g_Cities[o].Belong = pb;
-                ShowFightWinNote(PID(pb - 1));
+                ShowFightWinNote(PID(pb - 1),o);
                 break;
             }
 
@@ -361,7 +361,7 @@ FAR U8 BattleDrv(OrderType *Order)
                 {
                     if (fighters[i])
                         AddPerson(o,PID(fighters[i] - 1));
-                    ShowFightWinNote(PID(pb - 1));
+                    ShowFightWinNote(PID(pb - 1),o);
                 }
                 break;
             }
@@ -426,7 +426,7 @@ FAR U8 BattleDrv(OrderType *Order)
                         AddPerson(o,PID(fighters[i] - 1));
                 }
                 g_Cities[o].Belong = pb;
-                ShowFightWinNote(PID(pb - 1));
+                ShowFightWinNote(PID(pb - 1),o);
                 break;
             }
 
@@ -437,7 +437,7 @@ FAR U8 BattleDrv(OrderType *Order)
                     if (fighters[i])
                         AddPerson(o,PID(fighters[i] - 1));
                 }
-                ShowFightWinNote(PID(pb - 1));
+                ShowFightWinNote(PID(pb - 1),o);
                 break;
             }
             gam_memcpy(genArray, fighters, 10*sizeof(PersonID));
@@ -487,7 +487,7 @@ FAR U8 BattleDrv(OrderType *Order)
             g_FgtParam.MProvender = Order->Food;
             g_FgtParam.EProvender = g_Cities[o].Food;
             /*ShowAttackMsg(pb - 1,o);*/
-            ShowFightNote(PID(pb - 1),PID(ob - 1));
+            ShowFightNote(PID(pb - 1),PID(ob - 1),o);
 
             GamFight();
 
@@ -545,7 +545,7 @@ FAR U8 FightResultDeal(U8 city,U8 result)
                 }
             }
             /*if (FGT_AUTO != g_FgtParam.Mode)*/
-            ShowFightWinNote(PID(g_Persons[ptr[0] - 1].Belong - 1));
+            ShowFightWinNote(PID(g_Persons[ptr[0] - 1].Belong - 1),city);
             if (FGT_AT == g_FgtParam.Mode || FGT_AUTO == g_FgtParam.Mode)
             {
                 cking = BeOccupied(PID(ptr[0] - 1),city);
@@ -573,7 +573,7 @@ FAR U8 FightResultDeal(U8 city,U8 result)
 
             if (FGT_AUTO != g_FgtParam.Mode)
             {
-                ShowFightLossNote();
+                ShowFightLossNote(city);
                 if (cavps)
                 {
                     if (cavps > 1)
@@ -588,7 +588,7 @@ FAR U8 FightResultDeal(U8 city,U8 result)
             }
             else
             {
-                ShowFightWinNote(PID(g_Persons[ptr[10] - 1].Belong - 1));
+                ShowFightWinNote(PID(g_Persons[ptr[10] - 1].Belong - 1),city);
             }
 
             break;

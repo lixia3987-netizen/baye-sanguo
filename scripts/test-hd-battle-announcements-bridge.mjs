@@ -41,6 +41,30 @@ function fixture(persons = 200) {
         untouched() {assert.deepEqual(writes, []); assert.deepEqual(keys, []); assert.deepEqual(forbiddenReads, []);}};
 }
 
+test('active battle notices expose the native city, including city zero and the last original city', () => {
+    for (const [outcome, city] of [[1, 37], [2, 0], [3, 37], [4, 0]]) {
+        const h = fixture(); h.context._bayeGetCityCount = () => 38;
+        Object.assign(h.raw, {g_hdBattleNoteOutcome: outcome, g_hdBattleNoteWinner: outcome === 1 ? 0 : 65535,
+            g_hdBattleNoteCity: city});
+        assert.equal(h.read()?.cityIndex, city);
+        h.raw.g_hdBattleNoteCity = 255;
+        assert.equal(Object.hasOwn(h.read(), 'cityIndex'), false);
+        h.raw.g_hdBattleNoteCity = 38;
+        assert.equal(Object.hasOwn(h.read(), 'cityIndex'), false);
+        h.untouched();
+    }
+});
+
+test('the original city publication retires on a mixed read and stays absent for the strategy prelude', () => {
+    const h = fixture(); h.context._bayeGetCityCount = () => 38;
+    h.raw.g_hdBattleNoteCity = 16;
+    h.onRead(name => { if (name === 'g_hdBattleNoteText') h.raw.g_hdBattleNoteCity = 15; });
+    assert.equal(h.read(), null);
+    h.onRead(null); h.raw.g_hdBattleNoteOutcome = 5;
+    assert.equal(Object.hasOwn(h.read(), 'cityIndex'), false);
+    h.untouched();
+});
+
 test('attack and confrontation retain actual decoded GBK text and explicit unknown winner without world or name reads', () => {
     const h = fixture();
     const text = new TextDecoder('gbk').decode(new Uint8Array([0xbd,0xf8,0xb9,0xa5,0xcf,0xe5,0xd1,0xf4]));

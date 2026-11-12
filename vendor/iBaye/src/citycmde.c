@@ -233,7 +233,7 @@ FAR void ShowAttackNote(PersonID ap,U8 city)
     gam_strcat(str,buf);
     PlcMidShowStr(WK_SX + (WK_EX  - WK_SX) / 2,WK_SY + (WK_EY - 84 - WK_SY) / 2 + 2 + 64 + 2,str);
     if (hdGeneration == g_hdDetailGeneration)
-        hdNoteSeq = baye_hd_battle_note_begin(3, 0xffff, str);
+        hdNoteSeq = baye_hd_battle_note_begin(3, 0xffff, city, str);
     GamDelay(100,false);
     baye_hd_battle_note_end(hdGeneration, hdNoteSeq);
 }
@@ -252,7 +252,7 @@ FAR void ShowAttackNote(PersonID ap,U8 city)
  *		----		----			-----------
  *		陈泽伟		2005-8-23 11:19	基本功能完成
  ******************************************************************************/
-FAR void ShowFightNote(PersonID ap,PersonID bc)
+FAR void ShowFightNote(PersonID ap,PersonID bc,U8 city)
 {
     SBUF str,buf;
     U32 hdGeneration = g_hdDetailGeneration, hdNoteSeq = 0;
@@ -268,7 +268,7 @@ FAR void ShowFightNote(PersonID ap,PersonID bc)
     gam_strcat(str,buf);
     PlcMidShowStr(WK_SX + (WK_EX  - WK_SX) / 2,WK_SY + (WK_EY - 84 - WK_SY) / 2 + 2 + 64 + 2,str);
     if (hdGeneration == g_hdDetailGeneration)
-        hdNoteSeq = baye_hd_battle_note_begin(4, 0xffff, str);
+        hdNoteSeq = baye_hd_battle_note_begin(4, 0xffff, city, str);
     GamDelay(300, g_engineConfig.responseNoteOfBettle);
     baye_hd_battle_note_end(hdGeneration, hdNoteSeq);
 }
@@ -286,10 +286,10 @@ FAR void ShowFightNote(PersonID ap,PersonID bc)
  *		----		----			-----------
  *		陈泽伟		2005-8-23 11:27	基本功能完成
  ******************************************************************************/
-FAR void ShowFightWinNote(PersonID wp)
+FAR void ShowFightWinNote(PersonID wp,U8 city)
 {
     SBUF str,buf;
-    U32 hdGeneration = g_hdDetailGeneration, hdNoteSeq;
+    U32 hdGeneration = g_hdDetailGeneration, hdNoteSeq = 0;
 
     ShowFightNoteFace(2);
 
@@ -304,7 +304,8 @@ FAR void ShowFightWinNote(PersonID wp)
     ResLoadToMem(STRING_CONST,STR_WON,buf);
     gam_strcat(str,buf);
     PlcMidShowStr(WK_SX + (WK_EX  - WK_SX) / 2,WK_SY + (WK_EY - 84 - WK_SY) / 2 + 2 + 64 + 2,str);
-    hdNoteSeq = baye_hd_battle_note_begin(1, wp, str);
+    if (hdGeneration == g_hdDetailGeneration)
+        hdNoteSeq = baye_hd_battle_note_begin(1, wp, city, str);
     GamDelay(300, g_engineConfig.responseNoteOfBettle);
     baye_hd_battle_note_end(hdGeneration, hdNoteSeq);
 }
@@ -322,10 +323,10 @@ FAR void ShowFightWinNote(PersonID wp)
  *		----		----			-----------
  *		陈泽伟		2005-8-23 11:32	基本功能完成
  ******************************************************************************/
-FAR void ShowFightLossNote(void)
+FAR void ShowFightLossNote(U8 city)
 {
     SBUF str,buf;
-    U32 hdGeneration = g_hdDetailGeneration, hdNoteSeq;
+    U32 hdGeneration = g_hdDetailGeneration, hdNoteSeq = 0;
 
     ShowFightNoteFace(3);
 
@@ -334,7 +335,8 @@ FAR void ShowFightLossNote(void)
     ResLoadToMem(STRING_CONST,STR_LOST,buf);
     gam_strcat(str,buf);
     PlcMidShowStr(WK_SX + (WK_EX  - WK_SX) / 2,WK_SY + (WK_EY - 84 - WK_SY) / 2 + 2 + 64 + 2,str);
-    hdNoteSeq = baye_hd_battle_note_begin(2, 0xffff, str);
+    if (hdGeneration == g_hdDetailGeneration)
+        hdNoteSeq = baye_hd_battle_note_begin(2, 0xffff, city, str);
     GamDelay(300, g_engineConfig.responseNoteOfBettle);
     baye_hd_battle_note_end(hdGeneration, hdNoteSeq);
 }

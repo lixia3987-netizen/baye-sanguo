@@ -53,6 +53,7 @@ U8 g_hdBattleNoteProtocolVersion = BAYE_HD_BATTLE_NOTE_VERSION;
 U8 g_hdBattleNoteActive = 0, g_hdBattleNoteOutcome = 0;
 U16 g_hdBattleNoteWinner = 0xffff;
 U16 g_hdBattleNoteValue = 0;
+U8 g_hdBattleNoteCity = 0xff;
 U32 g_hdBattleNoteSeq = 0, g_hdBattleNoteGeneration = 0;
 U8 g_hdBattleNoteText[BAYE_HD_BATTLE_NOTE_TEXT_MAX];
 U16 g_hdMenuIds[BAYE_HD_DETAIL_IDS_MAX];
@@ -1370,11 +1371,12 @@ void baye_hd_battle_note_retire(void)
     g_hdBattleNoteOutcome = 0;
     g_hdBattleNoteWinner = 0xffff;
     g_hdBattleNoteValue = 0;
+    g_hdBattleNoteCity = 0xff;
     g_hdBattleNoteText[0] = 0;
     hd_battle_note_notify();
 }
 
-U32 baye_hd_battle_note_begin(U8 outcome, U16 winner, const U8* text)
+U32 baye_hd_battle_note_begin(U8 outcome, U16 winner, U8 city, const U8* text)
 {
     U32 limit = (outcome >= 3 && outcome <= 5) ? 0 : GamGetPersonCount();
     U32 seq;
@@ -1389,6 +1391,7 @@ U32 baye_hd_battle_note_begin(U8 outcome, U16 winner, const U8* text)
     g_hdBattleNoteOutcome = outcome;
     g_hdBattleNoteWinner = winner;
     g_hdBattleNoteValue = 0;
+    g_hdBattleNoteCity = outcome < 5 && city < CITY_MAX ? city : 0xff;
     g_hdBattleNoteActive = 1;
     hd_battle_note_notify();
     return seq;
@@ -1418,6 +1421,7 @@ U32 baye_hd_battle_stage_begin(U32 generation, U8 kind, U16 value, const U8* tex
     g_hdBattleNoteOutcome = kind;
     g_hdBattleNoteWinner = 0xffff;
     g_hdBattleNoteValue = value;
+    g_hdBattleNoteCity = 0xff;
     g_hdBattleNoteActive = 1;
     hd_battle_note_notify();
     return seq;
@@ -4190,6 +4194,7 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdBattleNoteOutcome, U8);
     DEFADDF(g_hdBattleNoteWinner, U16);
     DEFADDF(g_hdBattleNoteValue, U16);
+    DEFADDF(g_hdBattleNoteCity, U8);
     DEFADD_GBKARR(g_hdBattleNoteText, sizeof(g_hdBattleNoteText));
     DEFADD_U16ARR(g_hdMenuIds, BAYE_HD_DETAIL_IDS_MAX);
     DEFADDF(g_hdMenuIdsCount, U16);

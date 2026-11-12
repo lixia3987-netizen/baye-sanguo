@@ -466,16 +466,20 @@ function hdPersonLimit() {
     return 2000;
 }
 
-function hdCityLimit() {
-    var n = 0;
+function hdNativeCityLimit() {
     try {
         if (typeof _bayeGetCityCount === 'function' && hdEngineReady()) {
             var c = Number(_bayeGetCityCount()) || 0;
             if (c > 0 && c <= 64) {
-                n = c;
+                return c;
             }
         }
     } catch (e) {}
+    return 0;
+}
+
+function hdCityLimit() {
+    var n = hdNativeCityLimit();
     try {
         if (window.baye && baye.data) {
             if (baye.data.g_engineConfig && baye.data.g_engineConfig.citiesCount != null) {
@@ -2414,6 +2418,10 @@ function baye_bridge_init() {
                 fields.forEach(function (f) { value[f[0]] = reader.num('g_hdBattleNote' + f[1], f[2]); });
                 var announcement = value.active === 1 && [3, 4, 5, 6, 7].indexOf(value.outcome) >= 0;
                 var transition = value.active === 1 && (value.outcome === 6 || value.outcome === 7);
+                var hasCity = value.active === 1 && value.outcome >= 1 && value.outcome <= 4 &&
+                    d.g_hdBattleNoteCity !== undefined;
+                var city = hasCity ? reader.num('g_hdBattleNoteCity', 255) : null;
+                if (city != null && city < 255 && city < hdNativeCityLimit()) { value.cityIndex = city; }
                 if (transition) value.value = reader.num('g_hdBattleNoteValue', 65535);
                 var persons = announcement ? null : hdPersonLimit();
                 var text = d && d.g_hdBattleNoteText;
@@ -2433,6 +2441,7 @@ function baye_bridge_init() {
                         return value[f[0]] === hdDetailNum(d, 'g_hdBattleNote' + f[1], f[2]);
                     }) && detailGeneration === hdDetailNum(d, 'g_hdDetailGeneration') &&
                     (!transition || value.value === hdDetailNum(d, 'g_hdBattleNoteValue', 65535)) &&
+                    (!hasCity || city === hdDetailNum(d, 'g_hdBattleNoteCity', 255)) &&
                     baye.data === d ? value : null;
             } catch (e) { return null; }
         },

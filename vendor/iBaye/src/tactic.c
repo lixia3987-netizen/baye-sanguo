@@ -1409,7 +1409,7 @@ void ShowTacticNote(void)
         gam_rect(WK_SX + WK_EX / 2 - (WK_SX + ASC_WID * 19 + 4) / 2,WK_EY - 2 - ASC_HGT - 2,WK_SX + WK_EX / 2 - (WK_SX + ASC_WID * 19 + 4) / 2 + ASC_WID * 19 + 4,WK_EY - 2);
         GamStrShowS(WK_SX + (WK_EX - (WK_SX + ASC_WID * 19)) / 2,WK_EY - 2 - ASC_HGT,str);
         if (hdGeneration == g_hdDetailGeneration)
-            hdNoteSeq = baye_hd_battle_note_begin(5, 0xffff, str);
+            hdNoteSeq = baye_hd_battle_note_begin(5, 0xffff, 0xff, str);
         GamDelay(5,false);
         baye_hd_battle_note_end(hdGeneration, hdNoteSeq);
     }

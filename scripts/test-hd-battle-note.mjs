@@ -146,6 +146,8 @@ for (const {mode, outcome, skip, kind, label} of [
         f.api.onEngineNote(); f.on();
         assert.deepEqual({...f.api.debugSnapshot().place},{cityIndex:16,cityName:'许昌',kind});
         assert.equal(caption.hidden,false); assert.equal(caption.textContent,label+' · 许昌');
+        f.note.cityIndex=16; f.raw.g_hdBattleNoteCity=16; f.api.refresh(); f.on();
+        assert.equal(caption.textContent,label+' · 许昌');
         f.set('active',0); f.api.onEngineNote(); f.off();
         assert.equal(caption.hidden,true); assert.equal(caption.textContent,''); f.noSideEffects();
     });
@@ -217,6 +219,29 @@ test('A city lookup that changes the battle owner cannot attach its old location
     f.api.init(); f.on(); assert.equal(f.api.debugSnapshot().place,null); assert.equal(caption.hidden,true);
     f.environment.baye.getCityName = () => { f.set('seq',12); return '洛阳'; };
     f.api.refresh(); f.off(); f.noSideEffects();
+});
+test('current clash and other-faction results use the exact published city on PC and mobile', () => {
+    for (const mobile of [false, true]) {
+        const f = fixture({mobile}), caption = f.nodes.get('hd-battle-note-place');
+        Object.assign(f.raw,{g_PlayerKing:0,g_FgtParam:{Mode:2,CityIndex:16},g_hdBattleNoteCity:0});
+        f.note.cityIndex=0;
+        f.environment.baye.getCityName = index => { assert.equal(index,0); return '西凉'; };
+        f.set('outcome',4); f.set('winner',65535); f.set('text','两军交战'); f.api.init(); f.on();
+        assert.equal(caption.textContent,'交战 · 西凉');
+        assert.deepEqual({...f.api.debugSnapshot().place},{cityIndex:0,cityName:'西凉',kind:'clash'});
+        f.set('seq',12); f.set('outcome',1); f.set('winner',8); f.set('text','刘备战斗胜利'); f.api.onEngineNote(); f.on();
+        assert.equal(caption.textContent,'战果 · 西凉');
+        assert.deepEqual({...f.api.debugSnapshot().place},{cityIndex:0,cityName:'西凉',kind:'result'});
+        f.set('seq',13); f.set('outcome',3); f.set('winner',65535); f.set('text','刘备进攻西凉'); f.api.onEngineNote(); f.on();
+        assert.equal(caption.hidden,true); f.noSideEffects();
+    }
+});
+test('a city-name lookup cannot publish a replaced native announcement city', () => {
+    const f = fixture();
+    f.set('outcome',4); f.set('winner',65535); f.set('text','两军交战');
+    f.note.cityIndex=16; f.raw.g_hdBattleNoteCity=16;
+    f.environment.baye.getCityName=()=>{f.raw.g_hdBattleNoteCity=15; return '许昌';};
+    f.api.init(); f.off(); assert.equal(f.nodes.get('hd-battle-note-place').hidden,true); f.noSideEffects();
 });
 test('The original delay boundary retires the panel, with no new confirmation', () => {
     const f = fixture(); f.api.init(); f.on(); f.set('active', 0); f.api.onEngineNote(); f.off(); f.noSideEffects();

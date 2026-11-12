@@ -28,6 +28,7 @@ typedef uint8_t U8;typedef uint16_t U16;typedef uint32_t U32;typedef U16 PersonI
 typedef struct {U8 type;U16 param;} GMType;
 #define FAR
 #define PERSON_MAX 600
+#define CITY_MAX 38
 #define WK_SX 12
 #define WK_EX 171
 #define WK_SY 4
@@ -48,12 +49,12 @@ static int scroll=9,timer=7,scrollCalls,timerOpens,timerCloses,frameTicks,totalT
 static GMType messages[4096];static int messageCount,messageIndex;
 static int mutateAt,mutationDone,allowInactive,replaceInWait,replaceInNotify,replacementDone,direct;
 static U32 replacementSeq;
-U32 baye_hd_battle_note_begin(U8 kind,U16 winner,const U8*text);
+U32 baye_hd_battle_note_begin(U8 kind,U16 winner,U8 city,const U8*text);
 void baye_hd_battle_note_retire(void);
 static void replacement(int newWorld){
     replacementDone=1;allowInactive=1;
     if(newWorld){g_hdDetailGeneration++;baye_hd_battle_note_retire();}
-    replacementSeq=baye_hd_battle_note_begin(4,65535,(U8*)"REPLACEMENT");assert(replacementSeq);
+    replacementSeq=baye_hd_battle_note_begin(4,65535,0xff,(U8*)"REPLACEMENT");assert(replacementSeq);
 }
 static void notify(void){
     notifications++;
@@ -143,11 +144,11 @@ int main(int argc,char**argv){
         for(int mode=1;mode<=2;mode++){reset(mode==1?one:many,mode==1?1:4);replaceInNotify=mode;ticks(mode==1?5:20);ShowTacticNote();exactCalls(mode==1?1:4);
             assert(preludes==1&&g_hdBattleNoteActive&&g_hdBattleNoteSeq==replacementSeq);baye_hd_battle_note_end(g_hdDetailGeneration,replacementSeq);assert(!g_hdBattleNoteActive);}
     }else if(scenario==8){
-        reset(NULL,0);direct=1;U8 text[]={0xd6,0xd0,0xce,0xc4,0};g_hdBattleNoteSeq=0xffffffff;U32 token=baye_hd_battle_note_begin(5,65535,text);assert(token==1&&!countCalls);text[0]=0;
+        reset(NULL,0);direct=1;U8 text[]={0xd6,0xd0,0xce,0xc4,0};g_hdBattleNoteSeq=0xffffffff;U32 token=baye_hd_battle_note_begin(5,65535,0xff,text);assert(token==1&&!countCalls);text[0]=0;
         const U8 expected[]={0xd6,0xd0,0xce,0xc4,0};assert(!memcmp(g_hdBattleNoteText,expected,sizeof(expected)));
         baye_hd_battle_note_end(6,token);baye_hd_battle_note_end(7,token+1);assert(g_hdBattleNoteActive);baye_hd_battle_note_end(7,token);assert(!g_hdBattleNoteActive);
-        assert(!baye_hd_battle_note_begin(5,0,(U8*)"bad winner"));assert(!baye_hd_battle_note_begin(5,65535,NULL));assert(!baye_hd_battle_note_begin(5,65535,(U8*)""));assert(!baye_hd_battle_note_begin(6,65535,(U8*)"unknown"));
-        for(U8 kind=1;kind<=5;kind++){int before=countCalls;U32 q=baye_hd_battle_note_begin(kind,kind==1?511:65535,(U8*)"LEGACY");assert(q&&countCalls-before==(kind<=2?1:0));baye_hd_battle_note_end(7,q);}assert(!memcmp(world,beforeWorld,sizeof(world)));
+        assert(!baye_hd_battle_note_begin(5,0,0xff,(U8*)"bad winner"));assert(!baye_hd_battle_note_begin(5,65535,0xff,NULL));assert(!baye_hd_battle_note_begin(5,65535,0xff,(U8*)""));assert(!baye_hd_battle_note_begin(6,65535,0xff,(U8*)"unknown"));
+        for(U8 kind=1;kind<=5;kind++){int before=countCalls;U32 q=baye_hd_battle_note_begin(kind,kind==1?511:65535,0xff,(U8*)"LEGACY");assert(q&&countCalls-before==(kind<=2?1:0));baye_hd_battle_note_end(7,q);}assert(!memcmp(world,beforeWorld,sizeof(world)));
     }else assert(!"unknown scenario");
     puts("actual tactic-prelude fixture passed");return 0;
 }

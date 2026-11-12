@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "4a7a5d720298271690527890f841c282284baea0",
-  "engineSourceSha256": "069d89220365d9bf9a15e0bb6f2fcd8ca2382288f101fd8803416509b01e6fbf",
+  "sourceRevision": "fd9f0a5e7113ed9262d59c3b0f7cf1d18b4fe328",
+  "engineSourceSha256": "77fba2c4b4fe2df1a1adb0beb03ec81722ce44758d0ee8f7dcb2cf79abf71a55",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1794425977,
+  "sourceDateEpoch": 1794492084,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -124,6 +124,7 @@
       "g_hdBattleNoteOutcome",
       "g_hdBattleNoteWinner",
       "g_hdBattleNoteValue",
+      "g_hdBattleNoteCity",
       "g_hdBattleNoteText"
     ],
     "types": {
@@ -139,10 +140,16 @@
     "value": {
       "field": "g_hdBattleNoteValue",
       "type": "U16",
-      "dto": "only active types 6 and 7 add value; types 1 through 5 and inactive DTOs retain their existing shape",
-      "reset": "native Value resets to 0 on legacy type 1 through 5 begin and all retirements"
+      "dto": "only active types 6 and 7 expose value",
+      "reset": "native Value resets to 0 on type 1 through 5 begin and all retirements"
     },
-    "publication": "actual complete native sentence or typed weather/day after original draw; no extra name, city or person-count reads for types 3 through 7",
+    "city": {
+      "field": "g_hdBattleNoteCity",
+      "type": "U8",
+      "absent": 255,
+      "dto": "optional cityIndex for active types 1 through 4 from the actual order destination"
+    },
+    "publication": "actual complete native sentence or typed weather/day after original draw with the known destination carried by the original battle order",
     "weatherTransition": "type 6 observes actual FgtChgWeather value 1 through 5 after all three original picture draws; text is empty; no additional RNG or weather changes",
     "dayTransition": "type 7 observes actual U16 day 0 through 65535 and the canonical gam_itoa numeral passed to the original day draw; text must equal String(value)",
     "input": "passive observer; original attack100/keyflag0, confrontation300/configured keyflag, tactic-prelude5/keyflag0 and separate weather/day fifty-tick/keyflag-false waits remain unchanged",
@@ -694,15 +701,15 @@
   "artifacts": {
     "baye.js": {
       "bytes": 194220,
-      "sha256": "76dd8a26d4021a47ca5032f46001a5f469ee5d4f596a7e4072cc11d751dec29e"
+      "sha256": "672637938626b89b59034b5991071e33ed2a4a19e20feb74945547a31859e4b9"
     },
     "baye.wasm": {
-      "bytes": 4603173,
-      "sha256": "3802f5123418507bc0c87fd4190e9f6e7328303f5f10fa6ce7c8d93413d9350e"
+      "bytes": 4605178,
+      "sha256": "a141445fc7e844fe3eb7f52b748a3308b3a38d511f98966ab82adb9bd76fb7c0"
     },
     "baye.wasm.map": {
       "bytes": 29983,
-      "sha256": "bc1fa6fb87c7b83f89e45e4fd35f2b5af57f858269f9db7f3ee662f975e06ff8"
+      "sha256": "408653cc2e714ce1e06e24e4680147256aed0daa5872be77f9abeca633c295a7"
     }
   }
 }

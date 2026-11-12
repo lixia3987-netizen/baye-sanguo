@@ -630,38 +630,38 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  2672072: () => { if (window.bayeStart) bayeStart(); },
- 2672111: () => { if (window.bayeExit) bayeExit(); },
- 2672148: ($0) => { bayeFlushLcdBuffer($0); },
- 2672176: ($0) => { if (window.lcdSetDotSize) { window.lcdSetDotSize($0) } },
- 2672235: ($0) => { try { return window.bayeSaveBatchBegin ? (window.bayeSaveBatchBegin($0) ? 1 : 0) : 0; } catch (error) { return 0; } },
- 2672355: () => { try { return window.bayeSaveBatchCommit ? (window.bayeSaveBatchCommit() ? 1 : 0) : 0; } catch (error) { return 0; } },
- 2672475: () => { if (window.bayeSaveBatchAbort) window.bayeSaveBatchAbort(); },
- 2672539: ($0, $1, $2, $3) => { try { if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') { window.dispatchEvent(new CustomEvent('baye-hd-successor-committed', { detail: {generation: $0, oldKing: $1, newKing: $2, playerKing: $3} })); } } catch (e) {} },
- 2672828: ($0, $1, $2, $3, $4, $5) => { try { if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') { window.dispatchEvent(new CustomEvent('baye-hd-battle-settled', { detail: {generation: $0, detailGeneration: $1, city: $2, mode: $3, over: $4, playerKing: $5} })); } } catch (e) {} },
- 2673138: () => { try { if (window.BayeHdDialog && typeof BayeHdDialog.onEngineReport === 'function') { BayeHdDialog.onEngineReport(); } } catch (e) {} },
- 2673276: () => { try { if (window.BayeHdDialog) BayeHdDialog.onEngineReport(); } catch (e) {} },
- 2673357: () => { try { if (window.BayeHdMobileBattle && typeof BayeHdMobileBattle.onEngineEnemyMove === 'function') { BayeHdMobileBattle.onEngineEnemyMove(); } } catch (e) {} },
- 2673519: () => { try { if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') BayeHdSpe.onEngineSpe(); if (window.BayeHdMobileBattle && typeof BayeHdMobileBattle.onEngineMapNumber === 'function') { BayeHdMobileBattle.onEngineMapNumber(); } else if (window.BayeHdBattle && typeof BayeHdBattle.onEngineFight === 'function') { BayeHdBattle.onEngineFight(); } } catch (e) {} },
- 2673891: () => { try { if (window.BayeHdBattle && typeof BayeHdBattle.onEngineFight === 'function') { BayeHdBattle.onEngineFight(); } } catch (e) {} },
- 2674027: () => { try { if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') { BayeHdSpe.onEngineSpe(); } if (window.BayeHdDialog && typeof BayeHdDialog.onEngineMovie === 'function') { BayeHdDialog.onEngineMovie(); } } catch (e) {} },
- 2674261: () => { try { if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') { BayeHdSpe.onEngineSpe(); } } catch (e) {} },
- 2674384: () => { try { if (window.BayeHdCityMenu && typeof BayeHdCityMenu.onMapPick === 'function') { BayeHdCityMenu.onMapPick(); } } catch (e) {} },
- 2674518: () => { try { if (window.BayeHdCityMenu && typeof BayeHdCityMenu.onMapPick === 'function') { BayeHdCityMenu.onMapPick(); } } catch (e) {} },
- 2674652: () => { try { if (window.BayeHdBattle && typeof BayeHdBattle.onRetreatBlocked === 'function') { BayeHdBattle.onRetreatBlocked(); } } catch (e) {} try { console.log('[hd-battle] retreat-blocked'); } catch (e2) {} },
- 2674860: () => { try { window.dispatchEvent(new CustomEvent('baye-hd-city-info')); } catch (e) {} },
- 2674945: () => { try { if (typeof window !== 'undefined' && window.BayeHdBattleNote && typeof window.BayeHdBattleNote.onEngineNote === 'function') window.BayeHdBattleNote.onEngineNote(); } catch (e) {} try { if (typeof window !== 'undefined' && window.BayeHdBattleTransition && typeof window.BayeHdBattleTransition.onEngineTransition === 'function') window.BayeHdBattleTransition.onEngineTransition(); } catch (e) {} },
- 2675349: () => { try { if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') { BayeHdSpe.onEngineSpe(); } if (window.BayeHdSystemUi && typeof BayeHdSystemUi.onEngineMaker === 'function') { BayeHdSystemUi.onEngineMaker(); } } catch (e) {} },
- 2675589: () => { try { if (window.BayeHdDialog && typeof BayeHdDialog.onEngineHelp === 'function') { BayeHdDialog.onEngineHelp(); } } catch (e) {} },
- 2675723: ($0) => { var key = UTF8ToString($0); try { var filename = "baye/" + key; var value = window.bayeLoadFileContent ? window.bayeLoadFileContent(filename) : window.localStorage.getItem(filename); if (typeof value === "string" && value) { var buffer = Module._bayeAlloc(value.length+1); if (!buffer) return 0; Module.stringToUTF8(value, buffer, value.length+1); return buffer; } } catch (error) { return 0; } return 0; },
- 2676132: ($0, $1) => { var key = UTF8ToString($0); var value = UTF8ToString($1); var filename = "baye/" + key; try { if (window.bayeSaveFileContent) return window.bayeSaveFileContent(filename, value) === false ? 0 : 1; window.localStorage.setItem(filename, value); return 1; } catch (error) { return 0; } },
- 2676418: () => { if (window.baye == undefined) { window.baye = {}; } if (window.baye.hooks == undefined) { window.baye.hooks = {}; } try { window.baye.data = baye_bridge_value(_bayeGetGlobal()); console.log('[hd-bridge] baye.data bound fields=' + (window.baye.data && window.baye.data._baye_properties ? window.baye.data._baye_properties.length : 0)); } catch (e) { console.error('[hd-bridge] bind baye.data failed', e); } },
- 2676828: ($0) => { if (window.baye.preScriptInit) { window.baye.preScriptInit(); } var script = UTF8ToString($0); eval(script); },
- 2676941: ($0) => { var name = UTF8ToString($0); if (window.baye && window.baye.hooks && window.baye.hooks[name]) { return 1; } else { return 0; } },
- 2677072: ($0) => { var scr = UTF8ToString($0); eval(scr); },
- 2677115: ($0, $1, $2) => { var name = UTF8ToString($0); var rv = 0; if ($2) HEAPU8[$2] = 0; if (window.baye == undefined || window.baye.hooks == undefined || window.baye.hooks[name] == undefined) { rv = -1; } else { if ($2) HEAPU8[$2] = 1; var cContext = $1; if (cContext != 0) { var jsContext = baye_bridge_value(cContext); rv = baye.callHook(name, jsContext); } else { rv = baye.callHook(name, undefined); } } return rv; },
- 2677515: ($0) => { return baye.callCallback($0); },
- 2677549: () => { var now = new Date(); return now.getTime(); }
+  2672104: () => { if (window.bayeStart) bayeStart(); },
+ 2672143: () => { if (window.bayeExit) bayeExit(); },
+ 2672180: ($0) => { bayeFlushLcdBuffer($0); },
+ 2672208: ($0) => { if (window.lcdSetDotSize) { window.lcdSetDotSize($0) } },
+ 2672267: ($0) => { try { return window.bayeSaveBatchBegin ? (window.bayeSaveBatchBegin($0) ? 1 : 0) : 0; } catch (error) { return 0; } },
+ 2672387: () => { try { return window.bayeSaveBatchCommit ? (window.bayeSaveBatchCommit() ? 1 : 0) : 0; } catch (error) { return 0; } },
+ 2672507: () => { if (window.bayeSaveBatchAbort) window.bayeSaveBatchAbort(); },
+ 2672571: ($0, $1, $2, $3) => { try { if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') { window.dispatchEvent(new CustomEvent('baye-hd-successor-committed', { detail: {generation: $0, oldKing: $1, newKing: $2, playerKing: $3} })); } } catch (e) {} },
+ 2672860: ($0, $1, $2, $3, $4, $5) => { try { if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') { window.dispatchEvent(new CustomEvent('baye-hd-battle-settled', { detail: {generation: $0, detailGeneration: $1, city: $2, mode: $3, over: $4, playerKing: $5} })); } } catch (e) {} },
+ 2673170: () => { try { if (window.BayeHdDialog && typeof BayeHdDialog.onEngineReport === 'function') { BayeHdDialog.onEngineReport(); } } catch (e) {} },
+ 2673308: () => { try { if (window.BayeHdDialog) BayeHdDialog.onEngineReport(); } catch (e) {} },
+ 2673389: () => { try { if (window.BayeHdMobileBattle && typeof BayeHdMobileBattle.onEngineEnemyMove === 'function') { BayeHdMobileBattle.onEngineEnemyMove(); } } catch (e) {} },
+ 2673551: () => { try { if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') BayeHdSpe.onEngineSpe(); if (window.BayeHdMobileBattle && typeof BayeHdMobileBattle.onEngineMapNumber === 'function') { BayeHdMobileBattle.onEngineMapNumber(); } else if (window.BayeHdBattle && typeof BayeHdBattle.onEngineFight === 'function') { BayeHdBattle.onEngineFight(); } } catch (e) {} },
+ 2673923: () => { try { if (window.BayeHdBattle && typeof BayeHdBattle.onEngineFight === 'function') { BayeHdBattle.onEngineFight(); } } catch (e) {} },
+ 2674059: () => { try { if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') { BayeHdSpe.onEngineSpe(); } if (window.BayeHdDialog && typeof BayeHdDialog.onEngineMovie === 'function') { BayeHdDialog.onEngineMovie(); } } catch (e) {} },
+ 2674293: () => { try { if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') { BayeHdSpe.onEngineSpe(); } } catch (e) {} },
+ 2674416: () => { try { if (window.BayeHdCityMenu && typeof BayeHdCityMenu.onMapPick === 'function') { BayeHdCityMenu.onMapPick(); } } catch (e) {} },
+ 2674550: () => { try { if (window.BayeHdCityMenu && typeof BayeHdCityMenu.onMapPick === 'function') { BayeHdCityMenu.onMapPick(); } } catch (e) {} },
+ 2674684: () => { try { if (window.BayeHdBattle && typeof BayeHdBattle.onRetreatBlocked === 'function') { BayeHdBattle.onRetreatBlocked(); } } catch (e) {} try { console.log('[hd-battle] retreat-blocked'); } catch (e2) {} },
+ 2674892: () => { try { window.dispatchEvent(new CustomEvent('baye-hd-city-info')); } catch (e) {} },
+ 2674977: () => { try { if (typeof window !== 'undefined' && window.BayeHdBattleNote && typeof window.BayeHdBattleNote.onEngineNote === 'function') window.BayeHdBattleNote.onEngineNote(); } catch (e) {} try { if (typeof window !== 'undefined' && window.BayeHdBattleTransition && typeof window.BayeHdBattleTransition.onEngineTransition === 'function') window.BayeHdBattleTransition.onEngineTransition(); } catch (e) {} },
+ 2675381: () => { try { if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') { BayeHdSpe.onEngineSpe(); } if (window.BayeHdSystemUi && typeof BayeHdSystemUi.onEngineMaker === 'function') { BayeHdSystemUi.onEngineMaker(); } } catch (e) {} },
+ 2675621: () => { try { if (window.BayeHdDialog && typeof BayeHdDialog.onEngineHelp === 'function') { BayeHdDialog.onEngineHelp(); } } catch (e) {} },
+ 2675755: ($0) => { var key = UTF8ToString($0); try { var filename = "baye/" + key; var value = window.bayeLoadFileContent ? window.bayeLoadFileContent(filename) : window.localStorage.getItem(filename); if (typeof value === "string" && value) { var buffer = Module._bayeAlloc(value.length+1); if (!buffer) return 0; Module.stringToUTF8(value, buffer, value.length+1); return buffer; } } catch (error) { return 0; } return 0; },
+ 2676164: ($0, $1) => { var key = UTF8ToString($0); var value = UTF8ToString($1); var filename = "baye/" + key; try { if (window.bayeSaveFileContent) return window.bayeSaveFileContent(filename, value) === false ? 0 : 1; window.localStorage.setItem(filename, value); return 1; } catch (error) { return 0; } },
+ 2676450: () => { if (window.baye == undefined) { window.baye = {}; } if (window.baye.hooks == undefined) { window.baye.hooks = {}; } try { window.baye.data = baye_bridge_value(_bayeGetGlobal()); console.log('[hd-bridge] baye.data bound fields=' + (window.baye.data && window.baye.data._baye_properties ? window.baye.data._baye_properties.length : 0)); } catch (e) { console.error('[hd-bridge] bind baye.data failed', e); } },
+ 2676860: ($0) => { if (window.baye.preScriptInit) { window.baye.preScriptInit(); } var script = UTF8ToString($0); eval(script); },
+ 2676973: ($0) => { var name = UTF8ToString($0); if (window.baye && window.baye.hooks && window.baye.hooks[name]) { return 1; } else { return 0; } },
+ 2677104: ($0) => { var scr = UTF8ToString($0); eval(scr); },
+ 2677147: ($0, $1, $2) => { var name = UTF8ToString($0); var rv = 0; if ($2) HEAPU8[$2] = 0; if (window.baye == undefined || window.baye.hooks == undefined || window.baye.hooks[name] == undefined) { rv = -1; } else { if ($2) HEAPU8[$2] = 1; var cContext = $1; if (cContext != 0) { var jsContext = baye_bridge_value(cContext); rv = baye.callHook(name, jsContext); } else { rv = baye.callHook(name, undefined); } } return rv; },
+ 2677547: ($0) => { return baye.callCallback($0); },
+ 2677581: () => { var now = new Date(); return now.getTime(); }
 };
 function gam_sem_create() { if (!Module.sems) { Module.sems = [] } for (var i = 0;; i++) { if (Module.sems[i] == undefined) { Module.sems[i] = { cnt: 0, }; return i; } } }
 function gam_sem_delete(semid) { Module.sems[semid] = undefined; }
@@ -4809,8 +4809,8 @@ var _asyncify_start_unwind = (a0) => (_asyncify_start_unwind = wasmExports['asyn
 var _asyncify_stop_unwind = () => (_asyncify_stop_unwind = wasmExports['asyncify_stop_unwind'])();
 var _asyncify_start_rewind = (a0) => (_asyncify_start_rewind = wasmExports['asyncify_start_rewind'])(a0);
 var _asyncify_stop_rewind = () => (_asyncify_stop_rewind = wasmExports['asyncify_stop_rewind'])();
-var ___start_em_js = Module['___start_em_js'] = 2677597;
-var ___stop_em_js = Module['___stop_em_js'] = 2678163;
+var ___start_em_js = Module['___start_em_js'] = 2677629;
+var ___stop_em_js = Module['___stop_em_js'] = 2678195;
 
 // include: postamble.js
 // === Auto-generated postamble setup entry stuff ===
