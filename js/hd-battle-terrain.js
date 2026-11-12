@@ -11,11 +11,23 @@
     var COLORS = ['#354c3e', '#515443', '#53564e', '#29443b', '#5b5346', '#53525a', '#524d3c', '#2c505c'];
     var OVERVIEW_COLORS = [[96, 123, 85], [133, 130, 89], [106, 99, 103], [49, 77, 65],
         [162, 120, 82], [160, 166, 170], [138, 121, 146], [51, 107, 124], [25, 34, 43]];
-    // Crops include a small margin around the documented transparent cutouts.
+    var ILLUSTRATION_FILES = {
+        hill: { path: 'assets/hd-overworld/terrain/mountain-cluster-v1.png', width: 1254, height: 1254 },
+        forest: { path: 'assets/hd-overworld/terrain/forest-cluster-v1.png', width: 1254, height: 1254 },
+        city: { path: 'assets/hd-overworld/cities/fortified-city-v1.png', width: 1254, height: 1254 },
+        atlas: { path: 'assets/hd-battle-terrain/terrain-atlas-v1.png', width: 1536, height: 1024 }
+    };
+    // Inset the atlas cells by two pixels to keep adjacent textures out of the sample.
+    // Cutout crops retain a small margin around the original transparent artwork.
     var ILLUSTRATIONS = {
-        hill: { file: 'terrain/mountain-cluster-v1.png', crop: [24,390,1205,476], opacity: 0.72 },
-        forest: { file: 'terrain/forest-cluster-v1.png', crop: [33,257,1199,728], opacity: 0.75 },
-        city: { file: 'cities/fortified-city-v1.png', crop: [123,376,1016,618], opacity: 0.86 }
+        grass: { source: 'atlas', crop: [2,2,508,508], opacity: 0.72 },
+        plain: { source: 'atlas', crop: [514,2,508,508], opacity: 0.67 },
+        hill: { source: 'hill', crop: [24,390,1205,476], ground: 'plain', opacity: 0.72 },
+        forest: { source: 'forest', crop: [33,257,1199,728], ground: 'grass', opacity: 0.75 },
+        village: { source: 'atlas', crop: [2,514,508,508], opacity: 0.86 },
+        city: { source: 'city', crop: [123,376,1016,618], ground: 'plain', opacity: 0.86 },
+        tent: { source: 'atlas', crop: [514,514,508,508], opacity: 0.86 },
+        river: { source: 'atlas', crop: [1026,2,508,508], alternate: [1026,514,508,508], opacity: 0.85 }
     };
     var illustrationImages = null, illustrationVersion = 0;
 
@@ -43,15 +55,16 @@
             snapshot.libPath !== SUPPORTED_LIB || typeof global.Image !== 'function' || global.document && global.document.hidden) { return 0; }
         if (!illustrationImages) {
             illustrationImages = {};
-            Object.keys(ILLUSTRATIONS).forEach(function (kind) {
+            Object.keys(ILLUSTRATION_FILES).forEach(function (source) {
+                var file = ILLUSTRATION_FILES[source];
                 var image = new global.Image();
                 image.onload = function () {
-                    if (image.naturalWidth === 1254 && image.naturalHeight === 1254) {
-                        illustrationImages[kind] = image;
+                    if (image.naturalWidth === file.width && image.naturalHeight === file.height) {
+                        illustrationImages[source] = image;
                         illustrationVersion += 1;
                     }
                 };
-                image.src = 'assets/hd-overworld/' + ILLUSTRATIONS[kind].file;
+                image.src = file.path;
             });
         }
         return illustrationVersion;
@@ -148,15 +161,20 @@
             [x + w * 0.63, y + h]], '#544834');
         path(ctx, [[x - w * 0.1, y + h], [x + w * 0.5, y], [x + w * 1.12, y + h]], null, '#796f51', 1);
     }
-    function drawIllustration(ctx, x, y, w, h, kind, image, variant) {
-        var art = ILLUSTRATIONS[kind], crop = art.crop;
-        var scale = Math.min(w * (kind === 'city' ? 0.96 : 0.88 + variant * 0.02) / crop[2], h * 0.8 / crop[3]);
-        var width = crop[2] * scale, height = crop[3] * scale;
+    function drawIllustration(ctx, x, y, w, h, art, image, variant, opacity) {
+        var crop = art.alternate && variant % 2 ? art.alternate : art.crop;
+        if (art.source !== 'atlas') {
+            var scale = Math.min(w * (art.source === 'city' ? 0.96 : 0.88 + variant * 0.02) / crop[2], h * 0.8 / crop[3]);
+            var width = crop[2] * scale, height = crop[3] * scale;
+            x += (w - width) / 2;
+            y += h * 0.55 - height / 2;
+            w = width; h = height;
+        }
         ctx.save();
-        ctx.globalAlpha = art.opacity;
+        ctx.globalAlpha = opacity == null ? art.opacity : opacity;
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
-        ctx.drawImage(image, crop[0], crop[1], crop[2], crop[3], x + (w - width) / 2, y + h * 0.55 - height / 2, width, height);
+        ctx.drawImage(image, crop[0], crop[1], crop[2], crop[3], x, y, w, h);
         ctx.restore();
     }
     function drawCell(ctx, x, y, w, h, cell, illustrations) {
@@ -165,8 +183,12 @@
         ctx.fillStyle = index == null ? ((cell.x + cell.y) % 2 ? '#1c2630' : '#19222b') : COLORS[index];
         ctx.fillRect(x, y, w + 0.5, h + 0.5);
         if (index == null) { return; }
-        if (illustrations && illustrations[kind]) {
-            drawIllustration(ctx, x, y, w, h, kind, illustrations[kind], variant);
+        var art = ILLUSTRATIONS[kind], image = illustrations && art && illustrations[art.source];
+        if (image) {
+            if (art.ground && illustrations.atlas) {
+                drawIllustration(ctx, x, y, w, h, ILLUSTRATIONS[art.ground], illustrations.atlas, variant, 0.24);
+            }
+            drawIllustration(ctx, x, y, w, h, art, image, variant);
             return;
         }
         ctx.save(); ctx.translate(x, y); ctx.globalAlpha = 0.76;

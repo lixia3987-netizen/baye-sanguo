@@ -356,10 +356,11 @@ test('desktop art refreshes the cached native cells when it loads and falls back
     assert.equal(images.length, 0);
 
     paint(s); assert.equal(spriteCalls().length, 0);
-    assert.equal(images.length, 3);
+    assert.equal(images.length, 4);
     const mountain = images.find(image => image.path.endsWith('/mountain-cluster-v1.png'));
     const forest = images.find(image => image.path.endsWith('/forest-cluster-v1.png'));
     const city = images.find(image => image.path.endsWith('/fortified-city-v1.png'));
+    const atlas = images.find(image => image.path.endsWith('/terrain-atlas-v1.png'));
     Object.assign(mountain, {naturalWidth: 1254, naturalHeight: 1254}); mountain.onload();
     paint(s);
     const [call] = spriteCalls();
@@ -375,7 +376,22 @@ test('desktop art refreshes the cached native cells when it loads and falls back
     paint(s);
     assert.deepEqual(spriteCalls().slice(1).map(call => call.args[0]), [mountain, forest]);
     assert.ok(h.offscreenCalls.slice(baked).some(call => call.operation === 'strokeRect'), 'missing city illustration uses the city motif');
-    assert.equal(images.length, 3, 'polling never retries artwork');
+    assert.equal(images.length, 4, 'polling never retries artwork');
+
+    const ground = snapshot({width: 6, height: 1, stride: 6, tiles: [2, 1, 4, 41, 16, 16]});
+    const row = { ...view, cols: 6 };
+    const beforeAtlas = spriteCalls().length;
+    h.painter.paint(h.ctx, { ...row, illustrationVersion: art(ground) }, ground);
+    assert.equal(spriteCalls().length, beforeAtlas, 'late atlas retains the original motifs while it loads');
+    Object.assign(atlas, {naturalWidth: 1536, naturalHeight: 1024}); atlas.onload();
+    h.painter.paint(h.ctx, { ...row, illustrationVersion: art(ground) }, ground);
+    const groundCalls = spriteCalls().slice(beforeAtlas);
+    assert.deepEqual(groundCalls.map(call => call.args.slice(1,5)),
+        [[2,2,508,508], [514,2,508,508], [2,514,508,508], [514,514,508,508], [1026,2,508,508], [1026,514,508,508]]);
+    groundCalls.forEach((call,index) => {
+        assert.equal(call.args[0], atlas, 'all five categories use the same decoded atlas');
+        assert.deepEqual(call.args.slice(5), [index*row.cw,0,row.cw,row.ch]);
+    });
 
     const sprites = spriteCalls().length;
     h.painter.paint(h.ctx, view, s);
