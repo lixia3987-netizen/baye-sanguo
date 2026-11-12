@@ -423,6 +423,15 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
     overscroll-behavior: contain;
     touch-action: pan-y;
 }
+.hd-mobile-page .hd-city-menu-qty .hd-city-menu-qty-actions {
+    flex: 0 0 auto;
+    grid-template-columns: repeat(2, minmax(44px, 1fr));
+    margin-top: 6px;
+}
+.hd-mobile-page .hd-city-menu-transfer-report {
+    margin: 0;
+    white-space: pre-line;
+}
 .hd-mobile-page .hd-city-menu-qty button,
 .hd-mobile-page .hd-dialog-qty button {
     box-sizing: border-box;

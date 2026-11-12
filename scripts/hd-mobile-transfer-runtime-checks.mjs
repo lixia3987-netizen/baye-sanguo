@@ -60,7 +60,14 @@ export async function runMobileTransferChecks(c) {
   };
   const summary=async p=>{
     const s=await ready(),t=await evaluate('BayeHdCityMenu.getTransferPresentation()');assert.ok(t&&t.phase===p&&t.origin===origin&&t.person===s.state.transfer.person);
-    const geometry=await checkMobileQuantityPresentation(evaluate,label+' phase '+p);entry.summaries.push({phase:p,presentation:t,geometry});return s;
+    const geometry=await checkMobileQuantityPresentation(evaluate,label+' phase '+p);
+    const text=await evaluate(`document.querySelector('#hd-city-menu .hd-city-menu-qty-summary')?.textContent`);
+    const title={2:'输送粮草',3:'输送金钱',4:'输送后备兵'}[p];
+    const cargo=[p>=3?'粮草 '+s.state.transfer.food:'',p>=4?'金钱 '+s.state.transfer.money:''].filter(Boolean).join(' · ');
+    assert.ok(text?.startsWith(title+' '+s.state.qty.value),'HD summary identifies the current native cargo');
+    assert.equal(text.includes('已选 '),!!cargo);
+    if(cargo)assert.ok(text.includes('已选 '+cargo),'HD summary displays the previously confirmed cargo');
+    entry.summaries.push({phase:p,presentation:t,geometry,text});return s;
   };
   const editTwo=async p=>{
     const initial=await quantity(p);assert.ok(initial.state.qty.max>=2);await summary(p);
@@ -87,6 +94,14 @@ export async function runMobileTransferChecks(c) {
     await phase(p,command);await until('current native transfer report and HD continue',`(() => {const r=baye.hd.report();return r.active===1&&r.kind===2&&r.seq>0&&r.inputSeq>0;})()`);
     const during=await ready();assert.equal(during.state.transfer.phase,p);assert.equal(during.state.report.person,p===5&&command===14?during.world.king:during.state.transfer.person);
     if(before)entry.pendingReport={before,during,oracle:verifyMobileTransferReport({before:before.world,during:during.world,cityIndex:origin,targetCityIndex:target,personId:during.state.transfer.person,operation:command===13?'transport':'move',...(command===13?{cargo:{food:2,money:2,arms:2}}:{}),sourceCursor:command===13?before.state.cursor:entry.moveSourceCursor,targetCursor:during.state.cursor,libBytes})};
+    if(p===8){
+      const t=during.state.transfer,text=await until('HD departure details',`document.querySelector('#hd-city-menu .hd-city-menu-transfer-report')?.textContent`);
+      const person=await evaluate(`baye.getPersonName(${t.person})`);
+      const expected=[during.state.report.text,`${testCity.name} → ${destination.name} · ${person}`];
+      if(command===13)expected.push(`粮草 ${t.food} · 金钱 ${t.money} · 后备兵 ${t.arms}`);
+      assert.equal(text,expected.join('\n'));
+      await checkpoint(label+(command===13?'-transport-departure':'-move-departure'));
+    }
     const control=await click(['#hd-city-menu [data-hd-transfer-continue]','#hd-dialog [data-hd-dlg-ok]']);
     await until('matching report no longer active',`(() => {const r=baye.hd.report();return r.active!==1||r.seq!==${during.state.report.seq}||r.inputSeq!==${during.state.report.inputSeq};})()`);
     const after=await ready();assert.deepEqual(await keys(during),[39]);entry.actions.push({kind:'report-continue',command,phase:p,during,after,...control});return {during,after};

@@ -1322,13 +1322,14 @@
             return;
         }
         var quantity = state.kind === 'qty' ? readStandaloneQty() : null;
+        var transfer = transferQuantityPresentation(quantity);
         var distribution = quantityPresentation(quantity);
         var trade = tradeQuantityPresentation(quantity);
         var root = el('hd-dialog');
         if (root) { root.classList.toggle('has-mobile-quantity', !!mobileHost && state.kind === 'qty'); }
         if (root) { root.setAttribute('data-hd-mobile-campaign', mobileHost &&
             (state.kind === 'successor' || state.kind === 'defenders') ? state.kind : ''); }
-        setText(el('hd-dialog-title'), distribution ? '分配兵力' : trade ?
+        setText(el('hd-dialog-title'), transfer ? transfer.title : distribution ? '分配兵力' : trade ?
             (trade.direction === 'buy' ? '买入粮草' : '卖出粮草') : state.title);
         var body = el('hd-dialog-body');
         if (body) {
@@ -1336,8 +1337,13 @@
                 body._hdCampaignView = null;
                 body._hdCampaignChoices = null;
             }
-            body.setAttribute('data-hd-quantity-purpose', distribution ? 'distribution' : trade ? 'trade' : '');
-            if (distribution) {
+            body.setAttribute('data-hd-quantity-purpose', transfer ? 'transfer' : distribution ? 'distribution' : trade ? 'trade' : '');
+            if (transfer) {
+                var cargo = [transfer.contextText, transfer.cargoText ? '已选 ' + transfer.cargoText : '',
+                    '当前 ' + quantity.value + '（' + quantity.min + '–' + quantity.max + '）。'];
+                if (quantity.value === 0xffff) { cargo.push('65,535 是原版的返回值，请调低数量后确认。'); }
+                body.textContent = cargo.filter(Boolean).join('\n');
+            } else if (distribution) {
                 body.textContent = distribution.personName + ' · 现有兵力 ' + distribution.existingArms +
                     ' · 城内预备兵 ' + distribution.reserveArms + '\n目标总兵力 ' + quantity.value +
                     '（' + quantity.min + '–' + quantity.max + '）。\n调低会退回城内预备兵；这是分配后的总兵力。';
@@ -1433,7 +1439,9 @@
                 }
                 renderCampaignCursor(choices, state.successorOwner.index, state.successorRequest);
             } else if (state.body) {
-                body.textContent = state.body;
+                var departure = state.kind === 'report' && state.reportOwner && cityTransferPresentation();
+                body.textContent = departure && sameReport(state.reportOwner, departure.reportOwner)
+                    ? [state.body, departure.contextText, departure.cargoText].filter(Boolean).join('\n') : state.body;
             } else if (state.kind === 'qty') {
                 var qv = '';
                 try {
@@ -1593,6 +1601,18 @@
             second.value === q.value && second.min === q.min && second.max === q.max ? second : null;
     }
 
+    function cityTransferPresentation() {
+        if (mobileHost) { return null; }
+        var city = global.BayeHdCityMenu;
+        return city && typeof city.getTransferPresentation === 'function' ? city.getTransferPresentation() : null;
+    }
+
+    function transferQuantityPresentation(q) {
+        var transfer = q && cityTransferPresentation(), current = transfer && transfer.quantity;
+        return current && current.session === q.session && current.inputSeq === q.inputSeq &&
+            current.min === q.min && current.max === q.max && current.value === q.value ? transfer : null;
+    }
+
     function cityMenuLeftoverQty() {
         return !!(global.BayeHdCityMenu &&
             typeof BayeHdCityMenu.leftoverQty === 'function' &&
@@ -1716,7 +1736,8 @@
                     typeof BayeHdCityMenu.liveGetFood === 'function' &&
                     BayeHdCityMenu.liveGetFood());
                 if (qtyInfo && (qtyInfo.active || foodLive) &&
-                    (cityMenuQty() || foodLive) && Number(qtyInfo.max) >= 1) {
+                    (cityMenuQty() || foodLive) &&
+                    (Number(qtyInfo.max) >= 1 || qtyInfo.max === 0 && transferQuantityPresentation(qtyInfo))) {
                     openDialog({
                         kind: 'qty',
                         title: '数量',

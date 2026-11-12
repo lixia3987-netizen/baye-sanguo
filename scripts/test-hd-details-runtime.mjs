@@ -444,7 +444,17 @@ async function transferSmoke(cdp, cities) {
         return t.active === ${step === 9 ? 0 : 1} && t.command === ${command} && t.phase === ${step} && t;
     })()`);
     const reportOk = async (command, step) => {
-        await phase(command, step);
+        const native = await phase(command, step);
+        if (step === 8) {
+            const actor = await evaluate(cdp, `baye.getPersonName(${native.person})`);
+            const lines = [`${origin.name} → ${target.name} · ${actor}`];
+            if (command === 13) { lines.push(`粮草 ${native.food} · 金钱 ${native.money} · 后备兵 ${native.arms}`); }
+            await waitFor(cdp, 'HD original departure with route and cargo', `(() => {
+                const d = BayeHdDialog.debugSnapshot(), b = document.getElementById('hd-dialog-body');
+                return d.open && d.kind === 'report' && !d.showLcd && ${JSON.stringify(lines)}.every(line => b.textContent.includes(line));
+            })()`);
+            await checkpoint(cdp, command === 13 ? 'transport-departure-cargo' : 'move-departure-route');
+        }
         await click(cdp, '#hd-dialog [data-hd-dlg-ok]');
     };
     const targetReady = async command => {
@@ -545,13 +555,22 @@ async function transferSmoke(cdp, cities) {
     await reopenInterior(cdp, 'desktop transport');
     await chooseCityItem(cdp, '输送', 'data-hd-sub', 2);
     const transporter = await chooseActor(13);
-    for (const [step, amount] of [[2, 2], [3, 2], [4, 0]]) {
+    for (const [step, amount, title, cargo] of [
+        [2, 2, '输送粮草', ''], [3, 2, '输送金钱', '已选 粮草 2'], [4, 0, '输送后备兵', '已选 粮草 2 · 金钱 2']
+    ]) {
         await phase(13, step);
         const quantity = await waitFor(cdp, 'actual cargo amount', 'baye.hd.qty().active && baye.hd.qty().ready && baye.hd.qty()');
         assert.ok(quantity.max >= amount);
         if (quantity.value > 0) { await key(cdp, 'h'); }
         for (let n = 0; n < amount; n++) { await click(cdp, increaseQty); }
         await waitFor(cdp, 'actual requested cargo amount', `baye.hd.qty().ready && baye.hd.qty().value === ${amount}`);
+        await waitFor(cdp, 'HD original cargo step ' + title, `(() => {
+            const b = document.getElementById('hd-dialog-body'), d = BayeHdDialog.debugSnapshot();
+            return d.open && d.kind === 'qty' && !d.showLcd && b.dataset.hdQuantityPurpose === 'transfer' &&
+                document.getElementById('hd-dialog-title').textContent === ${JSON.stringify(title)} &&
+                b.textContent.includes(${JSON.stringify(cargo)}) && b.textContent.includes('当前 ' + ${amount} + '（');
+        })()`);
+        await checkpoint(cdp, 'transport-quantity-' + step);
         await click(cdp, confirmQty);
     }
     await reportOk(13, 5);

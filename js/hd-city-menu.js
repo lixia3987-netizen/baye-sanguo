@@ -1087,6 +1087,12 @@
         var map = global.BayeHdOverworld;
         return !!(map && typeof map.isHdMapAvailable === 'function' && map.isHdMapAvailable());
     }
+    function pcTransferTicket(reason) {
+        if (!transferFlow || !pcTransferPhase()) { return null; }
+        var first = transferTicketFrom(transferSnapshot(), reason);
+        var second = first && transferTicketFrom(transferSnapshot(), reason);
+        return first && sameMobileMarchTicket(first, second) ? Object.freeze(second) : null;
+    }
     function getTransferTargetTicket() {
         if (mobileHost) {
             var mobileTicket = mobileInputTicket('transfer-target');
@@ -1094,24 +1100,46 @@
         }
         if (pcTransferPhase() !== 6 || state.nativeMenuRequest || state.queue.length || state.sending ||
             !pcTransferMapReady()) { return null; }
-        var first = transferTicketFrom(transferSnapshot(), 'transfer-target');
-        var second = first && transferTicketFrom(transferSnapshot(), 'transfer-target');
-        return first && sameMobileMarchTicket(first, second) && pcTransferMapReady() ? Object.freeze(second) : null;
+        var ticket = pcTransferTicket('transfer-target');
+        return ticket && pcTransferMapReady() ? ticket : null;
     }
     function getTransferDialogTicket() {
-        var ticket = mobileHost ? mobileInputTicket() : null;
+        var ticket = mobileHost ? mobileInputTicket() : pcTransferTicket();
         return ticket && ['transfer-qty', 'transfer-report'].indexOf(ticket.ownerType) >= 0 ? ticket : null;
     }
     function getTransferPresentation() {
-        var read = mobileHost ? mobileInputTicket : getTransferTargetTicket;
+        if (!transferFlow) { return null; }
+        var read = mobileHost ? mobileInputTicket : pcTransferPhase() === 6 ? getTransferTargetTicket : pcTransferTicket;
         var first = read(), value = first && transferSnapshot();
-        if (!first || !/^transfer-/.test(first.ownerType) || !transferBound(value)) { return null; }
+        if (!first || !/^transfer-/.test(first.ownerType) ||
+            !sameMobileMarchTicket(first, transferTicketFrom(value))) { return null; }
         var t = value.transfer, labels = {1:'选择将领',2:'输送粮草',3:'输送金钱',4:'输送后备兵',5:'选择目标城',
             6:'选择目标城',7:'提示',8:'出发确认'}, result = {command:t.command,session:t.session,inputSeq:t.inputSeq,
                 phase:t.phase,origin:t.origin,target:t.target,person:t.person,food:t.food,money:t.money,arms:t.arms,
                 distance:t.distance,commitSeq:t.commitSeq,commitResult:t.commitResult,title:labels[t.phase],
                 pendingTarget:transferFlow.pendingTarget,confirmingTarget:transferFlow.busy,status:transferFlow.status,
                 reportText:value.report && value.report.text || ''};
+        var quantity = first.ownerType === 'transfer-qty';
+        var departure = first.ownerType === 'transfer-report' && t.phase === 8 && value.report.kind === 2 && t.target < 38;
+        if (quantity) {
+            var q = value.qty;
+            result.quantity = Object.freeze({session:q.session, inputSeq:q.inputSeq, value:q.value, min:q.min, max:q.max});
+        }
+        if (departure) { result.reportOwner = Object.freeze({seq:first.reportSeq, inputSeq:first.reportInputSeq}); }
+        if (quantity || departure) {
+            var originName = cityName(t.origin), targetName = departure ? cityName(t.target) : '';
+            var personName = '';
+            try {
+                if (t.person < 200 && typeof baye.getPersonName === 'function') { personName = baye.getPersonName(t.person) || ''; }
+            } catch (e) {}
+            var cities = originName && targetName ? originName + ' → ' + targetName : originName;
+            result.contextText = [cities, personName].filter(Boolean).join(' · ');
+            var cargo = [];
+            if (t.command === 13 && t.phase >= 3) { cargo.push('粮草 ' + t.food); }
+            if (t.command === 13 && t.phase >= 4) { cargo.push('金钱 ' + t.money); }
+            if (t.command === 13 && departure) { cargo.push('后备兵 ' + t.arms); }
+            result.cargoText = cargo.join(' · ');
+        }
         var second = read();
         return sameMobileMarchTicket(first, second) ? Object.freeze(result) : null;
     }
@@ -4635,6 +4663,20 @@
         return true;
     }
 
+    function finishTransferQuantity(code) {
+        var ticket = getTransferDialogTicket();
+        if (!ticket || ticket.ownerType !== 'transfer-qty') { return; }
+        var quantity = engineQty();
+        if (!quantity || quantity.session !== ticket.qtySession ||
+            !engineSendKey(code, code === VK.ENTER ? 'qty-ok' : 'qty-cancel', function () {
+                return sameMobileMarchTicket(ticket, getTransferDialogTicket());
+            })) { return; }
+        bayeQtyCloseInput(quantity);
+        state.qtyInputClosed = true;
+        invalidateQtyWork();
+        render();
+    }
+
     function commitQty(nativeReady) {
         syncQuantityWait(engineQty());
         if (state.qtyInputClosed || state.qtyCommitQueued || state.qtyAckFailed) {
@@ -4660,12 +4702,9 @@
             scheduleMarchWatch();
             return;
         }
-        if (mobileHost && state.deepKind === 'person-transfer') {
-            var transferQuantityOwner = getTransferDialogTicket();
-            if (!transferQuantityOwner || transferQuantityOwner.ownerType !== 'transfer-qty') { return; }
-            bayeQtyCloseInput(engineQty());
-            if (!engineSendKey(VK.ENTER, 'qty-ok')) { return; }
-            state.qtyInputClosed = true; invalidateQtyWork(); render(); return;
+        if (state.deepKind === 'person-transfer' || transferFlow && pcTransferPhase()) {
+            finishTransferQuantity(VK.ENTER);
+            return;
         }
         var tradeReceipt = tradeQuantityExit('enter');
         if (state.deepKind === 'person-trade' && !tradeReceipt) { return; }
@@ -4724,12 +4763,9 @@
             render();
             return;
         }
-        if (mobileHost && state.deepKind === 'person-transfer') {
-            var transferQuantityOwner = getTransferDialogTicket();
-            if (!transferQuantityOwner || transferQuantityOwner.ownerType !== 'transfer-qty') { return; }
-            bayeQtyCloseInput(engineQty());
-            if (!engineSendKey(VK.EXIT, 'qty-cancel')) { return; }
-            state.qtyInputClosed = true; render(); return;
+        if (state.deepKind === 'person-transfer' || transferFlow && pcTransferPhase()) {
+            finishTransferQuantity(VK.EXIT);
+            return;
         }
         var tradeReceipt = tradeQuantityExit('exit');
         if (state.deepKind === 'person-trade' && !tradeReceipt) { return; }
@@ -7126,7 +7162,8 @@
             node.disabled = !!disabled; (parent || list).appendChild(node); return node;
         }
         if (ticket.ownerType === 'transfer-report') {
-            text(presentation.reportText);
+            text([presentation.reportText, presentation.contextText, presentation.cargoText].filter(Boolean).join('\n'),
+                'hd-city-menu-map-hint hd-city-menu-transfer-report');
             button('继续', 'data-hd-transfer-continue', '', flow.sent === transferReportKey(ticket));
         } else if (ticket.ownerType === 'transfer-target') {
             var hint = ticket.command === 23
@@ -7291,9 +7328,14 @@
             } catch (e) {}
             var distribution = getQuantityPresentation();
             var transferQuantity = getTransferPresentation();
-            bar.innerHTML = '<p class="hd-city-menu-qty-summary">' + (transferQuantity ? transferQuantity.title : distribution ? '目标总兵力' : state.battleMake ? '随军粮草' : '数量') + ' <strong id="hd-city-qty-val">' +
+            var transferActions = mobileQty && state.deepKind === 'person-transfer';
+            var cargoSummary = transferActions && transferQuantity && transferQuantity.cargoText;
+            var quantityTitle = transferQuantity && transferQuantity.quantity ? transferQuantity.title :
+                distribution ? '目标总兵力' : state.battleMake ? '随军粮草' : '数量';
+            if (transferActions && !(transferQuantity && transferQuantity.quantity)) { state.deepSig = ''; }
+            bar.innerHTML = '<p class="hd-city-menu-qty-summary">' + quantityTitle + ' <strong id="hd-city-qty-val">' +
                 (q.value !== '' && q.value != null ? q.value : '—') +
-                '</strong> · 可用按钮或数字键调整</p>' +
+                '</strong>' + (cargoSummary ? ' · 已选 ' + cargoSummary : ' · 可用按钮或数字键调整') + '</p>' +
                 (state.qtyAckFailed ? '<p>数量调整未完成，请取消后重新输入。</p>' : '') +
                 '<div class="hd-city-menu-qty-controls">' +
                 '<button type="button" data-hd-qty="-10">−10</button>' +
@@ -7311,6 +7353,7 @@
                 '<button type="button" data-hd-digit="7">7</button>' +
                 '<button type="button" data-hd-digit="8">8</button>' +
                 '<button type="button" data-hd-digit="9">9</button>' +
+                (transferActions ? '</div><div class="hd-city-menu-qty-actions">' : '') +
                 '<button type="button" data-hd-qty-ok>确认</button>' +
                 (mobileHost ? '<button type="button" data-hd-qty-cancel>取消</button>' : '') +
                 '</div>';

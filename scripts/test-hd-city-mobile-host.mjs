@@ -1927,8 +1927,11 @@ test('mobile detail scroll retires only for an actual owner or native identity c
 
 // Native transfer protocol fixtures are independent of BattleMake/MARCH.
 // The real standard CITY_LINKR bytes determine every selectable destination.
-function transferFixture(command=13,phase=1,{sourceText=source}={}) {
-    const f=fixture({marchState:true,sourceText});f.configure();f.state=f.internals.state;
+function transferFixture(command=13,phase=1,{sourceText=source,mobile=true}={}) {
+    const f=fixture({marchState:true,sourceText});
+    if (mobile) f.configure();
+    else f.api.setMode('hd');
+    f.state=f.internals.state;
     const names=['董卓','李儒','吕布'];let ids=[0,19,20],transferHook=null;
     Object.assign(f.raw,{g_PlayerKing:0,g_asyncActionID:0,g_hdHelpSeq:0,g_hdMarchPhase:7,
         g_hdTransferProtocolVersion:1,g_hdTransferActive:1,g_hdTransferCommand:command,g_hdTransferSession:17,
@@ -1956,7 +1959,10 @@ function transferFixture(command=13,phase=1,{sourceText=source}={}) {
             g_hdQtyValue:{2:100,3:200,4:300}[nextPhase]});
     }
     function advance(nextPhase,options){f.raw.g_hdTransferInputSeq++;f.raw.g_hdMenuSeq++;publish(nextPhase,options);f.internals.syncTransfer();f.internals.fill();}
-    publish(phase);f.internals.isolatePreview();const dom=marchDom(f,{rooted:true});f.internals.bind();
+    publish(phase);
+    if (!mobile) Object.assign(f.state, {open:true, layer:'deep', cityIndex:0, deepKind:'city',
+        subKind:command===23?'junbei':'neizheng', deepLabel:{13:'输送',14:'移动',23:'侦察'}[command]});
+    f.internals.isolatePreview();const dom=marchDom(f,{rooted:true});f.internals.bind();
     assert.equal(f.internals.syncTransfer(),true);f.internals.fill();
     return Object.assign(f,{dom,publish,advance,setTransferHook(fn){transferHook=fn;},setIds(value){ids=value;}});
 }
@@ -1967,13 +1973,44 @@ for(const command of [13,14])test('transfer original protocol adopts a real PERS
     assert.equal(t.data,f.env.baye.data);assert.equal(Object.keys(t).includes('data'),false);
     assert.equal(f.raw.g_hdMarchPhase,7);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
 });
+test('desktop transport seals the zero-stock amount and rejects a mismatched native reserve limit', () => {
+    const f = transferFixture(13,4,{mobile:false});
+    f.raw.g_Cities[0].MothballArms = 0;
+    f.raw.g_hdQtyMax = f.raw.g_hdQtyValue = 0;
+    f.env.baye.getPersonName = () => '李儒';
+    const cargo = f.api.getTransferPresentation();
+    assert.equal(cargo.title, '输送后备兵');
+    assert.equal(cargo.contextText, '城0 · 李儒');
+    assert.equal(cargo.cargoText, '粮草 2 · 金钱 2');
+    assert.equal(cargo.quantity.max, 0);
+    assert.equal(f.api.getTransferDialogTicket().qtySession, cargo.quantity.session);
+    assert.equal(f.api.getInputTicket(), null);
+
+    f.raw.g_hdQtyMax = 1;
+    f.internals.commitQty(true);
+    assert.equal(f.api.getTransferPresentation(), null);
+    assert.deepEqual(f.keys, []);
+    f.raw.g_hdQtyMax = 0;
+    f.internals.commitQty(true);
+    f.internals.commitQty(true);
+    assert.deepEqual(f.keys, [39]);
+    assert.deepEqual(f.writes, []);
+});
 for(const phase of [2,3,4])test('transfer real CITY/mobile-host exclusively presents quantity phase '+phase,()=>{
     const f=transferFixture(13,phase),host=tradeMobileHost(f),t=f.api.getInputTicket();
     assert.equal(t.ownerType,'transfer-qty');assert.equal(f.api.getTransferDialogTicket().key,t.key);
     assert.equal(f.api.getLcdPresentation(),'off');assert.equal(host.refresh().cityVisible,true);
     assert.equal(host.readInputTicket('city').ticket.ownerType,'transfer-qty');
     assert.equal(f.dom.byId('hd-city-qty-val').textContent,String(f.raw.g_hdQtyValue));
-    assert.equal(f.api.getTransferPresentation().title,{2:'输送粮草',3:'输送金钱',4:'输送后备兵'}[phase]);
+    const presentation=f.api.getTransferPresentation(),summary=descendantClass(f.dom.list,'hd-city-menu-qty-summary');
+    const actions=descendantClass(f.dom.list,'hd-city-menu-qty-actions');
+    assert.equal(presentation.title,{2:'输送粮草',3:'输送金钱',4:'输送后备兵'}[phase]);
+    assert.ok(summary.textContent.startsWith(presentation.title));
+    assert.equal(presentation.cargoText,{2:'',3:'粮草 2',4:'粮草 2 · 金钱 2'}[phase]);
+    if(presentation.cargoText)assert.ok(summary.textContent.includes('已选 '+presentation.cargoText));
+    assert.equal(actions.parentElement,summary.parentElement);
+    assert.equal(f.dom.find('data-hd-qty-ok').parentElement,actions);
+    assert.equal(f.dom.find('data-hd-qty-cancel').parentElement,actions);
     f.raw.g_hdQtyMax--;assert.equal(f.api.getInputTicket(),null);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
 });
 for(const command of [13,14])for(const phase of [5,7,8])test('transfer current native report and single acknowledgement: '+command+'/'+phase,()=>{
@@ -1983,8 +2020,10 @@ for(const command of [13,14])for(const phase of [5,7,8])test('transfer current n
     assert.equal(f.internals.continueTransfer(),false);assert.deepEqual(f.keys,[39]);assert.deepEqual(f.writes,[]);
 });
 test('transfer full-order MSGBOX during phase8 remains a real report, never a fabricated departure',()=>{
-    const f=transferFixture(13,8);Object.assign(f.raw,{g_hdReportKind:1,g_hdReportPerson:65535});
-    assert.equal(f.api.getInputTicket().ownerType,'transfer-report');assert.equal(f.api.getTransferPresentation().commitResult,0);
+    const f=transferFixture(13,8);Object.assign(f.raw,{g_hdReportKind:1,g_hdReportPerson:65535,g_hdTransferTarget:15});
+    assert.equal(f.api.getInputTicket().ownerType,'transfer-report');
+    const presentation=f.api.getTransferPresentation();
+    assert.equal(presentation.commitResult,0);assert.equal(presentation.cargoText,undefined);
     f.raw.g_hdReportPerson=19;assert.equal(f.api.getInputTicket(),null);
 });
 test('a later full-order MSGBOX in the same departure phase has its own actual report receipt',()=>{
