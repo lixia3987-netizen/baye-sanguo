@@ -1342,10 +1342,12 @@
                     ' · 城内预备兵 ' + distribution.reserveArms + '\n目标总兵力 ' + quantity.value +
                     '（' + quantity.min + '–' + quantity.max + '）。\n调低会退回城内预备兵；这是分配后的总兵力。';
             } else if (trade) {
+                var tradeHint = quantity.value === 0xffff ? '65,535 是原版的取消值，请调低数量后确认卖出。' :
+                    '使用按钮调整数量，取消后可重新选择将领。';
                 body.textContent = trade.cityName + ' · ' + trade.personName + ' · ' + (trade.direction === 'buy' ? '买入粮草' : '卖出粮草') +
                     '\n城内钱 ' + trade.money + ' · 粮 ' + trade.food + ' · 每粮 ' + trade.unitPrice + ' 钱' +
-                    '\n当前 ' + quantity.value + '（' + quantity.min + '–' + quantity.max + '）。' +
-                    (state.qtyAckFailed ? '\n数量调整未完成，请取消后重新输入。' : '\n使用按钮调整数量；取消后可重新选择将领。');
+                    '\n当前 ' + quantity.value + '（' + quantity.min + '–' + quantity.max + '）。\n' +
+                    (state.qtyAckFailed ? '数量调整未完成，请取消后重新输入。' : tradeHint);
             } else if (state.kind === 'view' && state.viewDetail) {
                 renderViewDetail(body, state.viewDetail);
             } else if (state.kind === 'help' && state.helpDetail && state.helpDetail.kind === 1) {
@@ -1581,7 +1583,7 @@
     }
 
     function tradeQuantityPresentation(q) {
-        if (!mobileHost || state.kind !== 'qty' || !q || !global.BayeHdCityMenu ||
+        if (state.kind !== 'qty' || !q || !global.BayeHdCityMenu ||
             typeof BayeHdCityMenu.getTradePresentation !== 'function') { return null; }
         var first = BayeHdCityMenu.getTradePresentation(), second = BayeHdCityMenu.getTradePresentation();
         return first && second && first.data === second.data && first.key === second.key &&

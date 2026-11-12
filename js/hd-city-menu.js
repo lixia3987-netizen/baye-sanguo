@@ -13,7 +13,7 @@
     var mobileLibraryGeneration = null, mobileRetireReason = '';
     var distributionFlow = null, goodsPersonSource = null;
     var equipmentParent = null, equipmentGoods = null, equipmentFlow = null;
-    var mobileTrade = null;
+    var tradeFlow = null;
     var transferFlow = null, pcTransferView = null;
     var mobileClosingRoot = null;
     var mobileDiplomacy = null;
@@ -1258,7 +1258,7 @@
     function retireInteraction(reason) {
         if (reason === 'person-list-pan' && mobileHost && state.open && state.layer === 'deep' &&
             (['person', 'person-qty', 'person-city'].indexOf(state.deepKind) >= 0 ||
-                state.deepKind === 'person-trade' && mobileTrade && mobileTrade.stage === 'person' && !mobileTrade.wait ||
+                state.deepKind === 'person-trade' && tradeFlow && tradeFlow.stage === 'person' && !tradeFlow.wait ||
                 state.deepKind === 'person-diplomacy' && mobileDiplomacy && mobileDiplomacy.origin === state.cityIndex &&
                     (mobileDiplomacy.phase === 1 || mobileDiplomacy.phase === 2) && !mobileDiplomacy.sent ||
                 equipmentPane() && equipmentParent && !equipmentFlow ||
@@ -1273,7 +1273,7 @@
         retireTransferWork();
         if (/library|configure/.test(String(reason || ''))) {
             transferFlow = null;
-            mobileTrade = null;
+            tradeFlow = null;
             mobileDiplomacy = null;
             mobileClosingRoot = null;
         }
@@ -1661,7 +1661,7 @@
                     var goodsPerson = confiscationPersonSelection(menu, index);
                     var equipment = equipmentSelection(menu, index, 'enter');
                     var trade = tradeSelection(menu, index, 'enter');
-                    if (mobileHost && (state.deepKind === 'person-trade' || mobileTrade && menu.kind === 2) && !trade) { return; }
+                    if ((state.deepKind === 'person-trade' || tradeFlow && menu.kind === 2) && !trade) { return; }
                     if (!mobileHost && equipmentParent && !equipment &&
                         (equipmentPane() || menu.kind === 2 && state.subKind === 'neizheng' && menu.seq === equipmentParent.seq)) { return; }
                     state.nativeMenuCommit = key;
@@ -1817,7 +1817,7 @@
             !liveToolContext()) { fallback = true; }
         if (state.layer === 'deep' && personDeepKind(state.deepKind) &&
             !usesGoodsMenu(state.deepKind, state.deepStep) && !showingQty() &&
-            !(mobileHost && tradeExchangeOwner(mobileNativeSnapshot()))) {
+            !tradeExchangeOwner(tradeFlow && tradeSnapshot())) {
             var personPage = livePersonPropertyContext();
             if (!personPage || !personPage.pageComplete) { fallback = true; }
         }
@@ -2172,7 +2172,10 @@
         if (!mobileHost && state.deepKind === 'person-diplomacy') { return sendPcDiplomacyKey(code, reason, currentOwner); }
         if (mobileHost && mobileDiplomacy && mobileDiplomacy.sent && reason !== 'diplomacy-back') { return false; }
         if (equipmentFlow) { return false; }
-        if (mobileHost && mobileTrade && mobileTrade.wait) { return false; }
+        if (tradeFlow && tradeFlow.wait) { return false; }
+        var pcTrade = !mobileHost && tradeFlow;
+        var tradeBefore = pcTrade && tradeReading();
+        if (pcTrade && !tradePaneOwner(tradeBefore)) { return false; }
         if (mobileHost && state.goodsBackPending && reason !== 'back-deep') { return false; }
         var mobilePress = mobileHost ? mobileInputTicket(reason) : null;
         if (mobileHost && !mobilePress) { retireInteraction('send-unavailable'); return false; }
@@ -2212,6 +2215,11 @@
             state.engineHelpOpen = false;
         }
         if (currentOwner && !currentOwner()) { return false; }
+        if (pcTrade) {
+            var tradeAfter = tradeReading();
+            if (tradeFlow !== pcTrade || !tradePaneOwner(tradeAfter) || tradeBefore.data !== tradeAfter.data ||
+                tradeSignature(tradeBefore) !== tradeSignature(tradeAfter)) { return false; }
+        }
         if (mobileHost) {
             var mobileCurrent = mobileInputTicket(reason);
             if (!mobileCurrent || mobileCurrent.data !== mobilePress.data || mobileCurrent.key !== mobilePress.key) { retireInteraction('send-owner-changed'); return false; }
@@ -2449,7 +2457,7 @@
         if (menu.active != null) {
             if (!Number(menu.active) || Number(menu.context) !== 1 ||
                 [1, 2, 3, 4].indexOf(Number(menu.kind)) < 0 &&
-                    !(Number(menu.kind) === 5 && mobileHost && tradeExchangeOwner(mobileNativeSnapshot()))) { return false; }
+                    !(Number(menu.kind) === 5 && tradeExchangeOwner(tradeSnapshot()))) { return false; }
             return selectLiveMenu(target, thenEnter, reason || '', menu);
         }
         var keys = keysToIndex(target);
@@ -4660,12 +4668,14 @@
             state.qtyInputClosed = true; invalidateQtyWork(); render(); return;
         }
         var tradeReceipt = tradeQuantityExit('enter');
-        if (mobileHost && state.deepKind === 'person-trade' && !tradeReceipt) { return; }
+        if (state.deepKind === 'person-trade' && !tradeReceipt) { return; }
         finishDistributionQuantity();
-        bayeQtyCloseInput(engineQty());
+        var closingQty = engineQty();
+        if (!tradeReceipt) { bayeQtyCloseInput(closingQty); }
         var sent = engineSendKey(VK.ENTER, 'qty-ok');
         if (tradeReceipt) {
             if (!sent) { return; }
+            bayeQtyCloseInput(closingQty);
             beginTradeTransition(tradeReceipt);
         }
         state.qtyInputClosed = true;
@@ -4722,12 +4732,14 @@
             state.qtyInputClosed = true; render(); return;
         }
         var tradeReceipt = tradeQuantityExit('exit');
-        if (mobileHost && state.deepKind === 'person-trade' && !tradeReceipt) { return; }
+        if (state.deepKind === 'person-trade' && !tradeReceipt) { return; }
         finishDistributionQuantity();
-        bayeQtyCloseInput(engineQty());
+        var closingQty = engineQty();
+        if (!tradeReceipt) { bayeQtyCloseInput(closingQty); }
         var sent = engineSendKey(VK.EXIT, 'qty-cancel');
         if (tradeReceipt) {
             if (!sent) { return; }
+            bayeQtyCloseInput(closingQty);
             beginTradeTransition(tradeReceipt);
         }
         state.qtyInputClosed = true;
@@ -5040,7 +5052,7 @@
             menu.seq !== equipmentParent.lastSeq) { return null; }
         var diplomacy = state.deepKind === 'person-diplomacy' ? (mobileHost ? mobileInputTicket() : pcDiplomacyTicket()) : null;
         if (state.deepKind === 'person-diplomacy' && (!diplomacy || !diplomacy.diplomacyCommand || kind !== 3)) { return null; }
-        if (kind === 5 && !tradeExchangeOwner(mobileNativeSnapshot())) { return null; }
+        if (state.deepKind === 'person-trade' && !tradePaneOwner(tradeFlow && tradeSnapshot())) { return null; }
         if (state.deepKind === 'person-city') {
             var march = currentMarch();
             if (!march || Number(march.phase) !== MARCH.PERSONS) { return null; }
@@ -5106,7 +5118,7 @@
     function mobilePreviewContext(button) {
         if (!listFindButtonVisible(button)) { return null; }
         if (mobileDiplomacy && mobileDiplomacy.sent) { return null; }
-        if (state.goodsBackPending || equipmentFlow || mobileTrade && mobileTrade.wait) { return null; }
+        if (state.goodsBackPending || equipmentFlow || tradeFlow && tradeFlow.wait) { return null; }
         if (!mobileHost || !state.open || state.layer !== 'deep' || state.deepKind === 'person-city' ||
             state.battleMake || state.deepSelectionPending || state.sending || state.queue.length ||
             state.closingSub || state.walkBusy || state.handoff || state.personPagePending || state.toolPagePending ||
@@ -5801,7 +5813,7 @@
     }
 
     function ownedPersonList(includeMilitaryPickers) {
-        if (mobileTrade || transferFlow || equipmentFlow || surrenderFlow) { return false; }
+        if (tradeFlow || transferFlow || equipmentFlow || surrenderFlow) { return false; }
         var ordinary = state.deepKind === 'person' && !state.deepStep;
         if (ordinary && state.subKind === '' && state.deepLabel === '人物') { return true; }
         var labels = SUBS[state.subKind], kinds = DEEP[state.subKind];
@@ -5984,7 +5996,7 @@
         toolListStatsReading = true;
         try {
             function route() {
-                if (state.subKind !== 'neizheng' || mobileTrade || transferFlow || equipmentFlow || surrenderFlow ||
+                if (state.subKind !== 'neizheng' || tradeFlow || transferFlow || equipmentFlow || surrenderFlow ||
                     !usesGoodsMenu(state.deepKind, state.deepStep)) { return false; }
                 var labels = SUBS.neizheng, kinds = DEEP.neizheng;
                 return labels[8] === '赏赐' && kinds[8] === 'goods' && state.deepLabel === labels[8] &&
@@ -7141,7 +7153,7 @@
         syncMobileDiplomacy();
         syncTransfer();
         if (fillTransferWait()) { retireListFind(el('hd-city-menu-deep')); return; }
-        if (syncMobileTrade() && state.layer !== 'deep') { render(); return; }
+        if (syncTrade() && state.layer !== 'deep') { render(); return; }
         if (syncEquipmentFlow()) { render(); return; }
         var list = el('hd-city-menu-deep');
         if (!list) {
@@ -7610,7 +7622,7 @@
         syncSurrender();
         syncMobileDiplomacy();
         syncTransfer();
-        syncMobileTrade();
+        syncTrade();
         var root = el('hd-city-menu');
         if (!root) {
             return;
@@ -7869,7 +7881,7 @@
         }
         invalidateMarchWork();
         invalidateQtyWork();
-        mobileTrade = null;
+        tradeFlow = null;
         transferFlow = null;
         pcTransferView = null;
         mobileDiplomacy = null;
@@ -7917,7 +7929,7 @@
                 if (!menu || menu.active !== 1 || menu.context !== 1 ||
                     detailNumber(menu.seq, 4294967295) == null || !menu.seq ||
                     detailNumber(menu.kind, 4) == null &&
-                        !(menu.kind === 5 && tradeExchangeOwner(mobileNativeSnapshot())) || !menu.kind) { return null; }
+                        !(menu.kind === 5 && tradeExchangeOwner(tradeSnapshot())) || !menu.kind) { return null; }
                 return JSON.stringify([marchEpoch, menu.context, menu.kind, menu.seq,
                     detailNumber(menu.detailGeneration, 4294967295), menu.names, actualMenuIds(menu)]);
             }
@@ -8042,21 +8054,29 @@
             mapInputSeq == null ? m.mapInputSeq : mapInputSeq, value.raw.g_hdDetailGeneration]);
     }
 
+    function tradeSnapshot() {
+        return mobileHost ? mobileNativeSnapshot() : nativeSnapshot(pcCityNativeBase(), pcCityNativeBase);
+    }
+
+    function tradeSignature(value) {
+        return JSON.stringify([value.raw, value.menu, value.qty, value.report]);
+    }
+
     function tradeReading() {
-        if (!mobileHost || !shouldShowHd()) { return null; }
-        var first = mobileNativeSnapshot(), second = mobileNativeSnapshot();
+        if (!shouldShowHd()) { return null; }
+        var first = tradeSnapshot(), second = tradeSnapshot();
         if (!first || !second || first.data !== second.data ||
-            JSON.stringify([first.raw, first.menu, first.qty, first.report]) !==
-                JSON.stringify([second.raw, second.menu, second.qty, second.report]) ||
+            first.libraryGeneration !== second.libraryGeneration || tradeSignature(first) !== tradeSignature(second) ||
             second.march.phase !== MARCH.IDLE && second.march.phase !== MARCH.DEPARTED ||
             second.march.battlePick || second.raw.g_hdHelpActive || !second.march.mapInputSeq ||
+            second.transfer && second.transfer.active || second.diplomacy && second.diplomacy.active ||
             second.menu.generation !== second.menu.detailGeneration) { return null; }
         return second;
     }
 
     function tradeExchangeOwner(value) {
-        var t = mobileTrade, m = value && value.menu;
-        return !!(mobileHost && t && value && value.data === t.data && tradeFence(value) === t.fence &&
+        var t = tradeFlow, m = value && value.menu;
+        return !!(t && value && value.data === t.data && tradeFence(value) === t.fence &&
             state.open && state.layer === 'deep' && state.deepKind === 'person-trade' && state.deepStep === 1 &&
             !value.march.pick && !value.qty.active && !value.raw.g_hdReportActive &&
             m.active === 1 && m.context === 1 && m.kind === 5 && m.count === 2 &&
@@ -8064,9 +8084,10 @@
     }
 
     function tradePaneOwner(value) {
-        var t = mobileTrade, m = value && value.menu, q = value && value.qty;
+        var t = tradeFlow, m = value && value.menu, q = value && value.qty;
         if (!t || t.wait || !value || value.data !== t.data || tradeFence(value) !== t.fence || value.march.pick ||
-            value.raw.g_hdReportActive) { return false; }
+            value.raw.g_hdReportActive || value.raw.g_hdHelpActive ||
+            value.transfer && value.transfer.active || value.diplomacy && value.diplomacy.active) { return false; }
         return t.stage === 'quantity' ? !m.active && m.seq === t.menuSeq && q.active === 1 && q.session === t.qtySession :
             !q.active && m.active === 1 && m.context === 1 && m.seq === t.menuSeq &&
                 m.kind === (t.stage === 'person' ? 3 : t.stage === 'exchange' ? 5 : 2) &&
@@ -8074,7 +8095,7 @@
     }
 
     function tradeParent(menu, index) {
-        if (!mobileHost || state.layer !== 'sub' || state.subKind !== 'neizheng' || index !== 10) { return null; }
+        if (!state.open || state.layer !== 'sub' || state.subKind !== 'neizheng' || index !== 10) { return null; }
         var live = tradeReading();
         if (!live || live.march.pick || live.qty.active || live.raw.g_hdReportActive || live.menu.kind !== 2 ||
             live.menu.context !== 1 || live.menu.seq !== menu.seq ||
@@ -8086,8 +8107,10 @@
     }
 
     function tradeSelection(menu, index, action) {
-        var t = mobileTrade, live = tradeReading();
-        if (!t || t.wait || !live || live.data !== t.data || tradeFence(live) !== t.fence ||
+        var t = tradeFlow;
+        if (!t || t.wait) { return null; }
+        var live = tradeReading();
+        if (!live || live.data !== t.data || tradeFence(live) !== t.fence ||
             live.march.pick || live.qty.active || live.raw.g_hdReportActive ||
             live.menu.context !== 1 || live.menu.seq !== menu.seq || live.menu.kind !== menu.kind ||
             live.menu.index !== index || JSON.stringify([live.menu.names, actualMenuIds(live.menu)]) !==
@@ -8105,7 +8128,7 @@
     }
 
     function beginTradeTransition(receipt) {
-        var t = mobileTrade;
+        var t = tradeFlow;
         if (!t) { return; }
         if (receipt.kind === 3 && receipt.action === 'enter') {
             t.personId = receipt.ids[receipt.index]; t.personName = receipt.names[receipt.index];
@@ -8114,19 +8137,22 @@
         if (receipt.kind === 5 && receipt.action === 'enter') { t.direction = receipt.index === 0 ? 'buy' : 'sell'; }
         t.wait = receipt;
         function poll() {
-            if (mobileTrade !== t || t.wait !== receipt) { return; }
-            if (syncMobileTrade()) { render(); }
-            if (mobileTrade === t && t.wait === receipt && shouldShowHd()) { setTimeout(poll, 40); }
+            if (tradeFlow !== t || t.wait !== receipt) { return; }
+            if (syncTrade()) { render(); }
+            if (tradeFlow === t && t.wait === receipt && shouldShowHd()) { setTimeout(poll, 40); }
         }
         setTimeout(poll, 40);
     }
 
-    function syncMobileTrade() {
-        var t = mobileTrade;
-        if (!t || !mobileHost || !shouldShowHd()) { return false; }
+    function syncTrade() {
+        var t = tradeFlow;
+        if (!t || !shouldShowHd()) { return false; }
         var live = tradeReading(), w = t.wait;
-        if (!live) { return false; } // Partial native publication is LCD-only.
-        if (live.data !== t.data || tradeFence(live, t.mapInputSeq) !== t.fence) { mobileTrade = null; return false; }
+        if (!live) {
+            if (w && Date.now() > w.deadline) { tradeFlow = null; }
+            return false;
+        }
+        if (live.data !== t.data || tradeFence(live, t.mapInputSeq) !== t.fence) { tradeFlow = null; return false; }
         var menu = live.menu, q = live.qty, raw = live.raw;
         if (w && live.march.pick === 1 && live.march.mapInputSeq === nextDistributionSeq(t.mapInputSeq) &&
             !menu.active && !menu.context && !menu.kind && menu.seq === w.nextSeq &&
@@ -8135,14 +8161,14 @@
             // Native MAP may publish before the quantity shell/queue retires.
             // Keep only this exact successor receipt, with its original bound,
             // so a later read can close CITY without sending another key.
-            if (Date.now() > w.deadline) { mobileTrade = null; return false; }
+            if (Date.now() > w.deadline) { tradeFlow = null; return false; }
             if (!retiredCityMapOwner()) { return false; }
-            mobileTrade = null; closeMenu({silent: true}); state.deepKind = ''; state.deepLabel = '';
+            tradeFlow = null; closeMenu({silent: true}); state.deepKind = ''; state.deepLabel = '';
             state.deepStep = 0; state.deepItems = []; state.closingSub = false; return true;
         }
-        if (live.march.pick || live.march.mapInputSeq !== t.mapInputSeq) { mobileTrade = null; return false; }
+        if (live.march.pick || live.march.mapInputSeq !== t.mapInputSeq) { tradeFlow = null; return false; }
         if (!w) { return false; }
-        if (Date.now() > w.deadline) { mobileTrade = null; return false; }
+        if (Date.now() > w.deadline) { tradeFlow = null; return false; }
         if (raw.g_hdReportActive) {
             // IsManual may reject an actor and reopen PERSON after its message.
             if (w.kind === 3 && w.action === 'enter' && !menu.active && !q.active &&
@@ -8171,10 +8197,12 @@
     }
 
     function getTradePresentation() {
-        syncMobileTrade();
-        var t = mobileTrade, live = tradeReading();
-        if (!t || t.wait || !state.open || state.layer !== 'deep' || state.deepKind !== 'person-trade' ||
-            !live || live.data !== t.data || tradeFence(live) !== t.fence || live.march.pick || live.raw.g_hdReportActive) { return null; }
+        if (!tradeFlow) { return null; }
+        syncTrade();
+        var t = tradeFlow;
+        if (!t || t.wait || !state.open || state.layer !== 'deep' || state.deepKind !== 'person-trade') { return null; }
+        var live = tradeReading();
+        if (!live || live.data !== t.data || tradeFence(live) !== t.fence || live.march.pick || live.raw.g_hdReportActive) { return null; }
         var m = live.menu, q = live.qty;
         if (t.stage === 'quantity' ? m.active || m.seq !== t.menuSeq || q.active !== 1 || q.ready !== 1 ||
             q.session !== t.qtySession || q.min !== 1 || q.value < q.min || q.value > q.max :
@@ -8190,7 +8218,7 @@
                 if (!city || !mobileInteger(money, 65535) || !mobileInteger(food, 65535) || !name || !latest ||
                     latest.data !== live.data || JSON.stringify([latest.raw, latest.menu, latest.qty]) !==
                         JSON.stringify([live.raw, m, q]) || live.data.g_Cities[t.cityIndex] !== city ||
-                    city.Money !== money || city.Food !== food || mobileTrade !== t ||
+                    city.Money !== money || city.Food !== food || tradeFlow !== t ||
                     q.max !== (t.direction === 'buy' ? Math.floor(money / 5) : food)) { return null; }
                 resources = {cityName: name, money: money, food: food, unitPrice: t.direction === 'buy' ? 5 : 2};
             } catch (e) { return null; }
@@ -8209,9 +8237,12 @@
 
     function tradeQuantityExit(action) {
         var p = getTradePresentation();
-        return p && p.stage === 'quantity' ? {to: action === 'enter' ? 'map' : 'person',
-            seq: p.menuSeq, nextSeq: action === 'enter' ? p.menuSeq : nextDistributionSeq(p.menuSeq),
-            kind: 0, action: action, deadline: Date.now() + 5000} : null;
+        if (!p || p.stage !== 'quantity') { return null; }
+        // ExchangeMake treats GetFood's U16 0xffff result as cancellation.
+        var committed = action === 'enter' && p.value !== 0xffff;
+        return {to: committed ? 'map' : 'person', seq: p.menuSeq,
+            nextSeq: committed ? p.menuSeq : nextDistributionSeq(p.menuSeq),
+            kind: 0, action: action, deadline: Date.now() + 5000};
     }
 
     function tradePersonsComplete(menu) {
@@ -8221,10 +8252,10 @@
         }));
     }
 
-    function backMobileTrade(ownsBack) {
-        if (!mobileHost || state.deepKind !== 'person-trade') { return false; }
+    function backTrade(ownsBack) {
+        if (state.deepKind !== 'person-trade') { return false; }
         var live = tradeReading();
-        if (!mobileTrade || mobileTrade.wait || !live || state.queue.length || state.sending || state.nativeMenuRequest) { return true; }
+        if (!tradeFlow || tradeFlow.wait || !live || state.queue.length || state.sending || state.nativeMenuRequest) { return true; }
         var receipt = tradeSelection(live.menu, live.menu.index, 'exit');
         if (!receipt) { return true; }
         if (engineSendKey(VK.EXIT, 'back-deep', ownsBack)) { beginTradeTransition(receipt); }
@@ -8545,7 +8576,7 @@
             backMobileDiplomacy(); return;
         }
         if (mobileHost && transferFlow) { return cancelTransfer(); }
-        if (equipmentFlow || mobileHost && mobileTrade && mobileTrade.wait) { return; }
+        if (equipmentFlow || tradeFlow && tradeFlow.wait) { return; }
         if (!state.open) {
             return;
         }
@@ -8596,7 +8627,7 @@
                 render();
                 return;
             }
-            if (backMobileTrade(ownsBack)) { return; }
+            if (backTrade(ownsBack)) { return; }
             if (backEquipment(ownsBack)) { return; }
             if (backMobileGoods(ownsBack)) { return; }
             if (engineInGetCitySet() || (state.campaignPick && mapPickActive())) {
@@ -8804,7 +8835,7 @@
             if (surrenderEntry === false) { return; }
             equipmentParent = readEquipmentParent(menu, index);
             equipmentGoods = null;
-            mobileTrade = tradeParent(menu, index);
+            tradeFlow = tradeParent(menu, index);
             if (surrenderEntry) {
                 if (!selectLiveMenu(index, true, 'surrender-start', menu)) {
                     if (surrenderFlow === surrenderEntry && !surrenderEntry.pending) { surrenderFlow = null; }
@@ -8814,7 +8845,7 @@
         }
         state.deepKind = surrenderEntry ? 'person-surrender' : kind;
         state.militaryPersonMap = militaryPersonMap;
-        if (mobileHost && mobileTrade) { state.deepKind = 'person-trade'; }
+        if (tradeFlow) { state.deepKind = 'person-trade'; }
         if (equipmentParent && equipmentParent.command === 'largess') { state.deepKind = 'goods-person'; }
         state.deepLabel = names[index] || '';
         state.deepStep = 0;
@@ -9450,7 +9481,7 @@
         if (!listFindIndexVisible(index)) { return false; }
         if (!mobileHost && state.deepKind === 'person-diplomacy' && mobileDiplomacy && mobileDiplomacy.sent) { return false; }
         if (mobileHost && state.deepKind === 'person-diplomacy' && mobileDiplomacy && mobileDiplomacy.sent) { return false; }
-        if (equipmentFlow || mobileHost && (state.goodsBackPending || mobileTrade && mobileTrade.wait)) { return false; }
+        if (equipmentFlow || tradeFlow && tradeFlow.wait || mobileHost && state.goodsBackPending) { return false; }
         var item = state.deepItems[index];
         var native = engineMenuItems();
         var owner = native.active != null ? readyDeepMenuOwner(native) : null;
@@ -9659,7 +9690,7 @@
         }
         state.lastHook = name;
         if (name === 'didShowMainMap' &&
-            (retireConsumedStrategyOrder(currentMarch()) || retireMilitaryPersonOnMap())) { return; }
+            (retireConsumedStrategyOrder(currentMarch()) || retireMilitaryPersonOnMap() || syncTrade() && !state.open)) { return; }
         if (ctx && typeof ctx === 'object') {
             var keys = listProps(ctx);
             if (keys.length) {
@@ -10095,7 +10126,11 @@
                 return;
             }
             if (state.marchStrategyOrder) { retireConsumedStrategyOrder(currentMarch()); }
-            if (!state.open || retireMilitaryPersonOnMap()) { return; }
+            if (!state.open || retireMilitaryPersonOnMap() || syncTrade() && !state.open) { return; }
+            if (!mobileHost && state.deepKind === 'person-trade' && !tradeFlow) {
+                closeMenu({ silent: true });
+                return;
+            }
             if (pcTransferPhase() === 6) {
                 var transfer = getTransferTargetTicket();
                 if (!transfer || [13, 27, 32, 37, 38, 39, 40, 70, 72, 83].indexOf(e.keyCode) < 0) { return; }
@@ -10142,11 +10177,21 @@
             if (!mobileHost && e.keyCode === 13 && !detailOverlayActive()) {
                 if (state.layer === 'sub' && state.subKind === 'neizheng') {
                     var subMenu = engineMenuItems();
-                    if (readEquipmentParent(subMenu, subMenu.index)) {
+                    if (tradeParent(subMenu, subMenu.index) || readEquipmentParent(subMenu, subMenu.index)) {
                         bayeConsumeKeyEvent(e);
                         chooseSub(subMenu.index);
                         return;
                     }
+                }
+                if (state.deepKind === 'person-trade') {
+                    var trade = tradeReading();
+                    if (tradePaneOwner(trade) && trade.menu.active) {
+                        bayeConsumeKeyEvent(e);
+                        selectLiveMenu(trade.menu.index, true, 'trade-selection', trade.menu);
+                    } else if (tradeFlow && tradeFlow.wait) {
+                        bayeConsumeKeyEvent(e);
+                    }
+                    return;
                 }
                 if (equipmentParent && equipmentPane()) {
                     bayeConsumeKeyEvent(e);
@@ -10354,7 +10399,7 @@
         else { writeStorage(STORAGE_KEY, mode); }
         state.mode = mode;
         var mobileRootResume = syncMode(resume);
-        var mobileResume = mobileHost && !mobileTrade && oldMode === 'classic' && mode !== 'classic'
+        var mobileResume = mobileHost && !tradeFlow && oldMode === 'classic' && mode !== 'classic'
             ? resumeMobilePersonMode() : null;
         if (!shouldShowHd()) {
             invalidateQtyWork();
@@ -10416,8 +10461,8 @@
         if (!shouldShowHd()) {
             state.open = false;
         } else {
-            syncMobileTrade();
-            if (mobileTrade && !mobileTrade.wait) {
+            syncTrade();
+            if (tradeFlow && !tradeFlow.wait) {
                 var savedOpen = state.open;
                 state.open = true;
                 if (getTradePresentation()) {
@@ -10523,7 +10568,7 @@
                 }
                 if (!mobileHost && state.layer === 'sub' && SUBS[state.subKind]) { fillSubList(state.subKind); }
                 if (retireEquipmentMap()) { return; }
-                if (syncMobileTrade() && !state.open) { return; }
+                if (syncTrade() && !state.open) { return; }
                 if (retireMilitaryPersonOnMap()) { return; }
                 // A person-picker cancellation can return directly to GetCitySet
                 // without willCloseMenu. Retire only after the player's Back ACK.

@@ -259,7 +259,7 @@ test('mobile poll restores the complete deep layer after delayed picker publicat
         shouldShowHd(){return true;},mobileShellReady(){return complete;},
         mobileBase(){return {identity:{generation:1}};},renderStickyBannerSlot:noOp,
         applyDocAttr:noOp,retirePersonDetails:noOp,retireToolDetails:noOp,retireListFind:noOp,
-        syncMobileTrade:noOp,syncTransfer:noOp,syncMobileDiplomacy:noOp,
+        syncTrade:noOp,syncTransfer:noOp,syncMobileDiplomacy:noOp,
         cityName(){return '真实城';},showingQty(){return false;},freshMarchOk(){return false;},
         usesMapCursor(){return false;},usesGoodsMenu(){return false;},
         fillDeepList(){deepRefreshes+=1;},preferEngineNames(items){return items;},
@@ -514,7 +514,7 @@ test('terminal person restoration rejects a phase or session handoff during publ
     }
 });
 function isolatedCityFunction(name,context) {
-    if(name==='syncMode'){context.syncMobileTrade=()=>false;context.mobileTrade=null;
+    if(name==='syncMode'){context.syncTrade=()=>false;context.tradeFlow=null;
         context.syncMobileDiplomacy=()=>false;context.mobileDiplomacy=null;
         context.syncTransfer=()=>false;context.transferFlow=null;if(!('mobileHost' in context))context.mobileHost=null;}
     const begin=source.indexOf('    function '+name+'('),end=source.indexOf('\n    function ',begin+20);
@@ -2121,8 +2121,11 @@ test('transfer mode and lifecycle restoration observes the fresh native phase wi
 
 // ExchangeMake's actual PERSON -> dedicated EXCHANGE -> GetFood lifecycle.
 // Timer-controlled publications model C's gaps; every sent key uses real code.
-function tradeFixture({phase=0,seq=10,sourceText=tradeSource}={}) {
-    const f=fixture({marchState:true,sourceText});f.configure();f.state=f.internals.state;
+function tradeFixture({phase=0,seq=10,sourceText=tradeSource,mobile=true}={}) {
+    const f=fixture({marchState:true,sourceText});
+    if (mobile) f.configure();
+    else f.api.setMode('hd');
+    f.state=f.internals.state;
     const people={names:['董卓','李儒','吕布'],ids:[0,19,20]}, subNames=
         ['开垦','招商','搜寻','治理','出巡','招降','处斩','流放','赏赐','没收','交易','宴请','输送','移动'];
     const next=n=>n===0xffffffff?1:n+1;
@@ -2141,7 +2144,9 @@ function tradeFixture({phase=0,seq=10,sourceText=tradeSource}={}) {
     function later(fn){if(deferred)deferred(fn);else f.env.setTimeout(fn,60);}
     function map(menuSeq){publish(0,menuSeq);Object.assign(f.raw,{g_hdQtyActive:0,g_hdQtyReady:0,
         g_hdMapPick:1,g_hdMapInputSeq:next(f.raw.g_hdMapInputSeq),g_hdGoodsActive:0,g_hdPersonPropertiesActive:0});}
-    function quantity(menuSeq){publish(0,menuSeq);const max=direction===0?Math.floor(f.raw.g_Cities[0].Money/5):f.raw.g_Cities[0].Food;
+    function quantity(menuSeq){const max=direction===0?Math.floor(f.raw.g_Cities[0].Money/5):f.raw.g_Cities[0].Food;
+        if(!max){map(menuSeq);return;}
+        publish(0,menuSeq);
         Object.assign(f.raw,{g_hdQtyActive:1,g_hdQtyReady:1,g_hdQtySession:next(f.raw.g_hdQtySession),
             g_hdQtyInputSeq:0,g_hdQtyLastKey:65535,g_hdQtyStep:1,g_hdQtyMin:1,g_hdQtyMax:max,g_hdQtyValue:max});}
     function consume(key){
@@ -2153,21 +2158,94 @@ function tradeFixture({phase=0,seq=10,sourceText=tradeSource}={}) {
         else if(key===40&&kind===5){publish(0,next(current));later(()=>publish(3,next(next(current))));}
         else if(key===40&&kind===3){publish(0,next(current));later(()=>map(next(current)));}
         else if((key===39||key===40)&&f.raw.g_hdQtyActive){f.raw.g_hdQtyActive=0;f.raw.g_hdQtyReady=0;
-            later(()=>key===39?map(current):publish(3,next(current)));}
+            const committed=key===39&&f.raw.g_hdQtyValue!==0xffff;
+            later(()=>committed?map(current):publish(3,next(current)));}
     }
     publish(2,seq,10);Object.assign(f.state,{open:true,layer:'sub',cityIndex:0,subKind:'neizheng',deepKind:'',
         deepStep:0,deepLabel:'',wizardStep:'none',battleMake:false});
     f.internals.isolatePreview();const dom=marchDom(f,{rooted:true});f.internals.bind();f.setAfterKey(consume);
-    f.internals.chooseSub(10);f.tick(80);f.internals.fill();
+    f.env.bayeInputIgnored = event => event.defaultPrevented;
+    f.env.bayeConsumeKeyEvent = event => { event.defaultPrevented = true; };
+    function enter() {
+        const event = {type:'keydown', keyCode:13, defaultPrevented:false};
+        f.emitDocument('keydown', event);
+        assert.equal(event.defaultPrevented, true);
+    }
+    if (mobile) f.internals.chooseSub(10);
+    else enter();
+    f.tick(80);f.internals.fill();
     function all(attr,value=dom.list,out=[]){if(value.getAttribute(attr)!==null)out.push(value);for(const child of value.children)all(attr,child,out);return out;}
     function event(target){return {target,detail:1,isPrimary:true,button:0,pointerId:7,preventDefault(){},stopPropagation(){}};}
     function press(index){const b=all('data-hd-deep')[index];assert.ok(b,'published native choice');
         dom.root.emit('pointerdown',event(b));dom.root.emit('click',event(b));return b;}
-    return Object.assign(f,{dom,people,publish,map,quantity,consume,all,event,press,next,
+    return Object.assign(f,{dom,people,publish,map,quantity,consume,all,event,press,next,enter,
         actor(){return actor;},setDeferred(fn){deferred=fn;},back(){f.internals.back(f.internals.backOwner());},
         choosePerson(index=0){press(index);f.tick(200);f.internals.fill();},
         chooseType(index=0){press(index);f.tick(200);f.internals.fill();}});
 }
+
+test('PC trade binds keyboard entry, HD buy/sell, quantity cancellation and map handoff', () => {
+    const f = tradeFixture({mobile:false});
+    assert.equal(f.api.getInputTicket(), null);
+    assert.equal(f.api.getTradePresentation().stage, 'person');
+    f.choosePerson(2);
+    assert.equal(f.api.getLcdPresentation(), 'off');
+    assert.deepEqual(f.all('data-hd-deep').map(button => button.textContent), ['买入', '卖出']);
+    f.enter();
+    f.tick(200);
+    assert.equal(f.api.getTradePresentation().direction, 'buy');
+    f.internals.cancelQty();
+    f.tick(200);
+    f.internals.fill();
+    assert.equal(f.api.getTradePresentation().stage, 'person');
+    f.choosePerson(1);
+    f.chooseType(1);
+    const quantity = f.api.getTradePresentation();
+    assert.equal(quantity.direction, 'sell');
+    assert.equal(quantity.personId, 19);
+    assert.equal(quantity.unitPrice, 2);
+    f.internals.commitQty(true);
+    f.tick(400);
+    assert.equal(f.raw.g_hdMapPick, 1);
+    assert.equal(f.state.open, false);
+    assert.deepEqual(f.keys, [39,35,35,39,39,40,35,39,35,39,39]);
+    assert.deepEqual(f.writes, []);
+});
+
+test('PC trade declines a stale buy/sell button after the underlying data changes', () => {
+    const f = tradeFixture({mobile:false});
+    f.choosePerson();
+    const old = f.all('data-hd-deep')[0];
+    assert.ok(old);
+    f.dom.root.emit('pointerdown', f.event(old));
+    f.env.baye.data = {...f.raw};
+    f.dom.root.emit('click', f.event(old));
+    f.tick(200);
+    assert.equal(f.api.getTradePresentation(), null);
+    assert.deepEqual(f.keys, [39,39]);
+    assert.deepEqual(f.writes, []);
+});
+
+test('PC trade follows the original no-stock map return and the 65535 sell cancellation', () => {
+    const empty = tradeFixture({mobile:false});
+    empty.raw.g_Cities[0].Food = 0;
+    empty.choosePerson();
+    empty.chooseType(1);
+    assert.equal(empty.raw.g_hdMapPick, 1);
+    assert.equal(empty.state.open, false);
+    assert.deepEqual(empty.keys, [39,39,35,39]);
+
+    const full = tradeFixture({mobile:false});
+    full.raw.g_Cities[0].Food = 65535;
+    full.choosePerson();
+    full.chooseType(1);
+    assert.equal(full.api.getTradePresentation().value, 65535);
+    full.internals.commitQty(true);
+    full.tick(200);
+    assert.equal(full.api.getTradePresentation().stage, 'person');
+    assert.deepEqual(full.keys, [39,39,35,39,39]);
+    assert.deepEqual([...empty.writes, ...full.writes], []);
+});
 
 function tradeMobileHost(f) {
     // Use the complete shared CITY and actual mobile host together. The
