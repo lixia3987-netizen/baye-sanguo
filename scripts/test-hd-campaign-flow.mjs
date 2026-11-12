@@ -238,6 +238,7 @@ test('a consumed empty-city order releases its wizard without requiring a battle
     h.context.BayeHdCityMenu.goStrategyEnd(); h.tick();
     assert.deepEqual(h.keys, [VK.ENTER]); assert.equal(h.city.marchSession, 0);
     assert.equal(h.city.handoff, false); assert.equal(h.city.marchReady, false);
+    assert.equal(h.city.open, false);
     assert.equal(h.dialog.debugSnapshot().open, true); assert.deepEqual(h.writes, []);
 });
 test('a long empty-city report may outlast handoff polling and still release the consumed order later', () => {
@@ -250,10 +251,25 @@ test('a long empty-city report may outlast handoff polling and still release the
     h.context.BayeHdCityMenu.goStrategyEnd(); h.tick(11000);
     assert.equal(h.city.handoff, false); assert.equal(h.city.marchStrategyOrder.seq, 3);
     h.report.active = 0; h.march.ok = 0; h.march.pick = 1;
-    h.context.__cityCleanup.sweep('late-consumption'); h.poll();
+    h.poll();
+    h.context.__cityBindUi();
+    assert.equal(h.key(27).defaultPrevented, false, 'The first Escape belongs to the original map even before a city poll');
     assert.equal(h.city.marchSession, 0); assert.equal(h.city.marchReady, false);
     assert.equal(h.city.marchStrategyOrder, null); assert.equal(h.dialog.debugSnapshot().open, false);
+    assert.equal(h.city.open, false);
     assert.deepEqual(h.keys, [VK.ENTER]); assert.deepEqual(h.writes, []);
+});
+test('late order consumption leaves the next native city menu open', () => {
+    const h = harness();
+    Object.assign(h.city, {open:true,layer:'root',cityIndex:0,marchSession:5,marchOriginIndex:1,
+        marchStrategyOrder:{session:5,seq:3,origin:1,target:2}});
+    Object.assign(h.march, {ok:0,mapCity:1});
+    Object.assign(h.menu, {active:1,context:1,kind:1,names:['内政','外交','军备','状况']});
+    assert.equal(h.context.__cityCleanup.sweep('next-city'), true);
+    assert.equal(h.city.marchStrategyOrder, null);
+    assert.equal(h.city.open, true);
+    assert.equal(h.city.cityIndex, 0);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
 });
 test('expired native report bytes cannot reopen a modal over a real map input', () => {
     const h = harness(); h.report.active = 1; h.poll(); h.report.active = 0; h.report.inputSeq++; h.march.pick = 1;

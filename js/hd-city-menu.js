@@ -1976,12 +1976,20 @@
             m && Number(m.phase) >= MARCH.PERSONS && Number(m.phase) <= MARCH.ARMOUT);
     }
 
-    function consumedStrategyOrder(march) {
+    function retireConsumedStrategyOrder(march) {
         var order = state.marchStrategyOrder;
-        return !!(order && march && Number(march.session) === order.session &&
-            marchSeqOf(march) === order.seq && Number(march.origin) === order.origin &&
-            Number(march.obj) === order.target && Number(march.phase) === MARCH.DEPARTED &&
-            !Number(march.ok));
+        if (!order || !march || Number(march.session) !== order.session ||
+            marchSeqOf(march) !== order.seq || Number(march.origin) !== order.origin ||
+            Number(march.obj) !== order.target || Number(march.phase) !== MARCH.DEPARTED ||
+            Number(march.ok) !== 0) { return false; }
+        // Empty or already owned destinations can settle without entering
+        // GamFight. The consumed order also retires the local city menu.
+        var menu = engineMenuItems();
+        resetAfterFight();
+        if (Number(menu.active) !== 1 || Number(menu.context) !== 1) {
+            closeMenu({ silent: true });
+        }
+        return true;
     }
 
     function marchBannerFlags() {
@@ -2045,10 +2053,7 @@
     /* 没有活出征/战场时摘掉「出征进行中」，不挡内政/军备/征兵。
      * 部队已出发（pick=0）只清横幅和 hold，保留策略结束钮。 */
     function sweepStickyMarch(why) {
-        if (consumedStrategyOrder(currentMarch())) {
-            resetAfterFight();
-            return true;
-        }
+        if (retireConsumedStrategyOrder(currentMarch())) { return true; }
         if (liveMarchOrFight()) {
             return false;
         }
@@ -9141,13 +9146,7 @@
             }
             var live = engineMenuItems();
             var march = currentMarch();
-            if (consumedStrategyOrder(march)) {
-                // Empty/owned cities and deleted armies can consume an order
-                // without entering GamFight. C's consumed order is the ACK;
-                // waiting for a battle hook would keep the old wizard alive.
-                resetAfterFight();
-                return;
-            }
+            if (retireConsumedStrategyOrder(march)) { return; }
             if (++checks > 100) {
                 // A delayed engine response never authorizes a repeated key.
                 finishHandoff(false);
@@ -9659,7 +9658,8 @@
             return;
         }
         state.lastHook = name;
-        if (name === 'didShowMainMap' && retireMilitaryPersonOnMap()) { return; }
+        if (name === 'didShowMainMap' &&
+            (retireConsumedStrategyOrder(currentMarch()) || retireMilitaryPersonOnMap())) { return; }
         if (ctx && typeof ctx === 'object') {
             var keys = listProps(ctx);
             if (keys.length) {
@@ -10091,9 +10091,11 @@
             if (global.BayeHdSpe && typeof BayeHdSpe.isOpen === 'function' && BayeHdSpe.isOpen()) {
                 return;
             }
-            if (!state.open || !shouldShowHd() || retireMilitaryPersonOnMap()) {
+            if (!state.open || !shouldShowHd()) {
                 return;
             }
+            if (state.marchStrategyOrder) { retireConsumedStrategyOrder(currentMarch()); }
+            if (!state.open || retireMilitaryPersonOnMap()) { return; }
             if (pcTransferPhase() === 6) {
                 var transfer = getTransferTargetTicket();
                 if (!transfer || [13, 27, 32, 37, 38, 39, 40, 70, 72, 83].indexOf(e.keyCode) < 0) { return; }

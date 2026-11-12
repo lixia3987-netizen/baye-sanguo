@@ -23,6 +23,9 @@
  *   before marching from 徐州13 against 吕布 in 濮阳12.
  *   --elite-resume=build/.../result.json restores a private elite campaign save.
  *   --elite-resume-stage=garrison selects the earlier reinforced city checkpoint.
+ *   --yunnan-officers occupies original period 1 云南 and recruits its two special officers.
+ *   --yunnan-resume=build/.../result.json continues from an original 云南 checkpoint.
+ *   --yunnan-search-months=N controls when to checkpoint the continuing original search (default 84).
  *   --mystic starts a fresh P4 刘禅 game, prepares 诸葛亮 with 六韬 and 太玄兵符,
  *   and marches from 成都24 to 云南30. Use --recruit with a SPE24 interval.
  *   --mystic-defender waits for the original opponent to recruit and arm 诸葛亮
@@ -44,7 +47,9 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { originalRewardWorldSource, runEliteAttackPreparation, runMysticAttackPreparation, runMysticDefenderPreparation } from './hd-reward-token-runtime-checks.mjs';
+import { originalRewardWorldSource, runEliteAttackPreparation, runMysticAttackPreparation,
+    runMysticDefenderPreparation, runYunnanOfficerPreparation, yunnanOfficers } from './hd-reward-token-runtime-checks.mjs';
+import { battleResultNoteObservation, verifyBattleResultNote } from './hd-battle-hud-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -60,6 +65,7 @@ const alternateRoutes = {
     '--yuan-shao': {period:2, king:'袁绍', origin:11, originName:'邺', destination:12, preferredActor:45, preferredTargets:{4:'吕布'}},
     '--chaisang': {period:3, king:'孙权', origin:34, originName:'柴桑', destination:33, preferredActor:99},
     '--liu-bei-elite': {period:2, king:'刘备', origin:13, originName:'徐州', destination:12, preferredActor:183, preferredTargets:{4:'吕布'}},
+    '--yunnan-officers': {period:1, king:'刘焉', origin:24, originName:'成都', destination:30},
     '--mystic': {period:4, king:'刘禅', origin:24, originName:'成都', destination:30, preferredActor:72},
     '--mystic-defender': {period:4, king:'刘禅', origin:25, originName:'棉竹', destination:24, preferredTargets:{5:'诸葛亮'}},
     '--mystic-from-zitong': {period:4, king:'刘禅', origin:19, originName:'梓潼', destination:24, preferredTargets:{5:'诸葛亮'}}
@@ -68,6 +74,7 @@ const routeFlags = Object.keys(alternateRoutes).filter(flag => process.argv.incl
 assert.ok(routeFlags.length <= 1, 'Choose at most one original campaign route');
 const mystic = routeFlags.includes('--mystic');
 const elite = routeFlags.includes('--liu-bei-elite');
+const yunnan = routeFlags.includes('--yunnan-officers');
 const mysticFromZitong = routeFlags.includes('--mystic-from-zitong');
 const mysticDefender = routeFlags.includes('--mystic-defender') || mysticFromZitong;
 const mysticResumeArg = process.argv.find(arg => arg.startsWith('--mystic-resume='));
@@ -76,6 +83,13 @@ const eliteResumeArg = process.argv.find(arg => arg.startsWith('--elite-resume='
 const eliteResumePath = eliteResumeArg?.slice('--elite-resume='.length);
 const eliteResumeStageArg = process.argv.find(arg => arg.startsWith('--elite-resume-stage='));
 const eliteResumeStage = eliteResumeStageArg?.slice('--elite-resume-stage='.length);
+const yunnanResumeArg = process.argv.find(arg => arg.startsWith('--yunnan-resume='));
+const yunnanResumePath = yunnanResumeArg?.slice('--yunnan-resume='.length);
+assert.ok(!yunnanResumeArg || yunnan && yunnanResumePath, '--yunnan-resume requires --yunnan-officers and an earlier result.json');
+const yunnanMonthsArg = process.argv.find(arg => arg.startsWith('--yunnan-search-months='));
+const yunnanMonths = yunnanMonthsArg ? Number(yunnanMonthsArg.slice('--yunnan-search-months='.length)) : 84;
+assert.ok(!yunnanMonthsArg || yunnan && Number.isInteger(yunnanMonths) && yunnanMonths > 0 && yunnanMonths <= 84,
+    '--yunnan-search-months requires --yunnan-officers and 1..84 original strategy months');
 assert.ok(!eliteResumeArg || elite && eliteResumePath, '--elite-resume requires --liu-bei-elite and an earlier result.json');
 assert.ok(!eliteResumeStageArg || eliteResumePath && ['envoy','book','garrison','ready'].includes(eliteResumeStage),
     '--elite-resume-stage requires --elite-resume and an original envoy, book, garrison or ready checkpoint');
@@ -131,6 +145,8 @@ const destination=Number(destinationText);
 assert.ok(Number.isInteger(destination)&&destination>=0&&destination<64&&destination!==route.origin,'The destination must be a distinct native city; current Realm and native adjacency still authorize it');
 assert.ok(!mysticDefender || recruit && targetArm === 5 && destination === 24,
     '--mystic-defender requires original 成都 and a recruited attack against arm 5');
+assert.ok(!yunnan || destination === 30 && !acceptedRange && scenario === 'nominal',
+    '--yunnan-officers prepares the original 云南 officers for later ordinary attack verification');
 const plannerStepBudget=36+Math.max(0,maxTurns-4)*11;
 const acceptsRange = (a) => !acceptedRange || a.speId === acceptedRange[0] && a.startFrm === acceptedRange[1] && a.endFrm === acceptedRange[2];
 const viewport = process.argv.includes('--720') ? {width:1280,height:720} : {width:1920,height:1080};
@@ -142,6 +158,7 @@ const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.lib': 'application/octet-stream' };
 const report = { scope:'Actual standard original march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed.', route, staged, allowLcd,recruit,recruitArms,targetArm,destination,maxTurns,plannerStepBudget,scenario,acceptedRange,viewport,startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
+if (yunnan) report.scope = 'Original 云南 occupation, officer recruitment and private campaign checkpoints';
 if (actorId !== null) report.requestedActorId = actorId;
 if (escortIds.length) report.requestedEscortIds = escortIds;
 const servedAssets = new Map();
@@ -409,11 +426,12 @@ function prepareServedAssets() {
     }
     for(const dir of ['js','css','assets','vendor/iBaye/src'])freezeDirectory(dir);
     freezeAsset('scripts/write-wasm-manifest.mjs');
-    if (elite || mystic || mysticDefender) {
+    if (elite || mystic || mysticDefender || yunnan) {
         for (const source of ['hd-reward-token-runtime-checks', 'hd-mobile-equipment-runtime-oracle', 'hd-city-person-navigation-checks']) {
             freezeAsset('scripts/' + source + '.mjs');
         }
     }
+    if (yunnan) freezeAsset('scripts/hd-battle-hud-runtime-checks.mjs');
     for(const rel of ['libs/dat-mod.lib']){const data=fs.readFileSync(path.join(root,rel)),metadata={source:rel,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};report.sources[rel]=metadata;servedAssets.set(rel,{data,metadata});}
     nativeLib=servedAssets.get('libs/dat-mod.lib').data;
     assert.equal(report.sources['libs/dat-mod.lib'].sha256,'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
@@ -861,6 +879,34 @@ async function loadEliteAttackSave(cdp) {
     await checkpoint(cdp, 'elite-' + stage + '-loaded');
 }
 
+async function loadYunnanSave(cdp) {
+    const earlier = readSavedAttackRun(yunnanResumePath);
+    const {occupiedSave,envoySave,progressSave,readySave} = earlier.previous.yunnanPreparation;
+    const save = readySave ?? progressSave ?? envoySave ?? occupiedSave;
+    const stage = readySave ? 'ready' : progressSave ? 'search' : envoySave ? 'envoy' : 'occupied';
+    const name = {ready:'yunnan-officers-recruited',search:'yunnan-search-progress',
+        envoy:'yunnan-envoy-arrived',occupied:'yunnan-occupied'}[stage];
+    const {world,...receipt} = await loadNativeAttackSave(cdp, readAttackSavePair(earlier,save,name));
+    const city = world.cities[destination], owner = world.king + 1;
+    const residents = world.queue.slice(city.PersonQueue, city.PersonQueue + city.Persons);
+    assert.equal(city.Belong, owner);
+    const known = yunnanOfficers.map(({id}) => id);
+    const allies = stage === 'ready' ? known : stage === 'search' ? save.alliedOfficers : [];
+    assert.ok(Array.isArray(allies) && new Set(allies).size === allies.length && allies.every(id => known.includes(id)));
+    const restored = yunnanOfficers.map(({id,arm}) => {
+        const person = world.people[id];
+        assert.ok(residents.includes(id));
+        assert.deepEqual([person.ArmsType,person.Belong],[arm,allies.includes(id) ? owner : 0]);
+        return {id,arm,belong:person.Belong};
+    });
+    if (stage !== 'occupied') {
+        assert.ok(residents.includes(71));
+        assert.equal(world.people[71].Belong, owner);
+    }
+    report.yunnanResume = {...receipt,stage,restored};
+    await checkpoint(cdp, 'yunnan-' + stage + '-loaded');
+}
+
 async function startOriginalCampaign(cdp) {
     await waitFor(cdp, 'actual title picture', 'window.__speSamples.some(r=>r.spe.id===100)', 20000);
     await key(cdp, 'Enter');
@@ -898,9 +944,10 @@ async function smoke(cdp) {
     await waitFor(cdp, 'opening overlay retired', 'baye.hd.spe().eventId!==' + opening.eventId + ' && !BayeHdSpe.isOpen()');
     report.opening.skip = keys;
     await checkpoint(cdp, '02-opening-ended-cleanly');
-    await evaluate(cdp, `BayeHdSystemUi.setMode('${mysticResumePath || eliteResumePath ? 'hd' : 'classic'}');window.__spePhase='menus';`);
+    await evaluate(cdp, `BayeHdSystemUi.setMode('${mysticResumePath || eliteResumePath || yunnanResumePath ? 'hd' : 'classic'}');window.__spePhase='menus';`);
     if (mysticResumePath) await loadMysticDefenderSave(cdp);
     else if (eliteResumePath) await loadEliteAttackSave(cdp);
+    else if (yunnanResumePath) await loadYunnanSave(cdp);
     else await startOriginalCampaign(cdp);
     await checkpoint(cdp, '03-real-map');
     report.actualLib = await evaluate(cdp, '({preferred:localStorage.getItem("baye/libpath"),hex:window.dynLib})');
@@ -961,8 +1008,8 @@ async function chooseNativePerson(cdp,label,cityIndex,personIndex) {
     return {picker,index,personIndex,nativeGenId:personIndex+1,qty};
 }
 
-async function setRecruitQuantity(cdp,initial,description,requestedArms=recruitArms) {
-    const wanted=Math.min(initial.max,requestedArms),steps=[];
+async function setNativeQuantity(cdp,initial,description,requested) {
+    const wanted=Math.min(initial.max,requested),steps=[];
     assert.ok(Number.isInteger(wanted)&&wanted>=initial.min&&wanted>0,'Requested amount is inside actual native bounds');
     let q=initial;
     const keyAck=async(name,expectedValue=null)=>{
@@ -994,7 +1041,7 @@ async function setRecruitQuantity(cdp,initial,description,requestedArms=recruitA
         }
     }
     assert.equal(q.value,wanted,'Player controls reached min(actual native max,requested amount)');
-    return {initial,requested:requestedArms,wanted,steps,atConfirmation:q};
+    return {initial,requested,wanted,steps,atConfirmation:q};
 }
 
 async function commitRecruitQuantity(cdp,description) {
@@ -1063,7 +1110,7 @@ async function reopenMilitaryAfterPersonPicker(cdp,cityIndex,label,automatic=fal
 async function distributeMarchTroops(cdp, cityIndex, person, before, checkpointName, requestedArms=recruitArms, reopen=true) {
     await click(cdp, '#hd-city-menu [data-hd-sub="2"]');
     const distribute = await chooseNativePerson(cdp, '分配', cityIndex, person.personIndex);
-    const distribution = await setRecruitQuantity(cdp, distribute.qty, '分配', requestedArms);
+    const distribution = await setNativeQuantity(cdp, distribute.qty, '分配', requestedArms);
     const distributionConfirmation = await commitRecruitQuantity(cdp, '分配');
     await currentPersonPicker(cdp, '分配', cityIndex);
     const equipped = await evaluate(cdp, recruitWorldExpression(cityIndex));
@@ -1081,7 +1128,7 @@ async function distributeMarchTroops(cdp, cityIndex, person, before, checkpointN
 async function enlistNativeReserve(cdp, cityIndex, recruiter, before, mapInputSeq, requestedArms, label) {
     assert.ok(before.armsPerMoney > 0 && Number.isInteger(before.armsPerMoney));
     const chosen = await chooseNativePerson(cdp, '征兵', cityIndex, recruiter.personIndex);
-    const quantity = await setRecruitQuantity(cdp, chosen.qty, label, requestedArms);
+    const quantity = await setNativeQuantity(cdp, chosen.qty, label, requestedArms);
     const confirmation = await commitRecruitQuantity(cdp, label);
     const returnedToMap = await settleEnlistment(cdp, cityIndex, mapInputSeq, confirmation);
     const after = await evaluate(cdp, recruitWorldExpression(cityIndex));
@@ -1305,6 +1352,16 @@ async function prepareAttackCampaign(cdp) {
         libBytes:nativeLib, nativeKeys:'window.__speEngineKeys.map(key=>key.code)'
     };
     ctx.save = (name,slot) => saveNativeAttackCheckpoint(ctx,name,slot);
+    if (yunnan) {
+        const conditions = nativeItem(63, route.period - 1);
+        for (const {id} of yunnanOfficers) {
+            const row = conditions.subarray(id * 4, (id + 1) * 4);
+            assert.deepEqual([row.readUInt16LE(1),row[3]], [72,31], 'The original LIB requires 糜芳 in 云南');
+        }
+        ctx.occupy = () => occupyOriginalYunnan(cdp, ctx);
+        await runYunnanOfficerPreparation(ctx, route.origin, destination, 71, yunnanMonths);
+        return;
+    }
     if (elite) {
         const condition = nativeItem(63, route.period - 1);
         const row = condition.subarray(183 * 4, 184 * 4);
@@ -1329,9 +1386,20 @@ async function prepareAttackCampaign(cdp) {
 
 async function marchSmoke(cdp) {
     await evaluate(cdp, `(() => { BayeHdOverworld.setMode('hd-map'); BayeHdCityMenu.setMode('hd'); BayeHdBattle.setMode('hd'); })()`);
-    if (elite || mystic || mysticDefender) {
+    if (elite || mystic || mysticDefender || yunnan) {
         await prepareAttackCampaign(cdp);
+        if (yunnan) return;
     }
+    await dispatchAttackMarch(cdp);
+    await beginMarchSettlement(cdp);
+    await waitFor(cdp,'real battle player selection','baye.hd.fight().active && !baye.hd.fight().over && baye.hd.fight().inputKind===1',60000);
+    await checkpoint(cdp,'14-battle-ready');
+    report.battleDestinationReceipt=await evaluate(cdp,'baye.hd.fight()');
+    assert.equal(report.battleDestinationReceipt.cityIndex,destination,'The actual battle CityIndex equals the successful native march destination');
+    await battleSmoke(cdp);
+}
+
+async function dispatchAttackMarch(cdp, {party=null,food=null}={}) {
     const owned = await waitFor(cdp, `owned HD map ${route.originName}`, `(() => { const m=BayeHdOverworld.debugSnapshot(); return m.phase==='map' && m.owned.find(c=>c.i===${route.origin} && c.name===${JSON.stringify(route.originName)}); })()`);
     report.marchPlan = await evaluate(cdp, `(() => {
         const realm=baye.hd.realm();
@@ -1349,12 +1417,12 @@ async function marchSmoke(cdp) {
     await checkpoint(cdp,'07-march-persons');
     // The engine can finish automatically after the final remaining general.
     // Observe selected ACK and live phase before choosing another person.
-    const party = escortIds.length ? [report.recruitment.actor.personIndex, ...escortIds] : null;
+    if (escortIds.length) party = [report.recruitment.actor.personIndex, ...escortIds];
     for(let i=0;i<(party?.length ?? 6);i++) {
         const before=await evaluate(cdp,'({march:baye.hd.march(),menu:baye.hd.menuItems(),city:BayeHdCityMenu.debugSnapshot()})');
         if(before.march.phase!==1 || !before.menu.active || !before.city.deepItems.length) break;
         let index=0;
-        if(recruit) {
+        if(recruit || party) {
             assert.equal(before.menu.idsValid,true,'March picker has authoritative native person IDs');
             if(party) index=before.menu.ids.indexOf(party[i]);
             else if((routeFlags.length || actorId !== null) && i === 0) index=before.menu.ids.indexOf(report.recruitment.actor.personIndex);
@@ -1374,6 +1442,9 @@ async function marchSmoke(cdp) {
     }
     await waitFor(cdp, 'march food quantity', `baye.hd.march().phase===2 && baye.hd.qty().active && baye.hd.qty().min === 1`);
     await checkpoint(cdp,'09-march-food');
+    if (food !== null) {
+        report.marchFood = await setNativeQuantity(cdp, await evaluate(cdp,'baye.hd.qty()'), '出征粮草', food);
+    }
     const foodSelector=await evaluate(cdp, `BayeHdDialog.isQtyOpen() ? '#hd-dialog [data-hd-dlg-ok]' : '#hd-city-menu [data-hd-qty-ok]'`);
     await click(cdp,foodSelector);
     await waitFor(cdp, 'explicit target instruction', `baye.hd.march().phase === 3`);
@@ -1402,13 +1473,35 @@ async function marchSmoke(cdp) {
     assert.equal(report.marchOrderReceipt.session,confirmOwner.after.session,'The actual order belongs to the confirmed march session');
     await waitFor(cdp,'actual strategy input after departure',`(() => {const m=baye.hd.march(),menu=baye.hd.menuItems();return (menu.active&&[1,2].includes(menu.context))||(!menu.active&&m.pick===1&&m.battlePick===0&&m.mapInputSeq>${departureMapSeq});})()`);
     await checkpoint(cdp,'13-march-order-ack');
+}
+
+async function beginMarchSettlement(cdp) {
     await action(cdp,'end-strategy-once','BayeHdCityMenu.goStrategyEnd()');
-    await waitFor(cdp,'explicit strategy request accepted','BayeHdCityMenu.debugSnapshot().handoff || baye.hd.fight().active');
-    await waitFor(cdp,'real battle player selection','baye.hd.fight().active && !baye.hd.fight().over && baye.hd.fight().inputKind===1',60000);
-    await checkpoint(cdp,'14-battle-ready');
-    report.battleDestinationReceipt=await evaluate(cdp,'baye.hd.fight()');
-    assert.equal(report.battleDestinationReceipt.cityIndex,destination,'The actual battle CityIndex equals the successful native march destination');
-    await battleSmoke(cdp);
+    await waitFor(cdp,'explicit strategy request accepted','BayeHdCityMenu.debugSnapshot().handoff || baye.hd.fight().active || baye.hd.fight().skip');
+}
+
+async function occupyOriginalYunnan(cdp, ctx) {
+    const party = [97]; // 张任, with 严颜 and 刘焉 remaining in 成都.
+    const before = await ctx.world();
+    assert.equal(before.cities[destination].Belong, 0);
+    await dispatchAttackMarch(cdp, {party,food:200});
+    const queued = await ctx.world();
+    assert.deepEqual([queued.year,queued.month],[before.year,before.month]);
+    assert.equal(queued.cities[destination].Belong, 0);
+    const orders = queued.orders.filter(o => o.OrderId === 27 && o.City === route.origin && o.Object === destination);
+    assert.equal(orders.length, 1);
+    const [order] = orders;
+    assert.equal(order.Food, report.marchFood.wanted);
+    assert.equal(queued.fighterIndex[order.Person], 1);
+    const roster = Buffer.from(queued.fighters.slice(order.Person * 20, order.Person * 20 + 20));
+    assert.deepEqual(Array.from({length:10},(_,i) => roster.readUInt16LE(i * 2)).filter(Boolean),party.map(id => id + 1));
+    await beginMarchSettlement(cdp);
+    const note = await ctx.until('Original 云南 occupation result', `(() => {
+        const s=${battleResultNoteObservation};return s?.city.index===${destination}&&s.note.place.kind==='occupation'&&s;
+    })()`, 90000);
+    verifyBattleResultNote(note,{outcome:1,kind:'occupation',cityIndex:destination});
+    await ctx.checkpoint('yunnan-occupation-note');
+    return {party,order,note};
 }
 
 const battleStateExpression=`(() => {
@@ -1833,9 +1926,13 @@ async function main() {
         await cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: speObserverSource });
         await cdp.send('Page.navigate', { url: origin + '/pc.html' });
         await smoke(cdp);
-        await finishScenario(cdp);
+        if (!yunnan) await finishScenario(cdp);
         const captures=await saveRawEvidence(cdp);
-        verifyAttackCaptures(captures);
+        if (yunnan) {
+            assert.ok(report.yunnanPreparation?.accepted);
+        } else {
+            verifyAttackCaptures(captures);
+        }
         assertDisplayRecords(report.speObservations);
         assert.deepEqual(report.observerErrors, [], 'Read-only observer has no errors');
         assert.deepEqual(report.exceptions, [], 'browser has no uncaught exceptions');
@@ -1877,7 +1974,8 @@ async function main() {
         fs.writeFileSync(path.join(artifactDir, 'browser-console.json'), JSON.stringify({console:report.console,exceptions:report.exceptions,dialogs:report.dialogs},null,2)+'\n');
         fs.writeFileSync(path.join(artifactDir, 'result.json'), JSON.stringify(report, null, 2) + '\n');
         console.log('Artifacts:', artifactDir);
-        if (report.ok) console.log(allowLcd||failedImages?'Real native attack/LCD fallback acceptance passed; this scene does not accept HD art':'Real observed attack interval HD acceptance passed');
+        if (report.ok) console.log(yunnan ? 'Original 云南 officer preparation passed' :
+            allowLcd||failedImages?'Real native attack/LCD fallback acceptance passed; this scene does not accept HD art':'Real observed attack interval HD acceptance passed');
     }
 }
 

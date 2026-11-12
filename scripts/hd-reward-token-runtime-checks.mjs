@@ -71,8 +71,8 @@ function rewardControls({evaluate, until, click, nativeKeys = '__miniNativeInput
 const originalDate = w => w.year * 12 + w.month;
 
 async function settleOriginalMonth(ctx, controls, before) {
-    const { world, until, click, key, waitPlayerMap, mobile, onDefense } = ctx;
-    const { keyCount, keysSince, acknowledge } = controls;
+    const { until, click, key, waitPlayerMap, mobile } = ctx;
+    const { keyCount, keysSince } = controls;
     await waitPlayerMap('Original map before monthly settlement');
     const start = await keyCount();
     if (mobile) await click('#hd-mobile-system-open');
@@ -82,10 +82,16 @@ async function settleOriginalMonth(ctx, controls, before) {
         return m.active===1&&m.context===2&&m.kind===1&&m.names[0]==='策略结束'&&s.open&&!s.pending;
     })()`);
     assert.deepEqual(await keysSince(start), [40]);
-    const expected = originalDate(before) + 1;
     const confirm = await keyCount();
     await click('#hd-system-ui [data-hd-sys="0"]');
     assert.deepEqual(await keysSince(confirm), [39]);
+    return observeOriginalSettlement(ctx, controls, before);
+}
+
+async function observeOriginalSettlement(ctx, controls, before) {
+    const { world, until, waitPlayerMap, onDefense } = ctx;
+    const { acknowledge } = controls;
+    const expected = originalDate(before) + 1;
     const reports = [];
     const defenses = [];
     for (let step = 0; step < 64; step++) {
@@ -404,6 +410,183 @@ async function dispatchOriginalCanvass(ctx, controls, cityIndex, personId, targe
     assert.deepEqual(after.people[targetId], before.people[targetId], 'Dispatch does not settle the target');
     assert.equal(originalDate(after), originalDate(before));
     return {cityIndex, personId, targetId, order, receipt, targetKeys};
+}
+
+export const yunnanOfficers = [
+    {id:185,name:'通宵虫',arm:4},
+    {id:186,name:'南方小鬼',arm:5}
+];
+
+async function treatOriginalOfficer(ctx, controls, cityIndex, personId) {
+    const {world, evaluate, reopenInterior, chooseCityItem, click, waitPlayerMap} = ctx;
+    const before = await world(), officer = before.people[personId], city = before.cities[cityIndex];
+    assert.ok(city.Money >= 100 && personId !== before.king);
+    await reopenInterior('Restore the original officer with 宴请', cityIndex);
+    const {menu:sub} = await chooseCityItem('宴请', 'data-hd-sub', 2);
+    const current = await controls.picker(3,sub.seq,'Original banquet recipient');
+    const selection = await controls.chooseRow(current,personId,'pind');
+    const speech = await controls.waitReport();
+    assert.deepEqual([speech.kind,speech.person],[2,personId]);
+    verifyNativePersonSelection(current,selection.index,await controls.keysSince(selection.count),
+        await evaluate('Number(baye.data.g_screenHeight)'));
+    await controls.acknowledge(speech);
+    if (city.Money >= 200) {
+        await controls.picker(3,current.seq,'Original banquet picker after payment');
+        await click('#hd-city-menu [data-hd-menu-back]');
+    } else {
+        const notice = await controls.waitReport();
+        assert.match(notice.text,/金钱不足|无足够金钱/);
+        await controls.acknowledge(notice);
+    }
+    await waitPlayerMap('Original map after the banquet');
+    const after = await world();
+    const expected = {...before, cities:before.cities.slice(), people:before.people.slice()};
+    expected.cities[cityIndex] = {...city,Money:city.Money - 100};
+    expected.people[personId] = {...officer,Thew:Math.min(100,officer.Thew + 50),
+        Devotion:Math.min(100,officer.Devotion + 1)};
+    assert.deepEqual(after,expected,'The original banquet only spends money and restores the selected officer');
+    return {cityIndex,personId,year:after.year,month:after.month,thewBefore:officer.Thew,
+        thewAfter:after.people[personId].Thew,moneyBefore:city.Money,moneyAfter:after.cities[cityIndex].Money};
+}
+
+export async function runYunnanOfficerPreparation(ctx, home, cityIndex, envoyId, searchLimit) {
+    const {world, report, evaluate, checkpoint, save} = ctx;
+    const controls = rewardControls(ctx);
+    let stock = await world();
+    assert.deepEqual([stock.period,stock.king],[1,15]);
+    const owner = stock.king + 1;
+    const run = report.yunnanPreparation = {home,cityIndex,envoyId,officers:yunnanOfficers,
+        diplomacyMonths:[],searchMonths:[],banquets:[],recruitments:[],defenses:[],accepted:false};
+    const resident = (city, id) => cityResidents(stock, city).includes(id);
+    const allied = (city, id) => stock.people[id].Belong === owner && resident(city,id);
+    const checkCities = () => {
+        assert.equal(stock.cities[home].Belong, owner, 'Original 刘焉 must still hold 成都');
+        assert.equal(stock.cities[cityIndex].Belong, owner, 'Original 刘焉 must still hold 云南');
+    };
+    const preparation = {...ctx, onDefense:async menu => {
+        const defense = await leaveOutpostUndefended(ctx, controls, menu, cityIndex, envoyId);
+        run.defenses.push(defense);
+        return defense;
+    }};
+
+    if (!report.yunnanResume) {
+        const before = stock;
+        assert.equal(stock.cities[cityIndex].Belong, 0);
+        for (const {id,arm} of yunnanOfficers) {
+            assert.ok(resident(cityIndex,id));
+            assert.deepEqual([stock.people[id].Belong,stock.people[id].ArmsType],[0,arm]);
+        }
+        const occupation = await ctx.occupy();
+        const {after,reports} = await observeOriginalSettlement(preparation, controls, before);
+        stock = after;
+        checkCities();
+        const {party,order} = occupation;
+        assert.ok(party.every(id => allied(cityIndex,id)));
+        assert.ok(allied(home,stock.king), 'The ruler remained in 成都');
+        assert.equal(stock.fighterIndex[order.Person], 0);
+        assert.ok(!stock.orders.some(o => o.OrderId === 27 && o.City === home && o.Object === cityIndex));
+        run.occupation = {...occupation,year:stock.year,month:stock.month,reports};
+        await checkpoint('yunnan-occupied-map');
+        run.occupiedSave = await save('yunnan-occupied', 0);
+    }
+
+    checkCities();
+    if (report.yunnanResume?.stage === 'ready') {
+        assert.ok(allied(cityIndex,envoyId));
+        assert.ok(yunnanOfficers.every(({id,arm}) => allied(cityIndex,id) && stock.people[id].ArmsType === arm));
+        run.accepted = true;
+        return;
+    }
+    for (let month = 0; month < 30 && stock.people[envoyId].Belong !== owner; month++) {
+        checkCities();
+        const foreign = stock.people[envoyId].Belong;
+        assert.ok(foreign > 0 && foreign <= stock.people.length && foreign !== envoyId + 1 &&
+            stock.cities.some(c => c.Belong === foreign && resident(c.index,envoyId)),
+            '糜芳 must be available in the original Canvass target list');
+        const orders = [];
+        for (const origin of [home,cityIndex]) {
+            const residents = cityResidents(stock,origin).filter(id => stock.people[id].Belong === owner);
+            const ranked = residents.slice().sort((a,b) => stock.people[b].IQ - stock.people[a].IQ);
+            const officer = ranked.find(id => id !== stock.king);
+            if (residents.length > 1 && officer !== undefined && stock.cities[origin].Money >= 150 &&
+                ranked.every(id => stock.people[id].Thew < 20)) {
+                run.banquets.push(await treatOriginalOfficer(ctx,controls,origin,officer));
+                stock = await world();
+            }
+            const eligible = ranked.filter(id => stock.people[id].Thew >= 20);
+            const budget = Math.min(residents.length - 1, Math.floor(stock.cities[origin].Money / 50));
+            for (const actor of eligible.slice(0,Math.max(0,budget))) {
+                orders.push(await dispatchOriginalCanvass(ctx,controls,origin,actor,envoyId));
+            }
+        }
+        const {after,reports} = await settleOriginalMonth(preparation, controls, stock);
+        stock = after;
+        for (const {cityIndex:origin,personId:actor} of orders) {
+            assert.ok(!stock.orders.some(o => o.OrderId === 16 && o.Person === actor && o.Object === envoyId));
+            assert.ok(allied(origin,actor));
+        }
+        if (orders.length) assert.ok(reports.some(r => r.person === envoyId));
+        run.diplomacyMonths.push({year:stock.year,month:stock.month,orders,reports,envoy:stock.people[envoyId]});
+        if (month === 0 || (month + 1) % 6 === 0) await checkpoint('yunnan-canvass-month-' + (month + 1));
+    }
+    assert.equal(stock.people[envoyId].Belong, owner, 'Original Canvass must recruit 糜芳');
+    if (!['envoy','search'].includes(report.yunnanResume?.stage)) {
+        const origin = stock.cities.find(c => c.Belong === owner && allied(c.index,envoyId));
+        assert.ok(origin, 'Find the original city where 糜芳 joined');
+        run.envoyRecruitment = {year:stock.year,month:stock.month,cityIndex:origin.index,person:stock.people[envoyId]};
+        await checkpoint('yunnan-envoy-recruited');
+        if (origin.index !== cityIndex) {
+            await moveOriginalOfficers(preparation,controls,origin.index,cityIndex,[envoyId],run,'yunnan-envoy');
+            stock = await world();
+        }
+        assert.ok(allied(cityIndex,envoyId));
+        run.envoySave = await save('yunnan-envoy-arrived', 1);
+        await checkpoint('yunnan-envoy-saved');
+    }
+
+    for (let month = 0; month < searchLimit && !yunnanOfficers.every(({id}) => allied(cityIndex,id)); month++) {
+        checkCities();
+        assert.ok(allied(cityIndex,envoyId), '糜芳 remains available to search 云南');
+        const remaining = yunnanOfficers.filter(({id}) => !allied(cityIndex,id));
+        for (const {id} of remaining) {
+            assert.ok(resident(cityIndex,id) && stock.people[id].Belong === 0, 'Unrecruited original officer stays in 云南');
+        }
+        if (stock.people[envoyId].Thew < 8 && stock.cities[cityIndex].Money >= 100) {
+            run.banquets.push(await treatOriginalOfficer(ctx,controls,cityIndex,envoyId));
+            stock = await world();
+        }
+        const search = stock.people[envoyId].Thew >= 8
+            ? await searchOriginalCity(preparation, controls, cityIndex, (residents, limit) => {
+                assert.ok(residents.includes(envoyId), 'The original Search picker includes 糜芳');
+                return [envoyId,...residents.filter(id => id !== envoyId)].slice(0,limit);
+            })
+            : {...await settleOriginalMonth(preparation,controls,stock),orders:[]};
+        stock = search.after;
+        const {orders,reports} = search;
+        const sample = {year:stock.year,month:stock.month,orders,reports,envoyThew:stock.people[envoyId].Thew};
+        run.searchMonths.push(sample);
+        for (const {id,name,arm} of remaining) {
+            if (!allied(cityIndex,id)) continue;
+            assert.ok(reports.some(r => r.person === envoyId && r.text.endsWith(name)) && reports.some(r => r.person === id),
+                'Original discovery reports identify 糜芳 and the joining officer');
+            assert.equal(await evaluate(`baye.hd.personArmType(${id})`), arm);
+            run.recruitments.push({id,name,arm,...sample,person:stock.people[id]});
+            await checkpoint('yunnan-officer-' + id + '-recruited');
+        }
+        if ((month + 1) % 12 === 0) await checkpoint('yunnan-search-month-' + (month + 1));
+    }
+    checkCities();
+    assert.ok(allied(cityIndex,envoyId));
+    const alliedOfficers = yunnanOfficers.filter(({id}) => allied(cityIndex,id)).map(({id}) => id);
+    if (alliedOfficers.length < yunnanOfficers.length) {
+        assert.ok(yunnanOfficers.every(({id}) => resident(cityIndex,id) && [0,owner].includes(stock.people[id].Belong)));
+        run.progressSave = {...await save('yunnan-search-progress',2),alliedOfficers};
+        await checkpoint('yunnan-search-progress-saved');
+        assert.fail('Original Search has not yet recruited both special officers');
+    }
+    run.readySave = await save('yunnan-officers-recruited', 2);
+    run.accepted = true;
+    await checkpoint('yunnan-officers-saved');
 }
 
 export async function runEliteAttackPreparation(ctx, marchCity, discovery) {
