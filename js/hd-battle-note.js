@@ -47,6 +47,15 @@
         return publishedCity !== null && (!result || result.cityIndex !== publishedCity)
             ? {cityIndex: publishedCity, kind: 'result'} : result;
     }
+    function resultSummary(data, place) {
+        if (place.kind !== 'attack' && place.kind !== 'defense') { return null; }
+        try {
+            var day = data.g_FgtBoutCnt, limit = data.g_FgtBoutMax, food = data.g_FgtParam.MProvender;
+            if (!uint(day, 65535) || !day || !uint(limit, 65535) || !limit || day > limit + 1 || !uint(food, 65535)) { return null; }
+            // FgtDealBout increments once more when ending a battle at the time limit.
+            return {days: Math.min(day, limit), food: food};
+        } catch (error) { return null; }
+    }
     function createController(environment) {
         var env = environment || global, mounted = false, focused = true, pageActive = true, timer = null, afterInputPending = false;
         var reading = false, readEpoch = 0, announcedOrder = null;
@@ -144,7 +153,10 @@
                 var data = typeof getData === 'function' ? getData.call(baye) : baye.data;
                 if (!data || baye.data !== data) { return null; }
                 var order = announcedOrder && announcedOrder.data === data && announcedOrder.libraryGeneration === id.generation ? announcedOrder : null;
-                var first = sample(data, hd, read, order), second = sample(data, hd, read, order);
+                var first = sample(data, hd, read, order);
+                var firstSummary = display && !mobile() && node('hd-battle-note-summary') && first && first.place &&
+                    first.publishedCity === first.place.cityIndex ? resultSummary(data, first.place) : null;
+                var second = sample(data, hd, read, order);
                 if (!first || !second || JSON.stringify(first) !== JSON.stringify(second) ||
                     (!display && second.note.outcome !== 3)) { return null; }
                 var place = second.place, params = place && data.g_FgtParam, getCityName = place && baye.getCityName, cityName = '';
@@ -175,6 +187,8 @@
                     (second.publishedCity !== null || data.g_FgtParam === params) &&
                     JSON.stringify(noticePlace(data, second.note, finalCity, second.publishedCity, inputSeq, order)) === JSON.stringify(place) ?
                     {cityIndex: place.cityIndex, cityName: cityName, kind: place.kind} : null;
+                var summary = location && firstSummary &&
+                    JSON.stringify(firstSummary) === JSON.stringify(resultSummary(data, location)) ? firstSummary : null;
                 // These callbacks can in turn change native/source values.
                 // Keep the primitive publication check after all of them.
                 if (!finalHd || finalReady !== true || !finalAvailable ||
@@ -188,9 +202,20 @@
                     announcedOrder = {data: data, libraryGeneration: latest.generation, generation: second.note.generation,
                         seq: second.note.seq, cityIndex: finalCity, inputSeq: inputSeq};
                 }
-                return display ? {data: data, note: second.note, place: location, libraryGeneration: latest.generation} : null;
+                return display ? {data: data, note: second.note, place: location, summary: summary, libraryGeneration: latest.generation} : null;
             } catch (error) { return null; }
             finally { reading = false; }
+        }
+        function paintSummary(value) {
+            var panel = node('hd-battle-note-summary');
+            if (!panel || !value && panel.hidden) { return null; }
+            var days = node('hd-battle-note-days'), food = node('hd-battle-note-food');
+            var visible = !!(value && days && food);
+            var daysText = visible ? value.days + ' 天' : '', foodText = visible ? value.food.toLocaleString('zh-CN') : '';
+            if (days && days.textContent !== daysText) { days.textContent = daysText; }
+            if (food && food.textContent !== foodText) { food.textContent = foodText; }
+            panel.hidden = !visible;
+            return visible ? value : null;
         }
         function paint(value, reason) {
             var root = node('hd-battle-note'), text = node('hd-battle-note-text'), body = doc() && doc().body;
@@ -207,6 +232,7 @@
                 if (caption.textContent !== captionText) { caption.textContent = captionText; }
                 caption.hidden = !place;
             }
+            var summary = paintSummary(show ? value.summary : null);
             if (root) {
                 root.hidden = !show;
                 root.setAttribute('aria-hidden', show ? 'false' : 'true');
@@ -221,6 +247,7 @@
                 generation: value.note.generation, libraryGeneration: value.libraryGeneration,
                 outcome: value.note.outcome, winner: value.note.winner, text: value.note.text, place: value.place} :
                 {active: false, presentation: 'off', reason: reason || 'unavailable'};
+            if (summary) { last.summary = summary; }
             return last;
         }
         function refresh() {

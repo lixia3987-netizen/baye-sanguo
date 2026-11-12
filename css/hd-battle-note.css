@@ -57,6 +57,25 @@
     white-space: pre-wrap;
     overflow-wrap: anywhere;
 }
+#hd-battle-note-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    box-sizing: border-box;
+    width: min(360px, 100%);
+    margin: 18px auto 0;
+    padding: 10px 0;
+    border: 1px solid rgba(191, 161, 106, .45);
+    border-radius: 6px;
+    background: rgba(16, 23, 33, .55);
+}
+#hd-battle-note-summary[hidden] { display: none !important; }
+#hd-battle-note-summary > div + div { border-inline-start: 1px solid rgba(191, 161, 106, .3); }
+#hd-battle-note-summary dt { color: #d4b986; font-size: 14px; line-height: 1.4; }
+#hd-battle-note-summary dd { margin: 3px 0 0; font-size: 22px; line-height: 1.3; font-variant-numeric: tabular-nums; }
+@media (max-height: 520px) {
+    #hd-battle-note:has(#hd-battle-note-summary:not([hidden])) { padding: 14px; }
+    #hd-battle-note:has(#hd-battle-note-summary:not([hidden])) .hd-battle-note-panel { padding-block: 14px; }
+}
 /* Keep the real canvas hit box and its existing input gates. The read-only
    panel covers its pixels without changing the original delay's input. */
 body[data-hd-battle-note="hd"]:not([data-hd-battle-note-kind="5"]) #lcd { opacity: 0 !important; }

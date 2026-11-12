@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261113viewlocate"/>
     <link rel="stylesheet" type="text/css" href="css/hd-spe.css?ver=20261010c"/>
     <link rel="stylesheet" type="text/css" href="css/hd-portraits.css?ver=20261113battlehelp"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-battle-note.css?ver=20261112illustration"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-battle-note.css?ver=20261113resultsummary"/>
     <link rel="stylesheet" type="text/css" href="css/hd-battle-transition.css?ver=20261026stage1"/>
     <script>
         window.BAYE_ASSET_VER = '20261112notecity';
@@ -117,6 +117,10 @@
         </figure>
         <p id="hd-battle-note-place" hidden></p>
         <p id="hd-battle-note-text" role="status"></p>
+        <dl id="hd-battle-note-summary" hidden>
+            <div><dt>战斗天数</dt><dd id="hd-battle-note-days"></dd></div>
+            <div><dt>我方余粮</dt><dd id="hd-battle-note-food"></dd></div>
+        </dl>
     </div>
 </section>
 <section id="hd-battle-transition" aria-label="战斗过场" aria-hidden="true" hidden>
@@ -406,7 +410,7 @@
 <script src="js/hd-dialog.js?ver=20261113viewlocate"></script>
 <script src="js/hd-battle-scene.js?ver=20261112statuscaption"></script>
 <script src="js/hd-spe.js?ver=20261112prewarm"></script>
-<script src="js/hd-battle-note.js?ver=20261112notecity"></script>
+<script src="js/hd-battle-note.js?ver=20261113resultsummary"></script>
 <script src="js/hd-battle-transition.js?ver=20261026stage1"></script>
 <script src="js/hd-portraits.js?ver=20261113battlehelp"></script>
 <script src="js/hd-portrait-dump.js?ver=20260924a"></script>

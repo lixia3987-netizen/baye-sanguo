@@ -22,12 +22,16 @@ const blockers = ['g_hdMenuActive', 'g_hdReportActive', 'g_hdRecordActive', 'g_h
     'g_hdResultOwnerValid', 'g_hdMapPick', 'g_hdBattlePick', 'g_hdFightActive'];
 const field = name => 'g_hdBattleNote' + name[0].toUpperCase() + name.slice(1);
 
-function fixture({mobile = true, mode = 'auto', map = 'hd-map', microtask = true, legacyPromise = false, illustration = false} = {}) {
+function fixture({mobile = true, mode = 'auto', map = 'hd-map', microtask = true, legacyPromise = false,
+    illustration = false, resultSummary = false} = {}) {
     const listeners = new Map(), windowListeners = new Map(), timers = new Map(), nodes = new Map();
     const state = {mode, map, ready: true, reads: 0, readHook: null, identityHook: null, writes: 0, keys: 0, storageWrites: 0, callbacks: [], microtasks: []};
     let identity = {status: 'ready', generation: 3, sha256: SHA, byteLength: 207195};
     function element() { return {hidden: true, textContent: '', attrs: {}, setAttribute(k, v) { this.attrs[k] = v; }}; }
     for (const id of ['hd-battle-note', 'hd-battle-note-text', 'hd-battle-note-place']) nodes.set(id, element());
+    if (resultSummary) {
+        for (const id of ['hd-battle-note-summary', 'hd-battle-note-days', 'hd-battle-note-food']) nodes.set(id, element());
+    }
     if (illustration) {
         nodes.set('hd-battle-note-art', element());
         const atlas = {...element(), events: new Map(), complete: false, naturalWidth: 0, naturalHeight: 0,
@@ -130,9 +134,12 @@ for (const {mode, outcome, skip, kind, label} of [
     {mode:2,outcome:1,skip:2,kind:'arrival',label:'入驻'}
 ]) {
     test('Result location follows the actual native '+kind+' owner and clears on retirement', () => {
-        const f = fixture(), caption = f.nodes.get('hd-battle-note-place');
-        Object.assign(f.raw,{g_PlayerKing:0,g_FgtParam:{Mode:mode,CityIndex:16},g_FgtOver:1,
-            g_hdFightOver:1,g_hdFightSkip:skip,g_Cities:{16:{Belong:skip ? 1 : 9}}});
+        const f = fixture({mobile:false,resultSummary:true}), caption = f.nodes.get('hd-battle-note-place');
+        const summary = f.nodes.get('hd-battle-note-summary'), days = f.nodes.get('hd-battle-note-days'), food = f.nodes.get('hd-battle-note-food');
+        const defense = mode === 0;
+        Object.assign(f.raw,{g_PlayerKing:0,g_FgtParam:{Mode:mode,CityIndex:16,MProvender:defense ? 0 : 65535},
+            g_FgtBoutCnt:defense ? 31 : 1,g_FgtBoutMax:30,g_FgtOver:1,g_hdFightOver:1,g_hdFightSkip:skip,
+            g_Cities:{16:{Belong:skip ? 1 : 9}}});
         f.environment.baye.getCityName = index => { assert.equal(index,16); return '许昌'; };
         f.set('outcome',3); f.set('winner',65535); f.set('text','我军进攻许昌');
         f.api.init(); f.on();
@@ -148,10 +155,38 @@ for (const {mode, outcome, skip, kind, label} of [
         assert.equal(caption.hidden,false); assert.equal(caption.textContent,label+' · 许昌');
         f.note.cityIndex=16; f.raw.g_hdBattleNoteCity=16; f.api.refresh(); f.on();
         assert.equal(caption.textContent,label+' · 许昌');
+        assert.equal(summary.hidden,!!skip);
+        assert.deepEqual({...f.api.debugSnapshot().summary},skip ? {} : {days:defense ? 30 : 1,food:defense ? 0 : 65535});
+        assert.equal(days.textContent,skip ? '' : defense ? '30 天' : '1 天');
+        assert.equal(food.textContent,skip ? '' : defense ? '0' : '65,535');
         f.set('active',0); f.api.onEngineNote(); f.off();
-        assert.equal(caption.hidden,true); assert.equal(caption.textContent,''); f.noSideEffects();
+        assert.equal(caption.hidden,true); assert.equal(caption.textContent,'');
+        assert.equal(summary.hidden,true); assert.equal(days.textContent,''); assert.equal(food.textContent,'');
+        f.noSideEffects();
     });
 }
+test('Desktop totals require a played day and stable values from the same published city', () => {
+    const f = fixture({mobile:false,resultSummary:true});
+    const summary = f.nodes.get('hd-battle-note-summary');
+    const params = {Mode:1,CityIndex:16,MProvender:100};
+    Object.assign(f.raw,{g_PlayerKing:0,g_FgtParam:params,g_FgtOver:1,g_hdFightOver:1,g_hdFightSkip:0,
+        g_FgtBoutCnt:1,g_FgtBoutMax:30,g_hdBattleNoteCity:16});
+    f.note.cityIndex=16;
+    f.environment.baye.getCityName = () => '许昌';
+    f.api.init(); f.on(); assert.equal(summary.hidden,false);
+
+    f.environment.baye.getCityName = () => { params.MProvender++; return '许昌'; };
+    f.api.refresh(); f.on(); assert.equal(summary.hidden,true);
+    f.environment.baye.getCityName = () => '许昌';
+    f.api.refresh(); f.on(); assert.deepEqual({...f.api.debugSnapshot().summary},{days:1,food:101});
+
+    f.raw.g_FgtBoutCnt=0;
+    f.api.refresh(); f.on(); assert.equal(summary.hidden,true);
+    f.raw.g_FgtBoutCnt=1;
+    f.note.cityIndex=f.raw.g_hdBattleNoteCity=15;
+    f.api.refresh(); f.on(); assert.equal(summary.hidden,true);
+    f.noSideEffects();
+});
 for (const [skip, kind, label] of [[1, 'occupation', '占领'], [2, 'arrival', '入驻']]) {
     test('Landscape restores the '+kind+' caption after a portrait announcement', () => {
         const f = fixture(), caption = f.nodes.get('hd-battle-note-place');

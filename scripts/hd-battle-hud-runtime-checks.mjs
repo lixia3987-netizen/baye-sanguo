@@ -7,7 +7,7 @@ export const battleResultNoteObservation = `(() => {
     const d=baye.data, native=baye.hd.battleNote(), param=d.g_FgtParam;
     if(native.active!==1||native.seq!==note.seq||native.generation!==note.generation)return null;
     const root=document.getElementById('hd-battle-note'), caption=document.getElementById('hd-battle-note-place'),
-        message=document.getElementById('hd-battle-note-text');
+        message=document.getElementById('hd-battle-note-text'), summary=document.getElementById('hd-battle-note-summary');
     const measure=node=>{
         const rect=node.getBoundingClientRect();
         return {text:node.textContent, visible:node.checkVisibility({visibilityProperty:true,opacityProperty:true}),
@@ -16,7 +16,11 @@ export const battleResultNoteObservation = `(() => {
     };
     return {note,native,city:{index:param.CityIndex,name:baye.getCityName(param.CityIndex),owner:d.g_Cities[param.CityIndex].Belong},
         mode:param.Mode,skip:d.g_hdFightSkip,king:d.g_PlayerKing,fightOver:d.g_FgtOver,nativeOver:d.g_hdFightOver,
-        caption:measure(caption),message:measure(message),pointerEvents:getComputedStyle(root).pointerEvents};
+        caption:measure(caption),message:measure(message),pointerEvents:getComputedStyle(root).pointerEvents,
+        desktop:!document.body.classList.contains('hd-mobile-page'),
+        totals:{day:d.g_FgtBoutCnt,limit:d.g_FgtBoutMax,food:param.MProvender},
+        summary:summary?{...measure(summary),days:measure(document.getElementById('hd-battle-note-days')),
+            food:measure(document.getElementById('hd-battle-note-food'))}:null};
 })()`;
 
 export function verifyBattleResultNote(sample, {outcome, kind, cityIndex}) {
@@ -38,6 +42,18 @@ export function verifyBattleResultNote(sample, {outcome, kind, cityIndex}) {
     assert.ok(caption.visible&&caption.fits&&message.visible&&message.fits&&caption.bottom<=message.top,
         'The place and original result fit and remain individually legible');
     assert.equal(sample.pointerEvents,'none','Result presentation remains passive');
+    const {summary,totals}=sample;
+    if (sample.desktop && (kind==='attack'||kind==='defense') && native.cityIndex===cityIndex && totals.day>0) {
+        const days=Math.min(totals.day,totals.limit);
+        assert.deepEqual(note.summary,{days,food:totals.food});
+        assert.ok(summary?.visible&&summary.fits&&summary.days.visible&&summary.days.fits&&
+            summary.food.visible&&summary.food.fits&&message.bottom<=summary.top,'Both totals fit below the original result');
+        assert.equal(summary.days.text,days+' 天');
+        assert.equal(summary.food.text,totals.food.toLocaleString('zh-CN'));
+    } else {
+        assert.equal(note.summary,undefined);
+        assert.ok(!summary?.visible,'No battle totals appear for a skipped or non-desktop result');
+    }
 }
 
 export async function measureIdleBattleBoard(evaluate, send, canvasId) {
