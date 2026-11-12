@@ -6,6 +6,7 @@ import test from 'node:test';
 
 const source = readFileSync(new URL('../js/hd-battle-terrain.js', import.meta.url), 'utf8');
 const identitySource = readFileSync(new URL('../js/hd-lib-identity.js', import.meta.url), 'utf8');
+const bridgeSource = readFileSync(new URL('../js/bridge.js', import.meta.url), 'utf8');
 const nativeHeader = readFileSync(new URL('../vendor/iBaye/src/baye/fight.h', import.meta.url), 'utf8');
 const nativeSource = readFileSync(new URL('../vendor/iBaye/src/FightSub.c', import.meta.url), 'utf8');
 const constants = Object.fromEntries([...nativeHeader.matchAll(/^#define\s+(TER(?:N|RAIN)_[A-Z]+)\s+(\d+)/gm)]
@@ -323,4 +324,79 @@ test('missing offscreen canvas still draws neutral fallback without touching nat
     const before = JSON.stringify(s); h.painter.paint(h.ctx, board, s);
     assert.ok(h.composites.length > 0, 'direct vector fallback remains visible');
     assert.equal(JSON.stringify(s), before); assert.deepEqual(h.nativeWrites, []);
+});
+
+function nativeMapBridge({ width = 3, height = 2, capacity = 8, address = 16, tileType = 0, tileSize = 1 } = {}) {
+    const memory = new Uint8Array(64), reads = [];
+    memory.set([width, height], 4);
+    memory.set([4, 17, 35, 0, 95, 255, 8, 12], 16);
+    const byte = { type: 0, size: 1 };
+    const world = { type: 4, fields: [
+        { name: 'g_MapWid', offset: 4, def: byte },
+        { name: 'g_MapHgt', offset: 5, def: byte },
+        { name: 'g_FightMapData', offset: address,
+            def: { type: 5, length: capacity, element: { type: tileType, size: tileSize } } }
+    ] };
+    const context = vm.createContext({ TextDecoder, TextEncoder, Module: { HEAPU8: memory },
+        console: { log() {}, warn() {} }, addEventListener() {}, alert() {}, lcdBlur() {} });
+    context.window = context;
+    for (const name of new Set(bridgeSource.match(/\b_baye\w+/g))) context[name] = () => 0;
+    let arrayBindings = 0;
+    Object.assign(context, {
+        UTF8ToString: value => value,
+        _Value_get_def: field => field.def,
+        _Value_get_addr: field => field.offset,
+        _Field_get_name: field => field.name,
+        _Field_get_value: field => field,
+        _Field_get_type: field => field.def.type,
+        _ValueDef_get_type: def => def.type,
+        _ValueDef_get_size: def => def.size,
+        _ValueDef_get_array_subdef: def => def.element,
+        _ValueDef_get_array_length: def => { arrayBindings++; return def.length; },
+        _ValueDef_get_field_count: def => def.fields.length,
+        _ValueDef_get_field_by_index: (def, index) => def.fields[index],
+        _baye_get_u8_value: address => {
+            reads.push(address);
+            return context.Module.HEAPU8[address];
+        }
+    });
+    vm.runInContext(bridgeSource, context);
+    context.baye_bridge_init();
+    context.baye.data = context.baye_bridge_value({ def: world, offset: 0 });
+    return { context, memory, reads, baye: context.baye, arrayBindings: () => arrayBindings };
+}
+
+test('bulk battle map copies only the current native rows without binding or reading each tile', () => {
+    const h = nativeMapBridge();
+    const map = h.baye.hd.battleMapTiles();
+    assert.deepEqual([map.width, map.height, ...map.tiles], [3, 2, 4, 17, 35, 0, 95, 255]);
+    assert.deepEqual(h.reads, [4, 5, 4, 5]);
+    assert.equal(h.arrayBindings(), 1, 'The array length is read at binding and no byte getters are materialized');
+    map.tiles[0] = 0;
+    assert.equal(h.memory[16], 4);
+    h.memory[16] = 11;
+    assert.equal(h.baye.hd.battleMapTiles().tiles[0], 11, 'Every copy observes the current native bytes');
+});
+
+test('bulk battle map rejects unbound, non-byte and out-of-bounds arrays', () => {
+    for (const options of [{ width: 0 }, { capacity: 5 }, { address: 60 }, { address: 0 },
+        { tileType: 1 }, { tileSize: 2 }]) {
+        assert.equal(nativeMapBridge(options).baye.hd.battleMapTiles(), null);
+    }
+    const h = nativeMapBridge();
+    h.baye.data = { g_MapWid: 3, g_MapHgt: 2, g_FightMapData: { _addr: 16, length: 8 } };
+    assert.equal(h.baye.hd.battleMapTiles(), null);
+    assert.deepEqual(h.reads, []);
+});
+
+test('bulk battle map retires a copy when dimensions, data or heap changes during observation', () => {
+    for (const change of [h => { h.memory[4] = 2; }, h => { h.baye.data = {}; },
+        h => { h.context.Module.HEAPU8 = h.memory.slice(); }]) {
+        const h = nativeMapBridge(), read = h.context._baye_get_u8_value;
+        h.context._baye_get_u8_value = address => {
+            if (h.reads.length === 2) change(h);
+            return read(address);
+        };
+        assert.equal(h.baye.hd.battleMapTiles(), null);
+    }
 });

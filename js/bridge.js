@@ -85,6 +85,7 @@ var    ValueTypeGBKBuffer = 7;
 
 var gbkDecoder = new TextDecoder('GBK');
 var gbkEncoder = new TextEncoder('GBK', { NONSTANDARD_allowLegacyEncoding: true });
+var nativeBattleMapFields = new WeakMap();
 
 function BayeObject() {
 }
@@ -363,9 +364,21 @@ function baye_bridge_obj(def, addr) {
         var field_value_addr = _Field_get_value(field);
         var value_def = _Value_get_def(field_value_addr);
         var value_offset = _Value_get_addr(field_value_addr);
+        var type = _Field_get_type(field);
         var field_value = baye_bridge_valuedef_lazy(value_def, addr + value_offset);
 
-        var desc = baye_bridge_description_for_value(field_value, _Field_get_type(field));
+        // Record the engine binding without materializing the large array of
+        // individual byte getters. This address comes from the native field.
+        if (name === 'g_FightMapData' && type === ValueTypeArray) {
+            var tile_def = _ValueDef_get_array_subdef(value_def);
+            if (_ValueDef_get_type(tile_def) === ValueTypeU8 && _ValueDef_get_size(tile_def) === 1) {
+                nativeBattleMapFields.set(jsObj, {
+                    address: addr + value_offset, length: _ValueDef_get_array_length(value_def)
+                });
+            }
+        }
+
+        var desc = baye_bridge_description_for_value(field_value, type);
         properties[name] = desc;
         property_names.push(name);
     }
@@ -2161,6 +2174,22 @@ function baye_bridge_init() {
 
     baye.hd = {
         ready: hdEngineReady,
+        battleMapTiles: function () {
+            try {
+                var data = baye.ensureData(), map = nativeBattleMapFields.get(data);
+                if (!map) { return null; }
+                var width = hdIntegerValue(data.g_MapWid, 1, 255), height = hdIntegerValue(data.g_MapHgt, 1, 255);
+                var length = width * height, heap = Module.HEAPU8;
+                if (!width || !height || !Number.isInteger(map.address) ||
+                    !Number.isInteger(map.length) || length > map.length || !hdHeapOk(map.address, length)) {
+                    return null;
+                }
+                var tiles = Array.from(heap.subarray(map.address, map.address + length));
+                if (tiles.length !== length || data.g_MapWid !== width || data.g_MapHgt !== height ||
+                    baye.data !== data || Module.HEAPU8 !== heap) { return null; }
+                return { width: width, height: height, tiles: tiles };
+            } catch (e) { return null; }
+        },
         report: function () {
             hdNote('hd.report', '');
             var d = baye.ensureData();

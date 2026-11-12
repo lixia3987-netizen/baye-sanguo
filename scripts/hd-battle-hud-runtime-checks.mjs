@@ -41,6 +41,11 @@ export function verifyBattleResultNote(sample, {outcome, kind, cityIndex}) {
 }
 
 export async function measureIdleBattleBoard(evaluate, send, canvasId) {
+    const mapRange=await evaluate(`({address:baye.data.g_FightMapData._addr,
+        bytes:baye.data.g_MapWid*baye.data.g_MapHgt,readable:typeof window._baye_get_u8_value==='function'})`);
+    assert.ok(Number.isInteger(mapRange.address)&&mapRange.address>0&&
+        Number.isInteger(mapRange.bytes)&&mapRange.bytes>0&&mapRange.readable,
+        'The original battle exposes the native map byte reader');
     await send('Performance.enable');
     try {
         const metrics = async () => Object.fromEntries((await send('Performance.getMetrics')).metrics.map(({name, value}) => [name, value]));
@@ -52,6 +57,14 @@ export async function measureIdleBattleBoard(evaluate, send, canvasId) {
                 const original=context.clearRect,startedAt=performance.now(),frames=[],paints=[];
                 const viewport={width:innerWidth,height:innerHeight,dpr:devicePixelRatio};
                 const reads={}, restores=[];
+                const mapStart=${mapRange.address},mapBytes=${mapRange.bytes};
+                const readByte=window._baye_get_u8_value;
+                let nativeMapByteReads=0;
+                window._baye_get_u8_value=function(address){
+                    if(address>=mapStart&&address<mapStart+mapBytes)nativeMapByteReads++;
+                    return readByte.apply(this,arguments);
+                };
+                restores.push(()=>{window._baye_get_u8_value=readByte;});
                 const stringify=JSON.stringify;
                 let speEntrySerializations=0;
                 JSON.stringify=function(value){
@@ -61,8 +74,9 @@ export async function measureIdleBattleBoard(evaluate, send, canvasId) {
                 };
                 restores.push(()=>{JSON.stringify=stringify;});
                 for(const [owner,name] of [[baye.hd,'fight'],[baye.hd,'menuItems'],[baye.hd,'realm'],
-                    [baye.hd,'report'],[baye,'getPersonName'],[baye,'getArmType']]){
+                    [baye.hd,'report'],[baye,'getPersonName'],[baye,'getArmType'],[baye.hd,'battleMapTiles']]){
                     const originalRead=owner[name];
+                    if(typeof originalRead!=='function')continue;
                     const count=reads[name]={calls:0,ms:0};
                     owner[name]=function(){
                         const at=performance.now();count.calls++;
@@ -77,14 +91,32 @@ export async function measureIdleBattleBoard(evaluate, send, canvasId) {
                     if(time-startedAt<1500){requestAnimationFrame(frame);return;}
                     context.clearRect=original;
                     restores.forEach(restore=>restore());
-                    resolve({viewport,startedAt,endedAt:performance.now(),frames,paints,reads,speEntrySerializations});
+                    resolve({viewport,startedAt,endedAt:performance.now(),frames,paints,reads,speEntrySerializations,mapBytes,nativeMapByteReads});
                 }
                 requestAnimationFrame(frame);
             });
         })()`);
         const after = await metrics();
         assert.ok(sample.frames.length>0, 'The foreground battle receives animation frames');
+        let nativeMap=null;
+        if(sample.reads.battleMapTiles){
+            nativeMap=await evaluate(`(() => {
+                const data=baye.data,width=data.g_MapWid,height=data.g_MapHgt,original=data.g_FightMapData;
+                const copied=baye.hd.battleMapTiles();
+                if(!copied||copied.width!==width||copied.height!==height||copied.tiles.length!==width*height)return null;
+                const matches=copied.tiles.every((value,index)=>value===original[index]);
+                const first=original[0];
+                copied.tiles[0]=first^255;
+                const detached=original[0]===first&&baye.hd.battleMapTiles()?.tiles[0]===first;
+                return {width,height,matches,detached,current:baye.data===data};
+            })()`);
+            assert.ok(nativeMap?.matches&&nativeMap.detached&&nativeMap.current,
+                'The bulk copy exactly matches the current native map and cannot modify it');
+            assert.ok(sample.reads.battleMapTiles.calls>0,'Idle HD battle uses the bulk map copy');
+            assert.equal(sample.nativeMapByteReads,0,'Idle board sampling no longer crosses the bridge for individual map tiles');
+        }
         return {browser: (await send('Browser.getVersion')).product, sample,
+            nativeMap,
             frames: summarizeFrames(sample.frames, sample.startedAt, sample.endedAt),
             paints: summarizeFrames(sample.paints, sample.startedAt, sample.endedAt),
             scriptMs: (after.ScriptDuration-before.ScriptDuration)*1000,

@@ -8,7 +8,7 @@
     var MOBILE_STORAGE_KEY = 'baye/mobileBattleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20261111q';
+    var HD_BATTLE_VER = '20261112r';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
     var ARM_NAMES = ['骑兵', '步兵', '弓兵', '水军', '极兵', '玄兵'];
@@ -1300,22 +1300,26 @@
         if (!data) {
             return info;
         }
-        var mw = readNumber(data, 'g_MapWid');
-        var mh = readNumber(data, 'g_MapHgt');
+        var nativeMap = typeof baye.hd.battleMapTiles === 'function' ? baye.hd.battleMapTiles() : null;
+        if (nativeMap && baye.data !== data) { return info; }
+        var mw = nativeMap ? nativeMap.width : readNumber(data, 'g_MapWid');
+        var mh = nativeMap ? nativeMap.height : readNumber(data, 'g_MapHgt');
         var nativeDimensions = mw > 0 && mw <= 255 && mw === Math.floor(mw) &&
             mh > 0 && mh <= 255 && mh === Math.floor(mh);
         // The full allocation is 65536 bytes, but only native width * height
         // bytes belong to this map. g_FightMap is a separate LCD viewport cache
         // with a different origin/stride; it is never guessed to be a full map.
-        var map = data.g_FightMapData;
+        var map = nativeMap ? null : data.g_FightMapData;
         if (nativeDimensions) {
             info.mapW = mw;
             info.mapH = mh;
             info.mapLen = mw * mh;
         }
         info.tileW = info.mapW;
-        var hasFullMap = nativeDimensions && map && map.length > 0;
-        if (hasFullMap) {
+        var hasFullMap = !!nativeMap || nativeDimensions && map && map.length > 0;
+        if (nativeMap) {
+            info.tiles = nativeMap.tiles;
+        } else if (hasFullMap) {
             var t;
             var lim = Math.min(map.length || 0, info.mapW * info.mapH);
             for (t = 0; t < lim; t++) {
@@ -1331,7 +1335,7 @@
             libPath: trust.libPath, preferredLibPath: readStorage('baye/libpath', ''),
             sha256: trust.sha256, libGeneration: trust.generation, session: terrainSession, mode: 'hd',
             verified: !!(hasFullMap && trust.verified), reason: !hasFullMap ? 'missing-full-map' :
-                (trust.reason || (map.length < info.mapLen ? 'incomplete-full-map' : '')) };
+                (trust.reason || (info.tiles.length < info.mapLen ? 'incomplete-full-map' : '')) };
         info.focus.x = readNumber(data, 'g_FoucsX');
         info.focus.y = readNumber(data, 'g_FoucsY');
         /* Keep the presentation board around generals and focus as before.
