@@ -1148,24 +1148,28 @@ test('fixed-summary layout is mobile-scoped with a real button scroller and 44px
     assert.match(buttons,/min-height:\s*44px/);assert.match(buttons,/min-width:\s*44px/);
 });
 
-function distributionFixture({command='分配',personId=0,capacity=2000,deferQuantity=false,mobile=true}={}) {
+function distributionFixture({command='分配',personId=0,capacity=2000,deferQuantity=false,mobile=true,recruitment=false}={}) {
     const f=fixture({marchState:true});
     if (mobile) f.configure();
     else f.api.setMode('hd');
     f.state=f.internals.state;
     f.raw.g_PlayerKing=0;
-    f.raw.g_Cities=Array.from({length:38},()=>({Belong:1,MothballArms:1958,Persons:2,PersonQueue:0}));
+    f.raw.g_Cities=Array.from({length:38},()=>({Belong:1,MothballArms:1958,Persons:2,PersonQueue:0,Money:150,PeopleDevotion:28}));
     f.raw.g_Persons=Array.from({length:capacity},()=>({Belong:1,Arms:100}));
-    Object.assign(f.raw,{g_hdMenuKind:2,g_hdMenuSeq:11,g_hdMenuCount:5,g_hdMenuIndex:2,g_hdQtySession:20});
+    f.raw.g_engineConfig={armsPerMoney:10,armsPerDevotion:35};
+    const index=recruitment?1:2;
+    Object.assign(f.raw,{g_hdMenuKind:2,g_hdMenuSeq:11,g_hdMenuCount:5,g_hdMenuIndex:index,g_hdQtySession:20});
     f.names.splice(0,f.names.length,'侦察','征兵',command,'掠夺','出征');
-    Object.assign(f.state,{open:true,layer:'deep',subKind:'junbei',cityIndex:0,deepKind:'person',deepLabel:command});
+    Object.assign(f.state,{open:true,layer:'deep',subKind:'junbei',cityIndex:0,
+        deepKind:recruitment?'person-qty':'person',deepLabel:recruitment?'征兵':command});
     const menuRead=f.env.baye.hd.menuItems;
     f.env.baye.hd.menuItems=()=>{const m=menuRead();if(m.kind===3)m.ids=[personId,19];return m;};
     let selectedSeq=0;
     f.publishQuantity=()=>{
+        const max=recruitment?Math.min(f.raw.g_Cities[0].PeopleDevotion*35,f.raw.g_Cities[0].Money*10):1800;
         Object.assign(f.raw,{g_hdMenuActive:0,g_hdMenuKind:0,g_hdMenuContext:0,g_hdMenuSeq:selectedSeq+1,
             g_hdMenuCount:0,g_hdMenuIndex:0,g_hdQtyActive:1,g_hdQtyReady:1,g_hdQtySession:f.raw.g_hdQtySession+1,
-            g_hdQtyMin:0,g_hdQtyMax:1800,g_hdQtyValue:1800,g_hdQtyInputSeq:0,g_hdQtyStep:1,g_hdQtyLastKey:65535});
+            g_hdQtyMin:0,g_hdQtyMax:max,g_hdQtyValue:max,g_hdQtyInputSeq:0,g_hdQtyStep:1,g_hdQtyLastKey:65535});
         f.names.splice(0);
     };
     f.setAfterKey(key=>{
@@ -1182,14 +1186,14 @@ function distributionFixture({command='分配',personId=0,capacity=2000,deferQua
         }
     });
     f.env.bayeQtyNativeClosed=()=>false;f.env.bayeQtyCloseInput=()=>{};
-    f.chooseCommand=()=>f.internals.select(2,true,'',f.env.baye.hd.menuItems());
+    f.chooseCommand=()=>f.internals.select(index,true,'',f.env.baye.hd.menuItems());
     f.choosePerson=()=>f.internals.select(0,true,'',f.env.baye.hd.menuItems());
     f.enter=()=>{assert.equal(f.chooseCommand(),true);assert.equal(f.choosePerson(),true);};
     return f;
 }
 
-test('distribution description follows actual original command/person Enters into one new quantity session',()=>{
-    const f=distributionFixture();assert.equal(f.api.getQuantityPresentation(),null);f.enter();
+for(const mobile of [true,false])test('distribution description follows the original command and person into quantity, mobile='+mobile,()=>{
+    const f=distributionFixture({mobile});assert.equal(f.api.getQuantityPresentation(),null);f.enter();
     const p=f.api.getQuantityPresentation();assert.ok(p);assert.ok(Object.isFrozen(p));
     assert.equal(p.kind,'distribution');assert.equal(p.personId,0);assert.equal(p.personName,'董卓');
     assert.equal(p.existingArms,100);assert.equal(p.reserveArms,1958);assert.equal(p.cityIndex,0);
@@ -1328,7 +1332,7 @@ for(const change of ['stale-session','busy','pending','closed','equal-bounds','c
     });
 }
 
-function distributionDialog(f) {
+function distributionDialog(f, {mobile=true}={}) {
     const dom=marchDom(f), nodes={};
     for(const id of ['hd-dialog','hd-dialog-title','hd-dialog-body','hd-dialog-caption','hd-dialog-range',
         'hd-dialog-qty','hd-dialog-qty-digits','hd-dialog-probe','hd-dialog-bound']){
@@ -1344,7 +1348,7 @@ function distributionDialog(f) {
     const code=fs.readFileSync(new URL('../js/hd-dialog.js',import.meta.url),'utf8')
         .replace(/\}\)\(window\);\s*$/, 'global.__distributionDialogState=state;\n})(window);');
     vm.runInNewContext(code,f.env);
-    const api=f.env.BayeHdDialog;api.configureMobileHost({isAvailable:()=>true});api.start();
+    const api=f.env.BayeHdDialog;if(mobile)api.configureMobileHost({isAvailable:()=>true});api.start();
     const paint=()=>api.openQty({min:f.raw.g_hdQtyMin,max:f.raw.g_hdQtyMax,init:f.raw.g_hdQtyValue,showLcd:false});
     return {api,nodes,paint,state:f.env.__distributionDialogState,
         click(target=nodes['hd-dialog-bound']){for(const fn of listeners.click||[])fn({target,preventDefault(){}});}};
@@ -1361,6 +1365,33 @@ test('real public distribution context paints the actor, reserve, final total an
     assert.equal(h.nodes['hd-dialog-bound'].textContent,'最大');
     f.raw.g_hdQtySession++;h.paint();assert.equal(h.nodes['hd-dialog-title'].textContent,'数量');
     assert.equal(body.getAttribute('data-hd-quantity-purpose'),'');assert.doesNotMatch(body.textContent,/董卓|目标总兵力|预备兵/);
+    assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+});
+test('desktop recruitment previews the actual fee and capped reserve after native quantity ACK',()=>{
+    const f=distributionFixture({mobile:false,recruitment:true});
+    f.raw.g_Cities[0].MothballArms=65530;
+    f.raw.g_hdQtySession=65535;
+    f.enter();
+    const h=distributionDialog(f,{mobile:false});h.paint();
+    const body=h.nodes['hd-dialog-body'],p=f.api.getQuantityPresentation();
+    assert.equal(p.kind,'recruitment');assert.equal(p.session,65536);
+    assert.equal(body.getAttribute('data-hd-quantity-purpose'),'recruitment');
+    assert.equal(h.nodes['hd-dialog-title'].textContent,'征兵数量');
+    assert.match(body.textContent,/董卓 · 城内金钱 150/);
+    assert.match(body.textContent,/当前 980（0–980）。预计花费 98 钱/);
+    assert.match(body.textContent,/城内预备兵 65530 → 65535/);
+    f.raw.g_hdQtyValue=4;f.raw.g_hdQtyInputSeq=65536;h.paint();
+    assert.match(body.textContent,/当前 4（0–980）。预计花费 0 钱/);
+    assert.match(body.textContent,/城内预备兵 65530 → 65534/);
+    f.raw.g_engineConfig.armsPerMoney=11;h.paint();
+    assert.equal(body.getAttribute('data-hd-quantity-purpose'),'');
+    assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+});
+test('original zero recruitment limit can still show zero cost and unchanged reserves',()=>{
+    const f=distributionFixture({mobile:false,recruitment:true});f.raw.g_Cities[0].PeopleDevotion=0;f.enter();
+    const h=distributionDialog(f,{mobile:false});h.api.poll();
+    assert.equal(h.api.isQtyOpen(),true);
+    const p=f.api.getQuantityPresentation();assert.equal(p.max,0);assert.equal(p.moneyCost,0);assert.equal(p.reserveAfter,p.reserveArms);
     assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
 });
 test('the actual generic-dialog bound button sends one HELP, updates from ACK and refuses a stale session',()=>{

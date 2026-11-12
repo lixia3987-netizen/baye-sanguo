@@ -394,12 +394,31 @@ async function quantitySmoke(cdp) {
         return city.layer === 'deep' && city.deepLabel === '征兵' && city.deepItems.length > 0;
     })()`);
     if (cityHudMode) await personDetailsSmoke(cdp, owned.i);
+    const recruiter = await evaluate(cdp, 'baye.hd.menuItems().names[0]');
     await click(cdp, '#hd-city-menu [data-hd-deep="0"]');
     const initial = await waitFor(cdp, 'real enlist quantity input', `(() => {
         const q = baye.hd.qty();
         return q.active && q.min === 0 && q.max > 11 && BayeHdCityMenu.isQtyLive() && q;
     })()`);
     report.quantity = { city: owned, initial, steps: [] };
+    const verifyArmySummaries = !inputDir && !engineDir && initial.protocol;
+    const recruitmentSummary = async q => {
+        const terms = await evaluate(cdp, `(() => {
+            const d = baye.data, city = d.g_Cities[${owned.i}];
+            return { money: city.Money, reserve: city.MothballArms, rate: d.g_engineConfig.armsPerMoney };
+        })()`);
+        const expected = [
+            `${recruiter} · 城内金钱 ${terms.money}`,
+            `当前 ${q.value}（${q.min}–${q.max}）。预计花费 ${Math.floor(q.value / terms.rate)} 钱。`,
+            `城内预备兵 ${terms.reserve} → ${Math.min(terms.reserve + q.value, 65535)}。`
+        ].join('\n');
+        return waitFor(cdp, 'current native recruitment cost and reserves', `(() => {
+            const body = document.getElementById('hd-dialog-body');
+            return BayeHdDialog.isQtyOpen() && body.dataset.hdQuantityPurpose === 'recruitment' &&
+                document.getElementById('hd-dialog-range').hidden && body.textContent === ${JSON.stringify(expected)} && body.textContent;
+        })()`);
+    };
+    if (verifyArmySummaries) report.quantity.preview = await recruitmentSummary(initial);
     await checkpoint(cdp, '09-enlist-quantity');
 
     await evaluate(cdp, `(() => {
@@ -423,6 +442,7 @@ async function quantitySmoke(cdp) {
                 const q = baye.hd.qty(), city = BayeHdCityMenu.debugSnapshot();
                 return q.active && q.value === ${expected} && city.queueLen === 0 && !city.sending && q;
             })()`);
+            if (verifyArmySummaries) await recruitmentSummary(q);
             report.quantity.steps.push({ delta, value: q.value });
         }
         assert.equal(expected, initial.max, 'enlist input returns to its upper bound');
@@ -457,6 +477,47 @@ async function quantitySmoke(cdp) {
     } finally {
         await evaluate(cdp, `window.sendKey = window.__runtimeOriginalSendKey; delete window.__runtimeOriginalSendKey;`);
     }
+    if (verifyArmySummaries) await distributionSummarySmoke(cdp, owned.i);
+}
+
+async function distributionSummarySmoke(cdp, cityIndex) {
+    assert.ok(await evaluate(cdp, `BayeHdOverworld.walkToCity(${cityIndex})`));
+    await waitFor(cdp, 'original city root for distribution', `BayeHdCityMenu.getLayer() === 'root' && baye.hd.menuItems().kind === 1`);
+    await click(cdp, '#hd-city-menu [data-hd-root="2"]');
+    await waitFor(cdp, 'original military submenu for distribution', `baye.hd.menuItems().names[2] === '分配'`);
+    await click(cdp, '#hd-city-menu [data-hd-sub="2"]');
+    const menu = await waitFor(cdp, 'original distribution person list', `(() => {
+        const menu = baye.hd.menuItems(), city = BayeHdCityMenu.debugSnapshot();
+        return city.deepLabel === '分配' && city.deepItems.length && menu.active && menu.kind === 3 && menu.idsValid && menu;
+    })()`);
+    const person = menu.ids[0];
+    const world = `(() => {
+        const d = baye.data;
+        return { arms: d.g_Persons[${person}].Arms, reserve: d.g_Cities[${cityIndex}].MothballArms };
+    })()`;
+    const before = await evaluate(cdp, world);
+    await click(cdp, '#hd-city-menu [data-hd-deep="0"]');
+    const quantity = await waitFor(cdp, 'original distribution quantity', `(() => {
+        const q = baye.hd.qty();
+        return q.active && q.ready && q.max > 0 && q;
+    })()`);
+    const lines = [`${menu.names[0]} · 现有兵力 ${before.arms} · 城内预备兵 ${before.reserve}`,
+        `目标总兵力 ${quantity.value}（${quantity.min}–${quantity.max}）`];
+    const preview = await waitFor(cdp, 'current native distribution context', `(() => {
+        const body = document.getElementById('hd-dialog-body');
+        return BayeHdDialog.isQtyOpen() && body.dataset.hdQuantityPurpose === 'distribution' &&
+            document.getElementById('hd-dialog-range').hidden &&
+            ${JSON.stringify(lines)}.every(line => body.textContent.includes(line)) && body.textContent;
+    })()`);
+    await checkpoint(cdp, 'distribution-quantity-context');
+    await click(cdp, '#hd-dialog [data-hd-dlg-ok]');
+    await waitFor(cdp, 'distribution commits and returns to native picker', `!baye.hd.qty().active && baye.hd.menuItems().active && baye.hd.menuItems().kind === 3`);
+    const after = await evaluate(cdp, world);
+    assert.deepEqual(after, {arms: quantity.value, reserve: before.reserve + before.arms - quantity.value});
+    report.distribution = { person, before, quantity, preview, after };
+    await key(cdp, 'Escape');
+    await waitFor(cdp, 'distribution returns to strategy map', `baye.hd.march().pick && !baye.hd.menuItems().active && !BayeHdCityMenu.isOpen()`);
+    await checkpoint(cdp, 'distribution-committed-map');
 }
 
 async function quantityPendingConfirmSmoke(cdp, cityIndex) {

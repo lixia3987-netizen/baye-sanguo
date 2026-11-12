@@ -11,7 +11,7 @@
     var mobileHost = null, mobileMode = 'auto', mobileIdentityApi = null;
     var mobileUnsubscribe = null, mobileBoundaryBound = false, startTimer = null;
     var mobileLibraryGeneration = null, mobileRetireReason = '';
-    var distributionFlow = null, goodsPersonSource = null;
+    var armyQuantityFlow = null, goodsPersonSource = null;
     var equipmentParent = null, equipmentGoods = null, equipmentFlow = null;
     var tradeFlow = null;
     var transferFlow = null, pcTransferView = null;
@@ -156,7 +156,9 @@
                 !MOBILE_BLOCKERS.every(function (key) { return before[key] === 0; }) ||
                 !march || !['pick','battlePick','mapCity','mapInputSeq','phase','session','inputSeq','origin','selected','seq','ok','city','obj'].every(function (key) {
                     return mobileInteger(march[key], 0xffffffff);
-                }) || !qty || qty.protocol !== true || !['active','session','inputSeq','lastKey','cursor','step','ready','min','max','value'].every(function (key) {
+                }) || !qty || qty.protocol !== true || !['session','inputSeq','step'].every(function (key) {
+                    return mobileInteger(qty[key], 0xffffffff);
+                }) || !['active','lastKey','cursor','ready','min','max','value'].every(function (key) {
                     return mobileInteger(qty[key], 65535);
                 }) || march.mapCity !== before.g_hdMapCity || march.pick !== before.g_hdMapPick ||
                 march.battlePick !== before.g_hdBattlePick || march.mapInputSeq !== before.g_hdMapInputSeq ||
@@ -1582,7 +1584,7 @@
     }
 
     function invalidateMarchWork() {
-        distributionFlow = null;
+        armyQuantityFlow = null;
         if (!mobileHost) { retireTransferWork(); retireEquipmentRoute(); }
         marchEpoch += 1;
         queueEpoch += 1;
@@ -1685,7 +1687,7 @@
                 finish();
                 if (thenEnter) {
                     var previousCommit = state.nativeMenuCommit;
-                    var distribution = distributionSelection(menu, index);
+                    var armyQuantity = armyQuantitySelection(menu, index);
                     var goodsPerson = confiscationPersonSelection(menu, index);
                     var equipment = equipmentSelection(menu, index, 'enter');
                     var trade = tradeSelection(menu, index, 'enter');
@@ -1700,7 +1702,7 @@
                         return (!equipment || mobileHost || live && live.ticket.data === equipment.data &&
                             live.ticket.key === equipment.key && equipmentParent === equipment.parent) && ownsMenu(index);
                     })) {
-                        distributionFlow = distribution;
+                        armyQuantityFlow = armyQuantity;
                         if (goodsPerson || !equipment || equipment.command !== 'confiscate' || equipment.kind !== 4) {
                             goodsPersonSource = goodsPerson;
                         }
@@ -2182,7 +2184,7 @@
             // Reserve before the export: an exception cannot prove that C did
             // not receive ENTER/EXIT. Never retry that same native role.
             if (code === VK.ENTER || code === VK.EXIT) { reservePcDiplomacyInput(before, flow); }
-            if (code === VK.EXIT) { state.lastExit = reason || 'pc-diplomacy'; distributionFlow = null; }
+            if (code === VK.EXIT) { state.lastExit = reason || 'pc-diplomacy'; armyQuantityFlow = null; }
             if (code === VK.ENTER || code === VK.EXIT || code === VK.HELP) { state.engineHelpOpen = false; }
             sender.call(binding.send ? global : binding.engine, code);
             return true;
@@ -2253,7 +2255,7 @@
             if (!mobileCurrent || mobileCurrent.data !== mobilePress.data || mobileCurrent.key !== mobilePress.key) { retireInteraction('send-owner-changed'); return false; }
         }
         if (cityInfoOwns(global.baye && baye.data)) { return false; }
-        if (code === VK.EXIT && reason !== 'qty-cancel') { distributionFlow = null; }
+        if (code === VK.EXIT && reason !== 'qty-cancel') { armyQuantityFlow = null; }
         if (typeof sendKey === 'function') {
             if (mobileHost && mobileDiplomacy && reason === 'diplomacy-person' && code === VK.ENTER) { mobileDiplomacy.sent = mobilePress.key; }
             sendKey(code);
@@ -4376,22 +4378,40 @@
 
     function nextDistributionSeq(seq) { return seq === 0xffffffff ? 1 : seq + 1; }
 
-    function distributionSelection(menu, index) {
-        // Semantics come from an actual original military-menu Enter followed
-        // by its exact native picker, never from a retained deepLabel.
-        var first = mobileInputTicket(), value = mobileNativeSnapshot();
-        if (!first || !value || first.ownerType !== 'city' || first.data !== value.data ||
-            first.menuSeq !== menu.seq || value.menu.seq !== menu.seq || value.menu.index !== index ||
-            value.qty.active || value.raw.g_hdReportActive || value.march.phase !== MARCH.IDLE &&
-            value.march.phase !== MARCH.DEPARTED) { return null; }
-        var actual = value.menu, ids = actualMenuIds(actual), flow = distributionFlow, result = null;
-        if (actual.kind === 2 && index === 2 && JSON.stringify(actual.names) ===
-            JSON.stringify(['侦察', '征兵', '分配', '掠夺', '出征'])) {
-            result = {stage: 'picker', data: value.data, generation: first.libraryGeneration,
+    function armyQuantitySnapshot() {
+        if (!state.open || state.subKind !== 'junbei' || !shouldShowHd()) { return null; }
+        var value = mobileHost ? mobileNativeSnapshot() : nativeSnapshot(pcCityNativeBase(), pcCityNativeBase);
+        if (!value || !state.open || state.subKind !== 'junbei' || value.march.mapCity !== state.cityIndex + 1 ||
+            value.march.pick || value.march.battlePick || value.march.phase !== MARCH.IDLE && value.march.phase !== MARCH.DEPARTED ||
+            value.raw.g_hdReportActive || value.raw.g_hdHelpActive || value.transfer && value.transfer.active ||
+            value.diplomacy && value.diplomacy.active) { return null; }
+        return value;
+    }
+
+    function recruitmentTerms(data, city) {
+        var config = data.g_engineConfig, money = city.Money, devotion = city.PeopleDevotion;
+        var rate = config && config.armsPerMoney, multiplier = config && config.armsPerDevotion;
+        if (!rate || !mobileInteger(rate, 255) || !mobileInteger(multiplier, 255) ||
+            !mobileInteger(money, 65535) || !mobileInteger(devotion, 255)) { return null; }
+        // ConscriptionMake assigns the devotion product to U16 before limiting it by money.
+        return {money: money, rate: rate, max: Math.min((devotion * multiplier) & 0xffff, money * rate, 0xfffe)};
+    }
+
+    function armyQuantitySelection(menu, index) {
+        // The original command and person selections identify the next quantity session.
+        var command = index === 2 ? 'distribution' : !mobileHost && index === 1 ? 'recruitment' : '';
+        if (menu.kind === 2 ? !command : menu.kind !== 3 || !armyQuantityFlow) { return null; }
+        var value = armyQuantitySnapshot(), first = mobileTicketFrom(value);
+        if (!first || first.ownerType !== 'city' || first.menuSeq !== menu.seq || value.menu.kind !== menu.kind ||
+            value.menu.index !== index || value.qty.active) { return null; }
+        var actual = value.menu, ids = actualMenuIds(actual), flow = armyQuantityFlow, result = null;
+        if (actual.kind === 2 && actual.names.join('\u0000') === SUBS.junbei.join('\u0000')) {
+            result = {kind: command, stage: 'picker',
+                data: value.data, generation: first.libraryGeneration, mobile: !!mobileHost,
                 cityIndex: first.cityIndex, detailGeneration: actual.detailGeneration,
                 pickerSeq: nextDistributionSeq(nextDistributionSeq(actual.seq)), qtyBaseline: value.qty.session};
         } else if (actual.kind === 3 && ids && flow && flow.stage === 'picker' &&
-            flow.data === value.data && flow.generation === first.libraryGeneration &&
+            flow.data === value.data && flow.generation === first.libraryGeneration && flow.mobile === !!mobileHost &&
             flow.cityIndex === first.cityIndex && flow.detailGeneration === actual.detailGeneration &&
             flow.pickerSeq === actual.seq && flow.qtyBaseline === value.qty.session) {
             var personId = ids[index], city = value.data.g_Cities && value.data.g_Cities[first.cityIndex],
@@ -4400,46 +4420,47 @@
                 !mobileInteger(person.Arms, 65535) || !mobileInteger(city.MothballArms, 65535) ||
                 !mobileInteger(value.data.g_PlayerKing, 199) || city.Belong !== value.data.g_PlayerKing + 1 ||
                 person.Belong !== city.Belong) { return null; }
-            result = {stage: 'quantity', data: flow.data, generation: flow.generation,
+            var terms = flow.kind === 'recruitment' ? recruitmentTerms(value.data, city) : null;
+            if (flow.kind === 'recruitment' && !terms) { return null; }
+            result = {kind: flow.kind, stage: 'quantity', data: flow.data, generation: flow.generation, mobile: flow.mobile,
                 cityIndex: flow.cityIndex, detailGeneration: flow.detailGeneration, menuSeq: actual.seq,
                 personId: personId, personName: actual.names[index], existingArms: person.Arms,
-                reserveArms: city.MothballArms, belong: city.Belong, qtyBaseline: value.qty.session,
+                reserveArms: city.MothballArms, belong: city.Belong, terms: terms, qtyBaseline: value.qty.session,
                 pickerKey: JSON.stringify(actual), session: nextDistributionSeq(value.qty.session)};
         }
-        var after = mobileInputTicket();
-        return result && after && first.data === after.data && first.key === after.key ? result : null;
+        return result && sameMobileMarchTicket(first, mobileTicketFrom(armyQuantitySnapshot())) ? result : null;
     }
 
     function getQuantityPresentation() {
-        var flow = distributionFlow;
-        if (!flow || flow.stage !== 'quantity') { return null; }
+        var flow = armyQuantityFlow;
+        if (!flow || flow.stage !== 'quantity' || flow.mobile !== !!mobileHost) { return null; }
         syncQuantityWait(engineQty());
         function read() {
-            var ticket = mobileInputTicket(), value = mobileNativeSnapshot();
-            if (!ticket || !value || ticket.ownerType !== 'qty' || ticket.data !== flow.data ||
-                value.data !== flow.data || ticket.libraryGeneration !== flow.generation ||
+            var value = armyQuantitySnapshot(), ticket = mobileTicketFrom(value);
+            if (!ticket || ticket.ownerType !== 'qty' || ticket.data !== flow.data || ticket.libraryGeneration !== flow.generation ||
                 ticket.cityIndex !== flow.cityIndex || ticket.detailGeneration !== flow.detailGeneration ||
                 value.menu.active || value.menu.seq !== nextDistributionSeq(flow.menuSeq) ||
-                value.qty.session !== flow.session || value.qty.min !== 0 || value.qty.max < 1 ||
-                value.qty.max > flow.existingArms + flow.reserveArms || state.qtyInputClosed) { return null; }
+                value.qty.session !== flow.session || value.qty.min !== 0 || state.qtyInputClosed) { return null; }
             var city = value.data.g_Cities && value.data.g_Cities[flow.cityIndex],
                 person = value.data.g_Persons && value.data.g_Persons[flow.personId];
             if (!city || !person || city.Belong !== flow.belong || person.Belong !== flow.belong ||
                 city.MothballArms !== flow.reserveArms || person.Arms !== flow.existingArms ||
                 value.data.g_PlayerKing + 1 !== flow.belong) { return null; }
+            if (flow.terms) {
+                var terms = recruitmentTerms(value.data, city);
+                if (!terms || terms.money !== flow.terms.money || terms.rate !== flow.terms.rate ||
+                    terms.max !== flow.terms.max || value.qty.max !== terms.max) { return null; }
+            } else if (value.qty.max < 1 || value.qty.max > flow.existingArms + flow.reserveArms) { return null; }
             return {ticket: ticket, qty: value.qty};
         }
         var first = read(), second = read();
-        if (!first || !second || first.ticket.key !== second.ticket.key ||
-            JSON.stringify(first.qty) !== JSON.stringify(second.qty)) {
+        if (!first || !second || !sameMobileMarchTicket(first.ticket, second.ticket) || armyQuantityFlow !== flow) {
             // A quantity key can temporarily leave C between input boundaries.
             // It grants no presentation until ready, but is not a new session.
             function pendingSource() {
-                var pending = mobileNativeSnapshot();
+                var pending = armyQuantitySnapshot();
                 if (!pending || pending.data !== flow.data || pending.libraryGeneration !== flow.generation ||
-                    !shouldShowHd() || pending.march.mapCity !== flow.cityIndex + 1 || pending.march.pick ||
-                    pending.march.battlePick || pending.march.phase !== MARCH.IDLE && pending.march.phase !== MARCH.DEPARTED ||
-                    pending.raw.g_hdReportActive || pending.raw.g_hdHelpActive ||
+                    pending.march.mapCity !== flow.cityIndex + 1 ||
                     pending.menu.detailGeneration !== flow.detailGeneration) { return null; }
                 var q = pending.qty, menu = pending.menu, ended = !menu.active && menu.seq === nextDistributionSeq(flow.menuSeq);
                 if (!(q.active === 0 && q.session === flow.qtyBaseline &&
@@ -4448,21 +4469,26 @@
                 return JSON.stringify([pending.raw, menu, pending.march, q]);
             }
             var pendingFirst = pendingSource(), pendingSecond = pendingSource();
-            if (!pendingFirst || pendingFirst !== pendingSecond) { distributionFlow = null; }
+            if (armyQuantityFlow === flow && (!pendingFirst || pendingFirst !== pendingSecond)) { armyQuantityFlow = null; }
             return null;
         }
-        var q = second.qty, result = {kind: 'distribution', libraryGeneration: flow.generation,
+        var q = second.qty, result = {kind: flow.kind, libraryGeneration: flow.generation,
             cityIndex: flow.cityIndex, personId: flow.personId, personName: flow.personName,
             existingArms: flow.existingArms, reserveArms: flow.reserveArms,
             session: q.session, inputSeq: q.inputSeq, value: q.value, min: q.min, max: q.max,
             key: second.ticket.key};
+        if (flow.terms) {
+            result.money = flow.terms.money;
+            result.moneyCost = Math.floor(q.value / flow.terms.rate);
+            result.reserveAfter = Math.min(flow.reserveArms + q.value, 65535);
+        }
         Object.defineProperty(result, 'data', {value: flow.data, enumerable: false});
         return Object.freeze(result);
     }
 
-    function finishDistributionQuantity() {
-        var flow = distributionFlow;
-        distributionFlow = flow && getQuantityPresentation() ? {stage: 'picker', data: flow.data,
+    function finishArmyQuantity() {
+        var flow = armyQuantityFlow;
+        armyQuantityFlow = flow && getQuantityPresentation() ? {kind: flow.kind, stage: 'picker', data: flow.data, mobile: flow.mobile,
             generation: flow.generation, cityIndex: flow.cityIndex, detailGeneration: flow.detailGeneration,
             pickerSeq: nextDistributionSeq(nextDistributionSeq(flow.menuSeq)), qtyBaseline: flow.session} : null;
     }
@@ -4708,7 +4734,7 @@
         }
         var tradeReceipt = tradeQuantityExit('enter');
         if (state.deepKind === 'person-trade' && !tradeReceipt) { return; }
-        finishDistributionQuantity();
+        finishArmyQuantity();
         var closingQty = engineQty();
         if (!tradeReceipt) { bayeQtyCloseInput(closingQty); }
         var sent = engineSendKey(VK.ENTER, 'qty-ok');
@@ -4769,7 +4795,7 @@
         }
         var tradeReceipt = tradeQuantityExit('exit');
         if (state.deepKind === 'person-trade' && !tradeReceipt) { return; }
-        finishDistributionQuantity();
+        finishArmyQuantity();
         var closingQty = engineQty();
         if (!tradeReceipt) { bayeQtyCloseInput(closingQty); }
         var sent = engineSendKey(VK.EXIT, 'qty-cancel');
@@ -7326,12 +7352,13 @@
                     q = baye.hd.qty();
                 }
             } catch (e) {}
-            var distribution = getQuantityPresentation();
+            var armyQuantity = getQuantityPresentation();
             var transferQuantity = getTransferPresentation();
             var transferActions = mobileQty && state.deepKind === 'person-transfer';
             var cargoSummary = transferActions && transferQuantity && transferQuantity.cargoText;
             var quantityTitle = transferQuantity && transferQuantity.quantity ? transferQuantity.title :
-                distribution ? '目标总兵力' : state.battleMake ? '随军粮草' : '数量';
+                armyQuantity ? (armyQuantity.kind === 'recruitment' ? '征兵人数' : '目标总兵力') :
+                state.battleMake ? '随军粮草' : '数量';
             if (transferActions && !(transferQuantity && transferQuantity.quantity)) { state.deepSig = ''; }
             bar.innerHTML = '<p class="hd-city-menu-qty-summary">' + quantityTitle + ' <strong id="hd-city-qty-val">' +
                 (q.value !== '' && q.value != null ? q.value : '—') +

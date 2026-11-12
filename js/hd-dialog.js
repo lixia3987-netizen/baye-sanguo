@@ -1323,30 +1323,37 @@
         }
         var quantity = state.kind === 'qty' ? readStandaloneQty() : null;
         var transfer = transferQuantityPresentation(quantity);
-        var distribution = quantityPresentation(quantity);
+        var armyQuantity = armyQuantityPresentation(quantity);
         var trade = tradeQuantityPresentation(quantity);
+        var armyTitle = armyQuantity ? (armyQuantity.kind === 'recruitment' ? '征兵数量' : '分配兵力') : '';
         var root = el('hd-dialog');
         if (root) { root.classList.toggle('has-mobile-quantity', !!mobileHost && state.kind === 'qty'); }
         if (root) { root.setAttribute('data-hd-mobile-campaign', mobileHost &&
             (state.kind === 'successor' || state.kind === 'defenders') ? state.kind : ''); }
-        setText(el('hd-dialog-title'), transfer ? transfer.title : distribution ? '分配兵力' : trade ?
-            (trade.direction === 'buy' ? '买入粮草' : '卖出粮草') : state.title);
+        setText(el('hd-dialog-title'), transfer ? transfer.title : armyTitle || (trade ?
+            (trade.direction === 'buy' ? '买入粮草' : '卖出粮草') : state.title));
         var body = el('hd-dialog-body');
         if (body) {
             if (!state.successorOwner && !state.defenseOwner) {
                 body._hdCampaignView = null;
                 body._hdCampaignChoices = null;
             }
-            body.setAttribute('data-hd-quantity-purpose', transfer ? 'transfer' : distribution ? 'distribution' : trade ? 'trade' : '');
+            body.setAttribute('data-hd-quantity-purpose', transfer ? 'transfer' : armyQuantity ? armyQuantity.kind : trade ? 'trade' : '');
             if (transfer) {
                 var cargo = [transfer.contextText, transfer.cargoText ? '已选 ' + transfer.cargoText : '',
                     '当前 ' + quantity.value + '（' + quantity.min + '–' + quantity.max + '）。'];
                 if (quantity.value === 0xffff) { cargo.push('65,535 是原版的返回值，请调低数量后确认。'); }
                 body.textContent = cargo.filter(Boolean).join('\n');
-            } else if (distribution) {
-                body.textContent = distribution.personName + ' · 现有兵力 ' + distribution.existingArms +
-                    ' · 城内预备兵 ' + distribution.reserveArms + '\n目标总兵力 ' + quantity.value +
-                    '（' + quantity.min + '–' + quantity.max + '）。\n调低会退回城内预备兵；这是分配后的总兵力。';
+            } else if (armyQuantity && armyQuantity.kind === 'recruitment') {
+                body.textContent = armyQuantity.personName + ' · 城内金钱 ' + armyQuantity.money +
+                    '\n当前 ' + quantity.value + '（' + quantity.min + '–' + quantity.max + '）。预计花费 ' + armyQuantity.moneyCost + ' 钱。' +
+                    '\n城内预备兵 ' + armyQuantity.reserveArms + ' → ' + armyQuantity.reserveAfter + '。';
+            } else if (armyQuantity) {
+                var distributionHint = mobileHost ? '调低会退回城内预备兵；这是分配后的总兵力。' :
+                    quantity.value === 0xffff ? '65,535 是原版的取消值，请调低数量后确认。' : '低于现有兵力的部分会退回城内预备兵。';
+                body.textContent = armyQuantity.personName + ' · 现有兵力 ' + armyQuantity.existingArms +
+                    ' · 城内预备兵 ' + armyQuantity.reserveArms + '\n目标总兵力 ' + quantity.value +
+                    '（' + quantity.min + '–' + quantity.max + '）。\n' + distributionHint;
             } else if (trade) {
                 var tradeHint = quantity.value === 0xffff ? '65,535 是原版的取消值，请调低数量后确认卖出。' :
                     '使用按钮调整数量，取消后可重新选择将领。';
@@ -1466,6 +1473,9 @@
             } else {
                 body.textContent = '请在下方经典画面查看报告，点击“确认”继续。';
             }
+            if (armyQuantity && !mobileHost && state.qtyAckFailed) {
+                body.textContent += '\n数量调整未完成，请取消后重新输入。';
+            }
         }
         var range = el('hd-dialog-range');
         if (range) {
@@ -1480,7 +1490,7 @@
                 bits.push('当前 ' + state.init);
             }
             range.textContent = bits.join(' · ');
-            range.hidden = !bits.length;
+            range.hidden = !bits.length || !!armyQuantity && !mobileHost;
         }
         var qty = el('hd-dialog-qty');
         if (qty) {
@@ -1581,12 +1591,12 @@
         return false;
     }
 
-    function quantityPresentation(q) {
-        if (!mobileHost || state.kind !== 'qty' || !q || !global.BayeHdCityMenu ||
+    function armyQuantityPresentation(q) {
+        if (!q || !global.BayeHdCityMenu ||
             typeof BayeHdCityMenu.getQuantityPresentation !== 'function') { return null; }
         var first = BayeHdCityMenu.getQuantityPresentation(), second = BayeHdCityMenu.getQuantityPresentation();
         return first && second && first.data === second.data && first.key === second.key &&
-            second.kind === 'distribution' && second.session === q.session && second.inputSeq === q.inputSeq &&
+            (second.kind === 'distribution' || second.kind === 'recruitment') && second.session === q.session && second.inputSeq === q.inputSeq &&
             second.value === q.value && second.min === q.min && second.max === q.max ? second : null;
     }
 
@@ -1737,7 +1747,8 @@
                     BayeHdCityMenu.liveGetFood());
                 if (qtyInfo && (qtyInfo.active || foodLive) &&
                     (cityMenuQty() || foodLive) &&
-                    (Number(qtyInfo.max) >= 1 || qtyInfo.max === 0 && transferQuantityPresentation(qtyInfo))) {
+                    (Number(qtyInfo.max) >= 1 || qtyInfo.max === 0 &&
+                        (transferQuantityPresentation(qtyInfo) || armyQuantityPresentation(qtyInfo)))) {
                     openDialog({
                         kind: 'qty',
                         title: '数量',
