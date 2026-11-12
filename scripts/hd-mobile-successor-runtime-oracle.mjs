@@ -16,7 +16,7 @@ const uint=(v,max,label)=>{
   assert.ok(Number.isInteger(v)&&v>=0&&v<=max,label+' is an unsigned native integer');
   return v;
 };
-function worldShape(world) {
+function worldShape(world, allowDuplicateResidents=false) {
   assert.ok(world&&typeof world==='object','Current measured original world required');
   assert.ok(Number.isInteger(world.period)&&world.period>=1&&world.period<=4,'Original period 1..4');
   uint(world.king,199,'Current PlayerKing');
@@ -38,15 +38,15 @@ function worldShape(world) {
       const position=c.PersonQueue+j,id=world.queue[position];
       uint(id,199,'Active city queue person');
       assert.ok(!occupiedPositions.has(position),'City active queue ranges must not overlap');
-      assert.ok(!residentIds.has(id),'Actual city residents must not duplicate an ID');
+      assert.ok(allowDuplicateResidents||!residentIds.has(id),'Actual city residents must not duplicate an ID');
       occupiedPositions.add(position);residentIds.add(id);
     }
   }
   return world;
 }
 
-export function mobileSuccessorCandidateIds(world) {
-  worldShape(world);
+export function mobileSuccessorCandidateIds(world, allowDuplicateResidents=false) {
+  worldShape(world,allowDuplicateResidents);
   const ids=[];
   // Exact native order: increasing city index, then each native resident queue.
   // Foreign/free/captive people present in a city are excluded by GetCityPersons.
@@ -61,8 +61,8 @@ export function mobileSuccessorCandidateIds(world) {
   return ids;
 }
 
-export function verifyMobileSuccessorChoice({world,menu,names}) {
-  const candidateIds=mobileSuccessorCandidateIds(world);
+export function verifyMobileSuccessorChoice({world,menu,names,allowDuplicateResidents=false}) {
+  const candidateIds=mobileSuccessorCandidateIds(world,allowDuplicateResidents);
   assert.ok(menu&&typeof menu==='object','Actual current menu required');
   assert.equal(menu.active,1,'Successor menu is active');
   assert.equal(menu.context,5,'Only the native CAMPAIGN context is accepted');
@@ -89,8 +89,8 @@ export function verifyMobileSuccessorChoice({world,menu,names}) {
 const PERSON_FIELDS=['Belong','OldBelong','Level','Experience','IQ','Force','Age','Devotion','Character','Thew','Arms','ArmsType','Tool1','Tool2'];
 const CITY_FIELDS=['State','Belong','SatrapId','FarmingLimit','Farming','CommerceLimit','Commerce','PeopleDevotion','AvoidCalamity','PopulationLimit','Population','Money','Food','MothballArms','PersonQueue','Persons','ToolQueue','Tools'];
 const ORDER_FIELDS=['OrderId','Person','City','Object','Arms','Food','Money','Consume','TimeCount'];
-function completeWorld(world) {
-  worldShape(world);
+function completeWorld(world, allowDuplicateResidents=false) {
+  worldShape(world,allowDuplicateResidents);
   for(const field of ['year','month'])uint(world[field],field==='month'?12:65535,field);
   assert.ok(world.month>=1,'Actual month is published');
   for(const [i,p]of world.people.entries())for(const field of PERSON_FIELDS)uint(p[field],field==='Belong'||field==='OldBelong'||field==='Arms'||field==='Tool1'||field==='Tool2'?65535:255,'Person '+i+' '+field);
@@ -105,10 +105,10 @@ function completeWorld(world) {
   assert.ok(world.config&&[0,1].includes(world.config.fixOverFlow16),'Actual overflow configuration required');
   return world;
 }
-function boundChoice(before,choice) {
-  completeWorld(before);
+function boundChoice(before,choice,allowDuplicateResidents=false) {
+  completeWorld(before,allowDuplicateResidents);
   assert.ok(choice&&choice.accepted===true,'Authenticated current successor choice required');
-  const ids=mobileSuccessorCandidateIds(before);
+  const ids=mobileSuccessorCandidateIds(before,allowDuplicateResidents);
   assert.equal(choice.oldKing,before.king,'Choice binds the old player king');
   assert.deepEqual(choice.candidateIds,ids,'Choice candidates remain tied to this exact current world');
   uint(choice.chosenIndex,ids.length-1,'Chosen row');
@@ -116,16 +116,16 @@ function boundChoice(before,choice) {
   assert.ok(choice.owner&&choice.owner.context===5&&choice.owner.kind===1&&choice.owner.generation>0,'Choice native owner required');
   return ids;
 }
-export function verifyMobileSuccessorReport({before,during,choice,report}) {
-  boundChoice(before,choice);completeWorld(during);
+export function verifyMobileSuccessorReport({before,during,choice,report,allowDuplicateResidents=false}) {
+  boundChoice(before,choice,allowDuplicateResidents);completeWorld(during,allowDuplicateResidents);
   assert.ok(report&&report.active===1&&report.kind===1&&report.seq>0&&report.inputSeq>0,'Actual blocking NewKingNote MSGBOX required');
   assert.ok(typeof report.text==='string'&&report.text.startsWith(choice.nativeNames[choice.chosenIndex]),'Report starts with the current native chosen name');
   const expected=structuredClone(before);expected.king=choice.chosenId;
   assert.deepEqual(during,expected,'During NewKingNote only PlayerKing has changed; devotion/ownership changes follow its return');
   return {accepted:true,stage:'new-king-report',oldKing:before.king,newKing:choice.chosenId,checkedWorld:true};
 }
-export function verifyMobileSuccessorSettlement({before,after,choice,receipt}) {
-  const ids=boundChoice(before,choice);completeWorld(after);
+export function verifyMobileSuccessorSettlement({before,after,choice,receipt,allowDuplicateResidents=false}) {
+  const ids=boundChoice(before,choice,allowDuplicateResidents);completeWorld(after,allowDuplicateResidents);
   assert.ok(receipt&&receipt.generation===choice.owner.generation&&receipt.oldKing===before.king&&
     receipt.newKing===choice.chosenId&&receipt.playerKing===choice.chosenId,'Synchronous native completion receipt exactly binds the current choice');
   const expected=structuredClone(before),cities=[];
@@ -137,8 +137,8 @@ export function verifyMobileSuccessorSettlement({before,after,choice,receipt}) {
     checked:{people:200,cities:38,queue:2000,orders:200,fighterBytes:600,fighterFlags:30,goodsQueue:2000},
     successionOutcomeAccepted:true,randomMonthAccepted:false,rngContinuityAccepted:false};
 }
-export function verifyMobileSuccessorBattleContext({world,battle,orderIndex}) {
-  completeWorld(world);uint(orderIndex,199,'Current battle order index');
+export function verifyMobileSuccessorBattleContext({world,battle,orderIndex,allowDuplicateResidents=false}) {
+  completeWorld(world,allowDuplicateResidents);uint(orderIndex,199,'Current battle order index');
   assert.ok(battle&&battle.mode===1&&battle.over===2,'This scenario is an actual attacking army retreat');
   uint(battle.cityIndex,37,'Current battlefield city');uint(battle.playerFood,65535,'Current player grain');uint(battle.enemyFood,65535,'Current enemy grain');
   assert.ok(Array.isArray(battle.genArray)&&battle.genArray.length===20,'All actual battle person tokens required');

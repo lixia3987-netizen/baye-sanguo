@@ -32,6 +32,16 @@ test('Foreign resident and foreign-city people are not successor candidates',()=
 test('The native selected index chooses another actual candidate without changing order',()=>{
   const f=fixture();f.menu.index=4;assert.equal(verifyMobileSuccessorChoice(f).chosenId,65);
 });
+test('An existing repeated resident is accepted only in its actual native row',()=>{
+  const f=fixture();
+  f.world.queue[5]=62;
+  f.menu.ids[4]=62;
+  f.names[4]=f.menu.names[4]=f.menu.packedNames[4]=f.names[0];
+  assert.throws(()=>verifyMobileSuccessorChoice(f),/duplicate/);
+  assert.deepEqual(verifyMobileSuccessorChoice({...f,allowDuplicateResidents:true}).candidateIds,[62,56,57,63,62]);
+  f.menu.ids[4]=65;
+  assert.throws(()=>verifyMobileSuccessorChoice({...f,allowDuplicateResidents:true}),/Direct zero-based IDs/);
+});
 const rejects=[
   ['zero sequence',f=>{f.menu.seq=0;}],
   ['noninteger sequence',f=>{f.menu.seq=1.5;}],

@@ -1,5 +1,9 @@
 # HD 剩余工作与验收清单
 
+2026-11-12 两场原版续局从宛城配兵档开始，刘备移动至濮阳，从濮阳出征许昌后通过战场菜单撤退。刘备在两局均被俘，原版在 203 年 10 月立马超为君主。桌面继位面板按原版顺序完整显示 78 个候选条目，确认当前武将只发送一次确认键。继位报告和原版结算回执核对了 23 座城和全部实际在任名单的归属变化。吕布、通宵虫及寿春的南方小鬼随新君保持在同一势力。
+
+用 `node scripts/test-hd-campaign-runtime.mjs --west-rival --west-rival-succession --west-transit=build/hd-campaign-west-rival-20261112-attackers-fixed-a/result.json --artifact-dir build/west-rival-succession` 复跑。两份原版继位档位于 `build/hd-campaign-west-rival-20261112-succession-live-a` 和 `build/hd-campaign-west-rival-20261112-succession-live-h`。后者已在独立浏览器用「重返沙场」读回，核对现任君主和寿春守将。Clang 23.1.5 相关回归 **819/819** 通过。普通攻击实战累计 **35/37**。
+
 2026-11-12 宛城已有两种出战武将。通宵虫从濮阳移动到下邳，使用原版「赏赐」消耗太玄兵符，从极兵转为玄兵并保有 3,154 兵。通宵虫从下邳、吕布从南皮分别移动到宛城，吕布仍为极兵并带 1,730 兵。两人于 203 年 8 月在宛城会合。保存并独立读回后核对了两人的原版兵种、驻地和兵力。寿春的南方小鬼仍带 2,100 玄兵，忠诚为 0。
 
 用 `node scripts/test-hd-campaign-runtime.mjs --west-rival --west-rival-attackers --west-transit=build/hd-campaign-west-rival-20261112-stage-a/result.json --artifact-dir build/west-rival-attackers` 复跑。两局分别从寿春布置档和西凉招募档完成，记录位于 `build/hd-campaign-west-rival-20261112-attackers-fixed-a` 与 `build/hd-campaign-west-rival-20261112-attackers-fixed-b`。独立读回位于 `build/hd-campaign-west-rival-20261112-attackers-restored`。从宛城档继续月结时，使用 `--west-rival` 和该档的 `result.json`，以 `--west-transit-months` 设置月份。已另行读档完成一个月结并保存进度。

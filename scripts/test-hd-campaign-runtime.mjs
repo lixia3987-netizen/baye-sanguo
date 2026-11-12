@@ -38,7 +38,8 @@ import {battleResultNoteObservation,verifyBattleResultNote} from './hd-battle-hu
 import {createMobileCampaignInputs} from './hd-mobile-campaign-inputs.mjs';
 import {verifyNativePersonSelection} from './hd-city-person-navigation-checks.mjs';
 import {verifyOriginalSavePair} from './hd-mobile-system-runtime-oracle.mjs';
-import {verifyMobileSuccessorChoice,verifyMobileSuccessorReport,verifyMobileSuccessorSettlement} from './hd-mobile-successor-runtime-oracle.mjs';
+import {verifyMobileSuccessorBattleContext,verifyMobileSuccessorChoice,verifyMobileSuccessorReport,
+    verifyMobileSuccessorSettlement} from './hd-mobile-successor-runtime-oracle.mjs';
 import {recordBattleOpeningStatus,verifyBattleOpeningStatus} from './hd-battle-opening-status-runtime-checks.mjs';
 import {observeBattleEquipmentSettlement,discoveredCityEquipment,verifyEquipmentDeposit} from './hd-battle-equipment-runtime-checks.mjs';
 import {awardOriginalCampaignMysticToken, dispatchOriginalInduce, lowerOriginalCampaignLoyalty, moveOriginalCampaignOfficer,
@@ -63,6 +64,9 @@ assert.ok(!westRival || westTransit && !westRoad && !westSearch,
     '--west-rival requires a 南方小鬼 recruitment checkpoint via --west-transit');
 const westRivalAttackers = process.argv.includes('--west-rival-attackers');
 assert.ok(!westRivalAttackers || westRival,'--west-rival-attackers requires --west-rival');
+const westRivalSuccession = process.argv.includes('--west-rival-succession');
+assert.ok(!westRivalSuccession || westRival && !westRivalAttackers,
+    '--west-rival-succession requires --west-rival and a prepared attacker checkpoint');
 const liuBeiTransit = eliteTransit ?? westTransit;
 const eliteTransitMonthsFlag = process.argv.find(arg => arg.startsWith('--elite-transit-months='));
 const eliteTransitMonthsText = eliteTransitMonthsFlag?.slice('--elite-transit-months='.length) ?? '18';
@@ -71,7 +75,7 @@ assert.ok(!eliteTransitMonthsFlag || eliteTransit && /^\d+$/.test(eliteTransitMo
     '--elite-transit-months requires --elite-transit and a nonnegative integer');
 const westTransitMonthsFlag = process.argv.find(arg => arg.startsWith('--west-transit-months='));
 const westTransitMonthsText = westTransitMonthsFlag?.slice('--west-transit-months='.length) ??
-    (westRivalAttackers ? '0' : westSearch || westRival ? '84' : '18');
+    (westRivalAttackers || westRivalSuccession ? '0' : westSearch || westRival ? '84' : '18');
 const westTransitMonths = Number(westTransitMonthsText);
 assert.ok(!westTransitMonthsFlag || westTransit && /^\d+$/.test(westTransitMonthsText) && Number.isSafeInteger(westTransitMonths),
     '--west-transit-months requires --west-transit and a nonnegative integer');
@@ -2411,7 +2415,7 @@ async function confirmDefenseSuccessor(cdp,label,defeat) {
         picker,choice,keys,during,committed,reportVerdict,settlementVerdict});
 }
 
-async function settleToMap(cdp,label,{arrival=null,mapSeqBefore=null,nativeReports=null}={}) {
+async function settleToMap(cdp,label,{arrival=null,mapSeqBefore=null,nativeReports=null,onAttack,onSuccessor}={}) {
     const seen=new Set(),defenses=[];let deadline=Date.now()+150000;
     while(Date.now()<deadline) {
         const state=await evaluate(cdp,snapshotExpression);
@@ -2439,6 +2443,10 @@ async function settleToMap(cdp,label,{arrival=null,mapSeqBefore=null,nativeRepor
                 return settled;
             }
         }
+        if(onAttack && state.fight?.active===1 && state.fight.inputKind===1 && await onAttack(state.fight)) {
+            deadline=Date.now()+150000;
+            continue;
+        }
         const nativeMenu=state.menu;
         if(defenseScenario&&nativeMenu?.active&&nativeMenu.context===4&&nativeMenu.kind===1&&state.report?.text==='我军全军覆没') {
             throw new Error('The original campaign ended during '+label);
@@ -2456,6 +2464,7 @@ async function settleToMap(cdp,label,{arrival=null,mapSeqBefore=null,nativeRepor
                 seen.add(token);
                 const stage=label+'-successor-'+seen.size;
                 if(verifyDefensiveSuccession)await confirmDefenseSuccessor(cdp,stage,defenses.at(-1));
+                else if(onSuccessor)await onSuccessor(stage,nativeMenu);
                 else {
                     await checkpoint(cdp,stage);
                     await click(cdp,'#hd-dialog [data-hd-successor-index="0"]');
@@ -2480,11 +2489,11 @@ async function settleToMap(cdp,label,{arrival=null,mapSeqBefore=null,nativeRepor
     throw new Error('Timed out settling actual campaign reports to map: '+label);
 }
 
-async function advanceCampaignMonth(cdp,label,nativeReports) {
+async function advanceCampaignMonth(cdp,label,nativeReports,options) {
     await openFunctionMenu(cdp,label);
     const mapSeqBefore=await evaluate(cdp,'baye.hd.march().mapInputSeq');
     await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
-    await settleToMap(cdp,label,{mapSeqBefore,nativeReports});
+    await settleToMap(cdp,label,{...options,mapSeqBefore,nativeReports});
     return evaluate(cdp,worldExpression);
 }
 
@@ -2531,6 +2540,15 @@ async function finishDefenseChain(cdp,campaign,chain,settlements) {
     await checkpoint(cdp,'mobile-defense-chain-final-map');
 }
 
+async function observePlayerSuccession(cdp) {
+    await evaluate(cdp,`(() => {
+        const observations=window.__campaignSuccessions=[];
+        window.addEventListener('baye-hd-successor-committed',({detail:receipt})=>{
+            if(receipt.playerKing===receipt.newKing)observations.push({receipt,world:${successionWorldExpression}});
+        });
+    })()`);
+}
+
 async function defendCampaign(cdp) {
     const campaign=report.defenseCampaign={months:[]};
     await evaluate(cdp,`(() => {
@@ -2542,12 +2560,7 @@ async function defendCampaign(cdp) {
     })()`);
     if(verifyDefensiveSuccession) {
         campaign.successions=[];
-        await evaluate(cdp,`(() => {
-            const observations=window.__campaignSuccessions=[];
-            window.addEventListener('baye-hd-successor-committed',({detail:receipt})=>{
-                if(receipt.playerKing===receipt.newKing)observations.push({receipt,world:${successionWorldExpression}});
-            });
-        })()`);
+        await observePlayerSuccession(cdp);
     }
     const changan={origin:10,leaders:['李肃','侯成'],recruitments:2};
     if(defenseTenGenerals) {
@@ -2775,6 +2788,7 @@ async function loadLiuBeiTransit(cdp) {
     const checkpoints = fromWest ? [
         ['west-rival-ready',westRival && rival?.readySave],
         ['west-rival-progress',westRival && rival?.progressSave],
+        ['west-rival-succession',westRival && rival?.successionSave],
         ['west-rival-attackers',westRival && rival?.attackersSave],
         ['west-rival-staged',westRival && rival?.stagedSave],
         ['west-search-ready',prior.westSearch?.readySave],
@@ -3162,13 +3176,13 @@ function westRivalOfficer(world, person) {
         satrap:home?.SatrapId,arm:officer.ArmsType,arms:officer.Arms,loyalty:officer.Devotion};
 }
 
-async function advanceWestRivalMonth(cdp, ctx, run, world, label) {
+async function advanceWestRivalMonth(cdp, ctx, run, world, label, options) {
     const {person} = run;
     const before = westRivalOfficer(world,person), previousOwner = world.realm.playerBelong;
     const reports = [], readOrders = await observeWestRivalOrders(ctx,person);
     let orders;
     try {
-        world = await advanceCampaignMonth(cdp,label,reports);
+        world = await advanceCampaignMonth(cdp,label,reports,options);
     } finally {
         orders = await readOrders();
     }
@@ -3232,6 +3246,121 @@ async function prepareWestRivalAttackers(cdp, ctx, run, world) {
     return world;
 }
 
+async function confirmWestRivalSuccessor(cdp, label, menu, march) {
+    const pickerSource = `(() => {
+        const m=baye.hd.menuItems(),d=baye.data,ui=BayeHdDialog.debugSnapshot(),owner=ui.successorOwner;
+        if(m.active!==1||m.context!==5||m.kind!==1||!m.idsValid||!ui.open||ui.kind!=='successor'||
+            owner?.seq!==m.seq||owner.index!==m.index||JSON.stringify(owner.names)!==JSON.stringify(m.names))return null;
+        const battle=d.g_FgtParam;
+        return {menu:m,names:m.ids.map(id=>baye.getPersonName(id)),world:${successionWorldExpression},
+            battle:{mode:Number(battle.Mode),over:baye.hd.fight().over,cityIndex:Number(battle.CityIndex),
+                playerFood:Number(battle.MProvender),enemyFood:Number(battle.EProvender),genArray:Array.from(battle.GenArray,Number)},
+            keys:__runtimeEngineInputs.length};
+    })()`;
+    const picker = await waitFor(cdp,'Current native retreat successor',pickerSource);
+    assert.equal(picker.menu.seq,menu.seq);
+    const allowDuplicateResidents = true;
+    // The desktop dialog uses complete names resolved from the native IDs.
+    // The legacy eight-byte slots can clip a four-character name.
+    const choice = verifyMobileSuccessorChoice({...picker,menu:{...picker.menu,packedNames:undefined},allowDuplicateResidents});
+    assert.ok(![8,183,184].includes(choice.chosenId),'The current native successor leaves the three test officers available');
+    const battle = verifyMobileSuccessorBattleContext({world:picker.world,battle:picker.battle,
+        orderIndex:march.orderIndex,allowDuplicateResidents});
+    await checkpoint(cdp,label+'-picker');
+    assert.deepEqual(await evaluate(cdp,pickerSource),picker);
+    await click(cdp,`#hd-dialog [data-hd-successor-index="${choice.chosenIndex}"][data-hd-successor-seq="${menu.seq}"]`);
+    const during = await waitFor(cdp,'Current original NewKingNote',`(() => {
+        const r=baye.hd.report(),ui=BayeHdDialog.debugSnapshot();
+        return Number(baye.data.g_PlayerKing)===${choice.chosenId}&&r.active===1&&r.kind===1&&
+            ui.open&&ui.kind==='report'&&ui.reportOwner?.seq===r.seq&&ui.reportOwner?.inputSeq===r.inputSeq&&
+            {report:r,world:${successionWorldExpression}};
+    })()`);
+    const keys = await evaluate(cdp,`__runtimeEngineInputs.slice(${picker.keys}).map(input=>input.code)`);
+    assert.deepEqual(keys,[39]);
+    const reportVerdict = verifyMobileSuccessorReport({before:picker.world,during:during.world,choice,
+        report:during.report,allowDuplicateResidents});
+    await checkpoint(cdp,label+'-report');
+    await acknowledgeCampaignReport(cdp,during.report);
+    const committed = await waitFor(cdp,'Synchronous original succession receipt',`__campaignSuccessions.find(({receipt})=>
+        receipt.generation===${menu.generation}&&receipt.oldKing===${choice.oldKing}&&receipt.newKing===${choice.chosenId})`);
+    const settlement = verifyMobileSuccessorSettlement({before:picker.world,after:committed.world,choice,
+        receipt:committed.receipt,allowDuplicateResidents});
+    return {choice,battle,keys,report:during.report,receipt:committed.receipt,reportVerdict,settlement};
+}
+
+async function prepareWestRivalSuccession(cdp, ctx, run, world) {
+    const {playerKing:king,playerBelong:owner} = world.realm;
+    if (king!==2 || run.defection) return world;
+    const origin = 12, target = 16, label = 'west-rival-succession';
+    const ruler = world.allPersons[king];
+    const home = world.cities.find(city=>city.Belong===owner && campaignResidents(world,city.i).includes(king));
+    assert.ok(home && ruler.Arms>0);
+    assert.deepEqual([world.cities[origin].name,world.cities[target].name],['濮阳','许昌']);
+    assert.equal(world.cities[origin].Belong,owner);
+    assert.ok(world.cities[target].Belong>0 && world.cities[target].Belong!==owner);
+    assert.ok(await ctx.evaluate(`baye.hd.cityLinks(${origin}).some(link=>link.index===${target})`));
+    if (home.i!==origin) {
+        run.rulerTransfer = {};
+        let moveMonth = 0;
+        await moveOriginalCampaignOfficer(ctx,home.i,origin,king,run.rulerTransfer,label,async ()=>{
+            const settled = await advanceWestRivalMonth(cdp,ctx,run,world,label+'-move-month-'+(++moveMonth));
+            world = settled.world;
+            return {after:await ctx.world(),reports:settled.reports};
+        });
+    }
+    if (run.defection) return world;
+    assert.equal(world.realm.playerKing,king);
+    await observePlayerSuccession(cdp);
+    const march = await dispatchMarch(cdp,origin,target,label,{generalNames:[ruler.name],leaveQueued:true});
+    const {before:pending} = await returnFromCompletedMarch(cdp,label+'-queued');
+    const orderIndex = pending.orders.findIndex(order=>order.OrderId===27 && order.Person===march.order.slot &&
+        order.City===origin && order.Object===target);
+    assert.ok(orderIndex>=0);
+    const order = pending.orders[orderIndex];
+    const attempt = run.successionAttempt = {march,orderIndex,order};
+    const onAttack = async fight => {
+        if (fight.cityIndex!==target || attempt.retreat) return false;
+        const initial = await evaluate(cdp,battleStateExpression);
+        if (initial.mode!==1) return false;
+        assert.equal(initial.fight.over,0);
+        assertDispatchedArmy(initial,march);
+        assert.deepEqual(march.order.ids,[king+1]);
+        await checkpoint(cdp,label+'-battle-ready');
+        attempt.retreat = await retreatBattle(cdp,label);
+        await recordBattleResultNote(cdp,label,{outcome:2,kind:'attack',cityIndex:target});
+        return true;
+    };
+    const onSuccessor = async (stage,menu) => {
+        assert.ok(attempt.retreat,'The original offensive retreat precedes this successor');
+        run.succession = await confirmWestRivalSuccessor(cdp,stage,menu,attempt);
+    };
+    world = pending;
+    for (let month=0; month<=order.TimeCount && world.orders[orderIndex].OrderId===27; month++) {
+        const settled = await advanceWestRivalMonth(cdp,ctx,run,world,label+'-month-'+(month+1),{onAttack,onSuccessor});
+        world = settled.world;
+    }
+    assert.ok(attempt.retreat,'The native march reached an actual battle before retreat');
+    assert.deepEqual(world.orders[orderIndex],{...order,OrderId:255});
+    assert.equal(world.fighterIndex[order.Person],0);
+    if (!run.succession && !run.defection) {
+        assert.equal(world.realm.playerKing,king);
+        attempt.escaped = world.allPersons[king].Belong===owner;
+        run.progressSave = await saveLiuBeiCheckpoint(cdp,'west-rival-progress',1,world);
+        assert.fail('The original ruler escaped this retreat; the genuine progress save is available');
+    }
+    if (run.succession) {
+        assert.equal(world.realm.playerKing,run.succession.choice.chosenId);
+        assert.equal(world.allPersons[king].Belong,65535);
+        const currentOwner = world.realm.playerBelong;
+        const {cityIndex,party} = run.attackers;
+        assert.equal(world.cities[cityIndex].Belong,currentOwner);
+        assert.ok(party.every(({person,arm})=>campaignResidents(world,cityIndex).includes(person) &&
+            world.allPersons[person].Belong===currentOwner && world.allPersons[person].ArmsType===arm && world.allPersons[person].Arms>0));
+        run.successionSave = await saveLiuBeiCheckpoint(cdp,'west-rival-succession',2,world);
+    }
+    return world;
+}
+
 async function runWestRival(cdp, ctx, world, prior) {
     const person = 184, from = 0, cityIndex = 21;
     const tool = {id:24,name:'绝影'};
@@ -3242,6 +3371,7 @@ async function runWestRival(cdp, ctx, world, prior) {
         ['西凉','寿春','南方小鬼']);
     const run = report.westRival = {person,from,cityIndex,monthBudget:westTransitMonths,months:[],
         defection:prior?.defection,attackers:prior?.attackers,start:westRivalOfficer(world,person)};
+    if (westRivalSuccession) assert.ok(run.attackers,'Read back the prepared 宛城 attacker checkpoint');
     if (stage==='west-search-ready') {
         assert.deepEqual([run.start.cityIndex,run.start.belong,run.start.arm],[from,owner,5]);
         const links = await ctx.evaluate('baye.hd.realm().cities.map(city=>baye.hd.cityLinks(city.i).map(link=>link.index))');
@@ -3271,6 +3401,7 @@ async function runWestRival(cdp, ctx, world, prior) {
         if (!westRivalAttackers) run.stagedSave = await saveLiuBeiCheckpoint(cdp,'west-rival-staged',2,world);
     }
     if (westRivalAttackers) world = await prepareWestRivalAttackers(cdp,ctx,run,world);
+    if (westRivalSuccession) world = await prepareWestRivalSuccession(cdp,ctx,run,world);
 
     for (let month=0; month<=westTransitMonths; month++) {
         const officer = westRivalOfficer(world,person);
@@ -3555,6 +3686,7 @@ async function main() {
         if (westTransit) {
             const dependencies = ['hd-mobile-system-runtime-oracle','hd-city-person-navigation-checks'];
             if (westRival) dependencies.push('hd-mobile-equipment-runtime-oracle');
+            if (westRivalSuccession) dependencies.push('hd-mobile-successor-runtime-oracle');
             for (const dependency of dependencies) {
                 const source = 'scripts/'+dependency+'.mjs', bytes = fs.readFileSync(path.join(root,source));
                 report.sources[source] = {source,bytes:bytes.length,sha256:sha(bytes)};
