@@ -638,6 +638,50 @@
         return helpInteger(ruler, 1, 200) && ruler !== king + 1 ? [token, ruler] : null;
     }
 
+    function readDesktopDefenseSummary(owner) {
+        try {
+            var game = global.baye, data = engineData(), api = global.BayeHdLibIdentity;
+            if (!data || !api || !helpInteger(owner.cityIndex, 0, 37)) { return null; }
+            var identity = api.read(), params = data.g_FgtParam, cities = data.g_Cities,
+                city = cities && cities[owner.cityIndex], persons = data.g_Persons,
+                getName = game.getPersonName, generation = data.g_hdDetailGeneration;
+            if (!params || !city || !persons || typeof getName !== 'function' ||
+                !helpInteger(generation, 1, 0xffffffff) || !isOriginalCampaignLibrary(api, identity)) { return null; }
+            var libraryGeneration = identity.generation;
+            function sample() {
+                var incoming = readDefenseAttacker(data, params), food = params.MProvender, king = data.g_PlayerKing;
+                if (!incoming || !helpInteger(food, 0, 65535) || params.CityIndex !== owner.cityIndex ||
+                    city.Belong !== king + 1 || city.Food !== food || document.hidden || cityInfoOwns(data) ||
+                    data.g_hdEngineReady !== 1 || data.g_hdDetailGeneration !== generation || data.g_hdFightActive !== 0 ||
+                    data.g_hdReportActive !== 0 || data.g_hdHelpActive !== 0 || data.g_hdQtyActive !== 0 ||
+                    data.g_hdMenuActive !== 1 || data.g_hdMenuContext !== owner.context || data.g_hdMenuKind !== owner.kind ||
+                    data.g_hdMenuSeq !== owner.seq || data.g_hdMenuIndex !== owner.index ||
+                    data.g_hdMenuCount !== owner.names.length) { return null; }
+                var used = new Set(), arms = 0;
+                for (var i = 0; i < 10; i++) {
+                    var token = readNumber(params.GenArray, i);
+                    if (!helpInteger(token, 0, 200)) { return null; }
+                    if (token === 0) { continue; }
+                    var person = persons[token - 1], count = readNumber(person, 'Arms');
+                    if (used.has(token) || token !== owner.selected[used.size] ||
+                        readNumber(person, 'Belong') !== king + 1 || !helpInteger(count, 0, 65535)) { return null; }
+                    used.add(token);
+                    arms += count;
+                }
+                return used.size === owner.selected.length ? {incoming: incoming, food: food, arms: arms} : null;
+            }
+            var first = sample();
+            if (!first) { return null; }
+            var name = getName.call(game, first.incoming[1] - 1);
+            if (typeof name !== 'string' || !name.trim() || name.trim() === '-' ||
+                !isOriginalCampaignLibrary(api, identity) || identity.generation !== libraryGeneration ||
+                global.baye !== game || game.data !== data || game.getPersonName !== getName || global.BayeHdLibIdentity !== api ||
+                data.g_FgtParam !== params || data.g_Cities !== cities || cities[owner.cityIndex] !== city || data.g_Persons !== persons ||
+                JSON.stringify(sample()) !== JSON.stringify(first)) { return null; }
+            return {attacker: name.trim(), food: first.food, arms: first.arms};
+        } catch (e) { return null; }
+    }
+
     function readDefenders() {
         if (fightActive()) { return null; }
         var owner = readCampaignPersons(2);
@@ -1422,6 +1466,31 @@
         if (!mobileHost && !(request && request.confirm)) { revealCampaignRow(choices, current); }
     }
 
+    function appendDefenseSummary(body) {
+        var panel = document.createElement('dl');
+        panel.className = 'hd-dialog-defense-summary';
+        panel.hidden = true;
+        var fields = ['来袭势力', '守城粮草', '已选兵力'].map(function (label) {
+            var item = document.createElement('div'), title = document.createElement('dt'), value = document.createElement('dd');
+            title.textContent = label;
+            item.appendChild(title);
+            item.appendChild(value);
+            panel.appendChild(item);
+            return value;
+        });
+        body.appendChild(panel);
+        return {panel: panel, fields: fields};
+    }
+
+    function paintDefenseSummary(summary, value) {
+        if (!summary) { return; }
+        var values = value ? [value.attacker, value.food.toLocaleString('zh-CN'), value.arms.toLocaleString('zh-CN')] : ['', '', ''];
+        summary.fields.forEach(function (field, i) {
+            if (field.textContent !== values[i]) { field.textContent = values[i]; }
+        });
+        summary.panel.hidden = !value;
+    }
+
     function render() {
         applyChrome();
         renderReportIdentity();
@@ -1445,6 +1514,7 @@
                 body._hdCampaignView = null;
                 body._hdCampaignChoices = null;
             }
+            if (!state.defenseOwner) { body._hdDefenseSummary = null; }
             body.setAttribute('data-hd-quantity-purpose', transfer ? 'transfer' : armyQuantity ? armyQuantity.kind : trade ? 'trade' : '');
             if (transfer) {
                 var cargo = [transfer.contextText, transfer.cargoText ? '已选 ' + transfer.cargoText : '',
@@ -1479,6 +1549,7 @@
                 if (body._hdCampaignView !== state.viewEpoch) {
                     body._hdCampaignView = state.viewEpoch;
                     body.textContent = state.body;
+                    if (!mobileHost) { body._hdDefenseSummary = appendDefenseSummary(body); }
                     var selected = document.createElement('p');
                     selected.setAttribute('data-hd-defenders-selected', '');
                     body.appendChild(selected);
@@ -1520,6 +1591,7 @@
                     body.appendChild(finish);
                     body._hdCampaignChoices = defenders;
                 }
+                if (!mobileHost) { paintDefenseSummary(body._hdDefenseSummary, state.defenseOwner.summary); }
                 var selectedNode = body.querySelector && body.querySelector('[data-hd-defenders-selected]');
                 setText(selectedNode, state.defenseOwner.selected.length ?
                     '已选 ' + state.defenseOwner.selected.length + ' 人：' +
@@ -2068,6 +2140,7 @@
         var reportOwner = kind === 'report' ? meta.reportOwner || null : null;
         var successorOwner = kind === 'successor' ? meta.successorOwner || readSuccessor() : null;
         var defenseOwner = kind === 'defenders' ? meta.defenseOwner || readDefenders() : null;
+        var sameDefenseOwner = sameCampaignPersons(state.defenseOwner, defenseOwner);
         var reportSeq = kind === 'report' ? Number(meta.reportSeq) || 0 : 0;
         if (dataChanged || !state.open || state.kind !== kind || state.body !== (meta.body || '') ||
             (!sameMarch(state.marchOwner, marchOwner) && (state.marchOwner || marchOwner)) ||
@@ -2076,7 +2149,7 @@
             (!sameView(state.viewOwner, viewOwner) && (state.viewOwner || viewOwner)) || state.viewStamp !== viewStamp ||
             (!sameReport(state.reportOwner, reportOwner) && (state.reportOwner || reportOwner)) ||
             (!sameSuccessor(state.successorOwner, successorOwner) && (state.successorOwner || successorOwner)) ||
-            (!sameCampaignPersons(state.defenseOwner, defenseOwner) && (state.defenseOwner || defenseOwner)) ||
+            (!sameDefenseOwner && (state.defenseOwner || defenseOwner)) ||
             state.reportSeq !== reportSeq) {
             state.viewEpoch += 1;
             stopSuccessorRequest();
@@ -2113,7 +2186,9 @@
             // classic comparison preference for this overview session.
             if (viewEntering) { state.showLcd = meta.showLcd !== false; }
         } else if (kind !== 'help') {
-            state.showLcd = looksLikeSpeech(state.body) ? false : (meta.showLcd !== false);
+            if (mobileHost || kind !== 'defenders' || !sameDefenseOwner) {
+                state.showLcd = looksLikeSpeech(state.body) ? false : (meta.showLcd !== false);
+            }
         } else if (helpChanged) {
             state.showLcd = meta.showLcd !== false;
         }
@@ -2222,6 +2297,7 @@
         if (defense) {
             var cityName = '';
             try { if (defense.cityIndex != null) { cityName = baye.getCityName(defense.cityIndex) || ''; } } catch (e) {}
+            if (!mobileHost) { defense.summary = readDesktopDefenseSummary(defense); }
             openDialog({ kind: 'defenders', title: cityName ? '防守' + cityName : '防守选将',
                 body: defense.attackerName ? '来袭势力 · ' + defense.attackerName : '请选择守城武将，选好后点击“完成选将”。',
                 defenseOwner: defense, showLcd: false });

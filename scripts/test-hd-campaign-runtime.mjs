@@ -2211,7 +2211,24 @@ async function liveDefenderMenu(cdp,description,previousSeq=null) {
         }
         const selected=Array.from({length:10},(_,i)=>Number(d.g_FgtParam.GenArray[i])).filter(id=>id>0&&id<0xfffe);
         if(JSON.stringify(selected)!==JSON.stringify(owner.selected))return false;
-        return {menu,owner,token,persons,selected,cityIndex:owner.cityIndex};
+        let summary=null;
+        if(!document.body.classList.contains('hd-mobile-page')) {
+            const params=d.g_FgtParam,commander=d.g_Persons[params.GenArray[10]-1],
+                attacker=baye.getPersonName(commander.Belong-1),food=params.MProvender,
+                arms=selected.reduce((sum,id)=>sum+d.g_Persons[id-1].Arms,0);
+            const brief=panel.querySelector('.hd-dialog-defense-summary'),finish=panel.querySelector('[data-hd-defenders-finish]');
+            const values=Array.from(brief?.querySelectorAll('dd')||[],cell=>cell.textContent);
+            const expected=[attacker,food.toLocaleString('zh-CN'),arms.toLocaleString('zh-CN')];
+            if(JSON.stringify(values)!==JSON.stringify(expected)||food!==city.Food||!brief.checkVisibility()) {
+                throw new Error('Defense summary expected '+JSON.stringify(expected)+' and displayed '+JSON.stringify(values));
+            }
+            const briefBounds=brief.getBoundingClientRect(),finishBounds=finish.getBoundingClientRect();
+            if(briefBounds.top<0||briefBounds.bottom>finishBounds.top||finishBounds.bottom>innerHeight) {
+                throw new Error('Defense summary and finish control must fit above the viewport bottom');
+            }
+            summary={attacker,food,arms,selected};
+        }
+        return {menu,owner,token,persons,selected,cityIndex:owner.cityIndex,summary};
     })()`);
 }
 
@@ -2283,7 +2300,24 @@ async function playNpcDefense(cdp,label,previous) {
         entry.handoff={previous:previous.label,orderIndex:previous.orderIndex,armySlot:previous.order.Person,
             menuSeq:previous.menuSeq,successor:succession?.committed.receipt||null};
     }
-    await checkpoint(cdp,round+'-native-selection',{defense:pending,incomingOrder:entry.order,candidates:first.persons});
+    await checkpoint(cdp,round+'-native-selection',{defense:pending,incomingOrder:entry.order,candidates:first.persons,
+        defenseSummary:first.summary});
+    if(first.summary) {
+        const lcdState=`(() => {
+            BayeHdDialog.poll();
+            const menu=baye.hd.menuItems();
+            const lcd=document.querySelector('.js-baye-pc-lcd');
+            return {visible:lcd.checkVisibility({visibilityProperty:true}),seq:menu.seq,index:menu.index};
+        })()`;
+        const before=await evaluate(cdp,lcdState);
+        assert.deepEqual(before,{visible:false,seq:first.menu.seq,index:first.menu.index});
+        await click(cdp,'#hd-dialog [data-hd-dlg-lcd]');
+        const classic=await evaluate(cdp,lcdState);
+        assert.deepEqual(classic,{...before,visible:true});
+        await click(cdp,'#hd-dialog [data-hd-dlg-lcd]');
+        assert.deepEqual(await evaluate(cdp,lcdState),before,'Classic comparison returns to HD with the same native roster');
+        entry.lcdComparison={before,classic};
+    }
     let previousSeq=null,lastSelectionInputEnd=null;
     for(const desired of roster) {
         const owner=await liveDefenderMenu(cdp,round+' '+desired.name,previousSeq),currentQueue=await readCityPersons(cdp,entry.cityIndex);
@@ -2295,7 +2329,7 @@ async function playNpcDefense(cdp,label,previous) {
             assert.ok(owner.persons.some(p=>p.pind===leftInCity.pind&&p.arms>0),'The unselected armed reinforcement is still available at the tenth pick');
             entry.tenDefenders.lastCandidates=owner.persons;
         }
-        await checkpoint(cdp,round+'-select-'+entry.selected.length+'-ready',{defender:item});
+        await checkpoint(cdp,round+'-select-'+entry.selected.length+'-ready',{defender:item,defenseSummary:owner.summary});
         const inputOffset=verifyDefenderTaps?await evaluate(cdp,'__runtimeEngineInputs.length'):null;
         await click(cdp,defenderSelector(owner,item));
         const expected=entry.selected.map(p=>p.pind+1).concat(item.pind+1);
@@ -2319,6 +2353,10 @@ async function playNpcDefense(cdp,label,previous) {
         const menu=await evaluate(cdp,'baye.hd.menuItems()');
         if(menu.active&&menu.context===5&&menu.kind===2) {
             const owner=await liveDefenderMenu(cdp,round+' explicit finish',previousSeq);
+            if(owner.summary) {
+                entry.defenseSummary=owner.summary;
+                await checkpoint(cdp,round+'-defense-summary',{defenseSummary:owner.summary});
+            }
             entry.finish='explicit-exit';
             await click(cdp,'#hd-dialog [data-hd-defenders-finish][data-hd-defender-seq="'+owner.menu.seq+'"]'+
                 '[data-hd-defenders-owner='+JSON.stringify(owner.token)+']');
@@ -2330,6 +2368,8 @@ async function playNpcDefense(cdp,label,previous) {
         if(f.active===1&&f.over===0&&f.inputKind===1)return {phase:'pick',fight:f};
         return !f.active&&[1,2].includes(f.over)&&{phase:'instant',fight:f};
     })()`,60000);
+    if(first.summary)assert.equal(await evaluate(cdp,`!!document.querySelector('.hd-dialog-defense-summary')?.checkVisibility()`),false,
+        'The desktop briefing retires on entry to the original battle');
     if(testsLimit) {
         assert.equal(opening.phase,'pick','The tenth confirmation starts a playable original battle');
         assert.equal(opening.fight.bout,1);

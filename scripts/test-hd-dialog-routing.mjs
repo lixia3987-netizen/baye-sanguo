@@ -1409,6 +1409,57 @@ test('desktop defense keeps the finish action visible while the native cursor sc
     assert.deepEqual(h.writes, []);
 });
 
+test('desktop defense summary follows the native attacker, supplies and confirmed defensive army', () => {
+    const h = harness(), dialog = h.context.BayeHdDialog;
+    native(h);
+    h.context.BayeHdCityMenu.shouldShowHd = () => true;
+    const identity = {status:'ready', generation:8, byteLength:207195,
+        sha256:'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'};
+    h.context.BayeHdLibIdentity = {read:() => identity, isCurrent:value => value === identity};
+    Object.assign(h.report,{active:0,kind:0,text:''});
+    Object.assign(h.menu,{active:1,context:5,kind:2,seq:31,index:0,count:2,names:['马超','韩遂'],idsValid:true,ids:[0,1]});
+    const params = {Mode:0,CityIndex:0,MProvender:65535,GenArray:Array(20).fill(0)};
+    params.GenArray[10] = 4;
+    Object.assign(h.data,{g_asyncActionID:0,g_hdReportActive:0,g_hdQtyActive:0,g_hdHelpActive:0,
+        g_hdEngineReady:1,g_hdFightActive:0,g_hdDetailGeneration:4,g_hdMenuActive:1,g_hdMenuContext:5,g_hdMenuKind:2,
+        g_hdMenuSeq:31,g_hdMenuIndex:0,g_hdMenuCount:2,g_PlayerKing:0,g_FgtParam:params,
+        g_Cities:[{Belong:1,Food:65535}],g_Persons:[{Belong:1,Arms:1600,Thew:80},{Belong:1,Arms:800,Thew:70},
+            {Belong:3,Arms:1100},{Belong:3,Arms:900},{Belong:5,Arms:600}]});
+    h.context.baye.getPersonName = id => ['马超','韩遂','袁绍','颜良','曹操'][id];
+    dialog.poll();
+    const body = h.nodes['hd-dialog-body'];
+    const panel = () => body.querySelectorAll('.hd-dialog-defense-summary')[0];
+    const shown = () => panel().children.map(item => item.children[1].textContent);
+    assert.equal(panel().hidden,false);
+    assert.deepEqual(shown(),['袁绍','65,535','0']);
+    assert.equal(h.snapshot().showLcd,false);
+    h.click('data-hd-dlg-lcd');
+    dialog.poll();
+    assert.equal(h.snapshot().showLcd,true,'The native roster keeps the desktop comparison open across polling');
+
+    params.GenArray[0] = 1;
+    Object.assign(h.menu,{seq:32,count:1,names:['韩遂'],ids:[1]});
+    Object.assign(h.data,{g_hdMenuSeq:32,g_hdMenuCount:1});
+    dialog.poll();
+    assert.deepEqual(shown(),['袁绍','65,535','1,600']);
+    assert.equal(h.snapshot().showLcd,false,'A new roster opens its HD presentation');
+    const candidate = body.querySelectorAll('[data-hd-defender-index]')[0];
+
+    h.context.baye.getPersonName = id => {
+        if (id === 2) { params.GenArray[10] = 5; }
+        return ['马超','韩遂','袁绍','颜良','曹操'][id];
+    };
+    dialog.poll();
+    assert.equal(panel().hidden,true);
+    assert.deepEqual(shown(),['','','']);
+    assert.equal(body.querySelectorAll('[data-hd-defender-index]')[0],candidate);
+    dialog.poll();
+    assert.equal(panel().hidden,false);
+    assert.deepEqual(shown(),['曹操','65,535','1,600']);
+    assert.deepEqual(h.sent,[]);
+    assert.deepEqual(h.writes,[]);
+});
+
 test('campaign search isolates typing and reveals a hidden native cursor before keyboard confirmation', () => {
     const h = harness(); native(h);
     h.context.BayeHdCityMenu.shouldShowHd = () => true;

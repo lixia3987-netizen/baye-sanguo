@@ -244,6 +244,23 @@ html[data-baye-dialog-pass="1"] .hd-dialog.is-open .hd-dialog-stage {
     flex: none;
 }
 
+.hd-dialog-defense-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    flex: none;
+    margin: 0;
+    padding: 9px 0;
+    border: 1px solid #626053;
+    border-radius: 8px;
+    background: #171e29;
+}
+
+.hd-dialog-defense-summary[hidden] { display: none; }
+.hd-dialog-defense-summary > div { padding: 0 12px; }
+.hd-dialog-defense-summary > div + div { border-inline-start: 1px solid #404653; }
+.hd-dialog-defense-summary dt { color: #c6b891; font-size: 14px; }
+.hd-dialog-defense-summary dd { margin: 0; color: #f4e7c9; font-weight: 700; font-variant-numeric: tabular-nums; }
+
 .hd-dialog-campaign-roster {
     min-height: 0;
     overflow: auto;
@@ -351,6 +368,11 @@ html[data-baye-dialog="hd"] body.baye-hd-dialog-empty-text .container.js-baye-pc
 /* The current help view chooses its LCD visibility. A battle HELP wait alone
  * does not override a complete structured page or its explicit player toggle. */
 html[data-baye-dialog="hd"][data-baye-dialog-pass="0"] body.baye-hd-dialog-help:not(.baye-hd-dialog-lcd) .container.js-baye-pc-lcd {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+html[data-baye-dialog="hd"] body:not(.hd-mobile-page, .baye-hd-dialog-lcd):has(#hd-dialog[data-hd-native-defenders="1"]) .container.js-baye-pc-lcd {
     visibility: hidden !important;
     pointer-events: none !important;
 }
