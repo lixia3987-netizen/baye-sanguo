@@ -1186,6 +1186,37 @@ function mobileCampaignFixture(kind = 1, ids = [0, 130, 199]) {
     return h;
 }
 
+test('mobile succession keeps repeated rows from the original resident queue', () => {
+    const h = mobileCampaignFixture(1), d = h.context.BayeHdDialog;
+    const cities = Array.from({length:38}, () => ({Belong:0,PersonQueue:0,Persons:0}));
+    cities[0] = {Belong:6,PersonQueue:0,Persons:3};
+    cities[2] = {Belong:12,PersonQueue:3,Persons:1};
+    cities[3] = {Belong:6,PersonQueue:4,Persons:2};
+    const people = Array.from({length:200}, () => ({Belong:0}));
+    for (const id of [0,130,199]) people[id].Belong = 6;
+    for (const id of [23,50]) people[id].Belong = 12;
+    const queue = Array(200).fill(65535);
+    queue.splice(0,6,0,23,130,50,130,199);
+    Object.assign(h.data,{g_PlayerKing:5,g_Cities:cities,g_Persons:people,g_PersonsQueue:queue});
+    h.publish([0,130,130,199],0,32);
+    h.writes.length = 0;
+    assert.equal(d.getInputTicket()?.menuKind,1);
+    const secondRow = h.candidate(2);
+    assert.equal(secondRow.getAttribute('data-hd-campaign-person'),'130');
+
+    queue[4] = 199;
+    assert.equal(d.getInputTicket(),null);
+    h.click('data-hd-successor-index',secondRow);
+    assert.deepEqual(h.sent,[]);
+
+    queue[4] = 130;
+    h.arrowAck();
+    h.choose(2);
+    h.timers();
+    assert.deepEqual(h.sent,[0x23,0x23,0x27]);
+    assert.deepEqual(h.writes,[]);
+});
+
 for (const kind of [1, 2]) {
     test('mobile campaign kind ' + kind + ' binds native IDs including zero and confirms after exact Arrow ACK', () => {
         const h = mobileCampaignFixture(kind), d = h.context.BayeHdDialog;

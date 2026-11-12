@@ -489,6 +489,32 @@
             identity.byteLength === 207195 && helpInteger(identity.generation, 1, 0xffffffff) && api.isCurrent(identity);
     }
 
+    function matchesOriginalSuccessorResidents(data, ids) {
+        var cities = data.g_Cities, people = data.g_Persons, queue = data.g_PersonsQueue, king = data.g_PlayerKing;
+        if (!cities || cities.length !== 38 || !people || people.length < 200 || !queue || queue.length < 200 ||
+            !helpInteger(king, 0, 199)) { return false; }
+        var owner = king + 1, next = 0, positions = [];
+        // GetKingPersons follows the original city and resident order, including repeated residents.
+        for (var i = 0; i < cities.length; i++) {
+            var city = cities[i];
+            if (!city || !helpInteger(city.Belong, 0, 200)) { return false; }
+            if (city.Belong !== owner) { continue; }
+            var start = city.PersonQueue, count = city.Persons;
+            if (!helpInteger(start, 0, 200) || !helpInteger(count, 0, 200 - start)) { return false; }
+            for (var position = start; position < start + count; position++) {
+                var id = queue[position];
+                if (positions[position] || !helpInteger(id, 0, 199)) { return false; }
+                positions[position] = true;
+                var person = people[id];
+                if (!person || !helpInteger(person.Belong, 0, 65535)) { return false; }
+                if (person.Belong !== owner) { continue; }
+                if (ids[next] !== id) { return false; }
+                next += 1;
+            }
+        }
+        return next === ids.length;
+    }
+
     function readMobileCampaignPersons(kind) {
         try {
             var api = global.BayeHdLibIdentity, identity = api && api.read(), data = engineData();
@@ -524,11 +550,13 @@
                     !menu.packedNames.every(function (n) { return typeof n === 'string' && n.trim(); }) ||
                     !data.g_hdMenuIds || data.g_hdMenuIds.length < raw.Count || !data.g_hdMenuBytes ||
                     data.g_hdMenuBytes.length < raw.Count * raw.ItemLen) { return null; }
-                var ids = menu.ids.slice(), bytes = [], seen = {};
+                var ids = menu.ids.slice(), bytes = [], seen = [], repeated = false;
                 if (!ids.every(function (id, index) {
-                    if (!helpInteger(id, 0, 199) || seen[id] || data.g_hdMenuIds[index] !== id) { return false; }
+                    if (!helpInteger(id, 0, 199) || data.g_hdMenuIds[index] !== id) { return false; }
+                    if (seen[id]) { repeated = true; }
                     seen[id] = true; return true;
                 })) { return null; }
+                if (repeated && (kind !== 1 || !matchesOriginalSuccessorResidents(data, ids))) { return null; }
                 for (var i = 0; i < raw.Count * raw.ItemLen; i++) {
                     var byte = data.g_hdMenuBytes[i]; if (!helpInteger(byte, 0, 255)) { return null; } bytes.push(byte);
                 }
