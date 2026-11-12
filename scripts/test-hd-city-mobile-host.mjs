@@ -1197,34 +1197,39 @@ test('distribution description follows actual original command/person Enters int
     assert.equal(p.data,f.env.baye.data);assert.equal(Object.keys(p).includes('data'),false);
     assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
 });
-test('PC distribution releases Escape to the new native map before the next poll', () => {
-    const f = distributionFixture({mobile:false});
-    f.raw.g_asyncActionID = 0;
-    marchDom(f,{rooted:true});
-    f.env.bayeInputIgnored = event => event.defaultPrevented;
-    f.env.bayeConsumeKeyEvent = event => { event.defaultPrevented = true; };
-    f.internals.bind();
-    Object.assign(f.state,{layer:'sub',deepKind:'',deepLabel:''});
-    f.internals.chooseSub(2);
-    f.tick(200);
-    assert.equal(f.raw.g_hdMenuKind, 3);
-    f.setAfterKey(code => {
-        assert.equal(code, 40);
-        f.api.onEngineHook('willCloseMenu');
-        Object.assign(f.raw,{g_hdMenuActive:0,g_hdMenuKind:0,g_hdMenuContext:0,g_hdMenuSeq:14,
-            g_hdMapPick:1,g_hdMapInputSeq:5});
-        f.api.onEngineHook('didShowMainMap');
+for (const [command, index] of [['分配', 2], ['掠夺', 3]]) {
+    test('PC ' + command + ' picker releases Escape to the new native map before the next poll', () => {
+        const f = distributionFixture({mobile:false});
+        f.raw.g_asyncActionID = 0;
+        f.raw.g_hdMenuIndex = index;
+        marchDom(f,{rooted:true});
+        f.env.bayeInputIgnored = event => event.defaultPrevented;
+        f.env.bayeConsumeKeyEvent = event => { event.defaultPrevented = true; };
+        f.internals.bind();
+        Object.assign(f.state,{layer:'sub',deepKind:'',deepLabel:''});
+        f.internals.chooseSub(index);
+        f.tick(200);
+        assert.equal(f.raw.g_hdMenuKind, 3);
+        assert.equal(f.state.deepKind, 'person');
+        assert.equal(f.state.deepLabel, command);
+        f.setAfterKey(code => {
+            assert.equal(code, 40);
+            f.api.onEngineHook('willCloseMenu');
+            Object.assign(f.raw,{g_hdMenuActive:0,g_hdMenuKind:0,g_hdMenuContext:0,g_hdMenuSeq:14,
+                g_hdMapPick:1,g_hdMapInputSeq:5});
+            f.api.onEngineHook('didShowMainMap');
+        });
+        f.internals.back();
+        f.tick(200);
+        assert.equal(f.state.open, true, 'The map hook arrived before the previous EXIT finished sending');
+        const escape = {type:'keydown',keyCode:27,defaultPrevented:false};
+        f.emitDocument('keydown', escape);
+        assert.equal(f.state.open, false);
+        assert.equal(escape.defaultPrevented, false, 'The classic keyboard handler can deliver the new Escape');
+        assert.deepEqual(f.keys, [39,40]);
+        assert.deepEqual(f.writes, []);
     });
-    f.internals.back();
-    f.tick(200);
-    assert.equal(f.state.open, true, 'The map hook arrived before the previous EXIT finished sending');
-    const escape = {type:'keydown',keyCode:27,defaultPrevented:false};
-    f.emitDocument('keydown', escape);
-    assert.equal(f.state.open, false);
-    assert.equal(escape.defaultPrevented, false, 'The classic keyboard handler can deliver the new Escape');
-    assert.deepEqual(f.keys, [39,40]);
-    assert.deepEqual(f.writes, []);
-});
+}
 test('a retained distribution label cannot label recruitment or an unobserved person selection',()=>{
     const f=distributionFixture({command:'征兵'});f.state.deepLabel='分配';f.enter();
     assert.equal(f.api.getQuantityPresentation(),null);

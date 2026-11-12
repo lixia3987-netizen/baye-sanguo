@@ -1382,7 +1382,7 @@
     var DEEP = {
         neizheng: ['person', 'person', 'person', 'person', 'person', 'person', 'person', 'person', 'goods', 'person-goods', 'person', 'person', 'city', 'city'],
         waijiao: ['city', 'city', 'city', 'city', 'city'],
-        junbei: ['city', 'person-qty', 'person', 'city', 'person-city']
+        junbei: ['city', 'person-qty', 'person', 'person', 'person-city']
     };
 
     var state = {
@@ -8012,8 +8012,8 @@
         if (!state.open || !state.militaryPersonMap || !retiredCityMapOwner(state.militaryPersonMap)) {
             return false;
         }
-        // Conscription can run out of money. Back from either military picker
-        // can also reach the map after willCloseMenu has changed the HD layer.
+        // Conscription can run out of money. A military picker can also return
+        // to the map after willCloseMenu has changed the HD layer.
         closeMenu({ silent: true });
         if (state.open) { return false; }
         state.closingSub = false;
@@ -8754,7 +8754,7 @@
         }
         var names = preferEngineNames(SUBS[state.subKind] || []);
         var kind = deepKindFor(state.subKind, index);
-        var militaryPerson = state.subKind === 'junbei' && (kind === 'person-qty' || names[index] === '分配');
+        var militaryPerson = state.subKind === 'junbei' && (kind === 'person-qty' || kind === 'person');
         var d = militaryPerson && window.baye && baye.data;
         var militaryPersonMap = d ? {data: d, generation: detailNumber(d.g_hdDetailGeneration, 4294967295),
             inputSeq: detailNumber(d.g_hdMapInputSeq, 4294967295)} : null;
