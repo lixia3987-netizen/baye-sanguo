@@ -19,6 +19,9 @@
  *   --puyang and --xuchang start opposite sides of a fresh P2 吕布–曹操 match.
  *   --yuan-shao marches from P2 邺11 to 吕布's 濮阳12 with 高干.
  *   --chaisang marches from P3 孙权's 柴桑34 to 长沙33 with 丁奉.
+ *   --liu-bei-elite recruits 蔡中 and discovers 通宵虫 in original 下邳18
+ *   before marching from 徐州13 against 吕布 in 濮阳12.
+ *   --elite-resume=build/.../result.json restores a private 蔡中 or 通宵虫 save.
  *   --mystic starts a fresh P4 刘禅 game, prepares 诸葛亮 with 六韬 and 太玄兵符,
  *   and marches from 成都24 to 云南30. Use --recruit with a SPE24 interval.
  *   --mystic-defender waits for the original opponent to recruit and arm 诸葛亮
@@ -40,7 +43,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { originalRewardWorldSource, runMysticAttackPreparation, runMysticDefenderPreparation } from './hd-reward-token-runtime-checks.mjs';
+import { originalRewardWorldSource, runEliteAttackPreparation, runMysticAttackPreparation, runMysticDefenderPreparation } from './hd-reward-token-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -55,6 +58,7 @@ const alternateRoutes = {
     '--xuchang': {period:2, king:'曹操', origin:16, originName:'许昌', destination:12, preferredActor:20, preferredTargets:{3:'魏续',4:'吕布'}},
     '--yuan-shao': {period:2, king:'袁绍', origin:11, originName:'邺', destination:12, preferredActor:45, preferredTargets:{4:'吕布'}},
     '--chaisang': {period:3, king:'孙权', origin:34, originName:'柴桑', destination:33, preferredActor:99},
+    '--liu-bei-elite': {period:2, king:'刘备', origin:13, originName:'徐州', destination:12, preferredActor:183, preferredTargets:{4:'吕布'}},
     '--mystic': {period:4, king:'刘禅', origin:24, originName:'成都', destination:30, preferredActor:72},
     '--mystic-defender': {period:4, king:'刘禅', origin:25, originName:'棉竹', destination:24, preferredTargets:{5:'诸葛亮'}},
     '--mystic-from-zitong': {period:4, king:'刘禅', origin:19, originName:'梓潼', destination:24, preferredTargets:{5:'诸葛亮'}}
@@ -62,10 +66,14 @@ const alternateRoutes = {
 const routeFlags = Object.keys(alternateRoutes).filter(flag => process.argv.includes(flag));
 assert.ok(routeFlags.length <= 1, 'Choose at most one original campaign route');
 const mystic = routeFlags.includes('--mystic');
+const elite = routeFlags.includes('--liu-bei-elite');
 const mysticFromZitong = routeFlags.includes('--mystic-from-zitong');
 const mysticDefender = routeFlags.includes('--mystic-defender') || mysticFromZitong;
 const mysticResumeArg = process.argv.find(arg => arg.startsWith('--mystic-resume='));
 const mysticResumePath = mysticResumeArg?.slice('--mystic-resume='.length);
+const eliteResumeArg = process.argv.find(arg => arg.startsWith('--elite-resume='));
+const eliteResumePath = eliteResumeArg?.slice('--elite-resume='.length);
+assert.ok(!eliteResumeArg || elite && eliteResumePath, '--elite-resume requires --liu-bei-elite and an earlier result.json');
 assert.ok(!mysticResumeArg || mysticDefender && mysticResumePath, '--mystic-resume requires a mystic defender route and an earlier result.json');
 assert.ok(!mysticFromZitong || mysticResumePath, '--mystic-from-zitong requires an earlier mystic defender save');
 const route = alternateRoutes[routeFlags[0]] ?? {
@@ -106,6 +114,8 @@ const targetArm=targetArmText===null?null:Number(targetArmText);
 assert.ok(targetArm===null||Number.isInteger(targetArm)&&targetArm>=0&&targetArm<6,'--target-arm requires an actual native type 0..5');
 assert.ok(!targetArm0||targetArm===0,'--target-arm0 cannot contradict --target-arm');
 assert.ok(targetArm===null||acceptedRange&&acceptedRange[0]>=19&&acceptedRange[0]<=25,'An explicit target arm requires an exact native --range');
+assert.ok(!elite || recruit && acceptedRange?.[0] === 23 && targetArm === 4,
+    '--liu-bei-elite requires a recruited elite attack against native arm 4');
 const maxTurnsFlag=process.argv.indexOf('--max-turns'),maxTurnsText=maxTurnsFlag<0?'4':process.argv[maxTurnsFlag+1];
 assert.ok(/^\d+$/.test(maxTurnsText||''),'--max-turns requires an explicit integer test budget');
 const maxTurns=Number(maxTurnsText);
@@ -394,7 +404,7 @@ function prepareServedAssets() {
     }
     for(const dir of ['js','css','assets','vendor/iBaye/src'])freezeDirectory(dir);
     freezeAsset('scripts/write-wasm-manifest.mjs');
-    if (mystic || mysticDefender) {
+    if (elite || mystic || mysticDefender) {
         for (const source of ['hd-reward-token-runtime-checks', 'hd-mobile-equipment-runtime-oracle', 'hd-city-person-navigation-checks']) {
             freezeAsset('scripts/' + source + '.mjs');
         }
@@ -717,8 +727,8 @@ async function collectSpe(cdp) {
     return evidence;
 }
 
-function readMysticDefenderSave() {
-    const source = fs.realpathSync(mysticResumePath);
+function readSavedAttackRun(resumePath) {
+    const source = fs.realpathSync(resumePath);
     const raw = fs.readFileSync(source);
     const previous = JSON.parse(raw);
     assert.equal(previous.route.period, route.period);
@@ -728,7 +738,25 @@ function readMysticDefenderSave() {
         previous.sourceVerification.drift.length === 0, 'The earlier private run finished with authenticated execution sources');
     assert.equal(previous.sources['baye.wasm'].sha256, report.sources['baye.wasm'].sha256);
     assert.equal(previous.actualLib.sha256, report.sources['libs/dat-mod.lib'].sha256);
+    return {source, raw, previous};
+}
 
+function readAttackSavePair({source, raw, previous}, save, name) {
+    assert.ok(save?.files.length === 2, 'Earlier original save contains both files');
+    const parts = save.files.map(({file, bytes, sha256}, i) => {
+        assert.equal(file, name + '-sango' + i + '.sav');
+        const data = fs.readFileSync(path.join(path.dirname(source), file));
+        assert.equal(data.length, bytes);
+        assert.equal(crypto.createHash('sha256').update(data).digest('hex'), sha256);
+        return data.toString('hex');
+    });
+    return {source:path.relative(root, source), sha256:crypto.createHash('sha256').update(raw).digest('hex'),
+        lib:previous.actualLib, ruler:previous.selectedLord, save, parts};
+}
+
+function readMysticDefenderSave() {
+    const earlier = readSavedAttackRun(mysticResumePath);
+    const {previous} = earlier;
     const {target, personId, occupation, occupationSave, readySave, months} = previous.mysticDefender;
     assert.equal(target, destination);
     assert.equal(personId, 72);
@@ -739,19 +767,10 @@ function readMysticDefenderSave() {
     assert.ok(!mysticFromZitong || readySave, 'The alternate march starts from a save with the original defender equipped');
     assert.ok(save && save.files.length === 2 && save.year === sample.year && save.month === sample.month);
     assert.equal(sample.arm, 5);
-    const parts = save.files.map(({file, bytes, sha256}, i) => {
-        assert.equal(file, name + '-sango' + i + '.sav');
-        const data = fs.readFileSync(path.join(path.dirname(source), file));
-        assert.equal(data.length, bytes);
-        assert.equal(crypto.createHash('sha256').update(data).digest('hex'), sha256);
-        return data.toString('hex');
-    });
-    return {source:path.relative(root, source), sha256:crypto.createHash('sha256').update(raw).digest('hex'),
-        lib:previous.actualLib, ruler:previous.selectedLord, occupation, save, sample, parts};
+    return {...readAttackSavePair(earlier, save, name), occupation, sample};
 }
 
-async function loadMysticDefenderSave(cdp) {
-    const {source, sha256, lib, ruler, occupation, save, sample, parts} = readMysticDefenderSave();
+async function loadNativeAttackSave(cdp, {source, sha256, lib, ruler, save, parts}) {
     const read = expression => evaluate(cdp, expression);
     await waitFor(cdp, 'Original HD title and current game library for the private load', `(() => {
         const m=baye.hd.menuItems(),s=BayeHdSystemUi.debugSnapshot(),lib=BayeHdLibIdentity.read();
@@ -774,17 +793,54 @@ async function loadMysticDefenderSave(cdp) {
     assert.deepEqual(await read(`window.__speEngineKeys.slice(${selectStart}).map(k=>k.code)`), [39]);
     assert.deepEqual(await read("Array.from({length:2},(_,i)=>BayeSaveStorage.readFile('baye//data//sango'+i+'.sav'))"), parts);
     const world = await read(originalRewardWorldSource);
-    const officer = world.people[72];
     assert.equal(world.period, route.period);
     assert.equal(world.king, ruler.id);
     assert.equal(await read(`baye.getPersonName(${world.king})`), route.king);
     assert.equal(world.cities[route.origin].Belong, world.king + 1);
+    assert.deepEqual([world.year,world.month],[save.year,save.month]);
+    report.selectedLord = {id:world.king, name:route.king};
+    return {world, source, sha256, save,
+        nativeKeys:await read(`window.__speEngineKeys.slice(${keyStart}).map(k=>k.code)`)};
+}
+
+async function loadMysticDefenderSave(cdp) {
+    const archive = readMysticDefenderSave();
+    const {world,...receipt} = await loadNativeAttackSave(cdp, archive);
+    const {occupation, sample} = archive;
+    const officer = world.people[72];
     assert.deepEqual({year:world.year, month:world.month, cityBelong:world.cities[destination].Belong,
         personBelong:officer.Belong, arm:officer.ArmsType, arms:officer.Arms}, sample);
-    report.selectedLord = {id:world.king, name:route.king};
-    report.mysticResume = {source,sha256,occupation,save,restored:sample,
-        nativeKeys:await read(`window.__speEngineKeys.slice(${keyStart}).map(k=>k.code)`)};
+    report.mysticResume = {...receipt, occupation, restored:sample};
     await checkpoint(cdp, 'mystic-defender-loaded');
+}
+
+async function loadEliteAttackSave(cdp) {
+    const earlier = readSavedAttackRun(eliteResumePath);
+    const {discovery,envoySave,bookSave,readySave} = earlier.previous.elitePreparation;
+    const {cityIndex,envoyId,personId} = discovery;
+    assert.deepEqual([cityIndex,envoyId,personId],[18,117,183]);
+    const stage = readySave ? 'ready' : bookSave ? 'book' : 'envoy';
+    const save = readySave ?? bookSave ?? envoySave;
+    const name = {ready:'elite-officer-arrived',book:'elite-envoy-equipped',envoy:'elite-envoy-arrived'}[stage];
+    const {world,...receipt} = await loadNativeAttackSave(cdp, readAttackSavePair(earlier, save, name));
+    const owner = world.king + 1;
+    const residents = index => {
+        const {PersonQueue,Persons} = world.cities[index];
+        return world.queue.slice(PersonQueue, PersonQueue + Persons);
+    };
+    const envoy = world.people[envoyId], officer = world.people[personId];
+    assert.equal(world.cities[cityIndex].Belong, owner);
+    assert.equal(envoy.Belong, owner);
+    assert.ok(residents(cityIndex).includes(envoyId));
+    assert.equal(officer.ArmsType, 4);
+    assert.equal(officer.Belong, stage === 'ready' ? owner : 0);
+    assert.ok(residents(stage === 'ready' ? route.origin : cityIndex).includes(personId));
+    if (stage === 'book') {
+        assert.ok([envoy.Tool1,envoy.Tool2].includes(18));
+        assert.equal(envoy.IQ, 15);
+    }
+    report.eliteResume = {...receipt, stage, restored:{year:world.year,month:world.month,envoy,officer}};
+    await checkpoint(cdp, 'elite-' + stage + '-loaded');
 }
 
 async function startOriginalCampaign(cdp) {
@@ -824,8 +880,9 @@ async function smoke(cdp) {
     await waitFor(cdp, 'opening overlay retired', 'baye.hd.spe().eventId!==' + opening.eventId + ' && !BayeHdSpe.isOpen()');
     report.opening.skip = keys;
     await checkpoint(cdp, '02-opening-ended-cleanly');
-    await evaluate(cdp, `BayeHdSystemUi.setMode('${mysticResumePath ? 'hd' : 'classic'}');window.__spePhase='menus';`);
+    await evaluate(cdp, `BayeHdSystemUi.setMode('${mysticResumePath || eliteResumePath ? 'hd' : 'classic'}');window.__spePhase='menus';`);
     if (mysticResumePath) await loadMysticDefenderSave(cdp);
+    else if (eliteResumePath) await loadEliteAttackSave(cdp);
     else await startOriginalCampaign(cdp);
     await checkpoint(cdp, '03-real-map');
     report.actualLib = await evaluate(cdp, '({preferred:localStorage.getItem("baye/libpath"),hex:window.dynLib})');
@@ -1106,7 +1163,7 @@ async function readMarchDestination(cdp,stage) {
     return facts;
 }
 
-async function saveMysticDefenderCheckpoint(ctx, name, slot) {
+async function saveNativeAttackCheckpoint(ctx, name, slot) {
     const {world, evaluate, until, click, key, waitPlayerMap} = ctx;
     const before = await world();
     assert.equal(await evaluate(`BayeSaveStorage.inspectSlot(${slot}).status`), 'empty');
@@ -1141,7 +1198,7 @@ async function saveMysticDefenderCheckpoint(ctx, name, slot) {
     return {slot,year:before.year,month:before.month,files,nativeKeys};
 }
 
-async function prepareMysticBattle(cdp) {
+async function prepareAttackCampaign(cdp) {
     const read = expression => evaluate(cdp, expression);
     await read("BayeHdSystemUi.setMode('hd')");
     const until = (...args) => waitFor(cdp, ...args);
@@ -1151,39 +1208,55 @@ async function prepareMysticBattle(cdp) {
         return w.pick===1&&w.mapInputSeq>0&&!m.active&&!r.active&&!f.active&&w;
     })()`);
     const chooseCityItem = async (name, attribute, kind) => {
+        const layer = kind === 1 ? 'root' : 'sub';
         const menu = await until('Original city choice ' + name, `(() => {
             const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();
-            return m.active===1&&m.context===1&&m.kind===${kind}&&s.open&&m;
+            return m.active===1&&m.context===1&&m.kind===${kind}&&s.open&&s.showHd&&
+                s.layer==='${layer}'&&!s.sending&&!s.queueLen&&m;
         })()`);
         assert.equal(menu.names.filter(label => label === name).length, 1);
         await press(`#hd-city-menu [${attribute}="${menu.names.indexOf(name)}"]`);
         return {menu};
     };
-    const reopenInterior = async (label, cityIndex) => {
+    const reopenCitySection = async (label, cityIndex, section) => {
         await waitPlayerMap(label);
         await until('HD map ready for the owned city', `(() => {
             const map=BayeHdOverworld.debugSnapshot();
             return map.phase==='map'&&map.hitsEnabled&&map.owned.some(city=>city.i===${cityIndex});
         })()`);
         assert.ok(await action(cdp, label, `BayeHdOverworld.walkToCity(${cityIndex})`));
-        await chooseCityItem('内政', 'data-hd-root', 1);
+        await until('Original root belongs to the current city', `(() => {
+            const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot(),w=baye.hd.march();
+            return m.active===1&&m.context===1&&m.kind===1&&w.mapCity===${cityIndex + 1}&&
+                s.open&&s.layer==='root'&&s.cityIndex===${cityIndex}&&!s.sending&&!s.queueLen;
+        })()`);
+        await chooseCityItem(section, 'data-hd-root', 1);
     };
     const ctx = {
         report, world:()=>read(originalRewardWorldSource), evaluate:read, until, click:press, key:name=>key(cdp,name),
-        chooseCityItem, reopenInterior, waitPlayerMap, checkpoint:name=>checkpoint(cdp,name),
+        chooseCityItem, waitPlayerMap, checkpoint:name=>checkpoint(cdp,name),
+        reopenInterior:(label,city)=>reopenCitySection(label,city,'内政'),
+        reopenDiplomacy:(label,city)=>reopenCitySection(label,city,'外交'),
         libBytes:nativeLib, nativeKeys:'window.__speEngineKeys.map(key=>key.code)'
     };
+    ctx.save = (name,slot) => saveNativeAttackCheckpoint(ctx,name,slot);
+    if (elite) {
+        const condition = nativeItem(63, route.period - 1);
+        const row = condition.subarray(183 * 4, 184 * 4);
+        assert.deepEqual([row.readUInt16LE(1), row[3]], [118,19], 'The original LIB names 蔡中 and 下邳 as discovery conditions');
+        await runEliteAttackPreparation(ctx, route.origin, {resource:63, cityIndex:18, envoyId:117, personId:183});
+        return;
+    }
     if (!report.mysticResume) await runMysticAttackPreparation(ctx, 24, 72);
     if (mysticDefender) {
-        ctx.save = (name,slot) => saveMysticDefenderCheckpoint(ctx,name,slot);
         await runMysticDefenderPreparation(ctx, route.origin, destination, 72, report.mysticResume?.occupation);
     }
 }
 
 async function marchSmoke(cdp) {
     await evaluate(cdp, `(() => { BayeHdOverworld.setMode('hd-map'); BayeHdCityMenu.setMode('hd'); BayeHdBattle.setMode('hd'); })()`);
-    if (mystic || mysticDefender) {
-        await prepareMysticBattle(cdp);
+    if (elite || mystic || mysticDefender) {
+        await prepareAttackCampaign(cdp);
     }
     const owned = await waitFor(cdp, `owned HD map ${route.originName}`, `(() => { const m=BayeHdOverworld.debugSnapshot(); return m.phase==='map' && m.owned.find(c=>c.i===${route.origin} && c.name===${JSON.stringify(route.originName)}); })()`);
     report.marchPlan = await evaluate(cdp, `(() => {

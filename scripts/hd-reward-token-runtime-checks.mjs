@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { verifyNativePersonSelection } from './hd-city-person-navigation-checks.mjs';
-import { verifyMobileReward, verifyOriginalTroopTokenReward } from './hd-mobile-equipment-runtime-oracle.mjs';
+import { verifyMobileReward, verifyOriginalCampaignReward, verifyOriginalTroopTokenReward } from './hd-mobile-equipment-runtime-oracle.mjs';
 
 export const rewardTokenScenarios = {
     mystic: { period: 1, lord: '公孙瓒', city: '北平', tool: 31, name: '太玄兵符', arm: '玄兵', stat: 'IQ', label: '智力' },
@@ -117,47 +117,54 @@ async function settleOriginalMonth(ctx, controls, before) {
     return { after, reports };
 }
 
+async function searchOriginalCity(ctx, controls, cityIndex, selectActors) {
+    const {world, evaluate, click, chooseCityItem, reopenInterior} = ctx;
+    const {picker, chooseRow, waitReport, acknowledge, keysSince} = controls;
+    await reopenInterior('Dispatch original searches', cityIndex);
+    const {menu:sub} = await chooseCityItem('搜寻', 'data-hd-sub', 2);
+    let current = await picker(3, sub.seq, 'Current original Search person list');
+    const before = await world();
+    const residents = current.ids.filter(id => before.people[id].Thew >= 8)
+        .sort((a, b) => before.people[b].IQ - before.people[a].IQ);
+    const actors = selectActors(residents, current.count - 1);
+    assert.ok(actors.length > 0 && actors.length < current.count, 'Keep a resident in the original city');
+    const height = await evaluate('Number(baye.data.g_screenHeight)');
+    const orders = [];
+    for (const actor of actors) {
+        const selection = await chooseRow(current, actor, 'pind');
+        const speech = await waitReport();
+        assert.equal(speech.kind, 2);
+        assert.equal(speech.person, actor);
+        verifyNativePersonSelection(current, selection.index, await keysSince(selection.count), height);
+        await acknowledge(speech);
+        current = await picker(3, current.seq, 'Original Search updates the available residents');
+        const queued = await world();
+        const order = queued.orders.findIndex(o => o.OrderId === 3 && o.City === cityIndex && o.Person === actor);
+        assert.ok(order >= 0 && !current.ids.includes(actor));
+        assert.equal(queued.orders[order].TimeCount, 0);
+        assert.equal(queued.people[actor].Thew, before.people[actor].Thew - 8);
+        orders.push({actor, order});
+    }
+    await click('#hd-city-menu [data-hd-menu-back]');
+    const {after, reports} = await settleOriginalMonth(ctx, controls, before);
+    for (const {actor} of orders) {
+        assert.ok(!after.orders.some(o => o.OrderId === 3 && o.City === cityIndex && o.Person === actor));
+        assert.ok(cityResidents(after, cityIndex).includes(actor));
+    }
+    return {after, actors, orders, reports};
+}
+
 async function discoverOriginalTools(ctx, controls, cityIndex, tools, months) {
-    const { world, evaluate, click, chooseCityItem, reopenInterior, checkpoint } = ctx;
-    const { picker, chooseRow, waitReport, acknowledge, keysSince } = controls;
+    const {world, checkpoint} = ctx;
     const found = (w, tool) => cityInventory(w, cityIndex).includes(0x8000 | tool.id);
     const allFound = w => tools.every(tool => found(w, tool));
     let stock = await world();
     assert.equal(stock.cities[cityIndex].Belong, stock.king + 1);
     assert.ok(tools.every(tool => cityInventory(stock, cityIndex).includes(tool.id)), 'Required tools start hidden in this original city');
-    const height = await evaluate('Number(baye.data.g_screenHeight)');
 
     for (let month = 1; month <= 16 && !allFound(stock); month++) {
-        await reopenInterior('Dispatch original searches', cityIndex);
-        const { menu: sub } = await chooseCityItem('搜寻', 'data-hd-sub', 2);
-        let current = await picker(3, sub.seq, 'Current original Search person list');
-        const before = await world();
-        const residents = current.ids.filter(id => before.people[id].Thew >= 8)
-            .sort((a, b) => before.people[b].IQ - before.people[a].IQ);
-        const actors = residents.slice(0, Math.min(residents.length, current.count - 1));
-        assert.ok(actors.length > 0, 'Keep at least one resident in the original city');
-        const orders = [];
-        for (const actor of actors) {
-            const selection = await chooseRow(current, actor, 'pind');
-            const speech = await waitReport();
-            assert.equal(speech.kind, 2);
-            assert.equal(speech.person, actor);
-            verifyNativePersonSelection(current, selection.index, await keysSince(selection.count), height);
-            await acknowledge(speech);
-            current = await picker(3, current.seq, 'Original Search updates the available residents');
-            const queued = await world();
-            const order = queued.orders.findIndex(o => o.OrderId === 3 && o.City === cityIndex && o.Person === actor);
-            assert.ok(order >= 0 && !current.ids.includes(actor));
-            assert.equal(queued.orders[order].TimeCount, 0);
-            assert.equal(queued.people[actor].Thew, before.people[actor].Thew - 8);
-            orders.push({ actor, order });
-        }
-        await click('#hd-city-menu [data-hd-menu-back]');
-        const { after, reports } = await settleOriginalMonth(ctx, controls, before);
-        for (const { actor } of orders) {
-            assert.ok(!after.orders.some(o => o.OrderId === 3 && o.City === cityIndex && o.Person === actor));
-            assert.ok(cityResidents(after, cityIndex).includes(actor));
-        }
+        const {after, actors, orders, reports} = await searchOriginalCity(ctx, controls, cityIndex,
+            (residents, limit) => residents.slice(0, limit));
         for (const tool of tools.filter(tool => !found(stock, tool) && found(after, tool))) {
             assert.ok(reports.some(r => actors.includes(r.person) && r.text.endsWith(tool.name)), 'Actual discovery report names ' + tool.name);
         }
@@ -306,7 +313,7 @@ async function moveOriginalOfficers(ctx, controls, from, to, people, evidence, p
     await checkpoint(prefix + '-move-arrived');
 }
 
-async function awardOriginalTool(ctx, controls, cityIndex, personId, goods, tool) {
+async function awardOriginalTool(ctx, controls, cityIndex, personId, goods, tool, verifyReward = verifyMobileReward) {
     const {world, evaluate, until, checkpoint, libBytes} = ctx;
     const {picker, chooseRow, waitReport, acknowledge, keysSince} = controls;
     await chooseRow(goods, tool.id, 'tool');
@@ -333,7 +340,7 @@ async function awardOriginalTool(ctx, controls, cityIndex, personId, goods, tool
         return m.active===1&&m.context===1&&m.kind===4&&m.seq!==${goods.seq}&&m.idsValid&&
             s.open&&s.showHd&&s.deepMenuOwner?.seq===m.seq&&{goods:m};
     })()`);
-    const verify = tool.convert ? verifyOriginalTroopTokenReward : verifyMobileReward;
+    const verify = tool.convert ? verifyOriginalTroopTokenReward : verifyReward;
     const oracle = verify({before, after:await world(), reportWorld, cityIndex, personId, toolId:tool.id, libBytes});
     return {returned, report, oracle};
 }
@@ -364,6 +371,143 @@ async function leaveOutpostUndefended(ctx, controls, menu, preparationCity, pers
     const keys = await keysSince(start);
     assert.deepEqual(keys, [40]);
     return {...defense, beforeBelong, selected:0, keys};
+}
+
+async function dispatchOriginalCanvass(ctx, controls, cityIndex, personId, targetId) {
+    const {world, evaluate, chooseCityItem, reopenDiplomacy, waitPlayerMap} = ctx;
+    const {picker, chooseRow, keysSince} = controls;
+    await reopenDiplomacy('Dispatch original Canvass', cityIndex);
+    const {menu:sub} = await chooseCityItem('招揽', 'data-hd-sub', 2);
+    const actors = await picker(3, sub.seq, 'Original Canvass actors');
+    const before = await world();
+    const start = await evaluate('baye.hd.diplomacy()');
+    assert.deepEqual([start.active,start.command,start.origin,start.phase],[1,16,cityIndex,1]);
+    const height = await evaluate('baye.data.g_screenHeight');
+    const actor = await chooseRow(actors, personId, 'pind');
+    const targets = await picker(3, actors.seq, 'Original Canvass targets');
+    const picking = await evaluate('baye.hd.diplomacy()');
+    assert.deepEqual([picking.session,picking.phase,picking.actor],[start.session,2,personId]);
+    verifyNativePersonSelection(actors, actor.index, await keysSince(actor.count), height);
+    const target = await chooseRow(targets, targetId, 'pind');
+    await waitPlayerMap('Original map after the Canvass dispatch');
+    const targetKeys = await keysSince(target.count);
+    verifyNativePersonSelection(targets, target.index, targetKeys, height);
+    const receipt = await evaluate('baye.hd.diplomacy()');
+    assert.deepEqual([receipt.active,receipt.session,receipt.phase,receipt.actor,receipt.target,receipt.commitResult],
+        [0,start.session,5,personId,targetId,1]);
+    const after = await world();
+    const order = after.orders.findIndex(o => o.OrderId === 16 && o.City === cityIndex && o.Person === personId && o.Object === targetId);
+    assert.ok(order >= 0 && !cityResidents(after, cityIndex).includes(personId));
+    assert.equal(after.orders[order].TimeCount, 10);
+    assert.equal(after.cities[cityIndex].Money, before.cities[cityIndex].Money - 50);
+    assert.equal(after.people[personId].Thew, before.people[personId].Thew - 20);
+    assert.deepEqual(after.people[targetId], before.people[targetId], 'Dispatch does not settle the target');
+    assert.equal(originalDate(after), originalDate(before));
+    return {cityIndex, personId, targetId, order, receipt, targetKeys};
+}
+
+export async function runEliteAttackPreparation(ctx, marchCity, discovery) {
+    const {world, report, evaluate, checkpoint, save, reopenInterior, chooseCityItem, click, waitPlayerMap} = ctx;
+    const controls = rewardControls(ctx);
+    const {cityIndex, envoyId, personId} = discovery;
+    const book = {id:17, name:'鬼谷子'};
+    const run = report.elitePreparation = {discovery, marchCity, diplomacyMonths:[], searchMonths:[], defenses:[], accepted:false};
+    let stock = await world();
+    if (report.eliteResume?.stage === 'ready') {
+        assert.ok(cityResidents(stock, marchCity).includes(personId));
+        assert.equal(stock.people[personId].Belong, stock.king + 1);
+        assert.equal(stock.people[personId].ArmsType, 4);
+        run.accepted = true;
+        return;
+    }
+    assert.deepEqual([stock.period,stock.king,stock.people[personId].Belong,stock.people[personId].ArmsType],[2,2,0,4]);
+    assert.ok(cityResidents(stock, cityIndex).includes(personId));
+    const owner = stock.king + 1;
+    const preparation = {...ctx, onDefense:async menu => {
+        const defense = await leaveOutpostUndefended(ctx, controls, menu, cityIndex, envoyId);
+        run.defenses.push(defense);
+        return defense;
+    }};
+
+    for (let month = 0; !report.eliteResume && month < 16 && stock.people[envoyId].Belong !== owner; month++) {
+        const originDate = stock;
+        const orders = [];
+        const batch = {startedYear:stock.year, startedMonth:stock.month, orders};
+        run.diplomacyMonths.push(batch);
+        for (const origin of [cityIndex, marchCity, 17]) {
+            const city = stock.cities[origin];
+            if (city.Belong !== owner || city.Money < 50) continue;
+            const residents = cityResidents(stock, origin).filter(id => stock.people[id].Belong === owner);
+            const eligible = residents.filter(id => id !== stock.king && stock.people[id].Thew >= 20)
+                .sort((a, b) => stock.people[b].IQ - stock.people[a].IQ);
+            const envoys = eligible.slice(0, Math.min(residents.length - 1, Math.floor(city.Money / 50)));
+            for (const actor of envoys) orders.push(await dispatchOriginalCanvass(ctx, controls, origin, actor, envoyId));
+        }
+        if (month === 0 && orders.length) await checkpoint('elite-envoy-first-canvass');
+        const {after, reports} = await settleOriginalMonth(preparation, controls, originDate);
+        for (const {cityIndex:origin, personId:actor} of orders) {
+            assert.ok(!after.orders.some(o => o.OrderId === 16 && o.Person === actor && o.Object === envoyId));
+            assert.ok(cityResidents(after, origin).includes(actor));
+        }
+        if (orders.length) assert.ok(reports.some(r => r.person === envoyId), 'Original Canvass reports from 蔡中');
+        stock = after;
+        Object.assign(batch, {year:stock.year, month:stock.month, reports, envoyBelong:stock.people[envoyId].Belong});
+        await checkpoint('elite-canvass-month-' + (month + 1));
+    }
+    assert.equal(stock.people[envoyId].Belong, owner, 'Original Canvass must recruit 蔡中');
+    const envoyCity = stock.cities.find(c => c.Belong === owner && cityResidents(stock, c.index).includes(envoyId));
+    assert.ok(envoyCity);
+    if (!report.eliteResume) {
+        run.envoyRecruitment = {year:stock.year, month:stock.month, cityIndex:envoyCity.index, person:stock.people[envoyId]};
+        await checkpoint('elite-envoy-recruited');
+        if (envoyCity.index !== cityIndex) {
+            await moveOriginalOfficers(preparation, controls, envoyCity.index, cityIndex, [envoyId], run.envoyRecruitment, 'elite-envoy');
+        }
+        run.envoySave = await save('elite-envoy-arrived', 0);
+        stock = await world();
+    }
+    assert.ok(cityResidents(stock, cityIndex).includes(envoyId));
+
+    const alreadyEquipped = [stock.people[envoyId].Tool1, stock.people[envoyId].Tool2].includes(book.id + 1);
+    for (let month = 0; month < 84 && stock.people[personId].Belong !== owner; month++) {
+        if (!alreadyEquipped && !run.book && cityInventory(stock, cityIndex).includes(0x8000 | book.id)) {
+            await reopenInterior('Give 蔡中 the discovered original book', cityIndex);
+            const {menu:sub} = await chooseCityItem('赏赐', 'data-hd-sub', 2);
+            const inventory = await controls.picker(4, sub.seq, 'Original inventory with 鬼谷子');
+            run.book = await awardOriginalTool(ctx, controls, cityIndex, envoyId, inventory, book, verifyOriginalCampaignReward);
+            assert.deepEqual([run.book.oracle.stats.iqBefore, run.book.oracle.stats.iqAfter], [10,15]);
+            if (run.book.returned.report) await controls.acknowledge(run.book.returned.report);
+            else await click('#hd-city-menu [data-hd-menu-back]');
+            await waitPlayerMap('Original map after awarding 鬼谷子');
+            run.bookSave = await save('elite-envoy-equipped', 1);
+            await checkpoint('elite-envoy-equipped');
+        }
+        const search = stock.people[envoyId].Thew >= 8
+            ? await searchOriginalCity(preparation, controls, cityIndex, (residents, limit) => {
+                assert.ok(residents.includes(envoyId), '蔡中 is present in the original Search picker');
+                return [envoyId, ...residents.filter(id => id !== envoyId)].slice(0, limit);
+            })
+            : {...await settleOriginalMonth(preparation, controls, stock), orders:[]};
+        const {after, orders, reports} = search;
+        stock = after;
+        const sample = {year:stock.year, month:stock.month, orders, reports, person:stock.people[personId]};
+        run.searchMonths.push(sample);
+        if ((month + 1) % 12 === 0) await checkpoint('elite-search-month-' + (month + 1));
+        if (sample.person.Belong === owner) {
+            assert.ok(reports.some(r => r.person === envoyId && r.text.endsWith('通宵虫')) &&
+                reports.some(r => r.person === personId), 'Original discovery reports identify both people');
+            assert.equal(sample.person.ArmsType, 4);
+            assert.ok(cityResidents(stock, cityIndex).includes(personId));
+            run.recruitment = sample;
+        }
+    }
+    assert.ok(run.recruitment, 'The original Search must discover and recruit 通宵虫');
+    await checkpoint('elite-officer-recruited');
+    await moveOriginalOfficers(preparation, controls, cityIndex, marchCity, [personId], run, 'elite-officer');
+    assert.equal(await evaluate(`baye.hd.personArmType(${personId})`), 4);
+    run.readySave = await save('elite-officer-arrived', 2);
+    run.accepted = true;
+    await checkpoint('elite-preparation-complete');
 }
 
 export async function runMysticAttackPreparation(ctx, cityIndex, personId) {

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {verifyMobileConfiscation,verifyMobileReward,verifyMobileEquipment,verifyOriginalTroopTokenReward} from './hd-mobile-equipment-runtime-oracle.mjs';
+import {verifyMobileConfiscation,verifyMobileReward,verifyMobileEquipment,verifyOriginalTroopTokenReward,verifyOriginalCampaignReward} from './hd-mobile-equipment-runtime-oracle.mjs';
 
 const libBytes=readFileSync(new URL('../libs/dat-mod.lib',import.meta.url));
 const clone=value=>structuredClone(value);
@@ -57,6 +57,20 @@ function reward({personId=20,toolId=0,modify}={}) {
   if(personId!==before.king)after.people[personId].Devotion=Math.min(100,(p.Devotion+8)&255);
   return {before,after,cityIndex:15,personId,toolId,libBytes,...(personId===before.king?{}:{reportWorld})};
 }
+
+test('Original campaign reward compares existing duplicate residents and requires one recipient',()=>{
+  const f=reward({modify:world=>{
+    world.cities[16].Persons=1;
+    world.queue[3]=19;
+  }});
+  assert.throws(()=>verifyMobileReward(f),/resident PIDs do not repeat/);
+  assert.equal(verifyOriginalCampaignReward(f).accepted,true);
+  const changed=clone(f);
+  changed.after.queue[3]=17;
+  assert.throws(()=>verifyOriginalCampaignReward(changed),/queue/);
+  for (const world of [f.before,f.reportWorld,f.after]) world.queue[3]=f.personId;
+  assert.throws(()=>verifyOriginalCampaignReward(f),/resident PIDs do not repeat/);
+});
 
 test('Fang Tian tool0 confiscation changes only selected equipment/stats/devotion and the full discovered inventory insertion',()=>{
   const f=confiscation(),old=clone(f.before),next=clone(f.after),v=verifyMobileConfiscation(f);

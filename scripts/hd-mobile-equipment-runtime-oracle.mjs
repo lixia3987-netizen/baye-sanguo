@@ -34,7 +34,7 @@ function exact(actual,expected,label,path='$') {
   const a=Object.keys(actual).sort(),e=Object.keys(expected).sort();assert.deepEqual(a,e,label+' fields differ at '+path);
   for(const k of e)exact(actual[k],expected[k],label,path+'.'+k);
 }
-function shapeWorld(w,label) {
+function shapeWorld(w,label,uniqueRecipient) {
   assert.ok(w&&typeof w==='object'&&!Array.isArray(w),label+' worldSource object');
   integer(w.period,1,4,label+'.period');integer(w.king,0,199,label+'.king');
   integer(w.year,0,65535,label+'.year');integer(w.month,1,12,label+'.month');
@@ -52,7 +52,10 @@ function shapeWorld(w,label) {
     for(let j=c.PersonQueue;j<c.PersonQueue+c.Persons;j++) {
       assert.ok(!slots.has(j),label+' resident queue segments do not overlap');slots.add(j);
       const pid=integer(w.queue[j],0,199,label+' resident PID');
-      assert.ok(!residents.has(pid),label+' resident PIDs do not repeat');residents.add(pid);
+      if (residents.has(pid)) {
+        assert.ok(uniqueRecipient !== undefined && pid !== uniqueRecipient, label+' resident PIDs do not repeat');
+      }
+      residents.add(pid);
     }
     assert.equal(c.ToolQueue,goodsEnd,label+' packed city inventory offset '+i);
     goodsEnd+=c.Tools;assert.ok(goodsEnd<=2000,label+' active goods fit native full queue');
@@ -101,10 +104,10 @@ function validateTools(w,tools,label) {
  * nonking requires reportWorld sampled during its real GREPORT pause. Caller
  * separately proves the owner, selected native index, inputs and retirement.
  */
-export function verifyMobileEquipment({operation,before,after,cityIndex,personId,toolId,libBytes,reportWorld}={}) {
+function verifyEquipment({operation,before,after,cityIndex,personId,toolId,libBytes,reportWorld}={}, uniqueRecipient) {
   const conversion=operation==='convert';
   assert.ok(operation==='confiscate'||operation==='reward'||conversion,'Explicit equipment operation required');
-  const total=shapeWorld(before,'before');shapeWorld(after,'after');
+  const total=shapeWorld(before,'before',uniqueRecipient);shapeWorld(after,'after',uniqueRecipient);
   const tools=originalTools(libBytes);validateTools(before,tools,'before');validateTools(after,tools,'after');
   integer(toolId,0,32,'zero-based actual toolId');const tool=tools[toolId],{c,p}=selectable(before,cityIndex,personId);
   if(conversion){
@@ -147,7 +150,7 @@ export function verifyMobileEquipment({operation,before,after,cityIndex,personId
   const nonking=personId!==before.king,reportExpected=nonking;
   if(nonking) {
     assert.equal(before.config.disableAllPersonReport,0,'This nonking transfer requires actual GREPORT evidence');
-    assert.ok(reportWorld,'Nonking transfer requires the actual paused reportWorld');shapeWorld(reportWorld,'reportWorld');validateTools(reportWorld,tools,'reportWorld');
+    assert.ok(reportWorld,'Nonking transfer requires the actual paused reportWorld');shapeWorld(reportWorld,'reportWorld',uniqueRecipient);validateTools(reportWorld,tools,'reportWorld');
     exact(reportWorld,operation==='confiscate'?before:expected,'Native GREPORT business timing');
     expected.people[personId].Devotion=operation==='confiscate'?Math.max(0,p.Devotion-20):Math.min(100,(p.Devotion+8)&255);
   } else assert.ok(reportWorld==null,'King transfer has no native GREPORT pause');
@@ -166,6 +169,13 @@ export function verifyMobileEquipment({operation,before,after,cityIndex,personId
       'Final confiscation GOODS is sampled after native second-only equipment compaction',
       conversion?'Battle and movement effects are outside this comparison':'No consumed item, army conversion, scripted hook or unsampled derived battle/movement effect acceptance']};
 }
+export function verifyMobileEquipment(options) {return verifyEquipment(options);}
 export function verifyMobileConfiscation(options={}) {return verifyMobileEquipment({...options,operation:'confiscate'});}
 export function verifyMobileReward(options={}) {return verifyMobileEquipment({...options,operation:'reward'});}
 export function verifyOriginalTroopTokenReward(options={}) {return verifyMobileEquipment({...options,operation:'convert'});}
+export function verifyOriginalCampaignReward(options={}) {
+  const recipient=integer(options.personId,0,199,'Actual reward recipient');
+  // Later original months can contain unrelated duplicate residents. Compare
+  // the whole observed queue and require a unique recipient for this reward.
+  return verifyEquipment({...options,operation:'reward'},recipient);
+}
