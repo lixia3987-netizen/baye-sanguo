@@ -808,7 +808,14 @@
             if (diplomacySameFlow(value) && d.phase === 5 && !value.menu.active &&
                 !value.qty.active && !value.raw.g_hdReportActive && value.march.pick === 1 &&
                 !value.march.battlePick && value.march.mapInputSeq !== mobileDiplomacy.mapInputSeq && retiredCityMapOwner()) {
-                if (diplomacyBound(value)) { closeMenu({silent: true, force: true}); }
+                if (diplomacyBound(value)) {
+                    state.deepKind = '';
+                    state.deepLabel = '';
+                    state.deepStep = 0;
+                    state.deepSig = '';
+                    state.deepItems = [];
+                    closeMenu({silent: true, force: true});
+                }
                 else { mobileDiplomacy = null; }
                 return true;
             }

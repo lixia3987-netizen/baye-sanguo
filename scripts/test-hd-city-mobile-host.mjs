@@ -2667,6 +2667,43 @@ test('PC CANVASS enters from real SUB and cancels TARGET to fresh ACTOR then MAP
     assert.deepEqual(f.keys,[35,39,35,39,40,40]);assert.equal(f.raw.g_hdDiplomacyCommitSeq,0);assert.equal(f.raw.g_hdDiplomacyCommitResult,0);
     assert.deepEqual(f.world(),f.initialWorld);assert.deepEqual(f.writes,[]);
 });
+test('PC Canvass returns input to the next original city after a confirmed dispatch',()=>{
+    const f=pcDiplomacyFixture();
+    f.press(0);f.tick(200);
+    const previousTarget=f.press(0);f.tick(200);
+    assert.equal(f.raw.g_hdDiplomacyCommitResult,1);
+    assert.equal(f.raw.g_hdDiplomacyPhase,5);
+    assert.equal(f.raw.g_hdMapPick,1);
+    assert.equal(f.state.open,false);
+    assert.deepEqual(f.keys,[39,39]);
+
+    f.raw.g_Cities.push({Belong:1,State:0,Persons:0,PersonQueue:3});
+    const rootSeq=f.next(f.raw.g_hdMenuSeq);
+    Object.assign(f.raw,{g_hdMapCity:2,g_hdMapPick:0,g_hdMarchPhase:0,g_hdMenuActive:1,
+        g_hdMenuContext:1,g_hdMenuKind:1,g_hdMenuSeq:rootSeq,g_hdMenuIndex:0,g_hdMenuCount:4});
+    f.names.splice(0,f.names.length,'内政','外交','军备','状况');
+    assert.equal(f.api.open({cityIndex:1}),true);
+    const button=f.env.document.createElement('button');
+    button.setAttribute('data-hd-root','1');
+    f.dom.root.appendChild(button);
+    const world=f.world();
+    f.setAfterKey(key=>{
+        if(key===35){f.env.setTimeout(()=>{f.raw.g_hdMenuIndex=1;},60);return;}
+        assert.equal(key,39);
+        assert.equal(f.raw.g_hdMenuIndex,1);
+        const labels=['离间','招揽','策反','反间','劝降'];
+        f.names.splice(0,f.names.length,...labels);
+        Object.assign(f.raw,{g_hdMenuKind:2,g_hdMenuSeq:f.next(rootSeq),g_hdMenuIndex:0,g_hdMenuCount:labels.length});
+    });
+    f.click(previousTarget);
+    assert.deepEqual(f.keys,[39,39],'The retired target sends no key');
+    f.click(button);f.tick(200);
+    assert.deepEqual(f.keys,[39,39,35,39],'The current city sends its own original Down and Enter');
+    assert.equal(f.state.layer,'sub');
+    assert.equal(f.state.subKind,'waijiao');
+    assert.deepEqual(f.world(),world);
+    assert.deepEqual(f.writes,[]);
+});
 test('PC diplomacy delayed native ACK does not invent SUB, replay Enter or accept retired buttons',()=>{
     const f=pcDiplomacyFixture(),pending=[];f.setDeferred(fn=>pending.push(fn));
     const actorButton=f.press(0);assert.deepEqual(f.keys,[39]);assert.equal(pending.length,1);
