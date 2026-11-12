@@ -19,6 +19,9 @@
             return uint(cityIndex, 37) ? cityIndex : null;
         } catch (error) { return null; }
     }
+    function isAttackAnnouncement(data) {
+        return !!data && data.g_hdBattleNoteActive === 1 && data.g_hdBattleNoteOutcome === 3;
+    }
     function resultPlace(data, note, cityIndex, inputSeq, order) {
         if ((note.outcome !== 1 && note.outcome !== 2) || cityIndex === null) { return null; }
         try {
@@ -98,14 +101,17 @@
                 return data['g_hdBattleNote' + name.charAt(0).toUpperCase() + name.slice(1)] === value.note[name];
             }) && BLOCKERS.concat(FENCES).every(function (name) { return data[name] === value.raw[name]; });
         }
-        function readCurrent() {
+        function readCurrent(observeAnnouncement) {
             if (reading) { readEpoch += 1; return null; }
             reading = true;
             var ticket = ++readEpoch;
             try {
-                if (!available() || !effectiveHd()) { return null; }
+                var display = available() && effectiveHd();
+                if (!display && (!observeAnnouncement || !mounted)) { return null; }
                 var baye = env.baye, hd = baye && baye.hd, identityApi = env.BayeHdLibIdentity,
                     battle = env.BayeHdBattle, map = env.BayeHdOverworld, lib = env.dynLib, document = doc();
+                // The native callback can identify the order while the LCD is visible in portrait.
+                if (!display && !isAttackAnnouncement(baye && baye.data)) { return null; }
                 if (!hd || !identityApi || typeof identityApi.read !== 'function' || typeof identityApi.isCurrent !== 'function' ||
                     typeof hd.battleNote !== 'function' || typeof hd.ready !== 'function' ||
                     typeof lib !== 'string' || lib.length !== 414390) { return null; }
@@ -117,7 +123,8 @@
                 if (!data || baye.data !== data) { return null; }
                 var order = announcedOrder && announcedOrder.data === data && announcedOrder.libraryGeneration === id.generation ? announcedOrder : null;
                 var first = sample(data, hd, read, order), second = sample(data, hd, read, order);
-                if (!first || !second || JSON.stringify(first) !== JSON.stringify(second)) { return null; }
+                if (!first || !second || JSON.stringify(first) !== JSON.stringify(second) ||
+                    (!display && second.note.outcome !== 3)) { return null; }
                 var place = second.place, params = place && data.g_FgtParam, getCityName = place && baye.getCityName, cityName = '';
                 if (place && typeof getCityName === 'function') {
                     try {
@@ -126,21 +133,21 @@
                     } catch (error) {}
                 }
                 var latest = identity(identityApi, identify, current);
-                var stillReady = ready.call(hd), shown = available() && effectiveHd();
+                var stillReady = ready.call(hd), displayAvailable = !display || available() && effectiveHd();
                 if (!latest ||
                     identityKey(id) !== identityKey(latest) || identityKey(id) !== identityKey(id.source) ||
-                    identityKey(latest) !== identityKey(latest.source) || stillReady !== true || !shown ||
+                    identityKey(latest) !== identityKey(latest.source) || stillReady !== true || !displayAvailable ||
                     env.baye !== baye || baye.data !== data || baye.hd !== hd || baye.ensureData !== getData ||
                     hd.battleNote !== read || hd.ready !== ready || env.BayeHdLibIdentity !== identityApi ||
                     identityApi.read !== identify || identityApi.isCurrent !== current || env.dynLib !== lib ||
                     env.BayeHdBattle !== battle || battle && battle.getMode !== battleMode ||
                     env.BayeHdOverworld !== map || map && map.getMode !== mapMode || doc() !== document ||
-                    !available() || ticket !== readEpoch) { return null; }
+                    (display && !available()) || ticket !== readEpoch) { return null; }
                 // Reference getters above may change the actual presentation
                 // mode or lifecycle without changing the function they return.
-                var finalMode = battleMode.call(battle), finalHd = finalMode === 'hd' || finalMode === 'auto' &&
+                var finalMode = display && battleMode.call(battle), finalHd = !display || finalMode === 'hd' || finalMode === 'auto' &&
                     typeof mapMode === 'function' && mapMode.call(map) === 'hd-map';
-                var finalReady = ready.call(hd), finalAvailable = available();
+                var finalReady = ready.call(hd), finalAvailable = !display || available();
                 var finalCity = second.cityIndex === null ? null : battleCity(data), inputSeq = second.raw.g_hdFightInputSeq;
                 var location = cityName && baye.getCityName === getCityName && data.g_FgtParam === params &&
                     JSON.stringify(resultPlace(data, second.note, finalCity, inputSeq, order)) === JSON.stringify(place) ?
@@ -157,7 +164,7 @@
                     announcedOrder = {data: data, libraryGeneration: latest.generation, generation: second.note.generation,
                         seq: second.note.seq, cityIndex: finalCity, inputSeq: inputSeq};
                 }
-                return {data: data, note: second.note, place: location, libraryGeneration: latest.generation};
+                return display ? {data: data, note: second.note, place: location, libraryGeneration: latest.generation} : null;
             } catch (error) { return null; }
             finally { reading = false; }
         }
@@ -194,12 +201,12 @@
                     var data = env.baye && env.baye.data;
                     // A new announcement can arrive while HD is off or the page is hidden.
                     if (data !== announcedOrder.data || data.g_hdDetailGeneration !== announcedOrder.generation ||
-                        data.g_hdBattleNoteActive === 1 && data.g_hdBattleNoteOutcome === 3 && data.g_hdBattleNoteSeq !== announcedOrder.seq) {
+                        isAttackAnnouncement(data) && data.g_hdBattleNoteSeq !== announcedOrder.seq) {
                         announcedOrder = null;
                     }
                 } catch (error) { announcedOrder = null; }
             }
-            return refresh();
+            return paint(readCurrent(true), 'unavailable');
         }
         function retire(reason) { return paint(null, reason || 'retired'); }
         function schedule() {

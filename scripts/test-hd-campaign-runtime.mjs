@@ -5,7 +5,7 @@
  *   node scripts/test-hd-campaign-runtime.mjs -- --artifact-dir build/campaign-runtime-smoke
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * --scenario arrival queues two armies for the same enemy city and settles both in one month.
- * --mobile-width=667|844 uses mobile HD touch controls for victory, defense, arrival or save.
+ * --mobile-width=667|844 uses mobile HD touch controls for victory, defense, arrival, empty or save.
  * --scenario defense prepares garrisons and plays original incoming attacks to a victory.
  * --defense-any-outcome accepts either result after a playable defense settles back to the map.
  * --defense-after-succession requires an inherited city to survive a later native defense.
@@ -58,8 +58,12 @@ assert.ok([1,2,3,4].includes(campaignPeriod)&&
     'Select an original period for probe, victory, save or a supported defense campaign');
 const mobileCampaignFlag=process.argv.find(arg=>arg.startsWith('--mobile-width='));
 const mobileCampaignWidth=Number(mobileCampaignFlag?.split('=')[1]??0);
-assert.ok(!mobileCampaignFlag||['victory','defense','arrival','save'].includes(scenario)&&[667,844].includes(mobileCampaignWidth),
-    'Mobile campaign victory, defense, arrival or save requires a 667px or 844px landscape viewport');
+assert.ok(!mobileCampaignFlag||['victory','defense','arrival','empty','save'].includes(scenario)&&[667,844].includes(mobileCampaignWidth),
+    'Mobile campaign victory, defense, arrival, empty or save requires a 667px or 844px landscape viewport');
+const rotateSkippedNoteFlag=process.argv.find(arg=>arg.startsWith('--rotate-skipped-note='));
+const rotateSkippedNote=rotateSkippedNoteFlag?.split('=')[1];
+assert.ok(!rotateSkippedNoteFlag||scenario==='empty'&&mobileCampaignWidth&&['occupation','arrival'].includes(rotateSkippedNote),
+    '--rotate-skipped-note=occupation|arrival requires a mobile empty-city campaign');
 assert.ok(!defenseAfterSuccession||defenseScenario&&mobileCampaignWidth&&!defenseAnyOutcome,
     '--defense-after-succession requires mobile defense victory');
 assert.ok(!defenseSameMonth||defenseScenario&&mobileCampaignWidth&&!defenseAnyOutcome&&!defenseAfterSuccession,
@@ -98,7 +102,9 @@ const defaultWinningFixture=[
     {lord:'刘禅',origin:14,target:8,leaders:['赵云','马超'],recruitments:3}, // 汉中 → 天水
 ][campaignPeriod-1];
 const winningFixture=lastCityEquipment?{...defaultWinningFixture,target:21,opponent:'袁术'}:defaultWinningFixture;
-const startingLord=campaignPeriod===1&&!winningScenarios.has(scenario)&&!defenseScenario?'马腾':winningFixture.lord;
+const emptyMobileFixture={lord:'刘表',origin:26,target:32,leader:'蔡瑁'}; // 襄阳 → 武陵
+const startingLord=mobileCampaignWidth&&scenario==='empty'?emptyMobileFixture.lord:
+    campaignPeriod===1&&!winningScenarios.has(scenario)&&!defenseScenario?'马腾':winningFixture.lord;
 const artifactFlag = process.argv.indexOf('--artifact-dir');
 const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/campaign-runtime-smoke'));
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -1051,12 +1057,112 @@ async function queueFollowingArmy(cdp,march) {
     const pending=await evaluate(cdp,worldExpression);
     assert.equal(pending.year,before.year);assert.equal(pending.month,before.month);
     assert.equal(pending.cities.find(c=>c.i===march.target).Belong,before.cities.find(c=>c.i===march.target).Belong,
-        'The enemy still owns the destination while both orders are queued');
+        'The destination ownership stays the same while both orders are queued');
     assert.ok([march,following].every(entry=>pending.orders.some(o=>o.OrderId===27&&o.Person===entry.order.slot&&
         o.City===march.origin&&o.Object===march.target)&&pending.fighterIndex[entry.order.slot]===1));
     report.arrival={before,mapReceipt,following,pending};
-    await click(cdp,'#hd-city-menu [data-hd-strategy-end]');
     return report.arrival;
+}
+
+function observeSkippedOrders(cityIndex,orderIndices,slots) {
+    return `(() => {
+        const trace=window.__skippedOrderTrace={notes:[],fights:[]};
+        const battle=BayeHdBattle,onFight=battle.onEngineFight;
+        battle.onEngineFight=function(){
+            const result=onFight.apply(this,arguments),f=baye.hd.fight();
+            if(f.active&&f.cityIndex===${cityIndex})trace.fights.push(f);
+            return result;
+        };
+        const controller=BayeHdBattleNote,onNote=controller.onEngineNote;
+        window.BayeHdBattleNote=Object.freeze({...controller,onEngineNote(){
+            const result=onNote.apply(controller,arguments),native=baye.hd.battleNote(),d=baye.data;
+            if(!native?.active||![1,3].includes(native.outcome)||d.g_FgtParam.CityIndex!==${cityIndex}||
+                trace.notes.some(sample=>sample.native.seq===native.seq))return result;
+            const city=d.g_Cities[${cityIndex}],start=Number(city.PersonQueue);
+            trace.notes.push({native,viewport:[innerWidth,innerHeight],presented:controller.debugSnapshot().active,
+                cityOwner:Number(city.Belong),skip:Number(d.g_hdFightSkip),fightInputSeq:Number(d.g_hdFightInputSeq),
+                residents:Array.from({length:Number(city.Persons)},(_,i)=>Number(d.g_PersonsQueue[start+i])),
+                orderIds:${JSON.stringify(orderIndices)}.map(i=>Number(d.g_OrderQueue[i].OrderId)),
+                fighterSlots:${JSON.stringify(slots)}.map(i=>Number(d.FIGHTERS_IDX[i]))});
+            return result;
+        }});
+        return true;
+    })()`;
+}
+
+async function setMobileCampaignOrientation(cdp,portrait=false) {
+    const landscape=report.mobileViewport;
+    const viewport=portrait?{width:landscape.height,height:landscape.width}:landscape;
+    await cdp.send('Emulation.setDeviceMetricsOverride',{...viewport,deviceScaleFactor:1,mobile:true,
+        screenOrientation:portrait?{type:'portraitPrimary',angle:0}:{type:'landscapePrimary',angle:90}});
+    await waitFor(cdp,'mobile campaign viewport',`innerWidth===${viewport.width}&&innerHeight===${viewport.height}`);
+}
+
+async function restoreSkippedNote(cdp,label,cityIndex,kind) {
+    const skip=kind==='occupation'?1:2,keysBefore=await evaluate(cdp,'__runtimeEngineInputs.length');
+    await setMobileCampaignOrientation(cdp,true);
+    const native=await waitFor(cdp,'native '+kind+' result while held in portrait',`(() => {
+        const r=baye.hd.battleNote();return r.active===1&&r.outcome===1&&baye.data.g_hdFightSkip===${skip}&&
+            baye.data.g_FgtParam.CityIndex===${cityIndex}&&!BayeHdBattleNote.debugSnapshot().active&&r;
+    })()`,30000);
+    const [announcement,result]=await evaluate(cdp,`__skippedOrderTrace.notes.slice(0,
+        __skippedOrderTrace.notes.findIndex(sample=>sample.native.seq===${native.seq})+1).slice(-2)`);
+    assert.ok(announcement&&result,'Observe the genuine native announcement and result callbacks');
+    assert.deepEqual([announcement.native.outcome,result.native.outcome],[3,1]);
+    for(const sample of [announcement,result]) {
+        assert.ok(sample.viewport[0]<sample.viewport[1],'Both original note publications occur in portrait');
+        assert.equal(sample.presented,false,'HD does not cover the original portrait display');
+    }
+    await setMobileCampaignOrientation(cdp);
+    const restored=await waitFor(cdp,'same live result after returning to landscape',`(() => {
+        const note=BayeHdBattleNote.debugSnapshot();return note.active&&note.seq===${native.seq}&&note;
+    })()`);
+    const keysAfter=await evaluate(cdp,'__runtimeEngineInputs.length');
+    report.skippedNoteRotation={kind,announcement,result,restored,keysBefore,keysAfter};
+    assert.equal(keysAfter,keysBefore,'Rotating the mobile viewport sends no original key');
+    const sample=await evaluate(cdp,battleResultNoteObservation);
+    assert.ok(sample,'The current original result restores its city caption after rotation');
+    return captureBattleResultNote(cdp,label,sample,{outcome:1,kind,cityIndex});
+}
+
+async function mobileEmptyCampaign(cdp,before) {
+    const {origin,target,leader}=emptyMobileFixture;
+    const originalCity=before.cities[target],neutral=before.personQueue.slice(originalCity.PersonQueue,originalCity.PersonQueue+originalCity.Persons);
+    assert.equal(originalCity.Belong,0,'The original destination starts unowned');
+    assert.ok(await evaluate(cdp,`baye.hd.cityLinks(${origin}).some(link=>Number(link.index)===${target})`));
+    const first=await dispatchMarch(cdp,origin,target,'empty',{generalNames:[leader],foodBudget:before.cities[origin].Food-20,leaveQueued:true});
+    const arrival=await queueFollowingArmy(cdp,first),armies=[first,arrival.following],slots=armies.map(army=>army.order.slot);
+    const orderIndices=slots.map(slot=>arrival.pending.orders.findIndex(o=>o.OrderId===27&&o.Person===slot&&o.City===origin&&o.Object===target));
+    assert.ok(orderIndices[0]>=0&&orderIndices[1]>orderIndices[0],'Both native orders are queued in their actual execution sequence');
+    assert.ok(await evaluate(cdp,observeSkippedOrders(target,orderIndices,slots)));
+    const mapSeqBefore=await evaluate(cdp,'baye.hd.march().mapInputSeq');
+    await click(cdp,'#hd-city-menu [data-hd-strategy-end]');
+    if(rotateSkippedNote==='occupation')await restoreSkippedNote(cdp,'empty',target,'occupation');
+    else await recordBattleResultNote(cdp,'empty',{outcome:1,kind:'occupation',cityIndex:target});
+    if(rotateSkippedNote==='arrival')arrival.note=await restoreSkippedNote(cdp,'following-army',target,'arrival');
+    await settleToMap(cdp,'empty',{arrival,mapSeqBefore});
+    assert.ok(arrival.note,'The second original order shows its own arrival result');
+    const trace=await evaluate(cdp,'window.__skippedOrderTrace');
+    assert.deepEqual(trace.fights,[],'Neither original order starts a battle at the destination');
+    assert.deepEqual(trace.notes.map(s=>s.native.outcome),[3,1,3,1]);
+    let expectedResidents=neutral;
+    for(const [i,army] of armies.entries()) {
+        const [announcement,result]=trace.notes.slice(2*i,2*i+2);
+        expectedResidents=[...army.selected.map(p=>p.pind).reverse(),...expectedResidents];
+        assert.equal(result.skip,i+1);assert.equal(result.cityOwner,before.realm.playerBelong);
+        assert.equal(result.fightInputSeq,announcement.fightInputSeq);
+        assert.deepEqual(result.residents,expectedResidents,'Each order adds only its own officers to the original garrison');
+        assert.deepEqual(result.orderIds,i===0?[27,27]:[255,27]);
+        assert.deepEqual(result.fighterSlots,i===0?[0,1]:[0,0]);
+    }
+    const after=await evaluate(cdp,worldExpression);
+    assert.deepEqual([after.year,after.month],[before.year,before.month+1]);
+    assert.equal(after.cities[target].Belong,after.realm.playerBelong);
+    assert.ok(orderIndices.every(i=>after.orders[i].OrderId===255)&&slots.every(i=>after.fighterIndex[i]===0));
+    const city=await inspectMobileOwnedCity(cdp,target,after,'mobile-empty-occupied');
+    assert.ok(armies.every(army=>army.selected.every(person=>city.residents.includes(person.pind))));
+    report.emptyCapture={plan:{origin,target},before,after,trace,orderIndices,slots,city,realmChanges:realmChanges(before,after)};
+    await checkpoint(cdp,'empty-occupied-map');
 }
 
 async function campaignSmoke(cdp) {
@@ -1086,6 +1192,7 @@ async function campaignSmoke(cdp) {
         return;
     }
     if(scenario==='empty') {
+        if(mobileCampaignInput)return mobileEmptyCampaign(cdp,before);
         const empty=await chooseMarchPair(cdp,true);
         assert.ok(empty,'an owned city has a genuinely unowned neighboring target');
         await dispatchMarch(cdp,empty.origin,empty.target,'empty',{generalNames:empty.generals.map(p=>p.name)});
@@ -1133,6 +1240,7 @@ async function campaignSmoke(cdp) {
         const march=await dispatchMarch(cdp,plan.origin,plan.target,'march-'+round,{generalNames,foodBudget,leaveQueued:arrivalScenario,
             unarmedPerson:openingStatus?.person.i});
         const arrival=arrivalScenario?await queueFollowingArmy(cdp,march):null;
+        if(arrival)await click(cdp,'#hd-city-menu [data-hd-strategy-end]');
         await waitForGameProgress(cdp,'real player battle',`baye.hd.fight().active && !baye.hd.fight().over && baye.hd.fight().inputKind===1`,60000);
         await checkpoint(cdp,'battle-'+round+'-ready');
         const initial=await evaluate(cdp,battleStateExpression);

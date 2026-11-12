@@ -111,6 +111,38 @@ for (const {mode, outcome, skip, kind, label} of [
         assert.equal(caption.hidden,true); assert.equal(caption.textContent,''); f.noSideEffects();
     });
 }
+for (const [skip, kind, label] of [[1, 'occupation', '占领'], [2, 'arrival', '入驻']]) {
+    test('Landscape restores the '+kind+' caption after a portrait announcement', () => {
+        const f = fixture(), caption = f.nodes.get('hd-battle-note-place');
+        Object.assign(f.raw, {g_PlayerKing:0,g_FgtParam:{Mode:2,CityIndex:32},g_hdFightSkip:0,g_Cities:{32:{Belong:0}}});
+        f.environment.baye.getCityName = () => '武陵';
+        f.set('active',0); f.api.init();
+        f.environment.innerWidth = 375; f.environment.innerHeight = 667; f.fire('orientationchange');
+        f.set('active',1); f.set('outcome',3); f.set('winner',65535); f.set('text','我方 进攻武陵');
+        f.api.onEngineNote(); f.off();
+        f.set('active',0); f.api.onEngineNote();
+        f.raw.g_hdFightSkip = skip; f.raw.g_Cities[32].Belong = 1;
+        f.set('active',1); f.set('seq',12); f.set('outcome',1); f.set('winner',0); f.set('text','我方 战斗胜利');
+        f.api.onEngineNote(); f.off();
+        f.environment.innerWidth = 667; f.environment.innerHeight = 375; f.fire('resize'); f.on();
+        assert.deepEqual({...f.api.debugSnapshot().place},{cityIndex:32,cityName:'武陵',kind});
+        assert.equal(caption.textContent,label+' · 武陵'); f.noSideEffects();
+    });
+}
+test('A portrait announcement from an unverified library cannot label a later result', () => {
+    const f = fixture(), original = f.identity();
+    Object.assign(f.raw, {g_PlayerKing:0,g_FgtParam:{Mode:2,CityIndex:32},g_Cities:{32:{Belong:1}},g_hdFightSkip:1});
+    f.environment.baye.getCityName = () => '武陵';
+    f.set('active',0); f.api.init();
+    f.environment.innerWidth = 375; f.environment.innerHeight = 667; f.fire('orientationchange');
+    f.setIdentity({...original,sha256:'0'.repeat(64)});
+    f.set('active',1); f.set('outcome',3); f.set('winner',65535); f.set('text','我方 进攻武陵');
+    f.api.onEngineNote(); f.off();
+    f.setIdentity(original);
+    f.set('seq',12); f.set('outcome',1); f.set('winner',0); f.set('text','我方 战斗胜利');
+    f.environment.innerWidth = 667; f.environment.innerHeight = 375; f.fire('resize'); f.on();
+    assert.equal(f.api.debugSnapshot().place,null); f.noSideEffects();
+});
 test('A new fight sequence distinguishes a real defense from the previous order’s skip flag', () => {
     const f = fixture(), caption = f.nodes.get('hd-battle-note-place');
     Object.assign(f.raw,{g_PlayerKing:0,g_FgtParam:{Mode:0,CityIndex:16},g_FgtOver:1,g_hdFightOver:1,
