@@ -1062,7 +1062,7 @@ test('setting owner, menu and source drift withdraw the note while native button
 
 // Mount the new PC-only detail surface without changing the original command
 // fixture. Native publications remain behind statusFixture's write traps.
-function focusFixture({canvas = false, nextButton = false, roster = false} = {}) {
+function focusFixture({canvas = false, nextButton = false, roster = false, inspect = false} = {}) {
     const g = statusFixture(), mounted = new Map(), listeners = new Map(), paints = [];
     function make(tag = 'div') {
         const attrs = new Map(); let text = '';
@@ -1096,6 +1096,16 @@ function focusFixture({canvas = false, nextButton = false, roster = false} = {})
     if (rosterPanel) { rail.appendChild(rosterPanel); rosterPanel.appendChild(rosterList); }
     const next = nextButton ? mount('next-unit', 'button') : null;
     if (next) {next.setAttribute('data-hd-battle-next', ''); next.disabled = true; rootNode.appendChild(next);}
+    const inspection = {};
+    if (inspect) {
+        for (const kind of ['help', 'view']) {
+            const button = mount('battle-' + kind, 'button');
+            button.setAttribute('data-hd-battle-inspect', kind);
+            button.disabled = true;
+            rootNode.appendChild(button);
+            inspection[kind] = button;
+        }
+    }
     if (canvas) {
         const board = mount('hd-battle-canvas', 'canvas'); rootNode.appendChild(board);
         board.getBoundingClientRect = () => ({left: 0, top: 0, width: 1000, height: 562.5, right: 1000, bottom: 562.5});
@@ -1111,7 +1121,7 @@ function focusFixture({canvas = false, nextButton = false, roster = false} = {})
     g.baye.getArmType = id => id === 0 ? 2 : 3;
     Object.assign(g.raw.g_GenPos[0], {hp: 65535, mp: 0}); g.raw.g_Persons[0].Arms = 0;
     g.api.start();
-    return Object.assign(g, {card, rail, rootNode, mounted, paints, next, rosterPanel, rosterList,
+    return Object.assign(g, {card, rail, rootNode, mounted, paints, next, rosterPanel, rosterList, inspection,
         fields() {return Object.fromEntries(card.querySelectorAll('[data-hd-focus-field]').map(row => [row.getAttribute('data-hd-focus-field'), row.querySelector('dd')?.textContent]));},
         click(target, coordinates = {}) {const event = {target, preventDefault() {}, ...coordinates}; for (const fn of listeners.get('click') || []) fn(event);},
         fireRoot(type, target, values = {}) {const event = {target, isTrusted: true, isPrimary: true, pointerId: 1, button: 0, detail: 1,
@@ -1281,6 +1291,47 @@ test('PC next-general button reflects availability and delegates only an explici
     assert.deepEqual(plain.sent, [], 'mouse clicks require a current trusted press');
     const keyboard = focusFixture({nextButton: true}); keyboard.observe(); keyboard.fireRoot('click', keyboard.next, {detail: 0});
     assert.deepEqual(keyboard.sent, [K.RIGHT], 'browser keyboard activation enters the same current next-general request');
+});
+
+test('desktop inspection controls open native help and view once from current cursor waits', () => {
+    for (const [kind, button, code] of [[I.PICK, 'help', K.HELP], [I.MOVE, 'view', K.SEARCH], [I.AIM, 'help', K.HELP]]) {
+        const g = focusFixture({inspect: true});
+        g.input(kind, kind === I.PICK ? 255 : 0); g.mirror(); g.observe();
+        const target = g.inspection[button];
+        assert.equal(target.disabled, false);
+        if (kind === I.MOVE) {
+            g.fireRoot('click', target, {detail: 0});
+        } else {
+            g.fireRoot('pointerdown', target);
+            g.fireRoot('click', target);
+        }
+        g.observe();
+        assert.ok(Object.values(g.inspection).every(node => node.disabled));
+        g.fireRoot('click', target, {detail: 0}); g.tick();
+        assert.deepEqual(g.sent, [code]);
+        assert.deepEqual(g.writes, []);
+    }
+});
+
+test('desktop inspection controls reject stale presses, reports and menu waits', () => {
+    for (const change of [
+        g => {g.input(I.PICK); g.mirror();},
+        g => {g.raw.g_FoucsX += 1;},
+        g => {g.raw.g_hdReportActive = 1;},
+        g => {g.input(I.SYS); g.mirror();},
+        g => {g.api.setMode('classic');}
+    ]) {
+        const g = focusFixture({inspect: true});
+        g.input(I.PICK); g.mirror(); g.observe();
+        const target = g.inspection.help;
+        assert.equal(target.disabled, false);
+        g.fireRoot('pointerdown', target);
+        change(g); g.observe();
+        const writesBeforeClick = [...g.writes];
+        g.fireRoot('click', target);
+        assert.deepEqual(g.sent, []);
+        assert.deepEqual(g.writes, writesBeforeClick);
+    }
 });
 
 test('PC roster shows selectable native slots in order, including zero troops, without sending input', () => {

@@ -41,6 +41,60 @@
     max-height: 180px;
 }
 
+.hd-dialog-detail-layout {
+    display: contents;
+}
+
+#hd-battle-help-portrait-slot {
+    display: none;
+}
+
+.hd-dialog[data-hd-help-kind="1"] #hd-battle-help-portrait-slot:has(> .hd-portrait:not([hidden])) {
+    display: block;
+}
+
+.hd-dialog[data-hd-help-kind="1"] .hd-dialog-detail-layout:has(.hd-portrait:not([hidden])) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    align-items: start;
+    gap: 18px;
+    margin: 16px 0 10px;
+    min-height: 0;
+    overflow: auto;
+}
+
+.hd-dialog[data-hd-help-kind="1"] .hd-dialog-detail-layout:has(.hd-portrait:not([hidden])) .hd-dialog-body {
+    margin: 0;
+    overflow: visible;
+}
+
+#hd-battle-help-portrait-slot .hd-portrait {
+    position: static;
+    width: auto;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+#hd-battle-help-portrait-slot #hd-portrait-cap {
+    display: none;
+}
+
+@media (max-width: 620px) {
+    .hd-dialog[data-hd-help-kind="1"] .hd-dialog-detail-layout:has(.hd-portrait:not([hidden])) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    #hd-battle-help-portrait-slot {
+        max-width: 220px;
+    }
+}
+
+@media (min-width: 1100px) and (max-width: 1439px) {
+    html[data-baye-battle="hd"][data-baye-battle-input="help"][data-baye-dialog="hd"][data-baye-dialog-pass="0"] body.baye-hd-dialog-help.baye-hd-dialog-lcd .hd-dialog.is-open:has(#hd-battle-help-portrait-slot) {
+        padding-left: 24px;
+    }
+}
+
 #hd-portrait-img {
     display: block;
     width: 100%;

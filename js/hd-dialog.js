@@ -1914,7 +1914,11 @@
         applyEngineReport(info);
     }
 
-    function refreshReportPortrait() {
+    function dialogUsesPortrait(kind, detail) {
+        return kind === 'report' || (!mobileHost && !mobileBattleHost && kind === 'help' && detail && detail.kind === 1);
+    }
+
+    function refreshDialogPortrait() {
         var portraits = mobileHost ? global.BayeHdMobilePortraits : global.BayeHdPortraits;
         try {
             if (portraits && typeof portraits.refresh === 'function') { portraits.refresh(); }
@@ -1931,7 +1935,7 @@
             return false;
         }
         var kind = meta.kind || 'report';
-        var wasReport = state.open && state.kind === 'report', beforeEpoch = state.viewEpoch;
+        var hadPortrait = state.open && dialogUsesPortrait(state.kind, state.helpDetail), beforeEpoch = state.viewEpoch;
         if (kind === 'qty') {
             var quantity = standaloneQty();
             if (quantity && quantity.protocol && quantity.active &&
@@ -2008,7 +2012,7 @@
         }
         state.asyncId = meta.asyncId != null ? meta.asyncId : 0;
         render();
-        if ((wasReport || kind === 'report') && state.viewEpoch !== beforeEpoch) { refreshReportPortrait(); }
+        if ((hadPortrait || dialogUsesPortrait(kind, helpDetail)) && state.viewEpoch !== beforeEpoch) { refreshDialogPortrait(); }
         if (kind === 'help' && helpFocusRequest) {
             var focusRequest = helpFocusRequest, stage = el('hd-dialog-stage');
             helpFocusRequest = null;
@@ -2029,7 +2033,7 @@
         // Keep keyboard ownership while the acknowledged report is still the
         // same C wait; repeated keys cannot fall through to the native layer.
         if (opts.marchOwner && sameMarch(state.marchOwner, readMarchReport())) { return false; }
-        var wasReport = state.open && state.kind === 'report';
+        var hadPortrait = state.open && dialogUsesPortrait(state.kind, state.helpDetail);
         invalidateDialogQty();
         state.viewEpoch += 1;
         stopSuccessorRequest();
@@ -2054,7 +2058,7 @@
         applyChrome();
         renderReportIdentity();
         document.documentElement.setAttribute('data-baye-dialog-pass', '0');
-        if (wasReport) { refreshReportPortrait(); }
+        if (hadPortrait) { refreshDialogPortrait(); }
         if (!opts.silent) {
             console.log('[hd-dialog] close');
         }

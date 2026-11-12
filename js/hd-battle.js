@@ -33,7 +33,7 @@
     var sysMenuBinding = null, modeEpoch = 0, pollId = 0, commandTimer = 0, terrainSession = 0;
     var mobileHost = null, mobileMode = 'auto', mobileLifecycleBound = false, mobileRendering = false;
     var mobileRenderOwner = null;
-    var pcPickPress = null;
+    var pcControlPress = null;
     var lastBoardPaint = null;
     var armAtlas = null;
 
@@ -199,25 +199,39 @@
             mobileHost && !sameMobileTicket(ticket,getInputTicket(),true)) { return reject('next-unit-owner-changed'); }
         return beginRequest('tile',{x:unit.x,y:unit.y,unitSlot:unit.i,personId:unit.id},snap);
     }
-    function pcPickControl(node) {
-        return node.getAttribute && (node.getAttribute('data-hd-battle-next') != null ||
-            node.getAttribute('data-hd-battle-pick-slot') != null);
+    function inspectionKind(kind) {
+        return kind === INPUT.PICK || kind === INPUT.MOVE || kind === INPUT.AIM;
     }
-    function pcPickTicket(node) {
+    function pcInspectionReady(snap) {
+        return !mobileHost && state.open && !state.preview && !state.showLcd && !document.hidden &&
+            snap.ready && snap.fight.wait === 1 && inspectionKind(snap.kind) && !state.transaction &&
+            !(state.lastCommit && state.lastCommit.epoch === modeEpoch && state.lastCommit.seq === snap.seq);
+    }
+    function pcBattleControl(node) {
+        return node.getAttribute && (node.getAttribute('data-hd-battle-next') != null ||
+            node.getAttribute('data-hd-battle-pick-slot') != null || node.getAttribute('data-hd-battle-inspect') != null);
+    }
+    function pcBattleControlTicket(node) {
         if (node.disabled || node.isConnected === false) { return null; }
         var snap = inputSnapshot(), b = global.baye, slot = node.getAttribute('data-hd-battle-pick-slot');
-        var unit = slot === null ? nextWaitingUnit(snap) : isPickWait(snap) && actorUnit(Number(slot));
-        if (!unit || slot !== null && (!waitingUnit(unit) || String(unit.id) !== node.getAttribute('data-hd-battle-pick-person'))) { return null; }
+        var inspect = node.getAttribute('data-hd-battle-inspect'), code = null, unit = null;
+        if (inspect !== null) {
+            code = inspect === 'help' ? VK.HELP : inspect === 'view' ? VK.SEARCH : null;
+            if (!code || !pcInspectionReady(snap)) { return null; }
+        } else {
+            unit = slot === null ? nextWaitingUnit(snap) : isPickWait(snap) && actorUnit(Number(slot));
+            if (!unit || slot !== null && (!waitingUnit(unit) || String(unit.id) !== node.getAttribute('data-hd-battle-pick-person'))) { return null; }
+        }
         var data = b && b.data, rect = node.getBoundingClientRect && node.getBoundingClientRect();
-        return {node:node,b:b,data:data,lib:global.dynLib,snap:snap,unit:unit,key:JSON.stringify([modeEpoch,snap.seq,snap.actor,
-            snap.focus && snap.focus.x,snap.focus && snap.focus.y,unit.i,unit.id,unit.x,unit.y,
+        return {node:node,b:b,data:data,lib:global.dynLib,snap:snap,unit:unit,code:code,key:JSON.stringify([modeEpoch,snap.kind,snap.seq,snap.actor,
+            snap.focus && snap.focus.x,snap.focus && snap.focus.y,code,unit && [unit.i,unit.id,unit.x,unit.y],
             data && data.g_hdDetailGeneration,rect && [rect.left,rect.top,rect.width,rect.height]])};
     }
-    function samePcPickTicket(a,b) { return !!(a && b && a.node === b.node && a.b === b.b && a.data === b.data && a.lib === b.lib && a.key === b.key); }
+    function samePcBattleControlTicket(a,b) { return !!(a && b && a.node === b.node && a.b === b.b && a.data === b.data && a.lib === b.lib && a.key === b.key); }
     function clickRosterUnit(ticket) {
         refresh();
-        var current = pcPickTicket(ticket.node);
-        if (!samePcPickTicket(ticket,current)) { return reject('roster-owner-changed'); }
+        var current = pcBattleControlTicket(ticket.node);
+        if (!samePcBattleControlTicket(ticket,current)) { return reject('roster-owner-changed'); }
         var unit = current.unit;
         return beginRequest('tile',{x:unit.x,y:unit.y,unitSlot:unit.i,personId:unit.id},current.snap);
     }
@@ -521,7 +535,7 @@
         if (commandTimer) { global.clearTimeout(commandTimer); commandTimer = 0; }
     }
     function invalidateHdWork() {
-        pcPickPress = null;
+        pcControlPress = null;
         modeEpoch += 1;
         mobileRenderOwner = null;
         clearTerrainPaint();
@@ -798,8 +812,7 @@
         if (code === VK.EXIT) { cancelInput(); return true; }
         if (!snap.ready || state.transaction) { return true; }
         if (isMenuKind(snap.kind) && !menuSnapshot(snap)) { return true; }
-        if ((code === VK.HELP || code === VK.SEARCH) &&
-            snap.kind !== INPUT.PICK && snap.kind !== INPUT.MOVE && snap.kind !== INPUT.AIM) { return true; }
+        if ((code === VK.HELP || code === VK.SEARCH) && !inspectionKind(snap.kind)) { return true; }
         if (snap.kind === INPUT.HELP && code !== VK.ENTER) { return true; }
         if (code === VK.ENTER && !isMenuKind(snap.kind) && snap.kind !== INPUT.HELP && snap.kind !== INPUT.VIEW &&
             (!snap.focus || !legalEnter(snap.focus, unitAt(snap.focus.x, snap.focus.y), snap.fight))) { return true; }
@@ -960,6 +973,10 @@
         var banner = el('hd-battle-result');
         if (banner) { banner.hidden = true; }
         if (root && root.querySelectorAll) {
+            var inspectButtons = root.querySelectorAll('[data-hd-battle-inspect]'), inspectDisabled = !pcInspectionReady(snap);
+            for (var i = 0; i < inspectButtons.length; i++) {
+                if (inspectButtons[i].disabled !== inspectDisabled) { inspectButtons[i].disabled = inspectDisabled; }
+            }
             var nextButtons = root.querySelectorAll('[data-hd-battle-next]'), nextDisabled = !nextWaitingUnit(snap);
             for (var n = 0; n < nextButtons.length; n++) {
                 if (nextButtons[n].disabled !== nextDisabled) { nextButtons[n].disabled = nextDisabled; }
@@ -1036,7 +1053,7 @@
         document.addEventListener('visibilitychange', function () {
             if (document.hidden) {
                 lastBoardPaint = null;
-                pcPickPress = null;
+                pcControlPress = null;
                 renderFocusCard(false);
                 if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
                 return;
@@ -1191,37 +1208,38 @@
         if (!root) { return; }
         state.bound = true;
         root.addEventListener('pointerdown',function (event) {
-            pcPickPress = null;
+            pcControlPress = null;
             if (event.isTrusted !== true || event.isPrimary !== true || event.button !== 0) { return; }
             for (var node = event.target; node && node !== root; node = node.parentNode) {
-                if (pcPickControl(node)) {
-                    var ticket = pcPickTicket(node);
-                    if (ticket) { pcPickPress = {ticket:ticket,x:event.clientX,y:event.clientY}; }
+                if (pcBattleControl(node)) {
+                    var ticket = pcBattleControlTicket(node);
+                    if (ticket) { pcControlPress = {ticket:ticket,x:event.clientX,y:event.clientY}; }
                     return;
                 }
             }
         });
-        root.addEventListener('pointercancel',function () { pcPickPress = null; });
-        root.addEventListener('lostpointercapture',function () { pcPickPress = null; });
+        root.addEventListener('pointercancel',function () { pcControlPress = null; });
+        root.addEventListener('lostpointercapture',function () { pcControlPress = null; });
         if (global.addEventListener) {
-            ['blur','pagehide','resize'].forEach(function (name) { global.addEventListener(name,function () { pcPickPress = null; }); });
+            ['blur','pagehide','resize'].forEach(function (name) { global.addEventListener(name,function () { pcControlPress = null; }); });
         }
         root.addEventListener('click', function (event) {
             var node = event.target;
             while (node && node !== root) {
                 if (node.getAttribute) {
-                    if (pcPickControl(node)) {
-                        var press = pcPickPress; pcPickPress = null;
-                        var current = event.isTrusted === true && pcPickTicket(node);
+                    if (pcBattleControl(node)) {
+                        var press = pcControlPress; pcControlPress = null;
+                        var current = event.isTrusted === true && pcBattleControlTicket(node);
                         if (current && (event.detail === 0 || press &&
-                            Math.hypot(event.clientX-press.x,event.clientY-press.y) <= 10 && samePcPickTicket(press.ticket,current))) {
-                            if (node.getAttribute('data-hd-battle-next') != null) { clickNextUnit(); }
+                            Math.hypot(event.clientX-press.x,event.clientY-press.y) <= 10 && samePcBattleControlTicket(press.ticket,current))) {
+                            if (current.code) { beginRequest('key', {code:current.code}, current.snap); }
+                            else if (node.getAttribute('data-hd-battle-next') != null) { clickNextUnit(); }
                             else { clickRosterUnit(current); }
                         }
                         event.preventDefault(); return;
                     }
                     if (node.getAttribute('data-hd-battle-lcd') != null) {
-                        state.showLcd = !state.showLcd; applyChrome(); event.preventDefault(); return;
+                        pcControlPress = null; state.showLcd = !state.showLcd; applyChrome(); event.preventDefault(); return;
                     }
                     if (node.getAttribute('data-hd-battle-sys') != null) { toggleSystemMenu(); event.preventDefault(); return; }
                     if (node.getAttribute('data-hd-battle-cancel') != null || node.getAttribute('data-hd-battle-menu-exit') != null) {

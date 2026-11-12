@@ -590,10 +590,15 @@
         if (!root) {
             return;
         }
-        var pane = document.getElementById('hd-city-menu-person-details');
-        var slot = view && view.context === 'person-info' && view.menuOwnerKey && pane && !pane.hidden &&
-            src && !src.preview && src.mode !== 'lcd'
-            ? document.getElementById('hd-city-menu-person-portrait') : null;
+        var slot = null;
+        if (view && src && !src.preview && src.mode !== 'lcd') {
+            if (view.context === 'battle-note' && view.helpOwnerKey) {
+                slot = document.getElementById('hd-battle-help-portrait-slot');
+            } else if (view.context === 'person-info' && view.menuOwnerKey) {
+                var pane = document.getElementById('hd-city-menu-person-details');
+                if (pane && !pane.hidden) { slot = document.getElementById('hd-city-menu-person-portrait'); }
+            }
+        }
         var parent = slot || document.body;
         if (parent && typeof parent.appendChild === 'function' && root.parentNode !== parent) {
             parent.appendChild(root);

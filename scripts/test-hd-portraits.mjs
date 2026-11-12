@@ -101,6 +101,7 @@ function fixture(options = {}) {
         elements['hd-city-menu-person-details'] = element();
         elements['hd-city-menu-person-details'].hidden = false;
     }
+    if (options.battleSlot) { elements['hd-battle-help-portrait-slot'] = element(); }
     if (options.manual) body.setAttribute('data-hd-portrait-manual', '1');
     class Image {
         set src(url) {
@@ -520,7 +521,7 @@ test('desktop report refresh hides the previous speaker immediately and paints o
 });
 
 test('battle help portrait uses the captured native person and name, never the current focus or a name lookup', async () => {
-    const f = fixture();
+    const f = fixture({ battleSlot: true });
     await f.load();
     f.context.baye = { data: { g_PIdx: 1, g_FoucsX: 3, g_FoucsY: 4,
         g_FgtParam: { GenArray: [2] }, g_GenPos: [{ x: 3, y: 4 }] },
@@ -531,8 +532,12 @@ test('battle help portrait uses the captured native person and name, never the c
     assert.equal(view.personId, 0); assert.equal(view.name, '原生董卓');
     await f.api.applyView(view);
     assert.match(f.elements['hd-portrait-cap'].textContent, /^原生董卓/);
+    assert.equal(f.elements['hd-portrait'].parentNode, f.elements['hd-battle-help-portrait-slot']);
     model.help.kind = 2; model.help.complete = 0; model.publish();
     assert.equal(f.api.detectView(), null, 'terrain help cannot keep the former person');
+    await f.api.applyView(null);
+    assert.equal(f.elements['hd-portrait'].parentNode, f.body);
+    assert.equal(f.elements['hd-portrait'].hidden, true);
     assert.equal(JSON.stringify(f.context.baye.data), before);
 });
 

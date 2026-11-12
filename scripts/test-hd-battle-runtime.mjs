@@ -225,6 +225,15 @@ async function click(cdp, selector) {
     await delay(250);
 }
 
+async function openBattleInspection(cdp, control, kind, code) {
+    const before=await evaluate(cdp,'({fight:baye.hd.fight(),keys:window.__battleKeys.length,viewport:innerWidth+"x"+innerHeight})');
+    await click(cdp,`#hd-battle [data-hd-battle-inspect="${control}"]`);
+    const opened=await waitBattle(cdp,kind,'native '+control+' from the battle footer');
+    const sent=await evaluate(cdp,`window.__battleKeys.slice(${before.keys})`);
+    assert.deepEqual(sent,[{code,kind:before.fight.inputKind,seq:before.fight.inputSeq}]);
+    (report.battleInspectionControls ||= []).push({control,viewport:before.viewport,sent,to:opened.inputSeq});
+}
+
 async function smoke(cdp) {
     await waitFor(cdp, 'real LIB/WASM initialization', 'window.baye && baye.hd && baye.hd.ready()', 60000);
     await evaluate(cdp, `(() => {
@@ -678,7 +687,7 @@ async function verifyView(cdp,label) {
 }
 
 async function viewSmoke(cdp,before) {
-    await key(cdp,'f');await waitBattle(cdp,10,'native strategic view');await verifyNativeFeedback(cdp,'VIEW overlay','inactive');
+    await openBattleInspection(cdp,'view',10,0x33);await verifyNativeFeedback(cdp,'VIEW overlay','inactive');
     let current=await verifyView(cdp,'enemy first native page');assert.equal(current.view.force,1);assert.equal(current.view.pageStart,0);
     assert.equal(current.view.foodKnown,0);assert.equal(current.view.food,0);assert.ok(current.native.secretFood>0,'unknown enemy supply really differs from the revealed field');
     const keys=await evaluate(cdp,'window.__battleKeys.length'),snapshot=current.view;
@@ -746,6 +755,11 @@ const helpObservationExpression = `(() => {
     const pos=Number.isInteger(slot)&&slot>=0&&slot<20?d.g_GenPos[slot]:null,att=d.g_GenAtt[0];
     const derived=p?(typeof baye.hd.personArmType==='function'?baye.hd.personArmType(person):person<256?baye.getArmType(person):null):null;
     const root=document.querySelector('#hd-dialog'),stage=root&&root.querySelector('.hd-dialog-stage'),portrait=document.querySelector('#hd-portrait');
+    const art=portrait?.querySelector('img'),artRect=art?.getBoundingClientRect(),stageRect=stage?.getBoundingClientRect();
+    const embedded=portrait?.parentElement?.id==='hd-battle-help-portrait-slot'&&stage.contains(portrait);
+    const embeddedPortrait={embedded,visible:!!(embedded&&art?.complete&&art.naturalWidth>0&&art.checkVisibility()&&
+        artRect.width>0&&artRect.height>0&&artRect.left>=stageRect.left&&artRect.right<=stageRect.right&&
+        artRect.top>=stageRect.top&&artRect.bottom<=stageRect.bottom)};
     const visual=node=>{
         if(!node)return {visible:false};
         const r=node.getBoundingClientRect();let styled=true;
@@ -762,7 +776,7 @@ const helpObservationExpression = `(() => {
             x:Number(pos.x),y:Number(pos.y),state:Number(pos.state),
             fields:[Number(p.Level),Number(p.Force),Number(p.IQ),Number(p.Experience),Number(pos.hp),Number(pos.mp),
                 Number(att.at),Number(att.df),Number(p.Arms),derived],levelMax:Number(p.Level)>=Number(d.g_engineConfig.maxLevel)?1:0}:null,
-        dom:{visible:visual(stage).visible,stage:visual(stage),pass:document.documentElement.getAttribute('data-baye-dialog-pass'),
+        dom:{visible:visual(stage).visible,stage:visual(stage),embeddedPortrait,pass:document.documentElement.getAttribute('data-baye-dialog-pass'),
             kind:root&&root.getAttribute('data-hd-help-kind'),person:root&&root.getAttribute('data-hd-help-person'),
             name:document.querySelector('.hd-help-name')?.textContent,summary:document.querySelector('.hd-help-summary')?.textContent,
             nameVisibility:visual(document.querySelector('.hd-help-name')),summaryVisibility:visual(document.querySelector('.hd-help-summary')),
@@ -773,8 +787,10 @@ const helpObservationExpression = `(() => {
 
 async function verifyPersonHelp(cdp, unit, label, labels) {
     const observed = await waitFor(cdp, label + ' complete captured HUD', `(() => {
-        const h=baye.hd.help(),d=BayeHdDialog.debugSnapshot();
-        return h.active===1&&h.protocolVersion===1&&h.complete===1&&h.kind===1&&d.helpDetail&&d.helpDetail.person===${unit.id - 1};
+        const h=baye.hd.help(),d=BayeHdDialog.debugSnapshot(),p=BayeHdPortraits.debugSnapshot();
+        const portrait=document.querySelector('#hd-battle-help-portrait-slot #hd-portrait:not([hidden])'),art=portrait?.querySelector('img');
+        return h.active===1&&h.protocolVersion===1&&h.complete===1&&h.kind===1&&d.helpDetail&&
+            d.helpDetail.person===${unit.id - 1}&&p.context==='battle-note'&&Number(p.personId)===h.person&&art?.complete&&art.naturalWidth>0;
     })()`);
     assert.equal(observed, true);
     const state = await evaluate(cdp, helpObservationExpression), { help, fight, dialog, native, dom } = state;
@@ -782,6 +798,7 @@ async function verifyPersonHelp(cdp, unit, label, labels) {
     assert.equal(dialog.pass, false, 'current native HELP9 cannot be mistaken for a retired march overlay');
     assert.equal(dom.pass, '0');
     assert.ok(dom.nameVisibility.visible && dom.summaryVisibility.visible, 'actual HUD heading/summary are visible on screen');
+    assert.deepEqual(dom.embeddedPortrait, {embedded:true,visible:true}, 'actual current portrait is visible inside the dialog');
     assert.equal(dom.rowVisibility.length, 9);
     assert.ok(dom.rowVisibility.every(row => row.label.visible && row.value.visible), 'all nine native HUD labels and values are actually visible');
     assert.equal(fight.inputKind, 9); assert.equal(help.person, unit.id - 1); assert.equal(help.slot, unit.i);
@@ -807,11 +824,6 @@ async function verifyPersonHelp(cdp, unit, label, labels) {
     assert.equal(state.lcd.containerVisibility, 'hidden', 'complete HD HELP defaults to hiding its native LCD');
     assert.equal(state.lcd.canvasVisibility, 'hidden');
     assert.equal(state.lcd.visible, false);
-    await waitFor(cdp, label + ' portrait current identity', `(() => {
-        const p=BayeHdPortraits.debugSnapshot(),root=document.querySelector('#hd-portrait');
-        return root&&!root.hidden&&p.context==='battle-note'&&Number(p.personId)===${help.person};
-    })()`);
-    state.portrait = await evaluate(cdp, 'BayeHdPortraits.debugSnapshot()');
     assert.equal(state.portrait.supportedLib, true); assert.equal(state.portrait.preview, false);
     assert.equal(await evaluate(cdp, 'document.querySelector("#hd-portrait").getAttribute("data-hd-portrait-source")'), 'runtime');
     const keys = await evaluate(cdp, 'window.__battleKeys.length');
@@ -857,6 +869,7 @@ async function helpLcdToggleSmoke(cdp, current) {
         const hud = await evaluate(cdp, helpObservationExpression);
         assert.equal(hud.dom.visible, true); assert.equal(hud.dialog.pass, false);
         assert.deepEqual(hud.dialog.helpDetail, current.dialog.helpDetail);
+        assert.deepEqual(hud.dom.embeddedPortrait, {embedded:true,visible:true});
         assert.ok(hud.dom.nameVisibility.visible && hud.dom.summaryVisibility.visible);
         assert.equal(hud.dom.rowVisibility.length, 9);
         assert.ok(hud.dom.rowVisibility.every(row => row.label.visible && row.value.visible));
@@ -916,7 +929,7 @@ async function helpSmoke(cdp, before) {
     const labels = nativeHelpLabels(), own = before.units.find(u => u.side === 'player' && u.state !== 8);
     assert.ok(own, 'native battle contains a living player general for HELP');
     await focusBattleTarget(cdp, own, '17-battle-help-focused', 1);
-    await key(cdp, 'h'); await waitBattle(cdp, 9, 'native general information');
+    await openBattleInspection(cdp, 'help', 9, 0x26);
     await verifyNativeFeedback(cdp, 'HELP overlay', 'inactive');
     const first = await verifyPersonHelp(cdp, own, '17-battle-help', labels);
     report.helpVisibility = await nativeLcdVisibility(cdp);
@@ -1135,10 +1148,26 @@ async function terrainSmoke(cdp, before) {
     await inspect('720p focused terrain');
     await checkWaitingRoster(cdp,stable.units,'PICK at 720p');
     await checkpoint(cdp,'15-terrain-empty-720p');
-    await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
-    await waitFor(cdp,'1080p restored canvas','innerWidth===1920&&innerHeight===1080&&Math.abs(document.querySelector("#hd-battle-canvas").getBoundingClientRect().width-1920)<1');
     assert.deepEqual(await evaluate(cdp,battleStateExpression),stable,'viewport changes cannot mutate native battle');
     assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys,'terrain repaint/resize sends no engine input');
+    await openBattleInspection(cdp,'help',9,0x26);
+    const terrainHelp=await waitFor(cdp,'native help for the empty terrain cell',`(() => {
+        const help=baye.hd.help(),card=document.querySelector('#hd-dialog .hd-terrain-help-card');
+        return help.active===1&&help.complete===1&&help.kind===2&&card?.checkVisibility()&&help;
+    })()`);
+    assert.deepEqual({x:terrainHelp.x,y:terrainHelp.y},{x:empty.x,y:empty.y});
+    assert.equal(await evaluate(cdp,'document.querySelector("#hd-battle-help-portrait-slot").checkVisibility()'),false);
+    await checkpoint(cdp,'15-terrain-help-from-footer-720p');
+    await click(cdp,'#hd-dialog [data-hd-dlg-ok]');
+    await waitBattle(cdp,1,'return from terrain help');
+    await verifyHelpRetired(cdp,'terrain HELP return',terrainHelp);
+    const afterHelp=await evaluate(cdp,battleStateExpression),afterHelpKeys=await evaluate(cdp,'window.__battleKeys.length');
+    assert.deepEqual(afterHelp.units,stable.units,'terrain help preserves all native units');
+    assert.deepEqual({x:afterHelp.fight.focusX,y:afterHelp.fight.focusY},{x:empty.x,y:empty.y});
+    await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
+    await waitFor(cdp,'1080p restored canvas','innerWidth===1920&&innerHeight===1080&&Math.abs(document.querySelector("#hd-battle-canvas").getBoundingClientRect().width-1920)<1');
+    assert.deepEqual(await evaluate(cdp,battleStateExpression),afterHelp,'restoring the desktop size preserves native battle');
+    assert.equal(await evaluate(cdp,'window.__battleKeys.length'),afterHelpKeys,'restoring the desktop size sends no engine input');
     await focusBattleTarget(cdp,native.focus,'15-terrain-focus-restored',1);
     assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'terrain focus observation cannot mutate units');
 }
