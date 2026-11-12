@@ -77,7 +77,24 @@
             try { mobileHost.onPresentation(value); } catch (error) { /* The physical LCD remains the fallback. */ }
         }
     }
+    function keepMobileStatusFrame(reason) {
+        if (mobilePresentation !== 'hd' || !state.projectedScene ||
+            (reason !== 'resize' && reason !== 'orientationchange' && reason !== 'visual-viewport')) return false;
+        try {
+            var s = info();
+            if (!statusCaption(s) || !state.hasFlush || state.callbackFlushKey !== state.flushKey || report()) return false;
+            var owner = readMobileOwner();
+            return !!(owner && owner.data === mobileData && owner.data === state.flushData && owner.generation === mobileGeneration &&
+                state.renderKey === renderKey(s));
+        } catch (error) { return false; }
+    }
     function retireInteraction(reason) {
+        if (keepMobileStatusFrame(reason)) {
+            // The mobile stage resizes the canvas in CSS. Keep the current
+            // native frame while cancelling any press from the old layout.
+            state.pressed = null;
+            return;
+        }
         if (introFlush && state.open && reason !== 'host-change' && reason !== 'mobile-owner-changed') {
             var s = info(), owner = readMobileOwner(true);
             if (owner && state.event === event(s) && show(s) && sameIntroFlush(s, owner.data, owner.generation)) {
@@ -1631,18 +1648,20 @@
         state.reason = '';
         state.frames = frames;
     }
+    function statusCaption(s) {
+        var scene = state.projectedScene, d = s.display;
+        return s.active && kind(s) === 4 && statusRange(s) && state.open && state.source === 'hd-assets' && scene && scene.statusCaption &&
+            d && d.frameValid === true && matches(s) && state.flushKey === stamp(s) &&
+            scene.generation === s.generation && scene.eventId === s.eventId && scene.commitSeq === d.commitSeq ? scene.statusCaption : null;
+    }
     function syncPaintedPresentation(root, s) {
         root.setAttribute('data-source', state.source);
         root.setAttribute('data-scene', state.projectedScene ? 'hd-battle' : 'lcd');
         var title = el('hd-spe-title');
         if (!title) return;
-        var k = kind(s), scene = state.projectedScene, d = s.display;
-        var label = k === 4 ? (statusRange(s) ? (s.startFrm === 0 ? '升级提示' : '战场退场提示') : 'AI目标提示') :
+        var k = kind(s);
+        var label = k === 4 ? (statusRange(s) ? statusCaption(s) || (s.startFrm === 0 ? '升级提示' : '战场退场提示') : 'AI目标提示') :
             Number(s.id) === 6 ? '制作群组' : k === 1 ? '开场动画' : k === 2 ? '计谋动画' : '战斗动画';
-        if (k === 4 && statusRange(s) && state.open && state.source === 'hd-assets' && scene && scene.statusCaption &&
-            d && d.frameValid === true && matches(s) && state.flushKey === stamp(s) &&
-            scene.generation === s.generation && scene.eventId === s.eventId && scene.commitSeq === d.commitSeq)
-            label = scene.statusCaption;
         if (title.textContent !== label) title.textContent = label;
     }
     function sync(noPaint) {

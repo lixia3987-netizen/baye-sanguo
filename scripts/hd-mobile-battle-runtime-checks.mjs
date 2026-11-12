@@ -177,7 +177,7 @@ export async function runMobileBattleChecks(c) {
   const firstMarch=await startMarch({single:!!settingsWidth,reserve:!!settingsWidth});
   report.battleBootstrap=firstMarch.bootstrap;report.battleMarchVerdict=firstMarch.verdict;
   await ready(1,'actual first mobile battle PICK');
-  const initial=await capture('battle-01-fresh-pick-'+(settingsWidth||report.campaignWidth||report.battleOverviewsWidth||844));
+  const initial=await capture('battle-01-fresh-pick-'+(settingsWidth||report.campaignWidth||report.battleOverviewsWidth||(report.battleSceneOnly?report.battleSceneWidth:844)));
   assert.equal(initial.mobile.presentation,'hd');assert.equal(initial.canvas.hit,true);assert.ok(initial.mobile.camera.cell>=44);
   assert.ok(initial.units.some(u=>u.side==='player')&&initial.units.some(u=>u.side==='enemy'));
   await unchanged(initial,'Idle actual mobile battle');
@@ -207,7 +207,7 @@ export async function runMobileBattleChecks(c) {
   }
   if(report.battleSceneOnly){
     const {runMobileBattleSceneChecks}=await import('./hd-mobile-battle-scene-runtime-checks.mjs');
-    return runMobileBattleSceneChecks({...c,native,capture,ready,menu,initial});
+    return runMobileBattleSceneChecks({...c,native,ready,menu,tileTap,initial});
   }
   report.battleHud=[];
   const recordHud=async(label,options)=>{

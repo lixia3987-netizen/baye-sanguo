@@ -2504,6 +2504,51 @@ test('a status caption expires with its copied commit and retires at the origina
     assert.equal(title.textContent, '升级提示');
     assertNoScene(h);
 });
+test('a mobile landscape resize keeps only the same painted status frame', async () => {
+    const { h, fixture } = await sceneLoaded(sceneRanges[1]);
+    const identity = h.context.BayeHdLibIdentity.read();
+    let available = true;
+    h.context.clearInterval = () => {};
+    h.api.configureMobileHost({ isAvailable: () => available, getMode: () => 'hd', readTicket: () => ({
+        data: h.context.baye.data, libraryGeneration: identity.generation, key: 'current-status'
+    }) });
+    const scene = installScene(h);
+    const title = h.nodes.get('hd-spe-title');
+    h.flush();
+    assert.equal(h.api.getLcdPresentation(), 'hd');
+    assert.equal(title.textContent, '马腾升级（2 → 3 级）');
+    const receipt = plain(h.api.debugSnapshot().projectedScene);
+    h.events.length = 0;
+    for (const reason of ['resize', 'visual-viewport', 'orientationchange']) {
+        h.api.retireInteraction(reason);
+        h.api.blit();
+        assert.equal(h.api.getLcdPresentation(), 'hd', reason);
+        assert.equal(title.textContent, '马腾升级（2 → 3 级）');
+        assert.deepEqual(plain(h.api.debugSnapshot().projectedScene), receipt);
+    }
+    assert.equal(scene.calls.length, 1);
+    assert.deepEqual(h.events, [], 'A pure layout change leaves the same painted pixels in place');
+
+    h.setSpe({ ...fixture.s, commitSeq: 2, display: { ...fixture.s.display, commitSeq: 2 } });
+    h.api.retireInteraction('resize');
+    h.api.blit();
+    assert.equal(h.api.getLcdPresentation(), 'lcd');
+    assertNoScene(h);
+    h.flush();
+    assert.equal(h.api.getLcdPresentation(), 'hd');
+
+    available = false;
+    h.api.retireInteraction('orientationchange');
+    assert.equal(h.api.getLcdPresentation(), 'off');
+    available = true;
+    h.api.blit();
+    assert.equal(h.api.getLcdPresentation(), 'lcd', 'Landscape cannot reuse a frame retired in portrait');
+    assertNoScene(h);
+    h.flush();
+    assert.equal(h.api.getLcdPresentation(), 'hd');
+    assert.deepEqual(h.keys, []);
+    assert.deepEqual(h.nativeWrites, []);
+});
 test('STACHG27 scene integration forwards copied frames/clears rather than future current state', async () => {
     const { h, fixture } = await sceneLoaded(), scene = installScene(h);
     h.setSpe({ ...fixture.s, frameIndex: 17, commitSeq: 2,
