@@ -838,8 +838,21 @@ export async function runMysticAttackPreparation(ctx, cityIndex, personId) {
     await checkpoint('mystic-preparation-complete');
 }
 
+export async function awardOriginalCampaignMysticToken(ctx, cityIndex, personId) {
+    const {chooseCityItem,reopenInterior} = ctx;
+    const controls = rewardControls(ctx);
+    await reopenInterior('Award the original 下邳 troop token', cityIndex);
+    const {menu} = await chooseCityItem('赏赐', 'data-hd-sub', 2);
+    const inventory = await controls.picker(4, menu.seq, 'Original inventory with 太玄兵符');
+    const token = await awardOriginalTool(ctx, controls, cityIndex, personId, inventory, mysticToken,
+        verifyOriginalCampaignTroopTokenReward);
+    assert.deepEqual(token.oracle.armsType,{before:4,after:5});
+    await closeOriginalReward(ctx, controls, token.returned);
+    return token;
+}
+
 export async function runNanpiMysticPreparation(ctx, from, cityIndex, personId) {
-    const {report, world, chooseCityItem, reopenInterior, evaluate} = ctx;
+    const {report, world, evaluate} = ctx;
     const controls = rewardControls(ctx);
     const start = await world();
     const owner = start.king + 1;
@@ -852,13 +865,7 @@ export async function runNanpiMysticPreparation(ctx, from, cityIndex, personId) 
 
     const run = report.nanpiMysticPreparation = {personId,from,cityIndex,outbound:{},inbound:{}};
     await moveOriginalOfficers(ctx, controls, from, cityIndex, [personId], run.outbound, 'nanpi-to-xiapi');
-    await reopenInterior('Award the original 下邳 troop token', cityIndex);
-    const {menu} = await chooseCityItem('赏赐', 'data-hd-sub', 2);
-    const inventory = await controls.picker(4, menu.seq, 'Original inventory with 太玄兵符');
-    run.token = await awardOriginalTool(ctx, controls, cityIndex, personId, inventory, mysticToken,
-        verifyOriginalCampaignTroopTokenReward);
-    assert.deepEqual(run.token.oracle.armsType,{before:4,after:5});
-    await closeOriginalReward(ctx, controls, run.token.returned);
+    run.token = await awardOriginalCampaignMysticToken(ctx,cityIndex,personId);
     await moveOriginalOfficers(ctx, controls, cityIndex, from, [personId], run.inbound, 'nanpi-to-puyang');
     assert.equal(await evaluate(`baye.hd.personArmType(${personId})`),5);
     return run;

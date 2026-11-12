@@ -1,5 +1,11 @@
 # HD 剩余工作与验收清单
 
+2026-11-12 宛城已有两种出战武将。通宵虫从濮阳移动到下邳，使用原版「赏赐」消耗太玄兵符，从极兵转为玄兵并保有 3,154 兵。通宵虫从下邳、吕布从南皮分别移动到宛城，吕布仍为极兵并带 1,730 兵。两人于 203 年 8 月在宛城会合。保存并独立读回后核对了两人的原版兵种、驻地和兵力。寿春的南方小鬼仍带 2,100 玄兵，忠诚为 0。
+
+用 `node scripts/test-hd-campaign-runtime.mjs --west-rival --west-rival-attackers --west-transit=build/hd-campaign-west-rival-20261112-stage-a/result.json --artifact-dir build/west-rival-attackers` 复跑。两局分别从寿春布置档和西凉招募档完成，记录位于 `build/hd-campaign-west-rival-20261112-attackers-fixed-a` 与 `build/hd-campaign-west-rival-20261112-attackers-fixed-b`。独立读回位于 `build/hd-campaign-west-rival-20261112-attackers-restored`。从宛城档继续月结时，使用 `--west-rival` 和该档的 `result.json`，以 `--west-transit-months` 设置月份。已另行读档完成一个月结并保存进度。
+
+此前三次续局记录了针对南方小鬼的 2 次招揽和 4 次策反，六笔均失败。两局推进 84 个月并保存原版进度。第三局在第 75 个月由马超继位，南方小鬼随己方势力更新归属，验证脚本当时误判为策反。已使用该局的原版前后状态和继位记录复验修正。Clang 23.1.5 相关回归 **735/735** 通过。普通攻击实战累计 **35/37**，仍需敌方玄兵入阵。
+
 2026-11-12 原版从西凉到寿春的己方道路经过安定、天水、河内、长安和宛城。南方小鬼通过原版「移动」于 203 年 5 月抵达寿春并出任太守。寿春用原版「征兵」取得 2,000 预备兵，再用「分配」将南方小鬼从 100 兵补到 2,100 兵。为等待对手的原版外交，实际用「赏赐」和「没收」循环操作绝影六次，忠诚 71→59→47→35→23→11→0。核对了每轮报告、装备和仓库变化，最后绝影回到寿春仓库，兵种保持玄兵。
 
 用 `node scripts/test-hd-campaign-runtime.mjs --west-rival --west-transit=build/hd-campaign-west-search-20261112-live-a/result.json --west-transit-months=0 --artifact-dir build/west-rival-staged` 重走布置阶段。原版双文件与操作记录位于 `build/hd-campaign-west-rival-20261112-stage-a`，独立浏览器读档复验位于 `build/hd-campaign-west-rival-20261112-stage-restored`。后续把 `--west-transit` 指向该布置档或月结进度档的 `result.json`，并指定需要推进的月份。等待期间记录原版实际执行的招揽或策反，以及对应的归属变化。Clang 23.1.5 相关回归 **735/735** 通过。普通攻击实战累计 **35/37**。

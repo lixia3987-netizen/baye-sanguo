@@ -41,8 +41,8 @@ import {verifyOriginalSavePair} from './hd-mobile-system-runtime-oracle.mjs';
 import {verifyMobileSuccessorChoice,verifyMobileSuccessorReport,verifyMobileSuccessorSettlement} from './hd-mobile-successor-runtime-oracle.mjs';
 import {recordBattleOpeningStatus,verifyBattleOpeningStatus} from './hd-battle-opening-status-runtime-checks.mjs';
 import {observeBattleEquipmentSettlement,discoveredCityEquipment,verifyEquipmentDeposit} from './hd-battle-equipment-runtime-checks.mjs';
-import {dispatchOriginalInduce, lowerOriginalCampaignLoyalty, moveOriginalCampaignOfficer, originalRewardWorldSource,
-    searchOriginalCampaignCity} from './hd-reward-token-runtime-checks.mjs';
+import {awardOriginalCampaignMysticToken, dispatchOriginalInduce, lowerOriginalCampaignLoyalty, moveOriginalCampaignOfficer,
+    originalRewardWorldSource, searchOriginalCampaignCity} from './hd-reward-token-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -61,6 +61,8 @@ assert.ok(!westSearch || westTransit && !westRoad,'--west-search requires a 韩�
 const westRival = process.argv.includes('--west-rival');
 assert.ok(!westRival || westTransit && !westRoad && !westSearch,
     '--west-rival requires a 南方小鬼 recruitment checkpoint via --west-transit');
+const westRivalAttackers = process.argv.includes('--west-rival-attackers');
+assert.ok(!westRivalAttackers || westRival,'--west-rival-attackers requires --west-rival');
 const liuBeiTransit = eliteTransit ?? westTransit;
 const eliteTransitMonthsFlag = process.argv.find(arg => arg.startsWith('--elite-transit-months='));
 const eliteTransitMonthsText = eliteTransitMonthsFlag?.slice('--elite-transit-months='.length) ?? '18';
@@ -68,7 +70,8 @@ const eliteTransitMonths = Number(eliteTransitMonthsText);
 assert.ok(!eliteTransitMonthsFlag || eliteTransit && /^\d+$/.test(eliteTransitMonthsText) && Number.isSafeInteger(eliteTransitMonths),
     '--elite-transit-months requires --elite-transit and a nonnegative integer');
 const westTransitMonthsFlag = process.argv.find(arg => arg.startsWith('--west-transit-months='));
-const westTransitMonthsText = westTransitMonthsFlag?.slice('--west-transit-months='.length) ?? (westSearch || westRival ? '84' : '18');
+const westTransitMonthsText = westTransitMonthsFlag?.slice('--west-transit-months='.length) ??
+    (westRivalAttackers ? '0' : westSearch || westRival ? '84' : '18');
 const westTransitMonths = Number(westTransitMonthsText);
 assert.ok(!westTransitMonthsFlag || westTransit && /^\d+$/.test(westTransitMonthsText) && Number.isSafeInteger(westTransitMonths),
     '--west-transit-months requires --west-transit and a nonnegative integer');
@@ -2772,6 +2775,7 @@ async function loadLiuBeiTransit(cdp) {
     const checkpoints = fromWest ? [
         ['west-rival-ready',westRival && rival?.readySave],
         ['west-rival-progress',westRival && rival?.progressSave],
+        ['west-rival-attackers',westRival && rival?.attackersSave],
         ['west-rival-staged',westRival && rival?.stagedSave],
         ['west-search-ready',prior.westSearch?.readySave],
         ['west-search-progress',prior.westSearch?.progressSave],
@@ -2808,17 +2812,19 @@ async function loadLiuBeiTransit(cdp) {
     assert.deepEqual([pair.sav0,pair.sav1],parts);
     const world = await evaluate(cdp,worldExpression);
     verifyOriginalSavePair({...pair,world:await evaluate(cdp,originalRewardWorldSource)});
-    assert.deepEqual([world.period,world.realm.playerKing,world.year,world.month],[2,2,save.year,save.month]);
-    const origin = continued ? 12 : 13;
     const rivalStage = prefix.startsWith('west-rival-');
+    const expectedKing = rivalStage ? save.playerKing ?? 2 : 2;
+    assert.deepEqual([world.period,world.realm.playerKing,world.year,world.month],[2,expectedKing,save.year,save.month]);
+    const owner = expectedKing + 1;
+    const origin = continued ? 12 : 13;
     const attackerCities = rivalStage ? world.cities : [world.cities[origin]];
-    assert.ok(attackerCities.some(city=>city.Belong===3 && campaignResidents(world,city.i).includes(183)));
-    assert.deepEqual([world.allPersons[183].Belong,world.allPersons[183].ArmsType],[3,4]);
+    assert.ok(attackerCities.some(city=>city.Belong===owner && campaignResidents(world,city.i).includes(183)));
+    assert.deepEqual([world.allPersons[183].Belong,world.allPersons[183].ArmsType],[owner,rivalStage && rival.attackers ? 5 : 4]);
     report.selectedLord = {id:2,name:'刘备'};
     report.actualLib = {preferred:'libs/dat-mod.lib',sha256:report.library.sha256};
     report.transitResume = {source:path.relative(root,source),sha256:sha(raw),save,keys,stage:prefix};
     await checkpoint(cdp,'transit-save-loaded');
-    return {world,continued,rivalDefection:rivalStage ? rival.defection : undefined};
+    return {world,continued,rival:rivalStage ? rival : undefined};
 }
 
 async function saveLiuBeiCheckpoint(cdp, label, slot, world) {
@@ -2838,7 +2844,7 @@ async function saveLiuBeiCheckpoint(cdp, label, slot, world) {
         return {file,bytes:bytes.length,sha256:sha(bytes)};
     });
     await checkpoint(cdp,label+'-saved');
-    return {slot,year:after.year,month:after.month,files,keys};
+    return {slot,year:after.year,month:after.month,files,keys,...(westRival ? {playerKing:after.realm.playerKing} : {})};
 }
 
 async function runEliteTransit(cdp) {
@@ -2939,7 +2945,7 @@ function westernOwnedRoads(world, links) {
 }
 
 async function runWestTransit(cdp) {
-    let {world,rivalDefection} = await loadLiuBeiTransit(cdp);
+    let {world,rival} = await loadLiuBeiTransit(cdp);
     await evaluate(cdp,"BayeHdOverworld.setMode('hd-map');BayeHdCityMenu.setMode('hd');BayeHdBattle.setMode('hd');");
     // Original IFACE resource 2, ConsumeThew and ConsumeMoney entries for INDUCE.
     assert.equal(report.library.sha256,'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
@@ -2977,7 +2983,10 @@ async function runWestTransit(cdp) {
         })()`)
     };
     if (westSearch) return runWestSearch(cdp,ctx,world);
-    if (westRival) return runWestRival(cdp,ctx,world,rivalDefection);
+    if (westRival) {
+        ctx.libBytes = fs.readFileSync(path.join(root,report.actualLib.preferred));
+        return runWestRival(cdp,ctx,world,rival);
+    }
 
     const costs = {money:50,thew:10};
     const owner = world.realm.playerBelong;
@@ -3146,7 +3155,84 @@ async function observeWestRivalOrders(ctx, person) {
     };
 }
 
-async function runWestRival(cdp, ctx, world, defection) {
+function westRivalOfficer(world, person) {
+    const officer = world.allPersons[person];
+    const home = world.cities.find(city=>city.Belong===officer.Belong && campaignResidents(world,city.i).includes(person));
+    return {year:world.year,month:world.month,belong:officer.Belong,cityIndex:home?.i,
+        satrap:home?.SatrapId,arm:officer.ArmsType,arms:officer.Arms,loyalty:officer.Devotion};
+}
+
+async function advanceWestRivalMonth(cdp, ctx, run, world, label) {
+    const {person} = run;
+    const before = westRivalOfficer(world,person), previousOwner = world.realm.playerBelong;
+    const reports = [], readOrders = await observeWestRivalOrders(ctx,person);
+    let orders;
+    try {
+        world = await advanceCampaignMonth(cdp,label,reports);
+    } finally {
+        orders = await readOrders();
+    }
+    const after = westRivalOfficer(world,person), owner = world.realm.playerBelong;
+    assert.equal(after.year*12+after.month,before.year*12+before.month+1);
+    run.months.push({...after,playerKing:world.realm.playerKing,reports,orders});
+    if (owner!==previousOwner) {
+        assert.ok(report.phases.some(phase=>phase.name.startsWith(label+'-successor-')), 'The native ruler changed through succession');
+        (run.successions??=[]).push({year:after.year,month:after.month,from:previousOwner-1,to:owner-1});
+    }
+    if (before.belong===previousOwner && after.belong!==owner) {
+        assert.ok(after.belong>0 && after.belong<=world.personCount);
+        const order = orders.find(o=>[previousOwner,owner].includes(o.before.belong) && o.after.belong===after.belong);
+        assert.ok(order,'The native order execution changed the actual officer’s allegiance');
+        const declaration = reports.find(r=>r.kind===1 && r.text.includes('南方小鬼') && r.text.includes('被策反成为君主'));
+        if (order.orderId===17) assert.ok(declaration,'The original engine announces the new ruler');
+        run.defection = {...after,order,declaration};
+    }
+    return {world,reports};
+}
+
+async function prepareWestRivalAttackers(cdp, ctx, run, world) {
+    const xiapi = 18, destination = 20, mystic = 183, elite = 8;
+    assert.deepEqual([world.cities[xiapi].name,world.cities[destination].name],['下邳','宛城']);
+    const travel = run.attackerTravel = {};
+    let moveMonth = 0;
+    const move = async (person, to, label) => {
+        const origin = world.cities.find(city=>city.Belong===world.realm.playerBelong && campaignResidents(world,city.i).includes(person));
+        assert.ok(origin,'The actual attacker resides in an owned city');
+        if (origin.i===to) return;
+        const evidence = travel[label] = {from:origin.i,to,person};
+        await moveOriginalCampaignOfficer(ctx,origin.i,to,person,evidence,label,async ()=>{
+            const settled = await advanceWestRivalMonth(cdp,ctx,run,world,'west-attacker-month-'+(++moveMonth));
+            world = settled.world;
+            return {after:await ctx.world(),reports:settled.reports};
+        });
+    };
+    if (world.allPersons[mystic].ArmsType===4) {
+        const stock = world.cities[xiapi];
+        assert.ok(stock.Belong===world.realm.playerBelong && world.goods.slice(stock.ToolQueue,stock.ToolQueue+stock.Tools).includes(0x8000|31),
+            'The original 太玄兵符 is ready in 下邳');
+        await move(mystic,xiapi,'west-attacker-to-xiapi');
+        run.token = await awardOriginalCampaignMysticToken(ctx,xiapi,mystic);
+        world = await evaluate(cdp,worldExpression);
+    }
+    await move(mystic,destination,'west-mystic-to-wancheng');
+    await move(elite,destination,'west-elite-to-wancheng');
+    const owner = world.realm.playerBelong;
+    const residents = campaignResidents(world,destination);
+    assert.equal(world.cities[destination].Belong,owner);
+    const party = [];
+    for (const [person,name,arm] of [[elite,'吕布',4],[mystic,'通宵虫',5]]) {
+        const officer = world.allPersons[person];
+        assert.deepEqual([officer.name,officer.Belong,officer.ArmsType],[name,owner,arm]);
+        assert.ok(residents.includes(person) && officer.Arms>0);
+        assert.equal(await ctx.evaluate(`baye.hd.personArmType(${person})`),arm);
+        party.push({person,name,arm,arms:officer.Arms});
+    }
+    run.attackers = {cityIndex:destination,party};
+    run.attackersSave = await saveLiuBeiCheckpoint(cdp,'west-rival-attackers',2,world);
+    return world;
+}
+
+async function runWestRival(cdp, ctx, world, prior) {
     const person = 184, from = 0, cityIndex = 21;
     const tool = {id:24,name:'绝影'};
     const owner = world.realm.playerBelong;
@@ -3154,16 +3240,8 @@ async function runWestRival(cdp, ctx, world, defection) {
     assert.ok(stage==='west-search-ready' || stage.startsWith('west-rival-'), 'Read back a recruited original mystic');
     assert.deepEqual([world.cities[from].name,world.cities[cityIndex].name,world.allPersons[person].name],
         ['西凉','寿春','南方小鬼']);
-    const run = report.westRival = {person,from,cityIndex,monthBudget:westTransitMonths,months:[],defection};
-    const officerState = () => {
-        const officer = world.allPersons[person];
-        const home = world.cities.find(city=>city.Belong===officer.Belong && campaignResidents(world,city.i).includes(person));
-        return {year:world.year,month:world.month,belong:officer.Belong,cityIndex:home?.i,
-            satrap:home?.SatrapId,arm:officer.ArmsType,arms:officer.Arms,loyalty:officer.Devotion};
-    };
-    run.start = officerState();
-    const xiapi = world.cities[18];
-    assert.ok(xiapi.Belong===owner && world.goods.slice(xiapi.ToolQueue,xiapi.ToolQueue+xiapi.Tools).includes(0x8000|31));
+    const run = report.westRival = {person,from,cityIndex,monthBudget:westTransitMonths,months:[],
+        defection:prior?.defection,attackers:prior?.attackers,start:westRivalOfficer(world,person)};
     if (stage==='west-search-ready') {
         assert.deepEqual([run.start.cityIndex,run.start.belong,run.start.arm],[from,owner,5]);
         const links = await ctx.evaluate('baye.hd.realm().cities.map(city=>baye.hd.cityLinks(city.i).map(link=>link.index))');
@@ -3184,20 +3262,20 @@ async function runWestRival(cdp, ctx, world, defection) {
         const {allocations} = await allocateArmy(cdp,{cityIndex,leaders},'west-rival-troops');
         run.troops = {recruitments:recruitment.recruitments,allocations};
         assert.equal(allocations[0].pind,person);
-        run.loyalty = await lowerOriginalCampaignLoyalty({...ctx,libBytes:fs.readFileSync(path.join(root,report.actualLib.preferred))},
-            cityIndex,person,tool);
+        run.loyalty = await lowerOriginalCampaignLoyalty(ctx,cityIndex,person,tool);
         world = await evaluate(cdp,worldExpression);
-        run.staged = officerState();
+        run.staged = westRivalOfficer(world,person);
         assert.deepEqual([run.staged.cityIndex,run.staged.belong,run.staged.satrap,run.staged.arm,run.staged.loyalty],
-            [cityIndex,owner,person+1,5,0]);
+            [cityIndex,world.realm.playerBelong,person+1,5,0]);
         assert.equal(run.staged.arms,allocations[0].after);
-        run.stagedSave = await saveLiuBeiCheckpoint(cdp,'west-rival-staged',2,world);
+        if (!westRivalAttackers) run.stagedSave = await saveLiuBeiCheckpoint(cdp,'west-rival-staged',2,world);
     }
+    if (westRivalAttackers) world = await prepareWestRivalAttackers(cdp,ctx,run,world);
 
     for (let month=0; month<=westTransitMonths; month++) {
-        const officer = officerState();
+        const officer = westRivalOfficer(world,person);
         assert.equal(officer.arm,5);
-        if (officer.belong===owner) {
+        if (officer.belong===world.realm.playerBelong) {
             assert.deepEqual([officer.cityIndex,officer.satrap,officer.loyalty],[cityIndex,person+1,0]);
             if (westTransitMonths===0) return;
         } else {
@@ -3212,25 +3290,8 @@ async function runWestRival(cdp, ctx, world, defection) {
             }
         }
         if (month===westTransitMonths) break;
-
-        const reports = [], readOrders = await observeWestRivalOrders(ctx,person);
-        let orders;
-        try {
-            world = await advanceCampaignMonth(cdp,'west-rival-month-'+(month+1),reports);
-        } finally {
-            orders = await readOrders();
-        }
-        const after = officerState();
-        assert.equal(after.year*12+after.month,officer.year*12+officer.month+1);
-        run.months.push({...after,reports,orders});
-        if (officer.belong===owner && after.belong!==owner) {
-            assert.ok(after.belong>0 && after.belong<=world.personCount);
-            const order = orders.find(o=>o.before.belong===owner && o.after.belong===after.belong);
-            assert.ok(order,'The native order execution changed the actual officer’s allegiance');
-            const declaration = reports.find(r=>r.kind===1 && r.text.includes('南方小鬼') && r.text.includes('被策反成为君主'));
-            if (order.orderId===17) assert.ok(declaration,'The original engine announces the new ruler');
-            run.defection = {...after,order,declaration};
-        }
+        const settled = await advanceWestRivalMonth(cdp,ctx,run,world,'west-rival-month-'+(month+1));
+        world = settled.world;
     }
     run.progressSave = await saveLiuBeiCheckpoint(cdp,'west-rival-progress',1,world);
     assert.fail('The original mystic has not taken the opposing field; resume from the progress save');
