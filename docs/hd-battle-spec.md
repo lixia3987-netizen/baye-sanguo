@@ -191,6 +191,27 @@ baye.hd.battleNote沿version1保留胜1／败2，追加进攻3／交锋4，后�
 
 绘制前generation与发布序号保护新入口；begin保存自身序号后才同步通知，旧end不会因通知重入拿到替换序号。PC／手机原LIB身份、data／API引用、全文raw、模式与生命周期严格读封口，报告／战场等高owner仍优先。原型与真实流程验收边界见[V93记录](validation/m5-battle-announcements-20261026-v93.md)。
 
+### 高清战事公告插画
+
+[战事公告图集](../assets/hd-battle-note/notice-atlas-v1.jpg)以原版 `FIGHT_NOTE_ICON` 资源 76 的四幅 84×64 位图为构图参考，由内置图像生成器制作并转为 1430×1100 JPEG。图集从左上到右下依次对应进攻、交战、胜利、战败。桌面和手机横屏读取同一张图集，按当前原版公告类型选取画面。原版文字即时显示，图集加载成功后显示插画。图集缺失或仍在加载时保留文字和城名。
+
+<details>
+<summary>图集生成提示词</summary>
+
+```text
+Image 1 is the original Four Kingdoms-era strategy game battle-notice bitmap atlas and the composition reference to transform.
+Repaint it as one crisp, high-resolution 2-by-2 game illustration atlas in an atmospheric painted historical Chinese Three Kingdoms style, with ink-wash edges, restrained mineral colors, believable late Han clothing and armor, elegant readable silhouettes, and the rich, low-key rendering of a serious strategy game.
+Each of the four tiles is a complete small horizontal vignette, always in this order: top left, two mounted cavalry scouts riding swiftly with the lead rider holding a long banner or pennant, as in the reference; top right, two opposing ranks of cavalry converging from left and right among mist and dust, helmets and spear shafts, with the center still readable; bottom left, an armored soldier lifting the large, flowing ochre military standard in a celebratory victory pose, warm light and clear waving fabric; bottom right, a solitary weary soldier turning away with a drooping, torn banner in desaturated slate-blue dusk, distinct pale silhouette echoing the reference, dignified and quiet.
+Depict only non-graphic historical scenes.
+Keep important subjects fully inside each of the four tiles and readily legible when displayed at roughly 200 pixels wide.
+The four tiles form an exact equal 2-by-2 grid, each tile fills one entire quadrant right up to the central seam at 50% width and 50% height.
+No outer padding, gutters, visible divider, rounded card corners, letters, characters, labels, text, watermarks, borders or interface.
+The game renders its own live text below the art.
+Landscape output suitable for CSS sprite positioning, with a balanced, cohesive dark indigo, subdued bronze and parchment palette.
+```
+
+</details>
+
 
 ## 计算前的策略预告（V94）
 

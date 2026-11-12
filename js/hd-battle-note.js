@@ -66,6 +66,17 @@
             return {generation: value.generation, sha256: value.sha256, byteLength: value.byteLength, status: value.status, source: value};
         }
         function identityKey(value) { return JSON.stringify([value.generation, value.sha256, value.byteLength, value.status]); }
+        function preloadIllustration() {
+            var atlas = node('hd-battle-note-atlas');
+            if (!atlas || atlas.getAttribute('src') !== null || !available() || !effectiveHd()) { return; }
+            var source = atlas.getAttribute('data-src'), api = env.BayeHdLibIdentity;
+            try {
+                if (!source || !api || typeof api.read !== 'function' || typeof api.isCurrent !== 'function' ||
+                    !identity(api, api.read, api.isCurrent)) { return; }
+                atlas.addEventListener('load', refresh, {once: true});
+                atlas.setAttribute('src', source);
+            } catch (error) {}
+        }
         function sample(data, hd, read, order) {
             var value = read.call(hd), note = {}, raw = {};
             if (data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) { return null; }
@@ -172,6 +183,11 @@
             var root = node('hd-battle-note'), text = node('hd-battle-note-text'), body = doc() && doc().body;
             var show = !!(value && root && text), place = show && value.place;
             var caption = node('hd-battle-note-place'), message = show ? value.note.text : '';
+            var art = node('hd-battle-note-art'), atlas = node('hd-battle-note-atlas');
+            if (art) {
+                art.hidden = !(show && value.note.outcome <= 4 && atlas && atlas.complete &&
+                    atlas.naturalWidth === 1430 && atlas.naturalHeight === 1100);
+            }
             if (text && text.textContent !== message) { text.textContent = message; }
             if (caption) {
                 var captionText = place ? PLACE_LABELS[place.kind] + ' · ' + place.cityName : '';
@@ -194,8 +210,12 @@
                 {active: false, presentation: 'off', reason: reason || 'unavailable'};
             return last;
         }
-        function refresh() { return paint(readCurrent(), 'unavailable'); }
+        function refresh() {
+            preloadIllustration();
+            return paint(readCurrent(), 'unavailable');
+        }
         function onEngineNote() {
+            preloadIllustration();
             if (announcedOrder) {
                 try {
                     var data = env.baye && env.baye.data;

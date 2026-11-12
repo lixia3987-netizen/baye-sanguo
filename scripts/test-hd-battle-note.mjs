@@ -22,12 +22,19 @@ const blockers = ['g_hdMenuActive', 'g_hdReportActive', 'g_hdRecordActive', 'g_h
     'g_hdResultOwnerValid', 'g_hdMapPick', 'g_hdBattlePick', 'g_hdFightActive'];
 const field = name => 'g_hdBattleNote' + name[0].toUpperCase() + name.slice(1);
 
-function fixture({mobile = true, mode = 'auto', map = 'hd-map', microtask = true, legacyPromise = false} = {}) {
+function fixture({mobile = true, mode = 'auto', map = 'hd-map', microtask = true, legacyPromise = false, illustration = false} = {}) {
     const listeners = new Map(), windowListeners = new Map(), timers = new Map(), nodes = new Map();
     const state = {mode, map, ready: true, reads: 0, readHook: null, identityHook: null, writes: 0, keys: 0, storageWrites: 0, callbacks: [], microtasks: []};
     let identity = {status: 'ready', generation: 3, sha256: SHA, byteLength: 207195};
     function element() { return {hidden: true, textContent: '', attrs: {}, setAttribute(k, v) { this.attrs[k] = v; }}; }
     for (const id of ['hd-battle-note', 'hd-battle-note-text', 'hd-battle-note-place']) nodes.set(id, element());
+    if (illustration) {
+        nodes.set('hd-battle-note-art', element());
+        const atlas = {...element(), events: new Map(), complete: false, naturalWidth: 0, naturalHeight: 0,
+            getAttribute(k) { return this.attrs[k] ?? null; }, addEventListener(name, fn) { this.events.set(name, fn); }};
+        atlas.setAttribute('data-src', 'assets/hd-battle-note/notice-atlas-v1.jpg');
+        nodes.set('hd-battle-note-atlas', atlas);
+    }
     const body = {...element(), classList: {contains: name => mobile && name === 'hd-mobile-page'}};
     const document = {body, hidden: false, getElementById: id => nodes.get(id),
         addEventListener(name, fn) { const list = listeners.get(name) || []; list.push(fn); listeners.set(name, list); }};
@@ -83,6 +90,38 @@ test('Only the actual active native WinNote text appears; zero is a valid winner
 test('Actual LossNote uses the original text and unknown winner sentinel', () => {
     const f = fixture(); f.set('outcome', 2); f.set('winner', 65535); f.set('text', '我军战败');
     f.raw.g_FgtOver = 1; f.api.init(); f.on(); assert.equal(f.api.debugSnapshot().outcome, 2); f.noSideEffects();
+});
+test('The shared atlas decorates only the four current illustrated native notices', () => {
+    const f = fixture({illustration: true}), root = f.nodes.get('hd-battle-note');
+    const art = f.nodes.get('hd-battle-note-art'), atlas = f.nodes.get('hd-battle-note-atlas');
+    f.api.init(); f.on();
+    assert.equal(atlas.getAttribute('src'), atlas.getAttribute('data-src'));
+    assert.equal(art.hidden, true, 'Original text is available during the image load');
+    Object.assign(atlas, {complete: true, naturalWidth: 1430, naturalHeight: 1100});
+    atlas.events.get('load')(); f.on(); assert.equal(art.hidden, false);
+    for (const [outcome, text] of [[3, '我军进攻许昌'], [4, '曹操与刘备交战'], [1, '我军大获全胜'], [2, '我军战败'], [5, '电脑策略预告']]) {
+        f.set('seq', f.note.seq + 1); f.set('outcome', outcome);
+        f.set('winner', outcome === 1 ? 0 : 65535); f.set('text', text);
+        f.api.onEngineNote(); f.on();
+        assert.equal(root.attrs['data-outcome'], String(outcome));
+        assert.equal(art.hidden, outcome === 5);
+    }
+    f.set('active', 0); f.api.onEngineNote(); f.off(); assert.equal(art.hidden, true);
+    f.noSideEffects();
+});
+test('Classic and unverified libraries skip preloading, and a late image cannot revive a notice', () => {
+    const f = fixture({illustration: true, mode: 'classic'});
+    const art = f.nodes.get('hd-battle-note-art'), atlas = f.nodes.get('hd-battle-note-atlas');
+    f.api.init(); f.off(); assert.equal(atlas.getAttribute('src'), null);
+    const original = f.identity(); f.setIdentity({...original, sha256: 'mod'}); f.state.mode = 'hd';
+    f.api.refresh(); f.off(); assert.equal(atlas.getAttribute('src'), null);
+    f.setIdentity(original); f.api.refresh(); f.on();
+    assert.equal(atlas.getAttribute('src'), atlas.getAttribute('data-src'));
+    Object.assign(atlas, {complete: true, naturalWidth: 715, naturalHeight: 550});
+    f.api.refresh(); f.on(); assert.equal(art.hidden, true, 'An unexpected image preserves the original text');
+    f.set('active', 0); f.api.onEngineNote();
+    Object.assign(atlas, {naturalWidth: 1430, naturalHeight: 1100});
+    atlas.events.get('load')(); f.off(); assert.equal(art.hidden, true); f.noSideEffects();
 });
 for (const {mode, outcome, skip, kind, label} of [
     {mode:1,outcome:1,skip:0,kind:'attack',label:'进攻'},

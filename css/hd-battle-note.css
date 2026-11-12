@@ -21,6 +21,28 @@
     padding: 30px 24px;
     text-align: center;
 }
+#hd-battle-note-art {
+    position: relative;
+    width: min(340px, 100%, 46vh);
+    aspect-ratio: 1430 / 1100;
+    margin: 0 auto 14px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px rgba(191, 161, 106, .45);
+}
+#hd-battle-note-art[hidden] { display: none !important; }
+#hd-battle-note-atlas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    max-width: none;
+    display: block;
+}
+/* Original FIGHT_NOTE_ICON order: attack, clash, victory, defeat. */
+#hd-battle-note:is([data-outcome="4"], [data-outcome="2"]) #hd-battle-note-atlas { left: -100%; }
+#hd-battle-note:is([data-outcome="1"], [data-outcome="2"]) #hd-battle-note-atlas { top: -100%; }
 #hd-battle-note-place {
     margin: 0 0 6px;
     color: #d4b986;
@@ -41,6 +63,7 @@ body[data-hd-battle-note="hd"]:not([data-hd-battle-note-kind="5"]) #lcd { opacit
 .hd-mobile-page #hd-battle-note { position: absolute; padding: 16px; }
 .hd-mobile-page #hd-battle-note .hd-battle-note-panel { max-width: 600px; padding: 20px 16px; }
 .hd-mobile-page #hd-battle-note-text { font-size: clamp(24px, 4vw, 34px); }
+.hd-mobile-page #hd-battle-note-art { width: min(220px, 100%, 49vh); margin-bottom: 8px; }
 /* The native tactic prelude precedes computation. Keep its short-lived text
    in a passive bottom strip without covering the map or hiding its pixels. */
 #hd-battle-note[data-outcome="5"] {
