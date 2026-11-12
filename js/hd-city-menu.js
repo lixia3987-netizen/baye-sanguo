@@ -1250,6 +1250,7 @@
     function retireInteraction(reason) {
         if (reason === 'person-list-pan' && mobileHost && state.open && state.layer === 'deep' &&
             (['person', 'person-qty', 'person-city'].indexOf(state.deepKind) >= 0 ||
+                state.deepKind === 'person-trade' && mobileTrade && mobileTrade.stage === 'person' && !mobileTrade.wait ||
                 state.deepKind === 'person-surrender' && surrenderFlow && !surrenderFlow.pending) &&
             state.deepMenuOwner && state.deepMenuOwner.kind === 3 && !state.nativeMenuRequest && !state.deepSelectionPending &&
             !state.personPagePending && !state.finishPersonsBusy && !state.confirmingTarget && !state.sending && !state.queue.length) {

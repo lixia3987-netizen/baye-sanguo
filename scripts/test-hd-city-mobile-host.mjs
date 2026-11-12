@@ -2107,6 +2107,20 @@ test('trade real mobile host cannot reveal a foreign or incomplete EXCHANGE: '+p
     assert.deepEqual(f.keys,keys);assert.deepEqual(f.writes,[]);
 });
 
+test('mobile trade swipe keeps the current PERSON list and cancels the pressed row',()=>{
+    const f=tradeFixture(),row=f.all('data-hd-deep').at(-1),owner=f.state.deepMenuOwner;
+    assert.ok(row&&owner?.kind===3);f.dom.list.scrollTop=96;f.state.deepPointerOwner={target:row};
+    const native=JSON.stringify(f.raw),keys=f.keys.slice();
+    f.api.retireInteraction('person-list-pan');
+    assert.equal(f.state.deepMenuOwner,owner);assert.equal(f.state.deepPointerOwner,null);
+    f.internals.fill();
+    assert.equal(f.all('data-hd-deep').at(-1),row);assert.equal(f.dom.list.scrollTop,96);
+    assert.equal(JSON.stringify(f.raw),native);assert.deepEqual(f.keys,keys);
+    f.choosePerson(2);
+    assert.equal(f.api.getTradePresentation().personId,20);assert.equal(f.api.getTradePresentation().stage,'exchange');
+    assert.deepEqual(f.keys,[39,35,35,39]);assert.deepEqual(f.writes,[]);
+});
+
 test('trade original PERSON Enter publishes only the dedicated actual EXCHANGE list',()=>{
     const f=tradeFixture();assert.equal(f.state.deepKind,'person-trade');assert.equal(f.state.deepStep,0);
     f.choosePerson(2);const p=f.api.getTradePresentation(),t=f.api.getInputTicket();
