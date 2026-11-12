@@ -2,6 +2,8 @@
 import assert from 'node:assert/strict';
 import {verifyMobileBattleHelp,verifyMobileBattleView,verifyMobileBattleViewTransition,verifyMobileBattleOverviewWorld,terrainFromNativeTile} from './hd-mobile-battle-overviews-runtime-oracle.mjs';
 
+const terrainLabels = ['草地', '平原', '山地', '森林', '村庄', '城池', '营寨', '河流'];
+
 export async function runMobileBattleOverviewChecks(c){
   const {report,evaluate,until,delay,checkpoint,tap,touches,metrics,worldSource,originalLibBytes,native,ready,tileTap}=c;
   assert.ok(worldSource&&originalLibBytes&&native&&ready&&tileTap,'real bootstrap and opaque native reader are supplied');
@@ -72,6 +74,30 @@ export async function runMobileBattleOverviewChecks(c){
     assert.equal(d.faction,s.view.factionText);assert.equal(d.food,s.view.foodText);assert.equal(Number(d.known),s.view.foodKnown);
     assert.deepEqual(d.rows,s.view.rows.map(r=>({...r,arms:'兵 '+r.arms})));assert.equal(d.points.length,s.view.points.length);
     d.points.forEach((p,i)=>{const n=s.view.points[i];for(const k of ['slot','personIndex','x','y'])assert.equal(p[k],n[k]);assert.ok(Math.abs(p.left-(n.x+.5)/s.view.width*100)<1e-8);assert.ok(Math.abs(p.top-(n.y+.5)/s.view.height*100)<1e-8);assert.equal(p.player,n.slot<10);assert.equal(p.page,s.view.rows.some(r=>r.slot===n.slot&&r.personIndex===n.personIndex));});
+    const terrain = await evaluate(`(() => {
+      const canvas = document.querySelector('.hd-situation-terrain');
+      const legend = document.querySelector('.hd-situation-terrain-legend');
+      if (!canvas || canvas.hidden || !legend || legend.hidden) return null;
+      const {width,height} = canvas;
+      const pixels = Array.from(canvas.getContext('2d').getImageData(0,0,width,height).data);
+      const palette = Object.fromEntries(Array.from(legend.children, item => [
+        item.textContent, item.firstElementChild.style.backgroundColor.match(/\\d+/g).map(Number)
+      ]));
+      return {width,height,pixels,palette};
+    })()`);
+    assert.ok(terrain, 'VIEW uses the verified original terrain layer');
+    assert.deepEqual([terrain.width, terrain.height], [s.view.width, s.view.height]);
+    assert.equal(terrain.pixels.length, s.map.length * 4);
+    const used = new Set();
+    s.map.forEach((tile, i) => {
+      const label = terrainLabels[terrainFromNativeTile(tile)] ?? '未知地形';
+      used.add(label);
+      const color = terrain.palette[label];
+      assert.equal(color?.length, 3, 'terrain legend for ' + label);
+      assert.deepEqual(terrain.pixels.slice(i * 4, i * 4 + 4), [...color, 255], 'native terrain tile ' + i);
+    });
+    assert.deepEqual(new Set(Object.keys(terrain.palette)), used);
+    d.terrain = {width: terrain.width, height: terrain.height, tilesChecked: s.map.length, palette: terrain.palette};
     for(let i=0;i<s.view.rows.length;i++)await reveal(`#hd-dialog-body .hd-situation-row:nth-child(${i+1})`,'VIEW actual roster row '+i);
     await reveal('#hd-dialog-body .hd-situation-map','VIEW actual dot map');
     for(const key of [34,35,36,37])await reveal(`#hd-dialog [data-hd-view-key="${key}"]`,'VIEW navigation '+key,{control:true});
@@ -125,7 +151,7 @@ export async function runMobileBattleOverviewChecks(c){
   assert.ok(report.trustedEvents.some(e=>e.trusted&&e.type==='pointerdown'));assert.equal(report.exceptions.length,0);
   report.battleOverviewsAccepted=true;report.battleAccepted=true;report.accepted=true;report.ok=true;
   report.acceptedScope=['Original mobile landscape HELP: two measured native persons, nine displayed fields and ten-field publication, plus actual empty terrain',
-    'VIEW: both native sides, all current pages and boundary ACKs, concealed enemy grain, full current native point list',
+    'VIEW: both native sides, all current pages and boundary ACKs, concealed enemy grain, full current native point list and terrain pixels',
     'Trusted HD buttons, actual scroll gestures, >=44px controls, cancel/two-pointer/held portrait retirement and classic-HD restoration, zero native LCD touches',
     'All recorded strategic fields and all twenty battle slots unchanged; own source/cleanup evidence belongs to safe caller'];
   report.pendingScope=['Physical Android/iOS devices, performance, full native ABI and full HD','Battle outcomes, effects or month settlement','Other HELP/VIEW configurations, maps or campaigns'];

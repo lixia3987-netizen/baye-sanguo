@@ -417,9 +417,10 @@ html[data-baye-battle="hd"][data-baye-battle-input="help"][data-baye-dialog="hd"
 }
 
 .hd-situation-map {
+    --hd-situation-map-size: 320px;
     position: relative;
-    width: min(100%, 320px);
-    max-height: 320px;
+    box-sizing: border-box;
+    width: min(100%, var(--hd-situation-map-size));
     overflow: hidden;
     margin: 12px auto;
     border: 1px solid #566174;
@@ -429,6 +430,44 @@ html[data-baye-battle="hd"][data-baye-battle-input="help"][data-baye-dialog="hd"
         linear-gradient(90deg, rgba(129, 154, 173, 0.10) 1px, transparent 1px);
     background-size: 12.5% 12.5%;
     box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.28);
+}
+
+.hd-situation-terrain {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    pointer-events: none;
+}
+
+.hd-situation-terrain-legend {
+    margin: 6px 0 0;
+    padding: 0;
+    color: #b9c9d9;
+    font-size: 12px;
+    list-style: none;
+}
+
+.hd-situation-terrain-legend:not([hidden]) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px 8px;
+}
+
+.hd-situation-terrain-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.hd-situation-terrain-swatch {
+    width: 9px;
+    height: 9px;
+    border: 1px solid #8792a0;
+    border-radius: 2px;
 }
 
 .hd-situation-dot {

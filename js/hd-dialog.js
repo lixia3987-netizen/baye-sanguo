@@ -1105,6 +1105,39 @@
         description.textContent = state.body; card.appendChild(description); body.appendChild(card);
     }
 
+    function renderViewTerrain(layer, detail) {
+        var terrain = global.BayeHdBattleTerrain, game = global.baye;
+        var data = game && game.data, lib = global.dynLib;
+        var trust = data && terrain && typeof terrain.paintOverview === 'function' && game.hd &&
+            typeof game.hd.battleMapTiles === 'function' && terrain.verifyLib(lib, game.hooks);
+        if (trust && trust.verified && layer.data === data && layer.generation === trust.generation) { return; }
+        if (layer.data) {
+            layer.data = null;
+            layer.canvas.hidden = layer.legend.hidden = true;
+        }
+        if (!trust || !trust.verified) { return; }
+
+        var map = game.hd.battleMapTiles();
+        if (!map || map.width !== detail.width || map.height !== detail.height ||
+            !sameHelp(detail.owner, readBattleHelp()) || global.baye !== game || game.data !== data || global.dynLib !== lib) { return; }
+        var entries = terrain.paintOverview(layer.canvas, map);
+        if (!entries) { return; }
+        layer.legend.textContent = '';
+        entries.forEach(function (entry) {
+            var item = document.createElement('li');
+            var swatch = document.createElement('span');
+            swatch.className = 'hd-situation-terrain-swatch';
+            swatch.style.backgroundColor = entry.color;
+            var label = document.createElement('span');
+            label.textContent = entry.label;
+            item.appendChild(swatch); item.appendChild(label);
+            layer.legend.appendChild(item);
+        });
+        layer.data = data;
+        layer.generation = trust.generation;
+        layer.canvas.hidden = layer.legend.hidden = false;
+    }
+
     function renderViewDetail(body, detail) {
         var token = viewToken(detail.owner), key = JSON.stringify([token, detail]);
         if (body._hdSituationView !== key) {
@@ -1154,11 +1187,16 @@
             var map = document.createElement('div');
             map.className = 'hd-situation-map';
             map.style.aspectRatio = detail.width + ' / ' + detail.height;
-            map.style.width = 'min(100%, ' + Math.min(320, 320 * detail.width / detail.height) + 'px)';
+            map.style.maxWidth = 'calc(var(--hd-situation-map-size) * ' + (detail.width / detail.height) + ')';
             map.setAttribute('data-hd-view-width', String(detail.width));
             map.setAttribute('data-hd-view-height', String(detail.height));
             map.setAttribute('role', 'img');
             map.setAttribute('aria-label', detail.positionsText + ' ' + detail.width + '×' + detail.height);
+            var terrainCanvas = document.createElement('canvas');
+            terrainCanvas.className = 'hd-situation-terrain';
+            terrainCanvas.hidden = true;
+            terrainCanvas.setAttribute('aria-hidden', 'true');
+            map.appendChild(terrainCanvas);
             detail.points.forEach(function (point) {
                 var dot = document.createElement('span');
                 var row = detail.rows.filter(function (item) { return item.slot === point.slot && item.personIndex === point.personIndex; })[0];
@@ -1175,7 +1213,14 @@
             var legend = document.createElement('p');
             legend.className = 'hd-situation-map-legend';
             legend.textContent = '蓝：我方 · 红：敌方 · 金圈：当前页将领';
-            positions.appendChild(legend); layout.appendChild(positions); body.appendChild(layout);
+            positions.appendChild(legend);
+            var terrainLegend = document.createElement('ul');
+            terrainLegend.className = 'hd-situation-terrain-legend';
+            terrainLegend.hidden = true;
+            terrainLegend.setAttribute('aria-label', '地形图例');
+            positions.appendChild(terrainLegend);
+            body._hdSituationTerrain = { canvas: terrainCanvas, legend: terrainLegend, data: null, generation: 0 };
+            layout.appendChild(positions); body.appendChild(layout);
             var actions = document.createElement('div');
             actions.className = 'hd-situation-actions';
             [[VK.LEFT, '切换军团 ←'], [VK.RIGHT, '切换军团 →'], [VK.UP, '上一页 ↑'], [VK.DOWN, '下一页 ↓']]
@@ -1187,6 +1232,7 @@
                 });
             body.appendChild(actions);
         }
+        renderViewTerrain(body._hdSituationTerrain, detail);
         var buttons = body.querySelectorAll && body.querySelectorAll('[data-hd-view-key]');
         if (buttons) { for (var i = 0; i < buttons.length; i += 1) { buttons[i].disabled = sameView(state.viewCommit, detail.owner); } }
     }

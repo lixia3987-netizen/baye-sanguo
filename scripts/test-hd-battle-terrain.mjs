@@ -72,6 +72,27 @@ function snapshot(overrides = {}) {
 const board = { ox: 80, oy: 72, cw: 120, ch: 100, cols: 3, rows: 2, viewOx: 2, viewOy: 3, dpr: 1 };
 const plain = value => JSON.parse(JSON.stringify(value));
 
+test('the situation map paints one pixel per native tile and labels the terrain present', () => {
+    const { api } = harness();
+    const tiles = [1, 2, 6, 5, 4, 3, 41, 16, 0, 1, 2, 5];
+    let output;
+    const canvas = { getContext: () => ({
+        createImageData: (width, height) => ({ data: new Uint8ClampedArray(width * height * 4) }),
+        putImageData(pixels, x, y) { assert.equal(x, 0); assert.equal(y, 0); output = pixels.data; }
+    }) };
+    assert.equal(api.paintOverview(canvas, { width: 4, height: 3, tiles: tiles.slice(1) }), null);
+    assert.equal(output, undefined);
+    const legend = plain(api.paintOverview(canvas, { width: 4, height: 3, tiles }));
+    assert.deepEqual([canvas.width, canvas.height], [4, 3]);
+    assert.deepEqual(legend.map(entry => entry.label), [...labels, '未知地形']);
+    const palette = new Map(legend.map(entry => [entry.label, entry.color.match(/\d+/g).map(Number)]));
+    tiles.forEach((tile, index) => {
+        const color = palette.get(tile ? labels[nativeTerrain(tile)] : '未知地形');
+        assert.deepEqual(Array.from(output.slice(index * 4, index * 4 + 4)), [...color, 255]);
+    });
+    assert.deepEqual(plain(api.paintOverview(canvas, { width: 1, height: 1, tiles: [3] })).map(entry => entry.label), ['城池']);
+});
+
 test('all native byte tiles agree with the actual C classifier and eight terrain meanings', () => {
     const { api } = harness(), seen = new Set();
     for (let raw = 0; raw <= 255; raw++) {

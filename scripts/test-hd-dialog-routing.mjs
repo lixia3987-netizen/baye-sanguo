@@ -750,7 +750,7 @@ test('VIEW renders only the captured native page with slot zero, U16 identities 
         [['0', '0', '同名兵 0'], ['1', '600', '同名兵 65535']]);
     assert.deepEqual(rows.map(row => row.getAttribute('aria-label')), ['同名 0', '同名 65535']);
     assert.equal(body.querySelectorAll('.hd-situation-page')[0].textContent, '将领 1–2 / 3');
-    const map = body.querySelectorAll('.hd-situation-map')[0], points = map.children;
+    const map = body.querySelectorAll('.hd-situation-map')[0], points = map.querySelectorAll('.hd-situation-dot');
     assert.equal(map.style.aspectRatio, '8 / 6');
     assert.deepEqual(points.map(point => [point.style.left, point.style.top]),
         [['6.25%', '8.333333333333332%'], ['93.75%', '91.66666666666666%'], ['43.75%', '41.66666666666667%']]);
@@ -763,6 +763,48 @@ test('VIEW renders only the captured native page with slot zero, U16 identities 
     h.context.BayeHdDialog.poll(); h.context.BayeHdDialog.onEngineView();
     assert.equal(JSON.stringify(h.view), observed); assert.equal(nameReads, 0);
     assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});
+
+test('VIEW terrain reuses a verified map and falls back in place when its source changes', () => {
+    const h = harness(), d = h.context.BayeHdDialog;
+    const body = h.nodes['hd-dialog-body'];
+    let reads = 0, paints = 0, verified = true, generation = 1;
+    detailedView(h);
+    h.context.BayeHdBattleTerrain = {
+        verifyLib: () => ({ verified, generation }),
+        paintOverview: () => { paints++; return [{ label: '河流', color: '#336b7c' }]; }
+    };
+    let map = { width: 8, height: 6, tiles: Array(48).fill(16) };
+    h.context.baye.hd.battleMapTiles = () => { reads++; return map; };
+    d.poll(); d.poll();
+    const canvas = body.querySelectorAll('.hd-situation-terrain')[0];
+    const legend = body.querySelectorAll('.hd-situation-terrain-legend')[0];
+    const action = viewButton(h, 35);
+    assert.equal(canvas.hidden, false);
+    assert.equal(legend.hidden, false);
+    assert.equal(legend.textContent, '河流');
+    assert.equal(reads, 1);
+    assert.equal(paints, 1);
+
+    verified = false;
+    d.poll();
+    assert.equal(canvas.hidden, true);
+    assert.equal(legend.hidden, true);
+    assert.equal(body.querySelectorAll('.hd-situation-dot').length, 3);
+    assert.equal(viewButton(h, 35), action);
+    assert.equal(reads, 1);
+
+    verified = true; generation++;
+    map = { ...map, width: 9 };
+    d.poll();
+    assert.equal(canvas.hidden, true);
+    assert.equal(paints, 1);
+    map = { ...map, width: 8 };
+    d.poll();
+    assert.equal(canvas.hidden, false);
+    assert.equal(paints, 2);
+    assert.deepEqual(h.sent, []);
+    assert.deepEqual(h.writes, []);
 });
 
 test('VIEW sends one guarded arrow then waits for the native page ACK without local page prediction', () => {

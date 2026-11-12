@@ -9,6 +9,8 @@
     var KINDS = ['grass', 'plain', 'hill', 'forest', 'village', 'city', 'tent', 'river'];
     var LABELS = ['草地', '平原', '山地', '森林', '村庄', '城池', '营寨', '河流'];
     var COLORS = ['#354c3e', '#515443', '#53564e', '#29443b', '#5b5346', '#53525a', '#524d3c', '#2c505c'];
+    var OVERVIEW_COLORS = [[96, 123, 85], [133, 130, 89], [106, 99, 103], [49, 77, 65],
+        [162, 120, 82], [160, 166, 170], [138, 121, 146], [51, 107, 124], [25, 34, 43]];
 
     function integer(value) { return typeof value === 'number' && isFinite(value) && value === Math.floor(value); }
     function category(index, raw) {
@@ -25,10 +27,9 @@
         if (raw > 2) { return category(5, raw); }
         return category(raw > 1 ? 0 : 1, raw);
     }
-    function dimensionsValid(snapshot) {
-        return !!(snapshot && integer(snapshot.width) && snapshot.width > 0 && snapshot.width <= 255 &&
-            integer(snapshot.height) && snapshot.height > 0 && snapshot.height <= 255 &&
-            snapshot.stride === snapshot.width);
+    function mapDimensionsValid(map) {
+        return !!(map && integer(map.width) && map.width > 0 && map.width <= 255 &&
+            integer(map.height) && map.height > 0 && map.height <= 255);
     }
     function createVerifier(options) {
         var source, identity = global.BayeHdLibIdentity;
@@ -59,7 +60,8 @@
         return { check: check };
     }
     function inspect(snapshot, x, y) {
-        var raw = null, inBounds = dimensionsValid(snapshot) && integer(x) && integer(y) &&
+        var raw = null, inBounds = mapDimensionsValid(snapshot) && snapshot.stride === snapshot.width &&
+            integer(x) && integer(y) &&
             x >= 0 && y >= 0 && x < snapshot.width && y < snapshot.height;
         if (inBounds && snapshot.tiles) {
             var offset = y * snapshot.stride + x;
@@ -69,6 +71,28 @@
             snapshot.libPath === SUPPORTED_LIB ? classifyTile(raw) : category(null, raw);
         result.x = x; result.y = y;
         return result;
+    }
+    function paintOverview(canvas, map) {
+        if (!mapDimensionsValid(map) || !map.tiles || map.tiles.length !== map.width * map.height ||
+            !canvas || typeof canvas.getContext !== 'function') { return null; }
+        var ctx = canvas.getContext('2d');
+        if (!ctx) { return null; }
+        canvas.width = map.width;
+        canvas.height = map.height;
+        var pixels = ctx.createImageData(map.width, map.height), used = [];
+        for (var i = 0; i < map.tiles.length; i += 1) {
+            var index = classifyTile(map.tiles[i]).index;
+            if (index == null) { index = KINDS.length; }
+            var color = OVERVIEW_COLORS[index], offset = i * 4;
+            pixels.data.set(color, offset);
+            pixels.data[offset + 3] = 255;
+            used[index] = true;
+        }
+        ctx.putImageData(pixels, 0, 0);
+        return OVERVIEW_COLORS.reduce(function (legend, color, index) {
+            if (used[index]) { legend.push({ label: LABELS[index] || '未知地形', color: 'rgb(' + color.join(', ') + ')' }); }
+            return legend;
+        }, []);
     }
     function path(ctx, points, fill, stroke, width) {
         ctx.beginPath();
@@ -220,6 +244,6 @@
     global.BayeHdBattleTerrain = {
         classifyTile: classifyTile, inspect: inspect, createPainter: createPainter,
         createVerifier: createVerifier, verifyLib: verifier.check,
-        paint: painter.paint, clear: painter.clear
+        paint: painter.paint, clear: painter.clear, paintOverview: paintOverview
     };
 })(window);
