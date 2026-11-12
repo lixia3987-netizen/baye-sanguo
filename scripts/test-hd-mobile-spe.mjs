@@ -298,6 +298,18 @@ export function runMobileSpeChecks(register=test){
  register('mobile classic mode uses only the independent host preference',()=>{const h=hdFixture();h.setMode('classic');assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.isOpen(),false);assert.equal(h.api.useClassic(),false);h.noInput();});
  register('mobile native report retires SPE and does not consume its first key',()=>{const h=hdFixture();h.setReport(1);assert.equal(h.api.isOpen(),false);assert.equal(h.api.getLcdPresentation(),'off');assert.equal((h.listeners.get('keydown')||[]).length,0);h.noInput();});
  register('mobile native retirement prevents late asset completion from reviving its movie',()=>{const h=fixture();h.flush();h.retireNative();h.resolve();assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.isOpen(),false);h.noInput();});
+ register('mobile idle SPE polling reads a battle ticket only for the first arena prewarm',()=>{
+  const h=fixture(undefined,{entries:[]});h.retireNative();
+  let reads=0,active=0;
+  h.c.baye.hd.fight=()=>({active});
+  h.api.configureMobileHost({isAvailable:()=>true,getMode:()=> 'hd',readTicket(){reads++;return {
+   data:h.c.baye.data,key:'original-battle',libraryGeneration:7};}});
+  h.api.setManifest({...manifest,entries:[]});h.api.blit();
+  assert.equal(reads,0,'The strategy map has no effect or arena owner to check');
+  active=1;h.api.blit();assert.equal(reads,2,'The first prewarm samples its original owner twice');
+  h.api.blit();h.api.blit();assert.equal(reads,2,'An already warmed idle battle has no effect owner to check');
+  assert.equal(h.api.getLcdPresentation(),'off');h.noInput();
+ });
  register('mobile ordinary attack and map status without certified assets fall back to physical LCD',()=>{for(const kind of [3,4]){const h=fixture();h.setKind(kind);h.flush();h.resolve();assert.equal(h.api.getLcdPresentation(),'lcd');assert.equal(h.api.isOpen(),false);h.noInput();}});
  register('mobile opening upgrade and departure own display before the first battle input',()=>{
   for(const reason of [1,2]){const {h}=openingStatusFixture(reason);h.flush();assert.equal(h.api.getLcdPresentation(),'lcd');

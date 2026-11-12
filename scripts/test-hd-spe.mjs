@@ -696,10 +696,41 @@ test('status rejects altered slot semantics, range/reason, missing white cuts or
 });
 test('status idle prewarm resolves both exact ranges into seven shared slots without any native input or frame work', async () => {
     const first = statusFixture(), second = statusFixture(2), h = harness({ spe: { active: 0 }, data: { g_scale: 1 }, fightActive: true });
-    h.context.dynLib = first.lib.toString('hex'); h.api.setManifest({ ...first.m, entries: [first.entry, second.entry] }); h.api.start();
-    for (let i = 0; i < 30 && h.images.length < 7; i++) await settle(); assert.equal(h.images.length, 7);
+    const currentManifest = { ...first.m, entries: [first.entry, second.entry] };
+    let entryReads = 0;
+    Object.defineProperty(first.entry, 'statusVersion', { enumerable: true, get() { entryReads++; return 1; } });
+    h.context.dynLib = first.lib.toString('hex'); h.api.setManifest(currentManifest); h.api.start();
+    await waitForIdentity(h); assert.equal(h.images.length, 7);
+    const warmedReads = entryReads;
+    for (let i = 0; i < 5; i++) h.api.blit();
+    assert.ok(warmedReads > 0);
+    assert.equal(entryReads, warmedReads, 'Idle polling does not revalidate the already warmed manifest');
     h.events.length = 0; h.images.forEach((_, i) => h.resolveImage(i)); assert.deepEqual(h.hdDraws(), []); assert.equal(h.api.isOpen(), false);
+    assert.equal(entryReads, warmedReads, 'Passive image completion does not repeat prewarming');
     h.setSpe(second.s); h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.equal(h.images.length, 7);
+
+    h.setSpe({ active: 0 }); h.api.blit();
+    h.api.setManifest(currentManifest);
+    assert.equal(h.images.length, 14, 'Replacing the manifest authorizes a new prewarm');
+    h.context.dynLib = '00'; h.api.blit(); await waitForIdentity(h);
+    assert.equal(h.images.length, 14, 'An unrelated library cannot warm original resources');
+    h.context.dynLib = first.lib.toString('hex'); h.api.blit(); await waitForIdentity(h);
+    assert.equal(h.images.length, 21, 'Restoring the original library uses its new cache generation');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+test('a current status frame repaints when its prewarmed assets finish', async () => {
+    const { lib, m, s } = statusFixture(), h = harness({ spe: { active: 0 }, data: { g_scale: 1 }, fightActive: true });
+    h.context.dynLib = lib.toString('hex'); h.api.setManifest(m); h.api.start();
+    await waitForIdentity(h); assert.equal(h.images.length, 5);
+    h.setSpe(s); h.flush();
+    assert.equal(h.api.debugSnapshot().fallbackReason, 'assets-loading');
+    h.nativeReads.length = 0;
+    for (let i = 0; i < 4; i++) h.resolveImage(i);
+    assert.equal(h.nativeReads.includes('hd.spe'), false, 'Partial assets do not re-read the active frame');
+    assert.deepEqual(h.hdDraws(), []);
+    h.resolveImage(4);
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    assert.equal(h.hdDraws().length, 1);
     assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
 });
 function attackFixture() {

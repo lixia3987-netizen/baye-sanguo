@@ -2,7 +2,7 @@
 (function (global) {
     var W = 160, H = 96, state = { open: false, bound: false, poll: 0, event: '', epoch: 0, skipped: '', scratch: null, hasFlush: false,
         flushW: 0, flushH: 0, flushKey: '', renderKey: '', canvasW: 0, canvasH: 0, scale: 1, source: 'lcd', reason: '', frames: [],
-        manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, cache: [], imageCache: {}, preparing: false, preparation: null,
+        manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, cache: [], imageCache: {}, arenaPrewarmed: false, preparing: false, preparation: null,
         libGeneration: 0, libHash: null, libReason: 'lib-unavailable', returned: '', pressed: null,
         callbackFlushKey: '', aiBase: null, aiRegion: null, opaqueRegion: null, projectedScene: null, projectionFallbackReason: '' };
     var battleSceneApi = null, battleSceneController = null;
@@ -325,6 +325,12 @@
         state.flushData = introFlush.data;
         state.flushKey = state.callbackFlushKey = introFlush.stamp;
     }
+    function resetAssetCache() {
+        state.assets = null;
+        state.cache = [];
+        state.imageCache = {};
+        state.arenaPrewarmed = false;
+    }
     function verifyLib() {
         var identity = global.BayeHdLibIdentity;
         var current;
@@ -338,12 +344,15 @@
             state.libGeneration = current.generation;
             state.libHash = hash;
             state.libReason = current.reason;
-            state.assets = null;
-            state.cache = [];
-            state.imageCache = {};
+            resetAssetCache();
         }
     }
-    function setManifest(value) { state.manifestGeneration++; state.assets = null; state.cache = []; state.imageCache = {}; state.manifest = value && value.schemaVersion === 1 && /^[\da-f]{64}$/i.test(value.libSha256 || '') && Array.isArray(value.entries) ? value : null; sync(); }
+    function setManifest(value) {
+        state.manifestGeneration++;
+        resetAssetCache();
+        state.manifest = value && value.schemaVersion === 1 && /^[\da-f]{64}$/i.test(value.libSha256 || '') && Array.isArray(value.entries) ? value : null;
+        sync();
+    }
     function requestManifest() {
         if (state.manifestRequested || typeof global.fetch !== 'function')
             return;
@@ -507,14 +516,14 @@
             image.src = pic.src;
         } catch (error) { finish('failed'); }
     }
-    function load(e) {
+    function load(e, preload) {
         var signature;
         try { signature = JSON.stringify(e); } catch (error) { return { entry: e, status: 'failed', images: {} }; }
         for (var cached = 0; cached < state.cache.length; cached++) {
             var candidate = state.cache[cached];
             if (candidate.signature === signature && candidate.manifestGeneration === state.manifestGeneration &&
                 candidate.libGeneration === state.libGeneration && candidate.libHash === state.libHash) {
-                state.assets = candidate;
+                if (!preload) state.assets = candidate;
                 return candidate;
             }
         }
@@ -523,7 +532,7 @@
         if (e.background) pictures.push({ key: 'background', picture: e.background });
         var record = { entry: e, signature: signature, status: 'loading', images: {}, pending: pictures.length,
             manifestGeneration: state.manifestGeneration, libGeneration: state.libGeneration, libHash: state.libHash };
-        state.assets = record;
+        if (!preload) state.assets = record;
         state.cache.push(record);
         // Images belong to authenticated resource metadata, not a playback
         // event. Completion only repaints the current native display stamp.
@@ -532,15 +541,20 @@
             return state.cache.indexOf(record) !== -1 && record.manifestGeneration === state.manifestGeneration &&
                 record.libGeneration === state.libGeneration && record.libHash === state.libHash;
         }
+        var bindingSlots = true;
         pictures.forEach(function (slot) {
             sharedImage(slot.picture, function (image) {
                 if (!current()) return;
+                var previous = record.status;
                 if (image.status === 'ready') { record.images[slot.key] = image.image; record.pending--; }
                 else record.status = 'failed';
                 if (!record.pending && record.status !== 'failed') record.status = 'ready';
-                sync();
+                // The caller sees synchronously cached slots on return. Only
+                // a later change to the selected resource can repaint a frame.
+                if (!bindingSlots && previous !== record.status && state.assets === record) sync();
             });
         });
+        bindingSlots = false;
         return record;
     }
     function prepareStart(callback, options) {
@@ -605,24 +619,24 @@
         return { width: integer(w) && w > 0 ? w : W, height: integer(h) && h > 0 ? h : H, axScale: data.g_scale };
     }
     function warmMaker() {
-        var m = state.manifest, selected = state.assets;
+        var m = state.manifest;
         if (!m || state.libHash !== m.libSha256 || !hd(1)) return;
         for (var i = 0; i < m.entries.length; i++) {
             var entry = m.entries[i];
-            if (entry && entry.speId === 6 && entry.resourceIndex === 0 && entry.kind === 1 && valid(entry)) load(entry);
+            if (entry && entry.speId === 6 && entry.resourceIndex === 0 && entry.kind === 1 && valid(entry)) load(entry, true);
         }
-        state.assets = selected;
     }
     function warmArena() {
-        if (state.preparing || !state.manifest || state.libHash !== state.manifest.libSha256 || !hd(3)) return;
+        if (state.arenaPrewarmed || state.preparing || !state.manifest || state.libHash !== state.manifest.libSha256) return;
         try {
             if (!(global.baye && baye.hd && baye.hd.ready() && typeof baye.hd.fight === 'function' && baye.hd.fight().active)) return;
         } catch (error) { return; }
-        var selected = state.assets;
+        if (!hd(3)) return;
+        var cache = state.cache;
+        state.arenaPrewarmed = true;
         state.manifest.entries.forEach(function (entry) {
-            if (entry && (entry.kind === 3 && entry.compositionVersion === 1 || entry.kind === 2 && (entry.skillResultVersion === 1 || entry.liuyanVersion === 1 || entry.zhoufengVersion === 1 || entry.dingshenVersion === 1 || entry.qimenVersion === 1 || entry.stoneVersion === 1) || entry.kind === 4 && (entry.aiTargetVersion === 2 || entry.statusVersion === 1)) && valid(entry)) load(entry);
+            if (state.cache === cache && entry && (entry.kind === 3 && entry.compositionVersion === 1 || entry.kind === 2 && (entry.skillResultVersion === 1 || entry.liuyanVersion === 1 || entry.zhoufengVersion === 1 || entry.dingshenVersion === 1 || entry.qimenVersion === 1 || entry.stoneVersion === 1) || entry.kind === 4 && (entry.aiTargetVersion === 2 || entry.statusVersion === 1)) && valid(entry)) load(entry, true);
         });
-        state.assets = selected;
     }
     function sameSource(expected, observed) {
         return !!(validSource(expected) && observed && observed.valid === true &&
@@ -1667,7 +1681,7 @@
     function sync(noPaint) {
         var s = info(), k = kind(s);
         if (mobileHost) {
-            var owner = readMobileOwner(k === 1 || (s.maker && s.maker.active));
+            var owner = s.active ? readMobileOwner(k === 1 || (s.maker && s.maker.active)) : null;
             if (mobileData && (!owner || owner.data !== mobileData || owner.generation !== mobileGeneration)) retireInteraction('mobile-owner-changed');
             mobileData = owner && owner.data; mobileGeneration = owner ? owner.generation : 0;
             if (introFlush && (introFlush.id === 3 ? !s.active || s.id !== 3 || s.eventId !== introFlush.eventId ||

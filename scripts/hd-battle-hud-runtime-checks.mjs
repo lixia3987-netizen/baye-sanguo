@@ -52,6 +52,14 @@ export async function measureIdleBattleBoard(evaluate, send, canvasId) {
                 const original=context.clearRect,startedAt=performance.now(),frames=[],paints=[];
                 const viewport={width:innerWidth,height:innerHeight,dpr:devicePixelRatio};
                 const reads={}, restores=[];
+                const stringify=JSON.stringify;
+                let speEntrySerializations=0;
+                JSON.stringify=function(value){
+                    if(value&&typeof value==='object'&&Object.hasOwn(value,'speId')&&
+                        Object.hasOwn(value,'pictures')&&Object.hasOwn(value,'units'))speEntrySerializations++;
+                    return stringify.apply(this,arguments);
+                };
+                restores.push(()=>{JSON.stringify=stringify;});
                 for(const [owner,name] of [[baye.hd,'fight'],[baye.hd,'menuItems'],[baye.hd,'realm'],
                     [baye.hd,'report'],[baye,'getPersonName'],[baye,'getArmType']]){
                     const originalRead=owner[name];
@@ -69,7 +77,7 @@ export async function measureIdleBattleBoard(evaluate, send, canvasId) {
                     if(time-startedAt<1500){requestAnimationFrame(frame);return;}
                     context.clearRect=original;
                     restores.forEach(restore=>restore());
-                    resolve({viewport,startedAt,endedAt:performance.now(),frames,paints,reads});
+                    resolve({viewport,startedAt,endedAt:performance.now(),frames,paints,reads,speEntrySerializations});
                 }
                 requestAnimationFrame(frame);
             });

@@ -206,6 +206,9 @@ export async function runMobileBattleChecks(c) {
     return runMobileBattleOverviewChecks({...c,native,capture,ready,tileTap,tilePoint,menu,physicalKey,lcdCenter,unchanged,initial});
   }
   if(report.battleSceneOnly){
+    report.idleBattleBoard=await measureIdleBattleBoard(evaluate,sendCdp,'hd-mobile-battle-canvas');
+    assert.equal(report.idleBattleBoard.paints.frames,0,'Idle mobile HD battle retains the painted canvas');
+    await unchanged(initial,'Measure the idle battle before playing real effects');
     const {runMobileBattleSceneChecks}=await import('./hd-mobile-battle-scene-runtime-checks.mjs');
     return runMobileBattleSceneChecks({...c,native,ready,menu,tileTap,initial});
   }
