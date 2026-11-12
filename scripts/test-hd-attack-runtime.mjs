@@ -11,6 +11,8 @@
  *   --target-arm0 aliases --target-arm 0 for cavalry defender intervals.
  *   --max-turns N sets the private acceptance budget (default4, native game unchanged).
  *   --guiyang starts a fresh P3 韩玄 game and marches from 长沙33 to 桂阳36.
+ *   --luoyang starts a fresh P1 董卓 game from 洛阳15 with 吕布 available.
+ *   --ye starts a fresh P1 韩馥 game from 邺11 against 吕布's army in 洛阳15.
  *   --destination N requests an actual non-owned native neighbor of the route's origin.
  *   The default P1 马腾 route starts at 天水8 and targets 河内9.
  *   the current native Fang Yue ID is a preference, never a fixed battle slot.
@@ -31,10 +33,16 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const allowLcd = process.argv.includes('--allow-lcd');
 const recruit = process.argv.includes('--recruit');
-const guiyang = process.argv.includes('--guiyang');
-const route = guiyang
-    ? {period:3,king:'韩玄',origin:33,originName:'长沙',destination:36,preferredActor:14}
-    : {period:1,king:'马腾',origin:8,originName:'天水',destination:9};
+const alternateRoutes = {
+    '--guiyang': {period:3, king:'韩玄', origin:33, originName:'长沙', destination:36, preferredActor:14, preferredTargets:{3:'陈应'}},
+    '--luoyang': {period:1, king:'董卓', origin:15, originName:'洛阳', destination:16, preferredActor:20},
+    '--ye': {period:1, king:'韩馥', origin:11, originName:'邺', destination:15, preferredTargets:{4:'吕布'}}
+};
+const routeFlags = Object.keys(alternateRoutes).filter(flag => process.argv.includes(flag));
+assert.ok(routeFlags.length <= 1, 'Choose at most one original campaign route');
+const route = alternateRoutes[routeFlags[0]] ?? {
+    period:1, king:'马腾', origin:8, originName:'天水', destination:9, preferredTargets:{0:'方悦'}
+};
 const recruitArmsFlag=process.argv.indexOf('--recruit-arms');
 const recruitArmsText=recruitArmsFlag<0?'800':process.argv[recruitArmsFlag+1];
 assert.ok(/^\d+$/.test(recruitArmsText||''),'--recruit-arms must be a positive native U16 quantity');
@@ -284,7 +292,7 @@ function recordTargetPreference(snapshot) {
     const candidates=snapshot.units.filter(u=>livingEnemy(u)&&requestedDefenderArm(u));
     // Formation and terrain may change before this unit is in actual AIM range.
     // The name only identifies a preferred defender for planning movement.
-    const preferredName=guiyang?(targetArm===3?'陈应':null):(targetArm===0?'方悦':null);
+    const preferredName=route.preferredTargets?.[targetArm]??null;
     const preferred=candidates.filter(u=>u.name===preferredName);
     report.targetPreference={requestedArm:targetArm,preferredName,
         preferredNativeGenId:preferred.length===1?preferred[0].id:null,
@@ -954,7 +962,7 @@ async function marchSmoke(cdp) {
         let index=0;
         if(recruit) {
             assert.equal(before.menu.idsValid,true,'March picker has authoritative native person IDs');
-            if(guiyang&&i===0)index=before.menu.ids.indexOf(report.recruitment.actor.personIndex);
+            if(routeFlags.length&&i===0)index=before.menu.ids.indexOf(report.recruitment.actor.personIndex);
             assert.ok(index>=0,'The equipped actor remains in the actual march picker');
             const id=before.menu.ids[index];
             assert.equal(before.city.deepItems.find(item=>item.i===index)?.pind,id,'HD row and native march identity agree');
