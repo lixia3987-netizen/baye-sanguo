@@ -561,20 +561,20 @@ async function battleSmoke(cdp) {
         assert.ok(after.food.player<before.food.player,'The original next bout consumes player grain');
         await recordBattleHudAtDesktopSizes(cdp,'battle-next-day');
         try {
-            if(!await evaluate(cdp,'!!window.__battleTerrainArt.tent')) {
-                const native=report.nativeTerrain, focus=await evaluate(cdp,'({x:baye.data.g_FoucsX,y:baye.data.g_FoucsY})');
-                const camps=native.tiles.flatMap((tile,index)=>tile===41?[{x:index%native.w,y:Math.floor(index/native.w)}]:[]);
-                const distance=camp=>Math.abs(camp.x-focus.x)+Math.abs(camp.y-focus.y);
-                camps.sort((a,b)=>distance(a)-distance(b));
-                assert.ok(camps[0],'original battlefield includes an encampment');
-                const previous=await evaluate(cdp,battleStateExpression);
-                const camp=camps[0];
-                await focusBattleTarget(cdp,camp,'29-native-camp-illustration',1);
-                assert.deepEqual(await evaluate(cdp,battleStateExpression),
-                    {...previous,fight:{...previous.fight,focusX:camp.x,focusY:camp.y}},'terrain browsing changes only the original cursor');
-            }
+            const native=report.nativeTerrain, previous=await evaluate(cdp,battleStateExpression);
+            const occupied=new Set(previous.units.filter(unit=>unit.state!==8).map(unit=>unit.x+','+unit.y));
+            const camps=native.tiles.flatMap((tile,index)=>tile===41?[{x:index%native.w,y:Math.floor(index/native.w),index:6}]:[])
+                .filter(camp=>!occupied.has(camp.x+','+camp.y));
+            const distance=camp=>Math.abs(camp.x-previous.fight.focusX)+Math.abs(camp.y-previous.fight.focusY);
+            camps.sort((a,b)=>distance(a)-distance(b));
+            const camp=camps[0];
+            assert.ok(camp,'original battlefield includes an empty encampment');
+            await focusBattleTarget(cdp,camp,'29-native-camp-illustration',1);
+            assert.deepEqual(await evaluate(cdp,battleStateExpression),
+                {...previous,fight:{...previous.fight,focusX:camp.x,focusY:camp.y}},'terrain browsing changes only the original cursor');
             report.terrainIllustrations=await waitFor(cdp,'all eight original terrain categories draw their artwork',
                 'Object.keys(window.__battleTerrainArt).length === 8 && window.__battleTerrainArt');
+            await verifyTerrainHelpArt(cdp,camp,'29-native-camp-help-1080p');
         } finally { await evaluate(cdp,'window.__stopBattleArt()'); }
         return;
     }
@@ -1096,6 +1096,61 @@ async function verifyBattleLegendLayout(cdp, label) {
     return layout;
 }
 
+async function verifyTerrainHelpArt(cdp,cell,label,compareClassic=false) {
+    const before=await evaluate(cdp,battleStateExpression);
+    await evaluate(cdp,`(() => {
+        const proto=CanvasRenderingContext2D.prototype,draw=proto.drawImage;
+        window.__terrainHelpDraws=[];
+        proto.drawImage=function(image,...rect) {
+            const result=draw.apply(this,arguments);
+            if (this.canvas.classList?.contains('hd-terrain-help-art') && image instanceof HTMLImageElement) {
+                __terrainHelpDraws.push({source:image.src.split('/').pop(),crop:rect.slice(0,4)});
+            }
+            return result;
+        };
+        window.__stopTerrainHelpDraws=()=>{proto.drawImage=draw;};
+    })()`);
+    let preview;
+    try {
+        await openBattleInspection(cdp,'help',9,0x26);
+        preview=await waitFor(cdp,'native terrain help draws the current cell',`(() => {
+            const help=baye.hd.help(),canvas=document.querySelector('#hd-dialog .hd-terrain-help-art');
+            if (help.active!==1 || help.complete!==1 || help.kind!==2 || !canvas?.checkVisibility() || !__terrainHelpDraws.length) return null;
+            const rect=canvas.getBoundingClientRect(), description=document.querySelector('.hd-terrain-help-description').textContent;
+            return {help,description,draws:__terrainHelpDraws,rect:{left:rect.left,top:rect.top,right:rect.right,bottom:rect.bottom,width:rect.width},
+                viewport:{width:innerWidth,height:innerHeight}};
+        })()`);
+        assert.deepEqual({x:preview.help.x,y:preview.help.y,terrain:preview.help.terrain},{x:cell.x,y:cell.y,terrain:cell.index});
+        assert.equal(preview.description,preview.help.text.replace(/\|/g,'\n'));
+        const atlas='terrain-atlas-v1.png';
+        const source=[atlas,atlas,'mountain-cluster-v1.png','forest-cluster-v1.png',atlas,'fortified-city-v1.png',atlas,atlas][cell.index];
+        assert.equal(preview.draws.at(-1).source,source);
+        assert.ok(preview.rect.width>=128&&preview.rect.left>=0&&preview.rect.top>=0&&
+            preview.rect.right<=preview.viewport.width&&preview.rect.bottom<=preview.viewport.height);
+        assert.equal(await evaluate(cdp,'document.querySelector("#hd-battle-help-portrait-slot").checkVisibility()'),false);
+        await checkpoint(cdp,label);
+        if(compareClassic) {
+            const keys=await evaluate(cdp,'window.__battleKeys.length');
+            await click(cdp,'#hd-dialog [data-hd-dlg-lcd]');
+            const lcd=await observeNativeLcd(cdp);
+            assert.ok(lcd.visible&&lcd.bitmap?.differentPixels>0);
+            assert.equal(await evaluate(cdp,'document.querySelector(".hd-terrain-help-art").checkVisibility()'),true);
+            await checkpoint(cdp,label+'-classic');
+            await click(cdp,'#hd-dialog [data-hd-dlg-lcd]');
+            assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys);
+            assert.deepEqual(await evaluate(cdp,'baye.hd.help()'),preview.help);
+        }
+        assert.deepEqual(await evaluate(cdp,'window.__terrainHelpDraws'),preview.draws,'the idle terrain card keeps its pixels');
+    } finally { await evaluate(cdp,'window.__stopTerrainHelpDraws()'); }
+    (report.terrainHelpPreviews ||= []).push({label,...preview});
+    await click(cdp,'#hd-dialog [data-hd-dlg-ok]');
+    await waitBattle(cdp,1,'return from terrain help');
+    await verifyHelpRetired(cdp,'terrain HELP return',preview.help);
+    const after=await evaluate(cdp,battleStateExpression);
+    assert.deepEqual(after.units,before.units,'terrain help preserves all native units');
+    assert.deepEqual({x:after.fight.focusX,y:after.fight.focusY},{x:cell.x,y:cell.y});
+}
+
 async function terrainSmoke(cdp, before) {
     // Read the real full map and occupied-cell C getter, never the scrolling cache.
     const native = await evaluate(cdp, `(() => {
@@ -1145,25 +1200,13 @@ async function terrainSmoke(cdp, before) {
     const stable=await evaluate(cdp,battleStateExpression),keys=await evaluate(cdp,'window.__battleKeys.length');
     await cdp.send('Emulation.setDeviceMetricsOverride',{width:1280,height:720,deviceScaleFactor:1,mobile:false});
     await waitFor(cdp,'720p resized canvas','innerWidth===1280&&innerHeight===720&&Math.abs(document.querySelector("#hd-battle-canvas").getBoundingClientRect().width-1280)<1');
-    await inspect('720p focused terrain');
+    const compact=await inspect('720p focused terrain');
     await checkWaitingRoster(cdp,stable.units,'PICK at 720p');
     await checkpoint(cdp,'15-terrain-empty-720p');
     assert.deepEqual(await evaluate(cdp,battleStateExpression),stable,'viewport changes cannot mutate native battle');
     assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys,'terrain repaint/resize sends no engine input');
-    await openBattleInspection(cdp,'help',9,0x26);
-    const terrainHelp=await waitFor(cdp,'native help for the empty terrain cell',`(() => {
-        const help=baye.hd.help(),card=document.querySelector('#hd-dialog .hd-terrain-help-card');
-        return help.active===1&&help.complete===1&&help.kind===2&&card?.checkVisibility()&&help;
-    })()`);
-    assert.deepEqual({x:terrainHelp.x,y:terrainHelp.y},{x:empty.x,y:empty.y});
-    assert.equal(await evaluate(cdp,'document.querySelector("#hd-battle-help-portrait-slot").checkVisibility()'),false);
-    await checkpoint(cdp,'15-terrain-help-from-footer-720p');
-    await click(cdp,'#hd-dialog [data-hd-dlg-ok]');
-    await waitBattle(cdp,1,'return from terrain help');
-    await verifyHelpRetired(cdp,'terrain HELP return',terrainHelp);
+    await verifyTerrainHelpArt(cdp,compact.focusTerrain,'15-terrain-help-from-footer-720p',true);
     const afterHelp=await evaluate(cdp,battleStateExpression),afterHelpKeys=await evaluate(cdp,'window.__battleKeys.length');
-    assert.deepEqual(afterHelp.units,stable.units,'terrain help preserves all native units');
-    assert.deepEqual({x:afterHelp.fight.focusX,y:afterHelp.fight.focusY},{x:empty.x,y:empty.y});
     await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
     await waitFor(cdp,'1080p restored canvas','innerWidth===1920&&innerHeight===1080&&Math.abs(document.querySelector("#hd-battle-canvas").getBoundingClientRect().width-1920)<1');
     assert.deepEqual(await evaluate(cdp,battleStateExpression),afterHelp,'restoring the desktop size preserves native battle');

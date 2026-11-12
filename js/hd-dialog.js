@@ -1084,9 +1084,43 @@
         if (mobileBattleHost) { renderBattlePortrait(body); }
     }
 
+    function updateTerrainHelpArt(view, detail) {
+        if (!view) { return; }
+        var terrain = global.BayeHdBattleTerrain, game = global.baye, data = game && game.data;
+        var lib = global.dynLib, owner = state.helpOwner, show = false;
+        if (data && terrain && typeof terrain.paintHelpTile === 'function' &&
+            game.hd && typeof game.hd.battleMapTiles === 'function') {
+            try {
+                var trust = terrain.verifyLib(lib, game.hooks);
+                if (trust.verified && data.g_hdDetailGeneration === detail.generation && data.g_hdHelpSeq === detail.seq) {
+                    // HELP holds the native map while it waits for the player's return.
+                    if (!view.map || view.data !== data || view.lib !== lib || view.generation !== trust.generation) {
+                        var map = game.hd.battleMapTiles();
+                        view.map = map && {source:'full', mode:'hd', verified:true, width:map.width,
+                            height:map.height, stride:map.width, tiles:map.tiles, libPath:trust.libPath};
+                        view.data = data;
+                        view.lib = lib;
+                        view.generation = trust.generation;
+                    }
+                    show = !!view.map && terrain.paintHelpTile(view.canvas, view.map, detail.x, detail.y, detail.terrain) &&
+                        sameHelp(owner, readBattleHelp()) &&
+                        state.helpDetail === detail && global.baye === game && game.data === data && global.dynLib === lib &&
+                        data.g_hdDetailGeneration === detail.generation && data.g_hdHelpSeq === detail.seq;
+                } else {
+                    view.map = null;
+                }
+            } catch (e) { view.map = null; }
+        }
+        if (view.canvas.hidden === show) { view.canvas.hidden = !show; }
+        if (view.symbol.hidden !== show) { view.symbol.hidden = show; }
+    }
+
     function renderTerrainHelp(body, detail) {
         var key = JSON.stringify([state.viewEpoch,detail,state.body]), first = body.children && body.children[0];
-        if (body._hdTerrainView === key && first && first.getAttribute('data-hd-help-terrain') === String(detail.terrain)) { return; }
+        if (body._hdTerrainView === key && first && first.getAttribute('data-hd-help-terrain') === String(detail.terrain)) {
+            updateTerrainHelpArt(first._hdTerrainArt, detail);
+            return;
+        }
         body._hdTerrainView = key; body.textContent = '';
         var names = ['草地','平原','山地','森林','村庄','城池','营寨','河流'];
         var symbols = ['草','田','山','林','村','城','营','水'];
@@ -1096,6 +1130,17 @@
         var header = document.createElement('div'); header.className = 'hd-terrain-help-header';
         var symbol = document.createElement('span'); symbol.className = 'hd-terrain-help-symbol';
         symbol.setAttribute('aria-hidden','true'); symbol.textContent = symbols[detail.terrain]; header.appendChild(symbol);
+        var root = el('hd-dialog');
+        if (root && root.getAttribute('data-hd-terrain-art') != null) {
+            var canvas = document.createElement('canvas');
+            canvas.className = 'hd-terrain-help-art';
+            canvas.width = canvas.height = 448;
+            canvas.hidden = true;
+            canvas.setAttribute('aria-hidden', 'true');
+            canvas.addEventListener('contextrestored', function () { canvas._hdTerrainHelpPaint = null; });
+            card.appendChild(canvas);
+            card._hdTerrainArt = {canvas:canvas, symbol:symbol};
+        }
         var identity = document.createElement('div');
         var name = document.createElement('h2'); name.className = 'hd-help-name'; name.textContent = names[detail.terrain];
         var position = document.createElement('p'); position.className = 'hd-help-summary';
@@ -1103,6 +1148,7 @@
         identity.appendChild(name); identity.appendChild(position); header.appendChild(identity); card.appendChild(header);
         var description = document.createElement('p'); description.className = 'hd-terrain-help-description';
         description.textContent = state.body; card.appendChild(description); body.appendChild(card);
+        updateTerrainHelpArt(card._hdTerrainArt, detail);
     }
 
     function renderViewTerrain(layer, detail) {

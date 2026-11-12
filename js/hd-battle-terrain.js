@@ -264,6 +264,19 @@
             }
         }
     }
+    function paintHelpTile(canvas, snapshot, x, y, expectedTerrain) {
+        if (!canvas || !canvas.width || !canvas.height || typeof canvas.getContext !== 'function') { return false; }
+        var cell = inspect(snapshot, x, y), art = ILLUSTRATIONS[cell.kind];
+        if (!art || cell.index !== expectedTerrain || !desktopIllustrationVersion(snapshot) ||
+            !illustrationImages[art.source]) { return false; }
+        var key = [x, y, cell.raw, illustrationVersion, canvas.width, canvas.height].join('|');
+        if (canvas._hdTerrainHelpPaint === key) { return true; }
+        var ctx = canvas.getContext('2d');
+        if (!ctx) { return false; }
+        drawCell(ctx, 0, 0, canvas.width, canvas.height, cell, illustrationImages);
+        canvas._hdTerrainHelpPaint = key;
+        return true;
+    }
     function createPainter(options) {
         var cached = null;
         function clear() { cached = null; }
@@ -308,6 +321,6 @@
         classifyTile: classifyTile, inspect: inspect, createPainter: createPainter,
         createVerifier: createVerifier, verifyLib: verifier.check,
         desktopIllustrationVersion: desktopIllustrationVersion,
-        paint: painter.paint, clear: painter.clear, paintOverview: paintOverview
+        paint: painter.paint, clear: painter.clear, paintOverview: paintOverview, paintHelpTile: paintHelpTile
     };
 })(window);

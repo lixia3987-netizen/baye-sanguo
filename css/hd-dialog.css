@@ -92,6 +92,39 @@ html[data-baye-dialog-pass="1"] .hd-dialog.is-open .hd-dialog-stage {
 .hd-terrain-help-description { margin: 18px 0 0; padding: 14px 16px; border: 1px solid #f0d99f24;
     border-radius: 10px; background: #ffffff09; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.7; }
 
+.hd-terrain-help-card:has(> .hd-terrain-help-art:not([hidden])) {
+    display: grid;
+    grid-template-columns: minmax(0, min(32%, 224px)) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    gap: 12px 20px;
+}
+
+.hd-terrain-help-art {
+    display: block;
+    grid-row: span 2;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    border: 1px solid #b3a46c;
+    border-radius: 12px;
+}
+
+.hd-terrain-help-art[hidden],
+.hd-terrain-help-symbol[hidden] { display: none; }
+
+.hd-terrain-help-card:has(> .hd-terrain-help-art:not([hidden])) .hd-terrain-help-description {
+    align-self: start;
+    margin: 0;
+}
+
+@media (max-width: 560px) {
+    .hd-terrain-help-card:has(> .hd-terrain-help-art:not([hidden])) {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto;
+    }
+    .hd-terrain-help-art { grid-row: auto; max-width: 180px; }
+}
+
 .hd-help-fields {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

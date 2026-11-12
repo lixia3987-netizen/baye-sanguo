@@ -400,6 +400,50 @@ test('desktop art refreshes the cached native cells when it loads and falls back
     assert.deepEqual(h.nativeWrites, []);
 });
 
+test('desktop terrain help enlarges every native category with the same artwork as the board', () => {
+    const h = harness(), images = new Map();
+    h.context.Image = class { set src(path) { images.set(path.split('/').at(-1), this); } };
+    const tiles = [2, 1, 6, 5, 4, 3, 41, 16, 16];
+    const map = snapshot({width:tiles.length, height:1, stride:tiles.length, tiles});
+    const canvas = {width:448, height:448, getContext:() => h.ctx};
+    const preview = (x, kind, snap = map) => h.api.paintHelpTile(canvas, snap, x, 0, kind);
+    assert.equal(preview(3, 3), false, 'a pending image keeps the help glyph');
+    assert.equal(images.size, 4);
+    const atlas = 'terrain-atlas-v1.png', city = 'fortified-city-v1.png';
+    for (const [file, image] of images) {
+        if (file === city) continue;
+        Object.assign(image, {naturalWidth:file === atlas ? 1536 : 1254, naturalHeight:file === atlas ? 1024 : 1254});
+        image.onload();
+    }
+    assert.equal(preview(5, 5), false, 'other decoded images cannot replace a missing city');
+    Object.assign(images.get(city), {naturalWidth:1254, naturalHeight:1254});
+    images.get(city).onload();
+    const expected = [
+        [atlas, [2,2,508,508]], [atlas, [514,2,508,508]], ['mountain-cluster-v1.png', [24,390,1205,476]],
+        ['forest-cluster-v1.png', [33,257,1199,728]], [atlas, [2,514,508,508]], [city, [123,376,1016,618]],
+        [atlas, [514,514,508,508]], [atlas, [1026,514,508,508]], [atlas, [1026,2,508,508]]
+    ];
+    for (const [x, [file, crop]] of expected.entries()) {
+        const kind = Math.min(x, 7);
+        const first = h.composites.length;
+        assert.equal(preview(x, kind), true);
+        const last = h.composites.slice(first).filter(call => call.operation === 'drawImage').at(-1);
+        assert.equal(last.args[0], images.get(file));
+        assert.deepEqual(last.args.slice(1,5), crop);
+        const painted = h.composites.length;
+        assert.equal(preview(x, kind), true);
+        assert.equal(h.composites.length, painted, 'the same open card retains its pixels');
+    }
+    const painted = h.composites.length;
+    assert.equal(preview(3, 2), false, 'published HELP and actual map must agree');
+    assert.equal(preview(3, 3, {...map, verified:false}), false);
+    assert.equal(preview(9, 7), false);
+    h.document.hidden = true;
+    assert.equal(preview(3, 3), false);
+    assert.equal(h.composites.length, painted);
+    assert.deepEqual(h.nativeWrites, []);
+});
+
 test('missing offscreen canvas still draws neutral fallback without touching native state', () => {
     const h = harness({ offscreen: false }), s = snapshot({ source: 'unknown', verified: false });
     const before = JSON.stringify(s); h.painter.paint(h.ctx, board, s);

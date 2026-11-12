@@ -600,6 +600,41 @@ test('terrain HELP card presents all eight native classes and boundary coordinat
     }
 });
 
+test('desktop terrain help reveals late artwork in place and retires it with its native source', () => {
+    const h = harness(), dialog = h.context.BayeHdDialog;
+    h.nodes['hd-dialog'].setAttribute('data-hd-terrain-art', '');
+    h.data.g_hdDetailGeneration = 7; h.data.g_hdHelpSeq = 3;
+    const tiles = Array(64).fill(2);
+    const lib = 'current-dictionary';
+    h.context.dynLib = lib;
+    let ready = false, copies = 0;
+    terrainHelp(h);
+    h.context.baye.hd.battleMapTiles = () => { copies++; return {width:8, height:8, tiles}; };
+    h.context.BayeHdBattleTerrain = {
+        verifyLib: hex => ({verified:hex === lib, libPath:'libs/dat-mod.lib', generation:1}),
+        paintHelpTile(canvas, map, x, y, kind) {
+            assert.equal(canvas.className, 'hd-terrain-help-art');
+            assert.deepEqual([x,y,kind,map.tiles[y * map.stride + x]], [3,4,0,2]);
+            return ready;
+        }
+    };
+    const card = terrainCard(h), art = card.querySelectorAll('.hd-terrain-help-art')[0];
+    const symbol = card.querySelectorAll('.hd-terrain-help-symbol')[0];
+    dialog.poll();
+    assert.equal(art.hidden, true); assert.ok(!symbol.hidden);
+    ready = true; dialog.poll(); dialog.poll();
+    assert.equal(terrainCard(h), card);
+    assert.equal(art.hidden, false); assert.equal(symbol.hidden, true);
+    assert.equal(copies, 1, 'loading artwork does not repeat the map copy');
+    h.context.dynLib = 'different-library'; dialog.poll();
+    assert.equal(art.hidden, true); assert.equal(symbol.hidden, false);
+    h.context.dynLib = lib; h.data.g_hdHelpSeq++; dialog.poll();
+    assert.equal(art.hidden, true);
+    assert.equal(copies, 1, 'an obsolete HELP publication cannot reopen artwork');
+    assert.equal(card.querySelectorAll('.hd-terrain-help-description')[0].textContent, '原生地形说明\n第二行');
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});
+
 test('terrain HELP card retires on native fallback and unit changes and rebuilds its current description after replacement', () => {
     const h = harness(), d = h.context.BayeHdDialog, body = h.nodes['hd-dialog-body'];
     terrainHelp(h); const initial = terrainCard(h), epoch = h.snapshot().viewEpoch;
