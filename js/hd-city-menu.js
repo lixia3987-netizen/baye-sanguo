@@ -1496,7 +1496,7 @@
         sawGetFoodUi: false,
         foodConfirmedThisMarch: false,
         reportAtMarchStart: '',
-        enlistmentMap: null,
+        militaryPersonMap: null,
         qtyDismissed: false,
         qtyDismissedAt: 0,
         step4Trace: [],
@@ -7798,7 +7798,7 @@
         state.open = true;
         state.layer = 'root';
         state.subKind = '';
-        state.enlistmentMap = null;
+        state.militaryPersonMap = null;
         state.showLcd = false;
         invalidateQtyWork();
         state.qtyInputClosed = false;
@@ -7835,7 +7835,7 @@
             invalidateMarchWork();
             invalidateQtyWork();
             state.open = false;
-            state.enlistmentMap = null;
+            state.militaryPersonMap = null;
             state.queue = [];
             state.sending = false;
             state.qtyCommitQueued = false;
@@ -7870,7 +7870,7 @@
         mobileDiplomacy = null;
         state.open = false;
         state.layer = 'root';
-        state.enlistmentMap = null;
+        state.militaryPersonMap = null;
         state.queue = [];
         state.sending = false;
         state.qtyCommitQueued = false;
@@ -8003,14 +8003,16 @@
         } catch (e) { return false; }
     }
 
-    function retireEnlistmentOnMap() {
-        if (!state.open || state.layer !== 'deep' || state.deepKind !== 'person-qty' ||
-            !state.enlistmentMap || !retiredCityMapOwner(state.enlistmentMap)) {
+    function retireMilitaryPersonOnMap() {
+        if (!state.open || !state.militaryPersonMap || !retiredCityMapOwner(state.militaryPersonMap)) {
             return false;
         }
-        // Native conscription can end on its own after consuming all city money.
+        // Conscription can run out of money. Back from either military picker
+        // can also reach the map after willCloseMenu has changed the HD layer.
         closeMenu({ silent: true });
-        return !state.open;
+        if (state.open) { return false; }
+        state.closingSub = false;
+        return true;
     }
 
     function canReturnAfterMarch() {
@@ -8747,8 +8749,9 @@
         }
         var names = preferEngineNames(SUBS[state.subKind] || []);
         var kind = deepKindFor(state.subKind, index);
-        var d = kind === 'person-qty' && window.baye && baye.data;
-        var enlistmentMap = d ? {data: d, generation: detailNumber(d.g_hdDetailGeneration, 4294967295),
+        var militaryPerson = state.subKind === 'junbei' && (kind === 'person-qty' || names[index] === '分配');
+        var d = militaryPerson && window.baye && baye.data;
+        var militaryPersonMap = d ? {data: d, generation: detailNumber(d.g_hdDetailGeneration, 4294967295),
             inputSeq: detailNumber(d.g_hdMapInputSeq, 4294967295)} : null;
         var willMarch = kind === 'person-city' || names[index] === '出征';
         if (willMarch) {
@@ -8805,7 +8808,7 @@
             } else if (!pickIndex(index, true)) { return; }
         }
         state.deepKind = surrenderEntry ? 'person-surrender' : kind;
-        state.enlistmentMap = enlistmentMap;
+        state.militaryPersonMap = militaryPersonMap;
         if (mobileHost && mobileTrade) { state.deepKind = 'person-trade'; }
         if (equipmentParent && equipmentParent.command === 'largess') { state.deepKind = 'goods-person'; }
         state.deepLabel = names[index] || '';
@@ -9656,7 +9659,7 @@
             return;
         }
         state.lastHook = name;
-        if (name === 'didShowMainMap' && retireEnlistmentOnMap()) { return; }
+        if (name === 'didShowMainMap' && retireMilitaryPersonOnMap()) { return; }
         if (ctx && typeof ctx === 'object') {
             var keys = listProps(ctx);
             if (keys.length) {
@@ -10088,7 +10091,7 @@
             if (global.BayeHdSpe && typeof BayeHdSpe.isOpen === 'function' && BayeHdSpe.isOpen()) {
                 return;
             }
-            if (!state.open || !shouldShowHd()) {
+            if (!state.open || !shouldShowHd() || retireMilitaryPersonOnMap()) {
                 return;
             }
             if (pcTransferPhase() === 6) {
@@ -10519,7 +10522,7 @@
                 if (!mobileHost && state.layer === 'sub' && SUBS[state.subKind]) { fillSubList(state.subKind); }
                 if (retireEquipmentMap()) { return; }
                 if (syncMobileTrade() && !state.open) { return; }
-                if (retireEnlistmentOnMap()) { return; }
+                if (retireMilitaryPersonOnMap()) { return; }
                 // A person-picker cancellation can return directly to GetCitySet
                 // without willCloseMenu. Retire only after the player's Back ACK.
                 if (state.closingSub && retiredCityMapOwner()) {

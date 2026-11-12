@@ -411,7 +411,10 @@ export async function runEliteAttackPreparation(ctx, marchCity, discovery) {
     const controls = rewardControls(ctx);
     const {cityIndex, envoyId, personId} = discovery;
     const book = {id:17, name:'鬼谷子'};
-    const run = report.elitePreparation = {discovery, marchCity, diplomacyMonths:[], searchMonths:[], defenses:[], accepted:false};
+    const guards = [{personId:31,targetArms:1900},{personId:32,targetArms:1800}];
+    const guardIds = guards.map(guard => guard.personId);
+    const run = report.elitePreparation = {discovery, marchCity, diplomacyMonths:[], searchMonths:[],
+        garrison:[], defenses:[], accepted:false};
     let stock = await world();
     if (report.eliteResume?.stage === 'ready') {
         assert.ok(cityResidents(stock, marchCity).includes(personId));
@@ -470,6 +473,10 @@ export async function runEliteAttackPreparation(ctx, marchCity, discovery) {
 
     const alreadyEquipped = [stock.people[envoyId].Tool1, stock.people[envoyId].Tool2].includes(book.id + 1);
     for (let month = 0; month < 84 && stock.people[personId].Belong !== owner; month++) {
+        assert.equal(stock.cities[marchCity].Belong, owner, 'Original campaign must still hold 徐州');
+        assert.equal(stock.cities[cityIndex].Belong, owner, 'Original campaign must still hold 下邳');
+        assert.ok(stock.people[envoyId].Belong === owner && cityResidents(stock, cityIndex).includes(envoyId),
+            '蔡中 must remain an allied resident of 下邳');
         if (!alreadyEquipped && !run.book && cityInventory(stock, cityIndex).includes(0x8000 | book.id)) {
             await reopenInterior('Give 蔡中 the discovered original book', cityIndex);
             const {menu:sub} = await chooseCityItem('赏赐', 'data-hd-sub', 2);
@@ -481,6 +488,21 @@ export async function runEliteAttackPreparation(ctx, marchCity, discovery) {
             await waitPlayerMap('Original map after awarding 鬼谷子');
             run.bookSave = await save('elite-envoy-equipped', 1);
             await checkpoint('elite-envoy-equipped');
+            stock = await world();
+        }
+        const homeResident = id => stock.people[id].Belong === owner && cityResidents(stock, marchCity).includes(id);
+        const nextGuard = guards.find(({personId:id,targetArms}) => homeResident(id) && stock.people[id].Arms < targetArms);
+        const reinforcement = nextGuard && await ctx.fortify(marchCity, nextGuard, guardIds, month + 1);
+        if (reinforcement) {
+            run.garrison.push({year:stock.year,month:stock.month,...reinforcement});
+            stock = await world();
+        }
+        // Slot 1 is available when the equipped envoy was restored into slot 0.
+        if (!run.garrisonSave && alreadyEquipped && report.eliteResume?.stage !== 'garrison' &&
+            guards.every(({personId:id,targetArms}) => homeResident(id) && stock.people[id].Arms >= targetArms)) {
+            run.garrisonSave = {...await save('elite-home-garrison', 1),
+                guards:guardIds.map(id => ({personId:id,arms:stock.people[id].Arms}))};
+            await checkpoint('elite-home-garrison-saved');
         }
         const search = stock.people[envoyId].Thew >= 8
             ? await searchOriginalCity(preparation, controls, cityIndex, (residents, limit) => {
@@ -490,6 +512,11 @@ export async function runEliteAttackPreparation(ctx, marchCity, discovery) {
             : {...await settleOriginalMonth(preparation, controls, stock), orders:[]};
         const {after, orders, reports} = search;
         stock = after;
+        for (const {recruiter} of reinforcement?.enlistments ?? []) {
+            const id = recruiter.personIndex;
+            assert.ok(!stock.orders.some(o => o.OrderId === 24 && o.City === marchCity && o.Person === id));
+            assert.ok(homeResident(id), 'Original enlistment settles and returns its recruiter to 徐州');
+        }
         const sample = {year:stock.year, month:stock.month, orders, reports, person:stock.people[personId]};
         run.searchMonths.push(sample);
         if ((month + 1) % 12 === 0) await checkpoint('elite-search-month-' + (month + 1));

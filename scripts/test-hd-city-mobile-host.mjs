@@ -93,7 +93,7 @@ function fixture({storageThrows = false, marchState = false, sourceText = source
         tick(ms=10000){const end=clock+ms;let steps=0;while(scheduled.size){const [id,t]=[...scheduled].sort((a,b)=>a[1].at-b[1].at)[0];
             if(t.at>end)break;assert.ok(++steps<2000,'bounded native acknowledgement wait');scheduled.delete(id);clock=t.at;t.fn();}clock=end;},
         setMenuHook(value){menuHook=value;},emit(type){for(const fn of (events[type]||[]))fn({type});},
-        emitDocument(type){for(const fn of (docEvents[type]||[]))fn({type});}};
+        emitDocument(type,event={type}){for(const fn of (docEvents[type]||[]))fn(event);}};
 }
 
 test('mobile CITY ticket binds full native publication, data reference and identity',()=>{
@@ -562,14 +562,14 @@ test('enlistment pane retires silently when the next original map owner is ready
         g_hdBattlePick:0,g_hdMarchPhase:0,g_hdMarchSession:0,g_hdMarchInputSeq:1,g_hdMenuActive:0,
         g_hdQtyActive:0,g_hdReportActive:0,g_hdHelpActive:0,g_hdFightActive:0,g_asyncActionID:0};
     const baye = {data}, closes = [];
-    const state = {open:true,layer:'deep',deepKind:'person-qty',enlistmentMap:{data,generation:2,inputSeq:4},
+    const state = {open:true,closingSub:true,militaryPersonMap:{data,generation:2,inputSeq:4},
         queue:[],sending:false,handoff:false,confirmingTarget:false,nativeMenuRequest:null};
     const context = {window:{baye},baye,global:{},state,MARCH:{IDLE:0,DEPARTED:7},
         detailNumber(n,max){return Number.isInteger(n)&&n>=0&&n<=max?n:null;},
         closeMenu(opts){closes.push(opts.silent);state.open=false;}};
     isolatedCityFunction('nextDistributionSeq',context);
     isolatedCityFunction('retiredCityMapOwner',context);
-    const retire = isolatedCityFunction('retireEnlistmentOnMap',context);
+    const retire = isolatedCityFunction('retireMilitaryPersonOnMap',context);
     assert.equal(retire(),false,'A leftover pick flag is from the old map wait');
     data.g_hdMapInputSeq=5;
     for (const field of ['g_hdMenuActive','g_hdQtyActive','g_hdReportActive']) {
@@ -585,6 +585,7 @@ test('enlistment pane retires silently when the next original map owner is ready
     delete context.global.BayeHdDialog;
     data.g_hdMapInputSeq=5;
     assert.equal(retire(),true);
+    assert.equal(state.closingSub,false);
     assert.deepEqual(closes,[true]);
     assert.equal(retire(),false);
 });
@@ -1147,8 +1148,11 @@ test('fixed-summary layout is mobile-scoped with a real button scroller and 44px
     assert.match(buttons,/min-height:\s*44px/);assert.match(buttons,/min-width:\s*44px/);
 });
 
-function distributionFixture({command='分配',personId=0,capacity=2000,deferQuantity=false}={}) {
-    const f=fixture({marchState:true});f.configure();f.state=f.internals.state;
+function distributionFixture({command='分配',personId=0,capacity=2000,deferQuantity=false,mobile=true}={}) {
+    const f=fixture({marchState:true});
+    if (mobile) f.configure();
+    else f.api.setMode('hd');
+    f.state=f.internals.state;
     f.raw.g_PlayerKing=0;
     f.raw.g_Cities=Array.from({length:38},()=>({Belong:1,MothballArms:1958,Persons:2,PersonQueue:0}));
     f.raw.g_Persons=Array.from({length:capacity},()=>({Belong:1,Arms:100}));
@@ -1192,6 +1196,34 @@ test('distribution description follows actual original command/person Enters int
     assert.equal(p.session,21);assert.equal(p.value,1800);assert.equal(p.max,1800);
     assert.equal(p.data,f.env.baye.data);assert.equal(Object.keys(p).includes('data'),false);
     assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+});
+test('PC distribution releases Escape to the new native map before the next poll', () => {
+    const f = distributionFixture({mobile:false});
+    f.raw.g_asyncActionID = 0;
+    marchDom(f,{rooted:true});
+    f.env.bayeInputIgnored = event => event.defaultPrevented;
+    f.env.bayeConsumeKeyEvent = event => { event.defaultPrevented = true; };
+    f.internals.bind();
+    Object.assign(f.state,{layer:'sub',deepKind:'',deepLabel:''});
+    f.internals.chooseSub(2);
+    f.tick(200);
+    assert.equal(f.raw.g_hdMenuKind, 3);
+    f.setAfterKey(code => {
+        assert.equal(code, 40);
+        f.api.onEngineHook('willCloseMenu');
+        Object.assign(f.raw,{g_hdMenuActive:0,g_hdMenuKind:0,g_hdMenuContext:0,g_hdMenuSeq:14,
+            g_hdMapPick:1,g_hdMapInputSeq:5});
+        f.api.onEngineHook('didShowMainMap');
+    });
+    f.internals.back();
+    f.tick(200);
+    assert.equal(f.state.open, true, 'The map hook arrived before the previous EXIT finished sending');
+    const escape = {type:'keydown',keyCode:27,defaultPrevented:false};
+    f.emitDocument('keydown', escape);
+    assert.equal(f.state.open, false);
+    assert.equal(escape.defaultPrevented, false, 'The classic keyboard handler can deliver the new Escape');
+    assert.deepEqual(f.keys, [39,40]);
+    assert.deepEqual(f.writes, []);
 });
 test('a retained distribution label cannot label recruitment or an unobserved person selection',()=>{
     const f=distributionFixture({command:'征兵'});f.state.deepLabel='分配';f.enter();

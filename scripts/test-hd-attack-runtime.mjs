@@ -21,7 +21,8 @@
  *   --chaisang marches from P3 孙权's 柴桑34 to 长沙33 with 丁奉.
  *   --liu-bei-elite recruits 蔡中 and discovers 通宵虫 in original 下邳18
  *   before marching from 徐州13 against 吕布 in 濮阳12.
- *   --elite-resume=build/.../result.json restores a private 蔡中 or 通宵虫 save.
+ *   --elite-resume=build/.../result.json restores a private elite campaign save.
+ *   --elite-resume-stage=garrison selects the earlier reinforced city checkpoint.
  *   --mystic starts a fresh P4 刘禅 game, prepares 诸葛亮 with 六韬 and 太玄兵符,
  *   and marches from 成都24 to 云南30. Use --recruit with a SPE24 interval.
  *   --mystic-defender waits for the original opponent to recruit and arm 诸葛亮
@@ -73,7 +74,11 @@ const mysticResumeArg = process.argv.find(arg => arg.startsWith('--mystic-resume
 const mysticResumePath = mysticResumeArg?.slice('--mystic-resume='.length);
 const eliteResumeArg = process.argv.find(arg => arg.startsWith('--elite-resume='));
 const eliteResumePath = eliteResumeArg?.slice('--elite-resume='.length);
+const eliteResumeStageArg = process.argv.find(arg => arg.startsWith('--elite-resume-stage='));
+const eliteResumeStage = eliteResumeStageArg?.slice('--elite-resume-stage='.length);
 assert.ok(!eliteResumeArg || elite && eliteResumePath, '--elite-resume requires --liu-bei-elite and an earlier result.json');
+assert.ok(!eliteResumeStageArg || eliteResumePath && ['envoy','book','garrison','ready'].includes(eliteResumeStage),
+    '--elite-resume-stage requires --elite-resume and an original envoy, book, garrison or ready checkpoint');
 assert.ok(!mysticResumeArg || mysticDefender && mysticResumePath, '--mystic-resume requires a mystic defender route and an earlier result.json');
 assert.ok(!mysticFromZitong || mysticResumePath, '--mystic-from-zitong requires an earlier mystic defender save');
 const route = alternateRoutes[routeFlags[0]] ?? {
@@ -816,12 +821,14 @@ async function loadMysticDefenderSave(cdp) {
 
 async function loadEliteAttackSave(cdp) {
     const earlier = readSavedAttackRun(eliteResumePath);
-    const {discovery,envoySave,bookSave,readySave} = earlier.previous.elitePreparation;
+    const {discovery,envoySave,bookSave,garrisonSave,readySave} = earlier.previous.elitePreparation;
     const {cityIndex,envoyId,personId} = discovery;
     assert.deepEqual([cityIndex,envoyId,personId],[18,117,183]);
-    const stage = readySave ? 'ready' : bookSave ? 'book' : 'envoy';
-    const save = readySave ?? bookSave ?? envoySave;
-    const name = {ready:'elite-officer-arrived',book:'elite-envoy-equipped',envoy:'elite-envoy-arrived'}[stage];
+    const saves = {ready:readySave,garrison:garrisonSave,book:bookSave,envoy:envoySave};
+    const stage = eliteResumeStage ?? Object.keys(saves).find(key => saves[key]);
+    const save = saves[stage];
+    assert.ok(save, 'The earlier original campaign contains the selected checkpoint');
+    const name = {ready:'elite-officer-arrived',garrison:'elite-home-garrison',book:'elite-envoy-equipped',envoy:'elite-envoy-arrived'}[stage];
     const {world,...receipt} = await loadNativeAttackSave(cdp, readAttackSavePair(earlier, save, name));
     const owner = world.king + 1;
     const residents = index => {
@@ -835,11 +842,22 @@ async function loadEliteAttackSave(cdp) {
     assert.equal(officer.ArmsType, 4);
     assert.equal(officer.Belong, stage === 'ready' ? owner : 0);
     assert.ok(residents(stage === 'ready' ? route.origin : cityIndex).includes(personId));
-    if (stage === 'book') {
+    if (stage === 'garrison' || stage === 'book') {
         assert.ok([envoy.Tool1,envoy.Tool2].includes(18));
         assert.equal(envoy.IQ, 15);
     }
-    report.eliteResume = {...receipt, stage, restored:{year:world.year,month:world.month,envoy,officer}};
+    const restored = {year:world.year,month:world.month,envoy,officer};
+    if (stage === 'garrison') {
+        assert.deepEqual(save.guards.map(g => g.personId), [31,32]);
+        assert.equal(world.cities[route.origin].Belong, owner);
+        restored.guards = save.guards.map(({personId,arms}) => {
+            const guard = world.people[personId];
+            assert.ok(residents(route.origin).includes(personId));
+            assert.deepEqual([guard.Belong,guard.Arms], [owner,arms]);
+            return {personId,arms};
+        });
+    }
+    report.eliteResume = {...receipt, stage, restored};
     await checkpoint(cdp, 'elite-' + stage + '-loaded');
 }
 
@@ -1022,7 +1040,7 @@ async function settleEnlistment(cdp,cityIndex,mapInputSeq,confirmation) {
     return owner === 'map';
 }
 
-async function reopenMilitaryAfterPersonPicker(cdp,cityIndex,label,automatic=false) {
+async function reopenMilitaryAfterPersonPicker(cdp,cityIndex,label,automatic=false,reopen=true) {
     const before=await evaluate(cdp,recruitWorldExpression(cityIndex)),inputStart=await evaluate(cdp,'window.__speEngineKeys.length');
     if (!automatic) await click(cdp,'#hd-city-menu [data-hd-menu-back]');
     // The real command's person-picker EXIT unwinds all the way to PlayerTactic.
@@ -1032,6 +1050,7 @@ async function reopenMilitaryAfterPersonPicker(cdp,cityIndex,label,automatic=fal
     const retired=await evaluate(cdp,recruitWorldExpression(cityIndex)),exitInputs=await evaluate(cdp,`window.__speEngineKeys.slice(${inputStart})`);
     assert.deepEqual(exitInputs.map(k=>k.code),automatic?[]:[0x28],`${label} return uses only the required native input`);
     for(const field of ['money','reserve','persons','orders','date'])assert.deepEqual(retired[field],before[field],`${label} cancellation preserves ${field}`);
+    if (!reopen) return {label,automatic,before,retired,exitInputs};
     assert.ok(await action(cdp,`reopen-owned-city-after-${label}`,`BayeHdOverworld.walkToCity(${cityIndex})`));
     await waitFor(cdp,`real city root after ${label}`,`(() => { const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot(); return s.open&&s.layer==='root'&&s.cityIndex===${cityIndex}&&m.active&&m.context===1&&m.kind===1; })()`);
     await click(cdp,'#hd-city-menu [data-hd-root="2"]');
@@ -1041,10 +1060,10 @@ async function reopenMilitaryAfterPersonPicker(cdp,cityIndex,label,automatic=fal
     return {label,automatic,before,retired,reopened,exitInputs,nativeInputs:await evaluate(cdp,`window.__speEngineKeys.slice(${inputStart})`)};
 }
 
-async function distributeMarchTroops(cdp, cityIndex, person, before, checkpointName) {
+async function distributeMarchTroops(cdp, cityIndex, person, before, checkpointName, requestedArms=recruitArms, reopen=true) {
     await click(cdp, '#hd-city-menu [data-hd-sub="2"]');
     const distribute = await chooseNativePerson(cdp, '分配', cityIndex, person.personIndex);
-    const distribution = await setRecruitQuantity(cdp, distribute.qty, '分配');
+    const distribution = await setRecruitQuantity(cdp, distribute.qty, '分配', requestedArms);
     const distributionConfirmation = await commitRecruitQuantity(cdp, '分配');
     await currentPersonPicker(cdp, '分配', cityIndex);
     const equipped = await evaluate(cdp, recruitWorldExpression(cityIndex));
@@ -1055,8 +1074,67 @@ async function distributeMarchTroops(cdp, cityIndex, person, before, checkpointN
     assert.deepEqual(equipped.orders, before.orders);
     assert.deepEqual(equipped.date, before.date);
     await checkpoint(cdp, checkpointName);
-    const distributionRetirement = await reopenMilitaryAfterPersonPicker(cdp, cityIndex, '分配');
+    const distributionRetirement = await reopenMilitaryAfterPersonPicker(cdp, cityIndex, '分配', false, reopen);
     return {distribute,distribution,distributionConfirmation,equipped,distributionRetirement};
+}
+
+async function enlistNativeReserve(cdp, cityIndex, recruiter, before, mapInputSeq, requestedArms, label) {
+    assert.ok(before.armsPerMoney > 0 && Number.isInteger(before.armsPerMoney));
+    const chosen = await chooseNativePerson(cdp, '征兵', cityIndex, recruiter.personIndex);
+    const quantity = await setRecruitQuantity(cdp, chosen.qty, label, requestedArms);
+    const confirmation = await commitRecruitQuantity(cdp, label);
+    const returnedToMap = await settleEnlistment(cdp, cityIndex, mapInputSeq, confirmation);
+    const after = await evaluate(cdp, recruitWorldExpression(cityIndex));
+    const orders = world => world.orders.filter(o => o.OrderId === 24 && o.City === cityIndex && o.Person === recruiter.personIndex);
+    assert.equal(after.reserve, before.reserve + quantity.wanted);
+    assert.equal(after.money, before.money - Math.floor(quantity.wanted / before.armsPerMoney));
+    assert.deepEqual(after.persons.map(p => [p.personIndex,p.arms]), before.persons.filter(p =>
+        p.personIndex !== recruiter.personIndex).map(p => [p.personIndex,p.arms]));
+    assert.equal(orders(after).length, orders(before).length + 1);
+    assert.deepEqual(after.date, before.date);
+    return {recruiter,before,chosen,quantity,confirmation,after,returnedToMap};
+}
+
+async function fortifyEliteCity(cdp, ctx, cityIndex, guard, guardIds, month) {
+    const {personId, targetArms} = guard;
+    const map = await ctx.waitPlayerMap('Original map before reinforcing 徐州');
+    const initial = await evaluate(cdp, recruitWorldExpression(cityIndex));
+    const defender = initial.persons.find(p => p.personIndex === personId && p.belong === initial.belong);
+    assert.equal(initial.belong, initial.playerKing + 1);
+    assert.ok(defender && defender.arms < targetArms);
+    const orderId = 24;
+    const thewCost = nativeItem(2,9)[orderId];
+    const money16 = await evaluate(cdp, 'Number(baye.data.g_engineConfig.enable16bitConsumeMoney)');
+    const moneyCosts = nativeItem(2,10);
+    const moneyCost = money16 ? moneyCosts.readUInt16LE(orderId * 2) : moneyCosts[orderId];
+    const devotion = await evaluate(cdp, `Number(baye.data.g_Cities[${cityIndex}].PeopleDevotion)`);
+    const recruiters = initial.persons.filter(p => p.belong === initial.belong && p.personIndex !== initial.playerKing &&
+        !guardIds.includes(p.personIndex) && p.thew >= thewCost)
+        .sort((a,b) => a.arms - b.arms);
+    const need = targetArms - defender.arms;
+    const canEnlist = stock => stock.money > 0 && stock.money >= moneyCost && devotion > 0;
+    const enlistments = [];
+    if (!initial.reserve && !(canEnlist(initial) && recruiters.length)) return null;
+    await ctx.reopenMilitary('Reinforce the original 徐州 garrison', cityIndex);
+    let stock = initial;
+    if (stock.reserve < need && canEnlist(stock) && recruiters.length) {
+        await ctx.chooseCityItem('征兵', 'data-hd-sub', 2);
+        for (const recruiter of recruiters) {
+            if (stock.reserve >= need || !canEnlist(stock)) break;
+            const receipt = await enlistNativeReserve(cdp, cityIndex, recruiter, stock, map.mapInputSeq,
+                need - stock.reserve, '徐州征兵');
+            enlistments.push(receipt);
+            stock = receipt.after;
+            if (receipt.returnedToMap) break;
+        }
+        await reopenMilitaryAfterPersonPicker(cdp, cityIndex, '征兵', enlistments.at(-1).returnedToMap);
+    }
+    assert.ok(stock.reserve > 0);
+    const distribution = await distributeMarchTroops(cdp, cityIndex, defender, stock,
+        'elite-garrison-' + month + '-' + personId, targetArms, false);
+    assert.ok(distribution.distribution.wanted > defender.arms);
+    return {cityIndex,personId,targetArms,beforeArms:defender.arms,
+        arms:distribution.distribution.wanted,enlistments,distribution};
 }
 
 async function recruitSmoke(cdp,cityIndex) {
@@ -1080,19 +1158,11 @@ async function recruitSmoke(cdp,cityIndex) {
     // leaves the resident queue until PolicyExec; it is never faked back in.
     const recruiter=allowed.slice().reverse().find(canRecruit);
     assert.ok(recruiter,'A different current native resident can perform conscription');
-    assert.ok(before.armsPerMoney>0&&Number.isInteger(before.armsPerMoney));
-    const chosen=await chooseNativePerson(cdp,'征兵',cityIndex,recruiter.personIndex);
-    const quantity=await setRecruitQuantity(cdp,chosen.qty,'征兵'),confirmation=await commitRecruitQuantity(cdp,'征兵');
-    let returnedToMap=await settleEnlistment(cdp,cityIndex,mapInputSeq,confirmation);
-    let enlisted=await evaluate(cdp,recruitWorldExpression(cityIndex));
-    assert.equal(enlisted.reserve,before.reserve+quantity.wanted,'Conscription adds the actual selected quantity to city reserves');
-    assert.equal(enlisted.money,before.money-Math.floor(quantity.wanted/before.armsPerMoney),'Money follows the actual configured conscription cost');
-    assert.equal(enlisted.persons.find(p=>p.personIndex===actor.personIndex)?.arms,actor.arms,'Conscription has not secretly equipped the attacker');
-    assert.deepEqual(enlisted.persons.map(p=>p.personIndex).sort((a,b)=>a-b),before.persons.filter(p=>p.personIndex!==recruiter.personIndex).map(p=>p.personIndex).sort((a,b)=>a-b),'Native order removes only its actual recruiter from city residents');
-    assert.equal(enlisted.orders.filter(o=>o.OrderId===24&&o.City===cityIndex&&o.Person===recruiter.personIndex).length,before.orders.filter(o=>o.OrderId===24&&o.City===cityIndex&&o.Person===recruiter.personIndex).length+1);
-    assert.deepEqual(enlisted.date,before.date,'Enlistment has not advanced the campaign month');
+    const first = await enlistNativeReserve(cdp,cityIndex,recruiter,before,mapInputSeq,recruitArms,'征兵');
+    const {chosen,quantity,confirmation} = first;
+    let {after:enlisted,returnedToMap} = first;
     await checkpoint(cdp,'06a-real-enlisted-city-reserves');
-    const enlistments=[{recruiter,before,chosen,quantity,confirmation,after:enlisted}];
+    const enlistments=[first];
     // A native order is capped independently by devotion and available money.
     // Larger requested preparation can require another real resident/order;
     // never manufacture reserves or advance time to restore the first person.
@@ -1101,15 +1171,10 @@ async function recruitSmoke(cdp,cityIndex) {
         const candidate=previous.persons.slice().reverse().find(p=>canRecruit(p)&&picker.menu.ids.includes(p.personIndex));
         if (!candidate && escorts.length) break;
         assert.ok(candidate,'Another actual remaining resident can issue the next bounded conscription order');
-        const selected=await chooseNativePerson(cdp,'征兵',cityIndex,candidate.personIndex);
-        const amount=await setRecruitQuantity(cdp,selected.qty,'征兵第'+(round+1)+'次',enlistTarget-(previous.reserve-before.reserve)),receipt=await commitRecruitQuantity(cdp,'征兵第'+(round+1)+'次');
-        returnedToMap=await settleEnlistment(cdp,cityIndex,mapInputSeq,receipt);
-        enlisted=await evaluate(cdp,recruitWorldExpression(cityIndex));
-        assert.equal(enlisted.reserve,previous.reserve+amount.wanted);assert.equal(enlisted.money,previous.money-Math.floor(amount.wanted/before.armsPerMoney));
-        assert.equal(enlisted.persons.find(p=>p.personIndex===actor.personIndex)?.arms,actor.arms);
-        assert.deepEqual(enlisted.persons.map(p=>p.personIndex).sort((a,b)=>a-b),previous.persons.filter(p=>p.personIndex!==candidate.personIndex).map(p=>p.personIndex).sort((a,b)=>a-b));
-        assert.equal(enlisted.orders.filter(o=>o.OrderId===24&&o.City===cityIndex&&o.Person===candidate.personIndex).length,previous.orders.filter(o=>o.OrderId===24&&o.City===cityIndex&&o.Person===candidate.personIndex).length+1);assert.deepEqual(enlisted.date,before.date);
-        enlistments.push({recruiter:candidate,before:previous,chosen:selected,quantity:amount,confirmation:receipt,after:enlisted});
+        const receipt = await enlistNativeReserve(cdp,cityIndex,candidate,previous,mapInputSeq,
+            enlistTarget-(previous.reserve-before.reserve),'征兵第'+(round+1)+'次');
+        ({after:enlisted,returnedToMap}=receipt);
+        enlistments.push(receipt);
         await checkpoint(cdp,'06a-real-enlisted-additional-order-'+round);
     }
     if (returnedToMap) await checkpoint(cdp,'06a-enlistment-returned-map');
@@ -1244,6 +1309,15 @@ async function prepareAttackCampaign(cdp) {
         const condition = nativeItem(63, route.period - 1);
         const row = condition.subarray(183 * 4, 184 * 4);
         assert.deepEqual([row.readUInt16LE(1), row[3]], [118,19], 'The original LIB names 蔡中 and 下邳 as discovery conditions');
+        ctx.reopenMilitary = async (label, city) => {
+            await reopenCitySection(label,city,'军备');
+            await until('Original military menu for the requested city', `(() => {
+                const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();
+                return m.active===1&&m.context===1&&m.kind===2&&m.names.includes('分配')&&
+                    s.cityIndex===${city}&&s.layer==='sub'&&!s.sending&&!s.queueLen;
+            })()`);
+        };
+        ctx.fortify = (...args) => fortifyEliteCity(cdp,ctx,...args);
         await runEliteAttackPreparation(ctx, route.origin, {resource:63, cityIndex:18, envoyId:117, personId:183});
         return;
     }
