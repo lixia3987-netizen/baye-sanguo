@@ -1190,6 +1190,21 @@
         if (buttons) { for (var i = 0; i < buttons.length; i += 1) { buttons[i].disabled = sameView(state.viewCommit, detail.owner); } }
     }
 
+    function renderSuccessorCursor(body) {
+        var current = body._hdSuccessorChoices.children[state.successorOwner.index];
+        var previous = body._hdSuccessorCursor;
+        if (current === previous) { return; }
+        if (previous) { previous.removeAttribute('aria-current'); }
+        body._hdSuccessorCursor = current;
+        if (!current) { return; }
+        current.setAttribute('aria-current', 'true');
+        if (mobileHost || (state.successorRequest && state.successorRequest.confirm) ||
+            !body.getBoundingClientRect || !current.getBoundingClientRect) { return; }
+        var area = body.getBoundingClientRect(), row = current.getBoundingClientRect();
+        if (row.top < area.top) { body.scrollTop += row.top - area.top; }
+        else if (row.bottom > area.bottom) { body.scrollTop += row.bottom - area.bottom; }
+    }
+
     function render() {
         applyChrome();
         renderReportIdentity();
@@ -1207,6 +1222,10 @@
             (trade.direction === 'buy' ? '买入粮草' : '卖出粮草') : state.title);
         var body = el('hd-dialog-body');
         if (body) {
+            if (state.kind !== 'successor') {
+                body._hdSuccessorChoices = null;
+                body._hdSuccessorCursor = null;
+            }
             body.setAttribute('data-hd-quantity-purpose', distribution ? 'distribution' : trade ? 'trade' : '');
             if (distribution) {
                 body.textContent = distribution.personName + ' · 现有兵力 ' + distribution.existingArms +
@@ -1293,7 +1312,10 @@
                         choices.appendChild(button);
                     });
                     body.appendChild(choices);
+                    body._hdSuccessorChoices = choices;
+                    body._hdSuccessorCursor = null;
                 }
+                renderSuccessorCursor(body);
             } else if (state.body) {
                 body._hdSuccessorView = null;
                 body._hdDefendersView = null;

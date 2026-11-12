@@ -1186,6 +1186,38 @@ function mobileCampaignFixture(kind = 1, ids = [0, 130, 199]) {
     return h;
 }
 
+test('desktop succession highlights and reveals the acknowledged native cursor', () => {
+    const h = harness(), d = h.context.BayeHdDialog;
+    native(h);
+    h.context.BayeHdCityMenu.shouldShowHd = () => true;
+    Object.assign(h.report,{active:0,kind:0,text:''});
+    Object.assign(h.data,{g_asyncActionID:0,g_hdReportActive:0});
+    Object.assign(h.menu,{active:1,context:5,kind:1,seq:31,index:0,count:3,names:['马超','韩遂','韩玄']});
+    d.poll();
+    const body = h.nodes['hd-dialog-body'];
+    const rows = () => body.querySelectorAll('[data-hd-successor-index]');
+    const [first,second] = rows();
+    assert.equal(first.getAttribute('aria-current'),'true');
+    assert.equal(second.getAttribute('aria-current'),null);
+    body.scrollTop = 0;
+    body.getBoundingClientRect = () => ({top:20,bottom:120});
+    second.getBoundingClientRect = () => ({top:134,bottom:178});
+
+    assert.equal(h.key(40,{key:'ArrowDown'}).defaultPrevented,true);
+    assert.deepEqual(h.sent,[0x23]);
+    assert.equal(first.getAttribute('aria-current'),'true');
+    h.menu.index = 1;
+    d.poll();
+    h.timers();
+    assert.equal(rows()[1],second);
+    assert.equal(first.getAttribute('aria-current'),null);
+    assert.equal(second.getAttribute('aria-current'),'true');
+    assert.equal(body.scrollTop,58);
+    h.key(13);
+    assert.deepEqual(h.sent,[0x23,0x27]);
+    assert.deepEqual(h.writes,[]);
+});
+
 test('mobile succession keeps repeated rows from the original resident queue', () => {
     const h = mobileCampaignFixture(1), d = h.context.BayeHdDialog;
     const cities = Array.from({length:38}, () => ({Belong:0,PersonQueue:0,Persons:0}));
