@@ -16,6 +16,8 @@
  * --captive-width=1280 selects a 720p desktop viewport for either captive flow.
  * --captive-mobile-width=667|844 saves the captured city, then loads and plays it in m.html.
  * --captive-resume=build/.../result.json replays a captured native save from a closed private run.
+ * --elite-transit=build/.../result.json continues the original 刘备 campaign to 濮阳 and prepares the 南皮 defender.
+ * --elite-transit-months=N sets the month budget and saves the current campaign if the defender is still unready.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
 import assert from 'node:assert/strict';
@@ -36,12 +38,21 @@ import {verifyOriginalSavePair} from './hd-mobile-system-runtime-oracle.mjs';
 import {verifyMobileSuccessorChoice,verifyMobileSuccessorReport,verifyMobileSuccessorSettlement} from './hd-mobile-successor-runtime-oracle.mjs';
 import {recordBattleOpeningStatus,verifyBattleOpeningStatus} from './hd-battle-opening-status-runtime-checks.mjs';
 import {observeBattleEquipmentSettlement,discoveredCityEquipment,verifyEquipmentDeposit} from './hd-battle-equipment-runtime-checks.mjs';
+import {originalRewardWorldSource} from './hd-reward-token-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const scenarioFlag = process.argv.indexOf('--scenario');
-const scenario = scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
-assert.ok(['victory', 'defense', 'arrival', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
+const eliteTransitFlag = process.argv.find(arg => arg.startsWith('--elite-transit='));
+const eliteTransit = eliteTransitFlag?.slice('--elite-transit='.length);
+assert.ok(!eliteTransitFlag || eliteTransit && scenarioFlag < 0, '--elite-transit requires an original save report and selects its own campaign');
+const eliteTransitMonthsFlag = process.argv.find(arg => arg.startsWith('--elite-transit-months='));
+const eliteTransitMonthsText = eliteTransitMonthsFlag?.slice('--elite-transit-months='.length) ?? '18';
+const eliteTransitMonths = Number(eliteTransitMonthsText);
+assert.ok(!eliteTransitMonthsFlag || eliteTransit && /^\d+$/.test(eliteTransitMonthsText) && Number.isSafeInteger(eliteTransitMonths),
+    '--elite-transit-months requires --elite-transit and a nonnegative integer');
+const scenario = eliteTransit ? 'elite-transit' : scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
+assert.ok(['victory', 'defense', 'arrival', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives', 'elite-transit'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
 const arrivalScenario=scenario==='arrival',defenseScenario=scenario==='defense';
 const defenseAnyOutcome=process.argv.includes('--defense-any-outcome');
 const defenseAfterSuccession=process.argv.includes('--defense-after-succession');
@@ -53,9 +64,9 @@ assert.ok(!defenseAnyOutcome||defenseScenario,'--defense-any-outcome requires th
 const findGenerals=process.argv.includes('--find-generals');
 assert.ok(!findGenerals||scenario==='victory','General search acceptance requires the victory scenario');
 const periodFlag=process.argv.find(arg=>arg.startsWith('--period='));
-const campaignPeriod=Number(periodFlag?.split('=')[1]??1);
+const campaignPeriod=Number(periodFlag?.split('=')[1]??(eliteTransit ? 2 : 1));
 assert.ok([1,2,3,4].includes(campaignPeriod)&&
-    (campaignPeriod===1||['probe','victory','save'].includes(scenario)||verifyDefenderTaps),
+    (campaignPeriod===1||['probe','victory','save'].includes(scenario)||verifyDefenderTaps||eliteTransit),
     'Select an original period for probe, victory, save or a supported defense campaign');
 const mobileCampaignFlag=process.argv.find(arg=>arg.startsWith('--mobile-width='));
 const mobileCampaignWidth=Number(mobileCampaignFlag?.split('=')[1]??0);
@@ -113,6 +124,10 @@ const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.lib': 'application/octet-stream' };
 const report = { scenario, period:campaignPeriod, staged, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
+if (eliteTransit) {
+    assert.equal(campaignPeriod, 2);
+    Object.assign(report, {route:{period:2,king:'刘备',origin:12,originName:'濮阳'},destination:6,sources:{}});
+}
 if(captiveScenario)Object.assign(report,{accepted:false,identityAccepted:false,hdAccepted:false,captiveAccepted:false,personCaptivesAccepted:false,preflightOnly});
 if(captiveOrder)report.captiveOrderAccepted=false;
 const acknowledgedProgressReports=new Set();
@@ -189,6 +204,16 @@ async function startServer(port=0) {
             if (!filename.startsWith(base + path.sep)) { res.writeHead(403).end(); return; }
             fs.readFile(filename, (err, data) => {
                 if (err) { report.requests.push({ url: url.pathname, status: 404 }); res.writeHead(404).end(); return; }
+                if (eliteTransit) {
+                    const name = rel === 'js/baye.wasm' ? 'baye.wasm' : rel;
+                    const metadata = {source:path.relative(root,filename),bytes:data.length,sha256:sha(data)};
+                    if (report.sources[name] && report.sources[name].sha256 !== metadata.sha256) {
+                        (report.changedResponses ??= []).push(name);
+                        res.writeHead(409).end();
+                        return;
+                    }
+                    report.sources[name] = metadata;
+                }
                 if (/baye\.(js|wasm|wasm\.map)$/.test(filename) || /\.lib$/.test(filename)) {
                     report.requests.push({ url: url.pathname, status: 200, source: path.relative(root, filename), bytes: data.length });
                 }
@@ -572,6 +597,7 @@ async function smoke(cdp) {
     }
     await waitFor(cdp, 'classic animated title', `window.__runtimeSpeSeen.includes(100)`);
     await checkpoint(cdp, '02-classic-title');
+    if (eliteTransit) return runEliteTransit(cdp);
     await key(cdp, 'Enter');
     await waitFor(cdp, 'classic animated period selection', `window.__runtimeSpeSeen.includes(104)`);
     await checkpoint(cdp, '03-period');
@@ -1593,7 +1619,13 @@ async function chooseMarchPair(cdp,emptyOnly,origin=null) {
 async function openCity(cdp,cityIndex,label) {
     await waitFor(cdp,'real map before opening '+label,`baye.hd.march().pick===1 && !baye.hd.march().battlePick && !baye.hd.fight().active`,60000);
     if(mobileCampaignInput)await mobileCampaignInput.city(cityIndex);
-    else assert.ok(await action(cdp,'open-city-'+label,`BayeHdOverworld.walkToCity(${cityIndex})`));
+    else {
+        await waitFor(cdp,'current HD map can open '+label,`(() => {
+            const m=BayeHdOverworld.debugSnapshot();
+            return m.phase==='map'&&m.hitsEnabled&&m.owned.some(city=>city.i===${cityIndex});
+        })()`);
+        assert.ok(await action(cdp,'open-city-'+label,`BayeHdOverworld.walkToCity(${cityIndex})`));
+    }
     await waitFor(cdp,'bound native root '+label,`(() => {const s=BayeHdCityMenu.debugSnapshot(),m=baye.hd.menuItems();return s.open&&s.layer==='root'&&s.cityIndex===${cityIndex}&&!s.entryPending&&m.active&&m.context===1&&m.kind===1;})()`);
     await checkpoint(cdp,label+'-city-root');
 }
@@ -2025,7 +2057,7 @@ async function conquerBattle(cdp,round,defending=false) {
     const cities=await evaluate(cdp,cityTilesExpression);
     assert.ok(cities.length,'real C battle map contains a city terrain tile');
     report.objectives??=[];report.objectives.push({round,cities,defending});
-    await configureBattleSettings(cdp,round);
+    if (!eliteTransit) await configureBattleSettings(cdp,round);
     const masks=new Map();
     const maxSteps=Math.min(initial.fight.boutMax,30)*(initial.units.filter(u=>u.side==='player').length+1)+1;
     for(let step=0;step<maxSteps;step++) {
@@ -2692,6 +2724,133 @@ async function chooseCampaignRecord(cdp,owner,slot) {
     return keys;
 }
 
+function campaignResidents(world, index) {
+    const {PersonQueue,Persons} = world.cities[index];
+    return world.personQueue.slice(PersonQueue,PersonQueue + Persons);
+}
+
+async function loadEliteTransit(cdp) {
+    const source = fs.realpathSync(eliteTransit), raw = fs.readFileSync(source), prior = JSON.parse(raw);
+    assert.ok(prior.isolation?.cleaned && prior.sourceVerification?.runnerMatch &&
+        prior.sourceVerification.drift.length === 0, 'The previous original campaign has authenticated sources');
+    assert.deepEqual([prior.route.period,prior.route.king,prior.selectedLord.id],[2,'刘备',2]);
+    assert.equal(prior.sources['baye.wasm'].sha256, report.sources['baye.wasm'].sha256);
+    assert.equal(prior.actualLib.sha256, report.library.sha256);
+    const continued = prior.scenario === 'elite-transit';
+    assert.deepEqual([prior.route.origin,prior.destination],continued ? [12,6] : [13,12]);
+    const preparation = prior.nanpiPreparation;
+    const [prefix,save] = !continued ? ['elite-officer-arrived',prior.elitePreparation.readySave] :
+        [
+            ['nanpi-defender-ready',preparation.readySave],
+            ['nanpi-preparation-progress',preparation.progressSave],
+            ['puyang-occupied',preparation.occupiedSave]
+        ].find(([,checkpoint]) => checkpoint) ?? [];
+    assert.equal(save?.files.length, 2);
+    const parts = save.files.map((f,i) => {
+        assert.equal(f.file,prefix+'-sango'+i+'.sav');
+        const bytes = fs.readFileSync(path.join(path.dirname(source),f.file));
+        assert.deepEqual([bytes.length,sha(bytes)],[f.bytes,f.sha256]);
+        return bytes.toString('hex');
+    });
+    await evaluate(cdp,"BayeHdSystemUi.setMode('hd')");
+    await waitFor(cdp,'Original title before loading 刘备',`(() => {
+        const m=baye.hd.menuItems(),s=BayeHdSystemUi.debugSnapshot();
+        return m.active===1&&m.context===4&&m.kind===1&&s.open&&s.screen==='title'&&!s.pending;
+    })()`);
+    const keyStart = await evaluate(cdp,'__runtimeEngineInputs.length');
+    assert.equal(await evaluate(cdp,'BayeSaveStorage.inspectSlot(0).status'),'empty');
+    assert.equal(await evaluate(cdp,'BayeSaveStorage.importSlot(0,'+
+        JSON.stringify({sav0:parts[0],sav1:parts[1],lib:'libs/dat-mod.lib'})+')'),true);
+    assert.equal(await evaluate(cdp,'__runtimeEngineInputs.length'),keyStart);
+    await click(cdp,'#hd-system-ui [data-hd-sys="1"]');
+    const menu = await campaignRecordMenu(cdp,2);
+    const keys = await chooseCampaignRecord(cdp,menu.record,0);
+    const pair = await campaignSavePair(cdp,0);
+    assert.deepEqual([pair.sav0,pair.sav1],parts);
+    const world = await evaluate(cdp,worldExpression);
+    verifyOriginalSavePair({...pair,world:await evaluate(cdp,originalRewardWorldSource)});
+    assert.deepEqual([world.period,world.realm.playerKing,world.year,world.month],[2,2,save.year,save.month]);
+    const origin = continued ? 12 : 13;
+    assert.equal(world.cities[origin].Belong,3);
+    assert.ok(campaignResidents(world,origin).includes(183));
+    assert.deepEqual([world.allPersons[183].Belong,world.allPersons[183].ArmsType],[3,4]);
+    report.selectedLord = {id:2,name:'刘备'};
+    report.actualLib = {preferred:'libs/dat-mod.lib',sha256:report.library.sha256};
+    report.transitResume = {source:path.relative(root,source),sha256:sha(raw),save,keys,stage:prefix};
+    await checkpoint(cdp,'transit-save-loaded');
+    return {world,continued};
+}
+
+async function saveEliteTransit(cdp, label, slot, world) {
+    assert.equal(await evaluate(cdp,`BayeSaveStorage.inspectSlot(${slot}).status`),'empty');
+    await openFunctionMenu(cdp,label+'-save');
+    await click(cdp,'#hd-system-ui [data-hd-sys="1"]');
+    const owner = await campaignRecordMenu(cdp,1);
+    const keys = await chooseCampaignRecord(cdp,owner.record,slot);
+    const pair = await campaignSavePair(cdp,slot);
+    assert.equal(pair.valid,true);
+    const after = await evaluate(cdp,worldExpression);
+    assert.deepEqual(after,world,'Saving preserves the original campaign');
+    verifyOriginalSavePair({...pair,world:await evaluate(cdp,originalRewardWorldSource)});
+    const files = [pair.sav0,pair.sav1].map((hex,i) => {
+        const file = label+'-sango'+i+'.sav', bytes = Buffer.from(hex,'hex');
+        fs.writeFileSync(path.join(artifactDir,file),bytes,{flag:'wx'});
+        return {file,bytes:bytes.length,sha256:sha(bytes)};
+    });
+    await checkpoint(cdp,label+'-saved');
+    return {slot,year:after.year,month:after.month,files,keys};
+}
+
+async function runEliteTransit(cdp) {
+    const loaded = await loadEliteTransit(cdp);
+    await evaluate(cdp,"BayeHdOverworld.setMode('hd-map');BayeHdCityMenu.setMode('hd');BayeHdBattle.setMode('hd');");
+    const run = report.nanpiPreparation = {monthBudget:eliteTransitMonths,months:[]};
+    let world = loaded.world;
+    if (!loaded.continued) {
+        assert.equal(world.cities[12].Belong,93);
+        assert.ok(campaignResidents(world,6).includes(8));
+        assert.deepEqual([world.allPersons[8].Belong,world.allPersons[8].Arms],[65535,0]);
+        const recruitment = await recruitArmy(cdp,{origin:13,leaders:['通宵虫'],recruitments:3},
+            'puyang-army',['通宵虫','张飞','刘备']);
+        run.army = {...recruitment,...await allocateArmy(cdp,recruitment,'puyang-army')};
+        const march = await dispatchMarch(cdp,13,12,'puyang-march',{generalNames:['通宵虫','张飞'],foodBudget:500});
+        assert.deepEqual(march.selected.map(person => person.pind),[183,32]);
+        await waitForGameProgress(cdp,'original 濮阳 battle', 'baye.hd.fight().active&&!baye.hd.fight().over&&baye.hd.fight().inputKind===1',60000);
+        const initial = await evaluate(cdp,battleStateExpression);
+        assertDispatchedArmy(initial,march);
+        await conquerBattle(cdp,'puyang');
+        const note = await recordBattleResultNote(cdp,'puyang',{outcome:1,kind:'attack',cityIndex:12});
+        assert.equal(note.city.owner,93);
+        await settleToMap(cdp,'puyang');
+        world = await evaluate(cdp,worldExpression);
+        assert.equal(world.cities[12].Belong,3);
+        assert.equal(world.fighterIndex[march.order.slot],0);
+        assert.ok(!world.orders.some(o => o.OrderId===27&&o.City===13&&o.Object===12));
+        run.occupation = {year:world.year,month:world.month,march,note};
+        run.occupiedSave = await saveEliteTransit(cdp,'puyang-occupied',1,world);
+    }
+    for (let month = 0; month <= eliteTransitMonths; month++) {
+        const {year,month:date} = world, city = world.cities[6], officer = world.allPersons[8];
+        assert.equal(world.cities[12].Belong,3);
+        const army = campaignResidents(world,12);
+        assert.ok(army.includes(183)&&world.allPersons[183].Belong===3&&world.allPersons[183].Arms>0);
+        const resident = campaignResidents(world,6).includes(8);
+        const sample = {year,month:date,cityBelong:city.Belong,resident,belong:officer.Belong,arms:officer.Arms,arm:officer.ArmsType};
+        run.months.push(sample);
+        if (city.Belong && city.Belong!==3 && resident && officer.Belong===city.Belong && officer.Arms>0) {
+            assert.equal(await evaluate(cdp,'baye.hd.personArmType(8)'),4);
+            run.defender = sample;
+            run.readySave = await saveEliteTransit(cdp,'nanpi-defender-ready',2,world);
+            return;
+        }
+        if (month === eliteTransitMonths) break;
+        world = await advanceCampaignMonth(cdp,'nanpi-month-'+(month+1));
+        assert.equal(world.year*12+world.month,year*12+date+1);
+    }
+    run.progressSave = await saveEliteTransit(cdp,'nanpi-preparation-progress',2,world);
+    assert.fail('Original 吕布 has not yet joined the armed 南皮 garrison; resume from the progress save');
+}
+
 async function saveRefreshLoad(cdp) {
     const slot=2,captured=report.battles[0].plan.target;
     const before=await evaluate(cdp,worldExpression);
@@ -2942,6 +3101,12 @@ async function mainCaptives(){
 
 async function main() {
     if(captiveScenario)return mainCaptives();
+    if (eliteTransit) {
+        assert.ok(!fs.existsSync(path.join(artifactDir,'result.json')),'Use a new directory for original campaign evidence');
+        report.runnerSha256 = sha(fs.readFileSync(fileURLToPath(import.meta.url)));
+        const source = 'scripts/hd-reward-token-runtime-checks.mjs', bytes = fs.readFileSync(path.join(root,source));
+        report.sources[source] = {source,bytes:bytes.length,sha256:sha(bytes)};
+    }
     fs.mkdirSync(artifactDir, { recursive: true });
     if (typeof WebSocket !== 'function') throw new Error('Node 22+ is required for built-in WebSocket');
     if (staged) for (const filename of ['baye.js', 'baye.wasm', 'baye.wasm.map']) {
@@ -2961,6 +3126,11 @@ async function main() {
         server = await startServer();
         const origin = 'http://127.0.0.1:' + server.address().port;
         const debugPort = await unusedPort();
+        if (eliteTransit) {
+            assert.notEqual(server.address().port,8080);
+            assert.notEqual(debugPort,8080);
+            report.isolation = {httpPort:server.address().port,debugPort,profile,user8080Touched:false};
+        }
         const candidates = ['/usr/bin/chromium', '/usr/bin/google-chrome', '/usr/bin/chromium-browser'];
         const binary = process.env.CHROME || candidates.find((filename) => fs.existsSync(filename));
         assert.ok(binary, 'Set CHROME to a Chromium/Chrome executable');
@@ -3061,6 +3231,19 @@ async function main() {
         if (server) await new Promise((resolve) => server.close(resolve));
         // Chromium children may briefly finish profile writes after the parent exits.
         fs.rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+        if (eliteTransit) {
+            const drift = Object.entries(report.sources).filter(([,m]) => {
+                const filename = path.join(root,m.source);
+                return !fs.existsSync(filename) || sha(fs.readFileSync(filename)) !== m.sha256;
+            }).map(([name]) => name).concat(report.changedResponses ?? []);
+            const runnerMatch = report.runnerSha256 === sha(fs.readFileSync(fileURLToPath(import.meta.url)));
+            report.sourceVerification = {count:Object.keys(report.sources).length,drift,runnerMatch};
+            report.isolation = {...report.isolation,cleaned:!fs.existsSync(profile)};
+            if (drift.length || !runnerMatch) {
+                report.ok = false;
+                process.exitCode = 1;
+            }
+        }
         report.finishedAt = new Date().toISOString();
         fs.writeFileSync(path.join(artifactDir, 'result.json'), JSON.stringify(report, null, 2) + '\n');
         console.log('Artifacts:', artifactDir);
