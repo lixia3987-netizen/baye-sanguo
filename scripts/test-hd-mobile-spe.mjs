@@ -33,7 +33,7 @@ function fixture(which='aid17-first0',options={}) {
   BayeHdLibIdentity:identityApi,localStorage:{getItem(k){preferences.push(k);throw Error('mobile must not read PC preference');},setItem(k){preferences.push(k);throw Error('preference write');}},
   sendKey:k=>keys.push(k),setInterval:f=>{polls.set(++timerId,f);return timerId;},clearInterval:id=>polls.delete(id),setTimeout(){throw Error('unexpected playback timer');},clearTimeout(){}});
  c.window=c;vm.runInContext(source,c,{filename:'js/hd-spe.js'});const api=c.BayeHdSpe;
- const host={isAvailable:()=>available,readTicket(){if(ticketHook)ticketHook();return{data,key:ownerKey,libraryGeneration:identity.generation,presentation:'lcd',kind:0,seq:3,actor:0};},
+ const host={isAvailable:()=>available,readTicket(){if(ticketHook)ticketHook();if(options.noBattleTicket)return null;return{data,key:ownerKey,libraryGeneration:identity.generation,presentation:'lcd',kind:0,seq:3,actor:0};},
   getMode:()=>mode,onPresentation:p=>presentations.push(p)};
  if(options.configure!==false)api.applyMobilePage(host);api.setManifest({...manifest,entries:options.entries===undefined?manifest.entries.filter(e=>options.effect?e[options.effect+'Version']===1:e.speId===41):options.entries});
  function resolve(failed=false){for(const image of images){if(image.done)continue;image.done=true;const pic=manifest.entries.flatMap(e=>[...e.pictures,e.background].filter(Boolean)).find(p=>p.src===image.url);assert.ok(pic);image.naturalWidth=pic.width;image.naturalHeight=pic.height;((typeof failed==='function'?failed(image):failed)?image.onerror:image.onload)();}}
@@ -53,6 +53,21 @@ function fixture(which='aid17-first0',options={}) {
  };
 }
 function hdFixture(name){const h=fixture(name);h.flush();h.resolve();assert.equal(h.api.getLcdPresentation(),'hd');return h;}
+function openingStatusFixture(reason=2,rawChanges={}) {
+ const generation=4,eventId=8,subjectIndex=3,subjectPerson=5,startFrm=reason===1?0:6;
+ const formation=Array(20).fill(0);formation[subjectIndex]=subjectPerson+1;
+ const raw={...rawCases.find(x=>x.name==='aid17-first0').rawGlobals,
+  g_hdSpeActive:1,g_hdFightActive:0,g_hdFightOver:0,g_FgtOver:0,g_hdFightInputKind:0,g_hdFightWait:0,
+  g_hdReportActive:0,g_hdMenuActive:0,g_hdHelpActive:0,g_hdViewActive:0,g_hdQtyActive:0,g_hdRecordActive:0,g_hdResultOwnerKind:0,
+  g_hdDetailGeneration:generation,g_FgtParam:{Mode:1,GenArray:formation},...rawChanges};
+ const status={valid:true,protocolVersion:1,phase:2,reason,subjectIndex,subjectPerson};
+ const display={generation,eventId,commitSeq:1,frameIndex:startFrm,frameValid:true,statusEffect:{...status}};
+ const spe={active:1,id:27,kind:4,protocolVersion:2,protocolValid:true,frameValid:true,generation,eventId,
+  startFrm,endFrm:startFrm+5,resourceIndex:0,keyflag:0,skipEligible:false,statusEffect:status,display};
+ const h=fixture(undefined,{rawGlobals:raw,noBattleTicket:true,entries:[]});
+ Object.assign(h.c.baye.hd,{spe:()=>spe,attack:()=>null,skillResult:()=>null,resultOwner:()=>null});
+ return {h,spe};
+}
 function originalIntro(id) {
  const entry=manifest.entries.find(e=>e.kind===1&&e.speId===id),h=fixture(undefined,{entries:[entry]});
  const generation=4,eventId=12,bits=Array(32).fill(0);bits[0]=1;
@@ -284,6 +299,24 @@ export function runMobileSpeChecks(register=test){
  register('mobile native report retires SPE and does not consume its first key',()=>{const h=hdFixture();h.setReport(1);assert.equal(h.api.isOpen(),false);assert.equal(h.api.getLcdPresentation(),'off');assert.equal((h.listeners.get('keydown')||[]).length,0);h.noInput();});
  register('mobile native retirement prevents late asset completion from reviving its movie',()=>{const h=fixture();h.flush();h.retireNative();h.resolve();assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.isOpen(),false);h.noInput();});
  register('mobile ordinary attack and map status without certified assets fall back to physical LCD',()=>{for(const kind of [3,4]){const h=fixture();h.setKind(kind);h.flush();h.resolve();assert.equal(h.api.getLcdPresentation(),'lcd');assert.equal(h.api.isOpen(),false);h.noInput();}});
+ register('mobile opening upgrade and departure own display before the first battle input',()=>{
+  for(const reason of [1,2]){const {h}=openingStatusFixture(reason);h.flush();assert.equal(h.api.getLcdPresentation(),'lcd');
+   assert.equal(h.api.isHandling(),false);assert.equal(h.api.skip(),false);h.noInput();}
+ });
+ register('mobile opening status retires as soon as its original event ends',()=>{
+  const {h,spe}=openingStatusFixture();h.flush();assert.equal(h.api.getLcdPresentation(),'lcd');
+  spe.active=0;h.api.onEngineSpe();assert.equal(h.api.getLcdPresentation(),'off');h.noInput();
+ });
+ for(const [name,change] of [['report',{g_hdReportActive:1}],['input',{g_hdFightInputKind:1}],['record',{g_hdRecordActive:1}],
+  ['stale generation',{g_hdDetailGeneration:5}],['different formation',{g_FgtParam:{Mode:1,GenArray:Array(20).fill(0)}}]]){
+  register('mobile opening status rejects '+name,()=>{const {h}=openingStatusFixture(2,change);h.flush();
+   assert.equal(h.api.getLcdPresentation(),'off');h.noInput();});
+ }
+ register('mobile opening status does not borrow command-phase or torn frames',()=>{
+  const {h,spe}=openingStatusFixture();spe.statusEffect.phase=1;h.flush();assert.equal(h.api.getLcdPresentation(),'off');
+  spe.statusEffect.phase=2;let seq=0;h.c.baye.hd.spe=()=>({...spe,display:{...spe.display,commitSeq:++seq}});
+  h.flush();assert.equal(h.api.getLcdPresentation(),'off');h.noInput();
+ });
  register('mobile kind 1 still requires the current original opening or Maker owner',()=>{const h=fixture();h.c.BayeHdSystemUi={getMode:()=> 'hd'};h.setKind(1);assert.equal(h.api.isOpen(),false);assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.skip(),false);assert.equal(h.api.returnToTitle('anything'),false);h.noInput();});
  register('classic mobile prepareStart continues once without native pre-main reads or timers',()=>{const h=fixture();let count=0;h.c.BayeHdSystemUi={getMode:()=> 'classic'};h.c.baye.hd.ready=()=>{throw Error('native before main');};h.api.prepareStart(result=>{count++;assert.equal(result.reason,'classic');});assert.equal(count,1);h.noInput();});
  register('mobile start binds one control listener per event without PC keyboard capture',()=>{const h=fixture();h.api.start();h.api.start();assert.equal(h.polls.size,1);assert.equal((h.listeners.get('keydown')||[]).length,0);assert.deepEqual(Object.values(h.nodes.get('hd-spe').handlers).map(events=>events.length),[1,1,1,1,1]);h.noInput();});

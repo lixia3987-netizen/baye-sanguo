@@ -33,6 +33,7 @@ import {battleResultNoteObservation,verifyBattleResultNote} from './hd-battle-hu
 import {createMobileCampaignInputs} from './hd-mobile-campaign-inputs.mjs';
 import {verifyOriginalSavePair} from './hd-mobile-system-runtime-oracle.mjs';
 import {verifyMobileSuccessorChoice,verifyMobileSuccessorReport,verifyMobileSuccessorSettlement} from './hd-mobile-successor-runtime-oracle.mjs';
+import {recordBattleOpeningStatus,verifyBattleOpeningStatus} from './hd-battle-opening-status-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -65,6 +66,11 @@ assert.ok(!defenseSameMonth||defenseScenario&&mobileCampaignWidth&&!defenseAnyOu
 assert.ok(!defenseTenGenerals||defenseScenario&&mobileCampaignWidth&&campaignPeriod===4&&
     !defenseSameMonth&&!defenseAnyOutcome&&!defenseAfterSuccession,
     '--defense-ten-generals requires the period 4 mobile defense campaign');
+const battleOpeningStatus=process.argv.includes('--battle-opening-status');
+const missingOpeningStatusArt=process.argv.includes('--opening-status-art-missing');
+assert.ok(!battleOpeningStatus||scenario==='victory'&&mobileCampaignWidth&&campaignPeriod===1,
+    '--battle-opening-status requires the period 1 mobile victory campaign');
+assert.ok(!missingOpeningStatusArt||battleOpeningStatus,'--opening-status-art-missing requires --battle-opening-status');
 const captiveScenario=scenario==='captives',preflightOnly=process.argv.includes('--preflight-only');
 const captiveOrder=process.argv.includes('--captive-order');
 const captiveUntilJoined=process.argv.includes('--captive-until-joined');
@@ -891,6 +897,34 @@ async function prepareArmy(cdp,fixture) {
     report.armyFixture={...recruitment,afterMonth,...await allocateArmy(cdp,recruitment,label)};
 }
 
+async function prepareUnarmedMarch(cdp,cityIndex) {
+    const before=await evaluate(cdp,worldExpression),person=before.allPersons[before.realm.playerKing];
+    assert.ok(person.Arms>0&&person.Equip.some(Boolean),'The original ruler is armed and carries equipment');
+    const reserve=before.cities.find(city=>city.i===cityIndex).MothballArms;
+    await openCity(cdp,cityIndex,'opening-status-distribution');
+    await click(cdp,'#hd-city-menu [data-hd-root="2"]');
+    await waitFor(cdp,'original distribution command',`baye.hd.menuItems().active&&baye.hd.menuItems().context===1&&
+        baye.hd.menuItems().kind===2&&baye.hd.menuItems().names[2]==='分配'`);
+    await click(cdp,'#hd-city-menu [data-hd-sub="2"]');
+    const picker=await livePersonMenu(cdp,'opening status distribution');
+    const item=picker.city.deepItems.find(p=>p.pind===person.i);
+    assert.ok(item,'The original distribution list offers the equipped ruler');
+    await click(cdp,personSelector(picker.menu,item));
+    const qty=await waitFor(cdp,'actual minimum distribution',`(() => {const q=baye.hd.qty();
+        return q.active&&q.ready&&q.min===0&&q.value>0&&q;})()`);
+    await click(cdp,mobileQuantityControl('data-hd-qty-bound'));
+    await waitFor(cdp,'native minimum distribution ACK',`(() => {const q=baye.hd.qty();
+        return q.active&&q.ready&&q.session===${qty.session}&&q.value===0&&q.lastKey===38;})()`);
+    await checkpoint(cdp,'opening-status-zero-arms');
+    await confirmCampaignQuantity(cdp);
+    await waitFor(cdp,'native troops return to reserve',`baye.data.g_Persons[${person.i}].Arms===0&&
+        baye.data.g_Cities[${cityIndex}].MothballArms===${reserve+person.Arms}`);
+    await settleDomestic(cdp);
+    await waitFor(cdp,'ordinary map after zero-troop allocation',mobileMapReady);
+    await checkpoint(cdp,'opening-status-prepared-map');
+    return {person,cityIndex,quantity:0,reserveBefore:reserve,reserveAfter:reserve+person.Arms,missingArt:missingOpeningStatusArt};
+}
+
 async function recordBattleResultNote(cdp,label,expected) {
     const sample=await waitFor(cdp,'current native result note for city '+expected.cityIndex,
         `(() => {const s=${battleResultNoteObservation};return s&&s.note.outcome===${expected.outcome}&&s.city.index===${expected.cityIndex}?s:null;})()`,15000);
@@ -974,6 +1008,8 @@ async function campaignSmoke(cdp) {
     if(defenseScenario)return defendCampaign(cdp);
     if(scenario==='domestic')await domesticBeforeMarch(cdp,8);
     if(winningScenarios.has(scenario))await prepareArmy(cdp,winningFixture);
+    const openingStatus=battleOpeningStatus?report.openingStatus=await prepareUnarmedMarch(cdp,winningFixture.origin):null;
+    if(openingStatus)assert.ok(await evaluate(cdp,recordBattleOpeningStatus(openingStatus.person.i)));
     const rounds=['campaign','retreat'].includes(scenario)?3:1;
     for(let round=1;round<=rounds;round++) {
         const winRequested=!['retreat','domestic'].includes(scenario)&&!(scenario==='campaign'&&round>1);
@@ -990,6 +1026,7 @@ async function campaignSmoke(cdp) {
         let generalNames=winningFixture.leaders.slice();
         if(winRequested) {
             assert.ok(generalNames.every(name=>plan.generals.some(p=>p.name===name)),'all prepared leaders are genuine armed allied generals in the origin');
+            if(openingStatus)generalNames.push(openingStatus.person.name);
         }
         if(!winRequested) {
             // A separate real general for each retreat keeps enough actual
@@ -1000,14 +1037,26 @@ async function campaignSmoke(cdp) {
         }
         const foodBudget=arrivalScenario?worldBefore.cities.find(c=>c.i===plan.origin).Food-20:winRequested?undefined:10;
         if(arrivalScenario)assert.ok(foodBudget>0,'The first army leaves twenty actual grain for the second');
-        const march=await dispatchMarch(cdp,plan.origin,plan.target,'march-'+round,{generalNames,foodBudget,leaveQueued:arrivalScenario});
+        const march=await dispatchMarch(cdp,plan.origin,plan.target,'march-'+round,{generalNames,foodBudget,leaveQueued:arrivalScenario,
+            unarmedPerson:openingStatus?.person.i});
         const arrival=arrivalScenario?await queueFollowingArmy(cdp,march):null;
         await waitForGameProgress(cdp,'real player battle',`baye.hd.fight().active && !baye.hd.fight().over && baye.hd.fight().inputKind===1`,60000);
         await checkpoint(cdp,'battle-'+round+'-ready');
         const initial=await evaluate(cdp,battleStateExpression);
         assertDispatchedArmy(initial,march);
         assert.equal(initial.fight.over,0,'the new native battle clears the previous terminal result');
-        assert.ok(initial.units.filter(p=>p.side==='player').every(p=>p.arms>0),'every submitted player general has genuine troops');
+        assert.ok(initial.units.filter(p=>p.side==='player'&&p.id-1!==openingStatus?.person.i).every(p=>p.arms>0),
+            'Each prepared active player general has genuine troops');
+        if(openingStatus) {
+            const {image,...observation}=await evaluate(cdp,'window.__battleOpeningStatus');
+            openingStatus.observation=observation;
+            if(image)fs.writeFileSync(path.join(artifactDir,'opening-status-final-frame.png'),Buffer.from(image.split(',')[1],'base64'));
+            if(missingOpeningStatusArt)assert.ok(report.missingOpeningStatusRequests?.length,'The private browser requests the missing status picture');
+            openingStatus.verdict=verifyBattleOpeningStatus(observation,openingStatus.person,report.mobileReportAcks||[],missingOpeningStatusArt);
+            assert.equal(initial.units.find(p=>p.id-1===openingStatus.person.i).state,8);
+            await waitBattle(cdp,1,'ordinary HD battle after the opening status report');
+            assert.equal(await evaluate(cdp,'BayeHdSpe.getLcdPresentation()'),'off');
+        }
         if(winRequested)await conquerBattle(cdp,round);
         else await retreatBattle(cdp,round);
         const terminal=await evaluate(cdp,battleStateExpression);
@@ -1050,6 +1099,13 @@ async function campaignSmoke(cdp) {
         await checkpoint(cdp,'battle-'+round+'-settled-map');
         if(mobileCampaignInput) {
             report.mobileCapturedCity=await inspectMobileOwnedCity(cdp,plan.target,after,'mobile-captured');
+            if(openingStatus) {
+                const {person}=openingStatus,returned=after.allPersons[person.i];
+                assert.equal(after.realm.playerKing,person.i);
+                assert.deepEqual(returned.Equip,person.Equip,'The original post-battle settlement preserves the departed ruler’s equipment');
+                assert.ok(report.mobileCapturedCity.residents.includes(person.i),'The ruler who departed the battle returns to the captured city');
+                openingStatus.settled={person:returned.i,city:plan.target,equipment:returned.Equip};
+            }
             await checkpoint(cdp,'mobile-after-capture-map');
         }
         if(captiveScenario){await inspectActualCaptives(cdp,plan);return;}
@@ -1487,7 +1543,8 @@ async function dispatchMarch(cdp,origin,target,label,options={}) {
         const person=queue.find(p=>p.pind===Number(item.pind));
         assert.ok(person&&person.name===item.name,'the displayed name maps to the exact native origin PersonQueue identity');
         assert.equal(person.belong,await evaluate(cdp,'baye.hd.realm().playerBelong'),'only an actual allied origin general is dispatched');
-        assert.ok(person.arms>0,'every selected general has actual troops before departure');
+        if(person.pind===options.unarmedPerson)assert.equal(person.arms,0,'The opening-status subject travels with the confirmed zero troops');
+        else assert.ok(person.arms>0,'every selected general has actual troops before departure');
         await checkpoint(cdp,label+'-select-'+i+'-ready');
         if(findGenerals&&i===0)await findMilitaryGeneral(cdp,before,item,label);
         if(findGenerals&&i===1)await assertFreshGeneralSearch(cdp,before.menu);
@@ -2664,9 +2721,12 @@ async function main() {
             cdp.send('Page.handleJavaScriptDialog', { accept: false }).catch(() => {});
         });
         cdp.on('Fetch.requestPaused', (event) => {
-            const local = new URL(event.request.url).origin === origin;
-            if (!local) report.blocked.push(event.request.url);
-            cdp.send(local ? 'Fetch.continueRequest' : 'Fetch.failRequest', local ? { requestId: event.requestId } :
+            const url=new URL(event.request.url),local=url.origin===origin;
+            const missing=local&&missingOpeningStatusArt&&url.pathname==='/assets/hd-spe/status-27/picture-6.png';
+            if(!local)report.blocked.push(event.request.url);
+            if(missing)(report.missingOpeningStatusRequests??=[]).push(url.pathname);
+            const allowed=local&&!missing;
+            cdp.send(allowed ? 'Fetch.continueRequest' : 'Fetch.failRequest', allowed ? { requestId: event.requestId } :
                 { requestId: event.requestId, errorReason: 'BlockedByClient' }).catch(() => {});
         });
         await cdp.send('Runtime.enable');

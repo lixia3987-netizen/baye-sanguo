@@ -21,6 +21,32 @@
             return mode === 'hd' || (mode === 'auto' && !!(map && typeof map.getMode === 'function' && map.getMode() === 'hd-map'));
         } catch (error) { return false; }
     }
+    function readMobileBattleDisplay(data, libraryGeneration) {
+        var ticket = mobileHost.readTicket();
+        if (ticket) return ticket;
+        // FgtInit publishes status frames before the first battle input.
+        // This owner is used only to display the current movie.
+        if (!data || data.g_hdSpeActive !== 1 || data.g_hdFightActive !== 0 || data.g_hdFightOver !== 0 ||
+            data.g_FgtOver !== 0 || data.g_hdFightInputKind !== 0 || data.g_hdFightWait !== 0 ||
+            ['g_hdReportActive', 'g_hdMenuActive', 'g_hdHelpActive', 'g_hdViewActive', 'g_hdQtyActive',
+                'g_hdRecordActive', 'g_hdResultOwnerKind'].some(function (field) { return data[field] !== 0; }) ||
+            data.g_hdCityInfoActive !== undefined && data.g_hdCityInfoActive !== 0) return null;
+        var s = baye.hd.spe(), param = data.g_FgtParam;
+        if (!s || s.active !== 1 || s.protocolVersion !== 2 || s.protocolValid !== true || s.frameValid !== true ||
+            s.resourceIndex !== 0 || s.keyflag !== 0 || s.skipEligible !== false || !statusRange(s) ||
+            s.generation !== data.g_hdDetailGeneration || !matches(s) || s.display.frameValid !== true ||
+            !param || (param.Mode !== 0 && param.Mode !== 1) || !param.GenArray) return null;
+        var current = s.statusEffect, displayed = s.display.statusEffect, reason = s.startFrm === 0 ? 1 : 2;
+        if (!current || !displayed || current.protocolVersion !== 1 || displayed.protocolVersion !== 1 ||
+            current.valid !== true || displayed.valid !== true || current.phase !== 2 || displayed.phase !== 2 ||
+            current.reason !== reason || displayed.reason !== reason || current.subjectIndex !== displayed.subjectIndex ||
+            current.subjectPerson !== displayed.subjectPerson || !integer(displayed.subjectIndex) ||
+            displayed.subjectIndex < 0 || displayed.subjectIndex >= 20 || !integer(displayed.subjectPerson) ||
+            displayed.subjectPerson < 0 || displayed.subjectPerson >= 200 ||
+            param.GenArray[displayed.subjectIndex] !== displayed.subjectPerson + 1) return null;
+        return { data: data, libraryGeneration: libraryGeneration,
+            key: 'battle-opening:' + stamp(s) + ':' + reason + ':' + displayed.subjectIndex + ':' + displayed.subjectPerson };
+    }
     function readMobileOwner(intro) {
         if (state.preparing) return null;
         try {
@@ -35,9 +61,8 @@
                 return introData && api.isCurrent(identity) && mobileIntroMode() && baye.data === introData
                     ? {data: introData, generation: identity.generation} : null;
             }
-            // A movie has no battle action ticket. Its authenticated LCD base
-            // owner is sufficient only for display; blockers remain unchanged.
-            var a = mobileHost.readTicket(), data = baye.data, z = mobileHost.readTicket(), latest = api.read();
+            var data = baye.data, a = readMobileBattleDisplay(data, identity.generation),
+                z = readMobileBattleDisplay(data, identity.generation), latest = api.read();
             if (!a || !z || !data || a.data !== data || z.data !== data || a.key !== z.key || typeof z.key !== 'string' || !z.key ||
                 a.libraryGeneration !== identity.generation || z.libraryGeneration !== identity.generation ||
                 !latest || latest.status !== 'ready' || latest.byteLength !== 207195 || latest.generation !== identity.generation || latest.sha256 !== identity.sha256 || !api.isCurrent(latest) ||
