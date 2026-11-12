@@ -324,7 +324,7 @@
         return detail && sameView(state.viewOwner, detail.owner) && state.viewStamp === JSON.stringify(detail) ? detail : null;
     }
 
-    function viewKey(code, owner) {
+    function viewKey(code, owner, point) {
         if (mobileBattleHost && fightActive()) {
             var mobile = getBattleInputTicket();
             return !!(mobile && sameView(owner, mobile.detail.owner) && dispatchBattleDetail(code, mobile));
@@ -333,7 +333,7 @@
         if (!live || !sameView(owner, live.owner) || sameView(state.viewCommit, live.owner) ||
             [VK.UP, VK.DOWN, VK.LEFT, VK.RIGHT, VK.ENTER, VK.EXIT].indexOf(code) < 0 ||
             !global.BayeHdBattle || typeof BayeHdBattle.viewKey !== 'function') { return false; }
-        var epoch = state.viewEpoch, result = BayeHdBattle.viewKey(code, live.owner);
+        var epoch = state.viewEpoch, result = point ? BayeHdBattle.viewKey(code, live.owner, point) : BayeHdBattle.viewKey(code, live.owner);
         if (!result || !result.ok) { return false; }
         if (epoch === state.viewEpoch && sameView(state.viewOwner, live.owner)) {
             state.viewCommit = live.owner;
@@ -341,6 +341,41 @@
             else { render(); }
         }
         return true;
+    }
+
+    function viewCanLocate() {
+        try {
+            var f = baye.hd.fight();
+            return f && f.active === 1 && f.over === 0 && f.inputKind === 10 &&
+                f.phase === 1 && f.wait === 1 && f.actorIndex === 255;
+        } catch (e) { return false; }
+    }
+
+    function updateViewNavigation(nav, detail) {
+        if (!nav) { return; }
+        var disabled = state.showLcd || sameView(state.viewCommit, detail.owner);
+        nav.rows.forEach(function (row) {
+            var selected = nav.selected === row;
+            if (row.node.disabled !== disabled) { row.node.disabled = disabled; }
+            var pressed = selected ? 'true' : 'false';
+            if (row.node.getAttribute('aria-pressed') !== pressed) { row.node.setAttribute('aria-pressed', pressed); }
+            nav.dots[row.point.slot].classList.toggle('is-located', selected);
+        });
+        var hidden = !nav.selected || !viewCanLocate(), locateDisabled = disabled || hidden;
+        if (nav.locate.hidden !== hidden) { nav.locate.hidden = hidden; }
+        if (nav.locate.disabled !== locateDisabled) { nav.locate.disabled = locateDisabled; }
+    }
+
+    function chooseViewLocation(target) {
+        var live = currentView(), body = el('hd-dialog-body'), nav = body && body._hdSituationNavigation;
+        if (!live || !nav || state.showLcd || target.disabled ||
+            target.getAttribute('data-hd-view-owner') !== viewToken(live.owner) || sameView(state.viewCommit, live.owner)) { return; }
+        if (target === nav.locate && nav.selected && viewCanLocate()) {
+            viewKey(VK.EXIT, live.owner, nav.selected.point);
+            return;
+        }
+        var row = nav.rows.filter(function (entry) { return entry.node === target; })[0];
+        if (row) { nav.selected = row; updateViewNavigation(nav, live); }
     }
 
     function applyEngineView(info) {
@@ -1189,6 +1224,9 @@
         if (body._hdSituationView !== key) {
             body._hdSituationView = key;
             body.textContent = '';
+            var root = el('hd-dialog'), nav = root && root.getAttribute('data-hd-view-navigation') != null ?
+                {rows:[], dots:{}, selected:null, locate:null} : null;
+            body._hdSituationNavigation = nav;
             var layout = document.createElement('div');
             layout.className = 'hd-situation';
             var list = document.createElement('section');
@@ -1214,16 +1252,29 @@
             var table = document.createElement('div');
             table.className = 'hd-situation-rows';
             detail.rows.forEach(function (row) {
-                var item = document.createElement('div');
+                var point = nav && detail.points.filter(function (entry) {
+                    return entry.slot === row.slot && entry.personIndex === row.personIndex;
+                })[0];
+                var item = document.createElement(point ? 'button' : 'div');
                 item.className = 'hd-situation-row';
                 item.setAttribute('data-hd-view-slot', String(row.slot));
                 item.setAttribute('data-hd-view-person', String(row.personIndex));
-                item.setAttribute('aria-label', row.text);
+                item.setAttribute('aria-label', row.text + (point ? ' · 位置 ' + point.x + ',' + point.y : ''));
                 var name = document.createElement('span');
                 name.className = 'hd-situation-name'; name.textContent = row.name;
                 var arms = document.createElement('span');
                 arms.className = 'hd-situation-arms'; arms.textContent = '兵 ' + row.arms;
-                item.appendChild(name); item.appendChild(arms); table.appendChild(item);
+                item.appendChild(name);
+                if (point) {
+                    item.type = 'button';
+                    item.setAttribute('data-hd-view-choose', String(row.slot));
+                    item.setAttribute('data-hd-view-owner', token);
+                    var coords = document.createElement('span');
+                    coords.className = 'hd-situation-coords'; coords.textContent = point.x + ',' + point.y;
+                    item.appendChild(coords);
+                    nav.rows.push({node:item, point:point});
+                }
+                item.appendChild(arms); table.appendChild(item);
             });
             list.appendChild(table); layout.appendChild(list);
             var positions = document.createElement('section');
@@ -1254,6 +1305,7 @@
                 dot.setAttribute('data-hd-view-x', String(point.x)); dot.setAttribute('data-hd-view-y', String(point.y));
                 dot.title = (row ? row.name : point.slot < 10 ? '我方位置' : '敌方位置') + ' · ' + point.x + ',' + point.y;
                 map.appendChild(dot);
+                if (nav) { nav.dots[point.slot] = dot; }
             });
             positions.appendChild(map);
             var legend = document.createElement('p');
@@ -1276,11 +1328,20 @@
                     button.setAttribute('data-hd-view-owner', token); button.textContent = action[1];
                     actions.appendChild(button);
                 });
+            if (nav) {
+                nav.locate = document.createElement('button');
+                nav.locate.type = 'button';
+                nav.locate.setAttribute('data-hd-view-locate', '');
+                nav.locate.setAttribute('data-hd-view-owner', token);
+                nav.locate.textContent = '定位到战场';
+                actions.appendChild(nav.locate);
+            }
             body.appendChild(actions);
         }
         renderViewTerrain(body._hdSituationTerrain, detail);
         var buttons = body.querySelectorAll && body.querySelectorAll('[data-hd-view-key]');
         if (buttons) { for (var i = 0; i < buttons.length; i += 1) { buttons[i].disabled = sameView(state.viewCommit, detail.owner); } }
+        updateViewNavigation(body._hdSituationNavigation, detail);
     }
 
     function appendCampaignSearch(body, choices, names) {
@@ -2510,6 +2571,8 @@
                     target.getAttribute('data-hd-dlg-back') != null ||
                     target.getAttribute('data-hd-dlg-lcd') != null ||
                     target.getAttribute('data-hd-view-key') != null ||
+                    target.getAttribute('data-hd-view-choose') != null ||
+                    target.getAttribute('data-hd-view-locate') != null ||
                     target.getAttribute('data-hd-defender-index') != null ||
                     target.getAttribute('data-hd-defenders-finish') != null ||
                     target.getAttribute('data-hd-successor-index') != null)) {
@@ -2631,6 +2694,16 @@
                     state.showLcd = !state.showLcd;
                     applyChrome();
                     t.textContent = state.showLcd ? '隐藏经典画面' : '经典画面';
+                    var viewBody = el('hd-dialog-body');
+                    if (state.kind === 'view' && viewBody) { updateViewNavigation(viewBody._hdSituationNavigation, state.viewDetail); }
+                    return;
+                }
+                if (t.getAttribute && (t.getAttribute('data-hd-view-choose') != null ||
+                    t.getAttribute('data-hd-view-locate') != null)) {
+                    ev.preventDefault();
+                    var locationPressed = state.pressedView;
+                    state.pressedView = null;
+                    if (!stalePressedView(locationPressed, t)) { chooseViewLocation(t); }
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-view-key') != null) {

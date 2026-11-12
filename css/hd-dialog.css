@@ -438,6 +438,28 @@ html[data-baye-battle="hd"][data-baye-battle-input="help"][data-baye-dialog="hd"
     font-size: 14px;
 }
 
+.hd-situation-row[data-hd-view-choose] {
+    width: 100%;
+    color: inherit;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.hd-situation-row[data-hd-view-choose]:disabled { cursor: default; }
+
+.hd-situation-row[aria-pressed="true"] {
+    border-color: #e8c75a;
+    background: #413b2c;
+}
+
+.hd-situation-coords {
+    flex: 1;
+    color: #b9c9d9;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
 .hd-situation-name {
     min-width: 0;
     overflow-wrap: anywhere;
@@ -525,6 +547,13 @@ html[data-baye-battle="hd"][data-baye-battle-input="help"][data-baye-dialog="hd"
     z-index: 1;
 }
 
+.hd-situation-dot.is-located {
+    outline-color: #fff0a6;
+    outline-width: 3px;
+    outline-offset: 3px;
+    z-index: 2;
+}
+
 .hd-situation-map-legend {
     text-align: center;
     margin-bottom: 0;
@@ -553,6 +582,8 @@ html[data-baye-battle="hd"][data-baye-battle-input="help"][data-baye-dialog="hd"
     opacity: 0.5;
     cursor: wait;
 }
+
+.hd-situation-actions button[data-hd-view-locate] { background: #31594a; }
 
 html[data-baye-dialog="hd"][data-baye-dialog-pass="0"] body.baye-hd-dialog-view:not(.baye-hd-dialog-lcd) .container.js-baye-pc-lcd {
     visibility: hidden !important;

@@ -555,17 +555,39 @@
         if (text) { state.fightTip = text; applyChrome(); }
         return { ok: false, reason: reason };
     }
+    function viewPointMatches(view, point) {
+        return Array.isArray(view.rows) && Array.isArray(view.points) &&
+            view.rows.some(function (row) { return row && row.slot === point.slot && row.personIndex === point.personIndex; }) &&
+            view.points.some(function (current) { return current && current.slot === point.slot &&
+                current.personIndex === point.personIndex && current.x === point.x && current.y === point.y &&
+                current.state === point.state && current.state !== 8; });
+    }
+    function locateTargetCurrent(receipt) {
+        if (mobileHost || !state.open || state.preview || state.showLcd || document.hidden) { return false; }
+        try {
+            var b = global.baye, data = receipt.data, point = receipt.point;
+            if (b !== receipt.engine || b.data !== data || global.dynLib !== receipt.lib ||
+                data.g_hdDetailGeneration !== receipt.generation ||
+                !(point.x >= 0 && point.y >= 0 && point.x < data.g_MapWid && point.y < data.g_MapHgt) ||
+                data.g_FgtParam.GenArray[point.slot] !== point.personIndex + 1) { return false; }
+            var position = data.g_GenPos[point.slot];
+            return !!(position && position.x === point.x && position.y === point.y && position.state === point.state);
+        } catch (e) { return false; }
+    }
     function sameInput(transaction, snap, owner) {
         if (!snap.ready || transaction.epoch !== modeEpoch || transaction.seq !== snap.seq ||
             transaction.kind !== snap.kind || transaction.actor !== snap.actor) { return false; }
         if (mobileHost && !sameMobileTicket(transaction.mobileOwner, owner === undefined ? getInputTicket() : owner, false)) { return false; }
+        if (transaction.locate && !locateTargetCurrent(transaction.locate)) { return false; }
         if (transaction.viewOwner) {
             var view;
             try { view = baye.hd.view && baye.hd.view(); } catch (e) { return false; }
             var owner = transaction.viewOwner;
             if (!view || view.active !== 1 || view.protocolVersion !== 1 ||
                 view.generation !== view.detailGeneration || owner.generation !== view.generation ||
-                owner.seq !== view.seq || owner.inputSeq !== view.inputSeq || view.inputSeq !== snap.seq) { return false; }
+                owner.seq !== view.seq || owner.inputSeq !== view.inputSeq || view.inputSeq !== snap.seq ||
+                transaction.locate && (view.complete !== 1 || view.custom !== 0 ||
+                    !viewPointMatches(view, transaction.locate.point))) { return false; }
         }
         if (transaction.menuSeq != null) {
             var menu = menuSnapshot(snap);
@@ -612,11 +634,29 @@
         if (expected) { scheduleCommand(0, transaction.sentAt + ACK_POLL_MS); }
         else { scheduleCommand(); }
     }
+    function resumeViewLocation(transaction, snap) {
+        var receipt = transaction.locate;
+        if (!receipt || transaction.type !== 'key' || !transaction.committed || transaction.epoch !== modeEpoch ||
+            !transaction.sentAt || Date.now() - transaction.sentAt > 5000 || !snap.showHd || snap.reportActive ||
+            !snap.fight || snap.fight.active !== 1 || snap.fight.over !== 0 || snap.fight.wait !== 1 ||
+            snap.fight.phase !== 1 || snap.actor !== 255 || !locateTargetCurrent(receipt) ||
+            !snap.focus || snap.focus.x !== receipt.focus.x || snap.focus.y !== receipt.focus.y) { return false; }
+        // Native VIEW ends its wait, then FgtGetFoucsInner resumes PICK.
+        var retiredSeq = (transaction.seq + 1) >>> 0 || 1;
+        if (snap.kind === INPUT.BUSY && snap.seq === retiredSeq) { scheduleCommand(); return true; }
+        var resumedSeq = (retiredSeq + 1) >>> 0 || 1;
+        if (!snap.ready || snap.kind !== INPUT.PICK || snap.seq !== resumedSeq ||
+            snap.menu && snap.menu.active) { return false; }
+        finishRequest('view-returned');
+        beginRequest('focus', {x:receipt.point.x, y:receipt.point.y, locate:receipt}, snap);
+        return true;
+    }
     function advanceRequest(fallbackAt) {
         var transaction = state.transaction;
         if (!transaction) { return; }
         var snap = inputSnapshot();
         if (!sameInput(transaction, snap)) {
+            if (resumeViewLocation(transaction, snap)) { return; }
             finishRequest('input-changed');
             // A committed input can publish a new player wait before the next
             // lifecycle poll. Sample its own board without advancing input.
@@ -769,7 +809,7 @@
         if (!snap.ready || (snap.kind !== INPUT.HELP && snap.kind !== INPUT.VIEW)) { return reject('not-help-input'); }
         return beginRequest('key', { code: VK.EXIT }, snap);
     }
-    function viewKey(code, owner) {
+    function viewKey(code, owner, point) {
         var snap = inputSnapshot(), view;
         try { view = baye.hd.view && baye.hd.view(); } catch (e) { return reject('view-unavailable'); }
         if (!owner || !view || !snap.ready || snap.kind !== INPUT.VIEW || owner.kind !== INPUT.VIEW ||
@@ -779,8 +819,23 @@
             document.hidden || [VK.UP, VK.DOWN, VK.LEFT, VK.RIGHT, VK.ENTER, VK.EXIT].indexOf(code) < 0) {
             return reject('view-owner-changed');
         }
-        return beginRequest('key', { code: code, viewOwner: { kind: owner.kind, seq: owner.seq,
-            generation: owner.generation, inputSeq: owner.inputSeq } }, snap);
+        var options = { code: code, viewOwner: { kind: owner.kind, seq: owner.seq,
+            generation: owner.generation, inputSeq: owner.inputSeq } };
+        if (point) {
+            if (code !== VK.EXIT || view.complete !== 1 || view.custom !== 0 || !viewPointMatches(view, point) ||
+                !Number.isInteger(point.slot) || point.slot < 0 || point.slot >= 20 ||
+                !Number.isInteger(point.personIndex) || point.personIndex < 0 || point.personIndex >= 65535 ||
+                !Number.isInteger(point.x) || !Number.isInteger(point.y) ||
+                !Number.isInteger(point.state) || point.state < 0 || point.state > 255 ||
+                snap.fight.wait !== 1 || snap.fight.phase !== 1 || snap.actor !== 255 || !snap.focus) {
+                return reject('view-location-unavailable');
+            }
+            var engine = global.baye;
+            options.locate = {engine:engine, data:engine.data, lib:global.dynLib, generation:view.generation, focus:snap.focus,
+                point:{slot:point.slot, personIndex:point.personIndex, x:point.x, y:point.y, state:point.state}};
+            if (!locateTargetCurrent(options.locate)) { return reject('view-target-changed'); }
+        }
+        return beginRequest('key', options, snap);
     }
     function handleKey(event) {
         if (global.BayeHdDialog && typeof BayeHdDialog.isBlockingKeyboard === 'function' &&
@@ -1013,7 +1068,9 @@
                 BayeHdDialog.retireStaleReport();
             }
             // A renderer may retire stale requests, but cannot deliver keys.
-            if (state.transaction && !sameInput(state.transaction, snap)) { finishRequest('input-changed'); }
+            var request = state.transaction;
+            if (request && !(request.locate && request.type === 'key' && request.committed) &&
+                !sameInput(request, snap)) { finishRequest('input-changed'); }
             var tip = snap.fight && snap.fight.tip ? String(snap.fight.tip) : '';
             if (tip !== state.tipDismissed && tip) { state.fightTip = tip; }
             if (!tip) { state.tipDismissed = ''; }
@@ -1054,6 +1111,7 @@
             if (document.hidden) {
                 lastBoardPaint = null;
                 pcControlPress = null;
+                if (state.transaction && state.transaction.locate) { finishRequest('hidden'); }
                 renderFocusCard(false);
                 if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
                 return;
@@ -1221,7 +1279,12 @@
         root.addEventListener('pointercancel',function () { pcControlPress = null; });
         root.addEventListener('lostpointercapture',function () { pcControlPress = null; });
         if (global.addEventListener) {
-            ['blur','pagehide','resize'].forEach(function (name) { global.addEventListener(name,function () { pcControlPress = null; }); });
+            ['blur','pagehide','resize'].forEach(function (name) {
+                global.addEventListener(name,function () {
+                    pcControlPress = null;
+                    if (name !== 'resize' && state.transaction && state.transaction.locate) { finishRequest(name); }
+                });
+            });
         }
         root.addEventListener('click', function (event) {
             var node = event.target;
@@ -1239,7 +1302,9 @@
                         event.preventDefault(); return;
                     }
                     if (node.getAttribute('data-hd-battle-lcd') != null) {
-                        pcControlPress = null; state.showLcd = !state.showLcd; applyChrome(); event.preventDefault(); return;
+                        pcControlPress = null;
+                        if (state.transaction && state.transaction.locate) { finishRequest('lcd-presentation-changed'); }
+                        state.showLcd = !state.showLcd; applyChrome(); event.preventDefault(); return;
                     }
                     if (node.getAttribute('data-hd-battle-sys') != null) { toggleSystemMenu(); event.preventDefault(); return; }
                     if (node.getAttribute('data-hd-battle-cancel') != null || node.getAttribute('data-hd-battle-menu-exit') != null) {

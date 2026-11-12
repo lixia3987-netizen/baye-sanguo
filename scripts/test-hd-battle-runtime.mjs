@@ -718,7 +718,32 @@ async function viewSmoke(cdp,before) {
         current=await verifyView(cdp,label+' restored HD');assert.equal(current.dialog.showLcd,false);
         assert.deepEqual(await evaluate(cdp,'baye.hd.view()'),owner);assert.equal(await evaluate(cdp,'window.__battleKeys.length'),startKeys,'resize and explicit classic comparison send zero native keys');
     }
-    await click(cdp,'#hd-dialog [data-hd-dlg-ok]');await waitBattle(cdp,1,'return from native VIEW10');
+    const from=current.fight, choice=current.view.points.find(point=>current.view.rows.some(row=>
+        row.slot===point.slot&&row.personIndex===point.personIndex)&&(point.x!==from.focusX||point.y!==from.focusY));
+    assert.ok(choice,'the native enemy page includes a target away from the current cursor');
+    const beforeLocation=await evaluate(cdp,battleStateExpression), keysBeforeLocation=await evaluate(cdp,'window.__battleKeys.length');
+    await click(cdp,`#hd-dialog [data-hd-view-choose="${choice.slot}"]`);
+    const selection=await evaluate(cdp,`(() => {
+        const row=document.querySelector('.hd-situation-row[aria-pressed="true"]'), dot=document.querySelector('.hd-situation-dot.is-located');
+        return {person:Number(row?.dataset.hdViewPerson),slot:Number(dot?.dataset.hdViewSlot),coords:row?.querySelector('.hd-situation-coords')?.textContent,
+            locator:document.querySelector('[data-hd-view-locate]')?.checkVisibility()};
+    })()`);
+    assert.deepEqual(selection,{person:choice.personIndex,slot:choice.slot,coords:choice.x+','+choice.y,locator:true});
+    assert.deepEqual(await evaluate(cdp,'baye.hd.view()'),current.view,'highlighting a unit keeps the current native page');
+    assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keysBeforeLocation,'highlighting sends no native key');
+    await checkpoint(cdp,'18-battle-view-located-point-720p');
+    await click(cdp,'#hd-dialog [data-hd-view-locate]');
+    await waitBattle(cdp,1,'return from native VIEW10 and locate unit');
+    const afterLocation=await evaluate(cdp,battleStateExpression);
+    assert.deepEqual({x:afterLocation.fight.focusX,y:afterLocation.fight.focusY},{x:choice.x,y:choice.y});
+    assert.deepEqual(afterLocation.food,beforeLocation.food);
+    const dx=choice.x-from.focusX,dy=choice.y-from.focusY;
+    const expectedKeys=[0x28,...Array(Math.abs(dx)).fill(dx>0?0x25:0x24),...Array(Math.abs(dy)).fill(dy>0?0x23:0x22)];
+    const locationKeys=await evaluate(cdp,`window.__battleKeys.slice(${keysBeforeLocation})`);
+    assert.deepEqual(locationKeys.map(event=>event.code),expectedKeys);
+    assert.equal(locationKeys[0].kind,10);
+    assert.ok(locationKeys.slice(1).every(event=>event.kind===1),'every direction key waits for native PICK');
+    report.viewLocation={choice,selection,from,after:afterLocation.fight,keys:locationKeys};
     await waitFor(cdp,'VIEW fields and exact owner retired',`baye.hd.view().active===0&&!BayeHdDialog.debugSnapshot().viewOwner`);
     assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'VIEW switching, pages and return preserve all actual native battle units');
     await checkpoint(cdp,'18-battle-view-retired');

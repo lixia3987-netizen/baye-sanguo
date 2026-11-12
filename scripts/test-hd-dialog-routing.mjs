@@ -800,6 +800,75 @@ test('VIEW renders only the captured native page with slot zero, U16 identities 
     assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
 });
 
+function locatingView() {
+    const h = harness();
+    h.nodes['hd-dialog'].setAttribute('data-hd-view-navigation', '');
+    Object.assign(h.fight, {phase:1, wait:1});
+    Object.assign(h.data, {g_hdDetailGeneration:7, g_FoucsX:5, g_FoucsY:5, g_MapHgt:6,
+        g_FgtParam:{GenArray:[1,601]}, g_GenPos:[{x:0,y:0,state:0}, {x:7,y:5,state:3}]});
+    detailedView(h);
+    const body = h.nodes['hd-dialog-body'];
+    return {h, body, row:body.querySelectorAll('[data-hd-view-choose]')[1],
+        locate:body.querySelectorAll('[data-hd-view-locate]')[0]};
+}
+
+test('desktop VIEW links the exact row to its point and locates it only after native PICK resumes', () => {
+    const {h, body, row, locate} = locatingView();
+    const exactPoint = h.view.points[1];
+    assert.equal(locate.hidden, true);
+    h.click('data-hd-view-choose', row);
+    assert.equal(row.getAttribute('aria-pressed'), 'true');
+    assert.equal(row.querySelectorAll('.hd-situation-coords')[0].textContent, '7,5');
+    const highlighted = body.querySelectorAll('.hd-situation-dot').filter(dot => dot.classList.contains('is-located'));
+    assert.deepEqual(highlighted.map(dot => dot.getAttribute('data-hd-view-person')), ['600']);
+    assert.deepEqual(h.sent, []);
+    h.onSend(code => {
+        if (code === 0x28) {
+            h.view.active = 0;
+            Object.assign(h.fight, {inputKind:0,inputSeq:61});
+        } else if (code === 0x25) { h.data.g_FoucsX++; }
+    });
+    h.click('data-hd-view-locate', locate);
+    h.context.BayeHdBattle.onEngineFight();
+    h.oneTimeout();
+    assert.deepEqual(h.sent, [0x28], 'BUSY never receives a direction key');
+    Object.assign(h.fight, {inputKind:1,inputSeq:62});
+    h.context.BayeHdBattle.onEngineFight();
+    assert.deepEqual(h.sent, [0x28], 'renderer observes the return without sending keys');
+    h.timers();
+    assert.deepEqual(h.sent, [0x28,0x25,0x25]);
+    assert.equal(h.data.g_FoucsX, exactPoint.x);
+    assert.equal(h.context.BayeHdBattle.debugSnapshot().lastRequest.reason, 'acknowledged');
+    assert.deepEqual(h.writes, []);
+});
+
+test('desktop VIEW location rejects a retired page, classic comparison and a changed target after EXIT', () => {
+    const stale = locatingView();
+    stale.h.click('data-hd-view-choose', stale.row);
+    stale.h.pointerDown(stale.locate);
+    publishView(stale.h);
+    stale.h.click('data-hd-view-locate', stale.locate);
+    assert.ok(stale.body.querySelectorAll('.hd-situation-dot').every(dot => !dot.classList.contains('is-located')));
+    assert.deepEqual(stale.h.sent, []);
+
+    const classic = locatingView();
+    classic.h.click('data-hd-view-choose', classic.row);
+    classic.h.click('data-hd-dlg-lcd');
+    assert.equal(classic.locate.disabled, true);
+    classic.h.click('data-hd-view-locate', classic.locate);
+    assert.deepEqual(classic.h.sent, []);
+
+    const changed = locatingView();
+    changed.h.click('data-hd-view-choose', changed.row);
+    changed.h.click('data-hd-view-locate', changed.locate);
+    changed.h.data.g_GenPos[1].x--;
+    changed.h.view.active = 0;
+    Object.assign(changed.h.fight, {inputKind:1,inputSeq:62});
+    changed.h.timers();
+    assert.deepEqual(changed.h.sent, [0x28]);
+    assert.deepEqual(changed.h.writes, []);
+});
+
 test('VIEW terrain reuses a verified map and falls back in place when its source changes', () => {
     const h = harness(), d = h.context.BayeHdDialog;
     const body = h.nodes['hd-dialog-body'];
