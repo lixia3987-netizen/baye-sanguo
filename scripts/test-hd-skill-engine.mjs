@@ -211,7 +211,7 @@ static int gam_rand(void){return 0;}
 static void BuiltAtkAttr(U8 side,U8 index){assert(side<2&&index<FGTA_MAX);g_GenAtt[side]=(JLATT){.level=&levels[index],.arms=&troops[index],.generalIndex=index,.canny=80,.ter=(U8)(mode>=111&&mode<=119?((mode==117&&side==0)||(mode==118&&side==1)?0:7):(side==1?(mode==104?4:mode==95||mode==99?5:mode==97||mode==101?7:0):0)),.armsType=(U8)(mode>=111&&mode<=119?(side==0?3:mode==119?1:3):(side==1&&mode>=102&&mode<=110?1:0))};}
 SKILLEF *FgtGetJNPtr(SkillID param);
 `+'\n'+actual('FgtCount.c','CountSklHurt').replace('CountSklHurt(','NativeCountSklHurt(')+String.raw`
-static void CountSklHurt(SkillID skill,U16*arms,U16*prov,U8 origin,U8*state){assert(skill&&origin<FGTA_MAX);if(mode>=95&&mode<=119){NativeCountSklHurt(skill,arms,prov,origin,state);return;}*arms=fixtureHurt;*prov=fixtureProv;*state=(mode==93||mode==94)?6:g_GenPos[g_GenAtt[1].generalIndex].state;}
+static void CountSklHurt(SkillID skill,U16*arms,U16*prov,U8 origin,U8*state){assert(skill&&origin<FGTA_MAX);if(mode>=95&&mode<=120){NativeCountSklHurt(skill,arms,prov,origin,state);return;}*arms=fixtureHurt;*prov=fixtureProv;*state=(mode==93||mode==94)?6:g_GenPos[g_GenAtt[1].generalIndex].state;}
 static U16 PlcArmsMax(PersonID id){assert(id<FGTA_MAX);return ceiling;}
 static U32 FgtGetExp(U16 value){return value/10;}
 static U16 CountAtkHurt(void){return fixtureHurt;}
@@ -263,14 +263,22 @@ int main(int argc,char**argv){assert(argc==7);mode=atoi(argv[1]);fixtureHurt=(U1
     if(mode==17){skl->aim=1;troops[10]=290;}
     if(mode==18)queuedKey=39;
     if(mode==22){skl=FgtGetJNPtr(1);skl->aim=0;skl->state=0;}
-    FGTCMD cmd={.param=(U16)(impactSkill?impactSkill:(armySkill?armySkill:(sharedSkill?sharedSkill:((mode==93||mode==94)?23:((mode==91||mode==92)?12:(mode==22?1:5)))))),.sIdx=3,.aIdx=10};FgtJNAction(&cmd);
+    U16 trapSkill=mode==120?24:0;
+    if(trapSkill){
+        skl=FgtGetJNPtr(trapSkill);assert(skl->aim==1&&skl->state==0&&skl->power==800&&skl->destroy==0&&skl->useMp==10);
+        g_FgtParam.GenArray[4]=5;troops[4]=100;BuiltAtkAttr(1,4);
+        assert(!NativeFgtCanUse(24,3)&&NativeFgtJNChkAim(24,1,4,3)&&!NativeFgtJNChkAim(24,0,4,3));
+    }
+    FGTCMD cmd={.param=(U16)(trapSkill?trapSkill:impactSkill?impactSkill:armySkill?armySkill:sharedSkill?sharedSkill:
+        (mode==93||mode==94)?23:(mode==91||mode==92)?12:mode==22?1:5),.sIdx=3,.aIdx=trapSkill?4:10};FgtJNAction(&cmd);
     if(mode==98||mode==110){record(9);assert(!g_hdSkillResultActive&&!g_hdSpeActive);BuiltAtkAttr(0,3);BuiltAtkAttr(1,11);cmd.aIdx=11;FgtJNAction(&cmd);}
     if(isLcdDirty)timed_flush_lcd();record(3);
     if(mode==10){assert(g_hdSkillResultActive&&g_hdSkillResultSession==newerOwner&&!g_hdSkillResultSourceValid);baye_hd_skill_end(newerOwner);}else assert(!g_hdSkillResultActive&&!g_hdSkillResultDisplayValid);
     assert(!g_hdSpeActive&&hookCount==finalHookCount);assert(hookCount==((mode==16||mode==20||mode==21||mode==98||mode==110)?2:1));assert(skillHookCount==(mode==12?1:0));
     assert(g_GenPos[3].mp==99-skl->useMp*((mode==98||mode==110)?2:1));assert(g_FgtParam.EProvender==(fixtureProv>50?0:50-fixtureProv));
     /* Shared18 grass0 and Shared19 sunny1 each apply the actual ROM80% factor. */
-    if(impactSkill){assert(fixtureHurt==(mode==119?1000:800)&&troops[10]==1500-fixtureHurt&&g_GenPos[10].state==0);}
+    if(trapSkill){assert(troops[4]==300&&troops[10]==200&&g_GenPos[4].state==0);}
+    else if(impactSkill){assert(fixtureHurt==(mode==119?1000:800)&&troops[10]==1500-fixtureHurt&&g_GenPos[10].state==0);}
     else if(armySkill){assert(fixtureHurt<1500&&troops[10]==1500-fixtureHurt);assert(troops[11]==(mode==110?1500-fixtureHurt:1500));assert(g_GenPos[10].state==(armySkill==4?1:0));assert(g_GenPos[11].state==(mode==110?1:0));}
     else if(sharedSkill){assert(troops[10]==(sharedSkill==11?1500:540));assert(troops[11]==(mode==98?540:1500));assert(g_GenPos[10].state==0&&g_GenPos[11].state==0);}else assert(troops[10]==(mode==17?(fixtureHurt>10?300:290+fixtureHurt):(fixtureHurt>200?0:200-fixtureHurt)));
     if(mode==16){assert(troops[11]==(fixtureHurt>200?0:200-fixtureHurt));assert(troops[12]==200&&troops[13]==200&&troops[14]==200);}
@@ -311,10 +319,10 @@ const stringEnum=new Map();let enumIndex=0;
 for(const item of read('data/pstring.h').replace(/\/\*[\s\S]*?\*\//g,'').match(/enum\s*\{([\s\S]*?)\}/)[1].split(',')){const m=/\b(\w+)\s*(?:=\s*(\d+))?/.exec(item);if(!m)continue;enumIndex=m[2]?Number(m[2]):enumIndex+1;stringEnum.set(m[1],enumIndex);}
 function nativeLabel(name){const bytes=resource(1,stringEnum.get(name)-1),end=bytes.indexOf(0);return end<0?bytes:bytes.subarray(0,end);}
 function drawLabel(out,text,x=55,y=18){for(let i=0;i<text.length;){const first=text[i++];if(first<128){if(first<=32){for(let py=0;py<12;py++)out.fill(0,(y+py)*160+x,(y+py)*160+x+6);}else glyphOracle(out,first,x,y,true);x+=6;}else{assert.ok(i<text.length);glyphOracle(out,(first<<8)|text[i++],x,y);x+=12;}}}
-function verifyResultPixels(rows,value,{labelName='dFgtArmsH',resultKind=1,coalesced=false,skillId=5,speId=35,start=0,end=7,x=48,y=16,background=false,windowWidth=65}={}){
+function verifyResultPixels(rows,value,{labelName='dFgtArmsH',resultKind=1,coalesced=false,skillId=5,speId=35,start=0,end=7,x=48,y=16,background=false,windowWidth=65,targetIndex=10}={}){
     const movie=movieOracle(speId,start,end,x,y,background),scene=movie.at(-1),label=nativeLabel(labelName),digits=resource(15),decimal=String(value);let final=false;
     const shown=rows.filter(r=>(r.kind===2||r.kind===4)&&r.values.g_hdSkillResultDisplayValid===1&&r.values.g_hdSkillResultPhase>=2);assert.ok(shown.length,'actual post-movie numeric/hold flush is owned separately');
-    for(const row of shown){const v=row.values,displayedScene=movie[v.g_hdSkillResultDisplayCommitSeq-1];assert.ok(displayedScene,'display stamp maps to an actual independently decoded logical copy');const pixels=Buffer.from(displayedScene.pixels);assert.equal(v.g_hdSkillResultActive,1);assert.equal(v.g_hdSpeActive,0,'original child SPE is inactive after its real end');assert.equal(v.g_hdSkillResultSourceValid,1);assert.equal(v.g_hdSkillResultResultKind,resultKind);assert.equal(v.g_hdSkillResultValue,value,'exact applied C argument, without recomputing damage from troop snapshots');assert.equal(v.g_hdSkillResultActorIndex,3);assert.equal(v.g_hdSkillResultTargetIndex,10);assert.equal(v.g_hdSkillResultSkillId,skillId);
+    for(const row of shown){const v=row.values,displayedScene=movie[v.g_hdSkillResultDisplayCommitSeq-1];assert.ok(displayedScene,'display stamp maps to an actual independently decoded logical copy');const pixels=Buffer.from(displayedScene.pixels);assert.equal(v.g_hdSkillResultActive,1);assert.equal(v.g_hdSpeActive,0,'original child SPE is inactive after its real end');assert.equal(v.g_hdSkillResultSourceValid,1);assert.equal(v.g_hdSkillResultResultKind,resultKind);assert.equal(v.g_hdSkillResultValue,value,'exact applied C argument, without recomputing damage from troop snapshots');assert.equal(v.g_hdSkillResultActorIndex,3);assert.equal(v.g_hdSkillResultTargetIndex,targetIndex);assert.equal(v.g_hdSkillResultSkillId,skillId);
         assert.equal(v.g_hdSkillResultDisplaySession,v.g_hdSkillResultSession);assert.equal(v.g_hdSkillResultDisplayGeneration,v.g_hdSkillResultGeneration);assert.equal(v.g_hdSkillResultDisplaySceneMode,background?1:2);assert.deepEqual([v.g_hdSkillResultDisplaySceneX,v.g_hdSkillResultDisplaySceneY,v.g_hdSkillResultDisplaySceneWidth,v.g_hdSkillResultDisplaySceneHeight],background?[15,16,130,64]:[48,16,windowWidth,64]);assert.deepEqual(Buffer.from(v.g_hdSkillResultDisplayVisibleFrames),displayedScene.visible);assert.deepEqual(Buffer.from(v.g_hdSkillResultDisplayClearFrames),displayedScene.cleared);assert.deepEqual(Buffer.from(v.g_hdSkillResultVisibleFrames),scene.visible,'current saved source is the latest copy even when the LCD still shows an earlier one');
         assert.equal(v.g_hdResultOwnerKind,2);assert.equal(v.g_hdResultOwnerValid,1);assert.equal(v.g_hdResultOwnerSession,v.g_hdSkillResultSession);
         if(v.g_hdSkillResultDisplayLabelValid){assert.equal(v.g_hdSkillResultDisplayLabelLength,label.length);assert.deepEqual(Buffer.from(v.g_hdSkillResultDisplayLabelGbk).subarray(0,label.length),label);assert.equal(v.g_hdSkillResultDisplayLabelGbk[label.length],0);assert.deepEqual([v.g_hdSkillResultDisplayLabelX,v.g_hdSkillResultDisplayLabelY],[55,18]);drawLabel(pixels,label);}else assert.equal(v.g_hdSkillResultDisplayDigitCount,0,'an earlier coalesced movie display cannot claim unflushed labels or digits');
@@ -326,6 +334,21 @@ function verifyResultPixels(rows,value,{labelName='dFgtArmsH',resultKind=1,coale
     if(coalesced){const copies=rows.filter(r=>r.kind===1),displays=rows.filter(r=>r.kind===2&&r.values.g_hdSpeDisplayFrameValid&&r.values.g_hdSpeActive);assert.ok(displays.length<copies.length,'actual LCD timer merges logical copies');assert.ok(shown.some(r=>r.values.g_hdSkillResultDisplayDigitDrawCount.some(n=>n>1)));}
     return shown;
 }
+test('original trap24 executes the eight SPE43 copies and retains the applied allied gain through NUM and HOLD',async()=>{
+ const rows=await runSkill(120,800),copies=rows.filter(row=>row.kind===1&&row.values.g_hdSpeId===43),
+     expected=movieOracle(43,0,7,48,16);
+ assert.equal(copies.length,8);assert.equal(expected.length,8);
+ for(let i=0;i<copies.length;i++) {
+  const {values,pixels}=copies[i],frame=expected[i];
+  assert.deepEqual([values.g_hdSpeKind,values.g_hdSpeSkillId,values.g_hdSpeFrameIndex,values.g_hdSpeCommitSeq],[2,24,i,i+1]);
+  assert.deepEqual([values.g_hdSpeResourceFingerprint,values.g_hdSpeResourceLength],[0xac9a8c6e,1084]);
+  assert.deepEqual(Buffer.from(values.g_hdSpeVisibleFrames),frame.visible);
+  assert.deepEqual(Buffer.from(values.g_hdSpeClearFrames),frame.cleared);
+  assert.deepEqual(pixels,frame.pixels);
+ }
+ verifyResultPixels(rows,200,{skillId:24,speId:43,targetIndex:4,resultKind:2,labelName:'dFgtArmsA',windowWidth:64});
+ assert.equal(rows.at(-1).values.g_hdResultOwnerKind,0);
+});
 for(const hurt of[1,123,65535])test(`actual skill loss ${hurt} publishes only the applied value, true native GBK label and all NUM15 poses`,async()=>{const rows=await runSkill(0,hurt);verifyResultPixels(rows,Math.min(hurt,200));if(process.env.BAYE_HD_SKILL_AUDIT&&hurt===123){const samples=rows.filter(r=>(r.kind===2||r.kind===4)&&r.values.g_hdSkillResultDisplayValid);const selected=[samples.find(r=>r.values.g_hdSkillResultPhase===2),samples.findLast(r=>r.values.g_hdSkillResultPhase===3)];assert.ok(selected.every(Boolean));mkdirSync(join(root,'build'),{recursive:true});writeFileSync(join(root,'build/r10-skill-native-snapshot.json'),JSON.stringify({source:'actual compiled FgtJNAction/_CommonJNAction with real SPE35/NUM15/font and timed LCD flush plus held display readback',fixtureBoundaries:'Combat calculator, hooks and message delivery are test boundaries; skill aim/state are isolated fixture setup. SPE35, NUM15, GBK strings and font retain actual input-file bytes. This is compiled protocol acceptance, not playable battle coverage.',sourceFiles:nativeSourceTuple,libInputSha256:sha(lib),fontSha256:sha(font),samples:selected.map(r=>({kind:r.kind,fields:r.values,native160x96PixelsSha256:sha(r.pixels)}))},null,2)+'\n');}});
 test('actual restored arms clamp uses native gain label and applied ten rather than requested123',async()=>verifyResultPixels(await runSkill(17),10,{labelName:'dFgtArmsA',resultKind:2}));
 test('actual coalesced FIRE and label/digit flushes retain the precise saved scene and all opaque footprints',async()=>verifyResultPixels(await runSkill(1),123,{coalesced:true}));

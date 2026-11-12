@@ -12,7 +12,7 @@ const identitySource = readFileSync(new URL('../js/hd-lib-identity.js', import.m
 const bytes = Buffer.from('01020304', 'hex');
 const sha256 = createHash('sha256').update(bytes).digest('hex');
 
-async function startAid(harness) {
+async function startAid(harness, expectedImages = 2) {
     harness.api.start();
     const identity = harness.context.BayeHdLibIdentity;
     let verified = identity.read();
@@ -26,7 +26,7 @@ async function startAid(harness) {
         });
     }
     assert.equal(verified.status, 'ready');
-    assert.equal(harness.images.length, 2);
+    assert.equal(harness.images.length, expectedImages);
 }
 
 // Browser Image decodes pixels in production. This independent PNG reader lets
@@ -248,9 +248,10 @@ function harness(options = {}) {
 // cases below separately feed unmodified results from the real public getter.
 // Both are offline tests, not native execution or browser gameplay evidence.
 function aidFixture(skillId=17,current=0,shown=current){
- const a=actualMainFixture(41),m=JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json',import.meta.url),'utf8')),
- entry=m.entries.find(e=>e.speId===41);
- assert.deepEqual(entry.units,a.units);assert.equal(entry.resourceLength,1084);assert.equal(entry.resourceFingerprint,'fnv1a32:1d4637e9:1084');
+ const speId=skillId===24?43:41,a=actualMainFixture(speId),
+ m=JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json',import.meta.url),'utf8')),
+ entry=m.entries.find(e=>e.speId===speId);
+ assert.deepEqual(entry.units,a.units);assert.equal(entry.resourceLength,1084);assert.equal(entry.resourceFingerprint,a.entry.resourceFingerprint);
  const comp=frame=>({protocolVersion:1,valid:true,mode:2,x:48,y:16,width:64,height:64,background:null,clearFrames:bitset(...Array.from({length:frame},(_,i)=>i))});
  const display={generation:9,eventId:5,commitSeq:shown+1,frameIndex:shown,frameValid:true,visibleFrames:bitset(shown),composition:comp(shown)};
  const s={...a.s,kind:2,generation:9,eventId:5,x:48,y:16,keyflag:0,skipEligible:false,contextKnown:true,skillId,actorIndex:2,targetIndex:3,
@@ -260,7 +261,7 @@ function aidFixture(skillId=17,current=0,shown=current){
 function aidNumeric(skillId=17,value=800){const f=aidFixture(skillId,7),label={claimed:true,valid:true,x:55,y:18,length:8,text:'兵力增加',bytes:[...Buffer.from('b1f8c1a6d4f6bcd3','hex'),...Array(56).fill(0)]},
  digits=[...String(value)].map((d,i)=>({digit:Number(d),x:55+i*6,y:49,firstY:56,drawCount:8})),
  scene={...structuredClone(f.s.display),session:2,paintSeq:10},result={protocolVersion:1,active:true,phase:'hold',custom:false,sourceValid:true,generation:9,session:2,
- skillId,resultKind:2,actorIndex:2,targetIndex:3,value,paintSeq:10,speId:41,resourceIndex:0,count:8,picmax:2,startFrm:0,endFrm:7,x:48,y:16,
+ skillId,resultKind:2,actorIndex:2,targetIndex:3,value,paintSeq:10,speId:f.entry.speId,resourceIndex:0,count:8,picmax:2,startFrm:0,endFrm:7,x:48,y:16,
  resourceLength:1084,resourceFingerprint:f.entry.resourceFingerprint,number:{...f.entry.skillNumber,valid:true},label,digits,scene,
  display:{...structuredClone(scene),valid:true,label,digits}};
  return {...f,result,top:{active:true,valid:true,kind:2,generation:9,session:2}};}
@@ -270,11 +271,11 @@ async function aidLoaded(o={}){const f=o.numeric?aidNumeric(o.skillId||17,o.valu
  function resolve(i){const image=h.images[i],p=f.entry.pictures.find(p=>p.src===image.url);image.naturalWidth=p.width;image.naturalHeight=p.height;image.onload();}
  if(!o.pending)h.images.forEach((_,i)=>resolve(i));return {...h,fixture:f,resolve};}
 function fullLcd(h){assert.deepEqual({...h.api.debugSnapshot().sourceRect},{x:0,y:0,width:160,height:96});}
-test('AID41 two declared skills consume all actual alternating slots inside64 while preserving fullLCD outside',async()=>{
- for(const skillId of [17,29]){const h=await aidLoaded({skillId});for(let frame=0;frame<8;frame++){
+test('AID41 and TRAP43 consume their eight native alternating slots inside64 and preserve fullLCD outside',async()=>{
+ for(const skillId of [17,29,24]){const h=await aidLoaded({skillId});for(let frame=0;frame<8;frame++){
  h.setSpe(aidFixture(skillId,frame).s);h.events.length=0;h.flush();const d=h.api.debugSnapshot();assert.equal(d.source,'hd-assets');fullLcd(h);
  assert.deepEqual({...d.hdRegion},{x:48,y:16,width:64,height:64});assert.deepEqual([...d.displayedFrames],[frame]);
- const image=h.hdDraws().at(-1);assert.equal(image.args[0].url,'assets/hd-spe/aid-41/picture-'+frame%2+'.png');assert.deepEqual(image.args.slice(1),[528,176,704,704]);
+ const image=h.hdDraws().at(-1);assert.equal(image.args[0].url,h.fixture.entry.pictures[frame%2].src);assert.deepEqual(image.args.slice(1),[528,176,704,704]);
  assert.equal(h.events.filter(e=>e.node==='hd-spe-canvas'&&e.operation==='fillRect').length,0);}
  h.key();h.api.skip();assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);}
 });
@@ -297,8 +298,8 @@ test('AID41 marker missing/wrong and unknownLIB always keep fullactualLCD, never
  const m=structuredClone(h.fixture.m);mutate(m.entries[0]);h.api.setManifest(m);h.events.length=0;h.flush();assert.equal(h.api.debugSnapshot().source,'lcd');fullLcd(h);assert.deepEqual(h.hdDraws(),[]);}
  h.context.dynLib='00';h.api.setManifest(h.fixture.m);h.flush();assert.equal(h.api.debugSnapshot().source,'lcd');fullLcd(h);assert.deepEqual(h.keys,[]);
 });
-test('AID41 actual gain800/1800/capped0 NUMhistory and hold use finalcopiedscene without extraEnter',async()=>{
- for(const [skillId,value]of[[17,800],[29,1800],[17,0]]){const h=await aidLoaded({numeric:true,skillId,value}),d=h.api.debugSnapshot();
+test('AID41 and TRAP43 use the final copied scene for actual troop gain and the full NUM history',async()=>{
+ for(const [skillId,value]of[[17,800],[29,1800],[17,0],[24,200]]){const h=await aidLoaded({numeric:true,skillId,value}),d=h.api.debugSnapshot();
  assert.equal(d.source,'hd-assets');assert.equal(d.presentation,'skill-postlude');fullLcd(h);assert.deepEqual([...d.displayedFrames],[7]);
  const text=h.events.filter(e=>e.node==='hd-spe-canvas'&&e.operation==='fillText');assert.equal(text.at(-1).args[0],String(value).at(-1));
  assert.ok(text.some(e=>e.args[0]==='兵力增加'));const last=text.slice(-String(value).length*8);
@@ -329,6 +330,38 @@ test('AID manifest and original opaque art match actual native slots and unique 
  const hashes=[];for(const p of f.entry.pictures){const b=readFileSync(new URL('../'+p.src,import.meta.url)),d=decodePng(b);checkPictureAlpha(d,0);
  assert.deepEqual([d.width,d.height],[p.width,p.height]);assert.deepEqual([p.nativeWidth,p.nativeHeight,p.logicalWidth,p.logicalHeight,p.mask],[64,64,64,64,0]);
  hashes.push(createHash('sha256').update(b).digest('hex'));}assert.equal(new Set(hashes).size,2);
+});
+
+test('TRAP43 maps skill24 to two decoded opaque pictures with the original fingerprint',()=>{
+ const f=aidFixture(24);
+ assert.deepEqual([f.entry.trapVersion,f.entry.skillId,f.entry.resourceFingerprint],[1,24,'fnv1a32:ac9a8c6e:1084']);
+ assert.deepEqual(f.entry.pictures.map(p=>[p.nativeWidth,p.nativeHeight,p.mask]),f.pictures.map(p=>[p.nativeWidth,p.nativeHeight,p.mask]));
+ const hashes=f.entry.pictures.map(p=>{
+  const bytes=readFileSync(new URL('../'+p.src,import.meta.url)),decoded=decodePng(bytes);
+  checkPictureAlpha(decoded,0);assert.deepEqual([decoded.width,decoded.height],[p.width,p.height]);
+  return createHash('sha256').update(bytes).digest('hex');
+ });
+ assert.equal(new Set(hashes).size,2);
+});
+
+test('TRAP43 retains the full LCD for a different skill, incompatible manifest or missing art',async()=>{
+ const h=await aidLoaded({skillId:24});
+ h.setSpe({...h.fixture.s,skillId:17});h.flush();assert.equal(h.api.debugSnapshot().source,'lcd');fullLcd(h);
+ h.setSpe(h.fixture.s);
+ for(const change of [entry=>delete entry.trapVersion,entry=>entry.aidVersion=1,entry=>entry.stoneVersion=1]) {
+  const manifest=structuredClone(h.fixture.m);change(manifest.entries[0]);h.api.setManifest(manifest);h.flush();
+  assert.equal(h.api.debugSnapshot().source,'lcd');fullLcd(h);
+ }
+ const missing=await aidLoaded({skillId:24,pending:true,numeric:true});
+ missing.resolve(0);missing.images[1].onerror();missing.flush();assert.equal(missing.api.debugSnapshot().source,'lcd');fullLcd(missing);
+ assert.deepEqual(h.keys,[]);assert.deepEqual(missing.keys,[]);
+});
+
+test('TRAP43 image loading waits for a native trap event during an ordinary battle',async()=>{
+ const f=aidFixture(24),h=harness({data:{g_scale:1},fightActive:true,spe:{active:0}});
+ h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);await startAid(h,0);
+ h.setSpe(f.s);h.flush();assert.deepEqual(h.images.map(image=>image.url),f.entry.pictures.map(p=>p.src));
+ assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
 });
 
 test('AID41 mode2 geometry alone cannot establish an unwritten current or displayed window',async()=>{

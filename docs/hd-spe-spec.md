@@ -175,6 +175,33 @@ SKILLEF原版aim0、state0、power1000、destroy0、UseMp30；仅当前真实成
 
 四时期新局己方水军均Level1，原版maxLevel20下至少Level7才从水军普通表[12,13,11]取得13；需合法升级／旧档准备，当前MP≥30、实际GetArmType3、双方实时terrain7和原生敌方AIM／天气均可用。静态地图河格不能代替真实双水地形和自然成功。旧1／9八场、4809项及其失败记录保持历史范围；WOOD6／7、其余28攻击组合、自然状态解除、四时期完整流程、真机、性能、RNG及真实云账号继续待验，原版唯一入口／暂停版本切换保持，完整HD仍partial。见[撞击源码检查点](validation/m5-impact-skill-source-20261014.md)。
 
+## 2026-11-13 陷阱的 PC 高清演出
+
+词典原版技能 24「陷阱」对应资源 43 的 0 至 7 帧。八帧以原版 20 tick 间隔交替显示两个不透明图像，覆盖 `(48,16)` 起的 64×64 区域，周围沿用当前 LCD 像素。两张 887×887 PNG 由内置图像工具生成，并在引擎发布对应技能演出时请求。 [画面一](../assets/hd-spe/trap-43/picture-0.png) · [画面二](../assets/hd-spe/trap-43/picture-1.png)
+
+词典原版把该技能保留在资源表。受控测试从实际 `FgtJNAction` 读取八帧、10 点技力消耗和受兵力上限限制的 200 实际增兵，逐像素核对原版电影、标签、NUM15 和最后停留。PC 高清沿用该原生增兵回执和当前帧。默认演出表中 23 个带电影资源的技能编号均有清单映射。
+
+<details>
+<summary>生成提示词</summary>
+
+```text
+Use case: historical-scene.
+Make one edge-to-edge TWO-FRAME sprite sheet for a late Han / Three Kingdoms strategy game's trap skill movie.
+Output a landscape image ideally 1536×768, divided at the exact horizontal center into a left square and a right square.
+These are two consecutive views of the EXACT same small earthen trap, same fixed camera, framing, scale and tree locations.
+Both square paintings extend to all edges.
+No gutter, separator, frame, lettering, labels, numbers, symbols, watermarks or UI.
+Scene: at a deserted wooded mountain pass, an earthen pit with a few long sharpened wooden stakes pointing diagonally up, a dark leaf-strewn bank and broken brush screen.
+The stakes and pit mouth are clearly silhouetted in the middle, with painterly detail that reads at a few hundred pixels across.
+Left tile, frame 0: woven brush cover is just tipping over the mouth, with the first dust and a few falling leaves.
+Right tile, frame 1: the cover has cracked and fallen inward a little farther, small earth clods and leaves briefly rise in a stronger dust plume, and more stake tips are visible.
+Only these brief movements change, the scenery and colors stay locked between frames.
+Refined realistic historical environment illustration, soft ink-wash edges, muted mineral earth and gray-green forest colors, soft directional light, matching a serious Chinese strategy game.
+Unoccupied terrain, no people, no animals, no injuries.
+```
+
+</details>
+
 ## 验证范围
 
 `npm run test:spe` 覆盖显示提交、叠帧/清除、LIB 与异步图片代次、输入锁、报告/隐藏/经典、负 origin、屏幕尺寸和资源回退。`npm run test:spe-engine` 编译并执行实际 C 播放与桥函数，覆盖嵌套/重置、上下文消费、真实位图组合及 timer 显示关联。`npm run test:spe-runtime -- --staged` 用真实 LIB 和暂存 WASM 从玩家入口验证连续开场、跳过、战斗事件；未自然触发的资源继续记为未验收。

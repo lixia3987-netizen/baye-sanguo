@@ -410,6 +410,7 @@
             fireSkill = Number(s.id) === 35 ? qimenSkillContext(s) : null,
             waterSkill = Number(s.id) === 36 ? qimenSkillContext(s) : null,
             stoneSkill = Number(s.id) === 42 ? qimenSkillContext(s) : null,
+            trapResource = Number(s.id) === 43,
             armyResource = kind(s) === 2 && [19, 20, 21, 38].indexOf(Number(s.id)) >= 0,
             armySkill = armyResource ? qimenSkillContext(s) : null;
         // Shared original resources require their exact actual skill context.
@@ -419,6 +420,7 @@
         // STONE has one original caller: skill23. Unknown context cannot borrow
         // the retained generic42 arena entry.
         if (Number(s.id) === 42 && stoneSkill !== 23) return null;
+        if (trapResource && (mobileHost || qimenSkillContext(s) !== 24)) return null;
         if (armyResource && ARMY_SKILLS[armySkill] !== Number(s.id)) return null;
         for (var i = 0; i < m.entries.length; i++) {
             var e = m.entries[i];
@@ -426,6 +428,7 @@
             if (Number(s.id) === 35 && (!e || e.fireVersion !== 1 || e.skillId !== fireSkill)) continue;
             if (Number(s.id) === 36 && (!e || e.waterVersion !== 1 || e.skillId !== waterSkill)) continue;
             if (Number(s.id) === 42 && (!e || e.stoneVersion !== 1 || e.skillId !== 23)) continue;
+            if (trapResource && (!e || e.trapVersion !== 1 || e.skillId !== 24)) continue;
             if (Number(s.id) === 39 && (qimenSkill === 14 ? !e || e.zhoufengVersion !== 1 || e.qimenVersion != null || e.skillId !== 14 :
                 qimenSkill === 15 ? !e || e.dingshenVersion !== 1 || e.qimenVersion != null || e.skillId !== 15 :
                 qimenSkill !== 20 || !e || e.qimenVersion !== 1 || e.skillId !== 20 || e.zhoufengVersion != null || e.dingshenVersion != null)) continue;
@@ -466,7 +469,7 @@
             if (e.compositionVersion !== 1 || !validPicture(e.background) || !validSource(e.background) || !validSource(e.number)) return false;
         }
         if (e.skillResultVersion != null && (e.skillResultVersion !== 1 || !validSource(e.skillNumber))) return false;
-        if ((e.opaqueCoverageVersion != null || e.speId === 37 || e.speId === 40 || e.speId === 41 || e.aidVersion != null || e.liuyanVersion != null || e.zhoufengVersion != null || e.dingshenVersion != null || e.qimenVersion != null || e.fireVersion != null || e.waterVersion != null || e.stoneVersion != null || e.armySkillVersion != null) && !validOpaqueCoverageEntry(e)) return false;
+        if ((e.opaqueCoverageVersion != null || e.speId === 37 || e.speId === 40 || e.speId === 41 || e.speId === 43 || e.aidVersion != null || e.trapVersion != null || e.liuyanVersion != null || e.zhoufengVersion != null || e.dingshenVersion != null || e.qimenVersion != null || e.fireVersion != null || e.waterVersion != null || e.stoneVersion != null || e.armySkillVersion != null) && !validOpaqueCoverageEntry(e)) return false;
         if (e.aiTargetVersion != null && !validAiEntry(e)) return false;
         if (e.statusVersion != null && !validStatusEntry(e)) return false;
         return true;
@@ -635,6 +638,8 @@
         var cache = state.cache;
         state.arenaPrewarmed = true;
         state.manifest.entries.forEach(function (entry) {
+            // The original skill menus do not offer the reserved trap skill.
+            if (entry && entry.trapVersion != null) return;
             if (state.cache === cache && entry && (entry.kind === 3 && entry.compositionVersion === 1 || entry.kind === 2 && (entry.skillResultVersion === 1 || entry.liuyanVersion === 1 || entry.zhoufengVersion === 1 || entry.dingshenVersion === 1 || entry.qimenVersion === 1 || entry.stoneVersion === 1) || entry.kind === 4 && (entry.aiTargetVersion === 2 || entry.statusVersion === 1)) && valid(entry)) load(entry, true);
         });
     }
@@ -671,12 +676,19 @@
         }
         return poses;
     }
-    function validAidEntry(entry) {
-        if (entry.aidVersion !== 1 || entry.opaqueCoverageVersion !== 1 || entry.skillResultVersion !== 1 ||
-            entry.kind !== 2 || entry.speId !== 41 || entry.resourceIndex !== 0 || entry.count !== 8 || entry.picmax !== 2 ||
+    function validTroopGainEntry(entry) {
+        var trap = entry.trapVersion != null || entry.speId === 43;
+        if (trap) {
+            if (mobileHost || entry.trapVersion !== 1 || entry.aidVersion != null || entry.speId !== 43 || entry.skillId !== 24 ||
+                entry.skillIds != null || entry.resourceFingerprint !== 'fnv1a32:ac9a8c6e:1084' ||
+                entry.armySkillVersion != null || entry.stoneVersion != null || entry.waterVersion != null || entry.fireVersion != null ||
+                entry.qimenVersion != null || entry.dingshenVersion != null || entry.zhoufengVersion != null || entry.liuyanVersion != null) return false;
+        } else if (entry.aidVersion !== 1 || entry.speId !== 41 || entry.resourceFingerprint !== 'fnv1a32:1d4637e9:1084' ||
+            entry.skillId != null || !Array.isArray(entry.skillIds) || entry.skillIds.length !== 2 ||
+            entry.skillIds[0] !== 17 || entry.skillIds[1] !== 29) return false;
+        if (entry.opaqueCoverageVersion !== 1 || entry.skillResultVersion !== 1 ||
+            entry.kind !== 2 || entry.resourceIndex !== 0 || entry.count !== 8 || entry.picmax !== 2 ||
             entry.startFrm !== 0 || entry.endFrm !== 7 || entry.resourceLength !== 1084 ||
-            entry.resourceFingerprint !== 'fnv1a32:1d4637e9:1084' || entry.skillId != null ||
-            !Array.isArray(entry.skillIds) || entry.skillIds.length !== 2 || entry.skillIds[0] !== 17 || entry.skillIds[1] !== 29 ||
             entry.compositionVersion != null || entry.aiTargetVersion != null || entry.statusVersion != null ||
             entry.background != null || entry.number != null) return false;
         for (var p = 0; p < 2; p++) {
@@ -684,20 +696,18 @@
             if (!validPicture(pic) || pic.mask !== 0 || pic.nativeWidth !== 64 || pic.nativeHeight !== 64 ||
                 pic.logicalWidth !== 64 || pic.logicalHeight !== 64) return false;
         }
-        var number = entry.skillNumber;
-        return number && number.id === 15 && number.resourceIndex === 0 && number.pictureIndex === 0 &&
-            number.nativeWidth === 12 && number.nativeHeight === 16 && number.count === 10 && number.mask === 0 &&
-            number.x === 0 && number.y === 0 && number.resourceLength === 327 && number.resourceFingerprint === 'fnv1a32:b37d7407:327' &&
+        return validOriginalBattleNumber(entry.skillNumber) &&
             entry.units.every(function (u, i) { return u.frame === i && u.x === 0 && u.y === 0 && u.picIndex === i % 2; });
     }
-    function aidCoverage(s, entry, frames, clears) {
+    function troopGainCoverage(s, entry, frames, clears) {
         var numeric = skillPostlude(s), skill = numeric ? s.skillResult : s, source = numeric ? skill.scene : s,
             c = s.display && s.display.composition, current = source && source.composition;
-        if (!validAidEntry(entry) || !c || !current || c.protocolVersion !== 1 || current.protocolVersion !== 1 ||
+        if (!validTroopGainEntry(entry) || !c || !current || c.protocolVersion !== 1 || current.protocolVersion !== 1 ||
             c.valid !== true || current.valid !== true || c.mode !== 2 || current.mode !== 2 ||
             [c, current].some(function (v) { return v.x !== 48 || v.y !== 16 || v.width !== 64 || v.height !== 64 || v.background && v.background.valid; }) ||
             s.x !== 48 || s.y !== 16 || s.keyflag !== 0 || s.skipEligible !== false ||
-            entry.skillIds.indexOf(skill.skillId) < 0 || !integer(skill.actorIndex) || skill.actorIndex < 0 || skill.actorIndex >= 20 ||
+            (entry.skillIds ? entry.skillIds.indexOf(skill.skillId) < 0 : skill.skillId !== entry.skillId) ||
+            !integer(skill.actorIndex) || skill.actorIndex < 0 || skill.actorIndex >= 20 ||
             !integer(skill.targetIndex) || skill.targetIndex < 0 || skill.targetIndex >= 20 ||
             !numeric && s.contextKnown !== true || numeric && (skill.sourceValid !== true || skill.custom !== false ||
                 skill.resultKind !== 2 || !integer(skill.value) || skill.value < 0 || skill.value > 65535) ||
@@ -1051,7 +1061,7 @@
             !((s.visibleFrames[s.frameIndex >> 3] | current.clearFrames[s.frameIndex >> 3]) & (1 << (s.frameIndex & 7)))) return null;
         return { x: 48, y: 16, width: 64, height: 64 };
     }
-    function validArmyNumber(number) {
+    function validOriginalBattleNumber(number) {
         return validSource(number) && number.id === 15 && number.resourceIndex === 0 && number.pictureIndex === 0 &&
             number.nativeWidth === 12 && number.nativeHeight === 16 && number.count === 10 && number.mask === 0 &&
             number.x === 0 && number.y === 0 && number.resourceLength === 327 && number.resourceFingerprint === 'fnv1a32:b37d7407:327';
@@ -1068,7 +1078,7 @@
             background.nativeWidth !== 130 || background.nativeHeight !== 64 || background.logicalWidth !== 130 || background.logicalHeight !== 64 ||
             background.count !== 1 || background.mask !== 0 || background.x !== 15 || background.y !== 16 ||
             background.resourceLength !== 1095 || background.resourceFingerprint !== 'fnv1a32:3bf544d6:1095' ||
-            !validArmyNumber(entry.number) || !validArmyNumber(entry.skillNumber)) return false;
+            !validOriginalBattleNumber(entry.number) || !validOriginalBattleNumber(entry.skillNumber)) return false;
         return spec.units.every(function (tuple, index) {
             var u = entry.units[spec.start + index];
             return u && u.frame === spec.start + index && u.x === tuple[0] && u.y === tuple[1] && u.picIndex === tuple[2];
@@ -1113,6 +1123,7 @@
         return { x: 15, y: 16, width: 130, height: 64 };
     }
     function validOpaqueCoverageEntry(entry) {
+        if (entry.trapVersion != null || entry.speId === 43) return validTroopGainEntry(entry);
         if (entry.armySkillVersion != null) return validArmyEntry(entry);
         if (entry.stoneVersion != null) return validStoneEntry(entry);
         if (entry.waterVersion != null) return validWaterEntry(entry);
@@ -1121,7 +1132,7 @@
         if (entry.dingshenVersion != null) return validDingshenEntry(entry);
         if (entry.zhoufengVersion != null) return validZhoufengEntry(entry);
         if (entry.liuyanVersion != null || entry.speId === 40) return validLiuyanEntry(entry);
-        if (entry.aidVersion != null || entry.speId === 41) return validAidEntry(entry);
+        if (entry.aidVersion != null || entry.speId === 41) return validTroopGainEntry(entry);
         if (entry.opaqueCoverageVersion !== 1 || entry.skillResultVersion !== 1 || entry.kind !== 2 ||
             entry.speId !== 37 || entry.resourceIndex !== 0 || entry.count !== 8 || entry.picmax !== 2 ||
             entry.startFrm !== 0 || (entry.skillId === 6 ? entry.endFrm !== 7 : entry.skillId !== 7 || entry.endFrm !== 0) ||
@@ -1140,6 +1151,7 @@
             entry.units.every(function (u, i) { return u.frame === i && u.x === 0 && u.y === 0 && u.picIndex === i % 2; });
     }
     function opaqueCoverage(s, entry, frames, clears) {
+        if (entry.trapVersion != null || entry.speId === 43) return troopGainCoverage(s, entry, frames, clears);
         if (entry.armySkillVersion != null) return armyCoverage(s, entry, frames, clears);
         if (entry.stoneVersion != null) return stoneCoverage(s, entry, frames, clears);
         if (entry.waterVersion != null) return waterCoverage(s, entry, frames, clears);
@@ -1148,7 +1160,7 @@
         if (entry.dingshenVersion != null) return dingshenCoverage(s, entry, frames, clears);
         if (entry.zhoufengVersion != null) return zhoufengCoverage(s, entry, frames, clears);
         if (entry.liuyanVersion != null || entry.speId === 40) return liuyanCoverage(s, entry, frames, clears);
-        if (entry.aidVersion != null || entry.speId === 41) return aidCoverage(s, entry, frames, clears);
+        if (entry.aidVersion != null || entry.speId === 41) return troopGainCoverage(s, entry, frames, clears);
         var numeric = skillPostlude(s), c = s.display && s.display.composition, skill = numeric ? s.skillResult : s,
             source = numeric ? skill.scene : s, current = source && source.composition;
         if (!validOpaqueCoverageEntry(entry) || !c || c.protocolVersion !== 1 || c.valid !== true ||
@@ -1532,7 +1544,7 @@
             resultScene && resultScene.valid === true && resultScene.mode === 2 && resultScene.x >= 15 && resultScene.y >= 16 &&
             resultScene.x + resultScene.width <= 145 && resultScene.y + resultScene.height <= 80;
         var declared = match(s), opaqueEntry = declared && declared.opaqueCoverageVersion != null;
-        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && (Number(s.id) === 37 || Number(s.id) === 40 || Number(s.id) === 41 || Number(s.id) === 39 || Number(s.id) === 42 || Number(s.id) === 35 || Number(s.id) === 36 || Number(s.id) === 19 || Number(s.id) === 20 || Number(s.id) === 21 || Number(s.id) === 38))) {
+        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && (Number(s.id) === 37 || Number(s.id) === 40 || Number(s.id) === 41 || Number(s.id) === 39 || Number(s.id) === 42 || Number(s.id) === 35 || Number(s.id) === 36 || Number(s.id) === 19 || Number(s.id) === 20 || Number(s.id) === 21 || Number(s.id) === 38 || !mobileHost && Number(s.id) === 43))) {
             // FGT_SPESX/Y center the native arena. An individual effect's
             // origin can be offset inside it and must not move the LCD crop.
             sx = (size.width - 130) / 2;
