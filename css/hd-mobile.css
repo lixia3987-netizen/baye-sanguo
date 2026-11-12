@@ -47,8 +47,35 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
 }
 .hd-mobile-page #hd-system-ui button.is-idle { border-color: #efd7a0; background: #35414b; }
 .hd-mobile-page #hd-system-ui button:disabled { opacity: .45; }
-.hd-mobile-page #hd-system-ui .hd-system-ui-footer { flex: 0 0 44px; display: flex; justify-content: flex-end; }
+.hd-mobile-page #hd-system-ui .hd-system-ui-footer { flex: 0 0 44px; display: flex; justify-content: flex-end; gap: 8px; }
 .hd-mobile-page #hd-system-ui .hd-system-ui-footer button { min-width: 88px; text-align: center; }
+.hd-mobile-page #hd-system-ui .hd-system-ui-content { display: contents; }
+.hd-mobile-page #hd-system-ui.has-king-preview .hd-system-ui-content {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    flex: 1 1 0; min-height: 0; gap: 10px;
+}
+.hd-mobile-page #hd-system-ui .hd-system-king-preview {
+    display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 8px 10px;
+    border: 1px solid #6d624a; border-radius: 6px; background: #182430;
+    overflow: auto; overscroll-behavior: contain; touch-action: pan-y;
+}
+.hd-mobile-page #hd-system-ui .hd-system-king-preview[hidden],
+.hd-mobile-page #hd-system-ui .hd-system-king-preview [hidden],
+.hd-mobile-page #hd-system-ui [data-hd-sys-start][hidden] { display: none !important; }
+.hd-mobile-page #hd-system-ui .hd-system-king-preview h2 {
+    margin: 0 0 5px; color: #efd7a0; font-size: 16px; line-height: 21px; overflow-wrap: anywhere;
+}
+.hd-mobile-page #hd-system-ui .hd-system-king-preview svg {
+    flex: 0 0 auto; width: 100%; height: clamp(72px, 23vh, 120px); border-radius: 4px; background: #13232b;
+}
+.hd-mobile-page #hd-system-ui .hd-system-king-preview circle { fill: #627781; }
+.hd-mobile-page #hd-system-ui .hd-system-king-preview circle[data-owned="true"] { fill: #f0ce72; stroke: #fff2c5; stroke-width: 1; }
+.hd-mobile-page #hd-system-ui .hd-system-king-preview ul {
+    display: flex; flex-wrap: wrap; gap: 2px 12px; list-style: none; margin: 6px 0 0; padding: 0;
+    color: #f1eee4; font-size: 14px; line-height: 20px; overflow-wrap: anywhere;
+}
+.hd-mobile-page #hd-system-ui .hd-system-king-preview p { margin: 4px 0 0; color: #bac8d8; font-size: 12px; line-height: 16px; }
+.hd-mobile-page #hd-system-ui [data-hd-sys-start] { border-color: #a6bc84; background: #2c4a3a; }
 .hd-mobile-page[data-hd-mobile-system="hd"] #lcd { visibility: hidden !important; pointer-events: none !important; }
 .hd-mobile-page[data-hd-mobile-system="lcd"] #lcd { visibility: visible !important; pointer-events: auto !important; }
 .hd-mobile-page[data-hd-mobile-system="hd"] #hd-overworld,

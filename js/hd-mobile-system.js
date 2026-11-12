@@ -239,8 +239,10 @@
             if (target === node('hd-mobile-system-open')) { return {target: target, kind: 'open'}; }
             var root = node('hd-system-ui'), current = target;
             while (current && current !== root) {
-                if (current.tagName === 'BUTTON' && (current.getAttribute('data-hd-sys') != null || current.getAttribute('data-hd-sys-back') != null)) {
-                    return {target: current, kind: current.getAttribute('data-hd-sys') != null ? 'choose' : 'back'};
+                if (current.tagName === 'BUTTON') {
+                    if (current.getAttribute('data-hd-sys') != null) { return {target: current, kind: 'choose'}; }
+                    if (current.getAttribute('data-hd-sys-start') != null) { return {target: current, kind: 'start'}; }
+                    if (current.getAttribute('data-hd-sys-back') != null) { return {target: current, kind: 'back'}; }
                 }
                 current = current.parentElement || current.parentNode;
             }
@@ -248,13 +250,15 @@
         }
         function actionTicket(kind) {
             var value = sample(kind === 'open');
-            if (!value || kind === 'open' && value.owner.type !== 'map' || kind !== 'mode' && kind !== 'open' &&
+            if (!value || kind === 'open' && value.owner.type !== 'map' || kind === 'start' && value.owner.screen !== 'king' ||
+                kind !== 'mode' && kind !== 'open' &&
                 (!shared() || !shared().isOpen() || !shared().shouldShowHd())) { return null; }
             return value;
         }
         function rendered(hit, ticket, probe) {
             if (hit.kind === 'mode' || hit.kind === 'open') { return true; }
-            var binding = hit.kind === 'choose' ? hit.target._bayeMobileSystemTicket : node('hd-system-ui-list')._bayeMobileSystemTicket;
+            var control = hit.kind === 'back' ? node('hd-system-ui-list') : hit.target;
+            var binding = control && control._bayeMobileSystemTicket;
             if (probe && tracing()) { probe.renderDataSame = !!binding && binding.data === ticket.data; probe.renderKeySame = !!binding && binding.key === ticket.key; }
             return same(binding, ticket);
         }
@@ -348,7 +352,11 @@
             trace('click', 'authorized', event, hit, probe);
             var s = shared();
             if (hit.kind === 'mode') { retire('mode-change'); s.setMode(mode() === 'classic' ? 'hd' : 'classic'); }
-            else if (hit.kind === 'choose') { s.chooseInput(Number(hit.target.getAttribute('data-hd-sys')), current.owner); }
+            else if (hit.kind === 'choose' || hit.kind === 'start') {
+                var ticket = current.owner;
+                var index = hit.kind === 'start' ? ticket.owner.index : Number(hit.target.getAttribute('data-hd-sys'));
+                s.chooseInput(index, ticket);
+            }
             else if (hit.kind === 'back') { s.backInput(current.owner); }
             else if (hit.kind === 'open' && !same(openedMap, current.owner) && same(current.owner, sample(true))) {
                 // EXIT at the real GetCitySet wait opens FunctionMenu. This is

@@ -32,12 +32,20 @@ function fixture({screen = 'title', acknowledge = true, mount = true, storageThr
         }
         setAttribute(name, value) { this.attrs[name] = String(value); }
         getAttribute(name) { return this.attrs[name] ?? null; }
+        removeAttribute(name) { delete this.attrs[name]; }
         appendChild(child) { child.parentElement = child.parentNode = this; this.children.push(child); return child; }
         set innerHTML(value) { this.html = value; this.children.forEach(n => { n.isConnected = false; }); this.children = []; }
         get innerHTML() { return this.html || ''; }
         getBoundingClientRect() { return {...this.rect}; }
         contains(other) { for (let n = other; n; n = n.parentElement) if (n === this) return true; return false; }
-        querySelector(selector) { return this.children.find(n => selector.split('.').slice(1).every(c => n.classList.contains(c))) || null; }
+        querySelector(selector) {
+            const attribute = /^\[([^\]]+)\]$/.exec(selector)?.[1], classes = selector.split('.').slice(1);
+            for (const child of this.children) {
+                if (attribute ? child.getAttribute(attribute) !== null : classes.length && classes.every(c => child.classList.contains(c))) return child;
+                const match = child.querySelector(selector); if (match) return match;
+            }
+            return null;
+        }
         querySelectorAll() { return []; }
         addEventListener(name, fn) { const list = this.events.get(name) || []; list.push(fn); this.events.set(name, list); }
         scrollIntoView() { throw Error('mobile polling must not scroll the list'); }
@@ -46,18 +54,26 @@ function fixture({screen = 'title', acknowledge = true, mount = true, storageThr
     const root = body.appendChild(new Element('hd-system-ui'));
     for (const id of ['hd-system-ui-title', 'hd-system-ui-sub', 'hd-system-ui-list', 'hd-system-ui-probe']) root.appendChild(new Element(id));
     const list = nodes.get('hd-system-ui-list'), back = root.appendChild(new Element('back', 'button')); back.setAttribute('data-hd-sys-back', ''); back.rect.top = 290;
+    const start = root.appendChild(new Element('start', 'button')); start.setAttribute('data-hd-sys-start', ''); start.rect = {left: 210, top: 290, width: 100, height: 44};
+    const preview = root.appendChild(new Element('hd-system-king-preview'));
+    const previewParts = Object.fromEntries(['summary','map','cities','note'].map(name => {
+        const node = preview.appendChild(new Element()); node.setAttribute('data-hd-king-' + name, ''); return [name, node];
+    }));
     const mode = body.appendChild(new Element('hd-mobile-system-mode', 'button')), open = body.appendChild(new Element('hd-mobile-system-open', 'button'));
     mode.rect = {left: 600, top: 4, width: 90, height: 44}; open.rect = {left: 700, top: 4, width: 60, height: 44};
     const outside = body.appendChild(new Element('outside')); outside.rect = {left: 400, top: 300, width: 70, height: 44};
     const document = {body, documentElement: html, hidden: false, fonts: {status:'loaded'}, getElementById: id => nodes.get(id) || null,
-        createElement: tag => new Element('', tag), addEventListener(name, fn) { const list = listeners.get(name) || []; list.push(fn); listeners.set(name, list); },
-        elementFromPoint(x, y) { return topOverride || [mode, open, back, ...list.children].find(n => !n.hidden && x >= n.rect.left && x < n.rect.left + n.rect.width && y >= n.rect.top && y < n.rect.top + n.rect.height) || outside; }};
+        createElement: tag => new Element('', tag), createElementNS: (_, tag) => new Element('', tag),
+        addEventListener(name, fn) { const list = listeners.get(name) || []; list.push(fn); listeners.set(name, list); },
+        elementFromPoint(x, y) { return topOverride || [mode, open, back, start, ...list.children].find(n => !n.hidden && x >= n.rect.left && x < n.rect.left + n.rect.width && y >= n.rect.top && y < n.rect.top + n.rect.height) || outside; }};
     const values = {'baye/systemUiMode': 'classic', 'baye/overworldMode': 'classic', 'baye/mobileOverworldMode': 'hd-map'};
     const storage = {getItem: key => { if (storageThrows) throw Error('blocked'); return values[key] ?? null; },
         setItem(key, value) { if (storageThrows) throw Error('blocked'); writes.push([key, value]); values[key] = value; }};
     let data = Object.fromEntries(RAW.map(name => [name, 0]));
     Object.assign(data, {g_hdEngineReady: 1, g_hdDetailGeneration: 7, g_hdSpeGeneration: 9, g_hdMenuSeq: 12, g_hdRecordSeq: 15,
-        g_hdMapInputSeq: 8, g_hdMapCity: 16, g_PIdx: 1, g_PlayerKing: 0, g_Cities: [{Belong: 1}]});
+        g_hdMapInputSeq: 8, g_hdMapCity: 16, g_PIdx: 1, g_PlayerKing: 0,
+        g_Cities: Array.from({length:38}, (_, i) => ({Belong: i === 0 || i === 15 ? 1 : i === 16 ? 6 : 0})),
+        g_CityPositions: Array.from({length:38}, (_, i) => ({x: i % 8, y: Math.floor(i / 8)}))});
     data.circular = data; data.toJSON = () => { throw Error('opaque data must not be serialized'); };
     const kings = [{id: 0, name: '董卓'}, {id: 5, name: '马腾'}], slots = Array.from({length: 4}, (_, slot) => ({slot, status: 'empty', canLoad: false}));
     let names = [], ready = true;
@@ -88,10 +104,12 @@ function fixture({screen = 'title', acknowledge = true, mount = true, storageThr
             const field = data.g_hdRecordActive ? 'g_hdRecordIndex' : 'g_hdMenuIndex', count = data.g_hdRecordActive ? data.g_hdRecordCount : data.g_hdMenuCount;
             data[field] = (data[field] + (code === 34 ? -1 : 1) + count) % count;
         } },
-        baye: {get data() { return data; }, ensureData: () => data, hd: {ready: () => ready, fight: () => ({active: data.g_hdFightActive, over: 0}),
+        baye: {get data() { return data; }, ensureData: () => data, hdCityLimit: () => 38, getCityName: id => '城' + id,
+            hd: {ready: () => ready, fight: () => ({active: data.g_hdFightActive, over: 0}),
             maker: () => ({active: data.g_hdMakerActive}), march: () => ({pick: data.g_hdMapPick, battlePick: data.g_hdBattlePick, mapInputSeq: data.g_hdMapInputSeq}),
             menuItems() { menuHook?.(); return {active: data.g_hdMenuActive, context: data.g_hdMenuContext, kind: data.g_hdMenuKind, count: data.g_hdMenuCount,
-                index: data.g_hdMenuIndex, seq: data.g_hdMenuSeq, detailGeneration: data.g_hdDetailGeneration, names: names.slice()}; },
+                index: data.g_hdMenuIndex, seq: data.g_hdMenuSeq, generation: data.g_hdDetailGeneration,
+                detailGeneration: data.g_hdDetailGeneration, names: names.slice()}; },
             record: () => ({active: data.g_hdRecordActive, mode: data.g_hdRecordMode, index: data.g_hdRecordIndex, count: data.g_hdRecordCount, seq: data.g_hdRecordSeq}),
             kings: () => ({count: kings.length, index: data.g_hdMenuIndex, currentId: kings[data.g_hdMenuIndex]?.id, kings: kings.map(k => ({...k}))})}}};
     env.window = env; const context = vm.createContext(env);
@@ -114,7 +132,7 @@ function fixture({screen = 'title', acknowledge = true, mount = true, storageThr
         const [id, timer] = [...timers].sort((a,b) => a[1].at - b[1].at)[0]; if (timer.at > end) break;
         assert.ok(++count < 1000); timers.delete(id); clock = timer.at; timer.fn();
     } clock = end; refresh(); }
-    return {env, api, shared, nodes, root, list, back, mode, open, outside, keys, writes, values, slots, kings, get data() { return data; },
+    return {env, api, shared, nodes, root, list, back, start, preview, previewParts, mode, open, outside, keys, writes, values, slots, kings, get data() { return data; },
         publish, refresh, click, fire, tick, timers, intervals,
         windowEvent(name) { [...(windowCaptureListeners.get(name) || []), ...(windowListeners.get(name) || [])].forEach(fn => fn()); },
         identity(value) { currentIdentity = {...currentIdentity, ...value}; subscribers.forEach(fn => fn(currentIdentity)); },
@@ -143,6 +161,61 @@ test('trusted touch follows real Arrow ACK before one final Enter', () => {
 });
 test('native current item touch sends exactly Enter, not a guessed cursor reset', () => {
     const h = fixture({screen:'king'}); h.click(h.button(0)); assert.deepEqual(h.keys, [39]);
+});
+test('mobile ruler preview follows only the native cursor, and Start confirms it once', () => {
+    const h = fixture({screen:'king', acknowledge:false});
+    assert.equal(h.preview.getAttribute('data-ready'), 'true');
+    assert.equal(h.preview.getAttribute('data-king-id'), '0');
+    assert.deepEqual(h.previewParts.cities.children.map(city => city.textContent), ['城0','城15']);
+    assert.equal(h.previewParts.map.children.length, 38);
+    h.click(h.button(1));
+    assert.deepEqual(h.keys, [35]);
+    assert.equal(h.start.disabled, true);
+    assert.equal(h.preview.getAttribute('data-king-id'), '0');
+    h.click(h.start);
+    h.data.g_hdMenuIndex = 1;
+    h.tick(40);
+    assert.deepEqual(h.keys, [35]);
+    assert.equal(h.preview.getAttribute('data-king-id'), '5');
+    assert.deepEqual(h.previewParts.cities.children.map(city => city.textContent), ['城16']);
+    assert.equal(h.previewParts.map.children[16].getAttribute('data-owned'), 'true');
+    assert.equal(h.start.disabled, false);
+    h.click(h.start); h.click(h.start);
+    assert.deepEqual(h.keys, [35,39]);
+    assert.deepEqual(h.writes, []);
+});
+test('a pressed mobile Start is retired when the highlighted native ruler or screen changes', () => {
+    const h = fixture({screen:'king'});
+    h.fire('pointerdown', h.start);
+    h.data.g_hdMenuIndex = 1; h.refresh();
+    h.fire('pointerup', h.start); h.fire('click', h.start);
+    assert.deepEqual(h.keys, []);
+    h.fire('pointerdown', h.start);
+    h.publish('period'); h.refresh();
+    h.fire('pointerup', h.start); h.fire('click', h.start);
+    assert.deepEqual(h.keys, []);
+    assert.equal(h.preview.hidden, true);
+    assert.equal(h.start.hidden, true);
+});
+test('mobile ruler confirmation cannot move back to an index that changed during dispatch', () => {
+    for (const changeAt of [3, 7]) {
+        const h = fixture({screen:'king'}), ticket = h.shared.getInputTicket();
+        let reads = 0;
+        h.setMenuHook(() => { if (++reads === changeAt) h.data.g_hdMenuIndex = 1; });
+        h.shared.chooseInput(0, ticket); h.tick();
+        assert.equal(h.data.g_hdMenuIndex, 1);
+        assert.deepEqual(h.keys, []);
+    }
+});
+test('mobile ruler preview clears when the same menu belongs to a world with incomplete city data', () => {
+    const h = fixture({screen:'king'});
+    assert.equal(h.preview.getAttribute('data-ready'), 'true');
+    h.rebind(); h.data.g_CityPositions = h.data.g_CityPositions.slice(0, 37); h.refresh();
+    assert.equal(h.preview.getAttribute('data-ready'), 'false');
+    assert.equal(h.previewParts.map.children.length, 0);
+    assert.equal(h.previewParts.cities.children.length, 0);
+    assert.equal(h.start.disabled, false);
+    assert.deepEqual(h.keys, []);
 });
 test('missing native ACK cannot produce Enter; retirement cancels later work', () => {
     const h = fixture({acknowledge:false}); h.click(h.button(3)); h.tick(1000); assert.deepEqual(h.keys,[35]);
@@ -179,8 +252,12 @@ test('multiple pointers, dragged gesture, changed geometry and covered controls 
 });
 test('same native ticket preserves actual DOM nodes and scroll across polls', () => {
     const h=fixture({screen:'king'}), b=h.button(1); h.list.scrollTop=70;
+    const point = h.previewParts.map.children[0]; let cityReads = 0;
+    h.env.baye.getCityName = id => { cityReads++; return '城' + id; };
     h.fire('pointerdown',b); for(let i=0;i<8;i++) h.refresh(); assert.equal(h.button(1),b); assert.equal(h.list.scrollTop,70);
-    h.fire('pointerup',b); h.fire('click',b); h.tick(); assert.deepEqual(h.keys,[35,39]);
+    assert.equal(h.previewParts.map.children[0], point); assert.equal(cityReads, 0);
+    h.fire('pointerup',b); h.fire('click',b); h.tick(); assert.deepEqual(h.keys,[35]);
+    h.click(h.button(1)); assert.deepEqual(h.keys,[35,39]);
 });
 test('real list pan retires input but keeps same-owner shell, nodes and scroll', () => {
     const h=fixture({screen:'king'}), b=h.button(1); h.list.scrollTop=72;

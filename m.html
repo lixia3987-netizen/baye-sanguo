@@ -26,7 +26,7 @@
         <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261112marcharmy" />
         <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261112defenders" />
         <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261111locate" />
-        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261112mobileopening" />
+        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261112kingpreview" />
         <link rel="stylesheet" type="text/css" href="css/hd-battle-note.css?ver=20261111place" />
         <link rel="stylesheet" type="text/css" href="css/hd-battle-transition.css?ver=20261026stage1" />
         <link rel="icon" href="favicon.png">
@@ -131,8 +131,19 @@
                 <div class="hd-system-ui-stage" role="dialog" aria-labelledby="hd-system-ui-title">
                     <h1 id="hd-system-ui-title">三国霸业</h1>
                     <p id="hd-system-ui-sub">请选择</p>
-                    <div id="hd-system-ui-list" aria-label="当前原版菜单"></div>
-                    <footer class="hd-system-ui-footer"><button type="button" data-hd-sys-back>返回</button></footer>
+                    <div class="hd-system-ui-content">
+                        <div id="hd-system-ui-list" aria-label="当前原版菜单"></div>
+                        <section id="hd-system-king-preview" class="hd-system-king-preview" aria-label="君主领城" data-ready="false" hidden>
+                            <h2 data-hd-king-summary>领城资料暂不可用</h2>
+                            <svg data-hd-king-map viewBox="0 0 320 180" role="img" aria-label="领城分布" hidden></svg>
+                            <ul data-hd-king-cities aria-label="当前君主领城"></ul>
+                            <p data-hd-king-note>可切换到经典系统查看势力形势图。</p>
+                        </section>
+                    </div>
+                    <footer class="hd-system-ui-footer">
+                        <button type="button" data-hd-sys-back>返回</button>
+                        <button type="button" data-hd-sys-start hidden>开始游戏</button>
+                    </footer>
                     <div id="hd-system-ui-probe" hidden></div>
                 </div>
             </section>
@@ -290,8 +301,8 @@
 <script src="js/lcd.js?ver=20261026cityinfo1"></script>
 <script src="js/hd-lib-identity.js?ver=20261008i"></script>
 <script src="js/hd-saved-ruler.js?ver=20261026save1"></script>
-<script src="js/hd-system-ui.js?ver=20261026save1"></script>
-<script src="js/hd-mobile-system.js?ver=20261026cityinfo1"></script>
+<script src="js/hd-system-ui.js?ver=20261112kingpreview"></script>
+<script src="js/hd-mobile-system.js?ver=20261112kingpreview"></script>
 <script src="js/hd-mobile.js?ver=20261111hud2"></script>
 <script src="js/hd-overworld-layers.js?ver=20261008l"></script>
 <script src="js/hd-overworld.js?ver=20261111mapdraw"></script>

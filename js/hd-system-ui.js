@@ -10,7 +10,7 @@
     var mobileHost = null, mobileMode = 'hd', mobileListSignature = '', mobileListData = null;
     var pcListCache = null;
     var pcCursorDispatchDepth = 0;
-    var pcKingPreviewPaint = '';
+    var kingPreviewPaint = null, mobileKingPreview = null;
     var mobileListTrace = {attempts: 0, cacheHits: 0, rebuilds: 0, last: null, rebuildHistory: []};
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     var TITLE = ['新君登基', '重返沙场', '制作群组', '解甲归田'];
@@ -89,6 +89,10 @@
             return mobileHost && mobileHost.isAvailable() === true && mobileHost.readInputTicket()
                 || null;
         } catch (e) { return null; }
+    }
+
+    function sameMobileTicket(a, b) {
+        return !!(a && b && a.data === b.data && a.key === b.key);
     }
 
     function overworldIsHd() {
@@ -424,6 +428,7 @@
 
     function invalidateInput() {
         pcListCache = null;
+        mobileKingPreview = null;
         state.requestEpoch += 1;
         state.request = null;
         state.queue = [];
@@ -496,9 +501,11 @@
     function chooseNative(index, confirm, displayedToken) {
         if (!isMobilePage() && pcCursorDispatchDepth) { return false; }
         var owner = inputOwner();
+        var confirmCurrentKing = isMobilePage() && confirm && owner && owner.screen === 'king';
         if (!shouldShowHd() || !state.open || state.request || !owner || owner.screen !== state.screen ||
             !(index >= 0 && index < owner.count) || state.confirmedToken === ownerToken(owner) ||
             state.exitedToken === ownerToken(owner) || state.retiredToken === ownerToken(owner) ||
+            (confirmCurrentKing && owner.index !== index) ||
             (displayedToken != null && displayedToken !== ownerToken(owner))) { return false; }
         if (owner.type === 'record' && owner.mode === 2 && confirm && !canLoadSlot(index)) {
             render();
@@ -525,7 +532,7 @@
                 return;
             }
             var current = pcCursor ? pcCursor.owner : inputOwner();
-            if (!sameOwner(current, owner)) {
+            if (!sameOwner(current, owner) || (confirmCurrentKing && current.index !== index)) {
                 state.request = null;
                 refresh();
                 return;
@@ -782,7 +789,7 @@
         var root = el('hd-system-ui');
         if (root) {
             root.classList.toggle('is-open', show);
-            root.classList.toggle('has-king-preview', show && !isMobilePage() && state.screen === 'king' && state.kingProtocolObserved);
+            root.classList.toggle('has-king-preview', show && state.screen === 'king' && state.kingProtocolObserved);
             root.setAttribute('aria-hidden', show ? 'false' : 'true');
             if (!isMobilePage()) {
                 var lcdToggle = root.querySelector('[data-hd-sys-lcd]');
@@ -863,7 +870,7 @@
         if (state.hint) { return state.hint; }
         if (state.screen === 'king') {
             return state.kings.length
-                ? (isMobilePage() ? '请选择一个势力开始游戏。' : '点击君主查看领城；再次点击当前君主，或点「开始游戏」确认。')
+                ? (isMobilePage() ? '点选君主查看领城。点「开始游戏」或再点当前君主确认。' : '点击君主查看领城；再次点击当前君主，或点「开始游戏」确认。')
                 : '请在右侧经典画面选择君主：方向键移动，回车确认。';
         }
         if (state.screen === 'saveload') {
@@ -980,8 +987,7 @@
         var items = currentItems();
         if (isMobilePage()) {
             var finalMobileTicket = mobileTicket();
-            if (!initialMobileTicket || !finalMobileTicket || initialMobileTicket.data !== finalMobileTicket.data ||
-                initialMobileTicket.key !== finalMobileTicket.key) { closeUi({silent: true}); return; }
+            if (!sameMobileTicket(initialMobileTicket, finalMobileTicket)) { closeUi({silent: true}); return; }
             list._bayeMobileSystemTicket = finalMobileTicket;
         }
         if (isMobilePage()) {
@@ -1060,8 +1066,8 @@
     }
 
     // Preview only the live highlighted native king. No selection or world writes.
-    function readPcKingPreview() {
-        if (isMobilePage() || !state.open || state.screen !== 'king' || !shouldShowHd()) { return null; }
+    function readKingPreview(ticket) {
+        if (!state.open || state.screen !== 'king' || !shouldShowHd()) { return null; }
         try {
             var identityApi = global.BayeHdLibIdentity;
             if (!identityApi || typeof identityApi.read !== 'function' || typeof identityApi.isCurrent !== 'function') { return null; }
@@ -1073,7 +1079,8 @@
                     !data || data !== baye.data || typeof baye.hdCityLimit !== 'function' || baye.hdCityLimit() !== 38 ||
                     typeof baye.getCityName !== 'function' || !data.g_Cities || !data.g_CityPositions) { return null; }
                 var detail = readNumber(data, 'g_hdDetailGeneration'), spe = readNumber(data, 'g_hdSpeGeneration'),
-                    period = readNumber(data, 'g_PIdx'), menu = liveMenu(), kings = baye.hd.kings(), owner = inputOwner();
+                    period = readNumber(data, 'g_PIdx'), menu = liveMenu(), kings = baye.hd.kings(),
+                    owner = ticket ? ticket.owner : inputOwner();
                 if (!integer(detail, 1, 0xffffffff) || !integer(spe, 1, 0xffffffff) || !integer(period, 1, 4) ||
                     !menu || menu.active !== 1 || menu.context !== 4 || menu.kind !== 3 || !integer(menu.seq, 1, 0xffffffff) ||
                     menu.generation !== detail || menu.detailGeneration !== detail || !integer(menu.count, 1, 128) ||
@@ -1081,12 +1088,13 @@
                     !kings || kings.count !== menu.count || kings.index !== menu.index || !Array.isArray(kings.kings) || kings.kings.length !== menu.count ||
                     !owner || owner.type !== 'menu' || owner.screen !== 'king' || owner.seq !== menu.seq || owner.count !== menu.count ||
                     owner.index !== menu.index || JSON.stringify(owner.names) !== JSON.stringify(menu.names) ||
+                    (ticket && (ticket.data !== data || ticket.identity.generation !== identity.generation || owner.period !== period)) ||
                     state.confirmedToken === ownerToken(owner) || state.exitedToken === ownerToken(owner) || state.retiredToken === ownerToken(owner)) { return null; }
                 var ids = {}, entries = [];
                 for (var k = 0; k < kings.kings.length; k++) {
                     var item = kings.kings[k];
                     if (!item || !integer(item.id, 0, 65534) || ids[item.id] || typeof item.name !== 'string' || !item.name ||
-                        menu.names[k] !== item.name) { return null; }
+                        menu.names[k] !== item.name || (ticket && owner.kings[k].id !== item.id)) { return null; }
                     ids[item.id] = true; entries.push({id: item.id, name: item.name});
                 }
                 if (kings.currentId !== entries[menu.index].id) { return null; }
@@ -1101,7 +1109,8 @@
                 if (engineData() !== data || baye.data !== data || !identityApi.isCurrent(identity) ||
                     readNumber(data, 'g_hdDetailGeneration') !== detail || readNumber(data, 'g_hdSpeGeneration') !== spe ||
                     readNumber(data, 'g_PIdx') !== period || JSON.stringify(liveMenu()) !== menuStamp ||
-                    JSON.stringify(baye.hd.kings()) !== kingsStamp || JSON.stringify(inputOwner()) !== ownerStamp ||
+                    JSON.stringify(baye.hd.kings()) !== kingsStamp ||
+                    (ticket ? !sameMobileTicket(ticket, mobileTicket()) : JSON.stringify(inputOwner()) !== ownerStamp) ||
                     engineData() !== data || !identityApi.isCurrent(identity)) { return null; }
                 return {data: data, identity: identity, value: {identityGeneration: identity.generation, detail: detail, spe: spe,
                     period: period, seq: menu.seq, index: menu.index, count: menu.count, entries: entries,
@@ -1110,43 +1119,62 @@
             var first = sample(), second = sample();
             if (!first || !second || first.data !== second.data || JSON.stringify(first.value) !== JSON.stringify(second.value) ||
                 !identityApi.isCurrent(first.identity) || !identityApi.isCurrent(second.identity) ||
-                engineData() !== second.data || isMobilePage() || !state.open || state.screen !== 'king' || !shouldShowHd()) { return null; }
+                engineData() !== second.data || !state.open || state.screen !== 'king' || !shouldShowHd()) { return null; }
             return second.value;
         } catch (e) { return null; }
     }
 
     function renderKingPreview() {
-        if (isMobilePage()) { return; }
         var panel = el('hd-system-king-preview'), root = el('hd-system-ui');
         if (!panel || !root) { return; }
-        var on = state.open && shouldShowHd() && state.screen === 'king' && state.kingProtocolObserved,
-            start = root.querySelector('[data-hd-sys-start]'), owner = on ? inputOwner() : null;
+        var mobile = isMobilePage(), on = root.classList.contains('has-king-preview');
+        var ticket = on && mobile ? mobileTicket() : null;
+        var owner = on ? (mobile ? ticket && ticket.owner : inputOwner()) : null;
+        var token = owner ? ownerToken(owner) : '';
+        var selectable = !!(owner && owner.screen === 'king' && state.confirmedToken !== token &&
+            state.exitedToken !== token && state.retiredToken !== token);
+        var start = root.querySelector('[data-hd-sys-start]');
         panel.hidden = !on;
         if (start) {
             start.hidden = !on;
-            start.disabled = !owner || owner.screen !== 'king' || !!state.request ||
-                state.confirmedToken === ownerToken(owner) || state.exitedToken === ownerToken(owner) || state.retiredToken === ownerToken(owner);
-            start.setAttribute('data-hd-sys-owner', owner && owner.screen === 'king' ? ownerToken(owner) : '');
+            start.disabled = !selectable || !!state.request;
+            start.setAttribute('data-hd-sys-owner', owner && owner.screen === 'king' ? token : '');
             start.setAttribute('data-hd-king-index', owner && owner.screen === 'king' ? String(owner.index) : '');
-            start._bayePcKingStart = on && owner && owner.screen === 'king' ? pcKingGestureSnapshot() : null;
+            if (mobile) { start._bayeMobileSystemTicket = selectable ? ticket : null; }
+            else { start._bayePcKingStart = selectable ? pcKingGestureSnapshot() : null; }
         }
+        var preview = null;
+        if (selectable) {
+            // Before confirmation the original picker only moves its cursor.
+            // Its exact mobile ticket changes with the ruler, world, or library.
+            if (mobile && mobileKingPreview && sameMobileTicket(mobileKingPreview.ticket, ticket)) {
+                preview = mobileKingPreview.value;
+            } else {
+                preview = readKingPreview(ticket);
+                if (mobile) { mobileKingPreview = preview && {ticket: ticket, value: preview}; }
+            }
+        } else { mobileKingPreview = null; }
         var summary = panel.querySelector('[data-hd-king-summary]'), list = panel.querySelector('[data-hd-king-cities]'),
             map = panel.querySelector('[data-hd-king-map]'), note = panel.querySelector('[data-hd-king-note]');
-        var preview = on ? readPcKingPreview() : null, signature = JSON.stringify(preview);
+        var signature = mobile ? preview : JSON.stringify(preview);
+        if (!summary || !list || !map || !note) { kingPreviewPaint = null; return; }
+        if (kingPreviewPaint === signature && (preview ? map.children.length === 38 : !list.children.length && !map.children.length)) { return; }
+        kingPreviewPaint = signature;
         panel.setAttribute('data-ready', preview ? 'true' : 'false');
         for (var key in {id: 1, index: 1, seq: 1, period: 1, generation: 1}) {
             var value = preview ? (key === 'id' ? preview.currentId : key === 'generation' ? preview.detail : preview[key]) : '';
             panel.setAttribute('data-king-' + key, String(value));
         }
-        if (!summary || !list || !map || !note) { pcKingPreviewPaint = ''; return; }
-        if (pcKingPreviewPaint === signature && (preview ? map.children.length === 38 : !list.children.length && !map.children.length)) { return; }
-        pcKingPreviewPaint = '';
         list.innerHTML = ''; map.innerHTML = '';
         if (preview) { map.removeAttribute('hidden'); }
         else { map.setAttribute('hidden', ''); }
         summary.setAttribute('data-count', preview ? String(preview.cities.filter(function (c) { return c.owned; }).length) : '');
         summary.setAttribute('data-king-name', preview ? preview.name : '');
-        if (!preview) { summary.textContent = '领城资料暂不可用'; note.textContent = '请查看经典 LCD 中的势力形势图。'; return; }
+        if (!preview) {
+            summary.textContent = '领城资料暂不可用';
+            note.textContent = mobile ? '可切换到经典系统查看势力形势图。' : '请查看经典 LCD 中的势力形势图。';
+            return;
+        }
         var owned = preview.cities.filter(function (c) { return c.owned; });
         summary.textContent = preview.name + ' · 领城 ' + owned.length + ' 座';
         note.textContent = '金色为当前势力领城。';
@@ -1162,7 +1190,6 @@
             var title = document.createElementNS('http://www.w3.org/2000/svg', 'title'); title.textContent = city.name; point.appendChild(title); map.appendChild(point);
             if (city.owned) { var row = document.createElement('li'); row.setAttribute('data-city-id', String(city.id)); row.textContent = city.name; list.appendChild(row); }
         });
-        pcKingPreviewPaint = signature;
     }
 
     function render(source) {
@@ -1618,12 +1645,12 @@
         getMobileRenderDiagnostics: mobileRenderDiagnostics,
         chooseInput: function (index, ticket) {
             var current = mobileTicket();
-            if (!isMobilePage() || !ticket || !current || ticket.data !== current.data || ticket.key !== current.key) { return false; }
-            return chooseNative(index, true, ownerToken(current.owner));
+            if (!isMobilePage() || !sameMobileTicket(ticket, current)) { return false; }
+            return chooseNative(index, current.owner.screen !== 'king' || index === current.owner.index, ownerToken(current.owner));
         },
         backInput: function (ticket) {
             var current = mobileTicket();
-            return !!(isMobilePage() && ticket && current && ticket.data === current.data && ticket.key === current.key && back());
+            return !!(isMobilePage() && sameMobileTicket(ticket, current) && back());
         },
         isOpen: function () { return state.open; },
         close: closeUi,

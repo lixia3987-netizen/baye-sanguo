@@ -6,7 +6,7 @@ import {verifyOriginalSavePair} from './hd-mobile-system-runtime-oracle.mjs';
 export async function runMobileSystemChecks(ctx) {
   const {report,evaluate,until,delay,checkpoint,metrics,touches,tap,buttonPoint,mark,worldSource,readSource,mapReadySource,assertHd,cdp}=ctx;
   const size=[report.systemWidth,report.systemWidth===667?375:390],VK={ENTER:39,EXIT:40,UP:34,DOWN:35};
-  const item=i=>`#hd-system-ui [data-hd-sys="${i}"]`,back='#hd-system-ui [data-hd-sys-back]';
+  const item=i=>`#hd-system-ui [data-hd-sys="${i}"]`,back='#hd-system-ui [data-hd-sys-back]',start='#hd-system-ui [data-hd-sys-start]';
   const sampleSource=`(() => {const b=${readSource};return {...b,system:window.BayeHdSystemUi&&BayeHdSystemUi.debugSnapshot(),
     systemHost:window.BayeHdMobileSystem&&BayeHdMobileSystem.snapshot(),record:baye.hd.record(),kings:baye.hd.kings(),
     slots:BayeSaveStorage.slots(),systemPrefs:Object.fromEntries(['baye/systemUiMode','baye/overworldMode','baye/cityMenuMode','baye/mobileSystemUiMode'].map(k=>[k,localStorage.getItem(k)])),
@@ -111,8 +111,26 @@ export async function runMobileSystemChecks(ctx) {
   before=await snapshot();await tap(await point(item(0),true));await noInput(before,'empty save cannot load');await capture('03-empty-load');await action(back,'title','load cancel',{exit:true});
   await action(item(0),'period','new game open');await action(back,'title','period cancel',{exit:true});await action(item(0),'period','new game reopen');await action(item(0),'king','original period 1');
   let kings=await sample();assert.equal(kings.kings.count,kings.system.kings.length);const kingIndex=kings.kings.kings.findIndex(k=>k.id===0);assert.ok(kingIndex>=0,'Actual original Dong Zhuo selector');
-  await capture('04-rulers');before=await snapshot();await touch(item(kingIndex));await until('new original map',mapReadySource);assertHd(await evaluate(readSource));
-  const initial=await snapshot();assert.equal(initial.world.king,0);assert.equal(initial.world.period,1);report.systemNewGame={before,after:initial,keys:await keys(before.state.keyCount)};await capture('05-new-map');
+  before=await snapshot();
+  if(before.state.system.input.index!==kingIndex)await touch(item(kingIndex));
+  await until('acknowledged original ruler with a visible city preview',`(() => {
+    const p=document.querySelector('#hd-system-king-preview'),start=document.querySelector(${JSON.stringify(start)});
+    return p&&!p.hidden&&p.dataset.ready==='true'&&p.dataset.kingId==='0'&&!start.hidden&&!start.disabled;
+  })()`);
+  const preview=await evaluate(`(() => {
+    const p=document.querySelector('#hd-system-king-preview'),data=baye.data;
+    const rect=n=>{const r=n.getBoundingClientRect();return [r.left,r.top,r.right,r.bottom,r.width,r.height];};
+    const expected=Array.from({length:38},(_,i)=>[i,data.g_CityPositions[i].x,data.g_CityPositions[i].y,data.g_Cities[i].Belong===1]);
+    return {points:Array.from(p.querySelectorAll('circle'),n=>[+n.dataset.cityId,+n.dataset.nativeX,+n.dataset.nativeY,n.dataset.owned==='true']),expected,
+      cities:Array.from(p.querySelectorAll('li'),n=>[+n.dataset.cityId,n.textContent]),names:expected.filter(row=>row[3]).map(row=>[row[0],baye.getCityName(row[0])]),
+      panel:rect(p),list:rect(document.getElementById('hd-system-ui-list')),map:rect(p.querySelector('svg')),start:rect(document.querySelector(${JSON.stringify(start)}))};
+  })()`);
+  assert.deepEqual(preview.points,preview.expected);assert.deepEqual(preview.cities,preview.names);
+  assert.ok(preview.cities.length>0&&preview.list[2]<=preview.panel[0]&&preview.map[4]>0&&preview.map[5]>0);
+  assert.ok(preview.start[4]>=44&&preview.start[5]>=44&&preview.start[3]<=before.state.systemRect.bottom);
+  assert.deepEqual((await keys(before.state.keyCount)).map(k=>k.code),selectionKeys(before.state.system.input,kingIndex).slice(0,-1));
+  await capture('04-rulers');await touch(start);await until('new original map',mapReadySource);assertHd(await evaluate(readSource));
+  const initial=await snapshot();assert.equal(initial.world.king,0);assert.equal(initial.world.period,1);report.systemNewGame={before,after:initial,preview,keys:await keys(before.state.keyCount)};await capture('05-new-map');
   assert.deepEqual(report.systemNewGame.keys.map(k=>k.code),selectionKeys(before.state.system.input,kingIndex),'New-game ruler exact focus and confirmation keys');
   const openSystem=async label=>{const b=await snapshot();await tap(await buttonPoint('#hd-mobile-system-open'));await ready('insystem');const a=await snapshot(),ks=await keys(b.state.keyCount);assert.deepEqual(ks.map(k=>k.code),[VK.EXIT]);assert.deepEqual(a.world,b.world);report.systemChecks.push({label,before:b,after:a,keys:ks});};
   const returnMap=async label=>{const b=await snapshot();await touch(back);await until('map '+label,mapReadySource);const a=await snapshot();assert.deepEqual(await keys(b.state.keyCount).then(v=>v.map(k=>k.code)),[VK.EXIT]);assert.deepEqual(a.world,b.world);assertHd(a.state);report.systemChecks.push({label,before:b,after:a});};
