@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {verifyMobileConfiscation,verifyMobileReward,verifyMobileEquipment,verifyOriginalTroopTokenReward,verifyOriginalCampaignReward} from './hd-mobile-equipment-runtime-oracle.mjs';
+import {verifyMobileConfiscation,verifyMobileReward,verifyMobileEquipment,verifyOriginalTroopTokenReward,
+  verifyOriginalCampaignReward,verifyOriginalCampaignTroopTokenReward} from './hd-mobile-equipment-runtime-oracle.mjs';
 
 const libBytes=readFileSync(new URL('../libs/dat-mod.lib',import.meta.url));
 const clone=value=>structuredClone(value);
@@ -157,6 +158,20 @@ test('Original troop tokens consume inventory and change troop type without fill
     assert.equal(receipt.consumableAccepted,true);assert.deepEqual(receipt.armsType,{before:2,after:arm});
     assert.equal(receipt.equipmentSlot,null);
     assert.equal(receipt.reportBusinessStage,'after-conversion-and-inventory-before-devotion');
+    if (toolId===31) {
+      const campaign=clone(evidence);
+      const snapshots=[campaign.before,campaign.reportWorld,campaign.after];
+      for (const world of snapshots) {
+        world.cities[16].Persons=1;
+        world.queue[3]=20;
+      }
+      assert.throws(()=>verifyOriginalTroopTokenReward(campaign),/resident PIDs do not repeat/);
+      assert.deepEqual(verifyOriginalCampaignTroopTokenReward(campaign).armsType,{before:2,after:5});
+      campaign.after.queue[3]=18;
+      assert.throws(()=>verifyOriginalCampaignTroopTokenReward(campaign),/queue/);
+      for (const world of snapshots) world.queue[3]=personId;
+      assert.throws(()=>verifyOriginalCampaignTroopTokenReward(campaign),/resident PIDs do not repeat/);
+    }
     after.people[personId].Tool2=toolId+1;
     assert.throws(()=>verifyOriginalTroopTokenReward(evidence),/Tool2/);
     after.people[personId].Tool2=0;

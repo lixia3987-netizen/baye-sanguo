@@ -173,6 +173,10 @@ export function verifyMobileEquipment(options) {return verifyEquipment(options);
 export function verifyMobileConfiscation(options={}) {return verifyMobileEquipment({...options,operation:'confiscate'});}
 export function verifyMobileReward(options={}) {return verifyMobileEquipment({...options,operation:'reward'});}
 export function verifyOriginalTroopTokenReward(options={}) {return verifyMobileEquipment({...options,operation:'convert'});}
+export function verifyOriginalCampaignTroopTokenReward(options={}) {
+  const recipient=integer(options.personId,0,199,'Actual reward recipient');
+  return verifyEquipment({...options,operation:'convert'},recipient);
+}
 export function verifyOriginalCampaignReward(options={}) {
   const recipient=integer(options.personId,0,199,'Actual reward recipient');
   // Later original months can contain unrelated duplicate residents. Compare

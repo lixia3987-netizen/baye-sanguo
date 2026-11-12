@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict';
 import { verifyNativePersonSelection } from './hd-city-person-navigation-checks.mjs';
-import { verifyMobileReward, verifyOriginalCampaignReward, verifyOriginalTroopTokenReward } from './hd-mobile-equipment-runtime-oracle.mjs';
+import { verifyMobileReward, verifyOriginalCampaignReward, verifyOriginalTroopTokenReward,
+    verifyOriginalCampaignTroopTokenReward } from './hd-mobile-equipment-runtime-oracle.mjs';
+
+const mysticToken = {id:31, name:'太玄兵符', convert:true};
 
 export const rewardTokenScenarios = {
     mystic: { period: 1, lord: '公孙瓒', city: '北平', tool: 31, name: '太玄兵符', arm: '玄兵', stat: 'IQ', label: '智力' },
@@ -319,17 +322,19 @@ async function moveOriginalOfficers(ctx, controls, from, to, people, evidence, p
     await checkpoint(prefix + '-move-arrived');
 }
 
-async function awardOriginalTool(ctx, controls, cityIndex, personId, goods, tool, verifyReward = verifyMobileReward) {
+async function awardOriginalTool(ctx, controls, cityIndex, personId, goods, tool,
+    verify = tool.convert ? verifyOriginalTroopTokenReward : verifyMobileReward) {
     const {world, evaluate, until, checkpoint, libBytes} = ctx;
     const {picker, chooseRow, waitReport, acknowledge, keysSince} = controls;
     await chooseRow(goods, tool.id, 'tool');
     const current = await picker(3, goods.seq, 'Original recipients of ' + tool.name);
     const before = await world();
     if (tool.convert) {
+        const eligibility = '智力 ' + before.people[personId].IQ + ' · 符合条件';
         await until('HD shows the qualified original mystic recipient', `(() => {
             const title=document.querySelector('[data-hd-reward-tool="${tool.id}"]');
             const hint=document.querySelector('[data-hd-deep-pind="${personId}"] [data-hd-reward-status="eligible"]');
-            return title?.textContent.includes('太玄兵符')&&hint?.textContent==='智力 108 · 符合条件';
+            return title?.textContent.includes(${JSON.stringify(tool.name)})&&hint?.textContent===${JSON.stringify(eligibility)};
         })()`);
         await checkpoint('mystic-token-recipient');
     }
@@ -346,9 +351,18 @@ async function awardOriginalTool(ctx, controls, cityIndex, personId, goods, tool
         return m.active===1&&m.context===1&&m.kind===4&&m.seq!==${goods.seq}&&m.idsValid&&
             s.open&&s.showHd&&s.deepMenuOwner?.seq===m.seq&&{goods:m};
     })()`);
-    const verify = tool.convert ? verifyOriginalTroopTokenReward : verifyReward;
     const oracle = verify({before, after:await world(), reportWorld, cityIndex, personId, toolId:tool.id, libBytes});
     return {returned, report, oracle};
+}
+
+async function closeOriginalReward(ctx, controls, returned) {
+    if (returned.report) {
+        assert.equal(returned.report.text, '城中无道具');
+        await controls.acknowledge(returned.report);
+    } else {
+        await ctx.click('#hd-city-menu [data-hd-menu-back]');
+    }
+    await ctx.waitPlayerMap('Original map after the mystic troop conversion');
 }
 
 async function leaveOutpostUndefended(ctx, controls, menu, preparationCity, personId) {
@@ -721,10 +735,10 @@ export async function runEliteAttackPreparation(ctx, marchCity, discovery) {
 }
 
 export async function runMysticAttackPreparation(ctx, cityIndex, personId) {
-    const {report, world, click, chooseCityItem, reopenInterior, waitPlayerMap, checkpoint} = ctx;
+    const {report, world, chooseCityItem, reopenInterior, checkpoint} = ctx;
     const controls = rewardControls(ctx);
     const book = {id:11, name:'六韬'};
-    const token = {id:31, name:'太玄兵符', convert:true};
+    const token = mysticToken;
     const from = 31;
     const start = await world();
     assert.deepEqual([start.period, start.king, start.people[personId].IQ, start.people[personId].ArmsType], [4, 1, 100, 1]);
@@ -746,15 +760,35 @@ export async function runMysticAttackPreparation(ctx, cityIndex, personId) {
     assert.ok(equipped.returned.goods?.ids.includes(token.id));
     const converted = run.token = await awardOriginalTool(ctx, controls, cityIndex, personId, equipped.returned.goods, token);
     assert.deepEqual(converted.oracle.armsType, {before:1, after:5});
-    if (converted.returned.report) {
-        assert.equal(converted.returned.report.text, '城中无道具');
-        await controls.acknowledge(converted.returned.report);
-    } else {
-        await click('#hd-city-menu [data-hd-menu-back]');
-    }
-    await waitPlayerMap('Original map after the mystic troop conversion');
+    await closeOriginalReward(ctx, controls, converted.returned);
     run.accepted = true;
     await checkpoint('mystic-preparation-complete');
+}
+
+export async function runNanpiMysticPreparation(ctx, from, cityIndex, personId) {
+    const {report, world, chooseCityItem, reopenInterior, evaluate} = ctx;
+    const controls = rewardControls(ctx);
+    const start = await world();
+    const owner = start.king + 1;
+    assert.deepEqual([start.period,start.king,start.people[personId].ArmsType],[2,2,4]);
+    assert.deepEqual([start.cities[from].Belong,start.cities[cityIndex].Belong,start.people[personId].Belong],
+        [owner,owner,owner]);
+    assert.ok(cityResidents(start, from).includes(personId));
+    assert.ok(cityInventory(start, cityIndex).includes(0x8000 | mysticToken.id),
+        'The original 下邳 save already contains the discovered 太玄兵符');
+
+    const run = report.nanpiMysticPreparation = {personId,from,cityIndex,outbound:{},inbound:{}};
+    await moveOriginalOfficers(ctx, controls, from, cityIndex, [personId], run.outbound, 'nanpi-to-xiapi');
+    await reopenInterior('Award the original 下邳 troop token', cityIndex);
+    const {menu} = await chooseCityItem('赏赐', 'data-hd-sub', 2);
+    const inventory = await controls.picker(4, menu.seq, 'Original inventory with 太玄兵符');
+    run.token = await awardOriginalTool(ctx, controls, cityIndex, personId, inventory, mysticToken,
+        verifyOriginalCampaignTroopTokenReward);
+    assert.deepEqual(run.token.oracle.armsType,{before:4,after:5});
+    await closeOriginalReward(ctx, controls, run.token.returned);
+    await moveOriginalOfficers(ctx, controls, cityIndex, from, [personId], run.inbound, 'nanpi-to-puyang');
+    assert.equal(await evaluate(`baye.hd.personArmType(${personId})`),5);
+    return run;
 }
 
 export async function runMysticDefenderPreparation(ctx, from, target, personId, restoredOccupation) {

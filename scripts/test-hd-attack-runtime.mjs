@@ -24,6 +24,7 @@
  *   --elite-resume=build/.../result.json restores a private elite campaign save.
  *   --elite-resume-stage=garrison selects the earlier reinforced city checkpoint.
  *   --liu-bei-nanpi --nanpi-resume=build/.../result.json attacks the armed 吕布 from an original 濮阳 save.
+ *   --liu-bei-nanpi --range 24:40:49 converts 通宵虫 with the original 太玄兵符, then attacks 吕布.
  *   --yunnan-officers occupies original period 1 云南 and recruits its two special officers.
  *   --yunnan-resume=build/.../result.json continues from an original 云南 checkpoint.
  *   --yunnan-search-months=N controls when to checkpoint the continuing original search (default 84).
@@ -49,8 +50,10 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { originalRewardWorldSource, runEliteAttackPreparation, runMysticAttackPreparation,
-    runMysticDefenderPreparation, runYunnanOfficerPreparation, yunnanOfficers } from './hd-reward-token-runtime-checks.mjs';
+    runMysticDefenderPreparation, runNanpiMysticPreparation, runYunnanOfficerPreparation,
+    yunnanOfficers } from './hd-reward-token-runtime-checks.mjs';
 import { battleResultNoteObservation, verifyBattleResultNote } from './hd-battle-hud-runtime-checks.mjs';
+import { verifyOriginalSavePair } from './hd-mobile-system-runtime-oracle.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -129,6 +132,7 @@ const rangeFlag = process.argv.indexOf('--range');
 const rangeText = rangeFlag < 0 ? null : process.argv[rangeFlag + 1];
 assert.ok(rangeText === null || /^(19|20|21|22|23|24|25):\d+:\d+$/.test(rangeText), '--range must be native SPE:start:end');
 const acceptedRange = rangeText === null ? null : rangeText.split(':').map(Number);
+const nanpiMystic = nanpi && rangeText === '24:40:49';
 assert.ok(!recruit || acceptedRange, '--recruit requires an exact native --range');
 assert.ok(!mystic || recruit && acceptedRange?.[0] === 24, '--mystic requires an exact recruited mystic attacker interval');
 const targetArmFlag=process.argv.indexOf('--target-arm');
@@ -151,8 +155,8 @@ const destination=Number(destinationText);
 assert.ok(Number.isInteger(destination)&&destination>=0&&destination<64&&destination!==route.origin,'The destination must be a distinct native city; current Realm and native adjacency still authorize it');
 assert.ok(!mysticDefender || recruit && targetArm === 5 && destination === 24,
     '--mystic-defender requires original 成都 and a recruited attack against arm 5');
-assert.ok(!nanpi || !recruit && destination === 6 && targetArm === 4 && rangeText === '23:36:44',
-    '--liu-bei-nanpi uses the actual saved troops to verify 23:36:44 at 南皮');
+assert.ok(!nanpi || !recruit && destination === 6 && targetArm === 4 && (rangeText === '23:36:44' || nanpiMystic),
+    '--liu-bei-nanpi uses the actual saved troops to verify 23:36:44 or 24:40:49 at 南皮');
 assert.ok(!yunnan || destination === 30 && !acceptedRange && scenario === 'nominal',
     '--yunnan-officers prepares the original 云南 officers for later ordinary attack verification');
 const plannerStepBudget=36+Math.max(0,maxTurns-4)*11;
@@ -436,11 +440,12 @@ function prepareServedAssets() {
     }
     for(const dir of ['js','css','assets','vendor/iBaye/src'])freezeDirectory(dir);
     freezeAsset('scripts/write-wasm-manifest.mjs');
-    if (elite || mystic || mysticDefender || yunnan) {
+    if (elite || mystic || mysticDefender || yunnan || nanpiMystic) {
         for (const source of ['hd-reward-token-runtime-checks', 'hd-mobile-equipment-runtime-oracle', 'hd-city-person-navigation-checks']) {
             freezeAsset('scripts/' + source + '.mjs');
         }
     }
+    if (nanpi) freezeAsset('scripts/hd-mobile-system-runtime-oracle.mjs');
     if (yunnan) freezeAsset('scripts/hd-battle-hud-runtime-checks.mjs');
     for(const rel of ['libs/dat-mod.lib']){const data=fs.readFileSync(path.join(root,rel)),metadata={source:rel,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};report.sources[rel]=metadata;servedAssets.set(rel,{data,metadata});}
     nativeLib=servedAssets.get('libs/dat-mod.lib').data;
@@ -889,21 +894,17 @@ async function loadEliteAttackSave(cdp) {
     await checkpoint(cdp, 'elite-' + stage + '-loaded');
 }
 
-async function loadNanpiSave(cdp) {
-    const earlier = readSavedAttackRun(nanpiResumePath);
-    assert.equal(earlier.previous.scenario,'elite-transit');
-    assert.equal(earlier.previous.route.origin,route.origin);
-    const {readySave,defender} = earlier.previous.nanpiPreparation;
-    const {world,...receipt} = await loadNativeAttackSave(cdp,readAttackSavePair(earlier,readySave,'nanpi-defender-ready'));
+async function readNanpiGarrison(cdp, world, actorArm) {
     const residents = index => {
         const {PersonQueue,Persons} = world.cities[index];
         return world.queue.slice(PersonQueue,PersonQueue+Persons);
     };
     const p = world.people[8], city = world.cities[destination];
-    const restored = {year:world.year,month:world.month,cityBelong:city.Belong,resident:residents(destination).includes(8),
+    const defender = {year:world.year,month:world.month,cityBelong:city.Belong,resident:residents(destination).includes(8),
         belong:p.Belong,arms:p.Arms,arm:p.ArmsType};
-    assert.deepEqual(restored,defender);
-    assert.ok(city.Belong>0&&city.Belong!==world.king+1&&restored.resident&&p.Belong===city.Belong&&p.Arms>0);
+    assert.equal(world.cities[route.origin].Belong,world.king+1);
+    assert.ok(city.Belong>0&&city.Belong!==world.king+1&&defender.resident&&p.Belong===city.Belong&&p.Arms>0,
+        'The original 吕布 still defends 南皮 with troops');
     assert.equal(await evaluate(cdp,'baye.hd.personArmType(8)'),4);
     assert.equal(await evaluate(cdp,'Number(baye.data.g_LookMovie)'),1,'Original attack movie remains enabled');
     const party = [183,32].filter(id => residents(route.origin).includes(id) &&
@@ -914,8 +915,29 @@ async function loadNanpiSave(cdp) {
         const armType = await evaluate(cdp,`baye.hd.personArmType(${id})`);
         roster.push({personIndex:id,nativeGenId:id+1,armType,arms:world.people[id].Arms});
     }
-    assert.equal(roster[0].armType,4);
-    report.nanpiResume = {...receipt,restored,party:roster};
+    assert.equal(roster[0].armType,actorArm);
+    return {defender,party:roster};
+}
+
+async function loadNanpiSave(cdp) {
+    const earlier = readSavedAttackRun(nanpiResumePath);
+    const {previous} = earlier;
+    assert.equal(previous.route.origin,route.origin);
+    const prepared = previous.nanpiMysticPreparation?.readySave;
+    if (prepared) {
+        assert.ok(nanpiMystic, 'The converted checkpoint uses 24:40:49');
+        assert.deepEqual(previous.acceptedRange,[24,40,49]);
+    } else {
+        assert.equal(previous.scenario,'elite-transit');
+    }
+    const archive = prepared ? previous.nanpiMysticPreparation : previous.nanpiPreparation;
+    const save = readAttackSavePair(earlier,archive.readySave,prepared?'nanpi-mystic-ready':'nanpi-defender-ready');
+    const {world,...receipt} = await loadNativeAttackSave(cdp,save);
+    verifyOriginalSavePair({sav0:save.parts[0],sav1:save.parts[1],world});
+    const {defender,party} = await readNanpiGarrison(cdp,world,prepared?5:4);
+    assert.deepEqual(defender,archive.defender);
+    if (prepared) assert.deepEqual(party,archive.party);
+    report.nanpiResume = {...receipt,restored:defender,party};
     await checkpoint(cdp,'nanpi-defender-loaded');
 }
 
@@ -1340,6 +1362,7 @@ async function saveNativeAttackCheckpoint(ctx, name, slot) {
         return BayeSaveStorage.validatePair(...parts)&&parts;
     })()`);
     assert.ok(Array.isArray(pair)&&pair.length===2&&pair.every(hex=>typeof hex==='string'&&/^(?:[0-9a-f]{2})+$/i.test(hex)));
+    if (nanpiMystic) verifyOriginalSavePair({sav0:pair[0],sav1:pair[1],world:before});
     const files = pair.map((hex,i) => {
         const file=name+'-sango'+i+'.sav', data=Buffer.from(hex,'hex');
         fs.writeFileSync(path.join(artifactDir,file),data,{flag:'wx'});
@@ -1393,6 +1416,13 @@ async function prepareAttackCampaign(cdp) {
         libBytes:nativeLib, nativeKeys:'window.__speEngineKeys.map(key=>key.code)'
     };
     ctx.save = (name,slot) => saveNativeAttackCheckpoint(ctx,name,slot);
+    if (nanpiMystic) {
+        const run = await runNanpiMysticPreparation(ctx,route.origin,18,route.preferredActor);
+        Object.assign(run,await readNanpiGarrison(cdp,await ctx.world(),5));
+        run.readySave = await ctx.save('nanpi-mystic-ready',1);
+        await ctx.checkpoint('nanpi-mystic-ready-saved');
+        return;
+    }
     if (yunnan) {
         const conditions = nativeItem(63, route.period - 1);
         for (const {id} of yunnanOfficers) {
@@ -1427,11 +1457,11 @@ async function prepareAttackCampaign(cdp) {
 
 async function marchSmoke(cdp) {
     await evaluate(cdp, `(() => { BayeHdOverworld.setMode('hd-map'); BayeHdCityMenu.setMode('hd'); BayeHdBattle.setMode('hd'); })()`);
-    if (elite || mystic || mysticDefender || yunnan) {
+    if (elite || mystic || mysticDefender || yunnan || nanpiMystic && report.nanpiResume.party[0].armType===4) {
         await prepareAttackCampaign(cdp);
         if (yunnan) return;
     }
-    await dispatchAttackMarch(cdp,{party:report.nanpiResume?.party.map(p=>p.personIndex) ?? null});
+    await dispatchAttackMarch(cdp,{party:nanpiMarchParty()?.map(p=>p.personIndex) ?? null});
     await beginMarchSettlement(cdp);
     await waitFor(cdp,'real battle player selection','baye.hd.fight().active && !baye.hd.fight().over && baye.hd.fight().inputKind===1',60000);
     await checkpoint(cdp,'14-battle-ready');
@@ -1656,8 +1686,12 @@ function escortTargets(units) {
     return units.filter(u => livingEnemy(u) && !requestedDefenderArm(u));
 }
 
+function nanpiMarchParty() {
+    return report.nanpiMysticPreparation?.party ?? report.nanpiResume?.party;
+}
+
 function attackEscorts() {
-    return report.nanpiResume?.party.slice(1).map(p=>p.personIndex) ?? escortIds;
+    return nanpiMarchParty()?.slice(1).map(p=>p.personIndex) ?? escortIds;
 }
 
 async function attemptAttack(cdp,actor,escort=false) {
@@ -1665,8 +1699,19 @@ async function attemptAttack(cdp,actor,escort=false) {
     const name=await evaluate(cdp,'baye.hd.menuItems().names[0]');
     await menuChoice(cdp,name,5);
     const inRange=await evaluate(cdp,rangedUnitsExpression);
-    if(!escort&&targetArm!==null){const hint=await evaluate(cdp,nativeAimHintExpression);if(hint){assert.equal(hint.actorNativeGenId,actor.id);assert.equal(hint.effectiveArm,actor.armType);report.nativeAimHints??=[];report.nativeAimHints.push(hint);}}
+    const hint = !escort && targetArm!==null ? await evaluate(cdp,nativeAimHintExpression) : null;
+    if (hint) {
+        assert.equal(hint.actorNativeGenId,actor.id);
+        assert.equal(hint.effectiveArm,actor.armType);
+        (report.nativeAimHints ??= []).push(hint);
+    }
     const targets=escort ? escortTargets(inRange).sort((a,b)=>a.arms-b.arms||a.i-b.i) : orderedRequestedEnemies(inRange);
+    // If 吕布 commands from the city, use a legal ordinary attack to clear
+    // the enemy line in front of 通宵虫. Only 吕布 can satisfy the interval.
+    const blockers = nanpiMystic && hint && targets.length===0 && report.targetPreference.preferredInitialSlot===10 ?
+        escortTargets(inRange).filter(unit=>unit.y<=hint.actorY).sort((a,b)=>a.arms-b.arms||a.i-b.i) : [];
+    const clearing = blockers.length > 0;
+    if (clearing) targets.push(...blockers);
     if(!targets.length) {await action(cdp,'cancel-attack-no-target','BayeHdBattle.cancel()');await waitBattle(cdp,3,'return from unavailable attack');return false;}
     const target=targets[0],before=await evaluate(cdp,battleStateExpression);
     const actualActor=before.units.find(u=>u.i===actor.i);
@@ -1674,20 +1719,21 @@ async function attemptAttack(cdp,actor,escort=false) {
     assert.ok(escort ? attackEscorts().includes(actualActor.personIndex) : requestedActor(actualActor));
     assert.equal(before.fight.inputKind,5);assert.equal(before.fight.actorIndex,actor.i);
     const actualTarget=before.units.find(u=>u.i===target.i&&u.id===target.id);
-    assert.ok(escort ? escortTargets([actualTarget]).length : livingRequestedEnemy(actualTarget),
+    assert.ok(escort || clearing ? escortTargets([actualTarget]).length : livingRequestedEnemy(actualTarget),
         'Fresh target remains the same real living enemy and has the intended effective arm');
     assert.equal(actualTarget.x,target.x);assert.equal(actualTarget.y,target.y);
-    if (!escort) {
+    if (!escort && !clearing) {
         report.attackPlanning??=[];report.attackPlanning.push({requested:acceptedRange,requestedTargetArm:targetArm,preferredTargetNativeGenId:report.targetPreference?.preferredNativeGenId??null,actor:actualActor,target:actualTarget,nativeInRange:inRange});
     }
     const result=await action(cdp,'confirm-attack-'+target.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);assert.equal(result.ok,true);
-    if(!escort&&['classic','hidden','resize'].includes(scenario))await exercisePresentation(cdp);
+    if(!escort&&!clearing&&['classic','hidden','resize'].includes(scenario))await exercisePresentation(cdp);
     await waitActionResolved(cdp,'actual attack resolves');
     const after=await evaluate(cdp,battleStateExpression),enemy=after.units.find(u=>u.i===target.i);
     assert.ok(!enemy||enemy.arms<target.arms,'confirmed normal attack reduces actual enemy troops');
-    if (escort) {
-        report.escortAttacks ??= [];
-        report.escortAttacks.push({actor:actualActor,target:actualTarget,nativeInRange:inRange,before,after});
+    if (escort || clearing) {
+        const receipt = {actor:actualActor,target:actualTarget,nativeInRange:inRange,before,after};
+        if (clearing) (report.routeClearingAttacks ??= []).push(receipt);
+        else (report.escortAttacks ??= []).push(receipt);
         return true;
     }
     report.attackCost={actor:actor.name,actorIndex:actor.i,actorNativeGenId:actualActor.id,actorArmType:actualActor.armType,target:target.name,targetIndex:target.i,targetNativeGenId:actualTarget.id,targetPersonIndex:actualTarget.personIndex,targetArmType:actualTarget.armType,targetTerrain:actualTarget.terrain,requestedTargetArm:targetArm,before,after};
@@ -1769,7 +1815,7 @@ async function battleSmoke(cdp) {
             'The original opponent deployed the prepared mystic officer');
     }
     if (nanpi) {
-        for (const p of report.nanpiResume.party) {
+        for (const p of nanpiMarchParty()) {
             const unit = report.combatStart.units.find(u=>u.id===p.nativeGenId);
             assert.deepEqual([unit?.side,unit?.personIndex,unit?.arms,unit?.armType],['player',p.personIndex,p.arms,p.armType]);
         }
