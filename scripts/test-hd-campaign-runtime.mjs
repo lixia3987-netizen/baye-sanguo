@@ -18,6 +18,8 @@
  * --captive-resume=build/.../result.json replays a captured native save from a closed private run.
  * --elite-transit=build/.../result.json continues the original 刘备 campaign to 濮阳 and prepares the 南皮 defender.
  * --elite-transit-months=N sets the month budget and saves the current campaign if the defender is still unready.
+ * --west-transit=build/.../result.json prepares original 西凉 access by sending 劝降 from 刘备's campaign.
+ * --west-transit-months=N sets the month budget for those original diplomatic orders.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
 import assert from 'node:assert/strict';
@@ -38,7 +40,7 @@ import {verifyOriginalSavePair} from './hd-mobile-system-runtime-oracle.mjs';
 import {verifyMobileSuccessorChoice,verifyMobileSuccessorReport,verifyMobileSuccessorSettlement} from './hd-mobile-successor-runtime-oracle.mjs';
 import {recordBattleOpeningStatus,verifyBattleOpeningStatus} from './hd-battle-opening-status-runtime-checks.mjs';
 import {observeBattleEquipmentSettlement,discoveredCityEquipment,verifyEquipmentDeposit} from './hd-battle-equipment-runtime-checks.mjs';
-import {originalRewardWorldSource} from './hd-reward-token-runtime-checks.mjs';
+import {dispatchOriginalInduce, originalRewardWorldSource} from './hd-reward-token-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -46,13 +48,23 @@ const scenarioFlag = process.argv.indexOf('--scenario');
 const eliteTransitFlag = process.argv.find(arg => arg.startsWith('--elite-transit='));
 const eliteTransit = eliteTransitFlag?.slice('--elite-transit='.length);
 assert.ok(!eliteTransitFlag || eliteTransit && scenarioFlag < 0, '--elite-transit requires an original save report and selects its own campaign');
+const westTransitFlag = process.argv.find(arg => arg.startsWith('--west-transit='));
+const westTransit = westTransitFlag?.slice('--west-transit='.length);
+assert.ok(!westTransitFlag || westTransit && !eliteTransitFlag && scenarioFlag < 0,
+    '--west-transit requires an original 刘备 save report and selects its own campaign');
+const liuBeiTransit = eliteTransit ?? westTransit;
 const eliteTransitMonthsFlag = process.argv.find(arg => arg.startsWith('--elite-transit-months='));
 const eliteTransitMonthsText = eliteTransitMonthsFlag?.slice('--elite-transit-months='.length) ?? '18';
 const eliteTransitMonths = Number(eliteTransitMonthsText);
 assert.ok(!eliteTransitMonthsFlag || eliteTransit && /^\d+$/.test(eliteTransitMonthsText) && Number.isSafeInteger(eliteTransitMonths),
     '--elite-transit-months requires --elite-transit and a nonnegative integer');
-const scenario = eliteTransit ? 'elite-transit' : scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
-assert.ok(['victory', 'defense', 'arrival', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives', 'elite-transit'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
+const westTransitMonthsFlag = process.argv.find(arg => arg.startsWith('--west-transit-months='));
+const westTransitMonthsText = westTransitMonthsFlag?.slice('--west-transit-months='.length) ?? '18';
+const westTransitMonths = Number(westTransitMonthsText);
+assert.ok(!westTransitMonthsFlag || westTransit && /^\d+$/.test(westTransitMonthsText) && Number.isSafeInteger(westTransitMonths),
+    '--west-transit-months requires --west-transit and a nonnegative integer');
+const scenario = eliteTransit ? 'elite-transit' : westTransit ? 'west-transit' : scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
+assert.ok(['victory', 'defense', 'arrival', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives', 'elite-transit', 'west-transit'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
 const arrivalScenario=scenario==='arrival',defenseScenario=scenario==='defense';
 const defenseAnyOutcome=process.argv.includes('--defense-any-outcome');
 const defenseAfterSuccession=process.argv.includes('--defense-after-succession');
@@ -64,9 +76,9 @@ assert.ok(!defenseAnyOutcome||defenseScenario,'--defense-any-outcome requires th
 const findGenerals=process.argv.includes('--find-generals');
 assert.ok(!findGenerals||scenario==='victory','General search acceptance requires the victory scenario');
 const periodFlag=process.argv.find(arg=>arg.startsWith('--period='));
-const campaignPeriod=Number(periodFlag?.split('=')[1]??(eliteTransit ? 2 : 1));
+const campaignPeriod=Number(periodFlag?.split('=')[1]??(liuBeiTransit ? 2 : 1));
 assert.ok([1,2,3,4].includes(campaignPeriod)&&
-    (campaignPeriod===1||['probe','victory','save'].includes(scenario)||verifyDefenderTaps||eliteTransit),
+    (campaignPeriod===1||['probe','victory','save'].includes(scenario)||verifyDefenderTaps||liuBeiTransit),
     'Select an original period for probe, victory, save or a supported defense campaign');
 const mobileCampaignFlag=process.argv.find(arg=>arg.startsWith('--mobile-width='));
 const mobileCampaignWidth=Number(mobileCampaignFlag?.split('=')[1]??0);
@@ -124,9 +136,9 @@ const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.lib': 'application/octet-stream' };
 const report = { scenario, period:campaignPeriod, staged, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
-if (eliteTransit) {
+if (liuBeiTransit) {
     assert.equal(campaignPeriod, 2);
-    Object.assign(report, {route:{period:2,king:'刘备',origin:12,originName:'濮阳'},destination:6,sources:{}});
+    Object.assign(report, {route:{period:2,king:'刘备',origin:12,originName:'濮阳'},destination:westTransit?0:6,sources:{}});
 }
 if(captiveScenario)Object.assign(report,{accepted:false,identityAccepted:false,hdAccepted:false,captiveAccepted:false,personCaptivesAccepted:false,preflightOnly});
 if(captiveOrder)report.captiveOrderAccepted=false;
@@ -204,7 +216,7 @@ async function startServer(port=0) {
             if (!filename.startsWith(base + path.sep)) { res.writeHead(403).end(); return; }
             fs.readFile(filename, (err, data) => {
                 if (err) { report.requests.push({ url: url.pathname, status: 404 }); res.writeHead(404).end(); return; }
-                if (eliteTransit) {
+                if (liuBeiTransit) {
                     const name = rel === 'js/baye.wasm' ? 'baye.wasm' : rel;
                     const metadata = {source:path.relative(root,filename),bytes:data.length,sha256:sha(data)};
                     if (report.sources[name] && report.sources[name].sha256 !== metadata.sha256) {
@@ -598,6 +610,7 @@ async function smoke(cdp) {
     await waitFor(cdp, 'classic animated title', `window.__runtimeSpeSeen.includes(100)`);
     await checkpoint(cdp, '02-classic-title');
     if (eliteTransit) return runEliteTransit(cdp);
+    if (westTransit) return runWestTransit(cdp);
     await key(cdp, 'Enter');
     await waitFor(cdp, 'classic animated period selection', `window.__runtimeSpeSeen.includes(104)`);
     await checkpoint(cdp, '03-period');
@@ -2057,7 +2070,7 @@ async function conquerBattle(cdp,round,defending=false) {
     const cities=await evaluate(cdp,cityTilesExpression);
     assert.ok(cities.length,'real C battle map contains a city terrain tile');
     report.objectives??=[];report.objectives.push({round,cities,defending});
-    if (!eliteTransit) await configureBattleSettings(cdp,round);
+    if (!liuBeiTransit) await configureBattleSettings(cdp,round);
     const masks=new Map();
     const maxSteps=Math.min(initial.fight.boutMax,30)*(initial.units.filter(u=>u.side==='player').length+1)+1;
     for(let step=0;step<maxSteps;step++) {
@@ -2385,7 +2398,7 @@ async function confirmDefenseSuccessor(cdp,label,defeat) {
         picker,choice,keys,during,committed,reportVerdict,settlementVerdict});
 }
 
-async function settleToMap(cdp,label,{arrival=null,mapSeqBefore=null}={}) {
+async function settleToMap(cdp,label,{arrival=null,mapSeqBefore=null,nativeReports=null}={}) {
     const seen=new Set(),defenses=[];let deadline=Date.now()+150000;
     while(Date.now()<deadline) {
         const state=await evaluate(cdp,snapshotExpression);
@@ -2443,6 +2456,8 @@ async function settleToMap(cdp,label,{arrival=null,mapSeqBefore=null}={}) {
             const token=nativeReport.seq+':'+nativeReport.inputSeq;
             if(!seen.has(token)) {
                 seen.add(token);
+                if (nativeReports) nativeReports.push({...nativeReport,
+                    ownedCities:state.realm.cities.filter(city=>city.owned).map(city=>city.i)});
                 await checkpoint(cdp,label+'-report-'+seen.size);
                 await acknowledgeCampaignReport(cdp,nativeReport);
             }
@@ -2452,11 +2467,11 @@ async function settleToMap(cdp,label,{arrival=null,mapSeqBefore=null}={}) {
     throw new Error('Timed out settling actual campaign reports to map: '+label);
 }
 
-async function advanceCampaignMonth(cdp,label) {
+async function advanceCampaignMonth(cdp,label,nativeReports) {
     await openFunctionMenu(cdp,label);
     const mapSeqBefore=await evaluate(cdp,'baye.hd.march().mapInputSeq');
     await click(cdp,'#hd-system-ui [data-hd-sys="0"]');
-    await settleToMap(cdp,label,{mapSeqBefore});
+    await settleToMap(cdp,label,{mapSeqBefore,nativeReports});
     return evaluate(cdp,worldExpression);
 }
 
@@ -2729,22 +2744,28 @@ function campaignResidents(world, index) {
     return world.personQueue.slice(PersonQueue,PersonQueue + Persons);
 }
 
-async function loadEliteTransit(cdp) {
-    const source = fs.realpathSync(eliteTransit), raw = fs.readFileSync(source), prior = JSON.parse(raw);
+async function loadLiuBeiTransit(cdp) {
+    const source = fs.realpathSync(liuBeiTransit), raw = fs.readFileSync(source), prior = JSON.parse(raw);
     assert.ok(prior.isolation?.cleaned && prior.sourceVerification?.runnerMatch &&
         prior.sourceVerification.drift.length === 0, 'The previous original campaign has authenticated sources');
     assert.deepEqual([prior.route.period,prior.route.king,prior.selectedLord.id],[2,'刘备',2]);
     assert.equal(prior.sources['baye.wasm'].sha256, report.sources['baye.wasm'].sha256);
     assert.equal(prior.actualLib.sha256, report.library.sha256);
-    const continued = prior.scenario === 'elite-transit';
-    assert.deepEqual([prior.route.origin,prior.destination],continued ? [12,6] : [13,12]);
-    const preparation = prior.nanpiPreparation;
-    const [prefix,save] = !continued ? ['elite-officer-arrived',prior.elitePreparation.readySave] :
-        [
-            ['nanpi-defender-ready',preparation.readySave],
-            ['nanpi-preparation-progress',preparation.progressSave],
-            ['puyang-occupied',preparation.occupiedSave]
-        ].find(([,checkpoint]) => checkpoint) ?? [];
+    const fromWest = prior.scenario === 'west-transit';
+    const continued = fromWest || prior.scenario === 'elite-transit';
+    assert.ok(westTransit ? continued : !fromWest, 'Resume from a checkpoint on this original campaign route');
+    assert.deepEqual([prior.route.origin,prior.destination],continued ? [12,fromWest?0:6] : [13,12]);
+    const nanpi = prior.nanpiPreparation;
+    const west = prior.westPreparation;
+    const checkpoints = fromWest ? [
+        ['west-transit-ready',west.readySave],
+        ['west-transit-progress',west.progressSave]
+    ] : continued ? [
+        ['nanpi-defender-ready',nanpi.readySave],
+        ['nanpi-preparation-progress',nanpi.progressSave],
+        ['puyang-occupied',nanpi.occupiedSave]
+    ] : [['elite-officer-arrived',prior.elitePreparation.readySave]];
+    const [prefix,save] = checkpoints.find(([,checkpoint]) => checkpoint) ?? [];
     assert.equal(save?.files.length, 2);
     const parts = save.files.map((f,i) => {
         assert.equal(f.file,prefix+'-sango'+i+'.sav');
@@ -2781,7 +2802,7 @@ async function loadEliteTransit(cdp) {
     return {world,continued};
 }
 
-async function saveEliteTransit(cdp, label, slot, world) {
+async function saveLiuBeiCheckpoint(cdp, label, slot, world) {
     assert.equal(await evaluate(cdp,`BayeSaveStorage.inspectSlot(${slot}).status`),'empty');
     await openFunctionMenu(cdp,label+'-save');
     await click(cdp,'#hd-system-ui [data-hd-sys="1"]');
@@ -2802,7 +2823,7 @@ async function saveEliteTransit(cdp, label, slot, world) {
 }
 
 async function runEliteTransit(cdp) {
-    const loaded = await loadEliteTransit(cdp);
+    const loaded = await loadLiuBeiTransit(cdp);
     await evaluate(cdp,"BayeHdOverworld.setMode('hd-map');BayeHdCityMenu.setMode('hd');BayeHdBattle.setMode('hd');");
     const run = report.nanpiPreparation = {monthBudget:eliteTransitMonths,months:[]};
     let world = loaded.world;
@@ -2827,7 +2848,7 @@ async function runEliteTransit(cdp) {
         assert.equal(world.fighterIndex[march.order.slot],0);
         assert.ok(!world.orders.some(o => o.OrderId===27&&o.City===13&&o.Object===12));
         run.occupation = {year:world.year,month:world.month,march,note};
-        run.occupiedSave = await saveEliteTransit(cdp,'puyang-occupied',1,world);
+        run.occupiedSave = await saveLiuBeiCheckpoint(cdp,'puyang-occupied',1,world);
     }
     for (let month = 0; month <= eliteTransitMonths; month++) {
         const {year,month:date} = world, city = world.cities[6], officer = world.allPersons[8];
@@ -2840,15 +2861,122 @@ async function runEliteTransit(cdp) {
         if (city.Belong && city.Belong!==3 && resident && officer.Belong===city.Belong && officer.Arms>0) {
             assert.equal(await evaluate(cdp,'baye.hd.personArmType(8)'),4);
             run.defender = sample;
-            run.readySave = await saveEliteTransit(cdp,'nanpi-defender-ready',2,world);
+            run.readySave = await saveLiuBeiCheckpoint(cdp,'nanpi-defender-ready',2,world);
             return;
         }
         if (month === eliteTransitMonths) break;
         world = await advanceCampaignMonth(cdp,'nanpi-month-'+(month+1));
         assert.equal(world.year*12+world.month,year*12+date+1);
     }
-    run.progressSave = await saveEliteTransit(cdp,'nanpi-preparation-progress',2,world);
+    run.progressSave = await saveLiuBeiCheckpoint(cdp,'nanpi-preparation-progress',2,world);
     assert.fail('Original 吕布 has not yet joined the armed 南皮 garrison; resume from the progress save');
+}
+
+function westernInduceTarget(world) {
+    const owner = world.realm.playerBelong;
+    const cityLimit = Math.floor(world.cities.filter(city=>city.Belong===owner).length / 2);
+    const targets = [world.cities[0].Belong - 1,15,7,66,14,57,9];
+    return targets.find(id=>{
+        if (id<0 || id===world.realm.playerKing || world.allPersons[id]?.Belong!==id+1) return false;
+        const holdings = world.cities.filter(city=>city.Belong===id+1).length;
+        return holdings>0 && holdings<=cityLimit;
+    });
+}
+
+function westernDiplomats(world, targetId, costs) {
+    const {playerKing,playerBelong} = world.realm;
+    const minimumIQ = world.allPersons[targetId].IQ - 50;
+    const used = new Set();
+    return world.cities.filter(city=>city.Belong===playerBelong).flatMap(city=>{
+        const residents = [...new Set(campaignResidents(world,city.i))].map(id=>world.allPersons[id])
+            .filter(person=>person.Belong===playerBelong);
+        const armed = residents.filter(person=>person.Arms>0).sort((a,b)=>b.Arms-a.Arms);
+        const guard = armed.find(person=>person.i!==183) ?? armed[0] ?? residents[0];
+        const capacity = Math.floor(city.Money / costs.money);
+        return residents.filter(person=>person.i!==guard?.i && person.i!==playerKing &&
+            person.Thew>=costs.thew && person.IQ>=minimumIQ && !used.has(person.i))
+            .sort((a,b)=>b.IQ-a.IQ).slice(0,capacity).map(person=>{
+                used.add(person.i);
+                return {cityIndex:city.i,personId:person.i};
+            });
+    });
+}
+
+async function runWestTransit(cdp) {
+    let {world} = await loadLiuBeiTransit(cdp);
+    await evaluate(cdp,"BayeHdOverworld.setMode('hd-map');BayeHdCityMenu.setMode('hd');BayeHdBattle.setMode('hd');");
+    // Original IFACE resource 2, ConsumeThew and ConsumeMoney entries for INDUCE.
+    assert.equal(report.library.sha256,'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
+    assert.equal(await evaluate(cdp,'Number(baye.data.g_engineConfig.enable16bitConsumeMoney)'),0);
+    const costs = {money:50,thew:10};
+    const owner = world.realm.playerBelong;
+    const run = report.westPreparation = {monthBudget:westTransitMonths,costs,months:[]};
+    const until = (...args) => waitFor(cdp,...args);
+    const chooseCityItem = async (name, attribute, kind) => {
+        const menu = await until('Original city menu for ' + name,`(() => {
+            const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();
+            return m.active===1&&m.context===1&&m.kind===${kind}&&s.open&&s.showHd&&!s.sending&&!s.queueLen&&m;
+        })()`);
+        const index = menu.names.indexOf(name);
+        assert.ok(index>=0 && menu.names.lastIndexOf(name)===index);
+        await click(cdp,`#hd-city-menu [${attribute}="${index}"]`);
+        return {menu};
+    };
+    let dispatchNumber = 0;
+    const ctx = {
+        world:()=>evaluate(cdp,originalRewardWorldSource),
+        evaluate:expression=>evaluate(cdp,expression),
+        until,chooseCityItem,click:selector=>click(cdp,selector),
+        nativeKeys:'__runtimeEngineInputs.map(input=>input.code)',
+        reopenDiplomacy:async (_label,cityIndex)=>{
+            await openCity(cdp,cityIndex,'west-order-'+(++dispatchNumber)+'-city-'+cityIndex);
+            await chooseCityItem('外交','data-hd-root',1);
+        },
+        waitPlayerMap:label=>until(label,`(() => {
+            const m=baye.hd.menuItems(),w=baye.hd.march();
+            return w.pick===1&&!w.battlePick&&!m.active&&!baye.hd.report().active&&!baye.hd.fight().active&&w;
+        })()`)
+    };
+    for (let month=0; month<=westTransitMonths; month++) {
+        assert.deepEqual([world.realm.playerKing,world.cities[12].Belong,world.cities[18].Belong],[2,owner,owner]);
+        assert.ok(campaignResidents(world,12).includes(183) && world.allPersons[183].Arms>0);
+        const xiapi = world.cities[18];
+        assert.ok(world.goods.slice(xiapi.ToolQueue,xiapi.ToolQueue+xiapi.Tools).includes(0x8000|31));
+        if (world.cities[0].Belong===owner) {
+            const officer = world.allPersons[184];
+            run.west = {owner, residents:campaignResidents(world,0), mystic:{personId:184,
+                resident:campaignResidents(world,0).includes(184),belong:officer.Belong,arm:officer.ArmsType}};
+            run.readySave = await saveLiuBeiCheckpoint(cdp,'west-transit-ready',1,world);
+            return;
+        }
+        if (month===westTransitMonths) break;
+        const targetId = westernInduceTarget(world);
+        if (targetId===undefined) break;
+        const before = world;
+        const diplomats = westernDiplomats(before,targetId,costs);
+        const monthRun = {year:before.year,month:before.month,targetId,target:before.allPersons[targetId].name,orders:[],reports:[]};
+        run.months.push(monthRun);
+        for (const {cityIndex,personId} of diplomats) {
+            monthRun.orders.push(await dispatchOriginalInduce(ctx,cityIndex,personId,targetId,costs));
+        }
+        world = await advanceCampaignMonth(cdp,'west-month-'+(month+1),monthRun.reports);
+        assert.equal(world.year*12+world.month,before.year*12+before.month+1);
+        for (const {cityIndex,personId} of monthRun.orders) {
+            assert.ok(!world.orders.some(order=>order.OrderId===19&&order.City===cityIndex&&
+                order.Person===personId&&order.Object===targetId),'The actual 劝降 order retired');
+        }
+        if (monthRun.orders.length) assert.ok(monthRun.reports.some(r=>r.kind===2&&r.person===targetId));
+        monthRun.acquired = world.cities.filter(city=>city.Belong===owner&&before.cities[city.i].Belong===targetId+1)
+            .map(city=>({index:city.i,name:city.name}));
+        if (monthRun.acquired.length) {
+            assert.ok(monthRun.reports.some(r=>r.kind===2&&r.person===targetId&&
+                monthRun.acquired.every(city=>r.ownedCities.includes(city.index))),
+            'New original ownership is already visible during the target ruler’s report');
+            await checkpoint(cdp,'west-acquired-month-'+(month+1));
+        }
+    }
+    run.progressSave = await saveLiuBeiCheckpoint(cdp,'west-transit-progress',1,world);
+    assert.fail('西凉 is still outside the original 刘备 realm; resume from the progress save');
 }
 
 async function saveRefreshLoad(cdp) {
@@ -3101,11 +3229,17 @@ async function mainCaptives(){
 
 async function main() {
     if(captiveScenario)return mainCaptives();
-    if (eliteTransit) {
+    if (liuBeiTransit) {
         assert.ok(!fs.existsSync(path.join(artifactDir,'result.json')),'Use a new directory for original campaign evidence');
         report.runnerSha256 = sha(fs.readFileSync(fileURLToPath(import.meta.url)));
         const source = 'scripts/hd-reward-token-runtime-checks.mjs', bytes = fs.readFileSync(path.join(root,source));
         report.sources[source] = {source,bytes:bytes.length,sha256:sha(bytes)};
+        if (westTransit) {
+            for (const dependency of ['hd-mobile-system-runtime-oracle','hd-city-person-navigation-checks']) {
+                const source = 'scripts/'+dependency+'.mjs', bytes = fs.readFileSync(path.join(root,source));
+                report.sources[source] = {source,bytes:bytes.length,sha256:sha(bytes)};
+            }
+        }
     }
     fs.mkdirSync(artifactDir, { recursive: true });
     if (typeof WebSocket !== 'function') throw new Error('Node 22+ is required for built-in WebSocket');
@@ -3126,7 +3260,7 @@ async function main() {
         server = await startServer();
         const origin = 'http://127.0.0.1:' + server.address().port;
         const debugPort = await unusedPort();
-        if (eliteTransit) {
+        if (liuBeiTransit) {
             assert.notEqual(server.address().port,8080);
             assert.notEqual(debugPort,8080);
             report.isolation = {httpPort:server.address().port,debugPort,profile,user8080Touched:false};
@@ -3231,7 +3365,7 @@ async function main() {
         if (server) await new Promise((resolve) => server.close(resolve));
         // Chromium children may briefly finish profile writes after the parent exits.
         fs.rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
-        if (eliteTransit) {
+        if (liuBeiTransit) {
             const drift = Object.entries(report.sources).filter(([,m]) => {
                 const filename = path.join(root,m.source);
                 return !fs.existsSync(filename) || sha(fs.readFileSync(filename)) !== m.sha256;

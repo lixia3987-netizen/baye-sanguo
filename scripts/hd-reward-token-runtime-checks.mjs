@@ -393,37 +393,47 @@ async function leaveOutpostUndefended(ctx, controls, menu, preparationCity, pers
     return {...defense, beforeBelong, selected:0, keys};
 }
 
-async function dispatchOriginalCanvass(ctx, controls, cityIndex, personId, targetId) {
+async function dispatchOriginalDiplomacy(ctx, controls, cityIndex, personId, targetId, {name, command, money, thew}) {
     const {world, evaluate, chooseCityItem, reopenDiplomacy, waitPlayerMap} = ctx;
     const {picker, chooseRow, keysSince} = controls;
-    await reopenDiplomacy('Dispatch original Canvass', cityIndex);
-    const {menu:sub} = await chooseCityItem('招揽', 'data-hd-sub', 2);
-    const actors = await picker(3, sub.seq, 'Original Canvass actors');
+    await reopenDiplomacy('Dispatch original ' + name, cityIndex);
+    const {menu:sub} = await chooseCityItem(name, 'data-hd-sub', 2);
+    const actors = await picker(3, sub.seq, 'Original ' + name + ' actors');
     const before = await world();
     const start = await evaluate('baye.hd.diplomacy()');
-    assert.deepEqual([start.active,start.command,start.origin,start.phase],[1,16,cityIndex,1]);
+    assert.deepEqual([start.active,start.command,start.origin,start.phase],[1,command,cityIndex,1]);
     const height = await evaluate('baye.data.g_screenHeight');
     const actor = await chooseRow(actors, personId, 'pind');
-    const targets = await picker(3, actors.seq, 'Original Canvass targets');
+    const targets = await picker(3, actors.seq, 'Original ' + name + ' targets');
     const picking = await evaluate('baye.hd.diplomacy()');
     assert.deepEqual([picking.session,picking.phase,picking.actor],[start.session,2,personId]);
     verifyNativePersonSelection(actors, actor.index, await keysSince(actor.count), height);
     const target = await chooseRow(targets, targetId, 'pind');
-    await waitPlayerMap('Original map after the Canvass dispatch');
+    await waitPlayerMap('Original map after the ' + name + ' dispatch');
     const targetKeys = await keysSince(target.count);
     verifyNativePersonSelection(targets, target.index, targetKeys, height);
     const receipt = await evaluate('baye.hd.diplomacy()');
     assert.deepEqual([receipt.active,receipt.session,receipt.phase,receipt.actor,receipt.target,receipt.commitResult],
         [0,start.session,5,personId,targetId,1]);
     const after = await world();
-    const order = after.orders.findIndex(o => o.OrderId === 16 && o.City === cityIndex && o.Person === personId && o.Object === targetId);
+    const order = after.orders.findIndex(o => o.OrderId === command && o.City === cityIndex && o.Person === personId && o.Object === targetId);
     assert.ok(order >= 0 && !cityResidents(after, cityIndex).includes(personId));
     assert.equal(after.orders[order].TimeCount, 10);
-    assert.equal(after.cities[cityIndex].Money, before.cities[cityIndex].Money - 50);
-    assert.equal(after.people[personId].Thew, before.people[personId].Thew - 20);
+    assert.equal(after.cities[cityIndex].Money, before.cities[cityIndex].Money - money);
+    assert.equal(after.people[personId].Thew, before.people[personId].Thew - thew);
     assert.deepEqual(after.people[targetId], before.people[targetId], 'Dispatch does not settle the target');
     assert.equal(originalDate(after), originalDate(before));
     return {cityIndex, personId, targetId, order, receipt, targetKeys};
+}
+
+async function dispatchOriginalCanvass(ctx, controls, cityIndex, personId, targetId) {
+    return dispatchOriginalDiplomacy(ctx, controls, cityIndex, personId, targetId,
+        {name:'招揽', command:16, money:50, thew:20});
+}
+
+export async function dispatchOriginalInduce(ctx, cityIndex, personId, targetId, costs) {
+    return dispatchOriginalDiplomacy(ctx, rewardControls(ctx), cityIndex, personId, targetId,
+        {name:'劝降', command:19, ...costs});
 }
 
 export const yunnanOfficers = [
