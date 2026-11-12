@@ -1,5 +1,9 @@
 # HD 剩余工作与验收清单
 
+2026-11-12 原版从西凉到寿春的己方道路经过安定、天水、河内、长安和宛城。南方小鬼通过原版「移动」于 203 年 5 月抵达寿春并出任太守。寿春用原版「征兵」取得 2,000 预备兵，再用「分配」将南方小鬼从 100 兵补到 2,100 兵。为等待对手的原版外交，实际用「赏赐」和「没收」循环操作绝影六次，忠诚 71→59→47→35→23→11→0。核对了每轮报告、装备和仓库变化，最后绝影回到寿春仓库，兵种保持玄兵。
+
+用 `node scripts/test-hd-campaign-runtime.mjs --west-rival --west-transit=build/hd-campaign-west-search-20261112-live-a/result.json --west-transit-months=0 --artifact-dir build/west-rival-staged` 重走布置阶段。原版双文件与操作记录位于 `build/hd-campaign-west-rival-20261112-stage-a`，独立浏览器读档复验位于 `build/hd-campaign-west-rival-20261112-stage-restored`。后续把 `--west-transit` 指向该布置档或月结进度档的 `result.json`，并指定需要推进的月份。等待期间记录原版实际执行的招揽或策反，以及对应的归属变化。Clang 23.1.5 相关回归 **735/735** 通过。普通攻击实战累计 **35/37**。
+
 2026-11-12 韩玄在第二时期的西凉搜到南方小鬼。续局从 201 年 3 月推进到 203 年 4 月，实际派出 72 笔原版「搜寻」，其中韩玄 24 笔。每笔核对了原版选人输入、搜寻订单、8 点体力消耗和月结归队。最后一月核对了韩玄的发现报告与南方小鬼的加入报告。南方小鬼（PersonID 184）在西凉以玄兵身份加入刘备，带兵 100。通宵虫仍在濮阳带 3,154 极兵，下邳保有已发现的太玄兵符。
 
 用 `node scripts/test-hd-campaign-runtime.mjs --west-search --west-transit=build/hd-campaign-west-road-20261112-move-fixed-a/result.json --artifact-dir build/west-search` 复跑。原版结果和双文件存档位于 `build/hd-campaign-west-search-20261112-live-a`。在独立浏览器用「重返沙场」读回，确认归属、兵种和兵力，记录位于 `build/hd-campaign-west-search-20261112-restored`。可将 `--west-transit` 指向阶段进度的 `result.json` 续局，或指向已招募的结果并加 `--west-transit-months=0` 复验读档。Clang 23.1.5 全量 `npm test` **8,324/8,324** 通过。普通攻击实战累计 **35/37**，还需在敌方阵中实际命中玄兵，补齐 `23:45:53` 和 `24:50:59`。

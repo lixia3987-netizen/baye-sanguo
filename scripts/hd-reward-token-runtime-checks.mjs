@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { verifyNativePersonSelection } from './hd-city-person-navigation-checks.mjs';
-import { verifyMobileReward, verifyOriginalCampaignReward, verifyOriginalTroopTokenReward,
+import { verifyMobileReward, verifyOriginalCampaignReward, verifyOriginalCampaignConfiscation, verifyOriginalTroopTokenReward,
     verifyOriginalCampaignTroopTokenReward } from './hd-mobile-equipment-runtime-oracle.mjs';
 
 const mysticToken = {id:31, name:'太玄兵符', convert:true};
@@ -384,7 +384,48 @@ async function closeOriginalReward(ctx, controls, returned) {
     } else {
         await ctx.click('#hd-city-menu [data-hd-menu-back]');
     }
-    await ctx.waitPlayerMap('Original map after the mystic troop conversion');
+    await ctx.waitPlayerMap('Original map after the reward');
+}
+
+export async function lowerOriginalCampaignLoyalty(ctx, cityIndex, personId, tool) {
+    const {world, evaluate, reopenInterior, chooseCityItem, click, waitPlayerMap, libBytes} = ctx;
+    const controls = rewardControls(ctx);
+    const {picker, chooseRow, waitReport, acknowledge, keysSince} = controls;
+    const start = await world();
+    assert.notEqual(personId,start.king);
+    let loyalty = start.people[personId].Devotion;
+    const cycles = [];
+    const height = await evaluate('baye.data.g_screenHeight');
+    while (loyalty > 0) {
+        await reopenInterior('Award ' + tool.name,cityIndex);
+        const {menu:award} = await chooseCityItem('赏赐','data-hd-sub',2);
+        const inventory = await picker(4,award.seq,'Original inventory with ' + tool.name);
+        const reward = await awardOriginalTool(ctx,controls,cityIndex,personId,inventory,tool,verifyOriginalCampaignReward);
+        await closeOriginalReward(ctx,controls,reward.returned);
+
+        await reopenInterior('Confiscate ' + tool.name,cityIndex);
+        const {menu:seize} = await chooseCityItem('没收','data-hd-sub',2);
+        const people = await picker(3,seize.seq,'Original confiscation person list');
+        const selection = await chooseRow(people,personId,'pind');
+        const equipped = await picker(4,people.seq,'Original confiscation equipment list');
+        verifyNativePersonSelection(people,selection.index,await keysSince(selection.count),height);
+        const before = await world();
+        await chooseRow(equipped,tool.id,'tool');
+        const speech = await waitReport();
+        assert.deepEqual([speech.kind,speech.person],[2,personId]);
+        const reportWorld = await world();
+        await acknowledge(speech);
+        await picker(3,equipped.seq,'Original confiscation returns to the person list');
+        const confiscation = verifyOriginalCampaignConfiscation({before,after:await world(),reportWorld,cityIndex,personId,toolId:tool.id,libBytes});
+        await click('#hd-city-menu [data-hd-menu-back]');
+        await waitPlayerMap('Original map after confiscation');
+
+        assert.equal(reward.oracle.stats.devotionBefore,loyalty);
+        assert.ok(confiscation.stats.devotionAfter < loyalty);
+        cycles.push({reward:reward.oracle,rewardReport:reward.report,confiscation,confiscationReport:speech});
+        loyalty = confiscation.stats.devotionAfter;
+    }
+    return cycles;
 }
 
 async function leaveOutpostUndefended(ctx, controls, menu, preparationCity, personId) {

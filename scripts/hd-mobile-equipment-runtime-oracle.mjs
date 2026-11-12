@@ -183,3 +183,7 @@ export function verifyOriginalCampaignReward(options={}) {
   // the whole observed queue and require a unique recipient for this reward.
   return verifyEquipment({...options,operation:'reward'},recipient);
 }
+export function verifyOriginalCampaignConfiscation(options={}) {
+  const recipient=integer(options.personId,0,199,'Actual confiscation subject');
+  return verifyEquipment({...options,operation:'confiscate'},recipient);
+}
