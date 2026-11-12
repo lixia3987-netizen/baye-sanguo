@@ -111,6 +111,7 @@ html[data-baye-battle="hd"] #hd-overworld {
 }
 
 .hd-battle-rail[hidden],
+.hd-battle-roster[hidden],
 .hd-battle-focus[hidden],
 .hd-battle-focus-target[hidden] { display: none !important; }
 .hd-battle-rail {
@@ -120,13 +121,27 @@ html[data-baye-battle="hd"] #hd-overworld {
     overflow: auto; overscroll-behavior: contain;
     pointer-events: none;
 }
-.hd-battle-focus {
+.hd-battle-focus,
+.hd-battle-roster {
     box-sizing: border-box; flex: 0 0 auto; min-width: 0;
     padding: 16px; border: 1px solid #43536b; border-radius: 14px;
     color: #edf3fa; background: linear-gradient(180deg, #202c3a, #151e2a);
     font: 14px/1.5 BayeUI, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
     overflow-wrap: anywhere; pointer-events: auto;
 }
+.hd-battle-roster { display: flex; flex-direction: column; flex: 0 1 auto; min-height: 100px; padding: 12px; }
+.hd-battle-roster h2 { flex: 0 0 auto; margin: 0 0 8px; font-size: 16px; color: #f5deb0; }
+.hd-battle-roster-list { min-height: 0; overflow: auto; overscroll-behavior: contain; }
+.hd-battle-roster-unit {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px;
+    box-sizing: border-box; width: 100%; min-height: 36px; margin: 0 0 4px; padding: 6px 8px;
+    border: 1px solid #43536b; border-radius: 8px; color: #edf3fa; background: #25344a;
+    font: inherit; text-align: left; cursor: pointer;
+}
+.hd-battle-roster-unit:last-child { margin-bottom: 0; }
+.hd-battle-roster-unit small { color: #b7c9dd; }
+.hd-battle-roster-unit:hover,
+.hd-battle-roster-unit:focus-visible { border-color: #e9c98b; background: #354867; }
 .hd-battle-focus-name { margin: 0; color: #f5deb0; font-size: 24px; line-height: 1.25; }
 .hd-battle-focus-identity { margin: 6px 0 12px; color: #b7c9dd; }
 .hd-battle-focus-fields { margin: 0; }

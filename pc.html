@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/hd-graphics.css?ver=20261024focus1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261023a"/>
     <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261112marcharmy"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20261111battleoptions"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20261112roster"/>
     <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20261024king1"/>
     <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261111locate"/>
     <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261112viewterrain"/>
@@ -188,6 +188,10 @@
         <div id="hd-battle-tip" class="hd-battle-tip" data-hd-battle-tip hidden></div>
         <div id="hd-battle-result" class="hd-battle-result" hidden></div>
         <aside id="hd-battle-rail" class="hd-battle-rail" aria-label="战场信息">
+            <section id="hd-battle-roster" class="hd-battle-roster" aria-labelledby="hd-battle-roster-title" hidden>
+                <h2 id="hd-battle-roster-title">待行动将领</h2>
+                <div id="hd-battle-roster-list" class="hd-battle-roster-list"></div>
+            </section>
             <section id="hd-battle-focus" class="hd-battle-focus" aria-label="焦点将领" hidden></section>
             <div id="hd-battle-menu" class="hd-battle-menu" hidden>
                 <div id="hd-battle-menu-title" class="hd-battle-menu-title">战场菜单</div>
@@ -391,7 +395,7 @@
     <script src="js/hd-battle-feedback.js?ver=20261112skillaim"></script>
     <script src="js/hd-battle-status.js?ver=20261111defense"></script>
     <script src="js/hd-skill-hints.js?ver=20261026cityinfo1"></script>
-    <script src="js/hd-battle.js?ver=20261112touchinput"></script>
+    <script src="js/hd-battle.js?ver=20261112roster"></script>
     <script src="js/hd-saved-ruler.js?ver=20261026save1"></script>
 <script src="js/hd-system-ui.js?ver=20261112kingpreview"></script>
 <script src="js/hd-dialog.js?ver=20261112army"></script>

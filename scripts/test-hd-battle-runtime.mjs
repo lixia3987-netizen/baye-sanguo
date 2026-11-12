@@ -371,6 +371,28 @@ async function recordBattleHudAtDesktopSizes(cdp,label,options) {
     }
 }
 
+async function checkWaitingRoster(cdp, units, label) {
+    const roster = await waitFor(cdp, label + ' HD waiting roster', `(() => {
+        const panel = document.getElementById('hd-battle-roster'), d = baye.data;
+        if (panel.hidden) return null;
+        const rows = Array.from(panel.querySelectorAll('[data-hd-battle-pick-slot]'), button => {
+            const box = button.getBoundingClientRect(), hit = document.elementFromPoint(box.left + box.width/2, box.top + box.height/2);
+            return {slot:Number(button.dataset.hdBattlePickSlot),id:Number(button.dataset.hdBattlePickPerson),
+                name:button.querySelector('.hd-battle-roster-name').textContent, detail:button.querySelector('small').textContent,
+                clickable:hit === button || !!hit && button.contains(hit)};
+        });
+        return {rows, width:innerWidth, height:innerHeight, mapWidth:Number(d.g_MapWid), mapHeight:Number(d.g_MapHgt)};
+    })()`);
+    const expected = units.filter(unit => unit.side === 'player' && unit.active === 0 && ![1,6,8].includes(unit.state) &&
+        unit.x >= 0 && unit.x < roster.mapWidth && unit.y >= 0 && unit.y < roster.mapHeight &&
+        units.find(candidate => candidate.x === unit.x && candidate.y === unit.y && candidate.state !== 8) === unit);
+    assert.deepEqual(roster.rows.map(row => [row.slot,row.id,row.name]), expected.map(unit => [unit.i,unit.id,unit.name]));
+    assert.ok(roster.rows.every((row, index) => row.detail.endsWith(' · 兵 ' + expected[index].arms)));
+    assert.ok(roster.rows.some(row => row.clickable), label + ' roster has a reachable native choice');
+    (report.waitingRosters ||= []).push({label,...roster});
+    return roster;
+}
+
 async function battleSmoke(cdp) {
     await evaluate(cdp, `(() => {
         window.__battleKeys=[];
@@ -385,19 +407,30 @@ async function battleSmoke(cdp) {
     assert.deepEqual(after,before,'idle rendering cannot move, attack, spend MP or end turn');
     assert.deepEqual(await evaluate(cdp,'window.__battleKeys'),[],'idle HD renderer delivers no engine inputs');
     report.pause={before,after};
+    await checkWaitingRoster(cdp,before.units,'first PICK at 1080p');
     await checkpoint(cdp,'15-battle-idle-no-input');
     if(inputTiming)await measureDesktopSelectionsAndMoves(cdp,before);
     if(statusOnly)await recordBattleHudAtDesktopSizes(cdp,'battle-first-day');
     await terrainSmoke(cdp, before);
-    const own=before.units.find(u=>u.side==='player' && u.active===0);
+    const roster=await checkWaitingRoster(cdp,before.units,'PICK before roster selection');
+    const own=before.units.find(u=>u.i===roster.rows.at(-1).slot);
     assert.ok(own,'an actual player general remains available');
-    await action(cdp,'select-own-for-cancel',`BayeHdBattle.clickUnitByName(${JSON.stringify(own.name)})`);
-    await waitBattle(cdp,2,'move selection');
+    const selector=`#hd-battle-roster [data-hd-battle-pick-slot="${own.i}"]`;
+    const input=await evaluate(cdp,'({count:window.__battleKeys.length,seq:baye.hd.fight().inputSeq})');
+    await click(cdp,selector);
+    const selected=await waitBattle(cdp,2,'move selection from the HD roster');
+    assert.equal(selected.actorIndex,own.i);
+    const keys=await evaluate(cdp,`window.__battleKeys.slice(${input.count})`);
+    assert.equal(keys.filter(key=>key.code===0x27).length,1);
+    assert.ok(keys.every(key=>key.kind===1&&key.seq===input.seq));
+    report.rosterSelection={slot:own.i,name:own.name,keys};
+    await waitFor(cdp,'roster retires during MOVE',`document.getElementById('hd-battle-roster').hidden`);
     await rangeFeedbackSmoke(cdp);
     await action(cdp,'cancel-uncommitted-move','BayeHdBattle.cancel()');
     await waitBattle(cdp,1,'move canceled');
     await verifyNativeFeedback(cdp,'canceled MOVE','inactive');
     assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'canceling movement preserves every general');
+    await checkWaitingRoster(cdp,before.units,'PICK after canceling MOVE');
     await checkpoint(cdp,'16-move-cancel');
 
     // HELP is produced by the actual focused native general. Compare the new
@@ -458,6 +491,17 @@ async function battleSmoke(cdp) {
     assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'view/help/settings/canceled retreat preserve units');
     await checkpoint(cdp,'24-battle-system-cancel');
     if(statusOnly) {
+        await click(cdp,selector);
+        await waitBattle(cdp,2,'roster selection for native standby');
+        await action(cdp,'standby-without-moving',`BayeHdBattle.clickTile(${own.x},${own.y})`);
+        await waitBattle(cdp,3,'native standby action menu');
+        await menuChoice(cdp,'待机',1);
+        const rested=await evaluate(cdp,battleStateExpression);
+        assert.equal(rested.units.find(u=>u.i===own.i).active,1);
+        const remaining=await checkWaitingRoster(cdp,rested.units,'PICK after native standby');
+        assert.equal(remaining.rows.length,roster.rows.length-1);
+        assert.ok(!remaining.rows.some(row=>row.slot===own.i));
+        await checkpoint(cdp,'24-roster-after-standby');
         await endArmyTurn(cdp);
         const {before,after}=report.turns[0];
         assert.ok(after.food.player<before.food.player,'The original next bout consumes player grain');
@@ -1028,6 +1072,7 @@ async function terrainSmoke(cdp, before) {
     await cdp.send('Emulation.setDeviceMetricsOverride',{width:1280,height:720,deviceScaleFactor:1,mobile:false});
     await waitFor(cdp,'720p resized canvas','innerWidth===1280&&innerHeight===720&&Math.abs(document.querySelector("#hd-battle-canvas").getBoundingClientRect().width-1280)<1');
     await inspect('720p focused terrain');
+    await checkWaitingRoster(cdp,stable.units,'PICK at 720p');
     await checkpoint(cdp,'15-terrain-empty-720p');
     await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
     await waitFor(cdp,'1080p restored canvas','innerWidth===1920&&innerHeight===1080&&Math.abs(document.querySelector("#hd-battle-canvas").getBoundingClientRect().width-1920)<1');

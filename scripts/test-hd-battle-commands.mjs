@@ -1062,7 +1062,7 @@ test('setting owner, menu and source drift withdraw the note while native button
 
 // Mount the new PC-only detail surface without changing the original command
 // fixture. Native publications remain behind statusFixture's write traps.
-function focusFixture({canvas = false, nextButton = false} = {}) {
+function focusFixture({canvas = false, nextButton = false, roster = false} = {}) {
     const g = statusFixture(), mounted = new Map(), listeners = new Map(), paints = [];
     function make(tag = 'div') {
         const attrs = new Map(); let text = '';
@@ -1091,6 +1091,9 @@ function focusFixture({canvas = false, nextButton = false} = {}) {
     const mount = (id, tag) => {const n = make(tag); n.id = id; mounted.set(id, n); return n;};
     const rootNode = mount('hd-battle'), rail = mount('hd-battle-rail'), card = mount('hd-battle-focus', 'section');
     rootNode.appendChild(rail); rail.appendChild(card); card.hidden = true;
+    const rosterPanel = roster ? mount('hd-battle-roster', 'section') : null;
+    const rosterList = roster ? mount('hd-battle-roster-list') : null;
+    if (rosterPanel) { rail.appendChild(rosterPanel); rosterPanel.appendChild(rosterList); }
     const next = nextButton ? mount('next-unit', 'button') : null;
     if (next) {next.setAttribute('data-hd-battle-next', ''); next.disabled = true; rootNode.appendChild(next);}
     if (canvas) {
@@ -1108,7 +1111,7 @@ function focusFixture({canvas = false, nextButton = false} = {}) {
     g.baye.getArmType = id => id === 0 ? 2 : 3;
     Object.assign(g.raw.g_GenPos[0], {hp: 65535, mp: 0}); g.raw.g_Persons[0].Arms = 0;
     g.api.start();
-    return Object.assign(g, {card, rail, rootNode, mounted, paints, next,
+    return Object.assign(g, {card, rail, rootNode, mounted, paints, next, rosterPanel, rosterList,
         fields() {return Object.fromEntries(card.querySelectorAll('[data-hd-focus-field]').map(row => [row.getAttribute('data-hd-focus-field'), row.querySelector('dd')?.textContent]));},
         click(target, coordinates = {}) {const event = {target, preventDefault() {}, ...coordinates}; for (const fn of listeners.get('click') || []) fn(event);},
         fireRoot(type, target, values = {}) {const event = {target, isTrusted: true, isPrimary: true, pointerId: 1, button: 0, detail: 1,
@@ -1278,4 +1281,45 @@ test('PC next-general button reflects availability and delegates only an explici
     assert.deepEqual(plain.sent, [], 'mouse clicks require a current trusted press');
     const keyboard = focusFixture({nextButton: true}); keyboard.observe(); keyboard.fireRoot('click', keyboard.next, {detail: 0});
     assert.deepEqual(keyboard.sent, [K.RIGHT], 'browser keyboard activation enters the same current next-general request');
+});
+
+test('PC roster shows selectable native slots in order, including zero troops, without sending input', () => {
+    const g = focusFixture({roster: true});
+    g.observe();
+    const rows = g.rosterList.children;
+    assert.equal(g.rosterPanel.hidden, false);
+    assert.deepEqual(rows.map(row => [row.getAttribute('data-hd-battle-pick-slot'),
+        row.getAttribute('data-hd-battle-pick-person'), row.textContent]), [['0', '1', '主将弓兵 · 兵 0'], ['1', '2', '副将水军 · 兵 100']]);
+    g.observe();
+    assert.equal(g.rosterList.children[0], rows[0]);
+    g.raw.g_GenPos[0].active = 1; g.observe();
+    assert.equal(g.rosterList.children.length, 1);
+    assert.equal(g.rosterList.children[0].getAttribute('data-hd-battle-pick-slot'), '1');
+    g.input(I.HELP); g.mirror(); g.observe();
+    assert.equal(g.rosterPanel.hidden, true);
+    assert.equal(g.rosterList.children.length, 0);
+    assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
+});
+
+test('PC roster click selects its exact native slot after cursor ACKs and commits once', () => {
+    const g = focusFixture({roster: true}); g.observe();
+    const second = g.rosterList.children[1];
+    g.fireRoot('pointerdown', second); g.fireRoot('click', second);
+    assert.deepEqual(g.sent, [K.RIGHT]);
+    g.tick(); assert.deepEqual(g.sent, [K.RIGHT]);
+    g.focus(2, 1); g.tick(); g.focus(3, 1); g.tick(); g.focus(4, 1); g.tick();
+    g.focus(4, 2); g.tick();
+    assert.deepEqual(g.sent, [K.RIGHT, K.RIGHT, K.RIGHT, K.DOWN, K.ENTER]);
+    g.fireRoot('pointerdown', second); g.fireRoot('click', second); g.tick();
+    assert.equal(g.sent.filter(key => key === K.ENTER).length, 1);
+    assert.deepEqual(g.writes, []);
+});
+
+test('PC roster rejects a stale press after the person or native input changes', () => {
+    for (const change of [g => { g.raw.g_FgtParam.GenArray[1] = 3; }, g => { g.input(I.PICK); g.mirror(); }]) {
+        const g = focusFixture({roster: true}); g.observe();
+        const second = g.rosterList.children[1];
+        g.fireRoot('pointerdown', second); change(g); g.fireRoot('click', second);
+        assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
+    }
 });

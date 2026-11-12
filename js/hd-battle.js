@@ -29,7 +29,7 @@
     var sysMenuBinding = null, modeEpoch = 0, pollId = 0, commandTimer = 0, terrainSession = 0;
     var mobileHost = null, mobileMode = 'auto', mobileLifecycleBound = false, mobileRendering = false;
     var mobileRenderOwner = null;
-    var pcNextPress = null;
+    var pcPickPress = null;
     var lastBoardPaint = null;
 
     function el(id) { return document.getElementById(id); }
@@ -157,20 +157,26 @@
         return !!(unit && unit.side === 'player' && unit.active === 0 &&
             unit.state !== 8 && unit.state !== 1 && unit.state !== 6);
     }
-    function nextWaitingUnit(snap) {
-        if (!state.open || state.preview || state.showLcd || document.hidden || state.transaction ||
-            !snap || !snap.ready || snap.kind !== INPUT.PICK || !snap.fight ||
-            snap.fight.wait !== 1 || snap.fight.phase !== 1 || snap.menu && snap.menu.active ||
-            state.lastCommit && state.lastCommit.epoch === modeEpoch && state.lastCommit.seq === snap.seq) { return null; }
+    function isPickWait(snap) {
         var bounds = state.terrain;
-        if (!bounds || !(bounds.width > 0) || !(bounds.height > 0)) { return null; }
+        return !!(state.open && !state.preview && !state.showLcd && !document.hidden && !state.transaction &&
+            snap && snap.ready && snap.kind === INPUT.PICK && snap.fight && snap.fight.wait === 1 && snap.fight.phase === 1 &&
+            !(snap.menu && snap.menu.active) && !(state.lastCommit && state.lastCommit.epoch === modeEpoch &&
+                state.lastCommit.seq === snap.seq) && bounds && bounds.width > 0 && bounds.height > 0);
+    }
+    function waitingUnit(unit) {
+        var bounds = state.terrain;
+        return selectable(unit) && Number.isInteger(unit.x) && Number.isInteger(unit.y) &&
+            unit.x >= 0 && unit.y >= 0 && unit.x < bounds.width && unit.y < bounds.height && unitAt(unit.x,unit.y) === unit;
+    }
+    function nextWaitingUnit(snap) {
+        if (!isPickWait(snap)) { return null; }
         var focused = snap.focus && unitAt(snap.focus.x,snap.focus.y), anchor = focused && focused.i < 10 ? focused.i : -1;
         for (var offset = 1; offset <= 10; offset++) {
             var slot = (anchor + offset) % 10;
             for (var index = 0; index < state.units.length; index++) {
                 var unit = state.units[index];
-                if (unit.i === slot && selectable(unit) && Number.isInteger(unit.x) && Number.isInteger(unit.y) &&
-                    unit.x >= 0 && unit.y >= 0 && unit.x < bounds.width && unit.y < bounds.height && unitAt(unit.x,unit.y) === unit) { return unit; }
+                if (unit.i === slot && waitingUnit(unit)) { return unit; }
             }
         }
         return null;
@@ -188,15 +194,28 @@
             mobileHost && !sameMobileTicket(ticket,getInputTicket(),true)) { return reject('next-unit-owner-changed'); }
         return beginRequest('tile',{x:unit.x,y:unit.y,unitSlot:unit.i,personId:unit.id},snap);
     }
-    function pcNextTicket(node) {
-        var snap = inputSnapshot(), unit = nextWaitingUnit(snap), b = global.baye;
-        if (!unit || !node || node.disabled) { return null; }
+    function pcPickControl(node) {
+        return node.getAttribute && (node.getAttribute('data-hd-battle-next') != null ||
+            node.getAttribute('data-hd-battle-pick-slot') != null);
+    }
+    function pcPickTicket(node) {
+        if (node.disabled || node.isConnected === false) { return null; }
+        var snap = inputSnapshot(), b = global.baye, slot = node.getAttribute('data-hd-battle-pick-slot');
+        var unit = slot === null ? nextWaitingUnit(snap) : isPickWait(snap) && actorUnit(Number(slot));
+        if (!unit || slot !== null && (!waitingUnit(unit) || String(unit.id) !== node.getAttribute('data-hd-battle-pick-person'))) { return null; }
         var data = b && b.data, rect = node.getBoundingClientRect && node.getBoundingClientRect();
-        return {node:node,b:b,data:data,lib:global.dynLib,key:JSON.stringify([modeEpoch,snap.seq,snap.actor,
+        return {node:node,b:b,data:data,lib:global.dynLib,snap:snap,unit:unit,key:JSON.stringify([modeEpoch,snap.seq,snap.actor,
             snap.focus && snap.focus.x,snap.focus && snap.focus.y,unit.i,unit.id,unit.x,unit.y,
             data && data.g_hdDetailGeneration,rect && [rect.left,rect.top,rect.width,rect.height]])};
     }
-    function samePcNextTicket(a,b) { return !!(a && b && a.node === b.node && a.b === b.b && a.data === b.data && a.lib === b.lib && a.key === b.key); }
+    function samePcPickTicket(a,b) { return !!(a && b && a.node === b.node && a.b === b.b && a.data === b.data && a.lib === b.lib && a.key === b.key); }
+    function clickRosterUnit(ticket) {
+        refresh();
+        var current = pcPickTicket(ticket.node);
+        if (!samePcPickTicket(ticket,current)) { return reject('roster-owner-changed'); }
+        var unit = current.unit;
+        return beginRequest('tile',{x:unit.x,y:unit.y,unitSlot:unit.i,personId:unit.id},current.snap);
+    }
     function actorUnit(index) {
         for (var i = 0; i < state.units.length; i += 1) {
             if (state.units[i].i === index && state.units[i].state !== 8) { return state.units[i]; }
@@ -213,6 +232,27 @@
             ' · 兵 ' + (unit.arms == null ? '—' : unit.arms) +
             ' · HP ' + (unit.hp == null ? '—' : unit.hp) +
             ' · MP ' + (unit.mp == null ? '—' : unit.mp) + ' · ' + unitStatus(unit);
+    }
+    function renderWaitingUnits(snap) {
+        var panel = el('hd-battle-roster'), list = el('hd-battle-roster-list');
+        if (!panel || !list) { return; }
+        var units = !mobileHost && isPickWait(snap) ? state.units.filter(waitingUnit) : [];
+        panel.hidden = !units.length;
+        var signature = JSON.stringify(units.map(function (unit) { return [unit.i,unit.id,unit.name,unit.armType,unit.arms]; }));
+        if (list._battleRosterSignature === signature) { return; }
+        list._battleRosterSignature = signature;
+        list.textContent = '';
+        units.forEach(function (unit) {
+            var button = document.createElement('button');
+            button.type = 'button'; button.className = 'hd-battle-roster-unit';
+            button.setAttribute('data-hd-battle-pick-slot',String(unit.i));
+            button.setAttribute('data-hd-battle-pick-person',String(unit.id));
+            var name = document.createElement('span'); name.className = 'hd-battle-roster-name';
+            name.textContent = unit.name || '#' + unit.i;
+            var detail = document.createElement('small');
+            detail.textContent = (ARM_NAMES[unit.armType] || '兵种未知') + ' · 兵 ' + (unit.arms == null ? '—' : unit.arms);
+            button.appendChild(name); button.appendChild(detail); list.appendChild(button);
+        });
     }
     function renderFocusCard(show, snap, targetLabel) {
         var node = el('hd-battle-focus');
@@ -476,7 +516,7 @@
         if (commandTimer) { global.clearTimeout(commandTimer); commandTimer = 0; }
     }
     function invalidateHdWork() {
-        pcNextPress = null;
+        pcPickPress = null;
         modeEpoch += 1;
         mobileRenderOwner = null;
         clearTerrainPaint();
@@ -886,6 +926,7 @@
         var rail = el('hd-battle-rail');
         if (rail) { rail.hidden = !show || state.preview; }
         renderFocusCard(show,snap);
+        if (!mobileHost) { renderWaitingUnits(snap); }
         var actor = actorUnit(snap.mapNumber ? snap.mapNumber.target : snap.enemyMove ? snap.enemyMove.actor : snap.actor);
         var guidance = { 0: '正在处理战场行动…', 1: '选择己方将领', 2: '选择移动位置（可选择原地）',
             3: '选择将领行动', 4: '选择计谋', 5: '选择射程内目标', 6: '战场系统', 7: '确认全军撤退', 8: '选择战场设置',
@@ -990,7 +1031,7 @@
         document.addEventListener('visibilitychange', function () {
             if (document.hidden) {
                 lastBoardPaint = null;
-                pcNextPress = null;
+                pcPickPress = null;
                 renderFocusCard(false);
                 if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
                 return;
@@ -1145,29 +1186,33 @@
         if (!root) { return; }
         state.bound = true;
         root.addEventListener('pointerdown',function (event) {
-            pcNextPress = null;
+            pcPickPress = null;
             if (event.isTrusted !== true || event.isPrimary !== true || event.button !== 0) { return; }
             for (var node = event.target; node && node !== root; node = node.parentNode) {
-                if (node.getAttribute && node.getAttribute('data-hd-battle-next') != null) {
-                    var ticket = pcNextTicket(node);
-                    if (ticket) { pcNextPress = {ticket:ticket,x:event.clientX,y:event.clientY}; }
+                if (pcPickControl(node)) {
+                    var ticket = pcPickTicket(node);
+                    if (ticket) { pcPickPress = {ticket:ticket,x:event.clientX,y:event.clientY}; }
                     return;
                 }
             }
         });
-        root.addEventListener('pointercancel',function () { pcNextPress = null; });
-        root.addEventListener('lostpointercapture',function () { pcNextPress = null; });
+        root.addEventListener('pointercancel',function () { pcPickPress = null; });
+        root.addEventListener('lostpointercapture',function () { pcPickPress = null; });
         if (global.addEventListener) {
-            ['blur','pagehide','resize'].forEach(function (name) { global.addEventListener(name,function () { pcNextPress = null; }); });
+            ['blur','pagehide','resize'].forEach(function (name) { global.addEventListener(name,function () { pcPickPress = null; }); });
         }
         root.addEventListener('click', function (event) {
             var node = event.target;
             while (node && node !== root) {
                 if (node.getAttribute) {
-                    if (node.getAttribute('data-hd-battle-next') != null) {
-                        var press = pcNextPress; pcNextPress = null;
-                        if (!node.disabled && event.isTrusted === true && (event.detail === 0 || press &&
-                            Math.hypot(event.clientX-press.x,event.clientY-press.y) <= 10 && samePcNextTicket(press.ticket,pcNextTicket(node)))) { clickNextUnit(); }
+                    if (pcPickControl(node)) {
+                        var press = pcPickPress; pcPickPress = null;
+                        var current = event.isTrusted === true && pcPickTicket(node);
+                        if (current && (event.detail === 0 || press &&
+                            Math.hypot(event.clientX-press.x,event.clientY-press.y) <= 10 && samePcPickTicket(press.ticket,current))) {
+                            if (node.getAttribute('data-hd-battle-next') != null) { clickNextUnit(); }
+                            else { clickRosterUnit(current); }
+                        }
                         event.preventDefault(); return;
                     }
                     if (node.getAttribute('data-hd-battle-lcd') != null) {
