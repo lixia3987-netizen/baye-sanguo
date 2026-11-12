@@ -76,7 +76,7 @@ function fixture({storageThrows = false, marchState = false, sourceText = source
             select:selectLiveMenu,commitQty:commitQty,preview:typeof previewDeep==='function'?previewDeep:null,
             previewContext:typeof mobilePreviewContext==='function'?mobilePreviewContext:null,bind:bindUi,
              back:back,backOwner:cityBackPressOwner,
-             chooseSub:chooseSub,equipmentFlow(){return typeof mobileEquipmentFlow==='undefined'?null:mobileEquipmentFlow;},
+             chooseSub:chooseSub,equipmentFlow(){return typeof equipmentFlow==='undefined'?null:equipmentFlow;},
              personKind:typeof personDeepKind==='function'?personDeepKind:null,usesGoods:usesGoodsMenu,
              pageTool:pageTool,setToolContext(value){liveToolContext=function(){return value;};renderToolDetails=function(){};},
             resetDetailScroll:typeof resetMobileDetailScroll==='function'?resetMobileDetailScroll:null,
@@ -1511,8 +1511,8 @@ for(const kind of [3,4]){
     });
 }
 
-function equipmentFixture(command='largess',{empty=false,phase=0}={}) {
-    const f=previewFixture(3,{phase}),subNames=['开垦','招商','搜寻','治理','出巡','招降','处斩','流放','赏赐','没收','交易','宴请','输送','移动'];
+function equipmentFixture(command='largess',{empty=false,phase=0,mobile=true}={}) {
+    const f=previewFixture(3,{phase,mobile}),subNames=['开垦','招商','搜寻','治理','出巡','招降','处斩','流放','赏赐','没收','交易','宴请','输送','移动'];
     f.raw.g_asyncActionID=0;
     f.env.bayeQtyNativeClosed=()=>f.raw.g_hdQtyActive===0;
     const people={names:['董卓','李儒','吕布'],ids:[0,19,20]},inventory={names:['七星刀'],ids:[1]};
@@ -1689,8 +1689,20 @@ for(const change of ['index','ids','names','seq','generation'])test('mobile equi
     f.main(0);f.tick(80);assert.equal(f.internals.equipmentFlow(),null);
     assert.equal(f.state.deepStep,1);assert.deepEqual(f.keys,[39,39,39]);assert.deepEqual(f.writes,[]);
 });
-test('mobile equipment changes do not replace the PC reward goods route',()=>{
+test('PC original reward hands off to the fresh native recipient picker after the explicit confirmation',()=>{
+    const f=equipmentFixture('largess',{mobile:false});
+    assert.equal(f.state.deepKind,'goods-person');assert.equal(f.state.deepStep,0);
+    const goods=f.state.deepMenuOwner;
+    f.setAfterKey(key=>{if(key===39){f.publish(0,13);f.env.setTimeout(()=>f.publish(3,14),80);}});
+    f.main(0);f.tick(40);f.internals.fill();
+    assert.equal(f.state.deepMenuOwner,null);assert.ok(f.internals.equipmentFlow());
+    f.tick(80);f.internals.fill();assert.equal(f.state.deepStep,1);
+    assert.equal(f.state.deepMenuOwner.seq,14);assert.notEqual(f.state.deepMenuOwner.key,goods.key);
+    assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+});
+test('PC reward preserves the legacy route for an unverified dictionary',()=>{
     const f=previewFixture(4,{mobile:false});
+    f.setIdentity({...f.identity(),sha256:'unknown'});
     Object.assign(f.state,{layer:'sub',deepKind:'',deepStep:0,subKind:'neizheng',deepLabel:''});
     const names=['开垦','招商','搜寻','治理','出巡','招降','处斩','流放','赏赐','没收','交易','宴请','输送','移动'];
     f.names.splice(0,f.names.length,...names);Object.assign(f.raw,{g_hdMenuKind:2,g_hdMenuCount:names.length,g_hdMenuIndex:8});

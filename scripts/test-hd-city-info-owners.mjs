@@ -15,7 +15,7 @@ function between(source, name, next) {
 function fixture(kind) {
     const keys = [], touches = [], data = {}, state = {open:false,deepKind:''};
     const env = {state, document:{hidden:false}, VK:{UP:0x22,DOWN:0x23,LEFT:0x24,RIGHT:0x25,ENTER:0x27,EXIT:0x28,HELP:0x29},
-        mobileHost:null,surrenderFlow:null,mobileDiplomacy:null,mobileEquipmentFlow:null,mobileTrade:null,distributionFlow:null,
+        mobileHost:null,surrenderFlow:null,mobileDiplomacy:null,equipmentFlow:null,mobileTrade:null,distributionFlow:null,
         baye:{data}, console:{log(){},warn(){}},sendKey(code){keys.push(code);},
         fightIsActive:()=>false,holdEnterForFood:()=>false,holdExit:()=>false,
         mapInputAuthorized:()=>true,fightLive:()=>false,cancelAlign(){},cityMenuHoldExit:()=>false,

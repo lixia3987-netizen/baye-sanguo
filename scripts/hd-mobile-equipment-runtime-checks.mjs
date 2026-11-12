@@ -129,8 +129,8 @@ export async function runMobileEquipmentChecks(ctx){
   const opened=await rewardOpen(kingTool),attempt=await select(3,donor,'Attempt reward to actual full-equipped person');
   const full=await actualReport({kind:1,text:messages.full,label:'actual full-equipped rejection'});await selectedKeys(attempt,full.during.state.keyCount);
   assert.deepEqual(full.during.world,expectedWorld);assert.deepEqual(full.after.world,expectedWorld);const retry=await owned(3,attempt.before.state.menu.seq);assert.equal(retry.state.menu.index,0);
-  const attemptKeys=await readKeys(attempt.before.state.keyCount),distance=attempt.index-attempt.before.state.menu.index;
-  assert.deepEqual(attemptKeys.map(k=>k.code),[...Array(Math.abs(distance)).fill(distance>0?0x23:0x22),0x27,0x27]);
+  const attemptKeys=await readKeys(attempt.before.state.keyCount);
+  assert.deepEqual(attemptKeys.map(k=>k.code),[...attempt.keys.map(k=>k.code),0x27]);
   entry.fullEquipment={opened,attempt,report:full,retry,keys:attemptKeys};await cancel(4,'cancel recipient after full-equipped rejection');await cancel(2,'cancel actual reward inventory');await finishMap('full rejection returned map');
   await reward(recipient,kingTool);await verifyPerson(recipient);
   await confiscate(donor,donorTool,{cancelFirst:true});await reward(donor,donorTool);await verifyPerson(donor);

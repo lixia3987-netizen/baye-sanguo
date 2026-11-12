@@ -11,16 +11,20 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { verifyNativePersonSelection } from './hd-city-person-navigation-checks.mjs';
+import { verifyMobileConfiscation, verifyMobileReward } from './hd-mobile-equipment-runtime-oracle.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const transferOnly = process.argv.includes('--transfer-only');
 const reconOnly = process.argv.includes('--recon-only');
+const equipmentOrdersOnly = process.argv.includes('--equipment-orders-only');
 const mobileFlag = process.argv.find(arg => arg.startsWith('--mobile-width='));
 const mobileWidth = mobileFlag && Number(mobileFlag.split('=')[1]);
 assert.ok(!mobileFlag || reconOnly && [667, 844].includes(mobileWidth));
 assert.ok(!transferOnly || !reconOnly);
-const compact = (transferOnly || reconOnly) && process.argv.includes('--720p');
+assert.ok(!equipmentOrdersOnly || !transferOnly && !reconOnly && !mobileFlag);
+const compact = (transferOnly || reconOnly || equipmentOrdersOnly) && process.argv.includes('--720p');
 const viewport = mobileWidth ? { width: mobileWidth, height: mobileWidth === 667 ? 375 : 390 }
     : { width: compact ? 1280 : 1920, height: compact ? 720 : 1080 };
 const artifactFlag = process.argv.indexOf('--artifact-dir');
@@ -298,8 +302,12 @@ async function waitPlayerMap(cdp, label) {
 
 async function reopenInterior(cdp, label) {
     await waitPlayerMap(cdp, label + ' native map wait');
-    report.inputs.push({type:'player-map-action',action:'walkToCity',cityIndex:report.cityIndex,label});
-    assert.ok(await evaluate(cdp, `BayeHdOverworld.walkToCity(${report.cityIndex})`));
+    if (equipmentOrdersOnly) {
+        await clickMapCity(cdp, { i: report.cityIndex, name: '洛阳' });
+    } else {
+        report.inputs.push({type:'player-map-action',action:'walkToCity',cityIndex:report.cityIndex,label});
+        assert.ok(await evaluate(cdp, `BayeHdOverworld.walkToCity(${report.cityIndex})`));
+    }
     await menuOwner(cdp, 1, label + ' actual city root');
     await chooseCityItem(cdp, '内政', 'data-hd-root', 1);
     await menuOwner(cdp, 2, label + ' actual interior menu');
@@ -358,7 +366,7 @@ async function bootStrategy(cdp) {
     assert.equal(report.presetMap.map.cityTotal, 38); assert.equal(report.presetMap.menu.active, 0);
     assert.equal(report.presetMap.march.pick, 1);
     await checkpoint(cdp, '00-preset-hd-map-native-ready');
-    if (transferOnly || reconOnly) { return cities; }
+    if (transferOnly || reconOnly || equipmentOrdersOnly) { return cities; }
     await miniMapSmoke(cdp);
     report.inputs.push({ type: 'player-map-action', action: 'walkToCity', cityIndex: report.cityIndex });
     assert.ok(await evaluate(cdp, `BayeHdOverworld.walkToCity(${report.cityIndex})`), 'A player can enter the actual owned city');
@@ -1088,6 +1096,137 @@ async function rewardBrowseSmoke(cdp) {
     await checkpoint(cdp, '09-real-reward-cancelled-no-grant');
 }
 
+const equipmentWorldSource = `(() => {
+    const d=baye.data, {period,playerKing:king,year,month,people,cities}=${miniWorldExpression};
+    const take=(o,keys)=>Object.fromEntries(keys.map(k=>[k,Number(o[k])]));
+    return {period,king,year,month,people:people.map(({equip,...p})=>({...p,Tool1:equip[0],Tool2:equip[1]})),
+        cities:cities.map(({inventory,personQueue,...c})=>c),queue:Array.from(d.g_PersonsQueue,Number),
+        goodsQueue:Array.from(d.g_GoodsQueue,Number),fighters:Array.from(d.FIGHTERS,Number),fighterIndex:Array.from(d.FIGHTERS_IDX,Number),
+        tools:Array.from({length:baye.getToolCount()},(_,i)=>take(d.g_Tools[i],['useflag','changeAttackRange','at','iq','move','arm'])),
+        orders:Array.from(d.g_OrderQueue,o=>take(o,['OrderId','City','Person','Object','TimeCount','Food'])),
+        config:take(d.g_engineConfig,['disableAllPersonReport'])};
+})()`;
+
+async function equipmentOrdersSmoke(cdp) {
+    const cityIndex = report.cityIndex, libBytes = servedAssets.get('libs/dat-mod.lib').data;
+    const world = () => evaluate(cdp, equipmentWorldSource);
+    const keyCount = () => evaluate(cdp, '__miniNativeInputs.keys.length');
+    const keysSince = count => evaluate(cdp, `__miniNativeInputs.keys.slice(${count})`);
+    const advance = (seq, count) => { for (let i = 0; i < count; i++) seq = (seq + 1) >>> 0 || 1; return seq; };
+    const waitMenu = (kind, seq, label) => waitFor(cdp, label,
+        `(() => {const m=baye.hd.menuItems();return m.active===1&&m.context===1&&m.kind===${kind}&&m.seq===${seq}&&m.idsValid&&m;})()`);
+    const clickRow = async (menu, id, idAttr) => {
+        const index = menu.ids.indexOf(id);
+        assert.ok(index >= 0, 'An actual published item or person is selected');
+        await click(cdp, `#hd-city-menu [data-hd-deep="${index}"][data-hd-deep-${idAttr}="${id}"]`);
+        return index;
+    };
+    const waitReport = (kind, person, text) => waitFor(cdp, 'Current visible native equipment report', `(() => {
+        const r=baye.hd.report(),s=BayeHdDialog.debugSnapshot();
+        return r.active===1&&r.kind===${kind}&&r.person===${person}&&r.text&&${text ? `r.text===${JSON.stringify(text)}` : 'true'}&&
+            s.open&&s.kind==='report'&&s.reportOwner?.seq===r.seq&&s.reportOwner?.inputSeq===r.inputSeq&&r;
+    })()`);
+    const acknowledge = async r => {
+        const count = await keyCount();
+        await click(cdp, '#hd-dialog [data-hd-dlg-ok]');
+        await waitFor(cdp, 'Acknowledged equipment report retires', `(() => {const r=baye.hd.report();return r.active===0||r.seq!==${r.seq}||r.inputSeq!==${r.inputSeq};})()`);
+        assert.deepEqual(await keysSince(count), [39]);
+    };
+    const openAward = async () => {
+        await reopenInterior(cdp, 'open real reward');
+        const {menu} = await chooseCityItem(cdp, '赏赐', 'data-hd-sub', 2);
+        return waitMenu(4, advance(menu.seq, 2), 'Current city reward inventory');
+    };
+    const recipients = (seq, label) => waitFor(cdp, label, `(() => {
+        const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot(),rows=[...document.querySelectorAll('#hd-city-menu [data-hd-deep-pind]')];
+        return m.active===1&&m.context===1&&m.kind===3&&m.seq===${seq}&&m.idsValid&&s.open&&s.showHd&&s.deepMenuOwner?.seq===m.seq&&
+            rows.length===m.count&&rows.every((row,i)=>Number(row.dataset.hdDeepPind)===m.ids[i]&&row.dataset.hdDeepName===m.names[i])&&m;
+    })()`, 6000);
+    const confirmPerson = async (menu, id, kind, reportPerson, text) => {
+        const count = await keyCount(), index = await clickRow(menu, id, 'pind');
+        const r = await waitReport(kind, reportPerson, text);
+        const height = await evaluate(cdp, 'Number(baye.data.g_screenHeight)');
+        verifyNativePersonSelection(menu, index, await keysSince(count), height);
+        return r;
+    };
+    const backToMap = async label => {
+        await waitPlayerMap(cdp, label);
+        await waitFor(cdp, label + ' retires the HD equipment panel', '!BayeHdCityMenu.debugSnapshot().open');
+    };
+
+    await observeNativeInputs(cdp);
+    await reopenInterior(cdp, 'prepare real reward stock');
+    await chooseCityItem(cdp, '没收', 'data-hd-sub', 2);
+    const people = await menuOwner(cdp, 3, 'Native confiscation picker');
+    const first = await world(), king = first.king, toolId = first.people[king].Tool1 - 1;
+    const full = people.ids[people.names.indexOf('吕布')], recipient = people.ids[people.names.indexOf('李儒')];
+    assert.equal(nativeToolName(toolId), '七星刀');
+    assert.ok(first.people[full].Tool1 && first.people[full].Tool2 && !first.people[recipient].Tool1);
+    await clickRow(people, king, 'pind');
+    const equipped = await waitMenu(4, advance(people.seq, 2), 'Current ruler equipment');
+    const beforeConfiscation = await world();
+    await clickRow(equipped, toolId, 'tool');
+    await waitMenu(3, advance(equipped.seq, 2), 'Confiscation publishes the next person picker');
+    const stock = await world();
+    const confiscation = verifyMobileConfiscation({before:beforeConfiscation, after:stock, cityIndex, personId:king, toolId, libBytes});
+    await click(cdp, '#hd-city-menu [data-hd-menu-back]');
+    await waitPlayerMap(cdp, 'Native map after preparing reward stock');
+    await checkpoint(cdp, '01-real-stock-from-confiscation');
+
+    const inventory = await openAward();
+    assert.deepEqual(inventory.ids, [toolId]);
+    await clickRow(inventory, toolId, 'tool');
+    const native = await waitMenu(3, advance(inventory.seq, 2), 'Native reward recipients after item selection');
+    await checkpoint(cdp, '02-native-reward-recipients');
+    const picker = await recipients(native.seq, 'Desktop HD shows the actual reward recipients');
+    const rejection = await confirmPerson(picker, full, 1, 65535, '该将道具已满');
+    assert.deepEqual(await world(), stock);
+    await checkpoint(cdp, '03-real-full-equipment-rejection');
+    await acknowledge(rejection);
+    const retry = await recipients(advance(picker.seq, 2), 'Fresh HD recipient picker after rejection');
+    assert.deepEqual(retry.ids, picker.ids);
+    assert.deepEqual(await world(), stock);
+    const cancel = await keyCount();
+    await click(cdp, '#hd-city-menu [data-hd-menu-back]');
+    const returnedInventory = await waitMenu(4, advance(retry.seq, 2), 'Cancel recipient returns to current reward inventory');
+    assert.deepEqual(returnedInventory.ids, inventory.ids);
+    assert.deepEqual(await keysSince(cancel), [40]);
+    assert.deepEqual(await world(), stock);
+    await checkpoint(cdp, '04-cancel-returns-to-reward-inventory');
+
+    const cancelInventory = await keyCount();
+    await click(cdp, '#hd-city-menu [data-hd-menu-back]');
+    await backToMap('Native map after cancelling reward inventory');
+    assert.deepEqual(await keysSince(cancelInventory), [40]);
+    assert.deepEqual(await world(), stock);
+
+    const reopenedInventory = await openAward();
+    if (compact) {
+        await click(cdp, '#hd-city-menu-title');
+        assert.equal(await evaluate(cdp, 'document.activeElement.tagName'), 'BODY');
+        const count = await keyCount();
+        await key(cdp, 'Enter');
+        assert.deepEqual(await keysSince(count), [39]);
+    } else {
+        await clickRow(reopenedInventory, toolId, 'tool');
+    }
+    const finalPicker = await recipients(advance(reopenedInventory.seq, 2), 'Reopened HD recipients');
+    const speech = await confirmPerson(finalPicker, recipient, 2, recipient);
+    const reportWorld = await world();
+    await checkpoint(cdp, '05-actual-recipient-speech');
+    await acknowledge(speech);
+    const empty = await waitReport(1, 65535, '城中无道具');
+    const completed = await world();
+    const reward = verifyMobileReward({before:stock, after:completed, reportWorld, cityIndex, personId:recipient, toolId, libBytes});
+    await acknowledge(empty);
+    await backToMap('Native map after completing reward');
+    assert.deepEqual(await world(), completed);
+    const inputs = await evaluate(cdp, '__miniNativeInputs');
+    assert.deepEqual(inputs.touches, []);
+    report.equipmentOrders = {toolId, recipient, full, confiscation, reward, rejection, speech, empty, inputs};
+    await checkpoint(cdp, '06-real-reward-complete-map');
+}
+
 async function main() {
     fs.mkdirSync(artifactDir, { recursive: true });
     prepareServedAssets();
@@ -1160,6 +1299,7 @@ async function main() {
         const cities = await bootStrategy(cdp);
         if (transferOnly) { await transferSmoke(cdp, cities); }
         else if (reconOnly) { await reconSmoke(cdp, cities); }
+        else if (equipmentOrdersOnly) { await equipmentOrdersSmoke(cdp); }
         else {
             await emptyStockSmoke(cdp); await confiscateSmoke(cdp); await rewardBrowseSmoke(cdp);
             report.nativeEnd = await nativeState(cdp);
@@ -1197,6 +1337,7 @@ async function main() {
         console.log('Artifacts:', artifactDir);
         if (report.ok) console.log(reconOnly ? 'Real native reconnaissance browser acceptance passed' :
             transferOnly ? 'Real native desktop transfer browser acceptance passed' :
+            equipmentOrdersOnly ? 'Real native desktop equipment orders passed' :
             'Real native miniature and goods-detail browser acceptance passed');
     }
 }
