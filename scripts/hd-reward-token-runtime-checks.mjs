@@ -126,7 +126,8 @@ async function observeOriginalSettlement(ctx, controls, before) {
     return { after, reports };
 }
 
-async function searchOriginalCity(ctx, controls, cityIndex, selectActors) {
+async function searchOriginalCity(ctx, controls, cityIndex, selectActors,
+    settleMonth = before => settleOriginalMonth(ctx, controls, before)) {
     const {world, evaluate, click, chooseCityItem, reopenInterior} = ctx;
     const {picker, chooseRow, waitReport, acknowledge, keysSince} = controls;
     await reopenInterior('Dispatch original searches', cityIndex);
@@ -155,12 +156,16 @@ async function searchOriginalCity(ctx, controls, cityIndex, selectActors) {
         orders.push({actor, order});
     }
     await click('#hd-city-menu [data-hd-menu-back]');
-    const {after, reports} = await settleOriginalMonth(ctx, controls, before);
+    const {after, reports} = await settleMonth(before);
     for (const {actor} of orders) {
         assert.ok(!after.orders.some(o => o.OrderId === 3 && o.City === cityIndex && o.Person === actor));
         assert.ok(cityResidents(after, cityIndex).includes(actor));
     }
     return {after, actors, orders, reports};
+}
+
+export function searchOriginalCampaignCity(ctx, cityIndex, selectActors, settleMonth) {
+    return searchOriginalCity(ctx,rewardControls(ctx),cityIndex,selectActors,settleMonth);
 }
 
 async function discoverOriginalTools(ctx, controls, cityIndex, tools, months) {
