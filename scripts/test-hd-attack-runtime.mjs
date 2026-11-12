@@ -13,6 +13,8 @@
  *   --guiyang starts a fresh P3 韩玄 game and marches from 长沙33 to 桂阳36.
  *   --luoyang starts a fresh P1 董卓 game from 洛阳15 with 吕布 available.
  *   --ye starts a fresh P1 韩馥 game from 邺11 against 吕布's army in 洛阳15.
+ *   --changan starts a fresh P1 董卓 game with the navy from 长安10.
+ *   --puyang and --xuchang start opposite sides of a fresh P2 吕布–曹操 match.
  *   --mystic starts a fresh P4 刘禅 game, prepares 诸葛亮 with 六韬 and 太玄兵符,
  *   and marches from 成都24 to 云南30. Use --recruit with a SPE24 interval.
  *   --destination N requests an actual non-owned native neighbor of the route's origin.
@@ -40,6 +42,9 @@ const alternateRoutes = {
     '--guiyang': {period:3, king:'韩玄', origin:33, originName:'长沙', destination:36, preferredActor:14, preferredTargets:{3:'陈应'}},
     '--luoyang': {period:1, king:'董卓', origin:15, originName:'洛阳', destination:16, preferredActor:20},
     '--ye': {period:1, king:'韩馥', origin:11, originName:'邺', destination:15, preferredTargets:{4:'吕布'}},
+    '--changan': {period:1, king:'董卓', origin:10, originName:'长安', destination:14, preferredActor:23},
+    '--puyang': {period:2, king:'吕布', origin:12, originName:'濮阳', destination:16, preferredActor:8, preferredTargets:{3:'曹仁'}},
+    '--xuchang': {period:2, king:'曹操', origin:16, originName:'许昌', destination:12, preferredActor:20, preferredTargets:{3:'魏续',4:'吕布'}},
     '--mystic': {period:4, king:'刘禅', origin:24, originName:'成都', destination:30, preferredActor:72}
 };
 const routeFlags = Object.keys(alternateRoutes).filter(flag => process.argv.includes(flag));
@@ -831,18 +836,34 @@ async function commitRecruitQuantity(cdp,description) {
     assert.deepEqual(keys.map(k=>k.code),[0x27],'One actual confirmation emits one native ENTER');
     assert.equal(after.session,q.session);assert.equal(after.lastKey,0x27);assert.equal(after.value,q.value);
     assert.equal(after.inputSeq,q.inputSeq===0xffffffff?1:q.inputSeq+1);
-    return {before:q,after,nativeKeys:keys};
+    return {before:q,after,keyStart,nativeKeys:keys};
 }
 
-async function reopenMilitaryAfterPersonPicker(cdp,cityIndex,label) {
+async function settleEnlistment(cdp,cityIndex,mapInputSeq,confirmation) {
+    const nextMapInputSeq = mapInputSeq === 0xffffffff ? 1 : mapInputSeq + 1;
+    const owner = await waitFor(cdp,'original enlistment picker or returned HD map',`(() => {
+        const s=BayeHdCityMenu.debugSnapshot(),m=baye.hd.menuItems(),q=baye.hd.qty(),w=baye.hd.march();
+        if(q.active||s.sending||s.queueLen)return false;
+        if(m.active===1&&m.context===1&&m.kind===3&&m.idsValid)return 'picker';
+        const map=BayeHdOverworld.debugSnapshot();
+        return !m.active&&w.pick===1&&!w.battlePick&&w.phase===0&&w.mapInputSeq===${nextMapInputSeq}&&
+            !s.open&&map.phase==='map'&&map.hitsEnabled&&'map';
+    })()`);
+    if (owner === 'picker') await currentPersonPicker(cdp,'征兵',cityIndex);
+    const keys = await evaluate(cdp,`window.__speEngineKeys.slice(${confirmation.keyStart}).map(k=>k.code)`);
+    assert.deepEqual(keys,[0x27],'The original enlistment return adds no input after the player confirmation');
+    return owner === 'map';
+}
+
+async function reopenMilitaryAfterPersonPicker(cdp,cityIndex,label,automatic=false) {
     const before=await evaluate(cdp,recruitWorldExpression(cityIndex)),inputStart=await evaluate(cdp,'window.__speEngineKeys.length');
-    await click(cdp,'#hd-city-menu [data-hd-menu-back]');
+    if (!automatic) await click(cdp,'#hd-city-menu [data-hd-menu-back]');
     // The real command's person-picker EXIT unwinds all the way to PlayerTactic.
     // The HD shell can retain its local sub layer; require the native map owner,
     // then take the same actual city-entry path used at the beginning of march.
     await waitFor(cdp,`native map after stopping ${label}`,"!baye.hd.menuItems().active&&!baye.hd.qty().active&&baye.hd.march().pick===1&&baye.hd.march().phase===0&&BayeHdOverworld.debugSnapshot().phase==='map'&&!BayeHdCityMenu.debugSnapshot().sending&&BayeHdCityMenu.debugSnapshot().queueLen===0");
     const retired=await evaluate(cdp,recruitWorldExpression(cityIndex)),exitInputs=await evaluate(cdp,`window.__speEngineKeys.slice(${inputStart})`);
-    assert.deepEqual(exitInputs.map(k=>k.code),[0x28],`${label} picker cancellation emits one actual EXIT`);
+    assert.deepEqual(exitInputs.map(k=>k.code),automatic?[]:[0x28],`${label} return uses only the required native input`);
     for(const field of ['money','reserve','persons','orders','date'])assert.deepEqual(retired[field],before[field],`${label} cancellation preserves ${field}`);
     assert.ok(await action(cdp,`reopen-owned-city-after-${label}`,`BayeHdOverworld.walkToCity(${cityIndex})`));
     await waitFor(cdp,`real city root after ${label}`,`(() => { const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot(); return s.open&&s.layer==='root'&&s.cityIndex===${cityIndex}&&m.active&&m.context===1&&m.kind===1; })()`);
@@ -850,17 +871,18 @@ async function reopenMilitaryAfterPersonPicker(cdp,cityIndex,label) {
     await waitFor(cdp,`real military submenu after ${label}`,"(() => { const m=baye.hd.menuItems(); return BayeHdCityMenu.getLayer()==='sub'&&m.active&&m.context===1&&m.kind===2&&m.names[0]==='侦察'; })()");
     const reopened=await evaluate(cdp,recruitWorldExpression(cityIndex));
     for(const field of ['money','reserve','persons','orders','date'])assert.deepEqual(reopened[field],before[field],`${label} re-entry preserves ${field}`);
-    return {label,before,retired,reopened,exitInputs,nativeInputs:await evaluate(cdp,`window.__speEngineKeys.slice(${inputStart})`)};
+    return {label,automatic,before,retired,reopened,exitInputs,nativeInputs:await evaluate(cdp,`window.__speEngineKeys.slice(${inputStart})`)};
 }
 
 async function recruitSmoke(cdp,cityIndex) {
     const inputStart=await evaluate(cdp,'window.__speEngineKeys.length');
+    const mapInputSeq=await evaluate(cdp,'baye.hd.march().mapInputSeq');
     await click(cdp,'#hd-city-menu [data-hd-sub="1"]');
     const picker=await currentPersonPicker(cdp,'征兵',cityIndex),before=await evaluate(cdp,recruitWorldExpression(cityIndex));
     const allowed=before.persons.filter(p=>picker.menu.ids.includes(p.personIndex));
-    const attackers=allowed.filter(p=>p.personIndex!==before.playerKing&&requestedActor(p));
-    const actor=attackers.find(p=>p.personIndex===route.preferredActor)||attackers[0];
-    assert.ok(actor,'Actual city contains a non-lord attacker for the requested native interval');
+    const actor=allowed.find(p=>p.personIndex===route.preferredActor&&requestedActor(p))||
+        allowed.find(p=>p.personIndex!==before.playerKing&&requestedActor(p));
+    assert.ok(actor,'Actual city contains an eligible attacker for the requested native interval');
     // Assign a different resident to the real conscription order. This person
     // leaves the resident queue until PolicyExec; it is never faked back in.
     const recruiter=allowed.slice().reverse().find(p=>p.personIndex!==actor.personIndex&&p.personIndex!==before.playerKing);
@@ -868,7 +890,7 @@ async function recruitSmoke(cdp,cityIndex) {
     assert.ok(before.armsPerMoney>0&&Number.isInteger(before.armsPerMoney));
     const chosen=await chooseNativePerson(cdp,'征兵',cityIndex,recruiter.personIndex);
     const quantity=await setRecruitQuantity(cdp,chosen.qty,'征兵'),confirmation=await commitRecruitQuantity(cdp,'征兵');
-    await currentPersonPicker(cdp,'征兵',cityIndex);
+    let returnedToMap=await settleEnlistment(cdp,cityIndex,mapInputSeq,confirmation);
     let enlisted=await evaluate(cdp,recruitWorldExpression(cityIndex));
     assert.equal(enlisted.reserve,before.reserve+quantity.wanted,'Conscription adds the actual selected quantity to city reserves');
     assert.equal(enlisted.money,before.money-Math.floor(quantity.wanted/before.armsPerMoney),'Money follows the actual configured conscription cost');
@@ -881,13 +903,14 @@ async function recruitSmoke(cdp,cityIndex) {
     // A native order is capped independently by devotion and available money.
     // Larger requested preparation can require another real resident/order;
     // never manufacture reserves or advance time to restore the first person.
-    for(let round=1;recruitArms>800&&enlisted.reserve-before.reserve<recruitArms&&round<10;round++){
+    for(let round=1;!returnedToMap&&recruitArms>800&&enlisted.reserve-before.reserve<recruitArms&&round<10;round++){
         const previous=enlisted,picker=await currentPersonPicker(cdp,'征兵',cityIndex);
         const candidate=previous.persons.slice().reverse().find(p=>p.personIndex!==actor.personIndex&&p.personIndex!==before.playerKing&&picker.menu.ids.includes(p.personIndex));
         assert.ok(candidate,'Another actual remaining resident can issue the next bounded conscription order');
         const selected=await chooseNativePerson(cdp,'征兵',cityIndex,candidate.personIndex);
         const amount=await setRecruitQuantity(cdp,selected.qty,'征兵第'+(round+1)+'次',recruitArms-(previous.reserve-before.reserve)),receipt=await commitRecruitQuantity(cdp,'征兵第'+(round+1)+'次');
-        await currentPersonPicker(cdp,'征兵',cityIndex);enlisted=await evaluate(cdp,recruitWorldExpression(cityIndex));
+        returnedToMap=await settleEnlistment(cdp,cityIndex,mapInputSeq,receipt);
+        enlisted=await evaluate(cdp,recruitWorldExpression(cityIndex));
         assert.equal(enlisted.reserve,previous.reserve+amount.wanted);assert.equal(enlisted.money,previous.money-Math.floor(amount.wanted/before.armsPerMoney));
         assert.equal(enlisted.persons.find(p=>p.personIndex===actor.personIndex)?.arms,actor.arms);
         assert.deepEqual(enlisted.persons.map(p=>p.personIndex).sort((a,b)=>a-b),previous.persons.filter(p=>p.personIndex!==candidate.personIndex).map(p=>p.personIndex).sort((a,b)=>a-b));
@@ -895,7 +918,8 @@ async function recruitSmoke(cdp,cityIndex) {
         enlistments.push({recruiter:candidate,before:previous,chosen:selected,quantity:amount,confirmation:receipt,after:enlisted});
         await checkpoint(cdp,'06a-real-enlisted-additional-order-'+round);
     }
-    const enlistRetirement=await reopenMilitaryAfterPersonPicker(cdp,cityIndex,'征兵');
+    if (returnedToMap) await checkpoint(cdp,'06a-enlistment-returned-map');
+    const enlistRetirement=await reopenMilitaryAfterPersonPicker(cdp,cityIndex,'征兵',returnedToMap);
     await click(cdp,'#hd-city-menu [data-hd-sub="2"]');
     const distribute=await chooseNativePerson(cdp,'分配',cityIndex,actor.personIndex);
     const distribution=await setRecruitQuantity(cdp,distribute.qty,'分配'),distributionConfirmation=await commitRecruitQuantity(cdp,'分配');
@@ -1252,9 +1276,10 @@ async function battleSmoke(cdp) {
         assert.equal(actor.arms,report.recruitment.distribution.wanted,'Actual battle starts with the legitimately distributed troops');
         assert.ok(requestedActor(actor));report.recruitment.battleActor=actor;
     }
-    // A ruler who marched rests on the actual deployment tile.
+    // A marching ruler rests on the deployment tile unless they are the equipped attacker.
     const rulerId = report.startingRealm.playerKing + 1;
-    const lord = report.combatStart.units.find(u => u.side === 'player' && u.id === rulerId);
+    const protectedRulerId = report.recruitment?.attackerNativeGenId === rulerId ? null : rulerId;
+    const lord = report.combatStart.units.find(u => u.side === 'player' && u.id === protectedRulerId);
     if (lord) {
         await chooseGeneral(cdp,lord);
         assert.equal((await action(cdp,'protect-lord-stay-native-tile',`BayeHdBattle.clickTile(${lord.x},${lord.y})`)).ok,true);
@@ -1271,15 +1296,15 @@ async function battleSmoke(cdp) {
         if(recruit)assert.ok(current.units.some(u=>u.id===report.recruitment.attackerNativeGenId&&u.state!==8&&u.arms>0),'The equipped actual attacker survived; a death is not replaced or repaired');
         if(current.fight.over)break;
         const actor=current.units.filter(u=>u.side==='player'&&u.active===0&&![8,1,6].includes(u.state)&&u.arms>0)
-            .sort((a,b)=>(recruit?Number(b.id===report.recruitment.attackerNativeGenId)-Number(a.id===report.recruitment.attackerNativeGenId):0)||Number(!requestedActor(a))-Number(!requestedActor(b))||Number(a.id===rulerId)-Number(b.id===rulerId)||a.i-b.i)[0];
+            .sort((a,b)=>(recruit?Number(b.id===report.recruitment.attackerNativeGenId)-Number(a.id===report.recruitment.attackerNativeGenId):0)||Number(!requestedActor(a))-Number(!requestedActor(b))||Number(a.id===protectedRulerId)-Number(b.id===protectedRulerId)||a.i-b.i)[0];
         if(!actor) {
             if((report.turns?.length||0)>=maxTurns)break;
             await endArmyTurn(cdp);continue;
         }
         const selection=await chooseGeneral(cdp,actor);
         if(selection.inputKind===2) {
-            if(actor.id===rulerId||!requestedActor(actor)||recruit&&actor.id!==report.recruitment.attackerNativeGenId) {
-                assert.equal((await action(cdp,actor.id===rulerId?'keep-lord-protected':'keep-nonmatching-unit-at-native-tile',`BayeHdBattle.clickTile(${actor.x},${actor.y})`)).ok,true);
+            if(actor.id===protectedRulerId||!requestedActor(actor)||recruit&&actor.id!==report.recruitment.attackerNativeGenId) {
+                assert.equal((await action(cdp,actor.id===protectedRulerId?'keep-lord-protected':'keep-nonmatching-unit-at-native-tile',`BayeHdBattle.clickTile(${actor.x},${actor.y})`)).ok,true);
                 await waitBattle(cdp,3,'lord action menu');
                 await menuChoice(cdp,await evaluate(cdp,'baye.hd.menuItems().names[3]'),1);
                 continue;

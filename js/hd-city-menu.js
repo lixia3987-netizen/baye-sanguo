@@ -1489,6 +1489,7 @@
         sawGetFoodUi: false,
         foodConfirmedThisMarch: false,
         reportAtMarchStart: '',
+        enlistmentMap: null,
         qtyDismissed: false,
         qtyDismissedAt: 0,
         step4Trace: [],
@@ -7790,6 +7791,7 @@
         state.open = true;
         state.layer = 'root';
         state.subKind = '';
+        state.enlistmentMap = null;
         state.showLcd = false;
         invalidateQtyWork();
         state.qtyInputClosed = false;
@@ -7826,6 +7828,7 @@
             invalidateMarchWork();
             invalidateQtyWork();
             state.open = false;
+            state.enlistmentMap = null;
             state.queue = [];
             state.sending = false;
             state.qtyCommitQueued = false;
@@ -7860,6 +7863,7 @@
         mobileDiplomacy = null;
         state.open = false;
         state.layer = 'root';
+        state.enlistmentMap = null;
         state.queue = [];
         state.sending = false;
         state.qtyCommitQueued = false;
@@ -7944,7 +7948,7 @@
         } catch (e) { return null; }
     }
 
-    function retiredCityMapOwner() {
+    function retiredCityMapOwner(fromMap) {
         if (state.queue.length || state.sending || state.handoff || state.confirmingTarget || state.nativeMenuRequest) {
             return false;
         }
@@ -7958,6 +7962,10 @@
                     mapCity = detailNumber(d.g_hdMapCity, 255), phase = d.g_hdMarchPhase,
                     marchSession = detailNumber(d.g_hdMarchSession, 4294967295),
                     marchInputSeq = detailNumber(d.g_hdMarchInputSeq, 4294967295);
+                if (fromMap && (d !== fromMap.data || !fromMap.generation || generation !== fromMap.generation ||
+                    !fromMap.inputSeq || inputSeq !== nextDistributionSeq(fromMap.inputSeq) || phase !== MARCH.IDLE)) {
+                    return null;
+                }
                 if (!generation || !inputSeq || menuSeq == null || mapCity == null ||
                     marchSession == null || marchInputSeq == null ||
                     phase !== MARCH.IDLE && phase !== MARCH.DEPARTED ||
@@ -7986,6 +7994,16 @@
             return before === readOwner() && !state.queue.length && !state.sending &&
                 !state.handoff && !state.confirmingTarget && !state.nativeMenuRequest;
         } catch (e) { return false; }
+    }
+
+    function retireEnlistmentOnMap() {
+        if (!state.open || state.layer !== 'deep' || state.deepKind !== 'person-qty' ||
+            !state.enlistmentMap || !retiredCityMapOwner(state.enlistmentMap)) {
+            return false;
+        }
+        // Native conscription can end on its own after consuming all city money.
+        closeMenu({ silent: true });
+        return !state.open;
     }
 
     function canReturnAfterMarch() {
@@ -8721,7 +8739,11 @@
             return;
         }
         var names = preferEngineNames(SUBS[state.subKind] || []);
-        var willMarch = deepKindFor(state.subKind, index) === 'person-city' || names[index] === '出征';
+        var kind = deepKindFor(state.subKind, index);
+        var d = kind === 'person-qty' && window.baye && baye.data;
+        var enlistmentMap = d ? {data: d, generation: detailNumber(d.g_hdDetailGeneration, 4294967295),
+            inputSeq: detailNumber(d.g_hdMapInputSeq, 4294967295)} : null;
+        var willMarch = kind === 'person-city' || names[index] === '出征';
         if (willMarch) {
             invalidateMarchWork();
             state.marchSession = 0;
@@ -8775,7 +8797,8 @@
                 }
             } else if (!pickIndex(index, true)) { return; }
         }
-        state.deepKind = surrenderEntry ? 'person-surrender' : deepKindFor(state.subKind, index);
+        state.deepKind = surrenderEntry ? 'person-surrender' : kind;
+        state.enlistmentMap = enlistmentMap;
         if (mobileHost && mobileTrade) { state.deepKind = 'person-trade'; }
         if (equipmentParent && equipmentParent.command === 'largess') { state.deepKind = 'goods-person'; }
         state.deepLabel = names[index] || '';
@@ -9626,6 +9649,7 @@
             return;
         }
         state.lastHook = name;
+        if (name === 'didShowMainMap' && retireEnlistmentOnMap()) { return; }
         if (ctx && typeof ctx === 'object') {
             var keys = listProps(ctx);
             if (keys.length) {
@@ -10488,6 +10512,7 @@
                 if (!mobileHost && state.layer === 'sub' && SUBS[state.subKind]) { fillSubList(state.subKind); }
                 if (retireEquipmentMap()) { return; }
                 if (syncMobileTrade() && !state.open) { return; }
+                if (retireEnlistmentOnMap()) { return; }
                 // A person-picker cancellation can return directly to GetCitySet
                 // without willCloseMenu. Retire only after the player's Back ACK.
                 if (state.closingSub && retiredCityMapOwner()) {

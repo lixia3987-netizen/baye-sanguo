@@ -557,6 +557,38 @@ test('retired MAP owner accepts terminal phase only without owners and fences ph
     }
 });
 
+test('enlistment pane retires silently when the next original map owner is ready', () => {
+    const data = {g_hdDetailGeneration:2,g_hdMapInputSeq:4,g_hdMenuSeq:12,g_hdMapCity:0,g_hdMapPick:1,
+        g_hdBattlePick:0,g_hdMarchPhase:0,g_hdMarchSession:0,g_hdMarchInputSeq:1,g_hdMenuActive:0,
+        g_hdQtyActive:0,g_hdReportActive:0,g_hdHelpActive:0,g_hdFightActive:0,g_asyncActionID:0};
+    const baye = {data}, closes = [];
+    const state = {open:true,layer:'deep',deepKind:'person-qty',enlistmentMap:{data,generation:2,inputSeq:4},
+        queue:[],sending:false,handoff:false,confirmingTarget:false,nativeMenuRequest:null};
+    const context = {window:{baye},baye,global:{},state,MARCH:{IDLE:0,DEPARTED:7},
+        detailNumber(n,max){return Number.isInteger(n)&&n>=0&&n<=max?n:null;},
+        closeMenu(opts){closes.push(opts.silent);state.open=false;}};
+    isolatedCityFunction('nextDistributionSeq',context);
+    isolatedCityFunction('retiredCityMapOwner',context);
+    const retire = isolatedCityFunction('retireEnlistmentOnMap',context);
+    assert.equal(retire(),false,'A leftover pick flag is from the old map wait');
+    data.g_hdMapInputSeq=5;
+    for (const field of ['g_hdMenuActive','g_hdQtyActive','g_hdReportActive']) {
+        data[field]=1;
+        assert.equal(retire(),false,field);
+        data[field]=0;
+    }
+    baye.data={...data};
+    assert.equal(retire(),false,'A replacement native data object cannot retire the old pane');
+    baye.data=data;
+    context.global.BayeHdDialog={isOpen(){data.g_hdMapInputSeq=6;return false;}};
+    assert.equal(retire(),false,'A change during owner inspection invalidates the retirement');
+    delete context.global.BayeHdDialog;
+    data.g_hdMapInputSeq=5;
+    assert.equal(retire(),true);
+    assert.deepEqual(closes,[true]);
+    assert.equal(retire(),false);
+});
+
 
 test('classic to HD or auto restores the actual terminal CITY root at the current map city with zero input',()=>{
     for(const phase of [0,7])for(const mode of ['hd','auto']){
