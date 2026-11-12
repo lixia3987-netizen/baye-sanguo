@@ -43,15 +43,17 @@ const arrivalScenario=scenario==='arrival',defenseScenario=scenario==='defense';
 const defenseAnyOutcome=process.argv.includes('--defense-any-outcome');
 const defenseAfterSuccession=process.argv.includes('--defense-after-succession');
 const defenseSameMonth=process.argv.includes('--defense-same-month');
-const verifyDefensiveSuccession=defenseAfterSuccession||defenseSameMonth;
+const defenseTenGenerals=process.argv.includes('--defense-ten-generals');
+const verifyDefenderTaps=defenseSameMonth||defenseTenGenerals;
+const verifyDefensiveSuccession=defenseAfterSuccession||verifyDefenderTaps;
 assert.ok(!defenseAnyOutcome||defenseScenario,'--defense-any-outcome requires the defense scenario');
 const findGenerals=process.argv.includes('--find-generals');
 assert.ok(!findGenerals||scenario==='victory','General search acceptance requires the victory scenario');
 const periodFlag=process.argv.find(arg=>arg.startsWith('--period='));
 const campaignPeriod=Number(periodFlag?.split('=')[1]??1);
 assert.ok([1,2,3,4].includes(campaignPeriod)&&
-    (campaignPeriod===1||['probe','victory','save'].includes(scenario)||defenseSameMonth),
-    'Select an original period for probe, victory, save or same-month defense');
+    (campaignPeriod===1||['probe','victory','save'].includes(scenario)||verifyDefenderTaps),
+    'Select an original period for probe, victory, save or a supported defense campaign');
 const mobileCampaignFlag=process.argv.find(arg=>arg.startsWith('--mobile-width='));
 const mobileCampaignWidth=Number(mobileCampaignFlag?.split('=')[1]??0);
 assert.ok(!mobileCampaignFlag||['victory','defense','arrival','save'].includes(scenario)&&[667,844].includes(mobileCampaignWidth),
@@ -60,6 +62,9 @@ assert.ok(!defenseAfterSuccession||defenseScenario&&mobileCampaignWidth&&!defens
     '--defense-after-succession requires mobile defense victory');
 assert.ok(!defenseSameMonth||defenseScenario&&mobileCampaignWidth&&!defenseAnyOutcome&&!defenseAfterSuccession,
     '--defense-same-month requires a mobile defense campaign');
+assert.ok(!defenseTenGenerals||defenseScenario&&mobileCampaignWidth&&campaignPeriod===4&&
+    !defenseSameMonth&&!defenseAnyOutcome&&!defenseAfterSuccession,
+    '--defense-ten-generals requires the period 4 mobile defense campaign');
 const captiveScenario=scenario==='captives',preflightOnly=process.argv.includes('--preflight-only');
 const captiveOrder=process.argv.includes('--captive-order');
 const captiveUntilJoined=process.argv.includes('--captive-until-joined');
@@ -1271,6 +1276,79 @@ async function readCityPersons(cdp,cityIndex) {
             .map(pind=>({pind,name:baye.getPersonName(pind),arms:Number(d.g_Persons[pind].Arms),belong:Number(d.g_Persons[pind].Belong)}));})()`);
 }
 
+async function acknowledgeGarrisonMove(cdp,phase,person) {
+    const owner=await waitFor(cdp,'current move report '+phase,`(() => {
+        const transfer=baye.hd.transfer(),native=baye.hd.report(),ticket=BayeHdCityMenu.getTransferDialogTicket();
+        if(transfer?.command!==14||transfer.phase!==${phase}||native.active!==1||native.kind!==2||native.person!==${person}||
+            ticket?.ownerType!=='transfer-report'||ticket.session!==transfer.session||ticket.reportSeq!==native.seq||
+            ticket.reportInputSeq!==native.inputSeq)return null;
+        const selector=['#hd-city-menu [data-hd-transfer-continue]','#hd-dialog [data-hd-dlg-ok]'].find(s=>{
+            const button=document.querySelector(s);return button&&!button.disabled&&button.checkVisibility();
+        });
+        return selector&&{selector,transfer,native,offset:__runtimeEngineInputs.length};
+    })()`);
+    const {native,transfer,selector,offset}=owner;
+    const retired=`(() => {const r=baye.hd.report();return r.active!==1||r.seq!==${native.seq}||r.inputSeq!==${native.inputSeq};})()`;
+    assert.ok(await click(cdp,selector,{retired}));
+    await waitFor(cdp,'acknowledged move report '+phase,retired);
+    const keys=await evaluate(cdp,`__runtimeEngineInputs.slice(${offset}).map(input=>input.code)`);
+    assert.deepEqual(keys,[39],'A move report is acknowledged with one original confirmation');
+    return {transfer,native,keys};
+}
+
+async function moveGarrisonReinforcements(cdp) {
+    const origin=25,target=31; // 棉竹 → 巴郡
+    const realm=await evaluate(cdp,'baye.hd.realm()'),residents=await readCityPersons(cdp,origin);
+    const movers=['魏延','简雍','李严'].map(name=>residents.find(p=>p.name===name&&p.belong===realm.playerBelong&&p.arms>0));
+    assert.ok(movers.every(Boolean),'The original source city has all three armed reinforcement candidates');
+    await openCity(cdp,origin,'garrison-reinforcements');
+    await click(cdp,'#hd-city-menu [data-hd-root="0"]');
+    const submenu=await waitFor(cdp,'original domestic move command',`(() => {const m=baye.hd.menuItems();
+        return m.active&&m.context===1&&m.kind===2&&m.names.includes('移动')&&m;})()`);
+    await click(cdp,`#hd-city-menu [data-hd-sub="${submenu.names.indexOf('移动')}"]`);
+    const prompt=await acknowledgeGarrisonMove(cdp,5,realm.playerKing);
+    const {session}=prompt.transfer;
+    assert.equal(prompt.transfer.origin,origin);
+    const targetOwner=await waitFor(cdp,'original move target map',`(() => {
+        const t=BayeHdCityMenu.getTransferTargetTicket(),m=BayeHdMobileMap.snapshot();
+        return t?.session===${session}&&m.active&&m.ownerType==='transfer-target'&&{targets:t.targets,offset:__runtimeEngineInputs.length};
+    })()`);
+    assert.ok(targetOwner.targets.includes(target),'The original campaign allows the reinforcement route');
+    await mobileCampaignInput.city(target,'transfer-target');
+    await waitFor(cdp,'touch selects the move target',`BayeHdCityMenu.getTransferPresentation()?.pendingTarget===${target}`);
+    assert.equal(await evaluate(cdp,'__runtimeEngineInputs.length'),targetOwner.offset,'Previewing a move target sends no original input');
+    await click(cdp,'#hd-city-menu [data-hd-transfer-confirm]');
+    const route=await waitFor(cdp,'original move target and distance',`(() => {const t=baye.hd.transfer();
+        return t?.session===${session}&&t.phase===1&&t.target===${target}&&t.distance>0&&t.distance<255&&t;})()`);
+    const entry={origin,target,prompt,route,moves:[]};
+    let picker=await livePersonMenu(cdp,'move reinforcements');
+    for(const mover of movers) {
+        const {menu,city}=picker,person=city.deepItems.find(p=>p.pind===mover.pind);
+        assert.ok(person&&menu.idsValid&&menu.ids[person.i]===mover.pind,'The original move list offers '+mover.name);
+        await click(cdp,personSelector(menu,person));
+        const departure=await acknowledgeGarrisonMove(cdp,8,mover.pind);
+        assert.equal(departure.transfer.session,session);
+        assert.equal(departure.transfer.person,mover.pind);
+        picker=await livePersonMenu(cdp,'next move after '+mover.name,menu.seq);
+        const committed=await evaluate(cdp,'baye.hd.transfer()');
+        assert.equal(committed.session,session);
+        assert.notEqual(committed.commitSeq,departure.transfer.commitSeq);
+        assert.equal(committed.commitResult,1,'The native move command accepted '+mover.name);
+        const world=await evaluate(cdp,worldExpression);
+        const orders=world.orders.filter(o=>o.OrderId===14&&o.City===origin&&o.Object===target&&o.Person===mover.pind);
+        assert.equal(orders.length,1,'Exactly one native move order names the departing reinforcement');
+        assert.equal(orders[0].TimeCount,route.distance);
+        assert.ok(!(await readCityPersons(cdp,origin)).some(p=>p.pind===mover.pind),'The moving general leaves the original source queue');
+        const move={person:mover,departure,committed,order:orders[0],orderIndex:world.orders.indexOf(orders[0])};
+        entry.moves.push(move);
+        await checkpoint(cdp,'garrison-move-'+mover.pind,{move});
+    }
+    await settleDomestic(cdp);
+    await waitFor(cdp,'ordinary mobile map after move orders',mobileMapReady);
+    await checkpoint(cdp,'garrison-moves-queued');
+    return entry;
+}
+
 async function livePersonMenu(cdp,description,previousSeq=null) {
     return waitFor(cdp,'current native and DOM person menu '+description,`(() => {
         const menu=baye.hd.menuItems(),city=BayeHdCityMenu.debugSnapshot(),owner=city.deepMenuOwner;
@@ -1710,7 +1788,7 @@ async function liveDefenderMenu(cdp,description,previousSeq=null) {
             !dialog.open||dialog.kind!=='defenders'||dialog.defenseRequest||!owner||owner.context!==5||owner.kind!==2||
             owner.seq!==menu.seq||Number(d.g_FgtParam.Mode)!==0||Number(d.g_FgtParam.CityIndex)!==owner.cityIndex||
             JSON.stringify(owner.names)!==JSON.stringify(menu.names))return false;
-        if(${defenseSameMonth}) {
+        if(${verifyDefenderTaps}) {
             const ticket=BayeHdDialog.getInputTicket();
             if(!BayeHdMobileCity.snapshot().dialogVisible||ticket?.ownerType!=='defenders'||ticket.menuSeq!==menu.seq)return false;
         }
@@ -1775,14 +1853,29 @@ async function playNpcDefense(cdp,label,previous) {
         queue.some(p=>p.pind===ruler&&p.belong===belong)&&
         queue.some(p=>p.pind!==ruler&&p.belong===belong&&p.arms>0)&&
         before.cities.some(city=>city.i!==first.cityIndex&&city.Belong===belong);
-    const roster=queue.filter(p=>p.belong===belong&&p.arms>0&&(!retreatForSuccession||p.pind!==ruler))
-        .sort((a,b)=>Number(b.name==='张辽')-Number(a.name==='张辽')||b.arms-a.arms).slice(0,10);
+    const armed=queue.filter(p=>p.belong===belong&&p.arms>0&&(!retreatForSuccession||p.pind!==ruler))
+        .sort((a,b)=>Number(b.name==='张辽')-Number(a.name==='张辽')||b.arms-a.arms);
+    const reinforcements=report.defenseCampaign?.reinforcements;
+    const arrivals=reinforcements?.target===first.cityIndex?
+        reinforcements.moves.map(({person})=>armed.find(p=>p.pind===person.pind)):[];
+    const testsLimit=arrivals.length>0&&arrivals.every(Boolean)&&armed.length>10;
+    const [tenth]=arrivals,leftInCity=arrivals.at(-1);
+    const roster=testsLimit?[...armed.filter(p=>p!==tenth&&p!==leftInCity).slice(0,9),tenth]:armed.slice(0,10);
     assert.ok(roster.every(p=>first.persons.some(item=>item.pind===p.pind)),'every armed allied defender is offered by the real native selection menu');
     const round='defense-'+((report.extraDefenses?.length||0)+1),protectedTarget=report.marches?.[0]?.target;
     const previousFight=await evaluate(cdp,'baye.hd.fight()');
     const entry={label:round,source:label,cityIndex:first.cityIndex,protectedTarget,
         before,pending,previousFight,...incomingDefenseOrder(before,first.cityIndex,pending.attackers),selected:[],menuSeq:first.menu.seq};
     report.extraDefenses??=[];report.extraDefenses.push(entry);
+    if(testsLimit) {
+        assert.deepEqual(first.persons.filter(p=>p.arms>0).map(p=>p.pind).sort((a,b)=>a-b),armed.map(p=>p.pind).sort((a,b)=>a-b),
+            'The original picker and HD list expose every one of the more than ten armed residents');
+        for(const {order} of reinforcements.moves) {
+            assert.ok(!before.orders.some(o=>o.OrderId===order.OrderId&&o.Person===order.Person&&
+                o.City===order.City&&o.Object===order.Object),'The arrived reinforcement has no remaining move order');
+        }
+        entry.tenDefenders={candidates:first.persons,arrivals,leftInCity};
+    }
     if(defenseSameMonth&&previous) {
         assert.deepEqual([before.year,before.month],[previous.before.year,previous.before.month],
             'Both incoming defenses interrupt the same original strategy month');
@@ -1800,43 +1893,67 @@ async function playNpcDefense(cdp,label,previous) {
             menuSeq:previous.menuSeq,successor:succession?.committed.receipt||null};
     }
     await checkpoint(cdp,round+'-native-selection',{defense:pending,incomingOrder:entry.order,candidates:first.persons});
-    let previousSeq=null;
+    let previousSeq=null,lastSelectionInputEnd=null;
     for(const desired of roster) {
         const owner=await liveDefenderMenu(cdp,round+' '+desired.name,previousSeq),currentQueue=await readCityPersons(cdp,entry.cityIndex);
         const item=owner.persons.find(p=>p.pind===desired.pind&&p.name===desired.name);
         assert.ok(item,'the exact armed defender is still in the current native menu: '+desired.name);
         assert.equal(item.arms,desired.arms,'the native defender troops remain unchanged before selection');
         assert.deepEqual(owner.selected,entry.selected.map(p=>p.pind+1),'native selected defender IDs equal the acknowledged prefix');
+        if(testsLimit&&entry.selected.length===9) {
+            assert.ok(owner.persons.some(p=>p.pind===leftInCity.pind&&p.arms>0),'The unselected armed reinforcement is still available at the tenth pick');
+            entry.tenDefenders.lastCandidates=owner.persons;
+        }
         await checkpoint(cdp,round+'-select-'+entry.selected.length+'-ready',{defender:item});
-        const inputOffset=defenseSameMonth?await evaluate(cdp,'__runtimeEngineInputs.length'):null;
+        const inputOffset=verifyDefenderTaps?await evaluate(cdp,'__runtimeEngineInputs.length'):null;
         await click(cdp,defenderSelector(owner,item));
         const expected=entry.selected.map(p=>p.pind+1).concat(item.pind+1);
         await waitFor(cdp,'real defender GenArray ACK '+item.name,`JSON.stringify(Array.from({length:10},(_,i)=>Number(baye.data.g_FgtParam.GenArray[i])).filter(id=>id>0&&id<0xfffe))===${JSON.stringify(JSON.stringify(expected))}`);
         const remaining=await readCityPersons(cdp,entry.cityIndex);
         assert.deepEqual(remaining.map(p=>p.pind).sort((a,b)=>a-b),currentQueue.filter(p=>p.pind!==item.pind).map(p=>p.pind).sort((a,b)=>a-b),
             'native defensive selection removes exactly the named city general: '+item.name);
+        const selection={...item,menuSeq:owner.menu.seq};
         if(inputOffset!==null) {
             const keys=await evaluate(cdp,`__runtimeEngineInputs.slice(${inputOffset}).map(input=>input.code)`);
             const delta=item.index-owner.menu.index;
             assert.deepEqual(keys,[...Array(Math.abs(delta)).fill(delta<0?34:35),39],
                 'Each HD tap sends only the native cursor steps and one current defender confirmation');
+            lastSelectionInputEnd=inputOffset+keys.length;
+            selection.keys=keys;
         }
-        entry.selected.push({...item,menuSeq:owner.menu.seq});previousSeq=owner.menu.seq;
+        entry.selected.push(selection);previousSeq=owner.menu.seq;
         await checkpoint(cdp,round+'-select-'+(entry.selected.length-1)+'-ack');
     }
-    const menu=await evaluate(cdp,'baye.hd.menuItems()');
-    if(menu.active&&menu.context===5&&menu.kind===2) {
-        const owner=await liveDefenderMenu(cdp,round+' explicit finish',previousSeq);
-        entry.finish='explicit-exit';
-        await click(cdp,'#hd-dialog [data-hd-defenders-finish][data-hd-defender-seq="'+owner.menu.seq+'"]'+
-            '[data-hd-defenders-owner='+JSON.stringify(owner.token)+']');
-    } else entry.finish='auto-exhausted';
+    if(!testsLimit) {
+        const menu=await evaluate(cdp,'baye.hd.menuItems()');
+        if(menu.active&&menu.context===5&&menu.kind===2) {
+            const owner=await liveDefenderMenu(cdp,round+' explicit finish',previousSeq);
+            entry.finish='explicit-exit';
+            await click(cdp,'#hd-dialog [data-hd-defenders-finish][data-hd-defender-seq="'+owner.menu.seq+'"]'+
+                '[data-hd-defenders-owner='+JSON.stringify(owner.token)+']');
+        } else entry.finish=entry.selected.length===10?'auto-capacity':'auto-exhausted';
+    }
     const opening=await waitForGameProgress(cdp,'fresh native NPC defense PICK or immediate result',`(() => {
         const f=baye.hd.fight(),d=baye.data;
         if(f.inputSeq<=${previousFight.inputSeq}||f.cityIndex!==${entry.cityIndex}||d.g_FgtParam.Mode!==0||d.g_MainGenIdx!==10)return false;
         if(f.active===1&&f.over===0&&f.inputKind===1)return {phase:'pick',fight:f};
         return !f.active&&[1,2].includes(f.over)&&{phase:'instant',fight:f};
     })()`,60000);
+    if(testsLimit) {
+        assert.equal(opening.phase,'pick','The tenth confirmation starts a playable original battle');
+        assert.equal(opening.fight.bout,1);
+        await waitBattle(cdp,1,round+' playable HD after ten defenders');
+        assert.equal(await evaluate(cdp,'__runtimeEngineInputs.length'),lastSelectionInputEnd,
+            'The original ten-defender limit starts the battle without a separate finish input');
+        assert.equal(await evaluate(cdp,`(() => {const menu=baye.hd.menuItems();
+            return !!(menu.active&&menu.context===5&&menu.kind===2)||BayeHdDialog.getInputTicket()?.ownerType==='defenders';})()`),false,
+            'Neither the original defender list nor its HD input owner remains active');
+        const remaining=await readCityPersons(cdp,entry.cityIndex);
+        assert.deepEqual(remaining.find(p=>p.pind===leftInCity.pind),leftInCity,
+            'The unselected armed reinforcement stays in the actual city queue at battle start');
+        entry.tenDefenders.remaining=remaining;
+        entry.finish='auto-capacity';
+    }
     if(opening.phase==='pick') {
         assert.ok(entry.selected.length,'A playable defense requires an actual selected army');
         entry.initial=await evaluate(cdp,battleStateExpression);
@@ -1848,7 +1965,7 @@ async function playNpcDefense(cdp,label,previous) {
         assert.equal(entry.initial.units.find(p=>p.i===10)?.id-1,pending.attackers[0].pind,'defense index 10 is the actual incoming commander');
         const cityTiles=await evaluate(cdp,cityTilesExpression),firstGuard=entry.initial.units.find(p=>p.side==='player');
         assert.ok(cityTiles.some(p=>p.x===firstGuard.x&&p.y===firstGuard.y),'the first real selected defender starts on the actual city tile');
-        await checkpoint(cdp,round+'-battle-ready');
+        await checkpoint(cdp,round+'-battle-ready',testsLimit?{tenDefenders:entry.tenDefenders}:null);
         if(retreatForSuccession)entry.successionRetreat=await retreatBattle(cdp,round);
         else await conquerBattle(cdp,round,true);
     } else {
@@ -2001,6 +2118,11 @@ function verifyCampaignDefenseSettlement(defense,settlements) {
     return settlement;
 }
 
+function staffedPlayerCity(world) {
+    return world.cities.find(city=>city.Belong===world.realm.playerBelong&&world.personQueue
+        .slice(city.PersonQueue,city.PersonQueue+city.Persons).some(id=>world.allPersons[id].Belong===city.Belong));
+}
+
 async function finishDefenseChain(cdp,campaign,chain,settlements) {
     const {before,after}=chain[0];
     assert.equal(after.year*12+after.month,before.year*12+before.month+1,'The full defensive chain settles in one strategy month');
@@ -2014,8 +2136,7 @@ async function finishDefenseChain(cdp,campaign,chain,settlements) {
             menuSeq:entry.menuSeq,outcome:entry.outcome,settlement};
     });
     campaign.chainMonth={year:before.year,month:before.month};
-    const city=after.cities.find(c=>c.Belong===after.realm.playerBelong&&after.personQueue
-        .slice(c.PersonQueue,c.PersonQueue+c.Persons).some(id=>after.allPersons[id].Belong===c.Belong));
+    const city=staffedPlayerCity(after);
     assert.ok(city,'A staffed player city remains on the genuine post-chain strategy map');
     campaign.cityStatus=await inspectMobileOwnedCity(cdp,city.i,after,'mobile-defense-chain');
     await checkpoint(cdp,'mobile-defense-chain-final-map');
@@ -2040,9 +2161,11 @@ async function defendCampaign(cdp) {
         })()`);
     }
     const changan={origin:10,leaders:['李肃','侯成'],recruitments:2};
-    if(verifyDefensiveSuccession||mobileCampaignWidth===844&&!defenseAnyOutcome) {
+    if(defenseTenGenerals) {
+        campaign.reinforcements=await moveGarrisonReinforcements(cdp);
+    } else if(verifyDefensiveSuccession||mobileCampaignWidth===844&&!defenseAnyOutcome) {
         const wancheng={origin:20,leaders:['高顺'],recruitments:1};
-        const garrisons=defenseSameMonth?[campaignPeriod===1?changan:winningFixture]:defenseAfterSuccession?[changan,wancheng]:
+        const garrisons=verifyDefenderTaps?[campaignPeriod===1?changan:winningFixture]:defenseAfterSuccession?[changan,wancheng]:
             [changan,{origin:15,leaders:['张辽','吕布'],recruitments:5},wancheng];
         campaign.garrisons=[];
         for(const fixture of garrisons) {
@@ -2060,12 +2183,12 @@ async function defendCampaign(cdp) {
         s.choice.chosenId===entry.after.realm.playerKing&&s.fightInputSeq<entry.initial.fight.inputSeq&&
         s.settlementVerdict.cityIds.includes(entry.cityIndex));
     const completedDefense=()=>report.extraDefenses?.find(entry=>entry.initial&&entry.after&&
-        (defenseAnyOutcome||entry.outcome===1&&
+        (defenseTenGenerals?entry.tenDefenders:defenseAnyOutcome||entry.outcome===1&&
             entry.after.cities.find(city=>city.i===entry.cityIndex).Belong===entry.after.realm.playerBelong&&
             (!defenseAfterSuccession||inheritedBy(entry))));
     let chain=null;
     const completed=()=>defenseSameMonth?chain:completedDefense();
-    const monthLimit=defenseSameMonth?18:12;
+    const monthLimit=defenseTenGenerals?36:defenseSameMonth?18:12;
     for(let month=1;month<=monthLimit&&!completed();month++) {
         const label='defense-month-'+month,before=await evaluate(cdp,worldExpression);
         const after=await advanceCampaignMonth(cdp,label);
@@ -2081,7 +2204,7 @@ async function defendCampaign(cdp) {
         return finishDefenseChain(cdp,campaign,chain,await evaluate(cdp,'__campaignDefenseSettlements'));
     }
     const defense=completedDefense();
-    const expectedResult=defenseAnyOutcome?'defense settled back to the map':
+    const expectedResult=defenseTenGenerals?'ten-defender battle settled back to the map':defenseAnyOutcome?'defense settled back to the map':
         defenseAfterSuccession?'defense victory retaining an inherited city':'defense victory retaining its city';
     assert.ok(defense,'No native '+expectedResult+' after '+campaign.months.length+' original strategy months');
     const {cityIndex,after,outcome}=defense;
@@ -2101,8 +2224,11 @@ async function defendCampaign(cdp) {
     }
     if(outcome===1)campaign.victory=defense.label;
     Object.assign(campaign,{completed:defense.label,outcome,settlement});
-    if(mobileCampaignInput&&after.cities.find(city=>city.i===cityIndex).Belong===after.realm.playerBelong) {
-        campaign.cityStatus=await inspectMobileOwnedCity(cdp,cityIndex,after,'mobile-defended');
+    const defendedCity=after.cities.find(city=>city.i===cityIndex&&city.Belong===after.realm.playerBelong);
+    const inspectionCity=defendedCity??(defenseTenGenerals?staffedPlayerCity(after):null);
+    if(defenseTenGenerals)assert.ok(inspectionCity,'A staffed player city remains after the ten-defender battle settles');
+    if(mobileCampaignInput&&inspectionCity) {
+        campaign.cityStatus=await inspectMobileOwnedCity(cdp,inspectionCity.i,after,'mobile-defended');
         await checkpoint(cdp,'mobile-defended-return-map');
     } else if(defenseAnyOutcome) {
         await checkpoint(cdp,'defense-return-map');
