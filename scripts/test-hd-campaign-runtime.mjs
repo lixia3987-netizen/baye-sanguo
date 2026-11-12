@@ -20,6 +20,7 @@
  * --elite-transit-months=N sets the month budget and saves the current campaign if the defender is still unready.
  * --west-transit=build/.../result.json prepares original 西凉 access by sending 劝降 from 刘备's campaign.
  * --west-transit-months=N sets the month budget for those original diplomatic orders.
+ * --west-road continues from 西凉 access to an original connected realm and moves 韩玄 to 西凉.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
 import assert from 'node:assert/strict';
@@ -40,7 +41,7 @@ import {verifyOriginalSavePair} from './hd-mobile-system-runtime-oracle.mjs';
 import {verifyMobileSuccessorChoice,verifyMobileSuccessorReport,verifyMobileSuccessorSettlement} from './hd-mobile-successor-runtime-oracle.mjs';
 import {recordBattleOpeningStatus,verifyBattleOpeningStatus} from './hd-battle-opening-status-runtime-checks.mjs';
 import {observeBattleEquipmentSettlement,discoveredCityEquipment,verifyEquipmentDeposit} from './hd-battle-equipment-runtime-checks.mjs';
-import {dispatchOriginalInduce, originalRewardWorldSource} from './hd-reward-token-runtime-checks.mjs';
+import {dispatchOriginalInduce, moveOriginalCampaignOfficer, originalRewardWorldSource} from './hd-reward-token-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -52,6 +53,8 @@ const westTransitFlag = process.argv.find(arg => arg.startsWith('--west-transit=
 const westTransit = westTransitFlag?.slice('--west-transit='.length);
 assert.ok(!westTransitFlag || westTransit && !eliteTransitFlag && scenarioFlag < 0,
     '--west-transit requires an original 刘备 save report and selects its own campaign');
+const westRoad = process.argv.includes('--west-road');
+assert.ok(!westRoad || westTransit,'--west-road requires a 西凉 checkpoint via --west-transit');
 const liuBeiTransit = eliteTransit ?? westTransit;
 const eliteTransitMonthsFlag = process.argv.find(arg => arg.startsWith('--elite-transit-months='));
 const eliteTransitMonthsText = eliteTransitMonthsFlag?.slice('--elite-transit-months='.length) ?? '18';
@@ -65,6 +68,7 @@ assert.ok(!westTransitMonthsFlag || westTransit && /^\d+$/.test(westTransitMonth
     '--west-transit-months requires --west-transit and a nonnegative integer');
 const scenario = eliteTransit ? 'elite-transit' : westTransit ? 'west-transit' : scenarioFlag >= 0 ? process.argv[scenarioFlag + 1] : 'victory';
 assert.ok(['victory', 'defense', 'arrival', 'retreat', 'empty', 'campaign', 'save', 'restart', 'domestic', 'probe', 'captives', 'elite-transit', 'west-transit'].includes(scenario), 'Unknown campaign scenario: ' + scenario);
+assert.ok(scenario!=='west-transit'||westTransit,'Use --west-transit with the original campaign report');
 const arrivalScenario=scenario==='arrival',defenseScenario=scenario==='defense';
 const defenseAnyOutcome=process.argv.includes('--defense-any-outcome');
 const defenseAfterSuccession=process.argv.includes('--defense-after-succession');
@@ -2757,9 +2761,11 @@ async function loadLiuBeiTransit(cdp) {
     assert.deepEqual([prior.route.origin,prior.destination],continued ? [12,fromWest?0:6] : [13,12]);
     const nanpi = prior.nanpiPreparation;
     const west = prior.westPreparation;
+    const westPrefix = west?.roadRequested ? 'west-road' : 'west-transit';
     const checkpoints = fromWest ? [
-        ['west-transit-ready',west.readySave],
-        ['west-transit-progress',west.progressSave]
+        [westPrefix+'-ready',west.readySave],
+        [westPrefix+'-progress',west.progressSave],
+        ['west-road-linked',west.linkedSave]
     ] : continued ? [
         ['nanpi-defender-ready',nanpi.readySave],
         ['nanpi-preparation-progress',nanpi.progressSave],
@@ -2872,10 +2878,12 @@ async function runEliteTransit(cdp) {
     assert.fail('Original 吕布 has not yet joined the armed 南皮 garrison; resume from the progress save');
 }
 
-function westernInduceTarget(world) {
+function westernInduceTarget(world, hanCity) {
     const owner = world.realm.playerBelong;
     const cityLimit = Math.floor(world.cities.filter(city=>city.Belong===owner).length / 2);
-    const targets = [world.cities[0].Belong - 1,15,7,66,14,57,9];
+    const roadTargets = westRoad ? [22,10,26,hanCity??33,9,14,16,2]
+        .map(city=>world.cities[city].Belong - 1) : [];
+    const targets = [world.cities[0].Belong - 1,...roadTargets,15,7,66,14,57,9];
     return targets.find(id=>{
         if (id<0 || id===world.realm.playerKing || world.allPersons[id]?.Belong!==id+1) return false;
         const holdings = world.cities.filter(city=>city.Belong===id+1).length;
@@ -2894,12 +2902,27 @@ function westernDiplomats(world, targetId, costs) {
         const guard = armed.find(person=>person.i!==183) ?? armed[0] ?? residents[0];
         const capacity = Math.floor(city.Money / costs.money);
         return residents.filter(person=>person.i!==guard?.i && person.i!==playerKing &&
+            (!westRoad || person.i!==9) &&
             person.Thew>=costs.thew && person.IQ>=minimumIQ && !used.has(person.i))
             .sort((a,b)=>b.IQ-a.IQ).slice(0,capacity).map(person=>{
                 used.add(person.i);
                 return {cityIndex:city.i,personId:person.i};
             });
     });
+}
+
+function westernOwnedRoads(world, links) {
+    const owner = world.realm.playerBelong;
+    if (world.cities[0].Belong!==owner) return new Map();
+    const roads = new Map([[0,[0]]]), queue = [0];
+    for (const city of queue) {
+        for (const next of links[city]) {
+            if (roads.has(next) || world.cities[next].Belong!==owner) continue;
+            roads.set(next,[...roads.get(city),next]);
+            queue.push(next);
+        }
+    }
+    return roads;
 }
 
 async function runWestTransit(cdp) {
@@ -2910,7 +2933,10 @@ async function runWestTransit(cdp) {
     assert.equal(await evaluate(cdp,'Number(baye.data.g_engineConfig.enable16bitConsumeMoney)'),0);
     const costs = {money:50,thew:10};
     const owner = world.realm.playerBelong;
-    const run = report.westPreparation = {monthBudget:westTransitMonths,costs,months:[]};
+    assert.ok(!westRoad || world.cities[0].Belong===owner,'Read back an original 西凉 acquisition first');
+    const links = westRoad ? await evaluate(cdp,`baye.hd.realm().cities.map(city=>baye.hd.cityLinks(city.i).map(link=>link.index))`) : null;
+    const label = westRoad ? 'west-road' : 'west-transit';
+    const run = report.westPreparation = {roadRequested:westRoad,monthBudget:westTransitMonths,costs,months:[]};
     const until = (...args) => waitFor(cdp,...args);
     const chooseCityItem = async (name, attribute, kind) => {
         const menu = await until('Original city menu for ' + name,`(() => {
@@ -2927,10 +2953,15 @@ async function runWestTransit(cdp) {
         world:()=>evaluate(cdp,originalRewardWorldSource),
         evaluate:expression=>evaluate(cdp,expression),
         until,chooseCityItem,click:selector=>click(cdp,selector),
+        checkpoint:name=>checkpoint(cdp,name),
         nativeKeys:'__runtimeEngineInputs.map(input=>input.code)',
         reopenDiplomacy:async (_label,cityIndex)=>{
             await openCity(cdp,cityIndex,'west-order-'+(++dispatchNumber)+'-city-'+cityIndex);
             await chooseCityItem('外交','data-hd-root',1);
+        },
+        reopenInterior:async (_label,cityIndex)=>{
+            await openCity(cdp,cityIndex,'west-han-xuan-'+cityIndex);
+            await chooseCityItem('内政','data-hd-root',1);
         },
         waitPlayerMap:label=>until(label,`(() => {
             const m=baye.hd.menuItems(),w=baye.hd.march();
@@ -2942,18 +2973,45 @@ async function runWestTransit(cdp) {
         assert.ok(campaignResidents(world,12).includes(183) && world.allPersons[183].Arms>0);
         const xiapi = world.cities[18];
         assert.ok(world.goods.slice(xiapi.ToolQueue,xiapi.ToolQueue+xiapi.Tools).includes(0x8000|31));
-        if (world.cities[0].Belong===owner) {
+        const hanCity = westRoad ? world.cities.find(city=>campaignResidents(world,city.i).includes(9))?.i : undefined;
+        const roads = westRoad ? westernOwnedRoads(world,links) : null;
+        const linked = westRoad && world.allPersons[9].Belong===owner && roads.has(12) && roads.has(18) && roads.has(hanCity);
+        if (world.cities[0].Belong===owner && (!westRoad || linked)) {
+            if (westRoad) {
+                run.road = {puyang:roads.get(12),xiapi:roads.get(18),hanXuan:roads.get(hanCity),from:hanCity};
+                if (hanCity!==0) {
+                    run.linkedSave = await saveLiuBeiCheckpoint(cdp,'west-road-linked',2,world);
+                    let moveMonth = 0;
+                    await moveOriginalCampaignOfficer(ctx,hanCity,0,9,run.road,'west-han-xuan',async before=>{
+                        const reports = [];
+                        await advanceCampaignMonth(cdp,'west-han-xuan-month-'+(++moveMonth),reports);
+                        const after = await ctx.world();
+                        assert.equal(after.year*12+after.month,before.year*12+before.month+1);
+                        return {after,reports};
+                    });
+                    world = await evaluate(cdp,worldExpression);
+                }
+                assert.ok(campaignResidents(world,0).includes(9));
+                assert.deepEqual([world.cities[0].Belong,world.cities[12].Belong,world.cities[18].Belong,world.allPersons[9].Belong],
+                    [owner,owner,owner,owner]);
+                const finalRoads = westernOwnedRoads(world,links);
+                assert.ok(finalRoads.has(12) && finalRoads.has(18),'The original roads remain owned after 韩玄 arrives');
+                run.road.puyang = finalRoads.get(12);
+                run.road.xiapi = finalRoads.get(18);
+                run.road.arrived = {year:world.year,month:world.month,cityIndex:0,personId:9};
+            }
             const officer = world.allPersons[184];
             run.west = {owner, residents:campaignResidents(world,0), mystic:{personId:184,
                 resident:campaignResidents(world,0).includes(184),belong:officer.Belong,arm:officer.ArmsType}};
-            run.readySave = await saveLiuBeiCheckpoint(cdp,'west-transit-ready',1,world);
+            run.readySave = await saveLiuBeiCheckpoint(cdp,label+'-ready',1,world);
             return;
         }
         if (month===westTransitMonths) break;
-        const targetId = westernInduceTarget(world);
+        const targetId = westernInduceTarget(world,hanCity);
         if (targetId===undefined) break;
         const before = world;
-        const diplomats = westernDiplomats(before,targetId,costs);
+        const freeOrders = before.orders.filter(order=>order.OrderId===255).length;
+        const diplomats = westernDiplomats(before,targetId,costs).slice(0,freeOrders);
         const monthRun = {year:before.year,month:before.month,targetId,target:before.allPersons[targetId].name,orders:[],reports:[]};
         run.months.push(monthRun);
         for (const {cityIndex,personId} of diplomats) {
@@ -2975,8 +3033,9 @@ async function runWestTransit(cdp) {
             await checkpoint(cdp,'west-acquired-month-'+(month+1));
         }
     }
-    run.progressSave = await saveLiuBeiCheckpoint(cdp,'west-transit-progress',1,world);
-    assert.fail('西凉 is still outside the original 刘备 realm; resume from the progress save');
+    run.progressSave = await saveLiuBeiCheckpoint(cdp,label+'-progress',1,world);
+    assert.fail(westRoad ? '韩玄 has not reached 西凉; resume from the progress save' :
+        '西凉 is still outside the original 刘备 realm; resume from the progress save');
 }
 
 async function saveRefreshLoad(cdp) {

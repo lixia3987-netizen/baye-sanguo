@@ -271,7 +271,8 @@ export async function runRewardTokenChecks(ctx) {
     await checkpoint('token-returned-map');
 }
 
-async function moveOriginalOfficers(ctx, controls, from, to, people, evidence, prefix = 'mystic') {
+async function moveOriginalOfficers(ctx, controls, from, to, people, evidence, prefix = 'mystic',
+    settleMonth = before=>settleOriginalMonth(ctx,controls,before)) {
     const {world, until, click, chooseCityItem, reopenInterior, waitPlayerMap, checkpoint} = ctx;
     const {picker, chooseRow, waitReport, acknowledge, keysSince} = controls;
     const phase = n => until('Original Move phase ' + n, `(() => {
@@ -292,6 +293,7 @@ async function moveOriginalOfficers(ctx, controls, from, to, people, evidence, p
     let current = await picker(3, sub.seq, 'Original Move officer list');
     const departures = [];
     const height = await ctx.evaluate('baye.data.g_screenHeight');
+    let returnedToMap = false;
     for (const person of people) {
         const chosen = await chooseRow(current, person, 'pind');
         await phase(8);
@@ -299,10 +301,20 @@ async function moveOriginalOfficers(ctx, controls, from, to, people, evidence, p
         assert.equal(departure.person, person);
         verifyNativePersonSelection(current, chosen.index, await keysSince(chosen.count), height);
         await acknowledge(departure);
-        current = await picker(3, current.seq, 'Original Move list after dispatch');
         departures.push(departure);
+        const next = await until('Original Move list or return to the strategy map', `(() => {
+            const t=baye.hd.transfer(),m=baye.hd.menuItems(),w=baye.hd.march();
+            if(!t.active&&!m.active&&w.pick===1&&!w.battlePick)return 'map';
+            return t.active===1&&t.phase===1&&m.active===1&&m.context===1&&m.kind===3&&m.seq!==${current.seq}&&'list';
+        })()`);
+        if (next==='map') {
+            assert.equal(departures.length,people.length,'The native Move command dispatched the full requested party');
+            returnedToMap = true;
+            break;
+        }
+        current = await picker(3, current.seq, 'Original Move list after dispatch');
     }
-    await click('#hd-city-menu [data-hd-menu-back]');
+    if (!returnedToMap) await click('#hd-city-menu [data-hd-menu-back]');
     await waitPlayerMap('Original map after Move');
     let stock = await world();
     const isMove = o => o.OrderId === 14 && o.City === from && o.Object === to && people.includes(o.Person);
@@ -310,16 +322,21 @@ async function moveOriginalOfficers(ctx, controls, from, to, people, evidence, p
     assert.deepEqual(orders.map(o => o.Person).sort((a, b) => a - b), [...people].sort((a, b) => a - b));
     assert.ok(people.every(person => !cityResidents(stock, from).includes(person)));
     evidence.move = people.length === 1 ? {order:orders[0], departure:departures[0], months:[]} : {orders, departures, months:[]};
+    evidence.move.returnedToMap = returnedToMap;
     await checkpoint(prefix + '-move-queued');
     const travelMonths = Math.max(...orders.map(order => order.TimeCount));
     for (let month = 0; month <= travelMonths && stock.orders.some(isMove); month++) {
-        const {after, reports} = await settleOriginalMonth(ctx, controls, stock);
+        const {after, reports} = await settleMonth(stock);
         stock = after;
         evidence.move.months.push({year:stock.year, month:stock.month, reports});
     }
     assert.ok(!stock.orders.some(isMove) && people.every(person => cityResidents(stock, to).includes(person)),
         'Original Move arrives at the selected owned destination');
     await checkpoint(prefix + '-move-arrived');
+}
+
+export async function moveOriginalCampaignOfficer(ctx, from, to, personId, evidence, label, settleMonth) {
+    await moveOriginalOfficers(ctx,rewardControls(ctx),from,to,[personId],evidence,label,settleMonth);
 }
 
 async function awardOriginalTool(ctx, controls, cityIndex, personId, goods, tool,

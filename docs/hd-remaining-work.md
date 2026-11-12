@@ -1,5 +1,9 @@
 # HD 剩余工作与验收清单
 
+2026-11-12 两场第二时期续局打通了西凉与濮阳、下邳、长沙之间的原版道路。两局分别实际派出 434 和 465 笔「劝降」，取得建业、长安、襄阳、长沙和河内等城。长沙至西凉的原版道路经过襄阳、宛城、长安、河内、天水和安定。韩玄从长沙通过原版「移动」排单，分别于 201 年 3 月和 4 月抵达西凉。两个存档均核对了韩玄驻西凉、南方小鬼在同城、通宵虫仍为极兵以及下邳的太玄兵符。
+
+长沙最后一名己方武将出发后，原版直接回图。修正验证脚本后，两局均从道路连通时的双文件读回、提交原版移动并完成月结。用 `node scripts/test-hd-campaign-runtime.mjs --west-road --west-transit=build/hd-campaign-west-road-20261112-a/result.json --west-transit-months=0 --artifact-dir build/west-han-xuan` 复跑。两份韩玄抵达档及结果位于 `build/hd-campaign-west-road-20261112-move-fixed-a` 和 `build/hd-campaign-west-road-20261112-move-fixed-b`。Clang 23.1.5 外交、移动与存读档等相关回归 **670/670** 通过。南方小鬼仍在野，普通攻击实战累计 **35/37**。
+
 2026-11-12 第二时期的玄兵守将准备推进到西凉。刘备从 199 年 12 月的濮阳原版档续局，四个月实际派出 34 笔「劝降」。孔融、张绣、雷薄先后归降，北海、宛城和寿春加入。原版城池数达到六城后，韩遂归降，西凉、安定和天水加入。核对了每笔派单的原版使者、对象、50 钱、10 体力和订单退役。原版战局保存于 200 年 4 月，通宵虫留在濮阳并带 3,154 兵，下邳仍有太玄兵符。南方小鬼（PersonID 184）在西凉，兵种为玄兵，搜寻需要韩玄驻西凉。此档韩玄仍在长沙。
 
 用 `node scripts/test-hd-campaign-runtime.mjs --west-transit=build/hd-campaign-liu-bei-nanpi-20261112-release-a/result.json --artifact-dir build/west-transit` 复跑。原版结果和双文件位于 `build/hd-campaign-west-transit-20261112-b`，已用「重返沙场」在新浏览器读回。将 `--west-transit` 换为西凉准备或阶段进度的 `result.json` 可继续，`--west-transit-months=N` 可调整默认 18 个月的推进上限。另一次续局在下邳守城战败，战斗和归属结果保存在 `build/hd-campaign-west-transit-20261112-a`。Clang 23.1.5 相关回归 **541/541** 通过。
