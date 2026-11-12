@@ -187,6 +187,31 @@ test('clicking a unit advances each direction only after the real cursor moves',
     assert.equal(g.sent.length, count, 'a selection never submits the move automatically');
 });
 
+test('an arrow checks for acknowledgement on the next task and falls back to polling if it is late', () => {
+    const g = game();
+    assert.equal(g.api.clickTile(4, 2).ok, true);
+    g.tick(6);
+    assert.deepEqual(g.sent, [K.RIGHT], 'The early check sends nothing before acknowledgement');
+    g.focus(2, 1);
+    g.tick(9);
+    assert.deepEqual(g.sent, [K.RIGHT], 'A missed early check keeps the original poll deadline');
+    g.tick(1);
+    assert.deepEqual(g.sent, [K.RIGHT, K.RIGHT]);
+    g.focus(3, 1);
+    g.tick(0);
+    assert.deepEqual(g.sent, [K.RIGHT, K.RIGHT, K.RIGHT], 'A fresh acknowledged step continues without waiting for polling');
+});
+
+test('an owner change between a key and its early acknowledgement check retires the route', () => {
+    const g = game();
+    assert.equal(g.api.clickTile(4, 2).ok, true);
+    g.focus(2, 1);
+    g.input(I.MOVE, 0);
+    g.tick(0);
+    assert.deepEqual(g.sent, [K.RIGHT]);
+    assert.equal(g.api.debugSnapshot().transaction, null);
+});
+
 test('single keyboard arrow sends once, waits for focus ack, then releases ownership', () => {
     const g = game();
     g.keyEvent('ArrowRight');

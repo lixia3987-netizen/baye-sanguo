@@ -7,6 +7,7 @@
  * --status-only checks the original HUD through the first full battle day.
  * --skill-aim-only stops after the original selected skill, help and cancel checks.
  * --map-numbers verifies an ordinary attack and Fire with native battle animations off.
+ * --input-timing measures trusted original battle selections, moves and an attack.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
 import assert from 'node:assert/strict';
@@ -21,20 +22,23 @@ import { fileURLToPath } from 'node:url';
 import {battleHudObservation,measureIdleBattleBoard,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
 import {skillAimObservation,skillOptionsExpression,verifySkillAim} from './hd-battle-skill-aim-runtime-checks.mjs';
 import {recordBattleMapNumbers,verifyBattleMapNumber} from './hd-battle-map-number-runtime-checks.mjs';
+import {observeDesktopBattleInput,verifyDesktopBattleInput,summarizeDesktopBattleInputs} from './hd-battle-input-timing.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const statusOnly = process.argv.includes('--status-only');
 const skillAimOnly = process.argv.includes('--skill-aim-only');
 const mapNumbers = process.argv.includes('--map-numbers');
+const inputTiming = process.argv.includes('--input-timing');
 assert.ok(!mapNumbers||(!statusOnly&&!skillAimOnly),'--map-numbers requires the full combat route');
+assert.ok(!inputTiming||(!statusOnly&&!skillAimOnly&&!mapNumbers),'--input-timing uses an independent combat route with movies');
 const artifactFlag = process.argv.indexOf('--artifact-dir');
 const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/battle-runtime-smoke'));
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.lib': 'application/octet-stream' };
-const report = { staged, statusOnly, skillAimOnly, mapNumbers, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [], battleHud: [] };
+const report = { staged, statusOnly, skillAimOnly, mapNumbers, inputTiming, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [], battleHud: [] };
 const servedAssets = new Map();
 
 function prepareServedAssets() {
@@ -61,7 +65,8 @@ function prepareServedAssets() {
         'assets/hd-overworld/palette/factions.json','assets/hd-overworld/terrain/base_plains.jpg',
         'assets/hd-portraits/manifest.json','assets/hd-portraits/refs/index.json','assets/hd-spe/manifest.json',
         'vendor/iBaye/src/data/pstring.h','scripts/test-hd-battle-runtime.mjs','scripts/hd-battle-hud-runtime-checks.mjs',
-        'scripts/hd-battle-skill-aim-runtime-checks.mjs','scripts/hd-battle-map-number-runtime-checks.mjs']) {
+        'scripts/hd-battle-skill-aim-runtime-checks.mjs','scripts/hd-battle-map-number-runtime-checks.mjs',
+        'scripts/hd-battle-input-timing.mjs','scripts/hd-performance-metrics.mjs']) {
         const data=fs.readFileSync(path.join(root,name));
         const metadata={source:name,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};
         report.sources[name]=metadata;servedAssets.set(name,{data,metadata});
@@ -381,6 +386,7 @@ async function battleSmoke(cdp) {
     assert.deepEqual(await evaluate(cdp,'window.__battleKeys'),[],'idle HD renderer delivers no engine inputs');
     report.pause={before,after};
     await checkpoint(cdp,'15-battle-idle-no-input');
+    if(inputTiming)await measureBattleSelectionsAndMoves(cdp,before);
     if(statusOnly)await recordBattleHudAtDesktopSizes(cdp,'battle-first-day');
     await terrainSmoke(cdp, before);
     const own=before.units.find(u=>u.side==='player' && u.active===0);
@@ -460,6 +466,13 @@ async function battleSmoke(cdp) {
     }
     await manualCombat(cdp);
     if(skillAimOnly||mapNumbers) return;
+    if(inputTiming){
+        report.inputTimingSummary=summarizeDesktopBattleInputs(report.inputTimingSamples);
+        assert.equal(report.inputTimingSummary.select.clickToDraw.count,4);
+        assert.equal(report.inputTimingSummary.move.clickToDraw.count,4);
+        assert.equal(report.inputTimingSummary.attack.clickToDraw.count,1);
+        return;
+    }
     assert.ok(report.knownEnemyView,'The same native day verifies the spy result in VIEW');
     await terrainGallery(cdp);
 
@@ -1074,6 +1087,45 @@ async function focusBattleTarget(cdp, target, label, kind = 5) {
     }
     throw new Error('Target preview cursor did not reach the native target');
 }
+async function timedDesktopTile(cdp,kind,tile,nextKind,waitForOutcome) {
+    const point=await evaluate(cdp,`(${observeDesktopBattleInput})(${JSON.stringify(tile)},${nextKind})`);
+    const sample={kind,tile};
+    (report.inputTimingSamples??=[]).push(sample);
+    try{
+        await cdp.send('Input.dispatchMouseEvent',{type:'mousePressed',...point,button:'left',clickCount:1});
+        await cdp.send('Input.dispatchMouseEvent',{type:'mouseReleased',...point,button:'left',clickCount:1});
+        await waitForOutcome();
+        await waitFor(cdp,'real canvas draw after '+kind,'window.__battleInputTiming.sample.paints.length>0');
+    }finally{
+        sample.trace=await evaluate(cdp,'window.__battleInputTiming.finish()');
+    }
+    sample.timing=verifyDesktopBattleInput(sample.trace,tile,nextKind);
+}
+
+async function measureBattleSelectionsAndMoves(cdp,initial) {
+    const anchor={x:initial.fight.focusX,y:initial.fight.focusY};
+    const distance=(a,b)=>Math.abs(a.x-b.x)+Math.abs(a.y-b.y);
+    const actor=initial.units.filter(u=>u.side==='player'&&u.active===0&&u.arms>0&&![1,6,8].includes(u.state))
+        .sort((a,b)=>distance(b,anchor)-distance(a,anchor))[0];
+    assert.ok(actor&&distance(actor,anchor)>0,'A real player general has a multi-step selection route');
+    let target;
+    for(let repetition=0;repetition<4;repetition++){
+        await timedDesktopTile(cdp,'select',actor,2,()=>waitBattle(cdp,2,'measured original MOVE owner'));
+        const f=await evaluate(cdp,'baye.hd.fight()');
+        assert.equal(f.actorIndex,actor.i,'Measured selection chooses the actual original general');
+        const candidates=await evaluate(cdp,moveTilesExpression);
+        target??=candidates.filter(p=>!initial.units.some(u=>u.state!==8&&u.x===p.x&&u.y===p.y))
+            .sort((a,b)=>distance(b,actor)-distance(a,actor))[0];
+        assert.ok(target&&candidates.some(p=>p.x===target.x&&p.y===target.y),'The same measured tile remains legal in the original path mask');
+        await timedDesktopTile(cdp,'move',target,3,()=>waitBattle(cdp,3,'measured original ACTION owner'));
+        const moved=(await evaluate(cdp,battleStateExpression)).units.find(u=>u.i===actor.i);
+        assert.deepEqual([moved.x,moved.y],[target.x,target.y]);
+        await action(cdp,'cancel-measured-move','BayeHdBattle.cancel()');
+        await waitBattle(cdp,1,'canceled measured movement returns to original PICK');
+        assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,initial.units);
+        await focusBattleTarget(cdp,anchor,'input-timing-cursor-reset-'+(repetition+1),1);
+    }
+}
 async function manualCombat(cdp) {
     const before=await evaluate(cdp,battleStateExpression);
     const actor=before.units.find(u=>u.side==='player'&&u.active===0);
@@ -1194,10 +1246,18 @@ async function attemptAttack(cdp,actor) {
     const targets=(await evaluate(cdp,rangedUnitsExpression)).filter(u=>u.side==='enemy'&&u.arms>0);
     if(!targets.length) {await action(cdp,'cancel-attack-no-target','BayeHdBattle.cancel()');await waitBattle(cdp,3,'return from unavailable attack');return false;}
     const target=targets.sort((a,b)=>a.arms-b.arms)[0],before=await evaluate(cdp,battleStateExpression);
-    await focusBattleTarget(cdp,target,'29-attack-target-preview');
-    const mapBefore=mapNumbers?await evaluate(cdp,'({offset:__battleMapNumbers.length,keys:__battleKeys.length})'):null;
-    const result=await action(cdp,'confirm-attack-'+target.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);assert.equal(result.ok,true);
-    await waitFor(cdp,'actual attack resolves',`(() => {const f=baye.hd.fight();return f.over||f.inputKind===1;})()`,30000);
+    let mapBefore=null;
+    const resolved=()=>waitFor(cdp,'actual attack resolves',`(() => {const f=baye.hd.fight();return f.over||f.inputKind===1;})()`,30000);
+    if(inputTiming){
+        await verifyNativeFeedback(cdp,'measured attack AIM','attack');
+        await timedDesktopTile(cdp,'attack',target,null,resolved);
+    }else{
+        await focusBattleTarget(cdp,target,'29-attack-target-preview');
+        if(mapNumbers)mapBefore=await evaluate(cdp,'({offset:__battleMapNumbers.length,keys:__battleKeys.length})');
+        const result=await action(cdp,'confirm-attack-'+target.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);
+        assert.equal(result.ok,true);
+        await resolved();
+    }
     const after=await evaluate(cdp,battleStateExpression),enemy=after.units.find(u=>u.i===target.i);
     assert.ok(!enemy||enemy.arms<target.arms,'confirmed normal attack reduces actual enemy troops');
     report.attackCost={actor:actor.name,target:target.name,before,after};
@@ -1284,11 +1344,11 @@ async function performCombatCosts(cdp) {
     // Every action below represents explicit player intent. These helpers read
     // native legal paths, ranges and LIB skill restrictions, and deliver only
     // the same UI actions a player can make. No engine field is assigned.
-    const covered=()=>mapNumbers?report.attackMapNumber&&report.fireMapNumber:
+    const covered=()=>inputTiming?report.attackCost:mapNumbers?report.attackMapNumber&&report.fireMapNumber:
         report.attackCost&&report.skillCost&&report.skillEffect&&report.spyReveal;
     for(let step=0;step<60&&!covered();step++) {
         const current=await evaluate(cdp,battleStateExpression);
-        assert.equal(current.fight.over,0,'battle remains live until both action costs are verified');
+        assert.equal(current.fight.over,0,'battle remains live until the requested action costs are verified');
         const candidates=current.units.filter(u=>u.side==='player'&&u.active===0&&u.state!==8&&u.state!==1&&u.state!==6&&u.arms>0);
         const fireCaster=mapNumbers&&!report.fireMapNumber&&candidates.find(u=>u.mp>=15&&['程银','张横'].includes(u.name));
         const actor=fireCaster||candidates[0];
@@ -1312,6 +1372,10 @@ async function performCombatCosts(cdp) {
             if(!report.skillEffect && await attemptSkill(cdp,actor))continue;
         }
         const rest=await evaluate(cdp,'baye.hd.menuItems().names[3]');await menuChoice(cdp,rest,1);
+    }
+    if(inputTiming){
+        assert.ok(report.attackCost,'The measured attack applies a genuine original troop loss');
+        return;
     }
     if(mapNumbers) {
         assert.ok(report.attackMapNumber&&report.fireMapNumber,'Genuine ordinary attack and Fire display HD on-map results');

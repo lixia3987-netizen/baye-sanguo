@@ -8,7 +8,8 @@
     var MOBILE_STORAGE_KEY = 'baye/mobileBattleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20261112r';
+    var HD_BATTLE_VER = '20261112s';
+    var ACK_POLL_MS = 16;
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
     var ARM_NAMES = ['骑兵', '步兵', '弓兵', '水军', '极兵', '玄兵'];
@@ -482,14 +483,14 @@
         finishRequest('scene-changed');
         if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
     }
-    function scheduleCommand() {
+    function scheduleCommand(delay, fallbackAt) {
         if (commandTimer || !state.transaction) { return; }
         var epoch = modeEpoch;
         commandTimer = global.setTimeout(function () {
             commandTimer = 0;
             if (epoch !== modeEpoch || !shouldShowHd()) { return; }
-            advanceRequest();
-        }, 16);
+            advanceRequest(fallbackAt);
+        }, delay == null ? ACK_POLL_MS : delay);
     }
     function reject(reason, text) {
         if (text) { state.fightTip = text; applyChrome(); }
@@ -546,9 +547,13 @@
         }
         if (transaction.kind === INPUT.VIEW) { transaction.committed = true; }
         if (!rawSendKey(code)) { finishRequest('input-unavailable'); return; }
-        scheduleCommand();
+        if (state.transaction !== transaction) { return; }
+        // Native key delivery queues its wake before this task. Check once
+        // after that wake, then keep the original poll deadline if it is late.
+        if (expected) { scheduleCommand(0, transaction.sentAt + ACK_POLL_MS); }
+        else { scheduleCommand(); }
     }
-    function advanceRequest() {
+    function advanceRequest(fallbackAt) {
         var transaction = state.transaction;
         if (!transaction) { return; }
         var snap = inputSnapshot();
@@ -563,7 +568,11 @@
             var acknowledged = transaction.type === 'menu' || transaction.expected.index != null
                 ? snap.menu && Number(snap.menu.index) === transaction.expected.index
                 : snap.focus && snap.focus.x === transaction.expected.x && snap.focus.y === transaction.expected.y;
-            if (!acknowledged) { scheduleCommand(); return; }
+            if (!acknowledged) {
+                var remaining = fallbackAt == null ? ACK_POLL_MS :
+                    Math.max(0, Math.min(ACK_POLL_MS, fallbackAt - Date.now()));
+                scheduleCommand(remaining); return;
+            }
             transaction.expected = null; transaction.sentAt = 0;
             if (transaction.type === 'key') { finishRequest('acknowledged'); return; }
         }

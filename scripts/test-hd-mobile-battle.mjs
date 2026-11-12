@@ -274,7 +274,11 @@ function realSharedBattle(f) {
     vm.runInNewContext(readFileSync(new URL('../js/hd-battle.js',import.meta.url),'utf8'),env,{filename:'real-hd-battle.js'});
     const api=env.BayeHdBattle;api.applyMobilePage({isAvailable:()=>true,readTicket:f.host.readNativeTicket,render(){}});
     api.onEngineFight();
-    return {api,step(){const tasks=[...f.timers];for(const [id,t] of tasks){if(t.ms===16){f.timers.delete(id);t.fn();}}}};
+    return {api,step(){
+        for(const [id,t] of [...f.timers]){
+            if(t.ms>=0&&t.ms<=16){f.timers.delete(id);t.fn();}
+        }
+    }};
 }
 
 test('real shared PICK focus waits for each native Arrow ACK and never sends Enter',()=>{
