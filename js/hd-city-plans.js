@@ -97,7 +97,7 @@
                         if (!actor(executor)) { continue; }
                         actors.push(executor);
                     }
-                    var targetPerson = null, cargo = null, marchFood = null;
+                    var targetPerson = null, cargo = null, marchFood = null, marchArms = null;
                     if (incoming) {
                         if (!uint(origin,37) || !cities[origin]) { return null; }
                         refs.push(cities[origin]);
@@ -123,9 +123,17 @@
                         marchFood = order.Food;
                         if (!uint(marchFood,65535)) { return null; }
                         values.push(marchFood);
+                        // BattleDrv loads these generals from FIGHTERS. Their
+                        // current troop counts live on the person records.
+                        marchArms = actors.map(function (id) {
+                            var person = people[id], count = person.Arms;
+                            var arms = uint(count,65535) ? count : null;
+                            refs.push(person); personValues.push([id,'Arms',arms]);
+                            return arms;
+                        });
                     }
                     (incoming ? arrivals : rows).push({slot:slot,command:command,actors:actors,origin:incoming ? origin : null,
-                        destination:destination,targetPerson:targetPerson,cargo:cargo,marchFood:marchFood});
+                        destination:destination,targetPerson:targetPerson,cargo:cargo,marchFood:marchFood,marchArms:marchArms});
                 }
                 var seal = [data.g_hdEngineReady,data.g_hdDetailGeneration,data.g_hdMapCity,data.g_hdMenuActive,
                     data.g_hdMenuContext,data.g_hdMenuKind,data.g_hdMenuSeq,data.g_hdMenuCount,data.g_hdMenuIndex,
@@ -156,7 +164,14 @@
                         text += ' → ' + targetName; }
                     if (row.cargo !== null) { text += ' · 粮食 ' + row.cargo[0] + ' · 金钱 ' + row.cargo[1] + ' · 预备兵 ' + row.cargo[2]; }
                     if (row.marchFood !== null) { text += ' · 携粮 ' + row.marchFood; }
-                    return {slot:row.slot,command:row.command,label:LABELS[row.command],text:text,targetPerson:row.targetPerson};
+                    var result = {slot:row.slot,command:row.command,label:LABELS[row.command],text:text,targetPerson:row.targetPerson};
+                    if (row.marchArms && row.marchArms.some(function (arms) { return arms !== null; })) {
+                        var members = row.actors.map(function (id,i) { return {id:id,name:names[i],arms:row.marchArms[i]}; });
+                        var totalArms = new Set(row.actors).size === row.actors.length && row.marchArms.every(function (arms) { return arms !== null; })
+                            ? row.marchArms.reduce(function (total,arms) { return total + arms; },0) : null;
+                        result.army = {destination:cityName,food:row.marchFood,totalArms:totalArms,members:members};
+                    }
+                    return result;
                 }
                 return {rows:snapshot.rows.map(describe),arrivals:snapshot.arrivals.map(describe)};
             }

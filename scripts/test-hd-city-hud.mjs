@@ -3296,6 +3296,41 @@ test('arranged march supplies show exact U16 amounts with duplicate members, que
     assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
 });
 
+test('arranged march armies show each current member and a total for a complete distinct formation', () => {
+    const h = plansHarness();
+    h.people[20].Arms = 65535; h.people[22].Arms = 0; h.people[199].Arms = 65535;
+    h.army(2, [20, null, 22, 199]); h.plan(170, 27, 2, {Object: 16, Food: 1200});
+    h.army(3, [22, 22]); h.plan(171, 27, 3, {Object: 16, Food: 0});
+    h.army(4, [0, 20]); h.plan(172, 27, 4, {Object: 16, Food: 65535});
+    h.people[0].Arms = 65536;
+    const before = plain(h.raw); h.renderPlans();
+    const rows = plain(h.context.BayeHdCityPlans.read(0)).rows;
+    assert.equal(rows[0].text, '吕布、张辽、人物199 → 许昌 · 携粮 1200');
+    assert.deepEqual(rows[0].army, {destination: '许昌', food: 1200, totalArms: 131070,
+        members: [{id: 20, name: '吕布', arms: 65535}, {id: 22, name: '张辽', arms: 0}, {id: 199, name: '人物199', arms: 65535}]});
+    assert.equal(rows[1].army.totalArms, null);
+    assert.equal(rows[2].army.totalArms, null);
+    assert.deepEqual(planRows(h).map(row => row.value), ['许昌 · 携粮 1200 · 合计 131070 兵', '许昌 · 携粮 0', '许昌 · 携粮 65535']);
+    const memberRows = slot => plansPane(h).querySelectorAll('[data-hd-city-order]')
+        .find(row => row.getAttribute('data-hd-city-order') === String(slot))
+        .querySelectorAll('[data-hd-city-march-member]').map(n => [Number(n.getAttribute('data-hd-city-march-member')), n.textContent]);
+    assert.deepEqual(memberRows(170), [[20, '吕布 65535 兵'], [22, '张辽 0 兵'], [199, '人物199 65535 兵']]);
+    assert.deepEqual(memberRows(171), [[22, '张辽 0 兵'], [22, '张辽 0 兵']]);
+    assert.deepEqual(memberRows(172), [[0, '董卓 兵力未读取'], [20, '吕布 65535 兵']]);
+    assert.deepEqual(plain(h.raw), before); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('arranged march arms retire the old roster when a name callback changes a member', () => {
+    const h = plansHarness(); h.people[20].Arms = 1200; h.people[22].Arms = 800;
+    h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 300});
+    h.renderPlans(); assert.equal(planRows(h)[0]?.value, '许昌 · 携粮 300 · 合计 2000 兵');
+    let changed = false;
+    h.nameHook(id => { if (id === 22 && !changed) { changed = true; h.people[22].Arms = 801; } });
+    h.renderPlans(); assert.equal(changed, true); assertPlansAbsent(h, 'A changed member cannot keep the previous troop count');
+    h.nameHook(null); h.renderPlans(); assert.equal(planRows(h)[0]?.value, '许昌 · 携粮 300 · 合计 2001 兵');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
 test('arranged march supplies stay unread outside local allied armies and never read uninitialized march cargo', () => {
     const h = plansHarness(); h.plan(2, 13, 22, {Object: 16, Food: 90, Money: 20, Arms: 10});
     h.plan(3, 27, 3, {City: 1, Object: 16});
@@ -3304,6 +3339,9 @@ test('arranged march supplies stay unread outside local allied armies and never 
     h.plan(7, 255); h.plan(8, 24); h.plan(9, 14, 20, {Object: 16});
     h.army(2, [20, 22]); h.plan(170, 27, 2, {Object: 16, Food: 900});
     let excludedReads = 0;
+    for (const id of [70, 71, 72]) Object.defineProperty(h.people[id], 'Arms', {
+        get() {excludedReads++; throw Error('excluded march member arms read');}
+    });
     for (const slot of [3, 4, 5, 6, 7, 8, 9, 170]) for (const field of slot === 170 ?
         ['Money', 'Arms', 'Consume', 'TimeCount'] : ['Food', 'Money', 'Arms']) {
         Object.defineProperty(h.orders[slot], field, {get() {excludedReads++; throw Error('excluded march payload read');}, configurable: true});

@@ -535,6 +535,24 @@ html[data-baye-city-transfer-target="1"] [data-hd-menu-help] {
     overflow-wrap: anywhere;
 }
 
+.hd-city-menu-march-order {
+    flex-wrap: wrap;
+    row-gap: 6px;
+}
+
+.hd-city-menu-march-members {
+    flex: 0 1 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: #bdc8d5;
+}
+
+.hd-city-menu-march-members li { white-space: nowrap; }
+
 .hd-city-menu-info-group {
     min-width: 0;
 }

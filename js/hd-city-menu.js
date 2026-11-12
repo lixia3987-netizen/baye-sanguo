@@ -5473,9 +5473,26 @@
         var rows = document.createElement('div');
         rows.className = 'hd-city-menu-info-rows';
         plans.forEach(function (plan) {
-            var row = appendStat(rows, plan.label, plan.text);
+            var army = plan.army, summary = plan.text;
+            if (army) {
+                summary = army.destination + ' · 携粮 ' + army.food;
+                if (army.totalArms !== null) { summary += ' · 合计 ' + army.totalArms + ' 兵'; }
+            }
+            var row = appendStat(rows, plan.label, summary);
             row.setAttribute('data-hd-city-order', String(plan.slot));
             row.setAttribute('data-hd-city-order-id', String(plan.command));
+            if (army) {
+                row.classList.add('hd-city-menu-march-order');
+                var members = document.createElement('ul');
+                members.className = 'hd-city-menu-march-members';
+                army.members.forEach(function (member) {
+                    var item = document.createElement('li');
+                    item.setAttribute('data-hd-city-march-member', String(member.id));
+                    item.textContent = member.name + ' ' + (member.arms === null ? '兵力未读取' : member.arms + ' 兵');
+                    members.appendChild(item);
+                });
+                row.appendChild(members);
+            }
         });
         section.appendChild(rows);
         box.appendChild(section);
