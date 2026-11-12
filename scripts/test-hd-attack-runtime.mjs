@@ -10,8 +10,9 @@
  *   --target-arm N selects a real living enemy with native effective type 0..5;
  *   --target-arm0 aliases --target-arm 0 for cavalry defender intervals.
  *   --max-turns N sets the private acceptance budget (default4, native game unchanged).
- *   --destination N requests an actual non-owned native neighbor of 天水8;
- *   default9 retains 河内, while14 requests 汉中 only if current native links allow it.
+ *   --guiyang starts a fresh P3 韩玄 game and marches from 长沙33 to 桂阳36.
+ *   --destination N requests an actual non-owned native neighbor of the route's origin.
+ *   The default P1 马腾 route starts at 天水8 and targets 河内9.
  *   the current native Fang Yue ID is a preference, never a fixed battle slot.
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
@@ -30,6 +31,10 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const allowLcd = process.argv.includes('--allow-lcd');
 const recruit = process.argv.includes('--recruit');
+const guiyang = process.argv.includes('--guiyang');
+const route = guiyang
+    ? {period:3,king:'韩玄',origin:33,originName:'长沙',destination:36,preferredActor:14}
+    : {period:1,king:'马腾',origin:8,originName:'天水',destination:9};
 const recruitArmsFlag=process.argv.indexOf('--recruit-arms');
 const recruitArmsText=recruitArmsFlag<0?'800':process.argv[recruitArmsFlag+1];
 assert.ok(/^\d+$/.test(recruitArmsText||''),'--recruit-arms must be a positive native U16 quantity');
@@ -43,7 +48,7 @@ const rangeFlag = process.argv.indexOf('--range');
 const rangeText = rangeFlag < 0 ? null : process.argv[rangeFlag + 1];
 assert.ok(rangeText === null || /^(19|20|21|22|23|24|25):\d+:\d+$/.test(rangeText), '--range must be native SPE:start:end');
 const acceptedRange = rangeText === null ? null : rangeText.split(':').map(Number);
-assert.ok(!recruit || acceptedRange && [19,20,21].includes(acceptedRange[0]), '--recruit requires a real cavalry/infantry/bow --range');
+assert.ok(!recruit || acceptedRange, '--recruit requires an exact native --range');
 const targetArmFlag=process.argv.indexOf('--target-arm');
 const targetArm0=process.argv.includes('--target-arm0');
 const targetArmText=targetArmFlag<0?(targetArm0?'0':null):process.argv[targetArmFlag+1];
@@ -56,10 +61,10 @@ const maxTurnsFlag=process.argv.indexOf('--max-turns'),maxTurnsText=maxTurnsFlag
 assert.ok(/^\d+$/.test(maxTurnsText||''),'--max-turns requires an explicit integer test budget');
 const maxTurns=Number(maxTurnsText);
 assert.ok(Number.isInteger(maxTurns)&&maxTurns>=1&&maxTurns<=20,'The private test budget is 1..20 turns, without modifying the native bout maximum');
-const destinationFlag=process.argv.indexOf('--destination'),destinationText=destinationFlag<0?'9':process.argv[destinationFlag+1];
+const destinationFlag=process.argv.indexOf('--destination'),destinationText=destinationFlag<0?String(route.destination):process.argv[destinationFlag+1];
 assert.ok(/^\d+$/.test(destinationText||''),'--destination requires a zero-based native city index');
 const destination=Number(destinationText);
-assert.ok(Number.isInteger(destination)&&destination>=0&&destination<64&&destination!==8,'The destination must be a distinct native city; current Realm and native adjacency still authorize it');
+assert.ok(Number.isInteger(destination)&&destination>=0&&destination<64&&destination!==route.origin,'The destination must be a distinct native city; current Realm and native adjacency still authorize it');
 const plannerStepBudget=36+Math.max(0,maxTurns-4)*11;
 const acceptsRange = (a) => !acceptedRange || a.speId === acceptedRange[0] && a.startFrm === acceptedRange[1] && a.endFrm === acceptedRange[2];
 const viewport = process.argv.includes('--720') ? {width:1280,height:720} : {width:1920,height:1080};
@@ -70,7 +75,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.lib': 'application/octet-stream' };
-const report = { scope:'Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed.', staged, allowLcd,recruit,recruitArms,targetArm,destination,maxTurns,plannerStepBudget,scenario,acceptedRange,viewport,startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
+const report = { scope:'Actual standard original march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed.', route, staged, allowLcd,recruit,recruitArms,targetArm,destination,maxTurns,plannerStepBudget,scenario,acceptedRange,viewport,startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
 const servedAssets = new Map();
 let nativeLib;
 let attackManifest;
@@ -188,7 +193,31 @@ function verifyAttackCaptures(captures) {
     report.nativePixelOracle={actualLcdCallbacks:actualFlushes,pixelReadbacks:verified.length,events:events.size,numericReadbacks:digits,completedHoldReadbacks:holds,hdReadbacks:hdCallbacks,lcdReadbacks:lcdCallbacks,verified};
     report.gameplayFamilies=[...new Set(owned.map(c=>c.attack.speId))];report.hdAccepted=!allowLcd&&!failedImages;
     report.gameplayIntervals=[...new Set(owned.map(c=>[c.attack.speId,c.attack.startFrm,c.attack.endFrm].join(':')))];
-    if(report.attackCost){const action=report.attackCost,seen=owned.find(c=>c.attack.actorIndex===action.actorIndex&&c.attack.targetIndex===action.targetIndex);assert.ok(seen,'Player-confirmed actual attacker/target match the independent native owner');const before=action.before.units.find(u=>u.i===action.targetIndex)?.arms,after=action.after.units.find(u=>u.i===action.targetIndex)?.arms||0;assert.equal(seen.attack.hurt,before-after,'Captured CountPlusSub damage agrees with actual native troop accounting');report.actualHurt={source:'native attack.hurt; troop delta is verification only',actor:seen.attack.actorIndex,target:seen.attack.targetIndex,hurt:seen.attack.hurt,session:seen.attack.session};}
+    if(report.attackCost){
+        const action=report.attackCost,{generation,eventId}=report.attackSpe;
+        const selected=owned.filter(c=>c.attack.generation===generation&&c.attack.display.eventId===eventId&&
+            c.attack.actorIndex===action.actorIndex&&c.attack.targetIndex===action.targetIndex);
+        const movie=selected.filter(c=>c.rawSource==='lcd-callback-image-data'&&c.spe.active===1&&c.spe.eventId===eventId);
+        assert.ok(movie.length,'The exact player-confirmed event has native movie callbacks');
+        const [actor,target]=movie[0].lastAttack.attributes;
+        assert.deepEqual([actor.generalIndex,actor.armType],[action.actorIndex,action.actorArmType]);
+        assert.deepEqual([target.generalIndex,target.armType,target.terrain],[action.targetIndex,action.targetArmType,action.targetTerrain]);
+        const before=action.before.units.find(u=>u.id===action.targetNativeGenId).arms;
+        const after=action.after.units.find(u=>u.id===action.targetNativeGenId)?.arms||0;
+        const {hurt,session}=movie[0].attack;
+        assert.ok(selected.every(c=>c.attack.session===session&&acceptsRange(c.attack)&&c.attack.hurt===hurt),
+            'All displays of the player event share its native interval, session and damage');
+        assert.equal(hurt,before-after,'Captured CountPlusSub damage agrees with actual native troop accounting');
+        const hold=selected.filter(c=>c.attack.phase==='hold'&&c.attack.display.digits.length===String(hurt).length&&
+            c.attack.display.digits.every(d=>d.drawCount===8));
+        assert.ok(hold.length,'The player event has a verified completed damage display');
+        const hd=selected.filter(c=>c.ui.source==='hd-assets'&&c.ui.open).length;
+        if(!allowLcd&&!failedImages)assert.ok(hd>0,'The player event itself was displayed with HD assets');
+        report.actualHurt={source:'native attack.hurt; troop delta is verification only',actor:action.actorIndex,target:action.targetIndex,hurt,session};
+        report.playerDisplay={generation,eventId,session,nativeAttributes:{actor,target},movieReadbacks:movie.length,
+            numericReadbacks:selected.filter(c=>c.attack.display.digits.length>0).length,holdReadbacks:hold.length,
+            totalReadbacks:selected.length,hdReadbacks:hd,lcdReadbacks:selected.filter(c=>c.ui.source==='lcd'&&c.ui.open).length};
+    }
     report.coverageLimits={materialStaticRanges:report.materialCoverage?.length||0,actualGameIntervals:report.gameplayIntervals,scenario,notRun:'Other families or target segments, equipment/search routes, unknown LIB or custom-hook game, and other optional scenarios. No claim of 37 real browser attacks.'};
 }
 function bitFrames(bytes){const result=[];for(let i=0;i<256;i++)if(bytes[i>>3]&(1<<(i&7)))result.push(i);return result;}
@@ -223,19 +252,27 @@ function expectedNativeRanges() {
 function requestedActor(unit) {
     return !acceptedRange || acceptedRange[0]===25 || unit.armType===acceptedRange[0]-19;
 }
-function requestedTarget(unit) {
+function requestedDefenderArm(unit) {
     if(targetArm!==null&&unit.armType!==targetArm)return false;
-    if(!acceptedRange)return true;
-    if(acceptedRange[0]===25)return unit.terrain===7;
+    if(!acceptedRange||acceptedRange[0]===25)return true;
     const span=nativeAttackIntervalLengths()[acceptedRange[0]-19];
-    return Number.isInteger(unit.terrain) && unit.terrain>=0 && unit.terrain<=6 && Number.isInteger(unit.armType) && unit.armType>=0 && unit.armType<6 &&
+    return Number.isInteger(unit.armType) && unit.armType>=0 && unit.armType<6 &&
         unit.armType*span===acceptedRange[1] && (unit.armType+1)*span-1===acceptedRange[2];
 }
-function livingRequestedEnemy(unit) {
+function requestedTarget(unit) {
+    if(!requestedDefenderArm(unit))return false;
+    if(!acceptedRange)return true;
+    if(acceptedRange[0]===25)return unit.terrain===7;
+    return Number.isInteger(unit.terrain)&&unit.terrain>=0&&unit.terrain<=6;
+}
+function livingEnemy(unit) {
     return unit&&unit.side==='enemy'&&Number.isInteger(unit.i)&&unit.i>=10&&unit.i<20&&
         Number.isInteger(unit.id)&&unit.id>0&&unit.id<0xfffe&&unit.personIndex===unit.id-1&&
         Number.isInteger(unit.state)&&unit.state>=0&&unit.state<=8&&unit.state!==8&&
-        Number.isInteger(unit.arms)&&unit.arms>0&&requestedTarget(unit);
+        Number.isInteger(unit.arms)&&unit.arms>0;
+}
+function livingRequestedEnemy(unit) {
+    return livingEnemy(unit)&&requestedTarget(unit);
 }
 function orderedRequestedEnemies(units) {
     const preferred=report.targetPreference?.preferredNativeGenId;
@@ -244,11 +281,12 @@ function orderedRequestedEnemies(units) {
 }
 function recordTargetPreference(snapshot) {
     if(targetArm===null)return;
-    const candidates=snapshot.units.filter(livingRequestedEnemy);
-    // The name supplies a preference among already-authorized actual units.
-    // All later selection uses the observed native ID plus fresh live facts.
-    const preferred=targetArm===0?candidates.filter(u=>u.name==='方悦'):[];
-    report.targetPreference={requestedArm:targetArm,preferredName:targetArm===0?'方悦':null,
+    const candidates=snapshot.units.filter(u=>livingEnemy(u)&&requestedDefenderArm(u));
+    // Formation and terrain may change before this unit is in actual AIM range.
+    // The name only identifies a preferred defender for planning movement.
+    const preferredName=guiyang?(targetArm===3?'陈应':null):(targetArm===0?'方悦':null);
+    const preferred=candidates.filter(u=>u.name===preferredName);
+    report.targetPreference={requestedArm:targetArm,preferredName,
         preferredNativeGenId:preferred.length===1?preferred[0].id:null,
         preferredPersonIndex:preferred.length===1?preferred[0].personIndex:null,
         preferredInitialSlot:preferred.length===1?preferred[0].i:null,
@@ -644,10 +682,11 @@ async function smoke(cdp) {
     await waitFor(cdp, 'actual title picture', 'window.__speSamples.some(r=>r.spe.id===100)', 20000);
     await key(cdp, 'Enter');
     await waitFor(cdp, 'actual period picture', 'window.__speSamples.some(r=>r.spe.id===104)');
+    for(let i=1;i<route.period;i++)await key(cdp,'ArrowDown');
     await key(cdp, 'Enter');
-    await waitFor(cdp, 'real period 1 lord selection', 'baye.data.g_PIdx===1 && baye.hd.kings().count>0');
-    const lord = await evaluate(cdp, "(() => {const m=baye.hd.kings();return {target:m.kings.findIndex(k=>k.name==='马腾'),index:m.index,kings:m.kings};})()");
-    assert.ok(lord.target >= 0, 'Real period 1 contains Ma Teng');
+    await waitFor(cdp, 'real original period lord selection', `Number(baye.data.g_PIdx)===${route.period} && baye.hd.kings().count>0`);
+    const lord = await evaluate(cdp, `(() => {const m=baye.hd.kings();return {target:m.kings.findIndex(k=>k.name===${JSON.stringify(route.king)}),index:m.index,kings:m.kings};})()`);
+    assert.ok(lord.target >= 0, `Original period ${route.period} contains ${route.king}`);
     for (let i = lord.index; i < lord.target; i++) await key(cdp, 'ArrowDown');
     for (let i = lord.index; i > lord.target; i--) await key(cdp, 'ArrowUp');
     await waitFor(cdp, 'native lord highlight', 'baye.hd.kings().index===' + lord.target);
@@ -663,6 +702,7 @@ async function smoke(cdp) {
         const persons=Array.from({length:count},(_,id)=>{const p=d.g_Persons[id];return {id,name:baye.getPersonName(id),belong:Number(p.Belong),city:realm.cities.find(c=>{const q=d.g_Cities[c.i],start=Number(q.PersonQueue),n=Number(q.Persons);return Array.from({length:n},(_,i)=>Number(d.g_PersonsQueue[start+i])).includes(id);})?.i,arms:Number(p.Arms),armType:baye.hd.personArmType(id),baseArm:Number(p.ArmsType),equip:[Number(p.Equip[0]),Number(p.Equip[1])]};});
         const cities=realm.cities.map(c=>{const q=d.g_Cities[c.i],start=Number(q.ToolQueue),n=Number(q.Tools);return {...c,links:baye.hd.cityLinks(c.i),nativePersons:Number(q.Persons),tools:Array.from({length:n},(_,i)=>{const raw=Number(d.g_GoodsQueue[start+i]),id=raw&32767;return {raw,found:!!(raw&32768),id,name:id<toolCount?baye.getToolName(id):null,details:id<toolCount?baye.hd.toolDetails(id):null};})};});return {period:Number(d.g_PIdx),playerKing:Number(d.g_PlayerKing),personCount:count,toolCount,persons,cities};
     })()`);
+    assert.equal(report.startingRealm.playerKing,report.selectedLord.id,'New original game uses the selected native ruler');
     await evaluate(cdp, "window.__spePhase='battle';");
     await marchSmoke(cdp);
 }
@@ -799,7 +839,8 @@ async function recruitSmoke(cdp,cityIndex) {
     await click(cdp,'#hd-city-menu [data-hd-sub="1"]');
     const picker=await currentPersonPicker(cdp,'征兵',cityIndex),before=await evaluate(cdp,recruitWorldExpression(cityIndex));
     const allowed=before.persons.filter(p=>picker.menu.ids.includes(p.personIndex));
-    const actor=allowed.find(p=>p.personIndex!==before.playerKing&&requestedActor(p));
+    const attackers=allowed.filter(p=>p.personIndex!==before.playerKing&&requestedActor(p));
+    const actor=attackers.find(p=>p.personIndex===route.preferredActor)||attackers[0];
     assert.ok(actor,'Actual city contains a non-lord attacker for the requested native interval');
     // Assign a different resident to the real conscription order. This person
     // leaves the resident queue until PolicyExec; it is never faked back in.
@@ -846,7 +887,7 @@ async function recruitSmoke(cdp,cityIndex) {
     assert.equal(equipped.money,enlisted.money,'Native distribution charges no invented money');
     assert.deepEqual(equipped.persons.map(p=>p.personIndex),enlisted.persons.map(p=>p.personIndex));
     assert.deepEqual(equipped.orders,enlisted.orders);assert.deepEqual(equipped.date,before.date);
-    report.recruitment={cityIndex,requested:acceptedRange,expectedActorArmType:acceptedRange[0]-19,actualActorArmType:actor.armType,recruiter,actor,attackerNativeGenId:actor.nativeGenId,before,chosen,quantity,confirmation,enlistments,enlisted,enlistRetirement,distribute,distribution,distributionConfirmation,equipped,nativeInputs:await evaluate(cdp,`window.__speEngineKeys.slice(${inputStart})`),scope:'Actual bounded conscription orders into city reserve, then actual distribution to the selected current native person. The attacker is chosen from current PersonQueue/menu IDs using its real effective arm type, including bow when requested. No time advance or game setters.'};
+    report.recruitment={cityIndex,requested:acceptedRange,expectedActorArmType:acceptedRange[0]===25?null:acceptedRange[0]-19,actualActorArmType:actor.armType,recruiter,actor,attackerNativeGenId:actor.nativeGenId,before,chosen,quantity,confirmation,enlistments,enlisted,enlistRetirement,distribute,distribution,distributionConfirmation,equipped,nativeInputs:await evaluate(cdp,`window.__speEngineKeys.slice(${inputStart})`),scope:'Actual bounded conscription orders into city reserve, then actual distribution to the selected current native person. The attacker is chosen from current PersonQueue/menu IDs using its real effective arm type. No time advance or game setters.'};
     await checkpoint(cdp,'06b-real-distributed-attacker-troops');
     report.recruitment.distributionRetirement=await reopenMilitaryAfterPersonPicker(cdp,cityIndex,'分配');
 }
@@ -855,8 +896,8 @@ async function readMarchDestination(cdp,stage) {
     const facts=await evaluate(cdp,`(() => {
         const d=baye.data,readGeneration=()=>d.g_hdSpeGeneration==null?null:Number(d.g_hdSpeGeneration);
         const generationBefore=readGeneration(),before=baye.hd.march(),keysBefore=window.__speEngineKeys.length;
-        const realm=baye.hd.realm(),origin=realm.cities.find(c=>c.i===8),target=realm.cities.find(c=>c.i===${destination});
-        const links=baye.hd.cityLinks(8),mask=d.g_hdCityLinks;
+        const realm=baye.hd.realm(),origin=realm.cities.find(c=>c.i===${route.origin}),target=realm.cities.find(c=>c.i===${destination});
+        const links=baye.hd.cityLinks(${route.origin}),mask=d.g_hdCityLinks;
         const nativeLinkMask=Array.from({length:8},(_,i)=>mask&&mask[i]!=null?Number(mask[i]):null);
         const after=baye.hd.march(),generationAfter=readGeneration(),keysAfter=window.__speEngineKeys.length;
         return {generationBefore,generationAfter,before,after,keysBefore,keysAfter,total:realm.total,
@@ -868,19 +909,19 @@ async function readMarchDestination(cdp,stage) {
         assert.equal(facts.after[key],facts.before[key],'Route observation preserves current native '+key);
     assert.equal(facts.keysAfter,facts.keysBefore,'Route observation injects no native keys');
     assert.ok(Number.isInteger(facts.total)&&facts.total>0&&facts.total<=64&&destination<facts.total,'Current actual Realm includes the requested destination');
-    assert.ok(facts.origin&&facts.origin.i===8&&facts.origin.owned&&facts.origin.belong===facts.playerBelong,'天水 is currently owned by the actual player');
+    assert.ok(facts.origin&&facts.origin.i===route.origin&&facts.origin.owned&&facts.origin.belong===facts.playerBelong,`${route.originName} is currently owned by the actual player`);
     assert.ok(facts.target&&facts.target.i===destination&&facts.target.owned===false&&Number.isInteger(facts.target.belong)&&
         facts.target.belong!==facts.origin.belong,'Requested destination currently has different native ownership');
     assert.equal(facts.nativeLinkMask.length,8);
     assert.ok(facts.nativeLinkMask.every(v=>Number.isInteger(v)&&v>=0&&v<=255),'All eight actual native link bytes are available');
-    const resource=nativeItem(59),offset=8*16;
-    assert.ok(offset+8<=resource.length,'CITY_LINKR actual item contains the 天水 native row');
+    const resource=nativeItem(59),offset=route.origin*16;
+    assert.ok(offset+8<=resource.length,`CITY_LINKR actual item contains the ${route.originName} native row`);
     const rawResourceMask=Array.from(resource.subarray(offset,offset+8));
     const permittedMask=rawResourceMask.map(id=>id===0||id===255||id-1>=facts.total?0:id);
     assert.deepEqual(facts.nativeLinkMask,permittedMask,'Actual link observation agrees with the real CITY_LINKR first-eight-byte native mask');
     assert.ok(facts.nativeLinkMask.includes(destination+1)&&facts.links.some(c=>c.id===destination+1&&c.index===destination),
         'Current native adjacency permits this exact destination; an empty UI fallback cannot authorize it');
-    if(stage!=='initial-map')assert.ok(facts.after.phase===4&&facts.after.pick===1&&facts.after.battlePick===1&&facts.after.origin===8,
+    if(stage!=='initial-map')assert.ok(facts.after.phase===4&&facts.after.pick===1&&facts.after.battlePick===1&&facts.after.origin===route.origin,
         'Only the actual current native march target owner authorizes selecting or confirming');
     report.marchTargetAuthorizations??=[];
     report.marchTargetAuthorizations.push({stage,...facts,resourceId:59,resourceIndex:0,cityStride:16,nativeLinkCount:8,rawResourceMask,
@@ -890,7 +931,7 @@ async function readMarchDestination(cdp,stage) {
 
 async function marchSmoke(cdp) {
     await evaluate(cdp, `(() => { BayeHdOverworld.setMode('hd-map'); BayeHdCityMenu.setMode('hd'); BayeHdBattle.setMode('hd'); })()`);
-    const owned = await waitFor(cdp, 'owned HD map 天水', `(() => { const m=BayeHdOverworld.debugSnapshot(); return m.phase==='map' && m.owned.find(c=>c.i===8 && c.name==='天水'); })()`);
+    const owned = await waitFor(cdp, `owned HD map ${route.originName}`, `(() => { const m=BayeHdOverworld.debugSnapshot(); return m.phase==='map' && m.owned.find(c=>c.i===${route.origin} && c.name===${JSON.stringify(route.originName)}); })()`);
     report.marchPlan = await evaluate(cdp, `(() => {
         const realm=baye.hd.realm();
         return realm.cities.filter(c=>c.owned).map(c=>({ ...c, links:baye.hd.cityLinks(c.i), persons:Number(baye.data.g_Cities[c.i].Persons), food:Number(baye.data.g_Cities[c.i].Food) }));
@@ -903,18 +944,23 @@ async function marchSmoke(cdp) {
     await waitFor(cdp, 'military submenu', `BayeHdCityMenu.getLayer() === 'sub' && baye.hd.menuItems().active && baye.hd.menuItems().names[0] === '侦察'`);
     if(recruit)await recruitSmoke(cdp,owned.i);
     await click(cdp,'#hd-city-menu [data-hd-sub="4"]');
-    await waitFor(cdp, 'march person picker', `(() => { const s=BayeHdCityMenu.debugSnapshot(),m=baye.hd.march(); return m.phase===1 && m.origin===8 && s.deepItems.length && baye.hd.menuItems().active; })()`);
+    await waitFor(cdp, 'march person picker', `(() => { const s=BayeHdCityMenu.debugSnapshot(),m=baye.hd.march(); return m.phase===1 && m.origin===${route.origin} && s.deepItems.length && baye.hd.menuItems().active; })()`);
     await checkpoint(cdp,'07-march-persons');
     // The engine can finish automatically after the final remaining general.
     // Observe selected ACK and live phase before choosing another person.
     for(let i=0;i<6;i++) {
         const before=await evaluate(cdp,'({march:baye.hd.march(),menu:baye.hd.menuItems(),city:BayeHdCityMenu.debugSnapshot()})');
         if(before.march.phase!==1 || !before.menu.active || !before.city.deepItems.length) break;
+        let index=0;
         if(recruit) {
             assert.equal(before.menu.idsValid,true,'March picker has authoritative native person IDs');
-            report.marchPersonIds??=[];report.marchPersonIds.push(before.menu.ids[0]);
+            if(guiyang&&i===0)index=before.menu.ids.indexOf(report.recruitment.actor.personIndex);
+            assert.ok(index>=0,'The equipped actor remains in the actual march picker');
+            const id=before.menu.ids[index];
+            assert.equal(before.city.deepItems.find(item=>item.i===index)?.pind,id,'HD row and native march identity agree');
+            report.marchPersonIds??=[];report.marchPersonIds.push(id);
         }
-        await click(cdp,'#hd-city-menu [data-hd-deep="0"]');
+        await click(cdp,`#hd-city-menu [data-hd-deep="${index}"]`);
         await waitFor(cdp,'selected general acknowledged',`baye.hd.march().selected > ${before.march.selected} || baye.hd.march().phase !== 1`);
     }
     await checkpoint(cdp,'08-march-persons-picked');
@@ -946,7 +992,7 @@ async function marchSmoke(cdp) {
     await action(cdp,'confirm-departure-report','BayeHdCityMenu.continueMarch()');
     await waitFor(cdp,'actual AddFightOrder ACK','baye.hd.march().phase===7 && baye.hd.march().ok===1');
     report.marchOrderReceipt=await evaluate(cdp,'baye.hd.march()');
-    assert.equal(report.marchOrderReceipt.city,8,'The true AddFightOrder dispatches from 天水');
+    assert.equal(report.marchOrderReceipt.city,route.origin,`The true AddFightOrder dispatches from ${route.originName}`);
     assert.equal(report.marchOrderReceipt.obj,destination,'The true AddFightOrder destination equals the requested current native city');
     assert.equal(report.marchOrderReceipt.ok,1,'The native dispatch succeeded');
     assert.equal(report.marchOrderReceipt.session,confirmOwner.after.session,'The actual order belongs to the confirmed march session');
@@ -1069,7 +1115,7 @@ async function endArmyTurn(cdp) {
     await checkpoint(cdp,'28-explicit-end-turn-'+report.turns.length);
 }
 async function attemptAttack(cdp,actor) {
-    if(!requestedActor(actor))return false;
+    if(!requestedActor(actor)||recruit&&actor.id!==report.recruitment.attackerNativeGenId)return false;
     const name=await evaluate(cdp,'baye.hd.menuItems().names[0]');
     await menuChoice(cdp,name,5);
     const inRange=await evaluate(cdp,rangedUnitsExpression);
@@ -1089,7 +1135,7 @@ async function attemptAttack(cdp,actor) {
     await waitActionResolved(cdp,'actual attack resolves');
     const after=await evaluate(cdp,battleStateExpression),enemy=after.units.find(u=>u.i===target.i);
     assert.ok(!enemy||enemy.arms<target.arms,'confirmed normal attack reduces actual enemy troops');
-    report.attackCost={actor:actor.name,actorIndex:actor.i,actorNativeGenId:actualActor.id,target:target.name,targetIndex:target.i,targetNativeGenId:actualTarget.id,targetPersonIndex:actualTarget.personIndex,targetArmType:actualTarget.armType,requestedTargetArm:targetArm,before,after};
+    report.attackCost={actor:actor.name,actorIndex:actor.i,actorNativeGenId:actualActor.id,actorArmType:actualActor.armType,target:target.name,targetIndex:target.i,targetNativeGenId:actualTarget.id,targetPersonIndex:actualTarget.personIndex,targetArmType:actualTarget.armType,targetTerrain:actualTarget.terrain,requestedTargetArm:targetArm,before,after};
     await checkpoint(cdp,'29-attack-real-troop-cost');
     return true;
 }
@@ -1152,7 +1198,8 @@ async function battleSmoke(cdp) {
     }
     // Keep the 100-troop lord at his actual starting tile. The existing battle
     // acceptance uses this same legal rest before approaching with other units.
-    const lord=report.combatStart.units.find(u=>u.i===0);
+    const lord=report.combatStart.units.find(u=>u.side==='player'&&u.personIndex===report.startingRealm.playerKing);
+    assert.ok(lord,'The actual ruler is present in the player army');
     await chooseGeneral(cdp,lord);
     assert.equal((await action(cdp,'protect-lord-stay-native-tile',`BayeHdBattle.clickTile(${lord.x},${lord.y})`)).ok,true);
     await waitBattle(cdp,3,'lord stays at actual starting tile');
@@ -1167,23 +1214,25 @@ async function battleSmoke(cdp) {
         if(recruit)assert.ok(current.units.some(u=>u.id===report.recruitment.attackerNativeGenId&&u.state!==8&&u.arms>0),'The equipped actual attacker survived; a death is not replaced or repaired');
         if(current.fight.over)break;
         const actor=current.units.filter(u=>u.side==='player'&&u.active===0&&![8,1,6].includes(u.state)&&u.arms>0)
-            .sort((a,b)=>(recruit?Number(b.id===report.recruitment.attackerNativeGenId)-Number(a.id===report.recruitment.attackerNativeGenId):0)||Number(!requestedActor(a))-Number(!requestedActor(b))||Number(a.i===0)-Number(b.i===0)||a.i-b.i)[0];
+            .sort((a,b)=>(recruit?Number(b.id===report.recruitment.attackerNativeGenId)-Number(a.id===report.recruitment.attackerNativeGenId):0)||Number(!requestedActor(a))-Number(!requestedActor(b))||Number(a.id===lord.id)-Number(b.id===lord.id)||a.i-b.i)[0];
         if(!actor) {
             if((report.turns?.length||0)>=maxTurns)break;
             await endArmyTurn(cdp);continue;
         }
         const selection=await chooseGeneral(cdp,actor);
         if(selection.inputKind===2) {
-            if(actor.i===0||!requestedActor(actor)||recruit&&actor.id!==report.recruitment.attackerNativeGenId) {
-                assert.equal((await action(cdp,actor.i===0?'keep-lord-protected':'keep-nonmatching-unit-at-native-tile',`BayeHdBattle.clickTile(${actor.x},${actor.y})`)).ok,true);
+            if(actor.id===lord.id||!requestedActor(actor)||recruit&&actor.id!==report.recruitment.attackerNativeGenId) {
+                assert.equal((await action(cdp,actor.id===lord.id?'keep-lord-protected':'keep-nonmatching-unit-at-native-tile',`BayeHdBattle.clickTile(${actor.x},${actor.y})`)).ok,true);
                 await waitBattle(cdp,3,'lord action menu');
                 await menuChoice(cdp,await evaluate(cdp,'baye.hd.menuItems().names[3]'),1);
                 continue;
             }
             const candidates=await evaluate(cdp,moveTilesExpression),enemies=orderedRequestedEnemies(current.units);
-            assert.ok(enemies.length,'An actual living enemy matches the requested native caller interval; no alternate range is substituted');
-            const preferred=targetArm===null?null:enemies.find(u=>u.id===report.targetPreference?.preferredNativeGenId);
-            const approached=preferred?[preferred]:enemies;
+            const approachOnly=!enemies.length;
+            const approachTargets=approachOnly?current.units.filter(u=>livingEnemy(u)&&requestedDefenderArm(u)):enemies;
+            assert.ok(approachTargets.length,'A living native enemy remains available to approach');
+            const preferred=enemies.find(u=>u.id===report.targetPreference?.preferredNativeGenId);
+            const approached=preferred?[preferred]:approachTargets;
             const hint=observedAimHint(current,actor),attackPositions=hintedAttackPositions(hint,approached,current,actor);
             const availableCandidates=candidates.filter(p=>!current.units.some(u=>u.i!==actor.i&&u.x===p.x&&u.y===p.y&&u.state!==8));
             const reachableHintedApproach=attackPositions.some(pos=>availableCandidates.some(p=>p.x===pos.x&&p.y===pos.y));
@@ -1196,7 +1245,7 @@ async function battleSmoke(cdp) {
             const distance=p=>Math.min(...(routeWaypoint?[routeWaypoint]:attackPositions.length?attackPositions:approached).map(u=>Math.abs(p.x-u.x)+Math.abs(p.y-u.y)));
             const target=availableCandidates.sort((a,b)=>distance(a)-distance(b)||(attackPositions.length&&distance(a)===0?Math.abs(a.x-actor.x)+Math.abs(a.y-actor.y)-Math.abs(b.x-actor.x)-Math.abs(b.y-actor.y):0))[0];
             assert.ok(target,'A genuinely legal unoccupied move tile exists');
-            report.movePlanning??=[];report.movePlanning.push({actor,requestedTargetArm:targetArm,preferredNativeGenId:preferred?.id??null,actualEnemies:enemies,approached,actualNativeMoveMaskCandidates:candidates,selectedTile:target,routeWaypoint,reachableHintedApproach,observedAimHint:hint,hintedAttackPositions:attackPositions,hintScope:'Earlier real same-actor/effective-arm/generation AIM and the player-planned northern flank only rank actual MOVE candidates. Neither grants attack permission; fresh current AIM is independently read before confirming.'});
+            report.movePlanning??=[];report.movePlanning.push({actor,requestedTargetArm:targetArm,preferredNativeGenId:preferred?.id??null,actualEnemies:enemies,approachOnly,approached,actualNativeMoveMaskCandidates:candidates,selectedTile:target,routeWaypoint,reachableHintedApproach,observedAimHint:hint,hintedAttackPositions:attackPositions,hintScope:'Earlier real same-actor/effective-arm/generation AIM and the player-planned northern flank only rank actual MOVE candidates. Neither grants attack permission; fresh current AIM is independently read before confirming.'});
             const moved=await action(cdp,'approach-native-path-'+actor.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);
             assert.equal(moved.ok,true);await waitBattle(cdp,3,'native action menu after movement');
         }
@@ -1220,19 +1269,27 @@ async function battleSmoke(cdp) {
     assert.deepEqual(evidence.keys.filter(k=>k.attackActive),[],'Independent numeric/hold owner sends no extra or skip keys');
     assert.equal(await evaluate(cdp,'baye.hd.attack().active'),false,'Actual native attack wait has ended before returning to player selection');
     assert.ok(displayed.filter(r=>[2,3].includes(r.spe.kind)).every(r=>!r.spe.skipEligible&&!r.ui.skipVisible),'Unskippable combat events have no player skip control');
-    report.attackSpe={eventId:attackEvent,actorIndex:first.spe.actorIndex,targetIndex:first.spe.targetIndex,
+    report.attackSpe={generation:first.spe.generation,eventId:attackEvent,actorIndex:first.spe.actorIndex,targetIndex:first.spe.targetIndex,
         actorSide:first.spe.actorIndex<10?'player':'enemy',playerTroopCostVerified:!!report.attackCost,
         displayedCommits:attack.length,source:[...new Set(attack.map(r=>r.ui.source))]};
     report.combatEnd=await evaluate(cdp,battleStateExpression);
     await checkpoint(cdp,'31-real-combat-spe-evidence');
 }
 async function saveRawEvidence(cdp) {
-    const raw=await evaluate(cdp,'({captures:window.__attackImages||[],inputs:window.__speEngineKeys||[],samples:window.__speSamples||[],errors:window.__speObserverErrors||[],draws:window.__allAttackDraws||[]})');
+    const raw=await evaluate(cdp,'({captureCount:window.__attackImages?.length||0,inputs:window.__speEngineKeys||[],samples:window.__speSamples||[],errors:window.__speObserverErrors||[],draws:window.__allAttackDraws||[]})');
     report.attackCanvasImages=[];
-    for(let i=0;i<raw.captures.length;i++){
-        const c=raw.captures[i],event=c.attack?.display?.eventId||c.lastAttack?.eventId||0;
-        for(const key of ['native','hd']){const url=c[key+'Url'];if(!url)continue;const data=Buffer.from(url.split(',')[1],'base64'),name='attack-'+String(i).padStart(4,'0')+'-event'+event+'-'+c.stage+'-'+key+'.png';fs.writeFileSync(path.join(artifactDir,name),data);c[key+'File']={file:name,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};delete c[key+'Url'];}
-        report.attackCanvasImages.push(c);
+    // Several rounds can produce enough full RGBA and PNG captures to close a
+    // single CDP response. Read the observed prefix of the append-only array.
+    const batchSize=4;
+    for(let start=0;start<raw.captureCount;start+=batchSize){
+        const end=Math.min(start+batchSize,raw.captureCount);
+        const batch=await evaluate(cdp,`window.__attackImages.slice(${start},${end})`);
+        assert.equal(batch.length,end-start,'The full observed capture prefix is available');
+        for(const [offset,c] of batch.entries()){
+            const i=start+offset,event=c.attack?.display?.eventId||c.lastAttack?.eventId||0;
+            for(const key of ['native','hd']){const url=c[key+'Url'];if(!url)continue;const data=Buffer.from(url.split(',')[1],'base64'),name='attack-'+String(i).padStart(4,'0')+'-event'+event+'-'+c.stage+'-'+key+'.png';fs.writeFileSync(path.join(artifactDir,name),data);c[key+'File']={file:name,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};delete c[key+'Url'];}
+            report.attackCanvasImages.push(c);
+        }
     }
     report.engineInputs=raw.inputs;report.speObservations=raw.samples;report.observerErrors=raw.errors;report.actualImageDraws=raw.draws;
     for(const [name,value]of [['native-display-captures',report.attackCanvasImages],['spe-observations',raw.samples],['engine-inputs',raw.inputs],['observer-errors',raw.errors],['actual-image-draws',raw.draws]])fs.writeFileSync(path.join(artifactDir,name+'.json'),JSON.stringify(value,null,2)+'\n');
