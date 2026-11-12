@@ -2305,11 +2305,12 @@ test('trade MAP receipt keeps its original deadline while another overlay remain
     assert.equal(f.api.getTradePresentation(),null);assert.deepEqual(f.keys,[...before,39]);assert.deepEqual(f.writes,[]);
 });
 
-function diplomacyFixture(command=15,{phase=1,seq=10,mobile=true,pcHd=false}={}) {
+function diplomacyFixture(command=15,{phase=1,seq=10,mobile=true,pcHd=false,targetCount=2}={}) {
     const f=fixture({marchState:true,sourceText:diplomacySource});if(mobile)f.configure();
     if(pcHd){assert.equal(mobile,false);f.stored.set('baye/cityMenuMode','hd');f.raw.g_PlayerKing=0;}
     f.state=f.internals.state;
-    const actor={names:['董卓','李儒','吕布'],ids:[0,19,20]}, target={names:['敌方甲','敌方乙'],ids:[45,62]};
+    const actor={names:['董卓','李儒','吕布'],ids:[0,19,20]}, target=targetCount===2?{names:['敌方甲','敌方乙'],ids:[45,62]}:
+        {names:Array.from({length:targetCount},(_,i)=>'敌将'+i),ids:Array.from({length:targetCount},(_,i)=>45+i)};
     if(pcHd){
         Object.assign(f.raw.g_Cities[0],{Money:500,Food:900,MothballArms:40,Persons:3,PersonQueue:0});
         f.raw.g_Persons=Array.from({length:200},(_,id)=>({Belong:actor.ids.includes(id)?1:target.ids.includes(id)?2:0,Thew:100,Arms:100,Tool1:0,Tool2:0}));
@@ -2343,6 +2344,10 @@ function diplomacyFixture(command=15,{phase=1,seq=10,mobile=true,pcHd=false}={})
         publish(stage,options);f.internals.syncDiplomacy();f.internals.fill();}
     function later(fn){if(deferred)deferred(fn);else f.env.setTimeout(fn,60);}
     function consume(key){
+        if(key===32||key===33){later(()=>{
+            const stride=Math.min(f.raw.g_hdMenuCount,Math.floor((f.raw.g_screenHeight-6)/12)-1)-1;
+            f.raw.g_hdMenuIndex=Math.max(0,Math.min(f.raw.g_hdMenuCount-1,f.raw.g_hdMenuIndex+(key===32?-stride:stride)));
+        });return;}
         if(key===34||key===35){later(()=>{f.raw.g_hdMenuIndex+=key===34?-1:1;});return;}
         const stage=f.raw.g_hdDiplomacyPhase,old=f.raw.g_hdMenuSeq,index=f.raw.g_hdMenuIndex;
         if(key!==39&&key!==40)return;
@@ -2369,6 +2374,36 @@ function diplomacyFixture(command=15,{phase=1,seq=10,mobile=true,pcHd=false}={})
     return Object.assign(f,{dom,actor,target,publish,advance,all,event,down,click,press,next,consume,
         setDiplomacyHook(fn){hook=fn;},setDeferred(fn){deferred=fn;},back(){f.internals.back(f.internals.backOwner());}});
 }
+for(const mobile of [true,false])test((mobile?'Mobile':'PC')+' confirms a far person after each original page acknowledgement',()=>{
+    const f=diplomacyFixture(16,{phase:2,targetCount:13,mobile,pcHd:!mobile});
+    f.raw.g_screenHeight=96;
+    f.press(12);
+    assert.deepEqual(f.keys,[33]);assert.equal(f.raw.g_hdMenuIndex,0);
+    f.tick(40);assert.deepEqual(f.keys,[33]);
+    f.tick(800);
+    assert.deepEqual(f.keys,[33,33,33,39]);
+    assert.equal(f.raw.g_hdDiplomacyTarget,f.target.ids[12]);assert.deepEqual(f.writes,[]);
+});
+test('Original person page-up stops before the target and finishes with single steps',()=>{
+    const f=diplomacyFixture(16,{phase:2,targetCount:13});
+    f.raw.g_screenHeight=96;f.advance(2,{index:12});
+    f.press(3);f.tick(1000);
+    assert.deepEqual(f.keys,[32,34,34,34,34,39]);
+    assert.equal(f.raw.g_hdDiplomacyTarget,f.target.ids[3]);assert.deepEqual(f.writes,[]);
+});
+test('Person navigation uses the original arrows when the native display height is unavailable',()=>{
+    const f=diplomacyFixture(16,{phase:2,targetCount:13});
+    f.press(7);f.tick(1000);
+    assert.deepEqual(f.keys,[35,35,35,35,35,35,35,39]);
+    assert.equal(f.raw.g_hdDiplomacyTarget,f.target.ids[7]);assert.deepEqual(f.writes,[]);
+});
+test('A page acknowledgement cannot confirm a retired person selection',()=>{
+    const f=diplomacyFixture(16,{phase:2,targetCount:13});let acknowledge;
+    f.raw.g_screenHeight=96;f.setDeferred(fn=>{acknowledge=fn;});
+    f.press(12);assert.deepEqual(f.keys,[33]);
+    f.api.retireInteraction('pointercancel');acknowledge();f.tick(1000);
+    assert.deepEqual(f.keys,[33]);assert.equal(f.raw.g_hdDiplomacyTarget,65535);assert.deepEqual(f.writes,[]);
+});
 for(const role of ['actor','target'])test('mobile diplomacy swipe keeps the current '+role+' list and cancels the pressed row',()=>{
     const f=diplomacyFixture(16);
     if(role==='target'){f.press(0);f.tick(200);}

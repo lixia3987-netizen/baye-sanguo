@@ -1,10 +1,10 @@
 // Actual diplomacy checks; the runner exclusively owns browser/server/profile lifecycle.
 import assert from 'node:assert/strict';
 import {settleMobileMonth} from './hd-mobile-month-runtime-checks.mjs';
+import {verifyNativePersonSelection} from './hd-city-person-navigation-checks.mjs';
 import {getMobileDiplomacyCandidates,calculateMobileDiplomacyLimit,verifyMobileDiplomacy,verifyMobileDiplomacyCancellation,
  verifyMobileDiplomacyExecution} from './hd-mobile-diplomacy-runtime-oracle.mjs';
 const next=n=>(n+1)>>>0||1,following=n=>next(next(n));
-const selectedCodes=(index,current)=>[...Array(Math.abs(index-current)).fill(index>current?35:34),39];
 const names={15:'离间',16:'招揽',17:'策反',19:'劝降'};
 
 function observePolicySource(plannedOrders,worldSource){
@@ -49,6 +49,8 @@ export async function runMobileDiplomacyChecks(c){
  report.diplomacyChecks??=[];report.diplomacyChecks.push(entry);entry.baseline=await mark();
  assert.equal(report.actualKing.name,'董卓');assert.equal(origin,10);assert.equal(testCity.name,'长安');
  const initial=getMobileDiplomacyCandidates({world:entry.baseline.world,cityIndex:origin,command:16,libBytes});
+ const screenHeight=await evaluate('Number(baye.data.g_screenHeight)');
+ assert.equal(screenHeight,entry.baseline.state.lcd.height,'The measured original LCD height determines its person-page stride');
  assert.ok(initial.actors.filter(id=>entry.baseline.world.people[id].Thew>=20).length>=4,'Four real resident actors; no recruitment/month/data edits');
  assert.ok(entry.baseline.world.cities[origin].Money>=200,'Actual money covers four50-cost dispatches');
  const keys=async before=>(await readKeys(before.state.keyCount)).map(row=>row.code);
@@ -111,7 +113,9 @@ export async function runMobileDiplomacyChecks(c){
  const actorToTarget=async(command,actor)=>{
   const before=await picker(command,1),m=before.state.menu,index=m.ids.indexOf(actor);assert.ok(index>=0);const control=await click('#hd-city-menu [data-hd-deep="'+index+'"][data-hd-deep-pind="'+actor+'"]');
   const after=await picker(command,2,following(m.seq));assert.equal(after.state.diplomacy.actor,actor);assert.equal(after.state.diplomacy.session,before.state.diplomacy.session);assert.equal(after.state.diplomacy.generation,before.state.diplomacy.generation);assert.notEqual(after.state.diplomacy.inputSeq,before.state.diplomacy.inputSeq);
-  assert.deepEqual(await keys(before),selectedCodes(index,m.index));worldSame(before,after,'Actor selection before costs');noLcd(before,after);entry.actions.push({kind:'actor-to-target',command,actor,before,after,keys:await keys(before),...control});return after;
+  const inputs=await readKeys(before.state.keyCount);
+  verifyNativePersonSelection(m,index,inputs,screenHeight);
+  worldSame(before,after,'Actor selection before costs');noLcd(before,after);entry.actions.push({kind:'actor-to-target',command,actor,before,after,keys:inputs.map(key=>key.code),...control});return after;
  };
  const cancel=async(command,phase)=>{
   const before=await picker(command,phase),control=await click('#hd-city-menu [data-hd-menu-back]'),after=phase===1?await currentMap(before,command):await picker(command,1,following(before.state.menu.seq));
@@ -134,8 +138,16 @@ export async function runMobileDiplomacyChecks(c){
   const limit=calculateMobileDiplomacyLimit({world:before.world,cityIndex:origin,command,personId:actor,targetId:target,libBytes});
   assert.ok(limit.orderIndex>=0,'Real free order required for normal dispatch');
   const actorName=await evaluate('baye.getPersonName('+actor+')'),targetName=m.names[index];await checkpoint(label+'-'+command+'-target');
-  const control=await click('#hd-city-menu [data-hd-deep="'+index+'"][data-hd-deep-pind="'+target+'"]'),after=await currentMap(before,command,{committed:true,actor,target}),actualKeys=await keys(before);
-  assert.deepEqual(actualKeys,selectedCodes(index,m.index),'Exact target arrows and oneENTER, no invented report ACK');
+  const control=await click('#hd-city-menu [data-hd-deep="'+index+'"][data-hd-deep-pind="'+target+'"]'),after=await currentMap(before,command,{committed:true,actor,target});
+  const inputs=await readKeys(before.state.keyCount),actualKeys=inputs.map(key=>key.code);
+  assert.ok(inputs.every(key=>key.menuSeq===m.seq),'The live target list publishes every native cursor acknowledgement');
+  verifyNativePersonSelection(m,index,inputs,screenHeight);
+  if(command===16){
+   const pages=actualKeys.filter(code=>code===0x21).length;
+   assert.ok(pages>0&&actualKeys.length-1<index-m.index,'The far target uses real page keys and fewer native movements');
+   entry.longSelection={menuCount:m.count,from:m.index,target:index,screenHeight,pages,inputs,
+    firstKeyToEnterMs:inputs.at(-1).at-inputs[0].at};
+  }
   const oracle=verifyMobileDiplomacy({before:before.world,after:after.world,cityIndex:origin,command,personId:actor,targetId:target,outcome:'queued',libBytes});
   entry.operations.push({command,commandName:names[command],actor,actorName,target,targetName,before,after,limit,oracle,keys:actualKeys,...control});usedActors.push(actor);await checkpoint(label+'-'+command+'-dispatch-map');
  }

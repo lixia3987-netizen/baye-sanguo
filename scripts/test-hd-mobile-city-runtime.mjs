@@ -11,6 +11,7 @@ import {fileURLToPath} from 'node:url';
 import {snapshotOwnedChrome, cleanupOwnedChrome} from './hd-runtime-owned-chrome.mjs';
 import {writeJsonAtomicSync} from './hd-runtime-json.mjs';
 import {checkMobileQuantityPresentation} from './hd-mobile-quantity-runtime-checks.mjs';
+import {verifyNativePersonSelection} from './hd-city-person-navigation-checks.mjs';
 import {installMobileOpeningObserver,runMobileOpeningChecks} from './hd-mobile-opening-runtime-checks.mjs';
 
 const ORIGINAL_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
@@ -433,7 +434,16 @@ export async function main(args=process.argv.slice(2)) {
   const key=async(code,reason)=>{report.inputs.push({type:'public native key',code,reason});await evaluate('sendKey('+code+')');await delay(160);};
   const observeInputs=()=>evaluate(`(() => {window.__mobileMapKeys=[];window.__mobileMapNativeTouches=[];window.__mobileMapEvents=[];
     const k=window.sendKey,t=window._bayeSendTouchEvent;
-    window.sendKey=function(code){__mobileMapKeys.push({code,at:performance.now()});return k.apply(this,arguments);};
+    window.sendKey=function(code){
+      const record={code,at:performance.now()};
+      if(${diplomacyOnly}){
+        const d=window.baye?.data;
+        if(d?.g_hdMenuActive===1&&d.g_hdMenuContext===1&&d.g_hdMenuKind===3){
+          record.menuSeq=Number(d.g_hdMenuSeq);record.menuIndex=Number(d.g_hdMenuIndex);
+        }
+      }
+      __mobileMapKeys.push(record);return k.apply(this,arguments);
+    };
     window._bayeSendTouchEvent=function observeTouch(){__mobileMapNativeTouches.push({args:Array.from(arguments),at:performance.now()});const r=t.apply(this,arguments);window._bayeSendTouchEvent=observeTouch;return r;};
     return true;})()`);
   const waitTitle=async()=>{
@@ -635,7 +645,9 @@ export async function main(args=process.argv.slice(2)) {
       assert.ok(Number.isInteger(actor),'Actual eligible recruitment actor');
       const chosen=await selectPerson(actor,'征兵');
       const q=await until('genuine recruitment quantity',`(() => {const q=baye.hd.qty(),s=BayeHdCityMenu.debugSnapshot();return q.active&&q.protocol&&q.ready===1&&q.session>0&&q.max>0&&BayeHdCityMenu.isQtyLive()&&!s.sending&&!s.queueLen&&q;})()`);
-      const reached=await ready();navigation(await readKeys(chosen.before.state.keyCount),'Recruiter selection');worldSame(chosen.before,reached,'Opening original quantity');
+      const reached=await ready();
+      verifyNativePersonSelection(chosen.before.state.menu,chosen.index,await readKeys(chosen.before.state.keyCount),chosen.before.state.lcd.height);
+      worldSame(chosen.before,reached,'Opening original quantity');
       report.quantityPresentation.push(await checkMobileQuantityPresentation(evaluate,label+' opened'));
       await checkpoint(label+'-qty');
       const plus=q.value+q.step<=q.max;assert.ok(plus||q.value-q.step>=q.min,'Actual quantity has one valid original step');const selector=await visibleSelector([`#hd-dialog [data-hd-qty="${plus?1:-1}"]`,`#hd-city-menu [data-hd-qty="${plus?1:-1}"]`]),before=await ready();
@@ -655,7 +667,8 @@ export async function main(args=process.argv.slice(2)) {
       const selected=await selectPerson(actor,'宴请');
       const nativeReport=await until('actual nonking public Treat report',`(() => {const r=baye.hd.report();return r.active===1&&r.kind===2&&r.person===${actor}&&r.seq>0&&r.inputSeq>0&&r;})()`,15000);
       await until('mobile HD actual report',`(() => {const s=${readSource};return s.dialogLayer.shown&&s.dialogUi.open&&s.dialogUi.kind==='report'&&s.report.active===1;})()`);
-      const during=await ready();navigation(await readKeys(selected.before.state.keyCount),'Actual Treat person');
+      const during=await ready();
+      verifyNativePersonSelection(selected.before.state.menu,selected.index,await readKeys(selected.before.state.keyCount),selected.before.state.lcd.height);
       assert.ok(during.state.report.active===1&&during.state.report.seq===nativeReport.seq&&during.state.report.inputSeq===nativeReport.inputSeq&&during.state.report.person===actor,'During oracle is bound to the actual still-active Treat report');
       const delta=verifyMobileTreatWorld(picker.world,during.world,testCity.index,actor,'report');
       await checkpoint(label+'-report');const fresh=await evaluate('baye.hd.report()');assert.ok(fresh.active===1&&fresh.seq===nativeReport.seq&&fresh.inputSeq===nativeReport.inputSeq&&fresh.person===actor,'Original report still owns input after screenshot');const point=await controlPoint('#hd-dialog [data-hd-dlg-ok]'),begin=await mark();
@@ -677,7 +690,8 @@ export async function main(args=process.argv.slice(2)) {
       const entry={label,viewport:picker.state.viewport,cityIndex:testCity.index,personId:actor,picker,steps:[]};report.recruitments.push(entry);
       const chosen=await selectPerson(actor,'征兵');
       const q=await until('genuine recruitment quantity ready',`(() => {const q=baye.hd.qty(),s=BayeHdCityMenu.debugSnapshot();return q.active===1&&q.protocol&&q.ready===1&&q.session>0&&q.max>1&&BayeHdCityMenu.isQtyLive()&&!s.sending&&!s.queueLen&&q;})()`);
-      const reached=await ready();entry.opened=reached;navigation(await readKeys(chosen.before.state.keyCount),'Recruiter selection for commitment');
+      const reached=await ready();entry.opened=reached;
+      verifyNativePersonSelection(chosen.before.state.menu,chosen.index,await readKeys(chosen.before.state.keyCount),chosen.before.state.lcd.height);
       worldSame(picker,reached,'Opening recruitment quantity');
       const c=picker.world.cities[testCity.index],cfg=picker.world.config;
       assert.equal(q.min,0);assert.equal(q.max,Math.min(c.PeopleDevotion*cfg.armsPerDevotion,c.Money*cfg.armsPerMoney,65534));
@@ -883,7 +897,7 @@ export async function main(args=process.argv.slice(2)) {
   try {
     assert.equal(typeof WebSocket,'function','Node 22+ built-in WebSocket is required');
     const tool=freeze('scripts/test-hd-mobile-city-runtime.mjs');fs.writeFileSync(path.join(out,'executed-tool.mjs'),tool.bytes,{flag:'wx'});
-    for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','scripts/hd-mobile-quantity-runtime-checks.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
+    for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','scripts/hd-mobile-quantity-runtime-checks.mjs','scripts/hd-city-person-navigation-checks.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
     if(minimapOnly){for(const f of ['scripts/hd-mobile-minimap-runtime-checks.mjs','scripts/test-hd-minimap.mjs','scripts/test-hd-mobile-minimap.mjs','js/hd-minimap.js','js/hd-mobile-minimap.js','css/hd-minimap.css','css/hd-mobile.css','pc.html','package.json'])freeze(f);}
     if(diplomacyOnly||tradeOnly)freeze('scripts/hd-mobile-month-runtime-checks.mjs');
     if(diplomacyOnly){for(const f of ['scripts/hd-mobile-diplomacy-runtime-checks.mjs','scripts/hd-mobile-diplomacy-runtime-oracle.mjs','scripts/test-hd-mobile-diplomacy-runtime-oracle.mjs','scripts/test-hd-mobile-diplomacy-engine.mjs','js/bridge.js','js/hd-city-menu.js','js/hd-dialog.js','css/hd-mobile.css','vendor/iBaye/src/citycmd.c','vendor/iBaye/src/cityedit.c','vendor/iBaye/src/citycmdd.c','vendor/iBaye/src/infdeal.c','vendor/iBaye/src/tactic.c','scripts/write-wasm-manifest.mjs','package.json'])freeze(f);}

@@ -1,6 +1,7 @@
 // Original equipment transactions, driven only through visible trusted controls.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {verifyNativePersonSelection} from './hd-city-person-navigation-checks.mjs';
 import {createMobileDetailRuntimeDriver} from './hd-mobile-preview-runtime-checks.mjs';
 import {verifyMobileConfiscation,verifyMobileReward} from './hd-mobile-equipment-runtime-oracle.mjs';
 
@@ -44,8 +45,10 @@ export async function runMobileEquipmentChecks(ctx){
     const geometry=await reveal(selector);await touchButton(selector);return {why,kind,id,index,before,geometry,selector};
   };
   const selectedKeys=async(selection,end)=>{
-    const all=await readKeys(selection.before.state.keyCount),keys=end==null?all:all.slice(0,end-selection.before.state.keyCount),distance=selection.index-selection.before.state.menu.index;
-    assert.deepEqual(keys.map(k=>k.code),[...Array(Math.abs(distance)).fill(distance>0?0x23:0x22),0x27],selection.why+' exact selection directions and one Enter');
+    const all=await readKeys(selection.before.state.keyCount),keys=end==null?all:all.slice(0,end-selection.before.state.keyCount);
+    const menu=selection.before.state.menu,distance=selection.index-menu.index;
+    if(menu.kind===3)verifyNativePersonSelection(menu,selection.index,keys,selection.before.state.lcd.height);
+    else assert.deepEqual(keys.map(k=>k.code),[...Array(Math.abs(distance)).fill(distance>0?0x23:0x22),0x27],selection.why+' exact tool selection');
     selection.keys=keys;return keys;
   };
   const actualReport=async({kind,person,text,label:why})=>{

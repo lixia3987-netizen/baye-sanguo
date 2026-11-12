@@ -31,6 +31,7 @@ import {snapshotOwnedChrome,cleanupOwnedChrome} from './hd-runtime-owned-chrome.
 import {writeJsonAtomicSync} from './hd-runtime-json.mjs';
 import {battleResultNoteObservation,verifyBattleResultNote} from './hd-battle-hud-runtime-checks.mjs';
 import {createMobileCampaignInputs} from './hd-mobile-campaign-inputs.mjs';
+import {verifyNativePersonSelection} from './hd-city-person-navigation-checks.mjs';
 import {verifyOriginalSavePair} from './hd-mobile-system-runtime-oracle.mjs';
 import {verifyMobileSuccessorChoice,verifyMobileSuccessorReport,verifyMobileSuccessorSettlement} from './hd-mobile-successor-runtime-oracle.mjs';
 import {recordBattleOpeningStatus,verifyBattleOpeningStatus} from './hd-battle-opening-status-runtime-checks.mjs';
@@ -995,9 +996,8 @@ async function inspectBattleEquipment(cdp,cityIndex,opponentName,terminal,after)
         const during=await evaluate(cdp,worldExpression);
         const itemIds=verifyEquipmentDeposit(after,during,cityIndex,person.Equip);
         assert.deepEqual(during.personQueue,after.personQueue,'The original prisoner still belongs to the report until confirmation');
-        const delta=index-picker.index;
-        assert.deepEqual(await evaluate(cdp,`__runtimeEngineInputs.slice(${offset}).map(input=>input.code)`),
-            [...Array(Math.abs(delta)).fill(delta<0?34:35),39]);
+        const keys=await evaluate(cdp,`__runtimeEngineInputs.slice(${offset}).map(input=>input.code)`);
+        verifyNativePersonSelection(picker,index,keys,await evaluate(cdp,'Number(baye.data.g_screenHeight)'));
         await checkpoint(cdp,'battle-equipment-captive-report',{native,person:person.name,itemIds});
         await acknowledgeCampaignReport(cdp,native);
         await settleDomestic(cdp);

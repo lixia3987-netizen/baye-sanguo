@@ -1,5 +1,6 @@
 // Genuine original foreign-person inspection. The caller owns the isolated browser and trusted inputs.
 import assert from 'node:assert/strict';
+import {verifyNativePersonSelection} from './hd-city-person-navigation-checks.mjs';
 import {checkPersonIdentity} from './hd-person-identity-runtime-checks.mjs';
 
 const next=n=>(n+1)>>>0||1,following=n=>next(next(n));
@@ -39,7 +40,8 @@ export async function runForeignPersonRoles(c){
   const before=await picker(phase),m=before.state.menu,index=m.ids.indexOf(personId);assert.ok(index>=0);let keys;
   if(mobile){await reveal('#hd-city-menu [data-hd-deep-preview="'+index+'"]');await detailDriver.preview(3,index);keys=await readKeys(before.state.keyCount);}
   else{await reveal('#hd-city-menu [data-hd-deep="'+m.index+'"]',{control:false});let current=m.index;for(let n=0;n<m.count&&current!==index;n++){const target=current+(current<index?1:-1);await arrow(target>current?'ArrowDown':'ArrowUp');await until('role physical native cursor '+target,'(() => {const m=baye.hd.menuItems();return m.active===1&&m.context===1&&m.kind===3&&m.seq==='+m.seq+'&&m.detailGeneration==='+m.detailGeneration+'&&m.index==='+target+';})()');current=target;}assert.equal(current,index);keys=await readKeys(before.state.keyCount);}
-  assert.deepEqual(keys,Array(Math.abs(index-m.index)).fill(index>m.index?35:34),'Role preview has focus arrows only, never target confirmation');const focused=await picker(phase,m.seq);assert.equal(focused.state.menu.ids[focused.state.menu.index],personId);const visit={personId,name:rom.names[personId],role:label,phase,selection:{before,after:focused,keys},accepted:false};entry.people.push(visit);
+  verifyNativePersonSelection(m,index,keys,await evaluate('Number(baye.data.g_screenHeight)'),false);
+  const focused=await picker(phase,m.seq);assert.equal(focused.state.menu.ids[focused.state.menu.index],personId);const visit={personId,name:rom.names[personId],role:label,phase,selection:{before,after:focused,keys},accepted:false};entry.people.push(visit);
   await inspectIdentity({evaluate,until,readKeys,libBytes},{sample,reveal,snap},visit,personId,rom);assert.equal(visit.identity.expected.ownership.personIndex,label==='actor'?0:3);assert.equal(visit.identity.expected.ownership.label,label==='actor'&&personId===0?'君主 · 曹丕':label==='actor'?'曹丕':'孟获');assert.deepEqual(visit.identity.after.world,report.initialWorld);visit.accepted=true;return await sample();
  }
  const first=await picker(1),actor=expectedLists.actors.find(id=>first.world.people[id].Thew>=cost.thew);assert.ok(Number.isInteger(actor));entry.actor=actor;await inspect(actor,1,'actor');await snap('canvass-actor');

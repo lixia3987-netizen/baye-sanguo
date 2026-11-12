@@ -1,6 +1,7 @@
 // Actual original transactions. Read native state; drive only trusted visible touch controls.
 import assert from 'node:assert/strict';
 import {settleMobileMonth} from './hd-mobile-month-runtime-checks.mjs';
+import {verifyNativePersonSelection} from './hd-city-person-navigation-checks.mjs';
 import {calculateMobileTradeLimit,verifyMobileTrade,verifyMobileTradeCancellation} from './hd-mobile-trade-runtime-oracle.mjs';
 import {checkMobileQuantityPresentation} from './hd-mobile-quantity-runtime-checks.mjs';
 
@@ -34,7 +35,12 @@ export async function runMobileTradeChecks(ctx){
     const c=after.world.cities[testCity.index];assert.equal(after.state.hud.money,String(c.Money));assert.equal(after.state.hud.food,String(c.Food));assert.equal(after.state.hud.arms,String(c.MothballArms));
     for(const[k,v]of Object.entries(after.state.expected))assert.equal(after.state.hud[k],v);return after;
   };
-  const exactSelection=async(before,index,why)=>{const keys=await readKeys(before.state.keyCount);assert.deepEqual(keys.map(k=>k.code),selectedCodes(index,before.state.menu.index),why);return keys;};
+  const exactSelection=async(before,index,why)=>{
+    const keys=await readKeys(before.state.keyCount),menu=before.state.menu;
+    if(menu.kind===3)verifyNativePersonSelection(menu,index,keys,before.state.lcd.height);
+    else assert.deepEqual(keys.map(k=>k.code),selectedCodes(index,menu.index),why);
+    return keys;
+  };
   const summary=async(side,sample)=>{
     const t=await evaluate('BayeHdCityMenu.getTradePresentation()'),c=sample.world.cities[testCity.index],q=sample.state.qty;
     assert.ok(t&&t.stage==='quantity');assert.equal(t.direction,side);assert.equal(t.cityIndex,testCity.index);assert.equal(t.cityName,testCity.name);

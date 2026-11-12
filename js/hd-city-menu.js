@@ -603,12 +603,13 @@
     function sendSurrenderKey(code,reason,currentOwner) {
         if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (!surrenderUiCurrent() || surrenderSending || surrenderReading || !surrenderFlow || !shouldShowHd() || document.hidden ||
-            [VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT,VK.HELP].indexOf(code)<0) { return false; }
+            [VK.PGUP,VK.PGDN,VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT,VK.HELP].indexOf(code)<0) { return false; }
         surrenderSending=true;
         try {
             var flow=surrenderFlow, before=surrenderSnapshot();
             if (flow.pending || !sameSurrenderRows(flow.lastReading,before) || !quietSurrender(before) || currentOwner && !currentOwner()) { return false; }
             var entry=flow.role==='entry', m=before.menu;
+            if (entry && (code===VK.PGUP || code===VK.PGDN)) { return false; }
             if (mobileHost && entry) {
                 // The entry arrows still belong to the native submenu while
                 // the city shell is waiting for the PERSON publication.
@@ -1355,7 +1356,7 @@
     var qtyEpoch = 0;
     var marchEpoch = 0;
     var queueEpoch = 0;
-    var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
+    var VK = { PGUP: 0x20, PGDN: 0x21, UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     var ROOTS = [
         { id: 'neizheng', name: '内政', hint: '开垦 / 招商 / 搜寻…' },
         { id: 'waijiao', name: '外交', hint: '离间 / 招揽 / 策反…' },
@@ -1574,6 +1575,21 @@
         return String(m.session) + ':' + String(m.inputSeq);
     }
 
+    function originalPersonPageStride(menu) {
+        if (menu.context !== 1 || menu.kind !== 3 || menu.count < 3 || !mobileMenuComplete(menu)) { return 0; }
+        try {
+            var engine = global.baye, data = engine && engine.data, height = data && data.g_screenHeight;
+            if (!mobileInteger(height, 255)) { return 0; }
+            var api = global.BayeHdLibIdentity, identity = api && api.read();
+            if (!identity || identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA || identity.byteLength !== 207195 ||
+                !api.isCurrent(identity) || global.baye !== engine || engine.data !== data || data.g_screenHeight !== height) { return 0; }
+            // ShowPersonControl uses WK_SY+2 through WK_EY-2, a 12-pixel font row,
+            // a header row, and one overlapping row per PageUp/PageDown.
+            var rows = Math.min(menu.count, Math.floor((height - 6) / 12) - 1);
+            return Math.max(0, rows - 1);
+        } catch (error) { return 0; }
+    }
+
     function selectLiveMenu(target, thenEnter, reason, initial, stillCurrent) {
         target = Number(target);
         var count = Number(initial && initial.count) || (initial && initial.names || []).length;
@@ -1651,10 +1667,16 @@
                 }
                 return;
             }
-            expected = index + (index > target ? -1 : 1);
+            var direction = index > target ? -1 : 1;
+            var stride = Math.abs(index - target) > 1 ? originalPersonPageStride(menu) : 0;
+            var page = Math.max(0, Math.min(count - 1, index + direction * stride));
+            var usePage = Math.abs(page - index) > 1 && (direction > 0 ? page <= target : page >= target);
+            var code = direction > 0 ? (usePage ? VK.PGDN : VK.DOWN) : (usePage ? VK.PGUP : VK.UP);
+            expected = usePage ? page : index + direction;
             waiting = true;
-            if (!engineSendKey(index > target ? VK.UP : VK.DOWN, reason,
-                function () { return ownsMenu(index); })) { finish(); return; }
+            if (!engineSendKey(code, reason, function () {
+                return (!usePage || originalPersonPageStride(menu) === stride) && ownsMenu(index);
+            })) { finish(); return; }
             setTimeout(step, 40);
         }
         step();
@@ -2098,7 +2120,7 @@
     function sendPcDiplomacyKey(code, reason, currentOwner) {
         if (cityInfoOwns(global.baye && baye.data)) { return false; }
         if (mobileHost || pcDiplomacySending || state.deepKind !== 'person-diplomacy' ||
-            [VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT,VK.HELP].indexOf(code) < 0) { return false; }
+            [VK.PGUP,VK.PGDN,VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT,VK.HELP].indexOf(code) < 0) { return false; }
         pcDiplomacySending = true;
         var flow = null, before = null;
         try {

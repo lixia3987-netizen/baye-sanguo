@@ -1,5 +1,6 @@
 // Genuine original CITY previews. Every game input comes from a current visible trusted touch.
 import assert from 'node:assert/strict';
+import {verifyNativePersonSelection} from './hd-city-person-navigation-checks.mjs';
 
 export async function createMobileDetailRuntimeDriver(ctx,entry) {
   const {report,evaluate,until,checkpoint,ready,root,submenu,selectPerson,back,mapReturn,
@@ -115,11 +116,14 @@ export async function createMobileDetailRuntimeDriver(ctx,entry) {
   };
   const preview=async(kind,index)=>{
     const before=await sample(),m=before.state.menu,selector=`#hd-city-menu [data-hd-deep-preview="${index}"]`;
+    const screenHeight=kind===3?before.state.lcd?.height??await evaluate('Number(baye.data.g_screenHeight)'):0;
     const geo=await reveal(selector);await touchButton(selector);
     await until('actual preview focus and current detail',`(() => {const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot(),d=${kind===3?'s.personProperties':'s.toolDetail'};
       return m.active===1&&m.context===1&&m.kind===${kind}&&m.seq===${m.seq}&&m.index===${index}&&!s.sending&&!s.queueLen&&d&&d.nativeIndex===m.index&&${kind===3?'d.personIndex':'d.toolIndex'}===m.ids[m.index];})()`);
     const details=await attributes(kind),after=details.sample,keys=await readKeys(before.state.keyCount),distance=index-m.index;
-    assert.deepEqual(keys.map(k=>k.code),Array(Math.abs(distance)).fill(distance>0?0x23:0x22),'Preview sends only exact native focus arrows, never Enter');ownerSame(before,after);
+    if(kind===3)verifyNativePersonSelection(m,index,keys,screenHeight,false);
+    else assert.deepEqual(keys.map(k=>k.code),Array(Math.abs(distance)).fill(distance>0?0x23:0x22),'Tool preview sends only original focus arrows');
+    ownerSame(before,after);
     assert.equal(after.state.qty.active,0);assert.equal(after.state.report.active,0);
     entry.checks.push({kind:'preview',menuKind:kind,index,personOrTool:m.ids[index],geometry:geo,before,after,keys,dom:details.dom});
     await snap((kind===3?'person':'tool')+'-'+m.ids[index]+'-preview');return after;
