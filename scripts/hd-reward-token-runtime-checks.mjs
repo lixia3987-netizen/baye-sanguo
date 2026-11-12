@@ -255,7 +255,7 @@ export async function runRewardTokenChecks(ctx) {
     await checkpoint('token-returned-map');
 }
 
-async function moveOriginalOfficer(ctx, controls, from, to, person, evidence) {
+async function moveOriginalOfficers(ctx, controls, from, to, people, evidence, prefix = 'mystic') {
     const {world, until, click, chooseCityItem, reopenInterior, waitPlayerMap, checkpoint} = ctx;
     const {picker, chooseRow, waitReport, acknowledge, keysSince} = controls;
     const phase = n => until('Original Move phase ' + n, `(() => {
@@ -273,29 +273,37 @@ async function moveOriginalOfficer(ctx, controls, from, to, person, evidence) {
     await click('#hd-city-menu [data-hd-transfer-confirm]');
     const transfer = await phase(1);
     assert.equal(transfer.target, to);
-    const current = await picker(3, sub.seq, 'Original Move officer list');
-    const chosen = await chooseRow(current, person, 'pind');
-    await phase(8);
-    const departure = await waitReport();
-    assert.equal(departure.person, person);
-    verifyNativePersonSelection(current, chosen.index, await keysSince(chosen.count), await ctx.evaluate('baye.data.g_screenHeight'));
-    await acknowledge(departure);
-    await picker(3, current.seq, 'Original Move list after dispatch');
+    let current = await picker(3, sub.seq, 'Original Move officer list');
+    const departures = [];
+    const height = await ctx.evaluate('baye.data.g_screenHeight');
+    for (const person of people) {
+        const chosen = await chooseRow(current, person, 'pind');
+        await phase(8);
+        const departure = await waitReport();
+        assert.equal(departure.person, person);
+        verifyNativePersonSelection(current, chosen.index, await keysSince(chosen.count), height);
+        await acknowledge(departure);
+        current = await picker(3, current.seq, 'Original Move list after dispatch');
+        departures.push(departure);
+    }
     await click('#hd-city-menu [data-hd-menu-back]');
     await waitPlayerMap('Original map after Move');
     let stock = await world();
-    const isMove = o => o.OrderId === 14 && o.City === from && o.Object === to && o.Person === person;
-    const order = stock.orders.find(isMove);
-    assert.ok(order && !cityResidents(stock, from).includes(person));
-    evidence.move = {order, departure, months: []};
-    await checkpoint('mystic-move-queued');
-    for (let month = 0; month <= order.TimeCount && stock.orders.some(isMove); month++) {
+    const isMove = o => o.OrderId === 14 && o.City === from && o.Object === to && people.includes(o.Person);
+    const orders = stock.orders.filter(isMove);
+    assert.deepEqual(orders.map(o => o.Person).sort((a, b) => a - b), [...people].sort((a, b) => a - b));
+    assert.ok(people.every(person => !cityResidents(stock, from).includes(person)));
+    evidence.move = people.length === 1 ? {order:orders[0], departure:departures[0], months:[]} : {orders, departures, months:[]};
+    await checkpoint(prefix + '-move-queued');
+    const travelMonths = Math.max(...orders.map(order => order.TimeCount));
+    for (let month = 0; month <= travelMonths && stock.orders.some(isMove); month++) {
         const {after, reports} = await settleOriginalMonth(ctx, controls, stock);
         stock = after;
         evidence.move.months.push({year:stock.year, month:stock.month, reports});
     }
-    assert.ok(!stock.orders.some(isMove) && cityResidents(stock, to).includes(person), 'Original Move arrives in the reward city');
-    await checkpoint('mystic-move-arrived');
+    assert.ok(!stock.orders.some(isMove) && people.every(person => cityResidents(stock, to).includes(person)),
+        'Original Move arrives at the selected owned destination');
+    await checkpoint(prefix + '-move-arrived');
 }
 
 async function awardOriginalTool(ctx, controls, cityIndex, personId, goods, tool) {
@@ -342,7 +350,7 @@ async function leaveOutpostUndefended(ctx, controls, menu, preparationCity, pers
     })()`);
     const stock = await world();
     const residents = cityResidents(stock, defense.cityIndex);
-    assert.notEqual(defense.cityIndex, preparationCity, 'Keep the original reward city defended');
+    assert.notEqual(defense.cityIndex, preparationCity, 'Keep the city needed for this original route defended');
     assert.ok(!residents.includes(stock.king) && !residents.includes(personId), 'Leave only an outpost away from the ruler and the officer');
     assert.ok(!stock.orders.some(o => o.OrderId === 14 && o.Person === personId && o.City === defense.cityIndex),
         'Keep the transfer origin until the officer has arrived');
@@ -374,7 +382,7 @@ export async function runMysticAttackPreparation(ctx, cityIndex, personId) {
         run.defenses.push(defense);
         return defense;
     }};
-    await moveOriginalOfficer(preparation, controls, from, cityIndex, personId, run);
+    await moveOriginalOfficers(preparation, controls, from, cityIndex, [personId], run);
     await discoverOriginalTools(preparation, controls, cityIndex, [book, token], run.months);
     await reopenInterior('Award the discovered original book and token', cityIndex);
     const {menu: sub} = await chooseCityItem('赏赐', 'data-hd-sub', 2);
@@ -393,4 +401,68 @@ export async function runMysticAttackPreparation(ctx, cityIndex, personId) {
     await waitPlayerMap('Original map after the mystic troop conversion');
     run.accepted = true;
     await checkpoint('mystic-preparation-complete');
+}
+
+export async function runMysticDefenderPreparation(ctx, from, target, personId, restoredOccupation) {
+    const {world, report, checkpoint, evaluate, save} = ctx;
+    const controls = rewardControls(ctx);
+    const run = report.mysticDefender = {from, target, personId, months:[], defenses:[], accepted:false};
+    let stock = await world();
+    const playerBelong = stock.king + 1;
+    assert.equal(stock.cities[from].Belong, playerBelong);
+    const preparation = {...ctx, onDefense:async menu => {
+        const defense = await leaveOutpostUndefended(ctx, controls, menu, from);
+        run.defenses.push(defense);
+        return defense;
+    }};
+    if (restoredOccupation) {
+        run.occupation = restoredOccupation;
+    } else {
+        assert.equal(stock.cities[target].Belong, playerBelong);
+        const movers = cityResidents(stock, target).filter(id => id !== personId && stock.people[id].Belong === playerBelong);
+        assert.ok(movers.includes(stock.king) && cityResidents(stock, target).includes(personId));
+        await moveOriginalOfficers(preparation, controls, target, from, movers, run, 'mystic-defender');
+        stock = await world();
+    }
+
+    // Unselected residents become unaffiliated after occupation. The original
+    // opponent's Search can then recruit 诸葛亮, whose native bole entry is zero.
+    const monthLimit = 60;
+    let occupiedAt = restoredOccupation ? 0 : null;
+    for (let month = 0; ; month++) {
+        const city = stock.cities[target], officer = stock.people[personId];
+        const sample = {year:stock.year, month:stock.month, cityBelong:city.Belong,
+            personBelong:officer.Belong, arm:officer.ArmsType, arms:officer.Arms};
+        run.months.push(sample);
+        assert.equal(stock.cities[from].Belong, playerBelong);
+        assert.ok(cityResidents(stock, from).includes(stock.king));
+        assert.ok(cityResidents(stock, target).includes(personId), 'The actual officer is still in the target city');
+        assert.equal(officer.ArmsType, 5);
+        if (city.Belong !== playerBelong && !run.occupation) {
+            assert.equal(officer.Belong, 0);
+            assert.equal(officer.Arms, 0);
+            assert.ok(run.defenses.some(defense => defense.cityIndex === target && defense.afterBelong === city.Belong));
+            run.occupation = sample;
+            occupiedAt = month;
+            await checkpoint('mystic-defender-occupied');
+            run.occupationSave = await save('mystic-defender-occupied', 0);
+        }
+        if (run.occupation && city.Belong && city.Belong !== playerBelong && officer.Belong === city.Belong) {
+            if (!run.recruitment) {
+                run.recruitment = sample;
+                await checkpoint('mystic-defender-recruited');
+            }
+            if (officer.Arms > 0) {
+                assert.equal(await evaluate(`baye.hd.personArmType(${personId})`), 5);
+                run.readySave = await save('mystic-defender-equipped', 1);
+                run.accepted = true;
+                await checkpoint('mystic-defender-equipped');
+                return;
+            }
+        }
+        if (month - (occupiedAt ?? 0) >= monthLimit) break;
+        stock = (await settleOriginalMonth(preparation, controls, stock)).after;
+    }
+    assert.fail(occupiedAt === null ? 'No original occupation within 60 preparation months' :
+        'The opponent did not finish recruiting and arming the mystic defender within 60 months after occupation');
 }
