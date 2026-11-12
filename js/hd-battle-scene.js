@@ -188,6 +188,12 @@
                     family:p.ai?'ai-target':p.reason===1?'upgrade':'departure',phase:p.ai?null:s.phase,
                     generation:options.event.generation,eventId:options.event.eventId,commitSeq:options.event.display.commitSeq,
                     frames:p.frames.slice(),clears:p.clears.slice(),renderedUnits:rendered,libraryGeneration:id.generation};
+                if (!p.ai) {
+                    var name = first.units[p.subject.index].name;
+                    if (p.reason === 2) result.statusCaption = name + '退场';
+                    else if (s.afterLevel > s.beforeLevel) result.statusCaption = name + '升级（' + s.beforeLevel + ' → ' + s.afterLevel + ' 级）';
+                    else result.statusCaption = name + '（' + s.afterLevel + ' 级）';
+                }
                 diagnostic=JSON.parse(JSON.stringify(result));return result;
             } catch(error) {diagnostic={source:null,reason:String(error && error.message || error)};return null;}
             finally {busy=false;}

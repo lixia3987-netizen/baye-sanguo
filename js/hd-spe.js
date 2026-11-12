@@ -1631,6 +1631,20 @@
         state.reason = '';
         state.frames = frames;
     }
+    function syncPaintedPresentation(root, s) {
+        root.setAttribute('data-source', state.source);
+        root.setAttribute('data-scene', state.projectedScene ? 'hd-battle' : 'lcd');
+        var title = el('hd-spe-title');
+        if (!title) return;
+        var k = kind(s), scene = state.projectedScene, d = s.display;
+        var label = k === 4 ? (statusRange(s) ? (s.startFrm === 0 ? '升级提示' : '战场退场提示') : 'AI目标提示') :
+            Number(s.id) === 6 ? '制作群组' : k === 1 ? '开场动画' : k === 2 ? '计谋动画' : '战斗动画';
+        if (k === 4 && statusRange(s) && state.open && state.source === 'hd-assets' && scene && scene.statusCaption &&
+            d && d.frameValid === true && matches(s) && state.flushKey === stamp(s) &&
+            scene.generation === s.generation && scene.eventId === s.eventId && scene.commitSeq === d.commitSeq)
+            label = scene.statusCaption;
+        if (title.textContent !== label) title.textContent = label;
+    }
     function sync(noPaint) {
         var s = info(), k = kind(s);
         if (mobileHost) {
@@ -1682,17 +1696,13 @@
             back.setAttribute('aria-hidden', back.hidden ? 'true' : 'false');
             back.setAttribute('data-hd-spe-owner', token);
         }
-        var title = el('hd-spe-title');
-        if (title)
-            title.textContent = kind(s) === 4 ? (statusRange(s) ? (s.startFrm === 0 ? '升级提示' : '战场退场提示') : 'AI目标提示') : Number(s.id) === 6 ? '制作群组' : kind(s) === 1 ? '开场动画' : (kind(s) === 2 ? '计谋动画' : '战斗动画');
         if (shown) {
             verifyLib();
             if (noPaint !== true)
                 paint(s);
         }
         else { verifyLib(); warmArena(); }
-        root.setAttribute('data-source', state.source);
-        root.setAttribute('data-scene', state.projectedScene ? 'hd-battle' : 'lcd');
+        syncPaintedPresentation(root, s);
         var probe = el('hd-spe-probe');
         if (probe)
             probe.textContent = state.source === 'hd-assets' ? '高清素材 · 原生显示帧 ' + state.frames.join(',') : '原生 LCD 画面';
@@ -1869,9 +1879,19 @@
     }
     global.BayeHdSpe = { start: start, applyPcPage: start, configureMobileHost: configureMobileHost,
         applyMobilePage: function (options) { configureMobileHost(options); start(); }, retireInteraction: retireInteraction,
-        getLcdPresentation: function () { return mobileHost ? mobilePresentation : state.open ? 'hd' : 'off'; }, onEngineSpe: sync, onLcdFlush: function (img, w, h) { var s = info(); sync(true); if (!show(s))
-            return; capture(img, w, h, s); state.renderKey = ''; paint(s); if (mobileHost) sync(true); var root = el('hd-spe'); if (root)
-            { root.setAttribute('data-source', state.source); root.setAttribute('data-scene', state.projectedScene ? 'hd-battle' : 'lcd'); } }, blit: sync,
+        getLcdPresentation: function () { return mobileHost ? mobilePresentation : state.open ? 'hd' : 'off'; }, onEngineSpe: sync, onLcdFlush: function (img, w, h) {
+            var s = info();
+            sync(true);
+            if (!show(s)) return;
+            capture(img, w, h, s);
+            state.renderKey = '';
+            paint(s);
+            if (mobileHost) sync(true);
+            else {
+                var root = el('hd-spe');
+                if (root) syncPaintedPresentation(root, s);
+            }
+        }, blit: sync,
         skip: skip, returnToTitle: returnToTitle, useClassic: classic, setManifest: setManifest, prepareStart: prepareStart, isHandling: function () { return mobileHost ? mobilePresentation === 'hd' : show(info()); }, isOpen: function () { return state.open; }, shouldShowHd: function () { return hd(1) || hd(2); },
         debugSnapshot: function () {
             var s = info();

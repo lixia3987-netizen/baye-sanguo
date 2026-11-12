@@ -83,9 +83,19 @@ for(const family of ['ai','upgrade','departure'])test(family+' uses a verified H
     assert.deepEqual(result.view,{x:3,y:4,cols:10,rows:6});assert.deepEqual(result.region,{x:128,y:128,width:64,height:64});
     assert.deepEqual(result.subject,{index:0,person:0,x:5,y:6});
     assert.deepEqual(result.renderedUnits,family==='departure'?[10]:[0,10]);
+    assert.equal(result.statusCaption,{ai:undefined,upgrade:'高顺升级（1 → 2 级）',departure:'高顺退场'}[family]);
     assert.equal(JSON.stringify(h.data),before);assert.equal(h.inputs.length,0);assert.equal(h.writes.length,0);
     assert.ok(h.logs.some(v=>v.op==='fillText' && v.args[0]==='方悦'));
     assert.equal(h.logs.some(v=>v.op==='putImageData'),false,'no LCD base can be pasted into the HD scene');
+});
+test('status captions show the current level at the original cap and after U8 wrap',async()=>{
+    for(const [beforeLevel,afterLevel] of [[20,20],[255,0]]){
+        const h=await harness('upgrade');
+        Object.assign(h.options.source,{beforeLevel,afterLevel});
+        h.data.g_Persons[0].Level=afterLevel;
+        const result=h.paint();assert.ok(result,h.reason());
+        assert.equal(result.statusCaption,`高顺（${afterLevel} 级）`);
+    }
 });
 test('initialization phase2 is explicitly inactive, matching production C order',async()=>{
     assert.match(nativeHeader,/#define\s+BAYE_HD_STATUS_EFFECT_COMMAND\s+1/);

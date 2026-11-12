@@ -25,7 +25,7 @@ export function recordBattleOpeningStatus(personId) {
                 keys:__runtimeEngineInputs.length,input:!!BayeHdBattle.getInputTicket(),
                 ui:{source:ui.source,presentation:ui.mobilePresentation,reason:ui.fallbackReason,projected:ui.projectedScene,
                     projectionFallback:ui.projectionFallbackReason,skip:ui.skipVisible,title:document.getElementById('hd-spe-title').textContent},
-                hd,lcd});
+                hd,lcd,caption:surface('hd-spe-title')});
             if(d.frameIndex===11&&(hd.visible||lcd.visible)){
                 const id=hd.visible?'hd-spe-canvas':'lcd';
                 sample.image=document.getElementById(id).toDataURL('image/png');
@@ -68,10 +68,12 @@ export function verifyBattleOpeningStatus(observation,person,acks,missingArt) {
     } else {
         assert.equal(final.ui.presentation,'hd','The final native opening frame is visible in HD on mobile');
         assert.equal(final.ui.source,'hd-assets');
-        assert.equal(final.ui.title,'战场退场提示');
+        assert.equal(final.ui.title,person.name+'退场');
+        assert.ok(final.caption.visible&&final.caption.inViewport);
         assert.ok(final.hd.visible&&final.hd.inViewport&&!final.lcd.visible);
         const scene=final.ui.projected;
         assert.ok(scene?.source==='hd-battle-scene','The opening effect appears on the actual HD battle scene');
+        assert.equal(scene.statusCaption,final.ui.title);
         assert.deepEqual([scene.phase,scene.family,scene.generation,scene.eventId,scene.commitSeq],
             [2,'departure',final.generation,final.eventId,final.commitSeq]);
         assert.deepEqual(scene.subject,{index:final.status.index,person:person.i,x:final.status.x,y:final.status.y});

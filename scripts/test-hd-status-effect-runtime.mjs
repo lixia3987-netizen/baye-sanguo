@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /** Genuine P1 MaTeng, TianShui8 -> HeNei9. Both native upgrade/departure27 ranges are required. Private non8080 Chrome only.
- * node scripts/test-hd-status-effect-runtime.mjs --staged --max-turns 12 --artifact-dir build/r20-status-staged
+ * node scripts/test-hd-status-effect-runtime.mjs --protect-lord --max-turns 20 --artifact-dir build/r20-status-projected
+ * --bounded-cell verifies HD on the original LCD when the scene module is unavailable.
  * --preflight-only verifies frozen files without creating a server, profile or browser. */
 import assert from 'node:assert/strict';
 import http from 'node:http';
@@ -13,16 +14,18 @@ import { spawn, execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const flags=new Set(['--staged','--classic','--missing-picture2','--720','--preflight-only','--protect-lord']);
+const flags=new Set(['--staged','--classic','--missing-picture2','--bounded-cell','--720','--preflight-only','--protect-lord']);
 for(let i=2;i<process.argv.length;i++){const flag=process.argv[i];if(flag==='--artifact-dir'||flag==='--max-turns'){assert.ok(process.argv[i+1]&&!process.argv[i+1].startsWith('--'),'Missing '+flag+' value');i++;}else assert.ok(flags.has(flag),'Unknown option: '+flag);}
 const staged=process.argv.includes('--staged'),classic=process.argv.includes('--classic'),missing=process.argv.includes('--missing-picture2'),preflightOnly=process.argv.includes('--preflight-only');
+const boundedCell=process.argv.includes('--bounded-cell');
+assert.ok(!boundedCell||!classic&&!missing,'--bounded-cell uses HD effects with the scene script unavailable');
 const protectLord=process.argv.includes('--protect-lord');
 const artifactFlag=process.argv.indexOf('--artifact-dir'),artifactDir=path.resolve(artifactFlag>=0?process.argv[artifactFlag+1]:path.join(root,'build/r20-status-effect-runtime'));
 const viewport=process.argv.includes('--720')?{width:1280,height:720}:{width:1920,height:1080};
 const turnFlag=process.argv.indexOf('--max-turns'),maxTurns=turnFlag>=0?Number(process.argv[turnFlag+1]):8;
 assert.ok(maxTurns===8||maxTurns===12||maxTurns===20,'--max-turns is an explicit private-game budget of 8, 12 or 20');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms)),sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
-const report={staged,classic,missing,preflightOnly,protectLord,viewport,maxTurns,startedAt:new Date().toISOString(),phases:[],console:[],exceptions:[],dialogs:[],blocked:[],requests:[],inputs:[],reportAcks:[],lordMoves:[]};
+const report={staged,classic,missing,boundedCell,preflightOnly,protectLord,viewport,maxTurns,startedAt:new Date().toISOString(),phases:[],console:[],exceptions:[],dialogs:[],blocked:[],requests:[],inputs:[],reportAcks:[],lordMoves:[]};
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.wasm':'application/wasm','.png':'image/png','.lib':'application/octet-stream','.ttf':'font/ttf'};
 const servedAssets=new Map(),nativeMovies=new Map(),productionDirectories=['js','css','assets','vendor/iBaye/src'];let nativeLib,font;const statusEntries=new Map();
 const targetName=()=>path.relative(root,fileURLToPath(import.meta.url)).replaceAll('\\','/');
@@ -372,7 +375,7 @@ function prepareServedAssets(){
 
 async function startServer(){
  const server=http.createServer((req,res)=>{try{const url=new URL(req.url,'http://localhost'),rel=decodeURIComponent(url.pathname).replace(/^\/+/, '')||'pc.html';
- if(missing&&rel===statusEntries.get(1).pictures[2].src){report.requests.push({url:url.pathname,status:404,expected:true});res.writeHead(404).end();return;}
+ if((missing&&rel===statusEntries.get(1).pictures[2].src)||(boundedCell&&rel==='js/hd-battle-scene.js')){report.requests.push({url:url.pathname,status:404,expected:true});res.writeHead(404).end();return;}
  const s=servedAssets.get(rel);if(!s){report.requests.push({url:url.pathname,status:404,expected:rel==='favicon.ico'});res.writeHead(404).end();return;}
  report.requests.push({url:url.pathname,status:200,...s.metadata});res.writeHead(200,{'Content-Type':mime[path.extname(rel)]||'application/octet-stream','Cache-Control':'no-store'});res.end(s.data);
  }catch(e){report.requests.push({url:req.url,status:400,error:String(e)});res.writeHead(400).end();}});
@@ -386,7 +389,9 @@ const observerSource='('+function(){
  function capture(stage,img,w,h,callbackBefore,callbackAfter){try{const s=snap();if(!s)return;const spe=s.spe;if(spe.active&&spe.id===27&&spe.kind===4&&((spe.startFrm===0&&spe.endFrm===5)||(spe.startFrm===6&&spe.endFrm===11))){const ui=api.debugSnapshot();window.__statusSamples.push({stage,at:performance.now(),spe,ui});if(stage==='lcd-flush'&&img){const before=snap(),lcd=document.createElement('canvas'),hd=document.getElementById('hd-spe-canvas');lcd.width=w;lcd.height=h;lcd.getContext('2d').putImageData(img,0,0);const node=document.getElementById('hd-spe'),rect=hd&&hd.getBoundingClientRect(),style=hd&&getComputedStyle(hd),rootStyle=node&&getComputedStyle(node),top=rect&&document.elementFromPoint(rect.x+rect.width/2,rect.y+rect.height/2);let hdLogicalRgba=null;
  if(hd&&ui.open&&ui.sourceRect&&hd.width===ui.sourceRect.width*ui.scale&&hd.height===ui.sourceRect.height*ui.scale){const data=hd.getContext('2d').getImageData(0,0,hd.width,hd.height).data,logical=[];for(let y=0;y<ui.sourceRect.height;y++)for(let x=0;x<ui.sourceRect.width;x++){const o=(Math.floor((y+.5)*ui.scale)*hd.width+Math.floor((x+.5)*ui.scale))*4;for(let c=0;c<4;c++)logical.push(data[o+c]);}hdLogicalRgba=base64(logical);}
  const d=baye.data,units=[];for(let i=0;i<20;i++){const id=Number(d.g_FgtParam.GenArray[i]),p=d.g_GenPos[i];if(id>0&&id<0xfffe)units.push({i,person:id-1,x:Number(p.x),y:Number(p.y),hp:Number(p.hp),state:Number(p.state),arms:Number(d.g_Persons[id-1].Arms),level:Number(d.g_Persons[id-1].Level),experience:Number(d.g_Persons[id-1].Experience),name:baye.getPersonName(id-1)});}
- const after=snap();window.__statusCaptures.push({stage,at:performance.now(),before,after,callbackBefore,callbackAfter,spe,ui,units,hidden:document.hidden,mode:BayeHdBattle.getMode(),drawing:{scale:Number(d.g_scale),flip:Number(d.g_FlipDrawing),paint:Number(d.g_paintColor),palette0:Number(d.g_paintPalette[0]),palette255:Number(d.g_paintPalette[255])},paletteReadback:Array.from({length:256},(_,i)=>Number(d.g_paintPalette[i])>>>0),nativeWidth:w,nativeHeight:h,nativeRgba:base64(img.data),hdLogicalRgba,nativeUrl:lcd.toDataURL('image/png'),hdUrl:hd&&ui.open&&hd.toDataURL('image/png'),drawLog:window.__statusDrawLog.slice(),dom:rect&&{visible:!!(rect.width&&rect.height&&style.visibility==='visible'&&style.display!=='none'&&rootStyle.visibility==='visible'&&rootStyle.display!=='none'),inViewport:rect.x>=0&&rect.y>=0&&rect.right<=innerWidth+.5&&rect.bottom<=innerHeight+.5,stackOwned:!!(top&&node.contains(top)),x:rect.x,y:rect.y,width:rect.width,height:rect.height}});}}
+ const title=document.getElementById('hd-spe-title'),titleRect=title.getBoundingClientRect();
+ const titleVisible=title.checkVisibility({checkOpacity:true,checkVisibilityCSS:true})&&titleRect.width>0&&titleRect.height>0&&titleRect.x>=0&&titleRect.y>=0&&titleRect.right<=innerWidth+.5&&titleRect.bottom<=innerHeight+.5;
+ const after=snap();window.__statusCaptures.push({stage,at:performance.now(),before,after,callbackBefore,callbackAfter,spe,ui,units,hidden:document.hidden,mode:BayeHdBattle.getMode(),drawing:{scale:Number(d.g_scale),flip:Number(d.g_FlipDrawing),paint:Number(d.g_paintColor),palette0:Number(d.g_paintPalette[0]),palette255:Number(d.g_paintPalette[255])},paletteReadback:Array.from({length:256},(_,i)=>Number(d.g_paintPalette[i])>>>0),nativeWidth:w,nativeHeight:h,nativeRgba:base64(img.data),hdLogicalRgba,nativeUrl:lcd.toDataURL('image/png'),hdUrl:hd&&ui.open&&hd.toDataURL('image/png'),drawLog:window.__statusDrawLog.slice(),dom:rect&&{visible:!!(rect.width&&rect.height&&style.visibility==='visible'&&style.display!=='none'&&rootStyle.visibility==='visible'&&rootStyle.display!=='none'),inViewport:rect.x>=0&&rect.y>=0&&rect.right<=innerWidth+.5&&rect.bottom<=innerHeight+.5,stackOwned:!!(top&&node.contains(top)),x:rect.x,y:rect.y,width:rect.width,height:rect.height,title:title.textContent,titleVisible}});}}
  if(window.__statusCaptures.length>2000||window.__statusSamples.length>30000)throw Error('Read-only status capture bound exceeded');
  }catch(e){window.__statusObserverErrors.push(String(e));}}
  Object.defineProperty(window,'BayeHdSpe',{configurable:true,get(){return api;},set(value){api=value;for(const name of ['onEngineSpe','onLcdFlush']){const original=api[name];api[name]=function(){const before=snap(),result=original.apply(this,arguments),after=snap();capture(name==='onLcdFlush'?'lcd-flush':'lifecycle',name==='onLcdFlush'?arguments[0]:null,arguments[1],arguments[2],before,after);return result;};}if(!originalKey&&typeof window.sendKey==='function'){originalKey=window.sendKey;window.sendKey=function(code){const s=snap();window.__statusKeys.push({code,at:performance.now(),spe:s&&s.spe,fight:s&&s.fight});return originalKey.apply(this,arguments);};}}});
@@ -399,8 +404,35 @@ function movieOracle(movie,start,end,base){
  if(cls||show){const visible=Buffer.alloc(32);for(let i=0;i<=mcount;i++)if(spec[i])visible[(start+i)>>3]|=1<<((start+i)&7);records.push({frame:start+mcount,visible,clears:Buffer.from(clears),pixels:Buffer.from(pixels)});cls=show=false;}
  if(spem[mcount])spem[mcount]--;while(spem[mcount]<=1&&mcount+start<end){mcount++;show=true;}if(mcount+start>=end&&spec.every(v=>v<=1))return records;}throw Error('Native timer bound exceeded');
 }
+function verifyProjectedStatus(c,subject,expected,rendered){
+ const s=c.spe,d=s.display,a=d.statusEffect,p=c.ui.projectedScene;
+ const x=a.regionX,y=a.regionY,scale=c.ui.scale,w=160*scale,h=96*scale;
+ assert.equal(c.ui.outsideSource,'hd-battle-scene');
+ assert.ok(p&&p.source==='hd-battle-scene','A successful original HD battle scene is required');
+ assert.equal(p.family,a.reason===1?'upgrade':'departure');assert.equal(p.phase,a.phase);
+ assert.deepEqual([p.generation,p.eventId,p.commitSeq],[s.generation,s.eventId,d.commitSeq]);
+ assert.equal(c.ui.flushKey,[s.generation,s.eventId,d.commitSeq].join(':'));
+ assert.deepEqual(p.view,{x:a.mapSX,y:a.mapSY,cols:10,rows:6});
+ assert.deepEqual(p.subject,{index:subject.i,person:subject.person,x:subject.x,y:subject.y});
+ assert.deepEqual(p.region,{x:x*scale,y:y*scale,width:16*scale,height:16*scale});
+ assert.deepEqual(p.frames,frames(expected.visible));assert.deepEqual(p.clears,frames(expected.clears));
+ const visibleUnits=c.units.filter(u=>u.state!==8&&u.x>=a.mapSX&&u.x<a.mapSX+10&&u.y>=a.mapSY&&u.y<a.mapSY+6);
+ assert.deepEqual(p.renderedUnits,visibleUnits.map(u=>u.i));
+ const expectedTitle=a.reason===2?`${subject.name}退场`:a.afterLevel>a.beforeLevel
+    ?`${subject.name}升级（${a.beforeLevel} → ${a.afterLevel} 级）`:`${subject.name}（${a.afterLevel} 级）`;
+ assert.equal(c.dom.titleVisible,true);assert.equal(c.dom.title,expectedTitle);assert.equal(p.statusCaption,expectedTitle);
+ assert.deepEqual(c.drawLog.map(o=>[o.type,o.args,o.src,o.naturalWidth,o.naturalHeight]),[
+    ['clearRect',[0,0,w,h],undefined,undefined,undefined],['drawImage',[0,0,w,h],null,w,h]
+ ],'The rendered HD canvas receives the full viewport');
+ const colors=new Set();
+ for(let row=0;row<96;row++)for(let col=0;col<160;col++)if(row<y||row>=y+16||col<x||col>=x+16){
+    const i=(row*160+col)*4;if(rendered[i+3]&&rendered[i]!==rendered[i+1])colors.add(rendered.readUInt32LE(i));
+ }
+ assert.ok(colors.size>8,'Actual canvas pixels outside the effect contain colored HD terrain and unit cards');
+}
+
 function verifyCaptures(captures,keys){
- const events=new Map(),verified=[];let hd=0;
+ const events=new Map(),verified=[];let projected=0,bounded=0;
  for(const c of captures){
     assert.deepEqual(c.before,c.after,'Readback writes no native fields');assert.deepEqual(c.callbackBefore,c.callbackAfter,'Presentation callback writes no native fields');
     const s=c.spe,d=s.display,a=d.statusEffect,current=s.statusEffect;if(!d.frameValid)continue;
@@ -426,30 +458,38 @@ function verifyCaptures(captures,keys){
     const expected=event.records[d.commitSeq-1];assert.ok(expected,'Actual copied commit exists in independent native timer model');assert.equal(d.frameIndex,expected.frame);assert.deepEqual(Buffer.from(d.visibleFrames),expected.visible);assert.deepEqual(Buffer.from(a.clearFrames),expected.clears);
     const full=Buffer.from(event.outside);for(let row=0;row<16;row++)for(let col=0;col<16;col++)full.writeUInt32LE(event.palette[expected.pixels[row*16+col]],((y+row)*160+x+col)*4);
     assert.deepEqual(raw,full,'Full160x96 actual LCD: native AND/OR timer + real indexed palette + fixed first-draw base; outside equals first actual event LCD');
-    if(classic){assert.equal(c.ui.open,false);assert.equal(c.hdLogicalRgba,null);}
+    if(classic){assert.equal(c.ui.open,false);assert.equal(c.hdLogicalRgba,null);assert.equal(c.dom.titleVisible,false);}
     else{
-        assert.ok(c.ui.open&&c.dom.visible&&c.dom.inViewport&&c.dom.stackOwned);assert.equal(c.ui.skipVisible,false);assert.deepEqual(c.ui.sourceRect,{x:0,y:0,width:160,height:96});assert.equal(c.ui.presentation,'status-effect');assert.equal(c.ui.outsideSource,'lcd');assert.ok(c.hdLogicalRgba);
+        assert.ok(c.ui.open&&c.dom.visible&&c.dom.inViewport&&c.dom.stackOwned);assert.equal(c.ui.skipVisible,false);assert.deepEqual(c.ui.sourceRect,{x:0,y:0,width:160,height:96});assert.equal(c.ui.presentation,'status-effect');assert.ok(c.hdLogicalRgba);
         const rendered=Buffer.from(c.hdLogicalRgba,'base64');assert.equal(rendered.length,raw.length);
-        for(let row=0;row<96;row++)for(let col=0;col<160;col++)if(missing||row<y||row>=y+16||col<x||col>=x+16){const i=(row*160+col)*4;assert.equal(rendered[i+3],raw[i+3]);assert.deepEqual(rendered.subarray(i,i+3),raw[i+3]?raw.subarray(i,i+3):Buffer.alloc(3),missing?'Missing picture preserves full actual LCD':'HD outside the authenticated subject cell preserves actual LCD (Canvas normalizes transparent RGB)');}
-        if(missing)assert.equal(c.ui.source,'lcd');
-        else{
-            assert.equal(c.ui.source,'hd-assets');assert.deepEqual(c.ui.hdRegion,{x,y,width:16,height:16});const live=frames(expected.visible);assert.deepEqual(c.ui.displayedFrames,live);
-            const arts=c.drawLog.filter(o=>o.type==='drawImage'&&o.src);assert.equal(arts.length,live.length);
-            live.forEach((frame,i)=>{const p=entry.pictures[entry.units[frame].picIndex];assert.equal(arts[i].src,p.src);assert.deepEqual(arts[i].args,[x*c.ui.scale,y*c.ui.scale,16*c.ui.scale,16*c.ui.scale]);assert.deepEqual([arts[i].naturalWidth,arts[i].naturalHeight],[p.width,p.height]);});
-            const scale=c.ui.scale,rect=[x*scale,y*scale,16*scale,16*scale],regionAt=c.drawLog.findIndex(o=>o.type==='rect'&&JSON.stringify(o.args)===JSON.stringify(rect));assert.ok(regionAt>=0,'Actual Canvas clip names the certified subject cell');
-            const cellOps=c.drawLog.slice(regionAt),expectedOps=[{type:'rect',args:rect},{type:'clip',args:[]},{type:'clearRect',args:rect},{type:'drawImage',src:null,args:[0,0,16,16,...rect]}];
-            for(const frame of live){const pic=entry.pictures[entry.units[frame].picIndex];for(let bit=0;bit<256;bit++)if(pic.nativeWhitePixels[bit>>3]&(1<<(bit&7)))expectedOps.push({type:'clearRect',args:[(x+bit%16)*scale,(y+Math.floor(bit/16))*scale,scale,scale]});expectedOps.push({type:'drawImage',src:pic.src,args:rect});}
-            assert.deepEqual(cellOps.map(o=>({type:o.type,...(o.type==='drawImage'?{src:o.src}:{}),args:o.args})),expectedOps,'Actual ordered clip/base/explicit native white clears/HD source draws; no dotted native sprite overlay');hd++;
+        if(!missing){assert.equal(c.ui.source,'hd-assets');assert.deepEqual(c.ui.hdRegion,{x,y,width:16,height:16});assert.deepEqual(c.ui.displayedFrames,frames(expected.visible));}
+        if(!missing&&!boundedCell){
+            verifyProjectedStatus(c,subject,expected,rendered);projected++;
+        }else{
+            assert.equal(c.ui.outsideSource,'lcd');assert.equal(c.ui.projectedScene,null);
+            assert.equal(c.dom.title,a.reason===1?'升级提示':'战场退场提示');
+            for(let row=0;row<96;row++)for(let col=0;col<160;col++)if(missing||row<y||row>=y+16||col<x||col>=x+16){const i=(row*160+col)*4;assert.equal(rendered[i+3],raw[i+3]);assert.deepEqual(rendered.subarray(i,i+3),raw[i+3]?raw.subarray(i,i+3):Buffer.alloc(3),missing?'Missing picture preserves full actual LCD':'HD outside the authenticated subject cell preserves actual LCD (Canvas normalizes transparent RGB)');}
+            if(missing)assert.equal(c.ui.source,'lcd');
+            else{
+                const live=frames(expected.visible);
+                const arts=c.drawLog.filter(o=>o.type==='drawImage'&&o.src);assert.equal(arts.length,live.length);
+                live.forEach((frame,i)=>{const p=entry.pictures[entry.units[frame].picIndex];assert.equal(arts[i].src,p.src);assert.deepEqual(arts[i].args,[x*c.ui.scale,y*c.ui.scale,16*c.ui.scale,16*c.ui.scale]);assert.deepEqual([arts[i].naturalWidth,arts[i].naturalHeight],[p.width,p.height]);});
+                const scale=c.ui.scale,rect=[x*scale,y*scale,16*scale,16*scale],regionAt=c.drawLog.findIndex(o=>o.type==='rect'&&JSON.stringify(o.args)===JSON.stringify(rect));assert.ok(regionAt>=0,'Actual Canvas clip names the certified subject cell');
+                const cellOps=c.drawLog.slice(regionAt),expectedOps=[{type:'rect',args:rect},{type:'clip',args:[]},{type:'clearRect',args:rect},{type:'drawImage',src:null,args:[0,0,16,16,...rect]}];
+                for(const frame of live){const pic=entry.pictures[entry.units[frame].picIndex];for(let bit=0;bit<256;bit++)if(pic.nativeWhitePixels[bit>>3]&(1<<(bit&7)))expectedOps.push({type:'clearRect',args:[(x+bit%16)*scale,(y+Math.floor(bit/16))*scale,scale,scale]});expectedOps.push({type:'drawImage',src:pic.src,args:rect});}
+                assert.deepEqual(cellOps.map(o=>({type:o.type,...(o.type==='drawImage'?{src:o.src}:{}),args:o.args})),expectedOps,'Actual ordered clip/base/explicit native white clears/HD source draws; no dotted native sprite overlay');bounded++;
+            }
         }
     }
-    verified.push({generation:s.generation,eventId:s.eventId,reason:a.reason,phase:a.phase,commitSeq:d.commitSeq,frameIndex:d.frameIndex,visible:frames(expected.visible),cleared:frames(expected.clears),region,subject,facts:event.facts,source:c.ui.source,baseIndices:[...new Set(a.basePixels)].sort((x,y)=>x-y),baseRgbaSha256:sha(Buffer.from(a.baseRgba)),nativeRgbaSha256:sha(raw),independentExpectedSha256:sha(full),nativeFile:c.nativeFile,hdFile:c.hdFile});
+    verified.push({generation:s.generation,eventId:s.eventId,reason:a.reason,phase:a.phase,commitSeq:d.commitSeq,frameIndex:d.frameIndex,visible:frames(expected.visible),cleared:frames(expected.clears),region,subject,facts:event.facts,source:c.ui.source,outsideSource:c.ui.outsideSource,title:c.dom.titleVisible?c.dom.title:null,baseIndices:[...new Set(a.basePixels)].sort((x,y)=>x-y),baseRgbaSha256:sha(Buffer.from(a.baseRgba)),nativeRgbaSha256:sha(raw),independentExpectedSha256:sha(full),nativeFile:c.nativeFile,hdFile:c.hdFile});
  }
- report.nativePixelOracle={events:events.size,actualLcdCallbacks:verified.length,hdReadbacks:hd,verified};
+ const hd=projected+bounded;
+ report.nativePixelOracle={events:events.size,actualLcdCallbacks:verified.length,hdReadbacks:hd,projectedReadbacks:projected,boundedReadbacks:bounded,verified};
  report.coverage=Object.fromEntries([1,2].map(reason=>{const selected=verified.filter(v=>v.reason===reason);return [reason,{name:reason===1?'upgrade':'departure',events:new Set(selected.map(v=>v.generation+':'+v.eventId)).size,actualLcdCallbacks:selected.length,finalFrame:reason===1?5:11,finalObserved:selected.some(v=>v.frameIndex===(reason===1?5:11))}];}));
  for(const reason of [1,2]){const selected=verified.filter(v=>v.reason===reason);assert.ok(report.coverage[reason].events>0&&selected.length>=2,'Both genuine upgrade and departure must have multiple actual LCD callbacks, not a partial pass');assert.ok(report.coverage[reason].finalObserved,'Final logical frame observed for reason '+reason);}
  assert.deepEqual(keys.filter(k=>k.spe&&k.spe.active&&k.spe.id===27&&k.spe.kind===4),[],'Unskippable status and AI target movies receive zero native input');
  report.hdAccepted=!classic&&!missing&&hd===verified.length;report.fallbackAccepted=(classic||missing)&&hd===0;
- report.scope={accepted:'Both actual FgtChkAtkEnd upgrade27/0..5 and departure27/6..11 on either side, current GenArray/Person/JLPOS post-mutation facts, actual copied/displayed native timer/palette/ANDOR/clear, full native LCD and outside-pixel preservation. HD art only in the authenticated16x16 subject cell.',notRun:'No synthetic EXP/Level/HP/arms/RNG/seed writes; runtime does not independently execute initialization phase2 or Level255 wrap/cap/zero-HP upgrade boundaries (actual C suite scope). AI12..17 is not accepted status evidence. No arbitrary Mods, mobile, touch, performance or whole-game HD completion.',beforeFactsBoundary:'Native protocol captures synchronous pre-mutation facts; independent browser reads certify actual post-mutation fields. Native C tests certify before-capture order, not a fabricated browser observation before XP addition.'};
+ report.scope={accepted:'Both actual FgtChkAtkEnd upgrade27/0..5 and departure27/6..11 on either side, current GenArray/Person/JLPOS post-mutation facts, and exact full native LCD against copied/displayed native timer, palette, AND/OR and clear.',presentation:projected?'Original 10x6 HD viewport, projected units, subject cell, displayed frames and visible status caption. Canvas outside the subject is sampled for HD colors.':bounded?'HD art in the authenticated 16x16 subject cell with LCD pixel preservation outside.':'Original full LCD presentation.',notRun:'No synthetic EXP/Level/HP/arms/RNG/seed writes; runtime does not independently execute initialization phase2 or Level255 wrap/cap/zero-HP upgrade boundaries (actual C suite scope). AI12..17 is not accepted status evidence. No arbitrary Mods, mobile, touch, performance or whole-game HD completion.',beforeFactsBoundary:'Native protocol captures synchronous pre-mutation facts; independent browser reads certify actual post-mutation fields. Native C tests certify before-capture order, not a fabricated browser observation before XP addition.'};
 }
 async function persistEvidence(cdp){
  const raw=await evaluate(cdp,'({captures:window.__statusCaptures||[],samples:window.__statusSamples||[],keys:window.__statusKeys||[],errors:window.__statusObserverErrors||[],inputCalls:window.__statusInputCalls||[],inputDepth:window.__statusInputDepth||0})');

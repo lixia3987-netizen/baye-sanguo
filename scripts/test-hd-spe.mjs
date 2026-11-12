@@ -2445,7 +2445,9 @@ function sceneResult(request) {
     return { source: 'hd-battle-scene', view: { x: s.mapSX, y: s.mapSY, cols: 10, rows: 6 },
         region: { x: 528, y: 352, width: 176, height: 176 },
         subject: { index: status ? s.subjectIndex : s.targetIndex, person: status ? s.subjectPerson : s.targetPerson,
-            x: status ? s.subjectX : s.targetX, y: status ? s.subjectY : s.targetY } };
+            x: status ? s.subjectX : s.targetX, y: status ? s.subjectY : s.targetY },
+        generation: request.event.generation, eventId: request.event.eventId, commitSeq: request.event.display.commitSeq,
+        ...(status ? { statusCaption: s.reason === 1 ? '马腾升级（2 → 3 级）' : '马腾退场' } : {}) };
 }
 function installScene(h, paint = sceneResult) {
     const calls = [], environments = [];
@@ -2482,10 +2484,25 @@ for (const range of sceneRanges) test(`STACHG27 scene integration delegates cert
     assert.equal(debug.source, 'hd-assets'); assert.equal(debug.presentation, range.presentation);
     assert.equal(debug.outsideSource, 'hd-battle-scene'); assert.deepEqual(plain(debug.projectedScene), sceneResult(request));
     assert.equal(h.nodes.get('hd-spe').getAttribute('data-scene'), 'hd-battle');
+    assert.equal(h.nodes.get('hd-spe-title').textContent, sceneResult(request).statusCaption || 'AI目标提示');
     assert.deepEqual(h.hdDraws(), [], 'the successful scene replaces the bounded-cell art path');
     if (range.reason === 2) assert.equal(request.source.afterState, 8, 'native death is already state8 during its movie');
     assert.equal(h.nativeSnapshot(), before); assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
     h.flush(); assert.equal(scene.environments.length, 1, 'one controller is reused only for the same module');
+});
+test('a status caption expires with its copied commit and retires at the original report', async () => {
+    const { h, fixture } = await sceneLoaded(sceneRanges[1]);
+    installScene(h);
+    const title = h.nodes.get('hd-spe-title');
+    h.flush(); assert.equal(title.textContent, '马腾升级（2 → 3 级）');
+    h.setSpe({ ...fixture.s, commitSeq: 2, display: { ...fixture.s.display, commitSeq: 2 } });
+    h.api.onEngineSpe(true);
+    assert.equal(title.textContent, '升级提示');
+    h.flush(); assert.equal(title.textContent, '马腾升级（2 → 3 级）');
+    h.setReport(1);
+    assert.equal(h.api.isOpen(), false);
+    assert.equal(title.textContent, '升级提示');
+    assertNoScene(h);
 });
 test('STACHG27 scene integration forwards copied frames/clears rather than future current state', async () => {
     const { h, fixture } = await sceneLoaded(), scene = installScene(h);
@@ -2512,6 +2529,7 @@ for (const failure of ['null', 'throw', 'wrong-source']) test(`STACHG27 scene in
         h.flush(); assert.equal(scene.calls.length, 1); assertNoScene(h);
         const debug = h.api.debugSnapshot(), events = h.events.filter(e => e.node === 'hd-spe-canvas');
         assert.equal(debug.source, 'hd-assets'); assert.equal(debug.presentation, range.presentation); assert.equal(debug.outsideSource, 'lcd');
+        assert.equal(h.nodes.get('hd-spe-title').textContent, ['AI目标提示', '升级提示', '战场退场提示'][range.reason]);
         assert.deepEqual(plain(debug.hdRegion), { x: 48, y: 32, width: 16, height: 16 });
         const touched = events.findIndex(e => e.operation === 'fillRect' && e.args[0] === 1);
         const restored = events.findIndex((e, i) => i > touched && e.operation === 'drawImage' && e.args.length === 9 && e.args[0].id?.startsWith('scratch-'));
