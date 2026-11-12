@@ -1184,18 +1184,74 @@ test('unchanged focus observations retain detail nodes and idle rendering never 
     assert.equal(JSON.stringify(g.raw), before); assert.deepEqual(g.sent, []); assert.deepEqual(g.writes, []);
 });
 
-test('PC sidebar reserves map pixels and canvas selection uses the same rendered tile geometry', () => {
-    const g = focusFixture({canvas: true}); g.observe();
+function desktopCell(g, x, y) {
     const cell = g.paints.find(p => p[0] === 'fillRect' && p[1] === 80 && p[2] === 72 && p[3] < 500);
     assert.ok(cell, 'real production map paints its first cell');
     const [, ox, oy, paintWidth, paintHeight] = cell, cw = paintWidth - 0.5, ch = paintHeight - 0.5;
-    assert.ok((ox + cw * 8) * 1000 / 1920 < 720, 'right sidebar never covers the painted board');
-    const board = g.mounted.get('hd-battle-canvas'); const x = (ox + cw * 4.5) * 1000 / 1920, y = (oy + ch * 2.5) * 562.5 / 1080;
+    return {clientX:(ox + cw * (x + 0.5)) * 1000 / 1920, clientY:(oy + ch * (y + 0.5)) * 562.5 / 1080, cw};
+}
+
+test('PC sidebar reserves map pixels and canvas selection uses the same rendered tile geometry', () => {
+    const g = focusFixture({canvas: true}); g.observe();
+    const point = desktopCell(g, 4, 2), {cw} = point;
+    assert.ok((80 + cw * 8) * 1000 / 1920 < 720, 'right sidebar never covers the painted board');
+    const board = g.mounted.get('hd-battle-canvas');
     assert.deepEqual(g.sent, []); g.click(g.card, {clientX: 800, clientY: 100}); assert.deepEqual(g.sent, [], 'detail surface is not a map click');
-    g.click(board, {clientX: x, clientY: y});
+    g.fireRoot('pointerdown', board, point); g.fireRoot('click', board, point);
     assert.deepEqual(g.sent, [K.RIGHT]); const request = g.api.debugSnapshot().transaction;
     assert.equal(request?.type, 'tile'); assert.deepEqual([request.x, request.y], [4, 2]);
     assert.deepEqual(g.writes, []); // The one user request only dispatched its first arrow; no confirmation yet.
+});
+
+test('PC board browses empty cells, enemies and unavailable allies by cursor acknowledgements alone', () => {
+    for (const [x, y, unitChange] of [[2,1,null], [5,3,null], [4,2,{active:1}], [4,2,{state:6}]]) {
+        const g = focusFixture({canvas:true});
+        if (unitChange) { Object.assign(g.raw.g_GenPos[1], unitChange); }
+        g.observe();
+        const board = g.mounted.get('hd-battle-canvas'), point = desktopCell(g,x,y);
+        g.fireRoot('pointerdown',board,point); g.fireRoot('click',board,point);
+        const request = g.api.debugSnapshot().transaction;
+        assert.equal(request?.type, 'focus');
+        assert.deepEqual([request.x,request.y], [x,y]);
+        const expected = [...Array(x - 1).fill(K.RIGHT), ...Array(y - 1).fill(K.DOWN)];
+        let fx = 1, fy = 1;
+        for (const [index, code] of expected.entries()) {
+            assert.deepEqual(g.sent, expected.slice(0,index + 1), 'the next key awaits the previous cursor update');
+            if (code === K.RIGHT) { fx++; } else { fy++; }
+            g.focus(fx,fy); g.tick();
+        }
+        assert.equal(g.api.debugSnapshot().lastRequest.reason, 'acknowledged');
+        assert.deepEqual(g.sent, expected);
+        assert.deepEqual(g.writes, []);
+    }
+});
+
+test('PC board rejects stale or unmatched presses and retires browsing when hidden', () => {
+    for (const change of [
+        (g, board) => g.fireRoot('pointercancel',board),
+        g => g.input(I.MOVE,0),
+        g => g.focus(2,1),
+        g => {g.raw.g_GenPos[1].active=1;},
+        g => {g.raw.g_hdReportActive=1;},
+        g => {g.sandbox.dynLib='new-library';}
+    ]) {
+        const g = focusFixture({canvas:true}); g.observe();
+        const board = g.mounted.get('hd-battle-canvas'), point = desktopCell(g,4,2);
+        g.fireRoot('pointerdown',board,point);
+        change(g,board); g.observe(); g.fireRoot('click',board,point);
+        assert.deepEqual(g.sent, []);
+    }
+    const g = focusFixture({canvas:true}); g.observe();
+    const board = g.mounted.get('hd-battle-canvas'), point = desktopCell(g,5,3);
+    g.fireRoot('click',board,point);
+    g.fireRoot('pointerdown',board,point); g.fireRoot('click',board,{...point,pointerId:2});
+    assert.deepEqual(g.sent, []);
+    g.fireRoot('pointerdown',board,point); g.fireRoot('click',board,point);
+    assert.deepEqual(g.sent, [K.RIGHT]);
+    g.sandbox.document.hidden = true; g.fireRoot('visibilitychange',board);
+    g.focus(2,1); g.tick();
+    assert.deepEqual(g.sent, [K.RIGHT]);
+    assert.equal(g.api.debugSnapshot().transaction, null);
 });
 
 test('next waiting general follows native slot order, wraps after focus, and preserves the legacy first-general helper', () => {

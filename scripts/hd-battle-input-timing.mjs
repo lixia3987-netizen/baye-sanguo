@@ -1,23 +1,24 @@
 import assert from 'node:assert/strict';
 import {summarizeSamples} from './hd-performance-metrics.mjs';
 
+export function desktopBattlePoint(tile) {
+    const board=document.getElementById('hd-battle-canvas'), rail=document.getElementById('hd-battle-rail');
+    const view=BayeHdBattle.debugSnapshot().view, bounds=board.getBoundingClientRect();
+    const sidebar=rail&&!rail.hidden&&rail.getBoundingClientRect();
+    const boardWidth=sidebar?.width>0&&sidebar.left>bounds.left&&sidebar.left<bounds.right
+        ?Math.max(80,(sidebar.left-bounds.left)/bounds.width*1920-104):1760;
+    if(tile.x<view.x||tile.x>=view.x+view.w||tile.y<view.y||tile.y>=view.y+view.h){
+        throw Error('Requested tile is outside the actual HD board');
+    }
+    return {x:bounds.left+(80+(tile.x-view.x+0.5)*boardWidth/view.w)*bounds.width/1920,
+        y:bounds.top+(72+(tile.y-view.y+0.5)*920/view.h)*bounds.height/1080};
+}
+
 // Stringified into the isolated game page. Observe the trusted gesture, the real
 // input queue's wake callbacks and the first draw for the resulting owner.
-export function observeBattleInput(tile, nextKind, touchPoint = null) {
+export function observeBattleInput(tile, nextKind, touchPoint = null, desktopPoint = desktopBattlePoint) {
     const board=document.getElementById(touchPoint?'hd-mobile-battle-canvas':'hd-battle-canvas');
-    let point=touchPoint;
-    if(!point){
-        const rail=document.getElementById('hd-battle-rail');
-        const view=BayeHdBattle.debugSnapshot().view, bounds=board.getBoundingClientRect();
-        const sidebar=rail&&!rail.hidden&&rail.getBoundingClientRect();
-        const boardWidth=sidebar?.width>0&&sidebar.left>bounds.left&&sidebar.left<bounds.right
-            ?Math.max(80,(sidebar.left-bounds.left)/bounds.width*1920-104):1760;
-        if(tile.x<view.x||tile.x>=view.x+view.w||tile.y<view.y||tile.y>=view.y+view.h){
-            throw Error('Measured tile is outside the actual HD board');
-        }
-        point={x:bounds.left+(80+(tile.x-view.x+0.5)*boardWidth/view.w)*bounds.width/1920,
-            y:bounds.top+(72+(tile.y-view.y+0.5)*920/view.h)*bounds.height/1080};
-    }
+    const point=touchPoint||desktopPoint(tile);
     if(document.elementFromPoint(point.x,point.y)!==board)throw Error('Measured tile is covered');
     const read=()=>{
         const d=baye.data;
@@ -125,7 +126,7 @@ export function summarizeBattleInputs(samples) {
 }
 
 export async function timeBattleInput({evaluate, sample, nextKind, dispatch, waitForOutcome, waitForPaint, touchPoint = null}) {
-    const point=await evaluate(`(${observeBattleInput})(${JSON.stringify(sample.tile)},${nextKind},${JSON.stringify(touchPoint)})`);
+    const point=await evaluate(`(${observeBattleInput})(${JSON.stringify(sample.tile)},${nextKind},${JSON.stringify(touchPoint)},(${desktopBattlePoint}))`);
     let outcome;
     try{
         await dispatch(point);

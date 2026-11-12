@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url';
 import {battleHudObservation,measureIdleBattleBoard,verifyBattleHud} from './hd-battle-hud-runtime-checks.mjs';
 import {skillAimObservation,skillOptionsExpression,verifySkillAim} from './hd-battle-skill-aim-runtime-checks.mjs';
 import {recordBattleMapNumbers,verifyBattleMapNumber} from './hd-battle-map-number-runtime-checks.mjs';
-import {timeBattleInput,measureBattleSelectionsAndMoves,summarizeBattleInputs} from './hd-battle-input-timing.mjs';
+import {desktopBattlePoint,timeBattleInput,measureBattleSelectionsAndMoves,summarizeBattleInputs} from './hd-battle-input-timing.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
@@ -223,6 +223,18 @@ async function click(cdp, selector) {
     await cdp.send('Input.dispatchMouseEvent', { type: 'mousePressed', ...mousePoint, button: 'left', clickCount: 1 });
     await cdp.send('Input.dispatchMouseEvent', { type: 'mouseReleased', ...mousePoint, button: 'left', clickCount: 1 });
     await delay(250);
+}
+
+async function clickBattleCell(cdp,tile) {
+    const cell={x:tile.x,y:tile.y};
+    const point=await evaluate(cdp,`(() => {
+        const point=(${desktopBattlePoint})(${JSON.stringify(cell)});
+        return document.elementFromPoint(point.x,point.y)?.id==='hd-battle-canvas'&&point;
+    })()`);
+    assert.ok(point,'the requested tile has a visible mouse target');
+    report.inputs.push({type:'battle-cell-click',...cell,at:new Date().toISOString()});
+    await cdp.send('Input.dispatchMouseEvent',{type:'mousePressed',...point,button:'left',clickCount:1});
+    await cdp.send('Input.dispatchMouseEvent',{type:'mouseReleased',...point,button:'left',clickCount:1});
 }
 
 async function openBattleInspection(cdp, control, kind, code) {
@@ -545,10 +557,18 @@ async function battleSmoke(cdp) {
     assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'view/help/settings/canceled retreat preserve units');
     await checkpoint(cdp,'24-battle-system-cancel');
     if(statusOnly) {
-        await click(cdp,selector);
-        await waitBattle(cdp,2,'roster selection for native standby');
-        await action(cdp,'standby-without-moving',`BayeHdBattle.clickTile(${own.x},${own.y})`);
+        const selectionKeys=await evaluate(cdp,'window.__battleKeys.length');
+        await clickBattleCell(cdp,own);
+        const selectedFromBoard=await waitBattle(cdp,2,'canvas selection for native standby');
+        assert.equal(selectedFromBoard.actorIndex,own.i);
+        const selection=await evaluate(cdp,`window.__battleKeys.slice(${selectionKeys})`);
+        assert.equal(selection.at(-1).code,0x27);
+        assert.equal(selection.filter(event=>event.code===0x27).length,1);
+        const moveKeys=await evaluate(cdp,'window.__battleKeys.length');
+        await clickBattleCell(cdp,own);
         await waitBattle(cdp,3,'native standby action menu');
+        assert.deepEqual(await evaluate(cdp,`window.__battleKeys.slice(${moveKeys})`),
+            [{code:0x27,kind:2,seq:selectedFromBoard.inputSeq}]);
         await menuChoice(cdp,'待机',1);
         const rested=await evaluate(cdp,battleStateExpression);
         assert.equal(rested.units.find(u=>u.i===own.i).active,1);
@@ -1176,6 +1196,23 @@ async function verifyTerrainHelpArt(cdp,cell,label,compareClassic=false) {
     assert.deepEqual({x:after.fight.focusX,y:after.fight.focusY},{x:cell.x,y:cell.y});
 }
 
+async function clickBattleFocus(cdp,tile,label) {
+    const before=await evaluate(cdp,battleStateExpression);
+    const keys=await evaluate(cdp,'window.__battleKeys.length');
+    await clickBattleCell(cdp,tile);
+    await waitFor(cdp,label,`(() => {
+        const f=baye.hd.fight(),s=BayeHdBattle.debugSnapshot();
+        return f.inputKind===1&&f.focusX===${tile.x}&&f.focusY===${tile.y}&&!s.transaction;
+    })()`);
+    const after=await evaluate(cdp,battleStateExpression);
+    assert.deepEqual(after,{...before,fight:{...before.fight,focusX:tile.x,focusY:tile.y}});
+    const dx=tile.x-before.fight.focusX,dy=tile.y-before.fight.focusY;
+    const expected=[...Array(Math.abs(dx)).fill(dx>0?0x25:0x24),...Array(Math.abs(dy)).fill(dy>0?0x23:0x22)];
+    const sent=await evaluate(cdp,`window.__battleKeys.slice(${keys})`);
+    assert.deepEqual(sent,expected.map(code=>({code,kind:1,seq:before.fight.inputSeq})));
+    (report.boardBrowse ||= []).push({label,x:tile.x,y:tile.y,sent});
+}
+
 async function terrainSmoke(cdp, before) {
     // Read the real full map and occupied-cell C getter, never the scrolling cache.
     const native = await evaluate(cdp, `(() => {
@@ -1220,7 +1257,8 @@ async function terrainSmoke(cdp, before) {
         .filter(t=>t.raw>0&&!occupied.has(t.x+','+t.y))
         .sort((a,b)=>(Math.abs(a.x-own.x)+Math.abs(a.y-own.y))-(Math.abs(b.x-own.x)+Math.abs(b.y-own.y)))[0];
     assert.ok(empty,'map has an empty cell');
-    await focusBattleTarget(cdp,empty,'15-terrain-empty-1080p',1);
+    await clickBattleFocus(cdp,empty,'mouse browses an empty terrain cell');
+    await checkpoint(cdp,'15-terrain-empty-1080p');
     await inspect('empty focused terrain');
     const stable=await evaluate(cdp,battleStateExpression),keys=await evaluate(cdp,'window.__battleKeys.length');
     await cdp.send('Emulation.setDeviceMetricsOverride',{width:1280,height:720,deviceScaleFactor:1,mobile:false});
@@ -1231,6 +1269,22 @@ async function terrainSmoke(cdp, before) {
     assert.deepEqual(await evaluate(cdp,battleStateExpression),stable,'viewport changes cannot mutate native battle');
     assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys,'terrain repaint/resize sends no engine input');
     await verifyTerrainHelpArt(cdp,compact.focusTerrain,'15-terrain-help-from-footer-720p',true);
+    const enemy=before.units.find(unit=>unit.side==='enemy'&&unit.state!==8);
+    assert.ok(enemy);
+    await clickBattleFocus(cdp,enemy,'mouse browses a native enemy general');
+    await waitFor(cdp,'focus card names the clicked enemy',`document.querySelector('.hd-battle-focus-name')?.textContent===${JSON.stringify(enemy.name)}&&
+        document.querySelector('.hd-battle-focus-identity')?.textContent.startsWith('敌方')`);
+    await checkpoint(cdp,'15-mouse-enemy-focus-720p');
+    await openBattleInspection(cdp,'help',9,0x26);
+    const enemyHelp=await waitFor(cdp,'native HELP for the clicked enemy',`(() => {
+        const h=baye.hd.help(),d=BayeHdDialog.debugSnapshot();
+        return h.active===1&&h.complete===1&&h.kind===1&&h.slot===${enemy.i}&&h.person===${enemy.id-1}&&d.helpDetail?.person===h.person&&h;
+    })()`);
+    assert.deepEqual([enemyHelp.x,enemyHelp.y,enemyHelp.name],[enemy.x,enemy.y,enemy.name]);
+    await checkpoint(cdp,'15-mouse-enemy-help-720p');
+    await click(cdp,'#hd-dialog [data-hd-dlg-ok]');
+    await waitBattle(cdp,1,'return after inspecting the clicked enemy');
+    await verifyHelpRetired(cdp,'mouse enemy HELP return',enemyHelp);
     const afterHelp=await evaluate(cdp,battleStateExpression),afterHelpKeys=await evaluate(cdp,'window.__battleKeys.length');
     await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
     await waitFor(cdp,'1080p restored canvas','innerWidth===1920&&innerHeight===1080&&Math.abs(document.querySelector("#hd-battle-canvas").getBoundingClientRect().width-1920)<1');

@@ -202,30 +202,49 @@
     function inspectionKind(kind) {
         return kind === INPUT.PICK || kind === INPUT.MOVE || kind === INPUT.AIM;
     }
-    function pcInspectionReady(snap) {
+    function pcCursorReady(snap) {
         return !mobileHost && state.open && !state.preview && !state.showLcd && !document.hidden &&
             snap.ready && snap.fight.wait === 1 && inspectionKind(snap.kind) && !state.transaction &&
             !(state.lastCommit && state.lastCommit.epoch === modeEpoch && state.lastCommit.seq === snap.seq);
     }
     function pcBattleControl(node) {
-        return node.getAttribute && (node.getAttribute('data-hd-battle-next') != null ||
+        return node.getAttribute && (node.id === 'hd-battle-canvas' || node.getAttribute('data-hd-battle-next') != null ||
             node.getAttribute('data-hd-battle-pick-slot') != null || node.getAttribute('data-hd-battle-inspect') != null);
     }
-    function pcBattleControlTicket(node) {
+    function pcGestureTicket(node, snap, target) {
+        var b = global.baye, data = b && b.data, generation = data && data.g_hdDetailGeneration;
+        return {node:node,b:b,data:data,lib:global.dynLib,generation:generation,snap:snap,key:JSON.stringify([modeEpoch,terrainSession,
+            snap.kind,snap.seq,snap.actor,snap.focus && snap.focus.x,snap.focus && snap.focus.y,
+            generation,target])};
+    }
+    function pcBoardTicket(node, event, snap) {
+        if (!pcCursorReady(snap) || snap.kind === INPUT.PICK && !isPickWait(snap)) { return null; }
+        var tile = event && eventToTile(event), bounds = state.terrain;
+        if (!tile || !bounds || tile.x < 0 || tile.y < 0 || tile.x >= bounds.width || tile.y >= bounds.height) { return null; }
+        var unit = unitAt(tile.x, tile.y), allowed = legalEnter(tile, unit, snap.fight);
+        var ticket = pcGestureTicket(node, snap, [tile.x,tile.y,tile.geometry,
+            bounds.width,bounds.height,unit && [unit.i,unit.id,unit.active,unit.state],allowed]);
+        ticket.tile = tile; ticket.unit = unit; ticket.allowed = allowed;
+        return ticket;
+    }
+    function pcBattleControlTicket(node, event) {
         if (node.disabled || node.isConnected === false) { return null; }
-        var snap = inputSnapshot(), b = global.baye, slot = node.getAttribute('data-hd-battle-pick-slot');
+        var snap = inputSnapshot();
+        if (node.id === 'hd-battle-canvas') { return pcBoardTicket(node, event, snap); }
+        var slot = node.getAttribute('data-hd-battle-pick-slot');
         var inspect = node.getAttribute('data-hd-battle-inspect'), code = null, unit = null;
         if (inspect !== null) {
             code = inspect === 'help' ? VK.HELP : inspect === 'view' ? VK.SEARCH : null;
-            if (!code || !pcInspectionReady(snap)) { return null; }
+            if (!code || !pcCursorReady(snap)) { return null; }
         } else {
             unit = slot === null ? nextWaitingUnit(snap) : isPickWait(snap) && actorUnit(Number(slot));
             if (!unit || slot !== null && (!waitingUnit(unit) || String(unit.id) !== node.getAttribute('data-hd-battle-pick-person'))) { return null; }
         }
-        var data = b && b.data, rect = node.getBoundingClientRect && node.getBoundingClientRect();
-        return {node:node,b:b,data:data,lib:global.dynLib,snap:snap,unit:unit,code:code,key:JSON.stringify([modeEpoch,snap.kind,snap.seq,snap.actor,
-            snap.focus && snap.focus.x,snap.focus && snap.focus.y,code,unit && [unit.i,unit.id,unit.x,unit.y],
-            data && data.g_hdDetailGeneration,rect && [rect.left,rect.top,rect.width,rect.height]])};
+        var rect = node.getBoundingClientRect && node.getBoundingClientRect();
+        var ticket = pcGestureTicket(node, snap, [code,unit && [unit.i,unit.id,unit.x,unit.y],
+            rect && [rect.left,rect.top,rect.width,rect.height]]);
+        ticket.unit = unit; ticket.code = code;
+        return ticket;
     }
     function samePcBattleControlTicket(a,b) { return !!(a && b && a.node === b.node && a.b === b.b && a.data === b.data && a.lib === b.lib && a.key === b.key); }
     function clickRosterUnit(ticket) {
@@ -578,6 +597,10 @@
         if (!snap.ready || transaction.epoch !== modeEpoch || transaction.seq !== snap.seq ||
             transaction.kind !== snap.kind || transaction.actor !== snap.actor) { return false; }
         if (mobileHost && !sameMobileTicket(transaction.mobileOwner, owner === undefined ? getInputTicket() : owner, false)) { return false; }
+        var board = transaction.pcBoard;
+        if (board && (document.hidden || state.showLcd || !state.open || global.baye !== board.b ||
+            board.b.data !== board.data || global.dynLib !== board.lib ||
+            (board.data && board.data.g_hdDetailGeneration) !== board.generation)) { return false; }
         if (transaction.locate && !locateTargetCurrent(transaction.locate)) { return false; }
         if (transaction.viewOwner) {
             var view;
@@ -757,11 +780,23 @@
         if (!snap.ready || isMenuKind(snap.kind)) { return reject('not-map-input'); }
         refresh(); x = Number(x); y = Number(y);
         if (!Number.isInteger(x) || !Number.isInteger(y) || x < 0 || y < 0 || x >= state.mapW || y >= state.mapH) { return reject('outside-map'); }
-        if (!legalEnter({ x: x, y: y }, unitAt(x, y), snap.fight)) {
+        var tile = {x:x,y:y};
+        return requestBattleTile(tile, snap, legalEnter(tile, unitAt(x, y), snap.fight));
+    }
+    function requestBattleTile(tile, snap, allowed, pcBoard, unit) {
+        var focusOnly = pcBoard && snap.kind === INPUT.PICK && !allowed;
+        if (!allowed && !focusOnly) {
             return reject('illegal-target', snap.kind === INPUT.PICK ? '请选择尚未行动的己方将领。' :
                 (snap.kind === INPUT.MOVE ? '请选择移动范围内的格子。' : '请选择射程内的有效目标。'));
         }
-        return beginRequest('tile', { x: x, y: y }, snap);
+        var options = {x:tile.x, y:tile.y};
+        if (pcBoard) {
+            options.pcBoard = {b:pcBoard.b, data:pcBoard.data, lib:pcBoard.lib, generation:pcBoard.generation};
+        }
+        if (allowed && unit && snap.kind !== INPUT.MOVE) {
+            options.unitSlot = unit.i; options.personId = unit.id;
+        }
+        return beginRequest(focusOnly ? 'focus' : 'tile', options, snap);
     }
     // Browsing an empty/enemy tile in PICK moves only the real C cursor. It
     // deliberately cannot commit a selection, and uses the same per-arrow ACK.
@@ -1001,9 +1036,11 @@
         renderFocusCard(show,snap);
         if (!mobileHost) { renderWaitingUnits(snap); }
         var actor = actorUnit(snap.mapNumber ? snap.mapNumber.target : snap.enemyMove ? snap.enemyMove.actor : snap.actor);
-        var guidance = { 0: '正在处理战场行动…', 1: '选择己方将领', 2: '选择移动位置（可选择原地）',
+        var guidance = { 0: '正在处理战场行动…', 1: mobileHost ? '选择己方将领' : '点击待行动己将选择 · 点击其他格查看',
+            2: '选择移动位置（可选择原地）',
             3: '选择将领行动', 4: '选择计谋', 5: '选择射程内目标', 6: '战场系统', 7: '确认全军撤退', 8: '选择战场设置',
-            9: '查看将领信息 · Enter / Esc 返回', 10: '战场形势 · 箭头翻页，Enter / Esc 返回' };
+            9: (mobileHost ? '查看将领信息' : '查看战场详情') + ' · Enter / Esc 返回',
+            10: '战场形势 · 箭头翻页，Enter / Esc 返回' };
         var hud = el('hd-battle-hud');
         if (hud) {
             var text = state.preview ? 'HD 战场预览' :
@@ -1028,7 +1065,7 @@
         var banner = el('hd-battle-result');
         if (banner) { banner.hidden = true; }
         if (root && root.querySelectorAll) {
-            var inspectButtons = root.querySelectorAll('[data-hd-battle-inspect]'), inspectDisabled = !pcInspectionReady(snap);
+            var inspectButtons = root.querySelectorAll('[data-hd-battle-inspect]'), inspectDisabled = !pcCursorReady(snap);
             for (var i = 0; i < inspectButtons.length; i++) {
                 if (inspectButtons[i].disabled !== inspectDisabled) { inspectButtons[i].disabled = inspectDisabled; }
             }
@@ -1111,7 +1148,7 @@
             if (document.hidden) {
                 lastBoardPaint = null;
                 pcControlPress = null;
-                if (state.transaction && state.transaction.locate) { finishRequest('hidden'); }
+                if (state.transaction && (state.transaction.locate || state.transaction.pcBoard)) { finishRequest('hidden'); }
                 renderFocusCard(false);
                 if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
                 return;
@@ -1270,8 +1307,8 @@
             if (event.isTrusted !== true || event.isPrimary !== true || event.button !== 0) { return; }
             for (var node = event.target; node && node !== root; node = node.parentNode) {
                 if (pcBattleControl(node)) {
-                    var ticket = pcBattleControlTicket(node);
-                    if (ticket) { pcControlPress = {ticket:ticket,x:event.clientX,y:event.clientY}; }
+                    var ticket = pcBattleControlTicket(node, event);
+                    if (ticket) { pcControlPress = {ticket:ticket,x:event.clientX,y:event.clientY,pointerId:event.pointerId}; }
                     return;
                 }
             }
@@ -1282,7 +1319,9 @@
             ['blur','pagehide','resize'].forEach(function (name) {
                 global.addEventListener(name,function () {
                     pcControlPress = null;
-                    if (name !== 'resize' && state.transaction && state.transaction.locate) { finishRequest(name); }
+                    if (name !== 'resize' && state.transaction && (state.transaction.locate || state.transaction.pcBoard)) {
+                        finishRequest(name);
+                    }
                 });
             });
         }
@@ -1292,18 +1331,32 @@
                 if (node.getAttribute) {
                     if (pcBattleControl(node)) {
                         var press = pcControlPress; pcControlPress = null;
-                        var current = event.isTrusted === true && pcBattleControlTicket(node);
-                        if (current && (event.detail === 0 || press &&
-                            Math.hypot(event.clientX-press.x,event.clientY-press.y) <= 10 && samePcBattleControlTicket(press.ticket,current))) {
-                            if (current.code) { beginRequest('key', {code:current.code}, current.snap); }
-                            else if (node.getAttribute('data-hd-battle-next') != null) { clickNextUnit(); }
-                            else { clickRosterUnit(current); }
+                        event.preventDefault();
+                        var canvas = node.id === 'hd-battle-canvas';
+                        var matchingPress = press && press.ticket.node === node &&
+                            (press.pointerId == null || event.pointerId == null || press.pointerId === event.pointerId) &&
+                            Math.hypot(event.clientX-press.x,event.clientY-press.y) <= 10;
+                        if (event.isTrusted !== true || !matchingPress && (canvas || event.detail !== 0)) { return; }
+                        if (canvas) { refresh(); }
+                        var current = pcBattleControlTicket(node, event);
+                        if (!current || (canvas || event.detail !== 0) &&
+                            !samePcBattleControlTicket(press.ticket,current)) { return; }
+                        if (current.tile) {
+                            requestBattleTile(current.tile, current.snap, current.allowed, current, current.unit);
+                        } else if (current.code) {
+                            beginRequest('key', {code:current.code}, current.snap);
+                        } else if (node.getAttribute('data-hd-battle-next') != null) {
+                            clickNextUnit();
+                        } else {
+                            clickRosterUnit(current);
                         }
-                        event.preventDefault(); return;
+                        return;
                     }
                     if (node.getAttribute('data-hd-battle-lcd') != null) {
                         pcControlPress = null;
-                        if (state.transaction && state.transaction.locate) { finishRequest('lcd-presentation-changed'); }
+                        if (state.transaction && (state.transaction.locate || state.transaction.pcBoard)) {
+                            finishRequest('lcd-presentation-changed');
+                        }
                         state.showLcd = !state.showLcd; applyChrome(); event.preventDefault(); return;
                     }
                     if (node.getAttribute('data-hd-battle-sys') != null) { toggleSystemMenu(); event.preventDefault(); return; }
@@ -1317,10 +1370,6 @@
                     if (node.getAttribute('data-hd-battle-close') != null) { closeBattle(); event.preventDefault(); return; }
                 }
                 node = node.parentNode;
-            }
-            if (event.target && event.target.id === 'hd-battle-canvas') {
-                var tile = eventToTile(event);
-                if (tile) { clickBattleTile(tile.x, tile.y); event.preventDefault(); }
             }
         });
         if (global.addEventListener) { global.addEventListener('keydown', handleKey, true); }
@@ -1601,10 +1650,11 @@
         var oy = board.oy;
         var c = Math.floor((sx - ox) / cw);
         var r = Math.floor((sy - oy) / ch);
-        if (c < 0 || r < 0 || c >= cols || r >= rows) {
+        if (!Number.isInteger(c) || !Number.isInteger(r) || c < 0 || r < 0 || c >= cols || r >= rows) {
             return null;
         }
-        return { x: c + (state.viewOx || 0), y: r + (state.viewOy || 0) };
+        return {x:c + (state.viewOx || 0), y:r + (state.viewOy || 0),
+            geometry:[rect.left,rect.top,rect.width,rect.height,board.width,cols,rows,state.viewOx,state.viewOy]};
     }
 
     function unitLegendBlockers(canvasRect) {
