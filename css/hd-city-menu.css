@@ -649,6 +649,11 @@ html[data-baye-city-transfer-target="1"] [data-hd-menu-help] {
     overflow-wrap: anywhere;
 }
 
+.hd-city-menu-deep > [data-hd-reward-tool] {
+    grid-column: 1 / -1;
+    margin: 0;
+}
+
 .hd-city-menu-tool-controls {
     display: flex;
     flex-wrap: wrap;

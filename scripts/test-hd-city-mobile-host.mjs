@@ -709,6 +709,7 @@ function marchDom(f, {rooted=false}={}) {
                 child.parentElement=child.parentNode=this;this.children.push(child);connect(child,this.isConnected);return child;
             }};
         value.classList={contains(name){return value.className.split(/\s+/).includes(name);},
+            add(...names){value.className=[...new Set(value.className.split(/\s+/).filter(Boolean).concat(names))].join(' ');},
             remove(...names){value.className=value.className.split(/\s+/).filter(name=>!names.includes(name)).join(' ');},
             toggle(name,on){const names=new Set(value.className.split(/\s+/).filter(Boolean));
                 if(on)names.add(name);else names.delete(name);value.className=[...names].join(' ');}};
@@ -1511,11 +1512,11 @@ for(const kind of [3,4]){
     });
 }
 
-function equipmentFixture(command='largess',{empty=false,phase=0,mobile=true}={}) {
+function equipmentFixture(command='largess',{empty=false,phase=0,mobile=true,item={name:'七星刀',id:1}}={}) {
     const f=previewFixture(3,{phase,mobile}),subNames=['开垦','招商','搜寻','治理','出巡','招降','处斩','流放','赏赐','没收','交易','宴请','输送','移动'];
     f.raw.g_asyncActionID=0;
     f.env.bayeQtyNativeClosed=()=>f.raw.g_hdQtyActive===0;
-    const people={names:['董卓','李儒','吕布'],ids:[0,19,20]},inventory={names:['七星刀'],ids:[1]};
+    const people={names:['董卓','李儒','吕布'],ids:[0,19,20]},inventory={names:[item.name],ids:[item.id]};
     function publish(kind,seq,index=0,list=null){
         const values=list||(kind===2?{names:subNames,ids:[]}:kind===3?people:kind===4?inventory:{names:[],ids:[]});
         f.names.splice(0,f.names.length,...values.names);f.ids.splice(0,f.ids.length,...values.ids);
@@ -1559,6 +1560,38 @@ test('mobile equipment reward GOODS Enter observes fresh PERSON and enables nati
     assert.deepEqual(Array.from(f.state.deepItems,p=>p.pind),[0,19,20]);
     f.setAfterKey(key=>{if(key===35)f.raw.g_hdMenuIndex++;});f.press(1);f.tick(40);
     assert.deepEqual(f.keys,[39,39,35]);assert.equal(f.raw.g_hdMenuIndex,1);assert.deepEqual(f.writes,[]);
+});
+for(const item of [
+    {id:31,name:'太玄兵符',arm:2,label:'智力',field:'IQ',mobile:true},
+    {id:30,name:'铁骑兵符',arm:3,label:'武力',field:'Force',mobile:false},
+    {id:32,name:'水战兵符',arm:1,label:'',field:null,mobile:true}
+])test('reward recipient hints use the original '+item.name+' and current native stats',()=>{
+    const f=equipmentFixture('largess',{mobile:item.mobile,item});
+    f.raw.g_Cities=[{Belong:1}];
+    const people=[];
+    people[0]={Belong:1,Tool1:1,Tool2:0,Force:105,IQ:105};
+    people[19]={Belong:1,Tool1:0,Tool2:1,Force:106,IQ:106};
+    people[20]={Belong:1,Tool1:1,Tool2:2,Force:120,IQ:120};
+    f.raw.g_Persons=people;
+    f.env.baye.hd.toolDetails=id=>({index:id,name:item.name,generation:f.raw.g_hdDetailGeneration,standard:true,useFlag:1,arm:item.arm});
+    f.setAfterKey(key=>{if(key===39){f.publish(0,13);f.env.setTimeout(()=>f.publish(3,14),60);}});
+    f.main(0);f.tick(80);f.internals.fill();
+    assert.equal(f.all('data-hd-reward-tool')[0].getAttribute('data-hd-reward-tool'),String(item.id));
+    assert.ok(f.all('data-hd-reward-tool')[0].textContent.includes('需空装备栏'));
+    const rows=f.all('data-hd-reward-status');
+    assert.deepEqual(rows.map(row=>row.getAttribute('data-hd-reward-status')),[item.field?'below':'eligible','eligible','full']);
+    if(item.field)assert.deepEqual(rows.map(row=>row.textContent),[
+        item.label+' 105 · 未达到要求',item.label+' 106 · 符合条件',item.label+' 120 · 装备已满']);
+    assert.ok(f.all('data-hd-deep').every(row=>!row.disabled));
+    if(item.mobile){
+        const row=f.all('data-hd-deep')[0];
+        f.api.retireInteraction('person-list-pan');f.internals.fill();
+        assert.equal(f.all('data-hd-deep')[0],row);
+    }
+    f.env.baye.hooks={giveTool(){}};f.internals.fill();
+    assert.equal(f.all('data-hd-reward-status').length,0);
+    assert.equal(f.all('data-hd-reward-tool')[0].textContent,'选择武将 · '+item.name);
+    assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
 });
 test('mobile equipment pending Enter rejects preview, another main choice, back and property input until actual publication',()=>{
     const f=equipmentFixture(),preview=f.all('data-hd-deep-preview')[0];

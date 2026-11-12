@@ -102,11 +102,17 @@ function validateTools(w,tools,label) {
  * separately proves the owner, selected native index, inputs and retirement.
  */
 export function verifyMobileEquipment({operation,before,after,cityIndex,personId,toolId,libBytes,reportWorld}={}) {
-  assert.ok(operation==='confiscate'||operation==='reward','Explicit equipment operation required');
+  const conversion=operation==='convert';
+  assert.ok(operation==='confiscate'||operation==='reward'||conversion,'Explicit equipment operation required');
   const total=shapeWorld(before,'before');shapeWorld(after,'after');
   const tools=originalTools(libBytes);validateTools(before,tools,'before');validateTools(after,tools,'after');
   integer(toolId,0,32,'zero-based actual toolId');const tool=tools[toolId],{c,p}=selectable(before,cityIndex,personId);
-  assert.equal(tool.useflag,0,'This transfer oracle accepts equippable useflag0 tools, not consumable/army conversion items');
+  if(conversion){
+    assert.equal(tool.useflag,1,'An original troop conversion consumes its item');
+    assert.ok([1,2,3].includes(tool.arm),'Original conversion uses a water, mystic or elite token');
+    if(tool.arm===2)assert.ok(p.IQ>105,'Original mystic token requires IQ above 105');
+    if(tool.arm===3)assert.ok(p.Force>105,'Original elite token requires Force above 105');
+  }else assert.equal(tool.useflag,0,'This transfer oracle accepts equippable useflag0 tools, not consumable/army conversion items');
   const expected=structuredClone(before);let slot,queueIndex;
   if(operation==='confiscate') {
     // ConfiscateMake compacts a second-only equipment before opening GOODS.
@@ -124,7 +130,7 @@ export function verifyMobileEquipment({operation,before,after,cityIndex,personId
     for(let i=cityIndex+1;i<38;i++)expected.cities[i].ToolQueue=before.cities[i].ToolQueue+1;
   } else {
     assert.ok(p.Tool1===0||p.Tool2===0,'Native FULLGOODS rejects a full equipment pair');
-    slot=p.Tool1===0?'Tool1':'Tool2';
+    slot=conversion?null:p.Tool1===0?'Tool1':'Tool2';
     const inventory=before.goodsQueue.slice(c.ToolQueue,c.ToolQueue+c.Tools);
     assert.ok(inventory.some(value=>(value&0x8000)!==0&&(value&0x7fff)===toolId),'Reward selection comes from current discovered GetCityPGoods');
     // DelGoods searches the first matching masked ID, even if an earlier
@@ -132,7 +138,8 @@ export function verifyMobileEquipment({operation,before,after,cityIndex,personId
     queueIndex=before.goodsQueue.findIndex((value,i)=>i>=c.ToolQueue&&i<c.ToolQueue+c.Tools&&(value&0x7fff)===toolId);
     assert.ok(queueIndex>=0,'Actual selected tool exists in this city');
     expected.people[personId].Force=(p.Force+tool.at)&255;expected.people[personId].IQ=(p.IQ+tool.iq)&255;
-    expected.people[personId][slot]=toolId+1;
+    if(conversion)expected.people[personId].ArmsType=[0,3,5,4][tool.arm];
+    else expected.people[personId][slot]=toolId+1;
     for(let i=queueIndex;i<1999;i++)expected.goodsQueue[i]=before.goodsQueue[i+1];
     expected.cities[cityIndex].Tools=c.Tools-1;
     for(let i=cityIndex+1;i<38;i++)expected.cities[i].ToolQueue=before.cities[i].ToolQueue-1;
@@ -144,18 +151,21 @@ export function verifyMobileEquipment({operation,before,after,cityIndex,personId
     exact(reportWorld,operation==='confiscate'?before:expected,'Native GREPORT business timing');
     expected.people[personId].Devotion=operation==='confiscate'?Math.max(0,p.Devotion-20):Math.min(100,(p.Devotion+8)&255);
   } else assert.ok(reportWorld==null,'King transfer has no native GREPORT pause');
-  exact(after,expected,'Only the native selected equipment/stats/devotion and packed inventory changes are allowed');
-  return {ok:true,accepted:true,equipmentAccepted:true,operation,scope:mobileEquipmentOracleContract.scope,
+  exact(after,expected,'Only the native selected equipment or troop type, stats, devotion and packed inventory changes are allowed');
+  return {ok:true,accepted:true,equipmentAccepted:true,operation,scope:conversion?'One original troop token consumed by LargessMake; all recorded worldSource fields':mobileEquipmentOracleContract.scope,
     cityIndex,personId,toolId,equipmentSlot:slot,goodsQueueIndex:queueIndex,
     stats:{forceBefore:p.Force,forceAfter:expected.people[personId].Force,iqBefore:p.IQ,iqAfter:expected.people[personId].IQ,
       devotionBefore:p.Devotion,devotionAfter:expected.people[personId].Devotion},
     inventory:{before:c.Tools,after:expected.cities[cityIndex].Tools,discoveredOnInsert:operation==='confiscate',tailCleared:false},
-    reportExpected,reportWorldAccepted:nonking,reportBusinessStage:nonking?(operation==='confiscate'?'before-all-transfer-business':'after-equipment-and-inventory-before-devotion'):'no-report-for-king',
+    reportExpected,reportWorldAccepted:nonking,reportBusinessStage:nonking?(operation==='confiscate'?'before-all-transfer-business':
+      conversion?'after-conversion-and-inventory-before-devotion':'after-equipment-and-inventory-before-devotion'):'no-report-for-king',
     checked:{...mobileEquipmentOracleContract.counts},inputAccepted:false,reportOwnerAccepted:false,retirementAccepted:false,
-    cancellationAccepted:false,wholeNativeAbiAccepted:false,consumableAccepted:false,
+    cancellationAccepted:false,wholeNativeAbiAccepted:false,consumableAccepted:conversion,
+    ...(conversion?{armsType:{before:p.ArmsType,after:expected.people[personId].ArmsType}}:{}),
     limits:['All recorded worldSource fields are compared; native input/publication/owner/retirement is caller evidence',
       'Final confiscation GOODS is sampled after native second-only equipment compaction',
-      'No consumed item, army conversion, scripted hook or unsampled derived battle/movement effect acceptance']};
+      conversion?'Battle and movement effects are outside this comparison':'No consumed item, army conversion, scripted hook or unsampled derived battle/movement effect acceptance']};
 }
 export function verifyMobileConfiscation(options={}) {return verifyMobileEquipment({...options,operation:'confiscate'});}
 export function verifyMobileReward(options={}) {return verifyMobileEquipment({...options,operation:'reward'});}
+export function verifyOriginalTroopTokenReward(options={}) {return verifyMobileEquipment({...options,operation:'convert'});}

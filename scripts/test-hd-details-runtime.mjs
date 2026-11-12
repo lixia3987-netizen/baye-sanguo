@@ -13,18 +13,23 @@ import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { verifyNativePersonSelection } from './hd-city-person-navigation-checks.mjs';
 import { verifyMobileConfiscation, verifyMobileReward } from './hd-mobile-equipment-runtime-oracle.mjs';
+import { rewardTokenScenarios, runRewardTokenChecks } from './hd-reward-token-runtime-checks.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const transferOnly = process.argv.includes('--transfer-only');
 const reconOnly = process.argv.includes('--recon-only');
 const equipmentOrdersOnly = process.argv.includes('--equipment-orders-only');
+const rewardTokenFlag = process.argv.find(arg => arg.startsWith('--reward-token='));
+const rewardTokenName = rewardTokenFlag?.slice('--reward-token='.length);
+const rewardToken = Object.hasOwn(rewardTokenScenarios, rewardTokenName) ? rewardTokenScenarios[rewardTokenName] : null;
 const mobileFlag = process.argv.find(arg => arg.startsWith('--mobile-width='));
 const mobileWidth = mobileFlag && Number(mobileFlag.split('=')[1]);
-assert.ok(!mobileFlag || reconOnly && [667, 844].includes(mobileWidth));
+assert.ok(!mobileFlag || (reconOnly || rewardToken) && [667, 844].includes(mobileWidth));
 assert.ok(!transferOnly || !reconOnly);
 assert.ok(!equipmentOrdersOnly || !transferOnly && !reconOnly && !mobileFlag);
-const compact = (transferOnly || reconOnly || equipmentOrdersOnly) && process.argv.includes('--720p');
+assert.ok(!rewardTokenFlag || rewardToken && !transferOnly && !reconOnly && !equipmentOrdersOnly);
+const compact = (transferOnly || reconOnly || equipmentOrdersOnly || rewardToken) && process.argv.includes('--720p');
 const viewport = mobileWidth ? { width: mobileWidth, height: mobileWidth === 667 ? 375 : 390 }
     : { width: compact ? 1280 : 1920, height: compact ? 720 : 1080 };
 const artifactFlag = process.argv.indexOf('--artifact-dir');
@@ -249,11 +254,23 @@ async function clickPoint(cdp, { x, y }, selector) {
 }
 
 async function clickMapCity(cdp, city) {
-    const point = await waitFor(cdp, `unobstructed HD map city ${city.name}`, `(() => {
+    const pointSource = `(() => {
         const p = BayeHdOverworld.cityScreenPos(${city.i});
         return p && document.elementFromPoint(p.clientX, p.clientY)?.id === 'hd-overworld-canvas' &&
             {x:p.clientX, y:p.clientY};
-    })()`);
+    })()`;
+    if (rewardToken && !await evaluate(cdp, pointSource)) {
+        if (mobileWidth && await evaluate(cdp, `baye.hd.march().mapCity===${city.i + 1}`)) {
+            await click(cdp, '#hd-mobile-map-focus');
+        } else {
+            if (mobileWidth) await click(cdp, '#hd-mobile-map-overview');
+            else await key(cdp, 's');
+            await waitFor(cdp, 'Current original map overview', 'baye.hd.miniMap().active===1&&BayeHdMiniMap.debugSnapshot().open');
+            await click(cdp, `[data-hd-mini-city="${city.i}"] button`);
+            await waitPlayerMap(cdp, 'Original map after locating the city');
+        }
+    }
+    const point = await waitFor(cdp, `unobstructed HD map city ${city.name}`, pointSource);
     await clickPoint(cdp, point, city.name);
 }
 
@@ -302,8 +319,8 @@ async function waitPlayerMap(cdp, label) {
 
 async function reopenInterior(cdp, label) {
     await waitPlayerMap(cdp, label + ' native map wait');
-    if (equipmentOrdersOnly) {
-        await clickMapCity(cdp, { i: report.cityIndex, name: '洛阳' });
+    if (equipmentOrdersOnly || rewardToken) {
+        await clickMapCity(cdp, { i: report.cityIndex, name: report.cityName });
     } else {
         report.inputs.push({type:'player-map-action',action:'walkToCity',cityIndex:report.cityIndex,label});
         assert.ok(await evaluate(cdp, `BayeHdOverworld.walkToCity(${report.cityIndex})`));
@@ -328,14 +345,15 @@ async function bootStrategy(cdp) {
     await waitFor(cdp, 'actual native title menu', 'baye.hd.menuItems().active && baye.hd.menuItems().context===4 && baye.hd.menuItems().kind===1', 60000);
     await click(cdp, '#hd-system-ui [data-hd-sys="0"]');
     await waitFor(cdp, 'actual period menu', 'baye.hd.menuItems().active && baye.hd.menuItems().context===4 && baye.hd.menuItems().kind===2');
-    await click(cdp, '#hd-system-ui [data-hd-sys="0"]');
-    const kings = await waitFor(cdp, 'actual period one lord menu', 'baye.data.g_PIdx===1 && baye.hd.kings().count>0 && baye.hd.kings()');
-    assert.equal(kings.kings.filter(king => king.name === '董卓').length, 1);
-    const index = kings.kings.findIndex(king => king.name === '董卓');
+    const period = rewardToken?.period ?? 1, lordName = rewardToken?.lord ?? '董卓';
+    await click(cdp, `#hd-system-ui [data-hd-sys="${period - 1}"]`);
+    const kings = await waitFor(cdp, 'actual selected period lord menu', `baye.data.g_PIdx===${period} && baye.hd.kings().count>0 && baye.hd.kings()`);
+    assert.equal(kings.kings.filter(king => king.name === lordName).length, 1);
+    const index = kings.kings.findIndex(king => king.name === lordName);
     report.lord = kings.kings[index];
     await click(cdp, `#hd-system-ui [data-hd-sys="${index}"]`);
     if (!mobileWidth) {
-        await waitFor(cdp, 'current native Dong Zhuo selection', `(() => {
+        await waitFor(cdp, 'current native lord selection', `(() => {
             const menu=baye.hd.menuItems(), kings=baye.hd.kings();
             const start=document.querySelector('[data-hd-sys-start]');
             return menu.active===1&&menu.context===4&&menu.kind===3&&kings.index===${index}&&kings.currentId===${report.lord.id}&&
@@ -356,8 +374,9 @@ async function bootStrategy(cdp) {
         const cities=BayeHdOverworld.getCities();
         return cities.length===baye.hd.realm().total && cities.map(item=>({i:item.index,name:baye.getCityName(item.index),belong:Number(item.city.Belong)}));
     })()`);
-    assert.equal(cities.filter(city => city.name === '洛阳').length, 1);
-    const city = cities.find(city => city.name === '洛阳');
+    report.cityName = rewardToken?.city ?? '洛阳';
+    assert.equal(cities.filter(city => city.name === report.cityName).length, 1);
+    const city = cities.find(city => city.name === report.cityName);
     report.cityIndex = city.i;
     assert.equal(city.belong, await evaluate(cdp, 'Number(baye.data.g_PlayerKing)+1'));
     report.presetMap = await evaluate(cdp, '({map:BayeHdOverworld.debugSnapshot(),menu:baye.hd.menuItems(),march:baye.hd.march(),bodyClass:document.body.className})');
@@ -366,7 +385,7 @@ async function bootStrategy(cdp) {
     assert.equal(report.presetMap.map.cityTotal, 38); assert.equal(report.presetMap.menu.active, 0);
     assert.equal(report.presetMap.march.pick, 1);
     await checkpoint(cdp, '00-preset-hd-map-native-ready');
-    if (transferOnly || reconOnly || equipmentOrdersOnly) { return cities; }
+    if (transferOnly || reconOnly || equipmentOrdersOnly || rewardToken) { return cities; }
     await miniMapSmoke(cdp);
     report.inputs.push({ type: 'player-map-action', action: 'walkToCity', cityIndex: report.cityIndex });
     assert.ok(await evaluate(cdp, `BayeHdOverworld.walkToCity(${report.cityIndex})`), 'A player can enter the actual owned city');
@@ -1300,6 +1319,14 @@ async function main() {
         if (transferOnly) { await transferSmoke(cdp, cities); }
         else if (reconOnly) { await reconSmoke(cdp, cities); }
         else if (equipmentOrdersOnly) { await equipmentOrdersSmoke(cdp); }
+        else if (rewardToken) {
+            await runRewardTokenChecks({ spec:rewardToken, report, libBytes:servedAssets.get('libs/dat-mod.lib').data,
+                mobile:!!mobileWidth, world:()=>evaluate(cdp,equipmentWorldSource), evaluate:expression=>evaluate(cdp,expression),
+                until:(...args)=>waitFor(cdp,...args), click:selector=>click(cdp,selector), key:name=>key(cdp,name),
+                chooseCityItem:(...args)=>chooseCityItem(cdp,...args), reopenInterior:label=>reopenInterior(cdp,label),
+                waitPlayerMap:label=>waitPlayerMap(cdp,label), observeNativeInputs:()=>observeNativeInputs(cdp),
+                checkpoint:label=>checkpoint(cdp,label) });
+        }
         else {
             await emptyStockSmoke(cdp); await confiscateSmoke(cdp); await rewardBrowseSmoke(cdp);
             report.nativeEnd = await nativeState(cdp);
@@ -1338,6 +1365,7 @@ async function main() {
         if (report.ok) console.log(reconOnly ? 'Real native reconnaissance browser acceptance passed' :
             transferOnly ? 'Real native desktop transfer browser acceptance passed' :
             equipmentOrdersOnly ? 'Real native desktop equipment orders passed' :
+            rewardToken ? 'Original troop token browser acceptance passed' :
             'Real native miniature and goods-detail browser acceptance passed');
     }
 }

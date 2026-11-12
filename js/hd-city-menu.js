@@ -1254,6 +1254,7 @@
                 state.deepKind === 'person-trade' && mobileTrade && mobileTrade.stage === 'person' && !mobileTrade.wait ||
                 state.deepKind === 'person-diplomacy' && mobileDiplomacy && mobileDiplomacy.origin === state.cityIndex &&
                     (mobileDiplomacy.phase === 1 || mobileDiplomacy.phase === 2) && !mobileDiplomacy.sent ||
+                equipmentPane() && equipmentParent && !equipmentFlow ||
                 state.deepKind === 'person-surrender' && surrenderFlow && !surrenderFlow.pending) &&
             state.deepMenuOwner && state.deepMenuOwner.kind === 3 && !state.nativeMenuRequest && !state.deepSelectionPending &&
             !state.personPagePending && !state.finishPersonsBusy && !state.confirmingTarget && !state.sending && !state.queue.length) {
@@ -6836,6 +6837,65 @@
             value === 3 ? '极兵' : arms[value - 4] || '原始码 ' + value;
     }
 
+    var TROOP_TOKENS = {
+        30: {arm: 3, stat: 'Force', label: '武力'},
+        31: {arm: 2, stat: 'IQ', label: '智力'},
+        32: {arm: 1, stat: null, label: ''}
+    };
+    var TROOP_TOKEN_STAT_MIN = 106;
+
+    function troopToken(toolId, useFlag, arm) {
+        var rule = TROOP_TOKENS[toolId];
+        return useFlag === 1 && rule && rule.arm === arm ? rule : null;
+    }
+
+    function troopTokenRequirement(rule) {
+        return '使用后转为' + standardToolArmName(rule.arm) + ' · ' +
+            (rule.stat ? rule.label + '至少 ' + TROOP_TOKEN_STAT_MIN + '，' : '') + '需空装备栏';
+    }
+
+    function troopTokenRecipient(person, rule) {
+        var first = person && detailNumber(person.Tool1, 33), second = person && detailNumber(person.Tool2, 33);
+        var value = rule.stat && person ? detailNumber(person[rule.stat], 255) : null;
+        if (first == null || second == null || rule.stat && value == null) { return null; }
+        var status = first && second ? 'full' : rule.stat && value < TROOP_TOKEN_STAT_MIN ? 'below' : 'eligible';
+        var text = status === 'full' ? '装备已满' : status === 'below' ? '未达到要求' : '符合条件';
+        return {status: status, text: (rule.stat ? rule.label + ' ' + value + ' · ' : '') + text};
+    }
+
+    function rewardRoster(menu, owner) {
+        var goods = equipmentGoods;
+        if (!goods || !equipmentParent || equipmentFlow || state.deepKind !== 'goods-person' || state.deepStep !== 1 ||
+            !owner || owner.kind !== 3 || goods.personSeq !== menu.seq || detailOverlayActive()) { return null; }
+        var live = equipmentReading(), ids = actualMenuIds(menu);
+        if (!live || !ids || live.ticket.data !== goods.data || equipmentFence(live.ticket) !== goods.fence ||
+            live.menu.seq !== menu.seq || JSON.stringify([live.menu.names, actualMenuIds(live.menu)]) !== JSON.stringify([menu.names, ids])) { return null; }
+        var name = goods.names[goods.ids.indexOf(goods.tool)];
+        if (!name) { return null; }
+        var roster = {tool: goods.tool, title: '选择武将 · ' + name, rows: []};
+        if (!TROOP_TOKENS[goods.tool] || !standardHudLabels(['giveTool', 'willGiveTool'])) { return roster; }
+        try {
+            var hd = baye.hd, tool = typeof hd.toolDetails === 'function' && hd.toolDetails(goods.tool);
+            var rule = tool && tool.standard === true && tool.index === goods.tool && tool.name === name &&
+                tool.generation === owner.detailGeneration && troopToken(tool.index, tool.useFlag, tool.arm);
+            if (!rule) { return roster; }
+            var data = live.ticket.data, people = data.g_Persons, city = data.g_Cities[live.ticket.cityIndex];
+            function readRows() {
+                return ids.map(function (id) {
+                    var p = people[id];
+                    return p && p.Belong === city.Belong ? troopTokenRecipient(p, rule) : null;
+                });
+            }
+            var rows = readRows(), latest = equipmentReading();
+            if (!latest || latest.ticket.key !== live.ticket.key || latest.ticket.data !== data || equipmentGoods !== goods ||
+                !standardHudLabels(['giveTool', 'willGiveTool']) || data.g_Persons !== people || data.g_Cities[live.ticket.cityIndex] !== city ||
+                JSON.stringify(rows) !== JSON.stringify(readRows())) { return null; }
+            roster.title += ' · ' + troopTokenRequirement(rule);
+            roster.rows = rows;
+            return roster;
+        } catch (e) { return null; }
+    }
+
     function standardToolRows(tool) {
         if (!tool ||
             ['attack', 'iq', 'move', 'arm'].some(function (key) { return detailNumber(tool[key], 255) == null; }) ||
@@ -7052,7 +7112,7 @@
         syncTransfer();
         if (fillTransferWait()) { retireListFind(el('hd-city-menu-deep')); return; }
         if (syncMobileTrade() && state.layer !== 'deep') { render(); return; }
-        if (syncEquipmentFlow() && state.layer !== 'deep') { render(); return; }
+        if (syncEquipmentFlow()) { render(); return; }
         var list = el('hd-city-menu-deep');
         if (!list) {
             return;
@@ -7081,6 +7141,10 @@
             : liveQty && liveQty.value;
         var personStats = !quantityVisible && owner ? readPersonListStats(deepMenu, owner, state.deepItems) : null;
         var toolStats = !quantityVisible && owner ? readToolListStats(deepMenu, owner, state.deepItems) : null;
+        var reward = !quantityVisible && rewardRoster(deepMenu, owner);
+        var rewardRules = !!(toolStats && state.deepLabel === '赏赐' && toolStats.rows.some(function (row) {
+            return troopToken(row[0], row[1], row[6]);
+        }) && standardHudLabels(['giveTool', 'willGiveTool']));
         var showMarchOk = (state.marchReady || freshMarchOk() || state.handoff) &&
             (state.deepKind === 'person-city' || state.deepLabel === '出征' || state.handoff);
         var canReturnToMap = showMarchOk && canReturnAfterMarch();
@@ -7106,7 +7170,8 @@
             ':' + (owner ? owner.key : '') +
             ':' + state.deepItems.map(function (it) {
                 return it.name;
-            }).join(',') + ':' + JSON.stringify(personStats && personStats.rows) + ':' + JSON.stringify(toolStats && toolStats.rows);
+            }).join(',') + ':' + JSON.stringify(reward) + ':' + rewardRules +
+            ':' + JSON.stringify(personStats && personStats.rows) + ':' + JSON.stringify(toolStats && toolStats.rows);
         if (state.deepSig === sig && list.children.length) {
             if (mobileQty && liveQty) { setText(el('hd-city-qty-val'), liveQty.value); }
             updateQuantityBound(el('hd-city-qty-bound'), liveQty);
@@ -7116,10 +7181,18 @@
         }
         // A newly published native list starts at its own cursor. If the
         // current list only gains summaries, preserve the player's scroll.
-        var previousRow = mobilePersonList && list.querySelector('[data-hd-deep-owner]');
+        var preservePersonScroll = mobilePersonList || mobileHost && owner && owner.kind === 3 && equipmentPane();
+        var previousRow = preservePersonScroll && list.querySelector('[data-hd-deep-owner]');
         var scrollTop = previousRow && previousRow.getAttribute('data-hd-deep-owner') === owner.key ? list.scrollTop : 0;
         state.deepSig = sig;
         list.innerHTML = '';
+        if (reward) {
+            var rewardHeading = document.createElement('p');
+            rewardHeading.className = 'hd-city-menu-info-note';
+            rewardHeading.setAttribute('data-hd-reward-tool', String(reward.tool));
+            rewardHeading.textContent = reward.title;
+            list.appendChild(rewardHeading);
+        }
         if (state.deepKind === 'person-diplomacy') {
             var diplomacyPresentation = getDiplomacyPresentation();
             if (diplomacyPresentation) {
@@ -7363,15 +7436,27 @@
                 summary.appendChild(unitSummary);
                 btn.classList.add('has-person-summary'); btn.appendChild(summary);
             }
+            if (reward && reward.rows[i]) {
+                var rewardHint = document.createElement('small');
+                rewardHint.setAttribute('data-hd-person-summary', '1');
+                rewardHint.setAttribute('data-hd-reward-status', reward.rows[i].status);
+                rewardHint.textContent = reward.rows[i].text;
+                btn.classList.add('has-person-summary'); btn.appendChild(rewardHint);
+            }
             if (toolStats && toolStats.rows[i] && toolStats.rows[i][0] === it.toolIndex) {
                 var toolStatsRow = toolStats.rows[i], toolSummary = document.createElement('small');
                 toolSummary.setAttribute('data-hd-tool-summary', '1');
-                toolSummary.textContent = (toolStatsRow[1] ? '使用' : '装备') + ' · 武力 +' + toolStatsRow[2] +
-                    ' · 智力 +' + toolStatsRow[3] + ' · 移动 +' + toolStatsRow[4];
-                var armSummary = document.createElement('span');
-                armSummary.setAttribute('data-hd-tool-arm-summary', '1');
-                armSummary.textContent = ' · 兵种变化 ' + standardToolArmName(toolStatsRow[6]);
-                toolSummary.appendChild(armSummary);
+                var rule = rewardRules && troopToken(it.toolIndex, toolStatsRow[1], toolStatsRow[6]);
+                if (rule) {
+                    toolSummary.textContent = troopTokenRequirement(rule);
+                } else {
+                    toolSummary.textContent = (toolStatsRow[1] ? '使用' : '装备') + ' · 武力 +' + toolStatsRow[2] +
+                        ' · 智力 +' + toolStatsRow[3] + ' · 移动 +' + toolStatsRow[4];
+                    var armSummary = document.createElement('span');
+                    armSummary.setAttribute('data-hd-tool-arm-summary', '1');
+                    armSummary.textContent = ' · 兵种变化 ' + standardToolArmName(toolStatsRow[6]);
+                    toolSummary.appendChild(armSummary);
+                }
                 btn.classList.add('has-tool-summary'); btn.appendChild(toolSummary);
             }
             if (allowPreview) {
@@ -7390,7 +7475,7 @@
                 preview.textContent = '查看'; row.appendChild(preview); list.appendChild(row);
             } else { list.appendChild(btn); }
         }
-        if (mobilePersonList) { list.scrollTop = scrollTop; }
+        if (preservePersonScroll) { list.scrollTop = scrollTop; }
         applyHighlight();
         finishListFind(list, deepMenu, owner, personStats, toolStats);
     }

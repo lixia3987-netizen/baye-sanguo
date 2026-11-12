@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {verifyMobileConfiscation,verifyMobileReward,verifyMobileEquipment} from './hd-mobile-equipment-runtime-oracle.mjs';
+import {verifyMobileConfiscation,verifyMobileReward,verifyMobileEquipment,verifyOriginalTroopTokenReward} from './hd-mobile-equipment-runtime-oracle.mjs';
 
 const libBytes=readFileSync(new URL('../libs/dat-mod.lib',import.meta.url));
 const clone=value=>structuredClone(value);
@@ -123,6 +123,34 @@ test('The final inventory item can be rewarded and no fake old GOODS list is req
 test('A full order queue imposes no equipment order cost or actor departure',()=>{
   const f=confiscation();for(const w of [f.before,f.after,f.reportWorld])for(const o of w.orders)o.OrderId=24;
   verifyMobileConfiscation(f);assert.equal(f.after.cities[15].Persons,3);assert.equal(f.after.people[20].Thew,100);
+});
+
+test('Original troop tokens consume inventory and change troop type without filling an equipment slot',()=>{
+  for(const [toolId,field,arm] of [[30,'Force',4],[31,'IQ',5],[32,null,3]]){
+    const before=fixture(),personId=19,cityIndex=15;
+    before.goodsQueue[1]=toolId|0x8000;
+    before.people[personId].Tool1=23;
+    if(field)before.people[personId][field]=106;
+    const reportWorld=clone(before);
+    reportWorld.people[personId].ArmsType=arm;
+    reportWorld.goodsQueue.splice(1,1);
+    reportWorld.goodsQueue.push(before.goodsQueue.at(-1));
+    reportWorld.cities[cityIndex].Tools--;
+    for(let i=cityIndex+1;i<38;i++)reportWorld.cities[i].ToolQueue--;
+    const after=clone(reportWorld);after.people[personId].Devotion+=8;
+    const evidence={before,after,reportWorld,cityIndex,personId,toolId,libBytes};
+    const receipt=verifyOriginalTroopTokenReward(evidence);
+    assert.equal(receipt.consumableAccepted,true);assert.deepEqual(receipt.armsType,{before:2,after:arm});
+    assert.equal(receipt.equipmentSlot,null);
+    assert.equal(receipt.reportBusinessStage,'after-conversion-and-inventory-before-devotion');
+    after.people[personId].Tool2=toolId+1;
+    assert.throws(()=>verifyOriginalTroopTokenReward(evidence),/Tool2/);
+    after.people[personId].Tool2=0;
+    if(field){before.people[personId][field]=105;assert.throws(()=>verifyOriginalTroopTokenReward(evidence),/above 105/);}
+    before.people[personId].Tool2=2;
+    if(field)before.people[personId][field]=106;
+    assert.throws(()=>verifyOriginalTroopTokenReward(evidence),/FULLGOODS/);
+  }
 });
 
 const rejects=[
